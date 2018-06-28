@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src --ext 'js,jsx'",
-    "start": "webpack-serve --open"
+    "start": "webpack-serve --open",
+    "clean": "rm -rf dist/",
+    "build": "npm run clean && webpack --mode production",
+    "deploy": "npm run build && firebase deploy"
   },
   "author": "",
   "license": "MIT",
@@ -26,6 +29,7 @@
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-react": "^7.10.0",
+    "firebase-tools": "^3.19.1",
     "html-webpack-plugin": "^3.2.0",
     "webpack": "^4.12.2",
     "webpack-cli": "^3.0.8",
