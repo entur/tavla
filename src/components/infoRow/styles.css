@@ -1,0 +1,30 @@
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;    
+    align-items: center;
+    background-color: #F3F3F3;
+    margin-top: 5;
+    margin-bottom: 5;
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 10%;
+    height: 50px;
+}
+
+.route {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+}
+
+.time {
+    display: flex;
+    justify-content: center;
+    width: 10%;
+}
