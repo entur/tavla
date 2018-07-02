@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src --ext 'js,jsx'",
-    "start": "webpack-serve --open",
+    "start": "webpack-serve",
     "clean": "rm -rf dist/",
     "build": "npm run clean && webpack --mode production",
     "deploy": "npm run build && firebase deploy"
@@ -16,8 +16,7 @@
   "dependencies": {
     "@entur/sdk": "0.0.2",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "save": "^2.3.2"
+    "react-dom": "^16.4.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -25,12 +24,15 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-react": "^7.10.0",
     "firebase-tools": "^3.19.1",
     "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.21.0",
     "webpack": "^4.12.2",
     "webpack-cli": "^3.0.8",
     "webpack-serve": "^1.0.4"

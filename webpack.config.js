@@ -8,6 +8,9 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.[hash].js',
     },
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
     module: {
         rules: [
             {
@@ -17,6 +20,13 @@ module.exports = {
                     loader: 'babel-loader',
                 },
             },
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    { loader: 'css-loader' }
+                ]
+            }
         ],
     },
     plugins: [
