@@ -1,0 +1,17 @@
+@import '~@entur/component-library/lib/index.css';
+@import '~@entur/fonts/index.css';
+@import '~@entur/component-library/src/styles/_colors.scss';
+
+body {
+    margin: 56px;
+    color: $primary;
+}
+
+h1 {
+    font-weight: 600;
+}
+
+
+h3, h4, h5 {
+    font-weight: 400;
+}

@@ -3,7 +3,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin')
 
 module.exports = {
     mode: 'development',
-    entry: './src/app.jsx',
+    entry: './src/main.jsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.[hash].js',
@@ -26,6 +26,21 @@ module.exports = {
                     'style-loader',
                     { loader: 'css-loader' }
                 ]
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    'style-loader', // creates style nodes from JS strings
+                    'css-loader', // translates CSS into CommonJS
+                    'sass-loader' // compiles Sass to CSS
+                ]
+            },
+            {
+                test: /\.(svg|eot|woff2?)$/,
+                loader: 'file-loader',
+                options: {
+                    outputPath: 'assets/'
+                }
             }
         ],
     },
