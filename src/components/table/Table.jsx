@@ -11,7 +11,7 @@ function getIcon(type, props) {
         case 'bus':
             return <Bus color="#5AC39A" {...props} />
         case 'bike':
-            return CityBike
+            return <CityBike color="#565659" {...props} />
         default:
             return Bus
     }
