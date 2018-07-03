@@ -87,7 +87,7 @@ class Table extends React.Component {
         }, index) => {
             return (
                 <tr className="row" key={id}>
-                    <td className="time">{spacesAvailable}/{bikesAvailable}</td>
+                    <td className="time">{bikesAvailable}/{bikesAvailable+spacesAvailable}</td>
                     <td className="type">{getIcon('bike')}</td>
                     <td className="route">{name}</td>
                 </tr>
