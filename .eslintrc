@@ -43,6 +43,7 @@
     "no-alert": 0,
     "no-case-declarations": 0,
     "no-lonely-if": 0,
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 0, "maxEOF": 0 }],
     "no-plusplus": "off",
     "no-shadow": 2,
     "no-underscore-dangle": "off",
