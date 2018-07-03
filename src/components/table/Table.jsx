@@ -13,7 +13,7 @@ function getIcon(type, props) {
         case 'bike':
             return <CityBike {...props} />
         default:
-            return Bus
+            return null
     }
 }
 
