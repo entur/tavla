@@ -1,0 +1,27 @@
+.departure {
+    display: flex;
+    justify-content: space-between;
+}
+.departure-table {
+    width: calc(50% - 1rem);
+}
+
+.type {
+    width: 5%;
+}
+
+.time {
+    width: 15%;
+    text-align: center
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 0 0.5rem;
+}
+
+.table td {
+    background-color: #F3F3F3;
+    padding: 0.5rem 1rem;
+}
