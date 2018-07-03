@@ -2,10 +2,9 @@ import React from 'react'
 import Table from '../components/table'
 import Logo from '../components/icons/logo'
 
-const DepartureBoard = () => (
-    <div className="app">
-        <Table />
-        <Logo />
+const Footer = () => (
+    <div className="footer">
+        <Logo height=35 width=111/>
     </div>
 )
 
