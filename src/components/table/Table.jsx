@@ -34,7 +34,6 @@ class Table extends React.Component {
                 stationData: [east, west]
             })
         })
-
         service.getStopPlaceDepartures('NSR:StopPlace:4227').then(departures => {
             const lineData = departures.filter(departure => departure && departure.forBoarding).map(departure => {
                 const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
@@ -84,10 +83,10 @@ class Table extends React.Component {
         const { stationData } = this.state
 
         return stationData.map(({
-            name, bikesAvailable, spacesAvailable,
+            name, bikesAvailable, spacesAvailable, id
         }, index) => {
             return (
-                <tr className="row" key={index}>
+                <tr className="row" key={id}>
                     <td className="time">{spacesAvailable}/{bikesAvailable}</td>
                     <td className="type">{getIcon('bike')}</td>
                     <td className="route">{name}</td>
