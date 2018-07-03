@@ -20,11 +20,21 @@ function getIcon(type, props) {
 class Table extends React.Component {
     state = {
         lineData: [],
+        stationData: [],
     }
 
     updateInterval = undefined
 
     updateTime = () => {
+        Promise.all([
+            service.getBikeRentalStation("278"),
+            service.getBikeRentalStation("249")
+        ]).then(([east, west]) => {
+            this.setState({
+                stationData: [east, west]
+            })
+        })
+
         service.getStopPlaceDepartures('NSR:StopPlace:4227').then(departures => {
             const lineData = departures.filter(departure => departure && departure.forBoarding).map(departure => {
                 const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
@@ -70,7 +80,24 @@ class Table extends React.Component {
         })
     }
 
+    renderBikeStationList() {
+        const { stationData } = this.state
+
+        return stationData.map(({
+            name, bikesAvailable, spacesAvailable,
+        }, index) => {
+            return (
+                <tr className="row" key={index}>
+                    <td className="time">{spacesAvailable}/{bikesAvailable}</td>
+                    <td className="type">{getIcon('bike')}</td>
+                    <td className="route">{name}</td>
+                </tr>
+            )
+        })
+    }
+
     render() {
+
         return (
             <div>
                 <h1>Avgangstider</h1>
@@ -111,11 +138,7 @@ class Table extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="row">
-                                    <td className="time">19</td>
-                                    <td className="type">{getIcon('bike')}</td>
-                                    <td className="route">Vippetangen Øst/vest</td>
-                                </tr>
+                                {this.renderBikeStationList()}
                             </tbody>
                         </table>
                     </div>
