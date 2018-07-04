@@ -20,7 +20,7 @@
   "dependencies": {
     "@entur/component-library": "^0.2.5",
     "@entur/fonts": "git+ssh://git@bitbucket.org:enturas/entur-fonts.git#a5e1956",
-    "@entur/sdk": "0.0.2",
+    "@entur/sdk": "0.1.0",
     "moment": "^2.22.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"

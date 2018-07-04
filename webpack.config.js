@@ -9,13 +9,13 @@ module.exports = {
         filename: 'bundle.[hash].js',
     },
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx'],
     },
     module: {
         rules: [
             {
                 test: /\.jsx?$/,
-                exclude: /node_modules/,
+                exclude: /node_modules|sdk/,
                 use: {
                     loader: 'babel-loader',
                 },
@@ -24,24 +24,24 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     'style-loader',
-                    { loader: 'css-loader' }
-                ]
+                    { loader: 'css-loader' },
+                ],
             },
             {
                 test: /\.scss$/,
                 use: [
                     'style-loader', // creates style nodes from JS strings
                     'css-loader', // translates CSS into CommonJS
-                    'sass-loader' // compiles Sass to CSS
-                ]
+                    'sass-loader', // compiles Sass to CSS
+                ],
             },
             {
                 test: /\.(svg|eot|woff2?)$/,
                 loader: 'file-loader',
                 options: {
-                    outputPath: 'assets/'
-                }
-            }
+                    outputPath: 'assets/',
+                },
+            },
         ],
     },
     plugins: [
