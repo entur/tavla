@@ -27,11 +27,11 @@ class Table extends React.Component {
 
     updateTime = () => {
         Promise.all([
-            service.getBikeRentalStation("278"),
-            service.getBikeRentalStation("249")
+            service.getBikeRentalStation('278'),
+            service.getBikeRentalStation('249'),
         ]).then(([east, west]) => {
             this.setState({
-                stationData: [east, west]
+                stationData: [east, west],
             })
         })
         service.getStopPlaceDepartures('NSR:StopPlace:4227').then(departures => {
@@ -83,8 +83,8 @@ class Table extends React.Component {
         const { stationData } = this.state
 
         return stationData.map(({
-            name, bikesAvailable, spacesAvailable, id
-        }, index) => {
+            name, bikesAvailable, spacesAvailable, id,
+        }) => {
             return (
                 <tr className="row" key={id}>
                     <td className="time">{bikesAvailable}/{bikesAvailable+spacesAvailable}</td>
@@ -96,7 +96,6 @@ class Table extends React.Component {
     }
 
     render() {
-
         return (
             <div>
                 <h1>Avgangstider</h1>
