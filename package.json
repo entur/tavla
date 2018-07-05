@@ -13,17 +13,20 @@
     "start": "webpack-serve",
     "clean": "rm -rf dist/",
     "build": "npm run clean && webpack --mode production",
-    "deploy": "npm run build && firebase deploy"
+    "deploy": "npm run build && firebase deploy",
+    "postinstall": "./scripts/postinstall.sh"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@entur/component-library": "^0.2.5",
-    "@entur/fonts": "git+ssh://git@bitbucket.org:enturas/entur-fonts.git#a5e1956",
     "@entur/sdk": "0.1.0",
     "moment": "^2.22.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
+  },
+  "optionalDependencies": {
+    "@entur/fonts": "git+ssh://git@bitbucket.org:enturas/entur-fonts.git#a5e1956"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
