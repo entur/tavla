@@ -3,11 +3,6 @@ aliases:
       fingerprints:
         - “ab:f2:26:09:86:b8:d3:28:be:bd:5b:86:7d:70:3e:ce”
 
-    - &filter-only-master
-      branches:
-        only:
-          - master
-
 version: 2
 jobs:
   build:
@@ -70,6 +65,9 @@ workflows:
     jobs:
       - build
       - deploy:
-          filters: *filter-master-only
+          filters:
+              branches:
+                only:
+                  - master
           requires:
               - build
