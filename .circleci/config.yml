@@ -1,3 +1,13 @@
+aliases:
+    - &ssh-fingerprint
+      fingerprints:
+        - “ab:f2:26:09:86:b8:d3:28:be:bd:5b:86:7d:70:3e:ce”
+
+    - &filter-only-master
+      branches:
+        only:
+          - master
+
 version: 2
 jobs:
   build:
@@ -14,6 +24,8 @@ jobs:
           - v1-dependencies-{{ checksum "package-lock.json" }}
           - v1-dependencies-
 
+      - add_ssh_keys: *ssh-fingerprint
+
       - run: npm install
 
       - save_cache:
@@ -21,4 +33,44 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
 
-      - run: npm run lint
+      - run:
+          name: Lint
+          command: npm run lint
+
+
+  deploy:
+    docker:
+      - image: circleci/node:8
+
+    working_directory: ~/Tavla
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package-lock.json" }}
+          - v1-dependencies-
+
+      - add_ssh_keys: *ssh-fingerprint
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+
+      - run:
+          name: Deploy web dev
+          command: npm run deploy --token=$FIREBASE_TOKEN --non-interactive
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+      - deploy
+          filters: *filter-master-only
+          requires:
+              - build
