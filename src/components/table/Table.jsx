@@ -34,8 +34,7 @@ class Table extends React.Component {
                 stationData: [east, west],
             })
         })
-        service.getStopPlaceDepartures({stopPlaceId: 'NSR:StopPlace:4227', onForBoarding: true, departures: 10}).then(departures => {
-            console.log(departures)
+        service.getStopPlaceDepartures({ stopPlaceId: 'NSR:StopPlace:4227', onForBoarding: true, departures: 10 }).then(departures => {
             const lineData = departures.filter(departure => departure && departure.forBoarding).map(departure => {
                 const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
                 const { line } = serviceJourney.journeyPattern
