@@ -1,6 +1,6 @@
 .footer{
   color: #656782;
-  height: 30%;
+  height: 20%;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
@@ -9,4 +9,8 @@
 .footer-logo{
   margin-right: 0px;
   margin-left: 40%;
+}
+
+.main-content{
+    height: 80%;
 }

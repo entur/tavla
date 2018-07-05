@@ -97,7 +97,7 @@ class Table extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="main-content">
                 <h1>Avgangstider</h1>
                 <h2>Vippetangen</h2>
                 <div className="departure">
