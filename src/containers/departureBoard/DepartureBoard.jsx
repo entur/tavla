@@ -1,9 +1,9 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
 import moment from 'moment'
-import Logo from '../components/icons/Logo'
-import '../components/table/styles.css'
-import { Bus, CityBike } from '../components/icons'
+import Logo from '../../components/icons/Logo'
+import './styles.css'
+import { Bus, CityBike } from '../../components/icons'
 
 const service = new EnturService()
 
@@ -152,7 +152,6 @@ class DepartureBoard extends React.Component {
             <div className="app">
                 <div className="main-content">
                     <h1>Avgangstider</h1>
-                    <h2>Vippetangen</h2>
                     <div className="departure">
                         <div className="departure-table">
                             <div className="content-title">

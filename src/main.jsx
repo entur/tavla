@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import DepartureBoard from './containers/DepartureBoard'
+import DepartureBoard from './containers/departureBoard/DepartureBoard'
 import './main.scss'
 
 
