@@ -1,9 +1,8 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
 import moment from 'moment'
-import Logo from '../../components/icons/Logo'
 import './styles.css'
-import { Bus, CityBike } from '../../components/icons'
+import { Bus, CityBike, Logo } from '../../components/icons'
 
 const service = new EnturService()
 
@@ -86,14 +85,6 @@ class DepartureBoard extends React.Component {
         clearInterval(this.updateInterval)
     }
 
-    renderList() {
-        const lineData = this.state.stopsData
-        return (
-            lineData.map(stop => {
-                return this.renderStopPlace(stop)
-            })
-        )
-    }
 
     renderBikeStationList() {
         const stationData = this.state.stationData
@@ -111,23 +102,26 @@ class DepartureBoard extends React.Component {
         })
     }
 
-    renderStopPlace(stop) {
-        return (
-            <div className="stop-place" key={stop.id}>
-                <h3>{stop.name}</h3>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th className="time">Avgang</th>
-                            <th className="type">Linje</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.renderDepartures(stop.departures)}
-                    </tbody>
-                </table>
-            </div>
-        )
+    renderStopPlaces() {
+        const lineData = this.state.stopsData
+        return lineData.map(({ id, name, departures }) => {
+            return (
+                <div className="stop-place" key={id}>
+                    <h3>{name}</h3>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th className="time">Avgang</th>
+                                <th className="type">Linje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderDepartures(departures)}
+                        </tbody>
+                    </table>
+                </div>
+            )
+        })
     }
 
     renderDepartures(departures) {
@@ -160,7 +154,7 @@ class DepartureBoard extends React.Component {
                                 </h3>
                                 <hr />
                             </div>
-                            {this.state.stopsData.length > 0 ? this.renderList() : null}
+                            {this.state.stopsData.length > 0 ? this.renderStopPlaces() : null}
                         </div>
                         <div className="departure-table">
                             <div className="content-title">
