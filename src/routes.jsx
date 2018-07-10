@@ -3,7 +3,7 @@ import {
     Route, Switch, Redirect,
 } from 'react-router-dom'
 import './main.scss'
-import DepartureBoard from './containers/DepartureBoard'
+import DepartureBoard from './containers/departureBoard/DepartureBoard'
 import AdminPage from './containers/AdminPage'
 
 export const routes = (
