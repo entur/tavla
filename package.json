@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@entur/component-library": "^0.2.5",
-    "@entur/sdk": "0.1.1",
+    "@entur/sdk": "0.1.2",
     "moment": "^2.22.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"

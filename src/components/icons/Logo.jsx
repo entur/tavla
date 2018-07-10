@@ -23,8 +23,8 @@ function Logo({ height, width }) {
     )
 }
 Logo.propTypes = {
-    height: Proptypes.string,
-    width: Proptypes.string,
+    height: Proptypes.number,
+    width: Proptypes.number,
 }
 
 Logo.defaultProps = {
