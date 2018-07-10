@@ -1,7 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import DepartureBoard from './containers/DepartureBoard'
-import './main.scss'
+import {
+    BrowserRouter,
+} from 'react-router-dom'
+import { routes } from './routes'
 
-
-ReactDOM.render(<DepartureBoard />, document.getElementById('app'))
+ReactDOM.render(
+    <BrowserRouter>
+        { routes }
+    </BrowserRouter>,
+    document.getElementById('app')
+)
