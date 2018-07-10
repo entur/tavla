@@ -2,9 +2,10 @@ import React from 'react'
 import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.css'
-import { Bus, CityBike, Logo } from '../../components/icons'
+import { Bus, CityBike } from '../../components/icons'
 
 const service = new EnturService()
+// const myStorage = JSON.parse(window.localStorage.getItem('initialData'))
 
 const position = {
     latitude: 59.903653,
@@ -177,7 +178,6 @@ class DepartureBoard extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Logo />
             </div>
         )
     }
