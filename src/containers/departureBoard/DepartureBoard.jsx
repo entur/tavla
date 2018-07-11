@@ -3,13 +3,18 @@ import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.css'
 import { Bus, CityBike } from '../../components/icons'
+import { BikeTable, DepartureTable } from '../../components/tables'
 
 const service = new EnturService()
-const latlong = JSON.parse(window.localStorage.getItem('initialData'))
+// const latlong = JSON.parse(window.localStorage.getItem('position'))
 
-const position = {
+/* const position = {
     latitude: latlong.lat,
-    longitude: latlong.long,
+    longitude: latlong.lon,
+} */
+const position = {
+    latitude: 59.9111395,
+    longitude: 10.7340444,
 }
 
 function getIcon(type, props) {
@@ -63,8 +68,14 @@ class DepartureBoard extends React.Component {
         return minDiff < 1 ? 'nå' : minDiff.toString() + 'min'
     }
 
+    getPositonFromUrl() {
+        const positionArray = window.location.pathname.split(/@/)[1].split('-').join('.').split(/,/)
+        return { latitude: positionArray[0], longitude: positionArray[1] }
+    }
+
     updateTime = () => {
-        service.getBikeRentalStations(position, 200).then(stations => {
+        const pos = this.getPositonFromUrl()
+        service.getBikeRentalStations(pos, 200).then(stations => {
             this.setState({
                 stationData: stations,
             })
@@ -89,23 +100,6 @@ class DepartureBoard extends React.Component {
 
     componentWillUnmount() {
         clearInterval(this.updateInterval)
-    }
-
-
-    renderBikeStationList() {
-        const stationData = this.state.stationData
-
-        return stationData.map(({
-            name, bikesAvailable, spacesAvailable, id,
-        }) => {
-            return (
-                <tr className="row" key={id}>
-                    <td className="time">{bikesAvailable}/{bikesAvailable+spacesAvailable}</td>
-                    <td className="type">{getIcon('bike')}</td>
-                    <td className="route">{name}</td>
-                </tr>
-            )
-        })
     }
 
     renderStopPlaces() {
@@ -160,7 +154,7 @@ class DepartureBoard extends React.Component {
                                 </h3>
                                 <hr />
                             </div>
-                            {this.state.stopsData.length > 0 ? this.renderStopPlaces() : null}
+                            {this.state.stopsData.length > 0 ? <DepartureTable lineData={this.state.stopsData}/> : null}
                         </div>
                         <div className="departure-table">
                             <div className="content-title">
@@ -176,9 +170,7 @@ class DepartureBoard extends React.Component {
                                         <th className="type">Sted</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    {this.state.stationData.length > 0 ? this.renderBikeStationList() : null}
-                                </tbody>
+                                {this.state.stationData.length > 0 ? <BikeTable stationData={this.state.stationData} /> : null}
                             </table>
                         </div>
                     </div>

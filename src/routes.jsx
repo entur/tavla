@@ -6,14 +6,15 @@ import './main.scss'
 import DepartureBoard from './containers/departureBoard/DepartureBoard'
 import AdminPage from './containers/adminPage/AdminPage'
 import App from './containers/App'
+// import Table from './components/table'
 
 export const routes = (
     <div className="App">
         <Switch>
             <Route exact path="/" component={App} />
-            <Route exact path="/dashboard" component={DepartureBoard} />
+            <Route path="/dashboard" component={DepartureBoard} />
             <Route path="/admin" component={AdminPage} />
-            <Redirect to="/rendering" />
+            <Redirect to="/" />
         </Switch>
     </div>
 )
