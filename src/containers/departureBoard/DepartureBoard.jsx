@@ -2,14 +2,13 @@ import React from 'react'
 import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.css'
-import { Bus, CityBike } from '../../components/icons'
+import { Bus, CityBike, Logo } from '../../components/icons'
 
 const service = new EnturService()
-const latlong = JSON.parse(window.localStorage.getItem('initialData'))
 
 const position = {
-    latitude: latlong.lat,
-    longitude: latlong.long,
+    latitude: 59.903653,
+    longitude: 10.739232,
 }
 
 function getIcon(type, props) {
@@ -45,7 +44,7 @@ class DepartureBoard extends React.Component {
                         destination: destinationDisplay.frontText,
                         type: line.transportMode,
                         code: line.publicCode,
-                        time: this.formatDeparture(minDiff, departureTime),
+                        time: minDiff < 15 ? (minDiff.toString() + 'min') : departureTime.format('HH:mm'),
                     }
                 })
                 const newList = [...this.state.stopsData ]
@@ -58,11 +57,6 @@ class DepartureBoard extends React.Component {
         })
     }
 
-    formatDeparture(minDiff, departureTime) {
-        if (minDiff > 15) return departureTime.format('HH:mm')
-        return minDiff < 1 ? 'nå' : minDiff.toString() + 'min'
-    }
-
     updateTime = () => {
         service.getBikeRentalStations(position, 200).then(stations => {
             this.setState({
@@ -73,7 +67,7 @@ class DepartureBoard extends React.Component {
     }
 
     componentDidMount() {
-        service.getStopPlacesByPosition(position, 200).then(stops => {
+        service.getStopPlacesByPosition(position, 500).then(stops => {
             const stopsData = stops.map(stop => {
                 return {
                     ...stop,
@@ -183,6 +177,7 @@ class DepartureBoard extends React.Component {
                         </div>
                     </div>
                 </div>
+                <Logo />
             </div>
         )
     }
