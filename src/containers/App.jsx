@@ -7,7 +7,7 @@ const myStorage = window.localStorage
 class App extends React.Component {
     addLocation() {
         navigator.geolocation.getCurrentPosition(position => {
-            const latlong = { latlong: { lat: position.coords.latitude, long: position.coords.longitude }, accepted: true }
+            const latlong = { lat: position.coords.latitude, long: position.coords.longitude }
             myStorage.setItem('initialData', JSON.stringify(latlong))
             this.props.history.push('/dashboard')
         })
@@ -16,7 +16,7 @@ class App extends React.Component {
     componentDidMount() {
         const initData = myStorage.getItem('initialData')
         if (!initData) return this.addLocation()
-        const { lat, long } = JSON.parse(initData).latlong
+        const { lat, long } = JSON.parse(initData)
         if (!lat || !long) return this.addLocation()
         this.props.history.push('/dashboard')
     }

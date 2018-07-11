@@ -9,11 +9,9 @@ import Footer from './components/Footer'
 
 ReactDOM.render(
     <div>
-        <div>
-            <BrowserRouter>
-                { routes }
-            </BrowserRouter>
-        </div>
+        <BrowserRouter>
+            { routes }
+        </BrowserRouter>
         <Footer />
     </div>,
     document.getElementById('app')
