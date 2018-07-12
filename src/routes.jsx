@@ -6,6 +6,7 @@ import './main.scss'
 import DepartureBoard from './containers/departureBoard/DepartureBoard'
 import AdminPage from './containers/AdminPage'
 import App from './containers/App'
+import Footer from './components/Footer'
 
 export const routes = (
     <div className="App">
@@ -15,5 +16,6 @@ export const routes = (
             <Route path="/admin" component={AdminPage} />
             <Redirect to="/" />
         </Switch>
+        <Footer />
     </div>
 )
