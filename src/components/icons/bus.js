@@ -14,7 +14,7 @@ function Bus({ height, width, color }) {
 }
 Bus.propTypes = {
     color: Proptypes.string,
-    height: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
+    height: Proptypes.number,
     width: Proptypes.number,
 }
 
