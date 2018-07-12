@@ -5,14 +5,10 @@ import {
     BrowserRouter,
 } from 'react-router-dom'
 import { routes } from './routes'
-import Footer from './components/Footer'
 
 ReactDOM.render(
-    <div>
-        <BrowserRouter>
-            { routes }
-        </BrowserRouter>
-        <Footer />
-    </div>,
+    <BrowserRouter>
+        { routes }
+    </BrowserRouter>,
     document.getElementById('app')
 )

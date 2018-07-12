@@ -3,38 +3,33 @@ import React from 'react'
 const myStorage = window.localStorage
 
 class App extends React.Component {
-    constructor(props) {
-        super(props)
-        this.addLocation = this.addLocation.bind(this)
-        this.handleLatlongSubmit = this.handleLatlongSubmit.bind(this)
-    }
-
     componentDidMount() {
         const initData = myStorage.getItem('initialData')
-        if (initData) {
-            const { lat, long } = JSON.parse(initData)
-            if (lat && long) {
-                this.props.history.push('/dashboard')
-            }
+        if (!initData) return null
+        const { lat, lon } = JSON.parse(initData)
+        if (lat || lon) {
+            const pos = (`${lat},${lon}`).split('.').join('-')
+            this.props.history.push(`/dashboard/@${pos}`)
         }
     }
 
-    addLocation() {
-        navigator.geolocation.getCurrentPosition(position => {
-            const latlong = { lat: position.coords.latitude, long: position.coords.longitude }
-            this.goToDepartureBoard(latlong)
+    addLocation = () => {
+        navigator.geolocation.getCurrentPosition(data => {
+            const position = { lat: data.coords.latitude, lon: data.coords.longitude }
+            myStorage.setItem('initialData', JSON.stringify(position))
+            this.goToDepartureBoard(position)
         })
     }
 
-    handleLatlongSubmit(event) {
-        event.preventDefault()
-        const latlong = { lat: event.target.lat.value, long: event.target.long.value }
-        this.goToDepartureBoard(latlong)
+    goToDepartureBoard(position) {
+        const pos = (`${position.lat},${position.lon}`).split('.').join('-')
+        this.props.history.push(`/dashboard/@${pos}`)
     }
 
-    goToDepartureBoard(latlong) {
-        myStorage.setItem('initialData', JSON.stringify(latlong))
-        this.props.history.push('/dashboard')
+    handleLatlongSubmit = (event) => {
+        const latlong = { lat: event.target.lat.value, long: event.target.long.value }
+        this.goToDepartureBoard(latlong)
+        event.preventDefault()
     }
 
 

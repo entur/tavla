@@ -51,7 +51,9 @@ module.exports = {
         historyApiFallback: true,
         hotClient: true,
         add: (app) => {
-            app.use(convert(history({})))
+            app.use(convert(history({
+                verbose: true,
+            })))
         },
     },
     plugins: [
