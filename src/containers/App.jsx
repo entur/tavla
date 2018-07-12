@@ -7,10 +7,8 @@ class App extends React.Component {
         const initData = myStorage.getItem('initialData')
         if (!initData) return null
         const { lat, lon } = JSON.parse(initData)
-        if (lat || lon) {
-            const pos = (`${lat},${lon}`).split('.').join('-')
-            this.props.history.push(`/dashboard/@${pos}`)
-        }
+        const pos = (`${lat},${lon}`).split('.').join('-')
+        this.props.history.push(`/dashboard/@${pos}`)
     }
 
     addLocation = () => {
