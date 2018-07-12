@@ -4,9 +4,8 @@ import {
 } from 'react-router-dom'
 import './main.scss'
 import DepartureBoard from './containers/departureBoard/DepartureBoard'
-import AdminPage from './containers/adminPage/AdminPage'
+import AdminPage from './containers/AdminPage'
 import App from './containers/App'
-// import Table from './components/table'
 
 export const routes = (
     <div className="App">
