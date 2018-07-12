@@ -5,11 +5,13 @@ import {
 import './main.scss'
 import DepartureBoard from './containers/departureBoard/DepartureBoard'
 import AdminPage from './containers/AdminPage'
+import App from './containers/App'
 
 export const routes = (
     <div className="App">
         <Switch>
-            <Route exact path="/" component={DepartureBoard} />
+            <Route exact path="/" component={App} />
+            <Route path="/dashboard" component={DepartureBoard} />
             <Route path="/admin" component={AdminPage} />
             <Redirect to="/" />
         </Switch>
