@@ -1,12 +1,17 @@
 import React from 'react'
-import Logo from '../components/icons/Logo'
-
 
 class AdminPage extends React.Component {
     myStorage = window.localStorage
 
     state = {
         distance: 500,
+    }
+
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const latlong = { lat: position.coords.latitude, long: position.coords.longitude }
+            this.myStorage.setItem('latlong', JSON.stringify(latlong))
+        })
     }
 
     handleChange = event => {
@@ -24,12 +29,6 @@ class AdminPage extends React.Component {
         event.preventDefault()
     }
 
-    componentDidMount() {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const latlong = { lat: position.coords.latitude, long: position.coords.longitude }
-            this.myStorage.setItem('latlong', JSON.stringify(latlong))
-        })
-    }
 
     render() {
         const { distance } = this.state
@@ -44,7 +43,6 @@ class AdminPage extends React.Component {
                     </label>
                     <button type="submit" value="Submit">Update</button>
                 </form>
-                <Logo />
             </div>
         )
     }
