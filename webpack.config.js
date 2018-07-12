@@ -52,7 +52,6 @@ module.exports = {
         hotClient: true,
         add: (app) => {
             app.use(convert(history({
-                // disableDotRule: true,
                 verbose: true,
             })))
         },
