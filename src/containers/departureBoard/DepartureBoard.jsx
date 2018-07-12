@@ -2,31 +2,9 @@ import React from 'react'
 import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.css'
-import { Bus, CityBike } from '../../components/icons'
 import { BikeTable, DepartureTable } from '../../components/tables'
 
 const service = new EnturService()
-// const latlong = JSON.parse(window.localStorage.getItem('position'))
-
-/* const position = {
-    latitude: latlong.lat,
-    longitude: latlong.lon,
-} */
-const position = {
-    latitude: 59.9111395,
-    longitude: 10.7340444,
-}
-
-function getIcon(type, props) {
-    switch (type) {
-        case 'bus':
-            return <Bus color="#5AC39A" {...props} />
-        case 'bike':
-            return <CityBike {...props} />
-        default:
-            return null
-    }
-}
 
 class DepartureBoard extends React.Component {
     state = {
@@ -35,6 +13,22 @@ class DepartureBoard extends React.Component {
     }
 
     updateInterval = undefined
+
+    componentDidMount() {
+        const pos = this.getPositonFromUrl()
+        service.getStopPlacesByPosition(pos, 300).then(stops => {
+            const stopsData = stops.map(stop => {
+                return {
+                    ...stop,
+                    departures: [],
+                }
+            })
+            this.setState({ stopsData })
+            this.stopPlaceDepartures()
+            this.updateTime()
+        })
+        this.updateInterval = setInterval(this.updateTime, 10000)
+    }
 
     stopPlaceDepartures = () => {
         const stops = this.state.stopsData
@@ -83,63 +77,10 @@ class DepartureBoard extends React.Component {
         this.stopPlaceDepartures()
     }
 
-    componentDidMount() {
-        service.getStopPlacesByPosition(position, 200).then(stops => {
-            const stopsData = stops.map(stop => {
-                return {
-                    ...stop,
-                    departures: [],
-                }
-            })
-            this.setState({ stopsData })
-            this.stopPlaceDepartures()
-            this.updateTime()
-        })
-        this.updateInterval = setInterval(this.updateTime, 10000)
-    }
 
     componentWillUnmount() {
         clearInterval(this.updateInterval)
     }
-
-    renderStopPlaces() {
-        const lineData = this.state.stopsData
-        return lineData.map(({ id, name, departures }) => {
-            return (
-                <div className="stop-place" key={id}>
-                    <h3>{name}</h3>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th className="time">Avgang</th>
-                                <th className="type">Linje</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.renderDepartures(departures)}
-                        </tbody>
-                    </table>
-                </div>
-            )
-        })
-    }
-
-    renderDepartures(departures) {
-        return (departures.map(({
-            time, type, code, destination,
-        }, index) => {
-            return (
-                <tr className="row" key={index}>
-                    <td className="time">{time}</td>
-                    <td className="type">{getIcon(type)}</td>
-                    <td className="route">
-                        {code} {destination}
-                    </td>
-                </tr>
-            )
-        }))
-    }
-
 
     render() {
         return (
