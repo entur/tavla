@@ -44,7 +44,7 @@ class DepartureBoard extends React.Component {
                         destination: destinationDisplay.frontText,
                         type: line.transportMode,
                         code: line.publicCode,
-                        time: minDiff < 15 ? (minDiff.toString() + 'min') : departureTime.format('HH:mm'),
+                        time: this.formatDeparture(minDiff, departureTime),
                     }
                 })
                 const newList = [...this.state.stopsData ]
