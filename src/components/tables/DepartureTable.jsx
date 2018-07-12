@@ -3,13 +3,9 @@ import { getIcon } from '../../utils'
 
 const DepartureTable = ({ lineData }) => {
     return (
-        lineData.map(({
+        lineData.filter(({ departures }) => departures.length > 0).map(({
             departures, name, id,
         }) => {
-            const {
-                time, type, code, destination,
-            } = departures
-            console.log(departures)
             return (
                 <div className="stop-place" key={id}>
                     <h3>{name}</h3>
@@ -21,13 +17,19 @@ const DepartureTable = ({ lineData }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="row">
-                                <td className="time">{departures.time}</td>
-                                <td className="type">{getIcon(type)}</td>
-                                <td className="route">
-                                    {code} {destination}
-                                </td>
-                            </tr>
+                            {departures.map(({
+                                time, type, code, destination,
+                            }, index) => {
+                                return (
+                                    <tr className="row" key={index}>
+                                        <td className="time">{time}</td>
+                                        <td className="type">{getIcon(type)}</td>
+                                        <td className="route">
+                                            {code} {destination}
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
