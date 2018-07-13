@@ -5,6 +5,7 @@ import './styles.css'
 import { BikeTable, DepartureTable } from '../../components/tables'
 
 const service = new EnturService()
+const myStorage = window.localStorage
 
 class DepartureBoard extends React.Component {
     state = {
@@ -44,7 +45,7 @@ class DepartureBoard extends React.Component {
                         destination: destinationDisplay.frontText,
                         type: line.transportMode,
                         code: line.publicCode,
-                        time: minDiff < 15 ? (minDiff.toString() + 'min') : departureTime.format('HH:mm'),
+                        time: this.formatDeparture(minDiff, departureTime),
                     }
                 })
                 const newList = [...this.state.stopsData ]
@@ -70,6 +71,7 @@ class DepartureBoard extends React.Component {
     updateTime = () => {
         const pos = this.getPositonFromUrl()
         service.getBikeRentalStations(pos, 200).then(stations => {
+            myStorage.setItem(stations.toString())
             this.setState({
                 stationData: stations,
             })
