@@ -2,22 +2,32 @@ import React from 'react'
 import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.css'
-import { Bus, CityBike } from '../../components/icons'
+import {
+    Bus, CityBike, Metro, Ferry, Train, Tram,
+} from '../../components/icons'
 
 const service = new EnturService()
 const latlong = JSON.parse(window.localStorage.getItem('initialData'))
 
 const position = {
     latitude: latlong.lat,
-    longitude: latlong.long,
+    longitude: latlong.lat,
 }
 
 function getIcon(type, props) {
     switch (type) {
         case 'bus':
-            return <Bus color="#5AC39A" {...props} />
+            return <Bus {...props} />
         case 'bike':
             return <CityBike {...props} />
+        case 'ferry':
+            return <Ferry {...props} />
+        case 'metro':
+            return <Metro {...props} />
+        case 'train':
+            return <Train {...props} />
+        case 'tram':
+            return <Tram {...props} />
         default:
             return null
     }
