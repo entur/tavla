@@ -1,3 +1,7 @@
 export { default as Bus } from './bus'
 export { default as CityBike } from './cityBike'
-export { default as Logo } from './Logo'
+export { default as Logo } from './logo'
+export { default as Ferry } from './ferry'
+export { default as Metro } from './metro'
+export { default as Train } from './train'
+export { default as Tram } from './tram'

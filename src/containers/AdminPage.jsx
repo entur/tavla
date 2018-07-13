@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from '../components/icons/Logo'
+import Logo from '../components/icons/logo'
 
 
 class AdminPage extends React.Component {

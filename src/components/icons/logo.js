@@ -6,7 +6,13 @@ function Logo({ height, width }) {
     return (
         <div className="footer flex-container">
             <div>
-                <svg className="footer-logo"width={width} height={height} viewBox="0 0 63 19" xmlns="http://www.w3.org/1999/xlink">
+                <svg
+                    className="footer-logo"
+                    width={width}
+                    height={height}
+                    viewBox="0 0 63 19"
+                    xmlns="http://www.w3.org/1999/xlink"
+                >
                     <g fill="none" fillRule="evenodd">
                         <path fill="#181C56" d="M1 0v13.006h9.392v-2.203H3.439V7.658h6.169V5.455H3.439V2.203h6.953V0z"/>
                         <path fill="#FF5959" d="M0 19h22.983v-2H0z"/>
@@ -23,8 +29,8 @@ function Logo({ height, width }) {
     )
 }
 Logo.propTypes = {
-    height: Proptypes.number,
-    width: Proptypes.number,
+    height: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
+    width: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
 }
 
 Logo.defaultProps = {
