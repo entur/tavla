@@ -1,4 +1,5 @@
 import React from 'react'
+import Logo from '../components/icons/logo'
 
 
 class AdminPage extends React.Component {
@@ -43,6 +44,7 @@ class AdminPage extends React.Component {
                     </label>
                     <button type="submit" value="Submit">Update</button>
                 </form>
+                <Logo />
             </div>
         )
     }
