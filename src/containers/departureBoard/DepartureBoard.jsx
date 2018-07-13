@@ -60,7 +60,7 @@ class DepartureBoard extends React.Component {
 
     formatDeparture(minDiff, departureTime) {
         if (minDiff > 15) return departureTime.format('HH:mm')
-        return minDiff < 1 ? 'nå' : minDiff.toString() + 'min'
+        return minDiff < 1 ? 'nå' : minDiff.toString() + ' min'
     }
 
     getPositonFromUrl() {
@@ -70,11 +70,11 @@ class DepartureBoard extends React.Component {
 
     updateTime = () => {
         const pos = this.getPositonFromUrl()
-        service.getBikeRentalStations(pos, 200).then(stations => {
-            myStorage.setItem(stations.toString())
+        service.getBikeRentalStations(pos, 500).then(stations => {
             this.setState({
                 stationData: stations,
             })
+            myStorage.setItem('stations', JSON.stringify(stations))
         })
         this.stopPlaceDepartures()
     }
