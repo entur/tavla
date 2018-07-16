@@ -1,9 +1,7 @@
 .departure {
     display: flex;
     justify-content: space-between;
-}
-.departure-table {
-    width: calc(50% - 1rem);
+    height: 80%;
 }
 
 .type {
