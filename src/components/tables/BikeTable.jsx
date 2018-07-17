@@ -6,7 +6,7 @@ const BikeTable = ({ stationData }) => {
     return (
         <div className="tile-container">
             <div className="citybike-header-container">
-                <div className="citybike-header-item">{getIcon('bike', { height: 70, color: '#ff5956' })}</div>
+                <div className="citybike-header-item">{getIcon('bike', { height: 60, color: '#ff5956' })}</div>
                 <div className="citybike-header-item"><h2>Bysykkel</h2></div>
             </div>
             {

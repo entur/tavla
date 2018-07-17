@@ -38,11 +38,15 @@
     justify-content: center;
     background-color: #272727;
     color: white;
-    width: 15%;
+    width: 17%;
     padding: 2.5% 1.6% 2.5% 1.6%;
     margin: 2%;
     height: fit-content;
     align-self: center;
+}
+
+.tile-container h2{
+    font-size: 1.5rem;
 }
 
 .citybike-header-container{
@@ -83,8 +87,9 @@
 
 .route-name{
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     align-items: center;
+    margin: -4% 0 -6% 0;
 }
 
 .route-icon{

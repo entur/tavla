@@ -12,7 +12,7 @@ const DepartureTable = ({ lineData }) => {
             return (
                 <div className="tile-container" key={id}>
                     <div className="stop-header">
-                        { getIcon('bus', { height: '53.5' }) }
+                        { getIcon('bus', { height: 50 }) }
                         <h2>{name}</h2>
                     </div>
                     <div>
