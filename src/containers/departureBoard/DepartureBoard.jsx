@@ -16,7 +16,7 @@ class DepartureBoard extends React.Component {
 
     componentDidMount() {
         const pos = this.getPositonFromUrl()
-        service.getStopPlacesByPosition(pos, 300).then(stops => {
+        service.getStopPlacesByPosition(pos, 200).then(stops => {
             const stopsData = stops.map(stop => {
                 return {
                     ...stop,
@@ -41,10 +41,9 @@ class DepartureBoard extends React.Component {
                     const minDiff = departureTime.diff(moment(), 'minutes')
 
                     return {
-                        destination: destinationDisplay.frontText,
                         type: line.transportMode,
-                        code: line.publicCode,
                         time: this.formatDeparture(minDiff, departureTime),
+                        route: line.publicCode + ' '+ destinationDisplay.frontText,
                     }
                 })
                 const newList = [...this.state.stopsData ]
@@ -84,38 +83,9 @@ class DepartureBoard extends React.Component {
 
     render() {
         return (
-            <div className="app">
-                <div className="main-content">
-                    <h1>Avgangstider</h1>
-                    <div className="departure">
-                        <div className="departure-table">
-                            <div className="content-title">
-                                <h3>
-                                    Platform
-                                </h3>
-                                <hr />
-                            </div>
-                            {this.state.stopsData.length > 0 ? <DepartureTable lineData={this.state.stopsData}/> : null}
-                        </div>
-                        <div className="departure-table">
-                            <div className="content-title">
-                                <h3>
-                                    Bysykkel
-                                </h3>
-                                <hr />
-                            </div>
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th className="time">Ledig</th>
-                                        <th className="type">Sted</th>
-                                    </tr>
-                                </thead>
-                                {this.state.stationData.length > 0 ? <BikeTable stationData={this.state.stationData} /> : null}
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <div className="departure">
+                {this.state.stopsData.length > 0 ? <DepartureTable lineData={this.state.stopsData}/> : null}
+                {this.state.stationData.length > 0 ? <BikeTable stationData={this.state.stationData} /> : null}
             </div>
         )
     }

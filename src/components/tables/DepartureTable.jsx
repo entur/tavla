@@ -1,37 +1,44 @@
 import React from 'react'
-import { getIcon } from '../../utils'
+import { getIcon, groupBy } from '../../utils'
+
 
 const DepartureTable = ({ lineData }) => {
     return (
         lineData.filter(({ departures }) => departures.length > 0).map(({
             departures, name, id,
         }) => {
+            const groupedDepartures = groupBy(departures, 'route')
+            const routes = Object.keys(groupedDepartures)
             return (
-                <div className="stop-place" key={id}>
-                    <h3>{name}</h3>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th className="time">Avgang</th>
-                                <th className="type">Linje</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {departures.map(({
-                                time, type, code, destination,
-                            }, index) => {
+                <div className="tile-container" key={id}>
+                    <div className="stop-header">
+                        { getIcon('bus', { height: 50 }) }
+                        <h2>{name}</h2>
+                    </div>
+                    <div>
+                        {
+                            routes.map(route => {
+                                const routeData = groupedDepartures[route]
+                                const routeType = routeData[0].type
                                 return (
-                                    <tr className="row" key={index}>
-                                        <td className="time">{time}</td>
-                                        <td className="type">{getIcon(type)}</td>
-                                        <td className="route">
-                                            {code} {destination}
-                                        </td>
-                                    </tr>
+                                    <div key={route}>
+                                        <div className="route-name">
+                                            <div className="route-icon">{ getIcon(routeType, { height: '11' })}</div>
+                                            <div><p>{route}</p></div>
+                                        </div>
+                                        <div className="route-departures">
+                                            { routeData.map((data, index) => {
+                                                return (
+                                                    <div className="route-departure-time"key={index}>
+                                                        {data.time}
+                                                    </div>)
+                                            })}
+                                        </div>
+                                    </div>
                                 )
-                            })}
-                        </tbody>
-                    </table>
+                            })
+                        }
+                    </div>
                 </div>
             )
         })
