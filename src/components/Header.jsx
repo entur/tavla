@@ -1,10 +1,36 @@
 import React from 'react'
 import moment from 'moment'
 
-const Header = () => (
-    <div className="header">
-        <h1>{moment().format('HH:mm')}</h1>
-    </div>
-)
+class Header extends React.Component {
+    state = {
+        time: moment().format('HH:mm'),
+    }
+
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => this.tick(),
+            1000
+        )
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID)
+    }
+
+    tick() {
+        this.setState({
+            time: moment().format('HH:mm'),
+        })
+    }
+
+
+    render() {
+        return (
+            <div className="header">
+                <h1>{this.state.time}</h1>
+            </div>
+        )
+    }
+}
 
 export default Header

@@ -2,7 +2,7 @@ import React from 'react'
 import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.css'
-import { BikeTable, DepartureTable } from '../../components/tables'
+import { BikeTable, DepartureTable, DepartureTiles } from '../../components/tables'
 
 const service = new EnturService()
 
@@ -82,9 +82,11 @@ class DepartureBoard extends React.Component {
     }
 
     render() {
+        const tileView = (this.state.stopsData.length + this.state.stationData.length) < 5
         return (
             <div className="departure">
-                {this.state.stopsData.length > 0 ? <DepartureTable lineData={this.state.stopsData}/> : null}
+                {this.state.stopsData.length > 0 && tileView ? <DepartureTiles lineData={this.state.stopsData}/> : null}
+                {this.state.stopsData.length > 0 && !tileView ? <DepartureTable lineData={this.state.stopsData}/> : null}
                 {this.state.stationData.length > 0 ? <BikeTable stationData={this.state.stationData} /> : null}
             </div>
         )

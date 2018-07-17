@@ -6,6 +6,8 @@
 .departure {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .type {
@@ -15,21 +17,6 @@
 .time {
     width: 15%;
     text-align: center
-}
-
-.table {
-    width: 100%;
-    table-layout: fixed;
-    border-spacing: 0 0.5rem;
-}
-
-.table td {
-    background-color: #F3F3F3;
-    padding: 0.5rem 1rem;
-}
-
-.table-header{
-    width: 100%;
 }
 
 .tile-container{
@@ -105,6 +92,7 @@
 
 .route-icon{
     margin-right: 5%;
+    width: 10%;
 }
 
 .route-departures{
@@ -117,4 +105,55 @@
     margin-right: 4%;
     color: #9e9e9e;
     font-weight: 400;
+}
+
+.table-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 17%;
+    margin: 2%;
+    height: fit-content;
+    align-self: center;
+}
+
+.table-header{
+    flex-direction: column;
+    text-align: left;
+}
+
+.table-header h2{
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 0;
+}
+
+.table-route-name{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: -4% 0 -6% 0;
+    padding-left: 4%;
+}
+
+.table-route-departures{
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    background-color: #272727;
+    padding: 2% 2% 2% 4%;
+}
+
+
+.table-route-departure-time{
+    margin-right: 11%;
+    color: white;
+    font-weight: 300;
+}
+
+.route-name-text{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 88%;
 }

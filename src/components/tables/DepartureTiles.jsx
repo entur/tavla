@@ -2,7 +2,7 @@ import React from 'react'
 import { getIcon, groupBy } from '../../utils'
 
 
-const DepartureTable = ({ lineData }) => {
+const DepartureTiles = ({ lineData }) => {
     return (
         lineData.filter(({ departures }) => departures.length > 0).map(({
             departures, name, id,
@@ -10,8 +10,9 @@ const DepartureTable = ({ lineData }) => {
             const groupedDepartures = groupBy(departures, 'route')
             const routes = Object.keys(groupedDepartures)
             return (
-                <div className="table-container" key={id}>
-                    <div className="table-header">
+                <div className="tile-container" key={id}>
+                    <div className="stop-header">
+                        { getIcon('bus', { height: 50 }) }
                         <h2>{name}</h2>
                     </div>
                     <div>
@@ -21,14 +22,14 @@ const DepartureTable = ({ lineData }) => {
                                 const routeType = routeData[0].type
                                 return (
                                     <div key={route}>
-                                        <div className="table-route-name">
+                                        <div className="route-name">
                                             <div className="route-icon">{ getIcon(routeType, { height: '11' })}</div>
                                             <p className="route-name-text">{route}</p>
                                         </div>
-                                        <div className="table-route-departures">
+                                        <div className="route-departures">
                                             { routeData.map((data, index) => {
                                                 return (
-                                                    <div className="table-route-departure-time"key={index}>
+                                                    <div className="route-departure-time"key={index}>
                                                         {data.time}
                                                     </div>)
                                             })}
@@ -44,4 +45,4 @@ const DepartureTable = ({ lineData }) => {
     )
 }
 
-export default DepartureTable
+export default DepartureTiles
