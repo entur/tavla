@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import './styles.css'
 
 const Header = () => (
     <div className="header">
