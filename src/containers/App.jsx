@@ -25,7 +25,7 @@ class App extends React.Component {
             <div>
                 <h1>Velkommen til tavla.en-tur.no</h1>
                 <p>For at vi skal lage en tavle til deg trenger vi at du godtar at vi kan bruke din posisjon...</p>
-                <button onClick={() => this.addLocation()}>Godta bruk av posisjon</button>
+                <button onClick={this.addLocation}>Godta bruk av posisjon</button>
                 <p>...eller fyller inn relevante koordinater</p>
                 <form onSubmit={(event) => this.handleLatlongSubmit(event)}>
                     <label>Breddegrad </label>
