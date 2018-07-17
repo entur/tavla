@@ -1,5 +1,5 @@
 import React from 'react'
-import { getIcon, compareStrings } from '../../utils'
+import { getIcon } from '../../utils'
 import './styles.css'
 
 const BikeTable = ({ stationData }) => {
@@ -10,7 +10,7 @@ const BikeTable = ({ stationData }) => {
                 <div className="citybike-header-item"><h2>Bysykkel</h2></div>
             </div>
             {
-                stationData.sort((a, b) => compareStrings(a.name, b.name)).map(({
+                stationData.sort((a, b) => a.name.localeCompare(b.name)).map(({
                     name, bikesAvailable, spacesAvailable, id,
                 }) => (
                     <div key={id} className="bike-container">
