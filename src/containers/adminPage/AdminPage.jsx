@@ -7,8 +7,6 @@ const service = new EnturService()
 
 
 class AdminPage extends React.Component {
-    myStorage = window.localStorage
-
     state = {
         distance: 500,
         stations: [],
@@ -123,9 +121,9 @@ class AdminPage extends React.Component {
                                     name, id,
                                 }) => {
                                     return (
-                                        <tr className="row" style={this.getStyle(id)} key={id}>
-                                            <td className="type">{getIcon('bike')}</td>
-                                            <td className="name">{name}</td>
+                                        <tr style={this.getStyle(id)} key={id}>
+                                            <td>{getIcon('bike')}</td>
+                                            <td>{name}</td>
                                             <td>
                                                 <button onClick={() => this.removeStation(id)}>X</button>
                                             </td>

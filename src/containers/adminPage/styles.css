@@ -12,3 +12,7 @@
     font-size: 16px;
     border-radius: 50%;
 }
+
+.table td {
+    background-color: grey;
+}

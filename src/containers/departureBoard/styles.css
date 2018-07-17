@@ -1,9 +1,7 @@
 .departure {
     display: flex;
     justify-content: space-between;
-}
-.departure-table {
-    width: calc(50% - 1rem);
+    height: 80%;
 }
 
 .type {
@@ -29,11 +27,19 @@
 .settings-button {
     border: 0;
     padding: 0;
-    font-size: 35;
+    display: none;
+    color: white;
+    background-color: inherit;
 }
 
-.departure-header {
+.app:hover .settings-button, .settings-button:hover {
+    display: block;
+}
+
+.button-wrap {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
-    justify-content: space-between;
+    align-content: flex-end;
+    height: 5%;
 }

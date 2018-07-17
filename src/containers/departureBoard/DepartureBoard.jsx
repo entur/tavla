@@ -48,10 +48,9 @@ class DepartureBoard extends React.Component {
                     const minDiff = departureTime.diff(moment(), 'minutes')
 
                     return {
-                        destination: destinationDisplay.frontText,
                         type: line.transportMode,
-                        code: line.publicCode,
                         time: this.formatDeparture(minDiff, departureTime),
+                        route: line.publicCode + ' '+ destinationDisplay.frontText,
                     }
                 })
                 const newList = [...this.state.stopsData ]
@@ -90,43 +89,17 @@ class DepartureBoard extends React.Component {
         event.preventDefault()
     }
 
+
     render() {
         const { hiddenSet, stationData, stopsData } = this.state
         return (
-            <div className="app">
-                <div className="main-content">
-                    <div className="departure-header">
-                        <h1>Avgangstider</h1>
-                        <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >⚙️</button>
-                    </div>
-                    <div className="departure">
-                        <div className="departure-table">
-                            <div className="content-title">
-                                <h3>
-                                    Platform
-                                </h3>
-                                <hr />
-                            </div>
-                            {stopsData.length > 0 ? <DepartureTable lineData={stopsData} /> : null}
-                        </div>
-                        <div className="departure-table">
-                            <div className="content-title">
-                                <h3>
-                                    Bysykkel
-                                </h3>
-                                <hr />
-                            </div>
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th className="time">Ledig</th>
-                                        <th className="type">Sted</th>
-                                    </tr>
-                                </thead>
-                                {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenSet} /> : null}
-                            </table>
-                        </div>
-                    </div>
+            <div className="departure-board">
+                <div className="button-wrap">
+                    <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >admin</button>
+                </div>
+                <div className="departure">
+                    {stopsData.length > 0 ? <DepartureTable lineData={stopsData} /> : null}
+                    {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenSet} /> : null}
                 </div>
             </div>
         )

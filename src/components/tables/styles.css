@@ -1,9 +1,6 @@
 .departure {
     display: flex;
-    justify-content: space-between;
-}
-.departure-table {
-    width: calc(50% - 1rem);
+    justify-content: center;
 }
 
 .type {
@@ -24,4 +21,84 @@
 .table td {
     background-color: #F3F3F3;
     padding: 0.5rem 1rem;
+}
+
+.table-header{
+    width: 100%;
+}
+
+.tile-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #272727;
+    color: white;
+    width: 17%;
+    padding: 2.5% 1.6% 2.5% 1.6%;
+    margin: 2%;
+    height: fit-content;
+    align-self: center;
+}
+
+.tile-container h2{
+    font-size: 1.5rem;
+}
+
+.citybike-header-container{
+    flex-direction:column;
+    align-self:center;
+    text-align: center;
+}
+
+.bike-container{
+    display: flex;
+    flex-direction:column;
+}
+
+
+.bike-station-container{
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    font-weight: 500;
+}
+
+.available{
+    flex-basis:50%;
+    display:flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.bike-station-icon{
+    margin-right: 15%;
+}
+
+.stop-header{
+    flex-direction: column;
+    align-self: center;
+    text-align: center;
+}
+
+.route-name{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: -4% 0 -6% 0;
+}
+
+.route-icon{
+    margin-right: 5%;
+}
+
+.route-departures{
+    display: flex;
+    flex-direction:row;
+    overflow: hidden;
+}
+
+.route-departure-time{
+    margin-right: 4%;
+    color: #9e9e9e;
+    font-weight: 400;
 }

@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@entur/component-library": "^0.2.5",
-    "@entur/sdk": "0.1.2",
+    "@entur/sdk": "0.1.3",
     "connect-history-api-fallback": "^1.5.0",
     "koa-connect": "^2.0.1",
     "moment": "^2.22.2",
