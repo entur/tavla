@@ -25,3 +25,15 @@
     background-color: #F3F3F3;
     padding: 0.5rem 1rem;
 }
+
+.settings-button {
+    border: 0;
+    padding: 0;
+    font-size: 35;
+}
+
+.departure-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

@@ -1,10 +1,10 @@
 import React from 'react'
 import { getIcon } from '../../utils'
 
-const BikeTable = ({ stationData }) => {
+const BikeTable = ({ stationData, visible }) => {
     return (<tbody>
         {
-            stationData.map(({
+            stationData.filter(({ id }) => !visible.includes(id)).map(({
                 name, bikesAvailable, spacesAvailable, id,
             }) => (
                 <tr className="row" key={id}>

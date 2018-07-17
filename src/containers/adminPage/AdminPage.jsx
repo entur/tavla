@@ -1,6 +1,10 @@
 import React from 'react'
-import { getIcon } from '../../utils'
+import EnturService from '@entur/sdk'
+import { getIcon, getPositionFromUrl, getSettingsFromUrl } from '../../utils'
 import './styles.css'
+
+const service = new EnturService()
+
 
 class AdminPage extends React.Component {
     myStorage = window.localStorage
@@ -8,63 +12,100 @@ class AdminPage extends React.Component {
     state = {
         distance: 500,
         stations: [],
-        visibleSet: [],
+        hiddenSet: [],
+        position: {},
+        positionString: '',
+        hashedState: '',
     }
 
     componentDidMount() {
-        const stations = JSON.parse(this.myStorage.stations)
-        const visibleSet = stations.map((station) => (station.id))
+        const position = getPositionFromUrl()
+        const positionString = window.location.pathname.split('/')[2]
+        const { hiddenSet, distance } = getSettingsFromUrl()
+        service.getBikeRentalStations(position, distance).then(stations => {
+            this.setState({
+                stations,
+            })
+        })
+        const hashedState = window.location.pathname.split('/')[3]
         this.setState({
-            stations,
-            visibleSet,
+            distance,
+            hashedState,
+            hiddenSet,
+            position,
+            positionString,
         })
     }
 
-    handleChange = event => {
+    handleChange = (event) => {
         const distance = event.target.value
-        this.setState({
-            distance,
+        service.getBikeRentalStations(this.state.position, distance).then(stations => {
+            this.setState({
+                stations,
+                distance,
+            })
         })
-        this.myStorage.setItem('config', distance)
         event.preventDefault()
     }
 
     handleSubmit = (event) => {
-        const { distance } = this.state
-        this.myStorage.setItem('config', distance)
+        const { distance, hiddenSet, positionString } = this.state
+        const savedSettings = {
+            distance,
+            hiddenSet,
+        }
+        const hashedState = btoa(JSON.stringify(savedSettings))
+        this.setState({ hashedState })
+        this.props.history.push(`/admin/${positionString}/${hashedState}`)
         event.preventDefault()
     }
 
     removeStation = (clickedId) => {
-        const { visibleSet } = this.state
-        let newSet = visibleSet
-        if (visibleSet.includes(clickedId)) {
+        const { hiddenSet, positionString, distance } = this.state
+        let newSet = hiddenSet
+        if (hiddenSet.includes(clickedId)) {
             newSet = newSet.filter((id) => id !== clickedId)
         }
         else {
             newSet.push(clickedId)
         }
+        const savedSettings = {
+            distance,
+            hiddenSet: newSet,
+        }
+        const hashedState = btoa(JSON.stringify(savedSettings))
         this.setState({
-            visibleSet: newSet,
+            hiddenSet: newSet,
+            hashedState,
         })
+        this.props.history.push(`/admin/${positionString}/${hashedState}`)
     }
 
     getStyle = (id) => {
-        const onStyle = this.state.visibleSet.includes(id)
+        const onStyle = !this.state.hiddenSet.includes(id)
         return onStyle ? null : { opacity: 0.3 }
     }
 
+    onHomeButton = (event) => {
+        const { hashedState, positionString } = this.state
+        this.props.history.replace(`/dashboard/${positionString}/${hashedState}`)
+        event.preventDefault()
+    }
+
     render() {
-        const { distance, stations, visibleSet } = this.state
+        const { distance, stations } = this.state
         return (
             <div className="adminContent" >
-                <div className="distance" >
+                <div className="admin-header">
                     <h1>Admin</h1>
+                    <button className="close-button" onClick={(event) => this.onHomeButton(event)}>X</button>
+                </div>
+                <div className="distance" >
                     <p>{distance} meter</p>
                     <form onSubmit={this.handleSubmit}>
                         <label>
                             Distance:
-                            <input id="typeinp" type="range" min="0" max="5000" defaultValue="500" step="100" onChange={this.handleChange}/>
+                            <input id="typeinp" type="range" min="200" max="5000" defaultValue="500" step="100" onChange={this.handleChange}/>
                         </label>
                         <button type="submit" value="Submit">Update</button>
                     </form>

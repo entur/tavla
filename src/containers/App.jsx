@@ -8,7 +8,7 @@ class App extends React.Component {
         if (!initData) return null
         const { lat, lon } = JSON.parse(initData)
         const pos = (`${lat},${lon}`).split('.').join('-')
-        this.props.history.push(`/dashboard/@${pos}`)
+        this.props.history.push(`/dashboard/@${pos}/`)
     }
 
     addLocation = () => {
@@ -21,7 +21,7 @@ class App extends React.Component {
 
     goToDepartureBoard(position) {
         const pos = (`${position.lat},${position.lon}`).split('.').join('-')
-        this.props.history.push(`/dashboard/@${pos}`)
+        this.props.history.push(`/dashboard/@${pos}/`)
     }
 
     handleLatlongSubmit = (event) => {
