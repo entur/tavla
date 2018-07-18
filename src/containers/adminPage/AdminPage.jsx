@@ -10,7 +10,9 @@ class AdminPage extends React.Component {
     state = {
         distance: 500,
         stations: [],
-        hiddenSet: [],
+        stops: [],
+        hiddenStations: [],
+        hiddenStops: [],
         position: {},
         positionString: '',
         hashedState: '',
@@ -19,17 +21,23 @@ class AdminPage extends React.Component {
     componentDidMount() {
         const position = getPositionFromUrl()
         const positionString = window.location.pathname.split('/')[2]
-        const { hiddenSet, distance } = getSettingsFromUrl()
+        const { hiddenStations, hiddenStops, distance } = getSettingsFromUrl()
         service.getBikeRentalStations(position, distance).then(stations => {
             this.setState({
                 stations,
+            })
+        })
+        service.getStopPlacesByPosition(position, distance).then(stops => {
+            this.setState({
+                stops,
             })
         })
         const hashedState = window.location.pathname.split('/')[3]
         this.setState({
             distance,
             hashedState,
-            hiddenSet,
+            hiddenStops,
+            hiddenStations,
             position,
             positionString,
         })
@@ -37,20 +45,29 @@ class AdminPage extends React.Component {
 
     handleChange = (event) => {
         const distance = event.target.value
-        service.getBikeRentalStations(this.state.position, distance).then(stations => {
+        const { position } = this.state
+        service.getBikeRentalStations(position, distance).then(stations => {
             this.setState({
                 stations,
                 distance,
+            })
+        })
+        service.getStopPlacesByPosition(position, distance).then(stops => {
+            this.setState({
+                stops,
             })
         })
         event.preventDefault()
     }
 
     handleSubmit = (event) => {
-        const { distance, hiddenSet, positionString } = this.state
+        const {
+            distance, hiddenStations, hiddenStops, positionString,
+        } = this.state
         const savedSettings = {
             distance,
-            hiddenSet,
+            hiddenStations,
+            hiddenStops,
         }
         const hashedState = btoa(JSON.stringify(savedSettings))
         this.setState({ hashedState })
@@ -59,9 +76,11 @@ class AdminPage extends React.Component {
     }
 
     removeStation = (clickedId) => {
-        const { hiddenSet, positionString, distance } = this.state
-        let newSet = hiddenSet
-        if (hiddenSet.includes(clickedId)) {
+        const {
+            hiddenStations, hiddenStops, positionString, distance,
+        } = this.state
+        let newSet = hiddenStations
+        if (hiddenStations.includes(clickedId)) {
             newSet = newSet.filter((id) => id !== clickedId)
         }
         else {
@@ -69,18 +88,48 @@ class AdminPage extends React.Component {
         }
         const savedSettings = {
             distance,
-            hiddenSet: newSet,
+            hiddenStations: newSet,
+            hiddenStops,
         }
         const hashedState = btoa(JSON.stringify(savedSettings))
         this.setState({
-            hiddenSet: newSet,
+            hiddenStations: newSet,
             hashedState,
         })
         this.props.history.push(`/admin/${positionString}/${hashedState}`)
     }
 
-    getStyle = (id) => {
-        const onStyle = !this.state.hiddenSet.includes(id)
+    removeStops = (clickedId) => {
+        const {
+            hiddenStops, hiddenStations, positionString, distance,
+        } = this.state
+        let newSet = hiddenStops
+        if (hiddenStops.includes(clickedId)) {
+            newSet = newSet.filter((id) => id !== clickedId)
+        }
+        else {
+            newSet.push(clickedId)
+        }
+        const savedSettings = {
+            distance,
+            hiddenStops: newSet,
+            hiddenStations,
+        }
+        const hashedState = btoa(JSON.stringify(savedSettings))
+        this.setState({
+            hiddenStops: newSet,
+            hashedState,
+        })
+        this.props.history.push(`/admin/${positionString}/${hashedState}`)
+    }
+
+    getStyle = (id, type) => {
+        const { hiddenStops, hiddenStations } = this.state
+        if (type === 'stations') {
+            const onStyle = !hiddenStations.includes(id)
+            return onStyle ? null : { opacity: 0.3 }
+        }
+        const onStyle = !hiddenStops.includes(id)
         return onStyle ? null : { opacity: 0.3 }
     }
 
@@ -91,7 +140,7 @@ class AdminPage extends React.Component {
     }
 
     render() {
-        const { distance, stations } = this.state
+        const { distance, stations, stops } = this.state
         return (
             <div className="adminContent" >
                 <div className="admin-header">
@@ -112,7 +161,7 @@ class AdminPage extends React.Component {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th className="time">Fjern sykkelstasjon</th>
+                                <th>Fjern sykkelstasjon</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,11 +170,37 @@ class AdminPage extends React.Component {
                                     name, id,
                                 }) => {
                                     return (
-                                        <tr style={this.getStyle(id)} key={id}>
+                                        <tr style={this.getStyle(id, 'stations')} key={id}>
                                             <td>{getIcon('bike')}</td>
                                             <td>{name}</td>
                                             <td>
                                                 <button onClick={() => this.removeStation(id)}>X</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div className="stops">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Fjern busstopp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                stops.map(({
+                                    name, id, transportMode,
+                                }) => {
+                                    return (
+                                        <tr style={this.getStyle(id, 'stops')} key={id}>
+                                            <td>{getIcon(transportMode)}</td>
+                                            <td>{name}</td>
+                                            <td>
+                                                <button onClick={() => this.removeStops(id)}>X</button>
                                             </td>
                                         </tr>
                                     )
