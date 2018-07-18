@@ -9,7 +9,9 @@ class Header extends React.Component {
 
     componentDidMount() {
         this.timerID = setInterval(
-            () => this.tick(),
+            () => this.setState({
+                time: moment().format('HH:mm'),
+            }),
             1000
         )
     }
@@ -17,13 +19,6 @@ class Header extends React.Component {
     componentWillUnmount() {
         clearInterval(this.timerID)
     }
-
-    tick() {
-        this.setState({
-            time: moment().format('HH:mm'),
-        })
-    }
-
 
     render() {
         return (

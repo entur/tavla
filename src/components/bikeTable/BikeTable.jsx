@@ -2,7 +2,10 @@ import React from 'react'
 import { getIcon } from '../../utils'
 import './bikeTable.css'
 
-const BikeTable = ({ stationData }) => {
+const BikeTable = ({ stationData, visible }) => {
+    const stations = stationData
+        .filter(({ id }) => !visible.includes(id))
+        .sort((a, b) => a.name.localeCompare(b.name))
     return (
         <div className="bike-tile-container">
             <div className="bike-header-container">
@@ -10,7 +13,7 @@ const BikeTable = ({ stationData }) => {
                 <div><h2>Bysykkel</h2></div>
             </div>
             {
-                stationData.sort((a, b) => a.name.localeCompare(b.name)).map(({
+                stations.map(({
                     name, bikesAvailable, spacesAvailable, id,
                 }) => (
                     <div key={id} className="bike-container">
