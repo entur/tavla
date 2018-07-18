@@ -3,6 +3,7 @@ import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.css'
 import { BikeTable, DepartureTable, DepartureTiles } from '../../components'
+import { getSettingsFromUrl, getPositionFromUrl } from '../../utils'
 
 const service = new EnturService()
 
@@ -10,20 +11,26 @@ class DepartureBoard extends React.Component {
     state = {
         stationData: [],
         stopsData: [],
+        distance: 500,
+        hiddenSet: [],
+        position: '',
     }
 
     updateInterval = undefined
 
     componentDidMount() {
-        const pos = this.getPositonFromUrl()
-        service.getStopPlacesByPosition(pos, 200).then(stops => {
+        const position = getPositionFromUrl()
+        const { hiddenSet, distance } = getSettingsFromUrl()
+        service.getStopPlacesByPosition(position, distance).then(stops => {
             const stopsData = stops.map(stop => {
                 return {
                     ...stop,
                     departures: [],
                 }
             })
-            this.setState({ stopsData })
+            this.setState({
+                stopsData, distance, hiddenSet, position,
+            })
             this.stopPlaceDepartures()
             this.updateTime()
         })
@@ -58,17 +65,12 @@ class DepartureBoard extends React.Component {
 
     formatDeparture(minDiff, departureTime) {
         if (minDiff > 15) return departureTime.format('HH:mm')
-        return minDiff < 1 ? 'nå' : minDiff.toString() + 'min'
-    }
-
-    getPositonFromUrl() {
-        const positionArray = window.location.pathname.split(/@/)[1].split('-').join('.').split(/,/)
-        return { latitude: positionArray[0], longitude: positionArray[1] }
+        return minDiff < 1 ? 'nå' : minDiff.toString() + ' min'
     }
 
     updateTime = () => {
-        const pos = this.getPositonFromUrl()
-        service.getBikeRentalStations(pos, 200).then(stations => {
+        const { position, distance } = this.state
+        service.getBikeRentalStations(position, distance).then(stations => {
             this.setState({
                 stationData: stations,
             })
@@ -81,20 +83,38 @@ class DepartureBoard extends React.Component {
         clearInterval(this.updateInterval)
     }
 
+    onSettingsButton = (event) => {
+        const path = window.location.pathname.split('@')[1]
+        this.props.history.push(`/admin/@${path}`)
+        event.preventDefault()
+    }
+
+
     render() {
-        const tileView = (this.state.stopsData.length + this.state.stationData.length) < 5
+        const { hiddenSet, stationData, stopsData } = this.state
+        const tileView = (stopsData.length + stationData.length) < 5
         if (tileView) {
             return (
-                <div className="departure-tiles">
-                    {this.state.stopsData.length > 0 ? <DepartureTiles lineData={this.state.stopsData}/> : null}
-                    {this.state.stationData.length > 0 ? <BikeTable stationData={this.state.stationData} /> : null}
+                <div className="departure-board">
+                    <div className="button-wrap">
+                        <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >admin</button>
+                    </div>
+                    <div className="departure-tiles">
+                        {stopsData.length > 0 > 0 ? <DepartureTiles lineData={stopsData}/> : null}
+                        {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenSet} /> : null}
+                    </div>
                 </div>
             )
         }
         return (
-            <div className="departure-table">
-                {this.state.stopsData.length > 0 ? <DepartureTable lineData={this.state.stopsData}/> : null}
-                {this.state.stationData.length > 0 ? <BikeTable stationData={this.state.stationData} /> : null}
+            <div className="departure-board">
+                <div className="button-wrap">
+                    <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >admin</button>
+                </div>
+                <div className="departure-table">
+                    {stopsData.length > 0 > 0 ? <DepartureTable lineData={stopsData}/> : null}
+                    {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenSet} /> : null}
+                </div>
             </div>
         )
     }

@@ -5,10 +5,16 @@ import {
     BrowserRouter,
 } from 'react-router-dom'
 import { routes } from './routes'
+import Footer from './components/Footer'
+import Header from './components/header/Header'
 
 ReactDOM.render(
-    <BrowserRouter>
-        { routes }
-    </BrowserRouter>,
+    <div className="app">
+        <Header />
+        <BrowserRouter>
+            { routes }
+        </BrowserRouter>
+        <Footer />
+    </div>,
     document.getElementById('app')
 )

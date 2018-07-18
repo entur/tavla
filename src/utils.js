@@ -24,6 +24,17 @@ export function getIcon(type, props) {
     }
 }
 
+export function getPositionFromUrl() {
+    const positionArray = window.location.pathname.split('/')[2].split('@')[1].split('-').join('.').split(/,/)
+    return { latitude: positionArray[0], longitude: positionArray[1] }
+}
+
+export function getSettingsFromUrl() {
+    const settings = window.location.pathname.split('/')[3]
+    console.log(settings)
+    return (settings !== '') ? JSON.parse(atob(settings)) : { hiddenSet: [], distance: 500 }
+}
+
 export function groupBy(objectArray, property) {
     return objectArray.reduce((acc, obj) => {
         const key = obj[property]

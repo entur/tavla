@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import './styles.css'
 
 class Header extends React.Component {
     state = {

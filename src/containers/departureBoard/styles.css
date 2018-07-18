@@ -8,3 +8,23 @@
     background-color: #F3F3F3;
     padding: 0.5rem 1rem;
 }
+
+.settings-button {
+    border: 0;
+    padding: 0;
+    display: none;
+    color: white;
+    background-color: inherit;
+}
+
+.app:hover .settings-button, .settings-button:hover {
+    display: block;
+}
+
+.button-wrap {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    align-content: flex-end;
+    height: 5%;
+}
