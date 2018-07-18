@@ -12,7 +12,8 @@ class DepartureBoard extends React.Component {
         stationData: [],
         stopsData: [],
         distance: 500,
-        hiddenSet: [],
+        hiddenStations: [],
+        hiddenStops: [],
         position: '',
     }
 
@@ -20,7 +21,7 @@ class DepartureBoard extends React.Component {
 
     componentDidMount() {
         const position = getPositionFromUrl()
-        const { hiddenSet, distance } = getSettingsFromUrl()
+        const { hiddenStations, hiddenStops, distance } = getSettingsFromUrl()
         service.getStopPlacesByPosition(position, distance).then(stops => {
             const stopsData = stops.map(stop => {
                 return {
@@ -29,7 +30,7 @@ class DepartureBoard extends React.Component {
                 }
             })
             this.setState({
-                stopsData, distance, hiddenSet, position,
+                stopsData, distance, hiddenStations, hiddenStops, position,
             })
             this.stopPlaceDepartures()
             this.updateTime()
@@ -91,15 +92,17 @@ class DepartureBoard extends React.Component {
 
 
     render() {
-        const { hiddenSet, stationData, stopsData } = this.state
+        const {
+            hiddenStations, hiddenStops, stationData, stopsData,
+        } = this.state
         return (
             <div className="departure-board">
                 <div className="button-wrap">
                     <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >admin</button>
                 </div>
                 <div className="departure">
-                    {stopsData.length > 0 ? <DepartureTable lineData={stopsData} /> : null}
-                    {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenSet} /> : null}
+                    {stopsData.length > 0 ? <DepartureTable lineData={stopsData} visible={hiddenStops}/> : null}
+                    {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
                 </div>
             </div>
         )
