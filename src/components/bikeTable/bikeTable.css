@@ -1,0 +1,71 @@
+.header{
+    text-align: right;
+    height: 5%;
+}
+
+.type {
+    width: 5%;
+}
+
+.time {
+    width: 15%;
+    text-align: center
+}
+
+.bike-tile-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #272727;
+    color: white;
+    width: 17%;
+    padding: 2.5% 1.6% 2.5% 1.6%;
+    margin: 2%;
+    height: fit-content;
+    align-self: center;
+}
+
+@media only screen
+  and (min-device-width: 768px)
+  and (max-device-width: 1024px)
+  and (orientation: landscape)
+  and (-webkit-min-device-pixel-ratio: 1) {
+      .tile-container{
+          width: 23%;
+      }
+
+}
+
+.bike-tile-container h2{
+    font-size: 1.5rem;
+}
+
+.bike-header-container{
+    flex-direction:column;
+    align-self:center;
+    text-align: center;
+}
+
+.bike-container{
+    display: flex;
+    flex-direction:column;
+}
+
+
+.bike-station-container{
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    font-weight: 500;
+}
+
+.available{
+    flex-basis:50%;
+    display:flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.bike-station-icon{
+    margin-right: 15%;
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { getIcon, groupBy } from '../../utils'
-
+import './departureTiles.css'
 
 const DepartureTiles = ({ lineData }) => {
     return (

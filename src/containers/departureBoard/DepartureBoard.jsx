@@ -2,7 +2,7 @@ import React from 'react'
 import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.css'
-import { BikeTable, DepartureTable, DepartureTiles } from '../../components/tables'
+import { BikeTable, DepartureTable, DepartureTiles } from '../../components'
 
 const service = new EnturService()
 
@@ -33,7 +33,7 @@ class DepartureBoard extends React.Component {
     stopPlaceDepartures = () => {
         const stops = this.state.stopsData
         stops.forEach((stop, index) => {
-            service.getStopPlaceDepartures(stop.id, { onForBoarding: true, departures: 10 }).then(departures => {
+            service.getStopPlaceDepartures(stop.id, { onForBoarding: true, departures: 50 }).then(departures => {
                 const lineData = departures.map(departure => {
                     const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
                     const { line } = serviceJourney.journeyPattern
@@ -83,10 +83,17 @@ class DepartureBoard extends React.Component {
 
     render() {
         const tileView = (this.state.stopsData.length + this.state.stationData.length) < 5
+        if (tileView) {
+            return (
+                <div className="departure-tiles">
+                    {this.state.stopsData.length > 0 ? <DepartureTiles lineData={this.state.stopsData}/> : null}
+                    {this.state.stationData.length > 0 ? <BikeTable stationData={this.state.stationData} /> : null}
+                </div>
+            )
+        }
         return (
-            <div className="departure">
-                {this.state.stopsData.length > 0 && tileView ? <DepartureTiles lineData={this.state.stopsData}/> : null}
-                {this.state.stopsData.length > 0 && !tileView ? <DepartureTable lineData={this.state.stopsData}/> : null}
+            <div className="departure-table">
+                {this.state.stopsData.length > 0 ? <DepartureTable lineData={this.state.stopsData}/> : null}
                 {this.state.stationData.length > 0 ? <BikeTable stationData={this.state.stationData} /> : null}
             </div>
         )

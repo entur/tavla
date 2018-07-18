@@ -3,11 +3,12 @@
     height: 5%
 }
 
-.departure {
+.departure-table {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     flex-direction: column;
+    height: 80%
 }
 
 .type {
@@ -45,66 +46,6 @@
 
 .tile-container h2{
     font-size: 1.5rem;
-}
-
-.citybike-header-container{
-    flex-direction:column;
-    align-self:center;
-    text-align: center;
-}
-
-.bike-container{
-    display: flex;
-    flex-direction:column;
-}
-
-
-.bike-station-container{
-    display: flex;
-    flex-direction:row;
-    justify-content: center;
-    font-weight: 500;
-}
-
-.available{
-    flex-basis:50%;
-    display:flex;
-    align-items: center;
-    flex-direction: row;
-}
-
-.bike-station-icon{
-    margin-right: 15%;
-}
-
-.stop-header{
-    flex-direction: column;
-    align-self: center;
-    text-align: center;
-}
-
-.route-name{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: -4% 0 -6% 0;
-}
-
-.route-icon{
-    margin-right: 5%;
-    width: 10%;
-}
-
-.route-departures{
-    display: flex;
-    flex-direction:row;
-    overflow: hidden;
-}
-
-.route-departure-time{
-    margin-right: 4%;
-    color: #9e9e9e;
-    font-weight: 400;
 }
 
 .table-container{
