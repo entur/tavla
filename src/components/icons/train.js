@@ -6,8 +6,8 @@ function Train({ height, color }) {
         <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
-            width={height*1.23}
-            height={height}
+            width={height*1.23 + 'rem'}
+            height={height + 'rem'}
             viewBox="0 0 16 13"
         >
             <defs>
@@ -35,8 +35,7 @@ Train.propTypes = {
 }
 
 Train.defaultProps = {
-    height: 12,
-    width: 12*1.23,
+    height: 1,
     color: '#E5905A',
 }
 

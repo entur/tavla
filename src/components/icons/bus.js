@@ -5,8 +5,8 @@ function Bus({ height, color }) {
     return (
         <svg
             viewBox="0 0 16 8"
-            height={height}
-            width={height*2}
+            height={height + 'rem'}
+            width={height*2 + 'rem'}
             xmlns="http://www.w3.org/2000/svg"
             xmlns="http://www.w3.org/1999/xlink"
         >
@@ -24,8 +24,7 @@ Bus.propTypes = {
 }
 
 Bus.defaultProps = {
-    height: 10,
-    width: 20,
+    height: 0.7,
     color: '#5AC39A',
 }
 

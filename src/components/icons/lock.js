@@ -7,8 +7,8 @@ function Lock({ height, color }) {
             viewBox="0 0 21 28"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
-            width={height*0.75}
-            height={height}
+            width={height*0.75 + 'rem'}
+            height={height + 'rem'}
         >
             <defs>
                 <path id="lock" d="M1 0h19v13H1z"/>
@@ -33,8 +33,7 @@ Lock.propTypes = {
 }
 
 Lock.defaultProps = {
-    height: 28,
-    width: 28*0.75,
+    height: 1,
     color: '#FF5959',
 }
 

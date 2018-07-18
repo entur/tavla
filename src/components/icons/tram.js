@@ -5,8 +5,8 @@ function Tram({ height, color }) {
     return (
         <svg
             viewBox="0 0 14 11"
-            width={height*1.27}
-            height={height}
+            width={height*1.27 + 'rem'}
+            height={height + 'rem'}
             xmlns="http://www.w3.org/2000/svg"
         >
             <path
@@ -24,8 +24,7 @@ Tram.propTypes = {
 }
 
 Tram.defaultProps = {
-    height: 12,
-    width: 12*1.27,
+    height: 1,
     color: '#0F7CDB',
 }
 

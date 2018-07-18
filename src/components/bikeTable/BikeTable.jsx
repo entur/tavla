@@ -9,7 +9,7 @@ const BikeTable = ({ stationData, visible }) => {
     return (
         <div className="bike-tile-container">
             <div className="bike-header-container">
-                <div>{getIcon('bike', { height: 60, color: '#ff5956' })}</div>
+                <div>{getIcon('bike', { height: 2.5, color: '#ff5956' })}</div>
                 <div><h2>Bysykkel</h2></div>
             </div>
             {
@@ -23,13 +23,13 @@ const BikeTable = ({ stationData, visible }) => {
                         <div className="bike-station-container">
                             <div className="available">
                                 <div className="bike-station-icon">
-                                    {getIcon('bike', { color: '#ff5956', height: '30' })}
+                                    {getIcon('bike', { color: '#ff5956', height: 1.3 })}
                                 </div>
                                 {bikesAvailable}
                             </div>
                             <div className="available">
                                 <div className="bike-station-icon">
-                                    {getIcon('lock', { color: '#ff5956', height: '30' })}
+                                    {getIcon('lock', { color: '#ff5956', height: 1.3 })}
                                 </div>  {spacesAvailable}
                             </div>
                         </div>

@@ -1,6 +1,9 @@
 @import '~@entur/component-library/lib/index.css';
 @import '~@entur/fonts/index.css';
 @import '~@entur/component-library/src/styles/_colors.scss';
+html{
+    font-size: calc(14px + (26 - 14) * ((100vw - 800px) / (2600 - 800)));
+}
 
 body {
     margin: 5%;
