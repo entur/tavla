@@ -100,7 +100,7 @@ class DepartureBoard extends React.Component {
                         <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >admin</button>
                     </div>
                     <div className="departure-tiles">
-                        {stopsData.length > 0 > 0 ? <DepartureTiles lineData={stopsData}/> : null}
+                        {stopsData.length > 0 ? <DepartureTiles lineData={stopsData}/> : null}
                         {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenSet} /> : null}
                     </div>
                 </div>
@@ -112,7 +112,7 @@ class DepartureBoard extends React.Component {
                     <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >admin</button>
                 </div>
                 <div className="departure-table">
-                    {stopsData.length > 0 > 0 ? <DepartureTable lineData={stopsData}/> : null}
+                    {stopsData.length > 0 ? <DepartureTable lineData={stopsData}/> : null}
                     {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenSet} /> : null}
                 </div>
             </div>
