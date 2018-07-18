@@ -101,7 +101,7 @@ class DepartureBoard extends React.Component {
             return (
                 <div className="departure-board">
                     <div className="button-wrap">
-                        <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >admin</button>
+                        <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} ><Settings /></button>
                     </div>
                     <div className="departure-tiles">
                         {stopsData.length > 0 ? <DepartureTiles lineData={stopsData} visible={hiddenStops}/> : null}
