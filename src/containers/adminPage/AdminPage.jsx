@@ -1,5 +1,6 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
+import moment from 'moment'
 import { getIcon, getPositionFromUrl, getSettingsFromUrl } from '../../utils'
 import './styles.css'
 
@@ -27,20 +28,56 @@ class AdminPage extends React.Component {
                 stations,
             })
         })
-        service.getStopPlacesByPosition(position, distance).then(stops => {
+        service.getStopPlacesByPosition(position, distance).then(stopPlaces => {
+            const stops = stopPlaces.map(stop => {
+                return {
+                    ...stop,
+                    departures: [],
+                }
+            })
             this.setState({
                 stops,
+                distance,
+                hashedState,
+                hiddenStops,
+                hiddenStations,
+                position,
+                positionString,
             })
+            this.stopPlaceDepartures()
         })
         const hashedState = window.location.pathname.split('/')[3]
-        this.setState({
-            distance,
-            hashedState,
-            hiddenStops,
-            hiddenStations,
-            position,
-            positionString,
+    }
+
+    stopPlaceDepartures = () => {
+        const { stops } = this.state
+        stops.forEach((stop, index) => {
+            service.getStopPlaceDepartures(stop.id, { onForBoarding: true, departures: 50 }).then(departures => {
+                const lineData = departures.map(departure => {
+                    const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
+                    const { line } = serviceJourney.journeyPattern
+                    const departureTime = moment(expectedDepartureTime)
+                    const minDiff = departureTime.diff(moment(), 'minutes')
+
+                    return {
+                        type: line.transportMode,
+                        time: this.formatDeparture(minDiff, departureTime),
+                        route: line.publicCode + ' '+ destinationDisplay.frontText,
+                    }
+                })
+                const newList = [...stops ]
+                newList[index].departures = lineData
+
+                this.setState({
+                    stops: newList,
+                })
+            })
         })
+    }
+
+    formatDeparture(minDiff, departureTime) {
+        if (minDiff > 15) return departureTime.format('HH:mm')
+        return minDiff < 1 ? 'nå' : minDiff.toString() + ' min'
     }
 
     handleChange = (event) => {
