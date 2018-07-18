@@ -4,6 +4,7 @@ import moment from 'moment'
 import './styles.css'
 import { BikeTable, DepartureTable, DepartureTiles } from '../../components'
 import { getSettingsFromUrl, getPositionFromUrl } from '../../utils'
+import { Settings } from '../../components/icons'
 
 const service = new EnturService()
 
@@ -12,7 +13,8 @@ class DepartureBoard extends React.Component {
         stationData: [],
         stopsData: [],
         distance: 500,
-        hiddenSet: [],
+        hiddenStations: [],
+        hiddenStops: [],
         position: '',
     }
 
@@ -20,7 +22,7 @@ class DepartureBoard extends React.Component {
 
     componentDidMount() {
         const position = getPositionFromUrl()
-        const { hiddenSet, distance } = getSettingsFromUrl()
+        const { hiddenStations, hiddenStops, distance } = getSettingsFromUrl()
         service.getStopPlacesByPosition(position, distance).then(stops => {
             const stopsData = stops.map(stop => {
                 return {
@@ -29,7 +31,7 @@ class DepartureBoard extends React.Component {
                 }
             })
             this.setState({
-                stopsData, distance, hiddenSet, position,
+                stopsData, distance, hiddenStations, hiddenStops, position,
             })
             this.stopPlaceDepartures()
             this.updateTime()
@@ -91,7 +93,9 @@ class DepartureBoard extends React.Component {
 
 
     render() {
-        const { hiddenSet, stationData, stopsData } = this.state
+        const {
+            hiddenStations, hiddenStops, stationData, stopsData,
+        } = this.state
         const tileView = (stopsData.length + stationData.length) < 5
         if (tileView) {
             return (
@@ -100,8 +104,8 @@ class DepartureBoard extends React.Component {
                         <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >admin</button>
                     </div>
                     <div className="departure-tiles">
-                        {stopsData.length > 0 ? <DepartureTiles lineData={stopsData}/> : null}
-                        {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenSet} /> : null}
+                        {stopsData.length > 0 ? <DepartureTiles lineData={stopsData} visible={hiddenStops}/> : null}
+                        {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
                     </div>
                 </div>
             )
@@ -109,11 +113,13 @@ class DepartureBoard extends React.Component {
         return (
             <div className="departure-board">
                 <div className="button-wrap">
-                    <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >admin</button>
+                    <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
+                        <Settings />
+                    </button>
                 </div>
                 <div className="departure-table">
-                    {stopsData.length > 0 ? <DepartureTable lineData={stopsData}/> : null}
-                    {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenSet} /> : null}
+                    {stopsData.length > 0 ? <DepartureTable lineData={stopsData} visible={hiddenStops}/> : null}
+                    {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
                 </div>
             </div>
         )

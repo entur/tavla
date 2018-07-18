@@ -31,7 +31,7 @@ export function getPositionFromUrl() {
 
 export function getSettingsFromUrl() {
     const settings = window.location.pathname.split('/')[3]
-    return (settings !== '') ? JSON.parse(atob(settings)) : { hiddenSet: [], distance: 500 }
+    return (settings !== '') ? JSON.parse(atob(settings)) : { hiddenStations: [], hiddenStops: [], distance: 500 }
 }
 
 export function groupBy(objectArray, property) {
