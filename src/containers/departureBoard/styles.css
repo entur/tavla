@@ -1,18 +1,3 @@
-.departure {
-    display: flex;
-    justify-content: space-between;
-    height: 80%;
-}
-
-.type {
-    width: 5%;
-}
-
-.time {
-    width: 15%;
-    text-align: center
-}
-
 .table {
     width: 100%;
     table-layout: fixed;

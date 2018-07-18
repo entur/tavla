@@ -13,7 +13,7 @@ export function getIcon(type, props) {
             return <Ferry {...props} />
         case 'metro':
             return <Metro {...props} />
-        case 'train':
+        case 'rail':
             return <Train {...props} />
         case 'tram':
             return <Tram {...props} />

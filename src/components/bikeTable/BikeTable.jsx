@@ -1,16 +1,16 @@
 import React from 'react'
 import { getIcon } from '../../utils'
-import './styles.css'
+import './bikeTable.css'
 
 const BikeTable = ({ stationData, visible }) => {
     const stations = stationData
         .filter(({ id }) => !visible.includes(id))
         .sort((a, b) => a.name.localeCompare(b.name))
     return (
-        <div className="tile-container">
-            <div className="citybike-header-container">
-                <div className="citybike-header-item">{getIcon('bike', { height: 60, color: '#ff5956' })}</div>
-                <div className="citybike-header-item"><h2>Bysykkel</h2></div>
+        <div className="bike-tile-container">
+            <div className="bike-header-container">
+                <div>{getIcon('bike', { height: 60, color: '#ff5956' })}</div>
+                <div><h2>Bysykkel</h2></div>
             </div>
             {
                 stations.map(({
