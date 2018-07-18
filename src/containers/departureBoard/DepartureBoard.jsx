@@ -96,7 +96,9 @@ class DepartureBoard extends React.Component {
         const {
             hiddenStations, hiddenStops, stationData, stopsData,
         } = this.state
-        const tileView = (stopsData.length + stationData.length) < 5
+        const visibleStopCount = stopsData.length - hiddenStops.length
+        const visibleStationCount = stationData.length - hiddenStations.length
+        const tileView = (stopsData.length + (stationData.length - hiddenStations.length > 0) - hiddenStops.length) < 5
         if (tileView) {
             return (
                 <div className="departure-board">
@@ -104,8 +106,8 @@ class DepartureBoard extends React.Component {
                         <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >admin</button>
                     </div>
                     <div className="departure-tiles">
-                        {stopsData.length > 0 ? <DepartureTiles lineData={stopsData} visible={hiddenStops}/> : null}
-                        {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
+                        {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={hiddenStops}/> : null}
+                        {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
                     </div>
                 </div>
             )
@@ -118,8 +120,8 @@ class DepartureBoard extends React.Component {
                     </button>
                 </div>
                 <div className="departure-table">
-                    {stopsData.length > 0 ? <DepartureTable lineData={stopsData} visible={hiddenStops}/> : null}
-                    {stationData.length > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
+                    {visibleStopCount > 0 ? <DepartureTable lineData={stopsData} visible={hiddenStops}/> : null}
+                    {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
                 </div>
             </div>
         )
