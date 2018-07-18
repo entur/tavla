@@ -7,8 +7,8 @@ function Metro({ height, color }) {
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             viewBox="0 0 38 38"
-            width={height}
-            height={height}
+            width={height + 'rem'}
+            height={height + 'rem'}
         >
             <defs>
                 <path
@@ -35,8 +35,7 @@ Metro.propTypes = {
 }
 
 Metro.defaultProps = {
-    height: 12,
-    width: 12,
+    height: 1,
     color: '#0F7CDB',
 }
 

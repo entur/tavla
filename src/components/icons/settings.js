@@ -4,8 +4,8 @@ import Proptypes from 'prop-types'
 function Settings({ height, width, color }) {
     return (
         <svg
-            width={width}
-            height={height}
+            width={width + 'rem'}
+            height={height + 'rem'}
             viewBox="0 0 16 16"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
@@ -44,8 +44,8 @@ Settings.propTypes = {
 }
 
 Settings.defaultProps = {
-    height: 16,
-    width: 16,
+    height: 1,
+    width: 1,
     color: '#565659',
 }
 

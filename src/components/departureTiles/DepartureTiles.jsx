@@ -15,7 +15,7 @@ const DepartureTiles = ({ lineData, visible }) => {
                 return (
                     <div className="tile-container" key={id}>
                         <div className="stop-header">
-                            { getIcon('bus', { height: 50 }) }
+                            { getIcon('bus', { height: 1.5 }) }
                             <h2>{name}</h2>
                         </div>
                         <div>
@@ -26,7 +26,7 @@ const DepartureTiles = ({ lineData, visible }) => {
                                     return (
                                         <div key={route}>
                                             <div className="route-name">
-                                                <div className="route-icon">{ getIcon(routeType, { height: '11' })}</div>
+                                                <div className="route-icon">{ getIcon(routeType, { height: '0.8' })}</div>
                                                 <p className="route-name-text">{route}</p>
                                             </div>
                                             <div className="route-departures">
