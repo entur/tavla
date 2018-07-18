@@ -31,7 +31,6 @@ export function getPositionFromUrl() {
 
 export function getSettingsFromUrl() {
     const settings = window.location.pathname.split('/')[3]
-    console.log(settings)
     return (settings !== '') ? JSON.parse(atob(settings)) : { hiddenSet: [], distance: 500 }
 }
 
