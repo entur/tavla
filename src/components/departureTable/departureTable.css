@@ -90,6 +90,7 @@
     margin-right: 11%;
     color: white;
     font-weight: 300;
+    white-space: nowrap;
 }
 
 .route-name-text{
