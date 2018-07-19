@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+}
+
+.laning-page-wrapper {
+    height: 500px;
+}
+
+.title-container {
+    background-color: white;
+    height: 40%;
+}

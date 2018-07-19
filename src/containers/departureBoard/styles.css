@@ -1,3 +1,8 @@
+.departure-board {
+    color: $white;
+    background-color: $black;
+}
+
 .table {
     width: 100%;
     table-layout: fixed;
