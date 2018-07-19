@@ -1,9 +1,11 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
-import { getIcon, getPositionFromUrl, getSettingsFromUrl } from '../../utils'
+import {
+    getIcon, getPositionFromUrl, getSettingsFromUrl, getStopsWithUniqueStopPlaceDepartures,
+} from '../../utils'
 import './styles.css'
 
-const service = new EnturService()
+const service = new EnturService({ clientName: 'entur-tavla' })
 
 
 class AdminPage extends React.Component {
@@ -13,6 +15,7 @@ class AdminPage extends React.Component {
         stops: [],
         hiddenStations: [],
         hiddenStops: [],
+        hiddenRoutes: [],
         position: {},
         positionString: '',
         hashedState: '',
@@ -21,27 +24,47 @@ class AdminPage extends React.Component {
     componentDidMount() {
         const position = getPositionFromUrl()
         const positionString = window.location.pathname.split('/')[2]
-        const { hiddenStations, hiddenStops, distance } = getSettingsFromUrl()
+        const {
+            hiddenStations, hiddenStops, distance, hiddenRoutes,
+        } = getSettingsFromUrl()
         service.getBikeRentalStations(position, distance).then(stations => {
             this.setState({
                 stations,
             })
         })
-        service.getStopPlacesByPosition(position, distance).then(stops => {
+        service.getStopPlacesByPosition(position, distance).then(stopPlaces => {
+            const stops = stopPlaces.map(stop => {
+                return {
+                    ...stop,
+                    departures: [],
+                }
+            })
             this.setState({
                 stops,
+                distance,
+                hashedState,
+                hiddenStops,
+                hiddenStations,
+                hiddenRoutes,
+                position,
+                positionString,
             })
+            this.stopPlaceDepartures()
         })
         const hashedState = window.location.pathname.split('/')[3]
-        this.setState({
-            distance,
-            hashedState,
-            hiddenStops,
-            hiddenStations,
-            position,
-            positionString,
+    }
+
+
+    stopPlaceDepartures = () => {
+        const { stops } = this.state
+
+        getStopsWithUniqueStopPlaceDepartures(stops).then((uniqueRoutes) => {
+            this.setState({
+                stops: uniqueRoutes,
+            })
         })
     }
+
 
     handleChange = (event) => {
         const distance = event.target.value
@@ -52,22 +75,30 @@ class AdminPage extends React.Component {
                 distance,
             })
         })
-        service.getStopPlacesByPosition(position, distance).then(stops => {
+        service.getStopPlacesByPosition(position, distance).then(stopPlaces => {
+            const stops = stopPlaces.map(stop => {
+                return {
+                    ...stop,
+                    departures: [],
+                }
+            })
             this.setState({
                 stops,
             })
+            this.stopPlaceDepartures()
         })
         event.preventDefault()
     }
 
     handleSubmit = (event) => {
         const {
-            distance, hiddenStations, hiddenStops, positionString,
+            distance, hiddenStations, hiddenStops, positionString, hiddenRoutes,
         } = this.state
         const savedSettings = {
             distance,
             hiddenStations,
             hiddenStops,
+            hiddenRoutes,
         }
         const hashedState = btoa(JSON.stringify(savedSettings))
         this.setState({ hashedState })
@@ -77,7 +108,7 @@ class AdminPage extends React.Component {
 
     removeStation = (clickedId) => {
         const {
-            hiddenStations, hiddenStops, positionString, distance,
+            hiddenStations, hiddenStops, positionString, distance, hiddenRoutes,
         } = this.state
         let newSet = hiddenStations
         if (hiddenStations.includes(clickedId)) {
@@ -90,6 +121,7 @@ class AdminPage extends React.Component {
             distance,
             hiddenStations: newSet,
             hiddenStops,
+            hiddenRoutes,
         }
         const hashedState = btoa(JSON.stringify(savedSettings))
         this.setState({
@@ -101,7 +133,7 @@ class AdminPage extends React.Component {
 
     removeStops = (clickedId) => {
         const {
-            hiddenStops, hiddenStations, positionString, distance,
+            hiddenStops, hiddenStations, positionString, distance, hiddenRoutes,
         } = this.state
         let newSet = hiddenStops
         if (hiddenStops.includes(clickedId)) {
@@ -114,6 +146,7 @@ class AdminPage extends React.Component {
             distance,
             hiddenStops: newSet,
             hiddenStations,
+            hiddenRoutes,
         }
         const hashedState = btoa(JSON.stringify(savedSettings))
         this.setState({
@@ -123,13 +156,43 @@ class AdminPage extends React.Component {
         this.props.history.push(`/admin/${positionString}/${hashedState}`)
     }
 
+    removeRoutes = (route) => {
+        const {
+            hiddenRoutes, hiddenStops, hiddenStations, positionString, distance,
+        } = this.state
+
+        let newSet = hiddenRoutes
+        if (hiddenRoutes.includes(route)) {
+            newSet = newSet.filter((id) => id !== route)
+        }
+        else {
+            newSet.push(route)
+        }
+        const savedSettings = {
+            distance,
+            hiddenRoutes: newSet,
+            hiddenStations,
+            hiddenStops,
+        }
+        const hashedState = btoa(JSON.stringify(savedSettings))
+        this.setState({
+            hiddenRoutes: newSet,
+            hashedState,
+        })
+        this.props.history.push(`/admin/${positionString}/${hashedState}`)
+    }
+
     getStyle = (id, type) => {
-        const { hiddenStops, hiddenStations } = this.state
+        const { hiddenStops, hiddenStations, hiddenRoutes } = this.state
         if (type === 'stations') {
             const onStyle = !hiddenStations.includes(id)
             return onStyle ? null : { opacity: 0.3 }
         }
-        const onStyle = !hiddenStops.includes(id)
+        if (type === 'stops') {
+            const onStyle = !hiddenStops.includes(id)
+            return onStyle ? null : { opacity: 0.3 }
+        }
+        const onStyle = !hiddenRoutes.includes(id)
         return onStyle ? null : { opacity: 0.3 }
     }
 
@@ -168,17 +231,15 @@ class AdminPage extends React.Component {
                             {
                                 stations.map(({
                                     name, id,
-                                }) => {
-                                    return (
-                                        <tr style={this.getStyle(id, 'stations')} key={id}>
-                                            <td>{getIcon('bike')}</td>
-                                            <td>{name}</td>
-                                            <td>
-                                                <button onClick={() => this.removeStation(id)}>X</button>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
+                                }) => (
+                                    <tr style={this.getStyle(id, 'stations')} key={id}>
+                                        <td>{getIcon('bike')}</td>
+                                        <td>{name}</td>
+                                        <td>
+                                            <button onClick={() => this.removeStation(id)}>X</button>
+                                        </td>
+                                    </tr>
+                                ))
                             }
                         </tbody>
                     </table>
@@ -190,23 +251,29 @@ class AdminPage extends React.Component {
                                 <th>Fjern busstopp</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {
-                                stops.map(({
-                                    name, id, transportMode,
-                                }) => {
-                                    return (
-                                        <tr style={this.getStyle(id, 'stops')} key={id}>
-                                            <td>{getIcon(transportMode)}</td>
-                                            <td>{name}</td>
+                        {
+                            stops.map(({
+                                name, id, transportMode, departures,
+                            }) => (
+                                <tbody key={id}>
+                                    <tr style={this.getStyle(id, 'stops')} >
+                                        <td>{getIcon(transportMode)}</td>
+                                        <td>{name}</td>
+                                        <td>
+                                            <button onClick={() => this.removeStops(id)}>X</button>
+                                        </td>
+                                    </tr>
+                                    { departures.map(({ route, type }, index) => (
+                                        <tr style={this.getStyle(route, 'routes')} key={index}>
+                                            <td>{getIcon(type)}</td>
+                                            <td>{route}</td>
                                             <td>
-                                                <button onClick={() => this.removeStops(id)}>X</button>
+                                                <button onClick={() => this.removeRoutes(route)}>X</button>
                                             </td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
+                                        </tr>))}
+                                </tbody>
+                            ))
+                        }
                     </table>
                 </div>
             </div>

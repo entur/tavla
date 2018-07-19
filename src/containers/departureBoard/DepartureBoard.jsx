@@ -2,11 +2,11 @@ import React from 'react'
 import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.css'
-import { BikeTable, DepartureTable, DepartureTiles } from '../../components'
+import { BikeTable, DepartureTables, DepartureTiles } from '../../components'
 import { getSettingsFromUrl, getPositionFromUrl } from '../../utils'
 import { Settings } from '../../components/icons'
 
-const service = new EnturService()
+const service = new EnturService({ clientName: 'entur-tavla' })
 
 class DepartureBoard extends React.Component {
     state = {
@@ -22,7 +22,9 @@ class DepartureBoard extends React.Component {
 
     componentDidMount() {
         const position = getPositionFromUrl()
-        const { hiddenStations, hiddenStops, distance } = getSettingsFromUrl()
+        const {
+            hiddenStations, hiddenStops, hiddenRoutes, distance,
+        } = getSettingsFromUrl()
         service.getStopPlacesByPosition(position, distance).then(stops => {
             const stopsData = stops.map(stop => {
                 return {
@@ -31,7 +33,7 @@ class DepartureBoard extends React.Component {
                 }
             })
             this.setState({
-                stopsData, distance, hiddenStations, hiddenStops, position,
+                stopsData, distance, hiddenStations, hiddenStops, hiddenRoutes, position,
             })
             this.stopPlaceDepartures()
             this.updateTime()
@@ -94,7 +96,7 @@ class DepartureBoard extends React.Component {
 
     render() {
         const {
-            hiddenStations, hiddenStops, stationData, stopsData,
+            hiddenStations, hiddenStops, hiddenRoutes, stationData, stopsData,
         } = this.state
         const visibleStopCount = stopsData.length - hiddenStops.length
         const visibleStationCount = stationData.length - hiddenStations.length
@@ -106,7 +108,7 @@ class DepartureBoard extends React.Component {
                         <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} ><Settings /></button>
                     </div>
                     <div className="departure-tiles">
-                        {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={hiddenStops}/> : null}
+                        {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes }}/> : null}
                         {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
                     </div>
                 </div>
@@ -120,7 +122,7 @@ class DepartureBoard extends React.Component {
                     </button>
                 </div>
                 <div className="departure-table">
-                    {visibleStopCount > 0 ? <DepartureTable lineData={stopsData} visible={hiddenStops}/> : null}
+                    {visibleStopCount > 0 ? <DepartureTables lineData={stopsData} visible={{ hiddenStops, hiddenRoutes }}/> : null}
                     {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
                 </div>
             </div>
