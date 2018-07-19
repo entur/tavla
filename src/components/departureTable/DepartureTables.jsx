@@ -35,7 +35,7 @@ const DepartureTables = ({ lineData, visible }) => {
                                                     <div className="table-route-departures">
                                                         { routeData.map((data, index) => {
                                                             return (
-                                                                <div className="table-route-departure-time"key={index}>
+                                                                <div className="table-route-departure-time" key={index}>
                                                                     {data.time}
                                                                 </div>)
                                                         })}
