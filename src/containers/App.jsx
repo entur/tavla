@@ -16,7 +16,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <LandingPage props={this.addLocation} />
+            <LandingPage addLocation={this.addLocation} />
         )
     }
 }

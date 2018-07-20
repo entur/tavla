@@ -1,10 +1,10 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
 import moment from 'moment'
-import './styles.css'
+import './styles.scss'
 import { BikeTable, DepartureTables, DepartureTiles } from '../../components'
 import { getSettingsFromUrl, getPositionFromUrl } from '../../utils'
-import { Settings } from '../../components/icons'
+import { Settings } from '../../assets/icons'
 
 const service = new EnturService({ clientName: 'entur-tavla' })
 

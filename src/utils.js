@@ -3,7 +3,7 @@ import EnturService from '@entur/sdk'
 import moment from 'moment'
 import {
     Bus, CityBike, Ferry, Lock, Metro, Train, Tram,
-} from './components/icons'
+} from './assets/icons'
 
 const service = new EnturService({ clientName: 'entur-tavla' })
 
