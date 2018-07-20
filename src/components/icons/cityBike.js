@@ -1,14 +1,14 @@
 import React from 'react'
 import Proptypes from 'prop-types'
 
-function CityBike({ height, color }) {
+function CityBike({ height, width, color }) {
     return (
         <svg
-            viewBox="0 0 14 15"
-            width={height*1.07}
+            viewBox="0 0 16 16"
+            width={width}
             height={height}
             xmlns="http://www.w3.org/2000/svg"
-            xmlns="http://www.w3.org/1999/xlink"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
         >
             <path
                 // eslint-disable-next-line max-len
@@ -21,11 +21,12 @@ function CityBike({ height, color }) {
 CityBike.propTypes = {
     color: Proptypes.string,
     height: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
+    width: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
 }
 
 CityBike.defaultProps = {
-    height: 15,
-    width: 14,
+    height: 30,
+    width: 30,
     color: '#565659',
 }
 
