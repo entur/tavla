@@ -3,7 +3,7 @@ import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.css'
 import { BikeTable, DepartureTables, DepartureTiles } from '../../components'
-import { getSettingsFromUrl, getPositionFromUrl } from '../../utils'
+import { getSettingsFromUrl, getPositionFromUrl, getStopPlacesByPositionAndDistance } from '../../utils'
 import { Settings } from '../../components/icons'
 
 const service = new EnturService({ clientName: 'entur-tavla' })
@@ -25,13 +25,7 @@ class DepartureBoard extends React.Component {
         const {
             hiddenStations, hiddenStops, hiddenRoutes, distance,
         } = getSettingsFromUrl()
-        service.getStopPlacesByPosition(position, distance).then(stops => {
-            const stopsData = stops.map(stop => {
-                return {
-                    ...stop,
-                    departures: [],
-                }
-            })
+        getStopPlacesByPositionAndDistance(position, distance).then(stopsData => {
             this.setState({
                 stopsData, distance, hiddenStations, hiddenStops, hiddenRoutes, position,
             })
