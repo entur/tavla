@@ -12,7 +12,7 @@ class DepartureBoard extends React.Component {
     state = {
         stationData: [],
         stopsData: [],
-        distance: 200,
+        distance: 300,
         hiddenStations: [],
         hiddenStops: [],
         hiddenRoutes: [],

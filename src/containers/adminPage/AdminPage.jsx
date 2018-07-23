@@ -17,7 +17,7 @@ const service = new EnturService({ clientName: 'entur-tavla' })
 
 class AdminPage extends React.Component {
     state = {
-        distance: 200,
+        distance: 300,
         stations: [],
         stops: [],
         hiddenStations: [],
