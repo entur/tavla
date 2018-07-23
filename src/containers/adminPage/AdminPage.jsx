@@ -34,38 +34,33 @@ class AdminPage extends React.Component {
         const {
             hiddenStations, hiddenStops, distance, hiddenRoutes,
         } = getSettingsFromUrl()
+        this.getDataFromSDK(position, distance)
+        const hashedState = window.location.pathname.split('/')[3]
+        this.setState({
+            distance,
+            hashedState,
+            hiddenStops,
+            hiddenStations,
+            hiddenRoutes,
+            position,
+            positionString,
+        })
+    }
+
+    getDataFromSDK(position, distance) {
         service.getBikeRentalStations(position, distance).then(stations => {
             this.setState({
                 stations,
             })
         })
         getStopPlacesByPositionAndDistance(position, distance).then(stops => {
-            this.setState({
-                stops,
-                distance,
-                hashedState,
-                hiddenStops,
-                hiddenStations,
-                hiddenRoutes,
-                position,
-                positionString,
-            })
-            this.stopPlaceDepartures()
-        })
-        const hashedState = window.location.pathname.split('/')[3]
-    }
-
-
-    stopPlaceDepartures = () => {
-        const { stops } = this.state
-
-        getStopsWithUniqueStopPlaceDepartures(stops).then((uniqueRoutes) => {
-            this.setState({
-                stops: uniqueRoutes,
+            getStopsWithUniqueStopPlaceDepartures(stops).then((uniqueRoutes) => {
+                this.setState({
+                    stops: uniqueRoutes,
+                })
             })
         })
     }
-
 
     handleChange = (event) => {
         const distance = event.target.value
@@ -75,17 +70,7 @@ class AdminPage extends React.Component {
     }
 
     updateSearch = debounce((distance, position) => {
-        service.getBikeRentalStations(position, distance).then(stations => {
-            this.setState({
-                stations,
-            })
-        })
-        getStopPlacesByPositionAndDistance(position, distance).then(stops => {
-            this.setState({
-                stops,
-            })
-            this.stopPlaceDepartures()
-        })
+        this.getDataFromSDK(position, distance)
     }, 500)
 
     handleSubmit = (event) => {
@@ -149,8 +134,8 @@ class AdminPage extends React.Component {
                                 id="typeinp"
                                 type="range"
                                 min="200"
-                                max="5000"
-                                defaultValue="500"
+                                max="3000"
+                                defaultValue="300"
                                 step="100"
                                 onChange={this.handleChange}
                             />
