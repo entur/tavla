@@ -4,7 +4,7 @@ import coverPhoto from '../../assets/bilde.png'
 import './styles.scss'
 
 const LandingPage = ({ addLocation }) => (
-    <div className="laning-page-wrapper">
+    <div className="landing-page-wrapper">
         <div className="title-container">
             <img src={coverPhoto} />
             <TavlaLogo />
@@ -12,7 +12,7 @@ const LandingPage = ({ addLocation }) => (
         </div>
         <div className="round-shape"/>
         <div className="content-container">
-            <button onClick={addLocation}>Finn min posisjon</button>
+            <button className="landing-button" onClick={addLocation}>Finn min posisjon</button>
             <p>For å kunne opprette en tavle der du er, trenger vi din lokasjon</p>
         </div>
     </div>

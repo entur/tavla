@@ -3,8 +3,6 @@
 @import '~@entur/component-library/src/styles/_colors.scss';
 
 body {
-    background-color: $black;
-    color: $white;
     margin: 0;
 }
 
@@ -18,5 +16,7 @@ h3, h4, h5 {
 }
 
 .main-container {
-    margin: 5%;
+    padding: 5%;
+    background-color: $black;
+    color: $white;
 }
