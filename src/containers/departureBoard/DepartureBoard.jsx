@@ -15,6 +15,7 @@ class DepartureBoard extends React.Component {
         distance: 200,
         hiddenStations: [],
         hiddenStops: [],
+        hiddenRoutes: [],
         position: '',
     }
 
