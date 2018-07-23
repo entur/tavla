@@ -3,14 +3,6 @@
     height: 5%
 }
 
-.departure-tiles {
-    display: flex;
-    justify-content: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    height: 80%;
-}
-
 .type {
     width: 5%;
 }
