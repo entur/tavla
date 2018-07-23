@@ -29,7 +29,7 @@ const DepartureTables = ({ lineData, visible }) => {
                                             return (
                                                 <div key={route}>
                                                     <div className="table-route-name">
-                                                        <div className="route-icon">{ getIcon(routeType, { height: '11' })}</div>
+                                                        <div className="route-icon">{ getIcon(routeType, { height: 25, width: 25 })}</div>
                                                         <p className="route-name-text">{route}</p>
                                                     </div>
                                                     <div className="table-route-departures">

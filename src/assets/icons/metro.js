@@ -1,29 +1,26 @@
 import React from 'react'
 import Proptypes from 'prop-types'
 
-function Metro({ height, color }) {
+function Metro({ height, width, color }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
-            viewBox="0 0 38 38"
-            width={height}
+            viewBox="0 0 32 32"
+            width={width}
             height={height}
         >
-            <defs>
+            <g fill={color} fillRule="nonzero">
                 <path
-                    id="metro"
-                    // eslint-disable-next-line max-len
-                    d="M21.7143 16.2857v13.5714h-5.4286V16.2857h-5.4286v-5.4286H27.143v5.4286h-5.4286zM19 38C8.5066 38 0 29.4934 0 19S8.5066 0 19 0s19 8.5066 19 19-8.5066 19-19 19zm0-3.9018c8.3385 0 15.0982-6.7597 15.0982-15.0982S27.3385 3.9018 19 3.9018 3.9018 10.6615 3.9018 19 10.6615 34.0982 19 34.0982z"
+                // eslint-disable-next-line max-len
+                    d="M16 12v10h-4V12H8V8h12v4h-4zm-2 16C6.268 28 0 21.732 0 14S6.268 0 14 0s14 6.268 14 14-6.268 14-14 14zm0-2.875c6.144 0 11.125-4.98 11.125-11.125 0-6.144-4.98-11.125-11.125-11.125C7.856 2.875 2.875 7.855 2.875 14c0 6.144 4.98 11.125 11.125 11.125z"
                 />
-            </defs>
-            <g fill="none" fillRule="evenodd">
-                <mask id="metro-mask" fill="#fff">
-                    <use xlinkHref="#metro"/>
+                <mask id="b" fill={color}>
+                    <use xlinkHref="#a"/>
                 </mask>
-                <use fill={color} xlinkHref="#metro"/>
-                <g fill={color} mask="url(#metro-mask)">
-                    <path d="M-83.125-80.75h216v216h-216z"/>
+                <use fill={color} xlinkHref="#a"/>
+                <g mask="url(#b)" fill={color}>
+                    <path d="M-61.25-59.5h159v159h-159z"/>
                 </g>
             </g>
         </svg>
@@ -31,12 +28,13 @@ function Metro({ height, color }) {
 }
 Metro.propTypes = {
     color: Proptypes.string,
-    height: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
+    height: Proptypes.number,
+    width: Proptypes.number,
 }
 
 Metro.defaultProps = {
-    height: 12,
-    width: 12,
+    height: 20,
+    width: 20,
     color: '#0F7CDB',
 }
 

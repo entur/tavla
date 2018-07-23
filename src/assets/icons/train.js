@@ -1,42 +1,34 @@
 import React from 'react'
 import Proptypes from 'prop-types'
 
-function Train({ height, color }) {
+function Train({ height, width, color }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
-            width={height*1.23}
+            width={width}
             height={height}
-            viewBox="0 0 16 13"
+            viewBox="0 0 32 32"
         >
-            <defs>
+            <g fill={color} fillRule="nonzero">
                 <path
-                    id="train"
                     // eslint-disable-next-line max-len
-                    d="M0 3.8108v6.4612h13.3614c.5489 0 1.0664-.2196 1.427-.596.3608-.3607.596-.8782.596-1.427 0-.5646-.2195-1.0665-.596-1.4272l-2.9012-2.8855c-.0784-.0784-.1881-.1255-.2822-.1255H5.2536l3.058-1.5525c.2353-.1255.2353-.3294 0-.4548L4.8773 0h-1.725l-.0157.0157L6.9787 2.023 3.4815 3.8108H0zm9.2683.8469h2.1955l1.4271 1.427H9.2683v-1.427zm3.6853 7.4177H0V11.26h12.9536v.8155z"
+                    d="M27.518 14.576c-.521-.52-3.779-2.934-5.588-4.133-.592-.39-1.253-.549-1.648-.549h-7.01l3.412-1.706a.55.55 0 0 0 0-.982L12.29 5.558a.55.55 0 0 0-.49.982l3.41 1.157-4.394 2.197H4.88v9.887h23.092l-1.098-1.648c.596-.682 1.098-1.326 1.098-1.959 0-1.407-.083-1.227-.453-1.598zm-3.825-.57c-.075.224-.286.282-.522.282h-1.098c-.119 0-.306.018-.47-.103l-1.567-1.106a.549.549 0 1 1 .33-.988h1.1c.118 0 .233.039.329.111l1.707 1.284c.189.142.266.296.19.52zM4.898 20.88v1.098h21.426a.55.55 0 0 0 0-1.099H4.898z"
                 />
-            </defs>
-            <g fill="none" fillRule="evenodd">
-                <mask id="train-mask" fill="#fff">
-                    <use xlinkHref="#train"/>
-                </mask>
-                <use fill={color} fillRule="nonzero" xlinkHref="#train"/>
-                <g fill={color} mask="url(#train-mask)">
-                    <path d="M-25.7778-28.6667h71v71h-71z"/>
-                </g>
             </g>
         </svg>
+
     )
 }
 Train.propTypes = {
     color: Proptypes.string,
-    height: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
+    height: Proptypes.number,
+    width: Proptypes.number,
 }
 
 Train.defaultProps = {
-    height: 12,
-    width: 12*1.23,
+    height: 20,
+    width: 20,
     color: '#E5905A',
 }
 
