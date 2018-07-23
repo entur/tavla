@@ -70,23 +70,30 @@ function getUniqueRoutes(routes) {
     return Object.entries(uniqueThings).map(([route, type]) => ({ route, type }))
 }
 
-export function getStopsWithUniqueStopPlaceDepartures(stops) {
-    return Promise.all(stops.map((stop) => service.getStopPlaceDepartures(stop.id, { onForBoarding: true, departures: 50 }).then(departures => {
-        const lineData = departures.map(departure => {
-            const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
-            const { line } = serviceJourney.journeyPattern
-            const departureTime = moment(expectedDepartureTime)
-            const minDiff = departureTime.diff(moment(), 'minutes')
+function transformDepartureToLineData(departure) {
+    const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
+    const { line } = serviceJourney.journeyPattern
+    const departureTime = moment(expectedDepartureTime)
+    const minDiff = departureTime.diff(moment(), 'minutes')
 
+    return {
+        type: line.transportMode,
+        time: formatDeparture(minDiff, departureTime),
+        route: line.publicCode + ' '+ destinationDisplay.frontText,
+    }
+}
+
+export function getStopsWithUniqueStopPlaceDepartures(stops) {
+    return service.getStopPlaceDepartures(stops.map(({ id }) => id), { onForBoarding: true, departures: 50 }).then(departures => {
+        return stops.map(stop => {
+            const resultForThisStop = departures.find(({ id }) => stop.id === id)
+            if (!resultForThisStop || !resultForThisStop.departures) {
+                return stop
+            }
             return {
-                type: line.transportMode,
-                time: formatDeparture(minDiff, departureTime),
-                route: line.publicCode + ' '+ destinationDisplay.frontText,
+                ...stop,
+                departures: getUniqueRoutes(resultForThisStop.departures.map(transformDepartureToLineData)),
             }
         })
-        return {
-            ...stop,
-            departures: getUniqueRoutes(lineData),
-        }
-    })))
+    })
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
+import debounce from 'lodash.debounce'
 import {
     getIcon, getPositionFromUrl, getSettingsFromUrl, getStopsWithUniqueStopPlaceDepartures,
 } from '../../utils'
@@ -69,10 +70,14 @@ class AdminPage extends React.Component {
     handleChange = (event) => {
         const distance = event.target.value
         const { position } = this.state
+        this.setState({ distance })
+        this.updateSearch(distance, position)
+    }
+
+    updateSearch = debounce((distance, position) => {
         service.getBikeRentalStations(position, distance).then(stations => {
             this.setState({
                 stations,
-                distance,
             })
         })
         service.getStopPlacesByPosition(position, distance).then(stopPlaces => {
@@ -87,8 +92,7 @@ class AdminPage extends React.Component {
             })
             this.stopPlaceDepartures()
         })
-        event.preventDefault()
-    }
+    }, 500)
 
     handleSubmit = (event) => {
         const {
@@ -215,7 +219,15 @@ class AdminPage extends React.Component {
                     <form onSubmit={this.handleSubmit}>
                         <label>
                             Distance:
-                            <input id="typeinp" type="range" min="200" max="5000" defaultValue="500" step="100" onChange={this.handleChange}/>
+                            <input
+                                id="typeinp"
+                                type="range"
+                                min="200"
+                                max="5000"
+                                defaultValue="500"
+                                step="100"
+                                onChange={this.handleChange}
+                            />
                         </label>
                         <button type="submit" value="Submit">Update</button>
                     </form>

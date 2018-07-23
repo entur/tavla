@@ -41,28 +41,33 @@ class DepartureBoard extends React.Component {
         this.updateInterval = setInterval(this.updateTime, 10000)
     }
 
+    getLineData = departure => {
+        const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
+        const { line } = serviceJourney.journeyPattern
+        const departureTime = moment(expectedDepartureTime)
+        const minDiff = departureTime.diff(moment(), 'minutes')
+
+        return {
+            type: line.transportMode,
+            time: this.formatDeparture(minDiff, departureTime),
+            route: line.publicCode + ' '+ destinationDisplay.frontText,
+        }
+    }
+
     stopPlaceDepartures = () => {
-        const stops = this.state.stopsData
-        stops.forEach((stop, index) => {
-            service.getStopPlaceDepartures(stop.id, { onForBoarding: true, departures: 50 }).then(departures => {
-                const lineData = departures.map(departure => {
-                    const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
-                    const { line } = serviceJourney.journeyPattern
-                    const departureTime = moment(expectedDepartureTime)
-                    const minDiff = departureTime.diff(moment(), 'minutes')
-
-                    return {
-                        type: line.transportMode,
-                        time: this.formatDeparture(minDiff, departureTime),
-                        route: line.publicCode + ' '+ destinationDisplay.frontText,
+        const { stopsData } = this.state
+        service.getStopPlaceDepartures(stopsData.map(({ id }) => id), { onForBoarding: true, departures: 50 }).then(departures => {
+            this.setState({
+                stopsData: stopsData.map(stop => {
+                    const resultForThisStop = departures.find(({ id }) => stop.id === id)
+                    if (!resultForThisStop || !resultForThisStop.departures) {
+                        return stop
                     }
-                })
-                const newList = [...this.state.stopsData ]
-                newList[index].departures = lineData
-
-                this.setState({
-                    stopsData: newList,
-                })
+                    return {
+                        ...stop,
+                        departures: resultForThisStop.departures.map(this.getLineData),
+                    }
+                }),
             })
         })
     }

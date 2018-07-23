@@ -18,7 +18,7 @@
     justify-content: center;
     background-color: #272727;
     color: white;
-    width: 17%;
+    width: 15%;
     padding: 2.5% 1.6% 2.5% 1.6%;
     margin: 2%;
     height: fit-content;
@@ -36,6 +36,11 @@
 
 }
 
+.bike-station-title {
+    display: flex;
+    justify-content: center;
+}
+
 .bike-tile-container h2{
     font-size: 1.5rem;
 }
@@ -46,12 +51,6 @@
     text-align: center;
 }
 
-.bike-container{
-    display: flex;
-    flex-direction:column;
-}
-
-
 .bike-station-container{
     display: flex;
     flex-direction:row;
@@ -60,12 +59,14 @@
 }
 
 .available{
-    flex-basis:50%;
     display:flex;
     align-items: center;
+    justify-content: space-evenly;
+    font-size: 1.6em;
     flex-direction: row;
 }
 
-.bike-station-icon{
-    margin-right: 15%;
+.bike-available-text {
+    text-align: center;
+    width: 20%;
 }

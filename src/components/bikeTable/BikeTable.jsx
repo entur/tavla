@@ -9,31 +9,21 @@ const BikeTable = ({ stationData, visible }) => {
     return (
         <div className="bike-tile-container">
             <div className="bike-header-container">
-                <div>{getIcon('bike', { height: 60, color: '#ff5956' })}</div>
+                <div>{getIcon('bike', { height: 60, width: '60', color: '#ff5956' })}</div>
                 <div><h2>Bysykkel</h2></div>
             </div>
             {
                 stations.map(({
-                    name, bikesAvailable, spacesAvailable, id,
+                    name, bikesAvailable, id,
                 }) => (
                     <div key={id} className="bike-container">
-                        <div>
-                            <h4>{name}</h4>
-                        </div>
-                        <div className="bike-station-container">
-                            <div className="available">
-                                <div className="bike-station-icon">
-                                    {getIcon('bike', { color: '#ff5956', height: '30' })}
-                                </div>
+                        <h4 className="bike-station-title">{name}</h4>
+                        <div className="available">
+                            {getIcon('bike', { color: '#ff5956' })}
+                            <div className="bike-available-text">
                                 {bikesAvailable}
                             </div>
-                            <div className="available">
-                                <div className="bike-station-icon">
-                                    {getIcon('lock', { color: '#ff5956', height: '30' })}
-                                </div>  {spacesAvailable}
-                            </div>
                         </div>
-                        <div />
                     </div>
                 ))
             }
