@@ -10,20 +10,14 @@ function Metro({ height, width, color }) {
             width={width}
             height={height}
         >
-            <g fill={color} fillRule="nonzero">
-                <path
+            <path
                 // eslint-disable-next-line max-len
-                    d="M16 12v10h-4V12H8V8h12v4h-4zm-2 16C6.268 28 0 21.732 0 14S6.268 0 14 0s14 6.268 14 14-6.268 14-14 14zm0-2.875c6.144 0 11.125-4.98 11.125-11.125 0-6.144-4.98-11.125-11.125-11.125C7.856 2.875 2.875 7.855 2.875 14c0 6.144 4.98 11.125 11.125 11.125z"
-                />
-                <mask id="b" fill={color}>
-                    <use xlinkHref="#a"/>
-                </mask>
-                <use fill={color} xlinkHref="#a"/>
-                <g mask="url(#b)" fill={color}>
-                    <path d="M-61.25-59.5h159v159h-159z"/>
-                </g>
-            </g>
+                d="M17.43 14.57v7.17h-2.86v-7.17H11.7V11.7h8.6v2.87zM16 26a10 10 0 1 1 10-10 10 10 0 0 1-10 10zm0-2a8 8 0 1 0-8-8 8 8 0 0 0 8 8z"
+                fill={color}
+            />
+
         </svg>
+
     )
 }
 Metro.propTypes = {
