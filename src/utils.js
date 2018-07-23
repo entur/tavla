@@ -97,3 +97,75 @@ export function getStopsWithUniqueStopPlaceDepartures(stops) {
         })
     })
 }
+
+export function getStopPlacesByPositionAndDistance(position, distance) {
+    return service.getStopPlacesByPosition(position, distance).then(stopPlaces => {
+        return stopPlaces.map(stop => {
+            return {
+                ...stop,
+                departures: [],
+            }
+        })
+    })
+}
+
+function updateHiddenList(clickedId, hiddenList) {
+    let newSet = hiddenList
+    if (hiddenList.includes(clickedId)) {
+        newSet = newSet.filter((id) => id !== clickedId)
+    }
+    else {
+        newSet.push(clickedId)
+    }
+    return newSet
+}
+
+export function getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes) {
+    const savedSettings = {
+        distance,
+        hiddenStations,
+        hiddenStops,
+        hiddenRoutes,
+    }
+    return btoa(JSON.stringify(savedSettings))
+}
+
+export function updateHiddenListAndHash(clickedId, state, hiddenType) {
+    const {
+        hiddenStops, hiddenStations, distance, hiddenRoutes,
+    } = state
+    let newSet = []
+    let hashedState = ''
+    let hiddenLists = {}
+    switch (hiddenType) {
+        case 'stations':
+            newSet = updateHiddenList(clickedId, hiddenStations)
+            hashedState = getSettingsHash(distance, newSet, hiddenStops, hiddenRoutes)
+            hiddenLists = {
+                hiddenStations: newSet,
+                hiddenStops,
+                hiddenRoutes,
+            }
+            return { hiddenLists, hashedState }
+        case 'stops':
+            newSet = updateHiddenList(clickedId, hiddenStops)
+            hashedState = getSettingsHash(distance, hiddenStations, newSet, hiddenRoutes)
+            hiddenLists = {
+                hiddenStations,
+                hiddenStops: newSet,
+                hiddenRoutes,
+            }
+            return { hiddenLists, hashedState }
+        case 'routes':
+            newSet = updateHiddenList(clickedId, hiddenRoutes)
+            hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, newSet)
+            hiddenLists = {
+                hiddenStations,
+                hiddenStops,
+                hiddenRoutes: newSet,
+            }
+            return { hiddenLists, hashedState }
+        default:
+            return { hiddenLists, hashedState }
+    }
+}

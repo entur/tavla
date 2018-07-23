@@ -2,7 +2,13 @@ import React from 'react'
 import EnturService from '@entur/sdk'
 import debounce from 'lodash.debounce'
 import {
-    getIcon, getPositionFromUrl, getSettingsFromUrl, getStopsWithUniqueStopPlaceDepartures,
+    getIcon,
+    getPositionFromUrl,
+    getSettingsFromUrl,
+    getStopsWithUniqueStopPlaceDepartures,
+    getStopPlacesByPositionAndDistance,
+    getSettingsHash,
+    updateHiddenListAndHash,
 } from '../../utils'
 import './styles.css'
 
@@ -11,7 +17,7 @@ const service = new EnturService({ clientName: 'entur-tavla' })
 
 class AdminPage extends React.Component {
     state = {
-        distance: 500,
+        distance: 300,
         stations: [],
         stops: [],
         hiddenStations: [],
@@ -28,44 +34,33 @@ class AdminPage extends React.Component {
         const {
             hiddenStations, hiddenStops, distance, hiddenRoutes,
         } = getSettingsFromUrl()
+        this.getDataFromSDK(position, distance)
+        const hashedState = window.location.pathname.split('/')[3]
+        this.setState({
+            distance,
+            hashedState,
+            hiddenStops,
+            hiddenStations,
+            hiddenRoutes,
+            position,
+            positionString,
+        })
+    }
+
+    getDataFromSDK(position, distance) {
         service.getBikeRentalStations(position, distance).then(stations => {
             this.setState({
                 stations,
             })
         })
-        service.getStopPlacesByPosition(position, distance).then(stopPlaces => {
-            const stops = stopPlaces.map(stop => {
-                return {
-                    ...stop,
-                    departures: [],
-                }
-            })
-            this.setState({
-                stops,
-                distance,
-                hashedState,
-                hiddenStops,
-                hiddenStations,
-                hiddenRoutes,
-                position,
-                positionString,
-            })
-            this.stopPlaceDepartures()
-        })
-        const hashedState = window.location.pathname.split('/')[3]
-    }
-
-
-    stopPlaceDepartures = () => {
-        const { stops } = this.state
-
-        getStopsWithUniqueStopPlaceDepartures(stops).then((uniqueRoutes) => {
-            this.setState({
-                stops: uniqueRoutes,
+        getStopPlacesByPositionAndDistance(position, distance).then(stops => {
+            getStopsWithUniqueStopPlaceDepartures(stops).then((uniqueRoutes) => {
+                this.setState({
+                    stops: uniqueRoutes,
+                })
             })
         })
     }
-
 
     handleChange = (event) => {
         const distance = event.target.value
@@ -75,115 +70,31 @@ class AdminPage extends React.Component {
     }
 
     updateSearch = debounce((distance, position) => {
-        service.getBikeRentalStations(position, distance).then(stations => {
-            this.setState({
-                stations,
-            })
-        })
-        service.getStopPlacesByPosition(position, distance).then(stopPlaces => {
-            const stops = stopPlaces.map(stop => {
-                return {
-                    ...stop,
-                    departures: [],
-                }
-            })
-            this.setState({
-                stops,
-            })
-            this.stopPlaceDepartures()
-        })
+        this.getDataFromSDK(position, distance)
     }, 500)
 
     handleSubmit = (event) => {
         const {
             distance, hiddenStations, hiddenStops, positionString, hiddenRoutes,
         } = this.state
-        const savedSettings = {
-            distance,
-            hiddenStations,
-            hiddenStops,
-            hiddenRoutes,
-        }
-        const hashedState = btoa(JSON.stringify(savedSettings))
+        const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes)
         this.setState({ hashedState })
         this.props.history.push(`/admin/${positionString}/${hashedState}`)
         event.preventDefault()
     }
 
-    removeStation = (clickedId) => {
+    updateHiddenList(clickedId, hiddenList) {
         const {
-            hiddenStations, hiddenStops, positionString, distance, hiddenRoutes,
-        } = this.state
-        let newSet = hiddenStations
-        if (hiddenStations.includes(clickedId)) {
-            newSet = newSet.filter((id) => id !== clickedId)
-        }
-        else {
-            newSet.push(clickedId)
-        }
-        const savedSettings = {
-            distance,
-            hiddenStations: newSet,
-            hiddenStops,
-            hiddenRoutes,
-        }
-        const hashedState = btoa(JSON.stringify(savedSettings))
+            hiddenLists, hashedState,
+        } = updateHiddenListAndHash(clickedId, this.state, hiddenList)
+        const { hiddenStations, hiddenStops, hiddenRoutes } = hiddenLists
         this.setState({
-            hiddenStations: newSet,
-            hashedState,
-        })
-        this.props.history.push(`/admin/${positionString}/${hashedState}`)
-    }
-
-    removeStops = (clickedId) => {
-        const {
-            hiddenStops, hiddenStations, positionString, distance, hiddenRoutes,
-        } = this.state
-        let newSet = hiddenStops
-        if (hiddenStops.includes(clickedId)) {
-            newSet = newSet.filter((id) => id !== clickedId)
-        }
-        else {
-            newSet.push(clickedId)
-        }
-        const savedSettings = {
-            distance,
-            hiddenStops: newSet,
-            hiddenStations,
-            hiddenRoutes,
-        }
-        const hashedState = btoa(JSON.stringify(savedSettings))
-        this.setState({
-            hiddenStops: newSet,
-            hashedState,
-        })
-        this.props.history.push(`/admin/${positionString}/${hashedState}`)
-    }
-
-    removeRoutes = (route) => {
-        const {
-            hiddenRoutes, hiddenStops, hiddenStations, positionString, distance,
-        } = this.state
-
-        let newSet = hiddenRoutes
-        if (hiddenRoutes.includes(route)) {
-            newSet = newSet.filter((id) => id !== route)
-        }
-        else {
-            newSet.push(route)
-        }
-        const savedSettings = {
-            distance,
-            hiddenRoutes: newSet,
             hiddenStations,
             hiddenStops,
-        }
-        const hashedState = btoa(JSON.stringify(savedSettings))
-        this.setState({
-            hiddenRoutes: newSet,
+            hiddenRoutes,
             hashedState,
         })
-        this.props.history.push(`/admin/${positionString}/${hashedState}`)
+        this.props.history.push(`/admin/${this.state.positionString}/${hashedState}`)
     }
 
     getStyle = (id, type) => {
@@ -223,8 +134,8 @@ class AdminPage extends React.Component {
                                 id="typeinp"
                                 type="range"
                                 min="200"
-                                max="5000"
-                                defaultValue="500"
+                                max="3000"
+                                defaultValue="300"
                                 step="100"
                                 onChange={this.handleChange}
                             />
@@ -248,7 +159,7 @@ class AdminPage extends React.Component {
                                         <td>{getIcon('bike')}</td>
                                         <td>{name}</td>
                                         <td>
-                                            <button onClick={() => this.removeStation(id)}>X</button>
+                                            <button onClick={() => this.updateHiddenList(id, 'stations')}>X</button>
                                         </td>
                                     </tr>
                                 ))
@@ -272,7 +183,7 @@ class AdminPage extends React.Component {
                                         <td>{getIcon(transportMode)}</td>
                                         <td>{name}</td>
                                         <td>
-                                            <button onClick={() => this.removeStops(id)}>X</button>
+                                            <button onClick={() => this.updateHiddenList(id, 'stops')}>X</button>
                                         </td>
                                     </tr>
                                     { departures.map(({ route, type }, index) => (
@@ -280,7 +191,7 @@ class AdminPage extends React.Component {
                                             <td>{getIcon(type)}</td>
                                             <td>{route}</td>
                                             <td>
-                                                <button onClick={() => this.removeRoutes(route)}>X</button>
+                                                <button onClick={() => this.updateHiddenList(route, 'routes')}>X</button>
                                             </td>
                                         </tr>))}
                                 </tbody>
