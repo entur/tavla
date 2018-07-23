@@ -1,3 +1,4 @@
+@import '~@entur/component-library/src/styles/_colors.scss';
 .table {
     width: 100%;
     table-layout: fixed;
@@ -7,6 +8,14 @@
 .table td {
     background-color: #F3F3F3;
     padding: 0.5rem 1rem;
+}
+
+.departure-tiles {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    height: 70%;
 }
 
 .settings-button {
@@ -26,5 +35,5 @@
     justify-content: flex-end;
     align-items: center;
     align-content: flex-end;
-    height: 5%;
+    height: 20px;
 }

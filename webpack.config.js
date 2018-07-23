@@ -39,7 +39,7 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(svg|eot|woff2?)$/,
+                test: /\.(svg|png|eot|woff2?)$/,
                 loader: 'file-loader',
                 options: {
                     outputPath: 'assets/',
