@@ -9,36 +9,11 @@ img {
     height: auto;
 }
 
-.landing-button {
-    display: inline-block;
-    border: none;
-    padding: 1rem 2rem;
-    margin: 0;
-    text-decoration: none;
-    background: $primary;
-    color: $white;
-    font-family: sans-serif;
-    font-size: 1rem;
-    cursor: pointer;
-    text-align: center;
-    -webkit-appearance: none;
-}
-
-.landing-button:focus {
-    outline-offset: -1px;
-    outline: 4px auto $focus;
-}
-
-.landing-button:hover {
-    background: $blue-20;
-}
-
 .landing-page-wrapper {
     height: 100%;
     color: $primary;
     margin: 0;
 }
-
 
 .title-container {
     display: flex;
