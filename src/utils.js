@@ -51,14 +51,14 @@ export function groupBy(objectArray, property) {
     }, {})
 }
 
-export function getTransportHeaderIcon(departures, dimentions) {
+export function getTransportHeaderIcon(departures, dimensions) {
     const transportModes = [...new Set(departures.map(item => item.type))]
-    if (!dimentions) {
+    if (!dimensions) {
         return transportModes.map((mode, index) => (
             getIcon(mode, { height, width, key: index })
         ))
     }
-    const { height, width } = dimentions
+    const { height, width } = dimensions
     const length = transportModes.length
     return transportModes.map((mode, index) => (
         getIcon(mode, { height: 90/length, width: 90/length, key: index })
