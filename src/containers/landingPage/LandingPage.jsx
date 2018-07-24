@@ -15,7 +15,7 @@ const LandingPage = ({ addLocation }) => {
             <div className="round-shape"/>
             <div className="content-container">
                 <SearchPanel handleCoordinatesSelected={addLocation}/>
-                <p>For å kunne opprette en tavle,  trenger vi å vite hvor du er.</p>
+                <p>For å kunne opprette en tavle, trenger vi å vite hvilket område du er interessert i.</p>
             </div>
         </div>
     )

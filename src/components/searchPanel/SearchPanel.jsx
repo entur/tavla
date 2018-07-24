@@ -36,8 +36,7 @@ class SearchPanel extends React.Component {
     };
 
     getLocationsDebounced = debounce((value) => {
-        const inputValue = value.trim().toLowerCase()
-        const inputLength = inputValue.length
+        const inputLength = value.trim().length
 
         if (inputLength > 0) {
             service.getLocations(value).then(locationsData => {
@@ -57,7 +56,7 @@ class SearchPanel extends React.Component {
         }
     }, 500)
 
-    getAdressFromPosition = (position) => {
+    getAddressFromPosition = (position) => {
         this.setState({
             value: 'Din posisjon',
             chosenCoord: position,
@@ -84,7 +83,7 @@ class SearchPanel extends React.Component {
         })
         navigator.geolocation.getCurrentPosition(data => {
             const position = { lat: data.coords.latitude, lon: data.coords.longitude }
-            this.getAdressFromPosition(position)
+            this.getAddressFromPosition(position)
             this.setState({
                 waiting: false,
             })
@@ -107,7 +106,7 @@ class SearchPanel extends React.Component {
     render() {
         const { value, suggestions } = this.state
         const inputProps = {
-            placeholder: 'f.eks Osloveien 14, 1234 Oslo',
+            placeholder: 'f.eks. Osloveien 14, 1234 Oslo',
             value,
             onChange: this.onChange,
         }
