@@ -84,10 +84,10 @@ class AdminPage extends React.Component {
         event.preventDefault()
     }
 
-    updateHiddenList(clickedId, hiddenList) {
+    updateHiddenList = (clickedId, hiddenListType) => {
         const {
             hiddenLists, hashedState,
-        } = updateHiddenListAndHash(clickedId, this.state, hiddenList)
+        } = updateHiddenListAndHash(clickedId, this.state, hiddenListType)
         const { hiddenStations, hiddenStops, hiddenRoutes } = hiddenLists
         this.setState({
             hiddenStations,
@@ -98,18 +98,19 @@ class AdminPage extends React.Component {
         this.props.history.push(`/admin/${this.state.positionString}/${hashedState}`)
     }
 
-    getStyle = (id, type) => {
+    getStyle = (isHidden) => {
+        return isHidden ? null : { opacity: 0.3 }
+    }
+
+    isHidden = (id, type) => {
         const { hiddenStops, hiddenStations, hiddenRoutes } = this.state
         if (type === 'stations') {
-            const onStyle = !hiddenStations.includes(id)
-            return onStyle ? null : { opacity: 0.3 }
+            return hiddenStations.includes(id)
         }
         if (type === 'stops') {
-            const onStyle = !hiddenStops.includes(id)
-            return onStyle ? null : { opacity: 0.3 }
+            return hiddenStops.includes(id)
         }
-        const onStyle = !hiddenRoutes.includes(id)
-        return onStyle ? null : { opacity: 0.3 }
+        return hiddenRoutes.includes(id)
     }
 
     onHomeButton = (event) => {
@@ -121,7 +122,7 @@ class AdminPage extends React.Component {
     render() {
         const { distance, stations, stops } = this.state
         return (
-            <div className="adminContent" >
+            <div className="admin-content" >
                 <div className="admin-header">
                     <h1>Admin</h1>
                     <button className="close-button" onClick={(event) => this.onHomeButton(event)}>X</button>
@@ -169,7 +170,7 @@ class AdminPage extends React.Component {
                     </table>
                 </div>
                 <div className="stop-place-panel">
-                    <StopPlacePanel stops={stops} updateHiddenList={this.updateHiddenList} style={this.getStyle}/>
+                    <StopPlacePanel stops={stops} updateHiddenList={this.updateHiddenList} getStyle={this.getStyle} onCheck={this.isHidden}/>
                 </div>
             </div>
         )

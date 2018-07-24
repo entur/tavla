@@ -1,7 +1,7 @@
 import React from 'react'
 import { groupBy } from '../../utils'
 import './departureTiles.css'
-import DepartureTile from './departureTile'
+import DepartureTile from './DepartureTile'
 
 const DepartureTiles = ({ lineData, visible }) => {
     const { hiddenStops, hiddenRoutes } = visible
