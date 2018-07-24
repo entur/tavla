@@ -7,7 +7,6 @@ import {
 } from 'react-accessible-accordion'
 import RouteList from './RouteList'
 import './styles.scss'
-import 'react-accessible-accordion/dist/fancy-example.css'
 
 class StopPlacePanel extends React.Component {
     constructor(props) {
@@ -50,8 +49,8 @@ class StopPlacePanel extends React.Component {
                             const isChecked = onCheck(id, 'stops')
                             const isShowMore = showMoreId === id
                             return (
-                                <Accordion>
-                                    <div>
+                                <Accordion className="stop-place">
+                                    <div className="checkbox-container">
                                         <input
                                             type="checkbox"
                                             className="checkbox"
@@ -59,9 +58,12 @@ class StopPlacePanel extends React.Component {
                                             onChange={() => updateHiddenList(id, 'stops')}
                                         />
                                     </div>
-                                    <AccordionItem className="stop-place-row" style={getStyle(!isChecked)} key={id}>
-                                        <AccordionItemTitle>
+                                    <AccordionItem style={getStyle(!isChecked)} key={id}>
+                                        <AccordionItemTitle className="stop-place-row">
                                             {name}
+                                            <div className="stop-place-title">
+                                                <div className="accordion__arrow" role="presentation" />
+                                            </div>
                                         </AccordionItemTitle>
                                         <AccordionItemBody>
                                             <RouteList departures={departures} updateHiddenList={updateHiddenList} getStyle={getStyle}/>
