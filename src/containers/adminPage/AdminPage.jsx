@@ -9,6 +9,7 @@ import {
     getStopPlacesByPositionAndDistance,
     getSettingsHash,
     updateHiddenListAndHash,
+    getTransportHeaderIcon,
 } from '../../utils'
 import './styles.css'
 
@@ -156,7 +157,7 @@ class AdminPage extends React.Component {
                                     name, id,
                                 }) => (
                                     <tr style={this.getStyle(id, 'stations')} key={id}>
-                                        <td>{getIcon('bike')}</td>
+                                        <td>{getIcon('bike', { height: 20, width: 20 })}</td>
                                         <td>{name}</td>
                                         <td>
                                             <button onClick={() => this.updateHiddenList(id, 'stations')}>X</button>
@@ -176,11 +177,11 @@ class AdminPage extends React.Component {
                         </thead>
                         {
                             stops.map(({
-                                name, id, transportMode, departures,
+                                name, id, departures,
                             }) => (
                                 <tbody key={id}>
                                     <tr style={this.getStyle(id, 'stops')} >
-                                        <td>{getIcon(transportMode)}</td>
+                                        <td>{ getTransportHeaderIcon(departures)}</td>
                                         <td>{name}</td>
                                         <td>
                                             <button onClick={() => this.updateHiddenList(id, 'stops')}>X</button>
