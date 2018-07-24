@@ -1,6 +1,7 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
 import debounce from 'lodash.debounce'
+import StopPlacePanel from '../../components/stopPlacePanel/StopPlacePanel'
 import {
     getIcon,
     getPositionFromUrl,
@@ -167,37 +168,8 @@ class AdminPage extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <div className="stops">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Fjern busstopp</th>
-                            </tr>
-                        </thead>
-                        {
-                            stops.map(({
-                                name, id, transportMode, departures,
-                            }) => (
-                                <tbody key={id}>
-                                    <tr style={this.getStyle(id, 'stops')} >
-                                        <td>{getIcon(transportMode)}</td>
-                                        <td>{name}</td>
-                                        <td>
-                                            <button onClick={() => this.updateHiddenList(id, 'stops')}>X</button>
-                                        </td>
-                                    </tr>
-                                    { departures.map(({ route, type }, index) => (
-                                        <tr style={this.getStyle(route, 'routes')} key={index}>
-                                            <td>{getIcon(type)}</td>
-                                            <td>{route}</td>
-                                            <td>
-                                                <button onClick={() => this.updateHiddenList(route, 'routes')}>X</button>
-                                            </td>
-                                        </tr>))}
-                                </tbody>
-                            ))
-                        }
-                    </table>
+                <div className="stop-place-panel">
+                    <StopPlacePanel stops={stops} updateHiddenList={this.updateHiddenList} style={this.getStyle}/>
                 </div>
             </div>
         )
