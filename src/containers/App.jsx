@@ -2,11 +2,8 @@ import React from 'react'
 import LandingPage from './landingPage/LandingPage'
 
 class App extends React.Component {
-    addLocation = () => {
-        navigator.geolocation.getCurrentPosition(data => {
-            const position = { lat: data.coords.latitude, lon: data.coords.longitude }
-            this.goToDepartureBoard(position)
-        })
+    addLocation = (position) => {
+        this.goToDepartureBoard(position)
     }
 
     goToDepartureBoard(position) {
@@ -16,7 +13,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <LandingPage addLocation={this.addLocation} />
+            <LandingPage addLocation={this.addLocation}/>
         )
     }
 }
