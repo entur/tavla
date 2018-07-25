@@ -10,10 +10,11 @@ import {
     getSettingsHash,
     updateHiddenListAndHash,
 } from '../../utils'
-import './styles.css'
+import './styles.scss'
 
 const service = new EnturService({ clientName: 'entur-tavla' })
-
+const WALK_SPEED = 1.4
+const MAX_DISTANCE_MINUTES = 45
 
 class AdminPage extends React.Component {
     state = {
@@ -63,7 +64,7 @@ class AdminPage extends React.Component {
     }
 
     handleChange = (event) => {
-        const distance = event.target.value
+        const distance = this.minutesToDistance(event.target.value)
         const { position } = this.state
         this.setState({ distance })
         this.updateSearch(distance, position)
@@ -73,15 +74,16 @@ class AdminPage extends React.Component {
         this.getDataFromSDK(position, distance)
     }, 500)
 
-    handleSubmit = (event) => {
+    goToDashboard = () => {
         const {
             distance, hiddenStations, hiddenStops, positionString, hiddenRoutes,
         } = this.state
         const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes)
         this.setState({ hashedState })
-        this.props.history.push(`/admin/${positionString}/${hashedState}`)
-        event.preventDefault()
+        this.props.history.push(`/dashboard/${positionString}/${hashedState}`)
     }
+
+    updateURL = () => {}
 
     updateHiddenList(clickedId, hiddenList) {
         const {
@@ -111,93 +113,129 @@ class AdminPage extends React.Component {
         return onStyle ? null : { opacity: 0.3 }
     }
 
-    onHomeButton = (event) => {
-        const { hashedState, positionString } = this.state
-        this.props.history.replace(`/dashboard/${positionString}/${hashedState}`)
-        event.preventDefault()
+    renderDistanceNumberInput = () => {
+        return (
+            <input
+                type="number"
+                value={this.distanceToMinutes(this.state.distance)}
+                className="distance-input"
+                onChange={this.handleTextInputChange}
+                min="1"
+                max={MAX_DISTANCE_MINUTES}
+            />
+        )
+    }
+
+    handleTextInputChange = (event) => {
+        let minutes = event.target.value
+        if (minutes.length === 0) {
+            minutes = 1
+        }
+        const distance = this.minutesToDistance(minutes)
+        const { position } = this.state
+        this.setState({ distance })
+        this.updateSearch(distance, position)
+    }
+
+    distanceToMinutes = (distance) => {
+        return Math.round((distance)/(WALK_SPEED*60))
+    }
+
+    minutesToDistance = (minutes) => {
+        if (minutes > MAX_DISTANCE_MINUTES) {
+            return (MAX_DISTANCE_MINUTES*60)*WALK_SPEED
+        }
+        return (minutes*60)*WALK_SPEED
     }
 
     render() {
         const { distance, stations, stops } = this.state
         return (
-            <div className="adminContent" >
+            <div className="admin-container">
                 <div className="admin-header">
-                    <h1>Admin</h1>
-                    <button className="close-button" onClick={(event) => this.onHomeButton(event)}>X</button>
+                    <h1>Rediger innhold</h1>
+                    <button className="close-button" onClick={this.goToDashboard}>X</button>
                 </div>
-                <div className="distance" >
-                    <p>{distance} meter</p>
-                    <form onSubmit={this.handleSubmit}>
-                        <label>
-                            Distance:
+                <div className="admin-content">
+                    <div className="find-nearby-container">
+                        <p>Finn holdeplasser i nærheten</p>
+                        <div className="distance">
+                            <p>Hvor langt vil du gå?</p>
+                            <p>Maks gangavstand til holdeplass er ca. {this.renderDistanceNumberInput()} min</p>
                             <input
                                 id="typeinp"
                                 type="range"
-                                min="200"
-                                max="3000"
-                                defaultValue="300"
-                                step="100"
+                                min="1"
+                                max={MAX_DISTANCE_MINUTES}
+                                step="1"
                                 onChange={this.handleChange}
+                                className="slider"
+                                value={this.distanceToMinutes(distance)}
                             />
-                        </label>
-                        <button type="submit" value="Submit">Update</button>
-                    </form>
-                </div>
-                <div className="stations">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Fjern sykkelstasjon</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                stations.map(({
-                                    name, id,
-                                }) => (
-                                    <tr style={this.getStyle(id, 'stations')} key={id}>
-                                        <td>{getIcon('bike')}</td>
-                                        <td>{name}</td>
-                                        <td>
-                                            <button onClick={() => this.updateHiddenList(id, 'stations')}>X</button>
-                                        </td>
+                            <div className="slider-labels">
+                                <div>1 min</div>
+                                <div>{MAX_DISTANCE_MINUTES} min</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="places-container">
+                        <div className="stations-container">
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th>Fjern sykkelstasjon</th>
                                     </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div className="stops">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Fjern busstopp</th>
-                            </tr>
-                        </thead>
-                        {
-                            stops.map(({
-                                name, id, transportMode, departures,
-                            }) => (
-                                <tbody key={id}>
-                                    <tr style={this.getStyle(id, 'stops')} >
-                                        <td>{getIcon(transportMode)}</td>
-                                        <td>{name}</td>
-                                        <td>
-                                            <button onClick={() => this.updateHiddenList(id, 'stops')}>X</button>
-                                        </td>
-                                    </tr>
-                                    { departures.map(({ route, type }, index) => (
-                                        <tr style={this.getStyle(route, 'routes')} key={index}>
-                                            <td>{getIcon(type)}</td>
-                                            <td>{route}</td>
-                                            <td>
-                                                <button onClick={() => this.updateHiddenList(route, 'routes')}>X</button>
-                                            </td>
-                                        </tr>))}
+                                </thead>
+                                <tbody>
+                                    {
+                                        stations.map(({
+                                            name, id,
+                                        }) => (
+                                            <tr style={this.getStyle(id, 'stations')} key={id}>
+                                                <td>{getIcon('bike')}</td>
+                                                <td>{name}</td>
+                                                <td>
+                                                    <button onClick={() => this.updateHiddenList(id, 'stations')}>X</button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
                                 </tbody>
-                            ))
-                        }
-                    </table>
+                            </table>
+                        </div>
+                        <div className="stops-container">
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th>Fjern busstopp</th>
+                                    </tr>
+                                </thead>
+                                {
+                                    stops.map(({
+                                        name, id, transportMode, departures,
+                                    }) => (
+                                        <tbody key={id}>
+                                            <tr style={this.getStyle(id, 'stops')} >
+                                                <td>{getIcon(transportMode)}</td>
+                                                <td>{name}</td>
+                                                <td>
+                                                    <button onClick={() => this.updateHiddenList(id, 'stops')}>X</button>
+                                                </td>
+                                            </tr>
+                                            { departures.map(({ route, type }, index) => (
+                                                <tr style={this.getStyle(route, 'routes')} key={index}>
+                                                    <td>{getIcon(type)}</td>
+                                                    <td>{route}</td>
+                                                    <td>
+                                                        <button onClick={() => this.updateHiddenList(route, 'routes')}>X</button>
+                                                    </td>
+                                                </tr>))}
+                                        </tbody>
+                                    ))
+                                }
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         )
