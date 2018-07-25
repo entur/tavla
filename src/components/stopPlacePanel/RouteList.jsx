@@ -7,13 +7,13 @@ const RouteList = ({
     <table className="route-table">
         <tbody>
             { departures.map(({ route, type }, index) => {
-                const isVisible = onCheck(route, 'routes')
+                const isVisible = !onCheck(route, 'routes')
                 return (
                     <tr style={getStyle(isVisible)} key={index}>
-                        <td className="route-icon">{getIcon(type)}</td>
-                        <td className="route-title">{route}</td>
-                        <td className="route-button">
-                            <button className="route-list-button" onClick={() => updateHiddenList(route, 'routes')}>
+                        <td className="admin-route-icon">{getIcon(type)}</td>
+                        <td className="admin-route-title">{route}</td>
+                        <td className="admin-route-button-container">
+                            <button className="admin-route-button" onClick={() => updateHiddenList(route, 'routes')}>
                                 <div aria-visible={isVisible} className="close" />
                             </button>
                         </td>
