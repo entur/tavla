@@ -1,0 +1,209 @@
+@import '~@entur/component-library/src/styles/_colors.scss';
+
+.stop-place {
+    display: flex;
+    width: 100%;
+    padding-bottom: 5px;
+}
+
+.stop-place-table {
+    width: 100%;
+    border-spacing: 0 0.5rem;
+}
+
+.stop-place-container {
+    width: 95%;
+}
+
+.stop-place-panel-title {
+    padding-bottom: 2%;
+}
+
+.stop-place-row {
+    height: 45px;
+    display: flex;
+    align-items: center;
+    padding: 1% 0 1% 2%;
+    justify-content: space-between;
+    background-color: #272727;
+    outline: none;
+}
+
+.stop-place-row[aria-selected='true'] {
+    outline: none;
+    border-bottom: 3px solid #FF5959;
+}
+
+.checkbox-container {
+    width: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 15px;
+}
+
+.checkbox {
+  position: absolute;
+  opacity: 0;
+
+  & + label {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    box-shadow: 0 0 0 3px #FF5959;
+  }
+
+  & + label:before {
+    content: '';
+    display: inline-block;
+    vertical-align: text-top;
+    width: 20px;
+    height: 20px;
+    background: inherit;
+  }
+
+  &[value='true'] + label:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 9px;
+    background: #FF5959;
+    width: 2px;
+    height: 2px;
+    box-shadow:
+      2px 0 0 #FF5959,
+      4px 0 0 #FF5959,
+      4px -2px 0 #FF5959,
+      4px -4px 0 #FF5959,
+      4px -6px 0 #FF5959,
+      4px -8px 0 #FF5959;
+    transform: rotate(45deg);
+  }
+}
+
+.stop-place-title {
+    width: 95%;
+}
+
+.show-button {
+    display: flex;
+    align-items: center;
+    width: 5%;
+    justify-content: center;
+}
+.stop-place-table td {
+    color: #FFFF;
+    background-color: #272727;
+    padding: 0.5rem 1rem;
+}
+
+.accordion__body {
+    padding: 0px 10px 5px 10px;
+    display: block;
+    animation: fadein 0.35s ease-in;
+}
+
+.accordion__body--hidden {
+    display: none;
+    opacity: 0;
+    animation: fadein 0.35s ease-in;
+}
+
+.accordion__arrow {
+    display: inline-flex;
+    width: 24px;
+    height: 12px;
+    position: absolute;
+}
+
+.accordion__arrow::after,
+.accordion__arrow::before {
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 10px;
+    height: 2px;
+    background-color: currentColor;
+    content: '';
+}
+
+.accordion__arrow::before {
+    left: 4px;
+    transform: rotate(45deg);
+}
+
+[aria-expanded='true'] .accordion__arrow::before, [aria-selected='true'] .accordion__arrow::before {
+    transform: rotate(-45deg);
+}
+
+.accordion__arrow::after {
+    right: 4px;
+    transform: rotate(-45deg);
+}
+
+[aria-expanded='true'] .accordion__arrow::after, [aria-selected='true'] .accordion__arrow::after {
+    transform: rotate(45deg);
+}
+
+.accordion__arrow::before,
+.accordion__arrow::after {
+    transition: transform 0.25s ease, -webkit-transform 0.25s ease;
+}
+
+.admin-route-table {
+    border-spacing: 0 5px;
+    width: 100%;
+    margin-top: -4px;
+    color: $white;
+}
+
+.admin-route-icon {
+    width: 5%;
+}
+
+.admin-route-title {
+    width: 90%;
+}
+
+.admin-route-button-container {
+    width: 5%;
+    position: relative;
+}
+
+
+.close {
+  background: white;
+  height: 18px;
+  position: relative;
+  width: 2px;
+}
+.close:after {
+  background: $white;
+  content: "";
+  height: 2px;
+  left: -8px;
+  position: absolute;
+  top: 8px;
+  width: 18px;
+}
+
+.close, .close:after {
+    transition: transform 0.25s ease, -webkit-transform 0.25s ease;
+}
+
+.close[value='true'], [value='true'] .close:after {
+    transform: rotate(45deg);
+}
+
+
+.admin-route-button {
+    border: none;
+    color: inherit;
+    outline: none;
+    background-color: inherit;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}

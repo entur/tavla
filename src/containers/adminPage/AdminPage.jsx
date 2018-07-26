@@ -1,6 +1,7 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
 import debounce from 'lodash.debounce'
+import StopPlacePanel from '../../components/stopPlacePanel/StopPlacePanel'
 import {
     getIcon,
     getPositionFromUrl,
@@ -84,10 +85,10 @@ class AdminPage extends React.Component {
         event.preventDefault()
     }
 
-    updateHiddenList(clickedId, hiddenList) {
+    updateHiddenList = (clickedId, hiddenListType) => {
         const {
             hiddenLists, hashedState,
-        } = updateHiddenListAndHash(clickedId, this.state, hiddenList)
+        } = updateHiddenListAndHash(clickedId, this.state, hiddenListType)
         const { hiddenStations, hiddenStops, hiddenRoutes } = hiddenLists
         this.setState({
             hiddenStations,
@@ -98,18 +99,19 @@ class AdminPage extends React.Component {
         this.props.history.push(`/admin/${this.state.positionString}/${hashedState}`)
     }
 
-    getStyle = (id, type) => {
+    getStyle = (isHidden) => {
+        return isHidden ? null : { opacity: 0.3 }
+    }
+
+    isHidden = (id, type) => {
         const { hiddenStops, hiddenStations, hiddenRoutes } = this.state
         if (type === 'stations') {
-            const onStyle = !hiddenStations.includes(id)
-            return onStyle ? null : { opacity: 0.3 }
+            return hiddenStations.includes(id)
         }
         if (type === 'stops') {
-            const onStyle = !hiddenStops.includes(id)
-            return onStyle ? null : { opacity: 0.3 }
+            return hiddenStops.includes(id)
         }
-        const onStyle = !hiddenRoutes.includes(id)
-        return onStyle ? null : { opacity: 0.3 }
+        return hiddenRoutes.includes(id)
     }
 
     onHomeButton = (event) => {
@@ -121,7 +123,7 @@ class AdminPage extends React.Component {
     render() {
         const { distance, stations, stops } = this.state
         return (
-            <div className="adminContent" >
+            <div className="admin-content" >
                 <div className="admin-header">
                     <h1>Admin</h1>
                     <button className="close-button" onClick={(event) => this.onHomeButton(event)}>X</button>
@@ -168,37 +170,8 @@ class AdminPage extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <div className="stops">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Fjern busstopp</th>
-                            </tr>
-                        </thead>
-                        {
-                            stops.map(({
-                                name, id, departures,
-                            }) => (
-                                <tbody key={id}>
-                                    <tr style={this.getStyle(id, 'stops')} >
-                                        <td>{ getTransportHeaderIcon(departures)}</td>
-                                        <td>{name}</td>
-                                        <td>
-                                            <button onClick={() => this.updateHiddenList(id, 'stops')}>X</button>
-                                        </td>
-                                    </tr>
-                                    { departures.map(({ route, type }, index) => (
-                                        <tr style={this.getStyle(route, 'routes')} key={index}>
-                                            <td>{getIcon(type)}</td>
-                                            <td>{route}</td>
-                                            <td>
-                                                <button onClick={() => this.updateHiddenList(route, 'routes')}>X</button>
-                                            </td>
-                                        </tr>))}
-                                </tbody>
-                            ))
-                        }
-                    </table>
+                <div className="stop-place-panel">
+                    <StopPlacePanel stops={stops} updateHiddenList={this.updateHiddenList} getStyle={this.getStyle} onCheck={this.isHidden}/>
                 </div>
             </div>
         )
