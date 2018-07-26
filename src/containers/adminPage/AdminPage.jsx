@@ -12,7 +12,7 @@ import {
     updateHiddenListAndHash,
     minutesToDistance,
 } from '../../utils'
-import DEFAULT_DISTANCE from '../../constants'
+import { DEFAULT_DISTANCE } from '../../constants'
 import './styles.scss'
 
 const service = new EnturService({ clientName: 'entur-tavla' })

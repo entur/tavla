@@ -3,7 +3,7 @@ import {
     distanceToMinutes,
 } from '../../utils'
 
-import MAX_DISTANCE_MINUTES from '../../constants'
+import { MAX_DISTANCE_MINUTES } from '../../constants'
 
 const DistanceInput = (props) => {
     return (
