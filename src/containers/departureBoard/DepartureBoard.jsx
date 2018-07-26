@@ -4,6 +4,7 @@ import moment from 'moment'
 import './styles.scss'
 import { BikeTable, DepartureTables, DepartureTiles } from '../../components'
 import { getSettingsFromUrl, getPositionFromUrl, getStopPlacesByPositionAndDistance } from '../../utils'
+import { DEFAULT_DISTANCE } from '../../constants'
 import { Settings } from '../../assets/icons'
 
 const service = new EnturService({ clientName: 'entur-tavla' })
@@ -12,7 +13,7 @@ class DepartureBoard extends React.Component {
     state = {
         stationData: [],
         stopsData: [],
-        distance: 300,
+        distance: DEFAULT_DISTANCE,
         hiddenStations: [],
         hiddenStops: [],
         hiddenRoutes: [],

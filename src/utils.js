@@ -5,6 +5,8 @@ import {
     Bus, CityBike, Ferry, Lock, Metro, Train, Tram,
 } from './assets/icons'
 
+import { MAX_DISTANCE_MINUTES, WALK_SPEED, DEFAULT_DISTANCE } from './constants'
+
 const service = new EnturService({ clientName: 'entur-tavla' })
 
 export function getIcon(type, props) {
@@ -36,7 +38,7 @@ export function getPositionFromUrl() {
 export function getSettingsFromUrl() {
     const settings = window.location.pathname.split('/')[3]
     return (settings !== '') ? JSON.parse(atob(settings)) : {
-        hiddenStations: [], hiddenStops: [], hiddenRoutes: [], distance: 300,
+        hiddenStations: [], hiddenStops: [], hiddenRoutes: [], distance: DEFAULT_DISTANCE,
     }
 }
 
@@ -168,4 +170,15 @@ export function updateHiddenListAndHash(clickedId, state, hiddenType) {
         default:
             return { hiddenLists, hashedState }
     }
+}
+
+export function distanceToMinutes(distance) {
+    return Math.round((distance)/(WALK_SPEED*60))
+}
+
+export function minutesToDistance(minutes) {
+    if (minutes > MAX_DISTANCE_MINUTES) {
+        return (MAX_DISTANCE_MINUTES*60)*WALK_SPEED
+    }
+    return (minutes*60)*WALK_SPEED
 }

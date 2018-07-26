@@ -1,6 +1,7 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
 import debounce from 'lodash.debounce'
+import { SortPanel } from '../../components'
 import {
     getIcon,
     getPositionFromUrl,
@@ -9,16 +10,17 @@ import {
     getStopPlacesByPositionAndDistance,
     getSettingsHash,
     updateHiddenListAndHash,
+    minutesToDistance,
 } from '../../utils'
+import DEFAULT_DISTANCE from '../../constants'
 import './styles.scss'
 
 const service = new EnturService({ clientName: 'entur-tavla' })
-const WALK_SPEED = 1.4
-const MAX_DISTANCE_MINUTES = 45
+
 
 class AdminPage extends React.Component {
     state = {
-        distance: 300,
+        distance: DEFAULT_DISTANCE,
         stations: [],
         stops: [],
         hiddenStations: [],
@@ -61,13 +63,6 @@ class AdminPage extends React.Component {
                 })
             })
         })
-    }
-
-    handleChange = (event) => {
-        const distance = this.minutesToDistance(event.target.value)
-        const { position } = this.state
-        this.setState({ distance })
-        this.updateSearch(distance, position)
     }
 
     updateSearch = debounce((distance, position) => {
@@ -113,39 +108,21 @@ class AdminPage extends React.Component {
         return onStyle ? null : { opacity: 0.3 }
     }
 
-    renderDistanceNumberInput = () => {
-        return (
-            <input
-                type="number"
-                value={this.distanceToMinutes(this.state.distance)}
-                className="distance-input"
-                onChange={this.handleTextInputChange}
-                min="1"
-                max={MAX_DISTANCE_MINUTES}
-            />
-        )
+    handleTextInputChange = (event) => {
+        const minutes = event.target.value
+        const distance = minutes === '' ? null : minutesToDistance(minutes)
+        const { position } = this.state
+        this.setState({ distance })
+        if (minutes.length) {
+            this.updateSearch(distance, position)
+        }
     }
 
-    handleTextInputChange = (event) => {
-        let minutes = event.target.value
-        if (minutes.length === 0) {
-            minutes = 1
-        }
-        const distance = this.minutesToDistance(minutes)
+    handleSliderChange = (event) => {
+        const distance = minutesToDistance(event.target.value)
         const { position } = this.state
         this.setState({ distance })
         this.updateSearch(distance, position)
-    }
-
-    distanceToMinutes = (distance) => {
-        return Math.round((distance)/(WALK_SPEED*60))
-    }
-
-    minutesToDistance = (minutes) => {
-        if (minutes > MAX_DISTANCE_MINUTES) {
-            return (MAX_DISTANCE_MINUTES*60)*WALK_SPEED
-        }
-        return (minutes*60)*WALK_SPEED
     }
 
     render() {
@@ -157,27 +134,7 @@ class AdminPage extends React.Component {
                     <button className="close-button" onClick={this.goToDashboard}>X</button>
                 </div>
                 <div className="admin-content">
-                    <div className="find-nearby-container">
-                        <p>Finn holdeplasser i nærheten</p>
-                        <div className="distance">
-                            <p>Hvor langt vil du gå?</p>
-                            <p>Maks gangavstand til holdeplass er ca. {this.renderDistanceNumberInput()} min</p>
-                            <input
-                                id="typeinp"
-                                type="range"
-                                min="1"
-                                max={MAX_DISTANCE_MINUTES}
-                                step="1"
-                                onChange={this.handleChange}
-                                className="slider"
-                                value={this.distanceToMinutes(distance)}
-                            />
-                            <div className="slider-labels">
-                                <div>1 min</div>
-                                <div>{MAX_DISTANCE_MINUTES} min</div>
-                            </div>
-                        </div>
-                    </div>
+                    <SortPanel distance={distance} handleSliderChange={this.handleSliderChange} handleTextInputChange={this.handleTextInputChange}/>
                     <div className="places-container">
                         <div className="stations-container">
                             <table className="table">
