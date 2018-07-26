@@ -4,7 +4,7 @@ import { getIcon } from '../../utils'
 const RouteList = ({
     departures, updateHiddenList, getStyle, onCheck,
 }) => (
-    <table className="route-table">
+    <table className="admin-route-table">
         <tbody>
             { departures.map(({ route, type }, index) => {
                 const isVisible = !onCheck(route, 'routes')
@@ -14,7 +14,7 @@ const RouteList = ({
                         <td className="admin-route-title">{route}</td>
                         <td className="admin-route-button-container">
                             <button className="admin-route-button" onClick={() => updateHiddenList(route, 'routes')}>
-                                <div aria-visible={isVisible} className="close" />
+                                <div value={isVisible} className="close" />
                             </button>
                         </td>
                     </tr>

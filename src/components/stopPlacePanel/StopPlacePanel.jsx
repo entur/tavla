@@ -9,11 +9,8 @@ import RouteList from './RouteList'
 import './styles.scss'
 
 class StopPlacePanel extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            showMoreId: '',
-        }
+    state = {
+        showMoreId: '',
     }
 
     onShowMoreClick(id) {
@@ -34,21 +31,17 @@ class StopPlacePanel extends React.Component {
             onCheck, getStyle, updateHiddenList, stops,
         } = this.props
         return (
-            <div className="stops">
-                <div className="stop-place-table">
-                    <div>
-                        <div>
-                            <div>Holdeplasser</div>
-                        </div>
-                    </div>
-                    {
-                        stops.map(({
-                            name, id, departures,
-                        }) => {
-                            const isChecked = !onCheck(id, 'stops')
-                            return (
-                                <Accordion className="stop-place" accordion="true">
-                                    <div className="checkbox-container">
+            <div className="stop-place-panel">
+                <div className="stop-place-panel-title">Holdeplasser</div>
+                {
+                    stops.map(({
+                        name, id, departures,
+                    }) => {
+                        const isChecked = !onCheck(id, 'stops')
+                        return (
+                            <Accordion className="stop-place" accordion="true">
+                                <div className="checkbox-container">
+                                    <div>
                                         <input
                                             type="checkbox"
                                             className="checkbox"
@@ -56,31 +49,31 @@ class StopPlacePanel extends React.Component {
                                             value={isChecked}
                                             onChange={() => updateHiddenList(id, 'stops')}
                                         />
-                                        <label for={id}/>
+                                        <label htmlFor={id}/>
                                     </div>
-                                    <AccordionItem className="stop-place-container" style={getStyle(isChecked)} key={id}>
-                                        <AccordionItemTitle className="stop-place-row">
-                                            <div className="stop-place-title">
-                                                {name}
-                                            </div>
-                                            <div className="show-button">
-                                                <div className="accordion__arrow" role="presentation" />
-                                            </div>
-                                        </AccordionItemTitle>
-                                        <AccordionItemBody>
-                                            <RouteList
-                                                departures={departures}
-                                                updateHiddenList={updateHiddenList}
-                                                getStyle={getStyle}
-                                                onCheck={onCheck}
-                                            />
-                                        </AccordionItemBody>
-                                    </AccordionItem>
-                                </Accordion>
-                            )
-                        })
-                    }
-                </div>
+                                </div>
+                                <AccordionItem className="stop-place-container" style={getStyle(isChecked)} key={id}>
+                                    <AccordionItemTitle className="stop-place-row">
+                                        <div className="stop-place-title">
+                                            {name}
+                                        </div>
+                                        <div className="show-button">
+                                            <div className="accordion__arrow" role="presentation" />
+                                        </div>
+                                    </AccordionItemTitle>
+                                    <AccordionItemBody>
+                                        <RouteList
+                                            departures={departures}
+                                            updateHiddenList={updateHiddenList}
+                                            getStyle={getStyle}
+                                            onCheck={onCheck}
+                                        />
+                                    </AccordionItemBody>
+                                </AccordionItem>
+                            </Accordion>
+                        )
+                    })
+                }
             </div>
         )
     }
