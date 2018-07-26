@@ -15,7 +15,7 @@ export function getIcon(type, props) {
             return <Bus {...props} />
         case 'bike':
             return <CityBike {...props} />
-        case 'ferry':
+        case 'water':
             return <Ferry {...props} />
         case 'metro':
             return <Metro {...props} />
@@ -28,6 +28,10 @@ export function getIcon(type, props) {
         default:
             return null
     }
+}
+
+export function onBlur(isChecked) {
+    return isChecked ? null : { opacity: 0.3 }
 }
 
 export function getPositionFromUrl() {
@@ -51,6 +55,20 @@ export function groupBy(objectArray, property) {
         acc[key].push(obj)
         return acc
     }, {})
+}
+
+export function getTransportHeaderIcon(departures, dimensions) {
+    const transportModes = [...new Set(departures.map(item => item.type))]
+    if (!dimensions) {
+        return transportModes.map((mode, index) => (
+            getIcon(mode, { height, width, key: index })
+        ))
+    }
+    const { height, width } = dimensions
+    const length = transportModes.length
+    return transportModes.map((mode, index) => (
+        getIcon(mode, { height: 90/length, width: 90/length, key: index })
+    ))
 }
 
 export function isVisible(groupedDepartures, hiddenRoutes) {
