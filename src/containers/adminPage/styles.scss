@@ -1,35 +1,55 @@
 @import '~@entur/component-library/src/styles/_colors.scss';
 
-.stop-place {
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.close-button {
+    background-color: grey;
+    border: none;
+    color: white;
+    padding: 12px 16px;
+    font-size: 16px;
+    border-radius: 50%;
+}
+
+
+.selection-row {
     display: flex;
     width: 100%;
-    padding-bottom: 5px;
+    padding-bottom: 1%;
 }
 
-.stop-place-table {
-    width: 100%;
-    border-spacing: 0 0.5rem;
-}
-
-.stop-place-container {
+.selection-data-wrapper {
     width: 95%;
 }
 
-.stop-place-panel-title {
-    padding-bottom: 2%;
+.selection-panel-title {
+    padding: 2% 0 2% 0;
 }
 
-.stop-place-row {
+.selection-data-container {
+    width: 100%;
     height: 45px;
     display: flex;
     align-items: center;
     padding: 1% 0 1% 2%;
-    justify-content: space-between;
     background-color: #272727;
     outline: none;
 }
 
-.stop-place-row[aria-selected='true'] {
+.stop-place-container {
+    justify-content: space-between;
+}
+
+.city-bike-name {
+    margin-left: 2%;
+}
+
+
+.stop-place-container[aria-selected='true'] {
     outline: none;
     border-bottom: 3px solid #FF5959;
 }
@@ -37,48 +57,9 @@
 .checkbox-container {
     width: 5%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
-    padding-top: 15px;
-}
-
-.checkbox {
-  position: absolute;
-  opacity: 0;
-
-  & + label {
-    position: relative;
-    cursor: pointer;
-    padding: 0;
-    box-shadow: 0 0 0 3px #FF5959;
-  }
-
-  & + label:before {
-    content: '';
-    display: inline-block;
-    vertical-align: text-top;
-    width: 20px;
-    height: 20px;
-    background: inherit;
-  }
-
-  &[value='true'] + label:after {
-    content: '';
-    position: absolute;
-    left: 5px;
-    top: 9px;
-    background: #FF5959;
-    width: 2px;
-    height: 2px;
-    box-shadow:
-      2px 0 0 #FF5959,
-      4px 0 0 #FF5959,
-      4px -2px 0 #FF5959,
-      4px -4px 0 #FF5959,
-      4px -6px 0 #FF5959,
-      4px -8px 0 #FF5959;
-    transform: rotate(45deg);
-  }
+    padding: 15px 0 0 3px;
 }
 
 .stop-place-title {
