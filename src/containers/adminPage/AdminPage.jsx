@@ -10,6 +10,7 @@ import {
     getStopPlacesByPositionAndDistance,
     getSettingsHash,
     updateHiddenListAndHash,
+    getTransportHeaderIcon,
 } from '../../utils'
 import './styles.css'
 
@@ -158,7 +159,7 @@ class AdminPage extends React.Component {
                                     name, id,
                                 }) => (
                                     <tr style={this.getStyle(id, 'stations')} key={id}>
-                                        <td>{getIcon('bike')}</td>
+                                        <td>{getIcon('bike', { height: 20, width: 20 })}</td>
                                         <td>{name}</td>
                                         <td>
                                             <button onClick={() => this.updateHiddenList(id, 'stations')}>X</button>

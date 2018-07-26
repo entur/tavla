@@ -1,5 +1,8 @@
 import React from 'react'
-import { getIcon, groupBy, isVisible } from '../../utils'
+import {
+    getIcon, groupBy, isVisible, getTransportHeaderIcon,
+} from '../../utils'
+
 
 const DepartureTile = ({ stopPlace, routes, hiddenRoutes }) => {
     const { departures, name, id } = stopPlace
@@ -11,7 +14,7 @@ const DepartureTile = ({ stopPlace, routes, hiddenRoutes }) => {
     return (
         <div className="tile-container" key={id}>
             <div className="stop-header">
-                { getIcon('bus', { height: 50 }) }
+                { getTransportHeaderIcon(stopPlace.departures, { height: 90, width: 90 }) }
                 <h2>{name}</h2>
             </div>
             <div>
@@ -24,13 +27,13 @@ const DepartureTile = ({ stopPlace, routes, hiddenRoutes }) => {
                             return (
                                 <div key={route}>
                                     <div className="route-name">
-                                        <div className="route-icon">{getIcon(routeType, { height: '11' })}</div>
+                                        <div className="route-icon">{getIcon(routeType, { height: 25, width: 25 })}</div>
                                         <p className="route-name-text">{route}</p>
                                     </div>
                                     <div className="route-departures">
                                         { routeData.map((data, index) => {
                                             return (
-                                                <div className="route-departure-time"key={index}>
+                                                <div className="route-departure-time" key={index}>
                                                     {data.time}
                                                 </div>)
                                         })}
