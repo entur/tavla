@@ -9,7 +9,7 @@ const BikeTable = ({ stationData, visible }) => {
     return (
         <div className="bike-tile-container">
             <div className="bike-header-container">
-                <div>{getIcon('bike', { height: 60, width: '60', color: '#ff5956' })}</div>
+                <div>{getIcon('bike', { height: 60, width: 60 })}</div>
                 <div><h2>Bysykkel</h2></div>
             </div>
             {
@@ -19,7 +19,7 @@ const BikeTable = ({ stationData, visible }) => {
                     <div key={id} className="bike-container">
                         <h4 className="bike-station-title">{name}</h4>
                         <div className="available">
-                            {getIcon('bike', { color: '#ff5956' })}
+                            {getIcon('bike')}
                             <div className="bike-available-text">
                                 {bikesAvailable}
                             </div>

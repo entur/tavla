@@ -28,6 +28,10 @@ export function getIcon(type, props) {
     }
 }
 
+export function onBlur(isChecked) {
+    return isChecked ? null : { opacity: 0.3 }
+}
+
 export function getPositionFromUrl() {
     const positionArray = window.location.pathname.split('/')[2].split('@')[1].split('-').join('.').split(/,/)
     return { latitude: positionArray[0], longitude: positionArray[1] }

@@ -1,18 +1,16 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
 import debounce from 'lodash.debounce'
-import StopPlacePanel from '../../components/stopPlacePanel/StopPlacePanel'
+import SelectionPanel from './SelectionPanel'
 import {
-    getIcon,
     getPositionFromUrl,
     getSettingsFromUrl,
     getStopsWithUniqueStopPlaceDepartures,
     getStopPlacesByPositionAndDistance,
     getSettingsHash,
     updateHiddenListAndHash,
-    getTransportHeaderIcon,
 } from '../../utils'
-import './styles.css'
+import './styles.scss'
 
 const service = new EnturService({ clientName: 'entur-tavla' })
 
@@ -122,6 +120,7 @@ class AdminPage extends React.Component {
 
     render() {
         const { distance, stations, stops } = this.state
+        const { isHidden, updateHiddenList } = this
         return (
             <div className="admin-content" >
                 <div className="admin-header">
@@ -146,32 +145,14 @@ class AdminPage extends React.Component {
                         <button type="submit" value="Submit">Update</button>
                     </form>
                 </div>
-                <div className="stations">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Fjern sykkelstasjon</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                stations.map(({
-                                    name, id,
-                                }) => (
-                                    <tr style={this.getStyle(id, 'stations')} key={id}>
-                                        <td>{getIcon('bike', { height: 20, width: 20 })}</td>
-                                        <td>{name}</td>
-                                        <td>
-                                            <button onClick={() => this.updateHiddenList(id, 'stations')}>X</button>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
-                </div>
+
                 <div className="stop-place-panel">
-                    <StopPlacePanel stops={stops} updateHiddenList={this.updateHiddenList} getStyle={this.getStyle} onCheck={this.isHidden}/>
+                    <SelectionPanel
+                        stops={stops}
+                        stations={stations}
+                        updateHiddenList={updateHiddenList}
+                        onCheck={isHidden}
+                    />
                 </div>
             </div>
         )

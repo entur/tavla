@@ -27,7 +27,7 @@ CityBike.propTypes = {
 CityBike.defaultProps = {
     height: 30,
     width: 30,
-    color: '#565659',
+    color: '#FF5959',
 }
 
 export default CityBike
