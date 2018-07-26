@@ -46,7 +46,7 @@ class SearchPanel extends React.Component {
                             lon: geometry.coordinates[0],
                             lat: geometry.coordinates[1],
                         },
-                        name: properties.name,
+                        name: properties.name + ', ' + properties.locality,
                     }
                 })
                 this.setState({
