@@ -22,7 +22,7 @@ const DepartureTile = ({ stopPlace, routes, hiddenRoutes }) => {
                     routes
                         .filter((route) => !hiddenRoutes.includes(route))
                         .map((route) => {
-                            const routeData = groupedDepartures[route]
+                            const routeData = groupedDepartures[route].slice(0, 3)
                             const routeType = routeData[0].type
                             return (
                                 <div key={route}>
