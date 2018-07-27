@@ -1,6 +1,7 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
 import debounce from 'lodash.debounce'
+import { SortPanel } from '../../components'
 import SelectionPanel from './SelectionPanel'
 import {
     getPositionFromUrl,
@@ -9,7 +10,9 @@ import {
     getStopPlacesByPositionAndDistance,
     getSettingsHash,
     updateHiddenListAndHash,
+    minutesToDistance,
 } from '../../utils'
+import { DEFAULT_DISTANCE } from '../../constants'
 import './styles.scss'
 
 const service = new EnturService({ clientName: 'entur-tavla' })
@@ -17,7 +20,7 @@ const service = new EnturService({ clientName: 'entur-tavla' })
 
 class AdminPage extends React.Component {
     state = {
-        distance: 300,
+        distance: DEFAULT_DISTANCE,
         stations: [],
         stops: [],
         hiddenStations: [],
@@ -62,25 +65,17 @@ class AdminPage extends React.Component {
         })
     }
 
-    handleChange = (event) => {
-        const distance = event.target.value
-        const { position } = this.state
-        this.setState({ distance })
-        this.updateSearch(distance, position)
-    }
-
     updateSearch = debounce((distance, position) => {
         this.getDataFromSDK(position, distance)
     }, 500)
 
-    handleSubmit = (event) => {
+    goToDashboard = () => {
         const {
             distance, hiddenStations, hiddenStops, positionString, hiddenRoutes,
         } = this.state
         const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes)
         this.setState({ hashedState })
-        this.props.history.push(`/admin/${positionString}/${hashedState}`)
-        event.preventDefault()
+        this.props.history.push(`/dashboard/${positionString}/${hashedState}`)
     }
 
     updateHiddenList = (clickedId, hiddenListType) => {
@@ -112,41 +107,34 @@ class AdminPage extends React.Component {
         return hiddenRoutes.includes(id)
     }
 
-    onHomeButton = (event) => {
-        const { hashedState, positionString } = this.state
-        this.props.history.replace(`/dashboard/${positionString}/${hashedState}`)
-        event.preventDefault()
+    handleTextInputChange = (event) => {
+        const minutes = event.target.value
+        const distance = minutes === '' ? null : minutesToDistance(minutes)
+        const { position } = this.state
+        this.setState({ distance })
+        if (minutes.length) {
+            this.updateSearch(distance, position)
+        }
+    }
+
+    handleSliderChange = (event) => {
+        const distance = minutesToDistance(event.target.value)
+        const { position } = this.state
+        this.setState({ distance })
+        this.updateSearch(distance, position)
     }
 
     render() {
         const { distance, stations, stops } = this.state
         const { isHidden, updateHiddenList } = this
         return (
-            <div className="admin-content" >
+            <div className="admin-container">
                 <div className="admin-header">
-                    <h1>Admin</h1>
-                    <button className="close-button" onClick={(event) => this.onHomeButton(event)}>X</button>
+                    <h1>Rediger innhold</h1>
+                    <button className="close-button" onClick={this.goToDashboard}>X</button>
                 </div>
-                <div className="distance" >
-                    <p>{distance} meter</p>
-                    <form onSubmit={this.handleSubmit}>
-                        <label>
-                            Distance:
-                            <input
-                                id="typeinp"
-                                type="range"
-                                min="200"
-                                max="3000"
-                                defaultValue="300"
-                                step="100"
-                                onChange={this.handleChange}
-                            />
-                        </label>
-                        <button type="submit" value="Submit">Update</button>
-                    </form>
-                </div>
-
-                <div className="stop-place-panel">
+                <div className="admin-content">
+                    <SortPanel distance={distance} handleSliderChange={this.handleSliderChange} handleTextInputChange={this.handleTextInputChange}/>
                     <SelectionPanel
                         stops={stops}
                         stations={stations}

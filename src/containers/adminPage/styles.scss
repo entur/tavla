@@ -1,5 +1,8 @@
 @import '~@entur/component-library/src/styles/_colors.scss';
 
+.admin-container{
+    min-height: 80%;
+}
 .admin-header {
     display: flex;
     align-items: center;
@@ -15,6 +18,127 @@
     border-radius: 50%;
 }
 
+.admin-content{
+    display: flex;
+}
+
+.find-nearby-container{
+    width: 50%;
+    background-color: #212121;
+    padding: 1%;
+    margin-right: 2%;
+}
+
+.distance-container{
+    p{
+        font-weight: 300;
+    }
+}
+
+.distance-input{
+    background: transparent;
+    border: none;
+    color: $white;
+    width: 2.5rem;
+    font-size: 1rem;
+    border-bottom: 2px solid $coral;
+    padding: 0.2rem;
+    text-align: center;
+    &:focus{
+        outline: none;
+    }
+    &::-webkit-inner-spin-button{
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    &::-webkit-outer-spin-button{
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+.slider{
+    width: 100%;
+    height: 2rem;
+    -webkit-appearance: none;
+    background: transparent;
+    &:focus{
+        outline: none;
+        &::-webkit-slider-runnable-track {
+          background: #424141;
+        }
+    }
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      border: 1px solid $coral;
+      height: 1.8rem;
+      width: 1.8rem;
+      border-radius: 100%;
+      background: $coral;
+      cursor: pointer;
+      margin-top: -1em;
+    }
+    &::-moz-range-thumb{
+        border: 1px solid $coral;
+        height: 1.8rem;
+        width: 1.8rem;
+        border-radius: 100%;
+        background: $coral;
+        cursor: pointer;
+    }
+    &::-ms-thumb{
+        border: 1px solid $coral;
+        height: 1.8rem;
+        width: 1.8rem;
+        border-radius: 100%;
+        background: $coral;
+        cursor: pointer;
+    }
+    &::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 0.5rem;
+        cursor: pointer;
+        background: #424141;
+        border: 0.2px solid #424141;
+    }
+    &::-moz-range-track{
+        width: 100%;
+        height: 0.5rem;
+        cursor: pointer;
+        background: #424141;
+        border: 0.2px solid #424141;
+    }
+    &::-ms-track{
+        width: 100%;
+        height: 0.5rem;
+        cursor: pointer;
+        background: #424141;
+        border: 0.2px solid #424141;
+        background: transparent;
+        border-color: transparent;
+        color: transparent;
+    }
+    &::-ms-fill-lower{
+        background: $coral;
+    }
+    &::-ms-fill-upper{
+        background: #424141;
+    }
+}
+
+.slider-labels{
+    display: flex;
+    justify-content: space-between;
+    font-weight: 300;
+}
+
+.places-container{
+    width: 50%;
+}
+
+.table td {
+    background-color: grey;
+}
 
 .selection-row {
     display: flex;
@@ -60,6 +184,10 @@
     justify-content: flex-start;
     align-items: flex-start;
     padding: 15px 0 0 3px;
+}
+
+.selection-panel{
+    width: 50%;
 }
 
 .stop-place-title {
@@ -187,4 +315,5 @@
     display: flex;
     justify-content: center;
     cursor: pointer;
+
 }
