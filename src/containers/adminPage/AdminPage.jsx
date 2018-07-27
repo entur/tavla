@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce'
 import { SortPanel } from '../../components'
 import SelectionPanel from './SelectionPanel'
 import {
+    getIcon,
     getPositionFromUrl,
     getSettingsFromUrl,
     getStopsWithUniqueStopPlaceDepartures,
@@ -11,6 +12,7 @@ import {
     getSettingsHash,
     updateHiddenListAndHash,
     minutesToDistance,
+    getTransportModesByStop,
 } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
 import './styles.scss'
@@ -29,6 +31,7 @@ class AdminPage extends React.Component {
         position: {},
         positionString: '',
         hashedState: '',
+        transportModes: [],
     }
 
     componentDidMount() {
@@ -52,14 +55,22 @@ class AdminPage extends React.Component {
 
     getDataFromSDK(position, distance) {
         service.getBikeRentalStations(position, distance).then(stations => {
-            this.setState({
-                stations,
-            })
+            if (stations) {
+                this.setState({
+                    stations,
+                    transportModes: ['bike'],
+                })
+            }
         })
         getStopPlacesByPositionAndDistance(position, distance).then(stops => {
             getStopsWithUniqueStopPlaceDepartures(stops).then((uniqueRoutes) => {
+                const uniqueModes = getTransportModesByStop(uniqueRoutes)
                 this.setState({
                     stops: uniqueRoutes,
+                    transportModes: [
+                        ...this.state.transportModes,
+                        uniqueModes,
+                    ],
                 })
             })
         })
@@ -125,7 +136,10 @@ class AdminPage extends React.Component {
     }
 
     render() {
-        const { distance, stations, stops } = this.state
+        const {
+            distance, stations, stops, transportModes,
+        } = this.state
+        console.log(transportModes)
         const { isHidden, updateHiddenList } = this
         return (
             <div className="admin-container">
@@ -134,7 +148,22 @@ class AdminPage extends React.Component {
                     <button className="close-button" onClick={this.goToDashboard}>X</button>
                 </div>
                 <div className="admin-content">
-                    <SortPanel distance={distance} handleSliderChange={this.handleSliderChange} handleTextInputChange={this.handleTextInputChange}/>
+                    <div className="filter-panel">
+                        <div className="mode-sort-container">
+                            { transportModes.map((mode) => (
+                                <div className="sort-button-text">
+                                    <button
+                                        className="mode-sort-button"
+                                        onClick={() => updateHiddenList(mode, 'transportMode')}
+                                    >
+                                        { getIcon(mode, { color: '#EFD358', height: 50, width: 50 }) }
+                                    </button>
+                                    <p className="mode-sort-text">{mode}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <SortPanel distance={distance} handleSliderChange={this.handleSliderChange} handleTextInputChange={this.handleTextInputChange}/>
+                    </div>
                     <SelectionPanel
                         stops={stops}
                         stations={stations}

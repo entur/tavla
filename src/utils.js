@@ -57,8 +57,17 @@ export function groupBy(objectArray, property) {
     }, {})
 }
 
+function getTransportModes(departures) {
+    return [...new Set(departures.map(item => item.type))]
+}
+
+export function getTransportModesByStop(stop) {
+    const dep = stop.map(({ departures }) => getTransportModes(departures))
+    return [...new Set([].concat(...dep))]
+}
+
 export function getTransportHeaderIcon(departures, dimensions) {
-    const transportModes = [...new Set(departures.map(item => item.type))]
+    const transportModes = getTransportModes(departures)
     if (!dimensions) {
         return transportModes.map((mode, index) => (
             getIcon(mode, { height, width, key: index })
