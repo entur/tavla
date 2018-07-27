@@ -104,9 +104,9 @@ class DepartureBoard extends React.Component {
         if (tileView) {
             return (
                 <div className="departure-board">
-                    <div className="button-wrap">
-                        <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} ><Settings /></button>
-                    </div>
+                    <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
+                        <Settings />
+                    </button>
                     <div className="departure-tiles">
                         {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes }}/> : null}
                         {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
@@ -116,11 +116,9 @@ class DepartureBoard extends React.Component {
         }
         return (
             <div className="departure-board">
-                <div className="button-wrap">
-                    <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
-                        <Settings />
-                    </button>
-                </div>
+                <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
+                    <Settings />
+                </button>
                 <div className="departure-table">
                     {visibleStopCount > 0 ? <DepartureTables lineData={stopsData} visible={{ hiddenStops, hiddenRoutes }}/> : null}
                     {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
