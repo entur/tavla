@@ -4,17 +4,18 @@ import {
 } from '../../utils'
 
 
-const DepartureTile = ({ stopPlace, routes, hiddenRoutes }) => {
+const DepartureTile = ({
+    stopPlace, routes, hiddenRoutes, hiddenModes,
+}) => {
     const { departures, name, id } = stopPlace
     const groupedDepartures = groupBy(departures, 'route')
-
-    if (!isVisible(groupedDepartures, hiddenRoutes)) {
+    if (!isVisible(groupedDepartures, hiddenRoutes, hiddenModes)) {
         return null
     }
     return (
         <div className="tile-container" key={id}>
             <div className="stop-header">
-                { getTransportHeaderIcon(stopPlace.departures, { height: 90, width: 90 }) }
+                { getTransportHeaderIcon(stopPlace.departures, { height: 90, width: 90 }, hiddenModes)}
                 <h2>{name}</h2>
             </div>
             <div>
@@ -24,6 +25,9 @@ const DepartureTile = ({ stopPlace, routes, hiddenRoutes }) => {
                         .map((route) => {
                             const routeData = groupedDepartures[route]
                             const routeType = routeData[0].type
+                            if (hiddenModes.includes(routeType)) {
+                                return null
+                            }
                             return (
                                 <div key={route}>
                                     <div className="route-name">

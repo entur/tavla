@@ -18,12 +18,12 @@ const SelectionPanel = ({
             {
                 stops.map(({
                     name, id, departures,
-                }) => {
+                }, index) => {
                     const isChecked = !onCheck(id, 'stops')
                     return (
-                        <Accordion className="selection-row" accordion="true">
+                        <Accordion className="selection-row" accordion="true" key={index}>
                             <div className="checkbox-container">
-                                <Checkbox id={id} value={isChecked} onChange={() => updateHiddenList(id, 'stops')}/>
+                                <Checkbox key={id} id={id} value={isChecked} onChange={() => updateHiddenList(id, 'stops')}/>
                             </div>
                             <AccordionItem className="selection-data-wrapper" style={onBlur(isChecked)} key={id}>
                                 <AccordionItemTitle className="selection-data-container stop-place-container">
@@ -37,10 +37,10 @@ const SelectionPanel = ({
                                 <AccordionItemBody>
                                     <table className="admin-route-table">
                                         <tbody>
-                                            { departures.map(({ route, type }, index) => {
+                                            { departures.map(({ route, type }, i) => {
                                                 const isVisible = !onCheck(route, 'routes')
                                                 return (
-                                                    <tr style={onBlur(isVisible)} key={index}>
+                                                    <tr style={onBlur(isVisible)} key={i}>
                                                         <td className="admin-route-icon">{getIcon(type)}</td>
                                                         <td className="admin-route-title">{route}</td>
                                                         <td className="admin-route-button-container">
@@ -65,12 +65,12 @@ const SelectionPanel = ({
             {
                 stations.map(({
                     name, id,
-                }) => {
+                }, index) => {
                     const isChecked = !onCheck(id, 'stations')
                     return (
-                        <div className="selection-row">
+                        <div className="selection-row" key={index}>
                             <div className="checkbox-container">
-                                <Checkbox id={id} value={isChecked} onChange={() => updateHiddenList(id, 'stations')}/>
+                                <Checkbox key={index} id={id} value={isChecked} onChange={() => updateHiddenList(id, 'stations')}/>
                             </div>
                             <div className="selection-data-wrapper" style={onBlur(isChecked)}>
                                 <div className="selection-data-container">

@@ -28,6 +28,7 @@ class AdminPage extends React.Component {
         hiddenStations: [],
         hiddenStops: [],
         hiddenRoutes: [],
+        hiddenModes: [],
         position: {},
         positionString: '',
         hashedState: '',
@@ -38,7 +39,7 @@ class AdminPage extends React.Component {
         const position = getPositionFromUrl()
         const positionString = window.location.pathname.split('/')[2]
         const {
-            hiddenStations, hiddenStops, distance, hiddenRoutes,
+            hiddenStations, hiddenStops, distance, hiddenRoutes, hiddenModes,
         } = getSettingsFromUrl()
         this.getDataFromSDK(position, distance)
         const hashedState = window.location.pathname.split('/')[3]
@@ -48,6 +49,7 @@ class AdminPage extends React.Component {
             hiddenStops,
             hiddenStations,
             hiddenRoutes,
+            hiddenModes,
             position,
             positionString,
         })
@@ -60,17 +62,23 @@ class AdminPage extends React.Component {
                     stations,
                     transportModes: ['bike'],
                 })
+            } else {
+                this.setState({
+                    stations,
+                })
             }
         })
         getStopPlacesByPositionAndDistance(position, distance).then(stops => {
             getStopsWithUniqueStopPlaceDepartures(stops).then((uniqueRoutes) => {
                 const uniqueModes = getTransportModesByStop(uniqueRoutes)
-                this.setState({
-                    stops: uniqueRoutes,
-                    transportModes: [
-                        ...this.state.transportModes,
-                        uniqueModes,
-                    ],
+                uniqueModes.map((mode) => {
+                    this.setState({
+                        stops: uniqueRoutes,
+                        transportModes: [
+                            ...this.state.transportModes,
+                            mode,
+                        ],
+                    })
                 })
             })
         })
@@ -82,9 +90,9 @@ class AdminPage extends React.Component {
 
     goToDashboard = () => {
         const {
-            distance, hiddenStations, hiddenStops, positionString, hiddenRoutes,
+            distance, hiddenStations, hiddenStops, positionString, hiddenRoutes, hiddenModes,
         } = this.state
-        const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes)
+        const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes)
         this.setState({ hashedState })
         this.props.history.push(`/dashboard/${positionString}/${hashedState}`)
     }
@@ -93,11 +101,14 @@ class AdminPage extends React.Component {
         const {
             hiddenLists, hashedState,
         } = updateHiddenListAndHash(clickedId, this.state, hiddenListType)
-        const { hiddenStations, hiddenStops, hiddenRoutes } = hiddenLists
+        const {
+            hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
+        } = hiddenLists
         this.setState({
             hiddenStations,
             hiddenStops,
             hiddenRoutes,
+            hiddenModes,
             hashedState,
         })
         this.props.history.push(`/admin/${this.state.positionString}/${hashedState}`)
@@ -108,12 +119,18 @@ class AdminPage extends React.Component {
     }
 
     isHidden = (id, type) => {
-        const { hiddenStops, hiddenStations, hiddenRoutes } = this.state
+        const {
+            hiddenStops, hiddenStations, hiddenRoutes, hiddenModes,
+        } = this.state
         if (type === 'stations') {
             return hiddenStations.includes(id)
         }
         if (type === 'stops') {
             return hiddenStops.includes(id)
+        }
+
+        if (type === 'modes') {
+            return hiddenModes.includes(id)
         }
         return hiddenRoutes.includes(id)
     }
@@ -139,7 +156,6 @@ class AdminPage extends React.Component {
         const {
             distance, stations, stops, transportModes,
         } = this.state
-        console.log(transportModes)
         const { isHidden, updateHiddenList } = this
         return (
             <div className="admin-container">
@@ -150,11 +166,12 @@ class AdminPage extends React.Component {
                 <div className="admin-content">
                     <div className="filter-panel">
                         <div className="mode-sort-container">
-                            { transportModes.map((mode) => (
-                                <div className="sort-button-text">
+                            { transportModes.map((mode, index) => (
+                                <div className="sort-button-text" key={index}>
                                     <button
                                         className="mode-sort-button"
-                                        onClick={() => updateHiddenList(mode, 'transportMode')}
+                                        style={this.getStyle(!isHidden(mode, 'modes'))}
+                                        onClick={() => updateHiddenList(mode, 'transportModes')}
                                     >
                                         { getIcon(mode, { color: '#EFD358', height: 50, width: 50 }) }
                                     </button>

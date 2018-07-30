@@ -3,7 +3,7 @@ import { getIcon, groupBy, isVisible } from '../../utils'
 import './departureTable.css'
 
 const DepartureTables = ({ lineData, visible }) => {
-    const { hiddenStops, hiddenRoutes } = visible
+    const { hiddenStops, hiddenRoutes, hiddenModes } = visible
     return (
         lineData
             .filter(({ departures }) => departures.length > 0)
@@ -13,7 +13,7 @@ const DepartureTables = ({ lineData, visible }) => {
             }) => {
                 const groupedDepartures = groupBy(departures, 'route')
                 const routes = Object.keys(groupedDepartures)
-                if (isVisible(groupedDepartures, hiddenRoutes)) {
+                if (isVisible(groupedDepartures, hiddenRoutes, hiddenModes)) {
                     return (
                         <div className="table-container" key={id}>
                             <div className="table-header">
