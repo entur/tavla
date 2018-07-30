@@ -31,7 +31,6 @@
     }
 }
 
-
 .app:hover .settings-button, .settings-button:hover {
     display: block;
 }
@@ -42,4 +41,15 @@
     align-items: center;
     align-content: flex-end;
     height: 20px;
+}
+
+.footer{
+  color: #EBE7E7;
+  height: 15%;
+  text-align: right;
+  padding: 2%;
+
+  p{
+      font-weight: 300;
+  }
 }
