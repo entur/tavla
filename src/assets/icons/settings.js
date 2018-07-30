@@ -44,9 +44,9 @@ Settings.propTypes = {
 }
 
 Settings.defaultProps = {
-    height: 16,
-    width: 16,
-    color: '#565659',
+    height: 40,
+    width: 40,
+    color: '#d2d2d2',
 }
 
 export default Settings
