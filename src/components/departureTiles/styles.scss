@@ -1,3 +1,5 @@
+@import '~@entur/component-library/src/styles/_colors.scss';
+
 .header{
     text-align: right;
     height: 5%
@@ -18,32 +20,25 @@
     justify-content: center;
     background-color: #272727;
     color: white;
-    width: 17%;
-    padding: 2.5% 1.6% 2.5% 1.6%;
-    margin: 2%;
+    width: 15%;
+    padding: 1.6%;
+    margin: 0.7%;
     height: fit-content;
     align-self: center;
-}
 
-@media only screen
-  and (min-device-width: 768px)
-  and (max-device-width: 1024px)
-  and (orientation: landscape)
-  and (-webkit-min-device-pixel-ratio: 1) {
-      .tile-container{
-          width: 23%;
-      }
-
-}
-
-.tile-container h2{
-    font-size: 1.5rem;
+    h2{
+        font-size: 1.5rem;
+    }
 }
 
 .stop-header{
     flex-direction: column;
     align-self: center;
     text-align: center;
+
+    h2{
+        margin: 0 0 1rem 0;
+    }
 }
 
 .route-name{
@@ -51,6 +46,7 @@
     flex-direction: row;
     align-items: center;
     margin: -4% 0 -6% 0;
+    color: $grey-30;
 }
 
 .route-icon{
@@ -68,4 +64,15 @@
     font-weight: 400;
     white-space: nowrap;
     width: 33%;
+}
+
+@media only screen
+  and (min-device-width: 768px)
+  and (max-device-width: 1024px)
+  and (orientation: landscape)
+  and (-webkit-min-device-pixel-ratio: 1) {
+      .tile-container{
+          width: 20%;
+      }
+
 }

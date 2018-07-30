@@ -13,9 +13,10 @@
 .departure-tiles {
     display: flex;
     justify-content: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
+    flex-wrap: wrap;
+    flex-direction: column;
     height: 70%;
+    align-content: center;
 }
 
 .settings-button {
