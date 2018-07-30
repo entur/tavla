@@ -67,7 +67,7 @@ export function getTransportModesByStop(stop) {
 }
 
 export function getTransportHeaderIcon(departures, dimensions, hiddenModes) {
-    const transportModes = getTransportModes(departures, hiddenModes).filter(f => !hiddenModes.includes(f))
+    const transportModes = getTransportModes(departures).filter(f => !hiddenModes.includes(f))
     if (!dimensions) {
         return transportModes.map((mode, index) => (
             getIcon(mode, { height, width, key: index })

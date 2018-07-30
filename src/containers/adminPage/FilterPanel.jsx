@@ -2,6 +2,26 @@ import React from 'react'
 import { getIcon } from '../../utils'
 import { DistanceInput, Slider } from '../../components'
 
+function getTransportModeTitle(type) {
+    switch (type) {
+        case 'bus':
+            return 'Buss'
+        case 'tram':
+            return 'Trikk'
+        case 'bike':
+            return 'Bysykkel'
+        case 'water':
+            return 'Ferje'
+        case 'rail':
+            return 'Tog'
+        case 'metro':
+            return 'T-bane'
+        default:
+            return type
+    }
+}
+
+
 const FilterPanel = ({
     isHidden, transportModes, distance, handleSliderChange, handleTextInputChange, updateHiddenList, getStyle,
 }) => (
@@ -19,7 +39,7 @@ const FilterPanel = ({
                         >
                             { getIcon(mode, { color: '#EFD358', height: 50, width: 50 }) }
                         </button>
-                        <p className="mode-sort-text">{mode}</p>
+                        <p className="mode-sort-text">{getTransportModeTitle(mode)}</p>
                     </div>
                 ))}
             </div>

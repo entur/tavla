@@ -56,6 +56,12 @@ class AdminPage extends React.Component {
 
     getDataFromSDK(position, distance) {
         service.getBikeRentalStations(position, distance).then(stations => {
+            if (this.state.hiddenModes.includes('bike')) {
+                this.setState({
+                    transportModes: ['bike'],
+                })
+                return null
+            }
             if (stations) {
                 this.setState({
                     stations,
@@ -70,9 +76,19 @@ class AdminPage extends React.Component {
         getStopPlacesByPositionAndDistance(position, distance).then(stops => {
             getStopsWithUniqueStopPlaceDepartures(stops).then((uniqueRoutes) => {
                 const uniqueModes = getTransportModesByStop(uniqueRoutes)
+                const filterStops = uniqueRoutes.map((stop) => {
+                    const filterStop = stop.departures.filter(({ type }) => !this.state.hiddenModes.includes(type))
+                    if (filterStop.length > 0) {
+                        return {
+                            ...stop,
+                            departures: filterStop,
+                        }
+                    }
+                }).filter(Boolean)
+
                 uniqueModes.map((mode) => {
                     this.setState({
-                        stops: uniqueRoutes,
+                        stops: filterStops,
                         transportModes: [
                             ...this.state.transportModes,
                             mode,
@@ -110,6 +126,9 @@ class AdminPage extends React.Component {
             hiddenModes,
             hashedState,
         })
+        if (hiddenListType === 'transportModes') {
+            this.updateSearch(this.state.distance, this.state.position)
+        }
         this.props.history.push(`/admin/${this.state.positionString}/${hashedState}`)
     }
 
