@@ -5,6 +5,7 @@ import './styles.scss'
 import { BikeTable, DepartureTables, DepartureTiles } from '../../components'
 import { getSettingsFromUrl, getPositionFromUrl, getStopPlacesByPositionAndDistance } from '../../utils'
 import { Settings } from '../../assets/icons'
+import errorImage from '../../assets/noStops.png'
 
 const service = new EnturService({ clientName: 'entur-tavla' })
 
@@ -95,6 +96,14 @@ class DepartureBoard extends React.Component {
         event.preventDefault()
     }
 
+    renderAdminButton = () => {
+        return (
+            <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
+                <Settings />
+            </button>
+        )
+    }
+
 
     render() {
         const {
@@ -103,12 +112,21 @@ class DepartureBoard extends React.Component {
         const visibleStopCount = stopsData.length - hiddenStops.length
         const visibleStationCount = stationData.length - hiddenStations.length
         const tileView = (stopsData.length + (stationData.length - hiddenStations.length > 0) - hiddenStops.length) < 5
+        const noStops = (visibleStopCount + visibleStationCount) === 0
+        if (noStops) {
+            return (
+                <div className="no-stops">
+                    {this.renderAdminButton()}
+                    <div className="no-stops-sheep">
+                        <img src={errorImage} />
+                    </div>
+                </div>
+            )
+        }
         if (tileView) {
             return (
                 <div className="departure-board">
-                    <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
-                        <Settings />
-                    </button>
+                    {this.renderAdminButton()}
                     <div className="departure-tiles">
                         {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes }}/> : null}
                         {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
@@ -118,9 +136,7 @@ class DepartureBoard extends React.Component {
         }
         return (
             <div className="departure-board">
-                <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
-                    <Settings />
-                </button>
+                {this.renderAdminButton()}
                 <div className="departure-table">
                     {visibleStopCount > 0 ? <DepartureTables lineData={stopsData} visible={{ hiddenStops, hiddenRoutes }}/> : null}
                     {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
