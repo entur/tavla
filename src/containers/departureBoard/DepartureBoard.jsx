@@ -42,7 +42,7 @@ class DepartureBoard extends React.Component {
         const departureTime = moment(expectedDepartureTime)
         const minDiff = departureTime.diff(moment(), 'minutes')
 
-        const route = !line.publicCode ? destinationDisplay.frontText : line.publicCode + ' '+ destinationDisplay.frontText
+        const route = `${line.publicCode || ''} ${destinationDisplay.frontText}`.trim()
 
         return {
             type: line.transportMode,
