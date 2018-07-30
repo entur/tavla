@@ -10,12 +10,23 @@
 }
 
 .close-button {
-    background-color: grey;
+    background-color: $coral;
     border: none;
-    color: white;
-    padding: 12px 16px;
-    font-size: 16px;
-    border-radius: 50%;
+    color: $black;
+    padding: 0.7rem 3rem;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 600;
+
+    &:hover{
+        cursor: pointer;
+        background-color: #FF7B7B;
+    }
+    &:focus{
+        outline: none;
+        box-shadow: 0 0 8px 0 #50E3C2;
+    }
+
 }
 
 .admin-content{

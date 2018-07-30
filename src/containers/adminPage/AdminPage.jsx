@@ -131,7 +131,7 @@ class AdminPage extends React.Component {
             <div className="admin-container">
                 <div className="admin-header">
                     <h1>Rediger innhold</h1>
-                    <button className="close-button" onClick={this.goToDashboard}>X</button>
+                    <button className="close-button" onClick={this.goToDashboard}>Oppdater</button>
                 </div>
                 <div className="admin-content">
                     <SortPanel distance={distance} handleSliderChange={this.handleSliderChange} handleTextInputChange={this.handleTextInputChange}/>
