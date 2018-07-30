@@ -9,14 +9,42 @@
     justify-content: space-between;
 }
 
-.close-button {
-    background-color: $coral;
-    border: none;
-    color: $black;
+.admin-button-container{
+    position: fixed;
+    bottom: 0%;
+    background-color: #1a1a1a;
+    width: 90%;
+    text-align: right;
+    padding: 2% 0%;
+}
+
+.admin-button{
     padding: 0.7rem 3rem;
     font-size: 1rem;
     font-family: inherit;
     font-weight: 600;
+}
+
+.close-button{
+    background-color: $black;
+    border: 1px solid $coral;
+    color: white;
+
+    &:hover{
+        cursor: pointer;
+        background-color: #424141;
+    }
+    &:focus{
+        outline: none;
+        box-shadow: 0 0 8px 0 #ff5959;
+    }
+}
+
+.update-button{
+    background-color: $coral;
+    border: none;
+    color: $black;
+    margin-right: 1rem;
 
     &:hover{
         cursor: pointer;
@@ -26,7 +54,6 @@
         outline: none;
         box-shadow: 0 0 8px 0 #50E3C2;
     }
-
 }
 
 .admin-content{
