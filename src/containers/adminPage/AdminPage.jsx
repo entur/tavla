@@ -58,18 +58,13 @@ class AdminPage extends React.Component {
         service.getBikeRentalStations(position, distance).then(stations => {
             if (this.state.hiddenModes.includes('bike')) {
                 this.setState({
-                    transportModes: ['bike'],
-                })
-                return null
-            }
-            if (stations) {
-                this.setState({
-                    stations,
+                    stations: [],
                     transportModes: ['bike'],
                 })
             } else {
                 this.setState({
                     stations,
+                    transportModes: ['bike'],
                 })
             }
         })
@@ -126,9 +121,12 @@ class AdminPage extends React.Component {
             hiddenModes,
             hashedState,
         })
+
+        const { position, distance } = this.state
         if (hiddenListType === 'transportModes') {
-            this.updateSearch(this.state.distance, this.state.position)
+            this.getDataFromSDK(position, distance)
         }
+
         this.props.history.push(`/admin/${this.state.positionString}/${hashedState}`)
     }
 

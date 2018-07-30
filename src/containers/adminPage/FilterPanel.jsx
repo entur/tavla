@@ -31,7 +31,7 @@ const FilterPanel = ({
             <p className="filter-text">Hva vil du se?</p>
             <div className="mode-sort-container">
                 { transportModes.map((mode, index) => (
-                    <div className="sort-button-text" key={index}>
+                    <div className="sort-button-item" key={index}>
                         <button
                             className="mode-sort-button"
                             style={getStyle(!isHidden(mode, 'modes'))}
