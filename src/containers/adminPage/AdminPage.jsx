@@ -1,10 +1,9 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
 import debounce from 'lodash.debounce'
-import { SortPanel } from '../../components'
 import SelectionPanel from './SelectionPanel'
+import FilterPanel from './FilterPanel'
 import {
-    getIcon,
     getPositionFromUrl,
     getSettingsFromUrl,
     getStopsWithUniqueStopPlaceDepartures,
@@ -164,23 +163,15 @@ class AdminPage extends React.Component {
                     <button className="close-button" onClick={this.goToDashboard}>X</button>
                 </div>
                 <div className="admin-content">
-                    <div className="filter-panel">
-                        <div className="mode-sort-container">
-                            { transportModes.map((mode, index) => (
-                                <div className="sort-button-text" key={index}>
-                                    <button
-                                        className="mode-sort-button"
-                                        style={this.getStyle(!isHidden(mode, 'modes'))}
-                                        onClick={() => updateHiddenList(mode, 'transportModes')}
-                                    >
-                                        { getIcon(mode, { color: '#EFD358', height: 50, width: 50 }) }
-                                    </button>
-                                    <p className="mode-sort-text">{mode}</p>
-                                </div>
-                            ))}
-                        </div>
-                        <SortPanel distance={distance} handleSliderChange={this.handleSliderChange} handleTextInputChange={this.handleTextInputChange}/>
-                    </div>
+                    <FilterPanel
+                        isHidden={isHidden}
+                        transportModes={transportModes}
+                        distance={distance}
+                        handleSliderChange={this.handleSliderChange}
+                        handleTextInputChange={this.handleTextInputChange}
+                        updateHiddenList={this.updateHiddenList}
+                        getStyle={this.getStyle}
+                    />
                     <SelectionPanel
                         stops={stops}
                         stations={stations}
