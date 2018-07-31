@@ -1,13 +1,16 @@
 import React from 'react'
 import Proptypes from 'prop-types'
 
-function Tram({ height, width, color }) {
+function Tram({
+    height, width, color, className,
+}) {
     return (
         <svg
             viewBox="0 0 32 32"
             width={width}
             height={height}
             xmlns="http://www.w3.org/2000/svg"
+            className={className}
         >
             <path
                 fill={color}

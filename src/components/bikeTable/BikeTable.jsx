@@ -3,9 +3,13 @@ import { getIcon } from '../../utils'
 import './bikeTable.css'
 
 const BikeTable = ({ stationData, visible }) => {
+    const { hiddenModes, hiddenStations } = visible
     const stations = stationData
-        .filter(({ id }) => !visible.includes(id))
+        .filter(({ id }) => !hiddenStations.includes(id))
         .sort((a, b) => a.name.localeCompare(b.name))
+    if (hiddenModes.includes('bike')) {
+        return null
+    }
     return (
         <div className="bike-tile-container">
             <div className="bike-header-container">

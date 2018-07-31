@@ -42,7 +42,7 @@ export function getPositionFromUrl() {
 export function getSettingsFromUrl() {
     const settings = window.location.pathname.split('/')[3]
     return (settings !== '') ? JSON.parse(atob(settings)) : {
-        hiddenStations: [], hiddenStops: [], hiddenRoutes: [], distance: DEFAULT_DISTANCE,
+        hiddenStations: [], hiddenStops: [], hiddenRoutes: [], distance: DEFAULT_DISTANCE, hiddenModes: [],
     }
 }
 
@@ -57,8 +57,17 @@ export function groupBy(objectArray, property) {
     }, {})
 }
 
-export function getTransportHeaderIcon(departures, dimensions) {
-    const transportModes = [...new Set(departures.map(item => item.type))]
+function getTransportModes(departures) {
+    return [...new Set(departures.map(item => item.type))]
+}
+
+export function getTransportModesByStop(stop) {
+    const dep = stop.map(({ departures }) => getTransportModes(departures))
+    return [...new Set([].concat(...dep))]
+}
+
+export function getTransportHeaderIcon(departures, dimensions, hiddenModes) {
+    const transportModes = getTransportModes(departures).filter(f => !hiddenModes.includes(f))
     if (!dimensions) {
         return transportModes.map((mode, index) => (
             getIcon(mode, { height, width, key: index })
@@ -71,7 +80,20 @@ export function getTransportHeaderIcon(departures, dimensions) {
     ))
 }
 
-export function isVisible(groupedDepartures, hiddenRoutes) {
+function onFilterDepartures(groupedDepartures, hiddenModes) {
+    const unHiddenDepartures = Object.values(groupedDepartures).map((departures) => {
+        const filteredDepartures = departures.filter(({ type }) => !hiddenModes.includes(type))
+        if (filteredDepartures.length > 0) {
+            return filteredDepartures
+        }
+    }).filter(Boolean)
+    return unHiddenDepartures.length > 0
+}
+
+export function isVisible(groupedDepartures, hiddenRoutes, hiddenModes) {
+    if (!onFilterDepartures(groupedDepartures, hiddenModes)) {
+        return false
+    }
     const tileKeys = Object.keys(groupedDepartures)
     const visibleRoutes = tileKeys.filter((route) => !hiddenRoutes.includes(route))
     return visibleRoutes.length > 0
@@ -140,19 +162,20 @@ function updateHiddenList(clickedId, hiddenList) {
     return newSet
 }
 
-export function getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes) {
+export function getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes) {
     const savedSettings = {
         distance,
         hiddenStations,
         hiddenStops,
         hiddenRoutes,
+        hiddenModes,
     }
     return btoa(JSON.stringify(savedSettings))
 }
 
 export function updateHiddenListAndHash(clickedId, state, hiddenType) {
     const {
-        hiddenStops, hiddenStations, distance, hiddenRoutes,
+        hiddenStops, hiddenStations, distance, hiddenRoutes, hiddenModes,
     } = state
     let newSet = []
     let hashedState = ''
@@ -160,31 +183,45 @@ export function updateHiddenListAndHash(clickedId, state, hiddenType) {
     switch (hiddenType) {
         case 'stations':
             newSet = updateHiddenList(clickedId, hiddenStations)
-            hashedState = getSettingsHash(distance, newSet, hiddenStops, hiddenRoutes)
+            hashedState = getSettingsHash(distance, newSet, hiddenStops, hiddenRoutes, hiddenModes)
             hiddenLists = {
                 hiddenStations: newSet,
                 hiddenStops,
                 hiddenRoutes,
+                hiddenModes,
             }
             return { hiddenLists, hashedState }
         case 'stops':
             newSet = updateHiddenList(clickedId, hiddenStops)
-            hashedState = getSettingsHash(distance, hiddenStations, newSet, hiddenRoutes)
+            hashedState = getSettingsHash(distance, hiddenStations, newSet, hiddenRoutes, hiddenModes)
             hiddenLists = {
                 hiddenStations,
                 hiddenStops: newSet,
                 hiddenRoutes,
+                hiddenModes,
             }
             return { hiddenLists, hashedState }
         case 'routes':
             newSet = updateHiddenList(clickedId, hiddenRoutes)
-            hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, newSet)
+            hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, newSet, hiddenModes)
             hiddenLists = {
                 hiddenStations,
                 hiddenStops,
                 hiddenRoutes: newSet,
+                hiddenModes,
             }
             return { hiddenLists, hashedState }
+        case 'transportModes':
+            newSet = updateHiddenList(clickedId, hiddenModes)
+            hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, newSet)
+            hiddenLists = {
+                hiddenStations,
+                hiddenStops,
+                hiddenRoutes,
+                hiddenModes: newSet,
+            }
+            return { hiddenLists, hashedState }
+
         default:
             return { hiddenLists, hashedState }
     }

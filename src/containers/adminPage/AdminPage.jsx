@@ -1,8 +1,8 @@
 import React from 'react'
 import EnturService from '@entur/sdk'
 import debounce from 'lodash.debounce'
-import { SortPanel } from '../../components'
 import SelectionPanel from './SelectionPanel'
+import FilterPanel from './FilterPanel'
 import {
     getPositionFromUrl,
     getSettingsFromUrl,
@@ -11,6 +11,7 @@ import {
     getSettingsHash,
     updateHiddenListAndHash,
     minutesToDistance,
+    getTransportModesByStop,
 } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
 import './styles.scss'
@@ -26,16 +27,18 @@ class AdminPage extends React.Component {
         hiddenStations: [],
         hiddenStops: [],
         hiddenRoutes: [],
+        hiddenModes: [],
         position: {},
         positionString: '',
         hashedState: '',
+        transportModes: [],
     }
 
     componentDidMount() {
         const position = getPositionFromUrl()
         const positionString = window.location.pathname.split('/')[2]
         const {
-            hiddenStations, hiddenStops, distance, hiddenRoutes,
+            hiddenStations, hiddenStops, distance, hiddenRoutes, hiddenModes,
         } = getSettingsFromUrl()
         this.getDataFromSDK(position, distance)
         const hashedState = window.location.pathname.split('/')[3]
@@ -45,21 +48,47 @@ class AdminPage extends React.Component {
             hiddenStops,
             hiddenStations,
             hiddenRoutes,
+            hiddenModes,
             position,
             positionString,
         })
     }
 
     getDataFromSDK(position, distance) {
-        service.getBikeRentalStations(position, distance).then(stations => {
+        const transportModes = this.state.transportModes.includes('bike') ? this.state.transportModes : ['bike', ...this.state.transportModes]
+        if (this.state.hiddenModes.includes('bike')) {
             this.setState({
-                stations,
+                stations: [],
+                transportModes,
             })
-        })
+        } else {
+            service.getBikeRentalStations(position, distance).then(stations => {
+                this.setState({
+                    stations,
+                    transportModes,
+                })
+            })
+        }
+
         getStopPlacesByPositionAndDistance(position, distance).then(stops => {
             getStopsWithUniqueStopPlaceDepartures(stops).then((uniqueRoutes) => {
+                const uniqueModes = getTransportModesByStop(uniqueRoutes)
+                const filterStops = uniqueRoutes.map((stop) => {
+                    const filterStop = stop.departures.filter(({ type }) => !this.state.hiddenModes.includes(type))
+                    if (filterStop.length > 0) {
+                        return {
+                            ...stop,
+                            departures: filterStop,
+                        }
+                    }
+                }).filter(Boolean)
+
                 this.setState({
-                    stops: uniqueRoutes,
+                    stops: filterStops,
+                    transportModes: [ ...new Set([
+                        ...this.state.transportModes,
+                        ...uniqueModes,
+                    ])],
                 })
             })
         })
@@ -71,9 +100,9 @@ class AdminPage extends React.Component {
 
     updateAndGoToDashboard = () => {
         const {
-            distance, hiddenStations, hiddenStops, positionString, hiddenRoutes,
+            distance, hiddenStations, hiddenStops, positionString, hiddenRoutes, hiddenModes,
         } = this.state
-        const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes)
+        const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes)
         this.setState({ hashedState })
         this.props.history.push(`/dashboard/${positionString}/${hashedState}`)
     }
@@ -86,13 +115,23 @@ class AdminPage extends React.Component {
         const {
             hiddenLists, hashedState,
         } = updateHiddenListAndHash(clickedId, this.state, hiddenListType)
-        const { hiddenStations, hiddenStops, hiddenRoutes } = hiddenLists
+        const {
+            hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
+        } = hiddenLists
         this.setState({
             hiddenStations,
             hiddenStops,
             hiddenRoutes,
+            hiddenModes,
             hashedState,
         })
+
+        const { position, distance } = this.state
+        if (hiddenListType === 'transportModes') {
+            this.getDataFromSDK(position, distance)
+        }
+
+        this.props.history.push(`/admin/${this.state.positionString}/${hashedState}`)
     }
 
     getStyle = (isHidden) => {
@@ -100,12 +139,18 @@ class AdminPage extends React.Component {
     }
 
     isHidden = (id, type) => {
-        const { hiddenStops, hiddenStations, hiddenRoutes } = this.state
+        const {
+            hiddenStops, hiddenStations, hiddenRoutes, hiddenModes,
+        } = this.state
         if (type === 'stations') {
             return hiddenStations.includes(id)
         }
         if (type === 'stops') {
             return hiddenStops.includes(id)
+        }
+
+        if (type === 'modes') {
+            return hiddenModes.includes(id)
         }
         return hiddenRoutes.includes(id)
     }
@@ -128,7 +173,9 @@ class AdminPage extends React.Component {
     }
 
     render() {
-        const { distance, stations, stops } = this.state
+        const {
+            distance, stations, stops, transportModes,
+        } = this.state
         const { isHidden, updateHiddenList } = this
         return (
             <div className="admin-container">
@@ -136,7 +183,15 @@ class AdminPage extends React.Component {
                     <h1>Rediger innhold</h1>
                 </div>
                 <div className="admin-content">
-                    <SortPanel distance={distance} handleSliderChange={this.handleSliderChange} handleTextInputChange={this.handleTextInputChange}/>
+                    <FilterPanel
+                        isHidden={isHidden}
+                        transportModes={transportModes}
+                        distance={distance}
+                        handleSliderChange={this.handleSliderChange}
+                        handleTextInputChange={this.handleTextInputChange}
+                        updateHiddenList={this.updateHiddenList}
+                        getStyle={this.getStyle}
+                    />
                     <SelectionPanel
                         stops={stops}
                         stations={stations}

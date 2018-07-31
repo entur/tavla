@@ -19,6 +19,7 @@ class DepartureBoard extends React.Component {
         hiddenStations: [],
         hiddenStops: [],
         hiddenRoutes: [],
+        hiddenModes: [],
         position: '',
     }
 
@@ -27,11 +28,11 @@ class DepartureBoard extends React.Component {
     componentDidMount() {
         const position = getPositionFromUrl()
         const {
-            hiddenStations, hiddenStops, hiddenRoutes, distance,
+            hiddenStations, hiddenStops, hiddenRoutes, distance, hiddenModes,
         } = getSettingsFromUrl()
         getStopPlacesByPositionAndDistance(position, distance).then(stopsData => {
             this.setState({
-                stopsData, distance, hiddenStations, hiddenStops, hiddenRoutes, position,
+                stopsData, distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, position,
             })
             this.stopPlaceDepartures()
             this.updateTime()
@@ -99,7 +100,7 @@ class DepartureBoard extends React.Component {
 
     render() {
         const {
-            hiddenStations, hiddenStops, hiddenRoutes, stationData, stopsData,
+            hiddenStations, hiddenStops, hiddenRoutes, stationData, stopsData, hiddenModes,
         } = this.state
         const visibleStopCount = stopsData.length - hiddenStops.length
         const visibleStationCount = stationData.length - hiddenStations.length
@@ -111,8 +112,8 @@ class DepartureBoard extends React.Component {
                         <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} ><Settings /></button>
                     </div>
                     <div className="departure-tiles">
-                        {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes }}/> : null}
-                        {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={hiddenStations} /> : null}
+                        {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes, hiddenModes }}/> : null}
+                        {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={{ hiddenStations, hiddenModes }} /> : null}
                     </div>
                 </div>
                 <Footer />
