@@ -41,8 +41,13 @@ const SelectionPanel = ({
                                                 { departures.map(({ route, type }, i) => {
                                                     const isVisible = !onCheck(route, 'routes')
                                                     return (
-                                                        <tr style={onBlur(isVisible)} key={i}>
-                                                            <td className="admin-route-icon">{getIcon(type)}</td>
+                                                        <tr
+                                                            className="admin-route-row"
+                                                            style={onBlur(isVisible)}
+                                                            key={i}
+                                                            onClick={() => updateHiddenList(route, 'routes')}
+                                                        >
+                                                            <td className="admin-route-icon">{getIcon(type, { width: 28, height: 28 })}</td>
                                                             <td className="admin-route-title">{route}</td>
                                                             <td className="admin-route-button-container">
                                                                 <button className="admin-route-button" onClick={() => updateHiddenList(route, 'routes')}>
