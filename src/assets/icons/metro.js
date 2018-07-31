@@ -1,7 +1,9 @@
 import React from 'react'
 import Proptypes from 'prop-types'
 
-function Metro({ height, width, color }) {
+function Metro({
+    height, width, color, className,
+}) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -9,6 +11,7 @@ function Metro({ height, width, color }) {
             viewBox="0 0 32 32"
             width={width}
             height={height}
+            className={className}
         >
             <path
                 // eslint-disable-next-line max-len
