@@ -13,17 +13,23 @@
 .departure-tiles {
     display: flex;
     justify-content: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
+    flex-wrap: wrap;
+    flex-direction: column;
     height: 70%;
+    align-content: center;
 }
 
 .settings-button {
     border: 0;
     padding: 0;
     display: none;
-    color: white;
     background-color: inherit;
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    &:hover{
+        cursor: pointer;
+    }
 }
 
 .app:hover .settings-button, .settings-button:hover {
@@ -36,4 +42,25 @@
     align-items: center;
     align-content: flex-end;
     height: 20px;
+}
+
+.no-stops .settings-button{
+    display: block;
+}
+
+.no-stops-sheep{
+    text-align: center;
+    height: 70%;
+    padding: 7%;
+}
+
+.footer{
+  color: #EBE7E7;
+  height: 15%;
+  text-align: right;
+  padding: 2%;
+
+  p{
+      font-weight: 300;
+  }
 }

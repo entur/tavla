@@ -2,12 +2,13 @@ import React from 'react'
 import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.scss'
-import { BikeTable, DepartureTiles } from '../../components'
+import {
+    BikeTable, DepartureTiles, Footer, Header,
+} from '../../components'
 import { getSettingsFromUrl, getPositionFromUrl, getStopPlacesByPositionAndDistance } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
 import { Settings } from '../../assets/icons'
-import Footer from '../../components/Footer'
-import Header from '../../components/header/Header'
+import errorImage from '../../assets/noStops.png'
 
 const service = new EnturService({ clientName: 'entur-tavla' })
 
@@ -46,10 +47,12 @@ class DepartureBoard extends React.Component {
         const departureTime = moment(expectedDepartureTime)
         const minDiff = departureTime.diff(moment(), 'minutes')
 
+        const route = `${line.publicCode || ''} ${destinationDisplay.frontText}`.trim()
+
         return {
             type: line.transportMode,
             time: this.formatDeparture(minDiff, departureTime),
-            route: line.publicCode + ' '+ destinationDisplay.frontText,
+            route,
         }
     }
 
@@ -97,6 +100,14 @@ class DepartureBoard extends React.Component {
         event.preventDefault()
     }
 
+    renderAdminButton = () => {
+        return (
+            <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
+                <Settings />
+            </button>
+        )
+    }
+
 
     render() {
         const {
@@ -104,21 +115,27 @@ class DepartureBoard extends React.Component {
         } = this.state
         const visibleStopCount = stopsData.length - hiddenStops.length
         const visibleStationCount = stationData.length - hiddenStations.length
-        return (
-            <div>
-                <Header />
-                <div className="departure-board">
-                    <div className="button-wrap">
-                        <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} ><Settings /></button>
-                    </div>
-                    <div className="departure-tiles">
-                        {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes, hiddenModes }}/> : null}
-                        {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={{ hiddenStations, hiddenModes }} /> : null}
+        const noStops = (visibleStopCount + visibleStationCount) === 0
+        return [
+            <Header />,
+            noStops
+                ? <div className="no-stops">
+                    {this.renderAdminButton()}
+                    <div className="no-stops-sheep">
+                        <img src={errorImage} />
                     </div>
                 </div>
-                <Footer />
-            </div>
-        )
+                : <div>
+                    <div className="departure-board">
+                        {this.renderAdminButton()}
+                        <div className="departure-tiles">
+                            {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes, hiddenModes }}/> : null}
+                            {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={{ hiddenStations, hiddenModes }} /> : null}
+                        </div>
+                    </div>
+                </div>,
+            <Footer />,
+        ]
     }
 }
 
