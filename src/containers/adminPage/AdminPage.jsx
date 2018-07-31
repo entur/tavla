@@ -55,19 +55,21 @@ class AdminPage extends React.Component {
     }
 
     getDataFromSDK(position, distance) {
-        service.getBikeRentalStations(position, distance).then(stations => {
-            if (this.state.hiddenModes.includes('bike')) {
-                this.setState({
-                    stations: [],
-                    transportModes: ['bike'],
-                })
-            } else {
+        const transportModes = this.state.transportModes.includes('bike') ? this.state.transportModes : ['bike', ...this.state.transportModes]
+        if (this.state.hiddenModes.includes('bike')) {
+            this.setState({
+                stations: [],
+                transportModes,
+            })
+        } else {
+            service.getBikeRentalStations(position, distance).then(stations => {
                 this.setState({
                     stations,
-                    transportModes: ['bike'],
+                    transportModes,
                 })
-            }
-        })
+            })
+        }
+
         getStopPlacesByPositionAndDistance(position, distance).then(stops => {
             getStopsWithUniqueStopPlaceDepartures(stops).then((uniqueRoutes) => {
                 const uniqueModes = getTransportModesByStop(uniqueRoutes)
@@ -81,14 +83,12 @@ class AdminPage extends React.Component {
                     }
                 }).filter(Boolean)
 
-                uniqueModes.map((mode) => {
-                    this.setState({
-                        stops: filterStops,
-                        transportModes: [
-                            ...this.state.transportModes,
-                            mode,
-                        ],
-                    })
+                this.setState({
+                    stops: filterStops,
+                    transportModes: [ ...new Set([
+                        ...this.state.transportModes,
+                        ...uniqueModes,
+                    ])],
                 })
             })
         })
