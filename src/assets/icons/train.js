@@ -1,7 +1,9 @@
 import React from 'react'
 import Proptypes from 'prop-types'
 
-function Train({ height, width, color }) {
+function Train({
+    height, width, color, className,
+}) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -9,6 +11,7 @@ function Train({ height, width, color }) {
             width={width}
             height={height}
             viewBox="0 0 32 32"
+            className={className}
         >
             <g fill={color} fillRule="nonzero">
                 <path

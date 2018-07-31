@@ -1,10 +1,10 @@
 import React from 'react'
 import { groupBy } from '../../utils'
 import './styles.scss'
-import DepartureTile from './departureTile'
+import DepartureTile from './DepartureTile'
 
 const DepartureTiles = ({ lineData, visible }) => {
-    const { hiddenStops, hiddenRoutes } = visible
+    const { hiddenStops, hiddenRoutes, hiddenModes } = visible
     return (
         lineData
             .filter(({ departures }) => departures.length > 0)
@@ -18,6 +18,7 @@ const DepartureTiles = ({ lineData, visible }) => {
                         stopPlace={stop}
                         routes={routes}
                         hiddenRoutes={hiddenRoutes}
+                        hiddenModes={hiddenModes}
                     />
                 )
             })
