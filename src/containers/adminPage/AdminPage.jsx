@@ -98,13 +98,17 @@ class AdminPage extends React.Component {
         this.getDataFromSDK(position, distance)
     }, 500)
 
-    goToDashboard = () => {
+    updateAndGoToDashboard = () => {
         const {
             distance, hiddenStations, hiddenStops, positionString, hiddenRoutes, hiddenModes,
         } = this.state
         const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes)
         this.setState({ hashedState })
         this.props.history.push(`/dashboard/${positionString}/${hashedState}`)
+    }
+
+    goBackToDashboard = () => {
+        this.props.history.push(window.location.pathname.replace('admin', 'dashboard'))
     }
 
     updateHiddenList = (clickedId, hiddenListType) => {
@@ -177,7 +181,6 @@ class AdminPage extends React.Component {
             <div className="admin-container">
                 <div className="admin-header">
                     <h1>Rediger innhold</h1>
-                    <button className="close-button" onClick={this.goToDashboard}>X</button>
                 </div>
                 <div className="admin-content">
                     <FilterPanel
@@ -196,6 +199,11 @@ class AdminPage extends React.Component {
                         onCheck={isHidden}
                     />
                 </div>
+                <div className="admin-button-container">
+                    <button className="admin-button update-button" onClick={this.updateAndGoToDashboard}>Oppdater</button>
+                    <button className="admin-button close-button" onClick={this.goBackToDashboard}>Tilbake</button>
+                </div>
+
             </div>
         )
     }

@@ -2,10 +2,12 @@ import React from 'react'
 import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.scss'
-import { BikeTable, DepartureTables, DepartureTiles } from '../../components'
+import { BikeTable, DepartureTiles } from '../../components'
 import { getSettingsFromUrl, getPositionFromUrl, getStopPlacesByPositionAndDistance } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
 import { Settings } from '../../assets/icons'
+import Footer from '../../components/Footer'
+import Header from '../../components/header/Header'
 
 const service = new EnturService({ clientName: 'entur-tavla' })
 
@@ -102,9 +104,9 @@ class DepartureBoard extends React.Component {
         } = this.state
         const visibleStopCount = stopsData.length - hiddenStops.length
         const visibleStationCount = stationData.length - hiddenStations.length
-        const tileView = (stopsData.length + (stationData.length - hiddenStations.length > 0) - hiddenStops.length) < 5
-        if (tileView) {
-            return (
+        return (
+            <div>
+                <Header />
                 <div className="departure-board">
                     <div className="button-wrap">
                         <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} ><Settings /></button>
@@ -127,6 +129,7 @@ class DepartureBoard extends React.Component {
                     {visibleStopCount > 0 ? <DepartureTables lineData={stopsData} visible={{ hiddenStops, hiddenRoutes, hiddenModes }}/> : null}
                     {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={{ hiddenStations, hiddenModes }} /> : null}
                 </div>
+                <Footer />
             </div>
         )
     }
