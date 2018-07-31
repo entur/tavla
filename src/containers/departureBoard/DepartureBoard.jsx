@@ -116,19 +116,6 @@ class DepartureBoard extends React.Component {
                         {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={{ hiddenStations, hiddenModes }} /> : null}
                     </div>
                 </div>
-            )
-        }
-        return (
-            <div className="departure-board">
-                <div className="button-wrap">
-                    <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
-                        <Settings />
-                    </button>
-                </div>
-                <div className="departure-table">
-                    {visibleStopCount > 0 ? <DepartureTables lineData={stopsData} visible={{ hiddenStops, hiddenRoutes, hiddenModes }}/> : null}
-                    {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={{ hiddenStations, hiddenModes }} /> : null}
-                </div>
                 <Footer />
             </div>
         )
