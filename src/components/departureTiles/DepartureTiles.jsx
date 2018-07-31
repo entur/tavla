@@ -1,6 +1,6 @@
 import React from 'react'
 import { groupBy } from '../../utils'
-import './departureTiles.css'
+import './styles.scss'
 import DepartureTile from './departureTile'
 
 const DepartureTiles = ({ lineData, visible }) => {
