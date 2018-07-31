@@ -1,7 +1,7 @@
 @import '~@entur/component-library/src/styles/_colors.scss';
 
 .admin-container{
-    min-height: 80%;
+    height: 80%;
 }
 .admin-header {
     display: flex;
@@ -58,6 +58,7 @@
 
 .admin-content {
     display: flex;
+    max-height: 95%;
 }
 
 .filter-text {
@@ -69,6 +70,7 @@
     padding: 1%;
     margin-right: 2%;
     width: 50%;
+    height: fit-content;
 }
 
 .mode-sort-container {
@@ -231,7 +233,7 @@
     height: 45px;
     display: flex;
     align-items: center;
-    padding: 1% 0 1% 2%;
+    padding: 1% 2% 1% 2%;
     background-color: #272727;
     outline: none;
 }
@@ -260,6 +262,8 @@
 
 .selection-panel{
     width: 50%;
+    max-height: 100%;
+    overflow: scroll;
 }
 
 .stop-place-title {
@@ -269,7 +273,6 @@
 .show-button {
     display: flex;
     align-items: center;
-    width: 5%;
     justify-content: center;
 }
 .stop-place-table td {
@@ -294,7 +297,7 @@
     display: inline-flex;
     width: 24px;
     height: 12px;
-    position: absolute;
+    position: relative;
 }
 
 .accordion__arrow::after,
