@@ -43,6 +43,7 @@
     height: 60px;
     border: 0;
     background-color: inherit;
+    cursor: pointer;
 }
 
 .mode-sort-text{
@@ -54,6 +55,11 @@
     flex-direction: column;
     align-items: center;
     margin-right: 2%;
+}
+
+.mode-sort-icon:hover {
+    height: 60px;
+    width: 60px;
 }
 
 .distance-container {

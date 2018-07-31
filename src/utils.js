@@ -159,7 +159,6 @@ function updateHiddenList(clickedId, hiddenList) {
     else {
         newSet.push(clickedId)
     }
-    console.log(newSet)
     return newSet
 }
 

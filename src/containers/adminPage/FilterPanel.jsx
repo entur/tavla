@@ -37,7 +37,9 @@ const FilterPanel = ({
                             style={getStyle(!isHidden(mode, 'modes'))}
                             onClick={() => updateHiddenList(mode, 'transportModes')}
                         >
-                            { getIcon(mode, { color: '#EFD358', height: 50, width: 50 }) }
+                            { getIcon(mode, {
+                                color: '#EFD358', height: 50, width: 50, className: 'mode-sort-icon',
+                            }) }
                         </button>
                         <p className="mode-sort-text">{getTransportModeTitle(mode)}</p>
                     </div>
