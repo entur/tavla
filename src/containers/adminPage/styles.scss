@@ -277,17 +277,12 @@
     align-items: center;
     justify-content: center;
 }
-.stop-place-table td {
-    color: #FFFF;
-    background-color: #272727;
-    padding: 0.5rem 1rem;
-}
 
 .admin-route-row{
     cursor: pointer;
     background-color: #272727;
     td{
-        padding: 0.5rem;
+        padding: 8px;
     }
 }
 
