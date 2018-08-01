@@ -6,6 +6,7 @@ const Checkbox = ({ id, value, onChange }) => [
         type="checkbox"
         className="checkbox"
         id={id}
+        key={id}
         value={value}
         onChange={() => onChange(id, 'stops')}
     />,
