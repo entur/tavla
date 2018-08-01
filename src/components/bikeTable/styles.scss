@@ -13,25 +13,18 @@
 }
 
 .bike-tile-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: #272727;
-    color: white;
-    width: 15%;
-    padding: 2.5% 1.6% 2.5% 1.6%;
-    margin: 2%;
-    height: fit-content;
-    align-self: center;
-}
-
-.bike-station-title {
-    display: flex;
     justify-content: center;
 }
 
 .bike-tile-container h2{
     font-size: 1.5rem;
+    margin: 0 0 15 0;
+}
+
+
+.bike-station-title {
+    display: flex;
+    justify-content: center;
 }
 
 .bike-header-container{
@@ -40,12 +33,11 @@
     text-align: center;
 }
 
-.bike-station-container{
-    display: flex;
-    flex-direction:row;
-    justify-content: center;
-    font-weight: 500;
+.bike-station-title{
+    margin: 0;
 }
+
+
 
 .available{
     display:flex;
@@ -53,9 +45,14 @@
     justify-content: space-evenly;
     font-size: 1.6em;
     flex-direction: row;
+    padding: 5% 0%;
 }
 
 .bike-available-text {
     text-align: center;
     width: 20%;
+    p{
+        font-size: 1.4rem;
+        margin: 0;
+    }
 }
