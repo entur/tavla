@@ -74,7 +74,7 @@ export function getTransportHeaderIcon(departures, dimensions, hiddenModes) {
         ))
     }
     const { height, width } = dimensions
-    const size = transportModes.length > 2 ? 90*2/transportModes.length : 90
+    const size = transportModes.length > 1 ? 90*1.5/transportModes.length : 90
     return transportModes.map((mode, index) => (
         getIcon(mode, { height: size, width: size, key: index })
     ))

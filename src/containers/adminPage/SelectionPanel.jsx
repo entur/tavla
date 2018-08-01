@@ -50,9 +50,9 @@ const SelectionPanel = ({
                                                             <td className="admin-route-icon">{getIcon(type, { width: 28, height: 28 })}</td>
                                                             <td className="admin-route-title">{route}</td>
                                                             <td className="admin-route-button-container">
-                                                                <button className="admin-route-button" onClick={() => updateHiddenList(route, 'routes')}>
+                                                                <div className="admin-route-button">
                                                                     <div value={isVisible} className="close" />
-                                                                </button>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     )

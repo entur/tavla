@@ -119,7 +119,7 @@ class DepartureBoard extends React.Component {
         const visibleStationCount = stationData.length - hiddenStations.length
         const noStops = (visibleStopCount + visibleStationCount) === 0
         return [
-            <Header settingsBtn={this.renderAdminButton()}/>,
+            <Header settingsButton={this.renderAdminButton()}/>,
             noStops
                 ? <div className="no-stops">
                     <div className="no-stops-sheep">

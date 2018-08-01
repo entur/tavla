@@ -15,7 +15,7 @@ const DepartureTile = ({
     return (
         <div className="tile-container" key={id}>
             <div className="stop-header">
-                { getTransportHeaderIcon(stopPlace.departures, { height: 90, width: 90 }, hiddenModes)}
+                <div className="stop-header-icons">{ getTransportHeaderIcon(stopPlace.departures, { height: 90, width: 90 }, hiddenModes)}</div>
                 <h2>{name}</h2>
             </div>
             <div>
