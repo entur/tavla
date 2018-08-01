@@ -23,6 +23,7 @@ class Header extends React.Component {
     render() {
         return (
             <div className="header">
+                {this.props.settingsButton}
                 {this.state.time}
             </div>
         )

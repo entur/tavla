@@ -102,9 +102,11 @@ class DepartureBoard extends React.Component {
 
     renderAdminButton = () => {
         return (
-            <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
-                <Settings />
-            </button>
+            <div>
+                <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
+                    <Settings />
+                </button>
+            </div>
         )
     }
 
@@ -117,17 +119,15 @@ class DepartureBoard extends React.Component {
         const visibleStationCount = stationData.length - hiddenStations.length
         const noStops = (visibleStopCount + visibleStationCount) === 0
         return [
-            <Header />,
+            <Header settingsButton={this.renderAdminButton()}/>,
             noStops
                 ? <div className="no-stops">
-                    {this.renderAdminButton()}
                     <div className="no-stops-sheep">
                         <img src={errorImage} />
                     </div>
                 </div>
                 : <div>
                     <div className="departure-board">
-                        {this.renderAdminButton()}
                         <div className="departure-tiles">
                             {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes, hiddenModes }}/> : null}
                             {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={{ hiddenStations, hiddenModes }} /> : null}

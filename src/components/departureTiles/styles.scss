@@ -17,7 +17,6 @@
 .tile-container{
     display: flex;
     flex-direction: column;
-    justify-content: center;
     background-color: #272727;
     color: white;
     width: 15%;
@@ -39,6 +38,14 @@
     h2{
         margin: 0 0 1rem 0;
     }
+}
+
+.stop-header-icons{
+    height: 90px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .route-name{
@@ -64,6 +71,13 @@
     font-weight: 400;
     white-space: nowrap;
     width: 33%;
+}
+
+.route-name-text{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 85%;
 }
 
 @media only screen

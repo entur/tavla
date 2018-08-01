@@ -1,7 +1,7 @@
 @import '~@entur/component-library/src/styles/_colors.scss';
 
 .admin-container{
-    min-height: 80%;
+    height: 80%;
 }
 .admin-header {
     display: flex;
@@ -58,6 +58,7 @@
 
 .admin-content {
     display: flex;
+    max-height: 95%;
 }
 
 .filter-text {
@@ -69,6 +70,7 @@
     padding: 1%;
     margin-right: 2%;
     width: 50%;
+    height: fit-content;
 }
 
 .mode-sort-container {
@@ -216,6 +218,7 @@
     display: flex;
     width: 100%;
     padding-bottom: 1%;
+    color: #d6d6d6;
 }
 
 .selection-data-wrapper {
@@ -231,13 +234,14 @@
     height: 45px;
     display: flex;
     align-items: center;
-    padding: 1% 0 1% 2%;
+    padding: 1% 2% 1% 2%;
     background-color: #272727;
     outline: none;
 }
 
 .stop-place-container {
     justify-content: space-between;
+    cursor: pointer;
 }
 
 .city-bike-name {
@@ -260,6 +264,8 @@
 
 .selection-panel{
     width: 50%;
+    max-height: 100%;
+    overflow: scroll;
 }
 
 .stop-place-title {
@@ -269,13 +275,15 @@
 .show-button {
     display: flex;
     align-items: center;
-    width: 5%;
     justify-content: center;
 }
-.stop-place-table td {
-    color: #FFFF;
+
+.admin-route-row{
+    cursor: pointer;
     background-color: #272727;
-    padding: 0.5rem 1rem;
+    td{
+        padding: 8px;
+    }
 }
 
 .accordion__body {
@@ -294,7 +302,7 @@
     display: inline-flex;
     width: 24px;
     height: 12px;
-    position: absolute;
+    position: relative;
 }
 
 .accordion__arrow::after,
@@ -335,7 +343,7 @@
     border-spacing: 0 5px;
     width: 100%;
     margin-top: -4px;
-    color: $white;
+    color: #d6d6d6;
 }
 
 .admin-route-icon {
@@ -378,14 +386,6 @@
 
 
 .admin-route-button {
-    border: none;
-    color: inherit;
-    outline: none;
-    background-color: inherit;
-    width: 25px;
-    height: 25px;
     display: flex;
     justify-content: center;
-    cursor: pointer;
-
 }
