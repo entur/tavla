@@ -118,24 +118,26 @@ class DepartureBoard extends React.Component {
         const visibleStopCount = stopsData.length - hiddenStops.length
         const visibleStationCount = stationData.length - hiddenStations.length
         const noStops = (visibleStopCount + visibleStationCount) === 0
-        return [
-            <Header settingsButton={this.renderAdminButton()}/>,
-            noStops
-                ? <div className="no-stops">
-                    <div className="no-stops-sheep">
-                        <img src={errorImage} />
-                    </div>
-                </div>
-                : <div>
-                    <div className="departure-board">
-                        <div className="departure-tiles">
-                            {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes, hiddenModes }}/> : null}
-                            {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={{ hiddenStations, hiddenModes }} /> : null}
+        return (
+            <div>
+                <Header settingsButton={this.renderAdminButton()}/>
+                {(noStops)
+                    ? <div className="no-stops">
+                        <div className="no-stops-sheep">
+                            <img src={errorImage} />
                         </div>
                     </div>
-                </div>,
-            <Footer />,
-        ]
+                    : <div>
+                        <div className="departure-board">
+                            <div className="departure-tiles">
+                                {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes, hiddenModes }}/> : null}
+                                {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={{ hiddenStations, hiddenModes }} /> : null}
+                            </div>
+                        </div>
+                    </div>}
+                <Footer />
+            </div>
+        )
     }
 }
 

@@ -19,14 +19,14 @@
     flex-direction: column;
     background-color: #272727;
     color: white;
-    width: 15%;
+    width: 18%;
     padding: 1.6%;
     margin: 0.7%;
     height: fit-content;
     align-self: center;
 
     h2{
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 }
 
@@ -66,18 +66,20 @@
     overflow: hidden;
 }
 
-.route-departure-time{
-    color: #9e9e9e;
-    font-weight: 400;
-    white-space: nowrap;
-    width: 33%;
-}
-
 .route-name-text{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 85%;
+    width: 88%;
+    font-weight: 300;
+}
+
+.route-departure-time{
+    color: #9e9e9e;
+    font-weight: 300;
+    white-space: nowrap;
+    width: 33%;
+    font-size: 1.2rem;
 }
 
 @media only screen
@@ -86,7 +88,16 @@
   and (orientation: landscape)
   and (-webkit-min-device-pixel-ratio: 1) {
       .tile-container{
-          width: 20%;
+          width: 25%;
+          .stop-header h2{
+              font-size: 1.2rem;
+          }
+          .route-name-text{
+              font-size: 0.9rem;
+          }
+          .route-departure-time{
+              font-size: 1rem;
+          }
       }
 
 }
