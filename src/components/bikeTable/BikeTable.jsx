@@ -1,6 +1,6 @@
 import React from 'react'
 import { getIcon } from '../../utils'
-import './bikeTable.css'
+import './styles.scss'
 
 const BikeTable = ({ stationData, visible }) => {
     const { hiddenModes, hiddenStations } = visible
@@ -11,9 +11,9 @@ const BikeTable = ({ stationData, visible }) => {
         .filter(({ id }) => !hiddenStations.includes(id))
         .sort((a, b) => a.name.localeCompare(b.name))
     return (
-        <div className="bike-tile-container">
+        <div className="tile-container bike-tile-container">
             <div className="bike-header-container">
-                <div>{getIcon('bike', { height: 60, width: 60 })}</div>
+                <div className="stop-header-icons">{getIcon('bike', { height: 90, width: 90 })}</div>
                 <div><h2>Bysykkel</h2></div>
             </div>
             {
@@ -25,7 +25,7 @@ const BikeTable = ({ stationData, visible }) => {
                         <div className="available">
                             {getIcon('bike')}
                             <div className="bike-available-text">
-                                {bikesAvailable}
+                                <p>{bikesAvailable}</p>
                             </div>
                         </div>
                     </div>

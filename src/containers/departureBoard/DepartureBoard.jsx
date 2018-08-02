@@ -134,20 +134,23 @@ class DepartureBoard extends React.Component {
         const visibleStopCount = stopsData.length - hiddenStops.length
         const visibleStationCount = stationData.length - hiddenStations.length
         const noStops = (visibleStopCount + visibleStationCount) === 0
-        return [
-            <Header settingsButton={this.renderAdminButton()}/>,
-            noStops && !initialLoading
-                ? this.renderNoStopsInfo()
-                : <div>
-                    <div className="departure-board">
-                        <div className="departure-tiles">
-                            {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes, hiddenModes }}/> : null}
-                            {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={{ hiddenStations, hiddenModes }} /> : null}
+
+        return (
+            <div>
+                <Header settingsButton={this.renderAdminButton()}/>
+                {(noStops && !initialLoading)
+                    ? this.renderNoStopsInfo()
+                    : <div>
+                        <div className="departure-board">
+                            <div className="departure-tiles">
+                                {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes, hiddenModes }}/> : null}
+                                {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={{ hiddenStations, hiddenModes }} /> : null}
+                            </div>
                         </div>
-                    </div>
-                </div>,
-            <Footer />,
-        ]
+                    </div>}
+                <Footer />
+            </div>
+        )
     }
 }
 
