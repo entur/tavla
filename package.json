@@ -9,8 +9,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src --ext 'js,jsx'",
-    "stylelint": "stylelint src/",
+    "eslint": "eslint src --ext 'js,jsx'",
+    "stylelint": "stylelint src/**/*.scss",
+    "lint": "npm run eslint && npm run stylelint",
     "start": "webpack-serve",
     "clean": "rm -rf dist/",
     "build": "npm run clean && webpack --mode production",

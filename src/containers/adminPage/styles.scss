@@ -1,15 +1,16 @@
 @import '~@entur/component-library/src/styles/_colors.scss';
 
-.admin-container{
+.admin-container {
     height: 80%;
 }
+
 .admin-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.admin-button-container{
+.admin-button-container {
     position: fixed;
     bottom: 0%;
     background-color: #1a1a1a;
@@ -18,43 +19,43 @@
     padding: 2% 0%;
 }
 
-.admin-button{
+.admin-button {
     padding: 0.7rem 3rem;
     font-size: 1rem;
     font-family: inherit;
     font-weight: 600;
 }
 
-.close-button{
+.close-button {
     background-color: $black;
     border: 1px solid $coral;
     color: white;
 
-    &:hover{
+    &:hover {
         cursor: pointer;
         background-color: #424141;
     }
 
-    &:focus{
+    &:focus {
         outline: none;
         box-shadow: 0 0 8px 0 #ff5959;
     }
 }
 
-.update-button{
+.update-button {
     background-color: $coral;
     border: none;
     color: $black;
     margin-right: 1rem;
 
-    &:hover{
+    &:hover {
         cursor: pointer;
-        background-color: #FF7B7B;
+        background-color: #ff7b7b;
     }
 
-    &:focus{
+    &:focus {
         outline: none;
-        box-shadow: 0 0 8px 0 #50E3C2;
+        box-shadow: 0 0 8px 0 #50e3c2;
     }
 }
 
@@ -64,7 +65,7 @@
 }
 
 .filter-text {
-    color: #CACACA;
+    color: #cacaca;
 }
 
 .filter-panel {
@@ -88,7 +89,7 @@
     cursor: pointer;
 }
 
-.mode-sort-text{
+.mode-sort-text {
     margin-top: 0;
 }
 
@@ -121,44 +122,39 @@
     padding: 0.2rem;
     text-align: center;
 
-    &:focus{
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    &:focus {
         outline: none;
-    }
-
-    &::-webkit-inner-spin-button{
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    &::-webkit-outer-spin-button{
-        -webkit-appearance: none;
-        margin: 0;
     }
 }
 
-.slider{
+.slider {
     width: 100%;
     height: 2rem;
     -webkit-appearance: none;
     background: transparent;
 
-    &:focus{
-        outline: none;
-        &::-webkit-slider-runnable-track {
-          background: #424141;
-        }
-    }
     &::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      border: 1px solid $coral;
-      height: 1.8rem;
-      width: 1.8rem;
-      border-radius: 100%;
-      background: $coral;
-      cursor: pointer;
-      margin-top: -1em;
+        -webkit-appearance: none;
+        border: 1px solid $coral;
+        height: 1.8rem;
+        width: 1.8rem;
+        border-radius: 100%;
+        background: $coral;
+        cursor: pointer;
+        margin-top: -1em;
     }
-    &::-moz-range-thumb{
+
+    &::-moz-range-thumb {
         border: 1px solid $coral;
         height: 1.8rem;
         width: 1.8rem;
@@ -166,7 +162,8 @@
         background: $coral;
         cursor: pointer;
     }
-    &::-ms-thumb{
+
+    &::-ms-thumb {
         border: 1px solid $coral;
         height: 1.8rem;
         width: 1.8rem;
@@ -174,6 +171,7 @@
         background: $coral;
         cursor: pointer;
     }
+
     &::-webkit-slider-runnable-track {
         width: 100%;
         height: 0.5rem;
@@ -181,38 +179,49 @@
         background: #424141;
         border: 0.2px solid #424141;
     }
-    &::-moz-range-track{
+
+    &::-moz-range-track {
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
         background: #424141;
         border: 0.2px solid #424141;
     }
-    &::-ms-track{
+
+    &::-ms-track {
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        background: #424141;
         border: 0.2px solid #424141;
         background: transparent;
         border-color: transparent;
         color: transparent;
     }
-    &::-ms-fill-lower{
+
+    &::-ms-fill-lower {
         background: $coral;
     }
-    &::-ms-fill-upper{
+
+    &::-ms-fill-upper {
         background: #424141;
+    }
+
+    &:focus {
+        outline: none;
+
+        &::-webkit-slider-runnable-track {
+            background: #424141;
+        }
     }
 }
 
-.slider-labels{
+.slider-labels {
     display: flex;
     justify-content: space-between;
     font-weight: 300;
 }
 
-.places-container{
+.places-container {
     width: 50%;
 }
 
@@ -254,10 +263,9 @@
     margin-left: 2%;
 }
 
-
 .stop-place-container[aria-selected='true'] {
     outline: none;
-    border-bottom: 3px solid #FF5959;
+    border-bottom: 3px solid #ff5959;
 }
 
 .checkbox-container {
@@ -287,13 +295,14 @@
 .admin-route-row {
     cursor: pointer;
     background-color: #272727;
+
     td {
         padding: 8px;
     }
 }
 
 .accordion__body {
-    padding: 0px 10px 5px 10px;
+    padding: 0 10px 5px 10px;
     display: block;
     animation: fadein 0.35s ease-in;
 }
@@ -320,6 +329,7 @@
     height: 2px;
     background-color: currentColor;
     content: '';
+    transition: transform 0.25s ease, -webkit-transform 0.25s ease;
 }
 
 .accordion__arrow::before {
@@ -327,7 +337,8 @@
     transform: rotate(45deg);
 }
 
-[aria-expanded='true'] .accordion__arrow::before, [aria-selected='true'] .accordion__arrow::before {
+[aria-expanded='true'] .accordion__arrow::before,
+[aria-selected='true'] .accordion__arrow::before {
     transform: rotate(-45deg);
 }
 
@@ -336,13 +347,9 @@
     transform: rotate(-45deg);
 }
 
-[aria-expanded='true'] .accordion__arrow::after, [aria-selected='true'] .accordion__arrow::after {
+[aria-expanded='true'] .accordion__arrow::after,
+[aria-selected='true'] .accordion__arrow::after {
     transform: rotate(45deg);
-}
-
-.accordion__arrow::before,
-.accordion__arrow::after {
-    transition: transform 0.25s ease, -webkit-transform 0.25s ease;
 }
 
 .admin-route-table {
@@ -365,32 +372,32 @@
     position: relative;
 }
 
-
 .close {
-  background: white;
-  height: 18px;
-  position: relative;
-  width: 2px;
+    background: white;
+    height: 18px;
+    position: relative;
+    width: 2px;
 }
 
-.close:after {
-  background: $white;
-  content: "";
-  height: 2px;
-  left: -8px;
-  position: absolute;
-  top: 8px;
-  width: 18px;
+.close::after {
+    background: $white;
+    content: "";
+    height: 2px;
+    left: -8px;
+    position: absolute;
+    top: 8px;
+    width: 18px;
 }
 
-.close, .close:after {
+.close,
+.close::after {
     transition: transform 0.25s ease, -webkit-transform 0.25s ease;
 }
 
-.close[value='true'], [value='true'] .close:after {
+.close[value='true'],
+[value='true'] .close::after {
     transform: rotate(45deg);
 }
-
 
 .admin-route-button {
     display: flex;
@@ -415,6 +422,7 @@
     .admin-content {
         display: contents;
     }
+
     .filter-panel {
         width: 100%;
     }

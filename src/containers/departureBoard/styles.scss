@@ -7,7 +7,7 @@
 }
 
 .table td {
-    background-color: #F3F3F3;
+    background-color: #f3f3f3;
     padding: 0.5rem 1rem;
 }
 
@@ -16,7 +16,8 @@
     padding: 0;
     display: none;
     background-color: inherit;
-    &:hover{
+
+    &:hover {
         cursor: pointer;
     }
 }
@@ -32,7 +33,12 @@
     }
 }
 
-.app:hover .settings-button, .settings-button:hover {
+.no-stops .settings-button {
+    display: block;
+}
+
+.settings-button:hover,
+.app:hover .settings-button {
     display: block;
 }
 
@@ -44,24 +50,21 @@
     height: 20px;
 }
 
-.no-stops .settings-button{
-    display: block;
-}
-
-.no-stops-sheep{
+.no-stops-sheep {
     text-align: center;
     height: 70%;
     padding: 7%;
 }
 
-.footer{
-  color: #EBE7E7;
-  height: 15%;
-  text-align: right;
-  padding: 2%;
-  p {
-      font-weight: 300;
-  }
+.footer {
+    color: #ebe7e7;
+    height: 15%;
+    text-align: right;
+    padding: 2%;
+
+    p {
+        font-weight: 300;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
@@ -80,13 +83,14 @@
     .departure-board {
         margin-top: 5%;
     }
+
     .settings-button {
-      display: block;
-      margin: 2%;
+        display: block;
+        margin: 2%;
     }
 
     .settings-button svg {
-      height: 25;
-      width: 25;
+        height: 25;
+        width: 25;
     }
 }

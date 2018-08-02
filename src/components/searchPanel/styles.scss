@@ -2,61 +2,61 @@
 @import '~@entur/fonts/index.css';
 
 .react-autosuggest__container {
-  position: relative;
+    position: relative;
 }
 
 .react-autosuggest__input {
-  width: 100%;
-  height: 50px;
-  padding: 10px 20px;
-  font-weight: 300;
-  font-size: 0.9rem;
-  border: none;
-  border-bottom: 2px solid $blue-40;
-  font-family: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    width: 100%;
+    height: 50px;
+    padding: 10px 20px;
+    font-weight: 300;
+    font-size: 0.9rem;
+    border: none;
+    border-bottom: 2px solid $blue-40;
+    font-family: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
 .react-autosuggest__input--focused {
-  outline: none;
+    outline: none;
 }
 
 .react-autosuggest__input--open {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .react-autosuggest__suggestions-container {
-  display: none;
+    display: none;
 }
 
 .react-autosuggest__suggestions-container--open {
-  display: block;
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  border: 1px solid $grey-10;
-  background-color: $white;
-  font-weight: 300;
-  font-size: 0.9rem;
-  z-index: 2;
+    display: block;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    border: 1px solid $grey-10;
+    background-color: $white;
+    font-weight: 300;
+    font-size: 0.9rem;
+    z-index: 2;
 }
 
 .react-autosuggest__suggestions-list {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
 
 .react-autosuggest__suggestion {
-  cursor: pointer;
-  padding: 10px 20px;
+    cursor: pointer;
+    padding: 10px 20px;
 }
 
 .react-autosuggest__suggestion--highlighted {
-  background-color: $blue-80;
+    background-color: $blue-80;
 }
 
-.search-container{
+.search-container {
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -65,7 +65,7 @@
     min-width: 350px;
 }
 
-.input-container{
+.input-container {
     display: flex;
     justify-content: center;
     flex-wrap: nowrap;
@@ -77,12 +77,13 @@
     color: $blue-30;
 }
 
-.get-location-icon{
+.get-location-icon {
     position: absolute;
     right: 5%;
     bottom: 25%;
-    &:hover{
-        cursor:pointer;
+
+    &:hover {
+        cursor: pointer;
     }
 }
 
@@ -100,25 +101,27 @@
     font-family: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
-.location-true{
+.location-true {
     background: #181c56;
     cursor: pointer;
+
     &:focus {
         outline-offset: -1px;
         outline: 4px auto $focus;
     }
+
     &:hover {
         background: $blue-20;
     }
 }
 
-.location-false{
+.location-false {
     background: #181c5659;
     cursor: default;
     outline: none;
 }
 
-.spinner-container{
+.spinner-container {
     position: absolute;
     z-index: 1;
     align-self: center;
@@ -127,7 +130,7 @@
     text-align: center;
     padding: 2rem;
 
-    .spinner{
+    .spinner {
         animation: spin 1s linear infinite;
     }
 }
