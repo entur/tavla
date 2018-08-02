@@ -10,6 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src --ext 'js,jsx'",
+    "stylelint": "stylelint src/",
     "start": "webpack-serve",
     "clean": "rm -rf dist/",
     "build": "npm run clean && webpack --mode production",
@@ -53,6 +54,8 @@
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
+    "stylelint": "^9.4.0",
+    "stylelint-config-standard": "^18.2.0",
     "webpack": "^4.16.1",
     "webpack-cli": "^3.1.0",
     "webpack-serve": "^1.0.4"
