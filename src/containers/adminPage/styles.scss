@@ -389,3 +389,53 @@
     display: flex;
     justify-content: center;
 }
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .checkbox-container {
+        width: 8%;
+    }
+
+    .selection-data-wrapper {
+        width: 92%;
+    }
+
+    .selection-panel {
+        overflow: visible;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .admin-content {
+        display: contents;
+    }
+    .filter-panel {
+        width: 100%;
+    }
+
+    .mode-sort-container {
+        flex-wrap: wrap;
+    }
+
+    .selection-panel {
+        width: 100%;
+        overflow: visible;
+    }
+
+    .checkbox-container {
+        width: 15%;
+    }
+
+    .selection-data-wrapper {
+        width: 85%;
+    }
+
+    .admin-button-container {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .admin-button {
+        width: 45%;
+        padding: 12px;
+    }
+}

@@ -5,3 +5,9 @@
     font-weight: 500;
     justify-content: space-between;
 }
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .header-time {
+        display: none;
+    }
+}

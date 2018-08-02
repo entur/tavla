@@ -59,3 +59,22 @@
     text-align: center;
     width: 20%;
 }
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .bike-tile-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #272727;
+        color: white;
+        width: 100%;
+        padding: 2.5% 1.6% 2.5% 1.6%;
+        margin: 2% 0 2% 0;
+        height: fit-content;
+        align-self: center;
+    }
+
+    h4 {
+        margin: 2%;
+    }
+}
