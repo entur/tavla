@@ -34,6 +34,7 @@
         cursor: pointer;
         background-color: #424141;
     }
+
     &:focus{
         outline: none;
         box-shadow: 0 0 8px 0 #ff5959;
@@ -50,6 +51,7 @@
         cursor: pointer;
         background-color: #FF7B7B;
     }
+
     &:focus{
         outline: none;
         box-shadow: 0 0 8px 0 #50E3C2;
@@ -104,7 +106,7 @@
 }
 
 .distance-container {
-    p{
+    p {
         font-weight: 300;
     }
 }
@@ -118,13 +120,16 @@
     border-bottom: 2px solid $coral;
     padding: 0.2rem;
     text-align: center;
+
     &:focus{
         outline: none;
     }
+
     &::-webkit-inner-spin-button{
         -webkit-appearance: none;
         margin: 0;
     }
+
     &::-webkit-outer-spin-button{
         -webkit-appearance: none;
         margin: 0;
@@ -136,6 +141,7 @@
     height: 2rem;
     -webkit-appearance: none;
     background: transparent;
+
     &:focus{
         outline: none;
         &::-webkit-slider-runnable-track {
@@ -262,7 +268,7 @@
     padding: 15px 0 0 3px;
 }
 
-.selection-panel{
+.selection-panel {
     width: 50%;
     max-height: 100%;
     overflow: scroll;
@@ -278,10 +284,10 @@
     justify-content: center;
 }
 
-.admin-route-row{
+.admin-route-row {
     cursor: pointer;
     background-color: #272727;
-    td{
+    td {
         padding: 8px;
     }
 }
@@ -366,6 +372,7 @@
   position: relative;
   width: 2px;
 }
+
 .close:after {
   background: $white;
   content: "";
