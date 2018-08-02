@@ -101,3 +101,20 @@
       }
 
 }
+@media (max-width: 480px) {
+    .tile-container {
+        display: flex;
+        flex-direction: column;
+        background-color: #272727;
+        color: white;
+        padding: 8%;
+        margin: 2% 0 0 0;
+        height: fit-content;
+        align-self: center;
+        width: 100%;
+    }
+
+    .route-name-text {
+        width: auto;
+    }
+}

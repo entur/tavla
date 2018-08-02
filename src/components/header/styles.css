@@ -5,3 +5,17 @@
     font-weight: 500;
     justify-content: space-between;
 }
+
+@media (max-width: 480px) {
+    .header-time {
+        display: none;
+    }
+
+    .header {
+        position: fixed;
+        background-color: #1a1a1a;
+        width: 100%;
+        top: 0;
+        align-items: center;
+    }
+}

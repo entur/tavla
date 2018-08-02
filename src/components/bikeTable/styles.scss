@@ -37,8 +37,6 @@
     margin: 0;
 }
 
-
-
 .available{
     display:flex;
     align-items: center;
@@ -51,8 +49,28 @@
 .bike-available-text {
     text-align: center;
     width: 20%;
-    p{
+
+    p {
         font-size: 1.4rem;
         margin: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .bike-tile-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #272727;
+        color: white;
+        width: 100%;
+        padding: 2.5% 1.6% 2.5% 1.6%;
+        margin: 2% 0 2% 0;
+        height: fit-content;
+        align-self: center;
+    }
+
+    h4 {
+        margin: 2%;
     }
 }
