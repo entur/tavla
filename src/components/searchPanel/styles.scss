@@ -137,7 +137,7 @@
     100% { transform: rotate(360deg); }
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media (max-width: 480px) {
     .search-container {
         width: 100%;
         display: flex;

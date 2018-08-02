@@ -56,7 +56,7 @@
     }
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media (max-width: 480px) {
     .bike-tile-container {
         display: flex;
         flex-direction: column;
