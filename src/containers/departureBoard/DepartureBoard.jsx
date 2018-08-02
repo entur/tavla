@@ -31,13 +31,21 @@ class DepartureBoard extends React.Component {
         const {
             hiddenStations, hiddenStops, hiddenRoutes, distance, hiddenModes,
         } = getSettingsFromUrl()
-        getStopPlacesByPositionAndDistance(position, distance).then(stopsData => {
-            this.setState({
-                stopsData, distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, position,
-            })
-            this.stopPlaceDepartures()
-            this.updateTime()
+        this.setState({
+            initialLoading: true,
         })
+        getStopPlacesByPositionAndDistance(position, distance)
+            .then(stopsData => {
+                this.setState({
+                    stopsData, distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, position, initialLoading: false,
+                })
+                this.stopPlaceDepartures()
+                this.updateTime()
+            })
+            .catch(e => {
+                this.setState({ initialLoading: false })
+                console.error(e) // eslint-disable-line no-console
+            })
         this.updateInterval = setInterval(this.updateTime, 10000)
     }
 
@@ -110,23 +118,28 @@ class DepartureBoard extends React.Component {
         )
     }
 
+    renderNoStopsInfo = () => (
+        <div className="no-stops">
+            <div className="no-stops-sheep">
+                <img src={errorImage} />
+            </div>
+        </div>
+    )
+
 
     render() {
         const {
-            hiddenStations, hiddenStops, hiddenRoutes, stationData, stopsData, hiddenModes,
+            hiddenStations, hiddenStops, hiddenRoutes, stationData, stopsData, hiddenModes, initialLoading,
         } = this.state
         const visibleStopCount = stopsData.length - hiddenStops.length
         const visibleStationCount = stationData.length - hiddenStations.length
         const noStops = (visibleStopCount + visibleStationCount) === 0
+
         return (
             <div>
                 <Header settingsButton={this.renderAdminButton()}/>
-                {(noStops)
-                    ? <div className="no-stops">
-                        <div className="no-stops-sheep">
-                            <img src={errorImage} />
-                        </div>
-                    </div>
+                {(noStops && !initialLoading)
+                    ? this.renderNoStopsInfo()
                     : <div>
                         <div className="departure-board">
                             <div className="departure-tiles">
