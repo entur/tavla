@@ -10,4 +10,12 @@
     .header-time {
         display: none;
     }
+
+    .header {
+        position: fixed;
+        background-color: #1a1a1a;
+        width: 100%;
+        top: 0;
+        align-items: center;
+    }
 }
