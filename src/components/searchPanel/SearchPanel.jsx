@@ -32,15 +32,15 @@ class SearchPanel extends React.Component {
     };
 
     onSuggestionsFetchRequested = ({ value }) => {
-        this.getLocationsDebounced(value)
+        this.getFeaturesDebounced(value)
     };
 
-    getLocationsDebounced = debounce((value) => {
+    getFeaturesDebounced = debounce((value) => {
         const inputLength = value.trim().length
 
         if (inputLength > 0) {
-            service.getLocations(value).then(locationsData => {
-                const locations = locationsData.map(({ geometry, properties }) => {
+            service.getFeatures(value).then(featuresData => {
+                const features = featuresData.map(({ geometry, properties }) => {
                     return {
                         coordinates: {
                             lon: geometry.coordinates[0],
@@ -50,7 +50,7 @@ class SearchPanel extends React.Component {
                     }
                 })
                 this.setState({
-                    suggestions: locations,
+                    suggestions: features,
                 })
             })
         }
