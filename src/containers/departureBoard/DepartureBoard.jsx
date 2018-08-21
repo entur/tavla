@@ -1,5 +1,4 @@
 import React from 'react'
-import EnturService from '@entur/sdk'
 import moment from 'moment'
 import './styles.scss'
 import {
@@ -9,8 +8,7 @@ import { getSettingsFromUrl, getPositionFromUrl, getStopPlacesByPositionAndDista
 import { DEFAULT_DISTANCE } from '../../constants'
 import { Settings } from '../../assets/icons'
 import errorImage from '../../assets/noStops.png'
-
-const service = new EnturService({ clientName: 'entur-tavla' })
+import service from '../../service'
 
 class DepartureBoard extends React.Component {
     state = {

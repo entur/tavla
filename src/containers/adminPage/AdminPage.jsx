@@ -1,5 +1,4 @@
 import React from 'react'
-import EnturService from '@entur/sdk'
 import debounce from 'lodash.debounce'
 import SelectionPanel from './SelectionPanel'
 import FilterPanel from './FilterPanel'
@@ -14,10 +13,9 @@ import {
     getTransportModesByStop,
 } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
+import service from '../../service'
+
 import './styles.scss'
-
-const service = new EnturService({ clientName: 'entur-tavla' })
-
 
 class AdminPage extends React.Component {
     state = {

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "entur-tavla"
+    "default": "entur-tavla",
+    "staging": "tavla-stage"
   }
 }
