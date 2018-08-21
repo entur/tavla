@@ -1,3 +1,4 @@
 {
-  "presets": ["env", "stage-2", "react"]
+  "presets": ["env", "stage-2", "react"],
+  "plugins": ["transform-inline-environment-variables"]
 }
