@@ -1,31 +1,11 @@
-const readFileSync = require('fs').readFileSync
-const parseDotEnv = require('dotenv').parse
+const config = require('dotenv').config
 const path = require('path')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const history = require('connect-history-api-fallback')
 const convert = require('koa-connect')
 
-function parse(envFilePath) {
-    try {
-        const parsed = parseDotEnv(readFileSync(envFilePath, { encoding: 'utf8' }))
-        return Object.entries(parsed).reduce((obj, [key, value]) => {
-            obj[key] = value // eslint-disable-line no-param-reassign
-            return obj
-        }, {})
-    } catch (e) {
-        return {}
-    }
-}
-
-function populateEnvironmentVariables(environment = 'dev') {
-    const envFile = path.join(__dirname, `.env.${environment}`)
-    const variables = parse(envFile)
-    Object.assign(process.env, variables)
-    return variables
-}
-
 module.exports = (env) => {
-    populateEnvironmentVariables(env)
+    config({ path: path.join(__dirname, `.env.${env}`) })
     return {
         mode: 'development',
         entry: './src/main.jsx',
