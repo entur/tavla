@@ -1,13 +1,11 @@
 import React from 'react'
-import EnturService from '@entur/sdk'
 import moment from 'moment'
 import {
     Bus, CityBike, Ferry, Lock, Metro, Train, Tram,
 } from './assets/icons'
 
 import { MAX_DISTANCE_MINUTES, WALK_SPEED, DEFAULT_DISTANCE } from './constants'
-
-const service = new EnturService({ clientName: 'entur-tavla' })
+import service from './service'
 
 export function getIcon(type, props) {
     switch (type) {

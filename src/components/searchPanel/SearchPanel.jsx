@@ -1,11 +1,9 @@
 import React from 'react'
-import EnturService from '@entur/sdk'
 import debounce from 'lodash.debounce'
 import ReactAutosuggest from 'react-autosuggest'
 import { GeoLocation, Spinner } from '../../assets/icons'
+import service from '../../service'
 import './styles.scss'
-
-const service = new EnturService({ clientName: 'entur-tavla' })
 
 function getSuggestionValue(suggestion) {
     return suggestion.name
