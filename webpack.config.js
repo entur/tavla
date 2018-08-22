@@ -5,7 +5,7 @@ const history = require('connect-history-api-fallback')
 const convert = require('koa-connect')
 
 module.exports = (env) => {
-    config({ path: path.join(__dirname, `.env.${env}`) })
+    config({ path: path.join(__dirname, `.env.${typeof env === 'string' ? env : 'prod'}`) })
     return {
         mode: 'development',
         entry: './src/main.jsx',
