@@ -10,7 +10,7 @@ img {
     height: 100%;
     color: $primary;
     margin: 0;
-    background-color: $blue-80;
+    background-color: $white;
 }
 
 .title-container {
@@ -18,20 +18,46 @@ img {
     align-items: center;
     flex-direction: column;
     background-color: $white;
-}
-
-.round-shape {
-    clip-path: ellipse(55vw 150% at 50% -50%);
-    background-color: $white;
-    height: 10%;
+    padding-top: 3.5%;
+    margin-bottom: -1%;
 }
 
 .content-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5%;
-    background-color: $blue-80;
+    background-color: $white;
+}
+
+.cover-photo {
+    width: 78%;
+}
+
+.title__logo {
+    height: 5.57%;
+    width: 19.93%;
+}
+
+.title__subtext {
+	height: 5.47%;
+    width: 58.33%;
+    color: #181C56;
+    font-family: Nationale;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 28px;
+    text-align: center;
+}
+
+.searchPanel-subtext {
+    width: 38.33%;
+    color: #171C56;
+    font-family: Nationale;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 23px;
+    text-align: center;
+    padding-top: 4px;
 }
 
 @media (max-width: 480px) {
