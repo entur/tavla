@@ -1,14 +1,30 @@
 .header {
   display: flex;
-  height: 5%;
+  height: 15%;
   font-size: 2.5rem;
   font-weight: 500;
   justify-content: space-between;
+  margin-top: 20px;
+}
+
+.header-date {
+	height: 56px;
+	width: 360px;
+	color: #9BA4D2;
+	font-family: Nationale;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 16px;
+	text-align: right;
 }
 
 @media (max-width: 480px) {
   .header-time {
     display: none;
+  }
+
+  .header-date {
+      display: none;
   }
 
   .header {
