@@ -1,28 +1,29 @@
 @import '~@entur/component-library/src/styles/_colors.scss';
 @import '~@entur/fonts/index.css';
 
+$primary-font: 'Nationale', 'Gotham Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+
 .react-autosuggest__container {
     position: relative;
 }
 
 .react-autosuggest__input {
     width: 100%;
-    height: 50px;
     padding: 10px 20px;
     font-size: 16px;
     font-weight: 500;
-    font-family: Nationale;
-    color: #181C56;
+    font-family: $primary-font;
+    color: #181c56;
     border: none;
     border-bottom: 2px solid $blue-40;
     line-height: 23px;
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
     height: 45px;
 
     &::placeholder {
         color: #656782;
         opacity: 0.5;
-        font-weight: 400
+        font-weight: 400;
     }
 }
 
@@ -44,10 +45,10 @@
     position: absolute;
     top: 100%;
     width: 100%;
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
     font-weight: 500;
     font-size: 0.9rem;
-    color: #181C56;
+    color: #181c56;
     z-index: 2;
 }
 
@@ -99,7 +100,7 @@
     height: 1.95%;
     width: 4.21%;
     color: #656782;
-    font-family: Nationale;
+    font-family: $primary-font;
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
@@ -119,7 +120,7 @@
     text-decoration: none;
     font-size: 16px;
     text-align: center;
-    font-family: Nationale;
+    font-family: $primary-font;
     font-weight: 400;
     -webkit-appearance: none;
     height: 46px;
@@ -127,12 +128,11 @@
     max-width: 350px;
     min-width: 130px;
     margin-left: 15px;
-    color: #FFFFFF;
+    color: #fff;
 }
 
 .landing-button--location-true {
     background: #181c56;
-
     cursor: pointer;
 
     &:focus {
