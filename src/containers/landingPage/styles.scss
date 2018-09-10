@@ -22,6 +22,22 @@ img {
     margin-bottom: -1%;
 }
 
+.title__logo {
+    height: 5.57%;
+    width: 19.93%;
+}
+
+.title__subtext {
+    height: 5.47%;
+    width: 58.33%;
+    color: #181C56;
+    font-family: Nationale;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 28px;
+    text-align: center;
+}
+
 .content-container {
     display: flex;
     flex-direction: column;
@@ -31,22 +47,6 @@ img {
 
 .cover-photo {
     width: 78%;
-}
-
-.title__logo {
-    height: 5.57%;
-    width: 19.93%;
-}
-
-.title__subtext {
-	height: 5.47%;
-    width: 58.33%;
-    color: #181C56;
-    font-family: Nationale;
-    font-size: 22px;
-    font-weight: 600;
-    line-height: 28px;
-    text-align: center;
 }
 
 .searchPanel-subtext {

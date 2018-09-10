@@ -62,6 +62,7 @@
     padding: 10px 20px;
     border-bottom: 2px solid $white;
 }
+
 .react-autosuggest__suggestion:last-child {
     cursor: pointer;
     padding: 10px 20px;
@@ -78,7 +79,7 @@
     flex-direction: row;
     align-items: flex-end;
     position: relative;
-    min-width: 350px;
+    min-width: 40%;
 }
 
 .input-container {
@@ -86,7 +87,8 @@
     justify-content: center;
     flex-wrap: nowrap;
     flex-direction: column;
-    width: 350px;
+    width: 80%;
+    max-width: 350px;
     margin-right: 0.25rem;
     position: relative;
     font-size: 0.8rem;
@@ -122,12 +124,14 @@
     -webkit-appearance: none;
     height: 46px;
     width: 182px;
+    max-width: 355px;
     margin-left: 15px;
     color: #FFFFFF;
 }
 
-.location-true {
+.landing-button--location-true {
     background: #181c56;
+
     cursor: pointer;
 
     &:focus {
@@ -140,7 +144,7 @@
     }
 }
 
-.location-false {
+.landing-button--location-false {
     background: #181c5659;
     cursor: default;
     outline: none;
