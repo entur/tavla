@@ -30,6 +30,7 @@ img {
 .title__subtext {
     height: 5.47%;
     width: 58.33%;
+    min-width: 300px;
     color: #181C56;
     font-family: Nationale;
     font-size: 22px;
@@ -50,7 +51,8 @@ img {
 }
 
 .searchPanel-subtext {
-    width: 38.33%;
+    max-width: 38.33%;
+    min-width: 350px;
     color: #171C56;
     font-family: Nationale;
     font-size: 16px;
@@ -64,4 +66,9 @@ img {
     p {
         text-align: center;
     }
+}
+
+
+@media screen and (max-device-width: 480px){
+  /* some CSS here */
 }

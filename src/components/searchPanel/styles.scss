@@ -79,7 +79,7 @@
     flex-direction: row;
     align-items: flex-end;
     position: relative;
-    min-width: 40%;
+    min-width: 55%;
 }
 
 .input-container {
@@ -87,7 +87,7 @@
     justify-content: center;
     flex-wrap: nowrap;
     flex-direction: column;
-    width: 80%;
+    width: 100%;
     max-width: 350px;
     margin-right: 0.25rem;
     position: relative;
@@ -124,7 +124,8 @@
     -webkit-appearance: none;
     height: 46px;
     width: 182px;
-    max-width: 355px;
+    max-width: 350px;
+    min-width: 130px;
     margin-left: 15px;
     color: #FFFFFF;
 }
