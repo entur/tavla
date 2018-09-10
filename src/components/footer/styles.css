@@ -1,0 +1,16 @@
+.footer-container {
+    margin-top: 30px;
+}
+
+.settings-wrapper {
+    float: right;
+}
+
+.back-button {
+    background-color: #181C56;
+    border: none;
+}
+
+.back-button:hover {
+    cursor: pointer;
+}
