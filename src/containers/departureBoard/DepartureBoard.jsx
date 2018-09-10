@@ -7,7 +7,7 @@ import {
 import { getSettingsFromUrl, getPositionFromUrl, getStopPlacesByPositionAndDistance } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
 import { Settings } from '../../assets/icons'
-import errorImage from '../../assets/noStops.png'
+import errorImage from '../../assets/images/noStops.png'
 import service from '../../service'
 
 class DepartureBoard extends React.Component {

@@ -1,19 +1,32 @@
 import React from 'react'
 import debounce from 'lodash.debounce'
 import ReactAutosuggest from 'react-autosuggest'
-import { GeoLocation, Spinner } from '../../assets/icons'
+import { Spinner, GeoLocation } from '../../assets/icons'
 import service from '../../service'
 import './styles.scss'
+
+const YOUR_POSITION = 'Din posisjon'
 
 function getSuggestionValue(suggestion) {
     return suggestion.name
 }
 
 function renderSuggestion(suggestion) {
+    if (suggestion.name === YOUR_POSITION) {
+        return (
+            <span>
+                {suggestion.name}
+                <span className="location-icon">
+                    <GeoLocation height={15} width={15} />
+                </span>
+            </span>
+        )
+    }
     return (
         <span>{suggestion.name}</span>
     )
 }
+
 
 class SearchPanel extends React.Component {
     state = {
@@ -21,6 +34,19 @@ class SearchPanel extends React.Component {
         suggestions: [],
         hasLocation: false,
         waiting: false,
+        showPositionInList: true,
+        selectedLocationName: '',
+    }
+
+    componentDidMount() {
+        navigator.permissions.query({ name: 'geolocation' })
+            .then(permission => {
+                if (permission.state === 'denied') {
+                    this.setState({
+                        showPositionInList: false,
+                    })
+                }
+            })
     }
 
     onChange = (event, { newValue }) => {
@@ -30,6 +56,13 @@ class SearchPanel extends React.Component {
     };
 
     onSuggestionsFetchRequested = ({ value }) => {
+        if (value !== this.state.selectedLocationName) {
+            this.setState({
+                hasLocation: false,
+                selectedLocationName: '',
+                chosenCoord: '',
+            })
+        }
         this.getFeaturesDebounced(value)
     };
 
@@ -38,7 +71,7 @@ class SearchPanel extends React.Component {
 
         if (inputLength > 0) {
             service.getFeatures(value).then(featuresData => {
-                const features = featuresData.map(({ geometry, properties }) => {
+                const suggestedFeatures = featuresData.map(({ geometry, properties }) => {
                     return {
                         coordinates: {
                             lon: geometry.coordinates[0],
@@ -47,6 +80,9 @@ class SearchPanel extends React.Component {
                         name: properties.name + ', ' + properties.locality,
                     }
                 })
+
+                const features = this.state.showPositionInList
+                    ? [{ name: YOUR_POSITION }, ...suggestedFeatures] : suggestedFeatures
                 this.setState({
                     suggestions: features,
                 })
@@ -56,9 +92,11 @@ class SearchPanel extends React.Component {
 
     getAddressFromPosition = (position) => {
         this.setState({
-            value: 'Din posisjon',
+            value: YOUR_POSITION,
             chosenCoord: position,
             hasLocation: true,
+            suggestions: [],
+            selectedLocationName: position.name,
         })
     }
 
@@ -69,23 +107,44 @@ class SearchPanel extends React.Component {
     }
 
     onSuggestionSelected = (event, { suggestion }) => {
-        this.setState({
-            chosenCoord: suggestion.coordinates,
-            hasLocation: true,
-        })
+        if (suggestion.name === YOUR_POSITION) {
+            this.handleGetLocation()
+        } else {
+            this.setState({
+                chosenCoord: suggestion.coordinates,
+                hasLocation: true,
+                selectedLocationName: suggestion.name,
+            })
+        }
     }
 
-    handleGetLocationClick = () => {
+    handleGetLocation = () => {
         this.setState({
             waiting: true,
         })
-        navigator.geolocation.getCurrentPosition(data => {
-            const position = { lat: data.coords.latitude, lon: data.coords.longitude }
-            this.getAddressFromPosition(position)
-            this.setState({
-                waiting: false,
-            })
+        navigator.geolocation.getCurrentPosition(this.handleSuccessLocation, this.handleDeniedLocation)
+    }
+
+    handleSuccessLocation = (data) => {
+        const position = { lat: data.coords.latitude, lon: data.coords.longitude }
+        this.getAddressFromPosition(position)
+        this.setState({
+            waiting: false,
         })
+    }
+
+    handleDeniedLocation = (error) => {
+        if (error.code === error.PERMISSION_DENIED) {
+            this.setState({
+                value: '',
+                suggestions: [],
+                hasLocation: false,
+                waiting: false,
+                showPositionInList: false,
+                selectedLocationName: '',
+            })
+            console.log('Permission denied with error: ', error) // eslint-disable-line
+        }
     }
 
     handleGoToBoard = () => {
@@ -104,19 +163,18 @@ class SearchPanel extends React.Component {
     render() {
         const { value, suggestions } = this.state
         const inputProps = {
-            placeholder: 'f.eks. Osloveien 14, 1234 Oslo',
+            placeholder: 'Adresse eller sted',
             value,
             onChange: this.onChange,
         }
 
-        const btnClass = !this.state.hasLocation ? 'location-false ' : 'location-true '
+        const btnClass = !this.state.hasLocation ? 'landing-Button--location-false' : 'landing-button--location-true'
 
         return (
             <div className="search-container">
 
                 <div className="input-container">
-                    Adresse
-                    {this.state.waiting && this.renderSpinner()}
+                    <p className="searchPanel-label">Område</p>
                     <ReactAutosuggest
                         suggestions={suggestions}
                         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -126,11 +184,9 @@ class SearchPanel extends React.Component {
                         renderSuggestion={renderSuggestion}
                         inputProps={inputProps}
                     />
-                    <span className="get-location-icon" onClick={this.handleGetLocationClick}>
-                        <GeoLocation />
-                    </span>
+                    {this.state.waiting && this.renderSpinner()}
                 </div>
-                <button className={btnClass + 'landing-button'} onClick={this.handleGoToBoard}>Opprett tavle</button>
+                <button className={'landing-button ' + btnClass} onClick={this.handleGoToBoard}>Opprett tavle</button>
             </div>
         )
     }

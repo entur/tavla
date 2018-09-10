@@ -63,7 +63,7 @@ module.exports = (env) => {
             new HtmlWebPackPlugin({
                 template: 'src/index.html',
                 filename: 'index.html',
-                favicon: 'src/assets/logo.png',
+                favicon: 'src/assets/images/logo.png',
             }),
         ],
     }
