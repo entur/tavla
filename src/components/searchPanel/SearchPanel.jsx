@@ -19,7 +19,6 @@ function renderSuggestion(suggestion) {
                 <span className="location-icon">
                     <GeoLocation height={15} width={15} />
                 </span>
-
             </span>
         )
     }
