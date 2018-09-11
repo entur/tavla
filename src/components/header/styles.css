@@ -18,6 +18,16 @@
 	text-align: right;
 }
 
+.header-time {
+	height: 36px;
+	color: #FFFFFF;
+	font-family: Nationale;
+	font-size: 34px;
+	font-weight: 600;
+	line-height: 36px;
+    margin-bottom: 10px;
+}
+
 @media (max-width: 480px) {
   .header-time {
     display: none;

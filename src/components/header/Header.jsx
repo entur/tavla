@@ -12,9 +12,9 @@ class Header extends React.Component {
         this.timerID = setInterval(
             () => {
                 const date = moment()
-                const dayOfTheWeek = date.lang('nb').format('dddd')
+                const dayOfTheWeek = date.locale('nb').format('dddd')
                 const dayNumber = date.date()
-                const monthName = date.lang('nb').format('MMMM')
+                const monthName = date.locale('nb').format('MMMM')
 
                 this.setState({
                     date: dayOfTheWeek.charAt(0).toUpperCase() + dayOfTheWeek.slice(1) + ' ' + dayNumber + '. ' + monthName,
