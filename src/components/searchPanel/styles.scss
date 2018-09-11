@@ -131,7 +131,7 @@
 }
 
 .landing-button--location-true {
-    background: #181c56;
+    background: #181C56;
 
     cursor: pointer;
 
@@ -146,9 +146,11 @@
 }
 
 .landing-button--location-false {
-    background: #181c5659;
+    background-color: #181C56;
     cursor: default;
     outline: none;
+    opacity: 0.5;
+    color: rgba(255, 255, 255, 0.3);
 }
 
 .spinner-container {

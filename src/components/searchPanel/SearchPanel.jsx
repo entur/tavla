@@ -168,7 +168,7 @@ class SearchPanel extends React.Component {
             onChange: this.onChange,
         }
 
-        const btnClass = !this.state.hasLocation ? 'landing-Button--location-false' : 'landing-button--location-true'
+        const btnClass = !this.state.hasLocation ? 'landing-button--location-false' : 'landing-button--location-true'
 
         return (
             <div className="search-container">
@@ -186,7 +186,9 @@ class SearchPanel extends React.Component {
                     />
                     {this.state.waiting && this.renderSpinner()}
                 </div>
-                <button className={'landing-button ' + btnClass} onClick={this.handleGoToBoard}>Opprett tavle</button>
+                <button className={'landing-button ' + btnClass} onClick={this.handleGoToBoard}>
+                    Opprett tavle
+                </button>
             </div>
         )
     }
