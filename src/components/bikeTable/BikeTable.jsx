@@ -11,6 +11,7 @@ const BikeTable = ({ stationData, visible }) => {
         .filter(({ id }) => !hiddenStations.includes(id))
         .sort((a, b) => a.name.localeCompare(b.name))
 
+
     return (
         <div className="tile-container">
             <div className="bike-header-container">
@@ -28,8 +29,8 @@ const BikeTable = ({ stationData, visible }) => {
                         </div>
 
                         <div className="available">
-                            <p>{bikesAvailable} sykler</p>
-                            <p>{spacesAvailable} låser</p>
+                            <p>{bikesAvailable} {bikesAvailable === 1 ? 'sykkel' : 'sykler'}</p>
+                            <p>{spacesAvailable} {spacesAvailable === 1 ? 'lås' : 'låser'}</p>
                         </div>
                     </div>
                 ))

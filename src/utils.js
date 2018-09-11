@@ -64,17 +64,21 @@ export function getTransportModesByStop(stop) {
     return [...new Set([].concat(...dep))]
 }
 
-export function getTransportHeaderIcon(departures, dimensions, hiddenModes) {
+export function getTransportHeaderIcon(departures, dimensions, color, hiddenModes) {
     const transportModes = getTransportModes(departures).filter(f => !hiddenModes.includes(f))
+    const transportHeaderIconColor = '#9BA4D2'
     if (!dimensions) {
         return transportModes.map((mode, index) => (
-            getIcon(mode, { height, width, key: index })
+            getIcon(mode, {
+                height, width, transportHeaderIconColor, key: index,
+            })
         ))
     }
     const { height, width } = dimensions
-    const size = transportModes.length > 1 ? 90*1.5/transportModes.length : 90
     return transportModes.map((mode, index) => (
-        getIcon(mode, { height: size, width: size, key: index })
+        getIcon(mode, {
+            height, color: transportHeaderIconColor, width, key: index,
+        })
     ))
 }
 
