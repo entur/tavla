@@ -10,23 +10,26 @@ const BikeTable = ({ stationData, visible }) => {
     const stations = stationData
         .filter(({ id }) => !hiddenStations.includes(id))
         .sort((a, b) => a.name.localeCompare(b.name))
+
     return (
-        <div className="tile-container bike-tile-container">
+        <div className="tile-container">
             <div className="bike-header-container">
-                <div className="stop-header-icons">{getIcon('bike', { height: 90, width: 90 })}</div>
-                <div><h2>Bysykkel</h2></div>
+                <div className="stop-header-icons">{getIcon('bike', { height: 45, width: 45, color: '#9BA4D2' })}</div>
+                <p className="bike-header--text">Bysykkel</p>
             </div>
             {
                 stations.map(({
-                    name, bikesAvailable, id,
+                    name, bikesAvailable, id, spacesAvailable,
                 }) => (
                     <div key={id} className="bike-container">
-                        <h4 className="bike-station-title">{name}</h4>
+                        <div className="bike-station-wrapper">
+                            <div className="route-icon">{getIcon('bike', { height: 35, width: 35, color: '#9BA4D2' })}</div>
+                            <p>{name}</p>
+                        </div>
+
                         <div className="available">
-                            {getIcon('bike')}
-                            <div className="bike-available-text">
-                                <p>{bikesAvailable}</p>
-                            </div>
+                            <p>{bikesAvailable} sykler</p>
+                            <p>{spacesAvailable} låser</p>
                         </div>
                     </div>
                 ))
