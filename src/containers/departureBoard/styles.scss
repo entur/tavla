@@ -1,5 +1,18 @@
 @import '~@entur/component-library/src/styles/_colors.scss';
 
+.departure-board {
+    width: 100%;
+}
+
+.departure-tiles {
+    display: flex;
+    overflow: auto;
+}
+
+.departure-tiles::-webkit-scrollbar {
+    display: none;
+}
+
 .table {
     width: 100%;
     table-layout: fixed;
@@ -18,17 +31,6 @@
 
     &:hover {
         cursor: pointer;
-    }
-}
-
-@media (min-width: 480px) {
-    .departure-tiles {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        flex-direction: column;
-        height: 70%;
-        align-content: center;
     }
 }
 
@@ -79,6 +81,12 @@
 }
 
 @media (max-width: 480px) {
+    .departure-tiles {
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+
     .departure-board {
         margin-top: 5%;
     }
