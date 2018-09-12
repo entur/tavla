@@ -5,7 +5,7 @@ import { Spinner, GeoLocation } from '../../assets/icons'
 import service from '../../service'
 import './styles.scss'
 
-const YOUR_POSITION = 'Din posisjon'
+const YOUR_POSITION = 'Posisjonen din'
 
 function getSuggestionValue(suggestion) {
     return suggestion.name
@@ -39,6 +39,7 @@ class SearchPanel extends React.Component {
     }
 
     componentDidMount() {
+        if (!navigator || !navigator.permissions) return
         navigator.permissions.query({ name: 'geolocation' })
             .then(permission => {
                 if (permission.state === 'denied') {
@@ -52,6 +53,7 @@ class SearchPanel extends React.Component {
     onChange = (event, { newValue }) => {
         this.setState({
             value: newValue,
+            errorMessage: undefined,
         })
     };
 
@@ -134,17 +136,16 @@ class SearchPanel extends React.Component {
     }
 
     handleDeniedLocation = (error) => {
-        if (error.code === error.PERMISSION_DENIED) {
-            this.setState({
-                value: '',
-                suggestions: [],
-                hasLocation: false,
-                waiting: false,
-                showPositionInList: false,
-                selectedLocationName: '',
-            })
-            console.log('Permission denied with error: ', error) // eslint-disable-line
-        }
+        this.setState({
+            value: '',
+            suggestions: [],
+            hasLocation: false,
+            waiting: false,
+            showPositionInList: false,
+            selectedLocationName: '',
+            errorMessage: this.getErrorMessage(error),
+        })
+        console.log('Permission denied with error: ', error) // eslint-disable-line
     }
 
     handleGoToBoard = () => {
@@ -160,34 +161,54 @@ class SearchPanel extends React.Component {
         )
     }
 
+    getErrorMessage = (error) => {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                return 'Du må godta bruk av posisjon i nettleseren før vi kan hente den.'
+            default:
+                return 'En feil skjedde ved henting av din posisjon'
+        }
+    }
+
     render() {
-        const { value, suggestions } = this.state
+        const { value, suggestions, errorMessage } = this.state
         const inputProps = {
             placeholder: 'Adresse eller sted',
             value,
             onChange: this.onChange,
+            onFocus: () => {
+                this.setState({
+                    errorMessage: undefined,
+                })
+            },
         }
 
-        const btnClass = !this.state.hasLocation ? 'landing-Button--location-false' : 'landing-button--location-true'
+        const btnClass = !this.state.hasLocation ? 'landing-button--location-false' : 'landing-button--location-true'
 
         return (
-            <div className="search-container">
-
-                <div className="input-container">
-                    <p className="searchPanel-label">Område</p>
-                    <ReactAutosuggest
-                        suggestions={suggestions}
-                        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                        onSuggestionSelected={this.onSuggestionSelected}
-                        getSuggestionValue={getSuggestionValue}
-                        renderSuggestion={renderSuggestion}
-                        inputProps={inputProps}
-                    />
-                    {this.state.waiting && this.renderSpinner()}
+            <React.Fragment>
+                <div className="search-container">
+                    <div className="input-container">
+                        <p className="searchPanel-label">Område</p>
+                        <div className="input-spinner-container">
+                            <ReactAutosuggest
+                                suggestions={suggestions}
+                                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                                onSuggestionSelected={this.onSuggestionSelected}
+                                getSuggestionValue={getSuggestionValue}
+                                renderSuggestion={renderSuggestion}
+                                inputProps={inputProps}
+                            />
+                            {this.state.waiting && this.renderSpinner()}
+                        </div>
+                    </div>
+                    <button className={'landing-button ' + btnClass} onClick={this.handleGoToBoard}>
+                    Opprett tavle
+                    </button>
                 </div>
-                <button className={'landing-button ' + btnClass} onClick={this.handleGoToBoard}>Opprett tavle</button>
-            </div>
+                { errorMessage && <p role="alert" style={{ color: 'red' }}>{ errorMessage }</p> }
+            </React.Fragment>
         )
     }
 }
