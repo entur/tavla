@@ -5,7 +5,7 @@ import { Spinner, GeoLocation } from '../../assets/icons'
 import service from '../../service'
 import './styles.scss'
 
-const YOUR_POSITION = 'Din posisjon'
+const YOUR_POSITION = 'Posisjonen din'
 
 function getSuggestionValue(suggestion) {
     return suggestion.name
@@ -175,16 +175,18 @@ class SearchPanel extends React.Component {
 
                 <div className="input-container">
                     <p className="searchPanel-label">Område</p>
-                    <ReactAutosuggest
-                        suggestions={suggestions}
-                        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                        onSuggestionSelected={this.onSuggestionSelected}
-                        getSuggestionValue={getSuggestionValue}
-                        renderSuggestion={renderSuggestion}
-                        inputProps={inputProps}
-                    />
-                    {this.state.waiting && this.renderSpinner()}
+                    <div className="input-spinner-container">
+                        <ReactAutosuggest
+                            suggestions={suggestions}
+                            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                            onSuggestionSelected={this.onSuggestionSelected}
+                            getSuggestionValue={getSuggestionValue}
+                            renderSuggestion={renderSuggestion}
+                            inputProps={inputProps}
+                        />
+                        {this.state.waiting && this.renderSpinner()}
+                    </div>
                 </div>
                 <button className={'landing-button ' + btnClass} onClick={this.handleGoToBoard}>
                     Opprett tavle

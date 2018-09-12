@@ -1,0 +1,33 @@
+.footer-container {
+    width: 90%;
+    height: 60px;
+    align-content: center;
+    bottom: 0;
+    position: fixed;
+    background-color: #181c56;
+    opacity: 0;
+}
+
+@media (height: 500px) {
+    .footer-container {
+        margin-bottom: 100px;
+    }
+}
+
+.footer-container:hover {
+    opacity: 1;
+}
+
+.settings-wrapper {
+    float: right;
+}
+
+.back-button {
+    background-color: #181c56;
+    border: none;
+    margin-left: 20px;
+}
+
+.back-button:hover {
+    cursor: pointer;
+}

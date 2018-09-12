@@ -2,194 +2,200 @@
 @import "~@entur/fonts/index.css";
 
 $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
-  "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
-  sans-serif;
+    "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
+    sans-serif;
 
 .react-autosuggest__container {
-  position: relative;
+    position: relative;
+    width: 100%;
 }
 
 .react-autosuggest__input {
-  width: 100%;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: 500;
-  font-family: $primary-font;
-  color: #181c56;
-  border: none;
-  border-bottom: 2px solid $blue-40;
-  line-height: 23px;
-  background-color: #f8f8f8;
-  height: 45px;
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: $primary-font;
+    color: #181c56;
+    border: none;
+    border-bottom: 2px solid $blue-40;
+    line-height: 23px;
+    background-color: #f8f8f8;
+    height: 45px;
 
-  &::placeholder {
-    color: #656782;
-    opacity: 0.5;
-    font-weight: 400;
-  }
+    &::placeholder {
+        color: #656782;
+        opacity: 0.5;
+        font-weight: 400;
+    }
 }
 
 .react-autosuggest__input--focused {
-  outline: none;
+    outline: none;
 }
 
 .react-autosuggest__input--open {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .react-autosuggest__suggestions-container {
-  display: none;
+    display: none;
 }
 
 .react-autosuggest__suggestions-container--open {
-  display: block;
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  background-color: #f8f8f8;
-  font-weight: 500;
-  font-size: 0.9rem;
-  color: #181c56;
-  z-index: 2;
+    display: block;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    background-color: #f8f8f8;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #181c56;
+    z-index: 2;
 }
 
 .react-autosuggest__suggestions-list {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
 
 .react-autosuggest__suggestion {
-  cursor: pointer;
-  padding: 10px 20px;
-  border-bottom: 2px solid $white;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-bottom: 2px solid $white;
 }
 
 .react-autosuggest__suggestion:last-child {
-  cursor: pointer;
-  padding: 10px 20px;
-  border-bottom: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-bottom: none;
 }
 
 .react-autosuggest__suggestion--highlighted {
-  background-color: $blue-80;
+    background-color: $blue-80;
 }
 
 .search-container {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: flex-end;
-  position: relative;
-  min-width: 55%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: flex-end;
+    position: relative;
+    min-width: 55%;
 }
 
 .input-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  width: 100%;
-  max-width: 350px;
-  margin-right: 0.25rem;
-  position: relative;
-  font-size: 0.8rem;
-  color: $blue-30;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    width: 100%;
+    max-width: 350px;
+    margin-right: 0.25rem;
+    position: relative;
+    font-size: 0.8rem;
+    color: $blue-30;
+}
+
+.input-spinner-container {
+    display: flex;
+    flex-direction: row;
 }
 
 .searchPanel-label {
-  height: 1.95%;
-  width: 4.21%;
-  color: #656782;
-  font-family: $primary-font;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  padding-top: 15px;
+    height: 1.95%;
+    width: 4.21%;
+    color: #656782;
+    font-family: $primary-font;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    padding-top: 10px;
 }
 
 .location-icon {
-  position: absolute;
-  right: 14px;
-  top: 14px;
-  opacity: 0.3;
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    opacity: 0.3;
 }
 
 .landing-button {
-  display: inline-block;
-  border: none;
-  text-decoration: none;
-  font-size: 16px;
-  text-align: center;
-  font-family: $primary-font;
-  font-weight: 400;
-  -webkit-appearance: none;
-  height: 46px;
-  width: 182px;
-  max-width: 350px;
-  min-width: 130px;
-  margin-left: 15px;
-  color: #fff;
+    display: inline-block;
+    border: none;
+    text-decoration: none;
+    font-size: 16px;
+    text-align: center;
+    font-family: $primary-font;
+    font-weight: 400;
+    -webkit-appearance: none;
+    height: 46px;
+    width: 182px;
+    max-width: 350px;
+    min-width: 130px;
+    margin-left: 15px;
+    color: #fff;
 }
 
 .landing-button--location-true {
-  background: #181c56;
-  cursor: pointer;
+    background: #181c56;
+    cursor: pointer;
 
-  &:focus {
-    outline-offset: -1px;
-    outline: 4px auto $focus;
-  }
+    &:focus {
+        outline-offset: -1px;
+        outline: 4px auto $focus;
+    }
 
-  &:hover {
-    background: $blue-20;
-  }
+    &:hover {
+        background: $blue-20;
+    }
 }
 
 .landing-button--location-false {
-  background-color: #181c56;
-  cursor: default;
-  outline: none;
-  opacity: 0.5;
-  color: rgba(255, 255, 255, 0.3);
+    background-color: #181c56;
+    cursor: default;
+    outline: none;
+    opacity: 0.5;
+    color: rgba(255, 255, 255, 0.3);
 }
 
 .spinner-container {
-  top: 28px;
-  left: 44%;
-  position: absolute;
-  z-index: 1;
-  align-self: center;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  padding: 2rem;
+    top: 32%;
+    left: 44%;
+    margin-left: -30px;
+    z-index: 1;
+    align-self: center;
+    text-align: center;
+    padding: 0;
 
-  .spinner {
-    animation: spin 1s linear infinite;
-  }
+    .spinner {
+        animation: spin 1s linear infinite;
+    }
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 480px) {
-  .search-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+    .search-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-  .landing-button {
-    margin: 2%;
-    width: 100%;
-  }
+    .landing-button {
+        margin: 2%;
+        margin-right: 10px;
+        width: 100%;
+    }
 }

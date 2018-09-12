@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import './styles.css'
+import './styles.scss'
 import WhiteTavlaLogo from '../../assets/icons/whiteTavlaLogo.js'
 
 class Header extends React.Component {

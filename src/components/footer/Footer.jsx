@@ -1,5 +1,5 @@
 import React from 'react'
-import './styles.css'
+import './styles.scss'
 import Arrow from '../../assets/icons/arrow.js'
 
 const Footer = ({ settingsButton, history }) => (
