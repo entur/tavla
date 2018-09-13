@@ -30,6 +30,13 @@
     }
 }
 
+@media (max-height: 900px) {
+    .footer-container {
+        padding-top: 1rem;
+    }
+}
+
+
 @media (max-width: 480px) {
     .footer-container {
         position: sticky;
