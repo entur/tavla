@@ -24,11 +24,11 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
     min-width: 400px;
     max-width: 400px;
     padding: 0 33px 15px 33px;
-    margin: 25px;
+    margin: 0 25px 0 25px;
     overflow-y: scroll;
     overflow-x: auto;
     height: fit-content;
-    max-height: 650px;
+    max-height: 620px;
 
     h2 {
         font-size: 1.4rem;
@@ -144,6 +144,7 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
         height: fit-content;
         align-self: center;
         width: 100%;
+        margin-bottom: 30px;
     }
 
     .departure-board {

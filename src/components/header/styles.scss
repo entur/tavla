@@ -8,7 +8,8 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
     font-size: 2.5rem;
     font-weight: 500;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 1rem;
+    width: 100%;
 }
 
 .header-date {
@@ -17,7 +18,7 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
     color: #9ba4d2;
     font-family: $primary-font;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 16px;
     text-align: right;
 }
@@ -27,7 +28,7 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
     color: #fff;
     font-family: $primary-font;
     font-size: 34px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 36px;
     margin-bottom: 10px;
 }
@@ -42,9 +43,8 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
     }
 
     .header {
-        position: fixed;
-        width: 100%;
         top: 0;
         align-items: center;
+        position: absolute;
     }
 }

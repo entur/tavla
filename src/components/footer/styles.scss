@@ -1,33 +1,47 @@
 .footer-container {
     width: 90%;
-    height: 60px;
+    height: 80px;
     align-content: center;
     bottom: 0;
+    padding-left: 20px;
     position: fixed;
     background-color: #181c56;
-    opacity: 0;
-}
-
-@media (height: 500px) {
-    .footer-container {
-        margin-bottom: 100px;
-    }
-}
-
-.footer-container:hover {
-    opacity: 1;
+    display: flex;
 }
 
 .settings-wrapper {
-    float: right;
+    margin-left: auto;
+    display: none;
 }
 
 .back-button {
     background-color: #181c56;
     border: none;
-    margin-left: 20px;
+    margin-right: auto;
+    margin-bottom: 2rem;
+    display: none;
 }
 
-.back-button:hover {
-    cursor: pointer;
+.app:hover {
+    .settings-wrapper, .back-button {
+        display: block;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .footer-container {
+        position: sticky;
+        padding: 10px 2% 0 10px;
+        width: 100%;
+    }
+
+    .back-button  {
+        opacity: 1;
+    }
+
+    .settings-wrapper {
+        opacity: 1;
+    }
 }
