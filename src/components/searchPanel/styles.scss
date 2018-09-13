@@ -11,6 +11,7 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
 }
 
 .react-autosuggest__input {
+    border-radius: 1px;
     width: 100%;
     padding: 10px 20px;
     font-size: 16px;
@@ -123,6 +124,7 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
 }
 
 .landing-button {
+    border-radius: 1px;
     display: inline-block;
     border: none;
     text-decoration: none;

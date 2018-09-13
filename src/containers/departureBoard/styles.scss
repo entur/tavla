@@ -70,7 +70,6 @@
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
     .settings-button {
-        display: block;
         margin: 2%;
     }
 
@@ -92,12 +91,12 @@
     }
 
     .settings-button {
-        display: block;
         margin: 2%;
+        padding-bottom: 20px;
     }
 
     .settings-button svg {
-        height: 25;
-        width: 25;
+        height: 26;
+        width: 26;
     }
 }

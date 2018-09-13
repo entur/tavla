@@ -6,7 +6,7 @@ import {
 } from '../../components'
 import { getSettingsFromUrl, getPositionFromUrl, getStopPlacesByPositionAndDistance } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
-import { Settings } from '../../assets/icons'
+import Settings from '../../assets/icons/settings/settings.js'
 import errorImage from '../../assets/images/noStops.png'
 import service from '../../service'
 
