@@ -1,27 +1,26 @@
-@import '~@entur/component-library/src/styles/_colors.scss';
-@import '~@entur/fonts/index.css';
-
-$primary-font: 'Nationale', 'Gotham Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+@import '../../assets/styles/import.scss';
 
 .react-autosuggest__container {
     position: relative;
+    width: 100%;
 }
 
 .react-autosuggest__input {
+    border-radius: 1px;
     width: 100%;
     padding: 10px 20px;
     font-size: 16px;
     font-weight: 500;
-    font-family: $primary-font;
-    color: #181c56;
+    font-family: $base-font-family;
+    color: $primary;
     border: none;
     border-bottom: 2px solid $blue-40;
     line-height: 23px;
-    background-color: #f8f8f8;
+    background-color: $grey-40;
     height: 45px;
 
     &::placeholder {
-        color: #656782;
+        color: $blue-40;
         opacity: 0.5;
         font-weight: 400;
     }
@@ -45,10 +44,10 @@ $primary-font: 'Nationale', 'Gotham Rounded', -apple-system, BlinkMacSystemFont,
     position: absolute;
     top: 100%;
     width: 100%;
-    background-color: #f8f8f8;
+    background-color: $grey-40;
     font-weight: 500;
     font-size: 0.9rem;
-    color: #181c56;
+    color: $primary;
     z-index: 2;
 }
 
@@ -96,31 +95,37 @@ $primary-font: 'Nationale', 'Gotham Rounded', -apple-system, BlinkMacSystemFont,
     color: $blue-30;
 }
 
+.input-spinner-container {
+    display: flex;
+    flex-direction: row;
+}
+
 .searchPanel-label {
     height: 1.95%;
     width: 4.21%;
-    color: #656782;
-    font-family: $primary-font;
+    color: $blue-40;
+    font-family: $base-font-family;
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
-    padding-top: 15px;
+    padding-top: 10px;
 }
 
 .location-icon {
     position: absolute;
-    right: 3.6%;
-    top: 2.8%;
+    right: 14px;
+    top: 14px;
     opacity: 0.3;
 }
 
 .landing-button {
+    border-radius: 1px;
     display: inline-block;
     border: none;
     text-decoration: none;
     font-size: 16px;
     text-align: center;
-    font-family: $primary-font;
+    font-family: $base-font-family;
     font-weight: 400;
     -webkit-appearance: none;
     height: 46px;
@@ -132,7 +137,7 @@ $primary-font: 'Nationale', 'Gotham Rounded', -apple-system, BlinkMacSystemFont,
 }
 
 .landing-button--location-true {
-    background: #181c56;
+    background: $primary;
     cursor: pointer;
 
     &:focus {
@@ -146,21 +151,21 @@ $primary-font: 'Nationale', 'Gotham Rounded', -apple-system, BlinkMacSystemFont,
 }
 
 .landing-button--location-false {
-    background: #181c5659;
+    background-color: $primary;
     cursor: default;
     outline: none;
+    opacity: 0.5;
+    color: rgba(255, 255, 255, 0.3);
 }
 
 .spinner-container {
-    left: 43%;
-    top: 34%;
-    position: absolute;
+    top: 32%;
+    left: 44%;
+    margin-left: -30px;
     z-index: 1;
     align-self: center;
-    width: 100%;
-    height: 100%;
     text-align: center;
-    padding: 2rem;
+    padding: 0;
 
     .spinner {
         animation: spin 1s linear infinite;
@@ -168,8 +173,13 @@ $primary-font: 'Nationale', 'Gotham Rounded', -apple-system, BlinkMacSystemFont,
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 480px) {
@@ -182,6 +192,7 @@ $primary-font: 'Nationale', 'Gotham Rounded', -apple-system, BlinkMacSystemFont,
 
     .landing-button {
         margin: 2%;
+        margin-right: 10px;
         width: 100%;
     }
 }

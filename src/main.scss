@@ -4,7 +4,7 @@
 
 body {
     margin: 0;
-    background-color: $black;
+    background-color: #181c56;
 }
 
 h1 {
@@ -17,8 +17,18 @@ h5 {
     font-weight: 400;
 }
 
+.app {
+    height: 100%;
+}
+
 .main-container {
     padding: 2% 5%;
-    background-color: $black;
+    background-color: #181c56;
     color: $white;
+}
+
+@media (max-width: 480px) {
+    .main-container {
+        align-items: center;
+    }
 }

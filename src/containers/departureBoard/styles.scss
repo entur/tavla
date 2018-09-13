@@ -1,4 +1,17 @@
-@import '~@entur/component-library/src/styles/_colors.scss';
+@import '../../assets/styles/import.scss';
+
+.departure-board {
+    width: 100%;
+}
+
+.departure-tiles {
+    display: flex;
+    overflow: auto;
+}
+
+.departure-tiles::-webkit-scrollbar {
+    display: none;
+}
 
 .table {
     width: 100%;
@@ -7,29 +20,17 @@
 }
 
 .table td {
-    background-color: #f3f3f3;
+    background-color: $grey-30;
     padding: 0.5rem 1rem;
 }
 
 .settings-button {
     border: 0;
     padding: 0;
-    display: none;
     background-color: inherit;
 
     &:hover {
         cursor: pointer;
-    }
-}
-
-@media (min-width: 480px) {
-    .departure-tiles {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        flex-direction: column;
-        height: 70%;
-        align-content: center;
     }
 }
 
@@ -69,7 +70,6 @@
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
     .settings-button {
-        display: block;
         margin: 2%;
     }
 
@@ -80,17 +80,23 @@
 }
 
 @media (max-width: 480px) {
+    .departure-tiles {
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+
     .departure-board {
         margin-top: 5%;
     }
 
     .settings-button {
-        display: block;
         margin: 2%;
+        padding-bottom: 20px;
     }
 
     .settings-button svg {
-        height: 25;
-        width: 25;
+        height: 26px;
+        width: 26px;
     }
 }

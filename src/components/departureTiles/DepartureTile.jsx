@@ -3,7 +3,6 @@ import {
     getIcon, groupBy, isVisible, getTransportHeaderIcon,
 } from '../../utils'
 
-
 const DepartureTile = ({
     stopPlace, routes, hiddenRoutes, hiddenModes,
 }) => {
@@ -12,11 +11,13 @@ const DepartureTile = ({
     if (!isVisible(groupedDepartures, hiddenRoutes, hiddenModes)) {
         return null
     }
+    const color = '#9BA4D2'
+
     return (
         <div className="tile-container" key={id}>
             <div className="stop-header">
-                <div className="stop-header-icons">{ getTransportHeaderIcon(stopPlace.departures, { height: 90, width: 90 }, hiddenModes)}</div>
-                <h2>{name}</h2>
+                <p className="stop-header--name">{name}</p>
+                <div className="stop-header--icons">{ getTransportHeaderIcon(stopPlace.departures, { height: 45, width: 45 }, color, hiddenModes)}</div>
             </div>
             <div>
                 {
@@ -29,9 +30,9 @@ const DepartureTile = ({
                                 return null
                             }
                             return (
-                                <div key={route}>
+                                <div key={route} className="route-wrapper">
                                     <div className="route-name">
-                                        <div className="route-icon">{getIcon(routeType, { height: 25, width: 25 })}</div>
+                                        <div className="route-icon">{getIcon(routeType, { height: 35, width: 35 })}</div>
                                         <p className="route-name-text">{route}</p>
                                     </div>
                                     <div className="route-departures">

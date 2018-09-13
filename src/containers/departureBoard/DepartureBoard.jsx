@@ -6,7 +6,7 @@ import {
 } from '../../components'
 import { getSettingsFromUrl, getPositionFromUrl, getStopPlacesByPositionAndDistance } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
-import { Settings } from '../../assets/icons'
+import Settings from '../../assets/icons/settings/settings.js'
 import errorImage from '../../assets/images/noStops.png'
 import service from '../../service'
 
@@ -110,7 +110,7 @@ class DepartureBoard extends React.Component {
         return (
             <div>
                 <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
-                    <Settings />
+                    <Settings height={20} width={20}/>
                 </button>
             </div>
         )
@@ -135,7 +135,7 @@ class DepartureBoard extends React.Component {
 
         return (
             <div>
-                <Header settingsButton={this.renderAdminButton()}/>
+                <Header />
                 {(noStops && !initialLoading)
                     ? this.renderNoStopsInfo()
                     : <div>
@@ -146,7 +146,7 @@ class DepartureBoard extends React.Component {
                             </div>
                         </div>
                     </div>}
-                <Footer />
+                <Footer settingsButton={this.renderAdminButton()} history={this.props.history}/>
             </div>
         )
     }
