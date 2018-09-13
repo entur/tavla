@@ -14,6 +14,7 @@ import {
 } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
 import service from '../../service'
+import BackButton from '../../components/backButton/BackButton.jsx'
 
 import './styles.scss'
 
@@ -184,9 +185,10 @@ class AdminPage extends React.Component {
         return (
             <div className="admin-container">
                 <div className="admin-header">
-                    <h1>Rediger innhold</h1>
+                    <BackButton action={this.goBackToDashboard} />
                 </div>
                 <div className="admin-content">
+                    <p>Rediger tavle</p>
                     <FilterPanel
                         isHidden={isHidden}
                         transportModes={transportModes}

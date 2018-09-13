@@ -16,19 +16,18 @@
     display: none;
 }
 
-.back-button {
-    background-color: $primary;
-    border: none;
-    margin-right: auto;
-    margin-bottom: 2rem;
+.footer-back-button {
     display: none;
 }
 
 .app:hover {
     .settings-wrapper,
-    .back-button {
+    .footer-back-button {
         display: block;
         cursor: pointer;
+    }
+    .footer-container {
+        display: flex;
     }
 }
 
