@@ -1,0 +1,22 @@
+.circle {
+    height: 48px;
+    width: 46px;
+    opacity: 0.1;
+    border-radius: 23px;
+    background-color: #fff;
+    align-items: center;
+    position: relative;
+}
+
+.icon {
+    margin-top: -34px;
+    margin-right: 2px;
+}
+
+
+@media (max-width: 480px) {
+
+    .icon {
+        margin-top: -37px;
+    }
+}
