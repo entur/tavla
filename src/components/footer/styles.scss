@@ -23,21 +23,21 @@
 }
 
 .app:hover {
-    .settings-wrapper, .back-button {
+    .settings-wrapper,
+    .back-button {
         display: block;
         cursor: pointer;
     }
 }
 
 @media (max-width: 480px) {
-
     .footer-container {
         position: sticky;
         padding: 10px 2% 0 10px;
         width: 100%;
     }
 
-    .back-button  {
+    .back-button {
         opacity: 1;
     }
 
