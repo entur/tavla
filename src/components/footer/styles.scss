@@ -1,3 +1,5 @@
+@import '../../assets/styles/import.scss';
+
 .footer-container {
     width: 90%;
     height: 80px;
@@ -5,7 +7,7 @@
     bottom: 0;
     padding-left: 20px;
     position: fixed;
-    background-color: #181c56;
+    background-color: $primary;
     display: flex;
 }
 
@@ -15,7 +17,7 @@
 }
 
 .back-button {
-    background-color: #181c56;
+    background-color: $primary;
     border: none;
     margin-right: auto;
     margin-bottom: 2rem;

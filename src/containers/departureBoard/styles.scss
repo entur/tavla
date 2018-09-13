@@ -1,4 +1,4 @@
-@import '~@entur/component-library/src/styles/_colors.scss';
+@import '../../assets/styles/import.scss';
 
 .departure-board {
     width: 100%;
@@ -20,7 +20,7 @@
 }
 
 .table td {
-    background-color: #f3f3f3;
+    background-color: $grey-30;
     padding: 0.5rem 1rem;
 }
 
@@ -96,7 +96,7 @@
     }
 
     .settings-button svg {
-        height: 26;
-        width: 26;
+        height: 26px;
+        width: 26px;
     }
 }

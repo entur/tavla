@@ -1,7 +1,6 @@
-@import "~@entur/component-library/src/styles/_colors.scss";
-@import "~@entur/fonts/index.css";
+@import '../../assets/styles/import.scss';
 
-$primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
+$base-font-family: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
     sans-serif;
 
@@ -21,7 +20,7 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
 
 .bike-container {
     margin: 10px 0 14px 0;
-    border-bottom: 2px solid #393d79;
+    border-bottom: 2px solid $blue-20;
 }
 
 .bike-container:last-child {
@@ -34,7 +33,7 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
     height: 28px;
     width: 120px;
     color: #fff;
-    font-family: $primary-font;
+    font-family: $base-font-family;
     font-size: 28px;
     font-weight: 500;
     line-height: 28px;
@@ -58,8 +57,8 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
         white-space: nowrap;
         height: 25px;
         width: 280px;
-        color: #fff;
-        font-family: $primary-font;
+        color: $white;
+        font-family: $base-font-family;
         font-size: 16px;
         font-weight: 400;
         line-height: 25px;
@@ -81,8 +80,8 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
 
     p {
         width: 80px;
-        color: #9ba4d2;
-        font-family: $primary-font;
+        color: $blue-60;
+        font-family: $base-font-family;
         font-size: 14px;
         font-weight: 400;
         text-align: left;

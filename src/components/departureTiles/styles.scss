@@ -1,6 +1,6 @@
-@import '~@entur/component-library/src/styles/_colors.scss';
+@import '../../assets/styles/import.scss';
 
-$primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
+$base-font-family: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
     sans-serif;
 
@@ -19,7 +19,7 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
 }
 
 .tile-container {
-    background-color: #292b6a;
+    background-color: $blue-10;
     color: white;
     min-width: 400px;
     max-width: 400px;
@@ -42,24 +42,24 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
 .stop-header {
     height: 90px;
     width: 334px;
-}
 
-.stop-header--icons {
-    float: right;
-    max-height: 60px;
-    margin-top: 26px;
-}
+    &--icons {
+        float: right;
+        max-height: 60px;
+        margin-top: 26px;
+    }
 
-.stop-header--name {
-    display: inline-block;
-    overflow: hidden;
-    height: 40px;
-    max-width: 190px;
-    text-overflow: ellipsis;
-    font-family: $primary-font;
-    font-size: 28px;
-    font-weight: 500;
-    color: #fff;
+    &--name {
+        display: inline-block;
+        overflow: hidden;
+        height: 40px;
+        max-width: 190px;
+        text-overflow: ellipsis;
+        font-family: $base-font-family;
+        font-size: 28px;
+        font-weight: 500;
+        color: $white;
+    }
 }
 
 .route-name {
@@ -71,7 +71,7 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
 
 .route-icon {
     width: 30px;
-    color: #9ba4d2;
+    color: $blue-60;
     margin-right: 30px;
 }
 
@@ -85,7 +85,7 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
 
 .route-wrapper {
     margin-bottom: 14px;
-    border-bottom: 2px solid #393d79;
+    border-bottom: 2px solid $blue-20;
 }
 
 .route-wrapper:last-child {
@@ -99,8 +99,8 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
     white-space: nowrap;
     width: 88%;
     height: 25px;
-    color: #fff;
-    font-family: $primary-font;
+    color: $white;
+    font-family: $base-font-family;
     font-size: 16px;
     font-weight: 400;
     line-height: 25px;
@@ -110,8 +110,8 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
     white-space: nowrap;
     width: 23%;
     height: 23px;
-    color: #9ba4d2;
-    font-family: $primary-font;
+    color: $blue-60;
+    font-family: $base-font-family;
     font-size: 14px;
     font-weight: 400;
     line-height: 23px;
@@ -121,7 +121,7 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
 .route-line-divider {
     height: 2px;
     width: 334px;
-    background-color: #393d79;
+    background-color: $blue-20;
     margin: 14px 0 14px 0;
 }
 
@@ -139,7 +139,7 @@ $primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
     .tile-container {
         display: flex;
         flex-direction: column;
-        background-color: #292b6a;
+        background-color: $blue-10;
         color: white;
         height: fit-content;
         align-self: center;

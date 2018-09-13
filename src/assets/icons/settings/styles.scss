@@ -1,9 +1,11 @@
+@import '../../styles/import.scss';
+
 .circle {
     height: 48px;
     width: 46px;
     opacity: 0.1;
     border-radius: 23px;
-    background-color: #fff;
+    background-color: $white;
     align-items: center;
     position: relative;
 }

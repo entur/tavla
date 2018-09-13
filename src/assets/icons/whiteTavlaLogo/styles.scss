@@ -1,25 +1,22 @@
-$primary-font: "Nationale", "Gotham Rounded", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
-    sans-serif;
+@import '../../styles/import.scss';
 
 .logo-container {
     height: 100px;
     width: 400px;
-}
 
-.logo-container--logo {
-    float: left;
-    margin-left: 24px;
-}
+    &--logo {
+        float: left;
+        margin-left: 24px;
+    }
 
-.logo-container--text {
-    width: 360px;
-    color: #fff;
-    font-family: $primary-font;
-    font-size: 14px;
-    height: 20px;
-    font-weight: 500;
-    padding-right: 46px;
+    &--text {
+        width: 360px;
+        color: $white;
+        font-size: 14px;
+        height: 20px;
+        font-weight: 500;
+        padding-right: 46px;
+    }
 }
 
 @media (max-width: 480px) {
