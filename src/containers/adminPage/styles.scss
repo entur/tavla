@@ -1,56 +1,52 @@
 @import '../../assets/styles/import.scss';
 
 .admin-container {
-    height: 80%;
+    height: 100%;
 }
 
 .admin-header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    margin: 2rem 0 0 20px;
+
+    p {
+        width: 360px;
+        color: $white;
+        font-family: $base-font-family;
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 1rem;
+        margin-left: 0.6rem;
+        padding-bottom: 1rem;
+    }
+
+    &--back-button {
+        margin-right: 20px;
+        width: 40px;
+    }
 }
 
-.admin-button-container {
+.update-button-container {
     position: fixed;
     bottom: 0%;
-    background-color: #1a1a1a;
     width: 90%;
     text-align: right;
-    padding: 2% 0%;
-}
-
-.admin-button {
-    padding: 0.7rem 3rem;
-    font-size: 1rem;
-    font-family: inherit;
-    font-weight: 600;
-}
-
-.close-button {
-    background-color: $black;
-    border: 1px solid $coral;
-    color: white;
-
-    &:hover {
-        cursor: pointer;
-        background-color: #424141;
-    }
-
-    &:focus {
-        outline: none;
-        box-shadow: 0 0 8px 0 #ff5959;
-    }
+    padding: 2% 1%;
 }
 
 .update-button {
-    background-color: $coral;
-    border: none;
-    color: $black;
-    margin-right: 1rem;
+    height: 46px;
+    width: 150px;
+    background-color: $secondary;
+    color: $primary;
+    font-family: $base-font-family;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    border: 1px;
 
     &:hover {
         cursor: pointer;
-        background-color: #ff7b7b;
     }
 
     &:focus {
@@ -61,44 +57,83 @@
 
 .admin-content {
     display: flex;
+    width: 100%;
     max-height: 95%;
 }
 
-.filter-text {
-    color: #cacaca;
+.filter-panel {
+    padding-left: 32px;
+    background-color: $primary;
+    max-width: 500px;
+    margin-right: 50px;
+
+    &--title {
+        height: 26px;
+        width: 218px;
+        color: $white;
+        font-family: $base-font-family;
+        font-size: 26px;
+        font-weight: 500;
+        line-height: 28px;
+    }
 }
 
-.filter-panel {
-    background-color: #212121;
-    padding: 1%;
-    margin-right: 2%;
-    width: 50%;
-    height: fit-content;
+.filter-panel::-webkit-scrollbar {
+    display: none;
+}
+
+.transport-container {
+    background-color: $blue-10;
+    width: 400px;
+    height: 500px;
+    overflow-x: auto;
+    overflow: hidden;
+    padding: 0 33px 15px 33px;
+    margin-top: 50px;
 }
 
 .mode-sort-container {
     display: flex;
+    flex-direction: column;
     justify-content: start;
     align-items: center;
 }
 
+.mode-sort-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 2px solid $blue-20;
+    margin-bottom: 8px;
+}
+
 .mode-sort-button {
-    height: 60px;
+    height: 50px;
     border: 0;
     background-color: inherit;
     cursor: pointer;
+    margin-left: -10px;
 }
 
 .mode-sort-text {
-    margin-top: 0;
+    height: 23px;
+    color: $white;
+    font-family: $base-font-family;
+    font-size: 15px;
+    font-weight: 400;
+    padding-left: 0.3rem;
+}
+
+.mode-sort-slide-switch {
+    padding-top: 10px;
+    flex-flow: row-reverse;
 }
 
 .sort-button-item {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 2%;
-    width: 60px;
+    flex-direction: row;
+    width: 100%;
 }
 
 .mode-sort-icon:hover {
@@ -107,8 +142,15 @@
 }
 
 .distance-container {
+    width: 400px;
+
     p {
-        font-weight: 300;
+        height: 24px;
+        width: 450px;
+        color: $white;
+        font-family: $base-font-family;
+        font-size: 15px;
+        font-weight: 500;
     }
 }
 
@@ -116,10 +158,11 @@
     background: transparent;
     border: none;
     color: $white;
-    width: 2.5rem;
-    font-size: 1rem;
+    font-size: 14px;
+    width: auto;
     border-bottom: 2px solid $coral;
     padding: 0.2rem;
+    margin: 0 4px 0 4px;
     text-align: center;
 
     &::-webkit-inner-spin-button {
@@ -138,26 +181,26 @@
 }
 
 .slider {
-    width: 100%;
-    height: 2rem;
+    width: 398px;
+    height: 0.6%;
     -webkit-appearance: none;
-    background: transparent;
+    background-color: #e9e9e9;
 
     &::-webkit-slider-thumb {
         -webkit-appearance: none;
         border: 1px solid $coral;
-        height: 1.8rem;
-        width: 1.8rem;
+        height: 1.25rem;
+        width: 1.25rem;
         border-radius: 100%;
         background: $coral;
         cursor: pointer;
-        margin-top: -1em;
+        margin-top: -0.6em;
     }
 
     &::-moz-range-thumb {
         border: 1px solid $coral;
-        height: 1.8rem;
-        width: 1.8rem;
+        height: 1.25rem;
+        width: 1.25rem;
         border-radius: 100%;
         background: $coral;
         cursor: pointer;
@@ -165,8 +208,8 @@
 
     &::-ms-thumb {
         border: 1px solid $coral;
-        height: 1.8rem;
-        width: 1.8rem;
+        height: 1.25rem;
+        width: 1.25rem;
         border-radius: 100%;
         background: $coral;
         cursor: pointer;
@@ -176,23 +219,23 @@
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        background: #424141;
-        border: 0.2px solid #424141;
+        background: $white;
+        border: 0.2px solid $white;
     }
 
     &::-moz-range-track {
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        background: #424141;
-        border: 0.2px solid #424141;
+        background: $white;
+        border: 0.2px solid $white;
     }
 
     &::-ms-track {
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        border: 0.2px solid #424141;
+        border: 0.2px solid $white;
         background: transparent;
         border-color: transparent;
         color: transparent;
@@ -203,14 +246,18 @@
     }
 
     &::-ms-fill-upper {
-        background: #424141;
+        background: $white;
+    }
+
+    &::-ms-fill-left {
+        background: $white;
     }
 
     &:focus {
         outline: none;
 
         &::-webkit-slider-runnable-track {
-            background: #424141;
+            background: $white;
         }
     }
 }
@@ -218,7 +265,17 @@
 .slider-labels {
     display: flex;
     justify-content: space-between;
-    font-weight: 300;
+    width: 100%;
+
+    p {
+        height: 20px;
+        width: 50px;
+        color: $blue-60;
+        font-family: $base-font-family;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 16px;
+    }
 }
 
 .places-container {
@@ -231,17 +288,32 @@
 
 .selection-row {
     display: flex;
-    width: 100%;
+    max-width: 400px;
     padding-bottom: 1%;
-    color: #d6d6d6;
 }
 
 .selection-data-wrapper {
-    width: 95%;
+    margin-left: 3rem;
+
+    &--border {
+        padding-top: 12px;
+        margin-left: -58px;
+        height: 2px;
+        width: 330px;
+        border-bottom: 2px solid $blue-20;
+    }
 }
 
 .selection-panel-title {
-    padding: 2% 0 2% 0;
+    height: 28px;
+    width: 182px;
+    color: $white;
+    font-family: $base-font-family;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 28px;
+    margin-bottom: 2rem;
+    padding: 30px 0 16px 33px;
 }
 
 .selection-data-container {
@@ -250,51 +322,93 @@
     display: flex;
     align-items: center;
     padding: 1% 2% 1% 2%;
-    background-color: #272727;
     outline: none;
 }
 
 .stop-place-container {
-    justify-content: space-between;
     cursor: pointer;
+    background-color: $blue-10;
 }
 
 .city-bike-name {
     margin-left: 2%;
+    margin-top: 8px;
+    width: 200px;
 }
 
 .stop-place-container[aria-selected='true'] {
     outline: none;
-    border-bottom: 3px solid #ff5959;
+    max-height: 500px;
 }
 
 .checkbox-container {
-    width: 5%;
+    width: 45px;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 15px 0 0 3px;
+    padding: 15px 0 0 38px;
 }
 
 .selection-panel {
-    width: 50%;
     max-height: 100%;
-    overflow: scroll;
+    display: flex;
+    flex-direction: row;
+    margin-right: 50px;
+}
+
+.selection-panel::-webkit-scrollbar {
+    display: none;
+}
+
+.search-stop-places {
+    height: 162px;
+}
+
+.city-bike-panel,
+.stop-place-panel {
+    width: 400px;
+    height: 500px;
+    background-color: $blue-10;
+    overflow: auto;
+}
+
+.city-bike-panel::-webkit-scrollbar,
+.stop-place-panel::-webkit-scrollbar {
+    display: none;
 }
 
 .stop-place-title {
-    width: 95%;
+    width: 200px;
+}
+
+.city-bike-row-bottom-border {
+    padding-top: 11px;
+    margin-left: 34px;
+    height: 2px;
+    width: 320px;
+    border-bottom: 2px solid $blue-20;
 }
 
 .show-button {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &--text {
+        height: 20px;
+        width: 40px;
+        color: $white;
+        font-family: $base-font-family;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 20px;
+        text-align: right;
+        padding: 2px;
+    }
 }
 
 .admin-route-row {
     cursor: pointer;
-    background-color: #272727;
 
     td {
         padding: 8px;
@@ -302,9 +416,11 @@
 }
 
 .accordion__body {
-    padding: 0 10px 5px 10px;
+    padding: 0 -10px 5px -10px;
     display: block;
     animation: fadein 0.35s ease-in;
+    margin: 0 0 0 -93px;
+    width: 400px;
 }
 
 .accordion__body--hidden {
@@ -316,7 +432,6 @@
 .accordion__arrow {
     display: inline-flex;
     width: 24px;
-    height: 12px;
     position: relative;
 }
 
@@ -325,7 +440,7 @@
     display: block;
     position: absolute;
     top: 50%;
-    width: 10px;
+    width: 8px;
     height: 2px;
     background-color: currentColor;
     content: '';
@@ -333,7 +448,7 @@
 }
 
 .accordion__arrow::before {
-    left: 4px;
+    left: 7px;
     transform: rotate(45deg);
 }
 
@@ -353,10 +468,14 @@
 }
 
 .admin-route-table {
+    width: 400px;
     border-spacing: 0 5px;
-    width: 100%;
     margin-top: -4px;
-    color: #d6d6d6;
+    background-color: $blue-20;
+    border-radius: 0 0 1px 1px;
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.43);
+    padding-left: 26px;
+    padding-right: 52px;
 }
 
 .admin-route-icon {
@@ -364,7 +483,12 @@
 }
 
 .admin-route-title {
-    width: 90%;
+    height: 20px;
+    color: $white;
+    font-family: $base-font-family;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 23px;
 }
 
 .admin-route-button-container {

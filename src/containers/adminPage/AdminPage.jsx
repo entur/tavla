@@ -2,7 +2,7 @@ import React from 'react'
 import debounce from 'lodash.debounce'
 import SelectionPanel from './SelectionPanel'
 import BikePanel from './BikePanel'
-import FilterPanel from './FilterPanel'
+import FilterPanel from './filterPanel/FilterPanel'
 import {
     getPositionFromUrl,
     getSettingsFromUrl,
@@ -180,7 +180,7 @@ class AdminPage extends React.Component {
 
     render() {
         const {
-            distance, stations, stops, transportModes,
+            distance, stations, stops, transportModes, hiddenModes,
         } = this.state
         const { isHidden, updateHiddenList } = this
         return (
@@ -198,6 +198,7 @@ class AdminPage extends React.Component {
                         handleTextInputChange={this.handleTextInputChange}
                         updateHiddenList={this.updateHiddenList}
                         getStyle={this.getStyle}
+                        hiddenModes={hiddenModes}
                     />
                     <SelectionPanel
                         stops={stops}
@@ -211,6 +212,13 @@ class AdminPage extends React.Component {
                         onCheck={isHidden}
                     />
                 </div>
+                <div className="admin-footer">
+                    <div className="update-button-container">
+                        <button className="update-button" onClick={this.updateAndGoToDashboard}>
+                            Oppdater
+                        </button>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -219,6 +227,7 @@ class AdminPage extends React.Component {
 export default AdminPage
 
 /*
+
 <div className="update-button-container">
     <button className="update-button" onClick={this.updateAndGoToDashboard}>
         Oppdater

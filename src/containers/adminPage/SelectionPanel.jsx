@@ -17,7 +17,9 @@ const SelectionPanel = ({
             ? <div>
                 <div className="search-stop-places"/>
                 <div className="stop-place-panel">
-                    <div className="selection-panel-title">Stoppesteder</div>
+                    {<div className="stop-place-header">
+                        <div className="selection-panel-title">Stoppesteder</div>
+                    </div>}
                     {
                         stops.map(({
                             name, id, departures,

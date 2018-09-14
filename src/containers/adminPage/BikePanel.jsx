@@ -17,10 +17,10 @@ const BikePanel = ({
                         }, index) => {
                             const isChecked = !onCheck(id, 'stations')
                             return (
-                                <div>
+                                <div key={index}>
                                     <div className="selection-row" key={index}>
                                         <div className="checkbox-container">
-                                            <Checkbox key={index} id={id} value={isChecked} onChange={() => updateHiddenList(id, 'stations')}/>
+                                            <Checkbox key={id} id={id} value={isChecked} onChange={() => updateHiddenList(id, 'stations')}/>
                                         </div>
                                         <div className="selection-data-wrapper">
                                             <div className="selection-data-container">
