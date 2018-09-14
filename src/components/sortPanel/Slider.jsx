@@ -3,7 +3,7 @@ import {
     distanceToMinutes,
 } from '../../utils'
 
-import { MAX_DISTANCE_MINUTES } from '../../constants'
+import { MAX_DISTANCE } from '../../constants'
 
 
 const Slider = (props) => {
@@ -13,15 +13,15 @@ const Slider = (props) => {
                 id="typeinp"
                 type="range"
                 min="1"
-                max={MAX_DISTANCE_MINUTES}
+                max={MAX_DISTANCE}
                 step="1"
                 onChange={props.handleChange}
                 className="slider"
                 value={distanceToMinutes(props.distance)}
             />
             <div className="slider-labels">
-                <div>1 min</div>
-                <div>{MAX_DISTANCE_MINUTES} min</div>
+                <p>1 min</p>
+                <p>{MAX_DISTANCE} min</p>
             </div>
         </div>
     )

@@ -4,7 +4,7 @@ import {
     Bus, CityBike, Ferry, Lock, Metro, Train, Tram,
 } from './assets/icons'
 
-import { MAX_DISTANCE_MINUTES, WALK_SPEED, DEFAULT_DISTANCE } from './constants'
+import { MAX_DISTANCE, WALK_SPEED, DEFAULT_DISTANCE } from './constants'
 import service from './service'
 
 export function getIcon(type, props) {
@@ -234,8 +234,8 @@ export function distanceToMinutes(distance) {
 }
 
 export function minutesToDistance(minutes) {
-    if (minutes > MAX_DISTANCE_MINUTES) {
-        return (MAX_DISTANCE_MINUTES*60)*WALK_SPEED
+    if (minutes > MAX_DISTANCE) {
+        return (MAX_DISTANCE*60)*WALK_SPEED
     }
     return (minutes*60)*WALK_SPEED
 }

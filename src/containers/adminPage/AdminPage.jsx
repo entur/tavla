@@ -1,6 +1,7 @@
 import React from 'react'
 import debounce from 'lodash.debounce'
 import SelectionPanel from './SelectionPanel'
+import BikePanel from './BikePanel'
 import FilterPanel from './FilterPanel'
 import {
     getPositionFromUrl,
@@ -185,10 +186,10 @@ class AdminPage extends React.Component {
         return (
             <div className="admin-container">
                 <div className="admin-header">
-                    <BackButton action={this.goBackToDashboard} />
+                    <BackButton className="admin-header--back-button" action={this.goBackToDashboard} />
+                    <p>Rediger tavle</p>
                 </div>
                 <div className="admin-content">
-                    <p>Rediger tavle</p>
                     <FilterPanel
                         isHidden={isHidden}
                         transportModes={transportModes}
@@ -204,15 +205,25 @@ class AdminPage extends React.Component {
                         updateHiddenList={updateHiddenList}
                         onCheck={isHidden}
                     />
+                    <BikePanel
+                        stations={stations}
+                        updateHiddenList={updateHiddenList}
+                        onCheck={isHidden}
+                    />
                 </div>
-                <div className="admin-button-container">
-                    <button className="admin-button update-button" onClick={this.updateAndGoToDashboard}>Oppdater</button>
-                    <button className="admin-button close-button" onClick={this.goBackToDashboard}>Tilbake</button>
-                </div>
-
             </div>
         )
     }
 }
 
 export default AdminPage
+
+/*
+<div className="update-button-container">
+    <button className="update-button" onClick={this.updateAndGoToDashboard}>
+        Oppdater
+    </button>
+</div>
+
+
+*/
