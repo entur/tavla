@@ -184,7 +184,7 @@ class AdminPage extends React.Component {
         } = this.state
         const { isHidden, updateHiddenList } = this
         return (
-            <div className="admin-container">
+            <div>
                 <div className="admin-header">
                     <BackButton className="admin-header--back-button" action={this.goBackToDashboard} />
                     <p>Rediger tavle</p>
@@ -212,12 +212,10 @@ class AdminPage extends React.Component {
                         onCheck={isHidden}
                     />
                 </div>
-                <div className="admin-footer">
-                    <div className="update-button-container">
-                        <button className="update-button" onClick={this.updateAndGoToDashboard}>
-                            Oppdater
-                        </button>
-                    </div>
+                <div className="update-button-container">
+                    <button className="update-button" onClick={this.updateAndGoToDashboard}>
+                            Oppdater tavla
+                    </button>
                 </div>
             </div>
         )
@@ -225,14 +223,3 @@ class AdminPage extends React.Component {
 }
 
 export default AdminPage
-
-/*
-
-<div className="update-button-container">
-    <button className="update-button" onClick={this.updateAndGoToDashboard}>
-        Oppdater
-    </button>
-</div>
-
-
-*/

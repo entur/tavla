@@ -1,13 +1,10 @@
 @import '../../assets/styles/import.scss';
 
-.admin-container {
-    height: 100%;
-}
-
 .admin-header {
     display: flex;
     flex-direction: column;
-    margin: 2rem 0 0 20px;
+    width: 100%;
+    padding-left: 1.5rem;
 
     p {
         width: 360px;
@@ -15,23 +12,25 @@
         font-family: $base-font-family;
         font-size: 32px;
         font-weight: 500;
-        line-height: 1rem;
-        margin-left: 0.6rem;
-        padding-bottom: 1rem;
+        margin-top: 4px;
+        padding-left: 0.4rem;
     }
 
     &--back-button {
-        margin-right: 20px;
         width: 40px;
+        height: 30px;
+        padding-top: 2rem;
+        padding-bottom: 1rem;
     }
 }
 
 .update-button-container {
-    position: fixed;
     bottom: 0%;
-    width: 90%;
     text-align: right;
     padding: 2% 1%;
+    width: 100%;
+    padding-right: 3rem;
+    padding-top: 3rem;
 }
 
 .update-button {
@@ -57,8 +56,13 @@
 
 .admin-content {
     display: flex;
-    width: 100%;
-    max-height: 95%;
+    justify-content: center;
+}
+
+.admin-footer {
+    height: 50px;
+    padding-right: 2.2rem;
+    padding-top: 2rem;
 }
 
 .filter-panel {
@@ -89,7 +93,7 @@
     overflow-x: auto;
     overflow: hidden;
     padding: 0 33px 15px 33px;
-    margin-top: 50px;
+    margin-top: 2rem;
 }
 
 .mode-sort-container {
@@ -127,7 +131,11 @@
 
 .mode-sort-slide-switch {
     padding-top: 10px;
-    flex-flow: row-reverse;
+}
+
+.mode-sort-slide-switch-stops {
+    padding-top: 10px;
+    float: right;
 }
 
 .sort-button-item {
@@ -293,11 +301,11 @@
 }
 
 .selection-data-wrapper {
-    margin-left: 3rem;
+    margin-left: 2rem;
 
     &--border {
         padding-top: 12px;
-        margin-left: -58px;
+        margin-left: -42px;
         height: 2px;
         width: 330px;
         border-bottom: 2px solid $blue-20;
@@ -361,7 +369,7 @@
 }
 
 .search-stop-places {
-    height: 162px;
+    height: 144px;
 }
 
 .city-bike-panel,
@@ -379,6 +387,7 @@
 
 .stop-place-title {
     width: 200px;
+    padding-right: 10px;
 }
 
 .city-bike-row-bottom-border {
@@ -393,6 +402,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left: 20px;
 
     &--text {
         height: 20px;
@@ -408,6 +418,7 @@
 }
 
 .admin-route-row {
+    width: 100px;
     cursor: pointer;
 
     td {
@@ -420,7 +431,6 @@
     display: block;
     animation: fadein 0.35s ease-in;
     margin: 0 0 0 -93px;
-    width: 400px;
 }
 
 .accordion__body--hidden {
@@ -468,18 +478,19 @@
 }
 
 .admin-route-table {
-    width: 400px;
     border-spacing: 0 5px;
     margin-top: -4px;
+    width: 440px;
     background-color: $blue-20;
     border-radius: 0 0 1px 1px;
     box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.43);
-    padding-left: 26px;
+    padding-left: 44px;
     padding-right: 52px;
 }
 
 .admin-route-icon {
     width: 5%;
+    margin-right: 10px;
 }
 
 .admin-route-title {

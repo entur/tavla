@@ -4,7 +4,7 @@ import { getIcon } from '../../../utils'
 
 class TransportRow extends React.Component {
     state = {
-        checked: false,
+        checked: true,
     }
 
     handleOnChecked(mode, transportModes) {
@@ -18,7 +18,7 @@ class TransportRow extends React.Component {
         this.props.hiddenModes.map(mode => {
             if (mode === this.props.mode) {
                 this.setState({
-                    checked: true,
+                    checked: false,
                 })
             }
         })

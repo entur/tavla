@@ -5,6 +5,7 @@ import {
     AccordionItemTitle,
     AccordionItemBody,
 } from 'react-accessible-accordion'
+import { SlideSwitch } from '@entur/component-library'
 import { getIcon } from '../../utils'
 import { Checkbox } from '../../components'
 import './styles.scss'
@@ -53,15 +54,16 @@ const SelectionPanel = ({
                                                             <tr
                                                                 className="admin-route-row"
                                                                 key={i}
-                                                                onClick={() => updateHiddenList(route, 'routes')}
                                                             >
                                                                 <td className="admin-route-icon">{getIcon(type, { width: 28, height: 28 })}</td>
                                                                 <td className="admin-route-title">{route}</td>
-                                                                <td className="admin-route-button-container">
-                                                                    <div className="admin-route-button">
-                                                                        <div value={isVisible} className="close" />
-                                                                    </div>
-                                                                </td>
+                                                                <SlideSwitch
+                                                                    key={i}
+                                                                    id="SlideSwitch"
+                                                                    className="mode-sort-slide-switch-stops"
+                                                                    onChange={() => { updateHiddenList(route, 'routes') }}
+                                                                    checked={isVisible}
+                                                                />
                                                             </tr>
                                                         )
                                                     }) }

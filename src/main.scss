@@ -17,12 +17,9 @@ h5 {
     font-weight: 400;
 }
 
-.app {
-    height: 100%;
-}
-
 .main-container {
-    padding: 2% 5%;
+    display: flex;
+    justify-content: center;
     background-color: #181c56;
     color: $white;
 }
