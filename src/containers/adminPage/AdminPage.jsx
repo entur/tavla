@@ -15,7 +15,7 @@ import {
 } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
 import service from '../../service'
-import BackButton from '../../components/backButton/BackButton.jsx'
+import AdminHeader from './AdminHeader'
 
 import './styles.scss'
 
@@ -185,10 +185,7 @@ class AdminPage extends React.Component {
         const { isHidden, updateHiddenList } = this
         return (
             <div className="admin-container">
-                <div className="admin-header">
-                    <BackButton className="admin-header--back-button" action={this.goBackToDashboard} />
-                    <p>Rediger tavle</p>
-                </div>
+                <AdminHeader />
                 <div className="admin-content">
                     <FilterPanel
                         isHidden={isHidden}

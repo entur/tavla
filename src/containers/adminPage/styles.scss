@@ -4,13 +4,16 @@
     height: 100%;
 }
 
+.header-container {
+    display: flex;
+}
+
 .admin-header {
     display: flex;
     flex-direction: column;
     align-content: center;
 
     p {
-        width: 360px;
         color: $white;
         font-family: $base-font-family;
         font-size: 32px;
@@ -22,7 +25,6 @@
     &--back-button {
         width: 40px;
         height: 30px;
-        padding-top: 2rem;
         padding-bottom: 1rem;
     }
 }
