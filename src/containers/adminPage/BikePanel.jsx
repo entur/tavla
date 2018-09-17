@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox } from '../../components'
+import { Checkbox } from '@entur/component-library'
 import './styles.scss'
 
 const BikePanel = ({
@@ -20,7 +20,19 @@ const BikePanel = ({
                                 <div key={index}>
                                     <div className="selection-row" key={index}>
                                         <div className="checkbox-container">
-                                            <Checkbox key={id} id={id} value={isChecked} onChange={() => updateHiddenList(id, 'stations')}/>
+                                            <Checkbox
+                                                key={id}
+                                                id={id}
+                                                checked={isChecked}
+                                                onChange={() => updateHiddenList(id, 'stations')}
+                                                style={{
+                                                    borderRadius: '12px',
+                                                    height: '24px',
+                                                    width: '24px',
+                                                    marginTop: '3px',
+                                                    cursor: 'pointer',
+                                                }}
+                                            />
                                         </div>
                                         <div className="selection-data-wrapper">
                                             <div className="selection-data-container">

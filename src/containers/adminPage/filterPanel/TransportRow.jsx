@@ -49,11 +49,11 @@ class TransportRow extends React.Component {
         return (
             <div className="mode-sort-row">
                 <div className="sort-button-item" key={index}>
-                    <button
+                    <div
                         className="mode-sort-button"
                     >
                         { getIcon(mode, { height: 35, width: 35, className: 'mode-sort-icon' }) }
-                    </button>
+                    </div>
                     <p className="mode-sort-text">{this.getTransportModeTitle(mode)}</p>
                 </div>
                 <SlideSwitch
@@ -61,6 +61,7 @@ class TransportRow extends React.Component {
                     className="mode-sort-slide-switch"
                     onChange={() => { this.handleOnChecked(mode, 'transportModes') }}
                     checked={this.state.checked}
+                    style={{ cursor: 'pointer' }}
                 />
             </div>)
     }

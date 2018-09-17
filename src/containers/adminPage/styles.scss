@@ -1,10 +1,13 @@
 @import '../../assets/styles/import.scss';
 
+.admin-container {
+    height: 100%;
+}
+
 .admin-header {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    padding-left: 1.5rem;
+    align-content: center;
 
     p {
         width: 360px;
@@ -39,7 +42,7 @@
     background-color: $secondary;
     color: $primary;
     font-family: $base-font-family;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     text-align: center;
     border: 1px;
@@ -56,6 +59,7 @@
 
 .admin-content {
     display: flex;
+    flex-direction: row;
     justify-content: center;
 }
 
@@ -116,7 +120,6 @@
     height: 50px;
     border: 0;
     background-color: inherit;
-    cursor: pointer;
     margin-left: -10px;
 }
 
@@ -130,12 +133,26 @@
 }
 
 .mode-sort-slide-switch {
-    padding-top: 10px;
+    margin-top: 10px;
 }
 
 .mode-sort-slide-switch-stops {
     padding-top: 10px;
     float: right;
+}
+
+.entur-switch__indicator {
+    border: 2px solid $blue-50;
+    background-color: $blue-50;
+}
+
+:checked + .entur-switch__indicator {
+    border: 2px solid $mint;
+    background-color: $mint;
+}
+
+:checked + .entur-switch__indicator::before {
+    border: 2px solid $mint;
 }
 
 .sort-button-item {
@@ -144,9 +161,10 @@
     width: 100%;
 }
 
-.mode-sort-icon:hover {
-    height: 60px;
-    width: 60px;
+.mode-sort-icon {
+    margin-top: 6px;
+    margin-right: 10px;
+    margin-left: 6px;
 }
 
 .distance-container {
@@ -302,6 +320,7 @@
 
 .selection-data-wrapper {
     margin-left: 2rem;
+    justify-content: center;
 
     &--border {
         padding-top: 12px;
@@ -321,11 +340,11 @@
     font-weight: 500;
     line-height: 28px;
     margin-bottom: 2rem;
-    padding: 30px 0 16px 33px;
+    padding: 30px 0 14px 33px;
 }
 
 .selection-data-container {
-    width: 100%;
+    width: 300px;
     height: 45px;
     display: flex;
     align-items: center;
@@ -340,7 +359,7 @@
 
 .city-bike-name {
     margin-left: 2%;
-    margin-top: 8px;
+    margin-top: 16px;
     width: 200px;
 }
 
@@ -354,7 +373,18 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 15px 0 0 38px;
+    padding: 14px 0 0 38px;
+    border-radius: 10px;
+}
+
+.entur-radio-checkbox__input[type='checkbox']:checked {
+    background-color: #171C56;
+    background-image: url('../../assets/icons/check.png');
+}
+
+.entur-radio-checkbox__input[type='checkbox'] {
+    background-color: #171C56;
+    background-image: url('../../assets/icons/unChecked.png');
 }
 
 .selection-panel {
@@ -387,7 +417,10 @@
 
 .stop-place-title {
     width: 200px;
-    padding-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px 10px 0 0;
 }
 
 .city-bike-row-bottom-border {
@@ -401,8 +434,8 @@
 .show-button {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-left: 20px;
+    margin-left: auto;
+    padding-top: 10px;
 
     &--text {
         height: 20px;
@@ -419,7 +452,6 @@
 
 .admin-route-row {
     width: 100px;
-    cursor: pointer;
 
     td {
         padding: 8px;
@@ -437,6 +469,10 @@
     display: none;
     opacity: 0;
     animation: fadein 0.35s ease-in;
+}
+
+.accordion__title {
+    margin-top: 40px;
 }
 
 .accordion__arrow {

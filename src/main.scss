@@ -17,11 +17,17 @@ h5 {
     font-weight: 400;
 }
 
+.app {
+    height: 100%;
+    width: 100%;
+}
+
 .main-container {
-    display: flex;
     justify-content: center;
+    padding: 2% 5%;
     background-color: #181c56;
     color: $white;
+    overflow: hidden;
 }
 
 @media (max-width: 480px) {

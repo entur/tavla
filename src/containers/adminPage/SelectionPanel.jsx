@@ -5,9 +5,8 @@ import {
     AccordionItemTitle,
     AccordionItemBody,
 } from 'react-accessible-accordion'
-import { SlideSwitch } from '@entur/component-library'
+import { SlideSwitch, Checkbox } from '@entur/component-library'
 import { getIcon } from '../../utils'
-import { Checkbox } from '../../components'
 import './styles.scss'
 
 const SelectionPanel = ({
@@ -29,7 +28,15 @@ const SelectionPanel = ({
                             return (
                                 <Accordion className="selection-row" accordion="true" key={index}>
                                     <div className="checkbox-container">
-                                        <Checkbox key={id} id={id} value={isChecked} onChange={() => updateHiddenList(id, 'stops')}/>
+                                        <Checkbox
+                                            key={id}
+                                            id={id}
+                                            checked={isChecked}
+                                            onChange={() => updateHiddenList(id, 'stops')}
+                                            style={{
+                                                borderRadius: '12px', height: '24px', width: '24px', cursor: 'pointer',
+                                            }}
+                                        />
                                     </div>
                                     <AccordionItem
                                         className="selection-data-wrapper"
@@ -63,6 +70,7 @@ const SelectionPanel = ({
                                                                     className="mode-sort-slide-switch-stops"
                                                                     onChange={() => { updateHiddenList(route, 'routes') }}
                                                                     checked={isVisible}
+                                                                    style={{ cursor: 'pointer' }}
                                                                 />
                                                             </tr>
                                                         )
