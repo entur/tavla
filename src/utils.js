@@ -4,7 +4,7 @@ import {
     Bus, CityBike, Ferry, Lock, Metro, Train, Tram,
 } from './assets/icons'
 
-import { MAX_DISTANCE, WALK_SPEED, DEFAULT_DISTANCE } from './constants'
+import { DEFAULT_DISTANCE } from './constants'
 import service from './service'
 
 export function getIcon(type, props) {
@@ -227,15 +227,4 @@ export function updateHiddenListAndHash(clickedId, state, hiddenType) {
         default:
             return { hiddenLists, hashedState }
     }
-}
-
-export function distanceToMinutes(distance) {
-    return Math.round((distance)/(WALK_SPEED*60))
-}
-
-export function minutesToDistance(minutes) {
-    if (minutes > MAX_DISTANCE) {
-        return (MAX_DISTANCE*60)*WALK_SPEED
-    }
-    return (minutes*60)*WALK_SPEED
 }
