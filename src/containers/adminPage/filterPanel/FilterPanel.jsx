@@ -8,12 +8,12 @@ const FilterPanel = ({
     <div className="filter-panel">
         <div className="find-nearby-container">
             <div className="distance-container">
-                <p className="distance-text">Hvis meg stoppesteder innenfor
+                <p className="distance-text">Vis meg stoppesteder innenfor
                     <DistanceInput
                         handleChange={handleTextInputChange}
                         distance={distance}
                     />
-                minuters avstand
+                meters avstand
                 </p>
                 <Slider handleChange={handleSliderChange} distance={distance} />
             </div>

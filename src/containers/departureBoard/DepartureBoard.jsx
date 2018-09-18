@@ -124,7 +124,6 @@ class DepartureBoard extends React.Component {
         </div>
     )
 
-
     render() {
         const {
             hiddenStations, hiddenStops, hiddenRoutes, stationData, stopsData, hiddenModes, initialLoading,

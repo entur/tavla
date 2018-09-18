@@ -10,7 +10,6 @@ import {
     getStopPlacesByPositionAndDistance,
     getSettingsHash,
     updateHiddenListAndHash,
-    minutesToDistance,
     getTransportModesByStop,
 } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
@@ -162,30 +161,62 @@ class AdminPage extends React.Component {
     }
 
     handleTextInputChange = (event) => {
-        const minutes = event.target.value
-        const distance = minutes === '' ? null : minutesToDistance(minutes)
+        const distance = event.target.value
         const { position } = this.state
         this.setState({ distance })
-        if (minutes.length) {
+        if (distance.length) {
             this.updateSearch(distance, position)
         }
     }
 
     handleSliderChange = (event) => {
-        const distance = minutesToDistance(event.target.value)
+        const distance = event.target.value
         const { position } = this.state
         this.setState({ distance })
         this.updateSearch(distance, position)
     }
 
+    sortList = (list) => {
+        return list.sort((a, b) => {
+            if (a.name < b.name) return -1
+            if (a.name > b.name) return 1
+            return 0
+        })
+    }
+
+    handleAddNewStation = (newStations) => {
+        const stations = newStations.map(station => {
+            const found = this.state.stations.map(item => item.name === station.name).includes(true)
+            if (!found) return station
+        })
+
+        if (!stations.includes(undefined)) {
+            const sortedStations = this.sortList(this.state.stations.concat(stations))
+
+            this.setState({
+                stations: sortedStations,
+            })
+        }
+    }
+
+    handleAddNewStop = (newStop) => {
+        const sortedStops = this.sortList(this.state.stops.concat(newStop))
+
+        this.setState({
+            stops: sortedStops,
+        })
+    }
+
     render() {
         const {
-            distance, stations, stops, transportModes, hiddenModes,
+            distance, stations, stops, transportModes, hiddenModes, position,
         } = this.state
         const { isHidden, updateHiddenList } = this
         return (
             <div className="admin-container">
-                <AdminHeader />
+                <AdminHeader
+                    goBackToDashboard={this.goBackToDashboard}
+                />
                 <div className="admin-content">
                     <FilterPanel
                         isHidden={isHidden}
@@ -201,12 +232,16 @@ class AdminPage extends React.Component {
                         stops={stops}
                         stations={stations}
                         updateHiddenList={updateHiddenList}
+                        position={position}
                         onCheck={isHidden}
+                        handleAddNewStop={this.handleAddNewStop}
                     />
                     <BikePanel
                         stations={stations}
                         updateHiddenList={updateHiddenList}
                         onCheck={isHidden}
+                        position={position}
+                        handleAddNewStation={this.handleAddNewStation}
                     />
                 </div>
                 <div className="update-button-container">

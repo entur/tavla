@@ -6,16 +6,19 @@ import {
     AccordionItemBody,
 } from 'react-accessible-accordion'
 import { SlideSwitch, Checkbox } from '@entur/component-library'
+import SelectionPanelSearch from './searchPanels/SelectionPanelSearch.jsx'
 import { getIcon } from '../../utils'
 import './styles.scss'
 
 const SelectionPanel = ({
-    onCheck, updateHiddenList, stops,
+    onCheck, updateHiddenList, stops, position, handleAddNewStop,
 }) => (
     <div className="selection-panel">
         { (stops.length > 0)
             ? <div>
-                <div className="search-stop-places"/>
+                <div className="search-stop-places">
+                    <SelectionPanelSearch position={position} handleAddNewStop={handleAddNewStop}/>
+                </div>
                 <div className="stop-place-panel">
                     {<div className="stop-place-header">
                         <div className="selection-panel-title">Stoppesteder</div>
@@ -64,14 +67,16 @@ const SelectionPanel = ({
                                                             >
                                                                 <td className="admin-route-icon">{getIcon(type, { width: 28, height: 28 })}</td>
                                                                 <td className="admin-route-title">{route}</td>
-                                                                <SlideSwitch
-                                                                    key={i}
-                                                                    id="SlideSwitch"
-                                                                    className="mode-sort-slide-switch-stops"
-                                                                    onChange={() => { updateHiddenList(route, 'routes') }}
-                                                                    checked={isVisible}
-                                                                    style={{ cursor: 'pointer' }}
-                                                                />
+                                                                <td>
+                                                                    <SlideSwitch
+                                                                        key={i}
+                                                                        id="SlideSwitch"
+                                                                        className="mode-sort-slide-switch-stops"
+                                                                        onChange={() => { updateHiddenList(route, 'routes') }}
+                                                                        checked={isVisible}
+                                                                        style={{ cursor: 'pointer' }}
+                                                                    />
+                                                                </td>
                                                             </tr>
                                                         )
                                                     }) }

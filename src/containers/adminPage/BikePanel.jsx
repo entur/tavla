@@ -1,14 +1,17 @@
 import React from 'react'
 import { Checkbox } from '@entur/component-library'
 import './styles.scss'
+import BikePanelSearch from './searchPanels/BikePanelSearch.jsx'
 
 const BikePanel = ({
-    onCheck, updateHiddenList, stations,
+    onCheck, updateHiddenList, stations, position, handleAddNewStation,
 }) => (
     <div className="selection-panel">
         { stations.length > 0
             ? <div>
-                <div className="search-stop-places"/>
+                <div className="search-stop-places">
+                    <BikePanelSearch position={position} handleAddNewStation={handleAddNewStation}/>
+                </div>
                 <div className="city-bike-panel">
                     <div className="selection-panel-title">Bysykler</div>
                     {

@@ -31,13 +31,14 @@ class AdminHeader extends React.Component {
     }
 
     render() {
+        const { goBackToDashboard } = this.props
         return (
             <div className="header header-container">
                 <div className="admin-header">
-                    <BackButton className="admin-header--back-button" action={this.goBackToDashboard} />
+                    <BackButton className="admin-header--back-button" action={goBackToDashboard} />
                     <p>Rediger tavle</p>
                 </div>
-                <div>
+                <div className="header-container--data-and-clock">
                     <div className="header-time">
                         {this.state.time}
                     </div>

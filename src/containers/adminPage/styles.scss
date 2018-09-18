@@ -2,30 +2,42 @@
 
 .admin-container {
     height: 100%;
+    width: 1310px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .header-container {
     display: flex;
+    justify-content: center;
+    height: 120px;
+
+    &--data-and-clock {
+        margin-right: 30px;
+    }
 }
 
 .admin-header {
     display: flex;
     flex-direction: column;
     align-content: center;
+    margin-right: 43.2rem;
 
     p {
         color: $white;
+        width: 250px;
         font-family: $base-font-family;
         font-size: 32px;
         font-weight: 500;
         margin-top: 4px;
-        padding-left: 0.4rem;
+        padding-right: 3rem;
     }
 
     &--back-button {
         width: 40px;
         height: 30px;
         padding-bottom: 1rem;
+        cursor: pointer;
     }
 }
 
@@ -33,8 +45,8 @@
     bottom: 0%;
     text-align: right;
     padding: 2% 1%;
+    float: right;
     width: 100%;
-    padding-right: 3rem;
     padding-top: 3rem;
 }
 
@@ -379,14 +391,14 @@
     border-radius: 10px;
 }
 
-.entur-radio-checkbox__input[type='checkbox']:checked {
-    background-color: #171C56;
-    background-image: url('../../assets/icons/check.png');
+.entur-radio-checkbox__input[type='checkbox'] {
+    background-color: #171c56;
+    background-image: url('../../assets/icons/unChecked.png');
 }
 
-.entur-radio-checkbox__input[type='checkbox'] {
-    background-color: #171C56;
-    background-image: url('../../assets/icons/unChecked.png');
+.entur-radio-checkbox__input[type='checkbox']:checked {
+    background-color: #171c56;
+    background-image: url('../../assets/icons/check.png');
 }
 
 .selection-panel {
@@ -401,7 +413,7 @@
 }
 
 .search-stop-places {
-    height: 144px;
+    height: 133px;
 }
 
 .city-bike-panel,
@@ -592,6 +604,28 @@
 }
 
 @media (max-width: 480px) {
+    .header {
+        position: absolute;
+    }
+
+    .header-container {
+        display: block;
+        margin: 1.8rem 0 0 1.2rem;
+
+        &--data-and-clock {
+            display: none;
+        }
+    }
+
+    .admin-container {
+        margin-top: 150px;
+    }
+
+    .admin-header {
+        margin-left: 10px;
+        margin-right: 0;
+    }
+
     .admin-content {
         display: contents;
     }
@@ -607,6 +641,7 @@
     .selection-panel {
         width: 100%;
         overflow: visible;
+        margin-left: 32px;
     }
 
     .checkbox-container {
@@ -614,7 +649,7 @@
     }
 
     .selection-data-wrapper {
-        width: 85%;
+        width: 80%;
     }
 
     .admin-button-container {
@@ -625,5 +660,9 @@
     .admin-button {
         width: 45%;
         padding: 12px;
+    }
+
+    .distance-text {
+        padding-right: 60px;
     }
 }
