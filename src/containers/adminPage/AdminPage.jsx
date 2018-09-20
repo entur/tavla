@@ -11,6 +11,7 @@ import {
     getSettingsHash,
     updateHiddenListAndHash,
     getTransportModesByStop,
+    sortLists,
 } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
 import service from '../../service'
@@ -23,6 +24,8 @@ class AdminPage extends React.Component {
         distance: DEFAULT_DISTANCE,
         stations: [],
         stops: [],
+        newStations: [],
+        newStops: [],
         hiddenStations: [],
         hiddenStops: [],
         hiddenRoutes: [],
@@ -38,10 +41,13 @@ class AdminPage extends React.Component {
         const positionString = window.location.pathname.split('/')[2]
         const {
             hiddenStations, hiddenStops, distance, hiddenRoutes, hiddenModes,
+            newStations, newStops,
         } = getSettingsFromUrl()
         this.getDataFromSDK(position, distance)
         const hashedState = window.location.pathname.split('/')[3]
         this.setState({
+            newStations,
+            newStops,
             distance,
             hashedState,
             hiddenStops,
@@ -50,6 +56,37 @@ class AdminPage extends React.Component {
             hiddenModes,
             position,
             positionString,
+        })
+        this.getHashedBikeStations(newStations)
+        this.getHashedStops(newStops)
+    }
+
+    getHashedBikeStations = (stations) => {
+        return stations.forEach(stationId => {
+            service.getBikeRentalStation(stationId).then(station => {
+                const allStations = sortLists(this.state.stations, [station])
+                this.setState({
+                    stations: allStations,
+                })
+            })
+        })
+    }
+
+    getHashedStops = (newStops) => {
+        return newStops.forEach(stopId => {
+            service.getStopPlace(stopId).then(stop => {
+                service.getStopPlaceDepartures(stopId, { onForBoarding: true, departures: 50 })
+                    .then(departures => {
+                        const updatedStop = {
+                            ...stop,
+                            departures,
+                        }
+                        const allStops = sortLists(this.state.stops, updatedStop)
+                        this.setState({
+                            stops: allStops,
+                        })
+                    })
+            })
         })
     }
 
@@ -88,13 +125,13 @@ class AdminPage extends React.Component {
                     }
                 }).filter(Boolean)
 
-                this.setState({
-                    stops: filterStops,
+                this.setState(prevState => ({
+                    stops: sortLists(prevState.stops, filterStops),
                     transportModes: [ ...new Set([
                         ...this.state.transportModes,
                         ...uniqueModes,
                     ])],
-                })
+                }))
             })
         })
     }
@@ -107,7 +144,10 @@ class AdminPage extends React.Component {
         const {
             distance, hiddenStations, hiddenStops, positionString, hiddenRoutes, hiddenModes,
         } = this.state
-        const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes)
+        const { newStations, newStops } = getSettingsFromUrl()
+
+        const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, newStations, newStops)
+
         this.setState({ hashedState })
         this.props.history.push(`/dashboard/${positionString}/${hashedState}`)
     }
@@ -176,35 +216,68 @@ class AdminPage extends React.Component {
         this.updateSearch(distance, position)
     }
 
-    sortList = (list) => {
-        return list.sort((a, b) => {
-            if (a.name < b.name) return -1
-            if (a.name > b.name) return 1
-            return 0
-        })
+    addDeparturesToStop = (stop) => {
+        service.getStopPlaceDepartures(stop.id, { onForBoarding: true, departures: 50 })
+            .then(departures => {
+                const updatedStop = {
+                    ...stop,
+                    departures,
+                }
+                const allStops = sortLists(this.state.stops, updatedStop)
+                this.setState({
+                    stops: allStops,
+                })
+            })
     }
 
     handleAddNewStation = (newStations) => {
-        const stations = newStations.map(station => {
-            const found = this.state.stations.map(item => item.name === station.name).includes(true)
-            if (!found) return station
+        const stationIds = newStations.map(station => {
+            const found = this.state.stations.find(item => item.name === station.name)
+            if (!found) return station.id
+        }).filter(Boolean)
+
+        if (!stationIds.length) return
+
+        const sortedStationIds = sortLists(this.state.newStations, stationIds)
+        const updatedStations = sortLists(this.state.stations, newStations)
+
+        const {
+            distance, hiddenStations, hiddenStops, positionString,
+            hiddenRoutes, hiddenModes, newStops,
+        } = this.state
+
+        const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, sortedStationIds, newStops)
+
+        this.setState({
+            hashedState,
+            stations: updatedStations,
+            newStations: sortedStationIds,
         })
-
-        if (!stations.includes(undefined)) {
-            const sortedStations = this.sortList(this.state.stations.concat(stations))
-
-            this.setState({
-                stations: sortedStations,
-            })
-        }
+        this.props.history.push(`/admin/${positionString}/${hashedState}`)
     }
 
     handleAddNewStop = (newStop) => {
-        const sortedStops = this.sortList(this.state.stops.concat(newStop))
+        const found = this.state.stops.map(item => item.id === newStop.id).includes(true)
+        const hasDepartures = !(newStop.departures.length === 0)
 
-        this.setState({
-            stops: sortedStops,
-        })
+        if (!found && hasDepartures) {
+            const {
+                distance, hiddenStations, hiddenStops, positionString, hiddenRoutes, hiddenModes,
+                newStations, newStops, stops,
+            } = this.state
+
+            const sortedStopIds = sortLists(newStops, [newStop.id])
+            const sortedStops = sortLists(stops, newStop)
+
+            const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, newStations, sortedStopIds)
+            this.setState({
+                hashedState,
+                stops: sortedStops,
+                newStops: sortedStopIds,
+            })
+
+            this.props.history.push(`/admin/${positionString}/${hashedState}`)
+        }
     }
 
     render() {

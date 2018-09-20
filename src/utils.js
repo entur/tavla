@@ -40,7 +40,7 @@ export function getPositionFromUrl() {
 export function getSettingsFromUrl() {
     const settings = window.location.pathname.split('/')[3]
     return (settings !== '') ? JSON.parse(atob(settings)) : {
-        hiddenStations: [], hiddenStops: [], hiddenRoutes: [], distance: DEFAULT_DISTANCE, hiddenModes: [],
+        hiddenStations: [], hiddenStops: [], hiddenRoutes: [], distance: DEFAULT_DISTANCE, hiddenModes: [], newStations: [], newStops: [],
     }
 }
 
@@ -164,13 +164,56 @@ function updateHiddenList(clickedId, hiddenList) {
     return newSet
 }
 
-export function getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes) {
+export function getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, newStations, newStops) {
     const savedSettings = {
         distance,
         hiddenStations,
         hiddenStops,
         hiddenRoutes,
         hiddenModes,
+        newStations,
+        newStops,
+    }
+    return btoa(JSON.stringify(savedSettings))
+}
+
+export function sortLists(list1, list2) {
+    const combinedList = list1.concat(list2)
+    return combinedList.sort((a, b) => {
+        if (a.name < b.name) return -1
+        if (a.name > b.name) return 1
+        return 0
+    })
+}
+
+export function updateSettingsHashStops(state, sortedStops) {
+    const {
+        distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, newStations,
+    } = state
+    const savedSettings = {
+        distance,
+        hiddenStations,
+        hiddenStops,
+        hiddenRoutes,
+        hiddenModes,
+        newStations,
+        newStops: sortedStops,
+    }
+    return btoa(JSON.stringify(savedSettings))
+}
+
+export function updateSettingsHashStations(state, sortedStations) {
+    const {
+        distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, newStops,
+    } = state
+    const savedSettings = {
+        distance,
+        hiddenStations,
+        hiddenStops,
+        hiddenRoutes,
+        hiddenModes,
+        newStations: sortedStations,
+        newStops,
     }
     return btoa(JSON.stringify(savedSettings))
 }
@@ -178,6 +221,7 @@ export function getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRou
 export function updateHiddenListAndHash(clickedId, state, hiddenType) {
     const {
         hiddenStops, hiddenStations, distance, hiddenRoutes, hiddenModes,
+        newStations, newStops,
     } = state
     let newSet = []
     let hashedState = ''
@@ -185,7 +229,7 @@ export function updateHiddenListAndHash(clickedId, state, hiddenType) {
     switch (hiddenType) {
         case 'stations':
             newSet = updateHiddenList(clickedId, hiddenStations)
-            hashedState = getSettingsHash(distance, newSet, hiddenStops, hiddenRoutes, hiddenModes)
+            hashedState = getSettingsHash(distance, newSet, hiddenStops, hiddenRoutes, hiddenModes, newStations, newStops)
             hiddenLists = {
                 hiddenStations: newSet,
                 hiddenStops,
@@ -195,7 +239,7 @@ export function updateHiddenListAndHash(clickedId, state, hiddenType) {
             return { hiddenLists, hashedState }
         case 'stops':
             newSet = updateHiddenList(clickedId, hiddenStops)
-            hashedState = getSettingsHash(distance, hiddenStations, newSet, hiddenRoutes, hiddenModes)
+            hashedState = getSettingsHash(distance, hiddenStations, newSet, hiddenRoutes, hiddenModes, newStations, newStops)
             hiddenLists = {
                 hiddenStations,
                 hiddenStops: newSet,
@@ -205,7 +249,7 @@ export function updateHiddenListAndHash(clickedId, state, hiddenType) {
             return { hiddenLists, hashedState }
         case 'routes':
             newSet = updateHiddenList(clickedId, hiddenRoutes)
-            hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, newSet, hiddenModes)
+            hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, newSet, hiddenModes, newStations, newStops)
             hiddenLists = {
                 hiddenStations,
                 hiddenStops,
@@ -215,7 +259,7 @@ export function updateHiddenListAndHash(clickedId, state, hiddenType) {
             return { hiddenLists, hashedState }
         case 'transportModes':
             newSet = updateHiddenList(clickedId, hiddenModes)
-            hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, newSet)
+            hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, newSet, newStations, newStops)
             hiddenLists = {
                 hiddenStations,
                 hiddenStops,

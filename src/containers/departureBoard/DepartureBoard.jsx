@@ -4,7 +4,12 @@ import './styles.scss'
 import {
     BikeTable, DepartureTiles, Footer, Header,
 } from '../../components'
-import { getSettingsFromUrl, getPositionFromUrl, getStopPlacesByPositionAndDistance } from '../../utils'
+import {
+    getSettingsFromUrl,
+    getPositionFromUrl,
+    getStopPlacesByPositionAndDistance,
+    sortLists,
+} from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
 import Settings from '../../assets/icons/settings/settings.js'
 import errorImage from '../../assets/images/noStops.png'
@@ -32,12 +37,21 @@ class DepartureBoard extends React.Component {
         this.setState({
             initialLoading: true,
         })
+
         getStopPlacesByPositionAndDistance(position, distance)
             .then(stopsData => {
                 this.setState({
-                    stopsData, distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, position, initialLoading: false,
+                    stopsData,
+                    distance,
+                    hiddenStations,
+                    hiddenStops,
+                    hiddenRoutes,
+                    hiddenModes,
+                    position,
+                    initialLoading: false,
                 })
-                this.stopPlaceDepartures()
+            }).then(() => {
+                this.initializeStopsData()
                 this.updateTime()
             })
             .catch(e => {
@@ -45,6 +59,17 @@ class DepartureBoard extends React.Component {
                 console.error(e) // eslint-disable-line no-console
             })
         this.updateInterval = setInterval(this.updateTime, 10000)
+    }
+
+    getHashedBikeStations = (newStations) => {
+        return newStations.forEach(stationId => {
+            service.getBikeRentalStation(stationId).then(station => {
+                const allStations = sortLists(this.state.stationData, [station])
+                this.setState({
+                    stationData: allStations,
+                })
+            })
+        })
     }
 
     getLineData = departure => {
@@ -60,6 +85,35 @@ class DepartureBoard extends React.Component {
             time: this.formatDeparture(minDiff, departureTime),
             route,
         }
+    }
+
+    initializeStopsData = () => {
+        const { newStops } = getSettingsFromUrl()
+
+        const newStopsList = newStops.map(stopId => {
+            return service.getStopPlace(stopId).then(stop => {
+                return stop
+            })
+        })
+
+        Promise.all(newStopsList).then(data => {
+            const { stopsData } = this.state
+            const stops = sortLists(stopsData, data)
+            service.getStopPlaceDepartures(stops.map(({ id }) => id), { onForBoarding: true, departures: 50 }).then(departures => {
+                this.setState({
+                    stopsData: stops.map(stop => {
+                        const resultForThisStop = departures.find(({ id }) => stop.id === id)
+                        if (!resultForThisStop || !resultForThisStop.departures) {
+                            return stop
+                        }
+                        return {
+                            ...stop,
+                            departures: resultForThisStop.departures.map(this.getLineData),
+                        }
+                    }),
+                })
+            })
+        })
     }
 
     stopPlaceDepartures = () => {
@@ -87,14 +141,17 @@ class DepartureBoard extends React.Component {
 
     updateTime = () => {
         const { position, distance } = this.state
+        const { newStations } = getSettingsFromUrl()
+
         service.getBikeRentalStations(position, distance).then(stations => {
             this.setState({
                 stationData: stations,
             })
+        }).then(() => {
+            this.getHashedBikeStations(newStations)
         })
         this.stopPlaceDepartures()
     }
-
 
     componentWillUnmount() {
         clearInterval(this.updateInterval)
