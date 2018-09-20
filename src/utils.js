@@ -106,7 +106,7 @@ export function formatDeparture(minDiff, departureTime) {
     return minDiff < 1 ? 'nå' : minDiff.toString() + ' min'
 }
 
-function getUniqueRoutes(routes) {
+export function getUniqueRoutes(routes) {
     const uniqueThings = {}
     routes.forEach(({ route, type }) => {
         uniqueThings[route] = type
@@ -114,7 +114,7 @@ function getUniqueRoutes(routes) {
     return Object.entries(uniqueThings).map(([route, type]) => ({ route, type }))
 }
 
-function transformDepartureToLineData(departure) {
+export function transformDepartureToLineData(departure) {
     const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
     const { line } = serviceJourney.journeyPattern
     const departureTime = moment(expectedDepartureTime)
@@ -134,6 +134,7 @@ export function getStopsWithUniqueStopPlaceDepartures(stops) {
             if (!resultForThisStop || !resultForThisStop.departures) {
                 return stop
             }
+
             return {
                 ...stop,
                 departures: getUniqueRoutes(resultForThisStop.departures.map(transformDepartureToLineData)),

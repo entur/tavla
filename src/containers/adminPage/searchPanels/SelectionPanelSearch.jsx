@@ -1,9 +1,8 @@
 import React from 'react'
 import ReactAutosuggest from 'react-autosuggest'
-import {
-    getStopPlacesByPositionAndDistance,
-    getStopsWithUniqueStopPlaceDepartures,
-} from '../../../utils'
+import debounce from 'lodash.debounce'
+
+import service from '../../../service'
 import './styles.scss'
 
 class SelectionPanelSearch extends React.Component {
@@ -12,7 +11,6 @@ class SelectionPanelSearch extends React.Component {
         this.state = {
             value: '',
             suggestions: [],
-            stops: [],
         }
     }
 
@@ -21,24 +19,12 @@ class SelectionPanelSearch extends React.Component {
             this.setState({
                 value: '',
             })
-            const stop = this.state.stops.filter(item => { return item.name === newValue })[0]
-            getStopsWithUniqueStopPlaceDepartures([stop]).then(data => {
-                this.props.handleAddNewStop(data[0])
-            })
         } else {
             this.setState({
                 value: newValue,
             })
         }
-    };
-
-    componentDidMount() {
-        getStopPlacesByPositionAndDistance(this.props.position, 10000)
-            .then(stops => {
-                this.setState({ stops })
-            })
     }
-
 
     getSuggestions = (value) => {
         const inputValue = value.trim().toLowerCase()
@@ -56,16 +42,53 @@ class SelectionPanelSearch extends React.Component {
     )
 
     onSuggestionsFetchRequested = ({ value }) => {
-        this.setState({
-            suggestions: this.getSuggestions(value),
-        })
+        this.getFeaturesDebounced(value)
     };
+
+    onSuggestionSelected = (event, { suggestion }) => {
+        const coordinates = {
+            latitude: suggestion.coordinates.lat,
+            longitude: suggestion.coordinates.lon,
+        }
+
+        service.getStopPlacesByPosition(coordinates, 10).then(stop => {
+            service.getStopPlaceDepartures(stop[0].id, { onForBoarding: true, departures: 50 })
+                .then(departures => {
+                    const updatedStop = {
+                        ...stop[0],
+                        departures,
+                    }
+                    this.props.handleAddNewStop(updatedStop)
+                })
+        })
+    }
 
     onSuggestionsClearRequested = () => {
         this.setState({
             suggestions: [],
         })
     };
+
+    getFeaturesDebounced = debounce((value) => {
+        const inputLength = value.trim().length
+
+        if (inputLength > 0) {
+            service.getFeatures(value).then(featuresData => {
+                const features = featuresData.map(({ geometry, properties }) => {
+                    return {
+                        coordinates: {
+                            lon: geometry.coordinates[0],
+                            lat: geometry.coordinates[1],
+                        },
+                        name: properties.name + ', ' + properties.locality,
+                    }
+                })
+                this.setState({
+                    suggestions: features,
+                })
+            })
+        }
+    }, 500)
 
     render() {
         const { value, suggestions } = this.state
@@ -84,6 +107,7 @@ class SelectionPanelSearch extends React.Component {
                     onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
                     onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                     getSuggestionValue={this.getSuggestionValue}
+                    onSuggestionSelected={this.onSuggestionSelected}
                     renderSuggestion={this.renderSuggestion}
                     inputProps={inputProps}
                 />
