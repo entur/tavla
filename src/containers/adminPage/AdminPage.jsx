@@ -178,6 +178,25 @@ class AdminPage extends React.Component {
         this.props.history.push(`/admin/${this.state.positionString}/${hashedState}`)
     }
 
+    updateHiddenListForAll = (checked, type) => {
+        const stopIds = this.state.stops.map(stop => stop.id)
+        const stationIds = this.state.stations.map(station => station.id)
+        switch (type) {
+            case 'stops':
+                const hiddenStops = !checked ? stopIds : []
+                this.setState({
+                    hiddenStops,
+                })
+                break
+            case 'stations':
+                const hiddenStations = !checked ? stationIds : []
+                this.setState({
+                    hiddenStations,
+                })
+                break
+        }
+    }
+
     getStyle = (isHidden) => {
         return isHidden ? null : { opacity: 0.3 }
     }
@@ -293,6 +312,7 @@ class AdminPage extends React.Component {
                         stops={stops}
                         stations={stations}
                         updateHiddenList={updateHiddenList}
+                        updateHiddenListForAll={this.updateHiddenListForAll}
                         position={position}
                         onCheck={isHidden}
                         handleAddNewStop={this.handleAddNewStop}
@@ -300,6 +320,7 @@ class AdminPage extends React.Component {
                     <BikePanel
                         stations={stations}
                         updateHiddenList={updateHiddenList}
+                        updateHiddenListForAll={this.updateHiddenListForAll}
                         onCheck={isHidden}
                         position={position}
                         handleAddNewStation={this.handleAddNewStation}

@@ -1,7 +1,7 @@
 @import '../../assets/styles/import.scss';
 
 .admin-container {
-    height: 100%;
+    height: 90%;
     width: 1310px;
     margin-left: auto;
     margin-right: auto;
@@ -42,12 +42,12 @@
 }
 
 .update-button-container {
-    bottom: 0%;
     text-align: right;
-    padding: 2% 1%;
+    padding-right: 1%;
     float: right;
     width: 100%;
-    padding-top: 3rem;
+    height: 46px;
+    margin-top: 3rem;
 }
 
 .update-button {
@@ -348,7 +348,7 @@
 
 .selection-panel-title {
     height: 28px;
-    width: 182px;
+    width: 250px;
     color: $white;
     font-family: $base-font-family;
     font-size: 28px;
@@ -383,6 +383,11 @@
     max-height: 500px;
 }
 
+.stop-place-header {
+    display: flex;
+    flex-direction: row;
+}
+
 .checkbox-container {
     width: 45px;
     height: 45px;
@@ -391,16 +396,48 @@
     align-items: flex-start;
     padding: 14px 0 0 38px;
     border-radius: 10px;
+
+    .entur-radio-checkbox__input[type='checkbox'] {
+        background-color: #171c56;
+        background-image: url('../../assets/icons/unChecked.png');
+    }
+
+    .entur-radio-checkbox__input[type='checkbox']:checked {
+        background-color: #171c56;
+        background-image: url('../../assets/icons/check.png');
+    }
 }
 
-.entur-radio-checkbox__input[type='checkbox'] {
-    background-color: #171c56;
-    background-image: url('../../assets/icons/unChecked.png');
-}
+.checkbox-container-check-all {
+    display: flex;
+    flex-direction: row;
+    width: 120px;
+    height: 60px;
+    margin-left: 52px;
+    margin-top: 20px;
 
-.entur-radio-checkbox__input[type='checkbox']:checked {
-    background-color: #171c56;
-    background-image: url('../../assets/icons/check.png');
+    .entur-radio-checkbox__input[type='checkbox'] {
+        border: none;
+        background-color: $white;
+        background-image: none;
+    }
+
+    .entur-radio-checkbox__input[type='checkbox']:checked {
+        border: none;
+        background-color: $white;
+        background-image: url('../../assets/icons/icon.png');
+    }
+
+    p {
+        padding-left: 4px;
+        height: 20px;
+        width: 80px;
+        color: #9ba4d2;
+        font-family: $base-font-family;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+    }
 }
 
 .selection-panel {
@@ -443,7 +480,7 @@
     padding-top: 11px;
     margin-left: 34px;
     height: 2px;
-    width: 320px;
+    width: 334px;
     border-bottom: 2px solid $blue-20;
 }
 
