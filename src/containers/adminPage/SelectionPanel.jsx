@@ -40,9 +40,7 @@ class SelectionPanel extends Component {
                                     <Checkbox
                                         checked={this.state.checked}
                                         onChange={this.onChange}
-                                        style={{
-                                            borderRadius: '0px', cursor: 'pointer', width: '20px', height: '20px', marginTop: '14px',
-                                        }}
+                                        className="entur-radio-checkbox--squared"
                                     />
                                     <p>Velg alle</p>
                                 </div>
@@ -56,13 +54,10 @@ class SelectionPanel extends Component {
                                         <Accordion className="selection-row" accordion="true" key={index}>
                                             <div className="checkbox-container">
                                                 <Checkbox
-                                                    key={id}
                                                     id={id}
+                                                    className="entur-radio-checkbox--round"
                                                     checked={isChecked}
                                                     onChange={() => updateHiddenList(id, 'stops')}
-                                                    style={{
-                                                        borderRadius: '12px', height: '24px', width: '24px', cursor: 'pointer',
-                                                    }}
                                                 />
                                             </div>
                                             <AccordionItem
@@ -98,7 +93,6 @@ class SelectionPanel extends Component {
                                                                                 className="mode-sort-slide-switch-stops"
                                                                                 onChange={() => { updateHiddenList(route, 'routes') }}
                                                                                 checked={isVisible}
-                                                                                style={{ cursor: 'pointer' }}
                                                                             />
                                                                         </td>
                                                                     </tr>

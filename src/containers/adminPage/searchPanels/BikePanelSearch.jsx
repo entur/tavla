@@ -27,7 +27,7 @@ class BikePanelSearch extends React.Component {
     };
 
     componentDidMount() {
-        service.getBikeRentalStations(this.props.position, 10000).then(stations => {
+        service.getBikeRentalStations(this.props.position, 100000).then(stations => {
             this.setState({
                 stations,
             })

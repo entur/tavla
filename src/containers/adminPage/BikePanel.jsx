@@ -35,9 +35,7 @@ class BikePanel extends Component {
                                     <Checkbox
                                         checked={this.state.checked}
                                         onChange={this.onChange}
-                                        style={{
-                                            borderRadius: '0px', cursor: 'pointer', width: '20px', height: '20px', marginTop: '14px',
-                                        }}
+                                        className="entur-radio-checkbox--squared"
                                     />
                                     <p>Velg alle</p>
                                 </div>
@@ -56,13 +54,7 @@ class BikePanel extends Component {
                                                         id={id}
                                                         checked={isChecked}
                                                         onChange={() => updateHiddenList(id, 'stations')}
-                                                        style={{
-                                                            borderRadius: '12px',
-                                                            height: '24px',
-                                                            width: '24px',
-                                                            marginTop: '3px',
-                                                            cursor: 'pointer',
-                                                        }}
+                                                        className="entur-radio-checkbox--round entur-radio-checkbox--margin"
                                                     />
                                                 </div>
                                                 <div className="selection-data-wrapper">
@@ -83,6 +75,5 @@ class BikePanel extends Component {
         )
     }
 }
-
 
 export default BikePanel
