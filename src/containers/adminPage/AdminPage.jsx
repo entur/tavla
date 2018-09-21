@@ -64,35 +64,33 @@ class AdminPage extends React.Component {
 
     getDataFromSDK(position, distance) {
         const { newStations } = getSettingsFromUrl()
-        const hashedStations = newStations.map(stationId => {
-            return service.getBikeRentalStation(stationId).then(station => {
-                return station
-            })
-        })
 
-        Promise.all(hashedStations).then(hashedStationsData => {
-            service.getBikeRentalStations(position, distance).then(stations => {
-                const allStations = sortLists(hashedStationsData, stations)
+        Promise.all(newStations.map(stationId => {
+            return service.getBikeRentalStation(stationId)
+        }))
+            .then(hashedStationsData => {
+                service.getBikeRentalStations(position, distance).then(stations => {
+                    const allStations = sortLists(hashedStationsData, stations)
 
-                let transportModes = []
-                if (allStations.length > 0) {
-                    transportModes = this.state.transportModes.includes('bike') ? this.state.transportModes : ['bike', ...this.state.transportModes]
-                } else {
-                    transportModes = this.state.transportModes
-                }
-                if (this.state.hiddenModes.includes('bike')) {
-                    this.setState({
-                        stations: [],
-                        transportModes,
-                    })
-                } else {
-                    this.setState({
-                        stations: allStations,
-                        transportModes,
-                    })
-                }
+                    let transportModes = []
+                    if (allStations.length > 0) {
+                        transportModes = this.state.transportModes.includes('bike') ? this.state.transportModes : ['bike', ...this.state.transportModes]
+                    } else {
+                        transportModes = this.state.transportModes
+                    }
+                    if (this.state.hiddenModes.includes('bike')) {
+                        this.setState({
+                            stations: [],
+                            transportModes,
+                        })
+                    } else {
+                        this.setState({
+                            stations: allStations,
+                            transportModes,
+                        })
+                    }
+                })
             })
-        })
 
         getStopPlacesByPositionAndDistance(position, distance).then(stops => {
             const { newStops } = getSettingsFromUrl()
@@ -179,16 +177,16 @@ class AdminPage extends React.Component {
     }
 
     updateHiddenListForAll = (checked, type) => {
-        const stopIds = this.state.stops.map(stop => stop.id)
-        const stationIds = this.state.stations.map(station => station.id)
         switch (type) {
             case 'stops':
+                const stopIds = this.state.stops.map(stop => stop.id)
                 const hiddenStops = !checked ? stopIds : []
                 this.setState({
                     hiddenStops,
                 })
                 break
             case 'stations':
+                const stationIds = this.state.stations.map(station => station.id)
                 const hiddenStations = !checked ? stationIds : []
                 this.setState({
                     hiddenStations,
@@ -235,10 +233,9 @@ class AdminPage extends React.Component {
     }
 
     handleAddNewStation = (stations) => {
-        const stationIds = stations.map(station => {
-            const found = this.state.stations.find(item => item.name === station.name)
-            if (!found) return station.id
-        }).filter(Boolean)
+        const stationIds = stations
+            .filter(station => this.state.stations.every(item => item.name !== station.name))
+            .map(station => station.id)
 
         if (!stationIds.length) return
 
@@ -264,7 +261,7 @@ class AdminPage extends React.Component {
     }
 
     handleAddNewStop = (newStop) => {
-        const found = this.state.stops.map(item => item.id === newStop.id).includes(true)
+        const found = this.state.stops.some(item => item.id === newStop.id)
         const hasDepartures = !(newStop.departures.length === 0)
 
         if (found || !hasDepartures) return

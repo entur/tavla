@@ -90,13 +90,9 @@ class DepartureBoard extends React.Component {
     initializeStopsData = () => {
         const { newStops } = getSettingsFromUrl()
 
-        const newStopsList = newStops.map(stopId => {
-            return service.getStopPlace(stopId).then(stop => {
-                return stop
-            })
-        })
-
-        Promise.all(newStopsList).then(data => {
+        Promise.all(newStops.map(stopId => {
+            service.getStopPlace(stopId)
+        })).then(data => {
             const { stopsData } = this.state
             const stops = sortLists(stopsData, data)
             service.getStopPlaceDepartures(stops.map(({ id }) => id), { onForBoarding: true, departures: 50 }).then(departures => {

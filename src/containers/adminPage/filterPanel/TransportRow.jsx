@@ -15,7 +15,7 @@ class TransportRow extends React.Component {
     }
 
     componentDidMount() {
-        this.props.hiddenModes.map(mode => {
+        this.props.hiddenModes.forEach(mode => {
             if (mode === this.props.mode) {
                 this.setState({
                     checked: false,

@@ -12,14 +12,13 @@ class AdminHeader extends React.Component {
     componentDidMount() {
         this.timerID = setInterval(
             () => {
-                const date = moment()
-                const dayOfTheWeek = date.locale('nb').format('dddd')
-                const dayNumber = date.date()
-                const monthName = date.locale('nb').format('MMMM')
+                const dateMoment = moment().locale('nb').format('dddd DD. MMMM')
+                const date = dateMoment.charAt(0).toUpperCase() + dateMoment.slice(1)
+                const time = moment().format('HH:mm')
 
                 this.setState({
-                    date: dayOfTheWeek.charAt(0).toUpperCase() + dayOfTheWeek.slice(1) + ' ' + dayNumber + '. ' + monthName,
-                    time: moment().format('HH:mm'),
+                    date,
+                    time,
                 })
             },
             1000
