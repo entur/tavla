@@ -36,6 +36,7 @@ class AdminPage extends React.Component {
         positionString: '',
         hashedState: '',
         transportModes: [],
+        initialLoading: true,
     }
 
     componentDidMount() {
@@ -59,81 +60,77 @@ class AdminPage extends React.Component {
             position,
             positionString,
         })
-        this.getHashedBikeStations(newStations)
-        this.getHashedStops(newStops)
-    }
-
-    getHashedBikeStations = (stations) => {
-        return stations.forEach(stationId => {
-            service.getBikeRentalStation(stationId).then(station => {
-                const allStations = sortLists(this.state.stations, [station])
-                this.setState({
-                    stations: allStations,
-                })
-            })
-        })
-    }
-
-    getHashedStops = (newStops) => {
-        return newStops.forEach(stopId => {
-            service.getStopPlace(stopId).then(stop => {
-                service.getStopPlaceDepartures(stopId, { onForBoarding: true, departures: 50 })
-                    .then(departures => {
-                        const updatedStop = {
-                            ...stop,
-                            departures: getUniqueRoutes(departures.map(transformDepartureToLineData)),
-                        }
-                        const allStops = sortLists(this.state.stops, updatedStop)
-                        this.setState({
-                            stops: allStops,
-                        })
-                    })
-            })
-        })
     }
 
     getDataFromSDK(position, distance) {
-        service.getBikeRentalStations(position, distance).then(stations => {
-            let transportModes = []
-            if (stations.length > 0) {
-                transportModes = this.state.transportModes.includes('bike') ? this.state.transportModes : ['bike', ...this.state.transportModes]
-            } else {
-                transportModes = this.state.transportModes
-            }
-            if (this.state.hiddenModes.includes('bike')) {
-                this.setState({
-                    stations: [],
-                    transportModes,
-                })
-            } else {
-                this.setState({
-                    stations,
-                    transportModes,
-                })
-            }
+        const { newStations } = getSettingsFromUrl()
+        const hashedStations = newStations.map(stationId => {
+            return service.getBikeRentalStation(stationId).then(station => {
+                return station
+            })
         })
 
+        Promise.all(hashedStations).then(hashedStationsData => {
+            service.getBikeRentalStations(position, distance).then(stations => {
+                const allStations = sortLists(hashedStationsData, stations)
+
+                let transportModes = []
+                if (allStations.length > 0) {
+                    transportModes = this.state.transportModes.includes('bike') ? this.state.transportModes : ['bike', ...this.state.transportModes]
+                } else {
+                    transportModes = this.state.transportModes
+                }
+                if (this.state.hiddenModes.includes('bike')) {
+                    this.setState({
+                        stations: [],
+                        transportModes,
+                    })
+                } else {
+                    this.setState({
+                        stations: allStations,
+                        transportModes,
+                    })
+                }
+            })
+        })
 
         getStopPlacesByPositionAndDistance(position, distance).then(stops => {
-            getStopsWithUniqueStopPlaceDepartures(stops).then((uniqueRoutes) => {
-                const uniqueModes = getTransportModesByStop(uniqueRoutes)
-                const filterStops = uniqueRoutes.map((stop) => {
-                    const filterStop = stop.departures.filter(({ type }) => !this.state.hiddenModes.includes(type))
-                    if (filterStop.length > 0) {
-                        return {
-                            ...stop,
-                            departures: filterStop,
-                        }
-                    }
-                }).filter(Boolean)
+            const { newStops } = getSettingsFromUrl()
+            const hashedStops = newStops.map(stopId => {
+                return service.getStopPlace(stopId).then(stop => {
+                    return service.getStopPlaceDepartures(stopId, { onForBoarding: true, departures: 50 })
+                        .then(departures => {
+                            return {
+                                ...stop,
+                                departures: getUniqueRoutes(departures.map(transformDepartureToLineData)),
+                            }
+                        })
+                })
+            })
 
-                this.setState(prevState => ({
-                    stops: sortLists(prevState.stops, filterStops),
-                    transportModes: [ ...new Set([
-                        ...this.state.transportModes,
-                        ...uniqueModes,
-                    ])],
-                }))
+            Promise.all(hashedStops).then(hashedStopsData => {
+                const allStops = sortLists(hashedStopsData, stops)
+
+                getStopsWithUniqueStopPlaceDepartures(allStops).then((uniqueRoutes) => {
+                    const uniqueModes = getTransportModesByStop(uniqueRoutes)
+                    const filterStops = uniqueRoutes.map((stop) => {
+                        const filterStop = stop.departures.filter(({ type }) => !this.state.hiddenModes.includes(type))
+                        if (filterStop.length > 0) {
+                            return {
+                                ...stop,
+                                departures: filterStop,
+                            }
+                        }
+                    }).filter(Boolean)
+
+                    this.setState({
+                        stops: filterStops,
+                        transportModes: [ ...new Set([
+                            ...this.state.transportModes,
+                            ...uniqueModes,
+                        ])],
+                    })
+                })
             })
         })
     }
