@@ -24,7 +24,7 @@ const BikeTable = ({ stationData, visible }) => {
                 }) => (
                     <div key={id} className="bike-container">
                         <div className="bike-station-wrapper">
-                            <div className="route-icon">{getIcon('bike', { height: 35, width: 35, color: '#9BA4D2' })}</div>
+                            <div className="route-icon">{getIcon('bike', { height: 35, width: 35, color: '#D1D4E3' })}</div>
                             <p>{name}</p>
                         </div>
 

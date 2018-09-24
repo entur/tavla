@@ -1,0 +1,101 @@
+@import '../../../assets/styles/import.scss';
+
+.input-container-admin {
+    .react-autosuggest__container {
+        position: relative;
+        margin-top: 24px;
+    }
+
+    .react-autosuggest__input {
+        border-radius: 1px;
+        width: 400px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        font-family: $base-font-family;
+        color: $primary;
+        border: none;
+        border-bottom: 2px solid $blue-40;
+        line-height: 23px;
+        background-color: $grey-40;
+        height: 45px;
+
+        &::placeholder {
+            color: $blue-40;
+            opacity: 0.5;
+            font-weight: 400;
+            font-size: 14px;
+        }
+    }
+
+    .react-autosuggest__input--focused {
+        outline: none;
+    }
+
+    .react-autosuggest__input--open {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .react-autosuggest__suggestions-container {
+        display: none;
+    }
+
+    .react-autosuggest__suggestions-container--open {
+        display: block;
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        background-color: $white;
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: $primary;
+        z-index: 2;
+    }
+
+    .react-autosuggest__suggestions-list {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+
+    .react-autosuggest__suggestion {
+        cursor: pointer;
+        padding: 10px 20px;
+        border-bottom: 2px solid $grey-20;
+    }
+
+    .react-autosuggest__suggestion:last-child {
+        cursor: pointer;
+        padding: 10px 20px;
+        border-bottom: none;
+    }
+
+    .react-autosuggest__suggestion--highlighted {
+        background-color: $blue-80;
+    }
+
+    .searchPanel-label {
+        width: 4.21%;
+        color: $blue-60;
+        font-family: $base-font-family;
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    .location-icon {
+        position: absolute;
+        right: 14px;
+        top: 14px;
+        opacity: 0.3;
+    }
+
+    @media (max-width: 480px) {
+        .search-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
