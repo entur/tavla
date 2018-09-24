@@ -65,9 +65,7 @@ class AdminPage extends React.Component {
     getDataFromSDK(position, distance) {
         const { newStations } = getSettingsFromUrl()
 
-        Promise.all(newStations.map(stationId => {
-            return service.getBikeRentalStation(stationId)
-        }))
+        Promise.all(newStations.map(stationId => service.getBikeRentalStation(stationId)))
             .then(hashedStationsData => {
                 service.getBikeRentalStations(position, distance).then(stations => {
                     const allStations = sortLists(hashedStationsData, stations)
