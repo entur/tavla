@@ -58,7 +58,7 @@ class DepartureBoard extends React.Component {
                 this.setState({ initialLoading: false })
                 console.error(e) // eslint-disable-line no-console
             })
-        this.updateInterval = setInterval(this.updateTime, 10000)
+        this.updateInterval = setInterval(this.updateTime, 30000)
     }
 
     getHashedBikeStations = (newStations) => {
