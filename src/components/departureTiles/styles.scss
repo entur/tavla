@@ -36,11 +36,13 @@
 }
 
 .stop-header {
+    display: flex;
+    justify-content: space-between;
     height: 90px;
     width: 334px;
 
     &--icons {
-        float: right;
+        display: flex;
         max-height: 60px;
         margin-top: 26px;
     }
@@ -49,12 +51,12 @@
         display: inline-block;
         overflow: hidden;
         height: 40px;
-        max-width: 190px;
         text-overflow: ellipsis;
         font-family: $base-font-family;
         font-size: 28px;
         font-weight: 500;
         color: $white;
+        white-space: nowrap;
     }
 }
 
