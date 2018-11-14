@@ -74,7 +74,7 @@ class SelectionPanelSearch extends React.Component {
         const inputLength = value.trim().length
 
         if (inputLength > 0) {
-            service.getFeatures(value).then(featuresData => {
+            service.getFeatures(value, undefined, { layers: 'venue' }).then(featuresData => {
                 const features = featuresData.map(({ geometry, properties }) => {
                     return {
                         coordinates: {
