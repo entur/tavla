@@ -93,7 +93,7 @@ class DepartureBoard extends React.Component {
         Promise.all(newStops.map(stopId => service.getStopPlace(stopId))).then(data => {
             const { stopsData } = this.state
             const stops = sortLists(stopsData, data)
-            service.getStopPlaceDepartures(stops.map(({ id }) => id), { onForBoarding: true, departures: 50 }).then(departures => {
+            service.getStopPlaceDepartures(stops.map(({ id }) => id), { includeNonBoarding: true, departures: 50 }).then(departures => {
                 this.setState({
                     stopsData: stops.map(stop => {
                         const resultForThisStop = departures.find(({ id }) => stop.id === id)
@@ -112,7 +112,7 @@ class DepartureBoard extends React.Component {
 
     stopPlaceDepartures = () => {
         const { stopsData } = this.state
-        service.getStopPlaceDepartures(stopsData.map(({ id }) => id), { onForBoarding: true, departures: 50 }).then(departures => {
+        service.getStopPlaceDepartures(stopsData.map(({ id }) => id), { includeNonBoarding: true, departures: 50 }).then(departures => {
             this.setState({
                 stopsData: stopsData.map(stop => {
                     const resultForThisStop = departures.find(({ id }) => stop.id === id)

@@ -128,7 +128,7 @@ export function transformDepartureToLineData(departure) {
 }
 
 export function getStopsWithUniqueStopPlaceDepartures(stops) {
-    return service.getStopPlaceDepartures(stops.map(({ id }) => id), { onForBoarding: true, departures: 50 }).then(departures => {
+    return service.getStopPlaceDepartures(stops.map(({ id }) => id), { includeNonBoarding: true, departures: 50 }).then(departures => {
         return stops.map(stop => {
             const resultForThisStop = departures.find(({ id }) => stop.id === id)
             if (!resultForThisStop || !resultForThisStop.departures) {
