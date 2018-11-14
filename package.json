@@ -24,7 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "@entur/component-library": "^0.2.9",
-    "@entur/sdk": "^0.7.0",
+    "@entur/sdk": "^0.8.2",
     "connect-history-api-fallback": "^1.5.0",
     "koa-connect": "^2.0.1",
     "lodash.debounce": "^4.0.8",

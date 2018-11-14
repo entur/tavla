@@ -53,7 +53,7 @@ class SelectionPanelSearch extends React.Component {
 
         service.getStopPlacesByPosition(coordinates, 10).then(stop => {
             if (stop.length === 0) return
-            service.getStopPlaceDepartures(stop[0].id, { onForBoarding: true, departures: 50 })
+            service.getStopPlaceDepartures(stop[0].id, { includeNonBoarding: true, departures: 50 })
                 .then(departures => {
                     const updatedStop = {
                         ...stop[0],

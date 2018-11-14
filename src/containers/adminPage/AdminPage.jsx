@@ -94,7 +94,7 @@ class AdminPage extends React.Component {
             const { newStops } = getSettingsFromUrl()
             const hashedStops = newStops.map(stopId => {
                 return service.getStopPlace(stopId).then(stop => {
-                    return service.getStopPlaceDepartures(stopId, { onForBoarding: true, departures: 50 })
+                    return service.getStopPlaceDepartures(stopId, { includeNonBoarding: true, departures: 50 })
                         .then(departures => {
                             return {
                                 ...stop,
