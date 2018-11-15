@@ -51,6 +51,8 @@ module.exports = (env) => {
             ],
         },
         serve: {
+            port: 9090,
+            open: true,
             historyApiFallback: true,
             hotClient: true,
             add: (app) => {
