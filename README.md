@@ -5,7 +5,7 @@ Gå til [tavla.en-tur.no](https://tavla.en-tur.no) for å sette opp din egen tav
 ## Bidra
 
 Finner du noe som kan forbedres eller ønsker du å lage ditt eget design? Bidra gjerne ved å sende en pull request.
-Disse instruksjonene skal få deg opp og kjøre med prosjeketet på din lokale maskin, for utvikling og testing.
+Disse instruksjonene skal få deg opp og kjøre med prosjektet på din lokale maskin, for utvikling og testing.
 
 ### Avhengigheter
 
