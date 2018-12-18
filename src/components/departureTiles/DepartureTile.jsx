@@ -23,7 +23,7 @@ const DepartureTile = ({
                     {
                         transportHeaderIcons.map((Icon, index) => {
                             return (
-                                <div className="stop-header--icon" key={ index }><Icon height={ 32 } width={ 32 } color={ color } /></div>
+                                <div className="stop-header--icon" key={ index }><Icon height={ 30 } width={ 30 } color={ color } /></div>
                             )
                         })
                     }
