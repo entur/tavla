@@ -7,7 +7,7 @@ import {
 } from 'react-accessible-accordion'
 import { SlideSwitch, Checkbox } from '@entur/component-library'
 import SelectionPanelSearch from './searchPanels/SelectionPanelSearch.jsx'
-import { getIcon } from '../../utils'
+import { getIcon, getIconColor } from '../../utils'
 import './styles.scss'
 
 class SelectionPanel extends Component {
@@ -82,12 +82,16 @@ class SelectionPanel extends Component {
                                                         <tbody>
                                                             { departures.map(({ route, type }, i) => {
                                                                 const isVisible = !onCheck(route, 'routes')
+                                                                const Icon = getIcon(type)
+                                                                const iconColor = getIconColor(type)
                                                                 return (
                                                                     <tr
                                                                         className="admin-route-row"
                                                                         key={i}
                                                                     >
-                                                                        <td className="admin-route-icon">{getIcon(type, { width: 28, height: 28 })}</td>
+                                                                        <td className="admin-route-icon">
+                                                                            <Icon height={ 28 } widht={ 28 } color={ iconColor } />
+                                                                        </td>
                                                                         <td className="admin-route-title">{route}</td>
                                                                         <td>
                                                                             <SlideSwitch
