@@ -1,6 +1,6 @@
 import React from 'react'
 import { SlideSwitch } from '@entur/component-library'
-import { getIcon } from '../../../utils'
+import { getIcon, getIconColor } from '../../../utils'
 
 class TransportRow extends React.Component {
     state = {
@@ -45,14 +45,16 @@ class TransportRow extends React.Component {
 
     render() {
         const { mode, index } = this.props
+        const Icon = getIcon(mode)
+        const iconColor = getIconColor(mode)
 
         return (
             <div className="mode-sort-row">
                 <div className="sort-button-item" key={index}>
                     <div
-                        className="mode-sort-button"
+                        className="mode-sort-button mode-sort-icon"
                     >
-                        { getIcon(mode, { height: 35, width: 35, className: 'mode-sort-icon' }) }
+                        <Icon height={ 24 } width={ 24 } color={ iconColor }/>
                     </div>
                     <p className="mode-sort-text">{this.getTransportModeTitle(mode)}</p>
                 </div>

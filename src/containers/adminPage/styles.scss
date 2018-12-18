@@ -131,14 +131,12 @@
 }
 
 .mode-sort-button {
-    height: 50px;
     border: 0;
     background-color: inherit;
     margin-left: -10px;
 }
 
 .mode-sort-text {
-    height: 23px;
     color: $white;
     font-family: $base-font-family;
     font-size: 15px;
@@ -172,12 +170,12 @@
 
 .sort-button-item {
     display: flex;
+    align-items: center;
     flex-direction: row;
     width: 100%;
 }
 
 .mode-sort-icon {
-    margin-top: 6px;
     margin-right: 10px;
     margin-left: 6px;
 }
