@@ -1,28 +1,52 @@
 import React from 'react'
 import moment from 'moment'
+
 import {
-    Bus, CityBike, Ferry, Lock, Metro, Train, Tram,
-} from './assets/icons'
+    BicycleIcon, BusIcon, FerryIcon, SubwayIcon, TrainIcon, TramIcon,
+} from '@entur/component-library'
+
+import { Lock } from './assets/icons'
 
 import { DEFAULT_DISTANCE } from './constants'
 import service from './service'
 
-export function getIcon(type, props) {
+export function getIcon(type) {
     switch (type) {
         case 'bus':
-            return <Bus {...props} />
+            return BusIcon
         case 'bike':
-            return <CityBike {...props} />
+            return BicycleIcon
         case 'water':
-            return <Ferry {...props} />
+            return FerryIcon
         case 'metro':
-            return <Metro {...props} />
+            return SubwayIcon
         case 'rail':
-            return <Train {...props} />
+            return TrainIcon
         case 'tram':
-            return <Tram {...props} />
+            return TramIcon
         case 'lock':
-            return <Lock {...props} />
+            return Lock
+        default:
+            return null
+    }
+}
+
+export function getIconColor(type) {
+    switch (type) {
+        case 'bus':
+            return '#FF5974'
+        case 'bike':
+            return '#FF5959'
+        case 'water':
+            return '#6FDFFF'
+        case 'metro':
+            return '#F08901'
+        case 'rail':
+            return '#42A5F5'
+        case 'tram':
+            return '#A476E5'
+        case 'lock':
+            return '#FF5959'
         default:
             return null
     }
@@ -64,21 +88,11 @@ export function getTransportModesByStop(stop) {
     return [...new Set([].concat(...dep))]
 }
 
-export function getTransportHeaderIcon(departures, dimensions, color, hiddenModes) {
+export function getTransportHeaderIcons(departures, hiddenModes) {
     const transportModes = getTransportModes(departures).filter(f => !hiddenModes.includes(f))
-    const transportHeaderIconColor = '#9BA4D2'
-    if (!dimensions) {
-        return transportModes.map((mode, index) => (
-            getIcon(mode, {
-                height, width, transportHeaderIconColor, key: index,
-            })
-        ))
-    }
-    const { height, width } = dimensions
-    return transportModes.map((mode, index) => (
-        getIcon(mode, {
-            height, color: transportHeaderIconColor, width, key: index,
-        })
+
+    return transportModes.map((mode) => (
+        getIcon(mode)
     ))
 }
 
