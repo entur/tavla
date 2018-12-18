@@ -38,11 +38,13 @@ class SelectionPanel extends Component {
                                 <div className="selection-panel-title">Stoppesteder</div>
                                 <div className="checkbox-container-check-all">
                                     <Checkbox
-                                        checked={this.state.checked}
+                                        id="check-all-stop-places"
+                                        name="check-all-stop-places"
+                                        label="Velg alle"
                                         onChange={this.onChange}
+                                        checked={this.state.checked}
                                         className="entur-radio-checkbox--squared"
                                     />
-                                    <p>Velg alle</p>
                                 </div>
                             </div>}
                             {
@@ -58,6 +60,7 @@ class SelectionPanel extends Component {
                                                     className="entur-radio-checkbox--round"
                                                     checked={isChecked}
                                                     onChange={() => updateHiddenList(id, 'stops')}
+                                                    variant="midnight"
                                                 />
                                             </div>
                                             <AccordionItem
