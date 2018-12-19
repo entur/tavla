@@ -90,7 +90,7 @@ class SelectionPanel extends Component {
                                                                         key={i}
                                                                     >
                                                                         <td className="admin-route-icon">
-                                                                            <Icon height={ 28 } widht={ 28 } color={ iconColor } />
+                                                                            <Icon height={ 28 } width={ 28 } color={ iconColor } />
                                                                         </td>
                                                                         <td className="admin-route-title">{route}</td>
                                                                         <td>
