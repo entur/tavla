@@ -119,9 +119,10 @@ export function transformDepartureToLineData(departure) {
     const { line } = serviceJourney.journeyPattern
     const departureTime = moment(expectedDepartureTime)
     const minDiff = departureTime.diff(moment(), 'minutes')
+    const transportMode = line.transportMode === 'coach' ? 'bus' : line.transportMode
 
     return {
-        type: line.transportMode,
+        type: transportMode,
         time: formatDeparture(minDiff, departureTime),
         route: line.publicCode + ' '+ destinationDisplay.frontText,
     }
