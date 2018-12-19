@@ -46,17 +46,11 @@ class SelectionPanelSearch extends React.Component {
     };
 
     onSuggestionSelected = (event, { suggestion }) => {
-        const coordinates = {
-            latitude: suggestion.coordinates.lat,
-            longitude: suggestion.coordinates.lon,
-        }
-
-        service.getStopPlacesByPosition(coordinates, 10).then(stop => {
-            if (stop.length === 0) return
-            service.getStopPlaceDepartures(stop[0].id, { includeNonBoarding: true, departures: 50 })
+        service.getStopPlace(suggestion.id).then(stop => {
+            service.getStopPlaceDepartures(stop.id, { includeNonBoarding: true, departures: 50 })
                 .then(departures => {
                     const updatedStop = {
-                        ...stop[0],
+                        ...stop,
                         departures,
                     }
                     this.props.handleAddNewStop(updatedStop)
@@ -81,6 +75,7 @@ class SelectionPanelSearch extends React.Component {
                             lon: geometry.coordinates[0],
                             lat: geometry.coordinates[1],
                         },
+                        id: properties.id,
                         name: properties.name + ', ' + properties.locality,
                     }
                 })
