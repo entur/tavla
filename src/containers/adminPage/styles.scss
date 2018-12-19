@@ -82,7 +82,6 @@
 }
 
 .filter-panel {
-    padding-left: 8px;
     background-color: $primary;
     max-width: 500px;
     margin-right: 50px;
@@ -666,6 +665,7 @@
 
     .admin-container {
         margin-top: 150px;
+        overflow: auto;
     }
 
     .admin-header {
@@ -679,6 +679,7 @@
 
     .filter-panel {
         width: 100%;
+        margin-left: 32px;
     }
 
     .mode-sort-container {
