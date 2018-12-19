@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-    getIcon, groupBy, isVisible, getTransportHeaderIcon,
+    getIcon, getIconColor, groupBy, isVisible, getTransportHeaderIcons,
 } from '../../utils'
 
 const DepartureTile = ({
@@ -13,11 +13,21 @@ const DepartureTile = ({
     }
     const color = '#9BA4D2'
 
+    const transportHeaderIcons = getTransportHeaderIcons(stopPlace.departures, hiddenModes)
+
     return (
         <div className="tile-container" key={id}>
             <div className="stop-header">
                 <p className="stop-header--name">{name}</p>
-                <div className="stop-header--icons">{ getTransportHeaderIcon(stopPlace.departures, { height: 45, width: 45 }, color, hiddenModes)}</div>
+                <div className="stop-header--icons">
+                    {
+                        transportHeaderIcons.map((Icon, index) => {
+                            return (
+                                <div className="stop-header--icon" key={ index }><Icon height={ 30 } width={ 30 } color={ color } /></div>
+                            )
+                        })
+                    }
+                </div>
             </div>
             <div>
                 {
@@ -26,13 +36,16 @@ const DepartureTile = ({
                         .map((route) => {
                             const routeData = groupedDepartures[route].slice(0, 3)
                             const routeType = routeData[0].type
+                            const Icon = getIcon(routeType)
+                            const iconColor = getIconColor(routeType)
+
                             if (hiddenModes.includes(routeType)) {
                                 return null
                             }
                             return (
                                 <div key={route} className="route-wrapper">
                                     <div className="route-name">
-                                        <div className="route-icon">{getIcon(routeType, { height: 35, width: 35 })}</div>
+                                        <Icon height={ 24 } width={ 24 } color={ iconColor } className="route-icon" />
                                         <p className="route-name-text">{route}</p>
                                     </div>
                                     <div className="route-departures">

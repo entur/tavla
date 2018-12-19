@@ -7,7 +7,7 @@ import {
 } from 'react-accessible-accordion'
 import { SlideSwitch, Checkbox } from '@entur/component-library'
 import SelectionPanelSearch from './searchPanels/SelectionPanelSearch.jsx'
-import { getIcon } from '../../utils'
+import { getIcon, getIconColor } from '../../utils'
 import './styles.scss'
 
 class SelectionPanel extends Component {
@@ -38,11 +38,13 @@ class SelectionPanel extends Component {
                                 <div className="selection-panel-title">Stoppesteder</div>
                                 <div className="checkbox-container-check-all">
                                     <Checkbox
-                                        checked={this.state.checked}
+                                        id="check-all-stop-places"
+                                        name="check-all-stop-places"
+                                        label="Velg alle"
                                         onChange={this.onChange}
+                                        checked={this.state.checked}
                                         className="entur-radio-checkbox--squared"
                                     />
-                                    <p>Velg alle</p>
                                 </div>
                             </div>}
                             {
@@ -58,6 +60,7 @@ class SelectionPanel extends Component {
                                                     className="entur-radio-checkbox--round"
                                                     checked={isChecked}
                                                     onChange={() => updateHiddenList(id, 'stops')}
+                                                    variant="midnight"
                                                 />
                                             </div>
                                             <AccordionItem
@@ -79,12 +82,16 @@ class SelectionPanel extends Component {
                                                         <tbody>
                                                             { departures.map(({ route, type }, i) => {
                                                                 const isVisible = !onCheck(route, 'routes')
+                                                                const Icon = getIcon(type)
+                                                                const iconColor = getIconColor(type)
                                                                 return (
                                                                     <tr
                                                                         className="admin-route-row"
                                                                         key={i}
                                                                     >
-                                                                        <td className="admin-route-icon">{getIcon(type, { width: 28, height: 28 })}</td>
+                                                                        <td className="admin-route-icon">
+                                                                            <Icon height={ 28 } width={ 28 } color={ iconColor } />
+                                                                        </td>
                                                                         <td className="admin-route-title">{route}</td>
                                                                         <td>
                                                                             <SlideSwitch

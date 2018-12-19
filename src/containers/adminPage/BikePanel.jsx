@@ -37,11 +37,13 @@ class BikePanel extends Component {
                             <div className="selection-panel-title">Bysykler</div>
                             <div className="checkbox-container-check-all">
                                 <Checkbox
-                                    checked={this.state.checked}
-                                    onChange={this.onChange}
+                                    id="check-all-stop-places-bike"
+                                    name="check-all-stop-places-bike"
+                                    label="Velg alle"
                                     className="entur-radio-checkbox--squared"
+                                    onChange={this.onChange}
+                                    checked={this.state.checked}
                                 />
-                                <p>Velg alle</p>
                             </div>
                         </div>
                         {
@@ -59,6 +61,7 @@ class BikePanel extends Component {
                                                     checked={isChecked}
                                                     onChange={() => updateHiddenList(id, 'stations')}
                                                     className="entur-radio-checkbox--round entur-radio-checkbox--margin"
+                                                    variant="midnight"
                                                 />
                                             </div>
                                             <div className="selection-data-wrapper">

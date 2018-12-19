@@ -19,7 +19,7 @@
     color: white;
     min-width: 400px;
     max-width: 400px;
-    padding: 0 33px 15px 33px;
+    padding: 0 30px 15px 30px;
     margin: 0 25px 0 25px;
     overflow-y: scroll;
     overflow-x: auto;
@@ -43,8 +43,13 @@
 
     &--icons {
         display: flex;
-        max-height: 60px;
-        margin-top: 26px;
+        margin-top: 28px;
+        height: 40px;
+        align-items: center;
+    }
+
+    &--icon {
+        margin-left: 12px;
     }
 
     &--name {
@@ -68,9 +73,10 @@
 }
 
 .route-icon {
-    width: 30px;
+    width: 25px;
     color: $blue-60;
     margin-right: 30px;
+    height: 25px;
 }
 
 .route-departures {

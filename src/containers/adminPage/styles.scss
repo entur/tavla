@@ -2,18 +2,17 @@
 
 .admin-container {
     height: 90%;
-    width: 1310px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .header-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     height: 120px;
 
     &--data-and-clock {
-        margin-right: 30px;
+        margin-right: 8px;
     }
 }
 
@@ -21,7 +20,6 @@
     display: flex;
     flex-direction: column;
     align-content: center;
-    margin-right: 43.2rem;
 
     p {
         color: $white;
@@ -74,7 +72,7 @@
 .admin-content {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    overflow: auto;
 }
 
 .admin-footer {
@@ -84,7 +82,6 @@
 }
 
 .filter-panel {
-    padding-left: 32px;
     background-color: $primary;
     max-width: 500px;
     margin-right: 50px;
@@ -131,14 +128,12 @@
 }
 
 .mode-sort-button {
-    height: 50px;
     border: 0;
     background-color: inherit;
     margin-left: -10px;
 }
 
 .mode-sort-text {
-    height: 23px;
     color: $white;
     font-family: $base-font-family;
     font-size: 15px;
@@ -172,12 +167,12 @@
 
 .sort-button-item {
     display: flex;
+    align-items: center;
     flex-direction: row;
     width: 100%;
 }
 
 .mode-sort-icon {
-    margin-top: 6px;
     margin-right: 10px;
     margin-left: 6px;
 }
@@ -392,10 +387,11 @@
 .checkbox-container-check-all {
     display: flex;
     flex-direction: row;
+    align-items: center;
     width: 120px;
     height: 60px;
     margin-left: 52px;
-    margin-top: 20px;
+    padding-top: 20px;
 
     p {
         padding-left: 4px;
@@ -410,11 +406,15 @@
 }
 
 .entur-radio-checkbox--squared {
-    .entur-radio-checkbox__input {
+    .entur-just-radio-checkbox {
         background-color: $white;
         border: none;
         cursor: pointer;
-        margin-top: 14px;
+    }
+
+    .entur-radio-checkbox__label {
+        margin-left: 8px;
+        color: $blue-60;
     }
 }
 
@@ -429,17 +429,11 @@
 }
 
 .entur-radio-checkbox--round {
-    .entur-radio-checkbox__input {
+    .entur-just-radio-checkbox {
         border-radius: 50%;
         height: 1.5rem;
         width: 1.5rem;
         cursor: pointer;
-        background-color: #171c56;
-        background-image: url('../../assets/icons/unChecked.png');
-
-        &:checked {
-            background-image: url('../../assets/icons/check.png');
-        }
     }
 }
 
@@ -665,6 +659,7 @@
 
     .admin-container {
         margin-top: 150px;
+        overflow: auto;
     }
 
     .admin-header {
@@ -678,6 +673,7 @@
 
     .filter-panel {
         width: 100%;
+        margin-left: 32px;
     }
 
     .mode-sort-container {
