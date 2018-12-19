@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 
 import {
-    BicycleIcon, BusIcon, FerryIcon, SubwayIcon, TrainIcon, TramIcon,
+    BicycleIcon, BusIcon, FerryIcon, SubwayIcon, TrainIcon, TramIcon, COLORS,
 } from '@entur/component-library'
 
 import { Lock } from './assets/icons'
@@ -34,19 +34,17 @@ export function getIcon(type) {
 export function getIconColor(type) {
     switch (type) {
         case 'bus':
-            return '#FF5974'
+            return COLORS.BUS_MIDNIGHT
         case 'bike':
-            return '#FF5959'
+            return COLORS.BICYCLE_MIDNIGHT
         case 'water':
-            return '#6FDFFF'
+            return COLORS.FERRY_MIDNIGHT
         case 'metro':
-            return '#F08901'
+            return COLORS.SUBWAY_MIDNIGHT
         case 'rail':
-            return '#42A5F5'
+            return COLORS.TRAIN_MIDNIGHT
         case 'tram':
-            return '#A476E5'
-        case 'lock':
-            return '#FF5959'
+            return COLORS.TRAM_MIDNIGHT
         default:
             return null
     }

@@ -45,7 +45,7 @@ const DepartureTile = ({
                             return (
                                 <div key={route} className="route-wrapper">
                                     <div className="route-name">
-                                        <div className="route-icon"><Icon height={ 24 } width={ 24 } color={ iconColor } /></div>
+                                        <Icon height={ 24 } width={ 24 } color={ iconColor } className="route-icon" />
                                         <p className="route-name-text">{route}</p>
                                     </div>
                                     <div className="route-departures">
