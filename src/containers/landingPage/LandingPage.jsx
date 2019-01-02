@@ -1,7 +1,7 @@
 import React from 'react'
 import SearchPanel from '../../components/searchPanel/SearchPanel'
 import { TavlaLogo } from '../../assets/icons'
-import coverPhoto from '../../assets/images/bilde@3x-scaled.png'
+import coverPhoto from '../../assets/images/cover-photo.jpg'
 import './styles.scss'
 
 const LandingPage = ({ addLocation }) => {
