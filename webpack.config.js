@@ -42,7 +42,7 @@ module.exports = (env) => {
                     ],
                 },
                 {
-                    test: /\.(svg|png|eot|woff2?)$/,
+                    test: /\.(svg|png|jpe?g|eot|woff2?)$/,
                     loader: 'file-loader',
                     options: {
                         outputPath: 'assets/',

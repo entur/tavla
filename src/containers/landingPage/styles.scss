@@ -1,10 +1,5 @@
 @import '../../assets/styles/import.scss';
 
-img {
-    max-width: 80%;
-    height: auto;
-}
-
 .landing-page-wrapper {
     width: 100%;
     height: 100%;
@@ -47,7 +42,7 @@ img {
 }
 
 .cover-photo {
-    width: 78%;
+    height: 55%;
 }
 
 .searchPanel-subtext {
@@ -60,6 +55,13 @@ img {
     line-height: 23px;
     text-align: center;
     padding-top: 4px;
+}
+
+@media (max-width: 1280px) {
+    .cover-photo {
+        height: auto;
+        width: 90%;
+    }
 }
 
 @media (max-width: 480px) {
