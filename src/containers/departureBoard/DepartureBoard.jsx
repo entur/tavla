@@ -80,9 +80,11 @@ class DepartureBoard extends React.Component {
 
         const route = `${line.publicCode || ''} ${destinationDisplay.frontText}`.trim()
         const transportMode = line.transportMode === 'coach' ? 'bus' : line.transportMode
+        const subType = departure.serviceJourney.transportSubmode
 
         return {
             type: transportMode,
+            subType,
             time: this.formatDeparture(minDiff, departureTime),
             route,
         }
