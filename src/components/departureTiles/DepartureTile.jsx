@@ -34,10 +34,11 @@ const DepartureTile = ({
                     routes
                         .filter((route) => !hiddenRoutes.includes(route))
                         .map((route) => {
+                            const subType = groupedDepartures[route][0].subType
                             const routeData = groupedDepartures[route].slice(0, 3)
                             const routeType = routeData[0].type
                             const Icon = getIcon(routeType)
-                            const iconColor = getIconColor(routeType)
+                            const iconColor = getIconColor(routeType, subType)
 
                             if (hiddenModes.includes(routeType)) {
                                 return null
