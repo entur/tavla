@@ -12,8 +12,9 @@ import { routes } from './routes'
 
 const history = createHistory()
 history.listen((location) => {
-    analytics.set('page', location.pathname)
-    analytics.pageview(location.pathname)
+    const locationAnonymized = location.pathname.substring(0, location.pathname.indexOf('@'))
+    analytics.set('page', locationAnonymized)
+    analytics.pageview(locationAnonymized)
 })
 
 ReactDOM.render(
