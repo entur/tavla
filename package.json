@@ -34,7 +34,8 @@
     "react-autosuggest": "^9.4.1",
     "react-dom": "^16.5.2",
     "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "universal-ga": "^1.2.0"
   },
   "optionalDependencies": {
     "@entur/fonts": "git+ssh://git@bitbucket.org:enturas/entur-fonts.git#a5e1956"
