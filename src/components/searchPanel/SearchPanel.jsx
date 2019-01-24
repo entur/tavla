@@ -104,8 +104,7 @@ class SearchPanel extends React.Component {
             value: YOUR_POSITION,
             chosenCoord: position,
             hasLocation: true,
-            suggestions: [],
-            selectedLocationName: position.name,
+            selectedLocationName: YOUR_POSITION,
         })
     }
 
@@ -119,7 +118,11 @@ class SearchPanel extends React.Component {
 
     onSuggestionSelected = (event, { suggestion }) => {
         if (suggestion.name === YOUR_POSITION) {
-            this.handleGetLocation()
+            this.setState({
+                selectedLocationName: YOUR_POSITION,
+                waiting: true,
+            })
+            navigator.geolocation.getCurrentPosition(this.handleSuccessLocation, this.handleDeniedLocation)
         } else {
             this.setState({
                 chosenCoord: suggestion.coordinates,
@@ -127,13 +130,6 @@ class SearchPanel extends React.Component {
                 selectedLocationName: suggestion.name,
             })
         }
-    }
-
-    handleGetLocation = () => {
-        this.setState({
-            waiting: true,
-        })
-        navigator.geolocation.getCurrentPosition(this.handleSuccessLocation, this.handleDeniedLocation)
     }
 
     handleSuccessLocation = (data) => {
