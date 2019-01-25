@@ -31,7 +31,7 @@ function renderSuggestion(suggestion) {
 class SearchPanel extends React.Component {
     state = {
         value: '',
-        suggestions: [],
+        suggestions: [{ name: YOUR_POSITION }],
         hasLocation: false,
         waiting: false,
         showPositionInList: true,
@@ -42,9 +42,15 @@ class SearchPanel extends React.Component {
         if (!navigator || !navigator.permissions) return
         navigator.permissions.query({ name: 'geolocation' })
             .then(permission => {
+                const suggestions = this.state.suggestions.filter(s => s.name !== YOUR_POSITION)
                 if (permission.state === 'denied') {
                     this.setState({
                         showPositionInList: false,
+                        suggestions,
+                    })
+                } else {
+                    this.setState({
+                        suggestions: [{ name: YOUR_POSITION }, ...suggestions],
                     })
                 }
             })
@@ -56,6 +62,7 @@ class SearchPanel extends React.Component {
             errorMessage: undefined,
         })
     };
+
 
     onSuggestionsFetchRequested = ({ value }) => {
         if (value !== this.state.selectedLocationName) {
@@ -97,20 +104,25 @@ class SearchPanel extends React.Component {
             value: YOUR_POSITION,
             chosenCoord: position,
             hasLocation: true,
-            suggestions: [],
-            selectedLocationName: position.name,
+            selectedLocationName: YOUR_POSITION,
         })
     }
 
     onSuggestionsClearRequested = () => {
+        const { showPositionInList } = this.state
+
         this.setState({
-            suggestions: [],
+            suggestions: showPositionInList ? [{ name: YOUR_POSITION }] : [],
         })
     }
 
     onSuggestionSelected = (event, { suggestion }) => {
         if (suggestion.name === YOUR_POSITION) {
-            this.handleGetLocation()
+            this.setState({
+                selectedLocationName: YOUR_POSITION,
+                waiting: true,
+            })
+            navigator.geolocation.getCurrentPosition(this.handleSuccessLocation, this.handleDeniedLocation)
         } else {
             this.setState({
                 chosenCoord: suggestion.coordinates,
@@ -118,13 +130,6 @@ class SearchPanel extends React.Component {
                 selectedLocationName: suggestion.name,
             })
         }
-    }
-
-    handleGetLocation = () => {
-        this.setState({
-            waiting: true,
-        })
-        navigator.geolocation.getCurrentPosition(this.handleSuccessLocation, this.handleDeniedLocation)
     }
 
     handleSuccessLocation = (data) => {
@@ -193,6 +198,7 @@ class SearchPanel extends React.Component {
                         <div className="input-spinner-container">
                             <ReactAutosuggest
                                 suggestions={suggestions}
+                                shouldRenderSuggestions={() => true}
                                 onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
                                 onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                                 onSuggestionSelected={this.onSuggestionSelected}
