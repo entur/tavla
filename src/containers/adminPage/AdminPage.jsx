@@ -291,7 +291,7 @@ class AdminPage extends React.Component {
         } = this.state
         const { isHidden, updateHiddenList } = this
         return (
-            <div className="admin-container">
+            <div className="admin-container main-container">
                 <AdminHeader
                     goBackToDashboard={this.goBackToDashboard}
                 />

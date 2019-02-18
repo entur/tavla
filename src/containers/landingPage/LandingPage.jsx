@@ -4,7 +4,7 @@ import { TavlaLogo } from '../../assets/icons'
 import coverPhoto from '../../assets/images/cover-photo.jpg'
 import './styles.scss'
 
-const LandingPage = ({ addLocation }) => {
+const LandingPage = ({ addLocation, goToPrivacy }) => {
     return (
         <div className="landing-page-wrapper">
             <div className="title-container">
@@ -14,8 +14,10 @@ const LandingPage = ({ addLocation }) => {
             <div className="content-container">
                 <SearchPanel handleCoordinatesSelected={addLocation}/>
                 <p className="searchPanel-subtext">For å opprette en tavle trenger vi å vite hvilket område du er interessert i.</p>
-                <img src={coverPhoto} className="cover-photo"/>
+                <img src={coverPhoto} className="cover-photo" alt="Bilde av folk og kollektivtrafikk i landskap" />
             </div>
+
+            <button className="privacy-button" onClick={ goToPrivacy }>Personvern</button>
         </div>
     )
 }
