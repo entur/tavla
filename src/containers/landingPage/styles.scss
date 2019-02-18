@@ -57,6 +57,17 @@
     padding-top: 4px;
 }
 
+.privacy-button {
+    border: none;
+    color: $primary;
+    cursor: pointer;
+    float: right;
+    font-size: 1rem;
+    margin-right: 4rem;
+    margin-top: 1rem;
+    text-decoration: underline;
+}
+
 @media (max-width: 1280px) {
     .cover-photo {
         height: auto;
