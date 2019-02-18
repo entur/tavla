@@ -11,9 +11,13 @@ class App extends React.Component {
         this.props.history.push(`/dashboard/@${pos}/`)
     }
 
+    goToPrivacy = () => {
+        this.props.history.push('/privacy')
+    }
+
     render() {
         return (
-            <LandingPage addLocation={this.addLocation}/>
+            <LandingPage addLocation={this.addLocation} goToPrivacy={ this.goToPrivacy }/>
         )
     }
 }
