@@ -1,0 +1,39 @@
+@import '../../assets/styles/import.scss';
+
+.privacy-header {
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    height: 12rem;
+    padding-top: 2rem;
+
+    h1 {
+        color: $white;
+        font-size: 32px;
+    }
+
+    &--back-button {
+        cursor: pointer;
+    }
+}
+
+.privacy {
+    color: $primary;
+    background-color: $white;
+    padding: 2% 5%;
+    height: calc(100% - 12rem);
+    overflow: auto;
+
+    h2 {
+        font-size: 18px;
+    }
+
+    h3 {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}
