@@ -187,7 +187,7 @@ class DepartureBoard extends React.Component {
         const noStops = (visibleStopCount + visibleStationCount) === 0
 
         return (
-            <div>
+            <div className="main-container">
                 <Header />
                 {(noStops && !initialLoading)
                     ? this.renderNoStopsInfo()

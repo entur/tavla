@@ -16,7 +16,7 @@ analytics.set('page', window.location.pathname)
 analytics.pageview(window.location.pathname)
 
 const Layout = ({ children }) => (
-    <div className="main-container">
+    <div>
         {children}
     </div>
 )
