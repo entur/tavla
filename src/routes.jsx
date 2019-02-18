@@ -6,6 +6,7 @@ import analytics from 'universal-ga'
 import './main.scss'
 import DepartureBoard from './containers/departureBoard/DepartureBoard'
 import AdminPage from './containers/adminPage/AdminPage'
+import Privacy from './containers/privacy/Privacy'
 import App from './containers/App'
 
 analytics.initialize('UA-108877193-6')
@@ -27,6 +28,7 @@ export const routes = (
             <Layout>
                 <Route path="/dashboard" component={DepartureBoard} />
                 <Route path="/admin" component={AdminPage} />
+                <Route path="/privacy" component={Privacy} />
             </Layout>
             <Redirect to="/" />
         </Switch>
