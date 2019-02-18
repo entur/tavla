@@ -14,7 +14,7 @@ const LandingPage = ({ addLocation, goToPrivacy }) => {
             <div className="content-container">
                 <SearchPanel handleCoordinatesSelected={addLocation}/>
                 <p className="searchPanel-subtext">For å opprette en tavle trenger vi å vite hvilket område du er interessert i.</p>
-                <img src={coverPhoto} className="cover-photo"/>
+                <img src={coverPhoto} className="cover-photo" alt="Bilde av folk og kollektivtrafikk i landskap" />
             </div>
 
             <button className="privacy-button" onClick={ goToPrivacy }>Personvern</button>
