@@ -5,7 +5,7 @@ import { TavlaLogo } from '../../assets/icons'
 import coverPhoto from '../../assets/images/cover-photo.jpg'
 import './styles.scss'
 
-const LandingPage = ({ addLocation, goToPrivacy }) => {
+const LandingPage = ({ addLocation }) => {
     return (
         <div className="landing-page-wrapper">
             <div className="title-container">
