@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import {
     Accordion,
     AccordionItem,
-    AccordionItemTitle,
-    AccordionItemBody,
+    AccordionItemHeading,
+    AccordionItemButton,
+    AccordionItemPanel,
 } from 'react-accessible-accordion'
 import { SlideSwitch, Checkbox } from '@entur/component-library'
 import SelectionPanelSearch from './searchPanels/SelectionPanelSearch.jsx'
@@ -53,7 +54,7 @@ class SelectionPanel extends Component {
                                 }, index) => {
                                     const isChecked = !onCheck(id, 'stops')
                                     return (
-                                        <Accordion className="selection-row" accordion="true" key={index}>
+                                        <Accordion className="selection-row" key={index} allowZeroExpanded>
                                             <div className="checkbox-container">
                                                 <Checkbox
                                                     id={id}
@@ -67,17 +68,19 @@ class SelectionPanel extends Component {
                                                 className="selection-data-wrapper"
                                                 key={id}
                                             >
-                                                <AccordionItemTitle className="selection-data-container stop-place-container">
-                                                    <div className="stop-place-title">
-                                                        {name}
-                                                    </div>
-                                                    <div className="show-button">
-                                                        <p className="show-button--text">Endre</p>
-                                                        <div className="accordion__arrow" role="presentation" />
-                                                    </div>
-                                                </AccordionItemTitle>
+                                                <AccordionItemHeading>
+                                                    <AccordionItemButton className="selection-data-container stop-place-container">
+                                                        <div className="stop-place-title">
+                                                            {name}
+                                                        </div>
+                                                        <div className="show-button">
+                                                            <p className="show-button--text">Endre</p>
+                                                            <div className="accordion__arrow" role="presentation" />
+                                                        </div>
+                                                    </AccordionItemButton>
+                                                </AccordionItemHeading>
                                                 <div className="selection-data-wrapper--border" />
-                                                <AccordionItemBody>
+                                                <AccordionItemPanel>
                                                     <table className="admin-route-table">
                                                         <tbody>
                                                             { departures.map(({ route, type }, i) => {
@@ -107,7 +110,7 @@ class SelectionPanel extends Component {
                                                             }) }
                                                         </tbody>
                                                     </table>
-                                                </AccordionItemBody>
+                                                </AccordionItemPanel>
                                             </AccordionItem>
                                         </Accordion>
                                     )

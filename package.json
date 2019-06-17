@@ -12,7 +12,7 @@
     "eslint": "eslint src --ext 'js,jsx'",
     "stylelint": "stylelint src/**/*.scss",
     "lint": "npm run eslint && npm run stylelint",
-    "start": "webpack-serve",
+    "start": "wp --config webpack.config.js",
     "clean": "rm -rf dist/",
     "build": "npm run clean && webpack --mode production --env prod",
     "build:staging": "npm run clean && webpack --mode production --env staging",
@@ -30,7 +30,7 @@
     "lodash.debounce": "^4.0.8",
     "moment": "^2.24.0",
     "react": "^16.8.6",
-    "react-accessible-accordion": "^2.4.5",
+    "react-accessible-accordion": "^3.0.0",
     "react-autosuggest": "^9.4.3",
     "react-dom": "^16.8.6",
     "react-router": "^4.3.1",
@@ -65,6 +65,8 @@
     "stylelint-config-standard": "^18.3.0",
     "webpack": "^4.34.0",
     "webpack-cli": "^3.3.4",
+    "webpack-nano": "^0.6.2",
+    "webpack-plugin-serve": "^0.11.0",
     "webpack-serve": "^3.1.0"
   }
 }

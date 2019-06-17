@@ -512,21 +512,16 @@
     }
 }
 
-.accordion__body {
+.accordion__panel {
     padding: 0 -10px 5px -10px;
-    display: block;
     animation: fadein 0.35s ease-in;
     margin: 0 0 0 -93px;
 }
 
-.accordion__body--hidden {
+.accordion__panel--hidden {
     display: none;
     opacity: 0;
     animation: fadein 0.35s ease-in;
-}
-
-.accordion__title {
-    margin-top: 40px;
 }
 
 .accordion__arrow {
