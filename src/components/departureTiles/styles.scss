@@ -20,7 +20,7 @@
     min-width: 400px;
     max-width: 400px;
     padding: 0 30px 15px 30px;
-    margin: 0 25px 0 25px;
+    margin: 0 1rem;
     overflow-y: scroll;
     overflow-x: auto;
     height: fit-content;
@@ -39,7 +39,6 @@
     display: flex;
     justify-content: space-between;
     height: 90px;
-    width: 334px;
 
     &--icons {
         display: flex;
@@ -139,16 +138,20 @@
     }
 }
 
+@media (max-width: 1200px) {
+    .tile-container {
+        margin: 0 0.5rem;
+        min-width: 300px;
+    }
+}
+
 @media (max-width: 480px) {
     .tile-container {
-        display: flex;
-        flex-direction: column;
-        background-color: $blue-10;
-        color: white;
-        height: fit-content;
-        align-self: center;
-        width: 100%;
-        margin-bottom: 30px;
+        display: block;
+        margin-bottom: 2rem;
+        max-width: unset;
+        min-width: unset;
+        padding: 0 1rem;
     }
 
     .departure-board {
