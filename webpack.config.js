@@ -1,16 +1,20 @@
 const config = require('dotenv').config
 const path = require('path')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
-const history = require('connect-history-api-fallback')
-const convert = require('koa-connect')
+const { WebpackPluginServe: Serve } = require('webpack-plugin-serve')
+
+const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 
 module.exports = (env) => {
     config({ path: path.join(__dirname, `.env.${typeof env === 'string' ? env : 'prod'}`) })
     return {
         mode: 'development',
-        entry: './src/main.jsx',
+        entry: [
+            './src/main.jsx',
+            'webpack-plugin-serve/client',
+        ],
         output: {
-            path: path.resolve(__dirname, 'dist'),
+            path: OUTPUT_PATH,
             filename: 'bundle.[hash].js',
             publicPath: '/',
         },
@@ -24,6 +28,9 @@ module.exports = (env) => {
                     exclude: /node_modules|sdk/,
                     use: {
                         loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env'],
+                        },
                     },
                 },
                 {
@@ -50,23 +57,20 @@ module.exports = (env) => {
                 },
             ],
         },
-        serve: {
-            port: 9090,
-            open: true,
-            historyApiFallback: true,
-            hotClient: true,
-            add: (app) => {
-                app.use(convert(history({
-                    verbose: true,
-                })))
-            },
-        },
         plugins: [
             new HtmlWebPackPlugin({
                 template: 'src/index.html',
                 filename: 'index.html',
                 favicon: 'src/assets/images/logo.png',
             }),
+            new Serve({
+                open: true,
+                host: 'localhost',
+                port: 9090,
+                static: OUTPUT_PATH,
+                historyFallback: true,
+            }),
         ],
+        watch: typeof env !== 'string',
     }
 }

@@ -12,7 +12,7 @@
     font-size: 16px;
     font-weight: 500;
     font-family: $base-font-family;
-    color: $primary;
+    color: $blue;
     border: none;
     border-bottom: 2px solid $blue-40;
     line-height: 23px;
@@ -47,7 +47,7 @@
     background-color: $grey-40;
     font-weight: 500;
     font-size: 0.9rem;
-    color: $primary;
+    color: $blue;
     z-index: 2;
 }
 
@@ -137,7 +137,7 @@
 }
 
 .landing-button--location-true {
-    background: $primary;
+    background: $blue;
     cursor: pointer;
 
     &:focus {
@@ -151,7 +151,7 @@
 }
 
 .landing-button--location-false {
-    background-color: $primary;
+    background-color: $blue;
     cursor: default;
     outline: none;
     opacity: 0.5;

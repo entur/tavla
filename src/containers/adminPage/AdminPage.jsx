@@ -1,5 +1,7 @@
 import React from 'react'
 import debounce from 'lodash.debounce'
+import { Button } from '@entur/component-library'
+
 import SelectionPanel from './SelectionPanel'
 import BikePanel from './BikePanel'
 import FilterPanel from './filterPanel/FilterPanel'
@@ -325,9 +327,9 @@ class AdminPage extends React.Component {
                     />
                 </div>
                 <div className="update-button-container">
-                    <button className="update-button" onClick={this.updateAndGoToDashboard}>
-                            Oppdater tavle
-                    </button>
+                    <Button variant="secondary" onClick={this.updateAndGoToDashboard}>
+                        Oppdater tavle
+                    </Button>
                 </div>
             </div>
         )

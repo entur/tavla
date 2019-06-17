@@ -48,27 +48,6 @@
     margin-top: 3rem;
 }
 
-.update-button {
-    height: 46px;
-    width: 150px;
-    background-color: $secondary;
-    color: $primary;
-    font-family: $base-font-family;
-    font-size: 15px;
-    font-weight: 500;
-    text-align: center;
-    border: 1px;
-
-    &:hover {
-        cursor: pointer;
-    }
-
-    &:focus {
-        outline: none;
-        box-shadow: 0 0 8px 0 #50e3c2;
-    }
-}
-
 .admin-content {
     display: flex;
     flex-direction: row;
@@ -82,7 +61,7 @@
 }
 
 .filter-panel {
-    background-color: $primary;
+    background-color: $blue;
     max-width: 500px;
     margin-right: 50px;
 
@@ -512,21 +491,16 @@
     }
 }
 
-.accordion__body {
+.accordion__panel {
     padding: 0 -10px 5px -10px;
-    display: block;
     animation: fadein 0.35s ease-in;
     margin: 0 0 0 -93px;
 }
 
-.accordion__body--hidden {
+.accordion__panel--hidden {
     display: none;
     opacity: 0;
     animation: fadein 0.35s ease-in;
-}
-
-.accordion__title {
-    margin-top: 40px;
 }
 
 .accordion__arrow {
