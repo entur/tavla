@@ -1,53 +1,43 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment'
-import './styles.scss'
 import '../../components/header/styles.scss'
 import BackButton from '../../components/backButton/BackButton.jsx'
+import './styles.scss'
 
-class AdminHeader extends React.Component {
-    state = {
-        time: moment().format('HH:mm'),
-    }
+function AdminHeader(props) {
+    const [date, setDate] = useState()
+    const [time, setTime] = useState(moment().format('HH:mm'))
 
-    componentDidMount() {
-        this.timerID = setInterval(
-            () => {
-                const dateMoment = moment().locale('nb').format('dddd DD. MMMM')
-                const date = dateMoment.charAt(0).toUpperCase() + dateMoment.slice(1)
-                const time = moment().format('HH:mm')
+    const { goBackToDashboard } = props
 
-                this.setState({
-                    date,
-                    time,
-                })
-            },
-            1000
-        )
-    }
+    useEffect(() => {
+        const timerID = setInterval(() => {
+            const dateMoment = moment().locale('nb').format('dddd DD. MMMM')
+            const newDate = dateMoment.charAt(0).toUpperCase() + dateMoment.slice(1)
+            const newTime = moment().format('HH:mm')
 
-    componentWillUnmount() {
-        clearInterval(this.timerID)
-    }
+            setDate(newDate)
+            setTime(newTime)
+        }, 1000)
+        return () => clearInterval(timerID)
+    })
 
-    render() {
-        const { goBackToDashboard } = this.props
-        return (
-            <div className="header header-container">
-                <div className="admin-header">
-                    <BackButton className="admin-header--back-button" action={goBackToDashboard} />
-                    <p>Rediger tavle</p>
+    return (
+        <div className="header header-container">
+            <div className="admin-header">
+                <BackButton className="admin-header--back-button" action={goBackToDashboard} />
+                <p>Rediger tavle</p>
+            </div>
+            <div className="header-container--data-and-clock">
+                <div className="header-time">
+                    {time}
                 </div>
-                <div className="header-container--data-and-clock">
-                    <div className="header-time">
-                        {this.state.time}
-                    </div>
-                    <div className="header-date">
-                        {this.state.date}
-                    </div>
+                <div className="header-date">
+                    {date}
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default AdminHeader
