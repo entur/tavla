@@ -1,6 +1,8 @@
 import React from 'react'
 import debounce from 'lodash.debounce'
 import ReactAutosuggest from 'react-autosuggest'
+import { Button } from '@entur/component-library'
+
 import { Spinner, GeoLocation } from '../../assets/icons'
 import service from '../../service'
 import './styles.scss'
@@ -153,7 +155,8 @@ class SearchPanel extends React.Component {
         console.log('Permission denied with error: ', error) // eslint-disable-line
     }
 
-    handleGoToBoard = () => {
+    handleGoToBoard = (event) => {
+        event.preventDefault()
         const coordinates = this.state.chosenCoord
         return coordinates ? this.props.handleCoordinatesSelected(coordinates) : null
     }
@@ -176,7 +179,9 @@ class SearchPanel extends React.Component {
     }
 
     render() {
-        const { value, suggestions, errorMessage } = this.state
+        const {
+            value, suggestions, errorMessage, hasLocation,
+        } = this.state
         const inputProps = {
             placeholder: 'Adresse eller sted',
             value,
@@ -188,13 +193,11 @@ class SearchPanel extends React.Component {
             },
         }
 
-        const btnClass = !this.state.hasLocation ? 'landing-button--location-false' : 'landing-button--location-true'
-
         return (
-            <React.Fragment>
+            <form className="search-panel" onSubmit={this.handleGoToBoard}>
                 <div className="search-container">
                     <div className="input-container">
-                        <p className="searchPanel-label">Område</p>
+                        <span className="searchPanel-label">Område</span>
                         <div className="input-spinner-container">
                             <ReactAutosuggest
                                 suggestions={suggestions}
@@ -209,12 +212,12 @@ class SearchPanel extends React.Component {
                             {this.state.waiting && this.renderSpinner()}
                         </div>
                     </div>
-                    <button className={'landing-button ' + btnClass} onClick={this.handleGoToBoard}>
-                    Opprett tavle
-                    </button>
+                    <Button className="search-panel__submit-button" type="submit" disabled={!hasLocation}>
+                        Opprett tavle
+                    </Button>
                 </div>
                 { errorMessage && <p role="alert" style={{ color: 'red' }}>{ errorMessage }</p> }
-            </React.Fragment>
+            </form>
         )
     }
 }

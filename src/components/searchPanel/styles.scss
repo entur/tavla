@@ -1,5 +1,9 @@
 @import '../../assets/styles/import.scss';
 
+.search-panel {
+    width: 100%;
+}
+
 .react-autosuggest__container {
     position: relative;
     width: 100%;
@@ -83,16 +87,8 @@
 }
 
 .input-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    width: 100%;
-    max-width: 350px;
     margin-right: 0.25rem;
-    position: relative;
-    font-size: 0.8rem;
-    color: $blue-30;
+    min-width: 300px;
 }
 
 .input-spinner-container {
@@ -116,46 +112,6 @@
     right: 14px;
     top: 14px;
     opacity: 0.3;
-}
-
-.landing-button {
-    border-radius: 1px;
-    display: inline-block;
-    border: none;
-    text-decoration: none;
-    font-size: 16px;
-    text-align: center;
-    font-family: $base-font-family;
-    font-weight: 400;
-    -webkit-appearance: none;
-    height: 46px;
-    width: 182px;
-    max-width: 350px;
-    min-width: 130px;
-    margin-left: 15px;
-    color: #fff;
-}
-
-.landing-button--location-true {
-    background: $blue;
-    cursor: pointer;
-
-    &:focus {
-        outline-offset: -1px;
-        outline: 4px auto $focus;
-    }
-
-    &:hover {
-        background: $blue-20;
-    }
-}
-
-.landing-button--location-false {
-    background-color: $blue;
-    cursor: default;
-    outline: none;
-    opacity: 0.5;
-    color: rgba(255, 255, 255, 0.3);
 }
 
 .spinner-container {
@@ -183,16 +139,28 @@
 }
 
 @media (max-width: 480px) {
-    .search-container {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+    .search-panel {
+        &__submit-button {
+            width: 90%;
+        }
 
-    .landing-button {
-        margin: 2%;
-        margin-right: 10px;
-        width: 100%;
+        .search-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .landing-button {
+            margin: 2%;
+            margin-right: 10px;
+            width: 100%;
+        }
+
+        .input-container {
+            margin-bottom: 0.5rem;
+            min-width: unset;
+            width: 90%;
+        }
     }
 }
