@@ -18,10 +18,8 @@ history.listen((location) => {
 })
 
 ReactDOM.render(
-    <div className="app">
-        <Router history={ history }>
-            { routes }
-        </Router>
-    </div>,
+    <Router history={ history }>
+        { routes }
+    </Router>,
     document.getElementById('app')
 )

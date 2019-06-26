@@ -1,14 +1,23 @@
 import React from 'react'
-import './styles.scss'
-import BackButton from '../backButton/BackButton.jsx'
+import PropTypes from 'prop-types'
 
-const Footer = ({ settingsButton, history }) => (
-    <div className="footer-container">
-        <BackButton className="footer-back-button" action={() => history.push('/')}/>
-        <div className="settings-wrapper">
-            <div className="settings--button">{settingsButton}</div>
-        </div>
-    </div>
-)
+import BackButton from '../backButton/BackButton'
+import SettingsButton from '../settingsButton/SettingsButton'
+
+import './styles.scss'
+
+function Footer({ history, onSettingsButtonClick }) {
+    return (
+        <footer className="footer-container">
+            <BackButton className="footer-back-button" action={() => history.push('/')}/>
+            <SettingsButton onClick={onSettingsButtonClick} />
+        </footer>
+    )
+}
+
+Footer.propTypes = {
+    history: PropTypes.object,
+    onSettingsButtonClick: PropTypes.func,
+}
 
 export default Footer

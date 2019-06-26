@@ -11,7 +11,6 @@ import {
     sortLists,
 } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
-import Settings from '../../assets/icons/settings/settings.js'
 import errorImage from '../../assets/images/noStops.png'
 import service from '../../service'
 
@@ -154,20 +153,10 @@ class DepartureBoard extends React.Component {
         clearInterval(this.updateInterval)
     }
 
-    onSettingsButton = (event) => {
+    onSettingsButtonClick = (event) => {
         const path = window.location.pathname.split('@')[1]
         this.props.history.push(`/admin/@${path}`)
         event.preventDefault()
-    }
-
-    renderAdminButton = () => {
-        return (
-            <div>
-                <button className="settings-button" onClick={(event) => this.onSettingsButton(event)} >
-                    <Settings height={20} width={20}/>
-                </button>
-            </div>
-        )
     }
 
     renderNoStopsInfo = () => (
@@ -191,15 +180,18 @@ class DepartureBoard extends React.Component {
                 <Header />
                 {(noStops && !initialLoading)
                     ? this.renderNoStopsInfo()
-                    : <div>
+                    : (
                         <div className="departure-board">
                             <div className="departure-tiles">
                                 {visibleStopCount > 0 ? <DepartureTiles lineData={stopsData} visible={{ hiddenStops, hiddenRoutes, hiddenModes }}/> : null}
                                 {visibleStationCount > 0 ? <BikeTable stationData={stationData} visible={{ hiddenStations, hiddenModes }} /> : null}
                             </div>
                         </div>
-                    </div>}
-                <Footer settingsButton={this.renderAdminButton()} history={this.props.history}/>
+                    )}
+                <Footer
+                    history={this.props.history}
+                    onSettingsButtonClick={this.onSettingsButtonClick}
+                />
             </div>
         )
     }

@@ -24,23 +24,16 @@
     padding: 0.5rem 1rem;
 }
 
-.settings-button {
-    border: 0;
-    padding: 0;
-    background-color: inherit;
+#app {
+    footer {
+        display: none;
+    }
 
     &:hover {
-        cursor: pointer;
+        footer {
+            display: flex;
+        }
     }
-}
-
-.no-stops .settings-button {
-    display: block;
-}
-
-.settings-button:hover,
-.app:hover .settings-button {
-    display: block;
 }
 
 .button-wrap {
@@ -68,17 +61,6 @@
     }
 }
 
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-    .settings-button {
-        margin: 2%;
-    }
-
-    .settings-button svg {
-        height: 35;
-        width: 35;
-    }
-}
-
 @media (max-width: 480px) {
     .departure-tiles {
         display: block;
@@ -86,15 +68,5 @@
 
     .departure-board {
         margin-top: 5%;
-    }
-
-    .settings-button {
-        margin: 2%;
-        padding-bottom: 20px;
-    }
-
-    .settings-button svg {
-        height: 26px;
-        width: 26px;
     }
 }
