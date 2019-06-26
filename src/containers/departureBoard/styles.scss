@@ -81,9 +81,7 @@
 
 @media (max-width: 480px) {
     .departure-tiles {
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
+        display: block;
     }
 
     .departure-board {
