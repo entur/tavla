@@ -8,7 +8,7 @@ import {
 } from 'react-accessible-accordion'
 import { SlideSwitch, Checkbox } from '@entur/component-library'
 import SelectionPanelSearch from './searchPanels/SelectionPanelSearch.jsx'
-import { getIcon, getIconColor } from '../../utils'
+import { getIcon, getIconColor, getCombinedStopPlaceAndRouteId } from '../../utils'
 import './styles.scss'
 
 function SelectionPanel(props) {
@@ -80,7 +80,7 @@ function SelectionPanel(props) {
                                                 <table className="admin-route-table">
                                                     <tbody>
                                                         { departures.map(({ route, type }, i) => {
-                                                            const isVisible = !onCheck(route, 'routes')
+                                                            const isVisible = !onCheck(getCombinedStopPlaceAndRouteId(id, route), 'routes')
                                                             const Icon = getIcon(type)
                                                             const iconColor = getIconColor(type)
                                                             return (
@@ -97,7 +97,10 @@ function SelectionPanel(props) {
                                                                             key={i}
                                                                             id="SlideSwitch"
                                                                             className="mode-sort-slide-switch-stops"
-                                                                            onChange={() => { updateHiddenList(route, 'routes') }}
+                                                                            onChange={() => {
+                                                                                const comboId = getCombinedStopPlaceAndRouteId(id, route)
+                                                                                updateHiddenList(comboId, 'routes')
+                                                                            }}
                                                                             checked={isVisible}
                                                                         />
                                                                     </td>
