@@ -3,9 +3,10 @@
 .footer-container {
     width: 90%;
     height: 80px;
-    align-content: center;
-    bottom: 0;
-    padding-left: 20px;
+    align-items: center;
+    bottom: 3rem;
+    justify-content: space-between;
+    flex-direction: row;
     position: fixed;
     background-color: $blue;
     display: flex;
@@ -13,23 +14,6 @@
 
 .settings-wrapper {
     margin-left: auto;
-    display: none;
-}
-
-.footer-back-button {
-    display: none;
-}
-
-.app:hover {
-    .settings-wrapper,
-    .footer-back-button {
-        display: block;
-        cursor: pointer;
-    }
-
-    .footer-container {
-        display: flex;
-    }
 }
 
 @media (max-height: 900px) {
@@ -46,6 +30,7 @@
 
 @media (max-width: 480px) {
     .footer-container {
+        bottom: 0;
         position: sticky;
         padding: 10px 2% 0 10px;
         width: 100%;

@@ -3,6 +3,11 @@
 .back-button {
     background-color: $blue;
     border: none;
-    margin-right: auto;
-    margin-bottom: 2rem;
+    color: $coral;
+    cursor: pointer;
+    padding: 1rem;
+
+    &:hover {
+        color: lighten($coral, 10%);
+    }
 }
