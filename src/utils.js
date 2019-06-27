@@ -293,3 +293,7 @@ export function updateHiddenListAndHash(clickedId, state, hiddenType) {
             return { hiddenLists, hashedState }
     }
 }
+
+export function getCombinedStopPlaceAndRouteId(stopPlaceId, routeName) {
+    return `${stopPlaceId}$${routeName}`
+}

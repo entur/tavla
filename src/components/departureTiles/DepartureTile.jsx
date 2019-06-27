@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-    getIcon, getIconColor, groupBy, isVisible, getTransportHeaderIcons,
+    getIcon, getIconColor, groupBy, isVisible, getTransportHeaderIcons, getCombinedStopPlaceAndRouteId,
 } from '../../utils'
 
 const DepartureTile = ({
@@ -32,7 +32,10 @@ const DepartureTile = ({
             <div>
                 {
                     routes
-                        .filter((route) => !hiddenRoutes.includes(route))
+                        .filter((route) => (
+                            !hiddenRoutes.includes(route)
+                            && !hiddenRoutes.some(hiddenRoute => hiddenRoute.includes(getCombinedStopPlaceAndRouteId(stopPlace.id, route)))
+                        ))
                         .map((route) => {
                             const subType = groupedDepartures[route][0].subType
                             const routeData = groupedDepartures[route].slice(0, 3)
