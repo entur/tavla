@@ -9,6 +9,7 @@ const DepartureTiles = ({ lineData, visible }) => {
         lineData
             .filter(({ departures }) => departures.length > 0)
             .filter(({ id }) => !hiddenStops.includes(id))
+            .sort((a, b) => a.name.localeCompare(b.name, 'no'))
             .map((stop, index) => {
                 const groupedDepartures = groupBy(stop.departures, 'route')
                 const routes = Object.keys(groupedDepartures)
