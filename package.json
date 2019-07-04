@@ -18,7 +18,9 @@
     "build:staging": "npm run clean && webpack --mode production --env staging",
     "deploy": "npm run build && firebase deploy -P prod",
     "deploy:staging": "npm run build:staging && firebase deploy -P staging",
-    "postinstall": "./scripts/postinstall.sh"
+    "postinstall": "./scripts/postinstall.sh",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "",
   "license": "MIT",
@@ -35,7 +37,8 @@
     "react-dom": "^16.8.6",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "universal-ga": "^1.2.0"
+    "universal-ga": "^1.2.0",
+    "snyk": "^1.189.0"
   },
   "optionalDependencies": {
     "@entur/fonts": "git+ssh://git@bitbucket.org:enturas/entur-fonts.git#a5e1956"
@@ -68,5 +71,6 @@
     "webpack-nano": "^0.6.2",
     "webpack-plugin-serve": "^0.11.0",
     "webpack-serve": "^3.1.0"
-  }
+  },
+  "snyk": true
 }
