@@ -45,7 +45,7 @@ export function getIconColor(type, subType) {
         case 'water':
             return COLORS.FERRY_MIDNIGHT
         case 'metro':
-            return COLORS.SUBWAY_MIDNIGHT
+            return COLORS.METRO_MIDNIGHT
         case 'rail':
             return COLORS.TRAIN_MIDNIGHT
         case 'tram':
