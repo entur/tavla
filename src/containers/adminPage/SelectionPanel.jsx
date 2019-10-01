@@ -21,14 +21,17 @@ function SelectionPanel(props) {
     const onChange = () => {
         props.updateHiddenListForAll(!checked, 'stops')
         setChecked(!checked)
+        if (stops.filter(({id}) => !onCheck(id, 'stops') !== checked).length > 0)
+          setChecked(!checked);
+        
     }
 
     return (
         <div className="selection-panel">
-            { (stops.length > 0)
+            {(stops.length > 0)
                 ? <div>
                     <div className="search-stop-places">
-                        <SelectionPanelSearch position={position} handleAddNewStop={handleAddNewStop}/>
+                        <SelectionPanelSearch position={position} handleAddNewStop={handleAddNewStop} />
                     </div>
                     <div className="stop-place-panel">
                         <div className="stop-place-header">
@@ -79,7 +82,7 @@ function SelectionPanel(props) {
                                             <AccordionItemPanel>
                                                 <table className="admin-route-table">
                                                     <tbody>
-                                                        { departures.map(({ route, type }, i) => {
+                                                        {departures.map(({ route, type }, i) => {
                                                             const isVisible = !onCheck(getCombinedStopPlaceAndRouteId(id, route), 'routes')
                                                             const Icon = getIcon(type)
                                                             const iconColor = getIconColor(type)
@@ -89,7 +92,7 @@ function SelectionPanel(props) {
                                                                     key={i}
                                                                 >
                                                                     <td className="admin-route-icon">
-                                                                        <Icon height={ 28 } width={ 28 } color={ iconColor } />
+                                                                        <Icon height={28} width={28} color={iconColor} />
                                                                     </td>
                                                                     <td className="admin-route-title">{route}</td>
                                                                     <td>
@@ -106,7 +109,7 @@ function SelectionPanel(props) {
                                                                     </td>
                                                                 </tr>
                                                             )
-                                                        }) }
+                                                        })}
                                                     </tbody>
                                                 </table>
                                             </AccordionItemPanel>
@@ -117,7 +120,7 @@ function SelectionPanel(props) {
                         }
                     </div>
                 </div>
-                : null }
+                : null}
         </div>
     )
 }
