@@ -56,7 +56,12 @@ function SelectionPanel(props) {
                                                 id={id}
                                                 className="entur-radio-checkbox--round"
                                                 checked={isChecked}
-                                                onChange={() => updateHiddenList(id, 'stops')}
+                                                onChange={() => {
+                                                    updateHiddenList(id, 'stops')
+                                                    if (checked){ setChecked(!checked)}
+                                                }
+       
+                                                }
                                                 variant="midnight"
                                             />
                                         </div>
