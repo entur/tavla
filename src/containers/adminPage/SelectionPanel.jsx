@@ -59,9 +59,7 @@ function SelectionPanel(props) {
                                                 onChange={() => {
                                                     updateHiddenList(id, 'stops')
                                                     if (checked){ setChecked(!checked)}
-                                                }
-       
-                                                }
+                                                }}
                                                 variant="midnight"
                                             />
                                         </div>
