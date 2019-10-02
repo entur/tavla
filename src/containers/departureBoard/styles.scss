@@ -2,14 +2,11 @@
 
 .departure-board {
     width: 100%;
-    height: 85%;
 }
 
 .departure-tiles {
     display: flex;
     overflow: auto;
-    height: 94%;
-    max-height: 620px;
 }
 
 .departure-tiles::-webkit-scrollbar {
@@ -61,6 +58,17 @@
 
     p {
         font-weight: 300;
+    }
+}
+
+@media (min-width: 1000px) {
+    .departure-board {
+        height: 85%;
+    }
+
+    .departure-tiles {
+        height: 94%;
+        max-height: 620px;
     }
 }
 
