@@ -57,10 +57,10 @@ function SelectionPanel(props) {
                                                 className="entur-radio-checkbox--round"
                                                 checked={isChecked}
                                                 onChange={() => {
-                                                    let stopUnchecked = false
-                                                    for (stop in stops){
-                                                        if (!document.getElementById(stops[stop].id).checked){stopUnchecked = true}
-                                                    } if (!stopUnchecked) { setChecked(true) }
+                                                    const stopUnchecked = stops.some(stop => !onCheck(stop.id, 'stops'))
+                                                    if (!stopUnchecked) { 
+                                                        setChecked(true) 
+                                                    }
 
                                                     updateHiddenList(id, 'stops')
                                                     if (checked){ setChecked(!checked)} 
