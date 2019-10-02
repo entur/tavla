@@ -18,7 +18,7 @@
     "build:staging": "npm run clean && webpack --mode production --env staging",
     "deploy": "npm run build && firebase deploy -P prod",
     "deploy:staging": "npm run build:staging && firebase deploy -P staging",
-    "postinstall": "./scripts/postinstall.sh"
+    "postinstall": "node ./scripts/postinstall.js"
   },
   "author": "",
   "license": "MIT",

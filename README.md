@@ -1,37 +1,36 @@
 # Entur - Tavla
-Tavla er en personlig avgangstavle som du selv kan konfigurere. Finn dine nærmeste holdeplasser og velg bort de rutene du ikke vil ha. Alt dette i et enkelt adminpanel.
-Gå til [tavla.en-tur.no](https://tavla.en-tur.no) for å sette opp din egen tavle.
 
-## Bidra
+Tavla ("The Board") is a personal departure board that you can configure yourself. Find the closest stop places to you and choose your desired lines in a simple admin panel.
 
-Finner du noe som kan forbedres eller ønsker du å lage ditt eget design? Bidra gjerne ved å sende en pull request.
-Disse instruksjonene skal få deg opp og kjøre med prosjektet på din lokale maskin, for utvikling og testing.
+Go to [tavla.en-tur.no](https://tavla.en-tur.no) to configure your table today.
 
-### Avhengigheter
+## Contribute
 
-Prosjektet krever at du har disse avhengighetene installert
+Do you find bugs or something that can be improved? Don't hesitate to submit an issue or a pull request.
 
-- Node
-- npm
+### Install
 
-### Installering
+Fork the repo: https://github.com/entur/tavla/fork
 
-Fork repoet: https://github.com/entur/tavla/fork
-
+Run the commands
 
 ```
-git clone git@github.com:[DIN BRUKER]/tavla.git
+git clone git@github.com:[YOUR USERNAME]/tavla.git
 cd tavla
 npm install
 ```
-Da er du oppe og kjører og kan starte prosjektet
+
+Run the development server with
+
 ```
 npm start
 ```
 
-### Kodekvalitet
+Your browser should automatically open the app on http://localhost:9090
 
-Vi bruker `eslint` for å sikre stil og kodekvalitet. Testene kan du kjøre ved:
+### Code Quality
+
+We use ESLint to ensure code quality. Please make sure ESLint is happy with the command:
 
 ```
 npm run lint
