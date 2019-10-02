@@ -2,6 +2,7 @@
 
 .departure-board {
     width: 100%;
+    max-height: 620px;
 }
 
 .departure-tiles {
@@ -58,6 +59,14 @@
 
     p {
         font-weight: 300;
+    }
+}
+
+@media (hover: none) {
+    #app {
+        footer {
+            display: flex;
+        }
     }
 }
 
