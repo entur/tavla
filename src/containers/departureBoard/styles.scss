@@ -61,6 +61,25 @@
     }
 }
 
+@media (min-width: 1000px) {
+    .departure-board {
+        height: 85%;
+    }
+
+    .departure-tiles {
+        height: 94%;
+        max-height: 620px;
+    }
+}
+
+@media (hover: none) {
+    #app {
+        footer {
+            display: flex;
+        }
+    }
+}
+
 @media (max-width: 480px) {
     .departure-tiles {
         display: block;
