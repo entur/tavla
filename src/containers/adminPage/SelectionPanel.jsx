@@ -58,12 +58,14 @@ function SelectionPanel(props) {
                                                 checked={isChecked}
                                                 onChange={() => {
                                                     const stopUnchecked = stops.some(stop => !onCheck(stop.id, 'stops'))
-                                                    if (!stopUnchecked) { 
-                                                        setChecked(true) 
+                                                    if (!stopUnchecked) {
+                                                        setChecked(true)
                                                     }
 
                                                     updateHiddenList(id, 'stops')
-                                                    if (checked){ setChecked(!checked)} 
+                                                    if (checked) {
+                                                        setChecked(!checked)
+                                                    }
                                                 }}
                                                 variant="midnight"
                                             />
