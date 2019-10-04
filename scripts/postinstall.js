@@ -1,9 +1,9 @@
-const fs = require('fs');
+const fs = require('fs')
 
-const font_folder = "node_modules/@entur/fonts";
-const font_index_file = `${font_folder}/index.css`;
+const FONT_FOLDER = 'node_modules/@entur/fonts'
+const FONT_INDEX_FILE = `${FONT_FOLDER}/index.css`
 
-if (!fs.existsSync(font_index_file)) {
-	fs.mkdirSync(font_folder, { recursive: true });
-	fs.closeSync(fs.openSync(font_index_file, 'w'));
+if (!fs.existsSync(FONT_INDEX_FILE)) {
+    fs.mkdirSync(FONT_FOLDER, { recursive: true })
+    fs.closeSync(fs.openSync(FONT_INDEX_FILE, 'w'))
 }
