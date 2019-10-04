@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, {
+    memo, useState, useMemo, useEffect,
+} from 'react'
 import debounce from 'lodash.debounce'
 import ReactAutosuggest from 'react-autosuggest'
 import { Button } from '@entur/component-library'
 
 import { Spinner, GeoLocation } from '../../assets/icons'
 import service from '../../service'
+import { useLocationPermission } from '../../hooks'
 import './styles.scss'
 
 const YOUR_POSITION = 'Posisjonen din'
@@ -13,81 +16,85 @@ function getSuggestionValue(suggestion) {
     return suggestion.name
 }
 
-function renderSuggestion(suggestion) {
-    if (suggestion.name === YOUR_POSITION) {
-        return (
-            <span>
-                {suggestion.name}
-                <span className="location-icon">
-                    <GeoLocation height={15} width={15} />
-                </span>
-            </span>
-        )
-    }
-    return <span>{suggestion.name}</span>
+function shouldRenderSuggestions() {
+    return true
 }
 
+function renderSuggestion(suggestion) {
+    if (suggestion.name !== YOUR_POSITION) {
+        return <span>{suggestion.name}</span>
+    }
+    return (
+        <span>
+            {suggestion.name}
+            <span className="location-icon">
+                <GeoLocation height={15} width={15} />
+            </span>
+        </span>
+    )
+}
+
+function getErrorMessage(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            return 'Du må godta bruk av posisjon i nettleseren før vi kan hente den.'
+        default:
+            return 'En feil skjedde ved henting av din posisjon'
+    }
+}
+
+const getFeaturesDebounced = debounce(async (value, showMyPosition, callback) => {
+    const inputLength = value.trim().length
+
+    const defaultSuggestions = showMyPosition ? [{ name: YOUR_POSITION }] : []
+
+    if (!inputLength) return callback(defaultSuggestions)
+
+    const featuresData = await service.getFeatures(value)
+
+    const suggestedFeatures = featuresData.map(
+        ({ geometry, properties: { name, locality } }) => {
+            return {
+                coordinates: {
+                    lon: geometry.coordinates[0],
+                    lat: geometry.coordinates[1],
+                },
+                name: `${name}, ${locality}`,
+            }
+        },
+    )
+
+    const features = [...defaultSuggestions, ...suggestedFeatures]
+
+    return callback(features)
+}, 500)
+
 const SearchPanel = ({ handleCoordinatesSelected }) => {
-    const [formValue, setFormValue] = useState({
-        value: '',
-        errorMessage: null,
-    })
-    const [suggestions, setSuggestions] = useState([{ name: YOUR_POSITION }])
+    const [{ denied }, refreshLocationPermission] = useLocationPermission()
+
+    const [showPositionInList, setShowPositionInList] = useState(true)
+
+    useEffect(() => {
+        if (denied) {
+            setShowPositionInList(false)
+        }
+    }, [denied])
+
+    const [formValue, setFormValue] = useState('')
+    const [errorMessage, setErrorMessage] = useState(null)
 
     const [location, setLocation] = useState({
         hasLocation: false,
         selectedLocationName: null,
     })
 
+    const [suggestions, setSuggestions] = useState([{ name: YOUR_POSITION }])
     const [waiting, setWaiting] = useState(false)
-    const [showPositionInList, setShowPositionInList] = useState(true)
     const [chosenCoord, setChosenCoord] = useState(null)
 
-    useEffect(() => {
-        if (!navigator || !navigator.permissions) return
-        navigator.permissions.query({ name: 'geolocation' }).then(permission => {
-            const newSuggestions = suggestions.filter(s => s.name !== YOUR_POSITION)
-            if (permission.state === 'denied') {
-                setShowPositionInList(false)
-                setSuggestions(newSuggestions)
-            } else {
-                setSuggestions([{ name: YOUR_POSITION }, ...newSuggestions])
-            }
-        })
-    }, [suggestions, setShowPositionInList, setSuggestions])
-
     const onChange = (_, { newValue }) => {
-        setFormValue({
-            value: newValue,
-            errorMessage: null,
-        })
+        setFormValue(newValue)
     }
-
-    const getFeaturesDebounced = debounce(value => {
-        const inputLength = value.trim().length
-
-        if (inputLength > 0) {
-            service.getFeatures(value).then(featuresData => {
-                const suggestedFeatures = featuresData.map(
-                    ({ geometry, properties: { name, locality } }) => {
-                        return {
-                            coordinates: {
-                                lon: geometry.coordinates[0],
-                                lat: geometry.coordinates[1],
-                            },
-                            name: `${name}, ${locality}`,
-                        }
-                    },
-                )
-
-                const features = showPositionInList
-                    ? [{ name: YOUR_POSITION }, ...suggestedFeatures]
-                    : suggestedFeatures
-
-                setSuggestions(features)
-            })
-        }
-    }, 500)
 
     const onSuggestionsFetchRequested = ({ value }) => {
         if (value !== location.selectedLocationName) {
@@ -98,17 +105,12 @@ const SearchPanel = ({ handleCoordinatesSelected }) => {
 
             setChosenCoord(null)
         }
-        getFeaturesDebounced(value)
+        getFeaturesDebounced(value, showPositionInList, setSuggestions)
     }
 
     const getAddressFromPosition = position => {
-        setFormValue({
-            value: YOUR_POSITION,
-            errorMessage: null,
-        })
-
+        setFormValue(YOUR_POSITION)
         setChosenCoord(position)
-
         setLocation({
             hasLocation: true,
             selectedLocationName: YOUR_POSITION,
@@ -117,50 +119,31 @@ const SearchPanel = ({ handleCoordinatesSelected }) => {
 
     const onSuggestionsClearRequested = () => {
         const newSuggestions = showPositionInList ? [{ name: YOUR_POSITION }] : []
-
         setSuggestions(newSuggestions)
     }
 
     const handleSuccessLocation = data => {
+        refreshLocationPermission()
         const position = { lat: data.coords.latitude, lon: data.coords.longitude }
         getAddressFromPosition(position)
-
         setWaiting(false)
     }
 
-    const getErrorMessage = error => {
-        switch (error.code) {
-            case error.PERMISSION_DENIED:
-                return 'Du må godta bruk av posisjon i nettleseren før vi kan hente den.'
-            default:
-                return 'En feil skjedde ved henting av din posisjon'
-        }
-    }
-
     const handleDeniedLocation = error => {
-        setFormValue({
-            value: '',
-            errorMessage: getErrorMessage(error),
-        })
-
+        refreshLocationPermission()
+        setFormValue('')
+        setErrorMessage(getErrorMessage(error))
         setSuggestions([])
-
         setLocation({
             hasLocation: false,
             selectedLocationName: null,
         })
-
-        setShowPositionInList(false)
-
         setWaiting(false)
-
-        console.log('Permission denied with error: ', error) // eslint-disable-line
     }
 
     const onSuggestionSelected = (_, { suggestion }) => {
         if (suggestion.name === YOUR_POSITION) {
             setWaiting(true)
-
             setLocation(v => ({
                 ...v,
                 selectedLocationName: YOUR_POSITION,
@@ -178,7 +161,6 @@ const SearchPanel = ({ handleCoordinatesSelected }) => {
 
     const handleGoToBoard = event => {
         event.preventDefault()
-
         return chosenCoord ? handleCoordinatesSelected(chosenCoord) : null
     }
 
@@ -190,18 +172,14 @@ const SearchPanel = ({ handleCoordinatesSelected }) => {
         )
     }
 
-    const { errorMessage, value } = formValue
-    const inputProps = {
+    const inputProps = useMemo(() => ({
         placeholder: 'Adresse eller sted',
-        value,
+        value: formValue,
         onChange,
         onFocus: () => {
-            setFormValue(v => ({
-                ...v,
-                errorMessage: null,
-            }))
+            setErrorMessage(null)
         },
-    }
+    }), [formValue])
 
     return (
         <form className="search-panel" onSubmit={handleGoToBoard}>
@@ -211,7 +189,7 @@ const SearchPanel = ({ handleCoordinatesSelected }) => {
                     <div className="input-spinner-container">
                         <ReactAutosuggest
                             suggestions={suggestions}
-                            shouldRenderSuggestions={() => true}
+                            shouldRenderSuggestions={shouldRenderSuggestions}
                             onSuggestionsFetchRequested={onSuggestionsFetchRequested}
                             onSuggestionsClearRequested={onSuggestionsClearRequested}
                             onSuggestionSelected={onSuggestionSelected}
@@ -231,7 +209,7 @@ const SearchPanel = ({ handleCoordinatesSelected }) => {
                 </Button>
             </div>
             {errorMessage && (
-                <p role="alert" style={{ color: 'red' }}>
+                <p role="alert" style={{ color: 'red', textAlign: 'center' }}>
                     {errorMessage}
                 </p>
             )}
@@ -239,4 +217,4 @@ const SearchPanel = ({ handleCoordinatesSelected }) => {
     )
 }
 
-export default SearchPanel
+export default memo(SearchPanel)
