@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import debounce from 'lodash.debounce'
 import ReactAutosuggest from 'react-autosuggest'
 import { Button } from '@entur/component-library'
@@ -24,152 +24,111 @@ function renderSuggestion(suggestion) {
             </span>
         )
     }
-    return (
-        <span>{suggestion.name}</span>
-    )
+    return <span>{suggestion.name}</span>
 }
 
-
-class SearchPanel extends React.Component {
-    state = {
+const SearchPanel = ({ handleCoordinatesSelected }) => {
+    const [formValue, setFormValue] = useState({
         value: '',
-        suggestions: [{ name: YOUR_POSITION }],
+        errorMessage: null,
+    })
+    const [suggestions, setSuggestions] = useState([{ name: YOUR_POSITION }])
+
+    const [location, setLocation] = useState({
         hasLocation: false,
-        waiting: false,
-        showPositionInList: true,
-        selectedLocationName: '',
-    }
+        selectedLocationName: null,
+    })
 
-    componentDidMount() {
+    const [waiting, setWaiting] = useState(false)
+    const [showPositionInList, setShowPositionInList] = useState(true)
+    const [chosenCoord, setChosenCoord] = useState(null)
+
+    useEffect(() => {
         if (!navigator || !navigator.permissions) return
-        navigator.permissions.query({ name: 'geolocation' })
-            .then(permission => {
-                const suggestions = this.state.suggestions.filter(s => s.name !== YOUR_POSITION)
-                if (permission.state === 'denied') {
-                    this.setState({
-                        showPositionInList: false,
-                        suggestions,
-                    })
-                } else {
-                    this.setState({
-                        suggestions: [{ name: YOUR_POSITION }, ...suggestions],
-                    })
-                }
-            })
+        navigator.permissions.query({ name: 'geolocation' }).then(permission => {
+            const newSuggestions = suggestions.filter(s => s.name !== YOUR_POSITION)
+            if (permission.state === 'denied') {
+                setShowPositionInList(false)
+                setSuggestions(newSuggestions)
+            } else {
+                setSuggestions([{ name: YOUR_POSITION }, ...newSuggestions])
+            }
+        })
+    }, [suggestions, setShowPositionInList, setSuggestions])
+
+    const onChange = (_, { newValue }) => {
+        setFormValue({
+            value: newValue,
+            errorMessage: null,
+        })
     }
 
-    onChange = (event, { newValue }) => {
-        this.setState({
-            value: newValue,
-            errorMessage: undefined,
-        })
-    };
-
-
-    onSuggestionsFetchRequested = ({ value }) => {
-        if (value !== this.state.selectedLocationName) {
-            this.setState({
-                hasLocation: false,
-                selectedLocationName: '',
-                chosenCoord: '',
-            })
-        }
-        this.getFeaturesDebounced(value)
-    };
-
-    getFeaturesDebounced = debounce((value) => {
+    const getFeaturesDebounced = debounce(value => {
         const inputLength = value.trim().length
 
         if (inputLength > 0) {
             service.getFeatures(value).then(featuresData => {
-                const suggestedFeatures = featuresData.map(({ geometry, properties }) => {
-                    return {
-                        coordinates: {
-                            lon: geometry.coordinates[0],
-                            lat: geometry.coordinates[1],
-                        },
-                        name: properties.name + ', ' + properties.locality,
-                    }
-                })
+                const suggestedFeatures = featuresData.map(
+                    ({ geometry, properties: { name, locality } }) => {
+                        return {
+                            coordinates: {
+                                lon: geometry.coordinates[0],
+                                lat: geometry.coordinates[1],
+                            },
+                            name: `${name}, ${locality}`,
+                        }
+                    },
+                )
 
-                const features = this.state.showPositionInList
-                    ? [{ name: YOUR_POSITION }, ...suggestedFeatures] : suggestedFeatures
-                this.setState({
-                    suggestions: features,
-                })
+                const features = showPositionInList
+                    ? [{ name: YOUR_POSITION }, ...suggestedFeatures]
+                    : suggestedFeatures
+
+                setSuggestions(features)
             })
         }
     }, 500)
 
-    getAddressFromPosition = (position) => {
-        this.setState({
+    const onSuggestionsFetchRequested = ({ value }) => {
+        if (value !== location.selectedLocationName) {
+            setLocation({
+                hasLocation: false,
+                selectedLocationName: null,
+            })
+
+            setChosenCoord(null)
+        }
+        getFeaturesDebounced(value)
+    }
+
+    const getAddressFromPosition = position => {
+        setFormValue({
             value: YOUR_POSITION,
-            chosenCoord: position,
+            errorMessage: null,
+        })
+
+        setChosenCoord(position)
+
+        setLocation({
             hasLocation: true,
             selectedLocationName: YOUR_POSITION,
         })
     }
 
-    onSuggestionsClearRequested = () => {
-        const { showPositionInList } = this.state
+    const onSuggestionsClearRequested = () => {
+        const newSuggestions = showPositionInList ? [{ name: YOUR_POSITION }] : []
 
-        this.setState({
-            suggestions: showPositionInList ? [{ name: YOUR_POSITION }] : [],
-        })
+        setSuggestions(newSuggestions)
     }
 
-    onSuggestionSelected = (event, { suggestion }) => {
-        if (suggestion.name === YOUR_POSITION) {
-            this.setState({
-                selectedLocationName: YOUR_POSITION,
-                waiting: true,
-            })
-            navigator.geolocation.getCurrentPosition(this.handleSuccessLocation, this.handleDeniedLocation)
-        } else {
-            this.setState({
-                chosenCoord: suggestion.coordinates,
-                hasLocation: true,
-                selectedLocationName: suggestion.name,
-            })
-        }
-    }
-
-    handleSuccessLocation = (data) => {
+    const handleSuccessLocation = data => {
         const position = { lat: data.coords.latitude, lon: data.coords.longitude }
-        this.getAddressFromPosition(position)
-        this.setState({
-            waiting: false,
-        })
+        getAddressFromPosition(position)
+
+        setWaiting(false)
     }
 
-    handleDeniedLocation = (error) => {
-        this.setState({
-            value: '',
-            suggestions: [],
-            hasLocation: false,
-            waiting: false,
-            showPositionInList: false,
-            selectedLocationName: '',
-            errorMessage: this.getErrorMessage(error),
-        })
-        console.log('Permission denied with error: ', error) // eslint-disable-line
-    }
-
-    handleGoToBoard = (event) => {
-        event.preventDefault()
-        const coordinates = this.state.chosenCoord
-        return coordinates ? this.props.handleCoordinatesSelected(coordinates) : null
-    }
-
-    renderSpinner = () => {
-        return (
-            <div className="spinner-container">
-                <Spinner className="spinner"/>
-            </div>
-        )
-    }
-
-    getErrorMessage = (error) => {
+    const getErrorMessage = error => {
         switch (error.code) {
             case error.PERMISSION_DENIED:
                 return 'Du må godta bruk av posisjon i nettleseren før vi kan hente den.'
@@ -178,48 +137,106 @@ class SearchPanel extends React.Component {
         }
     }
 
-    render() {
-        const {
-            value, suggestions, errorMessage, hasLocation,
-        } = this.state
-        const inputProps = {
-            placeholder: 'Adresse eller sted',
-            value,
-            onChange: this.onChange,
-            onFocus: () => {
-                this.setState({
-                    errorMessage: undefined,
-                })
-            },
-        }
+    const handleDeniedLocation = error => {
+        setFormValue({
+            value: '',
+            errorMessage: getErrorMessage(error),
+        })
 
+        setSuggestions([])
+
+        setLocation({
+            hasLocation: false,
+            selectedLocationName: null,
+        })
+
+        setShowPositionInList(false)
+
+        setWaiting(false)
+
+        console.log('Permission denied with error: ', error) // eslint-disable-line
+    }
+
+    const onSuggestionSelected = (_, { suggestion }) => {
+        if (suggestion.name === YOUR_POSITION) {
+            setWaiting(true)
+
+            setLocation(v => ({
+                ...v,
+                selectedLocationName: YOUR_POSITION,
+            }))
+
+            navigator.geolocation.getCurrentPosition(handleSuccessLocation, handleDeniedLocation)
+        } else {
+            setChosenCoord(suggestion.coordinates)
+            setLocation({
+                hasLocation: true,
+                selectedLocationName: suggestion.name,
+            })
+        }
+    }
+
+    const handleGoToBoard = event => {
+        event.preventDefault()
+
+        return chosenCoord ? handleCoordinatesSelected(chosenCoord) : null
+    }
+
+    const renderSpinner = () => {
         return (
-            <form className="search-panel" onSubmit={this.handleGoToBoard}>
-                <div className="search-container">
-                    <div className="input-container">
-                        <span className="searchPanel-label">Område</span>
-                        <div className="input-spinner-container">
-                            <ReactAutosuggest
-                                suggestions={suggestions}
-                                shouldRenderSuggestions={() => true}
-                                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                                onSuggestionSelected={this.onSuggestionSelected}
-                                getSuggestionValue={getSuggestionValue}
-                                renderSuggestion={renderSuggestion}
-                                inputProps={inputProps}
-                            />
-                            {this.state.waiting && this.renderSpinner()}
-                        </div>
-                    </div>
-                    <Button className="search-panel__submit-button" type="submit" disabled={!hasLocation}>
-                        Opprett tavle
-                    </Button>
-                </div>
-                { errorMessage && <p role="alert" style={{ color: 'red' }}>{ errorMessage }</p> }
-            </form>
+            <div className="spinner-container">
+                <Spinner className="spinner" />
+            </div>
         )
     }
+
+    const { errorMessage, value } = formValue
+    const inputProps = {
+        placeholder: 'Adresse eller sted',
+        value,
+        onChange,
+        onFocus: () => {
+            setFormValue(v => ({
+                ...v,
+                errorMessage: null,
+            }))
+        },
+    }
+
+    return (
+        <form className="search-panel" onSubmit={handleGoToBoard}>
+            <div className="search-container">
+                <div className="input-container">
+                    <span className="searchPanel-label">Område</span>
+                    <div className="input-spinner-container">
+                        <ReactAutosuggest
+                            suggestions={suggestions}
+                            shouldRenderSuggestions={() => true}
+                            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                            onSuggestionsClearRequested={onSuggestionsClearRequested}
+                            onSuggestionSelected={onSuggestionSelected}
+                            getSuggestionValue={getSuggestionValue}
+                            renderSuggestion={renderSuggestion}
+                            inputProps={inputProps}
+                        />
+                        {waiting && renderSpinner()}
+                    </div>
+                </div>
+                <Button
+                    className="search-panel__submit-button"
+                    type="submit"
+                    disabled={!location.hasLocation}
+                >
+                    Opprett tavle
+                </Button>
+            </div>
+            {errorMessage && (
+                <p role="alert" style={{ color: 'red' }}>
+                    {errorMessage}
+                </p>
+            )}
+        </form>
+    )
 }
 
 export default SearchPanel

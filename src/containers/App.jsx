@@ -1,22 +1,17 @@
 import React from 'react'
 import LandingPage from './landingPage/LandingPage'
 
-class App extends React.Component {
-    addLocation = (position) => {
-        this.goToDepartureBoard(position)
+const App = ({ history }) => {
+    const goToDepartureBoard = position => {
+        const pos = `${position.lat},${position.lon}`.split('.').join('-')
+        history.push(`/dashboard/@${pos}/`)
     }
 
-    goToDepartureBoard(position) {
-        const pos = (`${position.lat},${position.lon}`).split('.').join('-')
-        this.props.history.push(`/dashboard/@${pos}/`)
+    const addLocation = position => {
+        goToDepartureBoard(position)
     }
 
-    render() {
-        return (
-            <LandingPage addLocation={this.addLocation} />
-        )
-    }
+    return <LandingPage addLocation={addLocation} />
 }
-
 
 export default App
