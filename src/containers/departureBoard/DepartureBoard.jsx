@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 import './styles.scss'
-import { BikeTable, DepartureTiles, Footer, Header } from '../../components'
+import {
+    BikeTable, DepartureTiles, Footer, Header,
+} from '../../components'
 import {
     getSettingsFromUrl,
     getPositionFromUrl,
@@ -190,7 +192,9 @@ const DepartureBoard = ({ history }) => {
         </div>
     )
 
-    const { hiddenStations, hiddenStops, hiddenRoutes, hiddenModes } = hidden
+    const {
+        hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
+    } = hidden
 
     const visibleStopCount = stopsData.length - hiddenStops.length
     const visibleStationCount = stationData.length - hiddenStations.length

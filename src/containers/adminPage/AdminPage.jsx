@@ -192,7 +192,9 @@ const AdminPage = ({ history }) => {
     }, 500)
 
     const updateAndGoToDashboard = () => {
-        const { hiddenStations, hiddenStops, hiddenRoutes, hiddenModes } = hidden
+        const {
+            hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
+        } = hidden
         const { newStations, newStops } = getSettingsFromUrl()
 
         const newHashedState = getSettingsHash(
@@ -264,7 +266,9 @@ const AdminPage = ({ history }) => {
     }
 
     const isHidden = (id, type) => {
-        const { hiddenStops, hiddenStations, hiddenRoutes, hiddenModes } = hidden
+        const {
+            hiddenStops, hiddenStations, hiddenRoutes, hiddenModes,
+        } = hidden
         if (type === 'stations') {
             return hiddenStations.includes(id)
         }
@@ -310,7 +314,9 @@ const AdminPage = ({ history }) => {
         const updatedNewStations = sortLists(newStations, stationIds)
         const updatedStations = sortLists(stationsData.stations, stations)
 
-        const { hiddenStations, hiddenStops, hiddenRoutes, hiddenModes } = hidden
+        const {
+            hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
+        } = hidden
 
         const newHashedState = getSettingsHash(
             distance,
@@ -338,7 +344,9 @@ const AdminPage = ({ history }) => {
         if (found || !hasDepartures) return
 
         getStopsWithUniqueStopPlaceDepartures([newStop]).then(stop => {
-            const { hiddenStations, hiddenStops, hiddenRoutes, hiddenModes } = hidden
+            const {
+                hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
+            } = hidden
 
             const { newStops } = getSettingsFromUrl()
 

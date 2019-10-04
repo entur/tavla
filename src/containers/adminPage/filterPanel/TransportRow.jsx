@@ -2,7 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { SlideSwitch } from '@entur/component-library'
 import { getIcon, getIconColor } from '../../../utils'
 
-const TransportRow = ({ mode, index, hiddenModes, updateHiddenList }) => {
+const TransportRow = ({
+    mode, index, hiddenModes, updateHiddenList,
+}) => {
     const [checked, setChecked] = useState(true)
 
     useEffect(() => {
