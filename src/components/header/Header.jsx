@@ -10,18 +10,18 @@ function Header() {
     useEffect(() => {
         const timerID = setInterval(
             () => {
-                const newDate = moment()
-                const dayOfTheWeek = newDate.locale('nb').format('dddd')
-                const dayNumber = newDate.date()
-                const monthName = newDate.locale('nb').format('MMMM')
+                const now = moment()
+                const dayOfTheWeek = now.locale('nb').format('dddd')
+                const dayNumber = now.date()
+                const monthName = now.locale('nb').format('MMMM')
 
                 setDate(dayOfTheWeek.charAt(0).toUpperCase() + dayOfTheWeek.slice(1) + ' ' + dayNumber + '. ' + monthName)
-                setTime(newDate.format('HH:mm'))
+                setTime(now.format('HH:mm'))
             },
             1000
         )
         return () => clearInterval(timerID)
-    })
+    }, [])
 
     return (
         <div className="header">
