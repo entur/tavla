@@ -8,7 +8,10 @@
       "jsx": true
     }
   },
-  "plugins": ["react"],
+  "plugins": [
+    "react",
+    "react-hooks"
+  ],
   "env": {
     "browser": true,
     "es6": true
@@ -81,6 +84,8 @@
     "react/self-closing-comp": "error",
     "react/sort-comp": "off",
     "react/sort-prop-types": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
     "semi": ["error", "never"],
     "space-infix-ops": 0,
     "template-curly-spacing": "off"
