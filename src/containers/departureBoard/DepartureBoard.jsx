@@ -9,10 +9,68 @@ import {
     getPositionFromUrl,
     getStopPlacesByPositionAndDistance,
     sortLists,
+    formatDeparture,
 } from '../../utils'
 import { DEFAULT_DISTANCE } from '../../constants'
 import errorImage from '../../assets/images/noStops.png'
 import service from '../../service'
+
+function NoStopsInfo() {
+    return (
+        <div className="no-stops">
+            <div className="no-stops-sheep">
+                <img src={errorImage} />
+            </div>
+        </div>
+    )
+}
+
+function getLineData(departure) {
+    const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
+    const { line } = serviceJourney.journeyPattern
+    const departureTime = moment(expectedDepartureTime)
+    const minDiff = departureTime.diff(moment(), 'minutes')
+
+    const route = `${line.publicCode || ''} ${destinationDisplay.frontText}`.trim()
+
+    const transportMode = line.transportMode === 'coach' ? 'bus' : line.transportMode
+    const subType = departure.serviceJourney.transportSubmode
+
+    return {
+        type: transportMode,
+        subType,
+        time: formatDeparture(minDiff, departureTime),
+        route,
+    }
+}
+
+function fetchBikeRentalStations(stationIds) {
+    return Promise.all(stationIds.map(stationId => {
+        return service.getBikeRentalStation(stationId)
+    }))
+}
+
+function fetchStopPlaceDepartures(stopsData) {
+    return service
+        .getStopPlaceDepartures(stopsData.map(({ id }) => id), {
+            includeNonBoarding: false,
+            departures: 50,
+        })
+        .then(departures => {
+            const computedStops = stopsData.map(stop => {
+                const resultForThisStop = departures.find(({ id }) => stop.id === id)
+                if (!resultForThisStop || !resultForThisStop.departures) {
+                    return stop
+                }
+                return {
+                    ...stop,
+                    departures: resultForThisStop.departures.map(getLineData),
+                }
+            })
+
+            return computedStops
+        })
+}
 
 const DepartureBoard = ({ history }) => {
     const [initialLoading, setInitialLoading] = useState(false)
@@ -29,32 +87,16 @@ const DepartureBoard = ({ history }) => {
 
     let updateInterval = null
 
+    const updateStopPlaceDepartures = (stops) => {
+        fetchStopPlaceDepartures(stops)
+            .then(computedStops => setStopsData(computedStops))
+    }
+
     const initializeStopsData = () => {
         const { newStops } = getSettingsFromUrl()
 
-        Promise.all(newStops.map(stopId => service.getStopPlace(stopId))).then(data => {
-            const stops = sortLists(stopsData, data)
-
-            service
-                .getStopPlaceDepartures(stops.map(({ id }) => id), {
-                    includeNonBoarding: false,
-                    departures: 50,
-                })
-                .then(departures => {
-                    const computedStops = stops.map(stop => {
-                        const resultForThisStop = departures.find(({ id }) => stop.id === id)
-                        if (!resultForThisStop || !resultForThisStop.departures) {
-                            return stop
-                        }
-                        return {
-                            ...stop,
-                            departures: resultForThisStop.departures.map(getLineData),
-                        }
-                    })
-
-                    setStopsData(computedStops)
-                })
-        })
+        Promise.all(newStops.map(stopId => service.getStopPlace(stopId)))
+            .then(data => updateStopPlaceDepartures(sortLists(stopsData, data)))
     }
 
     const updateTime = () => {
@@ -68,7 +110,7 @@ const DepartureBoard = ({ history }) => {
             .then(() => {
                 getHashedBikeStations(newStations)
             })
-        stopPlaceDepartures()
+        updateStopPlaceDepartures(stopsData)
     }
 
     useEffect(() => {
@@ -122,75 +164,17 @@ const DepartureBoard = ({ history }) => {
     ])
 
     const getHashedBikeStations = newStations => {
-        return newStations.forEach(stationId => {
-            service.getBikeRentalStation(stationId).then(station => {
-                const allStations = sortLists(stationData, [station])
-                setStationData(allStations)
-            })
+        return fetchBikeRentalStations(newStations).then(stations => {
+            const allStations = sortLists(stationData, stations)
+            setStationData(allStations)
         })
-    }
-
-    const getLineData = departure => {
-        const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
-        const { line } = serviceJourney.journeyPattern
-        const departureTime = moment(expectedDepartureTime)
-        const minDiff = departureTime.diff(moment(), 'minutes')
-
-        const route = `${line.publicCode || ''} ${destinationDisplay.frontText}`.trim()
-
-        const transportMode = line.transportMode === 'coach' ? 'bus' : line.transportMode
-        const subType = departure.serviceJourney.transportSubmode
-
-        return {
-            type: transportMode,
-            subType,
-            time: formatDeparture(minDiff, departureTime),
-            route,
-        }
-    }
-
-    const stopPlaceDepartures = () => {
-        service
-            .getStopPlaceDepartures(stopsData.map(({ id }) => id), {
-                includeNonBoarding: false,
-                departures: 50,
-            })
-            .then(departures => {
-                const computedStops = stopsData.map(stop => {
-                    const resultForThisStop = departures.find(({ id }) => stop.id === id)
-                    if (!resultForThisStop || !resultForThisStop.departures) {
-                        return stop
-                    }
-                    return {
-                        ...stop,
-                        departures: resultForThisStop.departures.map(getLineData),
-                    }
-                })
-
-                setStopsData(computedStops)
-            })
-    }
-
-    const formatDeparture = (minDiff, departureTime) => {
-        if (minDiff > 15) return departureTime.format('HH:mm')
-        return minDiff < 1 ? 'nå' : minDiff.toString() + ' min'
     }
 
     const onSettingsButtonClick = event => {
         const path = window.location.pathname.split('@')[1]
-
         history.push(`/admin/@${path}`)
-
         event.preventDefault()
     }
-
-    const renderNoStopsInfo = () => (
-        <div className="no-stops">
-            <div className="no-stops-sheep">
-                <img src={errorImage} />
-            </div>
-        </div>
-    )
 
     const {
         hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
@@ -204,7 +188,7 @@ const DepartureBoard = ({ history }) => {
         <div className="main-container">
             <Header />
             {noStops && !initialLoading ? (
-                renderNoStopsInfo()
+                <NoStopsInfo />
             ) : (
                 <div className="departure-board">
                     <div className="departure-tiles">
