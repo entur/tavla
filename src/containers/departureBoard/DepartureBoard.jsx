@@ -82,38 +82,17 @@ const DepartureBoard = ({ history }) => {
         hiddenStops: [],
         hiddenModes: [],
     })
-    const [distance, setdistance] = useState(DEFAULT_DISTANCE)
+    const [distance, setDistance] = useState(DEFAULT_DISTANCE)
     const [position, setPosition] = useState(null)
 
-    let updateInterval = null
-
-    const updateStopPlaceDepartures = (stops) => {
-        fetchStopPlaceDepartures(stops)
+    const updateStopPlaceDepartures = (stopPlaces) => {
+        fetchStopPlaceDepartures(stopPlaces)
             .then(computedStops => setStopsData(computedStops))
     }
 
-    const initializeStopsData = () => {
-        const { newStops } = getSettingsFromUrl()
-
-        Promise.all(newStops.map(stopId => service.getStopPlace(stopId)))
-            .then(data => updateStopPlaceDepartures(sortLists(stopsData, data)))
-    }
-
-    const updateTime = () => {
-        const { newStations } = getSettingsFromUrl()
-
-        service
-            .getBikeRentalStations(position, distance)
-            .then(stations => {
-                setStationData(stations)
-            })
-            .then(() => {
-                getHashedBikeStations(newStations)
-            })
-        updateStopPlaceDepartures(stopsData)
-    }
-
     useEffect(() => {
+        setInitialLoading(true)
+
         const newPosition = getPositionFromUrl()
         const {
             hiddenStations,
@@ -121,54 +100,51 @@ const DepartureBoard = ({ history }) => {
             hiddenRoutes,
             distance: newDistance,
             hiddenModes,
+            newStops,
         } = getSettingsFromUrl()
-
-        setInitialLoading(true)
 
         getStopPlacesByPositionAndDistance(newPosition, newDistance)
             .then(data => {
                 setStopsData(data)
-
-                setdistance(newDistance)
-
+                setDistance(newDistance)
                 setHidden({
                     hiddenStations,
                     hiddenStops,
                     hiddenRoutes,
                     hiddenModes,
                 })
-
                 setPosition(newPosition)
-
                 setInitialLoading(false)
-            })
-            .then(() => {
-                initializeStopsData()
-                updateTime()
+
+                updateStopPlaceDepartures(data)
+
+                Promise.all(newStops.map((stopId) => service.getStopPlace(stopId)))
+                    .then(stopPlaces => updateStopPlaceDepartures(stopPlaces))
             })
             .catch(e => {
                 setInitialLoading(false)
                 console.error(e) // eslint-disable-line no-console
             })
-        updateInterval = setInterval(updateTime, 30000)
+    }, [])
 
-        return () => {
-            clearInterval(updateInterval)
-        }
-    }, [
-        getPositionFromUrl,
-        getSettingsFromUrl,
-        getStopPlacesByPositionAndDistance,
-        initializeStopsData,
-        updateTime,
-    ])
-
-    const getHashedBikeStations = newStations => {
-        return fetchBikeRentalStations(newStations).then(stations => {
-            const allStations = sortLists(stationData, stations)
-            setStationData(allStations)
-        })
-    }
+    useEffect(() => {
+        const updateInterval = setInterval(() => {
+            const { newStations } = getSettingsFromUrl()
+            service
+                .getBikeRentalStations(position, distance)
+                .then(stations => {
+                    setStationData(stations)
+                })
+                .then(() => {
+                    fetchBikeRentalStations(newStations).then(stations => {
+                        const allStations = sortLists(stationData, stations)
+                        setStationData(allStations)
+                    })
+                })
+            updateStopPlaceDepartures(stopsData)
+        }, 30000)
+        return () => clearInterval(updateInterval)
+    }, [distance, position, stationData, stopsData])
 
     const onSettingsButtonClick = event => {
         const path = window.location.pathname.split('@')[1]
