@@ -1,30 +1,27 @@
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { SlideSwitch } from '@entur/component-library'
 import { getIcon, getIconColor } from '../../../utils'
 
-class TransportRow extends React.Component {
-    state = {
-        checked: true,
-    }
+const TransportRow = ({ mode, index, hiddenModes, updateHiddenList }) => {
+    const [checked, setChecked] = useState(true)
 
-    handleOnChecked(mode, transportModes) {
-        this.props.updateHiddenList(mode, transportModes)
-        this.setState({
-            checked: !this.state.checked,
-        })
-    }
-
-    componentDidMount() {
-        this.props.hiddenModes.forEach(mode => {
-            if (mode === this.props.mode) {
-                this.setState({
-                    checked: false,
-                })
+    useEffect(() => {
+        hiddenModes.forEach(_mode => {
+            if (_mode === mode) {
+                setChecked(false)
             }
         })
-    }
+    }, [mode, hiddenModes, setChecked])
 
-    getTransportModeTitle(type) {
+    const handleOnChecked = useCallback(
+        (newMode, transportModes) => () => {
+            updateHiddenList(newMode, transportModes)
+            setChecked(v => !v)
+        },
+        [setChecked, updateHiddenList],
+    )
+
+    const getTransportModeTitle = type => {
         switch (type) {
             case 'bus':
                 return 'Buss'
@@ -43,30 +40,26 @@ class TransportRow extends React.Component {
         }
     }
 
-    render() {
-        const { mode, index } = this.props
-        const Icon = getIcon(mode)
-        const iconColor = getIconColor(mode)
+    const Icon = getIcon(mode)
+    const iconColor = getIconColor(mode)
 
-        return (
-            <div className="mode-sort-row">
-                <div className="sort-button-item" key={index}>
-                    <div
-                        className="mode-sort-button mode-sort-icon"
-                    >
-                        <Icon height={ 24 } width={ 24 } color={ iconColor }/>
-                    </div>
-                    <p className="mode-sort-text">{this.getTransportModeTitle(mode)}</p>
+    return (
+        <div className="mode-sort-row">
+            <div className="sort-button-item" key={index}>
+                <div className="mode-sort-button mode-sort-icon">
+                    <Icon height={24} width={24} color={iconColor} />
                 </div>
-                <SlideSwitch
-                    id="SlideSwitch"
-                    className="mode-sort-slide-switch"
-                    onChange={() => { this.handleOnChecked(mode, 'transportModes') }}
-                    checked={this.state.checked}
-                    style={{ cursor: 'pointer' }}
-                />
-            </div>)
-    }
+                <p className="mode-sort-text">{getTransportModeTitle(mode)}</p>
+            </div>
+            <SlideSwitch
+                id="SlideSwitch"
+                className="mode-sort-slide-switch"
+                onChange={handleOnChecked(mode, 'transportModes')}
+                checked={checked}
+                style={{ cursor: 'pointer' }}
+            />
+        </div>
+    )
 }
 
 export default TransportRow

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import debounce from 'lodash.debounce'
 import { Button } from '@entur/component-library'
 
@@ -23,84 +23,82 @@ import AdminHeader from './AdminHeader'
 
 import './styles.scss'
 
-class AdminPage extends React.Component {
-    state = {
-        distance: DEFAULT_DISTANCE,
+const AdminPage = ({ history }) => {
+    const [distance, setDistance] = useState(DEFAULT_DISTANCE)
+
+    const [stationsData, setStationsData] = useState({
         stations: [],
-        stops: [],
         newStations: [],
+    })
+
+    const [stopsData, setStopsData] = useState({
+        stops: [],
         newStops: [],
+    })
+
+    const [hidden, setHidden] = useState({
         hiddenStations: [],
         hiddenStops: [],
         hiddenRoutes: [],
         hiddenModes: [],
+    })
+
+    const [positionData, setPositionData] = useState({
         position: {},
-        positionString: '',
-        hashedState: '',
-        transportModes: [],
-        initialLoading: true,
-    }
+        positionString: null,
+    })
 
-    componentDidMount() {
-        const position = getPositionFromUrl()
-        const positionString = window.location.pathname.split('/')[2]
-        const {
-            hiddenStations, hiddenStops, distance, hiddenRoutes, hiddenModes,
-            newStations, newStops,
-        } = getSettingsFromUrl()
-        this.getDataFromSDK(position, distance)
-        const hashedState = window.location.pathname.split('/')[3]
-        this.setState({
-            newStations,
-            newStops,
-            distance,
-            hashedState,
-            hiddenStops,
-            hiddenStations,
-            hiddenRoutes,
-            hiddenModes,
-            position,
-            positionString,
-        })
-    }
+    const [hashedState, setHashedState] = useState(null)
+    const [transportModes, setTransportModes] = useState([])
 
-    getDataFromSDK(position, distance) {
+    const getDataFromSDK = (position, newDistance) => {
         const { newStations } = getSettingsFromUrl()
 
-        Promise.all(newStations.map(stationId => service.getBikeRentalStation(stationId)))
-            .then(hashedStationsData => {
-                service.getBikeRentalStations(position, distance).then(stations => {
+        Promise.all(newStations.map(stationId => service.getBikeRentalStation(stationId))).then(
+            hashedStationsData => {
+                service.getBikeRentalStations(position, newDistance).then(stations => {
                     const allStations = sortLists(hashedStationsData, stations)
 
-                    let transportModes = []
+                    let newTransportModes = []
                     if (allStations.length > 0) {
-                        transportModes = this.state.transportModes.includes('bike') ? this.state.transportModes : ['bike', ...this.state.transportModes]
+                        newTransportModes = transportModes.includes('bike')
+                            ? transportModes
+                            : ['bike', ...transportModes]
                     } else {
-                        transportModes = this.state.transportModes
+                        newTransportModes = transportModes
                     }
-                    if (this.state.hiddenModes.includes('bike')) {
-                        this.setState({
+                    if (hidden.hiddenModes.includes('bike')) {
+                        setStationsData(v => ({
+                            ...v,
                             stations: [],
-                            transportModes,
-                        })
+                        }))
                     } else {
-                        this.setState({
+                        setStationsData(v => ({
+                            ...v,
                             stations: allStations,
-                            transportModes,
-                        })
+                        }))
                     }
+
+                    setTransportModes(newTransportModes)
                 })
-            })
+            },
+        )
 
         getStopPlacesByPositionAndDistance(position, distance).then(stops => {
             const { newStops } = getSettingsFromUrl()
             const hashedStops = newStops.map(stopId => {
                 return service.getStopPlace(stopId).then(stop => {
-                    return service.getStopPlaceDepartures(stopId, { includeNonBoarding: true, departures: 50 })
+                    return service
+                        .getStopPlaceDepartures(stopId, {
+                            includeNonBoarding: true,
+                            departures: 50,
+                        })
                         .then(departures => {
                             return {
                                 ...stop,
-                                departures: getUniqueRoutes(departures.map(transformDepartureToLineData)),
+                                departures: getUniqueRoutes(
+                                    departures.map(transformDepartureToLineData),
+                                ),
                             }
                         })
                 })
@@ -109,100 +107,164 @@ class AdminPage extends React.Component {
             Promise.all(hashedStops).then(hashedStopsData => {
                 const allStops = sortLists(hashedStopsData, stops)
 
-                getStopsWithUniqueStopPlaceDepartures(allStops).then((uniqueRoutes) => {
+                getStopsWithUniqueStopPlaceDepartures(allStops).then(uniqueRoutes => {
                     const uniqueModes = getTransportModesByStop(uniqueRoutes)
-                    const filterStops = uniqueRoutes.map((stop) => {
-                        const filterStop = stop.departures.filter(({ type }) => !this.state.hiddenModes.includes(type))
-                        if (filterStop.length > 0) {
-                            return {
-                                ...stop,
-                                departures: filterStop,
+                    const filterStops = uniqueRoutes
+                        .map(stop => {
+                            const filterStop = stop.departures.filter(
+                                ({ type }) => !hidden.hiddenModes.includes(type),
+                            )
+                            if (filterStop.length > 0) {
+                                return {
+                                    ...stop,
+                                    departures: filterStop,
+                                }
                             }
-                        }
-                    }).filter(Boolean)
+                        })
+                        .filter(Boolean)
 
-                    this.setState({
+                    setStopsData(v => ({
+                        ...v,
                         stops: filterStops,
-                        transportModes: [ ...new Set([
-                            ...this.state.transportModes,
-                            ...uniqueModes,
-                        ])],
-                    })
+                    }))
+
+                    setTransportModes([...new Set([...transportModes, ...uniqueModes])])
                 })
             })
         })
     }
 
-    updateSearch = debounce((distance, position) => {
-        this.getDataFromSDK(position, distance)
+    useEffect(() => {
+        const position = getPositionFromUrl()
+        const positionString = window.location.pathname.split('/')[2]
+        const {
+            hiddenStations,
+            hiddenStops,
+            distance: newDistance,
+            hiddenRoutes,
+            hiddenModes,
+            newStations,
+            newStops,
+        } = getSettingsFromUrl()
+
+        getDataFromSDK(position, newDistance)
+
+        const newHashedState = window.location.pathname.split('/')[3]
+
+        setStationsData(v => ({
+            ...v,
+            newStations,
+        }))
+
+        setStopsData(v => ({
+            ...v,
+            newStops,
+        }))
+
+        setDistance(newDistance)
+        setHashedState(newHashedState)
+
+        setHidden({
+            hiddenStops,
+            hiddenStations,
+            hiddenRoutes,
+            hiddenModes,
+        })
+
+        setPositionData({
+            position,
+            positionString,
+        })
+    }, [
+        getPositionFromUrl,
+        getSettingsFromUrl,
+        setStationsData,
+        setStopsData,
+        setDistance,
+        setHashedState,
+        setHidden,
+        setPositionData,
+        getDataFromSDK,
+    ])
+
+    const updateSearch = debounce((newDistance, position) => {
+        getDataFromSDK(position, newDistance)
     }, 500)
 
-    updateAndGoToDashboard = () => {
-        const {
-            distance, hiddenStations, hiddenStops, positionString, hiddenRoutes, hiddenModes,
-        } = this.state
+    const updateAndGoToDashboard = () => {
+        const { hiddenStations, hiddenStops, hiddenRoutes, hiddenModes } = hidden
         const { newStations, newStops } = getSettingsFromUrl()
 
-        const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, newStations, newStops)
-
-        this.setState({ hashedState })
-        this.props.history.push(`/dashboard/${positionString}/${hashedState}`)
-    }
-
-    goBackToDashboard = () => {
-        this.props.history.push(window.location.pathname.replace('admin', 'dashboard'))
-    }
-
-    updateHiddenList = (clickedId, hiddenListType) => {
-        const {
-            hiddenLists, hashedState,
-        } = updateHiddenListAndHash(clickedId, this.state, hiddenListType)
-        const {
-            hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
-        } = hiddenLists
-        this.setState({
+        const newHashedState = getSettingsHash(
+            distance,
             hiddenStations,
             hiddenStops,
             hiddenRoutes,
             hiddenModes,
-            hashedState,
-        })
+            newStations,
+            newStops,
+        )
 
-        const { position, distance } = this.state
-        if (hiddenListType === 'transportModes') {
-            this.getDataFromSDK(position, distance)
-        }
+        setHashedState(newHashedState)
 
-        this.props.history.push(`/admin/${this.state.positionString}/${hashedState}`)
+        history.push(`/dashboard/${positionData.positionString}/${newHashedState}`)
     }
 
-    updateHiddenListForAll = (checked, type) => {
+    const goBackToDashboard = () => {
+        history.push(window.location.pathname.replace('admin', 'dashboard'))
+    }
+
+    const updateHiddenList = (clickedId, hiddenListType) => {
+        const { hiddenLists, hashedState: newHashedState } = updateHiddenListAndHash(
+            clickedId,
+            ...hidden,
+            ...stationsData,
+            ...stopsData,
+            distance,
+            hiddenListType,
+        )
+
+        setHidden(hiddenLists)
+        setHashedState(newHashedState)
+
+        if (hiddenListType === 'transportModes') {
+            getDataFromSDK(positionData.position, distance)
+        }
+
+        history.push(`/admin/${positionData.positionString}/${hashedState}`)
+    }
+
+    const updateHiddenListForAll = (checked, type) => {
         switch (type) {
             case 'stops':
-                const stopIds = this.state.stops.map(stop => stop.id)
+                const stopIds = stopsData.stops.map(stop => stop.id)
                 const hiddenStops = !checked ? stopIds : []
-                this.setState({
+
+                setHidden(v => ({
+                    ...v,
                     hiddenStops,
-                })
+                }))
+
                 break
             case 'stations':
-                const stationIds = this.state.stations.map(station => station.id)
+                const stationIds = stationsData.stations.map(station => station.id)
                 const hiddenStations = !checked ? stationIds : []
-                this.setState({
+
+                setHidden(v => ({
+                    ...v,
                     hiddenStations,
-                })
+                }))
+
                 break
         }
     }
 
-    getStyle = (isHidden) => {
+    const getStyle = isHidden => {
         return isHidden ? null : { opacity: 0.3 }
     }
 
-    isHidden = (id, type) => {
-        const {
-            hiddenStops, hiddenStations, hiddenRoutes, hiddenModes,
-        } = this.state
+    const isHidden = (id, type) => {
+        const { hiddenStops, hiddenStations, hiddenRoutes, hiddenModes } = hidden
         if (type === 'stations') {
             return hiddenStations.includes(id)
         }
@@ -216,25 +278,29 @@ class AdminPage extends React.Component {
         return hiddenRoutes.includes(id)
     }
 
-    handleTextInputChange = (event) => {
-        const distance = event.target.value
-        const { position } = this.state
-        this.setState({ distance })
+    const handleTextInputChange = event => {
+        const newDistance = event.target.value
+        const { position } = positionData
+
+        setDistance(newDistance)
+
         if (distance.length) {
-            this.updateSearch(distance, position)
+            updateSearch(newDistance, position)
         }
     }
 
-    handleSliderChange = (event) => {
-        const distance = event.target.value
-        const { position } = this.state
-        this.setState({ distance })
-        this.updateSearch(distance, position)
+    const handleSliderChange = event => {
+        const newDistance = event.target.value
+        const { position } = positionData
+
+        setDistance(newDistance)
+
+        updateSearch(newDistance, position)
     }
 
-    handleAddNewStation = (stations) => {
+    const handleAddNewStation = stations => {
         const stationIds = stations
-            .filter(station => this.state.stations.every(item => item.name !== station.name))
+            .filter(station => stationsData.stations.every(item => item.name !== station.name))
             .map(station => station.id)
 
         if (!stationIds.length) return
@@ -242,98 +308,107 @@ class AdminPage extends React.Component {
         const { newStations } = getSettingsFromUrl()
 
         const updatedNewStations = sortLists(newStations, stationIds)
-        const updatedStations = sortLists(this.state.stations, stations)
+        const updatedStations = sortLists(stationsData.stations, stations)
 
-        const {
-            distance, hiddenStations, hiddenStops, positionString,
-            hiddenRoutes, hiddenModes, newStops,
-        } = this.state
+        const { hiddenStations, hiddenStops, hiddenRoutes, hiddenModes } = hidden
 
-        const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, updatedNewStations, newStops)
+        const newHashedState = getSettingsHash(
+            distance,
+            hiddenStations,
+            hiddenStops,
+            hiddenRoutes,
+            hiddenModes,
+            updatedNewStations,
+            stopsData.newStops,
+        )
 
-        this.setState({
-            hashedState,
+        setHashedState(newHashedState)
+        setStationsData({
             stations: updatedStations,
             newStations: updatedNewStations,
         })
 
-        this.props.history.push(`/admin/${positionString}/${hashedState}`)
+        history.push(`/admin/${positionData.positionString}/${newHashedState}`)
     }
 
-    handleAddNewStop = (newStop) => {
-        const found = this.state.stops.some(item => item.id === newStop.id)
+    const handleAddNewStop = newStop => {
+        const found = stopsData.stops.some(item => item.id === newStop.id)
         const hasDepartures = !(newStop.departures.length === 0)
 
         if (found || !hasDepartures) return
 
         getStopsWithUniqueStopPlaceDepartures([newStop]).then(stop => {
-            const {
-                distance, hiddenStations, hiddenStops, positionString,
-                hiddenRoutes, hiddenModes, newStations, stops,
-            } = this.state
+            const { hiddenStations, hiddenStops, hiddenRoutes, hiddenModes } = hidden
 
             const { newStops } = getSettingsFromUrl()
 
             const updatedNewStops = sortLists(newStops, [newStop.id])
-            const hashedState = getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, newStations, updatedNewStops)
+            const newHashedState = getSettingsHash(
+                distance,
+                hiddenStations,
+                hiddenStops,
+                hiddenRoutes,
+                hiddenModes,
+                stationsData.newStations,
+                updatedNewStops,
+            )
 
-            const updatedStops = sortLists(stops, stop)
-            this.setState({
+            const updatedStops = sortLists(stopsData.stops, stop)
+
+            setStopsData({
                 stops: updatedStops,
                 newStops: updatedNewStops,
-                hashedState,
             })
-            this.props.history.push(`/admin/${positionString}/${hashedState}`)
+            setHashedState(newHashedState)
+
+            history.push(`/admin/${positionData.positionString}/${hashedState}`)
         })
     }
 
-    render() {
-        const {
-            distance, stations, stops, transportModes, hiddenModes, position,
-        } = this.state
-        const { isHidden, updateHiddenList } = this
-        return (
-            <div className="admin-container main-container">
-                <AdminHeader
-                    goBackToDashboard={this.goBackToDashboard}
+    const { stations } = stationsData
+    const { stops } = stopsData
+    const { position } = positionData
+    const { hiddenModes } = hidden
+
+    return (
+        <div className="admin-container main-container">
+            <AdminHeader goBackToDashboard={goBackToDashboard} />
+            <div className="admin-content">
+                <FilterPanel
+                    isHidden={isHidden}
+                    transportModes={transportModes}
+                    distance={distance}
+                    handleSliderChange={handleSliderChange}
+                    handleTextInputChange={handleTextInputChange}
+                    updateHiddenList={updateHiddenList}
+                    getStyle={getStyle}
+                    hiddenModes={hiddenModes}
                 />
-                <div className="admin-content">
-                    <FilterPanel
-                        isHidden={isHidden}
-                        transportModes={transportModes}
-                        distance={distance}
-                        handleSliderChange={this.handleSliderChange}
-                        handleTextInputChange={this.handleTextInputChange}
-                        updateHiddenList={this.updateHiddenList}
-                        getStyle={this.getStyle}
-                        hiddenModes={hiddenModes}
-                    />
-                    <SelectionPanel
-                        stops={stops}
-                        stations={stations}
-                        updateHiddenList={updateHiddenList}
-                        updateHiddenListForAll={this.updateHiddenListForAll}
-                        position={position}
-                        onCheck={isHidden}
-                        handleAddNewStop={this.handleAddNewStop}
-                    />
-                    <BikePanel
-                        stations={stations}
-                        updateHiddenList={updateHiddenList}
-                        updateHiddenListForAll={this.updateHiddenListForAll}
-                        onCheck={isHidden}
-                        position={position}
-                        handleAddNewStation={this.handleAddNewStation}
-                    />
-                </div>
-                <div className="update-button-container">
-                    <Button variant="secondary" onClick={this.updateAndGoToDashboard}>
-                        Oppdater tavle
-                    </Button>
-                </div>
+                <SelectionPanel
+                    stops={stops}
+                    stations={stations}
+                    updateHiddenList={updateHiddenList}
+                    updateHiddenListForAll={updateHiddenListForAll}
+                    position={position}
+                    onCheck={isHidden}
+                    handleAddNewStop={handleAddNewStop}
+                />
+                <BikePanel
+                    stations={stations}
+                    updateHiddenList={updateHiddenList}
+                    updateHiddenListForAll={updateHiddenListForAll}
+                    onCheck={isHidden}
+                    position={position}
+                    handleAddNewStation={handleAddNewStation}
+                />
             </div>
-        )
-    }
+            <div className="update-button-container">
+                <Button variant="secondary" onClick={updateAndGoToDashboard}>
+                    Oppdater tavle
+                </Button>
+            </div>
+        </div>
+    )
 }
 
 export default AdminPage
