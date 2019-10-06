@@ -10,7 +10,7 @@ module.exports = (env) => {
     return {
         mode: 'development',
         entry: [
-            './src/main.jsx',
+            './src/main.tsx',
             'webpack-plugin-serve/client',
         ],
         output: {
@@ -19,10 +19,15 @@ module.exports = (env) => {
             publicPath: '/',
         },
         resolve: {
-            extensions: ['.js', '.jsx'],
+            extensions: ['.js', '.jsx', '.ts', '.tsx'],
         },
         module: {
             rules: [
+                { 
+                    test: /\.tsx?$/, 
+                    exclude: /node_modules|sdk/,
+                    loader: 'awesome-typescript-loader'
+                },
                 {
                     test: /\.jsx?$/,
                     exclude: /node_modules|sdk/,
