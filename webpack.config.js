@@ -6,7 +6,7 @@ const { WebpackPluginServe: Serve } = require('webpack-plugin-serve')
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 
 module.exports = (env) => {
-    config({ path: path.join(__dirname, `.env.${typeof env === 'string' ? env : 'prod'}`) })
+    config({ path: path.join(__dirname, `.env.${typeof env === 'string' ? env : 'staging'}`) })
     return {
         mode: 'development',
         entry: [
@@ -23,10 +23,10 @@ module.exports = (env) => {
         },
         module: {
             rules: [
-                { 
-                    test: /\.tsx?$/, 
+                {
+                    test: /\.tsx?$/,
                     exclude: /node_modules|sdk/,
-                    loader: 'awesome-typescript-loader'
+                    loader: 'awesome-typescript-loader',
                 },
                 {
                     test: /\.jsx?$/,
