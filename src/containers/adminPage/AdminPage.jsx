@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import debounce from 'lodash.debounce'
 import { Button } from '@entur/component-library'
 
@@ -51,7 +51,7 @@ const AdminPage = ({ history }) => {
     const [hashedState, setHashedState] = useState(null)
     const [transportModes, setTransportModes] = useState([])
 
-    const getDataFromSDK = (position, newDistance) => {
+    const getDataFromSDK = useCallback((position, newDistance) => {
         const { newStations } = getSettingsFromUrl()
 
         Promise.all(newStations.map(stationId => service.getBikeRentalStation(stationId))).then(
@@ -132,7 +132,7 @@ const AdminPage = ({ history }) => {
                 })
             })
         })
-    }
+    }, [distance, hidden.hiddenModes, transportModes])
 
     useEffect(() => {
         const position = getPositionFromUrl()
@@ -175,17 +175,7 @@ const AdminPage = ({ history }) => {
             position,
             positionString,
         })
-    }, [
-        getPositionFromUrl,
-        getSettingsFromUrl,
-        setStationsData,
-        setStopsData,
-        setDistance,
-        setHashedState,
-        setHidden,
-        setPositionData,
-        getDataFromSDK,
-    ])
+    }, [getDataFromSDK])
 
     const updateSearch = debounce((newDistance, position) => {
         getDataFromSDK(position, newDistance)
