@@ -54,7 +54,7 @@ function BikePanel(props) {
                                                 id={id}
                                                 checked={isChecked}
                                                 onChange={() => {
-                                                    updateHiddenList(id, 'stops')
+                                                    updateHiddenList(id, 'stations')
                                                     if (checked) { setChecked(!checked) }
                                                 }}
                                                 className="entur-radio-checkbox--round entur-radio-checkbox--margin"

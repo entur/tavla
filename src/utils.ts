@@ -1,4 +1,5 @@
-import moment from 'moment'
+import moment, { Moment } from 'moment'
+import { useState, useEffect } from 'react'
 
 import {
     BicycleIcon, BusIcon, FerryIcon, SubwayIcon,
@@ -10,7 +11,9 @@ import { Lock } from './assets/icons'
 import { DEFAULT_DISTANCE } from './constants'
 import service from './service'
 
-export function getIcon(type) {
+import { Coords, Settings } from './types'
+
+export function getIcon(type: string) {
     switch (type) {
         case 'bus':
             return BusIcon
@@ -33,7 +36,7 @@ export function getIcon(type) {
     }
 }
 
-export function getIconColor(type, subType) {
+export function getIconColor(type: string, subType: string): string {
     const airportLinkTypes = ['airportLinkRail', 'airportLinkBus']
     if (airportLinkTypes.includes(subType)) return COLORS.PLANE_MIDNIGHT
 
@@ -57,23 +60,23 @@ export function getIconColor(type, subType) {
     }
 }
 
-export function onBlur(isChecked) {
+export function onBlur(isChecked: boolean) {
     return isChecked ? null : { opacity: 0.3 }
 }
 
-export function getPositionFromUrl() {
+export function getPositionFromUrl(): Coords {
     const positionArray = window.location.pathname.split('/')[2].split('@')[1].split('-').join('.').split(/,/)
-    return { latitude: positionArray[0], longitude: positionArray[1] }
+    return { latitude: Number(positionArray[0]), longitude: Number(positionArray[1]) }
 }
 
-export function getSettingsFromUrl() {
+export function getSettingsFromUrl(): Settings {
     const settings = window.location.pathname.split('/')[3]
     return (settings !== '') ? JSON.parse(atob(settings)) : {
         hiddenStations: [], hiddenStops: [], hiddenRoutes: [], distance: DEFAULT_DISTANCE, hiddenModes: [], newStations: [], newStops: [],
     }
 }
 
-export function groupBy(objectArray, property) {
+export function groupBy(objectArray: Array<any>, property: string): { [key: string]: Array<any> } {
     return objectArray.reduce((acc, obj) => {
         const key = obj[property]
         if (!acc[key]) {
@@ -84,7 +87,7 @@ export function groupBy(objectArray, property) {
     }, {})
 }
 
-function getTransportModes(departures) {
+function getTransportModes(departures: Array<any>): Array<string> {
     return [...new Set(departures.map(item => item.type))]
 }
 
@@ -101,7 +104,7 @@ export function getTransportHeaderIcons(departures, hiddenModes) {
     ))
 }
 
-function onFilterDepartures(groupedDepartures, hiddenModes) {
+function onFilterDepartures(groupedDepartures: { [key: string]: Array<any> }, hiddenModes: Array<string>) {
     const unHiddenDepartures = Object.values(groupedDepartures).map((departures) => {
         const filteredDepartures = departures.filter(({ type }) => !hiddenModes.includes(type))
         if (filteredDepartures.length > 0) {
@@ -120,7 +123,7 @@ export function isVisible(groupedDepartures, hiddenRoutes, hiddenModes) {
     return visibleRoutes.length > 0
 }
 
-export function formatDeparture(minDiff, departureTime) {
+export function formatDeparture(minDiff: number, departureTime: Moment) {
     if (minDiff > 15) return departureTime.format('HH:mm')
     return minDiff < 1 ? 'nå' : minDiff.toString() + ' min'
 }
@@ -174,7 +177,7 @@ export function getStopPlacesByPositionAndDistance(position, distance) {
     })
 }
 
-function updateHiddenList(clickedId, hiddenList) {
+function updateHiddenList(clickedId: string, hiddenList: Array<string>): Array<string> {
     let newSet = hiddenList
     if (hiddenList.includes(clickedId)) {
         newSet = newSet.filter((id) => id !== clickedId)
@@ -239,14 +242,19 @@ export function updateSettingsHashStations(state, sortedStations) {
     return btoa(JSON.stringify(savedSettings))
 }
 
-export function updateHiddenListAndHash(clickedId, state, hiddenType) {
+export function updateHiddenListAndHash(clickedId: string, state: any, hiddenType: 'stations' | 'stops' | 'routes' | 'transportModes') {
     const {
         hiddenStops, hiddenStations, distance, hiddenRoutes, hiddenModes,
         newStations, newStops,
     } = state
     let newSet = []
-    let hashedState = ''
-    let hiddenLists = {}
+    let hashedState: string = ''
+    let hiddenLists = {
+        hiddenStations,
+        hiddenStops,
+        hiddenRoutes,
+        hiddenModes,
+    }
     switch (hiddenType) {
         case 'stations':
             newSet = updateHiddenList(clickedId, hiddenStations)
@@ -294,6 +302,43 @@ export function updateHiddenListAndHash(clickedId, state, hiddenType) {
     }
 }
 
-export function getCombinedStopPlaceAndRouteId(stopPlaceId, routeName) {
+export function getCombinedStopPlaceAndRouteId(stopPlaceId: string, routeName: string): string {
     return `${stopPlaceId}$${routeName}`
+}
+
+export function checkIsHidden(id: string, type: string, hidden: Settings): boolean {
+    const {
+        hiddenStops, hiddenStations, hiddenRoutes, hiddenModes,
+    } = hidden
+    if (type === 'stations') {
+        return hiddenStations.includes(id)
+    }
+    if (type === 'stops') {
+        return hiddenStops.includes(id)
+    }
+
+    if (type === 'modes') {
+        return hiddenModes.includes(id)
+    }
+    return hiddenRoutes.includes(id)
+}
+
+// https://usehooks.com/useDebounce/
+export function useDebounce<T>(value: T, delay: number): T {
+    const [debouncedValue, setDebouncedValue] = useState<T>(value)
+
+    useEffect(
+        () => {
+            const handler = setTimeout(() => {
+                setDebouncedValue(value)
+            }, delay)
+
+            return () => {
+                clearTimeout(handler)
+            }
+        },
+        [value, delay]
+    )
+
+    return debouncedValue
 }
