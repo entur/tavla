@@ -12,7 +12,7 @@ const BikePanelSearch = ({ handleAddNewStation, position }) => {
         service.getBikeRentalStations(position, 100000).then(newStations => {
             setStations(newStations)
         })
-    }, [service, position, setStations])
+    }, [position])
 
     const getSuggestions = newValue => {
         const inputValue = newValue.trim().toLowerCase()

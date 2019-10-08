@@ -1,18 +1,18 @@
-const config = require('dotenv').config
 const path = require('path')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const { WebpackPluginServe: Serve } = require('webpack-plugin-serve')
+const Dotenv = require('dotenv-webpack')
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 
 module.exports = (env) => {
-    config({ path: path.join(__dirname, `.env.${typeof env === 'string' ? env : 'staging'}`) })
     return {
         mode: 'development',
         entry: [
             './src/main.tsx',
             'webpack-plugin-serve/client',
         ],
+        devtool: 'inline-source-map',
         output: {
             path: OUTPUT_PATH,
             filename: 'bundle.[hash].js',
@@ -68,6 +68,7 @@ module.exports = (env) => {
                 filename: 'index.html',
                 favicon: 'src/assets/images/logo.png',
             }),
+            new Dotenv({ path: path.join(__dirname, `.env.${typeof env === 'string' ? env : 'staging'}`) }),
             new Serve({
                 open: true,
                 host: 'localhost',

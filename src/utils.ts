@@ -6,12 +6,16 @@ import {
     TrainIcon, TramIcon, PlaneIcon, COLORS,
 } from '@entur/component-library'
 
+import {
+    Coordinates, TransportMode, BikeRentalStation, StopPlace, EstimatedCall,
+} from '@entur/sdk'
+
 import { Lock } from './assets/icons'
 
 import { DEFAULT_DISTANCE } from './constants'
 import service from './service'
 
-import { Coords, Settings } from './types'
+import { Settings, LineData } from './types'
 
 export function getIcon(type: string) {
     switch (type) {
@@ -64,14 +68,14 @@ export function onBlur(isChecked: boolean) {
     return isChecked ? null : { opacity: 0.3 }
 }
 
-export function getPositionFromUrl(): Coords {
+export function getPositionFromUrl(): Coordinates {
     const positionArray = window.location.pathname.split('/')[2].split('@')[1].split('-').join('.').split(/,/)
     return { latitude: Number(positionArray[0]), longitude: Number(positionArray[1]) }
 }
 
 export function getSettingsFromUrl(): Settings {
     const settings = window.location.pathname.split('/')[3]
-    return (settings !== '') ? JSON.parse(atob(settings)) : {
+    return (settings) ? JSON.parse(atob(settings)) : {
         hiddenStations: [], hiddenStops: [], hiddenRoutes: [], distance: DEFAULT_DISTANCE, hiddenModes: [], newStations: [], newStops: [],
     }
 }
@@ -87,7 +91,7 @@ export function groupBy(objectArray: Array<any>, property: string): { [key: stri
     }, {})
 }
 
-function getTransportModes(departures: Array<any>): Array<string> {
+function getTransportModes(departures: Array<any>): Array<TransportMode> {
     return [...new Set(departures.map(item => item.type))]
 }
 
@@ -128,29 +132,34 @@ export function formatDeparture(minDiff: number, departureTime: Moment) {
     return minDiff < 1 ? 'nå' : minDiff.toString() + ' min'
 }
 
-export function getUniqueRoutes(routes) {
+export function getUniqueRoutes(lines: Array<LineData>): Array<LineData> {
     const uniqueThings = {}
-    routes.forEach(({ route, type }) => {
-        uniqueThings[route] = type
+    lines.forEach((line) => {
+        uniqueThings[line.route] = line
     })
-    return Object.entries(uniqueThings).map(([route, type]) => ({ route, type }))
+    return Object.values(uniqueThings)
 }
 
-export function transformDepartureToLineData(departure) {
+export function transformDepartureToLineData(departure: EstimatedCall): LineData {
     const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
     const { line } = serviceJourney.journeyPattern
     const departureTime = moment(expectedDepartureTime)
     const minDiff = departureTime.diff(moment(), 'minutes')
+
+    const route = `${line.publicCode || ''} ${destinationDisplay.frontText}`.trim()
+
     const transportMode = line.transportMode === 'coach' ? 'bus' : line.transportMode
+    const subType = departure.serviceJourney.transportSubmode
 
     return {
         type: transportMode,
+        subType,
         time: formatDeparture(minDiff, departureTime),
-        route: line.publicCode + ' '+ destinationDisplay.frontText,
+        route,
     }
 }
 
-export function getStopsWithUniqueStopPlaceDepartures(stops) {
+export function getStopsWithUniqueStopPlaceDepartures(stops: Array<StopPlace>) {
     return service.getStopPlaceDepartures(stops.map(({ id }) => id), { includeNonBoarding: true, departures: 50 }).then(departures => {
         return stops.map(stop => {
             const resultForThisStop = departures.find(({ id }) => stop.id === id)
@@ -161,17 +170,6 @@ export function getStopsWithUniqueStopPlaceDepartures(stops) {
             return {
                 ...stop,
                 departures: getUniqueRoutes(resultForThisStop.departures.map(transformDepartureToLineData)),
-            }
-        })
-    })
-}
-
-export function getStopPlacesByPositionAndDistance(position, distance) {
-    return service.getStopPlacesByPosition(position, distance).then(stopPlaces => {
-        return stopPlaces.map(stop => {
-            return {
-                ...stop,
-                departures: [],
             }
         })
     })
@@ -226,7 +224,7 @@ export function updateSettingsHashStops(state, sortedStops) {
     return btoa(JSON.stringify(savedSettings))
 }
 
-export function updateSettingsHashStations(state, sortedStations) {
+export function updateSettingsHashStations(state: Settings, sortedStations: Array<BikeRentalStation>) {
     const {
         distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, newStops,
     } = state
@@ -242,13 +240,13 @@ export function updateSettingsHashStations(state, sortedStations) {
     return btoa(JSON.stringify(savedSettings))
 }
 
-export function updateHiddenListAndHash(clickedId: string, state: any, hiddenType: 'stations' | 'stops' | 'routes' | 'transportModes') {
+export function updateHiddenListAndHash(clickedId: string, state: Settings, hiddenType: 'stations' | 'stops' | 'routes' | 'transportModes') {
     const {
         hiddenStops, hiddenStations, distance, hiddenRoutes, hiddenModes,
         newStations, newStops,
     } = state
     let newSet = []
-    let hashedState: string = ''
+    let hashedState = ''
     let hiddenLists = {
         hiddenStations,
         hiddenStops,

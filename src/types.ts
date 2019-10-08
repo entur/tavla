@@ -1,7 +1,4 @@
-export interface Coords {
-    latitude?: number,
-    longitude?: number,
-}
+import { LegMode, TransportSubmode, StopPlace } from '@entur/sdk'
 
 export interface Settings {
     hiddenStations: Array<string>,
@@ -12,3 +9,12 @@ export interface Settings {
     newStations?: Array<string>,
     newStops?: Array<string>,
 }
+
+export interface LineData {
+    type: LegMode,
+    subType: TransportSubmode,
+    time: string,
+    route: string,
+}
+
+export type StopPlaceWithDepartures = StopPlace & { departures?: Array<LineData> }

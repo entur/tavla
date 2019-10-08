@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Button } from '@entur/component-library'
+import { Coordinates, StopPlace } from '@entur/sdk'
 
 import SelectionPanel from './SelectionPanel'
 import BikePanel from './BikePanel'
@@ -9,7 +10,6 @@ import {
     getPositionFromUrl,
     getSettingsFromUrl,
     getStopsWithUniqueStopPlaceDepartures,
-    getStopPlacesByPositionAndDistance,
     getSettingsHash,
     getUniqueRoutes,
     transformDepartureToLineData,
@@ -22,7 +22,7 @@ import {
 
 import { DEFAULT_DISTANCE } from '../../constants'
 import service from '../../service'
-import { Coords } from '../../types'
+import { StopPlaceWithDepartures } from '../../types'
 
 import AdminHeader from './AdminHeader'
 
@@ -32,8 +32,8 @@ function getStyle(isHidden: boolean) {
     return isHidden ? null : { opacity: 0.3 }
 }
 
-function getStopsDataWithDepartures(stopIds: Array<string>) {
-    return stopIds.map(async stopId => {
+function getStopsDataWithDepartures(stopIds: Array<string>): Promise<Array<StopPlaceWithDepartures>> {
+    return Promise.all(stopIds.map(async stopId => {
         const [stop, departures] = await Promise.all([
             service.getStopPlace(stopId),
             service.getStopPlaceDepartures(stopId, {
@@ -43,20 +43,12 @@ function getStopsDataWithDepartures(stopIds: Array<string>) {
         ])
         return {
             ...stop,
-            departures: getUniqueRoutes(
-                departures.map(transformDepartureToLineData),
-            ),
+            departures: getUniqueRoutes(departures.map(transformDepartureToLineData)),
         }
-    })
+    }))
 }
 
-interface Data {
-    stops: Array<any>,
-    transportModes: Array<string>,
-    stations: Array<any>,
-}
-
-async function getData(position: Coords | void, newDistance: number): Promise<Data | void> {
+async function getData(position: Coordinates | void, newDistance: number) {
     if (!position) {
         return
     }
@@ -67,10 +59,10 @@ async function getData(position: Coords | void, newDistance: number): Promise<Da
     const stations = await service.getBikeRentalStations(position, newDistance)
     const allStations = sortLists(hashedStationsData, stations)
 
-    const stops = await getStopPlacesByPositionAndDistance(position, newDistance)
+    const stops = await service.getStopPlacesByPosition(position, newDistance)
     const hashedStopsData = await getStopsDataWithDepartures(newStops)
 
-    const allStops = sortLists(hashedStopsData, stops)
+    const allStops: Array<StopPlace> = sortLists(hashedStopsData, stops)
 
     const uniqueRoutes = await getStopsWithUniqueStopPlaceDepartures(allStops)
     const uniqueModes = getTransportModesByStop(uniqueRoutes)
@@ -82,21 +74,8 @@ async function getData(position: Coords | void, newDistance: number): Promise<Da
             : ['bike', ...uniqueModes]
     }
 
-    const filterStops = uniqueRoutes
-        .map(stop => {
-            // const filterStop = stop.departures.filter(({ type }) => !hidden.hiddenModes.includes(type))
-            const filterStop = stop.departures
-            if (filterStop.length > 0) {
-                return {
-                    ...stop,
-                    departures: filterStop,
-                }
-            }
-        })
-        .filter(Boolean)
-
     return {
-        stops: filterStops,
+        stops: uniqueRoutes,
         transportModes: newTransportModes,
         stations: allStations,
     }
@@ -106,7 +85,7 @@ const AdminPage = ({ history }) => {
     const [distance, setDistance] = useState<number>(DEFAULT_DISTANCE)
     const debouncedDistance = useDebounce(distance, 300)
 
-    const [position, setPosition] = useState<Coords | null>(null)
+    const [position, setPosition] = useState<Coordinates | null>(null)
     const debouncedPosition = useDebounce(position, 300)
 
     const [positionString, setPositionString] = useState(null)
@@ -143,10 +122,10 @@ const AdminPage = ({ history }) => {
 
             setStopsData(prevStopsData => ({
                 ...prevStopsData,
-                stops: stops.map(stop => ({
+                stops: stops.map((stop: any) => ({
                     ...stop,
-                    departures: stop.departures.filter(({ type }) => !hidden.hiddenModes.includes(type))
-                })).filter(stop => stop.departures.length)
+                    departures: (stop.departures || []).filter(({ type }) => !hidden.hiddenModes.includes(type)),
+                })).filter(stop => stop.departures.length),
             }))
 
             const bikeRentalStations = hidden.hiddenModes.includes('bike') ? [] : stations
@@ -164,8 +143,6 @@ const AdminPage = ({ history }) => {
             newStations,
             newStops,
         } = getSettingsFromUrl()
-
-        // getDataFromSDK(position, newDistance)
 
         const newHashedState = window.location.pathname.split('/')[3]
 
@@ -219,9 +196,6 @@ const AdminPage = ({ history }) => {
     }, [history])
 
     const updateHiddenList = useCallback((clickedId, hiddenListType) => {
-        console.log('updateHiddenList');
-        console.log(clickedId, hiddenListType);
-
         const { hiddenLists, hashedState: newHashedState } = updateHiddenListAndHash(
             clickedId,
             {
@@ -232,9 +206,6 @@ const AdminPage = ({ history }) => {
             },
             hiddenListType,
         )
-
-        console.log('NEW hiddenlist');
-        console.log(hiddenLists);
 
         setHidden(hiddenLists)
         setHashedState(newHashedState)
@@ -309,7 +280,7 @@ const AdminPage = ({ history }) => {
         history.push(`/admin/${positionString}/${newHashedState}`)
     }, [distance, hidden, history, positionString, stationsData.stations, stopsData.newStops])
 
-    const handleAddNewStop = useCallback(newStop => {
+    const handleAddNewStop = useCallback((newStop) => {
         const found = stopsData.stops.some(item => item.id === newStop.id)
         const hasDepartures = !(newStop.departures.length === 0)
 

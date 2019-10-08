@@ -3,10 +3,14 @@
         "outDir": "./dist/",
         "sourceMap": true,
         "module": "commonjs",
-        "target": "es6",
+        "lib": ["es2017", "dom", "dom.iterable"],
+        "target": "es5",
         "jsx": "react",
         "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "types",
+        "typeRoots": ["types"],
+        "downlevelIteration": true
     },
     "include": ["./src/**/*"],
     "exclude": ["node_modules"]
