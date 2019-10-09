@@ -24,7 +24,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         event.preventDefault()
     }, [history])
 
-    const noStops = !bikeRentalStations.length && !stopPlacesWithDepartures.length
+    const noStops = !stopPlacesWithDepartures.length && (!bikeRentalStations || !bikeRentalStations.length)
 
     return (
         <div className="enturdash">
