@@ -4,7 +4,7 @@
     background-color: $blue;
     padding: 2rem 4rem;
     overflow: hidden;
-    height: calc(100vh - 5rem);
+    height: calc(100vh);
 
     &__top {
         display: flex;
@@ -15,10 +15,12 @@
     &__tiles {
         display: flex;
         flex-direction: row;
-        overflow: auto;
+        overflow-x: auto;
 
         .tile {
             margin-right: 2rem;
+            max-height: 75vh;
+            overflow-y: scroll;
         }
     }
 
