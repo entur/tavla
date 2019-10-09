@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react'
 
-import { Footer, Header } from '../../components'
+import { Footer, Clock } from '../../components'
+import WhiteTavlaLogo from '../../assets/icons/whiteTavlaLogo/whiteTavlaLogo'
 import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../state'
 
 import BikeTile from './BikeTile'
@@ -27,7 +28,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     return (
         <div className="enturdash">
-            <Header />
+            <div className="enturdash__top">
+                <WhiteTavlaLogo />
+                <Clock />
+            </div>
             {noStops && !initialLoading ? (
                 <div className="no-stops">
                     <div className="no-stops-sheep">

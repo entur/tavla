@@ -6,6 +6,12 @@
     overflow: hidden;
     height: calc(100vh - 5rem);
 
+    &__top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
     &__tiles {
         display: flex;
         flex-direction: row;
