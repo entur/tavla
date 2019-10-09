@@ -69,9 +69,9 @@ async function getData(position: Coordinates | void, newDistance: number) {
 
     let newTransportModes = uniqueModes
     if (allStations.length > 0) {
-        newTransportModes = uniqueModes.includes('bike')
+        newTransportModes = uniqueModes.includes('bicycle')
             ? uniqueModes
-            : ['bike', ...uniqueModes]
+            : ['bicycle', ...uniqueModes]
     }
 
     return {
@@ -128,7 +128,7 @@ const AdminPage = ({ history }) => {
                 })).filter(stop => stop.departures.length),
             }))
 
-            const bikeRentalStations = hidden.hiddenModes.includes('bike') ? [] : stations
+            const bikeRentalStations = hidden.hiddenModes.includes('bicycle') ? [] : stations
             setStationsData(prevStationsData => ({ ...prevStationsData, stations: bikeRentalStations }))
         })
     }, [debouncedPosition, debouncedDistance, hidden.hiddenModes])
@@ -344,7 +344,7 @@ const AdminPage = ({ history }) => {
                     handleAddNewStop={handleAddNewStop}
                 />
                 {
-                    !hiddenModes.includes('bike') ? (
+                    !hiddenModes.includes('bicycle') ? (
                         <BikePanel
                             stations={stations}
                             updateHiddenList={updateHiddenList}

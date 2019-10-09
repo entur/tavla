@@ -29,7 +29,7 @@ const TransportRow = ({
                 return 'Buss'
             case 'tram':
                 return 'Trikk'
-            case 'bike':
+            case 'bicycle':
                 return 'Bysykkel'
             case 'water':
                 return 'Ferje'

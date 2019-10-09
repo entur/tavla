@@ -7,14 +7,14 @@ import './styles.scss'
 
 const BikeTable = ({ stationData, visible }: Props): JSX.Element => {
     const { hiddenModes, hiddenStations } = visible
-    if (hiddenModes.includes('bike')) {
+    if (hiddenModes.includes('bicycle')) {
         return null
     }
     const stations = stationData
         .filter(({ id }) => !hiddenStations.includes(id))
         .sort((a, b) => a.name.localeCompare(b.name))
 
-    const BikeIcon = getIcon('bike')
+    const BikeIcon = getIcon('bicycle')
     return (
         <div className="tile-container">
             <div className="bike-header-container">

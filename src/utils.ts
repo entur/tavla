@@ -1,5 +1,5 @@
 import moment, { Moment } from 'moment'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ElementType } from 'react'
 
 import {
     BicycleIcon, BusIcon, FerryIcon, SubwayIcon,
@@ -7,21 +7,19 @@ import {
 } from '@entur/component-library'
 
 import {
-    Coordinates, TransportMode, BikeRentalStation, StopPlace, EstimatedCall,
+    Coordinates, TransportMode, BikeRentalStation, StopPlace, EstimatedCall, LegMode, TransportSubmode,
 } from '@entur/sdk'
-
-import { Lock } from './assets/icons'
 
 import { DEFAULT_DISTANCE } from './constants'
 import service from './service'
 
 import { Settings, LineData } from './types'
 
-export function getIcon(type: string) {
+export function getIcon(type: LegMode): ElementType | null {
     switch (type) {
         case 'bus':
             return BusIcon
-        case 'bike':
+        case 'bicycle':
             return BicycleIcon
         case 'water':
             return FerryIcon
@@ -31,8 +29,6 @@ export function getIcon(type: string) {
             return TrainIcon
         case 'tram':
             return TramIcon
-        case 'lock':
-            return Lock
         case 'air':
             return PlaneIcon
         default:
@@ -40,14 +36,14 @@ export function getIcon(type: string) {
     }
 }
 
-export function getIconColor(type: string, subType: string): string {
+export function getIconColor(type: LegMode, subType: TransportSubmode): string {
     const airportLinkTypes = ['airportLinkRail', 'airportLinkBus']
     if (airportLinkTypes.includes(subType)) return COLORS.PLANE_MIDNIGHT
 
     switch (type) {
         case 'bus':
             return COLORS.BUS_MIDNIGHT
-        case 'bike':
+        case 'bicycle':
             return COLORS.BICYCLE_MIDNIGHT
         case 'water':
             return COLORS.FERRY_MIDNIGHT
@@ -64,7 +60,7 @@ export function getIconColor(type: string, subType: string): string {
     }
 }
 
-export function onBlur(isChecked: boolean) {
+export function onBlur(isChecked: boolean): { opacity: number } | null {
     return isChecked ? null : { opacity: 0.3 }
 }
 
