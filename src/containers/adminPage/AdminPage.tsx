@@ -28,10 +28,6 @@ import AdminHeader from './AdminHeader'
 
 import './styles.scss'
 
-function getStyle(isHidden: boolean) {
-    return isHidden ? null : { opacity: 0.3 }
-}
-
 function getStopsDataWithDepartures(stopIds: Array<string>): Promise<Array<StopPlaceWithDepartures>> {
     return Promise.all(stopIds.map(async stopId => {
         const [stop, departures] = await Promise.all([
@@ -81,7 +77,7 @@ async function getData(position: Coordinates | void, newDistance: number) {
     }
 }
 
-const AdminPage = ({ history }) => {
+const AdminPage = ({ history }: Props): JSX.Element => {
     const [distance, setDistance] = useState<number>(DEFAULT_DISTANCE)
     const debouncedDistance = useDebounce(distance, 300)
 
@@ -170,7 +166,7 @@ const AdminPage = ({ history }) => {
         setPositionString(window.location.pathname.split('/')[2])
     }, [])
 
-    const updateAndGoToDashboard = () => {
+    const updateAndGoToDashboard = (): void => {
         const {
             hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
         } = hidden
@@ -213,7 +209,7 @@ const AdminPage = ({ history }) => {
         history.push(`/admin/${positionString}/${hashedState}`)
     }, [distance, hashedState, hidden, history, positionString, stationsData, stopsData])
 
-    const updateHiddenListForAll = (checked: boolean, type: 'stops' | 'stations') => {
+    const updateHiddenListForAll = (checked: boolean, type: 'stops' | 'stations'): void => {
         switch (type) {
             case 'stops':
                 const stopIds = stopsData.stops.map(stop => stop.id)
@@ -359,6 +355,10 @@ const AdminPage = ({ history }) => {
             </div>
         </div>
     )
+}
+
+interface Props {
+    history: any,
 }
 
 export default AdminPage

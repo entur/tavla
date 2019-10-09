@@ -96,8 +96,8 @@ export function getTransportModesByStop(stop) {
     return [...new Set([].concat(...dep))]
 }
 
-export function getTransportHeaderIcons(departures, hiddenModes) {
-    const transportModes = getTransportModes(departures).filter(f => !hiddenModes.includes(f))
+export function getTransportHeaderIcons(departures: Array<LineData>, hiddenModes?: Array<LegMode>): Array<ElementType<any>> {
+    const transportModes = getTransportModes(departures).filter(f => !hiddenModes || !hiddenModes.includes(f))
 
     return transportModes.map((mode) => (
         getIcon(mode)
