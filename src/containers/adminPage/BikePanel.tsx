@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import { Checkbox } from '@entur/component-library'
+import { Coordinates, BikeRentalStation } from '@entur/sdk'
+
 import BikePanelSearch from './searchPanels/BikePanelSearch'
 import './styles.scss'
 
-function BikePanel(props) {
+function BikePanel(props: Props): JSX.Element {
     const [checked, setChecked] = useState(false)
 
     const {
         onCheck, updateHiddenList, stations,
-        position, handleAddNewStation,
+        position, handleAddNewStations,
     } = props
 
-    const onChange = () => {
+    const onChange = (): void => {
         props.updateHiddenListForAll(!checked, 'stations')
         setChecked(!checked)
     }
@@ -24,7 +26,7 @@ function BikePanel(props) {
         <div className="selection-panel">
             <div>
                 <div className="search-stop-places">
-                    <BikePanelSearch position={position} handleAddNewStation={handleAddNewStation}/>
+                    <BikePanelSearch position={position} handleAddNewStations={handleAddNewStations}/>
                 </div>
                 <div className="city-bike-panel">
                     <div className="stop-place-header">
@@ -53,7 +55,7 @@ function BikePanel(props) {
                                                 key={id}
                                                 id={id}
                                                 checked={isChecked}
-                                                onChange={() => {
+                                                onChange={(): void => {
                                                     updateHiddenList(id, 'stations')
                                                     if (checked) { setChecked(!checked) }
                                                 }}
@@ -76,6 +78,15 @@ function BikePanel(props) {
             </div>
         </div>
     )
+}
+
+interface Props {
+    onCheck: (id: string, type: 'stations') => boolean,
+    updateHiddenList: (id: string, type: 'stations') => void,
+    updateHiddenListForAll: (checked: boolean, type: 'stations') => void,
+    stations: Array<BikeRentalStation>,
+    position: Coordinates,
+    handleAddNewStations: (stations: Array<BikeRentalStation>) => void,
 }
 
 export default BikePanel
