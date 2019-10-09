@@ -240,9 +240,9 @@ const AdminPage = ({ history }) => {
 
     const isHidden = useCallback((id, type) => checkIsHidden(id, type, hidden), [hidden])
 
-    const handleDistanceChange = useCallback(event => {
+    const handleDistanceChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const newDistance = event.target.value
-        setDistance(newDistance)
+        setDistance(Number(newDistance))
     }, [])
 
     const handleAddNewStations = useCallback(stations => {
@@ -325,13 +325,11 @@ const AdminPage = ({ history }) => {
             <AdminHeader goBackToDashboard={goBackToDashboard} />
             <div className="admin-content">
                 <FilterPanel
-                    isHidden={isHidden}
                     transportModes={transportModes}
                     distance={distance}
                     handleSliderChange={handleDistanceChange}
                     handleTextInputChange={handleDistanceChange}
                     updateHiddenList={updateHiddenList}
-                    getStyle={getStyle}
                     hiddenModes={hiddenModes}
                 />
                 <SelectionPanel

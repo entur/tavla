@@ -1,10 +1,11 @@
 import React from 'react'
+import { LegMode } from '@entur/sdk'
 import { DistanceInput, Slider } from '../../../components'
 import TransportRow from './TransportRow'
 
 const FilterPanel = ({
     transportModes, distance, handleSliderChange, handleTextInputChange, updateHiddenList, hiddenModes,
-}) => (
+}: Props): JSX.Element => (
     <div className="filter-panel">
         <div className="find-nearby-container">
             <div className="distance-container">
@@ -28,7 +29,6 @@ const FilterPanel = ({
                             index={index}
                             mode={mode}
                             updateHiddenList={updateHiddenList}
-                            transportModes={transportModes}
                             hiddenModes={hiddenModes}
                         />
                     ))}
@@ -37,5 +37,14 @@ const FilterPanel = ({
         </div>
     </div>
 )
+
+interface Props {
+    transportModes: Array<LegMode>,
+    distance: number,
+    handleSliderChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    handleTextInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    updateHiddenList: (mode: LegMode, type: 'transportModes') => void,
+    hiddenModes: Array<LegMode>,
+}
 
 export default FilterPanel

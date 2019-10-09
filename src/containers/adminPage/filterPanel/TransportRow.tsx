@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { SlideSwitch } from '@entur/component-library'
+import { LegMode } from '@entur/sdk'
+
 import { getIcon, getIconColor } from '../../../utils'
 
 const TransportRow = ({
     mode, index, hiddenModes, updateHiddenList,
-}) => {
+}: Props): JSX.Element => {
     const [checked, setChecked] = useState(true)
 
     useEffect(() => {
@@ -16,14 +18,14 @@ const TransportRow = ({
     }, [mode, hiddenModes, setChecked])
 
     const handleOnChecked = useCallback(
-        (newMode, transportModes) => () => {
-            updateHiddenList(newMode, transportModes)
+        (newMode) => (): void => {
+            updateHiddenList(newMode, 'transportModes')
             setChecked(v => !v)
         },
         [setChecked, updateHiddenList],
     )
 
-    const getTransportModeTitle = type => {
+    const getTransportModeTitle = (type: LegMode): string => {
         switch (type) {
             case 'bus':
                 return 'Buss'
@@ -56,12 +58,19 @@ const TransportRow = ({
             <SlideSwitch
                 id="SlideSwitch"
                 className="mode-sort-slide-switch"
-                onChange={handleOnChecked(mode, 'transportModes')}
+                onChange={handleOnChecked(mode)}
                 checked={checked}
                 style={{ cursor: 'pointer' }}
             />
         </div>
     )
+}
+
+interface Props {
+    mode: LegMode,
+    index: number,
+    hiddenModes: Array<LegMode>,
+    updateHiddenList: (mode: LegMode, type: 'transportModes') => void,
 }
 
 export default TransportRow
