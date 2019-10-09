@@ -13,7 +13,7 @@ import {
 import { DEFAULT_DISTANCE } from './constants'
 import service from './service'
 
-import { Settings, LineData } from './types'
+import { Settings, LineData, StopPlaceWithDepartures } from './types'
 
 export function getIcon(type: LegMode): ElementType | null {
     switch (type) {
@@ -168,6 +168,23 @@ export function getStopsWithUniqueStopPlaceDepartures(stops: Array<StopPlace>) {
                 departures: getUniqueRoutes(resultForThisStop.departures.map(transformDepartureToLineData)),
             }
         })
+    })
+}
+
+export function getStopWithUniqueStopPlaceDepartures(stopId: string): Promise<StopPlaceWithDepartures> {
+    return service.getStopPlace(stopId).then(stop => {
+        return service
+            .getStopPlaceDepartures(stop.id, {
+                includeNonBoarding: true,
+                departures: 50,
+            })
+            .then(departures => {
+                const updatedStop = {
+                    ...stop,
+                    departures: getUniqueRoutes(departures.map(transformDepartureToLineData)),
+                }
+                return updatedStop
+            })
     })
 }
 

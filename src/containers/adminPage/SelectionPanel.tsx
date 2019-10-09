@@ -7,19 +7,18 @@ import {
     AccordionItemPanel,
 } from 'react-accessible-accordion'
 import { SlideSwitch, Checkbox } from '@entur/component-library'
-import { Coordinates } from '@entur/sdk'
 
 import { getIcon, getIconColor, getCombinedStopPlaceAndRouteId } from '../../utils'
+import { StopPlaceWithDepartures } from '../../types'
 
 import SelectionPanelSearch from './searchPanels/SelectionPanelSearch'
 import './styles.scss'
-import { StopPlaceWithDepartures } from '../../types'
 
 function SelectionPanel(props: Props): JSX.Element {
     const [checked, setChecked] = useState(false)
 
     const {
-        onCheck, updateHiddenList, stops, position, handleAddNewStop,
+        onCheck, updateHiddenList, stops, handleAddNewStop,
     } = props
 
     const onChange = (): void => {
@@ -32,7 +31,7 @@ function SelectionPanel(props: Props): JSX.Element {
             { (stops.length > 0)
                 ? <div>
                     <div className="search-stop-places">
-                        <SelectionPanelSearch position={position} handleAddNewStop={handleAddNewStop}/>
+                        <SelectionPanelSearch handleAddNewStop={handleAddNewStop} />
                     </div>
                     <div className="stop-place-panel">
                         <div className="stop-place-header">
@@ -141,7 +140,6 @@ interface Props {
     updateHiddenList: (id: string, type: 'stops' | 'routes') => void,
     updateHiddenListForAll: (checked: boolean, type: 'stops') => void,
     stops: Array<StopPlaceWithDepartures>,
-    position: Coordinates,
     handleAddNewStop: (stopPlace: StopPlaceWithDepartures) => void,
 }
 

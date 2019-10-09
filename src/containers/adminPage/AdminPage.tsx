@@ -336,10 +336,8 @@ const AdminPage = ({ history }) => {
                 />
                 <SelectionPanel
                     stops={stops}
-                    stations={stations}
                     updateHiddenList={updateHiddenList}
                     updateHiddenListForAll={updateHiddenListForAll}
-                    position={position}
                     onCheck={isHidden}
                     handleAddNewStop={handleAddNewStop}
                 />
