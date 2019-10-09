@@ -1,7 +1,7 @@
 import React from 'react'
 import { MAX_DISTANCE } from '../../constants'
 
-const Slider = (props) => {
+const Slider = (props: Props): JSX.Element => {
     return (
         <div>
             <input
@@ -20,6 +20,11 @@ const Slider = (props) => {
             </div>
         </div>
     )
+}
+
+interface Props {
+    distance: number,
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
 export default Slider

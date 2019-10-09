@@ -43,6 +43,15 @@ function getErrorMessage(error) {
     }
 }
 
+
+const renderSpinner = () => {
+    return (
+        <div className="spinner-container">
+            <Spinner className="spinner" />
+        </div>
+    )
+}
+
 const getFeaturesDebounced = debounce(async (value, showMyPosition, callback) => {
     const inputLength = value.trim().length
 
@@ -69,7 +78,7 @@ const getFeaturesDebounced = debounce(async (value, showMyPosition, callback) =>
     return callback(features)
 }, 500)
 
-const SearchPanel = ({ handleCoordinatesSelected }) => {
+const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
     const [{ denied }, refreshLocationPermission] = useLocationPermission()
 
     const [showPositionInList, setShowPositionInList] = useState(true)
@@ -89,8 +98,8 @@ const SearchPanel = ({ handleCoordinatesSelected }) => {
     })
 
     const [suggestions, setSuggestions] = useState([{ name: YOUR_POSITION }])
-    const [waiting, setWaiting] = useState(false)
-    const [chosenCoord, setChosenCoord] = useState(null)
+    const [waiting, setWaiting] = useState<boolean>(false)
+    const [chosenCoord, setChosenCoord] = useState<{lat: number, lon: number} | null>(null)
 
     const onChange = (_, { newValue }) => {
         setFormValue(newValue)
@@ -164,14 +173,6 @@ const SearchPanel = ({ handleCoordinatesSelected }) => {
         return chosenCoord ? handleCoordinatesSelected(chosenCoord) : null
     }
 
-    const renderSpinner = () => {
-        return (
-            <div className="spinner-container">
-                <Spinner className="spinner" />
-            </div>
-        )
-    }
-
     const inputProps = useMemo(() => ({
         placeholder: 'Adresse eller sted',
         value: formValue,
@@ -215,6 +216,10 @@ const SearchPanel = ({ handleCoordinatesSelected }) => {
             )}
         </form>
     )
+}
+
+interface Props {
+    handleCoordinatesSelected: (choseCoord: { lat: number, lon: number } | null) => void,
 }
 
 export default memo(SearchPanel)

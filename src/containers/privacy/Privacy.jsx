@@ -1,6 +1,6 @@
 import React from 'react'
 
-import BackButton from '../../components/backButton/BackButton.jsx'
+import BackButton from '../../components/backButton/BackButton'
 
 import './styles.scss'
 

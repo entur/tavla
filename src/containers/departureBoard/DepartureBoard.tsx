@@ -104,9 +104,7 @@ const DepartureBoard = ({ history }) => {
         event.preventDefault()
     }, [history])
 
-    const {
-        hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
-    } = settings
+    const { hiddenStations, hiddenStops } = settings
 
     const visibleStopCount = stopsData.length - hiddenStops.length
     const visibleStationCount = stationData.length - hiddenStations.length
@@ -127,20 +125,13 @@ const DepartureBoard = ({ history }) => {
                         {visibleStopCount > 0 ? (
                             <DepartureTiles
                                 lineData={stopsData}
-                                visible={{
-                                    hiddenStops,
-                                    hiddenRoutes,
-                                    hiddenModes,
-                                }}
+                                visible={settings}
                             />
                         ) : null}
                         {visibleStationCount > 0 ? (
                             <BikeTable
                                 stationData={stationData}
-                                visible={{
-                                    hiddenStations,
-                                    hiddenModes,
-                                }}
+                                visible={settings}
                             />
                         ) : null}
                     </div>

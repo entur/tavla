@@ -3,7 +3,7 @@ import moment from 'moment'
 import WhiteTavlaLogo from '../../assets/icons/whiteTavlaLogo/whiteTavlaLogo.js'
 import './styles.scss'
 
-function Header() {
+function Header(): JSX.Element {
     const [date, setDate] = useState()
     const [time, setTime] = useState(moment().format('HH:mm'))
 

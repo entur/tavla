@@ -1,8 +1,11 @@
 import React from 'react'
+import { BikeRentalStation } from '@entur/sdk'
+
+import { Settings } from '../../types'
 import { getIcon } from '../../utils'
 import './styles.scss'
 
-const BikeTable = ({ stationData, visible }) => {
+const BikeTable = ({ stationData, visible }: Props): JSX.Element => {
     const { hiddenModes, hiddenStations } = visible
     if (hiddenModes.includes('bike')) {
         return null
@@ -37,6 +40,11 @@ const BikeTable = ({ stationData, visible }) => {
             }
         </div>
     )
+}
+
+interface Props {
+    stationData: Array<BikeRentalStation>,
+    visible: Settings,
 }
 
 export default BikeTable

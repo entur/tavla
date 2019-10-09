@@ -1,7 +1,7 @@
 import React from 'react'
 import { MAX_DISTANCE } from '../../constants'
 
-const DistanceInput = (props) => {
+const DistanceInput = (props: Props): JSX.Element => {
     return (
         <input
             type="number"
@@ -12,6 +12,11 @@ const DistanceInput = (props) => {
             max={MAX_DISTANCE}
         />
     )
+}
+
+interface Props {
+    distance: number,
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
 export default DistanceInput

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import '../../components/header/styles.scss'
-import BackButton from '../../components/backButton/BackButton.jsx'
+import BackButton from '../../components/backButton/BackButton'
 import './styles.scss'
 
 function AdminHeader(props) {

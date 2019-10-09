@@ -4,7 +4,7 @@ export interface Settings {
     hiddenStations: Array<string>,
     hiddenStops: Array<string>,
     hiddenRoutes: Array<string>,
-    hiddenModes: Array<string>,
+    hiddenModes: Array<LegMode>,
     distance?: number,
     newStations?: Array<string>,
     newStops?: Array<string>,

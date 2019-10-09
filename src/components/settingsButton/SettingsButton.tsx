@@ -1,11 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
 import { SettingsIcon } from '@entur/component-library'
 
 import './styles.scss'
 
-function SettingsButton({ onClick }) {
+function SettingsButton({ onClick }: Props): JSX.Element {
     return (
         <button className="settings-button" onClick={onClick}>
             <SettingsIcon size="small" />
@@ -13,8 +11,8 @@ function SettingsButton({ onClick }) {
     )
 }
 
-SettingsButton.propTypes = {
-    onClick: PropTypes.func.isRequired,
+interface Props {
+    onClick: (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => void,
 }
 
 export default SettingsButton

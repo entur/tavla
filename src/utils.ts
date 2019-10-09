@@ -316,6 +316,7 @@ export function checkIsHidden(id: string, type: string, hidden: Settings): boole
     }
 
     if (type === 'modes') {
+        // @ts-ignore
         return hiddenModes.includes(id)
     }
     return hiddenRoutes.includes(id)
@@ -331,7 +332,7 @@ export function useDebounce<T>(value: T, delay: number): T {
                 setDebouncedValue(value)
             }, delay)
 
-            return () => {
+            return (): void => {
                 clearTimeout(handler)
             }
         },

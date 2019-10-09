@@ -1,12 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import BackButton from '../backButton/BackButton'
 import SettingsButton from '../settingsButton/SettingsButton'
 
 import './styles.scss'
 
-function Footer({ history, onSettingsButtonClick }) {
+function Footer({ history, onSettingsButtonClick }: Props): JSX.Element {
     return (
         <footer className="footer-container">
             <BackButton className="footer-back-button" action={() => history.push('/')}/>
@@ -15,9 +14,9 @@ function Footer({ history, onSettingsButtonClick }) {
     )
 }
 
-Footer.propTypes = {
-    history: PropTypes.object,
-    onSettingsButtonClick: PropTypes.func,
+interface Props {
+    history: any,
+    onSettingsButtonClick: any,
 }
 
 export default Footer

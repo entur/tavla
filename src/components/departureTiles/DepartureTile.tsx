@@ -1,17 +1,21 @@
 import React from 'react'
+import { LegMode } from '@entur/sdk'
+
 import {
     getIcon, getIconColor, groupBy, isVisible, getTransportHeaderIcons, getCombinedStopPlaceAndRouteId,
 } from '../../utils'
+import { StopPlaceWithDepartures } from '../../types'
+
+const COLOR = '#9BA4D2'
 
 const DepartureTile = ({
     stopPlace, routes, hiddenRoutes, hiddenModes,
-}) => {
+}: Props): JSX.Element => {
     const { departures, name, id } = stopPlace
     const groupedDepartures = groupBy(departures, 'route')
     if (!isVisible(groupedDepartures, hiddenRoutes, hiddenModes)) {
         return null
     }
-    const color = '#9BA4D2'
 
     const transportHeaderIcons = getTransportHeaderIcons(stopPlace.departures, hiddenModes)
 
@@ -23,7 +27,7 @@ const DepartureTile = ({
                     {
                         transportHeaderIcons.map((Icon, index) => {
                             return (
-                                <div className="stop-header--icon" key={ index }><Icon height={ 30 } width={ 30 } color={ color } /></div>
+                                <div className="stop-header--icon" key={ index }><Icon height={ 30 } width={ 30 } color={ COLOR } /></div>
                             )
                         })
                     }
@@ -67,6 +71,13 @@ const DepartureTile = ({
             </div>
         </div>
     )
+}
+
+interface Props {
+    stopPlace: StopPlaceWithDepartures,
+    routes: Array<string>,
+    hiddenRoutes: Array<string>,
+    hiddenModes: Array<LegMode>,
 }
 
 export default DepartureTile
