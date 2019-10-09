@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react'
 
-// Permission can be "unknown" | "defer" | "allow" | "deny"
-export function useLocationPermission() {
+interface LocationPermission {
+    granted: boolean,
+    prompt: boolean,
+    denied: boolean,
+}
+
+export function useLocationPermission(): [LocationPermission, () => void] {
     const [someNumber, setSomeNumber] = useState(0)
 
-    const forceUpdate = () => {
+    const forceUpdate = (): void => {
         setSomeNumber(someNumber + 1)
     }
 
-    const [permission, setPermission] = useState({
-        granted: false,
-        prompt: false,
-        denied: false,
-    })
+    const [permission, setPermission] = useState<PermissionState | void>()
 
-    useEffect(() => {
-        if (!navigator || !navigator.permissions) return Promise.resolve(false)
+    useEffect((): void => {
+        if (!navigator || !navigator.permissions) return
         navigator.permissions.query({ name: 'geolocation' })
             .then(perm => setPermission(perm.state))
     }, [someNumber])
