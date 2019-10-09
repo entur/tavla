@@ -5,9 +5,9 @@ import SettingsButton from '../settingsButton/SettingsButton'
 
 import './styles.scss'
 
-function Footer({ history, onSettingsButtonClick }: Props): JSX.Element {
+function Footer({ className, history, onSettingsButtonClick }: Props): JSX.Element {
     return (
-        <footer className="footer-container">
+        <footer className={`footer-container ${className || ''}`}>
             <BackButton className="footer-back-button" action={() => history.push('/')}/>
             <SettingsButton onClick={onSettingsButtonClick} />
         </footer>
@@ -15,6 +15,7 @@ function Footer({ history, onSettingsButtonClick }: Props): JSX.Element {
 }
 
 interface Props {
+    className?: string,
     history: any,
     onSettingsButtonClick: any,
 }

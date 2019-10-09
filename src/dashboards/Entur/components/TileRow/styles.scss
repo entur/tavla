@@ -1,0 +1,25 @@
+@import '../../../../assets/styles/import.scss';
+
+.tilerow {
+    display: flex;
+    border-bottom: 2px solid $blue-20;
+    padding: 1rem 0;
+
+    &__icon {
+        min-width: 2rem;
+        margin-right: 1rem;
+    }
+
+    &__texts {
+        flex-direction: column;
+    }
+
+    &__sublabels {
+        color: $blue_60;
+        font-size: 14px;
+
+        span {
+            margin-right: 1rem;
+        }
+    }
+}

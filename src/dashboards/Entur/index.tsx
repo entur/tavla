@@ -26,7 +26,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const noStops = !bikeRentalStations.length && !stopPlacesWithDepartures.length
 
     return (
-        <div className="main-container">
+        <div className="enturdash">
             <Header />
             {noStops && !initialLoading ? (
                 <div className="no-stops">
@@ -35,25 +35,29 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     </div>
                 </div>
             ) : (
-                <div className="departure-board">
-                    <div className="departure-tiles">
-                        {
-                            stopPlacesWithDepartures
-                                .filter(({ departures }) => departures.length > 0)
-                                .map((stop, index) => (
-                                    <DepartureTile
-                                        key={index}
-                                        stopPlaceWithDepartures={stop}
-                                    />
-                                ))
-                        }
-                        { bikeRentalStations && bikeRentalStations.length ? (
+                <div className="enturdash__tiles">
+                    {
+                        stopPlacesWithDepartures
+                            .filter(({ departures }) => departures.length > 0)
+                            .map((stop, index) => (
+                                <DepartureTile
+                                    key={index}
+                                    stopPlaceWithDepartures={stop}
+                                />
+                            ))
+                    }
+                    {
+                        bikeRentalStations && bikeRentalStations.length ? (
                             <BikeTile stations={bikeRentalStations} />
-                        ) : null }
-                    </div>
+                        ) : null
+                    }
                 </div>
             )}
-            <Footer history={history} onSettingsButtonClick={onSettingsButtonClick} />
+            <Footer
+                className="enturdash__footer"
+                history={history}
+                onSettingsButtonClick={onSettingsButtonClick}
+            />
         </div>
     )
 }

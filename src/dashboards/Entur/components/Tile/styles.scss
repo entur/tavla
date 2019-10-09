@@ -1,0 +1,21 @@
+@import '../../../../assets/styles/import.scss';
+
+.tile {
+    height: fit-content;
+    width: 25rem;
+    background-color: $blue-10;
+    color: $white;
+    flex: none;
+    padding: 1rem 2rem;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__header-icons {
+        display: flex;
+        align-items: center;
+    }
+}
