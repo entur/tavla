@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
-import WhiteTavlaLogo from '../../assets/icons/whiteTavlaLogo/whiteTavlaLogo.js'
+import WhiteTavlaLogo from '../../assets/icons/whiteTavlaLogo/whiteTavlaLogo'
 import './styles.scss'
 
 function Header(): JSX.Element {

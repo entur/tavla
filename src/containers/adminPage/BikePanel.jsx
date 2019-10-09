@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Checkbox } from '@entur/component-library'
-import BikePanelSearch from './searchPanels/BikePanelSearch.jsx'
+import BikePanelSearch from './searchPanels/BikePanelSearch'
 import './styles.scss'
 
 function BikePanel(props) {

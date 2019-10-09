@@ -43,8 +43,8 @@ const SelectionPanelSearch = ({ handleAddNewStop }) => {
                     ({ geometry, properties: { id, name, locality } }) => {
                         return {
                             coordinates: {
-                                lon: geometry.coordinates[0],
-                                lat: geometry.coordinates[1],
+                                longitude: geometry.coordinates[0],
+                                latitude: geometry.coordinates[1],
                             },
                             id,
                             name: `${name}, ${locality}`,

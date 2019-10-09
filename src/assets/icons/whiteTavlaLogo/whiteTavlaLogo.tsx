@@ -1,8 +1,7 @@
 import React from 'react'
-import Proptypes from 'prop-types'
 import './styles.scss'
 
-function WhiteTavlaLogo({ height, width }) {
+function WhiteTavlaLogo({ height = 54, width = 296 }: Props): JSX.Element {
     return (
         <div className="logo-container">
             <svg
@@ -36,14 +35,10 @@ function WhiteTavlaLogo({ height, width }) {
         </div>
     )
 }
-WhiteTavlaLogo.propTypes = {
-    height: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
-    width: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
-}
 
-WhiteTavlaLogo.defaultProps = {
-    height: 54,
-    width: 296,
+interface Props {
+    height?: number | string,
+    width?: number | string,
 }
 
 export default WhiteTavlaLogo

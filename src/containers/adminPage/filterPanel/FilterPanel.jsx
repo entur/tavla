@@ -1,6 +1,6 @@
 import React from 'react'
 import { DistanceInput, Slider } from '../../../components'
-import TransportRow from './TransportRow.jsx'
+import TransportRow from './TransportRow'
 
 const FilterPanel = ({
     transportModes, distance, handleSliderChange, handleTextInputChange, updateHiddenList, hiddenModes,

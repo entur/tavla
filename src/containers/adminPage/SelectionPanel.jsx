@@ -7,7 +7,7 @@ import {
     AccordionItemPanel,
 } from 'react-accessible-accordion'
 import { SlideSwitch, Checkbox } from '@entur/component-library'
-import SelectionPanelSearch from './searchPanels/SelectionPanelSearch.jsx'
+import SelectionPanelSearch from './searchPanels/SelectionPanelSearch'
 import { getIcon, getIconColor, getCombinedStopPlaceAndRouteId } from '../../utils'
 import './styles.scss'
 

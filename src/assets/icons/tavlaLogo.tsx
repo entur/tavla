@@ -1,7 +1,6 @@
 import React from 'react'
-import Proptypes from 'prop-types'
 
-function TavlaLogo({ height, width }) {
+function TavlaLogo({ height = 54, width = 296 }: Props): JSX.Element {
     return (
         <svg
             width={width}
@@ -31,14 +30,10 @@ function TavlaLogo({ height, width }) {
         </svg>
     )
 }
-TavlaLogo.propTypes = {
-    height: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
-    width: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
-}
 
-TavlaLogo.defaultProps = {
-    height: 54,
-    width: 296,
+interface Props {
+    height?: number | string,
+    width?: number | string,
 }
 
 export default TavlaLogo

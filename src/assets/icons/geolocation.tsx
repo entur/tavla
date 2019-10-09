@@ -1,11 +1,10 @@
 import React from 'react'
-import Proptypes from 'prop-types'
 
-function GeoLocation({ height, color }) {
+function GeoLocation({ size = 18, color = '#565659' }: Props): JSX.Element {
     return (
         <svg
-            width={height}
-            height={height}
+            width={size}
+            height={size}
             viewBox="0 0 16 16"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -21,14 +20,10 @@ function GeoLocation({ height, color }) {
         </svg>
     )
 }
-GeoLocation.propTypes = {
-    color: Proptypes.string,
-    height: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
-}
 
-GeoLocation.defaultProps = {
-    height: 18,
-    color: '#565659',
+interface Props {
+    color?: string,
+    size?: number | string,
 }
 
 export default GeoLocation

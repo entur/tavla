@@ -4,6 +4,7 @@ import React, {
 import debounce from 'lodash.debounce'
 import ReactAutosuggest from 'react-autosuggest'
 import { Button } from '@entur/component-library'
+import { Coordinates } from '@entur/sdk'
 
 import { Spinner, GeoLocation } from '../../assets/icons'
 import service from '../../service'
@@ -28,7 +29,7 @@ function renderSuggestion(suggestion) {
         <span>
             {suggestion.name}
             <span className="location-icon">
-                <GeoLocation height={15} width={15} />
+                <GeoLocation size={15} />
             </span>
         </span>
     )
@@ -65,8 +66,8 @@ const getFeaturesDebounced = debounce(async (value, showMyPosition, callback) =>
         ({ geometry, properties: { name, locality } }) => {
             return {
                 coordinates: {
-                    lon: geometry.coordinates[0],
-                    lat: geometry.coordinates[1],
+                    longitude: geometry.coordinates[0],
+                    latitude: geometry.coordinates[1],
                 },
                 name: `${name}, ${locality}`,
             }
@@ -99,7 +100,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
 
     const [suggestions, setSuggestions] = useState([{ name: YOUR_POSITION }])
     const [waiting, setWaiting] = useState<boolean>(false)
-    const [chosenCoord, setChosenCoord] = useState<{lat: number, lon: number} | null>(null)
+    const [chosenCoord, setChosenCoord] = useState<Coordinates | null>(null)
 
     const onChange = (_, { newValue }) => {
         setFormValue(newValue)
@@ -133,7 +134,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
 
     const handleSuccessLocation = data => {
         refreshLocationPermission()
-        const position = { lat: data.coords.latitude, lon: data.coords.longitude }
+        const position = { latitude: data.coords.latitude, longitude: data.coords.longitude }
         getAddressFromPosition(position)
         setWaiting(false)
     }
@@ -219,7 +220,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
 }
 
 interface Props {
-    handleCoordinatesSelected: (choseCoord: { lat: number, lon: number } | null) => void,
+    handleCoordinatesSelected: (choseCoord: Coordinates | null) => void,
 }
 
 export default memo(SearchPanel)

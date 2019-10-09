@@ -1,15 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Coordinates } from '@entur/sdk'
+
 import SearchPanel from '../../components/searchPanel/SearchPanel'
 import { TavlaLogo } from '../../assets/icons'
+// @ts-ignore
 import coverPhoto from '../../assets/images/cover-photo.jpg'
+
 import './styles.scss'
 
-const LandingPage = ({ addLocation }) => {
+const LandingPage = ({ addLocation }: Props): JSX.Element => {
     return (
         <div className="landing-page-wrapper">
             <div className="title-container">
-                <TavlaLogo className="title__logo"/>
+                <TavlaLogo />
                 <p className='title__subtext'>Sanntidstavla du selv kan tilpasse etter dine behov.</p>
             </div>
             <div className="content-container">
@@ -22,5 +26,8 @@ const LandingPage = ({ addLocation }) => {
     )
 }
 
+interface Props {
+    addLocation: (coordinates: Coordinates) => void,
+}
 
 export default LandingPage

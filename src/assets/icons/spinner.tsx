@@ -1,12 +1,11 @@
 import React from 'react'
-import Proptypes from 'prop-types'
 
-function Spinner({ height, color, spin }) {
+function Spinner({ size = 25, color = '#565659', spin = true }: Props): JSX.Element {
     return (
         <svg
             className={spin ? 'spinner' : ''}
-            width={height}
-            height={height}
+            width={size}
+            height={size}
             viewBox="0 -256 1792 1792"
             xmlns="http://www.w3.org/2000/svg"
         >
@@ -18,16 +17,12 @@ function Spinner({ height, color, spin }) {
         </svg>
     )
 }
-Spinner.propTypes = {
-    color: Proptypes.string,
-    height: Proptypes.oneOfType([Proptypes.number, Proptypes.string]),
-    spin: Proptypes.bool,
-}
 
-Spinner.defaultProps = {
-    height: 25,
-    color: '#565659',
-    spin: true,
+interface Props {
+    className?: string,
+    color?: string,
+    size?: number | string,
+    spin?: boolean,
 }
 
 export default Spinner
