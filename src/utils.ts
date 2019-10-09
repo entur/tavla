@@ -36,7 +36,7 @@ export function getIcon(type: LegMode): ElementType | null {
     }
 }
 
-export function getIconColor(type: LegMode, subType: TransportSubmode): string {
+export function getIconColor(type: LegMode, subType?: TransportSubmode): string {
     const airportLinkTypes = ['airportLinkRail', 'airportLinkBus']
     if (airportLinkTypes.includes(subType)) return COLORS.PLANE_MIDNIGHT
 

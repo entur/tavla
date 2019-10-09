@@ -4,8 +4,8 @@ import BackButton from '../../components/backButton/BackButton'
 
 import './styles.scss'
 
-const Privacy = ({ history }) => {
-    const goBackToDashboard = () => {
+const Privacy = ({ history }: Props): JSX.Element => {
+    const goBackToDashboard = (): void => {
         history.push(window.location.pathname.replace('privacy', ''))
     }
 
@@ -81,6 +81,10 @@ const Privacy = ({ history }) => {
             </div>
         </article>
     )
+}
+
+interface Props {
+    history: any,
 }
 
 export default Privacy

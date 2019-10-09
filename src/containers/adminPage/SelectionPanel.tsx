@@ -7,18 +7,22 @@ import {
     AccordionItemPanel,
 } from 'react-accessible-accordion'
 import { SlideSwitch, Checkbox } from '@entur/component-library'
-import SelectionPanelSearch from './searchPanels/SelectionPanelSearch'
-import { getIcon, getIconColor, getCombinedStopPlaceAndRouteId } from '../../utils'
-import './styles.scss'
+import { Coordinates } from '@entur/sdk'
 
-function SelectionPanel(props) {
+import { getIcon, getIconColor, getCombinedStopPlaceAndRouteId } from '../../utils'
+
+import SelectionPanelSearch from './searchPanels/SelectionPanelSearch'
+import './styles.scss'
+import { StopPlaceWithDepartures } from '../../types'
+
+function SelectionPanel(props: Props): JSX.Element {
     const [checked, setChecked] = useState(false)
 
     const {
         onCheck, updateHiddenList, stops, position, handleAddNewStop,
     } = props
 
-    const onChange = () => {
+    const onChange = (): void => {
         props.updateHiddenListForAll(!checked, 'stops')
         setChecked(!checked)
     }
@@ -56,7 +60,7 @@ function SelectionPanel(props) {
                                                 id={id}
                                                 className="entur-radio-checkbox--round"
                                                 checked={isChecked}
-                                                onChange={() => {
+                                                onChange={(): void => {
                                                     const stopUnchecked = stops.some(stop => !onCheck(stop.id, 'stops'))
                                                     if (!stopUnchecked) {
                                                         setChecked(true)
@@ -107,7 +111,7 @@ function SelectionPanel(props) {
                                                                             key={i}
                                                                             id="SlideSwitch"
                                                                             className="mode-sort-slide-switch-stops"
-                                                                            onChange={() => {
+                                                                            onChange={(): void => {
                                                                                 const comboId = getCombinedStopPlaceAndRouteId(id, route)
                                                                                 updateHiddenList(comboId, 'routes')
                                                                             }}
@@ -130,6 +134,15 @@ function SelectionPanel(props) {
                 : null }
         </div>
     )
+}
+
+interface Props {
+    onCheck: (id: string, type: 'stops' | 'routes') => boolean,
+    updateHiddenList: (id: string, type: 'stops' | 'routes') => void,
+    updateHiddenListForAll: (checked: boolean, type: 'stops') => void,
+    stops: Array<StopPlaceWithDepartures>,
+    position: Coordinates,
+    handleAddNewStop: (stopPlace: StopPlaceWithDepartures) => void,
 }
 
 export default SelectionPanel
