@@ -245,7 +245,7 @@ const AdminPage = ({ history }) => {
         setDistance(newDistance)
     }, [])
 
-    const handleAddNewStation = useCallback(stations => {
+    const handleAddNewStations = useCallback(stations => {
         const stationIds = stations
             .filter(station => stationsData.stations.every(item => item.name !== station.name))
             .map(station => station.id)
@@ -349,7 +349,7 @@ const AdminPage = ({ history }) => {
                             updateHiddenListForAll={updateHiddenListForAll}
                             onCheck={isHidden}
                             position={position}
-                            handleAddNewStation={handleAddNewStation}
+                            handleAddNewStations={handleAddNewStations}
                         />
                     ) : null
                 }

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import ReactAutosuggest from 'react-autosuggest'
+import { Coordinates, BikeRentalStation } from '@entur/sdk'
+
 import service from '../../../service'
+
 import './styles.scss'
 
-const BikePanelSearch = ({ handleAddNewStation, position }) => {
+const BikePanelSearch = ({ handleAddNewStations, position }: Props): JSX.Element => {
     const [value, setValue] = useState('')
     const [suggestions, setSuggestions] = useState([])
     const [stations, setStations] = useState([])
@@ -14,7 +17,7 @@ const BikePanelSearch = ({ handleAddNewStation, position }) => {
         })
     }, [position])
 
-    const getSuggestions = newValue => {
+    const getSuggestions = (newValue: string): Array<BikeRentalStation> => {
         const inputValue = newValue.trim().toLowerCase()
         const inputLength = inputValue.length
 
@@ -25,28 +28,28 @@ const BikePanelSearch = ({ handleAddNewStation, position }) => {
             )
     }
 
-    const onChange = (_, { newValue, method }) => {
+    const onChange = (event: React.FormEvent<HTMLButtonElement>, { newValue, method }: ReactAutosuggest.ChangeEvent): void => {
         if (method === 'click') {
             setValue('')
-            handleAddNewStation(getSuggestions(newValue))
+            handleAddNewStations(getSuggestions(newValue))
         } else {
             setValue(newValue)
         }
     }
 
-    const getSuggestionValue = suggestion => suggestion.name
+    const getSuggestionValue = (suggestion: BikeRentalStation): string => suggestion.name
 
-    const renderSuggestion = suggestion => <div>{suggestion.name}</div>
+    const renderSuggestion = (suggestion: BikeRentalStation): JSX.Element => <div>{suggestion.name}</div>
 
-    const onSuggestionsFetchRequested = ({ value: newValue }) => {
+    const onSuggestionsFetchRequested = ({ value: newValue }: { value: string }): void => {
         setSuggestions(getSuggestions(newValue))
     }
 
-    const onSuggestionsClearRequested = () => {
+    const onSuggestionsClearRequested = (): void => {
         setSuggestions([])
     }
 
-    const inputProps = {
+    const inputProps: ReactAutosuggest.InputProps<BikeRentalStation> = {
         placeholder: 'Søk på bysykkelstativ for å legge til',
         value,
         onChange,
@@ -66,6 +69,11 @@ const BikePanelSearch = ({ handleAddNewStation, position }) => {
             />
         </div>
     )
+}
+
+interface Props {
+    handleAddNewStations: (stations: Array<BikeRentalStation>) => void,
+    position: Coordinates,
 }
 
 export default BikePanelSearch
