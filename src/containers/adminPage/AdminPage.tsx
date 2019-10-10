@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Button } from '@entur/component-library'
-import { Coordinates, StopPlace } from '@entur/sdk'
+import { Coordinates, StopPlace, LegMode } from '@entur/sdk'
 
 import SelectionPanel from './SelectionPanel'
 import BikePanel from './BikePanel'
@@ -236,10 +236,9 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 
     const isHidden = useCallback((id, type) => checkIsHidden(id, type, hidden), [hidden])
 
-    const handleDistanceChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        const newDistance = event.target.value
-        setDistance(Number(newDistance))
-    }, [])
+    const onModeToggled = useCallback((mode: LegMode): void => {
+        updateHiddenList(mode, 'transportModes')
+    }, [updateHiddenList])
 
     const handleAddNewStations = useCallback(stations => {
         const stationIds = stations
@@ -323,9 +322,8 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                 <FilterPanel
                     transportModes={transportModes}
                     distance={distance}
-                    handleSliderChange={handleDistanceChange}
-                    handleTextInputChange={handleDistanceChange}
-                    updateHiddenList={updateHiddenList}
+                    onDistanceUpdated={setDistance}
+                    onModeToggled={onModeToggled}
                     hiddenModes={hiddenModes}
                 />
                 <SelectionPanel
