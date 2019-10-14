@@ -16,7 +16,7 @@ interface Suggestion {
 async function fetchSuggestions(value: string): Promise<Array<Suggestion>> {
     if (!value.trim().length) return []
 
-    const featuresData = await service.getFeatures(value, undefined, { layers: 'venue' })
+    const featuresData = await service.getFeatures(value, undefined, { layers: ['venue'] })
     return featuresData.map(
         ({ geometry, properties: { id, name, locality } }) => {
             return {
