@@ -1,15 +1,38 @@
-import React, { useCallback } from 'react'
-import { Coordinates } from '@entur/sdk'
+import React from 'react'
+import {
+    Route, Switch, Redirect, Router,
+} from 'react-router-dom'
+import analytics from 'universal-ga'
+
+import { SettingsContext, useSettings } from '../settings'
+
+import Entur from '../dashboards/Entur'
 
 import LandingPage from './landingPage/LandingPage'
+import AdminPage from './adminPage/AdminPage'
+import Privacy from './privacy/Privacy'
+
+analytics.initialize('UA-108877193-6')
+analytics.set('anonymizeIp', true)
+
+analytics.set('page', window.location.pathname)
+analytics.pageview(window.location.pathname)
 
 const App = ({ history }: Props): JSX.Element => {
-    const addLocation = useCallback((position: Coordinates): void => {
-        const pos = `${position.latitude},${position.longitude}`.split('.').join('-')
-        history.push(`/dashboard/@${pos}/`)
-    }, [history])
-
-    return <LandingPage addLocation={addLocation} />
+    const [settings, setters] = useSettings()
+    return (
+        <SettingsContext.Provider value={[settings, setters]}>
+            <Router history={ history }>
+                <Switch>
+                    <Route exact path="/" component={LandingPage} />
+                    <Route path="/dashboard" component={Entur} />
+                    <Route path="/admin" component={AdminPage} />
+                    <Route path="/privacy" component={Privacy} />
+                    <Redirect to="/" />
+                </Switch>
+            </Router>
+        </SettingsContext.Provider>
+    )
 }
 
 interface Props {

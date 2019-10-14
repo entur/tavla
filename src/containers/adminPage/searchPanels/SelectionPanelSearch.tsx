@@ -3,8 +3,7 @@ import ReactAutosuggest from 'react-autosuggest'
 import { Coordinates } from '@entur/sdk'
 
 import service from '../../../service'
-import { StopPlaceWithDepartures } from '../../../types'
-import { useDebounce, getStopWithUniqueStopPlaceDepartures } from '../../../utils'
+import { useDebounce } from '../../../utils'
 
 import './styles.scss'
 
@@ -71,7 +70,7 @@ const SelectionPanelSearch = ({ handleAddNewStop }: Props): JSX.Element => {
     }
 
     const onSuggestionSelected = (_, { suggestion }): void => {
-        getStopWithUniqueStopPlaceDepartures(suggestion.id).then(handleAddNewStop)
+        handleAddNewStop(suggestion.id)
     }
 
     const onSuggestionsClearRequested = (): void => {
@@ -102,7 +101,7 @@ const SelectionPanelSearch = ({ handleAddNewStop }: Props): JSX.Element => {
 }
 
 interface Props {
-    handleAddNewStop: (stop: StopPlaceWithDepartures) => void,
+    handleAddNewStop: (stopId: string) => void,
 }
 
 export default SelectionPanelSearch

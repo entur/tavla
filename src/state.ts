@@ -18,8 +18,8 @@ async function fetchBikeRentalStations(): Promise<Array<BikeRentalStation> | nul
     }
 
     const [newBikeStations, geoBikeStations] = await Promise.all([
-        Promise.all(newStations.map(stationId => service.getBikeRentalStation(stationId))),
-        service.getBikeRentalStations(position, distance),
+        newStations.length ? service.getBikeRentalStations(newStations) : [],
+        service.getBikeRentalStationsByPosition(position, distance),
     ])
 
     // TODO: Filter duplicates
@@ -61,7 +61,7 @@ async function fetchStopPlaceDepartures(): Promise<Array<StopPlaceWithDepartures
 
     const stopIds = allStopPlaces.map(({ id }) => id)
 
-    const departures = await service.getStopPlaceDepartures(stopIds, {
+    const departures = await service.getDeparturesFromStopPlaces(stopIds, {
         includeNonBoarding: false,
         departures: 50,
     })

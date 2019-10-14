@@ -35,7 +35,7 @@ const TransportRow = ({ mode, onChange, value }: Props): JSX.Element => {
         <div className="mode-sort-row">
             <div className="sort-button-item">
                 <div className="mode-sort-button mode-sort-icon">
-                    <Icon height={24} width={24} color={iconColor} />
+                    { Icon ? <Icon height={24} width={24} color={iconColor} /> : null }
                 </div>
                 <p className="mode-sort-text">{getTransportModeTitle(mode)}</p>
             </div>

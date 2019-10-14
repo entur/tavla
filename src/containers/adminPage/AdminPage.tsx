@@ -1,353 +1,136 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, {
+    useState, useEffect, useMemo, useCallback,
+} from 'react'
 import { Button } from '@entur/component-library'
-import { Coordinates, StopPlace, LegMode } from '@entur/sdk'
+import {
+    BikeRentalStation, LegMode, NearestPlace,
+} from '@entur/sdk'
 
-import SelectionPanel from './SelectionPanel'
+import StopPlacePanel from './StopPlacePanel'
 import BikePanel from './BikePanel'
 import FilterPanel from './filterPanel/FilterPanel'
 
 import {
     getPositionFromUrl,
-    getSettingsFromUrl,
-    getStopsWithUniqueStopPlaceDepartures,
-    getSettingsHash,
-    getUniqueRoutes,
-    transformDepartureToLineData,
-    updateHiddenListAndHash,
-    getTransportModesByStop,
-    sortLists,
-    checkIsHidden,
     useDebounce,
+    isLegMode,
 } from '../../utils'
 
-import { DEFAULT_DISTANCE } from '../../constants'
-import service from '../../service'
-import { StopPlaceWithDepartures } from '../../types'
+import service, { getStopPlacesWithLines } from '../../service'
+import { StopPlaceWithLines } from '../../types'
+
+import { useSettingsContext } from '../../settings'
 
 import AdminHeader from './AdminHeader'
 
+import BikePanelSearch from './searchPanels/BikePanelSearch'
+import SelectionPanelSearch from './searchPanels/SelectionPanelSearch'
+
 import './styles.scss'
 
-function getStopsDataWithDepartures(stopIds: Array<string>): Promise<Array<StopPlaceWithDepartures>> {
-    return Promise.all(stopIds.map(async stopId => {
-        const [stop, departures] = await Promise.all([
-            service.getStopPlace(stopId),
-            service.getStopPlaceDepartures(stopId, {
-                includeNonBoarding: true,
-                departures: 50,
-            }),
-        ])
-        return {
-            ...stop,
-            departures: getUniqueRoutes(departures.map(transformDepartureToLineData)),
-        }
-    }))
-}
-
-async function getData(position: Coordinates | void, newDistance: number) {
-    if (!position) {
-        return
-    }
-
-    const { newStations, newStops } = getSettingsFromUrl()
-
-    const hashedStationsData = await Promise.all(newStations.map(stationId => service.getBikeRentalStation(stationId)))
-    const stations = await service.getBikeRentalStations(position, newDistance)
-    const allStations = sortLists(hashedStationsData, stations)
-
-    const stops = await service.getStopPlacesByPosition(position, newDistance)
-    const hashedStopsData = await getStopsDataWithDepartures(newStops)
-
-    const allStops: Array<StopPlace> = sortLists(hashedStopsData, stops)
-
-    const uniqueRoutes = await getStopsWithUniqueStopPlaceDepartures(allStops)
-    const uniqueModes = getTransportModesByStop(uniqueRoutes)
-
-    let newTransportModes = uniqueModes
-    if (allStations.length > 0) {
-        newTransportModes = uniqueModes.includes('bicycle')
-            ? uniqueModes
-            : ['bicycle', ...uniqueModes]
-    }
-
-    return {
-        stops: uniqueRoutes,
-        transportModes: newTransportModes,
-        stations: allStations,
-    }
-}
-
 const AdminPage = ({ history }: Props): JSX.Element => {
-    const [distance, setDistance] = useState<number>(DEFAULT_DISTANCE)
+    const [nearestPlaces, setNearestPlaces] = useState<Array<NearestPlace>>([])
+    const position = useMemo(() => getPositionFromUrl(), [])
+    const [settings, settingsSetters] = useSettingsContext()
+
+    const {
+        distance,
+        hiddenModes,
+        newStops,
+        newStations,
+    } = settings
+
+    const {
+        setHiddenModes,
+        setDistance,
+        setNewStops,
+    } = settingsSetters
+
+    const [stopPlaces, setStopPlaces] = useState<Array<StopPlaceWithLines>>([])
+    const [stations, setStations] = useState<Array<BikeRentalStation>>([])
+
     const debouncedDistance = useDebounce(distance, 300)
 
-    const [position, setPosition] = useState<Coordinates | null>(null)
-    const debouncedPosition = useDebounce(position, 300)
-
-    const [positionString, setPositionString] = useState(null)
-
-    const [stationsData, setStationsData] = useState({
-        stations: [],
-        newStations: [],
-    })
-
-    const [stopsData, setStopsData] = useState({
-        stops: [],
-        newStops: [],
-    })
-
-    const [hidden, setHidden] = useState({
-        hiddenStations: [],
-        hiddenStops: [],
-        hiddenRoutes: [],
-        hiddenModes: [],
-    })
-
-    const [hashedState, setHashedState] = useState(null)
-    const [transportModes, setTransportModes] = useState([])
+    useEffect(() => {
+        service.getNearestPlaces(position, {
+            maximumDistance: debouncedDistance,
+            filterByPlaceTypes: ['StopPlace', 'BikeRentalStation'],
+            multiModalMode: 'parent',
+        }).then(setNearestPlaces)
+    }, [debouncedDistance, position])
 
     useEffect(() => {
-        getData(debouncedPosition, debouncedDistance).then(data => {
-            if (!data) return
-            const {
-                transportModes: transModes,
-                stops,
-                stations,
-            } = data
-            setTransportModes(transModes)
-
-            setStopsData(prevStopsData => ({
-                ...prevStopsData,
-                stops: stops.map((stop: any) => ({
-                    ...stop,
-                    departures: (stop.departures || []).filter(({ type }) => !hidden.hiddenModes.includes(type)),
-                })).filter(stop => stop.departures.length),
-            }))
-
-            const bikeRentalStations = hidden.hiddenModes.includes('bicycle') ? [] : stations
-            setStationsData(prevStationsData => ({ ...prevStationsData, stations: bikeRentalStations }))
-        })
-    }, [debouncedPosition, debouncedDistance, hidden.hiddenModes])
-
-    useEffect(() => {
-        const {
-            hiddenStations,
-            hiddenStops,
-            distance: newDistance,
-            hiddenRoutes,
-            hiddenModes,
-            newStations,
-            newStops,
-        } = getSettingsFromUrl()
-
-        const newHashedState = window.location.pathname.split('/')[3]
-
-        setStationsData(v => ({
-            ...v,
-            newStations,
-        }))
-
-        setStopsData(v => ({
-            ...v,
-            newStops,
-        }))
-
-        setDistance(newDistance)
-        setHashedState(newHashedState)
-
-        setHidden({
-            hiddenStops,
-            hiddenStations,
-            hiddenRoutes,
-            hiddenModes,
-        })
-
-        setPosition(getPositionFromUrl())
-        setPositionString(window.location.pathname.split('/')[2])
-    }, [])
-
-    const updateAndGoToDashboard = (): void => {
-        const {
-            hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
-        } = hidden
-        const { newStations, newStops } = getSettingsFromUrl()
-
-        const newHashedState = getSettingsHash(
-            distance,
-            hiddenStations,
-            hiddenStops,
-            hiddenRoutes,
-            hiddenModes,
-            newStations,
-            newStops,
-        )
-
-        setHashedState(newHashedState)
-
-        history.push(`/dashboard/${positionString}/${newHashedState}`)
-    }
-
-    const goBackToDashboard = useCallback(() => {
-        history.push(window.location.pathname.replace('admin', 'dashboard'))
-    }, [history])
-
-    const updateHiddenList = useCallback((clickedId, hiddenListType) => {
-        const { hiddenLists, hashedState: newHashedState } = updateHiddenListAndHash(
-            clickedId,
-            {
-                ...hidden,
-                ...stationsData,
-                ...stopsData,
-                distance,
-            },
-            hiddenListType,
-        )
-
-        setHidden(hiddenLists)
-        setHashedState(newHashedState)
-
-        history.push(`/admin/${positionString}/${hashedState}`)
-    }, [distance, hashedState, hidden, history, positionString, stationsData, stopsData])
-
-    const updateHiddenListForAll = (checked: boolean, type: 'stops' | 'stations'): void => {
-        switch (type) {
-            case 'stops':
-                const stopIds = stopsData.stops.map(stop => stop.id)
-                const hiddenStops = !checked ? stopIds : []
-
-                setHidden(v => ({
-                    ...v,
-                    hiddenStops,
-                }))
-
-                break
-            case 'stations':
-                const stationIds = stationsData.stations.map(station => station.id)
-                const hiddenStations = !checked ? stationIds : []
-
-                setHidden(v => ({
-                    ...v,
-                    hiddenStations,
-                }))
-
-                break
+        const nearestStopPlaceIds = nearestPlaces
+            .filter(({ type }) => type === 'StopPlace')
+            .map(({ id }) => id)
+        const ids = [...newStops, ...nearestStopPlaceIds]
+        if (ids.length) {
+            getStopPlacesWithLines([...newStops, ...nearestStopPlaceIds])
+                .then(setStopPlaces)
         }
-    }
+    }, [nearestPlaces, newStops])
 
-    const isHidden = useCallback((id, type) => checkIsHidden(id, type, hidden), [hidden])
+    useEffect(() => {
+        const nearestBikeRentalStationIds = nearestPlaces
+            .filter(({ type }) => type === 'BikeRentalStation')
+            .map(({ id }) => id)
+        const ids = [...newStations, ...nearestBikeRentalStationIds]
+        if (ids.length) {
+            service.getBikeRentalStations(ids)
+                .then(setStations)
+        }
+    }, [nearestPlaces, newStations])
 
-    const onModeToggled = useCallback((mode: LegMode): void => {
-        updateHiddenList(mode, 'transportModes')
-    }, [updateHiddenList])
+    const addNewStop = useCallback((stopId: string) => {
+        setNewStops([...newStops, stopId])
+    }, [newStops, setNewStops])
 
-    const handleAddNewStations = useCallback(stations => {
-        const stationIds = stations
-            .filter(station => stationsData.stations.every(item => item.name !== station.name))
-            .map(station => station.id)
+    const addNewStation = useCallback((stationId: string) => {
+        setNewStops([...newStations, stationId])
+    }, [newStations, setNewStops])
 
-        if (!stationIds.length) return
-
-        const { newStations } = getSettingsFromUrl()
-
-        const updatedNewStations = sortLists(newStations, stationIds)
-        const updatedStations = sortLists(stationsData.stations, stations)
-
-        const {
-            hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
-        } = hidden
-
-        const newHashedState = getSettingsHash(
-            distance,
-            hiddenStations,
-            hiddenStops,
-            hiddenRoutes,
-            hiddenModes,
-            updatedNewStations,
-            stopsData.newStops,
-        )
-
-        setHashedState(newHashedState)
-        setStationsData({
-            stations: updatedStations,
-            newStations: updatedNewStations,
-        })
-
-        history.push(`/admin/${positionString}/${newHashedState}`)
-    }, [distance, hidden, history, positionString, stationsData.stations, stopsData.newStops])
-
-    const handleAddNewStop = useCallback((newStop) => {
-        const found = stopsData.stops.some(item => item.id === newStop.id)
-        const hasDepartures = !(newStop.departures.length === 0)
-
-        if (found || !hasDepartures) return
-
-        getStopsWithUniqueStopPlaceDepartures([newStop]).then(stop => {
-            const {
-                hiddenStations, hiddenStops, hiddenRoutes, hiddenModes,
-            } = hidden
-
-            const { newStops } = getSettingsFromUrl()
-
-            const updatedNewStops = sortLists(newStops, [newStop.id])
-            const newHashedState = getSettingsHash(
-                distance,
-                hiddenStations,
-                hiddenStops,
-                hiddenRoutes,
-                hiddenModes,
-                stationsData.newStations,
-                updatedNewStops,
-            )
-
-            const updatedStops = sortLists(stopsData.stops, stop)
-
-            setStopsData({
-                stops: updatedStops,
-                newStops: updatedNewStops,
-            })
-            setHashedState(newHashedState)
-
-            history.push(`/admin/${positionString}/${hashedState}`)
-        })
-    }, [distance, hashedState, hidden, history, positionString, stationsData.newStations, stopsData.stops])
-
-    const { stations } = stationsData
-    const { stops } = stopsData
-    const { hiddenModes } = hidden
+    const modes: Array<LegMode> = useMemo(
+        () => stopPlaces
+            .map(stopPlace => stopPlace.lines.map(({ transportMode }) => transportMode))
+            .reduce((a, b) => [...a, ...b], [])
+            .filter(isLegMode)
+            .filter((mode, index, array) => array.indexOf(mode) === index),
+        [stopPlaces]
+    )
 
     return (
         <div className="admin-container main-container">
-            <AdminHeader goBackToDashboard={goBackToDashboard} />
+            <AdminHeader goBackToDashboard={console.log} />
             <div className="admin-content">
                 <FilterPanel
-                    transportModes={transportModes}
+                    transportModes={modes}
+                    disabledModes={hiddenModes}
                     distance={distance}
                     onDistanceUpdated={setDistance}
-                    onModeToggled={onModeToggled}
-                    hiddenModes={hiddenModes}
+                    onModesChange={setHiddenModes}
                 />
-                <SelectionPanel
-                    stops={stops}
-                    updateHiddenList={updateHiddenList}
-                    updateHiddenListForAll={updateHiddenListForAll}
-                    onCheck={isHidden}
-                    handleAddNewStop={handleAddNewStop}
-                />
+                <div className="selection-panel">
+                    <div className="search-stop-places">
+                        <SelectionPanelSearch handleAddNewStop={addNewStop} />
+                    </div>
+                    <StopPlacePanel stops={stopPlaces} />
+                </div>
                 {
                     !hiddenModes.includes('bicycle') ? (
-                        <BikePanel
-                            stations={stations}
-                            updateHiddenList={updateHiddenList}
-                            updateHiddenListForAll={updateHiddenListForAll}
-                            onCheck={isHidden}
-                            position={position}
-                            handleAddNewStations={handleAddNewStations}
-                        />
+                        <div className="selection-panel">
+                            <div className="search-stop-places">
+                                <BikePanelSearch
+                                    position={position}
+                                    onSelected={addNewStation}
+                                />
+                            </div>
+                            <BikePanel stations={stations} />
+                        </div>
                     ) : null
                 }
             </div>
             <div className="update-button-container">
-                <Button variant="secondary" onClick={updateAndGoToDashboard}>
+                <Button variant="secondary" onClick={console.log}>
                     Oppdater tavle
                 </Button>
             </div>

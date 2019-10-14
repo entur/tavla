@@ -1,0 +1,88 @@
+import {
+    createContext, useContext, useState, useCallback,
+} from 'react'
+import { LegMode } from '@entur/sdk'
+
+import { getSettingsFromUrl } from './utils'
+
+export interface Settings {
+    hiddenStations: Array<string>,
+    hiddenStops: Array<string>,
+    hiddenModes: Array<LegMode>,
+    hiddenRoutes: Array<string>,
+    distance?: number,
+    newStations?: Array<string>,
+    newStops?: Array<string>,
+}
+
+interface SettingsSetters {
+    setHiddenStations: (hiddenStations: Array<string>) => void,
+    setHiddenStops: (hiddenStops: Array<string>) => void,
+    setHiddenModes: (hiddenModes: Array<LegMode>) => void,
+    setHiddenRoutes: (hiddenModes: Array<string>) => void,
+    setDistance: (distance: number) => void,
+    setNewStations: (newStations: Array<string>) => void,
+    setNewStops: (newStops: Array<string>) => void,
+}
+
+export const SettingsContext = createContext<[Settings, SettingsSetters]>([getSettingsFromUrl(), {
+    setHiddenStations: (): void => undefined,
+    setHiddenStops: (): void => undefined,
+    setHiddenModes: (): void => undefined,
+    setHiddenRoutes: (): void => undefined,
+    setDistance: (): void => undefined,
+    setNewStations: (): void => undefined,
+    setNewStops: (): void => undefined,
+}])
+
+export function useSettingsContext(): [Settings, SettingsSetters] {
+    return useContext(SettingsContext)
+}
+
+export function useSettings(): [Settings, SettingsSetters] {
+    const [settings, setSettings] = useState(getSettingsFromUrl())
+
+    const set = useCallback(<T>(key: string, value: T): void => {
+        setSettings(prevSettings => ({ ...prevSettings, [key]: value }))
+    }, [setSettings])
+
+    const setHiddenStations = useCallback((newHiddenStations: Array<string>): void => {
+        set('hiddenStations', newHiddenStations)
+    }, [set])
+
+    const setHiddenStops = useCallback((newHiddenStops: Array<string>): void => {
+        set('hiddenStops', newHiddenStops)
+    }, [set])
+
+    const setHiddenModes = useCallback((newHiddenModes: Array<LegMode>): void => {
+        set('hiddenModes', newHiddenModes)
+    }, [set])
+
+    const setHiddenRoutes = useCallback((newHiddenRoutes: Array<string>): void => {
+        set('hiddenRoutes', newHiddenRoutes)
+    }, [set])
+
+    const setDistance = useCallback((newDistance: number): void => {
+        set('distance', newDistance)
+    }, [set])
+
+    const setNewStations = useCallback((newStations: Array<string>): void => {
+        set('newStations', newStations)
+    }, [set])
+
+    const setNewStops = useCallback((newStops: Array<string>): void => {
+        set('newStops', newStops)
+    }, [set])
+
+    const setters = {
+        setHiddenStations,
+        setHiddenStops,
+        setHiddenModes,
+        setHiddenRoutes,
+        setDistance,
+        setNewStations,
+        setNewStops,
+    }
+
+    return [settings, setters]
+}

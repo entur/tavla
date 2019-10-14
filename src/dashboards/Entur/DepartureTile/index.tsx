@@ -17,6 +17,8 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const routes = Object.keys(groupedDepartures)
 
     const headerIcons = transportHeaderIcons.map((Icon, index) => {
+        if (!Icon) return null
+
         return (
             <Icon key={index} height={ 30 } width={ 30 } color="#9BA4D2" />
         )
@@ -37,7 +39,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                             key={route}
                             label={route}
                             subLabels={routeData.map(data => data.time)}
-                            icon={<Icon height={ 24 } width={ 24 } color={ iconColor } className="route-icon" />}
+                            icon={Icon ? <Icon height={ 24 } width={ 24 } color={ iconColor } className="route-icon" /> : null}
                         />
                     )
                 })

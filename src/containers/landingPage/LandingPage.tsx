@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Coordinates } from '@entur/sdk'
 
@@ -9,7 +9,12 @@ import coverPhoto from '../../assets/images/cover-photo.jpg'
 
 import './styles.scss'
 
-const LandingPage = ({ addLocation }: Props): JSX.Element => {
+const LandingPage = ({ history }: Props): JSX.Element => {
+    const addLocation = useCallback((position: Coordinates): void => {
+        const pos = `${position.latitude},${position.longitude}`.split('.').join('-')
+        history.push(`/dashboard/@${pos}/`)
+    }, [history])
+
     return (
         <div className="landing-page-wrapper">
             <div className="title-container">
@@ -27,7 +32,7 @@ const LandingPage = ({ addLocation }: Props): JSX.Element => {
 }
 
 interface Props {
-    addLocation: (coordinates: Coordinates) => void,
+    history: any,
 }
 
 export default LandingPage

@@ -2,14 +2,19 @@ import React, { useCallback } from 'react'
 import { LegMode } from '@entur/sdk'
 import { DistanceInput, Slider } from '../../../components'
 import TransportRow from './TransportRow'
+import { toggleValueInList } from '../../../utils'
 
 
 const FilterPanel = ({
-    transportModes, distance, onDistanceUpdated, onModeToggled, hiddenModes,
+    transportModes, distance, onDistanceUpdated, onModesChange, disabledModes,
 }: Props): JSX.Element => {
     const handleDistanceUpdate = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         onDistanceUpdated(Number(event.target.value))
     }, [onDistanceUpdated])
+
+    const onModeToggled = (mode: LegMode): void => {
+        onModesChange(toggleValueInList(disabledModes, mode))
+    }
 
     return (
         <div className="filter-panel">
@@ -34,7 +39,7 @@ const FilterPanel = ({
                             <TransportRow
                                 key={index}
                                 mode={mode}
-                                value={!hiddenModes.includes(mode)}
+                                value={!disabledModes.includes(mode)}
                                 onChange={onModeToggled}
                             />
                         ))}
@@ -47,10 +52,10 @@ const FilterPanel = ({
 
 interface Props {
     transportModes: Array<LegMode>,
+    disabledModes: Array<LegMode>,
     distance: number,
     onDistanceUpdated: (newDistance: number) => void,
-    onModeToggled: (mode: LegMode) => void,
-    hiddenModes: Array<LegMode>,
+    onModesChange: (disabledModes: Array<LegMode>) => void,
 }
 
 export default FilterPanel

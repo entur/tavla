@@ -1,15 +1,5 @@
 import { LegMode, TransportSubmode, StopPlace } from '@entur/sdk'
 
-export interface Settings {
-    hiddenStations: Array<string>,
-    hiddenStops: Array<string>,
-    hiddenRoutes: Array<string>,
-    hiddenModes: Array<LegMode>,
-    distance?: number,
-    newStations?: Array<string>,
-    newStops?: Array<string>,
-}
-
 export interface LineData {
     type: LegMode,
     subType: TransportSubmode,
@@ -17,4 +7,18 @@ export interface LineData {
     route: string,
 }
 
+export interface Line {
+    id: string,
+    name: string,
+    transportMode: LegMode,
+    transportSubmode: TransportSubmode,
+}
+
 export type StopPlaceWithDepartures = StopPlace & { departures?: Array<LineData> }
+
+export type StopPlaceWithLines = StopPlace & { lines: Array<Line> }
+
+export interface NearestPlaces {
+    bikeRentalStationIds: Array<string>,
+    stopPlaceIds: Array<string>,
+}

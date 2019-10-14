@@ -7,17 +7,19 @@ import {
 } from '@entur/component-library'
 
 import {
-    Coordinates, TransportMode, BikeRentalStation, StopPlace, EstimatedCall, LegMode, TransportSubmode,
+    Coordinates, TransportMode, BikeRentalStation, StopPlace, EstimatedCall, Departure, LegMode, TransportSubmode,
 } from '@entur/sdk'
 
 import { DEFAULT_DISTANCE } from './constants'
 import service from './service'
 
-import { Settings, LineData, StopPlaceWithDepartures } from './types'
+import { LineData, StopPlaceWithDepartures } from './types'
+import { Settings } from './settings'
 
 export function getIcon(type: LegMode): ElementType | null {
     switch (type) {
         case 'bus':
+        case 'coach':
             return BusIcon
         case 'bicycle':
             return BicycleIcon
@@ -136,7 +138,14 @@ export function getUniqueRoutes(lines: Array<LineData>): Array<LineData> {
     return Object.values(uniqueThings)
 }
 
-export function transformDepartureToLineData(departure: EstimatedCall): LineData {
+export function unique<T>(array: Array<T>, isEqual: (a: T, b: T) => boolean = (a, b): boolean => a === b): Array<T> {
+    return array.filter((item, index, items) => {
+        const previousItems = items.slice(0, index)
+        return !previousItems.some(uniqueItem => isEqual(item, uniqueItem))
+    })
+}
+
+export function transformDepartureToLineData(departure: Departure): LineData {
     const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
     const { line } = serviceJourney.journeyPattern
     const departureTime = moment(expectedDepartureTime)
@@ -156,7 +165,7 @@ export function transformDepartureToLineData(departure: EstimatedCall): LineData
 }
 
 export function getStopsWithUniqueStopPlaceDepartures(stops: Array<StopPlace>) {
-    return service.getStopPlaceDepartures(stops.map(({ id }) => id), { includeNonBoarding: true, departures: 50 }).then(departures => {
+    return service.getDeparturesFromStopPlaces(stops.map(({ id }) => id), { includeNonBoarding: true, departures: 50 }).then(departures => {
         return stops.map(stop => {
             const resultForThisStop = departures.find(({ id }) => stop.id === id)
             if (!resultForThisStop || !resultForThisStop.departures) {
@@ -174,7 +183,7 @@ export function getStopsWithUniqueStopPlaceDepartures(stops: Array<StopPlace>) {
 export function getStopWithUniqueStopPlaceDepartures(stopId: string): Promise<StopPlaceWithDepartures> {
     return service.getStopPlace(stopId).then(stop => {
         return service
-            .getStopPlaceDepartures(stop.id, {
+            .getDeparturesFromStopPlace(stop.id, {
                 includeNonBoarding: true,
                 departures: 50,
             })
@@ -188,15 +197,17 @@ export function getStopWithUniqueStopPlaceDepartures(stopId: string): Promise<St
     })
 }
 
+
+export function toggleValueInList<T>(list: Array<T>, item: T): Array<T> {
+    if (list.includes(item)) {
+        return list.filter(i => i !== item)
+    }
+    return [...list, item]
+}
+
+
 function updateHiddenList(clickedId: string, hiddenList: Array<string>): Array<string> {
-    let newSet = hiddenList
-    if (hiddenList.includes(clickedId)) {
-        newSet = newSet.filter((id) => id !== clickedId)
-    }
-    else {
-        newSet.push(clickedId)
-    }
-    return newSet
+    return toggleValueInList<string>(hiddenList, clickedId)
 }
 
 export function getSettingsHash(distance, hiddenStations, hiddenStops, hiddenRoutes, hiddenModes, newStations, newStops) {
@@ -353,4 +364,8 @@ export function useDebounce<T>(value: T, delay: number): T {
     )
 
     return debouncedValue
+}
+
+export function isLegMode(mode: string): mode is LegMode {
+    return ['air', 'bus', 'water', 'rail', 'metro', 'tram', 'coach', 'car', 'bicycle', 'foot'].includes(mode)
 }
