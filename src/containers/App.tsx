@@ -19,9 +19,9 @@ analytics.set('page', window.location.pathname)
 analytics.pageview(window.location.pathname)
 
 const App = ({ history }: Props): JSX.Element => {
-    const [settings, setters] = useSettings()
+    const settings = useSettings()
     return (
-        <SettingsContext.Provider value={[settings, setters]}>
+        <SettingsContext.Provider value={settings}>
             <Router history={ history }>
                 <Switch>
                     <Route exact path="/" component={LandingPage} />

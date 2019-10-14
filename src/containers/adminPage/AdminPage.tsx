@@ -31,7 +31,7 @@ import './styles.scss'
 const AdminPage = ({ history }: Props): JSX.Element => {
     const [nearestPlaces, setNearestPlaces] = useState<Array<NearestPlace>>([])
     const position = useMemo(() => getPositionFromUrl(), [])
-    const [settings, settingsSetters] = useSettingsContext()
+    const [settings, settingsSetters, persistSettings] = useSettingsContext()
 
     const {
         distance,
@@ -98,9 +98,18 @@ const AdminPage = ({ history }: Props): JSX.Element => {
         [stopPlaces]
     )
 
+    const discardSettingsAndGoToDash = useCallback(() => {
+        history.push(window.location.pathname.replace('admin', 'dashboard'))
+    }, [history])
+
+    const submitSettingsAndGoToDash = useCallback(() => {
+        persistSettings()
+        history.push(window.location.pathname.replace('admin', 'dashboard'))
+    }, [history, persistSettings])
+
     return (
         <div className="admin-container main-container">
-            <AdminHeader goBackToDashboard={console.log} />
+            <AdminHeader goBackToDashboard={discardSettingsAndGoToDash} />
             <div className="admin-content">
                 <FilterPanel
                     transportModes={modes}
@@ -130,7 +139,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                 }
             </div>
             <div className="update-button-container">
-                <Button variant="secondary" onClick={console.log}>
+                <Button variant="secondary" onClick={submitSettingsAndGoToDash}>
                     Oppdater tavle
                 </Button>
             </div>

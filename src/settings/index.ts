@@ -3,7 +3,9 @@ import {
 } from 'react'
 import { LegMode } from '@entur/sdk'
 
-import { getSettingsFromUrl } from './utils'
+import { getSettingsFromUrl } from '../utils'
+
+import { persist, restore } from './UrlStorage'
 
 export interface Settings {
     hiddenStations: Array<string>,
@@ -25,22 +27,32 @@ interface SettingsSetters {
     setNewStops: (newStops: Array<string>) => void,
 }
 
-export const SettingsContext = createContext<[Settings, SettingsSetters]>([getSettingsFromUrl(), {
-    setHiddenStations: (): void => undefined,
-    setHiddenStops: (): void => undefined,
-    setHiddenModes: (): void => undefined,
-    setHiddenRoutes: (): void => undefined,
-    setDistance: (): void => undefined,
-    setNewStations: (): void => undefined,
-    setNewStops: (): void => undefined,
-}])
+type Persistor = () => void
 
-export function useSettingsContext(): [Settings, SettingsSetters] {
+export const SettingsContext = createContext<[Settings, SettingsSetters, Persistor]>([
+    restore(),
+    {
+        setHiddenStations: (): void => undefined,
+        setHiddenStops: (): void => undefined,
+        setHiddenModes: (): void => undefined,
+        setHiddenRoutes: (): void => undefined,
+        setDistance: (): void => undefined,
+        setNewStations: (): void => undefined,
+        setNewStops: (): void => undefined,
+    },
+    (): void => console.log('Persistor not set up yet'), // eslint-disable-line no-console
+])
+
+export function useSettingsContext(): [Settings, SettingsSetters, Persistor] {
     return useContext(SettingsContext)
 }
 
-export function useSettings(): [Settings, SettingsSetters] {
+export function useSettings(): [Settings, SettingsSetters, Persistor] {
     const [settings, setSettings] = useState(getSettingsFromUrl())
+
+    const persistSettings = useCallback(() => {
+        persist(settings)
+    }, [settings])
 
     const set = useCallback(<T>(key: string, value: T): void => {
         setSettings(prevSettings => ({ ...prevSettings, [key]: value }))
@@ -84,5 +96,5 @@ export function useSettings(): [Settings, SettingsSetters] {
         setNewStops,
     }
 
-    return [settings, setters]
+    return [settings, setters, persistSettings]
 }

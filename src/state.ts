@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react'
-import { BikeRentalStation } from '@entur/sdk'
+import { useState, useEffect, useMemo } from 'react'
+import { BikeRentalStation, LegMode } from '@entur/sdk'
 
 import { StopPlaceWithDepartures } from './types'
-import { getPositionFromUrl, getSettingsFromUrl, transformDepartureToLineData } from './utils'
+import { getPositionFromUrl, transformDepartureToLineData } from './utils'
 import service from './service'
+import { useSettingsContext, Settings } from './settings'
 
-async function fetchBikeRentalStations(): Promise<Array<BikeRentalStation> | null> {
+async function fetchBikeRentalStations(settings: Settings): Promise<Array<BikeRentalStation> | null> {
     const position = getPositionFromUrl()
-    const settings = getSettingsFromUrl()
 
     const {
         newStations, distance, hiddenStations, hiddenModes,
@@ -29,29 +29,29 @@ async function fetchBikeRentalStations(): Promise<Array<BikeRentalStation> | nul
 }
 
 export function useBikeRentalStations(): Array<BikeRentalStation> | null {
+    const [settings] = useSettingsContext()
     const [bikeRentalStations, setBikeRentalStations] = useState<Array<BikeRentalStation> | null>([])
 
     useEffect(() => {
-        fetchBikeRentalStations().then(setBikeRentalStations)
+        fetchBikeRentalStations(settings).then(setBikeRentalStations)
         const intervalId = setInterval(() => {
-            fetchBikeRentalStations().then(setBikeRentalStations)
+            fetchBikeRentalStations(settings).then(setBikeRentalStations)
         }, 30000)
 
         return (): void => clearInterval(intervalId)
-    }, [])
+    }, [settings])
 
     return bikeRentalStations
 }
 
-async function fetchStopPlaceDepartures(): Promise<Array<StopPlaceWithDepartures>> {
-    const position = getPositionFromUrl()
-    const settings = getSettingsFromUrl()
-
-    const { newStops, distance, hiddenStops } = settings
+async function fetchStopPlaceDepartures(settings: Settings, nearestStopPlaces: Array<string>): Promise<Array<StopPlaceWithDepartures>> {
+    const {
+        newStops, hiddenStops, hiddenModes, hiddenRoutes,
+    } = settings
 
     const [newStopPlaces, geoStopPlaces] = await Promise.all([
         Promise.all(newStops.map((stopId) => service.getStopPlace(stopId))),
-        service.getStopPlacesByPosition(position, distance),
+        service.getStopPlaces(nearestStopPlaces),
     ])
 
     // TODO: Filter duplicates
@@ -61,9 +61,12 @@ async function fetchStopPlaceDepartures(): Promise<Array<StopPlaceWithDepartures
 
     const stopIds = allStopPlaces.map(({ id }) => id)
 
+    const whiteListedModes = Object.values(LegMode).filter((mode: LegMode) => !hiddenModes.includes(mode))
+
     const departures = await service.getDeparturesFromStopPlaces(stopIds, {
         includeNonBoarding: false,
         departures: 50,
+        whiteListedModes,
     })
 
     const stopPlacesWithDepartures = allStopPlaces.map(stop => {
@@ -73,33 +76,38 @@ async function fetchStopPlaceDepartures(): Promise<Array<StopPlaceWithDepartures
         }
         return {
             ...stop,
-            departures: departuresForThisStopPlace.departures.map(transformDepartureToLineData),
+            departures: departuresForThisStopPlace.departures
+                .map(transformDepartureToLineData)
+                .filter(({ name }) => !hiddenRoutes.includes(name)),
         }
     })
-
-    // .filter((route) => (
-    //     !hiddenRoutes.includes(route)
-    //     && !hiddenRoutes.some(hiddenRoute => hiddenRoute.includes(getCombinedStopPlaceAndRouteId(stopPlace.id, route)))
-    // ))
-
-    // if (hiddenModes.includes(routeType)) {
-    //     return null
-    // }
 
     return stopPlacesWithDepartures
 }
 
 export function useStopPlacesWithDepartures(): Array<StopPlaceWithDepartures> {
+    const position = useMemo(() => getPositionFromUrl(), [])
+    const [settings] = useSettingsContext()
     const [stopPlacesWithDepartures, setStopPlacesWithDepartures] = useState<Array<StopPlaceWithDepartures>>([])
 
+    const [nearestStopPlaces, setNearestStopPlaces] = useState<Array<string>>([])
+
     useEffect(() => {
-        fetchStopPlaceDepartures().then(setStopPlacesWithDepartures)
+        service.getNearestPlaces(position, {
+            maximumDistance: settings.distance,
+            filterByPlaceTypes: ['StopPlace'],
+            multiModalMode: 'parent',
+        }).then(places => setNearestStopPlaces(places.map(({ id }) => id)))
+    }, [position, settings.distance])
+
+    useEffect(() => {
+        fetchStopPlaceDepartures(settings, nearestStopPlaces).then(setStopPlacesWithDepartures)
         const intervalId = setInterval(() => {
-            fetchStopPlaceDepartures().then(setStopPlacesWithDepartures)
+            fetchStopPlaceDepartures(settings, nearestStopPlaces).then(setStopPlacesWithDepartures)
         }, 30000)
 
         return (): void => clearInterval(intervalId)
-    }, [])
+    }, [nearestStopPlaces, settings])
 
     return stopPlacesWithDepartures
 }

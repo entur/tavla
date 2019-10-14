@@ -147,7 +147,7 @@ export function unique<T>(array: Array<T>, isEqual: (a: T, b: T) => boolean = (a
 
 export function transformDepartureToLineData(departure: Departure): LineData {
     const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
-    const { line } = serviceJourney.journeyPattern
+    const { line } = serviceJourney
     const departureTime = moment(expectedDepartureTime)
     const minDiff = departureTime.diff(moment(), 'minutes')
 
