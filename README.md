@@ -4,6 +4,8 @@ Tavla ("The Board") is a personal departure board that you can configure yoursel
 
 Go to [tavla.en-tur.no](https://tavla.en-tur.no) to configure your table today.
 
+Subscribe to updates to Tavla by using GitHub's "Watch" feature.
+
 ## Contribute
 
 Do you find bugs or something that can be improved? Don't hesitate to submit an issue or a pull request.

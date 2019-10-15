@@ -23,8 +23,14 @@ const LandingPage = ({ history }: Props): JSX.Element => {
             </div>
             <div className="content-container">
                 <SearchPanel handleCoordinatesSelected={addLocation}/>
-                <p className="searchPanel-subtext">For å opprette en tavle trenger vi å vite hvilket område du er interessert i.<br />
-                Hvis du vil, kan du lese mer om <Link to="/privacy">personvern her.</Link></p>
+                <p className="searchPanel-subtext">
+                    For å opprette en tavle trenger vi å vite hvilket område du er interessert i.<br />
+                    Hvis du vil, kan du lese mer om <Link to="/privacy">personvern her.</Link>
+                </p>
+                <p className="searchPanel-subtext">
+                    Tavlas kildekode kan du finne på <a href="https://github.com/entur/tavla">GitHub</a>.
+                    Bruk "Watch Releases" på GitHub for å følge med på endringer vi gjør på Tavla.
+                </p>
                 <img src={coverPhoto} className="cover-photo" alt="Bilde av folk og kollektivtrafikk i landskap" />
             </div>
         </div>
