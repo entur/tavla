@@ -1,45 +1,63 @@
 import { useState, useEffect, useMemo } from 'react'
-import { BikeRentalStation, LegMode } from '@entur/sdk'
+import { BikeRentalStation, LegMode, NearestPlace } from '@entur/sdk'
 
 import { StopPlaceWithDepartures } from './types'
 import { getPositionFromUrl, transformDepartureToLineData } from './utils'
 import service from './service'
 import { useSettingsContext, Settings } from './settings'
 
-async function fetchBikeRentalStations(settings: Settings): Promise<Array<BikeRentalStation> | null> {
-    const position = getPositionFromUrl()
+function useNearestPlaces(position, settings): Array<NearestPlace> {
+    const [nearestPlaces, setNearestPlaces] = useState<Array<NearestPlace>>([])
 
+    useEffect(() => {
+        service.getNearestPlaces(position, {
+            maximumDistance: settings.distance,
+            filterByPlaceTypes: ['StopPlace', 'BikeRentalStation'],
+            multiModalMode: 'parent',
+        }).then(setNearestPlaces)
+    }, [position, settings.distance])
+
+    return nearestPlaces
+}
+
+async function fetchBikeRentalStations(settings: Settings, nearestBikeRentalStations: Array<string>): Promise<Array<BikeRentalStation> | null> {
     const {
-        newStations, distance, hiddenStations, hiddenModes,
+        newStations, hiddenStations, hiddenModes,
     } = settings
 
     if (hiddenModes.includes('bicycle')) {
         return null
     }
 
-    const [newBikeStations, geoBikeStations] = await Promise.all([
-        newStations.length ? service.getBikeRentalStations(newStations) : [],
-        service.getBikeRentalStationsByPosition(position, distance),
-    ])
+    const allStationIds = [...newStations, ...nearestBikeRentalStations]
+        .filter(id => !hiddenStations.includes(id))
+        .filter((id, index, ids) => ids.indexOf(id) === index)
 
-    // TODO: Filter duplicates
-    return [...newBikeStations, ...geoBikeStations]
-        .filter(({ id }) => !hiddenStations.includes(id))
-        .sort((a, b) => a.name.localeCompare(b.name, 'no'))
+    const allStations = await service.getBikeRentalStations(allStationIds)
+    return allStations.sort((a, b) => a.name.localeCompare(b.name, 'no'))
 }
 
 export function useBikeRentalStations(): Array<BikeRentalStation> | null {
+    const position = useMemo(() => getPositionFromUrl(), [])
     const [settings] = useSettingsContext()
     const [bikeRentalStations, setBikeRentalStations] = useState<Array<BikeRentalStation> | null>([])
+    const nearestPlaces = useNearestPlaces(position, settings)
+
+    const nearestBikeRentalStations = useMemo(
+        () => nearestPlaces
+            .filter(({ type }) => type === 'BikeRentalStation')
+            .map(({ id }) => id),
+        [nearestPlaces]
+    )
 
     useEffect(() => {
-        fetchBikeRentalStations(settings).then(setBikeRentalStations)
+        fetchBikeRentalStations(settings, nearestBikeRentalStations).then(setBikeRentalStations)
         const intervalId = setInterval(() => {
-            fetchBikeRentalStations(settings).then(setBikeRentalStations)
+            fetchBikeRentalStations(settings, nearestBikeRentalStations).then(setBikeRentalStations)
         }, 30000)
 
         return (): void => clearInterval(intervalId)
-    }, [settings])
+    }, [nearestBikeRentalStations, settings])
 
     return bikeRentalStations
 }
@@ -49,27 +67,22 @@ async function fetchStopPlaceDepartures(settings: Settings, nearestStopPlaces: A
         newStops, hiddenStops, hiddenModes, hiddenRoutes,
     } = settings
 
-    const [newStopPlaces, geoStopPlaces] = await Promise.all([
-        Promise.all(newStops.map((stopId) => service.getStopPlace(stopId))),
-        service.getStopPlaces(nearestStopPlaces),
-    ])
+    const allStopPlaceIds = [...newStops, ...nearestStopPlaces]
+        .filter(id => !hiddenStops.includes(id))
+        .filter((id, index, ids) => ids.indexOf(id) === index)
 
-    // TODO: Filter duplicates
-    const allStopPlaces = [...newStopPlaces, ...geoStopPlaces]
-        .filter(({ id }) => !hiddenStops.includes(id))
-        .sort((a, b) => a.name.localeCompare(b.name, 'no'))
-
-    const stopIds = allStopPlaces.map(({ id }) => id)
+    const allStopPlaces = await service.getStopPlaces(allStopPlaceIds)
+    const sortedStops = allStopPlaces.sort((a, b) => a.name.localeCompare(b.name, 'no'))
 
     const whiteListedModes = Object.values(LegMode).filter((mode: LegMode) => !hiddenModes.includes(mode))
 
-    const departures = await service.getDeparturesFromStopPlaces(stopIds, {
+    const departures = await service.getDeparturesFromStopPlaces(allStopPlaceIds, {
         includeNonBoarding: false,
         departures: 50,
         whiteListedModes,
     })
 
-    const stopPlacesWithDepartures = allStopPlaces.map(stop => {
+    const stopPlacesWithDepartures = sortedStops.map(stop => {
         const departuresForThisStopPlace = departures.find(({ id }) => stop.id === id)
         if (!departuresForThisStopPlace || !departuresForThisStopPlace.departures) {
             return stop
@@ -78,7 +91,7 @@ async function fetchStopPlaceDepartures(settings: Settings, nearestStopPlaces: A
             ...stop,
             departures: departuresForThisStopPlace.departures
                 .map(transformDepartureToLineData)
-                .filter(({ name }) => !hiddenRoutes.includes(name)),
+                .filter(({ route }) => !hiddenRoutes.includes(route)),
         }
     })
 
@@ -88,17 +101,15 @@ async function fetchStopPlaceDepartures(settings: Settings, nearestStopPlaces: A
 export function useStopPlacesWithDepartures(): Array<StopPlaceWithDepartures> {
     const position = useMemo(() => getPositionFromUrl(), [])
     const [settings] = useSettingsContext()
+    const nearestPlaces = useNearestPlaces(position, settings)
     const [stopPlacesWithDepartures, setStopPlacesWithDepartures] = useState<Array<StopPlaceWithDepartures>>([])
 
-    const [nearestStopPlaces, setNearestStopPlaces] = useState<Array<string>>([])
-
-    useEffect(() => {
-        service.getNearestPlaces(position, {
-            maximumDistance: settings.distance,
-            filterByPlaceTypes: ['StopPlace'],
-            multiModalMode: 'parent',
-        }).then(places => setNearestStopPlaces(places.map(({ id }) => id)))
-    }, [position, settings.distance])
+    const nearestStopPlaces = useMemo(
+        () => nearestPlaces
+            .filter(({ type }) => type === 'StopPlace')
+            .map(({ id }) => id),
+        [nearestPlaces]
+    )
 
     useEffect(() => {
         fetchStopPlaceDepartures(settings, nearestStopPlaces).then(setStopPlacesWithDepartures)
