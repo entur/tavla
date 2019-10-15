@@ -44,3 +44,20 @@
         }
     }
 }
+
+@media (max-width: 1000px) {
+    .enturdash {
+        padding: 1rem;
+        overflow: auto;
+
+        &__tiles {
+            display: block;
+        }
+
+        .tile {
+            margin-bottom: 1rem;
+            max-height: unset;
+            width: 100%;
+        }
+    }
+}
