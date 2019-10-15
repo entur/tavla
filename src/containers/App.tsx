@@ -8,7 +8,7 @@ import { SettingsContext, useSettings } from '../settings'
 
 import Entur from '../dashboards/Entur'
 
-import LandingPage from './landingPage/LandingPage'
+import LandingPage from './LandingPage'
 import Admin from './Admin'
 import Privacy from './privacy/Privacy'
 

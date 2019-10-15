@@ -16,22 +16,26 @@ const LandingPage = ({ history }: Props): JSX.Element => {
     }, [history])
 
     return (
-        <div className="landing-page-wrapper">
-            <div className="title-container">
-                <TavlaLogo />
-                <p className='title__subtext'>Sanntidstavla du selv kan tilpasse etter dine behov.</p>
-            </div>
-            <div className="content-container">
+        <div className="landing-page">
+            <header>
+                <h1><TavlaLogo /></h1>
+                <h2>Sanntidstavla du selv kan tilpasse etter dine behov.</h2>
+            </header>
+            <div className="landing-page__content">
                 <SearchPanel handleCoordinatesSelected={addLocation}/>
-                <p className="searchPanel-subtext">
+                <p>
                     For å opprette en tavle trenger vi å vite hvilket område du er interessert i.<br />
                     Hvis du vil, kan du lese mer om <Link to="/privacy">personvern her.</Link>
                 </p>
-                <p className="searchPanel-subtext">
+                <p>
                     Tavlas kildekode kan du finne på <a href="https://github.com/entur/tavla">GitHub</a>.
                     Bruk "Watch Releases" på GitHub for å følge med på endringer vi gjør på Tavla.
                 </p>
-                <img src={coverPhoto} className="cover-photo" alt="Bilde av folk og kollektivtrafikk i landskap" />
+                <img
+                    src={coverPhoto}
+                    className="landing-page__cover-photo"
+                    alt="Folk og kollektivtrafikk i landskap"
+                />
             </div>
         </div>
     )
