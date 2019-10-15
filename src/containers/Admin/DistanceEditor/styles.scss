@@ -1,0 +1,42 @@
+@import '../../../assets/styles/import.scss';
+
+.distance-editor {
+    width: 400px;
+    min-height: 7rem;
+
+    &__text {
+        padding-right: 60px;
+        height: 24px;
+        width: 450px;
+        color: $white;
+        font-family: $base-font-family;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    &__input {
+        background: transparent;
+        border: none;
+        color: $white;
+        font-size: 14px;
+        width: auto;
+        border-bottom: 2px solid $coral;
+        padding: 0.2rem;
+        margin: 0 4px 0 4px;
+        text-align: center;
+
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+}

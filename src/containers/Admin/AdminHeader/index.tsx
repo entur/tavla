@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Clock, BackButton } from '../../components'
+import { Clock, BackButton } from '../../../components'
 
 import './styles.scss'
 
@@ -8,10 +8,10 @@ function AdminHeader(props: Props): JSX.Element {
     const { goBackToDashboard } = props
 
     return (
-        <div className="header header-container">
-            <div className="admin-header">
-                <BackButton className="admin-header--back-button" action={goBackToDashboard} />
-                <p>Rediger tavle</p>
+        <div className="admin-header">
+            <div className="admin-header__left">
+                <BackButton size="medium" className="admin-header__back-button" action={goBackToDashboard} />
+                <h1>Rediger tavle</h1>
             </div>
             <Clock />
         </div>

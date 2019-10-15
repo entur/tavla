@@ -1,0 +1,50 @@
+@import '../../assets/styles/import.scss';
+
+.admin {
+    height: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    padding: 2% 5%;
+    background-color: #181c56;
+    color: $white;
+
+    &__content {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__submit-button-container {
+        text-align: right;
+        padding-right: 1%;
+        float: right;
+        width: 100%;
+        height: 46px;
+        margin-top: 3rem;
+    }
+
+    &__selection-panel {
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-right: 50px;
+    }
+
+    .admin-footer {
+        height: 50px;
+        padding-right: 2.2rem;
+        padding-top: 2rem;
+    }
+}
+
+@media (max-width: 1000px) {
+    .admin {
+        &__content {
+            display: block;
+        }
+
+        &__selection-panel {
+            margin: 0 0 2rem 0;
+        }
+    }
+}

@@ -9,7 +9,7 @@ import { SettingsContext, useSettings } from '../settings'
 import Entur from '../dashboards/Entur'
 
 import LandingPage from './landingPage/LandingPage'
-import AdminPage from './adminPage/AdminPage'
+import Admin from './Admin'
 import Privacy from './privacy/Privacy'
 
 analytics.initialize('UA-108877193-6')
@@ -26,7 +26,7 @@ const App = ({ history }: Props): JSX.Element => {
                 <Switch>
                     <Route exact path="/" component={LandingPage} />
                     <Route path="/dashboard" component={Entur} />
-                    <Route path="/admin" component={AdminPage} />
+                    <Route path="/admin" component={Admin} />
                     <Route path="/privacy" component={Privacy} />
                     <Redirect to="/" />
                 </Switch>

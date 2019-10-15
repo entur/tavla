@@ -1,0 +1,43 @@
+@import '../../../assets/styles/import.scss';
+
+.bike-panel {
+    background-color: $blue-10;
+    padding: 1rem 2rem;
+    width: 400px;
+    margin-top: 2rem;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+
+        label {
+            color: $white;
+        }
+    }
+
+    &__row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 2px solid $blue-20;
+
+        &:last-child {
+            border: 0;
+            padding-bottom: 0;
+        }
+
+        &__label {
+            margin-left: 1rem;
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    .bike-panel {
+        width: unset;
+        margin-top: 0;
+    }
+}

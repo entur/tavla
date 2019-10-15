@@ -23,7 +23,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@entur/component-library": "^0.26.1",
+    "@entur/component-library": "^0.29.0",
     "@entur/sdk": "^1.0.0-next.30",
     "connect-history-api-fallback": "^1.6.0",
     "koa-connect": "^2.0.1",

@@ -1,9 +1,11 @@
 import React from 'react'
 import { MAX_DISTANCE } from '../../constants'
 
-const Slider = (props: Props): JSX.Element => {
+import './styles.scss'
+
+function Slider(props: Props): JSX.Element {
     return (
-        <div>
+        <div className="slider">
             <input
                 id="typeinp"
                 type="range"
@@ -14,9 +16,9 @@ const Slider = (props: Props): JSX.Element => {
                 className="slider"
                 value={props.distance}
             />
-            <div className="slider-labels">
-                <p>1 m</p>
-                <p>{MAX_DISTANCE} m</p>
+            <div className="slider__labels">
+                <div>1 m</div>
+                <div>{MAX_DISTANCE} m</div>
             </div>
         </div>
     )

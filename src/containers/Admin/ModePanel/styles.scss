@@ -1,0 +1,42 @@
+@import '../../../assets/styles/import.scss';
+
+.mode-panel {
+    background-color: $blue-10;
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+
+    &__rows {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+    }
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.mode-panel-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 2px solid $blue-20;
+
+    &:last-child {
+        border: 0;
+        padding-bottom: 0;
+    }
+
+    > div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    &__label {
+        margin-left: 1rem;
+    }
+}

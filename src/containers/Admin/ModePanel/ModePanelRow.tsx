@@ -4,6 +4,8 @@ import { LegMode } from '@entur/sdk'
 
 import { getIcon, getIconColor } from '../../../utils'
 
+import './styles.scss'
+
 const getTransportModeTitle = (type: LegMode): string => {
     switch (type) {
         case 'bus':
@@ -23,7 +25,7 @@ const getTransportModeTitle = (type: LegMode): string => {
     }
 }
 
-const TransportRow = ({ mode, onChange, value }: Props): JSX.Element => {
+const ModePanelRow = ({ mode, onChange, value }: Props): JSX.Element => {
     const Icon = getIcon(mode)
     const iconColor = getIconColor(mode)
 
@@ -32,19 +34,19 @@ const TransportRow = ({ mode, onChange, value }: Props): JSX.Element => {
     }, [mode, onChange])
 
     return (
-        <div className="mode-sort-row">
-            <div className="sort-button-item">
-                <div className="mode-sort-button mode-sort-icon">
+        <div className="mode-panel-row">
+            <div>
+                <div>
                     { Icon ? <Icon height={24} width={24} color={iconColor} /> : null }
                 </div>
-                <p className="mode-sort-text">{getTransportModeTitle(mode)}</p>
+                <span className="mode-panel-row__label">{ getTransportModeTitle(mode) }</span>
             </div>
             <SlideSwitch
                 id="SlideSwitch"
-                className="mode-sort-slide-switch"
                 onChange={handleChange}
                 checked={value}
                 style={{ cursor: 'pointer' }}
+                variant="midnight"
             />
         </div>
     )
@@ -56,4 +58,4 @@ interface Props {
     onChange: (mode: LegMode) => void,
 }
 
-export default TransportRow
+export default ModePanelRow

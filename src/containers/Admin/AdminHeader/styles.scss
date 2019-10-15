@@ -1,0 +1,22 @@
+@import '../../../assets/styles/import.scss';
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    height: 120px;
+
+    &--data-and-clock {
+        margin-right: 8px;
+    }
+
+    &__back-button {
+        text-align: left;
+        padding-left: 0;
+    }
+
+    &__left {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+    }
+}

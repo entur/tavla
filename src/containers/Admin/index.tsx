@@ -6,7 +6,8 @@ import { BikeRentalStation, LegMode } from '@entur/sdk'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanel from './BikePanel'
-import FilterPanel from './filterPanel/FilterPanel'
+import ModePanel from './ModePanel'
+import DistanceEditor from './DistanceEditor'
 
 import {
     getPositionFromUrl,
@@ -22,8 +23,8 @@ import { useNearestPlaces } from '../../state'
 
 import AdminHeader from './AdminHeader'
 
-import BikePanelSearch from './searchPanels/BikePanelSearch'
-import SelectionPanelSearch from './searchPanels/SelectionPanelSearch'
+import BikePanelSearch from './BikeSearch'
+import StopPlaceSearch from './StopPlaceSearch'
 
 import './styles.scss'
 
@@ -105,25 +106,29 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     }, [history, persistSettings])
 
     return (
-        <div className="admin-container main-container">
+        <div className="admin">
             <AdminHeader goBackToDashboard={discardSettingsAndGoToDash} />
-            <div className="admin-content">
-                <FilterPanel
-                    transportModes={modes}
-                    disabledModes={hiddenModes}
-                    distance={distance}
-                    onDistanceUpdated={setDistance}
-                    onModesChange={setHiddenModes}
-                />
-                <div className="selection-panel">
+            <div className="admin__content">
+                <div className="admin__selection-panel">
+                    <DistanceEditor
+                        distance={distance}
+                        onDistanceUpdated={setDistance}
+                    />
+                    <ModePanel
+                        transportModes={modes}
+                        disabledModes={hiddenModes}
+                        onModesChange={setHiddenModes}
+                    />
+                </div>
+                <div className="admin__selection-panel">
                     <div className="search-stop-places">
-                        <SelectionPanelSearch handleAddNewStop={addNewStop} />
+                        <StopPlaceSearch handleAddNewStop={addNewStop} />
                     </div>
                     <StopPlacePanel stops={stopPlaces} />
                 </div>
                 {
                     !hiddenModes.includes('bicycle') ? (
-                        <div className="selection-panel">
+                        <div className="admin__selection-panel">
                             <div className="search-stop-places">
                                 <BikePanelSearch
                                     position={position}
@@ -135,7 +140,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                     ) : null
                 }
             </div>
-            <div className="update-button-container">
+            <div className="admin__submit-button-container">
                 <Button variant="secondary" onClick={submitSettingsAndGoToDash}>
                     Oppdater tavle
                 </Button>

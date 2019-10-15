@@ -84,8 +84,8 @@ const SelectionPanelSearch = ({ handleAddNewStop }: Props): JSX.Element => {
     }
 
     return (
-        <div className="input-container-admin">
-            <p className="searchPanel-label">Stoppested</p>
+        <div className="stop-place-search">
+            <span>Stoppested</span>
             <ReactAutosuggest
                 id="SelectionPanelSearch"
                 suggestions={suggestions}

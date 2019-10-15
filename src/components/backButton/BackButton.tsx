@@ -3,10 +3,10 @@ import { ArrowIcon } from '@entur/component-library'
 
 import './styles.scss'
 
-const BackButton = ({ action, className }: Props): JSX.Element => {
+const BackButton = ({ action, className, size }: Props): JSX.Element => {
     return (
         <button className={`back-button ${className}`} onClick={action}>
-            <ArrowIcon direction="left" size="small" />
+            <ArrowIcon direction="left" size={size || 'small'} />
         </button>
     )
 }
@@ -14,6 +14,7 @@ const BackButton = ({ action, className }: Props): JSX.Element => {
 interface Props {
     action: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
     className: string,
+    size?: 'small' | 'medium' | 'large',
 }
 
 export default BackButton

@@ -54,8 +54,8 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
     }
 
     return (
-        <div className="input-container-admin">
-            <p className="searchPanel-label">Bysykkelstativ</p>
+        <div className="bike-search">
+            <span>Bysykkelstativ</span>
             <ReactAutosuggest
                 id="BikePanelSearch"
                 suggestions={suggestions}
