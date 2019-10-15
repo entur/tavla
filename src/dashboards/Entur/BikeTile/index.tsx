@@ -20,8 +20,8 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                         icon={<BikeIcon height={ 24 } width={ 24 } color="#D1D4E3" />}
                         label={name}
                         subLabels={[
-                            bikesAvailable === 1 ? 'sykkel' : 'sykler',
-                            spacesAvailable === 1 ? 'lås' : 'låser',
+                            bikesAvailable === 1 ? '1 sykkel' : `${bikesAvailable} sykler`,
+                            spacesAvailable === 1 ? '1 lås' : `${spacesAvailable} låser`,
                         ]}
                     />
                 ))
