@@ -36,9 +36,6 @@ function StopPlacePanel(props: Props): JSX.Element {
     }, [hiddenStops.length, setHiddenStops, stops])
 
     const onToggleStop = useCallback((event) => {
-        event.stopPropagation()
-        console.log('TOGGLE STOP!')
-
         const stopId = event.target.id
         const newDisabledList = toggleValueInList(hiddenStops, stopId)
         setHiddenStops(newDisabledList)
