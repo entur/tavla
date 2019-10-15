@@ -2,9 +2,7 @@ import React, {
     useState, useEffect, useMemo, useCallback,
 } from 'react'
 import { Button } from '@entur/component-library'
-import {
-    BikeRentalStation, LegMode, NearestPlace,
-} from '@entur/sdk'
+import { BikeRentalStation, LegMode } from '@entur/sdk'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanel from './BikePanel'
@@ -20,6 +18,7 @@ import service, { getStopPlacesWithLines } from '../../service'
 import { StopPlaceWithLines } from '../../types'
 
 import { useSettingsContext } from '../../settings'
+import { useNearestPlaces } from '../../state'
 
 import AdminHeader from './AdminHeader'
 
@@ -29,7 +28,6 @@ import SelectionPanelSearch from './searchPanels/SelectionPanelSearch'
 import './styles.scss'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
-    const [nearestPlaces, setNearestPlaces] = useState<Array<NearestPlace>>([])
     const position = useMemo(() => getPositionFromUrl(), [])
     const [settings, settingsSetters, persistSettings] = useSettingsContext()
 
@@ -51,14 +49,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const [stations, setStations] = useState<Array<BikeRentalStation>>([])
 
     const debouncedDistance = useDebounce(distance, 300)
-
-    useEffect(() => {
-        service.getNearestPlaces(position, {
-            maximumDistance: debouncedDistance,
-            filterByPlaceTypes: ['StopPlace', 'BikeRentalStation'],
-            multiModalMode: 'parent',
-        }).then(setNearestPlaces)
-    }, [debouncedDistance, position])
+    const nearestPlaces = useNearestPlaces(position, debouncedDistance)
 
     useEffect(() => {
         const nearestStopPlaceIds = nearestPlaces

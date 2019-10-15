@@ -1,21 +1,23 @@
 import { useState, useEffect, useMemo } from 'react'
-import { BikeRentalStation, LegMode, NearestPlace } from '@entur/sdk'
+import {
+    BikeRentalStation, LegMode, NearestPlace, Coordinates,
+} from '@entur/sdk'
 
 import { StopPlaceWithDepartures } from './types'
 import { getPositionFromUrl, transformDepartureToLineData } from './utils'
 import service from './service'
 import { useSettingsContext, Settings } from './settings'
 
-function useNearestPlaces(position, settings): Array<NearestPlace> {
+export function useNearestPlaces(position: Coordinates, distance: number): Array<NearestPlace> {
     const [nearestPlaces, setNearestPlaces] = useState<Array<NearestPlace>>([])
 
     useEffect(() => {
         service.getNearestPlaces(position, {
-            maximumDistance: settings.distance,
+            maximumDistance: distance,
             filterByPlaceTypes: ['StopPlace', 'BikeRentalStation'],
             multiModalMode: 'parent',
         }).then(setNearestPlaces)
-    }, [position, settings.distance])
+    }, [distance, position])
 
     return nearestPlaces
 }
@@ -41,7 +43,7 @@ export function useBikeRentalStations(): Array<BikeRentalStation> | null {
     const position = useMemo(() => getPositionFromUrl(), [])
     const [settings] = useSettingsContext()
     const [bikeRentalStations, setBikeRentalStations] = useState<Array<BikeRentalStation> | null>([])
-    const nearestPlaces = useNearestPlaces(position, settings)
+    const nearestPlaces = useNearestPlaces(position, settings.distance)
 
     const nearestBikeRentalStations = useMemo(
         () => nearestPlaces
@@ -101,7 +103,7 @@ async function fetchStopPlaceDepartures(settings: Settings, nearestStopPlaces: A
 export function useStopPlacesWithDepartures(): Array<StopPlaceWithDepartures> {
     const position = useMemo(() => getPositionFromUrl(), [])
     const [settings] = useSettingsContext()
-    const nearestPlaces = useNearestPlaces(position, settings)
+    const nearestPlaces = useNearestPlaces(position, settings.distance)
     const [stopPlacesWithDepartures, setStopPlacesWithDepartures] = useState<Array<StopPlaceWithDepartures>>([])
 
     const nearestStopPlaces = useMemo(
