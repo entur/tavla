@@ -90,12 +90,17 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     }, [newStations, setNewStops])
 
     const modes: Array<LegMode> = useMemo(
-        () => stopPlaces
-            .map(stopPlace => stopPlace.lines.map(({ transportMode }) => transportMode))
-            .reduce((a, b) => [...a, ...b], [])
-            .filter(isLegMode)
-            .filter((mode, index, array) => array.indexOf(mode) === index),
-        [stopPlaces]
+        () => {
+            const modesFromStopPlaces = stopPlaces
+                .map(stopPlace => stopPlace.lines.map(({ transportMode }) => transportMode))
+                .reduce((a, b) => [...a, ...b], [])
+                .filter(isLegMode)
+                .filter((mode, index, array) => array.indexOf(mode) === index)
+            return (stations.length)
+                ? ['bicycle', ...modesFromStopPlaces]
+                : modesFromStopPlaces
+        },
+        [stations.length, stopPlaces]
     )
 
     const discardSettingsAndGoToDash = useCallback(() => {
