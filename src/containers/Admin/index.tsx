@@ -15,6 +15,8 @@ import {
     isLegMode,
 } from '../../utils'
 
+import { Github } from '../../assets/icons'
+
 import service, { getStopPlacesWithLines } from '../../service'
 import { StopPlaceWithLines } from '../../types'
 
@@ -124,6 +126,11 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 
     return (
         <div className="admin">
+            <div className="github-logo">
+                <a href="https://github.com/entur/tavla">
+                    <Github size="30px" />
+                </a>
+            </div>
             <AdminHeader goBackToDashboard={discardSettingsAndGoToDash} />
             <div className="admin__content">
                 <div className="admin__selection-panel">
