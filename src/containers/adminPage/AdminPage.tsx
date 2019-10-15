@@ -44,6 +44,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
         setHiddenModes,
         setDistance,
         setNewStops,
+        setNewStations,
     } = settingsSetters
 
     const [stopPlaces, setStopPlaces] = useState<Array<StopPlaceWithLines>>([])
@@ -86,8 +87,8 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     }, [newStops, setNewStops])
 
     const addNewStation = useCallback((stationId: string) => {
-        setNewStops([...newStations, stationId])
-    }, [newStations, setNewStops])
+        setNewStations([...newStations, stationId])
+    }, [newStations, setNewStations])
 
     const modes: Array<LegMode> = useMemo(
         () => {
