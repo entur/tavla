@@ -3,8 +3,6 @@ import {
 } from 'react'
 import { LegMode } from '@entur/sdk'
 
-import { getSettingsFromUrl } from '../utils'
-
 import { persist, restore } from './UrlStorage'
 
 export interface Settings {
@@ -48,7 +46,7 @@ export function useSettingsContext(): [Settings, SettingsSetters, Persistor] {
 }
 
 export function useSettings(): [Settings, SettingsSetters, Persistor] {
-    const [settings, setSettings] = useState(getSettingsFromUrl())
+    const [settings, setSettings] = useState(restore())
 
     const persistSettings = useCallback(() => {
         persist(settings)

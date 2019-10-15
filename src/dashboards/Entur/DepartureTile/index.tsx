@@ -3,7 +3,7 @@ import React from 'react'
 import {
     getIcon, getIconColor, groupBy, getTransportHeaderIcons,
 } from '../../../utils'
-import { StopPlaceWithDepartures } from '../../../types'
+import { StopPlaceWithDepartures, LineData } from '../../../types'
 
 import Tile from '../components/Tile'
 import TileRow from '../components/TileRow'
@@ -12,7 +12,7 @@ import './styles.scss'
 
 const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
-    const groupedDepartures = groupBy(departures, 'route')
+    const groupedDepartures = groupBy<LineData>(departures, 'route')
     const transportHeaderIcons = getTransportHeaderIcons(departures)
     const routes = Object.keys(groupedDepartures)
 
