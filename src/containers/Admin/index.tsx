@@ -97,7 +97,11 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     )
 
     const discardSettingsAndGoToDash = useCallback(() => {
-        history.push(window.location.pathname.replace('admin', 'dashboard'))
+        // eslint-disable-next-line no-restricted-globals
+        const answerIsYes = confirm('Er du sikker på at du vil gå tilbake uten å lagre endringene dine?')
+        if (answerIsYes) {
+            history.push(window.location.pathname.replace('admin', 'dashboard'))
+        }
     }, [history])
 
     const submitSettingsAndGoToDash = useCallback(() => {
@@ -140,11 +144,13 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                     ) : null
                 }
             </div>
-            <div className="admin__submit-button-container">
-                <Button variant="secondary" onClick={submitSettingsAndGoToDash}>
-                    Oppdater tavle
-                </Button>
-            </div>
+            <Button
+                className="admin__submit-button"
+                variant="success"
+                onClick={submitSettingsAndGoToDash}
+            >
+                Oppdater tavla
+            </Button>
         </div>
     )
 }
