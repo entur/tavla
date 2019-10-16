@@ -83,7 +83,10 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     }, [nearestPlaces, newStations])
 
     const addNewStop = useCallback((stopId: string) => {
-        const numberOfDuplicates = [...nearestStopPlaceIds, ...newStops].filter(id => id === stopId).length
+        const numberOfDuplicates = [...nearestStopPlaceIds, ...newStops]
+            .map(id => id.replace(/-\d+$/, ''))
+            .filter(id => id === stopId)
+            .length
         const id = !numberOfDuplicates ? stopId : `${stopId}-${numberOfDuplicates}`
         setNewStops([...newStops, id])
     }, [nearestStopPlaceIds, newStops, setNewStops])
