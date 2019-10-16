@@ -9,7 +9,9 @@ export interface Settings {
     hiddenStations: Array<string>,
     hiddenStops: Array<string>,
     hiddenModes: Array<LegMode>,
-    hiddenRoutes: Array<string>,
+    hiddenRoutes: {
+        [stopPlaceId: string]: Array<string>,
+    },
     distance?: number,
     newStations?: Array<string>,
     newStops?: Array<string>,
@@ -19,7 +21,7 @@ interface SettingsSetters {
     setHiddenStations: (hiddenStations: Array<string>) => void,
     setHiddenStops: (hiddenStops: Array<string>) => void,
     setHiddenModes: (hiddenModes: Array<LegMode>) => void,
-    setHiddenRoutes: (hiddenModes: Array<string>) => void,
+    setHiddenRoutes: (hiddenModes: { [stopPlaceId: string]: Array<string> }) => void,
     setDistance: (distance: number) => void,
     setNewStations: (newStations: Array<string>) => void,
     setNewStops: (newStops: Array<string>) => void,
@@ -68,7 +70,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
         set('hiddenModes', newHiddenModes)
     }, [set])
 
-    const setHiddenRoutes = useCallback((newHiddenRoutes: Array<string>): void => {
+    const setHiddenRoutes = useCallback((newHiddenRoutes: { [stopPlaceId: string]: Array<string> }): void => {
         set('hiddenRoutes', newHiddenRoutes)
     }, [set])
 

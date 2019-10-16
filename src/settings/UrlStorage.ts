@@ -15,6 +15,6 @@ export function persist(settings: Settings): void {
 export function restore(): Settings {
     const settings = window.location.pathname.split('/')[3]
     return (settings) ? JSON.parse(atob(settings)) : {
-        hiddenStations: [], hiddenStops: [], hiddenRoutes: [], distance: DEFAULT_DISTANCE, hiddenModes: [], newStations: [], newStops: [],
+        hiddenStations: [], hiddenStops: [], hiddenRoutes: {}, distance: DEFAULT_DISTANCE, hiddenModes: [], newStations: [], newStops: [],
     }
 }

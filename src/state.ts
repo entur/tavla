@@ -89,11 +89,14 @@ async function fetchStopPlaceDepartures(settings: Settings, nearestStopPlaces: A
         if (!departuresForThisStopPlace || !departuresForThisStopPlace.departures) {
             return stop
         }
+
+        const mappedAndFilteredDepartures = departuresForThisStopPlace.departures
+            .map(transformDepartureToLineData)
+            .filter(({ route }) => !hiddenRoutes[stop.id] || !hiddenRoutes[stop.id].includes(route))
+
         return {
             ...stop,
-            departures: departuresForThisStopPlace.departures
-                .map(transformDepartureToLineData)
-                .filter(({ route }) => !hiddenRoutes.includes(route)),
+            departures: mappedAndFilteredDepartures,
         }
     })
 

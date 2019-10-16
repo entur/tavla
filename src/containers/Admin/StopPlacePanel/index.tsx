@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 
-import {
-    SlideSwitch, Checkbox, Expandable, ExpandableGroup,
-} from '@entur/component-library'
+import { SlideSwitch, Checkbox, Expandable } from '@entur/component-library'
 
 import { getIcon, getIconColor, toggleValueInList } from '../../../utils'
 import { StopPlaceWithLines } from '../../../types'
@@ -41,10 +39,12 @@ function StopPlacePanel(props: Props): JSX.Element {
         setHiddenStops(newDisabledList)
     }, [hiddenStops, setHiddenStops])
 
-    const onToggleRoute = useCallback((event) => {
-        const routeName = event.target.name
-        const newDisabledList = toggleValueInList(hiddenRoutes, routeName)
-        setHiddenRoutes(newDisabledList)
+    const onToggleRoute = useCallback((stopPlaceId: string, routeName: string) => {
+        const newHiddenRoutes = {
+            ...hiddenRoutes,
+            [stopPlaceId]: toggleValueInList(hiddenRoutes[stopPlaceId] || [], routeName),
+        }
+        setHiddenRoutes(newHiddenRoutes)
     }, [hiddenRoutes, setHiddenRoutes])
 
     if (!filteredStopPlaces.length) {
@@ -103,8 +103,8 @@ function StopPlacePanel(props: Props): JSX.Element {
                                             <SlideSwitch
                                                 id="SlideSwitch"
                                                 name={routeName}
-                                                onChange={onToggleRoute}
-                                                checked={!hiddenRoutes.includes(routeName)}
+                                                onChange={(): void => onToggleRoute(id, routeName)}
+                                                checked={!hiddenRoutes[id] || !hiddenRoutes[id].includes(routeName)}
                                                 variant="midnight"
                                             />
                                         </div>
