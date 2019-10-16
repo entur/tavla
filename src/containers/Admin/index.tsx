@@ -52,16 +52,24 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const debouncedDistance = useDebounce(distance, 300)
     const nearestPlaces = useNearestPlaces(position, debouncedDistance)
 
-    useEffect(() => {
-        const nearestStopPlaceIds = nearestPlaces
+    const nearestStopPlaceIds = useMemo(
+        () => nearestPlaces
             .filter(({ type }) => type === 'StopPlace')
-            .map(({ id }) => id)
+            .map(({ id }) => id),
+        [nearestPlaces]
+    )
+
+    useEffect(() => {
         const ids = [...newStops, ...nearestStopPlaceIds]
         if (ids.length) {
-            getStopPlacesWithLines([...newStops, ...nearestStopPlaceIds])
-                .then(setStopPlaces)
+            getStopPlacesWithLines(ids.map(id => id.replace(/-\d+$/, ''))).then(resultingStopPlaces => {
+                setStopPlaces(resultingStopPlaces.map((s, index) => ({
+                    ...s,
+                    id: ids[index],
+                })))
+            })
         }
-    }, [nearestPlaces, newStops])
+    }, [nearestPlaces, nearestStopPlaceIds, newStops])
 
     useEffect(() => {
         const nearestBikeRentalStationIds = nearestPlaces
@@ -75,8 +83,10 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     }, [nearestPlaces, newStations])
 
     const addNewStop = useCallback((stopId: string) => {
-        setNewStops([...newStops, stopId])
-    }, [newStops, setNewStops])
+        const numberOfDuplicates = [...nearestStopPlaceIds, ...newStops].filter(id => id === stopId).length
+        const id = !numberOfDuplicates ? stopId : `${stopId}-${numberOfDuplicates}`
+        setNewStops([...newStops, id])
+    }, [nearestStopPlaceIds, newStops, setNewStops])
 
     const addNewStation = useCallback((stationId: string) => {
         setNewStations([...newStations, stationId])

@@ -4,7 +4,7 @@ import {
 } from '@entur/sdk'
 
 import { StopPlaceWithDepartures } from './types'
-import { getPositionFromUrl, transformDepartureToLineData } from './utils'
+import { getPositionFromUrl, transformDepartureToLineData, unique } from './utils'
 import service from './service'
 import { useSettingsContext, Settings } from './settings'
 
@@ -69,22 +69,24 @@ async function fetchStopPlaceDepartures(settings: Settings, nearestStopPlaces: A
         newStops, hiddenStops, hiddenModes, hiddenRoutes,
     } = settings
 
-    const allStopPlaceIds = [...newStops, ...nearestStopPlaces]
+    const allStopPlaceIds = unique([...newStops, ...nearestStopPlaces])
         .filter(id => !hiddenStops.includes(id))
-        .filter((id, index, ids) => ids.indexOf(id) === index)
 
-    const allStopPlaces = await service.getStopPlaces(allStopPlaceIds)
+    const allStopPlaceIdsWithoutDuplicateNumber = allStopPlaceIds.map(id => id.replace(/-\d+$/, ''))
+
+    const allStopPlaces = await service.getStopPlaces(allStopPlaceIdsWithoutDuplicateNumber)
     const sortedStops = allStopPlaces.sort((a, b) => a.name.localeCompare(b.name, 'no'))
 
     const whiteListedModes = Object.values(LegMode).filter((mode: LegMode) => !hiddenModes.includes(mode))
 
-    const departures = await service.getDeparturesFromStopPlaces(allStopPlaceIds, {
+    const departures = await service.getDeparturesFromStopPlaces(allStopPlaceIdsWithoutDuplicateNumber, {
         includeNonBoarding: false,
         departures: 50,
         whiteListedModes,
     })
 
-    const stopPlacesWithDepartures = sortedStops.map(stop => {
+    const stopPlacesWithDepartures = allStopPlaceIds.map(stopId => {
+        const stop = sortedStops.find(({ id }) => id === stopId.replace(/-\d+$/, ''))
         const departuresForThisStopPlace = departures.find(({ id }) => stop.id === id)
         if (!departuresForThisStopPlace || !departuresForThisStopPlace.departures) {
             return stop
@@ -92,7 +94,7 @@ async function fetchStopPlaceDepartures(settings: Settings, nearestStopPlaces: A
 
         const mappedAndFilteredDepartures = departuresForThisStopPlace.departures
             .map(transformDepartureToLineData)
-            .filter(({ route }) => !hiddenRoutes[stop.id] || !hiddenRoutes[stop.id].includes(route))
+            .filter(({ route }) => !hiddenRoutes[stopId] || !hiddenRoutes[stopId].includes(route))
 
         return {
             ...stop,
