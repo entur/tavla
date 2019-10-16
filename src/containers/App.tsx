@@ -10,7 +10,7 @@ import Entur from '../dashboards/Entur'
 
 import LandingPage from './LandingPage'
 import Admin from './Admin'
-import Privacy from './privacy/Privacy'
+import Privacy from './Privacy'
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
