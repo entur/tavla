@@ -1,8 +1,20 @@
+import lz from 'lz-string'
+
 import { DEFAULT_DISTANCE } from '../constants'
 import { Settings } from './index'
 
+const DEFAULT_SETTINGS: Settings = {
+    hiddenStations: [],
+    hiddenStops: [],
+    hiddenRoutes: {},
+    distance: DEFAULT_DISTANCE,
+    hiddenModes: [],
+    newStations: [],
+    newStops: [],
+}
+
 export function persist(settings: Settings): void {
-    const hash = btoa(JSON.stringify(settings))
+    const hash = lz.compressToEncodedURIComponent(JSON.stringify(settings))
     const currentPathname = window.location.pathname
 
     const urlParts = currentPathname.split('/')
@@ -14,7 +26,10 @@ export function persist(settings: Settings): void {
 
 export function restore(): Settings {
     const settings = window.location.pathname.split('/')[3]
-    return (settings) ? JSON.parse(atob(settings)) : {
-        hiddenStations: [], hiddenStops: [], hiddenRoutes: {}, distance: DEFAULT_DISTANCE, hiddenModes: [], newStations: [], newStops: [],
+    if (!settings) {
+        return DEFAULT_SETTINGS
     }
+
+    const decompressed = lz.decompressFromEncodedURIComponent(settings)
+    return JSON.parse(decompressed)
 }
