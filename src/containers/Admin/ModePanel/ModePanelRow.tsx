@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { SlideSwitch } from '@entur/component-library'
+import { SlideSwitch, COLORS } from '@entur/component-library'
 import { LegMode } from '@entur/sdk'
 
 import { getIcon, getIconColor } from '../../../utils'
@@ -45,6 +45,7 @@ const ModePanelRow = ({ mode, onChange, value }: Props): JSX.Element => {
                 id="SlideSwitch"
                 onChange={handleChange}
                 checked={value}
+                color={COLORS.MINT}
                 style={{ cursor: 'pointer' }}
                 variant="midnight"
             />
