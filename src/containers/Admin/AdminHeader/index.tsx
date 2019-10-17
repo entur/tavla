@@ -13,7 +13,7 @@ function AdminHeader(props: Props): JSX.Element {
                 <BackButton size="medium" className="admin-header__back-button" action={goBackToDashboard} />
                 <h1>Rediger tavle</h1>
             </div>
-            <Clock />
+            <Clock className="admin-header__clock" />
         </div>
     )
 }

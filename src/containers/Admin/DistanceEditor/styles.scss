@@ -7,7 +7,6 @@
     &__text {
         padding-right: 60px;
         height: 24px;
-        width: 450px;
         color: $white;
         font-family: $base-font-family;
         font-size: 15px;
@@ -38,5 +37,11 @@
         &:focus {
             outline: none;
         }
+    }
+}
+
+@media (max-width: 1000px) {
+    .distance-editor {
+        width: unset;
     }
 }

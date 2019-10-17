@@ -159,7 +159,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             </div>
             <Button
                 className="admin__submit-button"
-                variant="success"
+                variant="secondary"
                 onClick={submitSettingsAndGoToDash}
             >
                 Oppdater tavla

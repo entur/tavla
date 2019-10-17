@@ -3,7 +3,7 @@ import moment from 'moment'
 
 import './styles.scss'
 
-function Clock(): JSX.Element {
+function Clock({ className }: Props): JSX.Element {
     const [date, setDate] = useState()
     const [time, setTime] = useState(moment().format('HH:mm'))
 
@@ -22,7 +22,7 @@ function Clock(): JSX.Element {
     }, [])
 
     return (
-        <div className="clock">
+        <div className={`clock ${className}`}>
             <div className="clock__time">
                 {time}
             </div>
@@ -31,6 +31,10 @@ function Clock(): JSX.Element {
             </div>
         </div>
     )
+}
+
+interface Props {
+    className?: string,
 }
 
 export default Clock
