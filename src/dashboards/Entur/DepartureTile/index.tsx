@@ -1,7 +1,8 @@
 import React from 'react'
+import { LegMode } from '@entur/sdk'
 
 import {
-    getIcon, getIconColor, groupBy, getTransportHeaderIcons,
+    getIcon, getIconColor, groupBy, unique,
 } from '../../../utils'
 import { StopPlaceWithDepartures, LineData } from '../../../types'
 
@@ -10,19 +11,23 @@ import TileRow from '../components/TileRow'
 
 import './styles.scss'
 
+function getTransportHeaderIcons(departures: Array<LineData>, hiddenModes?: Array<LegMode>): Array<JSX.Element> {
+    const transportModes = unique(departures
+        .map(({ type }) => type)
+        .filter(f => !hiddenModes || !hiddenModes.includes(f)))
+
+    return transportModes.map((mode) => {
+        const Icon = getIcon(mode)
+        const color = getIconColor(mode)
+        return <Icon key={mode} height={ 30 } width={ 30 } color={color} />
+    })
+}
+
 const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
     const groupedDepartures = groupBy<LineData>(departures, 'route')
-    const transportHeaderIcons = getTransportHeaderIcons(departures)
+    const headerIcons = getTransportHeaderIcons(departures)
     const routes = Object.keys(groupedDepartures)
-
-    const headerIcons = transportHeaderIcons.map((Icon, index) => {
-        if (!Icon) return null
-
-        return (
-            <Icon key={index} height={ 30 } width={ 30 } color="#9BA4D2" />
-        )
-    })
 
     return (
         <Tile title={name} icons={headerIcons}>

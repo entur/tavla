@@ -74,18 +74,6 @@ export function groupBy<T>(objectArray: Array<T>, property: string): { [key: str
     }, {})
 }
 
-function getTransportModes(departures: Array<LineData>): Array<LegMode> {
-    return [...new Set(departures.map(item => item.type))]
-}
-
-export function getTransportHeaderIcons(departures: Array<LineData>, hiddenModes?: Array<LegMode>): Array<ElementType<any>> {
-    const transportModes = getTransportModes(departures).filter(f => !hiddenModes || !hiddenModes.includes(f))
-
-    return transportModes.map((mode) => (
-        getIcon(mode)
-    ))
-}
-
 function formatDeparture(minDiff: number, departureTime: Moment): string {
     if (minDiff > 15) return departureTime.format('HH:mm')
     return minDiff < 1 ? 'nå' : minDiff.toString() + ' min'
