@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react'
 
 import { Footer, Clock } from '../../components'
 import WhiteTavlaLogo from '../../assets/icons/whiteTavlaLogo/whiteTavlaLogo'
+import { Github } from '../../assets/icons'
 import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../state'
 
 import BikeTile from './BikeTile'
@@ -28,6 +29,11 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     return (
         <div className="enturdash">
+            <div className="github-logo">
+                <a href="https://github.com/entur/tavla">
+                    <Github size="30px" />
+                </a>
+            </div>
             <div className="enturdash__top">
                 <WhiteTavlaLogo />
                 <Clock />
