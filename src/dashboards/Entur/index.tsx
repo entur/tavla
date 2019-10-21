@@ -30,10 +30,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     return (
         <div className="enturdash">
             <div className="github-logo">
-                    <a href="https://github.com/entur/tavla">
-                        <Github size="30px" />
-                    </a>
-                </div>
+                <a href="https://github.com/entur/tavla">
+                    <Github size="30px" />
+                </a>
+            </div>
             <div className="enturdash__top">
                 <WhiteTavlaLogo />
                 <Clock />
