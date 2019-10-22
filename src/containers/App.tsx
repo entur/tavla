@@ -7,6 +7,7 @@ import analytics from 'universal-ga'
 import { SettingsContext, useSettings } from '../settings'
 
 import Entur from '../dashboards/Entur'
+import Race from '../dashboards/Race'
 
 import LandingPage from './LandingPage'
 import Admin from './Admin'
@@ -18,14 +19,26 @@ analytics.set('anonymizeIp', true)
 analytics.set('page', window.location.pathname)
 analytics.pageview(window.location.pathname)
 
+function getDashboardComponent(dashboardKey?: string | void) {
+    switch (dashboardKey) {
+        case 'Race':
+            return Race
+        default:
+            return Entur
+    }
+}
+
 const App = ({ history }: Props): JSX.Element => {
     const settings = useSettings()
+
+    const Dashboard = getDashboardComponent(settings[0].dashboard)
+
     return (
         <SettingsContext.Provider value={settings}>
             <Router history={ history }>
                 <Switch>
                     <Route exact path="/" component={LandingPage} />
-                    <Route path="/dashboard" component={Entur} />
+                    <Route path="/dashboard" component={Dashboard} />
                     <Route path="/admin" component={Admin} />
                     <Route path="/privacy" component={Privacy} />
                     <Redirect to="/" />

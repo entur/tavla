@@ -25,8 +25,11 @@ import AdminHeader from './AdminHeader'
 
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
+import DashboardPanel from './DashboardPanel'
 
 import './styles.scss'
+
+const SHOW_DASHBOARD_PANEL = !window.location.origin.includes('tavla.en-tur.no')
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const position = useMemo(() => getPositionFromUrl(), [])
@@ -156,6 +159,9 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                         </div>
                     ) : null
                 }
+                { SHOW_DASHBOARD_PANEL ? (
+                    <DashboardPanel />
+                ) : null }
             </div>
             <Button
                 className="admin__submit-button"
