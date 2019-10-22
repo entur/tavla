@@ -1,0 +1,38 @@
+@import '../../assets/styles/import.scss';
+
+.race {
+    color: white;
+    padding: 2rem 4rem;
+
+    &__top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    &__stop {
+        width: 100%;
+        margin-bottom: 5rem;
+    }
+
+    &__track {
+        height: 2rem;
+        border-bottom: 4px solid $coral;
+        border-right: 4px solid $mint;
+        margin: 2rem 0 1rem 0;
+        overflow: hidden;
+    }
+
+    &__competitor {
+        position: absolute;
+        transition: 1000ms all;
+    }
+
+    &__tick {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        position: absolute;
+    }
+}

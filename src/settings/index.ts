@@ -15,6 +15,7 @@ export interface Settings {
     distance?: number,
     newStations?: Array<string>,
     newStops?: Array<string>,
+    dashboard?: string | void,
 }
 
 interface SettingsSetters {
@@ -25,6 +26,7 @@ interface SettingsSetters {
     setDistance: (distance: number) => void,
     setNewStations: (newStations: Array<string>) => void,
     setNewStops: (newStops: Array<string>) => void,
+    setDashboard: (dashboard: string) => void,
 }
 
 type Persistor = () => void
@@ -39,6 +41,7 @@ export const SettingsContext = createContext<[Settings, SettingsSetters, Persist
         setDistance: (): void => undefined,
         setNewStations: (): void => undefined,
         setNewStops: (): void => undefined,
+        setDashboard: (): void => undefined,
     },
     (): void => console.log('Persistor not set up yet'), // eslint-disable-line no-console
 ])
@@ -86,6 +89,10 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
         set('newStops', newStops)
     }, [set])
 
+    const setDashboard = useCallback((dashboard: string): void => {
+        set('dashboard', dashboard)
+    }, [set])
+
     const setters = {
         setHiddenStations,
         setHiddenStops,
@@ -94,6 +101,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
         setDistance,
         setNewStations,
         setNewStops,
+        setDashboard,
     }
 
     return [settings, setters, persistSettings]

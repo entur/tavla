@@ -86,6 +86,12 @@ export function unique<T>(array: Array<T>, isEqual: (a: T, b: T) => boolean = (a
     })
 }
 
+export function timeUntil(time: string): number {
+    const departureTime = moment(time)
+    const diff = departureTime.diff(moment(), 'seconds')
+    return diff
+}
+
 export function transformDepartureToLineData(departure: Departure): LineData {
     const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
     const { line } = serviceJourney
@@ -98,6 +104,8 @@ export function transformDepartureToLineData(departure: Departure): LineData {
     const subType = departure.serviceJourney.transportSubmode
 
     return {
+        serviceJourneyId: departure.serviceJourney.id,
+        expectedDepartureTime,
         type: transportMode,
         subType,
         time: formatDeparture(minDiff, departureTime),
