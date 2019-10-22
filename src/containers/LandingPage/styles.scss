@@ -35,6 +35,16 @@
     &__cover-photo {
         height: 30rem;
     }
+
+    .github-logo {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+
+        > a {
+            color: $lavender;
+        }
+    }
 }
 
 @media (max-width: 1280px) {

@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { Coordinates } from '@entur/sdk'
 
 import SearchPanel from '../../components/searchPanel/SearchPanel'
-import { TavlaLogo } from '../../assets/icons'
+import { Github, TavlaLogo } from '../../assets/icons'
+
 // @ts-ignore
 import coverPhoto from '../../assets/images/cover-photo.jpg'
 
@@ -21,6 +22,11 @@ const LandingPage = ({ history }: Props): JSX.Element => {
                 <h1><TavlaLogo /></h1>
                 <h2>Sanntidstavla du selv kan tilpasse etter dine behov.</h2>
             </header>
+            <div className="github-logo">
+                <a href="https://github.com/entur/tavla">
+                    <Github size="30px" />
+                </a>
+            </div>
             <div className="landing-page__content">
                 <SearchPanel handleCoordinatesSelected={addLocation}/>
                 <p>

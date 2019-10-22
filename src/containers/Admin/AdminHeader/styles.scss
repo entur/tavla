@@ -6,7 +6,7 @@
     height: 120px;
 
     &--data-and-clock {
-        margin-right: 8px;
+        margin-right: 0.5rem;
     }
 
     &__back-button {
@@ -18,6 +18,14 @@
         display: flex;
         flex-direction: column;
         align-content: center;
+    }
+
+    &__right {
+        display: flex;
+    }
+
+    .github-logo > a {
+        color: $lavender;
     }
 }
 
