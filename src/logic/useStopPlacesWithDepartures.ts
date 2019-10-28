@@ -5,6 +5,7 @@ import { StopPlaceWithDepartures } from '../types'
 import { getPositionFromUrl, transformDepartureToLineData, unique } from '../utils'
 import service from '../service'
 import { useSettingsContext, Settings } from '../settings'
+import { REFRESH_INTERVAL } from '../constants'
 
 import useNearestPlaces from './useNearestPlaces'
 
@@ -67,7 +68,7 @@ export default function useStopPlacesWithDepartures(): Array<StopPlaceWithDepart
         fetchStopPlaceDepartures(settings, nearestStopPlaces).then(setStopPlacesWithDepartures)
         const intervalId = setInterval(() => {
             fetchStopPlaceDepartures(settings, nearestStopPlaces).then(setStopPlacesWithDepartures)
-        }, 30000)
+        }, REFRESH_INTERVAL)
 
         return (): void => clearInterval(intervalId)
     }, [nearestStopPlaces, settings])

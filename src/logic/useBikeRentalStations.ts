@@ -4,6 +4,7 @@ import { BikeRentalStation } from '@entur/sdk'
 import { getPositionFromUrl } from '../utils'
 import service from '../service'
 import { useSettingsContext, Settings } from '../settings'
+import { REFRESH_INTERVAL } from '../constants'
 
 import useNearestPlaces from './useNearestPlaces'
 
@@ -41,7 +42,7 @@ export default function useBikeRentalStations(): Array<BikeRentalStation> | null
         fetchBikeRentalStations(settings, nearestBikeRentalStations).then(setBikeRentalStations)
         const intervalId = setInterval(() => {
             fetchBikeRentalStations(settings, nearestBikeRentalStations).then(setBikeRentalStations)
-        }, 30000)
+        }, REFRESH_INTERVAL)
 
         return (): void => clearInterval(intervalId)
     }, [nearestBikeRentalStations, settings])
