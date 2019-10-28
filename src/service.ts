@@ -85,7 +85,7 @@ export async function getStopPlacesWithLines(stopPlaceIds: Array<string>): Promi
                     longitude,
                     transportMode,
                     transportSubmode,
-                    estimatedCalls(numberOfDeparturesPerLineAndDestinationDisplay: 1, timeRange: 604800, numberOfDepartures:200) {
+                    estimatedCalls(numberOfDeparturesPerLineAndDestinationDisplay: 1, timeRange: 604800, numberOfDepartures:200, omitNonBoarding: true) {
                         destinationDisplay {
                             frontText
                         }
