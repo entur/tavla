@@ -3,7 +3,7 @@ import React, {
 } from 'react'
 import debounce from 'lodash.debounce'
 import ReactAutosuggest from 'react-autosuggest'
-import { Button } from '@entur/component-library'
+import { Button } from '@entur/button'
 import { Coordinates } from '@entur/sdk'
 
 import { Spinner, GeoLocation } from '../../assets/icons'
@@ -203,6 +203,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                     </div>
                 </div>
                 <Button
+                    variant="primary"
                     className="search-panel__submit-button"
                     type="submit"
                     disabled={!location.hasLocation}
