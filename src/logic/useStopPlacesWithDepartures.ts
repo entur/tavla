@@ -25,7 +25,8 @@ async function fetchStopPlaceDepartures(settings: Settings, nearestStopPlaces: A
 
     const departures = await service.getDeparturesFromStopPlaces(allStopPlaceIdsWithoutDuplicateNumber, {
         includeNonBoarding: false,
-        departures: 50,
+        limit: 200,
+        limitPerLine: 3,
         whiteListedModes,
     })
 
