@@ -1,5 +1,6 @@
 import React from 'react'
 import { LegMode } from '@entur/sdk'
+import { COLORS } from '@entur/component-library'
 
 import {
     getIcon, getIconColor, groupBy, unique,
@@ -18,8 +19,7 @@ function getTransportHeaderIcons(departures: Array<LineData>, hiddenModes?: Arra
 
     return transportModes.map((mode) => {
         const Icon = getIcon(mode)
-        const color = getIconColor(mode)
-        return <Icon key={mode} height={ 30 } width={ 30 } color={color} />
+        return <Icon key={mode} height={ 30 } width={ 30 } color={COLORS.LAVENDER} />
     })
 }
 
