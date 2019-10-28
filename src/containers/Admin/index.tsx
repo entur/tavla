@@ -1,7 +1,7 @@
 import React, {
     useState, useEffect, useMemo, useCallback,
 } from 'react'
-import { Button } from '@entur/component-library'
+import { Button } from '@entur/button'
 import { BikeRentalStation, LegMode } from '@entur/sdk'
 
 import StopPlacePanel from './StopPlacePanel'
@@ -14,7 +14,6 @@ import {
     useDebounce,
     isLegMode,
 } from '../../utils'
-
 
 import service, { getStopPlacesWithLines } from '../../service'
 import { StopPlaceWithLines } from '../../types'
