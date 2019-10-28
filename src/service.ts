@@ -30,6 +30,48 @@ function journeyplannerPost(query, variables): Promise<any> {
     }).then(res => res.json())
 }
 
+interface EstimatedCall {
+    destinationDisplay: {
+        frontText: string,
+    },
+    serviceJourney: {
+        line: {
+            transportMode: string,
+            transportSubmode: string,
+            publicCode: string,
+        },
+    },
+}
+
+function getNumericPublicCode(publicCode: string): number | void {
+    const numberMatch = publicCode.match(/^\d+/)
+    return numberMatch ? Number(numberMatch[0]) : undefined
+}
+
+function publicCodeComparator(a: string, b: string): number {
+    const numA = getNumericPublicCode(a)
+    const numB = getNumericPublicCode(b)
+    if (typeof numA === 'number' && typeof numB === 'number') {
+        return numA - numB
+    }
+    if (typeof numA === 'number') {
+        return -1
+    }
+    if (typeof numB === 'number') {
+        return 1
+    }
+    return a.localeCompare(b, 'no')
+}
+
+function estimatedCallsComparator(a: EstimatedCall, b: EstimatedCall): number {
+    const publicCodeDiff = publicCodeComparator(a.serviceJourney.line.publicCode, b.serviceJourney.line.publicCode)
+    if (publicCodeDiff !== 0) {
+        return publicCodeDiff
+    }
+
+    return a.destinationDisplay.frontText.localeCompare(b.destinationDisplay.frontText)
+}
+
 export async function getStopPlacesWithLines(stopPlaceIds: Array<string>): Promise<Array<StopPlaceWithLines>> {
     try {
         const variables = { ids: stopPlaceIds }
@@ -61,13 +103,22 @@ export async function getStopPlacesWithLines(stopPlaceIds: Array<string>): Promi
             variables
         )
 
-        const stops = results.data.stopPlaces.map(stopPlace => ({
-            ...stopPlace,
-            lines: unique(stopPlace.estimatedCalls.map(({ destinationDisplay, serviceJourney }) => ({
-                ...serviceJourney.line,
-                name: `${serviceJourney.line.publicCode} ${destinationDisplay.frontText}`,
-            })), (a: Line, b: Line) => a.name === b.name),
-        }))
+        const stops = results.data.stopPlaces.map(stopPlace => {
+            const lines = stopPlace.estimatedCalls
+                .sort(estimatedCallsComparator)
+                .map(({ destinationDisplay, serviceJourney }) => ({
+                    ...serviceJourney.line,
+                    name: `${serviceJourney.line.publicCode} ${destinationDisplay.frontText}`,
+                }))
+
+
+            const uniqueLines = unique(lines, (a: Line, b: Line) => a.name === b.name)
+
+            return {
+                ...stopPlace,
+                lines: uniqueLines,
+            }
+        })
 
         return stops
     } catch (error) {
