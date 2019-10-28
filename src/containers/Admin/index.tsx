@@ -20,7 +20,7 @@ import service, { getStopPlacesWithLines } from '../../service'
 import { StopPlaceWithLines } from '../../types'
 
 import { useSettingsContext } from '../../settings'
-import { useNearestPlaces } from '../../state'
+import { useNearestPlaces } from '../../logic'
 
 import AdminHeader from './AdminHeader'
 

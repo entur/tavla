@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 
 import { Footer, Clock } from '../../components'
 import WhiteTavlaLogo from '../../assets/icons/whiteTavlaLogo/whiteTavlaLogo'
-import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../state'
+import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../logic'
 
 import BikeTile from './BikeTile'
 import DepartureTile from './DepartureTile'

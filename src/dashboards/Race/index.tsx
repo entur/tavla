@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { Footer, Clock } from '../../components'
 import WhiteTavlaLogo from '../../assets/icons/whiteTavlaLogo/whiteTavlaLogo'
 import { getIcon, getIconColor, timeUntil } from '../../utils'
-import { useStopPlacesWithDepartures } from '../../state'
+import { useStopPlacesWithDepartures } from '../../logic'
 
 // @ts-ignore
 import errorImage from '../../assets/images/noStops.png'
