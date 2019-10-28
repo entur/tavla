@@ -60,18 +60,11 @@
     &__route {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
         align-items: center;
         margin-bottom: 0.5rem;
 
-        &__name {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-
-            > span {
-                margin-left: 0.5rem;
-            }
+        > * {
+            margin-right: 0.5rem;
         }
     }
 }

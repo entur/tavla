@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 
-import {
-    SlideSwitch, Checkbox, Expandable, COLORS,
-} from '@entur/component-library'
+import { JustCheckbox, Checkbox, Expandable } from '@entur/component-library'
 
 import { getIcon, getIconColor, toggleValueInList } from '../../../utils'
 import { StopPlaceWithLines } from '../../../types'
@@ -98,18 +96,15 @@ function StopPlacePanel(props: Props): JSX.Element {
                                             className="stop-place-panel__route"
                                             key={routeId}
                                         >
-                                            <div className="stop-place-panel__route__name">
-                                                <Icon height={ 28 } width={ 28 } color={ iconColor } />
-                                                <span>{routeName}</span>
-                                            </div>
-                                            <SlideSwitch
-                                                id="SlideSwitch"
+                                            <JustCheckbox
+                                                id={`checkbox-${routeId}`}
                                                 name={routeName}
-                                                color={COLORS.MINT}
                                                 onChange={(): void => onToggleRoute(id, routeName)}
                                                 checked={!hiddenRoutes[id] || !hiddenRoutes[id].includes(routeName)}
                                                 variant="midnight"
                                             />
+                                            <Icon height={ 28 } width={ 28 } color={ iconColor } />
+                                            <label htmlFor={`checkbox-${routeId}`}>{routeName}</label>
                                         </div>
                                     )
                                 }) }
