@@ -29,8 +29,8 @@
             padding-bottom: 0;
         }
 
-        &__label {
-            margin-left: 1rem;
+        > label > span {
+            margin: 0 0 0 0.5rem;
         }
     }
 }

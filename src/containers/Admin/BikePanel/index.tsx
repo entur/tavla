@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Checkbox } from '@entur/component-library'
+import { Checkbox, JustCheckbox } from '@entur/component-library'
 import { BikeRentalStation } from '@entur/sdk'
 
 import { toggleValueInList } from '../../../utils'
@@ -48,15 +48,18 @@ function BikePanel(props: Props): JSX.Element {
                 stations.map(({ name, id }, index) => {
                     return (
                         <div key={index} className="bike-panel__row">
-                            <Checkbox
-                                key={id}
-                                id={id}
-                                name={name}
-                                checked={!hiddenStations.includes(id)}
-                                onChange={onToggleStation}
-                                variant="midnight"
-                            />
-                            <div className="bike-panel__row__label">{name}</div>
+                            <label htmlFor={id}>
+                                <JustCheckbox
+                                    key={id}
+                                    id={id}
+                                    label={name}
+                                    name={name}
+                                    checked={!hiddenStations.includes(id)}
+                                    onChange={onToggleStation}
+                                    variant="midnight"
+                                />
+                                <span>{ name }</span>
+                            </label>
                         </div>
                     )
                 })
