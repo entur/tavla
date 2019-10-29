@@ -81,7 +81,10 @@ const AdminPage = ({ history }: Props): JSX.Element => {
         const ids = [...newStations, ...nearestBikeRentalStationIds]
         if (ids.length) {
             service.getBikeRentalStations(ids)
-                .then(setStations)
+                .then(freshStations => {
+                    const sortedStations = freshStations.sort((a: BikeRentalStation, b: BikeRentalStation) => a.name.localeCompare(b.name, 'no'))
+                    setStations(sortedStations)
+                })
         }
     }, [nearestPlaces, newStations])
 
