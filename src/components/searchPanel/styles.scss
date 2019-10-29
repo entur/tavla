@@ -16,15 +16,15 @@
     font-size: 16px;
     font-weight: 500;
     font-family: $base-font-family;
-    color: $blue;
+    color: $colors-brand-blue;
     border: none;
-    border-bottom: 2px solid $blue-40;
+    border-bottom: 2px solid $colors-blues-blue40;
     line-height: 23px;
-    background-color: $grey-40;
+    background-color: $colors-greys-grey40;
     height: 45px;
 
     &::placeholder {
-        color: $blue-40;
+        color: $colors-blues-blue40;
         opacity: 0.5;
         font-weight: 400;
     }
@@ -48,10 +48,10 @@
     position: absolute;
     top: 100%;
     width: 100%;
-    background-color: $grey-40;
+    background-color: $colors-greys-grey40;
     font-weight: 500;
     font-size: 0.9rem;
-    color: $blue;
+    color: $colors-brand-blue;
     z-index: 2;
 }
 
@@ -74,7 +74,7 @@
 }
 
 .react-autosuggest__suggestion--highlighted {
-    background-color: $blue-80;
+    background-color: $colors-blues-blue80;
 }
 
 .search-container {

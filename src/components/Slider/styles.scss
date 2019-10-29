@@ -14,7 +14,7 @@
         div {
             height: 20px;
             width: 50px;
-            color: $blue-60;
+            color: $colors-blues-blue60;
             font-family: $base-font-family;
             font-size: 14px;
             font-weight: 400;
@@ -24,30 +24,30 @@
 
     &::-webkit-slider-thumb {
         -webkit-appearance: none;
-        border: 1px solid $coral;
+        border: 1px solid $colors-brand-coral;
         height: 1.25rem;
         width: 1.25rem;
         border-radius: 100%;
-        background: $coral;
+        background: $colors-brand-coral;
         cursor: pointer;
         margin-top: -0.6em;
     }
 
     &::-moz-range-thumb {
-        border: 1px solid $coral;
+        border: 1px solid $colors-brand-coral;
         height: 1.25rem;
         width: 1.25rem;
         border-radius: 100%;
-        background: $coral;
+        background: $colors-brand-coral;
         cursor: pointer;
     }
 
     &::-ms-thumb {
-        border: 1px solid $coral;
+        border: 1px solid $colors-brand-coral;
         height: 1.25rem;
         width: 1.25rem;
         border-radius: 100%;
-        background: $coral;
+        background: $colors-brand-coral;
         cursor: pointer;
     }
 
@@ -78,7 +78,7 @@
     }
 
     &::-ms-fill-lower {
-        background: $coral;
+        background: $colors-brand-coral;
     }
 
     &::-ms-fill-upper {

@@ -1,7 +1,7 @@
 @import '../../../assets/styles/import.scss';
 
 .bike-panel {
-    background-color: $blue-10;
+    background-color: $colors-blues-blue10;
     padding: 1rem 2rem;
     width: 400px;
     margin-top: 2rem;
@@ -22,7 +22,7 @@
         flex-direction: row;
         align-items: center;
         padding: 1rem 0;
-        border-bottom: 2px solid $blue-20;
+        border-bottom: 2px solid $colors-blues-blue20;
 
         &:last-child {
             border: 0;

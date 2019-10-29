@@ -2,7 +2,7 @@
 
 .tilerow {
     display: flex;
-    border-bottom: 2px solid $blue-20;
+    border-bottom: 2px solid $colors-blues-blue20;
     padding: 1rem 0;
 
     &:last-child {
@@ -20,7 +20,7 @@
     }
 
     &__sublabels {
-        color: $blue_60;
+        color: $colors-blues-blue60;
         font-size: 14px;
 
         span {

@@ -3,7 +3,7 @@
 .landing-page {
     width: 100vw;
     height: 100vh;
-    color: $blue;
+    color: $colors-brand-blue;
     margin: 0;
     background-color: $white;
     padding: 2rem;
@@ -42,7 +42,7 @@
         right: 1rem;
 
         > a {
-            color: $blue;
+            color: $colors-brand-blue;
         }
     }
 }

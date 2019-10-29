@@ -1,13 +1,13 @@
 @import '../../assets/styles/import.scss';
 
 .back-button {
-    background-color: $blue;
+    background-color: $colors-brand-blue;
     border: none;
-    color: $coral;
+    color: $colors-brand-coral;
     cursor: pointer;
     padding: 1rem;
 
     &:hover {
-        color: lighten($coral, 10%);
+        color: lighten($colors-brand-coral, 10%);
     }
 }
