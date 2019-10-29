@@ -57,6 +57,15 @@
         }
     }
 
+    &__route-checkbox {
+        margin-bottom: 0.5rem;
+
+        > label {
+            color: white;
+            margin-left: 0.6rem !important;
+        }
+    }
+
     &__route {
         display: flex;
         flex-direction: row;

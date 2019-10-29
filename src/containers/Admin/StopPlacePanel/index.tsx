@@ -47,6 +47,34 @@ function StopPlacePanel(props: Props): JSX.Element {
         setHiddenRoutes(newHiddenRoutes)
     }, [hiddenRoutes, setHiddenRoutes])
 
+    const isRouteSelected = useCallback((stopPlaceId, routeName) => {
+        return !hiddenRoutes[stopPlaceId] || !hiddenRoutes[stopPlaceId].includes(routeName)
+    }, [hiddenRoutes])
+
+    const onToggleAllLines = useCallback((stopPlaceId: string): void => {
+        const stop = stops.find(({ id }) => id === stopPlaceId)
+        const lines = stop ? stop.lines : []
+        const lineNames = lines.map(({ name }) => name)
+        const allWereSelected = lines.every(line => isRouteSelected(stopPlaceId, line.name))
+
+        let newHiddenRoutesForStop
+
+        if (allWereSelected) {
+            newHiddenRoutesForStop = [
+                ...hiddenRoutes[stopPlaceId] || [],
+                ...lineNames,
+            ]
+        } else {
+            newHiddenRoutesForStop = (hiddenRoutes[stopPlaceId] || [])
+                .filter(name => !lineNames.includes(name))
+        }
+
+        setHiddenRoutes({
+            ...hiddenRoutes,
+            [stopPlaceId]: newHiddenRoutesForStop,
+        })
+    }, [hiddenRoutes, isRouteSelected, setHiddenRoutes, stops])
+
     if (!filteredStopPlaces.length) {
         return <div className="selection-panel" />
     }
@@ -86,6 +114,14 @@ function StopPlacePanel(props: Props): JSX.Element {
                                     </div>
                                 )}
                             >
+                                <Checkbox
+                                    id={`checkbox-all-lines-${id}`}
+                                    label="Velg alle"
+                                    variant="midnight"
+                                    checked={lines.every(line => isRouteSelected(id, line.name))}
+                                    onChange={(): void => onToggleAllLines(id)}
+                                    className="stop-place-panel__route-checkbox"
+                                />
                                 { lines.map(({ name: routeName, transportMode }) => {
                                     const routeId = `${id}-${routeName}`
                                     const Icon = getIcon(transportMode)
@@ -100,7 +136,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                                                 id={`checkbox-${routeId}`}
                                                 name={routeName}
                                                 onChange={(): void => onToggleRoute(id, routeName)}
-                                                checked={!hiddenRoutes[id] || !hiddenRoutes[id].includes(routeName)}
+                                                checked={isRouteSelected(id, routeName)}
                                                 variant="midnight"
                                             />
                                             <Icon height={ 28 } width={ 28 } color={ iconColor } />
