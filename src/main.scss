@@ -24,6 +24,10 @@ h5 {
     width: 100vw;
 }
 
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
 .main-container {
     justify-content: center;
     padding: 2% 5%;
