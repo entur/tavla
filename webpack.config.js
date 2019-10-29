@@ -1,6 +1,5 @@
 const path = require('path')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
-const { WebpackPluginServe: Serve } = require('webpack-plugin-serve')
 const Dotenv = require('dotenv-webpack')
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
@@ -8,10 +7,7 @@ const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 module.exports = (env) => {
     return {
         mode: 'development',
-        entry: [
-            './src/main.tsx',
-            'webpack-plugin-serve/client',
-        ],
+        entry: './src/main.tsx',
         devtool: 'inline-source-map',
         output: {
             path: OUTPUT_PATH,
@@ -62,20 +58,19 @@ module.exports = (env) => {
                 },
             ],
         },
+        devServer: {
+          open: true,
+          contentBase: OUTPUT_PATH,
+          port: 9090,
+          historyApiFallback: true
+        },
         plugins: [
             new HtmlWebPackPlugin({
                 template: 'src/index.html',
                 filename: 'index.html',
                 favicon: 'src/assets/images/logo.png',
             }),
-            new Dotenv({ path: path.join(__dirname, `.env.${typeof env === 'string' ? env : 'staging'}`) }),
-            new Serve({
-                open: true,
-                host: 'localhost',
-                port: 9090,
-                static: OUTPUT_PATH,
-                historyFallback: true,
-            }),
+            new Dotenv({ path: path.join(__dirname, `.env.${typeof env === 'string' ? env : 'staging'}`) })
         ],
         watch: typeof env !== 'string',
     }

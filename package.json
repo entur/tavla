@@ -12,7 +12,7 @@
     "eslint": "eslint src --ext 'js,jsx,ts,tsx'",
     "stylelint": "stylelint src/**/*.scss",
     "lint": "npm run eslint && npm run stylelint",
-    "start": "wp --config webpack.config.js",
+    "start": "webpack-dev-server",
     "clean": "rm -rf dist/",
     "build": "npm run clean && webpack --mode production --env prod",
     "build:staging": "npm run clean && webpack --mode production --env staging",
@@ -75,8 +75,6 @@
     "typescript": "^3.6.4",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9",
-    "webpack-nano": "^0.6.3",
-    "webpack-plugin-serve": "^0.11.0",
-    "webpack-serve": "^3.2.0"
+    "webpack-dev-server": "^3.9.0"
   }
 }
