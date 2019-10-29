@@ -27,24 +27,3 @@ h5 {
 input[type=number] {
     -moz-appearance: textfield;
 }
-
-.main-container {
-    justify-content: center;
-    padding: 2% 5%;
-    background-color: #181c56;
-    color: $white;
-    height: 100%;
-}
-
-@media (max-width: 1200px) {
-    .main-container {
-        padding: 2rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .main-container {
-        align-items: center;
-        padding: 1rem;
-    }
-}

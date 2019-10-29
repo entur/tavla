@@ -1,39 +1,39 @@
 @import '../../assets/styles/import.scss';
 
-.privacy-header {
-    align-content: center;
-    display: flex;
-    flex-direction: column;
-    height: 12rem;
-    padding-top: 2rem;
+.privacy {
+    background-color: white;
+    overflow: auto;
 
-    h1 {
-        color: $white;
-        font-size: 32px;
+    &__header {
+        background-color: $colors-brand-blue;
+        padding: 2rem 5rem;
+
+        h1 {
+            color: white;
+            font-size: 32px;
+            margin-left: 1rem;
+        }
+
+        &__back-button {
+            cursor: pointer;
+            margin-left: 0;
+        }
     }
 
-    &--back-button {
-        cursor: pointer;
+    &__body {
+        max-width: 1000px;
+        color: $colors-brand-blue;
+        background-color: $white;
+        padding: 2rem 6rem;
     }
 }
 
-.privacy {
-    color: $colors-brand-blue;
-    background-color: $white;
-    padding: 2% 5%;
-    height: calc(100% - 12rem);
-    overflow: auto;
-
-    h2 {
-        font-size: 18px;
+@media (max-width: 1000px) {
+    .privacy__header {
+        padding: 1rem;
     }
 
-    h3 {
-        font-size: 16px;
-        font-weight: 600;
-    }
-
-    p {
-        font-size: 14px;
+    .privacy__body {
+        padding: 2rem;
     }
 }
