@@ -15,7 +15,7 @@ function DistanceEditor(props: Props): JSX.Element {
     return (
         <div className="distance-editor">
             <p className="distance-editor__text">
-                Vis meg stoppesteder innenfor
+                Vis stopp og stativer innen
                 <input
                     type="number"
                     value={distance}
@@ -24,7 +24,7 @@ function DistanceEditor(props: Props): JSX.Element {
                     min="1"
                     max={MAX_DISTANCE}
                 />
-                meters avstand
+                meter.
             </p>
             <Slider handleChange={handleDistanceUpdate} distance={distance} />
         </div>
