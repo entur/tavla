@@ -18,6 +18,10 @@
         justify-content: space-between;
     }
 
+    &__logo-wrapper p {
+        margin: -0.5rem 0 0 0;
+    }
+
     &__footer {
         position: absolute;
         bottom: 0;

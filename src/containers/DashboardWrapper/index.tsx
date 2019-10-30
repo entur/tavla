@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
 import { Loading } from '@entur/component-library'
+import { SubParagraph } from '@entur/typography'
 
 import { useCounter } from '../../utils'
 
 // @ts-ignore
 import errorImage from '../../assets/images/noStops.png'
-import WhiteTavlaLogo from '../../assets/icons/whiteTavlaLogo/whiteTavlaLogo'
+import TavlaLogo from '../../assets/icons/tavlaLogo'
 import { Footer, Clock } from '../../components'
 import { StopPlaceWithDepartures } from '../../types'
 
@@ -57,7 +58,10 @@ function DashboardWrapper(props: Props): JSX.Element {
     return (
         <div className={`dashboard-wrapper ${className}`}>
             <div className="dashboard-wrapper__top">
-                <WhiteTavlaLogo />
+                <div className="dashboard-wrapper__logo-wrapper">
+                    <TavlaLogo />
+                    <SubParagraph>Finn din rute på en-tur.no eller i Entur-appen</SubParagraph>
+                </div>
                 <Clock />
             </div>
             { renderContents() }
