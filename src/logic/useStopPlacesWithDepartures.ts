@@ -51,11 +51,11 @@ async function fetchStopPlaceDepartures(settings: Settings, nearestStopPlaces: A
     return stopPlacesWithDepartures
 }
 
-export default function useStopPlacesWithDepartures(): Array<StopPlaceWithDepartures> {
+export default function useStopPlacesWithDepartures(): Array<StopPlaceWithDepartures> | null {
     const position = useMemo(() => getPositionFromUrl(), [])
     const [settings] = useSettingsContext()
     const nearestPlaces = useNearestPlaces(position, settings.distance)
-    const [stopPlacesWithDepartures, setStopPlacesWithDepartures] = useState<Array<StopPlaceWithDepartures>>([])
+    const [stopPlacesWithDepartures, setStopPlacesWithDepartures] = useState<Array<StopPlaceWithDepartures> | null>(null)
 
     const nearestStopPlaces = useMemo(
         () => nearestPlaces

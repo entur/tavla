@@ -14,7 +14,7 @@ async function fetchBikeRentalStations(settings: Settings, nearestBikeRentalStat
     } = settings
 
     if (hiddenModes.includes('bicycle')) {
-        return null
+        return []
     }
 
     const allStationIds = [...newStations, ...nearestBikeRentalStations]
@@ -28,7 +28,7 @@ async function fetchBikeRentalStations(settings: Settings, nearestBikeRentalStat
 export default function useBikeRentalStations(): Array<BikeRentalStation> | null {
     const position = useMemo(() => getPositionFromUrl(), [])
     const [settings] = useSettingsContext()
-    const [bikeRentalStations, setBikeRentalStations] = useState<Array<BikeRentalStation> | null>([])
+    const [bikeRentalStations, setBikeRentalStations] = useState<Array<BikeRentalStation> | null>(null)
     const nearestPlaces = useNearestPlaces(position, settings.distance)
 
     const nearestBikeRentalStations = useMemo(

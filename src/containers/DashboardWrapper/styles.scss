@@ -7,6 +7,11 @@
     overflow: hidden;
     height: calc(100vh);
 
+    .no-stops {
+        display: block;
+        margin: auto;
+    }
+
     &__top {
         display: flex;
         flex-direction: row;

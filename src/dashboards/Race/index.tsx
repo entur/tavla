@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import {
     getIcon, getIconColor, timeUntil, useCounter,
@@ -6,9 +6,6 @@ import {
 
 import { useStopPlacesWithDepartures } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
-
-// @ts-ignore
-import errorImage from '../../assets/images/noStops.png'
 
 import './styles.scss'
 
@@ -26,51 +23,44 @@ function Tick({ minutes }): JSX.Element {
 
 const RaceDashboard = ({ history }: Props): JSX.Element => {
     useCounter()
-    const [initialLoading] = useState<boolean>(false) // TODO: Fix loading
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    const noStops = !stopPlacesWithDepartures.length
-
     return (
-        <DashboardWrapper className="race" history={history}>
-            {noStops && !initialLoading ? (
-                <div className="no-stops">
-                    <div className="no-stops-sheep">
-                        <img src={errorImage} />
-                    </div>
-                </div>
-            ) : (
-                <div className="race__body">
-                    {
-                        stopPlacesWithDepartures
-                            .filter(({ departures }) => departures.length > 0)
-                            .map((stop) => (
-                                <div key={stop.id} className="race__stop">
-                                    <h2>{stop.name}</h2>
-                                    <div className="race__track">
-                                        { stop.departures.map(({
-                                            type, serviceJourneyId, expectedDepartureTime,
-                                        }) => {
-                                            const waitTime = timeUntil(expectedDepartureTime)
-                                            const Icon = getIcon(type)
-                                            const color = getIconColor(type)
-                                            return (
-                                                <Icon
-                                                    key={serviceJourneyId}
-                                                    className="race__competitor"
-                                                    style={{ width: 100, right: waitTime + 5 * 16, marginBottom: 6 }}
-                                                    color={color}
-                                                    size="large"
-                                                />
-                                            )
-                                        })}
-                                    </div>
-                                    { [1, 2, 3, 5, 10, 15].map(minutes => <Tick key={minutes} minutes={minutes} />) }
+        <DashboardWrapper
+            className="race"
+            history={history}
+            stopPlacesWithDepartures={stopPlacesWithDepartures}
+        >
+            <div className="race__body">
+                {
+                    (stopPlacesWithDepartures || [])
+                        .filter(({ departures }) => departures.length > 0)
+                        .map((stop) => (
+                            <div key={stop.id} className="race__stop">
+                                <h2>{stop.name}</h2>
+                                <div className="race__track">
+                                    { stop.departures.map(({
+                                        type, serviceJourneyId, expectedDepartureTime,
+                                    }) => {
+                                        const waitTime = timeUntil(expectedDepartureTime)
+                                        const Icon = getIcon(type)
+                                        const color = getIconColor(type)
+                                        return (
+                                            <Icon
+                                                key={serviceJourneyId}
+                                                className="race__competitor"
+                                                style={{ width: 100, right: waitTime + 5 * 16, marginBottom: 6 }}
+                                                color={color}
+                                                size="large"
+                                            />
+                                        )
+                                    })}
                                 </div>
-                            ))
-                    }
-                </div>
-            )}
+                                { [1, 2, 3, 5, 10, 15].map(minutes => <Tick key={minutes} minutes={minutes} />) }
+                            </div>
+                        ))
+                }
+            </div>
         </DashboardWrapper>
     )
 }
