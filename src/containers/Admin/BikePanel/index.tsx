@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Checkbox, JustCheckbox } from '@entur/component-library'
+import { Checkbox } from '@entur/form'
 import { BikeRentalStation } from '@entur/sdk'
 
 import { toggleValueInList } from '../../../utils'
@@ -38,28 +38,26 @@ function BikePanel(props: Props): JSX.Element {
                 <Checkbox
                     id="check-all-stop-places-bike"
                     name="check-all-stop-places-bike"
-                    label="Velg alle"
                     onChange={onChooseAllPressed}
                     checked={!hiddenStations.length}
-                    variant="midnight"
-                />
+                >
+                    Velg alle
+                </Checkbox>
             </div>
             {
                 stations.map(({ name, id }, index) => {
                     return (
                         <div key={index} className="bike-panel__row">
-                            <label htmlFor={id}>
-                                <JustCheckbox
-                                    key={id}
-                                    id={id}
-                                    label={name}
-                                    name={name}
-                                    checked={!hiddenStations.includes(id)}
-                                    onChange={onToggleStation}
-                                    variant="midnight"
-                                />
-                                <span>{ name }</span>
-                            </label>
+                            <Checkbox
+                                key={id}
+                                id={id}
+                                label={name}
+                                name={name}
+                                checked={!hiddenStations.includes(id)}
+                                onChange={onToggleStation}
+                            >
+                                { name }
+                            </Checkbox>
                         </div>
                     )
                 })

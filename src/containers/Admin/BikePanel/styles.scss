@@ -18,6 +18,7 @@
     }
 
     &__row {
+        color: white;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -31,6 +32,7 @@
 
         > label > span {
             margin: 0 0 0 0.5rem;
+            color: white;
         }
     }
 }

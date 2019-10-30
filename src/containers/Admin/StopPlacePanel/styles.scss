@@ -12,13 +12,10 @@
         justify-content: space-between;
         flex-direction: row;
         align-items: center;
-
-        label {
-            color: $white;
-        }
     }
 
     &__row {
+        background-color: transparent;
         display: flex;
         flex-direction: row;
         margin-bottom: 0.5rem;
@@ -46,10 +43,6 @@
             }
         }
 
-        &__label {
-            margin-left: 1rem;
-        }
-
         &__item-button {
             display: flex;
             flex-direction: row;
@@ -62,7 +55,6 @@
 
         > label {
             color: white;
-            margin-left: 0.6rem !important;
         }
     }
 
@@ -72,8 +64,14 @@
         align-items: center;
         margin-bottom: 0.5rem;
 
-        > * {
-            margin-right: 0.5rem;
+        .entur-label {
+            color: white;
+            display: flex;
+            align-items: center;
+
+            svg {
+                margin-right: 0.5rem;
+            }
         }
     }
 }

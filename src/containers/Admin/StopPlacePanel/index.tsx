@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 
-import { JustCheckbox, Checkbox, Expandable } from '@entur/component-library'
+import { Expandable } from '@entur/component-library'
+import { Checkbox } from '@entur/form'
 
 import { getIcon, getIconColor, toggleValueInList } from '../../../utils'
 import { StopPlaceWithLines } from '../../../types'
@@ -93,11 +94,11 @@ function StopPlacePanel(props: Props): JSX.Element {
                     <Checkbox
                         id="check-all-stop-places"
                         name="check-all-stop-places"
-                        label="Velg alle"
                         onChange={onChooseAllPressed}
                         checked={!hiddenStops.length}
-                        variant="midnight"
-                    />
+                    >
+                        Velg alle
+                    </Checkbox>
                 </div>
             </div>
             {
@@ -109,7 +110,6 @@ function StopPlacePanel(props: Props): JSX.Element {
                                 className="stop-place-panel__row__checkbox"
                                 checked={!hiddenStops.includes(id)}
                                 onChange={onToggleStop}
-                                variant="midnight"
                             />
                             <Expandable
                                 variant="midnight"
@@ -122,32 +122,28 @@ function StopPlacePanel(props: Props): JSX.Element {
                             >
                                 <Checkbox
                                     id={`checkbox-all-lines-${id}`}
-                                    label="Velg alle"
-                                    variant="midnight"
                                     checked={lines.every(line => isRouteSelected(id, line.name))}
                                     onChange={(): void => onToggleAllLines(id)}
                                     className="stop-place-panel__route-checkbox"
-                                />
+                                >
+                                    Velg alle
+                                </Checkbox>
                                 { lines.map(({ name: routeName, transportMode }) => {
                                     const routeId = `${id}-${routeName}`
                                     const Icon = getIcon(transportMode)
                                     const iconColor = getIconColor(transportMode)
 
                                     return (
-                                        <div
+                                        <Checkbox
+                                            id={`checkbox-${routeId}`}
                                             className="stop-place-panel__route"
-                                            key={routeId}
+                                            name={routeName}
+                                            onChange={(): void => onToggleRoute(id, routeName)}
+                                            checked={isRouteSelected(id, routeName)}
                                         >
-                                            <JustCheckbox
-                                                id={`checkbox-${routeId}`}
-                                                name={routeName}
-                                                onChange={(): void => onToggleRoute(id, routeName)}
-                                                checked={isRouteSelected(id, routeName)}
-                                                variant="midnight"
-                                            />
                                             <Icon height={ 28 } width={ 28 } color={ iconColor } />
-                                            <label htmlFor={`checkbox-${routeId}`}>{routeName}</label>
-                                        </div>
+                                            {routeName}
+                                        </Checkbox>
                                     )
                                 }) }
                             </Expandable>

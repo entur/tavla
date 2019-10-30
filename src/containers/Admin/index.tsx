@@ -3,6 +3,7 @@ import React, {
 } from 'react'
 import { Button } from '@entur/button'
 import { BikeRentalStation, LegMode } from '@entur/sdk'
+import { Contrast } from '@entur/layout'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanel from './BikePanel'
@@ -129,7 +130,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     }, [history, persistSettings])
 
     return (
-        <div className="admin">
+        <Contrast className="admin">
             <AdminHeader goBackToDashboard={discardSettingsAndGoToDash} />
             <div className="admin__content">
                 <div className="admin__selection-panel">
@@ -168,12 +169,12 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             </div>
             <Button
                 className="admin__submit-button"
-                variant="secondary"
+                variant="primary"
                 onClick={submitSettingsAndGoToDash}
             >
                 Oppdater tavla
             </Button>
-        </div>
+        </Contrast>
     )
 }
 
