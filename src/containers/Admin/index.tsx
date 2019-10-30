@@ -117,11 +117,11 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 
     const discardSettingsAndGoToDash = useCallback(() => {
         // eslint-disable-next-line no-restricted-globals
-        const answerIsYes = confirm('Er du sikker på at du vil gå tilbake uten å lagre endringene dine?')
+        const answerIsYes = confirm('Er du sikker på at du vil gå tilbake uten å lagre endringene dine? Lagre-knapp finner du nederst til høyre på siden.')
         if (answerIsYes) {
-            history.push(window.location.pathname.replace('admin', 'dashboard'))
+            window.location.pathname = window.location.pathname.replace('admin', 'dashboard')
         }
-    }, [history])
+    }, [])
 
     const submitSettingsAndGoToDash = useCallback(() => {
         persistSettings()
