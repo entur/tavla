@@ -1,25 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import moment from 'moment'
+
+import { useCounter } from '../../utils'
 
 import './styles.scss'
 
 function Clock({ className }: Props): JSX.Element {
-    const [date, setDate] = useState()
-    const [time, setTime] = useState(moment().format('HH:mm'))
+    useCounter()
 
-    useEffect(() => {
-        const timerID = setInterval(() => {
-            const now = moment()
-            const dayOfTheWeek = now.locale('nb').format('dddd')
-            const dayNumber = now.date()
-            const monthName = now.locale('nb').format('MMMM')
+    const now = moment()
+    const dayOfTheWeek = now.locale('nb').format('dddd')
+    const dayNumber = now.date()
+    const monthName = now.locale('nb').format('MMMM')
 
-            setDate(dayOfTheWeek.charAt(0).toUpperCase() + dayOfTheWeek.slice(1) + ' ' + dayNumber + '. ' + monthName)
-            setTime(now.format('HH:mm'))
-        },
-        1000)
-        return (): void => clearInterval(timerID)
-    }, [])
+    const date = dayOfTheWeek.charAt(0).toUpperCase() + dayOfTheWeek.slice(1) + ' ' + dayNumber + '. ' + monthName
+    const time = now.format('HH:mm')
 
     return (
         <div className={`clock ${className}`}>

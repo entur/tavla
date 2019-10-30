@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
-import { getIcon, getIconColor, timeUntil } from '../../utils'
+import {
+    getIcon, getIconColor, timeUntil, useCounter,
+} from '../../utils'
+
 import { useStopPlacesWithDepartures } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
@@ -22,17 +25,8 @@ function Tick({ minutes }): JSX.Element {
 }
 
 const RaceDashboard = ({ history }: Props): JSX.Element => {
+    useCounter()
     const [initialLoading] = useState<boolean>(false) // TODO: Fix loading
-
-    const [reRender, setReRender] = useState<number>(0)
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setReRender(reRender + 1)
-        }, 1000)
-        return (): void => clearInterval(interval)
-    }, [reRender])
-
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
     const noStops = !stopPlacesWithDepartures.length

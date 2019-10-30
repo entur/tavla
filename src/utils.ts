@@ -140,6 +140,20 @@ export function useDebounce<T>(value: T, delay: number): T {
     return debouncedValue
 }
 
+export function useCounter(interval = 1000): number {
+    const [tick, setTick] = useState<number>(0)
+
+    useEffect(() => {
+        const timerID = setInterval(() => {
+            setTick(tick + 1)
+        },
+        interval)
+        return (): void => clearInterval(timerID)
+    }, [interval, tick])
+
+    return tick
+}
+
 export function isLegMode(mode: string): mode is LegMode {
     return ['air', 'bus', 'water', 'rail', 'metro', 'tram', 'coach', 'car', 'bicycle', 'foot'].includes(mode)
 }
