@@ -2,12 +2,12 @@ import React, { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Coordinates } from '@entur/sdk'
 
-import SearchPanel from '../../components/searchPanel/SearchPanel'
 import { Github, TavlaLogo } from '../../assets/icons'
 
 // @ts-ignore
 import coverPhoto from '../../assets/images/cover-photo.jpg'
 
+import SearchPanel from './SearchPanel'
 import './styles.scss'
 
 const LandingPage = ({ history }: Props): JSX.Element => {

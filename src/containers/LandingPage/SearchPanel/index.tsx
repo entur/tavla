@@ -6,9 +6,9 @@ import ReactAutosuggest from 'react-autosuggest'
 import { Button } from '@entur/button'
 import { Coordinates } from '@entur/sdk'
 
-import { Spinner, GeoLocation } from '../../assets/icons'
-import service from '../../service'
-import { useLocationPermission } from '../../hooks'
+import { Spinner, GeoLocation } from '../../../assets/icons'
+import service from '../../../service'
+import { useLocationPermission } from '../../../hooks'
 import './styles.scss'
 
 const YOUR_POSITION = 'Posisjonen din'
