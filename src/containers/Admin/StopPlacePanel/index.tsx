@@ -76,7 +76,13 @@ function StopPlacePanel(props: Props): JSX.Element {
     }, [hiddenRoutes, isRouteSelected, setHiddenRoutes, stops])
 
     if (!filteredStopPlaces.length) {
-        return <div className="selection-panel" />
+        return (
+            <div className="stop-place-panel">
+                <div className="stop-place-panel__header">
+                    <h2>Stoppesteder</h2>
+                </div>
+            </div>
+        )
     }
 
     return (
