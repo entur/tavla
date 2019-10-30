@@ -1,12 +1,11 @@
 @import '../../assets/styles/import.scss';
 
 .admin {
-    height: 90%;
+    background-color: $colors-brand-blue;
     margin-left: auto;
     margin-right: auto;
     justify-content: center;
     padding: 2% 5%;
-    background-color: #181c56;
     color: $white;
 
     &__content {
