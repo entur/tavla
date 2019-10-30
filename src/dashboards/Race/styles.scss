@@ -1,14 +1,7 @@
 @import '../../assets/styles/import.scss';
 
 .race {
-    color: white;
     padding: 2rem 4rem;
-
-    &__top {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
 
     &__stop {
         width: 100%;

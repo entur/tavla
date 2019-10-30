@@ -1,8 +1,7 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 
-import { Footer, Clock } from '../../components'
-import WhiteTavlaLogo from '../../assets/icons/whiteTavlaLogo/whiteTavlaLogo'
 import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../logic'
+import DashboardWrapper from '../../containers/DashboardWrapper'
 
 import BikeTile from './BikeTile'
 import DepartureTile from './DepartureTile'
@@ -18,20 +17,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    const onSettingsButtonClick = useCallback(event => {
-        const path = window.location.pathname.split('@')[1]
-        history.push(`/admin/@${path}`)
-        event.preventDefault()
-    }, [history])
-
     const noStops = !stopPlacesWithDepartures.length && (!bikeRentalStations || !bikeRentalStations.length)
 
     return (
-        <div className="enturdash">
-            <div className="enturdash__top">
-                <WhiteTavlaLogo />
-                <Clock />
-            </div>
+        <DashboardWrapper className="enturdash" history={history}>
             {noStops && !initialLoading ? (
                 <div className="no-stops">
                     <div className="no-stops-sheep">
@@ -57,12 +46,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     }
                 </div>
             )}
-            <Footer
-                className="enturdash__footer"
-                history={history}
-                onSettingsButtonClick={onSettingsButtonClick}
-            />
-        </div>
+        </DashboardWrapper>
     )
 }
 

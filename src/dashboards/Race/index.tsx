@@ -1,9 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import { Footer, Clock } from '../../components'
-import WhiteTavlaLogo from '../../assets/icons/whiteTavlaLogo/whiteTavlaLogo'
 import { getIcon, getIconColor, timeUntil } from '../../utils'
 import { useStopPlacesWithDepartures } from '../../logic'
+import DashboardWrapper from '../../containers/DashboardWrapper'
 
 // @ts-ignore
 import errorImage from '../../assets/images/noStops.png'
@@ -36,20 +35,10 @@ const RaceDashboard = ({ history }: Props): JSX.Element => {
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    const onSettingsButtonClick = useCallback(event => {
-        const path = window.location.pathname.split('@')[1]
-        history.push(`/admin/@${path}`)
-        event.preventDefault()
-    }, [history])
-
     const noStops = !stopPlacesWithDepartures.length
 
     return (
-        <div className="race">
-            <div className="race__top">
-                <WhiteTavlaLogo />
-                <Clock />
-            </div>
+        <DashboardWrapper className="race" history={history}>
             {noStops && !initialLoading ? (
                 <div className="no-stops">
                     <div className="no-stops-sheep">
@@ -88,12 +77,7 @@ const RaceDashboard = ({ history }: Props): JSX.Element => {
                     }
                 </div>
             )}
-            <Footer
-                className="enturdash__footer"
-                history={history}
-                onSettingsButtonClick={onSettingsButtonClick}
-            />
-        </div>
+        </DashboardWrapper>
     )
 }
 

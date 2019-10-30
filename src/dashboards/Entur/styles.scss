@@ -1,17 +1,6 @@
 @import '../../assets/styles/import.scss';
 
 .enturdash {
-    background-color: $colors-brand-blue;
-    padding: 2rem 4rem;
-    overflow: hidden;
-    height: calc(100vh);
-
-    &__top {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
     &__tiles {
         display: flex;
         flex-direction: row;
@@ -24,32 +13,13 @@
         }
     }
 
-    &__footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        padding: 0 4rem;
-        display: none;
-    }
-
     .no-stops {
         text-align: center;
-    }
-
-    &:hover {
-        .enturdash__footer {
-            display: flex;
-        }
     }
 }
 
 @media (max-width: 1000px) {
     .enturdash {
-        padding: 1rem;
-        overflow: auto;
-
         &__tiles {
             display: block;
         }
