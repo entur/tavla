@@ -14,13 +14,21 @@ import './styles.scss'
 
 function getTransportHeaderIcons(departures: Array<LineData>, hiddenModes?: Array<LegMode>): Array<JSX.Element> {
     const transportModes = unique(departures
-        .map(({ type }) => type)
-        .filter(f => !hiddenModes || !hiddenModes.includes(f)))
+        .map(({ type, subType }) => ({ type, subType }))
+        .filter(({ type }) => !hiddenModes || !hiddenModes.includes(type)),
+    ((a, b) => a.type === b.type && a.subType === b.subType))
 
-    return transportModes.map((mode) => {
-        const Icon = getIcon(mode)
-        return <Icon key={mode} height={ 30 } width={ 30 } color={COLORS.LAVENDER} />
-    })
+    const transportIcons = transportModes
+        .map(({ type, subType }) => ({ key: type + subType, Icon: getIcon(type, subType) }))
+        .filter(({ Icon }, index, icons) => {
+            // @ts-ignore
+            const iconIndex = icons.findIndex(icon => icon.Icon.name === Icon.name)
+            return iconIndex === index
+        })
+
+    return transportIcons.map(({ key, Icon }) => (
+        <Icon key={ key } height={ 30 } width={ 30 } color={ COLORS.LAVENDER } />
+    ))
 }
 
 const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
@@ -36,7 +44,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                     const subType = groupedDepartures[route][0].subType
                     const routeData = groupedDepartures[route].slice(0, 3)
                     const routeType = routeData[0].type
-                    const Icon = getIcon(routeType)
+                    const Icon = getIcon(routeType, subType)
                     const iconColor = getIconColor(routeType, subType)
 
                     return (

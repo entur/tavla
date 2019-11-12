@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { LegMode } from '@entur/sdk'
+import { LegMode, TransportSubmode } from '@entur/sdk'
 
 import { toggleValueInList } from '../../../utils'
 
@@ -18,21 +18,22 @@ function ModePanel({
         <div className="mode-panel">
             <h2>Transportmidler</h2>
             <div>
-                { transportModes.map((mode, index) => (
+                { transportModes.map(({ mode, subMode }, index) => (
                     <ModePanelRow
                         key={index}
                         mode={mode}
+                        subMode={subMode}
                         value={!disabledModes.includes(mode)}
                         onChange={onModeToggled}
                     />
-                ))}
+                )) }
             </div>
         </div>
     )
 }
 
 interface Props {
-    transportModes: Array<LegMode>,
+    transportModes: Array<{ mode: LegMode, subMode?: TransportSubmode }>,
     disabledModes: Array<LegMode>,
     onModesChange: (disabledModes: Array<LegMode>) => void,
 }
