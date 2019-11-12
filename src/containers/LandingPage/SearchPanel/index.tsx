@@ -9,6 +9,7 @@ import { Coordinates } from '@entur/sdk'
 import { Spinner, GeoLocation } from '../../../assets/icons'
 import service from '../../../service'
 import { useLocationPermission } from '../../../hooks'
+import { mapFeaturesToSuggestions } from '../../../utils'
 import './styles.scss'
 
 const YOUR_POSITION = 'Posisjonen din'
@@ -61,21 +62,8 @@ const getFeaturesDebounced = debounce(async (value, showMyPosition, callback) =>
     if (!inputLength) return callback(defaultSuggestions)
 
     const featuresData = await service.getFeatures(value)
-
-    const suggestedFeatures = featuresData.map(
-        ({ geometry, properties: { name, locality } }) => {
-            return {
-                coordinates: {
-                    longitude: geometry.coordinates[0],
-                    latitude: geometry.coordinates[1],
-                },
-                name: `${name}, ${locality}`,
-            }
-        },
-    )
-
+    const suggestedFeatures = mapFeaturesToSuggestions(featuresData)
     const features = [...defaultSuggestions, ...suggestedFeatures]
-
     return callback(features)
 }, 500)
 

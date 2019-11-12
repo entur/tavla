@@ -1,34 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import ReactAutosuggest from 'react-autosuggest'
-import { Coordinates } from '@entur/sdk'
 
 import service from '../../../service'
-import { useDebounce } from '../../../utils'
+import { useDebounce, mapFeaturesToSuggestions, Suggestion } from '../../../utils'
 
 import './styles.scss'
-
-interface Suggestion {
-    coordinates: Coordinates,
-    id: string,
-    name: string,
-}
 
 async function fetchSuggestions(value: string): Promise<Array<Suggestion>> {
     if (!value.trim().length) return []
 
     const featuresData = await service.getFeatures(value, undefined, { layers: ['venue'] })
-    return featuresData.map(
-        ({ geometry, properties: { id, name, locality } }) => {
-            return {
-                coordinates: {
-                    longitude: geometry.coordinates[0],
-                    latitude: geometry.coordinates[1],
-                },
-                id,
-                name: locality ? `${name}, ${locality}` : name,
-            }
-        },
-    )
+    return mapFeaturesToSuggestions(featuresData)
 }
 
 const SelectionPanelSearch = ({ handleAddNewStop }: Props): JSX.Element => {

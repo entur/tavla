@@ -7,7 +7,7 @@ import {
 } from '@entur/component-library'
 
 import {
-    Coordinates, Departure, LegMode, TransportSubmode,
+    Coordinates, Departure, LegMode, TransportSubmode, Feature,
 } from '@entur/sdk'
 
 import { LineData } from './types'
@@ -156,4 +156,28 @@ export function useCounter(interval = 1000): number {
 
 export function isLegMode(mode: string): mode is LegMode {
     return ['air', 'bus', 'water', 'rail', 'metro', 'tram', 'coach', 'car', 'bicycle', 'foot'].includes(mode)
+}
+
+export interface Suggestion {
+    name: string,
+    id?: string,
+    coordinates?: {
+        latitude: number,
+        longitude: number,
+    },
+}
+
+export function mapFeaturesToSuggestions(features: Array<Feature>): Array<Suggestion> {
+    return features.map(
+        ({ geometry, properties: { id, name, locality } }) => {
+            return {
+                coordinates: {
+                    longitude: geometry.coordinates[0],
+                    latitude: geometry.coordinates[1],
+                },
+                id,
+                name: locality ? `${name}, ${locality}` : name,
+            }
+        },
+    )
 }
