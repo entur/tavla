@@ -10,7 +10,7 @@ function DashboardPanel(): JSX.Element {
 
     const { dashboard = '' } = settings
 
-    const onChange = (event) => {
+    const onChange = (event): void => {
         setDashboard(event.target.value)
     }
 

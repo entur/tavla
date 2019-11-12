@@ -9,20 +9,20 @@ import { Coordinates } from '@entur/sdk'
 import { Spinner, GeoLocation } from '../../../assets/icons'
 import service from '../../../service'
 import { useLocationPermission } from '../../../hooks'
-import { mapFeaturesToSuggestions } from '../../../utils'
+import { mapFeaturesToSuggestions, Suggestion } from '../../../utils'
 import './styles.scss'
 
 const YOUR_POSITION = 'Posisjonen din'
 
-function getSuggestionValue(suggestion) {
+function getSuggestionValue(suggestion: Suggestion): string {
     return suggestion.name
 }
 
-function shouldRenderSuggestions() {
+function shouldRenderSuggestions(): boolean {
     return true
 }
 
-function renderSuggestion(suggestion) {
+function renderSuggestion(suggestion: Suggestion): JSX.Element {
     if (suggestion.name !== YOUR_POSITION) {
         return <span>{suggestion.name}</span>
     }
@@ -36,7 +36,7 @@ function renderSuggestion(suggestion) {
     )
 }
 
-function getErrorMessage(error) {
+function getErrorMessage(error): string {
     switch (error.code) {
         case error.PERMISSION_DENIED:
             return 'Du må godta bruk av posisjon i nettleseren før vi kan hente den.'
@@ -46,7 +46,7 @@ function getErrorMessage(error) {
 }
 
 
-const renderSpinner = () => {
+const renderSpinner = (): JSX.Element => {
     return (
         <div className="spinner-container">
             <Spinner className="spinner" />
@@ -90,11 +90,11 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
     const [waiting, setWaiting] = useState<boolean>(false)
     const [chosenCoord, setChosenCoord] = useState<Coordinates | null>(null)
 
-    const onChange = (_, { newValue }) => {
+    const onChange = (_, { newValue }): void => {
         setFormValue(newValue)
     }
 
-    const onSuggestionsFetchRequested = ({ value }) => {
+    const onSuggestionsFetchRequested = ({ value }): void => {
         if (value !== location.selectedLocationName) {
             setLocation({
                 hasLocation: false,
@@ -106,7 +106,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
         getFeaturesDebounced(value, showPositionInList, setSuggestions)
     }
 
-    const getAddressFromPosition = position => {
+    const getAddressFromPosition = (position: Coordinates): void => {
         setFormValue(YOUR_POSITION)
         setChosenCoord(position)
         setLocation({
@@ -115,19 +115,19 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
         })
     }
 
-    const onSuggestionsClearRequested = () => {
+    const onSuggestionsClearRequested = (): void => {
         const newSuggestions = showPositionInList ? [{ name: YOUR_POSITION }] : []
         setSuggestions(newSuggestions)
     }
 
-    const handleSuccessLocation = data => {
+    const handleSuccessLocation = (data: Position): void => {
         refreshLocationPermission()
         const position = { latitude: data.coords.latitude, longitude: data.coords.longitude }
         getAddressFromPosition(position)
         setWaiting(false)
     }
 
-    const handleDeniedLocation = error => {
+    const handleDeniedLocation = (error): void => {
         refreshLocationPermission()
         setFormValue('')
         setErrorMessage(getErrorMessage(error))
@@ -139,7 +139,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
         setWaiting(false)
     }
 
-    const onSuggestionSelected = (_, { suggestion }) => {
+    const onSuggestionSelected = (_, { suggestion }): void => {
         if (suggestion.name === YOUR_POSITION) {
             setWaiting(true)
             setLocation(v => ({
@@ -157,16 +157,18 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
         }
     }
 
-    const handleGoToBoard = event => {
+    const handleGoToBoard = (event): void => {
         event.preventDefault()
-        return chosenCoord ? handleCoordinatesSelected(chosenCoord) : null
+        if (chosenCoord) {
+            handleCoordinatesSelected(chosenCoord)
+        }
     }
 
     const inputProps = useMemo(() => ({
         placeholder: 'Adresse eller sted',
         value: formValue,
         onChange,
-        onFocus: () => {
+        onFocus: (): void => {
             setErrorMessage(null)
         },
     }), [formValue])
