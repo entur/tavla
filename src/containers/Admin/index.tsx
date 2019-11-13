@@ -2,7 +2,7 @@ import React, {
     useState, useEffect, useMemo, useCallback,
 } from 'react'
 import { Button } from '@entur/button'
-import { BikeRentalStation, LegMode } from '@entur/sdk'
+import { BikeRentalStation, LegMode, TransportSubmode } from '@entur/sdk'
 import { Contrast } from '@entur/layout'
 
 import StopPlacePanel from './StopPlacePanel'
@@ -14,6 +14,7 @@ import {
     getPositionFromUrl,
     useDebounce,
     isLegMode,
+    unique,
 } from '../../utils'
 
 import service, { getStopPlacesWithLines } from '../../service'
@@ -102,16 +103,21 @@ const AdminPage = ({ history }: Props): JSX.Element => {
         setNewStations([...newStations, stationId])
     }, [newStations, setNewStations])
 
-    const modes: Array<LegMode> = useMemo(
+    const modes: Array<{ mode: LegMode, subMode?: TransportSubmode }> = useMemo(
         () => {
             const modesFromStopPlaces = stopPlaces
-                .map(stopPlace => stopPlace.lines.map(({ transportMode }) => transportMode))
+                .map(stopPlace => stopPlace.lines.map(({ transportMode, transportSubmode }) => ({
+                    mode: transportMode, subMode: transportSubmode,
+                })))
                 .reduce((a, b) => [...a, ...b], [])
-                .filter(isLegMode)
-                .filter((mode, index, array) => array.indexOf(mode) === index)
+                .filter(({ mode }) => isLegMode(mode))
+
+            const uniqModesFromStopPlaces = unique(modesFromStopPlaces,
+                (a, b) => a.mode === b.mode)
+
             return (stations.length)
-                ? ['bicycle', ...modesFromStopPlaces]
-                : modesFromStopPlaces
+                ? [{ mode: 'bicycle' }, ...uniqModesFromStopPlaces]
+                : uniqModesFromStopPlaces
         },
         [stations.length, stopPlaces]
     )

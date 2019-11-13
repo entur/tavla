@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { SlideSwitch, COLORS } from '@entur/component-library'
-import { LegMode } from '@entur/sdk'
+import { LegMode, TransportSubmode } from '@entur/sdk'
 
 import { getIcon, getIconColor } from '../../../utils'
 
@@ -20,14 +20,18 @@ const getTransportModeTitle = (type: LegMode): string => {
             return 'Tog'
         case 'metro':
             return 'T-bane'
+        case 'air':
+            return 'Fly'
         default:
             return type
     }
 }
 
-const ModePanelRow = ({ mode, onChange, value }: Props): JSX.Element => {
-    const Icon = getIcon(mode)
-    const iconColor = getIconColor(mode)
+const ModePanelRow = ({
+    mode, subMode, onChange, value,
+}: Props): JSX.Element => {
+    const Icon = getIcon(mode, subMode)
+    const iconColor = getIconColor(mode, subMode)
 
     const handleChange = useCallback(() => {
         onChange(mode)
@@ -55,6 +59,7 @@ const ModePanelRow = ({ mode, onChange, value }: Props): JSX.Element => {
 
 interface Props {
     mode: LegMode,
+    subMode?: TransportSubmode,
     value: boolean,
     onChange: (mode: LegMode) => void,
 }

@@ -3,7 +3,7 @@ import { useState, useEffect, ElementType } from 'react'
 
 import {
     BicycleIcon, BusIcon, FerryIcon, SubwayIcon,
-    TrainIcon, TramIcon, PlaneIcon, COLORS,
+    TrainIcon, TramIcon, PlaneIcon, COLORS, CarFerryIcon,
 } from '@entur/component-library'
 
 import {
@@ -12,7 +12,27 @@ import {
 
 import { LineData } from './types'
 
-export function getIcon(type: LegMode): ElementType | null {
+function isSubModeAirportLink(subMode?: string): boolean {
+    const airportLinkTypes = ['airportLinkRail', 'airportLinkBus']
+    return airportLinkTypes.includes(subMode)
+}
+
+function isSubModeCarFerry(subMode?: string): boolean {
+    const carFerryTypes = [
+        'localCarFerry',
+        'internationalCarFerry',
+        'nationalCarFerry',
+        'regionalCarFerry',
+    ]
+
+    return carFerryTypes.includes(subMode)
+}
+
+export function getIcon(type: LegMode, subMode?: string): ElementType | null {
+    if (isSubModeCarFerry(subMode)) {
+        return CarFerryIcon
+    }
+
     switch (type) {
         case 'bus':
         case 'coach':
@@ -35,8 +55,7 @@ export function getIcon(type: LegMode): ElementType | null {
 }
 
 export function getIconColor(type: LegMode, subType?: TransportSubmode): string {
-    const airportLinkTypes = ['airportLinkRail', 'airportLinkBus']
-    if (airportLinkTypes.includes(subType)) return COLORS.PLANE_MIDNIGHT
+    if (isSubModeAirportLink(subType)) return COLORS.PLANE_MIDNIGHT
 
     switch (type) {
         case 'bus':
