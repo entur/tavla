@@ -3,8 +3,10 @@ import { useState, useEffect, ElementType } from 'react'
 
 import {
     BicycleIcon, BusIcon, FerryIcon, SubwayIcon,
-    TrainIcon, TramIcon, PlaneIcon, COLORS, CarFerryIcon,
+    TrainIcon, TramIcon, PlaneIcon, CarFerryIcon,
 } from '@entur/component-library'
+
+import { colors } from '@entur/tokens'
 
 import {
     Coordinates, Departure, LegMode, TransportSubmode, Feature,
@@ -55,23 +57,23 @@ export function getIcon(type: LegMode, subMode?: string): ElementType | null {
 }
 
 export function getIconColor(type: LegMode, subType?: TransportSubmode): string {
-    if (isSubModeAirportLink(subType)) return COLORS.PLANE_MIDNIGHT
+    if (isSubModeAirportLink(subType)) return colors.transport.contrast.plane
 
     switch (type) {
         case 'bus':
-            return COLORS.BUS_MIDNIGHT
+            return colors.transport.contrast.bus
         case 'bicycle':
-            return COLORS.BICYCLE_MIDNIGHT
+            return colors.transport.contrast.bicycle
         case 'water':
-            return COLORS.FERRY_MIDNIGHT
+            return colors.transport.contrast.ferry
         case 'metro':
-            return COLORS.METRO_MIDNIGHT
+            return colors.transport.contrast.metro
         case 'rail':
-            return COLORS.TRAIN_MIDNIGHT
+            return colors.transport.contrast.train
         case 'tram':
-            return COLORS.TRAM_MIDNIGHT
+            return colors.transport.contrast.tram
         case 'air':
-            return COLORS.PLANE_MIDNIGHT
+            return colors.transport.contrast.plane
         default:
             return null
     }
