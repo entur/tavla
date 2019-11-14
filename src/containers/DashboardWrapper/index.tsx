@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
-import { Loading } from '@entur/component-library'
+import { Loader } from '@entur/loader'
 import { SubParagraph } from '@entur/typography'
 
 import { useCounter } from '../../utils'
@@ -49,7 +49,7 @@ function DashboardWrapper(props: Props): JSX.Element {
         }
 
         if (secondsSinceMount < 5) {
-            return <Loading label="Laster..." />
+            return <Loader>Laster...</Loader>
         }
 
         return <img className="no-stops" src={errorImage} />
