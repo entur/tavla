@@ -128,10 +128,10 @@ function StopPlacePanel(props: Props): JSX.Element {
                                 >
                                     Velg alle
                                 </Checkbox>
-                                { lines.map(({ name: routeName, transportMode }) => {
+                                { lines.map(({ name: routeName, transportMode, transportSubmode }) => {
                                     const routeId = `${id}-${routeName}`
-                                    const Icon = getIcon(transportMode)
-                                    const iconColor = getIconColor(transportMode)
+                                    const Icon = getIcon(transportMode, transportSubmode)
+                                    const iconColor = getIconColor(transportMode, transportSubmode)
 
                                     return (
                                         <Checkbox
