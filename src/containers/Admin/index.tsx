@@ -170,7 +170,9 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                     ) : null
                 }
                 { SHOW_DASHBOARD_PANEL ? (
-                    <DashboardPanel />
+                    <div className="admin__selection-panel">
+                        <DashboardPanel />
+                    </div>
                 ) : null }
             </div>
             <Button
