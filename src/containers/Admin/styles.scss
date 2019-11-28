@@ -11,6 +11,8 @@
     &__content {
         display: flex;
         flex-direction: row;
+        overflow: scroll;
+        height: calc(100vh);
     }
 
     &__submit-button {
