@@ -22,14 +22,18 @@
 
     &__texts {
         flex-direction: column;
+        flex-grow: 1;
     }
 
     &__sublabels {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         font-size: 1.25rem;
+        justify-content: space-between;
+        max-width: 18rem;
 
         span {
             font-weight: 400;
-            margin-right: 1rem;
         }
     }
 }
