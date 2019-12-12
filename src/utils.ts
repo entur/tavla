@@ -97,7 +97,7 @@ export function groupBy<T>(objectArray: Array<T>, property: string): { [key: str
 
 function formatDeparture(minDiff: number, departureTime: Moment): string {
     if (minDiff > 15) return departureTime.format('HH:mm')
-    return minDiff < 1 ? 'nå' : minDiff.toString() + ' min'
+    return minDiff < 1 ? 'Nå' : minDiff.toString() + ' min'
 }
 
 export function unique<T>(array: Array<T>, isEqual: (a: T, b: T) => boolean = (a, b): boolean => a === b): Array<T> {
