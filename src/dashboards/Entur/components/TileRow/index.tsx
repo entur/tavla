@@ -1,4 +1,5 @@
 import React from 'react'
+import { Heading3 } from '@entur/typography'
 
 import './styles.scss'
 
@@ -9,7 +10,7 @@ export function TileRow({ label, icon, subLabels }: Props): JSX.Element {
                 { icon }
             </div>
             <div className="tilerow__texts">
-                <div className="tilerow__label">{ label }</div>
+                <Heading3 className="tilerow__label">{ label }</Heading3>
                 <div className="tilerow__sublabels">
                     {
                         subLabels.map((subLabel, index) => (

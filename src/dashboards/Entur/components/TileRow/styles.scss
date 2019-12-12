@@ -10,6 +10,11 @@
         padding-bottom: 0;
     }
 
+    &__label {
+        margin: 0;
+        margin-bottom: 0.5rem;
+    }
+
     &__icon {
         min-width: 2rem;
         margin-right: 1rem;
@@ -20,10 +25,10 @@
     }
 
     &__sublabels {
-        color: $colors-blues-blue60;
-        font-size: 14px;
+        font-size: 1.25rem;
 
         span {
+            font-weight: 400;
             margin-right: 1rem;
         }
     }

@@ -6,12 +6,17 @@
     background-color: $colors-blues-blue10;
     color: $white;
     flex: none;
-    padding: 1rem 2rem;
+    padding: 2rem;
 
     &__header {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: 1rem;
+
+        h2 {
+            margin: 0;
+        }
     }
 
     &__header-icons {

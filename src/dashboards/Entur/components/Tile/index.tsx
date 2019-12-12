@@ -1,4 +1,5 @@
 import React from 'react'
+import { Heading2 } from '@entur/typography'
 
 import './styles.scss'
 
@@ -6,7 +7,7 @@ function Tile({ title, icons, children }: Props): JSX.Element {
     return (
         <div className="tile">
             <header className="tile__header">
-                <h2>{ title }</h2>
+                <Heading2>{ title }</Heading2>
                 <div className="tile__header-icons">
                     { icons }
                 </div>
