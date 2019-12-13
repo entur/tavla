@@ -1,0 +1,23 @@
+@import '../../../../assets/styles/import.scss';
+
+.chrono .tilerow {
+    display: flex;
+    border-bottom: 2px solid $colors-blues-blue20;
+    padding: 1rem 0;
+    align-items: center;
+
+    &__icon {
+        min-width: 2rem;
+        margin-right: 1rem;
+    }
+
+    &__label {
+        margin: 0;
+    }
+
+    &__sublabel {
+        font-size: 1.25rem;
+        margin: 0;
+        margin-left: auto;
+    }
+}

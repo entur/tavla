@@ -1,0 +1,34 @@
+@import '../../../assets/styles/import.scss';
+
+.chrono .bikerow {
+    display: flex;
+    border-bottom: 2px solid $colors-blues-blue20;
+    padding: 1rem 0;
+
+    &__label {
+        margin: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    &__texts {
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    &__icon {
+        min-width: 2rem;
+        margin-right: 1rem;
+    }
+
+    &__sublabels {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        font-size: 1.25rem;
+        justify-content: space-between;
+        max-width: 18rem;
+
+        span {
+            font-weight: 400;
+        }
+    }
+}

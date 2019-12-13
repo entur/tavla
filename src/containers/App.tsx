@@ -7,6 +7,7 @@ import analytics from 'universal-ga'
 import { SettingsContext, useSettings } from '../settings'
 
 import Entur from '../dashboards/Entur'
+import Chrono from '../dashboards/Chrono'
 import Race from '../dashboards/Race'
 
 import LandingPage from './LandingPage'
@@ -23,6 +24,8 @@ function getDashboardComponent(dashboardKey?: string | void) {
     switch (dashboardKey) {
         case 'Race':
             return Race
+        case 'Chrono':
+            return Chrono
         default:
             return Entur
     }
