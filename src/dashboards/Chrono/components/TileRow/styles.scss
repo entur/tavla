@@ -3,8 +3,7 @@
 .chrono .tilerow {
     display: flex;
     border-bottom: 2px solid $colors-blues-blue20;
-    padding: 1rem 0;
-    align-items: center;
+    padding: 1rem 0 0.75rem 0;
 
     &__icon {
         min-width: 2rem;
@@ -13,11 +12,16 @@
 
     &__label {
         margin: 0;
+        margin-top: 0.25rem;
     }
 
     &__sublabel {
         font-size: 1.25rem;
+        font-weight: 400;
         margin: 0;
+        margin-top: 7px;
         margin-left: auto;
+        min-width: 5rem;
+        text-align: right;
     }
 }

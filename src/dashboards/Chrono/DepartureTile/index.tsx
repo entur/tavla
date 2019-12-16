@@ -25,7 +25,7 @@ function getTransportHeaderIcons(departures: Array<LineData>, hiddenModes?: Arra
         })
 
     return transportIcons.map(({ key, Icon }) => (
-        <Icon key={ key } height={ 30 } width={ 30 } color={ colors.brand.lavender } />
+        <Icon key={ key } height={ 32 } width={ 32 } color={ colors.blues.blue60 } />
     ))
 }
 

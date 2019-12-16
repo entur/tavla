@@ -1,6 +1,7 @@
 import React from 'react'
 import { BikeRentalStation } from '@entur/sdk'
 import { Heading3 } from '@entur/typography'
+import { colors } from '@entur/tokens'
 
 import { getIcon } from '../../../utils'
 
@@ -12,14 +13,14 @@ const BikeIcon = getIcon('bicycle')
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
     return (
-        <Tile title="Bysykkel" icons={[<BikeIcon height={ 32 } width={ 32 } color="#D1D4E3" />]}>
+        <Tile title="Bysykkel" icons={[<BikeIcon height={ 32 } width={ 32 } color={colors.blues.blue60} />]}>
             {
                 stations.map(({
                     name, bikesAvailable, id, spacesAvailable,
                 }) => (
                     <div key={id} className="bikerow">
                         <div className="bikerow__icon">
-                            <BikeIcon height={ 32 } width={ 32 } />
+                            <BikeIcon height={ 32 } width={ 32 } color={colors.transport.contrast.mobility} />
                         </div>
                         <div className="bikerow__texts">
                             <Heading3 className="bikerow__label">

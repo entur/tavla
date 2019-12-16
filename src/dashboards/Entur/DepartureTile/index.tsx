@@ -27,7 +27,7 @@ function getTransportHeaderIcons(departures: Array<LineData>, hiddenModes?: Arra
         })
 
     return transportIcons.map(({ key, Icon }) => (
-        <Icon key={ key } height={ 30 } width={ 30 } color={ colors.brand.lavender } />
+        <Icon key={ key } height={ 32 } width={ 32 } color={ colors.blues.blue60 } />
     ))
 }
 
@@ -52,7 +52,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                             key={route}
                             label={route}
                             subLabels={routeData.map(data => data.time)}
-                            icon={Icon ? <Icon height={ 24 } width={ 24 } color={ iconColor } className="route-icon" /> : null}
+                            icon={Icon ? <Icon height={ 32 } width={ 32 } color={ iconColor } className="route-icon" /> : null}
                         />
                     )
                 })
