@@ -10,6 +10,8 @@ import BackButton from '../../../components/backButton/BackButton'
 
 import './styles.scss'
 
+const SHOW_DASHBOARD_PANEL = !window.location.origin.includes('tavla.en-tur.no')
+
 function RadioBox({
     value, selected, onChange, children,
 }): JSX.Element {
@@ -63,9 +65,11 @@ function Footer({ className, history }: Props): JSX.Element {
         <footer className={`footer ${className || ''}`}>
             <BackButton className="footer__back-button" action={goBack}/>
             <div className="footer__actions">
-                <ActionChip onClick={(): void => setModalOpen(true)}>
-                    <EditIcon /> Endre visning
-                </ActionChip>
+                { SHOW_DASHBOARD_PANEL ? (
+                    <ActionChip onClick={(): void => setModalOpen(true)}>
+                        <EditIcon /> Endre visning
+                    </ActionChip>
+                ) : null }
                 <ActionChip onClick={onSettingsButtonClick}>
                     <SettingsIcon /> Rediger tavla
                 </ActionChip>
