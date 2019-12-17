@@ -30,7 +30,7 @@
     "@entur/layout": "^0.3.2",
     "@entur/loader": "^0.2.3",
     "@entur/sdk": "^1.0.0-next.34",
-    "@entur/tokens": "^1.0.2",
+    "@entur/tokens": "^1.1.0",
     "@entur/typography": "0.5.0",
     "connect-history-api-fallback": "^1.6.0",
     "koa-connect": "^2.0.1",
