@@ -1,0 +1,114 @@
+@import '../../../assets/styles/import.scss';
+
+.footer {
+    width: 90%;
+    height: 80px;
+    align-items: center;
+    bottom: 3rem;
+    justify-content: space-between;
+    flex-direction: row;
+    position: fixed;
+    background-color: $colors-brand-blue;
+    display: flex;
+
+    &__actions {
+        display: flex;
+
+        > * {
+            margin-left: 0.5rem;
+        }
+    }
+}
+
+.radiobox {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    border: $border-widths-default solid $colors-greys-grey20;
+    border-radius: $border-radiuses-default;
+    padding: 2rem 1rem;
+    margin: 0.5rem 0;
+
+    &--checked {
+        border: 2px solid $colors-brand-blue;
+    }
+
+    &:hover {
+        background-color: $colors-greys-grey40;
+    }
+
+    h3 {
+        margin: 0;
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+
+    input {
+        display: none;
+    }
+
+    &__checkmark {
+        height: 30px;
+        width: 30px;
+        border: $border-widths-default solid $colors-greys-grey20;
+        border-radius: 15px;
+        background-color: transpr;
+        float: right;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &--checked {
+            background-color: $colors-brand-blue;
+            border-color: $colors-brand-blue;
+
+            svg {
+                color: $colors-validation-mint-contrast;
+            }
+        }
+    }
+}
+
+.footer-modal__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2rem;
+
+    button {
+        display: block;
+        flex-grow: 1;
+
+        &:first-child {
+            margin-right: 5px;
+        }
+    }
+}
+
+@media (max-height: 900px) {
+    .footer {
+        padding: 3rem 1rem;
+        bottom: 0;
+    }
+}
+
+@media (max-width: 1200px) {
+    .footer {
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer {
+        bottom: 0;
+        position: sticky;
+        padding: 10px 2% 0 10px;
+        width: 100%;
+
+        &__back-button {
+            opacity: 1;
+        }
+    }
+}

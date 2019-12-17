@@ -2,14 +2,17 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
 import { Loader } from '@entur/loader'
 import { SubParagraph } from '@entur/typography'
+import { Contrast } from '@entur/layout'
 
 import { useCounter } from '../../utils'
 
 // @ts-ignore
 import errorImage from '../../assets/images/noStops.png'
 import TavlaLogo from '../../assets/icons/tavlaLogo'
-import { Footer, Clock } from '../../components'
+import { Clock } from '../../components'
 import { StopPlaceWithDepartures } from '../../types'
+
+import Footer from './Footer'
 
 import './styles.scss'
 
@@ -60,16 +63,18 @@ function DashboardWrapper(props: Props): JSX.Element {
             <div className="dashboard-wrapper__top">
                 <div className="dashboard-wrapper__logo-wrapper">
                     <TavlaLogo />
-                    <SubParagraph>Finn din rute på en-tur.no eller i Entur-appen</SubParagraph>
+                    <SubParagraph>Finn din rute på entur.no eller i Entur-appen</SubParagraph>
                 </div>
                 <Clock />
             </div>
             { renderContents() }
-            <Footer
-                className="dashboard-wrapper__footer"
-                history={history}
-                onSettingsButtonClick={onSettingsButtonClick}
-            />
+            <Contrast>
+                <Footer
+                    className="dashboard-wrapper__footer"
+                    history={history}
+                    onSettingsButtonClick={onSettingsButtonClick}
+                />
+            </Contrast>
         </div>
     )
 }

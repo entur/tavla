@@ -25,10 +25,12 @@
   "dependencies": {
     "@babel/runtime": "^7.7.4",
     "@entur/button": "^1.2.0",
+    "@entur/chip": "^0.2.4",
     "@entur/component-library": "^0.29.0",
     "@entur/form": "^1.3.0",
     "@entur/layout": "^0.3.2",
     "@entur/loader": "^0.2.3",
+    "@entur/modal": "^1.0.0",
     "@entur/sdk": "^1.0.0-next.34",
     "@entur/tokens": "^1.1.0",
     "@entur/typography": "0.5.0",

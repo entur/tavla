@@ -19,14 +19,18 @@ export interface Settings {
 }
 
 interface SettingsSetters {
-    setHiddenStations: (hiddenStations: Array<string>) => void,
-    setHiddenStops: (hiddenStops: Array<string>) => void,
-    setHiddenModes: (hiddenModes: Array<LegMode>) => void,
-    setHiddenRoutes: (hiddenModes: { [stopPlaceId: string]: Array<string> }) => void,
-    setDistance: (distance: number) => void,
-    setNewStations: (newStations: Array<string>) => void,
-    setNewStops: (newStops: Array<string>) => void,
-    setDashboard: (dashboard: string) => void,
+    setHiddenStations: (hiddenStations: Array<string>, options?: SetOptions) => void,
+    setHiddenStops: (hiddenStops: Array<string>, options?: SetOptions) => void,
+    setHiddenModes: (hiddenModes: Array<LegMode>, options?: SetOptions) => void,
+    setHiddenRoutes: (hiddenModes: { [stopPlaceId: string]: Array<string> }, options?: SetOptions) => void,
+    setDistance: (distance: number, options?: SetOptions) => void,
+    setNewStations: (newStations: Array<string>, options?: SetOptions) => void,
+    setNewStops: (newStops: Array<string>, options?: SetOptions) => void,
+    setDashboard: (dashboard: string, options?: SetOptions) => void,
+}
+
+interface SetOptions {
+    persist?: boolean,
 }
 
 type Persistor = () => void
@@ -57,40 +61,44 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
         persist(settings)
     }, [settings])
 
-    const set = useCallback(<T>(key: string, value: T): void => {
-        setSettings(prevSettings => ({ ...prevSettings, [key]: value }))
-    }, [setSettings])
+    const set = useCallback(<T>(key: string, value: T, options?: SetOptions): void => {
+        const newSettings = { ...settings, [key]: value }
+        setSettings(newSettings)
+        if (options && options.persist) {
+            persist(newSettings)
+        }
+    }, [settings])
 
-    const setHiddenStations = useCallback((newHiddenStations: Array<string>): void => {
-        set('hiddenStations', newHiddenStations)
+    const setHiddenStations = useCallback((newHiddenStations: Array<string>, options?: SetOptions): void => {
+        set('hiddenStations', newHiddenStations, options)
     }, [set])
 
-    const setHiddenStops = useCallback((newHiddenStops: Array<string>): void => {
-        set('hiddenStops', newHiddenStops)
+    const setHiddenStops = useCallback((newHiddenStops: Array<string>, options?: SetOptions): void => {
+        set('hiddenStops', newHiddenStops, options)
     }, [set])
 
-    const setHiddenModes = useCallback((newHiddenModes: Array<LegMode>): void => {
-        set('hiddenModes', newHiddenModes)
+    const setHiddenModes = useCallback((newHiddenModes: Array<LegMode>, options?: SetOptions): void => {
+        set('hiddenModes', newHiddenModes, options)
     }, [set])
 
-    const setHiddenRoutes = useCallback((newHiddenRoutes: { [stopPlaceId: string]: Array<string> }): void => {
-        set('hiddenRoutes', newHiddenRoutes)
+    const setHiddenRoutes = useCallback((newHiddenRoutes: { [stopPlaceId: string]: Array<string> }, options?: SetOptions): void => {
+        set('hiddenRoutes', newHiddenRoutes, options)
     }, [set])
 
-    const setDistance = useCallback((newDistance: number): void => {
-        set('distance', newDistance)
+    const setDistance = useCallback((newDistance: number, options?: SetOptions): void => {
+        set('distance', newDistance, options)
     }, [set])
 
-    const setNewStations = useCallback((newStations: Array<string>): void => {
-        set('newStations', newStations)
+    const setNewStations = useCallback((newStations: Array<string>, options?: SetOptions): void => {
+        set('newStations', newStations, options)
     }, [set])
 
-    const setNewStops = useCallback((newStops: Array<string>): void => {
-        set('newStops', newStops)
+    const setNewStops = useCallback((newStops: Array<string>, options?: SetOptions): void => {
+        set('newStops', newStops, options)
     }, [set])
 
-    const setDashboard = useCallback((dashboard: string): void => {
-        set('dashboard', dashboard)
+    const setDashboard = useCallback((dashboard: string, options?: SetOptions): void => {
+        set('dashboard', dashboard, options)
     }, [set])
 
     const setters = {
