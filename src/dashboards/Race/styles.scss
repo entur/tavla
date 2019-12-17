@@ -52,7 +52,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
         box-shadow: $shadows-card-shadow;
-        max-width: 70px;
 
         &::after {
             content: '';
