@@ -9,17 +9,15 @@
 
     &__stop {
         background-color: $colors-blues-blue10;
-        width: calc(100% - 8rem);
-        margin-bottom: 5rem;
+        width: 100%;
+        margin-bottom: 1rem;
         padding: 2rem;
-        position: absolute;
         overflow: hidden;
     }
 
     &__track {
         height: 6rem;
-        margin: 2rem 0 1rem 0;
-        overflow: hidden;
+        position: relative;
     }
 
     &__line {
@@ -35,7 +33,12 @@
         position: absolute;
         text-align: center;
         transition: 1s all;
-        bottom: 75px;
+        bottom: 0;
+
+        svg {
+            animation: pulse 2s;
+            animation-iteration-count: infinite;
+        }
     }
 
     &__label {
@@ -49,6 +52,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         box-shadow: $shadows-card-shadow;
+        max-width: 70px;
 
         &::after {
             content: '';
@@ -65,5 +69,19 @@
 
     &__tick {
         margin-top: 5px;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        transform: scale(1);
     }
 }
