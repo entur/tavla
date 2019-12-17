@@ -63,7 +63,7 @@ export function getIconColor(type: LegMode, subType?: TransportSubmode): string 
         case 'bus':
             return colors.transport.contrast.bus
         case 'bicycle':
-            return colors.transport.contrast.bicycle
+            return colors.transport.contrast.mobility
         case 'water':
             return colors.transport.contrast.ferry
         case 'metro':

@@ -2,9 +2,7 @@ import React from 'react'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 
-import {
-    getIcon, getIconColor, groupBy, unique,
-} from '../../../utils'
+import { getIcon, getIconColor, unique } from '../../../utils'
 import { StopPlaceWithDepartures, LineData } from '../../../types'
 
 import Tile from '../components/Tile'
@@ -32,26 +30,23 @@ function getTransportHeaderIcons(departures: Array<LineData>, hiddenModes?: Arra
 }
 
 const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
-    const { departures, name } = stopPlaceWithDepartures
-    const groupedDepartures = groupBy<LineData>(departures, 'route')
+    const { departures, name, id } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
-    const routes = Object.keys(groupedDepartures)
 
     return (
         <Tile title={name} icons={headerIcons}>
             {
-                routes.map((route) => {
-                    const subType = groupedDepartures[route][0].subType
-                    const routeData = groupedDepartures[route].slice(0, 3)
-                    const routeType = routeData[0].type
-                    const Icon = getIcon(routeType, subType)
-                    const iconColor = getIconColor(routeType, subType)
+                departures.map(({
+                    serviceJourneyId, route, type, subType, time,
+                }) => {
+                    const Icon = getIcon(type, subType)
+                    const iconColor = getIconColor(type, subType)
 
                     return (
                         <TileRow
-                            key={route}
+                            key={`${id}${serviceJourneyId}`}
                             label={route}
-                            subLabels={routeData.map(data => data.time)}
+                            subLabel={time}
                             icon={Icon ? <Icon height={ 32 } width={ 32 } color={ iconColor } className="route-icon" /> : null}
                         />
                     )

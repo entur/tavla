@@ -1,5 +1,6 @@
 import React from 'react'
 import { BikeRentalStation } from '@entur/sdk'
+import { colors } from '@entur/tokens'
 
 import { getIcon } from '../../../utils'
 
@@ -10,14 +11,14 @@ const BikeIcon = getIcon('bicycle')
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
     return (
-        <Tile title="Bysykkel" icons={[<BikeIcon height={ 24 } width={ 24 } color="#D1D4E3" />]}>
+        <Tile title="Bysykkel" icons={[<BikeIcon height={ 32 } width={ 32 } color={colors.blues.blue60} />]}>
             {
                 stations.map(({
                     name, bikesAvailable, id, spacesAvailable,
                 }) => (
                     <TileRow
                         key={id}
-                        icon={<BikeIcon height={ 24 } width={ 24 } color="#D1D4E3" />}
+                        icon={<BikeIcon height={ 32 } width={ 32 } color={colors.transport.contrast.mobility} />}
                         label={name}
                         subLabels={[
                             bikesAvailable === 1 ? '1 sykkel' : `${bikesAvailable} sykler`,

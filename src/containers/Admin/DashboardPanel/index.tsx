@@ -26,7 +26,8 @@ function DashboardPanel(): JSX.Element {
                     value={dashboard}
                     onChange={onChange}
                 >
-                    <RadioPanel variant="midnight" label="Entur" value=""/>
+                    <RadioPanel variant="midnight" label="Entur" value="" />
+                    <RadioPanel variant="midnight" label="Kronologisk" value="Chrono" />
                     <RadioPanel variant="midnight" label="Race" value="Race" />
                 </RadioGroup>
             </div>

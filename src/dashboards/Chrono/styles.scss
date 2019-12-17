@@ -1,0 +1,29 @@
+@import '../../assets/styles/import.scss';
+
+.chrono {
+    &__tiles {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+
+        .tile {
+            margin-right: 2rem;
+            max-height: 75vh;
+            overflow-y: scroll;
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    .chrono {
+        &__tiles {
+            display: block;
+        }
+
+        .tile {
+            margin-bottom: 1rem;
+            max-height: unset;
+            width: 100%;
+        }
+    }
+}
