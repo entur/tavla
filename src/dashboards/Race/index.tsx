@@ -1,5 +1,9 @@
 import React from 'react'
 import { Heading2 } from '@entur/typography'
+import { LegBone } from '@entur/component-library'
+import { colors } from '@entur/tokens'
+
+import '@entur/component-library/lib/index.css'
 
 import {
     getIcon, getIconColor, timeUntil, useCounter,
@@ -10,16 +14,53 @@ import DashboardWrapper from '../../containers/DashboardWrapper'
 
 import './styles.scss'
 
-const TICKS = [1, 2, 3, 5, 10, 15]
+const TICKS = [-2, 0, 1, 2, 3, 5, 10, 15, 20, 30]
 
-function Tick({ minutes }): JSX.Element {
+// Use this to scale the race track.
+const ZOOM = 1
+
+function diffSincePreviousTick(minute: number): number {
+    if (minute <= 0) return -1 * minute
+    const index = TICKS.indexOf(minute)
+    if (index < 0) return 0
+    const prev = TICKS[index - 1] || 0
+    return minute - prev
+}
+
+function competitorPosition(waitTime: number): number {
+    const baseOffset = 25
+    const negativeTickOffset = Math.abs(TICKS.filter(tick => tick < 0).reduce((a, b) => a + b, 0))
+    return (waitTime * ZOOM) + (negativeTickOffset * 60 * ZOOM) + baseOffset
+}
+
+function Tick({ minutes, index }): JSX.Element {
+    let label = `${minutes} min`
+    let marginLeft = -30
+
+    if (minutes === 0) {
+        label = 'Nå'
+        marginLeft = -20
+    }
+
+    if (minutes < 0) {
+        label = ''
+    }
+
+    const width = diffSincePreviousTick(minutes) * (60 * ZOOM)
+    const color = minutes < 0 ? 'grey' : colors.brand.coral
+
     return (
-        <div
-            className="race__tick"
-            style={{ right: minutes * 60 }}
-        >
-            <div style={{ width: 2, height: 16, backgroundColor: 'white' }} />
-            <div>{`${minutes} min`}</div>
+        <div style={{ minWidth: width }}>
+            <LegBone
+                className="race__leg-bone"
+                pattern="line"
+                color={color}
+                showStop={index <= TICKS.length}
+                showStart={index === 0}
+            />
+            <div className="race__tick" style={{ marginLeft }}>
+                { label }
+            </div>
         </div>
     )
 }
@@ -57,11 +98,13 @@ const RaceDashboard = ({ history }: Props): JSX.Element => {
                                         const Icon = getIcon(type)
                                         const color = getIconColor(type)
                                         return (
-                                            <div className="race__competitor" style={{ right: waitTime + 5 * 16 }}>
+                                            <div
+                                                key={serviceJourneyId}
+                                                className="race__competitor"
+                                                style={{ right: competitorPosition(waitTime) }}
+                                            >
                                                 <Label>{ route }</Label>
                                                 <Icon
-                                                    key={serviceJourneyId}
-                                                    style={{ right: waitTime + 5 * 16 }}
                                                     color={color}
                                                     size="large"
                                                 />
@@ -69,7 +112,11 @@ const RaceDashboard = ({ history }: Props): JSX.Element => {
                                         )
                                     })}
                                 </div>
-                                { TICKS.map(minutes => <Tick key={minutes} minutes={minutes} />) }
+                                <div className="race__line">
+                                    { [...TICKS].reverse().map((minutes, index) => {
+                                        return <Tick key={minutes} minutes={minutes} index={index} />
+                                    }) }
+                                </div>
                             </div>
                         ))
                 }

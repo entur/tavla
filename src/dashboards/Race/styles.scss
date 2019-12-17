@@ -3,6 +3,10 @@
 .race {
     padding: 2rem 4rem;
 
+    .entur-leg-line--direction-horizontal {
+        min-width: unset;
+    }
+
     &__stop {
         background-color: $colors-blues-blue10;
         width: calc(100% - 8rem);
@@ -14,16 +18,24 @@
 
     &__track {
         height: 6rem;
-        border-bottom: 4px solid $colors-brand-coral;
         margin: 2rem 0 1rem 0;
         overflow: hidden;
+    }
+
+    &__line {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    &__leg-bone {
+        margin-right: 0.125rem;
     }
 
     &__competitor {
         position: absolute;
         text-align: center;
         transition: 1s all;
-        bottom: 50px;
+        bottom: 75px;
     }
 
     &__label {
@@ -52,10 +64,6 @@
     }
 
     &__tick {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        text-align: center;
-        position: absolute;
+        margin-top: 5px;
     }
 }
