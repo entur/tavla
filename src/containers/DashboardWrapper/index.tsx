@@ -42,7 +42,7 @@ function DashboardWrapper(props: Props): JSX.Element {
 
     const noData = (!stopPlacesWithDepartures || !stopPlacesWithDepartures.length) && (!bikeRentalStations || !bikeRentalStations.length)
 
-    const renderContents = (): JSX.Element => {
+    const renderContents = (): JSX.Element | Array<JSX.Element> => {
         if (!noData && !initialLoading) {
             return children
         }
@@ -83,7 +83,7 @@ interface Props {
     stopPlacesWithDepartures?: Array<StopPlaceWithDepartures> | null,
     bikeRentalStations?: Array<BikeRentalStation> | null,
     className: string,
-    children: JSX.Element,
+    children: JSX.Element | Array<JSX.Element>,
     history: any,
 }
 
