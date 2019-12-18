@@ -16,7 +16,7 @@ import DashboardWrapper from '../../containers/DashboardWrapper'
 
 import './styles.scss'
 
-const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30]
+const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]
 
 // Use this to scale the race track.
 const ZOOM = 1
