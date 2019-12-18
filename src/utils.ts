@@ -114,7 +114,10 @@ export function timeUntil(time: string): number {
 }
 
 export function transformDepartureToLineData(departure: Departure): LineData {
-    const { expectedDepartureTime, destinationDisplay, serviceJourney } = departure
+    const {
+        date, expectedDepartureTime, destinationDisplay, serviceJourney,
+    } = departure
+
     const { line } = serviceJourney
     const departureTime = moment(expectedDepartureTime)
     const minDiff = departureTime.diff(moment(), 'minutes')
@@ -125,7 +128,7 @@ export function transformDepartureToLineData(departure: Departure): LineData {
     const subType = departure.serviceJourney.transportSubmode
 
     return {
-        serviceJourneyId: departure.serviceJourney.id,
+        id: `${date}::${departure.serviceJourney.id}`,
         expectedDepartureTime,
         type: transportMode,
         subType,

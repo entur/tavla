@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Heading2 } from '@entur/typography'
 import { LegBone } from '@entur/component-library'
 import { LegMode } from '@entur/sdk'
@@ -120,17 +120,17 @@ const RaceDashboard = ({ history }: Props): JSX.Element => {
                                     Object.entries(groupDeparturesByMode(stop.departures))
                                         .sort(([ modeA ], [ modeB ]) => orderModes(modeA, modeB))
                                         .map(([mode, departures]) => (
-                                            <>
+                                            <Fragment key={mode}>
                                                 <div className="race__track">
                                                     { departures.map(({
-                                                        type, serviceJourneyId, expectedDepartureTime, route,
+                                                        id, type, expectedDepartureTime, route,
                                                     }) => {
                                                         const waitTime = timeUntil(expectedDepartureTime)
                                                         const Icon = getIcon(type)
                                                         const color = getIconColor(type)
                                                         return (
                                                             <div
-                                                                key={serviceJourneyId}
+                                                                key={id}
                                                                 className="race__competitor"
                                                                 style={{ right: competitorPosition(waitTime) }}
                                                             >
@@ -156,7 +156,7 @@ const RaceDashboard = ({ history }: Props): JSX.Element => {
                                                             />
                                                         ) }) }
                                                 </div>
-                                            </>
+                                            </Fragment>
                                         ))
                                 }
                             </div>

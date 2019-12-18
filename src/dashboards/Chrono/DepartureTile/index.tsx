@@ -30,21 +30,21 @@ function getTransportHeaderIcons(departures: Array<LineData>, hiddenModes?: Arra
 }
 
 const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
-    const { departures, name, id } = stopPlaceWithDepartures
+    const { departures, name } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
 
     return (
         <Tile title={name} icons={headerIcons}>
             {
                 departures.map(({
-                    serviceJourneyId, route, type, subType, time,
+                    id: departureId, route, type, subType, time,
                 }) => {
                     const Icon = getIcon(type, subType)
                     const iconColor = getIconColor(type, subType)
 
                     return (
                         <TileRow
-                            key={`${id}${serviceJourneyId}`}
+                            key={departureId}
                             label={route}
                             subLabel={time}
                             icon={Icon ? <Icon height={ 32 } width={ 32 } color={ iconColor } className="route-icon" /> : null}

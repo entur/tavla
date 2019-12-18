@@ -1,7 +1,7 @@
 import { LegMode, TransportSubmode, StopPlace } from '@entur/sdk'
 
 export interface LineData {
-    serviceJourneyId: string,
+    id: string,
     type: LegMode,
     subType: TransportSubmode,
     time: string,
