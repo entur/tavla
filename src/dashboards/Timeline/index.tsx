@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import { Heading2 } from '@entur/typography'
 import { LegBone } from '@entur/component-library'
 import { LegMode } from '@entur/sdk'
@@ -103,6 +103,15 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
     useCounter()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
+    const data = useMemo(() => (stopPlacesWithDepartures || [])
+        .filter(({ departures }) => departures.length > 0)
+        .map(({ id, name, departures }) => ({
+            stopId: id,
+            name,
+            groupedDepartures: Object.entries(groupDeparturesByMode(departures.reverse()))
+                .sort(([ modeA ], [ modeB ]) => orderModes(modeA, modeB)),
+        })), [stopPlacesWithDepartures])
+
     return (
         <DashboardWrapper
             className="timeline"
@@ -111,56 +120,52 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
         >
             <div className="timeline__body">
                 {
-                    (stopPlacesWithDepartures || [])
-                        .filter(({ departures }) => departures.length > 0)
-                        .map((stop) => (
-                            <div key={stop.id} className="timeline__stop">
-                                <Heading2 margin="none" style={{ margin: 0 }}>{stop.name}</Heading2>
-                                {
-                                    Object.entries(groupDeparturesByMode(stop.departures))
-                                        .sort(([ modeA ], [ modeB ]) => orderModes(modeA, modeB))
-                                        .map(([mode, departures]) => (
-                                            <Fragment key={mode}>
-                                                <div className="timeline__track">
-                                                    { departures.map(({
-                                                        id, type, expectedDepartureTime, route,
-                                                    }) => {
-                                                        const waitTime = timeUntil(expectedDepartureTime)
-                                                        const Icon = getIcon(type)
-                                                        const color = getIconColor(type)
-                                                        return (
-                                                            <div
-                                                                key={id}
-                                                                className="timeline__competitor"
-                                                                style={{ right: competitorPosition(waitTime) }}
-                                                            >
-                                                                <div className="timeline__label">
-                                                                    {route}
-                                                                </div>
-                                                                <Icon
-                                                                    color={color}
-                                                                    size="large"
-                                                                />
-                                                            </div>
-                                                        )
-                                                    })}
-                                                </div>
-                                                <div className="timeline__line">
-                                                    { [...TICKS].reverse().map((minutes, index) => {
-                                                        return (
-                                                            <Tick
-                                                                key={minutes}
-                                                                mode={mode}
-                                                                minutes={minutes}
-                                                                index={index}
-                                                            />
-                                                        ) }) }
-                                                </div>
-                                            </Fragment>
-                                        ))
-                                }
-                            </div>
-                        ))
+                    data.map(({ stopId, name, groupedDepartures }) => (
+                        <div key={stopId} className="timeline__stop">
+                            <Heading2 margin="none" style={{ margin: 0 }}>{name}</Heading2>
+                            {
+                                groupedDepartures.map(([mode, departures]) => (
+                                    <Fragment key={mode}>
+                                        <div className="timeline__track">
+                                            { departures.map(({
+                                                id, type, expectedDepartureTime, route,
+                                            }) => {
+                                                const waitTime = timeUntil(expectedDepartureTime)
+                                                const Icon = getIcon(type)
+                                                const color = getIconColor(type)
+                                                return (
+                                                    <div
+                                                        key={id}
+                                                        className="timeline__competitor"
+                                                        style={{ right: competitorPosition(waitTime) }}
+                                                    >
+                                                        <div className="timeline__label">
+                                                            {route}
+                                                        </div>
+                                                        <Icon
+                                                            color={color}
+                                                            size="large"
+                                                        />
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
+                                        <div className="timeline__line">
+                                            { [...TICKS].reverse().map((minutes, index) => {
+                                                return (
+                                                    <Tick
+                                                        key={minutes}
+                                                        mode={mode}
+                                                        minutes={minutes}
+                                                        index={index}
+                                                    />
+                                                ) }) }
+                                        </div>
+                                    </Fragment>
+                                ))
+                            }
+                        </div>
+                    ))
                 }
             </div>
         </DashboardWrapper>
