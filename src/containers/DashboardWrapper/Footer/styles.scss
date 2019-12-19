@@ -27,11 +27,15 @@
     width: 100%;
     border: $border-widths-default solid $colors-greys-grey20;
     border-radius: $border-radiuses-default;
-    padding: 2rem 1rem;
+    padding: 1rem;
     margin: 0.5rem 0;
 
     &--checked {
         border: 2px solid $colors-brand-blue;
+    }
+
+    &__children {
+        max-width: 85%;
     }
 
     &:hover {
@@ -39,11 +43,14 @@
     }
 
     h3 {
+        font-size: $font-sizes-large;
         margin: 0;
+        margin-top: 4px;
     }
 
     p {
         margin-bottom: 0;
+        margin-top: 0.25rem;
     }
 
     input {
@@ -55,7 +62,6 @@
         width: 30px;
         border: $border-widths-default solid $colors-greys-grey20;
         border-radius: 15px;
-        background-color: transpr;
         float: right;
         display: flex;
         align-items: center;
@@ -83,7 +89,7 @@
         flex-grow: 1;
 
         &:first-child {
-            margin-right: 5px;
+            margin-right: 1rem;
         }
     }
 }
