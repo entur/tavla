@@ -1,6 +1,6 @@
 @import '../../assets/styles/import.scss';
 
-.enturdash {
+.compact {
     &__tiles {
         display: flex;
         flex-direction: row;
@@ -15,7 +15,7 @@
 }
 
 @media (max-width: 1000px) {
-    .enturdash {
+    .compact {
         padding: 1rem;
         overflow: auto;
 

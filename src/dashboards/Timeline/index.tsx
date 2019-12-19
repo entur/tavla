@@ -86,42 +86,42 @@ function Tick({ minutes, mode, index }): JSX.Element {
     return (
         <div style={{ minWidth: width }}>
             <LegBone
-                className="race__leg-bone"
+                className="timeline__leg-bone"
                 pattern={getLegBonePattern(mode)}
                 color={color}
                 showStop={index <= TICKS.length}
                 showStart={index === 0}
             />
-            <div className="race__tick" style={{ marginLeft }}>
+            <div className="timeline__tick" style={{ marginLeft }}>
                 { label }
             </div>
         </div>
     )
 }
 
-const RaceDashboard = ({ history }: Props): JSX.Element => {
+const TimelineDashboard = ({ history }: Props): JSX.Element => {
     useCounter()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
     return (
         <DashboardWrapper
-            className="race"
+            className="timeline"
             history={history}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
-            <div className="race__body">
+            <div className="timeline__body">
                 {
                     (stopPlacesWithDepartures || [])
                         .filter(({ departures }) => departures.length > 0)
                         .map((stop) => (
-                            <div key={stop.id} className="race__stop">
+                            <div key={stop.id} className="timeline__stop">
                                 <Heading2 margin="none" style={{ margin: 0 }}>{stop.name}</Heading2>
                                 {
                                     Object.entries(groupDeparturesByMode(stop.departures))
                                         .sort(([ modeA ], [ modeB ]) => orderModes(modeA, modeB))
                                         .map(([mode, departures]) => (
                                             <Fragment key={mode}>
-                                                <div className="race__track">
+                                                <div className="timeline__track">
                                                     { departures.map(({
                                                         id, type, expectedDepartureTime, route,
                                                     }) => {
@@ -131,10 +131,10 @@ const RaceDashboard = ({ history }: Props): JSX.Element => {
                                                         return (
                                                             <div
                                                                 key={id}
-                                                                className="race__competitor"
+                                                                className="timeline__competitor"
                                                                 style={{ right: competitorPosition(waitTime) }}
                                                             >
-                                                                <div className="race__label">
+                                                                <div className="timeline__label">
                                                                     {route}
                                                                 </div>
                                                                 <Icon
@@ -145,7 +145,7 @@ const RaceDashboard = ({ history }: Props): JSX.Element => {
                                                         )
                                                     })}
                                                 </div>
-                                                <div className="race__line">
+                                                <div className="timeline__line">
                                                     { [...TICKS].reverse().map((minutes, index) => {
                                                         return (
                                                             <Tick
@@ -171,4 +171,4 @@ interface Props {
     history: any,
 }
 
-export default RaceDashboard
+export default TimelineDashboard

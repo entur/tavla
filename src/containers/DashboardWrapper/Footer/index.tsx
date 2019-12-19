@@ -90,7 +90,7 @@ function Footer({ className, history }: Props): JSX.Element {
                         <Heading3>Kronologisk</Heading3>
                         <Paragraph>Hver avgang får sin egen rad.</Paragraph>
                     </RadioBox>
-                    <RadioBox value="Race" selected={choice === 'Race'} onChange={onChange}>
+                    <RadioBox value="Timeline" selected={choice === 'Timeline'} onChange={onChange}>
                         <Heading3>Tidslinja</Heading3>
                         <Paragraph>Avgangene ruller mot høyre mot målet. Ikke egnet for bysykkel.</Paragraph>
                     </RadioBox>
