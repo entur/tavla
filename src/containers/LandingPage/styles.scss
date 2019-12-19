@@ -25,6 +25,10 @@
         margin-bottom: 0;
     }
 
+    &__logo {
+        height: 54px;
+    }
+
     &__content {
         display: flex;
         flex-direction: column;

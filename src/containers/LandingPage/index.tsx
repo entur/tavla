@@ -19,7 +19,12 @@ const LandingPage = ({ history }: Props): JSX.Element => {
     return (
         <div className="landing-page">
             <header>
-                <h1><TavlaLogo theme="light" /></h1>
+                <h1>
+                    <TavlaLogo
+                        className="landing-page__logo"
+                        theme="light"
+                    />
+                </h1>
                 <h2>Sanntidstavla du selv kan tilpasse etter dine behov.</h2>
             </header>
             <div className="github-logo">
