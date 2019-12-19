@@ -2,7 +2,7 @@
 
 Tavla ("The Board") is a personal departure board that you can configure yourself. Find the closest stop places to you and choose your desired lines in a simple admin panel.
 
-Go to [tavla.en-tur.no](https://tavla.en-tur.no) to configure your table today.
+Go to [tavla.entur.no](https://tavla.entur.no) to configure your table today.
 
 Subscribe to updates to Tavla by using GitHub's "Watch" feature.
 
