@@ -1,7 +1,6 @@
 @import '../../../assets/styles/import.scss';
 
 .footer {
-    width: 90%;
     height: 80px;
     align-items: center;
     bottom: 3rem;
@@ -10,6 +9,8 @@
     position: fixed;
     background-color: $colors-brand-blue;
     display: flex;
+    width: 100%;
+    padding: 0 4rem;
 
     &__actions {
         display: flex;
@@ -90,25 +91,12 @@
 @media (max-height: 900px) {
     .footer {
         padding: 3rem 1rem;
-        bottom: 0;
-    }
-}
-
-@media (max-width: 1200px) {
-    .footer {
-        width: 95%;
     }
 }
 
 @media (max-width: 480px) {
     .footer {
-        bottom: 0;
         position: sticky;
-        padding: 10px 2% 0 10px;
-        width: 100%;
-
-        &__back-button {
-            opacity: 1;
-        }
+        padding: 0 1rem 0 0;
     }
 }
