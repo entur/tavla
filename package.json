@@ -56,7 +56,7 @@
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "@types/lodash.debounce": "^4.0.6",
-    "@types/react": "^16.9.13",
+    "@types/react": "^16.9.17",
     "@types/react-autosuggest": "^9.3.13",
     "@typescript-eslint/eslint-plugin": "^2.12.0",
     "@typescript-eslint/parser": "^2.12.0",
@@ -67,8 +67,8 @@
     "css-loader": "^3.4.0",
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^1.7.0",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
@@ -78,11 +78,11 @@
     "node-sass": "^4.13.0",
     "sass-loader": "^7.3.1",
     "style-loader": "^0.23.1",
-    "stylelint": "^10.1.0",
-    "stylelint-config-standard": "^18.3.0",
+    "stylelint": "^12.0.0",
+    "stylelint-config-standard": "^19.0.0",
     "typescript": "^3.7.3",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.0"
+    "webpack-dev-server": "^3.10.1"
   }
 }
