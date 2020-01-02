@@ -2,18 +2,18 @@
 
 .enturdash {
     &__tiles {
-        display: flex;
+        display: block;
         flex-direction: row;
         overflow-x: auto;
 
         .tile {
-            margin-right: 2rem;
-            max-height: 75vh;
+            width: 100%;
+            padding-top: 2rem;
             overflow-y: scroll;
+            margin-bottom: 1rem;
         }
     }
 }
-
 
 .react-grid-layout {
     position: relative;
@@ -22,6 +22,7 @@
   .react-grid-item {
     transition: all 200ms ease;
     transition-property: left, top;
+    z-index: 1;
   }
   .react-grid-item.cssTransforms {
     transition-property: transform;
@@ -42,7 +43,7 @@
   }
 
   .react-grid-item.react-grid-placeholder {
-    background: red;//$colors-blues-blue20;
+    background: $colors-blues-blue20;
     opacity: 0.2;
     transition-duration: 100ms;
     z-index: 2;
@@ -72,15 +73,3 @@
     border-right: 2px solid rgba(0, 0, 0, 0.4);
     border-bottom: 2px solid rgba(0, 0, 0, 0.4);
   }
-
-.enturdash {
-    &__tiles {
-        display: block;
-    }
-
-    .tile {
-        margin-bottom: 1rem;
-        max-height: unset;
-        width: 100%;
-    }
-}

@@ -9,9 +9,9 @@ import TileRow from '../components/TileRow'
 
 const BikeIcon = getIcon('bicycle')
 
-const BikeTile = ({ stations, key }: Props): JSX.Element => {
+const BikeTile = ({ stations }: Props): JSX.Element => {
     return (
-        <Tile key={key} title="Bysykkel" icons={[<BikeIcon height={ 32 } width={ 32 } color={colors.blues.blue60} />]}>
+        <Tile title="Bysykkel" icons={[<BikeIcon height={ 32 } width={ 32 } color={colors.blues.blue60} />]}>
             {
                 stations.map(({
                     name, bikesAvailable, id, spacesAvailable,
@@ -32,8 +32,7 @@ const BikeTile = ({ stations, key }: Props): JSX.Element => {
 }
 
 interface Props {
-    stations: Array<BikeRentalStation>,
-    key: string
+    stations: Array<BikeRentalStation>
 }
 
 export default BikeTile
