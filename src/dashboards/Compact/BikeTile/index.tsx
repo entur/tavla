@@ -32,7 +32,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
 }
 
 interface Props {
-    stations: Array<BikeRentalStation>
+    stations: Array<BikeRentalStation>,
 }
 
 export default BikeTile

@@ -1,18 +1,17 @@
-export function getFromLocalStorage(key) {
-  let ls = {};
-  if (window.localStorage) {
-    try {
-      ls = JSON.parse(window.localStorage.getItem(key)) || {};
+export function getFromLocalStorage(key): void {
+    let ls = {}
+    if (window.localStorage) {
+        try {
+            ls = JSON.parse(window.localStorage.getItem(key)) || {}
+        }
+        catch (e) {
+            console.log(e)
+        }
     }
-    catch(e){
-      console.log(e)
-    }
-  }
-  return ls;
+    return ls
 }
 
-
-export function saveToLocalStorage(key, value) {
+export function saveToLocalStorage(key, value): void {
     if (!window.localStorage) return
-    window.localStorage.setItem(key, JSON.stringify(value));
+    window.localStorage.setItem(key, JSON.stringify(value))
 }
