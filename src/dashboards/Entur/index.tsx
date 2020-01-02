@@ -6,45 +6,25 @@ import DashboardWrapper from '../../containers/DashboardWrapper'
 import DepartureTile from './DepartureTile'
 import RGL, { WidthProvider, Responsive } from 'react-grid-layout';
 
+import { getFromLocalStorage, saveToLocalStorage } from '../../settings/LocalStorage'
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 import './styles.scss'
 
-function getFromLS(key) {
-  let ls = {};
-  if (window.localStorage) {
-    try {
-      ls = JSON.parse(window.localStorage.getItem("tavla-dashboard-laout")) || {};
-    }
-    catch(e){
-      console.log(e)
-    }
-  }
-  return ls[key];
-}
-
-
-function saveToLS(key, value) {
-  if (window.localStorage) {
-    window.localStorage.setItem(
-      "tavla-dashboard-laout",
-      JSON.stringify({
-        [key]: value
-      })
-    );
-  }
-}
-
-function onLayoutChange(layout, layouts) {
-   saveToLS("layouts", layouts)
+function onLayoutChange(layouts, key) {
+    saveToLocalStorage(key, layouts)
 }
 
 const EnturDashboard = ({ history }: Props): JSX.Element => {
+    const dashboardKey = history.location.key
+
     const bikeRentalStations = useBikeRentalStations()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
     const numberOfStopplaces = stopPlacesWithDepartures ? stopPlacesWithDepartures.length : 0
-    const lay = getFromLS("layouts")
+    const localStorageLayout = getFromLocalStorage(history.location.key)
+
     return (
        <DashboardWrapper
             className="enturdash"
@@ -55,11 +35,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
             <div className="enturdash__tiles">
              <ResponsiveReactGridLayout
                 cols={{ lg: numberOfStopplaces }}
-                layouts={lay}
+                layouts={localStorageLayout}
                 compactType="horizontal"
                 isResizable={true}
-                margin={[10,20]}
-                onLayoutChange={(layout, layouts) =>  onLayoutChange(layout, layouts) }>
+                onLayoutChange={(layout, layouts) =>  onLayoutChange(layouts, dashboardKey) }>
               {
                     (stopPlacesWithDepartures || [])
                        .filter(({ departures }) => departures.length > 0)
