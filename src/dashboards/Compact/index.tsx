@@ -1,24 +1,26 @@
 import React from 'react'
+import { WidthProvider, Responsive } from 'react-grid-layout'
 
 import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
-import RGL, { WidthProvider, Responsive } from 'react-grid-layout';
+import './styles.scss'
 
 import { getFromLocalStorage, saveToLocalStorage } from '../../settings/LocalStorage'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
-import './styles.scss'
 
-function onLayoutChange(layouts, key) {
+function onLayoutChange(layouts, key): void {
     saveToLocalStorage(key, layouts)
 }
 
-function getDataGrid(index){
-  return { w: 1, maxW: 1, minH: 1, h: 4, x: index, y: 0}
+function getDataGrid(index): Record<string, number> {
+    return {
+        w: 1, maxW: 1, minH: 1, h: 4, x: index, y: 0,
+    }
 }
 
 const EnturDashboard = ({ history }: Props): JSX.Element => {
@@ -27,54 +29,55 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    const numberOfStopplaces = stopPlacesWithDepartures ? stopPlacesWithDepartures.length : 0
+    const numberOfStopPlaces = stopPlacesWithDepartures ? stopPlacesWithDepartures.length : 0
     const anyBikeRentalStations = bikeRentalStations && bikeRentalStations.length
 
     const localStorageLayout = getFromLocalStorage(history.location.key)
     const extraCols = anyBikeRentalStations ? 1 : 0
 
     const cols = {
-      lg: numberOfStopplaces + extraCols,
-      md: numberOfStopplaces + extraCols,
-      sm: 1,
-      xs: 1,
-      xxs: 1
+        lg: numberOfStopPlaces + extraCols,
+        md: numberOfStopPlaces + extraCols,
+        sm: 1,
+        xs: 1,
+        xxs: 1,
     }
 
-
     return (
-       <DashboardWrapper
+        <DashboardWrapper
             className="compact"
             history={history}
             bikeRentalStations={bikeRentalStations}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
             <div className="compact__tiles">
-             <ResponsiveReactGridLayout
-                cols={cols}
-                layouts={localStorageLayout}
-                compactType="horizontal"
-                isResizable={true}
-                onLayoutChange={(layout, layouts) =>  onLayoutChange(layouts, dashboardKey) }>
-              {
-                  (stopPlacesWithDepartures || [])
-                      .filter(({ departures }) => departures.length > 0)
-                      .map((stop, index) => (
-                          <div key={index.toString()} data-grid={getDataGrid(index)}>
-                              <DepartureTile
-                                  key={index}
-                                  stopPlaceWithDepartures={stop}
-                              />
-                          </div>
-                      ))
-                }
-                {
-                  anyBikeRentalStations ?
-                      <div key={numberOfStopplaces.toString()} data-grid={{ w: 1, maxW: 1, minH: 1, h: 4, x: numberOfStopplaces, y: 0}}>
-                          <BikeTile stations={bikeRentalStations} />
-                      </div> : []
-                }
-            </ResponsiveReactGridLayout>
+                <ResponsiveReactGridLayout
+                    cols={cols}
+                    layouts={localStorageLayout}
+                    compactType="horizontal"
+                    isResizable={true}
+                    onLayoutChange={(layout, layouts) => onLayoutChange(layouts, dashboardKey) }
+                >
+                    {
+                        (stopPlacesWithDepartures || [])
+                            .filter(({ departures }) => departures.length > 0)
+                            .map((stop, index) => (
+                                <div key={index.toString()} data-grid={getDataGrid(index)}>
+                                    <DepartureTile
+                                        key={index}
+                                        stopPlaceWithDepartures={stop}
+                                    />
+                                </div>
+                            ))
+                    }
+                    {
+                        anyBikeRentalStations
+                            ? <div key={numberOfStopPlaces.toString()} data-grid={getDataGrid(numberOfStopPlaces)}>
+                                <BikeTile stations={bikeRentalStations} />
+                            </div>
+                            : []
+                    }
+                </ResponsiveReactGridLayout>
             </div>
         </DashboardWrapper>
     )
