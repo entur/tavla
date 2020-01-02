@@ -1,13 +1,13 @@
 import React from 'react'
 import { colors } from '@entur/tokens'
 
-function TavlaLogo({ theme = 'dark', height = 54, width = 296 }: Props): JSX.Element {
+function TavlaLogo({ className, theme = 'dark' }: Props): JSX.Element {
     const fillColor = theme === 'dark' ? 'white' : colors.brand.blue
     return (
         <svg
-            width={width}
-            height={height}
+            className={className}
             xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 300 54"
         >
             <g fill="none" fillRule="evenodd">
                 <path
@@ -34,6 +34,7 @@ function TavlaLogo({ theme = 'dark', height = 54, width = 296 }: Props): JSX.Ele
 }
 
 interface Props {
+    className?: string,
     theme?: 'dark' | 'light',
     height?: number | string,
     width?: number | string,

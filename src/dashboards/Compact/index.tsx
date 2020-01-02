@@ -44,12 +44,12 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     return (
        <DashboardWrapper
-            className="enturdash"
+            className="compact"
             history={history}
             bikeRentalStations={bikeRentalStations}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
-            <div className="enturdash__tiles">
+            <div className="compact__tiles">
              <ResponsiveReactGridLayout
                 cols={cols}
                 layouts={localStorageLayout}

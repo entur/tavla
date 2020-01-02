@@ -1,6 +1,6 @@
 @import '../../assets/styles/import.scss';
 
-.race {
+.timeline {
     padding: 2rem 4rem;
 
     .entur-leg-line--direction-horizontal {
@@ -82,5 +82,12 @@
 
     100% {
         transform: scale(1);
+    }
+}
+
+@media (max-width: 1000px) {
+    .timeline {
+        padding: 1rem;
+        overflow: auto;
     }
 }

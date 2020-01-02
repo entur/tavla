@@ -42,7 +42,7 @@ function DashboardWrapper(props: Props): JSX.Element {
 
     const noData = (!stopPlacesWithDepartures || !stopPlacesWithDepartures.length) && (!bikeRentalStations || !bikeRentalStations.length)
 
-    const renderContents = (): JSX.Element => {
+    const renderContents = (): JSX.Element | Array<JSX.Element> => {
         if (!noData && !initialLoading) {
             return children
         }
@@ -62,10 +62,10 @@ function DashboardWrapper(props: Props): JSX.Element {
         <div className={`dashboard-wrapper ${className}`}>
             <div className="dashboard-wrapper__top">
                 <div className="dashboard-wrapper__logo-wrapper">
-                    <TavlaLogo />
-                    <SubParagraph>Finn din rute på entur.no eller i Entur-appen</SubParagraph>
+                    <TavlaLogo className="dashboard-wrapper__logo" />
+                    <SubParagraph>Finn din rute på entur.no eller i Entur-appen.</SubParagraph>
                 </div>
-                <Clock />
+                <Clock className="dashboard-wrapper__clock" />
             </div>
             { renderContents() }
             <Contrast>
@@ -83,7 +83,7 @@ interface Props {
     stopPlacesWithDepartures?: Array<StopPlaceWithDepartures> | null,
     bikeRentalStations?: Array<BikeRentalStation> | null,
     className: string,
-    children: JSX.Element,
+    children: JSX.Element | Array<JSX.Element>,
     history: any,
 }
 
