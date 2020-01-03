@@ -1,4 +1,4 @@
-export function getFromLocalStorage(key): void {
+export function getFromLocalStorage(key): object {
     let ls = {}
     if (window.localStorage) {
         try {
