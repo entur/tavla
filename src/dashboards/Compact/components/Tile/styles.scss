@@ -1,12 +1,13 @@
 @import '../../../../assets/styles/import.scss';
 
 .tile {
-    height: fit-content;
+    height: 100%;
     width: 25rem;
     background-color: $colors-blues-blue10;
     color: $white;
     flex: none;
     padding: 2rem;
+    overflow: scroll;
 
     &__header {
         display: flex;
