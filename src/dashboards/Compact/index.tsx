@@ -52,6 +52,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         >
             <div className="compact__tiles">
                 <ResponsiveReactGridLayout
+                    key={numberOfStopPlaces}
                     cols={cols}
                     layouts={localStorageLayout}
                     compactType="horizontal"
