@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
+const postcssPresetEnv = require('postcss-preset-env')
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 
@@ -38,15 +39,33 @@ module.exports = (env) => {
                     test: /\.css$/,
                     use: [
                         'style-loader',
-                        { loader: 'css-loader' },
+                        'css-loader',
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                ident: 'postcss',
+                                plugins: () => [
+                                    postcssPresetEnv(),
+                                ],
+                            },
+                        },
                     ],
                 },
                 {
                     test: /\.scss$/,
                     use: [
-                        'style-loader', // creates style nodes from JS strings
-                        'css-loader', // translates CSS into CommonJS
-                        'sass-loader', // compiles Sass to CSS
+                        'style-loader',
+                        'css-loader',
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                ident: 'postcss',
+                                plugins: () => [
+                                    postcssPresetEnv(),
+                                ],
+                            },
+                        },
+                        'sass-loader',
                     ],
                 },
                 {
@@ -59,10 +78,10 @@ module.exports = (env) => {
             ],
         },
         devServer: {
-          open: true,
-          contentBase: OUTPUT_PATH,
-          port: 9090,
-          historyApiFallback: true
+            open: true,
+            contentBase: OUTPUT_PATH,
+            port: 9090,
+            historyApiFallback: true,
         },
         plugins: [
             new HtmlWebPackPlugin({
@@ -70,7 +89,7 @@ module.exports = (env) => {
                 filename: 'index.html',
                 favicon: 'src/assets/images/logo.png',
             }),
-            new Dotenv({ path: path.join(__dirname, `.env.${typeof env === 'string' ? env : 'staging'}`) })
+            new Dotenv({ path: path.join(__dirname, `.env.${typeof env === 'string' ? env : 'staging'}`) }),
         ],
         watch: typeof env !== 'string',
     }
