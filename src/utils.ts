@@ -1,5 +1,8 @@
-import moment, { Moment } from 'moment'
 import { useState, useEffect, ElementType } from 'react'
+
+import differenceInSeconds from 'date-fns/differenceInSeconds'
+import differenceInMinutes from 'date-fns/differenceInMinutes'
+import format from 'date-fns/format'
 
 import {
     BicycleIcon, BusIcon, FerryIcon, SubwayIcon,
@@ -95,9 +98,9 @@ export function groupBy<T>(objectArray: Array<T>, property: string): { [key: str
     }, {})
 }
 
-function formatDeparture(minDiff: number, departureTime: Moment): string {
-    if (minDiff > 15) return departureTime.format('HH:mm')
-    return minDiff < 1 ? 'Nå' : minDiff.toString() + ' min'
+function formatDeparture(minDiff: number, departureTime: Date): string {
+    if (minDiff > 15) return format(departureTime, 'HH:mm')
+    return minDiff < 1 ? 'Nå' : `${minDiff} min`
 }
 
 export function unique<T>(array: Array<T>, isEqual: (a: T, b: T) => boolean = (a, b): boolean => a === b): Array<T> {
@@ -108,9 +111,7 @@ export function unique<T>(array: Array<T>, isEqual: (a: T, b: T) => boolean = (a
 }
 
 export function timeUntil(time: string): number {
-    const departureTime = moment(time)
-    const diff = departureTime.diff(moment(), 'seconds')
-    return diff
+    return differenceInSeconds(new Date(time), new Date())
 }
 
 export function transformDepartureToLineData(departure: Departure): LineData {
@@ -119,8 +120,8 @@ export function transformDepartureToLineData(departure: Departure): LineData {
     } = departure
 
     const { line } = serviceJourney
-    const departureTime = moment(expectedDepartureTime)
-    const minDiff = departureTime.diff(moment(), 'minutes')
+    const departureTime = new Date(expectedDepartureTime)
+    const minDiff = differenceInMinutes(departureTime, new Date())
 
     const route = `${line.publicCode || ''} ${destinationDisplay.frontText}`.trim()
 
