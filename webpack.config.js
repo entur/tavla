@@ -12,7 +12,7 @@ module.exports = (env) => {
         devtool: 'inline-source-map',
         output: {
             path: OUTPUT_PATH,
-            filename: 'bundle.[hash].js',
+            filename: '[name].[hash].js',
             publicPath: '/',
         },
         resolve: {
@@ -92,5 +92,16 @@ module.exports = (env) => {
             new Dotenv({ path: path.join(__dirname, `.env.${typeof env === 'string' ? env : 'staging'}`) }),
         ],
         watch: typeof env !== 'string',
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    commons: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'vendor',
+                        chunks: 'all',
+                    },
+                },
+            },
+        },
     }
 }
