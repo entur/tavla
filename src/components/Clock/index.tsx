@@ -1,20 +1,43 @@
 import React from 'react'
-import moment from 'moment'
 
 import { useCounter } from '../../utils'
 
 import './styles.scss'
 
+const DAYS = [
+    'Søndag',
+    'Mandag',
+    'Tirsdag',
+    'Onsdag',
+    'Torsdag',
+    'Fredag',
+    'Lørdag',
+]
+
+const MONTHS = [
+    'januar',
+    'februar',
+    'mars',
+    'april',
+    'mai',
+    'juni',
+    'juli',
+    'august',
+    'september',
+    'oktober',
+    'november',
+    'desember',
+]
+
 function Clock({ className }: Props): JSX.Element {
     useCounter()
 
-    const now = moment()
-    const dayOfTheWeek = now.locale('nb').format('dddd')
-    const dayNumber = now.date()
-    const monthName = now.locale('nb').format('MMMM')
+    const now = new Date()
 
-    const date = dayOfTheWeek.charAt(0).toUpperCase() + dayOfTheWeek.slice(1) + ' ' + dayNumber + '. ' + monthName
-    const time = now.format('HH:mm')
+    const date = `${DAYS[now.getDay()]} ${now.getDate()}. ${MONTHS[now.getMonth()]}`
+    const hours = `${now.getHours()}`.padStart(2, '0')
+    const minutes = `${now.getMinutes()}`.padStart(2, '0')
+    const time = `${hours}:${minutes}`
 
     return (
         <div className={`clock ${className}`}>
