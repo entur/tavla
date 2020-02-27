@@ -25,8 +25,8 @@ function Slider(props: Props): JSX.Element {
 }
 
 interface Props {
-    distance: number,
-    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    distance: number
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export default Slider

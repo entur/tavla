@@ -34,25 +34,23 @@ function Clock({ className }: Props): JSX.Element {
 
     const now = new Date()
 
-    const date = `${DAYS[now.getDay()]} ${now.getDate()}. ${MONTHS[now.getMonth()]}`
+    const date = `${DAYS[now.getDay()]} ${now.getDate()}. ${
+        MONTHS[now.getMonth()]
+    }`
     const hours = `${now.getHours()}`.padStart(2, '0')
     const minutes = `${now.getMinutes()}`.padStart(2, '0')
     const time = `${hours}:${minutes}`
 
     return (
         <div className={`clock ${className}`}>
-            <div className="clock__time">
-                {time}
-            </div>
-            <div className="clock__date">
-                {date}
-            </div>
+            <div className="clock__time">{time}</div>
+            <div className="clock__date">{date}</div>
         </div>
     )
 }
 
 interface Props {
-    className?: string,
+    className?: string
 }
 
 export default Clock

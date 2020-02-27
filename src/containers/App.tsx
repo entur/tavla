@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-    Route, Switch, Redirect, Router,
-} from 'react-router-dom'
+import { Route, Switch, Redirect, Router } from 'react-router-dom'
 import analytics from 'universal-ga'
 
 import { SettingsContext, useSettings } from '../settings'
@@ -38,7 +36,7 @@ const App = ({ history }: Props): JSX.Element => {
 
     return (
         <SettingsContext.Provider value={settings}>
-            <Router history={ history }>
+            <Router history={history}>
                 <Switch>
                     <Route exact path="/" component={LandingPage} />
                     <Route path="/dashboard" component={Dashboard} />
@@ -52,7 +50,7 @@ const App = ({ history }: Props): JSX.Element => {
 }
 
 interface Props {
-    history: any,
+    history: any
 }
 
 export default App

@@ -20,28 +20,24 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
             <div className="chrono__tiles">
-                {
-                    (stopPlacesWithDepartures || [])
-                        .filter(({ departures }) => departures.length > 0)
-                        .map((stop, index) => (
-                            <DepartureTile
-                                key={index}
-                                stopPlaceWithDepartures={stop}
-                            />
-                        ))
-                }
-                {
-                    bikeRentalStations && bikeRentalStations.length ? (
-                        <BikeTile stations={bikeRentalStations} />
-                    ) : null
-                }
+                {(stopPlacesWithDepartures || [])
+                    .filter(({ departures }) => departures.length > 0)
+                    .map((stop, index) => (
+                        <DepartureTile
+                            key={index}
+                            stopPlaceWithDepartures={stop}
+                        />
+                    ))}
+                {bikeRentalStations && bikeRentalStations.length ? (
+                    <BikeTile stations={bikeRentalStations} />
+                ) : null}
             </div>
         </DashboardWrapper>
     )
 }
 
 interface Props {
-    history: any,
+    history: any
 }
 
 export default ChronoDashboard

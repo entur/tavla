@@ -32,15 +32,15 @@ function journeyplannerPost(query, variables): Promise<any> {
 
 interface EstimatedCall {
     destinationDisplay: {
-        frontText: string,
-    },
+        frontText: string
+    }
     serviceJourney: {
         line: {
-            transportMode: string,
-            transportSubmode: string,
-            publicCode: string,
-        },
-    },
+            transportMode: string
+            transportSubmode: string
+            publicCode: string
+        }
+    }
 }
 
 function getNumericPublicCode(publicCode: string): number | void {
@@ -64,15 +64,22 @@ function publicCodeComparator(a: string, b: string): number {
 }
 
 function estimatedCallsComparator(a: EstimatedCall, b: EstimatedCall): number {
-    const publicCodeDiff = publicCodeComparator(a.serviceJourney.line.publicCode, b.serviceJourney.line.publicCode)
+    const publicCodeDiff = publicCodeComparator(
+        a.serviceJourney.line.publicCode,
+        b.serviceJourney.line.publicCode,
+    )
     if (publicCodeDiff !== 0) {
         return publicCodeDiff
     }
 
-    return a.destinationDisplay.frontText.localeCompare(b.destinationDisplay.frontText)
+    return a.destinationDisplay.frontText.localeCompare(
+        b.destinationDisplay.frontText,
+    )
 }
 
-export async function getStopPlacesWithLines(stopPlaceIds: Array<string>): Promise<Array<StopPlaceWithLines>> {
+export async function getStopPlacesWithLines(
+    stopPlaceIds: Array<string>,
+): Promise<Array<StopPlaceWithLines>> {
     try {
         const variables = { ids: stopPlaceIds }
         const results = await journeyplannerPost(
@@ -100,7 +107,7 @@ export async function getStopPlacesWithLines(stopPlaceIds: Array<string>): Promi
                 }
             }
             `,
-            variables
+            variables,
         )
 
         const stops = results.data.stopPlaces.map(stopPlace => {
@@ -111,8 +118,10 @@ export async function getStopPlacesWithLines(stopPlaceIds: Array<string>): Promi
                     name: `${serviceJourney.line.publicCode} ${destinationDisplay.frontText}`,
                 }))
 
-
-            const uniqueLines = unique(lines, (a: Line, b: Line) => a.name === b.name)
+            const uniqueLines = unique(
+                lines,
+                (a: Line, b: Line) => a.name === b.name,
+            )
 
             return {
                 ...stopPlace,

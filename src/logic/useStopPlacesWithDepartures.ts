@@ -2,45 +2,73 @@ import { useState, useEffect, useMemo } from 'react'
 import { LegMode } from '@entur/sdk'
 
 import { StopPlaceWithDepartures } from '../types'
-import { getPositionFromUrl, transformDepartureToLineData, unique } from '../utils'
+import {
+    getPositionFromUrl,
+    transformDepartureToLineData,
+    unique,
+} from '../utils'
 import service from '../service'
 import { useSettingsContext, Settings } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'
 
 import useNearestPlaces from './useNearestPlaces'
 
-async function fetchStopPlaceDepartures(settings: Settings, nearestStopPlaces: Array<string>): Promise<Array<StopPlaceWithDepartures>> {
-    const {
-        newStops, hiddenStops, hiddenModes, hiddenRoutes,
-    } = settings
+async function fetchStopPlaceDepartures(
+    settings: Settings,
+    nearestStopPlaces: Array<string>,
+): Promise<Array<StopPlaceWithDepartures>> {
+    const { newStops, hiddenStops, hiddenModes, hiddenRoutes } = settings
 
-    const allStopPlaceIds = unique([...newStops, ...nearestStopPlaces])
-        .filter(id => !hiddenStops.includes(id))
+    const allStopPlaceIds = unique([...newStops, ...nearestStopPlaces]).filter(
+        id => !hiddenStops.includes(id),
+    )
 
-    const allStopPlaceIdsWithoutDuplicateNumber = allStopPlaceIds.map(id => id.replace(/-\d+$/, ''))
+    const allStopPlaceIdsWithoutDuplicateNumber = allStopPlaceIds.map(id =>
+        id.replace(/-\d+$/, ''),
+    )
 
-    const allStopPlaces = await service.getStopPlaces(allStopPlaceIdsWithoutDuplicateNumber)
-    const sortedStops = allStopPlaces.sort((a, b) => a.name.localeCompare(b.name, 'no'))
+    const allStopPlaces = await service.getStopPlaces(
+        allStopPlaceIdsWithoutDuplicateNumber,
+    )
+    const sortedStops = allStopPlaces.sort((a, b) =>
+        a.name.localeCompare(b.name, 'no'),
+    )
 
-    const whiteListedModes = Object.values(LegMode).filter((mode: LegMode) => !hiddenModes.includes(mode))
+    const whiteListedModes = Object.values(LegMode).filter(
+        (mode: LegMode) => !hiddenModes.includes(mode),
+    )
 
-    const departures = await service.getDeparturesFromStopPlaces(allStopPlaceIdsWithoutDuplicateNumber, {
-        includeNonBoarding: false,
-        limit: 200,
-        limitPerLine: 3,
-        whiteListedModes,
-    })
+    const departures = await service.getDeparturesFromStopPlaces(
+        allStopPlaceIdsWithoutDuplicateNumber,
+        {
+            includeNonBoarding: false,
+            limit: 200,
+            limitPerLine: 3,
+            whiteListedModes,
+        },
+    )
 
     const stopPlacesWithDepartures = allStopPlaceIds.map(stopId => {
-        const stop = sortedStops.find(({ id }) => id === stopId.replace(/-\d+$/, ''))
-        const departuresForThisStopPlace = departures.find(({ id }) => stop.id === id)
-        if (!departuresForThisStopPlace || !departuresForThisStopPlace.departures) {
+        const stop = sortedStops.find(
+            ({ id }) => id === stopId.replace(/-\d+$/, ''),
+        )
+        const departuresForThisStopPlace = departures.find(
+            ({ id }) => stop.id === id,
+        )
+        if (
+            !departuresForThisStopPlace ||
+            !departuresForThisStopPlace.departures
+        ) {
             return stop
         }
 
         const mappedAndFilteredDepartures = departuresForThisStopPlace.departures
             .map(transformDepartureToLineData)
-            .filter(({ route }) => !hiddenRoutes[stopId] || !hiddenRoutes[stopId].includes(route))
+            .filter(
+                ({ route }) =>
+                    !hiddenRoutes[stopId] ||
+                    !hiddenRoutes[stopId].includes(route),
+            )
 
         return {
             ...stop,
@@ -51,23 +79,33 @@ async function fetchStopPlaceDepartures(settings: Settings, nearestStopPlaces: A
     return stopPlacesWithDepartures
 }
 
-export default function useStopPlacesWithDepartures(): Array<StopPlaceWithDepartures> | null {
+export default function useStopPlacesWithDepartures(): Array<
+    StopPlaceWithDepartures
+> | null {
     const position = useMemo(() => getPositionFromUrl(), [])
     const [settings] = useSettingsContext()
     const nearestPlaces = useNearestPlaces(position, settings.distance)
-    const [stopPlacesWithDepartures, setStopPlacesWithDepartures] = useState<Array<StopPlaceWithDepartures> | null>(null)
+    const [
+        stopPlacesWithDepartures,
+        setStopPlacesWithDepartures,
+    ] = useState<Array<StopPlaceWithDepartures> | null>(null)
 
     const nearestStopPlaces = useMemo(
-        () => nearestPlaces
-            .filter(({ type }) => type === 'StopPlace')
-            .map(({ id }) => id),
-        [nearestPlaces]
+        () =>
+            nearestPlaces
+                .filter(({ type }) => type === 'StopPlace')
+                .map(({ id }) => id),
+        [nearestPlaces],
     )
 
     useEffect(() => {
-        fetchStopPlaceDepartures(settings, nearestStopPlaces).then(setStopPlacesWithDepartures)
+        fetchStopPlaceDepartures(settings, nearestStopPlaces).then(
+            setStopPlacesWithDepartures,
+        )
         const intervalId = setInterval(() => {
-            fetchStopPlaceDepartures(settings, nearestStopPlaces).then(setStopPlacesWithDepartures)
+            fetchStopPlaceDepartures(settings, nearestStopPlaces).then(
+                setStopPlacesWithDepartures,
+            )
         }, REFRESH_INTERVAL)
 
         return (): void => clearInterval(intervalId)

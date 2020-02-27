@@ -11,7 +11,11 @@ function AdminHeader(props: Props): JSX.Element {
     return (
         <div className="admin-header">
             <div className="admin-header__left">
-                <BackButton size="medium" className="admin-header__back-button" action={goBackToDashboard} />
+                <BackButton
+                    size="medium"
+                    className="admin-header__back-button"
+                    action={goBackToDashboard}
+                />
                 <h1>Rediger tavle</h1>
             </div>
             <div className="admin-header__right">
@@ -27,7 +31,9 @@ function AdminHeader(props: Props): JSX.Element {
 }
 
 interface Props {
-    goBackToDashboard: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+    goBackToDashboard: (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    ) => void
 }
 
 export default AdminHeader

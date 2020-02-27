@@ -2,14 +2,20 @@ import React, { useState, useEffect } from 'react'
 import ReactAutosuggest from 'react-autosuggest'
 
 import service from '../../../service'
-import { useDebounce, mapFeaturesToSuggestions, Suggestion } from '../../../utils'
+import {
+    useDebounce,
+    mapFeaturesToSuggestions,
+    Suggestion,
+} from '../../../utils'
 
 import './styles.scss'
 
 async function fetchSuggestions(value: string): Promise<Array<Suggestion>> {
     if (!value.trim().length) return []
 
-    const featuresData = await service.getFeatures(value, undefined, { layers: ['venue'] })
+    const featuresData = await service.getFeatures(value, undefined, {
+        layers: ['venue'],
+    })
     return mapFeaturesToSuggestions(featuresData)
 }
 
@@ -26,9 +32,12 @@ const SelectionPanelSearch = ({ handleAddNewStop }: Props): JSX.Element => {
         }
     }
 
-    const getSuggestionValue = (suggestion: Suggestion): string => suggestion.name
+    const getSuggestionValue = (suggestion: Suggestion): string =>
+        suggestion.name
 
-    const renderSuggestion = (suggestion: Suggestion): JSX.Element => <div>{suggestion.name}</div>
+    const renderSuggestion = (suggestion: Suggestion): JSX.Element => (
+        <div>{suggestion.name}</div>
+    )
 
     useEffect(() => {
         fetchSuggestions(debouncedValue).then(setSuggestions)
@@ -70,7 +79,7 @@ const SelectionPanelSearch = ({ handleAddNewStop }: Props): JSX.Element => {
 }
 
 interface Props {
-    handleAddNewStop: (stopId: string) => void,
+    handleAddNewStop: (stopId: string) => void
 }
 
 export default SelectionPanelSearch
