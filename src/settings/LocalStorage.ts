@@ -3,8 +3,7 @@ export function getFromLocalStorage(key): object {
     if (window.localStorage) {
         try {
             ls = JSON.parse(window.localStorage.getItem(key)) || {}
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e)
         }
     }

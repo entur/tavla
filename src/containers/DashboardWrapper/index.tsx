@@ -20,27 +20,38 @@ function DashboardWrapper(props: Props): JSX.Element {
     const secondsSinceMount = useCounter()
 
     const {
-        className, children, history, bikeRentalStations, stopPlacesWithDepartures,
+        className,
+        children,
+        history,
+        bikeRentalStations,
+        stopPlacesWithDepartures,
     } = props
 
-    const onSettingsButtonClick = useCallback(event => {
-        const path = window.location.pathname.split('@')[1]
-        history.push(`/admin/@${path}`)
-        event.preventDefault()
-    }, [history])
+    const onSettingsButtonClick = useCallback(
+        event => {
+            const path = window.location.pathname.split('@')[1]
+            history.push(`/admin/@${path}`)
+            event.preventDefault()
+        },
+        [history],
+    )
 
     const [initialLoading, setInitialLoading] = useState<boolean>(true)
 
     useEffect(() => {
-        if (initialLoading
-            && (bikeRentalStations || typeof bikeRentalStations === 'undefined')
-            && (stopPlacesWithDepartures || typeof stopPlacesWithDepartures === 'undefined')
+        if (
+            initialLoading &&
+            (bikeRentalStations || typeof bikeRentalStations === 'undefined') &&
+            (stopPlacesWithDepartures ||
+                typeof stopPlacesWithDepartures === 'undefined')
         ) {
             setInitialLoading(false)
         }
     }, [bikeRentalStations, initialLoading, stopPlacesWithDepartures])
 
-    const noData = (!stopPlacesWithDepartures || !stopPlacesWithDepartures.length) && (!bikeRentalStations || !bikeRentalStations.length)
+    const noData =
+        (!stopPlacesWithDepartures || !stopPlacesWithDepartures.length) &&
+        (!bikeRentalStations || !bikeRentalStations.length)
 
     const renderContents = (): JSX.Element | Array<JSX.Element> => {
         if (!noData && !initialLoading) {
@@ -63,11 +74,13 @@ function DashboardWrapper(props: Props): JSX.Element {
             <div className="dashboard-wrapper__top">
                 <div className="dashboard-wrapper__logo-wrapper">
                     <TavlaLogo className="dashboard-wrapper__logo" />
-                    <SubParagraph>Finn din rute på entur.no eller i Entur-appen.</SubParagraph>
+                    <SubParagraph>
+                        Finn din rute på entur.no eller i Entur-appen.
+                    </SubParagraph>
                 </div>
                 <Clock className="dashboard-wrapper__clock" />
             </div>
-            { renderContents() }
+            {renderContents()}
             <Contrast>
                 <Footer
                     className="dashboard-wrapper__footer"
@@ -80,11 +93,11 @@ function DashboardWrapper(props: Props): JSX.Element {
 }
 
 interface Props {
-    stopPlacesWithDepartures?: Array<StopPlaceWithDepartures> | null,
-    bikeRentalStations?: Array<BikeRentalStation> | null,
-    className: string,
-    children: JSX.Element | Array<JSX.Element>,
-    history: any,
+    stopPlacesWithDepartures?: Array<StopPlaceWithDepartures> | null
+    bikeRentalStations?: Array<BikeRentalStation> | null
+    className: string
+    children: JSX.Element | Array<JSX.Element>
+    history: any
 }
 
 export default DashboardWrapper

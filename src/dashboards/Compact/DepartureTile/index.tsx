@@ -2,9 +2,7 @@ import React from 'react'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 
-import {
-    getIcon, getIconColor, groupBy, unique,
-} from '../../../utils'
+import { getIcon, getIconColor, groupBy, unique } from '../../../utils'
 import { StopPlaceWithDepartures, LineData } from '../../../types'
 
 import Tile from '../components/Tile'
@@ -12,22 +10,32 @@ import TileRow from '../components/TileRow'
 
 import './styles.scss'
 
-function getTransportHeaderIcons(departures: Array<LineData>, hiddenModes?: Array<LegMode>): Array<JSX.Element> {
-    const transportModes = unique(departures
-        .map(({ type, subType }) => ({ type, subType }))
-        .filter(({ type }) => !hiddenModes || !hiddenModes.includes(type)),
-    ((a, b) => a.type === b.type && a.subType === b.subType))
+function getTransportHeaderIcons(
+    departures: Array<LineData>,
+    hiddenModes?: Array<LegMode>,
+): Array<JSX.Element> {
+    const transportModes = unique(
+        departures
+            .map(({ type, subType }) => ({ type, subType }))
+            .filter(({ type }) => !hiddenModes || !hiddenModes.includes(type)),
+        (a, b) => a.type === b.type && a.subType === b.subType,
+    )
 
     const transportIcons = transportModes
-        .map(({ type, subType }) => ({ key: type + subType, Icon: getIcon(type, subType) }))
+        .map(({ type, subType }) => ({
+            key: type + subType,
+            Icon: getIcon(type, subType),
+        }))
         .filter(({ Icon }, index, icons) => {
-            // @ts-ignore
-            const iconIndex = icons.findIndex(icon => icon.Icon.name === Icon.name)
+            const iconIndex = icons.findIndex(
+                // @ts-ignore
+                icon => icon.Icon.name === Icon.name,
+            )
             return iconIndex === index
         })
 
     return transportIcons.map(({ key, Icon }) => (
-        <Icon key={ key } height={ 32 } width={ 32 } color={ colors.blues.blue60 } />
+        <Icon key={key} height={32} width={32} color={colors.blues.blue60} />
     ))
 }
 
@@ -39,30 +47,37 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
 
     return (
         <Tile title={name} icons={headerIcons}>
-            {
-                routes.map((route) => {
-                    const subType = groupedDepartures[route][0].subType
-                    const routeData = groupedDepartures[route].slice(0, 3)
-                    const routeType = routeData[0].type
-                    const Icon = getIcon(routeType, subType)
-                    const iconColor = getIconColor(routeType, subType)
+            {routes.map(route => {
+                const subType = groupedDepartures[route][0].subType
+                const routeData = groupedDepartures[route].slice(0, 3)
+                const routeType = routeData[0].type
+                const Icon = getIcon(routeType, subType)
+                const iconColor = getIconColor(routeType, subType)
 
-                    return (
-                        <TileRow
-                            key={route}
-                            label={route}
-                            subLabels={routeData.map(data => data.time)}
-                            icon={Icon ? <Icon height={ 32 } width={ 32 } color={ iconColor } className="route-icon" /> : null}
-                        />
-                    )
-                })
-            }
+                return (
+                    <TileRow
+                        key={route}
+                        label={route}
+                        subLabels={routeData.map(data => data.time)}
+                        icon={
+                            Icon ? (
+                                <Icon
+                                    height={32}
+                                    width={32}
+                                    color={iconColor}
+                                    className="route-icon"
+                                />
+                            ) : null
+                        }
+                    />
+                )
+            })}
         </Tile>
     )
 }
 
 interface Props {
-    stopPlaceWithDepartures: StopPlaceWithDepartures,
+    stopPlaceWithDepartures: StopPlaceWithDepartures
 }
 
 export default DepartureTile

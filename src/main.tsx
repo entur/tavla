@@ -12,13 +12,13 @@ import App from './containers/App'
 import './main.scss'
 
 const history = createHistory()
-history.listen((location) => {
-    const locationAnonymized = location.pathname.substring(0, location.pathname.indexOf('@'))
+history.listen(location => {
+    const locationAnonymized = location.pathname.substring(
+        0,
+        location.pathname.indexOf('@'),
+    )
     analytics.set('page', locationAnonymized)
     analytics.pageview(locationAnonymized)
 })
 
-ReactDOM.render(
-    <App history={history} />,
-    document.getElementById('app')
-)
+ReactDOM.render(<App history={history} />, document.getElementById('app'))

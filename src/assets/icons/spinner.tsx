@@ -1,6 +1,10 @@
 import React from 'react'
 
-function Spinner({ size = 25, color = '#565659', spin = true }: Props): JSX.Element {
+function Spinner({
+    size = 25,
+    color = '#565659',
+    spin = true,
+}: Props): JSX.Element {
     return (
         <svg
             className={spin ? 'spinner' : ''}
@@ -19,10 +23,10 @@ function Spinner({ size = 25, color = '#565659', spin = true }: Props): JSX.Elem
 }
 
 interface Props {
-    className?: string,
-    color?: string,
-    size?: number | string,
-    spin?: boolean,
+    className?: string
+    color?: string
+    size?: number | string
+    spin?: boolean
 }
 
 export default Spinner

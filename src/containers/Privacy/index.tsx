@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-    Heading1, Heading2, Heading3, Paragraph,
-} from '@entur/typography'
+import { Heading1, Heading2, Heading3, Paragraph } from '@entur/typography'
 
 import BackButton from '../../components/backButton/BackButton'
 
@@ -88,7 +86,7 @@ const Privacy = ({ history }: Props): JSX.Element => {
 }
 
 interface Props {
-    history: any,
+    history: any
 }
 
 export default Privacy

@@ -12,9 +12,9 @@ const BackButton = ({ action, className, size }: Props): JSX.Element => {
 }
 
 interface Props {
-    action: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-    className: string,
-    size?: 'small' | 'medium' | 'large',
+    action: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+    className: string
+    size?: 'small' | 'medium' | 'large'
 }
 
 export default BackButton

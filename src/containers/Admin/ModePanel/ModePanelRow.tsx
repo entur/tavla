@@ -30,7 +30,10 @@ const getTransportModeTitle = (type: LegMode): string => {
 }
 
 const ModePanelRow = ({
-    mode, subMode, onChange, value,
+    mode,
+    subMode,
+    onChange,
+    value,
 }: Props): JSX.Element => {
     const Icon = getIcon(mode, subMode)
     const iconColor = getIconColor(mode, subMode)
@@ -43,9 +46,13 @@ const ModePanelRow = ({
         <div className="mode-panel-row">
             <div>
                 <div>
-                    { Icon ? <Icon height={24} width={24} color={iconColor} /> : null }
+                    {Icon ? (
+                        <Icon height={24} width={24} color={iconColor} />
+                    ) : null}
                 </div>
-                <span className="mode-panel-row__label">{ getTransportModeTitle(mode) }</span>
+                <span className="mode-panel-row__label">
+                    {getTransportModeTitle(mode)}
+                </span>
             </div>
             <SlideSwitch
                 id="SlideSwitch"
@@ -60,10 +67,10 @@ const ModePanelRow = ({
 }
 
 interface Props {
-    mode: LegMode,
-    subMode?: TransportSubmode,
-    value: boolean,
-    onChange: (mode: LegMode) => void,
+    mode: LegMode
+    subMode?: TransportSubmode
+    value: boolean
+    onChange: (mode: LegMode) => void
 }
 
 export default ModePanelRow

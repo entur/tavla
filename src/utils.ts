@@ -5,14 +5,24 @@ import differenceInMinutes from 'date-fns/differenceInMinutes'
 import format from 'date-fns/format'
 
 import {
-    BicycleIcon, BusIcon, FerryIcon, SubwayIcon,
-    TrainIcon, TramIcon, PlaneIcon, CarFerryIcon,
+    BicycleIcon,
+    BusIcon,
+    FerryIcon,
+    SubwayIcon,
+    TrainIcon,
+    TramIcon,
+    PlaneIcon,
+    CarFerryIcon,
 } from '@entur/component-library'
 
 import { colors } from '@entur/tokens'
 
 import {
-    Coordinates, Departure, LegMode, TransportSubmode, Feature,
+    Coordinates,
+    Departure,
+    LegMode,
+    TransportSubmode,
+    Feature,
 } from '@entur/sdk'
 
 import { LineData } from './types'
@@ -59,7 +69,10 @@ export function getIcon(type: LegMode, subMode?: string): ElementType | null {
     }
 }
 
-export function getIconColor(type: LegMode, subType?: TransportSubmode): string {
+export function getIconColor(
+    type: LegMode,
+    subType?: TransportSubmode,
+): string {
     if (isSubModeAirportLink(subType)) return colors.transport.contrast.plane
 
     switch (type) {
@@ -83,11 +96,22 @@ export function getIconColor(type: LegMode, subType?: TransportSubmode): string 
 }
 
 export function getPositionFromUrl(): Coordinates {
-    const positionArray = window.location.pathname.split('/')[2].split('@')[1].split('-').join('.').split(/,/)
-    return { latitude: Number(positionArray[0]), longitude: Number(positionArray[1]) }
+    const positionArray = window.location.pathname
+        .split('/')[2]
+        .split('@')[1]
+        .split('-')
+        .join('.')
+        .split(/,/)
+    return {
+        latitude: Number(positionArray[0]),
+        longitude: Number(positionArray[1]),
+    }
 }
 
-export function groupBy<T>(objectArray: Array<T>, property: string): { [key: string]: Array<T> } {
+export function groupBy<T>(
+    objectArray: Array<T>,
+    property: string,
+): { [key: string]: Array<T> } {
     return objectArray.reduce((acc, obj) => {
         const key = obj[property]
         if (!acc[key]) {
@@ -103,7 +127,10 @@ function formatDeparture(minDiff: number, departureTime: Date): string {
     return minDiff < 1 ? 'Nå' : `${minDiff} min`
 }
 
-export function unique<T>(array: Array<T>, isEqual: (a: T, b: T) => boolean = (a, b): boolean => a === b): Array<T> {
+export function unique<T>(
+    array: Array<T>,
+    isEqual: (a: T, b: T) => boolean = (a, b): boolean => a === b,
+): Array<T> {
     return array.filter((item, index, items) => {
         const previousItems = items.slice(0, index)
         return !previousItems.some(uniqueItem => isEqual(item, uniqueItem))
@@ -116,16 +143,22 @@ export function timeUntil(time: string): number {
 
 export function transformDepartureToLineData(departure: Departure): LineData {
     const {
-        date, expectedDepartureTime, destinationDisplay, serviceJourney,
+        date,
+        expectedDepartureTime,
+        destinationDisplay,
+        serviceJourney,
     } = departure
 
     const { line } = serviceJourney
     const departureTime = new Date(expectedDepartureTime)
     const minDiff = differenceInMinutes(departureTime, new Date())
 
-    const route = `${line.publicCode || ''} ${destinationDisplay.frontText}`.trim()
+    const route = `${line.publicCode || ''} ${
+        destinationDisplay.frontText
+    }`.trim()
 
-    const transportMode = line.transportMode === 'coach' ? 'bus' : line.transportMode
+    const transportMode =
+        line.transportMode === 'coach' ? 'bus' : line.transportMode
     const subType = departure.serviceJourney.transportSubmode
 
     return {
@@ -149,18 +182,15 @@ export function toggleValueInList<T>(list: Array<T>, item: T): Array<T> {
 export function useDebounce<T>(value: T, delay: number): T {
     const [debouncedValue, setDebouncedValue] = useState<T>(value)
 
-    useEffect(
-        () => {
-            const handler = setTimeout(() => {
-                setDebouncedValue(value)
-            }, delay)
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value)
+        }, delay)
 
-            return (): void => {
-                clearTimeout(handler)
-            }
-        },
-        [value, delay]
-    )
+        return (): void => {
+            clearTimeout(handler)
+        }
+    }, [value, delay])
 
     return debouncedValue
 }
@@ -171,8 +201,7 @@ export function useCounter(interval = 1000): number {
     useEffect(() => {
         const timerID = setInterval(() => {
             setTick(tick + 1)
-        },
-        interval)
+        }, interval)
         return (): void => clearInterval(timerID)
     }, [interval, tick])
 
@@ -180,29 +209,40 @@ export function useCounter(interval = 1000): number {
 }
 
 export function isLegMode(mode: string): mode is LegMode {
-    return ['air', 'bus', 'water', 'rail', 'metro', 'tram', 'coach', 'car', 'bicycle', 'foot'].includes(mode)
+    return [
+        'air',
+        'bus',
+        'water',
+        'rail',
+        'metro',
+        'tram',
+        'coach',
+        'car',
+        'bicycle',
+        'foot',
+    ].includes(mode)
 }
 
 export interface Suggestion {
-    name: string,
-    id?: string,
+    name: string
+    id?: string
     coordinates?: {
-        latitude: number,
-        longitude: number,
-    },
+        latitude: number
+        longitude: number
+    }
 }
 
-export function mapFeaturesToSuggestions(features: Array<Feature>): Array<Suggestion> {
-    return features.map(
-        ({ geometry, properties: { id, name, locality } }) => {
-            return {
-                coordinates: {
-                    longitude: geometry.coordinates[0],
-                    latitude: geometry.coordinates[1],
-                },
-                id,
-                name: locality ? `${name}, ${locality}` : name,
-            }
-        },
-    )
+export function mapFeaturesToSuggestions(
+    features: Array<Feature>,
+): Array<Suggestion> {
+    return features.map(({ geometry, properties: { id, name, locality } }) => {
+        return {
+            coordinates: {
+                longitude: geometry.coordinates[0],
+                latitude: geometry.coordinates[1],
+            },
+            id,
+            name: locality ? `${name}, ${locality}` : name,
+        }
+    })
 }

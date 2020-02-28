@@ -21,14 +21,17 @@ function BikePanel(props: Props): JSX.Element {
         }
     }, [hiddenStations.length, setHiddenStations, stations])
 
-    const onToggleStation = useCallback((event) => {
-        const stationId = event.target.id
-        const newDisabledList = toggleValueInList(hiddenStations, stationId)
-        setHiddenStations(newDisabledList)
-    }, [hiddenStations, setHiddenStations])
+    const onToggleStation = useCallback(
+        event => {
+            const stationId = event.target.id
+            const newDisabledList = toggleValueInList(hiddenStations, stationId)
+            setHiddenStations(newDisabledList)
+        },
+        [hiddenStations, setHiddenStations],
+    )
 
     if (!stations.length) {
-        return <div className="selection-panel"/>
+        return <div className="selection-panel" />
     }
 
     return (
@@ -44,30 +47,28 @@ function BikePanel(props: Props): JSX.Element {
                     Velg alle
                 </Checkbox>
             </div>
-            {
-                stations.map(({ name, id }, index) => {
-                    return (
-                        <div key={index} className="bike-panel__row">
-                            <Checkbox
-                                key={id}
-                                id={id}
-                                label={name}
-                                name={name}
-                                checked={!hiddenStations.includes(id)}
-                                onChange={onToggleStation}
-                            >
-                                { name }
-                            </Checkbox>
-                        </div>
-                    )
-                })
-            }
+            {stations.map(({ name, id }, index) => {
+                return (
+                    <div key={index} className="bike-panel__row">
+                        <Checkbox
+                            key={id}
+                            id={id}
+                            label={name}
+                            name={name}
+                            checked={!hiddenStations.includes(id)}
+                            onChange={onToggleStation}
+                        >
+                            {name}
+                        </Checkbox>
+                    </div>
+                )
+            })}
         </div>
     )
 }
 
 interface Props {
-    stations: Array<BikeRentalStation>,
+    stations: Array<BikeRentalStation>
 }
 
 export default BikePanel

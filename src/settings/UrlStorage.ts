@@ -23,10 +23,13 @@ function migrateFromV0(settings: string): Settings {
     const parsed = JSON.parse(atob(settings))
     const migratedHiddenRoutes = parsed.hiddenRoutes
         .map(idAndRouteString => idAndRouteString.split('$'))
-        .reduce((routeMap, [stopPlaceId, routeName]) => ({
-            ...routeMap,
-            [stopPlaceId]: [...routeMap[stopPlaceId] || [], routeName],
-        }), {})
+        .reduce(
+            (routeMap, [stopPlaceId, routeName]) => ({
+                ...routeMap,
+                [stopPlaceId]: [...(routeMap[stopPlaceId] || []), routeName],
+            }),
+            {},
+        )
 
     return {
         ...parsed,
@@ -69,10 +72,15 @@ export function restore(): Settings {
         return migratedSettings
     }
 
-    const settingsWithoutVersionPrefix = settingsString.replace(VERSION_PREFIX_REGEX, '')
+    const settingsWithoutVersionPrefix = settingsString.replace(
+        VERSION_PREFIX_REGEX,
+        '',
+    )
 
     try {
-        const decompressed = lz.decompressFromEncodedURIComponent(settingsWithoutVersionPrefix)
+        const decompressed = lz.decompressFromEncodedURIComponent(
+            settingsWithoutVersionPrefix,
+        )
         const settings = JSON.parse(decompressed)
         return settings
     } catch (error) {

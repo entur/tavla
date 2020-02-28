@@ -12,9 +12,11 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
     const [stations, setStations] = useState([])
 
     useEffect(() => {
-        service.getBikeRentalStationsByPosition(position, 100000).then(newStations => {
-            setStations(newStations)
-        })
+        service
+            .getBikeRentalStationsByPosition(position, 100000)
+            .then(newStations => {
+                setStations(newStations)
+            })
     }, [position])
 
     const getSuggestions = (newValue: string): Array<BikeRentalStation> => {
@@ -23,10 +25,16 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
 
         if (!inputLength) return []
 
-        return stations.filter(station => station.name.toLowerCase().slice(0, inputLength) === inputValue)
+        return stations.filter(
+            station =>
+                station.name.toLowerCase().slice(0, inputLength) === inputValue,
+        )
     }
 
-    const onChange = (event: React.FormEvent<HTMLButtonElement>, changeEvent: ReactAutosuggest.ChangeEvent): void => {
+    const onChange = (
+        event: React.FormEvent<HTMLButtonElement>,
+        changeEvent: ReactAutosuggest.ChangeEvent,
+    ): void => {
         const { newValue } = changeEvent
         setValue(newValue)
     }
@@ -35,11 +43,18 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
         onSelected(suggestion.id)
     }
 
-    const getSuggestionValue = (suggestion: BikeRentalStation): string => suggestion.name
+    const getSuggestionValue = (suggestion: BikeRentalStation): string =>
+        suggestion.name
 
-    const renderSuggestion = (suggestion: BikeRentalStation): JSX.Element => <div>{suggestion.name}</div>
+    const renderSuggestion = (suggestion: BikeRentalStation): JSX.Element => (
+        <div>{suggestion.name}</div>
+    )
 
-    const onSuggestionsFetchRequested = ({ value: newValue }: { value: string }): void => {
+    const onSuggestionsFetchRequested = ({
+        value: newValue,
+    }: {
+        value: string
+    }): void => {
         setSuggestions(getSuggestions(newValue))
     }
 
@@ -71,8 +86,8 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
 }
 
 interface Props {
-    onSelected: (stationId: string) => void,
-    position: Coordinates,
+    onSelected: (stationId: string) => void
+    position: Coordinates
 }
 
 export default BikePanelSearch

@@ -1,6 +1,4 @@
-import React, {
-    useState, useEffect, useMemo, useCallback,
-} from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { Button } from '@entur/button'
 import { BikeRentalStation, LegMode, TransportSubmode } from '@entur/sdk'
 import { Contrast } from '@entur/layout'
@@ -10,12 +8,7 @@ import BikePanel from './BikePanel'
 import ModePanel from './ModePanel'
 import DistanceEditor from './DistanceEditor'
 
-import {
-    getPositionFromUrl,
-    useDebounce,
-    isLegMode,
-    unique,
-} from '../../utils'
+import { getPositionFromUrl, useDebounce, isLegMode, unique } from '../../utils'
 
 import service, { getStopPlacesWithLines } from '../../service'
 import { StopPlaceWithLines } from '../../types'
@@ -34,12 +27,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const position = useMemo(() => getPositionFromUrl(), [])
     const [settings, settingsSetters, persistSettings] = useSettingsContext()
 
-    const {
-        distance,
-        hiddenModes,
-        newStops,
-        newStations,
-    } = settings
+    const { distance, hiddenModes, newStops, newStations } = settings
 
     const {
         setHiddenModes,
@@ -55,21 +43,26 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const nearestPlaces = useNearestPlaces(position, debouncedDistance)
 
     const nearestStopPlaceIds = useMemo(
-        () => nearestPlaces
-            .filter(({ type }) => type === 'StopPlace')
-            .map(({ id }) => id),
-        [nearestPlaces]
+        () =>
+            nearestPlaces
+                .filter(({ type }) => type === 'StopPlace')
+                .map(({ id }) => id),
+        [nearestPlaces],
     )
 
     useEffect(() => {
         const ids = [...newStops, ...nearestStopPlaceIds]
         if (ids.length) {
-            getStopPlacesWithLines(ids.map(id => id.replace(/-\d+$/, ''))).then(resultingStopPlaces => {
-                setStopPlaces(resultingStopPlaces.map((s, index) => ({
-                    ...s,
-                    id: ids[index],
-                })))
-            })
+            getStopPlacesWithLines(ids.map(id => id.replace(/-\d+$/, ''))).then(
+                resultingStopPlaces => {
+                    setStopPlaces(
+                        resultingStopPlaces.map((s, index) => ({
+                            ...s,
+                            id: ids[index],
+                        })),
+                    )
+                },
+            )
         }
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
 
@@ -79,51 +72,70 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             .map(({ id }) => id)
         const ids = [...newStations, ...nearestBikeRentalStationIds]
         if (ids.length) {
-            service.getBikeRentalStations(ids)
-                .then(freshStations => {
-                    const sortedStations = freshStations.sort((a: BikeRentalStation, b: BikeRentalStation) => a.name.localeCompare(b.name, 'no'))
-                    setStations(sortedStations)
-                })
+            service.getBikeRentalStations(ids).then(freshStations => {
+                const sortedStations = freshStations.sort(
+                    (a: BikeRentalStation, b: BikeRentalStation) =>
+                        a.name.localeCompare(b.name, 'no'),
+                )
+                setStations(sortedStations)
+            })
         }
     }, [nearestPlaces, newStations])
 
-    const addNewStop = useCallback((stopId: string) => {
-        const numberOfDuplicates = [...nearestStopPlaceIds, ...newStops]
-            .map(id => id.replace(/-\d+$/, ''))
-            .filter(id => id === stopId)
-            .length
-        const id = !numberOfDuplicates ? stopId : `${stopId}-${numberOfDuplicates}`
-        setNewStops([...newStops, id])
-    }, [nearestStopPlaceIds, newStops, setNewStops])
-
-    const addNewStation = useCallback((stationId: string) => {
-        setNewStations([...newStations, stationId])
-    }, [newStations, setNewStations])
-
-    const modes: Array<{ mode: LegMode, subMode?: TransportSubmode }> = useMemo(
-        () => {
-            const modesFromStopPlaces = stopPlaces
-                .map(stopPlace => stopPlace.lines.map(({ transportMode, transportSubmode }) => ({
-                    mode: transportMode, subMode: transportSubmode,
-                })))
-                .reduce((a, b) => [...a, ...b], [])
-                .filter(({ mode }) => isLegMode(mode))
-
-            const uniqModesFromStopPlaces = unique(modesFromStopPlaces,
-                (a, b) => a.mode === b.mode)
-
-            return (stations.length)
-                ? [{ mode: 'bicycle' }, ...uniqModesFromStopPlaces]
-                : uniqModesFromStopPlaces
+    const addNewStop = useCallback(
+        (stopId: string) => {
+            const numberOfDuplicates = [...nearestStopPlaceIds, ...newStops]
+                .map(id => id.replace(/-\d+$/, ''))
+                .filter(id => id === stopId).length
+            const id = !numberOfDuplicates
+                ? stopId
+                : `${stopId}-${numberOfDuplicates}`
+            setNewStops([...newStops, id])
         },
-        [stations.length, stopPlaces]
+        [nearestStopPlaceIds, newStops, setNewStops],
     )
+
+    const addNewStation = useCallback(
+        (stationId: string) => {
+            setNewStations([...newStations, stationId])
+        },
+        [newStations, setNewStations],
+    )
+
+    const modes: Array<{
+        mode: LegMode
+        subMode?: TransportSubmode
+    }> = useMemo(() => {
+        const modesFromStopPlaces = stopPlaces
+            .map(stopPlace =>
+                stopPlace.lines.map(({ transportMode, transportSubmode }) => ({
+                    mode: transportMode,
+                    subMode: transportSubmode,
+                })),
+            )
+            .reduce((a, b) => [...a, ...b], [])
+            .filter(({ mode }) => isLegMode(mode))
+
+        const uniqModesFromStopPlaces = unique(
+            modesFromStopPlaces,
+            (a, b) => a.mode === b.mode,
+        )
+
+        return stations.length
+            ? [{ mode: 'bicycle' }, ...uniqModesFromStopPlaces]
+            : uniqModesFromStopPlaces
+    }, [stations.length, stopPlaces])
 
     const discardSettingsAndGoToDash = useCallback(() => {
         // eslint-disable-next-line no-restricted-globals
-        const answerIsYes = confirm('Er du sikker på at du vil gå tilbake uten å lagre endringene dine? Lagre-knapp finner du nederst til høyre på siden.')
+        const answerIsYes = confirm(
+            'Er du sikker på at du vil gå tilbake uten å lagre endringene dine? Lagre-knapp finner du nederst til høyre på siden.',
+        )
         if (answerIsYes) {
-            window.location.pathname = window.location.pathname.replace('admin', 'dashboard')
+            window.location.pathname = window.location.pathname.replace(
+                'admin',
+                'dashboard',
+            )
         }
     }, [])
 
@@ -153,19 +165,17 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                     </div>
                     <StopPlacePanel stops={stopPlaces} />
                 </div>
-                {
-                    !hiddenModes.includes('bicycle') ? (
-                        <div className="admin__selection-panel">
-                            <div className="search-stop-places">
-                                <BikePanelSearch
-                                    position={position}
-                                    onSelected={addNewStation}
-                                />
-                            </div>
-                            <BikePanel stations={stations} />
+                {!hiddenModes.includes('bicycle') ? (
+                    <div className="admin__selection-panel">
+                        <div className="search-stop-places">
+                            <BikePanelSearch
+                                position={position}
+                                onSelected={addNewStation}
+                            />
                         </div>
-                    ) : null
-                }
+                        <BikePanel stations={stations} />
+                    </div>
+                ) : null}
             </div>
             <Button
                 className="admin__submit-button"
@@ -179,7 +189,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 }
 
 interface Props {
-    history: any,
+    history: any
 }
 
 export default AdminPage

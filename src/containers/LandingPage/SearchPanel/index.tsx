@@ -1,6 +1,4 @@
-import React, {
-    memo, useState, useMemo, useEffect,
-} from 'react'
+import React, { memo, useState, useMemo, useEffect } from 'react'
 import debounce from 'lodash.debounce'
 import ReactAutosuggest from 'react-autosuggest'
 import { Button } from '@entur/button'
@@ -45,7 +43,6 @@ function getErrorMessage(error): string {
     }
 }
 
-
 const renderSpinner = (): JSX.Element => {
     return (
         <div className="spinner-container">
@@ -54,18 +51,23 @@ const renderSpinner = (): JSX.Element => {
     )
 }
 
-const getFeaturesDebounced = debounce(async (value, showMyPosition, callback) => {
-    const inputLength = value.trim().length
+const getFeaturesDebounced = debounce(
+    async (value, showMyPosition, callback) => {
+        const inputLength = value.trim().length
 
-    const defaultSuggestions = showMyPosition ? [{ name: YOUR_POSITION }] : []
+        const defaultSuggestions = showMyPosition
+            ? [{ name: YOUR_POSITION }]
+            : []
 
-    if (!inputLength) return callback(defaultSuggestions)
+        if (!inputLength) return callback(defaultSuggestions)
 
-    const featuresData = await service.getFeatures(value)
-    const suggestedFeatures = mapFeaturesToSuggestions(featuresData)
-    const features = [...defaultSuggestions, ...suggestedFeatures]
-    return callback(features)
-}, 500)
+        const featuresData = await service.getFeatures(value)
+        const suggestedFeatures = mapFeaturesToSuggestions(featuresData)
+        const features = [...defaultSuggestions, ...suggestedFeatures]
+        return callback(features)
+    },
+    500,
+)
 
 const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
     const [{ denied }, refreshLocationPermission] = useLocationPermission()
@@ -116,13 +118,18 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
     }
 
     const onSuggestionsClearRequested = (): void => {
-        const newSuggestions = showPositionInList ? [{ name: YOUR_POSITION }] : []
+        const newSuggestions = showPositionInList
+            ? [{ name: YOUR_POSITION }]
+            : []
         setSuggestions(newSuggestions)
     }
 
     const handleSuccessLocation = (data: Position): void => {
         refreshLocationPermission()
-        const position = { latitude: data.coords.latitude, longitude: data.coords.longitude }
+        const position = {
+            latitude: data.coords.latitude,
+            longitude: data.coords.longitude,
+        }
         getAddressFromPosition(position)
         setWaiting(false)
     }
@@ -147,7 +154,10 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                 selectedLocationName: YOUR_POSITION,
             }))
 
-            navigator.geolocation.getCurrentPosition(handleSuccessLocation, handleDeniedLocation)
+            navigator.geolocation.getCurrentPosition(
+                handleSuccessLocation,
+                handleDeniedLocation,
+            )
         } else {
             setChosenCoord(suggestion.coordinates)
             setLocation({
@@ -164,14 +174,17 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
         }
     }
 
-    const inputProps = useMemo(() => ({
-        placeholder: 'Adresse eller sted',
-        value: formValue,
-        onChange,
-        onFocus: (): void => {
-            setErrorMessage(null)
-        },
-    }), [formValue])
+    const inputProps = useMemo(
+        () => ({
+            placeholder: 'Adresse eller sted',
+            value: formValue,
+            onChange,
+            onFocus: (): void => {
+                setErrorMessage(null)
+            },
+        }),
+        [formValue],
+    )
 
     return (
         <form className="search-panel" onSubmit={handleGoToBoard}>
@@ -182,8 +195,12 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                         <ReactAutosuggest
                             suggestions={suggestions}
                             shouldRenderSuggestions={shouldRenderSuggestions}
-                            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                            onSuggestionsClearRequested={onSuggestionsClearRequested}
+                            onSuggestionsFetchRequested={
+                                onSuggestionsFetchRequested
+                            }
+                            onSuggestionsClearRequested={
+                                onSuggestionsClearRequested
+                            }
                             onSuggestionSelected={onSuggestionSelected}
                             getSuggestionValue={getSuggestionValue}
                             renderSuggestion={renderSuggestion}
@@ -211,7 +228,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
 }
 
 interface Props {
-    handleCoordinatesSelected: (choseCoord: Coordinates | null) => void,
+    handleCoordinatesSelected: (choseCoord: Coordinates | null) => void
 }
 
 export default memo(SearchPanel)

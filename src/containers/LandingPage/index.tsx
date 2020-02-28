@@ -11,19 +11,21 @@ import SearchPanel from './SearchPanel'
 import './styles.scss'
 
 const LandingPage = ({ history }: Props): JSX.Element => {
-    const addLocation = useCallback((position: Coordinates): void => {
-        const pos = `${position.latitude},${position.longitude}`.split('.').join('-')
-        history.push(`/dashboard/@${pos}/`)
-    }, [history])
+    const addLocation = useCallback(
+        (position: Coordinates): void => {
+            const pos = `${position.latitude},${position.longitude}`
+                .split('.')
+                .join('-')
+            history.push(`/dashboard/@${pos}/`)
+        },
+        [history],
+    )
 
     return (
         <div className="landing-page">
             <header>
                 <h1>
-                    <TavlaLogo
-                        className="landing-page__logo"
-                        theme="light"
-                    />
+                    <TavlaLogo className="landing-page__logo" theme="light" />
                 </h1>
                 <h2>Sanntidstavla du selv kan tilpasse etter dine behov.</h2>
             </header>
@@ -33,14 +35,19 @@ const LandingPage = ({ history }: Props): JSX.Element => {
                 </a>
             </div>
             <div className="landing-page__content">
-                <SearchPanel handleCoordinatesSelected={addLocation}/>
+                <SearchPanel handleCoordinatesSelected={addLocation} />
                 <p>
-                    For å opprette en tavle trenger vi å vite hvilket område du er interessert i.<br />
-                    Hvis du vil, kan du lese mer om <Link to="/privacy">personvern her.</Link>
+                    For å opprette en tavle trenger vi å vite hvilket område du
+                    er interessert i.
+                    <br />
+                    Hvis du vil, kan du lese mer om{' '}
+                    <Link to="/privacy">personvern her.</Link>
                 </p>
                 <p>
-                    Tavlas kildekode kan du finne på <a href="https://github.com/entur/tavla">GitHub</a>.
-                    Bruk "Watch Releases" på GitHub for å følge med på endringer vi gjør på Tavla.
+                    Tavlas kildekode kan du finne på{' '}
+                    <a href="https://github.com/entur/tavla">GitHub</a>. Bruk
+                    &quot;Watch Releases&quot; på GitHub for å følge med på
+                    endringer vi gjør på Tavla.
                 </p>
                 <img
                     src={coverPhoto}
@@ -53,7 +60,7 @@ const LandingPage = ({ history }: Props): JSX.Element => {
 }
 
 interface Props {
-    history: any,
+    history: any
 }
 
 export default LandingPage

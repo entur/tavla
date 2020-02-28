@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 
 interface LocationPermission {
-    granted: boolean,
-    prompt: boolean,
-    denied: boolean,
+    granted: boolean
+    prompt: boolean
+    denied: boolean
 }
 
 export function useLocationPermission(): [LocationPermission, () => void] {
@@ -17,7 +17,8 @@ export function useLocationPermission(): [LocationPermission, () => void] {
 
     useEffect((): void => {
         if (!navigator || !navigator.permissions) return
-        navigator.permissions.query({ name: 'geolocation' })
+        navigator.permissions
+            .query({ name: 'geolocation' })
             .then(perm => setPermission(perm.state))
     }, [someNumber])
 

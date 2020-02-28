@@ -8,17 +8,22 @@ import ModePanelRow from './ModePanelRow'
 import './styles.scss'
 
 function ModePanel({
-    transportModes, onModesChange, disabledModes,
+    transportModes,
+    onModesChange,
+    disabledModes,
 }: Props): JSX.Element {
-    const onModeToggled = useCallback((mode: LegMode): void => {
-        onModesChange(toggleValueInList(disabledModes, mode))
-    }, [disabledModes, onModesChange])
+    const onModeToggled = useCallback(
+        (mode: LegMode): void => {
+            onModesChange(toggleValueInList(disabledModes, mode))
+        },
+        [disabledModes, onModesChange],
+    )
 
     return (
         <div className="mode-panel">
             <h2>Transportmidler</h2>
             <div>
-                { transportModes.map(({ mode, subMode }, index) => (
+                {transportModes.map(({ mode, subMode }, index) => (
                     <ModePanelRow
                         key={index}
                         mode={mode}
@@ -26,16 +31,16 @@ function ModePanel({
                         value={!disabledModes.includes(mode)}
                         onChange={onModeToggled}
                     />
-                )) }
+                ))}
             </div>
         </div>
     )
 }
 
 interface Props {
-    transportModes: Array<{ mode: LegMode, subMode?: TransportSubmode }>,
-    disabledModes: Array<LegMode>,
-    onModesChange: (disabledModes: Array<LegMode>) => void,
+    transportModes: Array<{ mode: LegMode; subMode?: TransportSubmode }>
+    disabledModes: Array<LegMode>
+    onModesChange: (disabledModes: Array<LegMode>) => void
 }
 
 export default ModePanel

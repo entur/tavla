@@ -11,15 +11,22 @@ import BackButton from '../../../components/backButton/BackButton'
 
 import './styles.scss'
 
-function RadioBox({
-    value, selected, onChange, children,
-}): JSX.Element {
+function RadioBox({ value, selected, onChange, children }): JSX.Element {
     const id = `radio-${value}`
 
     return (
-        <label className={`radiobox ${selected ? 'radiobox--checked' : ''}`} htmlFor={id}>
-            <div className={`radiobox__checkmark ${selected ? 'radiobox__checkmark--checked' : '' }`}>
-                { selected ? <CheckIcon color={colors.brand.blue} size="extra-large" /> : null }
+        <label
+            className={`radiobox ${selected ? 'radiobox--checked' : ''}`}
+            htmlFor={id}
+        >
+            <div
+                className={`radiobox__checkmark ${
+                    selected ? 'radiobox__checkmark--checked' : ''
+                }`}
+            >
+                {selected ? (
+                    <CheckIcon color={colors.brand.blue} size="extra-large" />
+                ) : null}
             </div>
             <input
                 id={id}
@@ -28,9 +35,7 @@ function RadioBox({
                 onChange={onChange}
                 checked={selected}
             />
-            <div className="radiobox__children">
-                { children }
-            </div>
+            <div className="radiobox__children">{children}</div>
         </label>
     )
 }
@@ -45,26 +50,32 @@ function Footer({ className, history }: Props): JSX.Element {
         history.push('/')
     }, [history])
 
-    const onSettingsButtonClick = useCallback(event => {
-        const path = window.location.pathname.split('@')[1]
-        history.push(`/admin/@${path}`)
-        event.preventDefault()
-    }, [history])
+    const onSettingsButtonClick = useCallback(
+        event => {
+            const path = window.location.pathname.split('@')[1]
+            history.push(`/admin/@${path}`)
+            event.preventDefault()
+        },
+        [history],
+    )
 
-    const onChange = useCallback((event) => {
+    const onChange = useCallback(event => {
         event.preventDefault()
         setChoice(event.target.value)
     }, [])
 
-    const submit = useCallback((event) => {
-        event.preventDefault()
-        setModalOpen(false)
-        setDashboard(choice, { persist: true })
-    }, [choice, setDashboard])
+    const submit = useCallback(
+        event => {
+            event.preventDefault()
+            setModalOpen(false)
+            setDashboard(choice, { persist: true })
+        },
+        [choice, setDashboard],
+    )
 
     return (
         <footer className={`footer ${className || ''}`}>
-            <BackButton className="footer__back-button" action={goBack}/>
+            <BackButton className="footer__back-button" action={goBack} />
             <div className="footer__actions">
                 <ActionChip onClick={(): void => setModalOpen(true)}>
                     <EditIcon /> Endre visning
@@ -81,21 +92,47 @@ function Footer({ className, history }: Props): JSX.Element {
             >
                 <Paragraph>Velg visningen du ønsker for Tavla.</Paragraph>
                 <form onSubmit={submit}>
-                    <RadioBox value="" selected={choice === ''} onChange={onChange}>
+                    <RadioBox
+                        value=""
+                        selected={choice === ''}
+                        onChange={onChange}
+                    >
                         <Heading3 margin="none">Kompakt</Heading3>
-                        <Paragraph>De tre neste avgangene til en linje vises på samme rad.</Paragraph>
+                        <Paragraph>
+                            De tre neste avgangene til en linje vises på samme
+                            rad.
+                        </Paragraph>
                     </RadioBox>
-                    <RadioBox value="Chrono" selected={choice === 'Chrono'} onChange={onChange}>
+                    <RadioBox
+                        value="Chrono"
+                        selected={choice === 'Chrono'}
+                        onChange={onChange}
+                    >
                         <Heading3 margin="none">Kronologisk</Heading3>
                         <Paragraph>Hver avgang vises på en egen rad.</Paragraph>
                     </RadioBox>
-                    <RadioBox value="Timeline" selected={choice === 'Timeline'} onChange={onChange}>
+                    <RadioBox
+                        value="Timeline"
+                        selected={choice === 'Timeline'}
+                        onChange={onChange}
+                    >
                         <Heading3 margin="none">Tidslinja</Heading3>
-                        <Paragraph>En visuell fremvisning der avgangene beveger seg mot stoppet. Ikke egnet for bysykkel.</Paragraph>
+                        <Paragraph>
+                            En visuell fremvisning der avgangene beveger seg mot
+                            stoppet. Ikke egnet for bysykkel.
+                        </Paragraph>
                     </RadioBox>
                     <div className="footer-modal__buttons">
-                        <Button variant="secondary" type="button" onClick={(): void => setModalOpen(false)}>Avbryt</Button>
-                        <Button variant="primary" type="submit">Lagre valg</Button>
+                        <Button
+                            variant="secondary"
+                            type="button"
+                            onClick={(): void => setModalOpen(false)}
+                        >
+                            Avbryt
+                        </Button>
+                        <Button variant="primary" type="submit">
+                            Lagre valg
+                        </Button>
                     </div>
                 </form>
             </Modal>
@@ -104,9 +141,9 @@ function Footer({ className, history }: Props): JSX.Element {
 }
 
 interface Props {
-    className?: string,
-    history: any,
-    onSettingsButtonClick: any,
+    className?: string
+    history: any
+    onSettingsButtonClick: any
 }
 
 export default Footer

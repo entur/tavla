@@ -8,10 +8,12 @@ import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
 import './styles.scss'
 
-import { getFromLocalStorage, saveToLocalStorage } from '../../settings/LocalStorage'
+import {
+    getFromLocalStorage,
+    saveToLocalStorage,
+} from '../../settings/LocalStorage'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
-
 
 function onLayoutChange(layouts, key): void {
     saveToLocalStorage(key, layouts)
@@ -19,7 +21,12 @@ function onLayoutChange(layouts, key): void {
 
 function getDataGrid(index): object {
     return {
-        w: 1, maxW: 1, minH: 1, h: 4, x: index, y: 0,
+        w: 1,
+        maxW: 1,
+        minH: 1,
+        h: 4,
+        x: index,
+        y: 0,
     }
 }
 
@@ -29,8 +36,11 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    const numberOfStopPlaces = stopPlacesWithDepartures ? stopPlacesWithDepartures.length : 0
-    const anyBikeRentalStations = bikeRentalStations && bikeRentalStations.length
+    const numberOfStopPlaces = stopPlacesWithDepartures
+        ? stopPlacesWithDepartures.length
+        : 0
+    const anyBikeRentalStations =
+        bikeRentalStations && bikeRentalStations.length
 
     const localStorageLayout = getFromLocalStorage(history.location.key)
     const extraCols = anyBikeRentalStations ? 1 : 0
@@ -63,25 +73,29 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                         }
                     }}
                 >
-                    {
-                        (stopPlacesWithDepartures || [])
-                            .filter(({ departures }) => departures.length > 0)
-                            .map((stop, index) => (
-                                <div key={index.toString()} data-grid={getDataGrid(index)}>
-                                    <DepartureTile
-                                        key={index}
-                                        stopPlaceWithDepartures={stop}
-                                    />
-                                </div>
-                            ))
-                    }
-                    {
-                        anyBikeRentalStations
-                            ? <div key={numberOfStopPlaces.toString()} data-grid={getDataGrid(numberOfStopPlaces)}>
-                                <BikeTile stations={bikeRentalStations} />
+                    {(stopPlacesWithDepartures || [])
+                        .filter(({ departures }) => departures.length > 0)
+                        .map((stop, index) => (
+                            <div
+                                key={index.toString()}
+                                data-grid={getDataGrid(index)}
+                            >
+                                <DepartureTile
+                                    key={index}
+                                    stopPlaceWithDepartures={stop}
+                                />
                             </div>
-                            : []
-                    }
+                        ))}
+                    {anyBikeRentalStations ? (
+                        <div
+                            key={numberOfStopPlaces.toString()}
+                            data-grid={getDataGrid(numberOfStopPlaces)}
+                        >
+                            <BikeTile stations={bikeRentalStations} />
+                        </div>
+                    ) : (
+                        []
+                    )}
                 </ResponsiveReactGridLayout>
             </div>
         </DashboardWrapper>
@@ -89,7 +103,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 }
 
 interface Props {
-    history: any,
+    history: any
 }
 
 export default EnturDashboard

@@ -22,8 +22,8 @@ function Github({ size = 25, color = 'currentColor' }: Props): JSX.Element {
 }
 
 interface Props {
-    color?: string,
-    size?: number | string,
+    color?: string
+    size?: number | string
 }
 
 export default Github
