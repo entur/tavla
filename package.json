@@ -20,7 +20,7 @@
     "deploy:staging": "npm run build:staging && firebase deploy -P staging",
     "postinstall": "node ./scripts/postinstall.js"
   },
-  "author": "",
+  "author": "Entur AS",
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
