@@ -1,15 +1,14 @@
-import EnturService from '@entur/sdk'
+import createEnturService from '@entur/sdk'
 
 import { StopPlaceWithLines, Line } from './types'
 import { unique } from './utils'
 
 const CLIENT_NAME = 'entur-tavla'
 
-export default new EnturService({
+export default createEnturService({
     clientName: CLIENT_NAME,
     hosts: {
-        // @ts-ignore
-        journeyplanner: process.env.JOURNEYPLANNER_HOST,
+        journeyPlanner: process.env.JOURNEYPLANNER_HOST,
         geocoder: process.env.GEOCODER_HOST,
     },
 })

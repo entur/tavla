@@ -149,7 +149,7 @@ export function transformDepartureToLineData(departure: Departure): LineData {
         serviceJourney,
     } = departure
 
-    const { line } = serviceJourney
+    const { line } = serviceJourney.journeyPattern
     const departureTime = new Date(expectedDepartureTime)
     const minDiff = differenceInMinutes(departureTime, new Date())
 
