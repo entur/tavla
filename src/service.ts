@@ -10,13 +10,11 @@ export default new EnturService({
     hosts: {
         // @ts-ignore
         journeyplanner: process.env.JOURNEYPLANNER_HOST,
-        // @ts-ignore
         geocoder: process.env.GEOCODER_HOST,
     },
 })
 
 function journeyplannerPost(query, variables): Promise<any> {
-    // @ts-ignore
     return fetch(`${process.env.JOURNEYPLANNER_HOST}/graphql`, {
         method: 'POST',
         headers: {

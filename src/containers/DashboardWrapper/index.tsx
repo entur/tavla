@@ -6,7 +6,6 @@ import { Contrast } from '@entur/layout'
 
 import { useCounter } from '../../utils'
 
-// @ts-ignore
 import errorImage from '../../assets/images/noStops.png'
 import TavlaLogo from '../../assets/icons/tavlaLogo'
 import { Clock } from '../../components'

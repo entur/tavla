@@ -4,7 +4,6 @@ import { Coordinates } from '@entur/sdk'
 
 import { Github, TavlaLogo } from '../../assets/icons'
 
-// @ts-ignore
 import coverPhoto from '../../assets/images/cover-photo.jpg'
 
 import SearchPanel from './SearchPanel'

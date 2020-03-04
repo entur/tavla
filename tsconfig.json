@@ -8,10 +8,9 @@
         "jsx": "react",
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
-        "baseUrl": "types",
-        "typeRoots": ["types"],
+        "typeRoots": ["./types", "node_modules/@types"],
         "downlevelIteration": true
     },
-    "include": ["./src/**/*"],
+    "include": ["types", "./src/**/*"],
     "exclude": ["node_modules"]
 }
