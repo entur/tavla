@@ -3,6 +3,7 @@ import { useState, useEffect, ElementType } from 'react'
 import differenceInSeconds from 'date-fns/differenceInSeconds'
 import differenceInMinutes from 'date-fns/differenceInMinutes'
 import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
 
 import {
     BicycleIcon,
@@ -138,7 +139,7 @@ export function unique<T>(
 }
 
 export function timeUntil(time: string): number {
-    return differenceInSeconds(new Date(time), new Date())
+    return differenceInSeconds(parseISO(time), new Date())
 }
 
 export function transformDepartureToLineData(departure: Departure): LineData {
@@ -150,7 +151,8 @@ export function transformDepartureToLineData(departure: Departure): LineData {
     } = departure
 
     const { line } = serviceJourney.journeyPattern
-    const departureTime = new Date(expectedDepartureTime)
+
+    const departureTime = parseISO(expectedDepartureTime)
     const minDiff = differenceInMinutes(departureTime, new Date())
 
     const route = `${line.publicCode || ''} ${
