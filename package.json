@@ -43,7 +43,7 @@
     "react-app-polyfill": "^1.0.6",
     "react-autosuggest": "^9.4.3",
     "react-dom": "^16.13.1",
-    "react-grid-layout": "^0.17.1",
+    "react-grid-layout": "^0.18.3",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "universal-ga": "^1.2.0"
