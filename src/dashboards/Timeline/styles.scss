@@ -27,6 +27,10 @@
 
     &__leg-bone {
         margin-right: 0.125rem;
+
+        > * {
+            min-width: unset;
+        }
     }
 
     &__competitor {

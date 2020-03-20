@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo } from 'react'
 import { Heading2 } from '@entur/typography'
-import { LegBone } from '@entur/component-library'
+import { LegBone } from '@entur/travel'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 
@@ -90,6 +90,7 @@ function Tick({ minutes, mode, index }): JSX.Element {
     return (
         <div style={{ minWidth: width }}>
             <LegBone
+                direction="horizontal"
                 className="timeline__leg-bone"
                 pattern={getLegBonePattern(mode)}
                 color={color}

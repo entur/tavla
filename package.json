@@ -34,6 +34,7 @@
     "@entur/modal": "^1.1.10",
     "@entur/sdk": "^1.4.2",
     "@entur/tokens": "^1.2.3",
+    "@entur/travel": "^0.3.11",
     "@entur/typography": "^0.6.1",
     "connect-history-api-fallback": "^1.6.0",
     "date-fns": "^2.11.0",
