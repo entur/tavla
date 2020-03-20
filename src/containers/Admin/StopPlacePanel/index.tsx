@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 
-import { Expandable } from '@entur/component-library'
+import { ExpandablePanel } from '@entur/expand'
 import { Checkbox } from '@entur/form'
 
 import { getIcon, getIconColor, toggleValueInList } from '../../../utils'
@@ -135,7 +135,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                             checked={!hiddenStops.includes(id)}
                             onChange={onToggleStop}
                         />
-                        <Expandable
+                        <ExpandablePanel
                             variant="midnight"
                             className="stop-place-panel__row__expandable"
                             title={
@@ -194,7 +194,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                                     )
                                 },
                             )}
-                        </Expandable>
+                        </ExpandablePanel>
                     </div>
                 )
             })}
