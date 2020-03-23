@@ -2,7 +2,7 @@ import React from 'react'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 
-import { getIcon, unique } from '../../../utils'
+import { getIcon, unique, getTransportIconIdentifier } from '../../../utils'
 import { StopPlaceWithDepartures, LineData } from '../../../types'
 
 import Tile from '../components/Tile'
@@ -18,11 +18,12 @@ function getTransportHeaderIcons(
         departures
             .map(({ type, subType }) => ({ type, subType }))
             .filter(({ type }) => !hiddenModes || !hiddenModes.includes(type)),
-        (a, b) => a.type === b.type && a.subType === b.subType,
+        (a, b) =>
+            getTransportIconIdentifier(a.type, a.subType) ===
+            getTransportIconIdentifier(b.type, b.subType),
     )
 
     const transportIcons = transportModes.map(({ type, subType }) => ({
-        key: type + subType,
         icon: getIcon(type, subType, colors.blues.blue60),
     }))
 

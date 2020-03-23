@@ -15,7 +15,6 @@
     padding: 10px 20px;
     font-size: 16px;
     font-weight: 500;
-    font-family: $base-font-family;
     color: $colors-brand-blue;
     border: none;
     border-bottom: 2px solid $colors-blues-blue40;
@@ -64,7 +63,7 @@
 .react-autosuggest__suggestion {
     cursor: pointer;
     padding: 10px 20px;
-    border-bottom: 2px solid $white;
+    border-bottom: 2px solid white;
 }
 
 .react-autosuggest__suggestion:last-child {

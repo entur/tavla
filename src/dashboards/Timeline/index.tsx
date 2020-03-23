@@ -4,8 +4,6 @@ import { LegBone } from '@entur/travel'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 
-import '@entur/component-library/lib/index.css'
-
 import { getIcon, getIconColor, timeUntil, useCounter } from '../../utils'
 import { LineData } from '../../types'
 
