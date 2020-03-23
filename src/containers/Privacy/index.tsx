@@ -14,7 +14,6 @@ const Privacy = ({ history }: Props): JSX.Element => {
         <article className="privacy">
             <div className="privacy__header">
                 <BackButton
-                    size="medium"
                     className="privacy__header__back-button"
                     action={goBackToDashboard}
                 />

@@ -1,10 +1,9 @@
 import React, { useCallback } from 'react'
 
-import { colors } from '@entur/tokens'
-import { SlideSwitch } from '@entur/component-library'
+import { Switch } from '@entur/form'
 import { LegMode, TransportSubmode } from '@entur/sdk'
 
-import { getIcon, getIconColor } from '../../../utils'
+import { getIcon } from '../../../utils'
 
 import './styles.scss'
 
@@ -35,8 +34,7 @@ const ModePanelRow = ({
     onChange,
     value,
 }: Props): JSX.Element => {
-    const Icon = getIcon(mode, subMode)
-    const iconColor = getIconColor(mode, subMode)
+    const icon = getIcon(mode, subMode)
 
     const handleChange = useCallback(() => {
         onChange(mode)
@@ -45,23 +43,12 @@ const ModePanelRow = ({
     return (
         <div className="mode-panel-row">
             <div>
-                <div>
-                    {Icon ? (
-                        <Icon height={24} width={24} color={iconColor} />
-                    ) : null}
-                </div>
+                <div className="mode-panel-row__icon">{icon}</div>
                 <span className="mode-panel-row__label">
                     {getTransportModeTitle(mode)}
                 </span>
             </div>
-            <SlideSwitch
-                id="SlideSwitch"
-                onChange={handleChange}
-                checked={value}
-                color={colors.validation.mintContrast}
-                style={{ cursor: 'pointer' }}
-                variant="midnight"
-            />
+            <Switch onChange={handleChange} checked={value} />
         </div>
     )
 }

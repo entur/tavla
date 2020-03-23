@@ -1,10 +1,8 @@
 import React, { Fragment, useMemo } from 'react'
 import { Heading2 } from '@entur/typography'
-import { LegBone } from '@entur/component-library'
+import { LegBone } from '@entur/travel'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
-
-import '@entur/component-library/lib/index.css'
 
 import { getIcon, getIconColor, timeUntil, useCounter } from '../../utils'
 import { LineData } from '../../types'
@@ -90,6 +88,7 @@ function Tick({ minutes, mode, index }): JSX.Element {
     return (
         <div style={{ minWidth: width }}>
             <LegBone
+                direction="horizontal"
                 className="timeline__leg-bone"
                 pattern={getLegBonePattern(mode)}
                 color={color}
@@ -146,8 +145,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                             const waitTime = timeUntil(
                                                 expectedDepartureTime,
                                             )
-                                            const Icon = getIcon(type)
-                                            const color = getIconColor(type)
+                                            const icon = getIcon(type)
                                             return (
                                                 <div
                                                     key={id}
@@ -161,10 +159,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                                     <div className="timeline__label">
                                                         {route}
                                                     </div>
-                                                    <Icon
-                                                        color={color}
-                                                        size="large"
-                                                    />
+                                                    {icon}
                                                 </div>
                                             )
                                         },

@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from 'react'
 
-import { Expandable } from '@entur/component-library'
+import { ExpandablePanel } from '@entur/expand'
 import { Checkbox } from '@entur/form'
 
-import { getIcon, getIconColor, toggleValueInList } from '../../../utils'
+import { getIcon, toggleValueInList } from '../../../utils'
 import { StopPlaceWithLines } from '../../../types'
 import { useSettingsContext } from '../../../settings'
 
@@ -135,7 +135,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                             checked={!hiddenStops.includes(id)}
                             onChange={onToggleStop}
                         />
-                        <Expandable
+                        <ExpandablePanel
                             variant="midnight"
                             className="stop-place-panel__row__expandable"
                             title={
@@ -161,11 +161,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                                     transportSubmode,
                                 }) => {
                                     const routeId = `${id}-${routeName}`
-                                    const Icon = getIcon(
-                                        transportMode,
-                                        transportSubmode,
-                                    )
-                                    const iconColor = getIconColor(
+                                    const icon = getIcon(
                                         transportMode,
                                         transportSubmode,
                                     )
@@ -184,17 +180,13 @@ function StopPlacePanel(props: Props): JSX.Element {
                                                 routeName,
                                             )}
                                         >
-                                            <Icon
-                                                height={28}
-                                                width={28}
-                                                color={iconColor}
-                                            />
+                                            {icon}
                                             {routeName}
                                         </Checkbox>
                                     )
                                 },
                             )}
-                        </Expandable>
+                        </ExpandablePanel>
                     </div>
                 )
             })}

@@ -1,34 +1,24 @@
 import React from 'react'
 import { BikeRentalStation } from '@entur/sdk'
 import { colors } from '@entur/tokens'
-
-import { getIcon } from '../../../utils'
+import { BicycleIcon } from '@entur/icons'
 
 import Tile from '../components/Tile'
 import TileRow from '../components/TileRow'
-
-const BikeIcon = getIcon('bicycle')
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
     return (
         <Tile
             title="Bysykkel"
             icons={[
-                <BikeIcon
-                    key="bike-icon"
-                    height={32}
-                    width={32}
-                    color={colors.blues.blue60}
-                />,
+                <BicycleIcon key="bike-icon" color={colors.blues.blue60} />,
             ]}
         >
             {stations.map(({ name, bikesAvailable, id, spacesAvailable }) => (
                 <TileRow
                     key={id}
                     icon={
-                        <BikeIcon
-                            height={32}
-                            width={32}
+                        <BicycleIcon
                             color={colors.transport.contrast.mobility}
                         />
                     }

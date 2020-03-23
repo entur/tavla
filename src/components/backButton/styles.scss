@@ -6,6 +6,7 @@
     color: $colors-brand-coral;
     cursor: pointer;
     padding: 1rem;
+    font-size: 2rem;
 
     &:hover {
         color: lighten($colors-brand-coral, 10%);
