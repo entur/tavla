@@ -147,8 +147,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                             const waitTime = timeUntil(
                                                 expectedDepartureTime,
                                             )
-                                            const Icon = getIcon(type)
-                                            const color = getIconColor(type)
+                                            const icon = getIcon(type)
                                             return (
                                                 <div
                                                     key={id}
@@ -162,10 +161,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                                     <div className="timeline__label">
                                                         {route}
                                                     </div>
-                                                    <Icon
-                                                        color={color}
-                                                        size="large"
-                                                    />
+                                                    {icon}
                                                 </div>
                                             )
                                         },

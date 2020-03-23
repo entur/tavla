@@ -12,7 +12,6 @@ function AdminHeader(props: Props): JSX.Element {
         <div className="admin-header">
             <div className="admin-header__left">
                 <BackButton
-                    size="medium"
                     className="admin-header__back-button"
                     action={goBackToDashboard}
                 />

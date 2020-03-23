@@ -2,7 +2,12 @@ import React from 'react'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 
-import { getIcon, getIconColor, groupBy, unique } from '../../../utils'
+import {
+    getIcon,
+    groupBy,
+    unique,
+    getTransportIconIdentifier,
+} from '../../../utils'
 import { StopPlaceWithDepartures, LineData } from '../../../types'
 
 import Tile from '../components/Tile'
@@ -18,25 +23,16 @@ function getTransportHeaderIcons(
         departures
             .map(({ type, subType }) => ({ type, subType }))
             .filter(({ type }) => !hiddenModes || !hiddenModes.includes(type)),
-        (a, b) => a.type === b.type && a.subType === b.subType,
+        (a, b) =>
+            getTransportIconIdentifier(a.type, a.subType) ===
+            getTransportIconIdentifier(b.type, b.subType),
     )
 
-    const transportIcons = transportModes
-        .map(({ type, subType }) => ({
-            key: type + subType,
-            Icon: getIcon(type, subType),
-        }))
-        .filter(({ Icon }, index, icons) => {
-            const iconIndex = icons.findIndex(
-                // @ts-ignore
-                icon => icon.Icon.name === Icon.name,
-            )
-            return iconIndex === index
-        })
+    const transportIcons = transportModes.map(({ type, subType }) => ({
+        icon: getIcon(type, subType, colors.blues.blue60),
+    }))
 
-    return transportIcons.map(({ key, Icon }) => (
-        <Icon key={key} height={32} width={32} color={colors.blues.blue60} />
-    ))
+    return transportIcons.map(({ icon }) => icon)
 }
 
 const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
@@ -51,24 +47,14 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                 const subType = groupedDepartures[route][0].subType
                 const routeData = groupedDepartures[route].slice(0, 3)
                 const routeType = routeData[0].type
-                const Icon = getIcon(routeType, subType)
-                const iconColor = getIconColor(routeType, subType)
+                const icon = getIcon(routeType, subType)
 
                 return (
                     <TileRow
                         key={route}
                         label={route}
                         subLabels={routeData.map(data => data.time)}
-                        icon={
-                            Icon ? (
-                                <Icon
-                                    height={32}
-                                    width={32}
-                                    color={iconColor}
-                                    className="route-icon"
-                                />
-                            ) : null
-                        }
+                        icon={icon}
                     />
                 )
             })}

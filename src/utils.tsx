@@ -1,4 +1,4 @@
-import { useState, useEffect, ElementType } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import differenceInSeconds from 'date-fns/differenceInSeconds'
 import differenceInMinutes from 'date-fns/differenceInMinutes'
@@ -14,7 +14,7 @@ import {
     TramIcon,
     PlaneIcon,
     CarFerryIcon,
-} from '@entur/component-library'
+} from '@entur/icons'
 
 import { colors } from '@entur/tokens'
 
@@ -44,32 +44,6 @@ function isSubModeCarFerry(subMode?: string): boolean {
     return carFerryTypes.includes(subMode)
 }
 
-export function getIcon(type: LegMode, subMode?: string): ElementType | null {
-    if (isSubModeCarFerry(subMode)) {
-        return CarFerryIcon
-    }
-
-    switch (type) {
-        case 'bus':
-        case 'coach':
-            return BusIcon
-        case 'bicycle':
-            return BicycleIcon
-        case 'water':
-            return FerryIcon
-        case 'metro':
-            return SubwayIcon
-        case 'rail':
-            return TrainIcon
-        case 'tram':
-            return TramIcon
-        case 'air':
-            return PlaneIcon
-        default:
-            return null
-    }
-}
-
 export function getIconColor(
     type: LegMode,
     subType?: TransportSubmode,
@@ -91,6 +65,76 @@ export function getIconColor(
             return colors.transport.contrast.tram
         case 'air':
             return colors.transport.contrast.plane
+        default:
+            return null
+    }
+}
+
+type TransportIconIdentifier =
+    | 'carferry'
+    | 'bus'
+    | 'bicycle'
+    | 'ferry'
+    | 'subway'
+    | 'train'
+    | 'tram'
+    | 'plane'
+
+export function getTransportIconIdentifier(
+    legMode: LegMode,
+    subMode?: TransportSubmode,
+): TransportIconIdentifier | null {
+    if (isSubModeCarFerry(subMode)) {
+        return 'carferry'
+    }
+
+    switch (legMode) {
+        case 'bus':
+        case 'coach':
+            return 'bus'
+        case 'bicycle':
+            return 'bicycle'
+        case 'water':
+            return 'ferry'
+        case 'metro':
+            return 'subway'
+        case 'rail':
+            return 'train'
+        case 'tram':
+            return 'tram'
+        case 'air':
+            return 'plane'
+        default:
+            return null
+    }
+}
+
+export function getIcon(
+    legMode: LegMode,
+    subMode?: TransportSubmode,
+    color?: string,
+): JSX.Element {
+    const colorToUse = color ?? getIconColor(legMode, subMode)
+
+    const identifier = getTransportIconIdentifier(legMode, subMode)
+
+    switch (identifier) {
+        case 'bus':
+            return <BusIcon color={colorToUse} />
+        case 'bicycle':
+            return <BicycleIcon color={colorToUse} />
+        case 'carferry':
+            return <CarFerryIcon color={colorToUse} />
+        case 'ferry':
+            return <FerryIcon color={colorToUse} />
+        case 'subway':
+            return <SubwayIcon color={colorToUse} />
+        case 'train':
+            return <TrainIcon color={colorToUse} />
+        case 'tram':
+            return <TramIcon color={colorToUse} />
+        case 'plane':
+            return <PlaneIcon color={colorToUse} />
         default:
             return null
     }

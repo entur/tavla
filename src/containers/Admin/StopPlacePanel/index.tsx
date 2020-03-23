@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import { ExpandablePanel } from '@entur/expand'
 import { Checkbox } from '@entur/form'
 
-import { getIcon, getIconColor, toggleValueInList } from '../../../utils'
+import { getIcon, toggleValueInList } from '../../../utils'
 import { StopPlaceWithLines } from '../../../types'
 import { useSettingsContext } from '../../../settings'
 
@@ -161,11 +161,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                                     transportSubmode,
                                 }) => {
                                     const routeId = `${id}-${routeName}`
-                                    const Icon = getIcon(
-                                        transportMode,
-                                        transportSubmode,
-                                    )
-                                    const iconColor = getIconColor(
+                                    const icon = getIcon(
                                         transportMode,
                                         transportSubmode,
                                     )
@@ -184,11 +180,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                                                 routeName,
                                             )}
                                         >
-                                            <Icon
-                                                height={28}
-                                                width={28}
-                                                color={iconColor}
-                                            />
+                                            {icon}
                                             {routeName}
                                         </Checkbox>
                                     )

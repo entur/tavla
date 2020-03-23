@@ -2,7 +2,7 @@ import React from 'react'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 
-import { getIcon, getIconColor, unique } from '../../../utils'
+import { getIcon, unique } from '../../../utils'
 import { StopPlaceWithDepartures, LineData } from '../../../types'
 
 import Tile from '../components/Tile'
@@ -21,22 +21,12 @@ function getTransportHeaderIcons(
         (a, b) => a.type === b.type && a.subType === b.subType,
     )
 
-    const transportIcons = transportModes
-        .map(({ type, subType }) => ({
-            key: type + subType,
-            Icon: getIcon(type, subType),
-        }))
-        .filter(({ Icon }, index, icons) => {
-            const iconIndex = icons.findIndex(
-                // @ts-ignore
-                icon => icon.Icon.name === Icon.name,
-            )
-            return iconIndex === index
-        })
+    const transportIcons = transportModes.map(({ type, subType }) => ({
+        key: type + subType,
+        icon: getIcon(type, subType, colors.blues.blue60),
+    }))
 
-    return transportIcons.map(({ key, Icon }) => (
-        <Icon key={key} height={32} width={32} color={colors.blues.blue60} />
-    ))
+    return transportIcons.map(({ icon }) => icon)
 }
 
 const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
@@ -47,24 +37,14 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
         <Tile title={name} icons={headerIcons}>
             {departures.map(
                 ({ id: departureId, route, type, subType, time }) => {
-                    const Icon = getIcon(type, subType)
-                    const iconColor = getIconColor(type, subType)
+                    const icon = getIcon(type, subType)
 
                     return (
                         <TileRow
                             key={departureId}
                             label={route}
                             subLabel={time}
-                            icon={
-                                Icon ? (
-                                    <Icon
-                                        height={32}
-                                        width={32}
-                                        color={iconColor}
-                                        className="route-icon"
-                                    />
-                                ) : null
-                            }
+                            icon={icon}
                         />
                     )
                 },
