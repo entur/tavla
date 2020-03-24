@@ -38,8 +38,6 @@ function getErrorMessage(error): string {
 }
 
 const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
-    console.count('render searchpanel')
-
     const [{ denied }, refreshLocationPermission] = useLocationPermission()
 
     const [showPositionInList, setShowPositionInList] = useState(true)
