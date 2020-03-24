@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import ReactAutosuggest from 'react-autosuggest'
 import { Coordinates, BikeRentalStation } from '@entur/sdk'
+import { Dropdown } from '@entur/dropdown'
 
 import service from '../../../service'
 
 import './styles.scss'
 
+interface Item {
+    value: string
+    label: string
+}
+
+function mapFeaturesToItems(features: BikeRentalStation[]): Item[] {
+    return features.map(({ id, name }) => ({
+        value: id,
+        label: name,
+    }))
+}
+
 const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
-    const [value, setValue] = useState('')
-    const [suggestions, setSuggestions] = useState([])
     const [stations, setStations] = useState([])
 
     useEffect(() => {
@@ -19,67 +29,32 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
             })
     }, [position])
 
-    const getSuggestions = (newValue: string): Array<BikeRentalStation> => {
-        const inputValue = newValue.trim().toLowerCase()
+    const getItems = (query: string): Item[] => {
+        const inputValue = query.trim().toLowerCase()
         const inputLength = inputValue.length
 
         if (!inputLength) return []
 
-        return stations.filter(
-            station =>
-                station.name.toLowerCase().slice(0, inputLength) === inputValue,
+        return mapFeaturesToItems(
+            stations.filter(station =>
+                station.name.toLowerCase().match(new RegExp(inputValue)),
+            ),
         )
     }
 
-    const onChange = (
-        event: React.FormEvent<HTMLButtonElement>,
-        changeEvent: ReactAutosuggest.ChangeEvent,
-    ): void => {
-        const { newValue } = changeEvent
-        setValue(newValue)
-    }
-
-    const onSuggestionSelected = (_, { suggestion }): void => {
-        onSelected(suggestion.id)
-    }
-
-    const getSuggestionValue = (suggestion: BikeRentalStation): string =>
-        suggestion.name
-
-    const renderSuggestion = (suggestion: BikeRentalStation): JSX.Element => (
-        <div>{suggestion.name}</div>
-    )
-
-    const onSuggestionsFetchRequested = ({
-        value: newValue,
-    }: {
-        value: string
-    }): void => {
-        setSuggestions(getSuggestions(newValue))
-    }
-
-    const onSuggestionsClearRequested = (): void => {
-        setSuggestions([])
-    }
-
-    const inputProps: ReactAutosuggest.InputProps<BikeRentalStation> = {
-        placeholder: 'Søk på bysykkelstativ for å legge til',
-        value,
-        onChange,
+    const onItemSelected = (item: Item): void => {
+        onSelected(item.value)
     }
 
     return (
         <div className="bike-search">
             <span>Bysykkelstativ</span>
-            <ReactAutosuggest
-                id="BikePanelSearch"
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                onSuggestionSelected={onSuggestionSelected}
-                onSuggestionsClearRequested={onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={inputProps}
+            <Dropdown
+                searchable
+                openOnFocus
+                placeholder="Søk på bysykkelstativ for å legge til"
+                items={getItems}
+                onChange={onItemSelected}
             />
         </div>
     )

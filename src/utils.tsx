@@ -18,13 +18,7 @@ import {
 
 import { colors } from '@entur/tokens'
 
-import {
-    Coordinates,
-    Departure,
-    LegMode,
-    TransportSubmode,
-    Feature,
-} from '@entur/sdk'
+import { Coordinates, Departure, LegMode, TransportSubmode } from '@entur/sdk'
 
 import { LineData } from './types'
 
@@ -276,19 +270,4 @@ export interface Suggestion {
         latitude: number
         longitude: number
     }
-}
-
-export function mapFeaturesToSuggestions(
-    features: Array<Feature>,
-): Array<Suggestion> {
-    return features.map(({ geometry, properties: { id, name, locality } }) => {
-        return {
-            coordinates: {
-                longitude: geometry.coordinates[0],
-                latitude: geometry.coordinates[1],
-            },
-            id,
-            name: locality ? `${name}, ${locality}` : name,
-        }
-    })
 }
