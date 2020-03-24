@@ -12,10 +12,7 @@ const YOUR_POSITION = 'Posisjonen din'
 interface Item {
     value: string
     label: string
-    coordinates?: {
-        longitude: number
-        latitude: number
-    }
+    coordinates?: Coordinates
 }
 
 function mapFeaturesToItems(features: Feature[]): Item[] {

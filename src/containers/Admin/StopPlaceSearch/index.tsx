@@ -1,78 +1,54 @@
-import React, { useState, useEffect } from 'react'
-import ReactAutosuggest from 'react-autosuggest'
+import React from 'react'
+import { Coordinates, Feature } from '@entur/sdk'
+import { Dropdown } from '@entur/dropdown'
 
 import service from '../../../service'
-import {
-    useDebounce,
-    mapFeaturesToSuggestions,
-    Suggestion,
-} from '../../../utils'
 
 import './styles.scss'
 
-async function fetchSuggestions(value: string): Promise<Array<Suggestion>> {
-    if (!value.trim().length) return []
+interface Item {
+    value: string
+    label: string
+    coordinates?: Coordinates
+}
 
-    const featuresData = await service.getFeatures(value, undefined, {
-        layers: ['venue'],
+function mapFeaturesToItems(features: Feature[]): Item[] {
+    return features.map(({ geometry, properties: { id, name, locality } }) => {
+        return {
+            value: id,
+            label: locality ? `${name}, ${locality}` : name,
+            coordinates: {
+                longitude: geometry.coordinates[0],
+                latitude: geometry.coordinates[1],
+            },
+        }
     })
-    return mapFeaturesToSuggestions(featuresData)
 }
 
 const SelectionPanelSearch = ({ handleAddNewStop }: Props): JSX.Element => {
-    const [suggestions, setSuggestions] = useState<Array<Suggestion>>([])
-    const [value, setValue] = useState('')
-    const debouncedValue = useDebounce(value, 500)
-
-    const onChange = (_, { newValue, method }): void => {
-        if (method === 'click') {
-            setValue('')
-        } else {
-            setValue(newValue)
-        }
+    const onItemSelected = (item: Item): void => {
+        handleAddNewStop(item.value)
     }
 
-    const getSuggestionValue = (suggestion: Suggestion): string =>
-        suggestion.name
+    const getItems = async (query: string): Promise<Item[]> => {
+        if (!query.trim().length) return []
 
-    const renderSuggestion = (suggestion: Suggestion): JSX.Element => (
-        <div>{suggestion.name}</div>
-    )
-
-    useEffect(() => {
-        fetchSuggestions(debouncedValue).then(setSuggestions)
-    }, [debouncedValue])
-
-    const onSuggestionsFetchRequested = ({ value: newValue }): void => {
-        setValue(newValue)
-    }
-
-    const onSuggestionSelected = (_, { suggestion }): void => {
-        handleAddNewStop(suggestion.id)
-    }
-
-    const onSuggestionsClearRequested = (): void => {
-        setSuggestions([])
-    }
-
-    const inputProps = {
-        placeholder: 'Søk på stoppested for å legge til',
-        value,
-        onChange,
+        const featuresData = await service.getFeatures(query, undefined, {
+            layers: ['venue'],
+        })
+        return mapFeaturesToItems(featuresData)
     }
 
     return (
         <div className="stop-place-search">
             <span>Stoppested</span>
-            <ReactAutosuggest
-                id="SelectionPanelSearch"
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                onSuggestionSelected={onSuggestionSelected}
-                renderSuggestion={renderSuggestion}
-                inputProps={inputProps}
+            <Dropdown
+                searchable
+                openOnFocus
+                debounceTimeout={500}
+                placeholder="Søk på stoppested for å legge til"
+                items={getItems}
+                onChange={onItemSelected}
             />
         </div>
     )
