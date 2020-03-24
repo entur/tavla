@@ -25,18 +25,18 @@ function mapFeaturesToItems(features: Feature[]): Item[] {
     })
 }
 
+async function getItems(query: string): Promise<Item[]> {
+    if (!query.trim().length) return []
+
+    const featuresData = await service.getFeatures(query, undefined, {
+        layers: ['venue'],
+    })
+    return mapFeaturesToItems(featuresData)
+}
+
 const SelectionPanelSearch = ({ handleAddNewStop }: Props): JSX.Element => {
     const onItemSelected = (item: Item): void => {
         handleAddNewStop(item.value)
-    }
-
-    const getItems = async (query: string): Promise<Item[]> => {
-        if (!query.trim().length) return []
-
-        const featuresData = await service.getFeatures(query, undefined, {
-            layers: ['venue'],
-        })
-        return mapFeaturesToItems(featuresData)
     }
 
     return (
