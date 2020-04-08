@@ -62,6 +62,8 @@ async function fetchStopPlaceDepartures(
             return stop
         }
 
+        console.log('departuresForThisStopPlace :', departuresForThisStopPlace)
+
         const mappedAndFilteredDepartures = departuresForThisStopPlace.departures
             .map(transformDepartureToLineData)
             .filter(

@@ -20,7 +20,7 @@ import { colors } from '@entur/tokens'
 
 import { Coordinates, Departure, LegMode, TransportSubmode } from '@entur/sdk'
 
-import { LineData } from './types'
+import { LineData, TileSubLabel } from './types'
 
 function isSubModeAirportLink(subMode?: string): boolean {
     const airportLinkTypes = ['airportLinkRail', 'airportLinkBus']
@@ -186,6 +186,8 @@ export function transformDepartureToLineData(departure: Departure): LineData {
         expectedDepartureTime,
         destinationDisplay,
         serviceJourney,
+        situations,
+        cancellation,
     } = departure
 
     const { line } = serviceJourney.journeyPattern
@@ -208,6 +210,20 @@ export function transformDepartureToLineData(departure: Departure): LineData {
         subType,
         time: formatDeparture(minDiff, departureTime),
         route,
+        hasSituation: Boolean(situations.length),
+        hasCancellation: cancellation,
+    }
+}
+
+export function createTileSubLabel({
+    hasSituation,
+    hasCancellation,
+    time,
+}: LineData): TileSubLabel {
+    return {
+        hasSituation,
+        hasCancellation,
+        time,
     }
 }
 
