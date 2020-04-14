@@ -17,6 +17,8 @@
     }
 
     &__sublabel {
+        align-items: center;
+        display: flex;
         font-size: 1.25rem;
         font-weight: 400;
         margin: 0;
@@ -24,5 +26,23 @@
         margin-left: auto;
         min-width: 5rem;
         text-align: right;
+
+        &__cancellation {
+            align-items: center;
+            background-color: $colors-brand-white;
+            border-radius: 0.5rem;
+            display: flex;
+            height: 0.875rem;
+            justify-content: center;
+            margin-left: 1rem;
+            overflow: visible;
+            width: 0.875rem;
+        }
+
+        &__situation {
+            font-size: 1.125rem;
+            height: 1.25rem;
+            margin-left: 1rem;
+        }
     }
 }

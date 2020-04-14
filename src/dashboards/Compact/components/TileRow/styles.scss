@@ -15,11 +15,6 @@
         margin-bottom: 0.5rem;
     }
 
-    &__icon-notice {
-        margin-top: 0.5rem;
-        margin-right: 0.5rem;
-    }
-
     &__icon {
         min-width: 2rem;
         margin-right: 1rem;
@@ -57,7 +52,9 @@
         }
 
         &__situation {
-            width: 0.9375rem;
+            font-size: 1.125rem;
+            height: 1.25rem;
+            margin-left: 0.375rem;
         }
 
         svg {

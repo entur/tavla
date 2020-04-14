@@ -2,7 +2,12 @@ import React from 'react'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 
-import { getIcon, unique, getTransportIconIdentifier } from '../../../utils'
+import {
+    getIcon,
+    unique,
+    getTransportIconIdentifier,
+    createTileSubLabel,
+} from '../../../utils'
 import { StopPlaceWithDepartures, LineData } from '../../../types'
 
 import Tile from '../components/Tile'
@@ -36,20 +41,19 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
 
     return (
         <Tile title={name} icons={headerIcons}>
-            {departures.map(
-                ({ id: departureId, route, type, subType, time }) => {
-                    const icon = getIcon(type, subType)
+            {departures.map(data => {
+                const icon = getIcon(data.type, data.subType)
+                const subLabel = createTileSubLabel(data)
 
-                    return (
-                        <TileRow
-                            key={departureId}
-                            label={route}
-                            subLabel={time}
-                            icon={icon}
-                        />
-                    )
-                },
-            )}
+                return (
+                    <TileRow
+                        key={data.id}
+                        label={data.route}
+                        subLabel={subLabel}
+                        icon={icon}
+                    />
+                )
+            })}
         </Tile>
     )
 }

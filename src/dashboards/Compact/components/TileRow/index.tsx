@@ -26,7 +26,7 @@ export function TileRow({ label, icon, subLabels }: Props): JSX.Element {
 }
 
 function SubLabelIcon({ subLabel }: { subLabel: TileSubLabel }): JSX.Element {
-    if (true)
+    if (subLabel.hasCancellation)
         return (
             <div className="tilerow__sublabel__cancellation">
                 <ValidationErrorIcon color={colors.validation.lava} />

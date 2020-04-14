@@ -210,18 +210,18 @@ export function transformDepartureToLineData(departure: Departure): LineData {
         subType,
         time: formatDeparture(minDiff, departureTime),
         route,
-        hasSituation: Boolean(situations.length),
+        situation: situations[0]?.summary?.[0]?.value,
         hasCancellation: cancellation,
     }
 }
 
 export function createTileSubLabel({
-    hasSituation,
+    situation,
     hasCancellation,
     time,
 }: LineData): TileSubLabel {
     return {
-        hasSituation,
+        hasSituation: Boolean(situation),
         hasCancellation,
         time,
     }
