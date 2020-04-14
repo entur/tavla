@@ -24,12 +24,18 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                     }
                     label={name}
                     subLabels={[
-                        bikesAvailable === 1
-                            ? '1 sykkel'
-                            : `${bikesAvailable} sykler`,
-                        spacesAvailable === 1
-                            ? '1 lås'
-                            : `${spacesAvailable} låser`,
+                        {
+                            time:
+                                bikesAvailable === 1
+                                    ? '1 sykkel'
+                                    : `${bikesAvailable} sykler`,
+                        },
+                        {
+                            time:
+                                spacesAvailable === 1
+                                    ? '1 lås'
+                                    : `${spacesAvailable} låser`,
+                        },
                     ]}
                 />
             ))}

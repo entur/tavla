@@ -7,6 +7,7 @@ import {
     groupBy,
     unique,
     getTransportIconIdentifier,
+    createTileSubLabel,
 } from '../../../utils'
 import { StopPlaceWithDepartures, LineData } from '../../../types'
 
@@ -53,7 +54,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                     <TileRow
                         key={route}
                         label={route}
-                        subLabels={routeData.map(data => data.time)}
+                        subLabels={routeData.map(createTileSubLabel)}
                         icon={icon}
                     />
                 )

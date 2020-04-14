@@ -7,6 +7,8 @@ export interface LineData {
     time: string
     route: string
     expectedDepartureTime: string
+    situation?: string
+    hasCancellation?: boolean
 }
 
 export interface Line {
@@ -25,4 +27,10 @@ export type StopPlaceWithLines = StopPlace & { lines: Array<Line> }
 export interface NearestPlaces {
     bikeRentalStationIds: Array<string>
     stopPlaceIds: Array<string>
+}
+
+export interface TileSubLabel {
+    time: string
+    hasCancellation?: boolean
+    hasSituation?: boolean
 }

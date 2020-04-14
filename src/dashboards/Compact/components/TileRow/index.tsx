@@ -1,6 +1,9 @@
 import React from 'react'
 import { Heading3 } from '@entur/typography'
+import { ValidationExclamationIcon, ValidationErrorIcon } from '@entur/icons'
+import { colors } from '@entur/tokens'
 
+import { TileSubLabel } from '../../../../types'
 import './styles.scss'
 
 export function TileRow({ label, icon, subLabels }: Props): JSX.Element {
@@ -11,9 +14,10 @@ export function TileRow({ label, icon, subLabels }: Props): JSX.Element {
                 <Heading3 className="tilerow__label">{label}</Heading3>
                 <div className="tilerow__sublabels">
                     {subLabels.map((subLabel, index) => (
-                        <span className="tilerow__sublabel" key={index}>
-                            {subLabel}
-                        </span>
+                        <div className="tilerow__sublabel" key={index}>
+                            {subLabel.time}
+                            <SubLabelIcon subLabel={subLabel} />
+                        </div>
                     ))}
                 </div>
             </div>
@@ -21,9 +25,27 @@ export function TileRow({ label, icon, subLabels }: Props): JSX.Element {
     )
 }
 
+function SubLabelIcon({ subLabel }: { subLabel: TileSubLabel }): JSX.Element {
+    if (subLabel.hasCancellation)
+        return (
+            <div className="tilerow__sublabel__cancellation">
+                <ValidationErrorIcon color={colors.validation.lava} />
+            </div>
+        )
+
+    if (subLabel.hasSituation)
+        return (
+            <div className="tilerow__sublabel__situation">
+                <ValidationExclamationIcon color={colors.validation.canary} />
+            </div>
+        )
+
+    return null
+}
+
 interface Props {
     label: string
-    subLabels: Array<string>
+    subLabels: Array<TileSubLabel>
     icon: JSX.Element
 }
 
