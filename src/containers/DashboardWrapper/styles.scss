@@ -7,9 +7,24 @@
     overflow: scroll;
     height: calc(100vh);
 
-    .no-stops {
-        display: block;
-        margin: auto;
+    &__no-stops {
+        img {
+            display: block;
+            margin: auto;
+        }
+
+        div {
+            color: $colors-blues-blue20;
+            margin: auto;
+            position: relative;
+            text-align: center;
+            top: -8.25rem;
+            width: 20rem;
+
+            header {
+                font-weight: 600;
+            }
+        }
     }
 
     &__top {
