@@ -34,7 +34,14 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const dashboardKey = history.location.key
 
     const bikeRentalStations = useBikeRentalStations()
-    const stopPlacesWithDepartures = useStopPlacesWithDepartures()
+
+    let stopPlacesWithDepartures = useStopPlacesWithDepartures()
+
+    if (stopPlacesWithDepartures) {
+        stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
+            ({ departures }) => departures.length > 0,
+        )
+    }
 
     const numberOfStopPlaces = stopPlacesWithDepartures
         ? stopPlacesWithDepartures.length
@@ -73,19 +80,17 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                         }
                     }}
                 >
-                    {(stopPlacesWithDepartures || [])
-                        .filter(({ departures }) => departures.length > 0)
-                        .map((stop, index) => (
-                            <div
-                                key={index.toString()}
-                                data-grid={getDataGrid(index)}
-                            >
-                                <DepartureTile
-                                    key={index}
-                                    stopPlaceWithDepartures={stop}
-                                />
-                            </div>
-                        ))}
+                    {(stopPlacesWithDepartures || []).map((stop, index) => (
+                        <div
+                            key={index.toString()}
+                            data-grid={getDataGrid(index)}
+                        >
+                            <DepartureTile
+                                key={index}
+                                stopPlaceWithDepartures={stop}
+                            />
+                        </div>
+                    ))}
                     {anyBikeRentalStations ? (
                         <div
                             key={numberOfStopPlaces.toString()}
