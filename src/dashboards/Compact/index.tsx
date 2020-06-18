@@ -37,6 +37,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
+    // Remove stop places without departures
     if (stopPlacesWithDepartures) {
         stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
             ({ departures }) => departures.length > 0,
