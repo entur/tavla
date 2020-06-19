@@ -21,7 +21,7 @@
     "postinstall": "node ./scripts/postinstall.js"
   },
   "author": "Entur AS",
-  "license": "MIT",
+  "license": "EUPL-1.2",
   "dependencies": {
     "@babel/runtime": "^7.8.7",
     "@entur/a11y": "^0.2.17",
