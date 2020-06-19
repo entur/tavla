@@ -4,8 +4,6 @@ import ReactDOM from 'react-dom'
 import analytics from 'universal-ga'
 import createHistory from 'history/createBrowserHistory'
 
-import '@entur/fonts/index.css'
-
 import App from './containers/App'
 
 import './main.scss'
