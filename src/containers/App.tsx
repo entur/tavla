@@ -2,7 +2,11 @@ import React from 'react'
 import { Route, Switch, Redirect, Router } from 'react-router-dom'
 import analytics from 'universal-ga'
 
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
 import { SettingsContext, useSettings } from '../settings'
+import { useAnonymousLogin, UserProvider } from '../auth'
 
 import Compact from '../dashboards/Compact'
 import Chrono from '../dashboards/Chrono'
@@ -11,6 +15,10 @@ import Timeline from '../dashboards/Timeline'
 import LandingPage from './LandingPage'
 import Admin from './Admin'
 import Privacy from './Privacy'
+
+const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
+
+firebase.initializeApp(firebaseConfig)
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
@@ -30,22 +38,25 @@ function getDashboardComponent(dashboardKey?: string | void) {
 }
 
 const App = ({ history }: Props): JSX.Element => {
+    const user = useAnonymousLogin()
     const settings = useSettings()
 
     const Dashboard = getDashboardComponent(settings[0].dashboard)
 
     return (
-        <SettingsContext.Provider value={settings}>
-            <Router history={history}>
-                <Switch>
-                    <Route exact path="/" component={LandingPage} />
-                    <Route path="/dashboard" component={Dashboard} />
-                    <Route path="/admin" component={Admin} />
-                    <Route path="/privacy" component={Privacy} />
-                    <Redirect to="/" />
-                </Switch>
-            </Router>
-        </SettingsContext.Provider>
+        <UserProvider value={user}>
+            <SettingsContext.Provider value={settings}>
+                <Router history={history}>
+                    <Switch>
+                        <Route exact path="/" component={LandingPage} />
+                        <Route path="/dashboard" component={Dashboard} />
+                        <Route path="/admin" component={Admin} />
+                        <Route path="/privacy" component={Privacy} />
+                        <Redirect to="/" />
+                    </Switch>
+                </Router>
+            </SettingsContext.Provider>
+        </UserProvider>
     )
 }
 
