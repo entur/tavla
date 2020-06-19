@@ -7,7 +7,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:10
 
     working_directory: ~/Tavla
 
@@ -34,7 +34,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:10
 
     working_directory: ~/Tavla
 
@@ -61,7 +61,7 @@ jobs:
 
   deploy-staging:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:10
 
     working_directory: ~/Tavla
 
