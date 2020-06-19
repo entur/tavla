@@ -78,7 +78,7 @@ function DashboardWrapper(props: Props): JSX.Element {
     }
 
     return (
-        <div className={`dashboard-wrapper ${className}`}>
+        <Contrast className={`dashboard-wrapper ${className}`}>
             <div className="dashboard-wrapper__top">
                 <div className="dashboard-wrapper__logo-wrapper">
                     <TavlaLogo className="dashboard-wrapper__logo" />
@@ -96,7 +96,7 @@ function DashboardWrapper(props: Props): JSX.Element {
                     onSettingsButtonClick={onSettingsButtonClick}
                 />
             </Contrast>
-        </div>
+        </Contrast>
     )
 }
 
