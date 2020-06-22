@@ -34,7 +34,7 @@
     "@entur/loader": "^0.3.21",
     "@entur/modal": "^1.1.19",
     "@entur/sdk": "^1.6.0",
-    "@entur/tokens": "^1  .3.5",
+    "@entur/tokens": "^1.3.5",
     "@entur/travel": "^4.0.3",
     "@entur/typography": "^1.2.0",
     "connect-history-api-fallback": "^1.6.0",
