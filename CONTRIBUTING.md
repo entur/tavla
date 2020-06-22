@@ -16,13 +16,33 @@ cd tavla
 npm install
 ```
 
-Run the development server with
+Run the server with
+
+```
+npm run serve:staging
+```
+
+Your browser should automatically open the app on http://localhost:5000
+
+### Set up a better development experience
+
+`npm run serve` uses `firebase serve` under the hood. This allows the use of [SDK auto-configuration](https://firebase.google.com/docs/hosting/reserved-urls#sdk_auto-configuration). That's cool, but means we have to build the app again for every change. For local development, we would prefer to use `webpack-dev-server` with hot-reloading. In order to do that, we need to reference the Firebase config through an environment variable called `FIREBASE_CONFIG`, rather than rely on auto-configuration.
+
+Create an env file for local development called `.env.local`. You can copy one of the existing files:
+
+```
+cp .env.staging .env.local
+```
+
+The .env.local will not be checked in to git, so we can experience with it as we'd like.
+
+Follow the steps for *Hosting your own Fork with Firebase* below. When `FIREBASE_CONFIG` has been added to .env.local, you can run
 
 ```
 npm start
 ```
 
-Your browser should automatically open the app on http://localhost:9090
+to start the local development server.
 
 ## Code Quality
 
@@ -49,9 +69,19 @@ First of all you need a Firebase _project. Go to https://console.firebase.google
 
 When the project is set up, add a new Web app to your project from the Project Overview. You don't need to "Add Firebase SDK" – that's already done in this repo.
 
-### Download config
-Press the cogwheel next to "Project Settings" in the left menu and go to "Project settings". Scroll down and find the Config under "Firebase SDK snippet". Copy the config object (the part after `const firebaseConfig = `). You need to stringify this and put it in both .env.staging and .env.prod (unless you have multiple projects). To stringify it, you can open the browser console and run `JSON.stringify(<CONFIG OBJECT>)`. Set the resulting string as the value for `FIREBASE_CONFIG` in the .env files.
+### Download config for local development
+In order to ease local development and allow hot reloading and such, we need to reference the Firebase config through an environment variable called `FIREBASE_CONFIG`, rather than rely on the auto-config that Firebase provides through `firebase serve`.
 
+Press the cogwheel next to "Project Settings" in the left menu and go to "Project settings". Scroll down and find the Config under "Firebase SDK snippet". Copy the config object (the part after `const firebaseConfig = `). You need to stringify this and put it in your `.env.local` file. To stringify it, you can open the browser console and run `JSON.stringify(<CONFIG OBJECT>)`. Set the resulting string as the value for `FIREBASE_CONFIG` in the .env.local file:
+
+```diff
+# .env.local
+JOURNEYPLANNER_HOST=https://api.staging.entur.io/journey-planner/v2
+GEOCODER_HOST=https://api.staging.entur.io/geocoder/v1
++FIREBASE_CONFIG='{"apiKey":"AIz...
+```
+
+### Configure .firebaserc
 Now let's update the `.firebaserc` file. Replace the project name with your own. You might not have a staging project, so just remove that:
 ```diff
 {
@@ -62,7 +92,6 @@ Now let's update the `.firebaserc` file. Replace the project name with your own.
   }
 }
 ```
-
 
 ### Enable Authentication
 In the Firebase Console (console.firebase.google.com), go to "Authentication" and "Sign-in method". Enable "Anonymous".
