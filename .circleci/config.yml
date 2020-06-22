@@ -13,24 +13,10 @@ jobs:
 
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package-lock.json" }}
-          - v1-dependencies-
-
       - add_ssh_keys: *ssh-fingerprint
-
-      - run: npm install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
-
-      - run:
-          name: Lint
-          command: npm run lint
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
 
   deploy:
     docker:
@@ -40,21 +26,8 @@ jobs:
 
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package-lock.json" }}
-          - v1-dependencies-
-
       - add_ssh_keys: *ssh-fingerprint
-
-      - run: npm install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
-
+      - run: npm ci
       - run:
           name: Deploy web
           command: npm run deploy --token=$FIREBASE_TOKEN --non-interactive
@@ -67,21 +40,8 @@ jobs:
 
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package-lock.json" }}
-          - v1-dependencies-
-
       - add_ssh_keys: *ssh-fingerprint
-
-      - run: npm install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
-
+      - run: npm ci
       - run:
           name: Deploy web staging
           command: npm run deploy:staging --token=$FIREBASE_TOKEN --non-interactive
