@@ -5,7 +5,7 @@ const postcssPresetEnv = require('postcss-preset-env')
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 
-module.exports = (env) => {
+module.exports = env => {
     return {
         mode: 'development',
         entry: './src/main.tsx',
@@ -44,9 +44,7 @@ module.exports = (env) => {
                             loader: 'postcss-loader',
                             options: {
                                 ident: 'postcss',
-                                plugins: () => [
-                                    postcssPresetEnv(),
-                                ],
+                                plugins: () => [postcssPresetEnv()],
                             },
                         },
                     ],
@@ -60,9 +58,7 @@ module.exports = (env) => {
                             loader: 'postcss-loader',
                             options: {
                                 ident: 'postcss',
-                                plugins: () => [
-                                    postcssPresetEnv(),
-                                ],
+                                plugins: () => [postcssPresetEnv()],
                             },
                         },
                         'sass-loader',
@@ -89,7 +85,12 @@ module.exports = (env) => {
                 filename: 'index.html',
                 favicon: 'src/assets/images/logo.png',
             }),
-            new Dotenv({ path: path.join(__dirname, `.env.${typeof env === 'string' ? env : 'staging'}`) }),
+            new Dotenv({
+                path: path.join(
+                    __dirname,
+                    `.env.${typeof env === 'string' ? env : 'local'}`,
+                ),
+            }),
         ],
         watch: typeof env !== 'string',
         optimization: {
