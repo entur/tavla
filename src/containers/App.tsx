@@ -2,11 +2,9 @@ import React from 'react'
 import { Route, Switch, Redirect, Router } from 'react-router-dom'
 import analytics from 'universal-ga'
 
-import firebase from 'firebase/app'
-import 'firebase/auth'
-
 import { SettingsContext, useSettings } from '../settings'
 import { useAnonymousLogin, UserProvider } from '../auth'
+import initializeFirebase from '../firebase-init'
 
 import Compact from '../dashboards/Compact'
 import Chrono from '../dashboards/Chrono'
@@ -16,9 +14,7 @@ import LandingPage from './LandingPage'
 import Admin from './Admin'
 import Privacy from './Privacy'
 
-const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
-
-firebase.initializeApp(firebaseConfig)
+initializeFirebase()
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
