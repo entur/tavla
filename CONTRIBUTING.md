@@ -16,33 +16,20 @@ cd tavla
 npm install
 ```
 
-Run the server with
-
-```
-npm run serve:staging
-```
-
-Your browser should automatically open the app on http://localhost:5000
-
-### Set up a better development experience
-
-`npm run serve` uses `firebase serve` under the hood. This allows the use of [SDK auto-configuration](https://firebase.google.com/docs/hosting/reserved-urls#sdk_auto-configuration). That's cool, but means we have to build the app again for every change. For local development, we would prefer to use `webpack-dev-server` with hot-reloading. In order to do that, we need to reference the Firebase config through an environment variable called `FIREBASE_CONFIG`, rather than rely on auto-configuration.
-
-Create an env file for local development called `.env.local`. You can copy one of the existing files:
-
-```
-cp .env.staging .env.local
-```
-
-The .env.local will not be checked in to git, so we can experiment with it as we'd like.
-
-Follow the steps for *Hosting your own Fork with Firebase* below. When `FIREBASE_CONFIG` has been added to .env.local, you can run
+Run the development server with
 
 ```
 npm start
 ```
 
-to start the local development server.
+Your browser should automatically open the app on http://localhost:9090
+
+You can test production builds with
+
+```
+npm run serve         # Uses the .env.prod config file
+npm run serve:staging # Uses the .env.staging config file
+```
 
 ## Code Quality
 
@@ -58,7 +45,7 @@ We use ESLint to ensure code quality. Please make sure ESLint is happy with the 
 npm run lint
 ```
 
-## Hosting your own Fork with Firebase
+## Using your own Firebase Project
 
 We are using Firebase for hosting tavla.entur.no (Firebase Hosting) and we are using Firebase Authentication as our authentication platform. Therefore, if you are thinking of hosting your own fork of Tavla, we would recommend you to do the same.
 
@@ -72,13 +59,14 @@ When the project is set up, add a new Web app to your project from the Project O
 ### Download config for local development
 In order to ease local development and allow hot reloading and such, we need to reference the Firebase config through an environment variable called `FIREBASE_CONFIG`, rather than rely on the auto-config that Firebase provides through `firebase serve`.
 
-Press the cogwheel next to "Project Settings" in the left menu and go to "Project settings". Scroll down and find the Config under "Firebase SDK snippet". Copy the config object (the part after `const firebaseConfig = `). You need to stringify this and put it in your `.env.local` file. To stringify it, you can open the browser console and run `JSON.stringify(<CONFIG OBJECT>)`. Set the resulting string as the value for `FIREBASE_CONFIG` in the .env.local file:
+Press the cogwheel next to "Project Settings" in the left menu and go to "Project settings". Scroll down and find the Config under "Firebase SDK snippet". Copy the config object (the part after `const firebaseConfig = `). You need to stringify this and put it in your `.env.staging` file. To stringify it, you can open the browser console and run `JSON.stringify(<CONFIG OBJECT>)`. Set the resulting string as the value for `FIREBASE_CONFIG` in the .env.staging file:
 
 ```diff
-# .env.local
+# .env.staging
 JOURNEYPLANNER_HOST=https://api.staging.entur.io/journey-planner/v2
 GEOCODER_HOST=https://api.staging.entur.io/geocoder/v1
-+FIREBASE_CONFIG='{"apiKey":"AIz...
+-FIREBASE_CONFIG='{"apiKey":"AIz...
++FIREBASE_CONFIG='{"apiKey":"<YOUR_CONFIG ... >
 ```
 
 ### Configure .firebaserc

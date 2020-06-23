@@ -88,7 +88,7 @@ module.exports = env => {
             new Dotenv({
                 path: path.join(
                     __dirname,
-                    `.env.${typeof env === 'string' ? env : 'local'}`,
+                    `.env.${typeof env === 'string' ? env : 'staging'}`,
                 ),
             }),
         ],
