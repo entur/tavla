@@ -4,4 +4,3 @@ dist/
 .vscode/
 .idea/
 .firebase/*.cache
-.env.local
