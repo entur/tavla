@@ -34,7 +34,7 @@ Create an env file for local development called `.env.local`. You can copy one o
 cp .env.staging .env.local
 ```
 
-The .env.local will not be checked in to git, so we can experience with it as we'd like.
+The .env.local will not be checked in to git, so we can experiment with it as we'd like.
 
 Follow the steps for *Hosting your own Fork with Firebase* below. When `FIREBASE_CONFIG` has been added to .env.local, you can run
 
