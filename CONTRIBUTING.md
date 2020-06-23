@@ -74,9 +74,9 @@ Now let's update the `.firebaserc` file. Replace the project name with your own.
 ```diff
 {
   "projects": {
-    +"prod": "myawesome-project"
-    -"prod": "entur-tavla",
-    -"staging": "tavla-stage"
++    "prod": "myawesome-project"
+-    "prod": "entur-tavla",
+-    "staging": "tavla-stage"
   }
 }
 ```
