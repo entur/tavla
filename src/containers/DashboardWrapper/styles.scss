@@ -4,7 +4,7 @@
     background-color: $colors-brand-blue;
     color: white;
     padding: 2rem 4rem;
-    overflow: scroll;
+    overflow-x: auto;
     height: calc(100vh);
 
     &__no-stops {
