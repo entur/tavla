@@ -23,7 +23,7 @@ async function fetchBikeRentalStations(
         .filter((id, index, ids) => ids.indexOf(id) === index)
 
     const allStations = await service.getBikeRentalStations(allStationIds)
-    return allStations.sort((a, b) => a.name.localeCompare(b.name, 'no'))
+    return allStations
 }
 
 export default function useBikeRentalStations(): Array<
