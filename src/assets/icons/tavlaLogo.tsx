@@ -51,7 +51,7 @@ function TavlaLogo({ className, theme = 'dark' }: Props): JSX.Element {
                 >
                     <text transform="translate(156 -5)">
                         <tspan x="0" y="46.518">
-                            TAVLA
+                            Tavla
                         </tspan>
                     </text>
                 </g>
