@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, useCallback } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect } from 'react'
 import { LegMode } from '@entur/sdk'
 
+import { useIsFirebaseInitialized } from '../firebase-init'
 import { persist, restore } from './UrlStorage'
 
 export interface Settings {
@@ -40,9 +41,9 @@ interface SetOptions {
 type Persistor = () => void
 
 export const SettingsContext = createContext<
-    [Settings, SettingsSetters, Persistor]
+    [Settings | null, SettingsSetters, Persistor]
 >([
-    restore(),
+    null,
     {
         setHiddenStations: (): void => undefined,
         setHiddenStops: (): void => undefined,
@@ -61,7 +62,19 @@ export function useSettingsContext(): [Settings, SettingsSetters, Persistor] {
 }
 
 export function useSettings(): [Settings, SettingsSetters, Persistor] {
-    const [settings, setSettings] = useState(restore())
+    const [settings, setSettings] = useState<Settings>()
+
+    const firebaseInitialized = useIsFirebaseInitialized()
+
+    useEffect(() => {
+        if (!firebaseInitialized) return
+
+        async function loadSettings() {
+            setSettings(await restore())
+        }
+
+        loadSettings()
+    }, [firebaseInitialized])
 
     const persistSettings = useCallback(() => {
         persist(settings)

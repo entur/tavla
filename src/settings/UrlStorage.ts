@@ -1,6 +1,7 @@
 import lz from 'lz-string'
 
 import { DEFAULT_DISTANCE } from '../constants'
+import { getSettings } from '../services/firebase'
 import { Settings } from './index'
 
 const DEFAULT_SETTINGS: Settings = {
@@ -13,6 +14,7 @@ const DEFAULT_SETTINGS: Settings = {
     newStops: [],
 }
 
+const ID_REGEX = /^\t+\/t\/(\t+)/
 const VERSION_PREFIX_REGEX = /^v(\d)+::/
 const CURRENT_VERSION = 1
 
@@ -57,7 +59,13 @@ export function persist(settings: Settings): void {
     window.history.pushState(window.history.state, document.title, newPathname)
 }
 
-export function restore(): Settings {
+export async function restore(): Promise<Settings> {
+    const id = window.location.pathname.match(ID_REGEX)
+
+    if (id) {
+        return await getSettings(id[1])
+    }
+
     const settingsString = window.location.pathname.split('/')[3]
     if (!settingsString) {
         return DEFAULT_SETTINGS
