@@ -37,7 +37,7 @@ const App = ({ history }: Props): JSX.Element => {
     const user = useAnonymousLogin()
     const settings = useSettings()
 
-    const Dashboard = getDashboardComponent(settings[0].dashboard)
+    const Dashboard = settings[0] ? getDashboardComponent(settings[0].dashboard) : null
 
     return (
         <UserProvider value={user}>

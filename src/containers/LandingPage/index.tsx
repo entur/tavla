@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Coordinates } from '@entur/sdk'
+import * as FirestoreService from "../../services/firebase";
 
 import { Github, TavlaLogo } from '../../assets/icons'
 
@@ -16,6 +17,12 @@ const LandingPage = ({ history }: Props): JSX.Element => {
                 .split('.')
                 .join('-')
             history.push(`/dashboard/@${pos}/`)
+            
+            FirestoreService.generateNewTavla(position).then((docRef) => {
+                console.log("Document written with docRef: ", docRef)
+            }).catch((e) => {
+                console.error("Error adding document: ", e)
+            })
         },
         [history],
     )
