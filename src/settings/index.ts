@@ -1,7 +1,14 @@
-import { createContext, useContext, useState, useCallback, useEffect } from 'react'
+import {
+    createContext,
+    useContext,
+    useState,
+    useCallback,
+    useEffect,
+} from 'react'
 import { LegMode } from '@entur/sdk'
 
 import { useIsFirebaseInitialized } from '../firebase-init'
+import { updateSettingField } from '../services/firebase'
 import { persist, restore } from './UrlStorage'
 
 export interface Settings {
@@ -80,6 +87,19 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
         persist(settings)
     }, [settings])
 
+    const updateFirebaseSetting = (
+        id: string,
+        fieldId: string,
+        fieldValue:
+            | string
+            | number
+            | Array<string>
+            | firebase.firestore.GeoPoint
+            | { [key: string]: string[] },
+    ): Promise<void> => {
+        return updateSettingField(id, fieldId, fieldValue)
+    }
+
     const set = useCallback(
         <T>(key: string, value: T, options?: SetOptions): void => {
             const newSettings = { ...settings, [key]: value }
@@ -93,21 +113,36 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
 
     const setHiddenStations = useCallback(
         (newHiddenStations: Array<string>, options?: SetOptions): void => {
-            set('hiddenStations', newHiddenStations, options)
+            // Updates in Firebase
+            updateFirebaseSetting(
+                'sa1ss23sa1ss23', //TODO: Insert user id state
+                'hiddenStations',
+                newHiddenStations,
+            ).then(() => set('hiddenStations', newHiddenStations, options))
         },
         [set],
     )
 
     const setHiddenStops = useCallback(
         (newHiddenStops: Array<string>, options?: SetOptions): void => {
-            set('hiddenStops', newHiddenStops, options)
+            // Updates in Firebase
+            updateFirebaseSetting(
+                'sa1ss23sa1ss23',
+                'hiddenStops',
+                newHiddenStops,
+            ).then(() => set('hiddenStops', newHiddenStops, options))
         },
         [set],
     )
 
     const setHiddenModes = useCallback(
         (newHiddenModes: Array<LegMode>, options?: SetOptions): void => {
-            set('hiddenModes', newHiddenModes, options)
+            // Updates in Firebase
+            updateFirebaseSetting(
+                'sa1ss23sa1ss23',
+                'hiddenModes',
+                newHiddenModes,
+            ).then(() => set('hiddenModes', newHiddenModes, options))
         },
         [set],
     )
@@ -117,35 +152,60 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
             newHiddenRoutes: { [stopPlaceId: string]: Array<string> },
             options?: SetOptions,
         ): void => {
-            set('hiddenRoutes', newHiddenRoutes, options)
+            // Updates in Firebase
+            updateFirebaseSetting(
+                'sa1ss23sa1ss23',
+                'hiddenRoutes',
+                newHiddenRoutes,
+            ).then(() => set('hiddenRoutes', newHiddenRoutes, options))
         },
         [set],
     )
 
     const setDistance = useCallback(
         (newDistance: number, options?: SetOptions): void => {
-            set('distance', newDistance, options)
+            // Updates in Firebase
+            updateFirebaseSetting(
+                'sa1ss23sa1ss23',
+                'distance',
+                newDistance,
+            ).then(() => set('distance', newDistance, options))
         },
         [set],
     )
 
     const setNewStations = useCallback(
         (newStations: Array<string>, options?: SetOptions): void => {
-            set('newStations', newStations, options)
+            // Updates in Firebase
+            updateFirebaseSetting(
+                'sa1ss23sa1ss23',
+                'newStations',
+                newStations,
+            ).then(() => set('newStations', newStations, options))
         },
         [set],
     )
 
     const setNewStops = useCallback(
         (newStops: Array<string>, options?: SetOptions): void => {
-            set('newStops', newStops, options)
+            // Updates in Firebase
+            updateFirebaseSetting(
+                'sa1ss23sa1ss23',
+                'newStops',
+                newStops,
+            ).then(() => set('newStops', newStops, options))
         },
         [set],
     )
 
     const setDashboard = useCallback(
         (dashboard: string, options?: SetOptions): void => {
-            set('dashboard', dashboard, options)
+            // Updates in Firebase
+            updateFirebaseSetting(
+                'sa1ss23sa1ss23',
+                'dashboard',
+                dashboard,
+            ).then(() => set('dashboard', dashboard, options))
         },
         [set],
     )

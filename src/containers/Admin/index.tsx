@@ -27,19 +27,21 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const position = useMemo(() => getPositionFromUrl(), [])
     const [settings, settingsSetters, persistSettings] = useSettingsContext()
 
-    const { distance, hiddenModes, newStops, newStations } = settings
+    const { hiddenModes, newStops, newStations } = settings
 
-    const {
-        setHiddenModes,
-        setDistance,
-        setNewStops,
-        setNewStations,
-    } = settingsSetters
+    const { setHiddenModes, setNewStops, setNewStations } = settingsSetters
+
+    const [distance, setDistance] = useState(settings.distance)
+    const debouncedDistance = useDebounce(distance, 800)
+    useEffect(() => {
+        if (settings.distance != debouncedDistance) {
+            settingsSetters.setDistance(debouncedDistance)
+        }
+    }, [debouncedDistance, settingsSetters, settings.distance])
 
     const [stopPlaces, setStopPlaces] = useState<Array<StopPlaceWithLines>>([])
     const [stations, setStations] = useState<Array<BikeRentalStation>>([])
 
-    const debouncedDistance = useDebounce(distance, 300)
     const nearestPlaces = useNearestPlaces(position, debouncedDistance)
 
     const nearestStopPlaceIds = useMemo(
