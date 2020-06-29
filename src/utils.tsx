@@ -22,7 +22,7 @@ import { Coordinates, Departure, LegMode, TransportSubmode } from '@entur/sdk'
 
 import { LineData, TileSubLabel } from './types'
 
-import { useSettingsContext } from './settings/index'
+import { useSettingsContext } from './settings/index'
 
 function isSubModeAirportLink(subMode?: string): boolean {
     const airportLinkTypes = ['airportLinkRail', 'airportLinkBus']

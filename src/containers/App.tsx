@@ -37,18 +37,28 @@ const Content = (): JSX.Element => {
     const user = useAnonymousLogin()
     const settings = useSettings()
 
-    const Dashboard = settings[0] ? getDashboardComponent(settings[0].dashboard) : null
+    const Dashboard = settings[0]
+        ? getDashboardComponent(settings[0].dashboard)
+        : null
 
     return (
         <UserProvider value={user}>
             <SettingsContext.Provider value={settings}>
                 <Switch>
                     <Route exact path="/" component={LandingPage} />
-                    <Route path={['/dashboard', '/t/:id']} component={Dashboard} />
+                    <Route
+                        path={['/dashboard', '/t/:documentId']}
+                        component={Dashboard}
+                    />
+                    <Route
+                        path="/admin/t/:documentId"
+                        exact
+                        component={Admin}
+                    />
                     <Route path="/admin" component={Admin} />
                     <Route path="/privacy" component={Privacy} />
                     <Redirect from="*" to="/" />
-                 </Switch>
+                </Switch>
             </SettingsContext.Provider>
         </UserProvider>
     )

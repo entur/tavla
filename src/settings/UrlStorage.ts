@@ -16,7 +16,6 @@ export const DEFAULT_SETTINGS: Settings = {
     coordinates: undefined,
 }
 
-const ID_REGEX = /^\/t\/(.+)/
 const VERSION_PREFIX_REGEX = /^v(\d)+::/
 const CURRENT_VERSION = 1
 
@@ -61,13 +60,11 @@ export function persist(settings: Settings): void {
     window.history.pushState(window.history.state, document.title, newPathname)
 }
 
-export async function restore(): Promise<Settings> {
-    const id = window.location.pathname.match(ID_REGEX)
-
+export async function restore(id?: string): Promise<Settings> {
     if (id) {
-        return await getSettings(id[1])
+        return await getSettings(id)
     }
-    
+
     const settingsString = window.location.pathname.split('/')[3]
     if (!settingsString) {
         return DEFAULT_SETTINGS

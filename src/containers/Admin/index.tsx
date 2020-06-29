@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { Button } from '@entur/button'
 import { BikeRentalStation, LegMode, TransportSubmode } from '@entur/sdk'
 import { Contrast } from '@entur/layout'
+import { useParams } from 'react-router-dom'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanel from './BikePanel'
@@ -30,6 +31,8 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const { hiddenModes, newStops, newStations } = settings
 
     const { setHiddenModes, setNewStops, setNewStations } = settingsSetters
+
+    
 
     const [distance, setDistance] = useState(settings.distance)
     const debouncedDistance = useDebounce(distance, 800)
@@ -128,23 +131,34 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             : uniqModesFromStopPlaces
     }, [stations.length, stopPlaces])
 
+    const { documentId } = useParams()
     const discardSettingsAndGoToDash = useCallback(() => {
         // eslint-disable-next-line no-restricted-globals
         const answerIsYes = confirm(
             'Er du sikker på at du vil gå tilbake uten å lagre endringene dine? Lagre-knapp finner du nederst til høyre på siden.',
         )
         if (answerIsYes) {
-            window.location.pathname = window.location.pathname.replace(
-                'admin',
-                'dashboard',
-            )
+            if (documentId) {
+                window.location.pathname = window.location.pathname.replace(
+                    'admin/t',
+                    't',
+                )
+            } else {
+                window.location.pathname = window.location.pathname.replace(
+                    'admin',
+                    'dashboard',
+                    )
+                }
         }
-    }, [])
+    }, [documentId])
 
     const submitSettingsAndGoToDash = useCallback(() => {
         persistSettings()
+        if (documentId) {
+            history.push(window.location.pathname.replace('admin/t', 't'))
+        }
         history.push(window.location.pathname.replace('admin', 'dashboard'))
-    }, [history, persistSettings])
+    }, [history, persistSettings, documentId])
 
     return (
         <Contrast className="admin">
