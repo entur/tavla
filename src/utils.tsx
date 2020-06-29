@@ -22,6 +22,8 @@ import { Coordinates, Departure, LegMode, TransportSubmode } from '@entur/sdk'
 
 import { LineData, TileSubLabel } from './types'
 
+import { useSettingsContext } from './settings/index'
+
 function isSubModeAirportLink(subMode?: string): boolean {
     const airportLinkTypes = ['airportLinkRail', 'airportLinkBus']
     return airportLinkTypes.includes(subMode)
@@ -134,13 +136,18 @@ export function getIcon(
     }
 }
 
-export function getPositionFromUrl(): Coordinates {
+export function usePosition(): Coordinates | null {
+    const [settings] = useSettingsContext()
+
+    if (settings.coordinates) return settings.coordinates
+
     const positionArray = window.location.pathname
         .split('/')[2]
         .split('@')[1]
         .split('-')
         .join('.')
         .split(/,/)
+
     return {
         latitude: Number(positionArray[0]),
         longitude: Number(positionArray[1]),

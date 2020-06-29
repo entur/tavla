@@ -4,7 +4,7 @@ import { DEFAULT_DISTANCE } from '../constants'
 import { getSettings } from '../services/firebase'
 import { Settings } from './index'
 
-const DEFAULT_SETTINGS: Settings = {
+export const DEFAULT_SETTINGS: Settings = {
     hiddenStations: [],
     hiddenStops: [],
     hiddenRoutes: {},
@@ -12,9 +12,11 @@ const DEFAULT_SETTINGS: Settings = {
     hiddenModes: [],
     newStations: [],
     newStops: [],
+    dashboard: 'Chrono',
+    coordinates: undefined,
 }
 
-const ID_REGEX = /^\t+\/t\/(\t+)/
+const ID_REGEX = /^\/t\/(.+)/
 const VERSION_PREFIX_REGEX = /^v(\d)+::/
 const CURRENT_VERSION = 1
 
@@ -65,7 +67,7 @@ export async function restore(): Promise<Settings> {
     if (id) {
         return await getSettings(id[1])
     }
-
+    
     const settingsString = window.location.pathname.split('/')[3]
     if (!settingsString) {
         return DEFAULT_SETTINGS

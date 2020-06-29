@@ -5,13 +5,15 @@ import {
     useCallback,
     useEffect,
 } from 'react'
-import { LegMode } from '@entur/sdk'
+import { useLocation } from 'react-router-dom'
+import { LegMode, Coordinates } from '@entur/sdk'
 
 import { useIsFirebaseInitialized } from '../firebase-init'
 import { updateSettingField } from '../services/firebase'
 import { persist, restore } from './UrlStorage'
 
 export interface Settings {
+    coordinates?: Coordinates
     hiddenStations: Array<string>
     hiddenStops: Array<string>
     hiddenModes: Array<LegMode>
@@ -73,15 +75,17 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
 
     const firebaseInitialized = useIsFirebaseInitialized()
 
-    useEffect(() => {
-        if (!firebaseInitialized) return
+    const location = useLocation()
 
-        async function loadSettings() {
+    useEffect(() => { 
+        if (location.pathname == '/' || !firebaseInitialized) return
+
+        async function loadSettings(): Promise<void> {
             setSettings(await restore())
         }
 
         loadSettings()
-    }, [firebaseInitialized])
+    }, [firebaseInitialized, location])
 
     const persistSettings = useCallback(() => {
         persist(settings)

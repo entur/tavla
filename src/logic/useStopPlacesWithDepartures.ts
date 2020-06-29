@@ -3,7 +3,7 @@ import { LegMode } from '@entur/sdk'
 
 import { StopPlaceWithDepartures } from '../types'
 import {
-    getPositionFromUrl,
+    usePosition,
     transformDepartureToLineData,
     unique,
 } from '../utils'
@@ -82,7 +82,7 @@ async function fetchStopPlaceDepartures(
 export default function useStopPlacesWithDepartures(): Array<
     StopPlaceWithDepartures
 > | null {
-    const position = useMemo(() => getPositionFromUrl(), [])
+    const position = usePosition()
     const [settings] = useSettingsContext()
     const nearestPlaces = useNearestPlaces(position, settings.distance)
     const [
