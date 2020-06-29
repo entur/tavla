@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
+import { useLocation } from 'react-router-dom'
 
 import differenceInSeconds from 'date-fns/differenceInSeconds'
 import differenceInMinutes from 'date-fns/differenceInMinutes'
@@ -141,17 +142,23 @@ export function usePosition(): Coordinates | null {
 
     if (settings.coordinates) return settings.coordinates
 
-    const positionArray = window.location.pathname
-        .split('/')[2]
-        .split('@')[1]
-        .split('-')
-        .join('.')
-        .split(/,/)
+    const location = useLocation()
 
-    return {
-        latitude: Number(positionArray[0]),
-        longitude: Number(positionArray[1]),
-    }
+    const position = useMemo(() => {
+        const positionArray = window.location.pathname
+            .split('/')[2]
+            .split('@')[1]
+            .split('-')
+            .join('.')
+            .split(/,/)
+
+        return {
+            latitude: Number(positionArray[0]),
+            longitude: Number(positionArray[1]),
+        }
+    }, [location])
+
+    return position
 }
 
 export function groupBy<T>(

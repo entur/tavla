@@ -53,7 +53,6 @@ function Footer({ className, history }: Props): JSX.Element {
 
 
     const { documentId } = useParams()
-    console.log(documentId)
 
     const onSettingsButtonClick = useCallback(
         event => {

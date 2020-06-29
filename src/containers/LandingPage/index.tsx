@@ -11,7 +11,6 @@ import { DEFAULT_SETTINGS } from '../../settings/UrlStorage'
 
 import SearchPanel from './SearchPanel'
 import './styles.scss'
-import { hu } from 'date-fns/esm/locale';
 
 const LandingPage = ({ history }: Props): JSX.Element => {
     const addLocation = useCallback(
