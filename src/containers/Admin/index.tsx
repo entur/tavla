@@ -8,7 +8,7 @@ import BikePanel from './BikePanel'
 import ModePanel from './ModePanel'
 import DistanceEditor from './DistanceEditor'
 
-import { getPositionFromUrl, useDebounce, isLegMode, unique } from '../../utils'
+import { usePosition, useDebounce, isLegMode, unique } from '../../utils'
 
 import service, { getStopPlacesWithLines } from '../../service'
 import { StopPlaceWithLines } from '../../types'
@@ -24,7 +24,7 @@ import StopPlaceSearch from './StopPlaceSearch'
 import './styles.scss'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
-    const position = useMemo(() => getPositionFromUrl(), [])
+    const position = usePosition()
     const [settings, settingsSetters, persistSettings] = useSettingsContext()
 
     const { distance, hiddenModes, newStops, newStations } = settings

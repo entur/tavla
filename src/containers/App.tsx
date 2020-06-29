@@ -33,7 +33,7 @@ function getDashboardComponent(dashboardKey?: string | void) {
     }
 }
 
-const App = ({ history }: Props): JSX.Element => {
+const Content = (): JSX.Element => {
     const user = useAnonymousLogin()
     const settings = useSettings()
 
@@ -42,15 +42,13 @@ const App = ({ history }: Props): JSX.Element => {
     return (
         <UserProvider value={user}>
             <SettingsContext.Provider value={settings}>
-                <Router history={history}>
-                    <Switch>
-                        <Route exact path="/" component={LandingPage} />
-                        <Route path="/dashboard" component={Dashboard} />
-                        <Route path="/admin" component={Admin} />
-                        <Route path="/privacy" component={Privacy} />
-                        <Redirect to="/" />
-                    </Switch>
-                </Router>
+                <Switch>
+                    <Route exact path="/" component={LandingPage} />
+                    <Route path={['/dashboard', '/t/:id']} component={Dashboard} />
+                    <Route path="/admin" component={Admin} />
+                    <Route path="/privacy" component={Privacy} />
+                    <Redirect from="*" to="/" />
+                 </Switch>
             </SettingsContext.Provider>
         </UserProvider>
     )
@@ -58,6 +56,14 @@ const App = ({ history }: Props): JSX.Element => {
 
 interface Props {
     history: any
+}
+
+const App = ({ history }: Props): JSX.Element => {
+    return (
+        <Router history={history}>
+            <Content />
+        </Router>
+    )
 }
 
 export default App

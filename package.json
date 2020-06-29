@@ -49,8 +49,8 @@
     "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.13.1",
     "react-grid-layout": "^0.18.3",
-    "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "universal-ga": "^1.2.0"
   },
   "devDependencies": {
