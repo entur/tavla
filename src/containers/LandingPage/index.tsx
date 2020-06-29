@@ -7,21 +7,22 @@ import { Github, TavlaLogo } from '../../assets/icons'
 
 import coverPhoto from '../../assets/images/cover-photo.jpg'
 
+import { DEFAULT_SETTINGS } from '../../settings/UrlStorage'
+
 import SearchPanel from './SearchPanel'
 import './styles.scss'
+import { hu } from 'date-fns/esm/locale';
 
 const LandingPage = ({ history }: Props): JSX.Element => {
     const addLocation = useCallback(
         (position: Coordinates): void => {
-            const pos = `${position.latitude},${position.longitude}`
-                .split('.')
-                .join('-')
-            history.push(`/dashboard/@${pos}/`)
+            const initialSettings = {
+                ...DEFAULT_SETTINGS,
+                coordinates: position,
+            }
             
-            FirestoreService.generateNewTavla(position).then((docRef) => {
-                console.log("Document written with docRef: ", docRef)
-            }).catch((e) => {
-                console.error("Error adding document: ", e)
+            FirestoreService.createDashboard(initialSettings).then(docRef => {
+                history.push(`/t/${docRef.id}`)
             })
         },
         [history],
