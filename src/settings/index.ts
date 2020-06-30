@@ -130,6 +130,11 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
 
     const setHiddenStations = useCallback(
         (newHiddenStations: Array<string>, options?: SetOptions): void => {
+            if (!documentId) {
+                set('hiddenStations', newHiddenStations, options)
+                return
+            }
+
             updateFirebaseSetting(
                 documentId,
                 'hiddenStations',
@@ -141,6 +146,11 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
 
     const setHiddenStops = useCallback(
         (newHiddenStops: Array<string>, options?: SetOptions): void => {
+            if (!documentId) {
+                set('hiddenStops', newHiddenStops, options)
+                return
+            }
+
             updateFirebaseSetting(
                 documentId,
                 'hiddenStops',
@@ -152,6 +162,11 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
 
     const setHiddenModes = useCallback(
         (newHiddenModes: Array<LegMode>, options?: SetOptions): void => {
+            if (!documentId) {
+                set('hiddenModes', newHiddenModes, options)
+                return
+            }
+
             updateFirebaseSetting(
                 documentId,
                 'hiddenModes',
@@ -166,6 +181,11 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
             newHiddenRoutes: { [stopPlaceId: string]: Array<string> },
             options?: SetOptions,
         ): void => {
+            if (!documentId) {
+                set('hiddenRoutes', newHiddenRoutes, options)
+                return
+            }
+
             updateFirebaseSetting(
                 documentId,
                 'hiddenRoutes',
@@ -177,6 +197,11 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
 
     const setDistance = useCallback(
         (newDistance: number, options?: SetOptions): void => {
+            if (!documentId) {
+                set('distance', newDistance, options)
+                return
+            }
+
             updateFirebaseSetting(
                 documentId,
                 'distance',
@@ -188,6 +213,11 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
 
     const setNewStations = useCallback(
         (newStations: Array<string>, options?: SetOptions): void => {
+            if (!documentId) {
+                set('newStations', newStations, options)
+                return
+            }
+
             updateFirebaseSetting(
                 documentId,
                 'newStations',
@@ -199,6 +229,11 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
 
     const setNewStops = useCallback(
         (newStops: Array<string>, options?: SetOptions): void => {
+            if (!documentId) {
+                set('newStops', newStops, options)
+                return
+            }
+
             updateFirebaseSetting(documentId, 'newStops', newStops).then(() =>
                 set('newStops', newStops, options),
             )
@@ -208,6 +243,11 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
 
     const setDashboard = useCallback(
         (dashboard: string, options?: SetOptions): void => {
+            if (!documentId) {
+                set('dashboard', dashboard, options)
+                return
+            }
+
             updateFirebaseSetting(documentId, 'dashboard', dashboard).then(() =>
                 set('dashboard', dashboard, options),
             )

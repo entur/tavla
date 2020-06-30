@@ -55,25 +55,29 @@ function isOldUrl(id?: string): boolean {
     }
 }
 
+function handleNewUrls(id: string) {
+    const urlParts = window.location.pathname.split('/')
+    switch (urlParts[0]) {
+        case 'admin':
+            urlParts.shift()
+            const newPathname = urlParts.join('/')
+            window.history.pushState(
+                window.history.state,
+                document.title,
+                newPathname,
+            )
+        default:
+            window.history.pushState(
+                window.history.state,
+                document.title,
+                window.location.pathname,
+            )
+    }
+}
+
 export function persist(settings: Settings, id?: string): void {
     if (!isOldUrl(id)) {
-        const urlParts = window.location.pathname.split('/')
-        switch (urlParts[0]) {
-            case 'admin':
-                urlParts.shift()
-                const newPathname = urlParts.join('/')
-                window.history.pushState(
-                    window.history.state,
-                    document.title,
-                    newPathname,
-                )
-            default:
-                window.history.pushState(
-                    window.history.state,
-                    document.title,
-                    window.location.pathname,
-                )
-        }
+        handleNewUrls(id)
         return
     }
     const hash = lz.compressToEncodedURIComponent(JSON.stringify(settings))
