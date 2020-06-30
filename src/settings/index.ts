@@ -85,7 +85,6 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
     const [settings, setSettings] = useState<Settings>()
 
     const documentId = getDocumentId()
-    console.log(documentId)
 
     const firebaseInitialized = useIsFirebaseInitialized()
 
@@ -102,7 +101,6 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
     }, [firebaseInitialized, location, documentId])
 
     const persistSettings = useCallback(() => {
-        console.log('Fra settings' + getDocumentId())
         persist(settings, getDocumentId())
     }, [settings])
 
