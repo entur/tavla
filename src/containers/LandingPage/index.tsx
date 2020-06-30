@@ -6,7 +6,7 @@ import { Github, TavlaLogo } from '../../assets/icons'
 
 import coverPhoto from '../../assets/images/cover-photo.jpg'
 
-import { createSettings } from '../../services/firebase'
+import { createSettings } from '../../services/firebase'
 import { DEFAULT_SETTINGS } from '../../settings/UrlStorage'
 
 import SearchPanel from './SearchPanel'

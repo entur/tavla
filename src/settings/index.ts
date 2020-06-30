@@ -94,17 +94,17 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
         if (location.pathname == '/' || !firebaseInitialized) return
 
         async function loadSettings(): Promise<void> {
-            const settings = await restore(documentId)
+            const document = await restore(documentId)
 
-            if (!settings.coordinates) {
+            if (!document.coordinates) {
                 const positionArray = location.pathname
                     .split('/')[2]
                     .split('@')[1]
                     .split('-')
                     .join('.')
                     .split(/,/)
-                
-                settings.coordinates = {
+
+                document.coordinates = {
                     latitude: Number(positionArray[0]),
                     longitude: Number(positionArray[1]),
                 }
@@ -205,11 +205,9 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
                 return
             }
 
-            updateSettingField(
-                documentId,
-                'distance',
-                newDistance,
-            ).then(() => set('distance', newDistance, options))
+            updateSettingField(documentId, 'distance', newDistance).then(() =>
+                set('distance', newDistance, options),
+            )
         },
         [set, documentId],
     )

@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
 
 import differenceInSeconds from 'date-fns/differenceInSeconds'
 import differenceInMinutes from 'date-fns/differenceInMinutes'
@@ -19,11 +18,9 @@ import {
 
 import { colors } from '@entur/tokens'
 
-import { Coordinates, Departure, LegMode, TransportSubmode } from '@entur/sdk'
+import { Departure, LegMode, TransportSubmode } from '@entur/sdk'
 
 import { LineData, TileSubLabel } from './types'
-
-import { useSettingsContext } from './settings/index'
 
 function isSubModeAirportLink(subMode?: string): boolean {
     const airportLinkTypes = ['airportLinkRail', 'airportLinkBus']

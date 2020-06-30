@@ -32,7 +32,10 @@ export default function useBikeRentalStations(): Array<
     const [bikeRentalStations, setBikeRentalStations] = useState<Array<
         BikeRentalStation
     > | null>(null)
-    const nearestPlaces = useNearestPlaces(settings.coordinates, settings.distance)
+    const nearestPlaces = useNearestPlaces(
+        settings.coordinates,
+        settings.distance,
+    )
 
     const nearestBikeRentalStations = useMemo(
         () =>

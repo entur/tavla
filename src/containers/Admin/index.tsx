@@ -42,7 +42,10 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const [stopPlaces, setStopPlaces] = useState<Array<StopPlaceWithLines>>([])
     const [stations, setStations] = useState<Array<BikeRentalStation>>([])
 
-    const nearestPlaces = useNearestPlaces(settings.coordinates, debouncedDistance)
+    const nearestPlaces = useNearestPlaces(
+        settings.coordinates,
+        debouncedDistance,
+    )
 
     const nearestStopPlaceIds = useMemo(
         () =>

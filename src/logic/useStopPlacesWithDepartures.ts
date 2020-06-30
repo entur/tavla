@@ -79,7 +79,10 @@ export default function useStopPlacesWithDepartures(): Array<
     StopPlaceWithDepartures
 > | null {
     const [settings] = useSettingsContext()
-    const nearestPlaces = useNearestPlaces(settings.coordinates, settings.distance)
+    const nearestPlaces = useNearestPlaces(
+        settings.coordinates,
+        settings.distance,
+    )
     const [
         stopPlacesWithDepartures,
         setStopPlacesWithDepartures,
