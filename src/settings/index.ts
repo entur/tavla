@@ -13,7 +13,7 @@ import { updateSettingField } from '../services/firebase'
 import { persist, restore } from './UrlStorage'
 
 // Matches the ID in an URL, if it exists.
-const ID_REGEX = /\/t\/(.+)(?:\/)?/
+const ID_REGEX = /\/(?:t|(?:admin))\/(.+)(?:\/)?/
 
 export interface Settings {
     coordinates?: Coordinates

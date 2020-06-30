@@ -56,7 +56,7 @@ function Footer({ className, history }: Props): JSX.Element {
     const onSettingsButtonClick = useCallback(
         event => {
             if (documentId) {
-                history.push(`/admin/t/${documentId}`)
+                history.push(`/admin/${documentId}`)
             } else {
                 const path = window.location.pathname.split('@')[1]
                 history.push(`/admin/@${path}`)

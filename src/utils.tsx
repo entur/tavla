@@ -139,6 +139,7 @@ export function getIcon(
 
 export function usePosition(): Coordinates | null {
     const [settings] = useSettingsContext()
+    console.log(settings)
 
     const location = useLocation()
 

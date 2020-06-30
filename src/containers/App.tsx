@@ -51,7 +51,7 @@ const Content = (): JSX.Element => {
                         component={Dashboard}
                     />
                     <Route
-                        path="/admin/t/:documentId"
+                        path="/admin/:documentId"
                         exact
                         component={settings[0] && Admin}
                     />

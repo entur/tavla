@@ -133,7 +133,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const discardSettingsAndGoToDash = useCallback(() => {
         if (documentId) {
             window.location.pathname = window.location.pathname.replace(
-                'admin/t',
+                'admin',
                 't',
             )
         } else {
@@ -153,7 +153,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const submitSettingsAndGoToDash = useCallback(() => {
         persistSettings()
         if (documentId) {
-            history.push(window.location.pathname.replace('admin/t', 't'))
+            history.push(window.location.pathname.replace('admin', 't'))
         }
         history.push(window.location.pathname.replace('admin', 'dashboard'))
     }, [history, persistSettings, documentId])
