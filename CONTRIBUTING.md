@@ -84,6 +84,12 @@ Now let's update the `.firebaserc` file. Replace the project name with your own.
 ### Enable Authentication
 In the Firebase Console (console.firebase.google.com), go to "Authentication" and "Sign-in method". Enable "Anonymous".
 
+### Enable Firestore
+In the Firebase Console (console.firebase.google.com), go to "Database" and setup Firestore. You need to select a region.
+We went for "eur3", the multi-region option in Europe.
+
+The Firestore Rules are defined in the `firestore.rules` file in this repository.
+
 ### Deploy
 We're close! Make sure you have the Firebase CLI installed globally:
 ```
