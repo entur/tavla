@@ -1,9 +1,10 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-import { DocumentReference } from '@firebase/firestore-types'
+import { firestore } from 'firebase'
 import { Settings } from '../settings/index'
 
 const SETTINGS_COLLECTION = 'settings'
+type DocumentReference = firestore.DocumentReference
 
 export const getSettings = async (id: string): Promise<Settings> => {
     const document = await firebase
