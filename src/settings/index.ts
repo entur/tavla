@@ -85,6 +85,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
     const [settings, setSettings] = useState<Settings>()
 
     const documentId = getDocumentId()
+    console.log(documentId)
 
     const firebaseInitialized = useIsFirebaseInitialized()
 
@@ -101,7 +102,8 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
     }, [firebaseInitialized, location, documentId])
 
     const persistSettings = useCallback(() => {
-        persist(settings)
+        console.log('Fra settings' + getDocumentId())
+        persist(settings, getDocumentId())
     }, [settings])
 
     const updateFirebaseSetting = (
@@ -122,7 +124,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
             const newSettings = { ...settings, [key]: value }
             setSettings(newSettings)
             if (options && options.persist) {
-                persist(newSettings)
+                persist(newSettings, getDocumentId())
             }
         },
         [settings],
@@ -199,22 +201,18 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
 
     const setNewStops = useCallback(
         (newStops: Array<string>, options?: SetOptions): void => {
-            updateFirebaseSetting(
-                documentId,
-                'newStops',
-                newStops,
-            ).then(() => set('newStops', newStops, options))
+            updateFirebaseSetting(documentId, 'newStops', newStops).then(() =>
+                set('newStops', newStops, options),
+            )
         },
         [set, documentId],
     )
 
     const setDashboard = useCallback(
         (dashboard: string, options?: SetOptions): void => {
-            updateFirebaseSetting(
-                documentId,
-                'dashboard',
-                dashboard,
-            ).then(() => set('dashboard', dashboard, options))
+            updateFirebaseSetting(documentId, 'dashboard', dashboard).then(() =>
+                set('dashboard', dashboard, options),
+            )
         },
         [set, documentId],
     )

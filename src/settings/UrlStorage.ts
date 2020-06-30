@@ -49,7 +49,33 @@ function migrate(fromVersion: number, settingsString: string): Settings {
     }
 }
 
-export function persist(settings: Settings): void {
+function isOldUrl(id?: string): boolean {
+    if (!id) {
+        return true
+    }
+}
+
+export function persist(settings: Settings, id?: string): void {
+    if (!isOldUrl(id)) {
+        const urlParts = window.location.pathname.split('/')
+        switch (urlParts[0]) {
+            case 'admin':
+                urlParts.shift()
+                const newPathname = urlParts.join('/')
+                window.history.pushState(
+                    window.history.state,
+                    document.title,
+                    newPathname,
+                )
+            default:
+                window.history.pushState(
+                    window.history.state,
+                    document.title,
+                    window.location.pathname,
+                )
+        }
+        return
+    }
     const hash = lz.compressToEncodedURIComponent(JSON.stringify(settings))
     const currentPathname = window.location.pathname
 
@@ -61,7 +87,7 @@ export function persist(settings: Settings): void {
 }
 
 export async function restore(id?: string): Promise<Settings> {
-    if (id) {
+    if (!isOldUrl(id)) {
         return await getSettings(id)
     }
 
@@ -75,7 +101,7 @@ export async function restore(id?: string): Promise<Settings> {
 
     if (version !== CURRENT_VERSION) {
         const migratedSettings = migrate(version, settingsString)
-        persist(migratedSettings)
+        persist(migratedSettings, id)
         return migratedSettings
     }
 
