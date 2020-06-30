@@ -94,6 +94,22 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
         if (location.pathname == '/' || !firebaseInitialized) return
 
         async function loadSettings(): Promise<void> {
+            const settings = await restore(documentId)
+
+            if (!settings.coordinates) {
+                const positionArray = location.pathname
+                    .split('/')[2]
+                    .split('@')[1]
+                    .split('-')
+                    .join('.')
+                    .split(/,/)
+                
+                settings.coordinates = {
+                    latitude: Number(positionArray[0]),
+                    longitude: Number(positionArray[1]),
+                }
+            }
+
             setSettings(await restore(documentId))
         }
 
@@ -103,19 +119,6 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
     const persistSettings = useCallback(() => {
         persist(settings, getDocumentId())
     }, [settings])
-
-    const updateFirebaseSetting = (
-        docId: string,
-        fieldId: string,
-        fieldValue:
-            | string
-            | number
-            | Array<string>
-            | firebase.firestore.GeoPoint
-            | { [key: string]: string[] },
-    ): Promise<void> => {
-        return updateSettingField(docId, fieldId, fieldValue)
-    }
 
     const set = useCallback(
         <T>(key: string, value: T, options?: SetOptions): void => {
@@ -135,7 +138,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
                 return
             }
 
-            updateFirebaseSetting(
+            updateSettingField(
                 documentId,
                 'hiddenStations',
                 newHiddenStations,
@@ -151,7 +154,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
                 return
             }
 
-            updateFirebaseSetting(
+            updateSettingField(
                 documentId,
                 'hiddenStops',
                 newHiddenStops,
@@ -167,7 +170,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
                 return
             }
 
-            updateFirebaseSetting(
+            updateSettingField(
                 documentId,
                 'hiddenModes',
                 newHiddenModes,
@@ -186,7 +189,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
                 return
             }
 
-            updateFirebaseSetting(
+            updateSettingField(
                 documentId,
                 'hiddenRoutes',
                 newHiddenRoutes,
@@ -202,7 +205,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
                 return
             }
 
-            updateFirebaseSetting(
+            updateSettingField(
                 documentId,
                 'distance',
                 newDistance,
@@ -218,7 +221,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
                 return
             }
 
-            updateFirebaseSetting(
+            updateSettingField(
                 documentId,
                 'newStations',
                 newStations,
@@ -234,7 +237,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
                 return
             }
 
-            updateFirebaseSetting(documentId, 'newStops', newStops).then(() =>
+            updateSettingField(documentId, 'newStops', newStops).then(() =>
                 set('newStops', newStops, options),
             )
         },
@@ -248,7 +251,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
                 return
             }
 
-            updateFirebaseSetting(documentId, 'dashboard', dashboard).then(() =>
+            updateSettingField(documentId, 'dashboard', dashboard).then(() =>
                 set('dashboard', dashboard, options),
             )
         },

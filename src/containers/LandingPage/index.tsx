@@ -6,7 +6,7 @@ import { Github, TavlaLogo } from '../../assets/icons'
 
 import coverPhoto from '../../assets/images/cover-photo.jpg'
 
-import * as FirestoreService from '../../services/firebase'
+import { createSettings } from '../../services/firebase'
 import { DEFAULT_SETTINGS } from '../../settings/UrlStorage'
 
 import SearchPanel from './SearchPanel'
@@ -20,7 +20,7 @@ const LandingPage = ({ history }: Props): JSX.Element => {
                 coordinates: position,
             }
 
-            FirestoreService.createDashboard(initialSettings).then(docRef => {
+            createSettings(initialSettings).then(docRef => {
                 history.push(`/t/${docRef.id}`)
             })
         },

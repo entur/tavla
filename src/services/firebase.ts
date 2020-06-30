@@ -6,13 +6,13 @@ import { Settings } from '../settings/index'
 const SETTINGS_COLLECTION = 'settings'
 type DocumentReference = firestore.DocumentReference
 
-export const getSettings = async (id: string): Promise<Settings> => {
+export const getSettings = async (id: string): Promise<Settings | undefined> => {
     const document = await firebase
         .firestore()
         .collection(SETTINGS_COLLECTION)
         .doc(id)
         .get()
-    return document.data() as Settings
+    return document.data() as Settings | undefined
 }
 
 export const updateSettingField = async (
@@ -32,7 +32,7 @@ export const updateSettingField = async (
         .update({ [fieldId]: fieldValue })
 }
 
-export const createDashboard = async (
+export const createSettings = async (
     settings: Settings,
 ): Promise<DocumentReference> => {
     return firebase

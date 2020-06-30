@@ -9,7 +9,7 @@ import BikePanel from './BikePanel'
 import ModePanel from './ModePanel'
 import DistanceEditor from './DistanceEditor'
 
-import { usePosition, useDebounce, isLegMode, unique } from '../../utils'
+import { useDebounce, isLegMode, unique } from '../../utils'
 
 import service, { getStopPlacesWithLines } from '../../service'
 import { StopPlaceWithLines } from '../../types'
@@ -25,7 +25,6 @@ import StopPlaceSearch from './StopPlaceSearch'
 import './styles.scss'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
-    const position = usePosition()
     const [settings, settingsSetters, persistSettings] = useSettingsContext()
 
     const { hiddenModes, newStops, newStations } = settings
@@ -43,7 +42,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const [stopPlaces, setStopPlaces] = useState<Array<StopPlaceWithLines>>([])
     const [stations, setStations] = useState<Array<BikeRentalStation>>([])
 
-    const nearestPlaces = useNearestPlaces(position, debouncedDistance)
+    const nearestPlaces = useNearestPlaces(settings.coordinates, debouncedDistance)
 
     const nearestStopPlaceIds = useMemo(
         () =>
@@ -183,7 +182,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                     <div className="admin__selection-panel">
                         <div className="search-stop-places">
                             <BikePanelSearch
-                                position={position}
+                                position={settings.coordinates}
                                 onSelected={addNewStation}
                             />
                         </div>

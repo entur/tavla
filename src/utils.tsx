@@ -137,31 +137,6 @@ export function getIcon(
     }
 }
 
-export function usePosition(): Coordinates | null {
-    const [settings] = useSettingsContext()
-    console.log(settings)
-
-    const location = useLocation()
-
-    const position = useMemo(() => {
-        if (settings.coordinates) return settings.coordinates
-
-        const positionArray = location.pathname
-            .split('/')[2]
-            .split('@')[1]
-            .split('-')
-            .join('.')
-            .split(/,/)
-
-        return {
-            latitude: Number(positionArray[0]),
-            longitude: Number(positionArray[1]),
-        }
-    }, [location, settings])
-
-    return position
-}
-
 export function groupBy<T>(
     objectArray: Array<T>,
     property: string,
