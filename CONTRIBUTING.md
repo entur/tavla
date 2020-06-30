@@ -105,7 +105,7 @@ firebase login
 When that's done, run
 
 ```
-npm run deploy
+npm run deploy:prod
 ```
 
 This will build the app and deploy it to the `prod` project that is defined in `.firebaserc`.

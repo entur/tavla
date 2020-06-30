@@ -30,7 +30,7 @@ jobs:
       - run: npm ci
       - run:
           name: Deploy web
-          command: npm run deploy --token=$FIREBASE_TOKEN --non-interactive
+          command: npm run deploy:prod --token=$FIREBASE_TOKEN --non-interactive
 
   deploy-staging:
     docker:
