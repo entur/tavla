@@ -112,7 +112,7 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
                 .split(/,/)
 
             setSettings({
-                ...(await restoreFromUrl()),
+                ...restoreFromUrl(),
                 coordinates: {
                     latitude: Number(positionArray[0]),
                     longitude: Number(positionArray[1]),
@@ -135,14 +135,14 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
         <T>(key: string, value: FieldValue, options?: SetOptions): void => {
             const newSettings = { ...settings, [key]: value }
             setSettings(newSettings)
-            if (options && options.persist) {
-                if (getDocumentId()) {
-                    persistToFirebase(getDocumentId(), newSettings)
-                    return
-                } else {
-                    persistToUrl(newSettings)
-                }
+
+            if (!options || !options.persist) return
+
+            if (getDocumentId()) {
+                persistToFirebase(getDocumentId(), newSettings)
+                return
             }
+            persistToUrl(newSettings)
         },
         [settings],
     )

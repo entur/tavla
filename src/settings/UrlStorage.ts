@@ -59,7 +59,7 @@ export function persist(settings: Settings): void {
     window.history.pushState(window.history.state, document.title, newPathname)
 }
 
-export async function restore(): Promise<Settings> {
+export function restore(): Settings {
     const settingsString = window.location.pathname.split('/')[3]
     if (!settingsString) {
         return DEFAULT_SETTINGS

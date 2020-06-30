@@ -12,7 +12,7 @@ export function persist(docId: string, settings: Settings): void {
     updateSettingField(docId, settings)
 }
 
-export async function restore(id?: string): Promise<Settings> {
+export function restore(id?: string): Promise<Settings | undefined> {
     return getSettings(id)
 }
 
