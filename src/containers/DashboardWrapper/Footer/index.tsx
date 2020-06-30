@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Heading3, Paragraph } from '@entur/typography'
 import { ActionChip } from '@entur/chip'
 import { EditIcon, SettingsIcon, CheckIcon } from '@entur/icons'
@@ -50,7 +50,6 @@ function Footer({ className, history }: Props): JSX.Element {
     const goBack = useCallback(() => {
         history.push('/')
     }, [history])
-
 
     const { documentId } = useParams()
 

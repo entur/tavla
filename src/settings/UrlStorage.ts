@@ -55,17 +55,18 @@ function isOldUrl(id?: string): boolean {
     }
 }
 
-function handleNewUrls(id: string) {
+function handleNewUrls() {
     const urlParts = window.location.pathname.split('/')
+    const newPathname = urlParts.join('/')
     switch (urlParts[0]) {
         case 'admin':
             urlParts.shift()
-            const newPathname = urlParts.join('/')
             window.history.pushState(
                 window.history.state,
                 document.title,
                 newPathname,
             )
+            break
         default:
             window.history.pushState(
                 window.history.state,
@@ -77,7 +78,7 @@ function handleNewUrls(id: string) {
 
 export function persist(settings: Settings, id?: string): void {
     if (!isOldUrl(id)) {
-        handleNewUrls(id)
+        handleNewUrls()
         return
     }
     const hash = lz.compressToEncodedURIComponent(JSON.stringify(settings))

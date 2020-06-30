@@ -2,11 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { LegMode } from '@entur/sdk'
 
 import { StopPlaceWithDepartures } from '../types'
-import {
-    usePosition,
-    transformDepartureToLineData,
-    unique,
-} from '../utils'
+import { usePosition, transformDepartureToLineData, unique } from '../utils'
 import service from '../service'
 import { useSettingsContext, Settings } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'

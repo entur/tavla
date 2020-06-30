@@ -140,12 +140,12 @@ export function getIcon(
 export function usePosition(): Coordinates | null {
     const [settings] = useSettingsContext()
 
-    if (settings.coordinates) return settings.coordinates
-
     const location = useLocation()
 
     const position = useMemo(() => {
-        const positionArray = window.location.pathname
+        if (settings.coordinates) return settings.coordinates
+
+        const positionArray = location.pathname
             .split('/')[2]
             .split('@')[1]
             .split('-')
@@ -156,7 +156,7 @@ export function usePosition(): Coordinates | null {
             latitude: Number(positionArray[0]),
             longitude: Number(positionArray[1]),
         }
-    }, [location])
+    }, [location, settings])
 
     return position
 }

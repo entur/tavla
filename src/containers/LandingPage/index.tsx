@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Coordinates } from '@entur/sdk'
-import * as FirestoreService from "../../services/firebase";
 
 import { Github, TavlaLogo } from '../../assets/icons'
 
 import coverPhoto from '../../assets/images/cover-photo.jpg'
 
-import { DEFAULT_SETTINGS } from '../../settings/UrlStorage'
+import * as FirestoreService from '../../services/firebase'
+import { DEFAULT_SETTINGS } from '../../settings/UrlStorage'
 
 import SearchPanel from './SearchPanel'
 import './styles.scss'
@@ -19,7 +19,7 @@ const LandingPage = ({ history }: Props): JSX.Element => {
                 ...DEFAULT_SETTINGS,
                 coordinates: position,
             }
-            
+
             FirestoreService.createDashboard(initialSettings).then(docRef => {
                 history.push(`/t/${docRef.id}`)
             })

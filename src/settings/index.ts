@@ -5,7 +5,7 @@ import {
     useCallback,
     useEffect,
 } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { LegMode, Coordinates } from '@entur/sdk'
 
 import { useIsFirebaseInitialized } from '../firebase-init'
