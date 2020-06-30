@@ -9,11 +9,18 @@ import { useLocation } from 'react-router-dom'
 import { LegMode, Coordinates } from '@entur/sdk'
 
 import { useIsFirebaseInitialized } from '../firebase-init'
-import { updateSettingField } from '../services/firebase'
-import { persist, restore } from './UrlStorage'
+import {
+    persist as persistToFirebase,
+    restore as restoreFromFirebase,
+    FieldValue,
+} from './FirestoreStorage'
+import {
+    persist as persistToUrl,
+    restore as restoreFromUrl,
+} from './UrlStorage'
 
 // Matches the ID in an URL, if it exists.
-const ID_REGEX = /\/(?:t|(?:admin))\/(.+)(?:\/)?/
+const ID_REGEX = /\/(?:t|(?:admin))\/(\w+)(?:\/)?/
 
 export interface Settings {
     coordinates?: Coordinates
@@ -84,8 +91,6 @@ const getDocumentId = (): string | undefined => {
 export function useSettings(): [Settings, SettingsSetters, Persistor] {
     const [settings, setSettings] = useState<Settings>()
 
-    const documentId = getDocumentId()
-
     const firebaseInitialized = useIsFirebaseInitialized()
 
     const location = useLocation()
@@ -93,39 +98,50 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
     useEffect(() => {
         if (location.pathname == '/' || !firebaseInitialized) return
 
-        async function loadSettings(): Promise<void> {
-            const document = await restore(documentId)
-
-            if (!document.coordinates) {
-                const positionArray = location.pathname
-                    .split('/')[2]
-                    .split('@')[1]
-                    .split('-')
-                    .join('.')
-                    .split(/,/)
-
-                document.coordinates = {
-                    latitude: Number(positionArray[0]),
-                    longitude: Number(positionArray[1]),
-                }
+        async function loadSettings(): Promise<Settings> {
+            if (getDocumentId()) {
+                setSettings(await restoreFromFirebase(getDocumentId()))
+                return
             }
 
-            setSettings(await restore(documentId))
+            const positionArray = location.pathname
+                .split('/')[2]
+                .split('@')[1]
+                .split('-')
+                .join('.')
+                .split(/,/)
+
+            setSettings({
+                ...(await restoreFromUrl()),
+                coordinates: {
+                    latitude: Number(positionArray[0]),
+                    longitude: Number(positionArray[1]),
+                },
+            })
         }
 
         loadSettings()
-    }, [firebaseInitialized, location, documentId])
+    }, [firebaseInitialized, location])
 
     const persistSettings = useCallback(() => {
-        persist(settings, getDocumentId())
+        if (getDocumentId()) {
+            persistToFirebase(getDocumentId(), settings)
+        } else {
+            persistToUrl(settings)
+        }
     }, [settings])
 
     const set = useCallback(
-        <T>(key: string, value: T, options?: SetOptions): void => {
+        <T>(key: string, value: FieldValue, options?: SetOptions): void => {
             const newSettings = { ...settings, [key]: value }
             setSettings(newSettings)
             if (options && options.persist) {
-                persist(newSettings, getDocumentId())
+                if (getDocumentId()) {
+                    persistToFirebase(getDocumentId(), newSettings)
+                    return
+                } else {
+                    persistToUrl(newSettings)
+                }
             }
         },
         [settings],
@@ -133,50 +149,23 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
 
     const setHiddenStations = useCallback(
         (newHiddenStations: Array<string>, options?: SetOptions): void => {
-            if (!documentId) {
-                set('hiddenStations', newHiddenStations, options)
-                return
-            }
-
-            updateSettingField(
-                documentId,
-                'hiddenStations',
-                newHiddenStations,
-            ).then(() => set('hiddenStations', newHiddenStations, options))
+            set('hiddenStations', newHiddenStations, options)
         },
-        [set, documentId],
+        [set],
     )
 
     const setHiddenStops = useCallback(
         (newHiddenStops: Array<string>, options?: SetOptions): void => {
-            if (!documentId) {
-                set('hiddenStops', newHiddenStops, options)
-                return
-            }
-
-            updateSettingField(
-                documentId,
-                'hiddenStops',
-                newHiddenStops,
-            ).then(() => set('hiddenStops', newHiddenStops, options))
+            set('hiddenStops', newHiddenStops, options)
         },
-        [set, documentId],
+        [set],
     )
 
     const setHiddenModes = useCallback(
         (newHiddenModes: Array<LegMode>, options?: SetOptions): void => {
-            if (!documentId) {
-                set('hiddenModes', newHiddenModes, options)
-                return
-            }
-
-            updateSettingField(
-                documentId,
-                'hiddenModes',
-                newHiddenModes,
-            ).then(() => set('hiddenModes', newHiddenModes, options))
+            set('hiddenModes', newHiddenModes, options)
         },
-        [set, documentId],
+        [set],
     )
 
     const setHiddenRoutes = useCallback(
@@ -184,76 +173,37 @@ export function useSettings(): [Settings, SettingsSetters, Persistor] {
             newHiddenRoutes: { [stopPlaceId: string]: Array<string> },
             options?: SetOptions,
         ): void => {
-            if (!documentId) {
-                set('hiddenRoutes', newHiddenRoutes, options)
-                return
-            }
-
-            updateSettingField(
-                documentId,
-                'hiddenRoutes',
-                newHiddenRoutes,
-            ).then(() => set('hiddenRoutes', newHiddenRoutes, options))
+            set('hiddenRoutes', newHiddenRoutes, options)
         },
-        [set, documentId],
+        [set],
     )
 
     const setDistance = useCallback(
         (newDistance: number, options?: SetOptions): void => {
-            if (!documentId) {
-                set('distance', newDistance, options)
-                return
-            }
-
-            updateSettingField(documentId, 'distance', newDistance).then(() =>
-                set('distance', newDistance, options),
-            )
+            set('distance', newDistance, options)
         },
-        [set, documentId],
+        [set],
     )
 
     const setNewStations = useCallback(
         (newStations: Array<string>, options?: SetOptions): void => {
-            if (!documentId) {
-                set('newStations', newStations, options)
-                return
-            }
-
-            updateSettingField(
-                documentId,
-                'newStations',
-                newStations,
-            ).then(() => set('newStations', newStations, options))
+            set('newStations', newStations, options)
         },
-        [set, documentId],
+        [set],
     )
 
     const setNewStops = useCallback(
         (newStops: Array<string>, options?: SetOptions): void => {
-            if (!documentId) {
-                set('newStops', newStops, options)
-                return
-            }
-
-            updateSettingField(documentId, 'newStops', newStops).then(() =>
-                set('newStops', newStops, options),
-            )
+            set('newStops', newStops, options)
         },
-        [set, documentId],
+        [set],
     )
 
     const setDashboard = useCallback(
         (dashboard: string, options?: SetOptions): void => {
-            if (!documentId) {
-                set('dashboard', dashboard, options)
-                return
-            }
-
-            updateSettingField(documentId, 'dashboard', dashboard).then(() =>
-                set('dashboard', dashboard, options),
-            )
+            set('dashboard', dashboard, options)
         },
-        [set, documentId],
+        [set],
     )
 
     const setters = {

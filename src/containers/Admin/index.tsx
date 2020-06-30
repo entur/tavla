@@ -133,17 +133,16 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 
     const { documentId } = useParams()
     const discardSettingsAndGoToDash = useCallback(() => {
-        if (documentId) {
-            window.location.pathname = window.location.pathname.replace(
-                'admin',
-                't',
-            )
-        } else {
-            // eslint-disable-next-line no-restricted-globals
-            const answerIsYes = confirm(
-                'Er du sikker på at du vil gå tilbake uten å lagre endringene dine? Lagre-knapp finner du nederst til høyre på siden.',
-            )
-            if (answerIsYes) {
+        const answerIsYes = confirm(
+            'Er du sikker på at du vil gå tilbake uten å lagre endringene dine? Lagre-knapp finner du nederst til høyre på siden.',
+        )
+        if (answerIsYes) {
+            if (documentId) {
+                window.location.pathname = window.location.pathname.replace(
+                    'admin',
+                    't',
+                )
+            } else {
                 window.location.pathname = window.location.pathname.replace(
                     'admin',
                     'dashboard',
@@ -198,7 +197,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                 variant="primary"
                 onClick={submitSettingsAndGoToDash}
             >
-                Se avgangstavla
+                Oppdater tavla
             </Button>
         </Contrast>
     )

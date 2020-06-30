@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import { firestore } from 'firebase'
+
 import { Settings } from '../settings/index'
 
 const SETTINGS_COLLECTION = 'settings'
@@ -19,19 +20,13 @@ export const getSettings = async (
 
 export const updateSettingField = async (
     id: string,
-    fieldId: string,
-    fieldValue:
-        | string
-        | number
-        | Array<string>
-        | firebase.firestore.GeoPoint
-        | { [key: string]: string[] },
+    settings: Settings,
 ): Promise<void> => {
     return firebase
         .firestore()
         .collection(SETTINGS_COLLECTION)
         .doc(id)
-        .update({ [fieldId]: fieldValue })
+        .update(settings)
 }
 
 export const createSettings = async (

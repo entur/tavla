@@ -1,7 +1,6 @@
 import lz from 'lz-string'
 
 import { DEFAULT_DISTANCE } from '../constants'
-import { getSettings } from '../services/firebase'
 import { Settings } from './index'
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -49,38 +48,7 @@ function migrate(fromVersion: number, settingsString: string): Settings {
     }
 }
 
-function isOldUrl(id?: string): boolean {
-    if (!id) {
-        return true
-    }
-}
-
-function handleNewUrls() {
-    const urlParts = window.location.pathname.split('/')
-    const newPathname = urlParts.join('/')
-    switch (urlParts[0]) {
-        case 'admin':
-            urlParts.shift()
-            window.history.pushState(
-                window.history.state,
-                document.title,
-                newPathname,
-            )
-            break
-        default:
-            window.history.pushState(
-                window.history.state,
-                document.title,
-                window.location.pathname,
-            )
-    }
-}
-
-export function persist(settings: Settings, id?: string): void {
-    if (!isOldUrl(id)) {
-        handleNewUrls()
-        return
-    }
+export function persist(settings: Settings): void {
     const hash = lz.compressToEncodedURIComponent(JSON.stringify(settings))
     const currentPathname = window.location.pathname
 
@@ -91,11 +59,7 @@ export function persist(settings: Settings, id?: string): void {
     window.history.pushState(window.history.state, document.title, newPathname)
 }
 
-export async function restore(id?: string): Promise<Settings> {
-    if (!isOldUrl(id)) {
-        return await getSettings(id)
-    }
-
+export async function restore(): Promise<Settings> {
     const settingsString = window.location.pathname.split('/')[3]
     if (!settingsString) {
         return DEFAULT_SETTINGS
@@ -106,7 +70,7 @@ export async function restore(id?: string): Promise<Settings> {
 
     if (version !== CURRENT_VERSION) {
         const migratedSettings = migrate(version, settingsString)
-        persist(migratedSettings, id)
+        persist(migratedSettings)
         return migratedSettings
     }
 
