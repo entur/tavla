@@ -2,13 +2,13 @@ import 'react-app-polyfill/stable'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import analytics from 'universal-ga'
-import createHistory from 'history/createBrowserHistory'
+import { createBrowserHistory } from 'history'
 
 import App from './containers/App'
 
 import './main.scss'
 
-const history = createHistory()
+const history = createBrowserHistory()
 history.listen(location => {
     const locationAnonymized = location.pathname.substring(
         0,
