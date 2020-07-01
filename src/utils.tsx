@@ -276,7 +276,7 @@ export interface Suggestion {
 }
 
 // Matches the ID in an URL, if it exists.
-const ID_REGEX = /\/(?:t|(?:admin))\/(\w+)(?:\/)?/
+const ID_REGEX = /^\/(?:t|(?:admin))\/(\w+)(?:\/)?/
 
 export const getDocumentId = (): string | undefined => {
     const id = window.location.pathname.match(ID_REGEX)

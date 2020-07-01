@@ -7,6 +7,7 @@ import StopPlacePanel from './StopPlacePanel'
 import BikePanel from './BikePanel'
 import ModePanel from './ModePanel'
 import DistanceEditor from './DistanceEditor'
+import LoginButton from './LoginButton'
 
 import { useDebounce, isLegMode, unique, getDocumentId } from '../../utils'
 
@@ -160,6 +161,8 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 
     return (
         <Contrast className="admin">
+            <LoginButton />
+            
             <AdminHeader goBackToDashboard={discardSettingsAndGoToDash} />
             <div className="admin__content">
                 <div className="admin__selection-panel">

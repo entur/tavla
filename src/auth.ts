@@ -5,8 +5,8 @@ import 'firebase/auth'
 
 import { useIsFirebaseInitialized } from './firebase-init'
 
-export function useAnonymousLogin(): User | null {
-    const [user, setUser] = useState<User | null>()
+export function useFirebaseAuthentication(): User | null  {
+    const [user, setUser] = useState<User | null>(null)
     const firebaseInitialized = useIsFirebaseInitialized()
 
     useEffect(() => {
@@ -33,6 +33,6 @@ const UserContext = createContext<User | null>(null)
 
 export const UserProvider = UserContext.Provider
 
-export function useUser(): User {
+export function useUser(): User | null | undefined {
     return useContext(UserContext)
 }
