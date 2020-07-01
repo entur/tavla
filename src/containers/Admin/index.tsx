@@ -2,13 +2,14 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { Button } from '@entur/button'
 import { BikeRentalStation, LegMode, TransportSubmode } from '@entur/sdk'
 import { Contrast } from '@entur/layout'
+import { useParams } from 'react-router-dom'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanel from './BikePanel'
 import ModePanel from './ModePanel'
 import DistanceEditor from './DistanceEditor'
 
-import { getPositionFromUrl, useDebounce, isLegMode, unique } from '../../utils'
+import { useDebounce, isLegMode, unique } from '../../utils'
 
 import service, { getStopPlacesWithLines } from '../../service'
 import { StopPlaceWithLines } from '../../types'
@@ -24,23 +25,27 @@ import StopPlaceSearch from './StopPlaceSearch'
 import './styles.scss'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
-    const position = useMemo(() => getPositionFromUrl(), [])
     const [settings, settingsSetters, persistSettings] = useSettingsContext()
 
-    const { distance, hiddenModes, newStops, newStations } = settings
+    const { hiddenModes, newStops, newStations } = settings
 
-    const {
-        setHiddenModes,
-        setDistance,
-        setNewStops,
-        setNewStations,
-    } = settingsSetters
+    const { setHiddenModes, setNewStops, setNewStations } = settingsSetters
+
+    const [distance, setDistance] = useState(settings.distance)
+    const debouncedDistance = useDebounce(distance, 800)
+    useEffect(() => {
+        if (settings.distance != debouncedDistance) {
+            settingsSetters.setDistance(debouncedDistance)
+        }
+    }, [debouncedDistance, settingsSetters, settings.distance])
 
     const [stopPlaces, setStopPlaces] = useState<Array<StopPlaceWithLines>>([])
     const [stations, setStations] = useState<Array<BikeRentalStation>>([])
 
-    const debouncedDistance = useDebounce(distance, 300)
-    const nearestPlaces = useNearestPlaces(position, debouncedDistance)
+    const nearestPlaces = useNearestPlaces(
+        settings.coordinates,
+        debouncedDistance,
+    )
 
     const nearestStopPlaceIds = useMemo(
         () =>
@@ -126,23 +131,33 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             : uniqModesFromStopPlaces
     }, [stations.length, stopPlaces])
 
+    const { documentId } = useParams()
     const discardSettingsAndGoToDash = useCallback(() => {
-        // eslint-disable-next-line no-restricted-globals
         const answerIsYes = confirm(
             'Er du sikker på at du vil gå tilbake uten å lagre endringene dine? Lagre-knapp finner du nederst til høyre på siden.',
         )
         if (answerIsYes) {
-            window.location.pathname = window.location.pathname.replace(
-                'admin',
-                'dashboard',
-            )
+            if (documentId) {
+                window.location.pathname = window.location.pathname.replace(
+                    'admin',
+                    't',
+                )
+            } else {
+                window.location.pathname = window.location.pathname.replace(
+                    'admin',
+                    'dashboard',
+                )
+            }
         }
-    }, [])
+    }, [documentId])
 
     const submitSettingsAndGoToDash = useCallback(() => {
         persistSettings()
+        if (documentId) {
+            history.push(window.location.pathname.replace('admin', 't'))
+        }
         history.push(window.location.pathname.replace('admin', 'dashboard'))
-    }, [history, persistSettings])
+    }, [history, persistSettings, documentId])
 
     return (
         <Contrast className="admin">
@@ -169,7 +184,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                     <div className="admin__selection-panel">
                         <div className="search-stop-places">
                             <BikePanelSearch
-                                position={position}
+                                position={settings.coordinates}
                                 onSelected={addNewStation}
                             />
                         </div>

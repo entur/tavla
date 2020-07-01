@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import { useParams } from 'react-router-dom'
 import { Heading3, Paragraph } from '@entur/typography'
 import { ActionChip } from '@entur/chip'
 import { EditIcon, SettingsIcon, CheckIcon } from '@entur/icons'
@@ -50,13 +51,19 @@ function Footer({ className, history }: Props): JSX.Element {
         history.push('/')
     }, [history])
 
+    const { documentId } = useParams()
+
     const onSettingsButtonClick = useCallback(
         event => {
-            const path = window.location.pathname.split('@')[1]
-            history.push(`/admin/@${path}`)
-            event.preventDefault()
+            if (documentId) {
+                history.push(`/admin/${documentId}`)
+            } else {
+                const path = window.location.pathname.split('@')[1]
+                history.push(`/admin/@${path}`)
+                event.preventDefault()
+            }
         },
-        [history],
+        [history, documentId],
     )
 
     const onChange = useCallback(event => {

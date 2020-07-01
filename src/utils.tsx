@@ -18,7 +18,7 @@ import {
 
 import { colors } from '@entur/tokens'
 
-import { Coordinates, Departure, LegMode, TransportSubmode } from '@entur/sdk'
+import { Departure, LegMode, TransportSubmode } from '@entur/sdk'
 
 import { LineData, TileSubLabel } from './types'
 
@@ -131,19 +131,6 @@ export function getIcon(
             return <PlaneIcon color={colorToUse} />
         default:
             return null
-    }
-}
-
-export function getPositionFromUrl(): Coordinates {
-    const positionArray = window.location.pathname
-        .split('/')[2]
-        .split('@')[1]
-        .split('-')
-        .join('.')
-        .split(/,/)
-    return {
-        latitude: Number(positionArray[0]),
-        longitude: Number(positionArray[1]),
     }
 }
 

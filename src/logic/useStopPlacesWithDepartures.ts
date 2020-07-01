@@ -2,11 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { LegMode } from '@entur/sdk'
 
 import { StopPlaceWithDepartures } from '../types'
-import {
-    getPositionFromUrl,
-    transformDepartureToLineData,
-    unique,
-} from '../utils'
+import { transformDepartureToLineData, unique } from '../utils'
 import service from '../service'
 import { useSettingsContext, Settings } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'
@@ -82,9 +78,11 @@ async function fetchStopPlaceDepartures(
 export default function useStopPlacesWithDepartures(): Array<
     StopPlaceWithDepartures
 > | null {
-    const position = useMemo(() => getPositionFromUrl(), [])
     const [settings] = useSettingsContext()
-    const nearestPlaces = useNearestPlaces(position, settings.distance)
+    const nearestPlaces = useNearestPlaces(
+        settings.coordinates,
+        settings.distance,
+    )
     const [
         stopPlacesWithDepartures,
         setStopPlacesWithDepartures,

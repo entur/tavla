@@ -1,9 +1,29 @@
-import { createContext, useContext, useState, useCallback } from 'react'
-import { LegMode } from '@entur/sdk'
+import {
+    createContext,
+    useContext,
+    useState,
+    useCallback,
+    useEffect,
+} from 'react'
+import { useLocation } from 'react-router-dom'
+import { LegMode, Coordinates } from '@entur/sdk'
 
-import { persist, restore } from './UrlStorage'
+import { useIsFirebaseInitialized } from '../firebase-init'
+import {
+    persist as persistToFirebase,
+    restore as restoreFromFirebase,
+    FieldValue,
+} from './FirestoreStorage'
+import {
+    persist as persistToUrl,
+    restore as restoreFromUrl,
+} from './UrlStorage'
+
+// Matches the ID in an URL, if it exists.
+const ID_REGEX = /\/(?:t|(?:admin))\/(\w+)(?:\/)?/
 
 export interface Settings {
+    coordinates?: Coordinates
     hiddenStations: Array<string>
     hiddenStops: Array<string>
     hiddenModes: Array<LegMode>
@@ -40,9 +60,9 @@ interface SetOptions {
 type Persistor = () => void
 
 export const SettingsContext = createContext<
-    [Settings, SettingsSetters, Persistor]
+    [Settings | null, SettingsSetters, Persistor]
 >([
-    restore(),
+    null,
     {
         setHiddenStations: (): void => undefined,
         setHiddenStops: (): void => undefined,
@@ -60,20 +80,69 @@ export function useSettingsContext(): [Settings, SettingsSetters, Persistor] {
     return useContext(SettingsContext)
 }
 
+const getDocumentId = (): string | undefined => {
+    const id = window.location.pathname.match(ID_REGEX)
+
+    if (id) {
+        return id[1]
+    }
+}
+
 export function useSettings(): [Settings, SettingsSetters, Persistor] {
-    const [settings, setSettings] = useState(restore())
+    const [settings, setSettings] = useState<Settings>()
+
+    const firebaseInitialized = useIsFirebaseInitialized()
+
+    const location = useLocation()
+
+    useEffect(() => {
+        if (location.pathname == '/' || !firebaseInitialized) return
+
+        async function loadSettings(): Promise<Settings> {
+            if (getDocumentId()) {
+                setSettings(await restoreFromFirebase(getDocumentId()))
+                return
+            }
+
+            const positionArray = location.pathname
+                .split('/')[2]
+                .split('@')[1]
+                .split('-')
+                .join('.')
+                .split(/,/)
+
+            setSettings({
+                ...restoreFromUrl(),
+                coordinates: {
+                    latitude: Number(positionArray[0]),
+                    longitude: Number(positionArray[1]),
+                },
+            })
+        }
+
+        loadSettings()
+    }, [firebaseInitialized, location])
 
     const persistSettings = useCallback(() => {
-        persist(settings)
+        if (getDocumentId()) {
+            persistToFirebase(getDocumentId(), settings)
+        } else {
+            persistToUrl(settings)
+        }
     }, [settings])
 
     const set = useCallback(
-        <T>(key: string, value: T, options?: SetOptions): void => {
+        <T>(key: string, value: FieldValue, options?: SetOptions): void => {
             const newSettings = { ...settings, [key]: value }
             setSettings(newSettings)
-            if (options && options.persist) {
-                persist(newSettings)
+
+            if (!options || !options.persist) return
+
+            if (getDocumentId()) {
+                persistToFirebase(getDocumentId(), newSettings)
+                return
             }
+            persistToUrl(newSettings)
         },
         [settings],
     )
