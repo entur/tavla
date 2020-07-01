@@ -43,7 +43,7 @@
         width: 100%;
     }
 
-    &__footer {
+    &__bottom-menu {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -52,7 +52,7 @@
     }
 
     &:hover {
-        .dashboard-wrapper__footer {
+        .dashboard-wrapper__bottom-menu {
             display: flex;
         }
     }

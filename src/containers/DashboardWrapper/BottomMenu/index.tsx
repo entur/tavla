@@ -41,7 +41,7 @@ function RadioBox({ value, selected, onChange, children }): JSX.Element {
     )
 }
 
-function Footer({ className, history }: Props): JSX.Element {
+function BottomMenu({ className, history }: Props): JSX.Element {
     const [settings, { setDashboard }] = useSettingsContext()
 
     const [modalOpen, setModalOpen] = useState<boolean>(false)
@@ -81,9 +81,8 @@ function Footer({ className, history }: Props): JSX.Element {
     )
 
     return (
-        <footer className={`footer ${className || ''}`}>
-            <BackButton className="footer__back-button" action={goBack} />
-            <div className="footer__actions">
+        <footer className={`bottom-menu ${className || ''}`}>
+            <div className="bottom-menu__actions">
                 <ActionChip onClick={(): void => setModalOpen(true)}>
                     <EditIcon /> Endre visning
                 </ActionChip>
@@ -129,7 +128,7 @@ function Footer({ className, history }: Props): JSX.Element {
                             stoppet. Ikke egnet for bysykkel.
                         </Paragraph>
                     </RadioBox>
-                    <div className="footer-modal__buttons">
+                    <div className="bottom-menu-modal__buttons">
                         <Button
                             variant="secondary"
                             type="button"
@@ -153,4 +152,4 @@ interface Props {
     onSettingsButtonClick: any
 }
 
-export default Footer
+export default BottomMenu

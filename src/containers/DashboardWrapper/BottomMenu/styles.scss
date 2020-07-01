@@ -1,6 +1,6 @@
 @import '../../../assets/styles/import.scss';
 
-.footer {
+.bottom-menu {
     height: 80px;
     align-items: center;
     bottom: 3rem;
@@ -82,7 +82,7 @@
     }
 }
 
-.footer-modal__buttons {
+.bottom-menu-modal__buttons {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -99,13 +99,13 @@
 }
 
 @media (max-height: 900px) {
-    .footer {
+    .bottom-menu {
         padding: 3rem 1rem;
     }
 }
 
 @media (max-width: 480px) {
-    .footer {
+    .bottom-menu {
         position: sticky;
         padding: 0 1rem 0 0;
     }
