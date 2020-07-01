@@ -50,9 +50,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const anyBikeRentalStations =
         bikeRentalStations && bikeRentalStations.length
 
-    const localStorageLayout: Layouts | undefined = getFromLocalStorage(
-        history.location.key,
-    )
+    const localStorageLayout: Layouts =
+        getFromLocalStorage(history.location.key) || {}
     const extraCols = anyBikeRentalStations ? 1 : 0
 
     const cols = {
