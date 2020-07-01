@@ -174,7 +174,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                 variant="primary"
                 onClick={goToDash}
             >
-                Oppdater tavla
+                Se avgangstavla
             </Button>
         </Contrast>
     )
