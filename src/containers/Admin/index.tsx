@@ -2,14 +2,13 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { Button } from '@entur/button'
 import { BikeRentalStation, LegMode, TransportSubmode } from '@entur/sdk'
 import { Contrast } from '@entur/layout'
-import { useParams } from 'react-router-dom'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanel from './BikePanel'
 import ModePanel from './ModePanel'
 import DistanceEditor from './DistanceEditor'
 
-import { useDebounce, isLegMode, unique } from '../../utils'
+import { useDebounce, isLegMode, unique, getDocumentId } from '../../utils'
 
 import service, { getStopPlacesWithLines } from '../../service'
 import { StopPlaceWithLines } from '../../types'
@@ -131,7 +130,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             : uniqModesFromStopPlaces
     }, [stations.length, stopPlaces])
 
-    const { documentId } = useParams()
+    const documentId = getDocumentId()
     const discardSettingsAndGoToDash = useCallback(() => {
         const answerIsYes = confirm(
             'Er du sikker på at du vil gå tilbake uten å lagre endringene dine? Lagre-knapp finner du nederst til høyre på siden.',

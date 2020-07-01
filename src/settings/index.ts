@@ -19,8 +19,7 @@ import {
     restore as restoreFromUrl,
 } from './UrlStorage'
 
-// Matches the ID in an URL, if it exists.
-const ID_REGEX = /\/(?:t|(?:admin))\/(\w+)(?:\/)?/
+import { getDocumentId } from '../utils'
 
 export interface Settings {
     coordinates?: Coordinates
@@ -78,14 +77,6 @@ export const SettingsContext = createContext<
 
 export function useSettingsContext(): [Settings, SettingsSetters, Persistor] {
     return useContext(SettingsContext)
-}
-
-const getDocumentId = (): string | undefined => {
-    const id = window.location.pathname.match(ID_REGEX)
-
-    if (id) {
-        return id[1]
-    }
 }
 
 export function useSettings(): [Settings, SettingsSetters, Persistor] {
