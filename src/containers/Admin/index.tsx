@@ -15,6 +15,7 @@ import { StopPlaceWithLines } from '../../types'
 
 import { useSettingsContext } from '../../settings'
 import { useNearestPlaces } from '../../logic'
+import { DEFAULT_DISTANCE } from '../../constants'
 
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
@@ -28,8 +29,11 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 
     const { setHiddenModes, setNewStops, setNewStations } = settingsSetters
 
-    const [distance, setDistance] = useState(settings.distance)
+    const [distance, setDistance] = useState<number>(
+        settings.distance || DEFAULT_DISTANCE,
+    )
     const debouncedDistance = useDebounce(distance, 800)
+
     useEffect(() => {
         if (settings.distance != debouncedDistance) {
             settingsSetters.setDistance(debouncedDistance)
