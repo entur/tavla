@@ -9,15 +9,12 @@ import { useLocation } from 'react-router-dom'
 import { LegMode, Coordinates } from '@entur/sdk'
 
 import { useIsFirebaseInitialized } from '../firebase-init'
-import {
-    persist as persistToFirebase,
-    restore as restoreFromFirebase,
-    FieldValue,
-} from './FirestoreStorage'
+import { persist as persistToFirebase, FieldValue } from './FirestoreStorage'
 import {
     persist as persistToUrl,
     restore as restoreFromUrl,
 } from './UrlStorage'
+import { getSettings } from '../services/firebase'
 
 import { getDocumentId } from '../utils'
 
@@ -78,29 +75,32 @@ export function useSettings(): [Settings, SettingsSetters] {
     useEffect(() => {
         if (location.pathname == '/' || !firebaseInitialized) return
 
-        async function loadSettings(): Promise<Settings> {
-            if (getDocumentId()) {
-                setSettings(await restoreFromFirebase(getDocumentId()))
-                return
-            }
+        const id = getDocumentId()
 
-            const positionArray = location.pathname
-                .split('/')[2]
-                .split('@')[1]
-                .split('-')
-                .join('.')
-                .split(/,/)
-
-            setSettings({
-                ...restoreFromUrl(),
-                coordinates: {
-                    latitude: Number(positionArray[0]),
-                    longitude: Number(positionArray[1]),
-                },
+        if (id) {
+            return getSettings(id).onSnapshot(document => {
+                if (document.exists) {
+                    setSettings(document.data() as Settings)
+                } else {
+                    window.location.pathname = '/'
+                }
             })
         }
 
-        loadSettings()
+        const positionArray = location.pathname
+            .split('/')[2]
+            .split('@')[1]
+            .split('-')
+            .join('.')
+            .split(/,/)
+
+        setSettings({
+            ...restoreFromUrl(),
+            coordinates: {
+                latitude: Number(positionArray[0]),
+                longitude: Number(positionArray[1]),
+            },
+        })
     }, [firebaseInitialized, location])
 
     const set = useCallback(
