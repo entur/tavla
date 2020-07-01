@@ -16,15 +16,13 @@ import { StopPlaceWithLines } from '../../types'
 import { useSettingsContext } from '../../settings'
 import { useNearestPlaces } from '../../logic'
 
-import AdminHeader from './AdminHeader'
-
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
 
 import './styles.scss'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
-    const [settings, settingsSetters, persistSettings] = useSettingsContext()
+    const [settings, settingsSetters] = useSettingsContext()
 
     const { hiddenModes, newStops, newStations } = settings
 
@@ -131,36 +129,16 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     }, [stations.length, stopPlaces])
 
     const documentId = getDocumentId()
-    const discardSettingsAndGoToDash = useCallback(() => {
-        const answerIsYes = confirm(
-            'Er du sikker på at du vil gå tilbake uten å lagre endringene dine? Lagre-knapp finner du nederst til høyre på siden.',
-        )
-        if (answerIsYes) {
-            if (documentId) {
-                window.location.pathname = window.location.pathname.replace(
-                    'admin',
-                    't',
-                )
-            } else {
-                window.location.pathname = window.location.pathname.replace(
-                    'admin',
-                    'dashboard',
-                )
-            }
-        }
-    }, [documentId])
 
-    const submitSettingsAndGoToDash = useCallback(() => {
-        persistSettings()
+    const goToDash = useCallback(() => {
         if (documentId) {
             history.push(window.location.pathname.replace('admin', 't'))
         }
         history.push(window.location.pathname.replace('admin', 'dashboard'))
-    }, [history, persistSettings, documentId])
+    }, [history, documentId])
 
     return (
         <Contrast className="admin">
-            <AdminHeader goBackToDashboard={discardSettingsAndGoToDash} />
             <div className="admin__content">
                 <div className="admin__selection-panel">
                     <DistanceEditor
@@ -194,9 +172,9 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             <Button
                 className="admin__submit-button"
                 variant="primary"
-                onClick={submitSettingsAndGoToDash}
+                onClick={goToDash}
             >
-                Oppdater tavla
+                Se avgangstavla
             </Button>
         </Contrast>
     )

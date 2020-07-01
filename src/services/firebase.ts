@@ -15,14 +15,20 @@ export const getSettings = (id: string): DocumentReference => {
 }
 
 export const updateSettingField = async (
-    id: string,
-    settings: Settings,
+    docId: string,
+    fieldId: string,
+    fieldValue:
+        | string
+        | number
+        | Array<string>
+        | firebase.firestore.GeoPoint
+        | { [key: string]: string[] },
 ): Promise<void> => {
     return firebase
         .firestore()
         .collection(SETTINGS_COLLECTION)
-        .doc(id)
-        .update(settings)
+        .doc(docId)
+        .update({ [fieldId]: fieldValue })
 }
 
 export const createSettings = async (
