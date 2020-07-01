@@ -23,14 +23,17 @@ function migrateFromV0(settings: string): Settings {
         return DEFAULT_SETTINGS
     }
     const parsed = JSON.parse(atob(settings))
-    const migratedHiddenRoutes = parsed.hiddenRoutes
-        .map(idAndRouteString => idAndRouteString.split('$'))
+    const migratedHiddenRoutes: Settings['hiddenRoutes'] = parsed.hiddenRoutes
+        .map((idAndRouteString: string) => idAndRouteString.split('$'))
         .reduce(
-            (routeMap, [stopPlaceId, routeName]) => ({
+            (
+                routeMap: Settings['hiddenRoutes'],
+                [stopPlaceId, routeName]: [string, string],
+            ) => ({
                 ...routeMap,
                 [stopPlaceId]: [...(routeMap[stopPlaceId] || []), routeName],
             }),
-            {},
+            {} as Settings['hiddenRoutes'],
         )
 
     return {

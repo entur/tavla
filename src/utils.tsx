@@ -134,9 +134,9 @@ export function getIcon(
     }
 }
 
-export function groupBy<T>(
-    objectArray: Array<T>,
-    property: string,
+export function groupBy<T extends { [key: string]: any }>(
+    objectArray: T[],
+    property: keyof T,
 ): { [key: string]: Array<T> } {
     return objectArray.reduce((acc, obj) => {
         const key = obj[property]
@@ -145,7 +145,7 @@ export function groupBy<T>(
         }
         acc[key].push(obj)
         return acc
-    }, {})
+    }, {} as { [key: string]: any })
 }
 
 function formatDeparture(minDiff: number, departureTime: Date): string {

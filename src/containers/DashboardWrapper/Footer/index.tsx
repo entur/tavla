@@ -12,7 +12,19 @@ import BackButton from '../../../components/backButton/BackButton'
 
 import './styles.scss'
 
-function RadioBox({ value, selected, onChange, children }): JSX.Element {
+interface RadioBoxProps {
+    value: string
+    selected: boolean
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    children: JSX.Element | JSX.Element[]
+}
+
+function RadioBox({
+    value,
+    selected,
+    onChange,
+    children,
+}: RadioBoxProps): JSX.Element {
     const id = `radio-${value}`
 
     return (
@@ -66,10 +78,13 @@ function Footer({ className, history }: Props): JSX.Element {
         [history, documentId],
     )
 
-    const onChange = useCallback(event => {
-        event.preventDefault()
-        setChoice(event.target.value)
-    }, [])
+    const onChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            event.preventDefault()
+            setChoice(event.target.value)
+        },
+        [],
+    )
 
     const submit = useCallback(
         event => {
