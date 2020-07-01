@@ -75,7 +75,7 @@ function Footer({ className, history }: Props): JSX.Element {
         event => {
             event.preventDefault()
             setModalOpen(false)
-            setDashboard(choice, { persist: true })
+            setDashboard(choice)
         },
         [choice, setDashboard],
     )
