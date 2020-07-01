@@ -9,7 +9,7 @@ import { useLocation } from 'react-router-dom'
 import { LegMode, Coordinates } from '@entur/sdk'
 
 import { useIsFirebaseInitialized } from '../firebase-init'
-import { persist as persistToFirebase, FieldValue } from './FirestoreStorage'
+import { persist as persistToFirebase, FieldTypes } from './FirestoreStorage'
 import {
     persist as persistToUrl,
     restore as restoreFromUrl,
@@ -104,12 +104,12 @@ export function useSettings(): [Settings, SettingsSetters] {
     }, [firebaseInitialized, location])
 
     const set = useCallback(
-        <T>(key: string, value: FieldValue): void => {
+        <T>(key: string, value: FieldTypes): void => {
             const newSettings = { ...settings, [key]: value }
             setSettings(newSettings)
 
             if (getDocumentId()) {
-                persistToFirebase(getDocumentId(), newSettings)
+                persistToFirebase(getDocumentId(), key, value)
                 return
             }
             persistToUrl(newSettings)

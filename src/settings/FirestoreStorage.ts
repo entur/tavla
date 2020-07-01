@@ -1,15 +1,18 @@
 import { updateSettingField } from '../services/firebase'
-import { Settings } from '../settings/index'
 
-export type FieldValue =
+export type FieldTypes =
     | string
     | number
     | Array<string>
     | firebase.firestore.GeoPoint
     | { [key: string]: string[] }
 
-export function persist(docId: string, settings: Settings): void {
-    updateSettingField(docId, settings)
+export function persist(
+    docId: string,
+    fieldId: string,
+    fieldValue: FieldTypes,
+): void {
+    updateSettingField(docId, fieldId, fieldValue)
 }
 
 export function changePath(): void {
