@@ -1,4 +1,4 @@
-import { updateSettingField, getSettings } from '../services/firebase'
+import { updateSettingField } from '../services/firebase'
 import { Settings } from '../settings/index'
 
 export type FieldValue =
@@ -10,10 +10,6 @@ export type FieldValue =
 
 export function persist(docId: string, settings: Settings): void {
     updateSettingField(docId, settings)
-}
-
-export function restore(id?: string): Promise<Settings | undefined> {
-    return getSettings(id)
 }
 
 export function changePath(): void {
