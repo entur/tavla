@@ -3,6 +3,7 @@ import firebase from 'firebase'
 
 import EmailLogin from './EmailLogin'
 import LoginOptions from './LoginOptions'
+import Signup from './Signup'
 
 import { Modal } from '@entur/modal'
 
@@ -12,7 +13,7 @@ import { useFirebaseAuthentication } from '../../../auth'
 import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
 
-type ModalType = 'LoginOptionsModal' | 'LoginEmailModal' | 'SignupModal'
+export type ModalType = 'LoginOptionsModal' | 'LoginEmailModal' | 'SignupModal'
 
 const LoginModal = () => {
     const isFirebaseInitialized = useIsFirebaseInitialized()
@@ -24,20 +25,25 @@ const LoginModal = () => {
     const [modalType, setModalType] = useState<ModalType>('LoginOptionsModal')
     const [modalOpen, setModalOpen] = useState(false)
 
+    const handleDismiss = () => {
+        setModalType('LoginOptionsModal')
+        setModalOpen(false)
+    }
+
     const displayModal = () => {
         switch (modalType) {
             case 'LoginEmailModal':
                 return <EmailLogin />
             case 'SignupModal':
-                return <div>Sign up Modal</div>
+                return <Signup setModalType={setModalType} />
             default:
-                return <LoginOptions />
+                return <LoginOptions setModalType={setModalType} />
         }
     }
 
     useEffect(() => {
         if (isLoggedIn && modalOpen) {
-            setModalOpen(false)
+            handleDismiss()
         }
     }, [isLoggedIn, modalOpen])
 
@@ -45,7 +51,7 @@ const LoginModal = () => {
 
     if (modalOpen) {
         return (
-            <Modal onDismiss={() => setModalOpen(false)} size="small" title="">
+            <Modal onDismiss={handleDismiss} size="small" title="">
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <img
                         src={sikkerhetBom}

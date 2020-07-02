@@ -11,7 +11,7 @@ export const DEFAULT_SETTINGS: Settings = {
     hiddenModes: [],
     newStations: [],
     newStops: [],
-    dashboard: 'Chrono',
+    dashboard: '',
     coordinates: undefined,
 }
 

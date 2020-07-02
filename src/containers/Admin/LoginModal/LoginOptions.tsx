@@ -1,21 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, Dispatch, SetStateAction } from 'react'
 
 import { Heading2, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
+import { ModalType } from '.'
 
-interface User {
-    email: string
-    password: string
+interface Props {
+    setModalType: Dispatch<SetStateAction<ModalType>>
 }
 
-const LoginOptions = () => {
-
-    handleOnClick = () => {
-        if (event.target.id == "login")
-
-    }
-
+const LoginOptions = ({ setModalType }: Props): JSX.Element => {
     return (
         <div>
             <Heading2 style={{ textAlign: 'center' }} margin="bottom">
@@ -27,10 +21,12 @@ const LoginOptions = () => {
             </Paragraph>
             <GridContainer spacing="small" style={{ padding: '10%' }}>
                 <GridItem small={12}>
-                    <PrimaryButton width="fluid" id="login">
+                    <PrimaryButton width="fluid" onClick={() => setModalType('LoginEmailModal')}>
                         Logg inn med e-post
                     </PrimaryButton>
-                    <SecondaryButton width="fluid" id="signup" onClick={handleOnClick}>
+                </GridItem>
+                <GridItem small={12}>
+                    <SecondaryButton width="fluid" onClick={() => setModalType('SignupModal')}>
                         Lag en ny konto
                     </SecondaryButton>
                 </GridItem>
