@@ -40,7 +40,7 @@ function groupDeparturesByMode(
             ...map,
             [departure.type]: [...(map[departure.type] || []), departure],
         }),
-        {},
+        {} as { [mode in LegMode]?: Array<LineData> },
     )
 }
 
@@ -69,7 +69,13 @@ function getLegBonePattern(
     }
 }
 
-function Tick({ minutes, mode, index }): JSX.Element {
+interface TickProps {
+    minutes: number
+    mode: LegMode
+    index: number
+}
+
+function Tick({ minutes, mode, index }: TickProps): JSX.Element {
     let label = `${minutes} min`
     let marginLeft = -30
 
@@ -102,21 +108,33 @@ function Tick({ minutes, mode, index }): JSX.Element {
     )
 }
 
+interface TimelineData {
+    stopId: string
+    name: string
+    groupedDepartures: [LegMode, LineData[]][]
+}
+
 const TimelineDashboard = ({ history }: Props): JSX.Element => {
     useCounter()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    const data = useMemo(
+    const data: TimelineData[] = useMemo(
         () =>
             (stopPlacesWithDepartures || [])
                 .filter(({ departures }) => departures.length > 0)
-                .map(({ id, name, departures }) => ({
-                    stopId: id,
-                    name,
-                    groupedDepartures: Object.entries(
+                .map(({ id, name, departures }) => {
+                    const groupedDepartures = Object.entries(
                         groupDeparturesByMode(departures.reverse()),
-                    ).sort(([modeA], [modeB]) => orderModes(modeA, modeB)),
-                })),
+                    ).sort(([modeA], [modeB]) =>
+                        orderModes(modeA, modeB),
+                    ) as TimelineData['groupedDepartures']
+
+                    return {
+                        stopId: id,
+                        name,
+                        groupedDepartures,
+                    }
+                }),
         [stopPlacesWithDepartures],
     )
 
