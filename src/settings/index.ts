@@ -8,7 +8,6 @@ import {
 import { useLocation } from 'react-router-dom'
 import { LegMode, Coordinates } from '@entur/sdk'
 
-import { useIsFirebaseInitialized } from '../firebase-init'
 import { persist as persistToFirebase, FieldTypes } from './FirestoreStorage'
 import {
     persist as persistToUrl,
@@ -68,12 +67,10 @@ export function useSettingsContext(): [Settings, SettingsSetters] {
 export function useSettings(): [Settings, SettingsSetters] {
     const [settings, setSettings] = useState<Settings>()
 
-    const firebaseInitialized = useIsFirebaseInitialized()
-
     const location = useLocation()
 
     useEffect(() => {
-        if (location.pathname == '/' || !firebaseInitialized) return
+        if (location.pathname == '/') return
 
         const id = getDocumentId()
 
@@ -101,7 +98,7 @@ export function useSettings(): [Settings, SettingsSetters] {
                 longitude: Number(positionArray[1]),
             },
         })
-    }, [firebaseInitialized, location])
+    }, [location])
 
     const set = useCallback(
         <T>(key: string, value: FieldTypes): void => {
