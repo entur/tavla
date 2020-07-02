@@ -22,12 +22,20 @@ import { Departure, LegMode, TransportSubmode } from '@entur/sdk'
 
 import { LineData, TileSubLabel } from './types'
 
+export function isNotNullOrUndefined<T>(
+    thing: T | undefined | null,
+): thing is T {
+    return thing !== undefined && thing !== null
+}
+
 function isSubModeAirportLink(subMode?: string): boolean {
+    if (!subMode) return false
     const airportLinkTypes = ['airportLinkRail', 'airportLinkBus']
     return airportLinkTypes.includes(subMode)
 }
 
 function isSubModeCarFerry(subMode?: string): boolean {
+    if (!subMode) return false
     const carFerryTypes = [
         'localCarFerry',
         'internationalCarFerry',
@@ -60,7 +68,7 @@ export function getIconColor(
         case 'air':
             return colors.transport.contrast.plane
         default:
-            return null
+            return colors.transport.contrast.walk
     }
 }
 
@@ -107,7 +115,7 @@ export function getIcon(
     legMode: LegMode,
     subMode?: TransportSubmode,
     color?: string,
-): JSX.Element {
+): JSX.Element | null {
     const colorToUse = color ?? getIconColor(legMode, subMode)
 
     const identifier = getTransportIconIdentifier(legMode, subMode)
