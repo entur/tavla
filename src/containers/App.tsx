@@ -39,7 +39,7 @@ const Content = (): JSX.Element => {
 
     const Dashboard = settings[0]
         ? getDashboardComponent(settings[0].dashboard)
-        : null
+        : (): null => null
 
     return (
         <UserProvider value={user}>

@@ -2,7 +2,11 @@ import { useState, useEffect, useMemo } from 'react'
 import { LegMode } from '@entur/sdk'
 
 import { StopPlaceWithDepartures } from '../types'
-import { transformDepartureToLineData, unique } from '../utils'
+import {
+    transformDepartureToLineData,
+    unique,
+    isNotNullOrUndefined,
+} from '../utils'
 import service from '../service'
 import { useSettingsContext, Settings } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'
@@ -26,9 +30,9 @@ async function fetchStopPlaceDepartures(
     const allStopPlaces = await service.getStopPlaces(
         allStopPlaceIdsWithoutDuplicateNumber,
     )
-    const sortedStops = allStopPlaces.sort((a, b) =>
-        a.name.localeCompare(b.name, 'no'),
-    )
+    const sortedStops = allStopPlaces
+        .filter(isNotNullOrUndefined)
+        .sort((a, b) => a.name.localeCompare(b.name, 'no'))
 
     const whiteListedModes = Object.values(LegMode).filter(
         (mode: LegMode) => !hiddenModes.includes(mode),
@@ -48,14 +52,18 @@ async function fetchStopPlaceDepartures(
         const stop = sortedStops.find(
             ({ id }) => id === stopId.replace(/-\d+$/, ''),
         )
-        const departuresForThisStopPlace = departures.find(
-            ({ id }) => stop.id === id,
-        )
+
+        if (!stop) return
+
+        const departuresForThisStopPlace = departures
+            .filter(isNotNullOrUndefined)
+            .find(({ id }) => stop.id === id)
+
         if (
             !departuresForThisStopPlace ||
             !departuresForThisStopPlace.departures
         ) {
-            return stop
+            return { ...stop, departures: [] }
         }
 
         const mappedAndFilteredDepartures = departuresForThisStopPlace.departures
@@ -72,7 +80,7 @@ async function fetchStopPlaceDepartures(
         }
     })
 
-    return stopPlacesWithDepartures
+    return stopPlacesWithDepartures.filter(isNotNullOrUndefined)
 }
 
 export default function useStopPlacesWithDepartures(): Array<
