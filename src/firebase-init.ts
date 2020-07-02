@@ -19,7 +19,7 @@ export default async function initializeFirebase(): Promise<firebase.app.App> {
         return appSingleton
     }
 
-    appSingleton = fetch('/__/firebase/init.json').then(async response => {
+    appSingleton = fetch('/__/firebase/init.json').then(async (response) => {
         return firebase.initializeApp(await response.json())
     })
 

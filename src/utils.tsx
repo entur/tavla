@@ -167,7 +167,7 @@ export function unique<T>(
 ): Array<T> {
     return array.filter((item, index, items) => {
         const previousItems = items.slice(0, index)
-        return !previousItems.some(uniqueItem => isEqual(item, uniqueItem))
+        return !previousItems.some((uniqueItem) => isEqual(item, uniqueItem))
     })
 }
 
@@ -224,7 +224,7 @@ export function createTileSubLabel({
 
 export function toggleValueInList<T>(list: Array<T>, item: T): Array<T> {
     if (list.includes(item)) {
-        return list.filter(i => i !== item)
+        return list.filter((i) => i !== item)
     }
     return [...list, item]
 }

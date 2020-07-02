@@ -34,7 +34,7 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
         if (!inputLength) return []
 
         return mapFeaturesToItems(
-            stations.filter(station =>
+            stations.filter((station) =>
                 station.name.toLowerCase().match(new RegExp(inputValue)),
             ),
         )

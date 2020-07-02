@@ -78,7 +78,7 @@ export function useSettings(): [Settings, SettingsSetters] {
         const id = getDocumentId()
 
         if (id) {
-            return getSettings(id).onSnapshot(document => {
+            return getSettings(id).onSnapshot((document) => {
                 if (document.exists) {
                     setSettings(document.data() as Settings)
                 } else {

@@ -20,10 +20,10 @@ async function fetchStopPlaceDepartures(
     const { newStops, hiddenStops, hiddenModes, hiddenRoutes } = settings
 
     const allStopPlaceIds = unique([...newStops, ...nearestStopPlaces]).filter(
-        id => !hiddenStops.includes(id),
+        (id) => !hiddenStops.includes(id),
     )
 
-    const allStopPlaceIdsWithoutDuplicateNumber = allStopPlaceIds.map(id =>
+    const allStopPlaceIdsWithoutDuplicateNumber = allStopPlaceIds.map((id) =>
         id.replace(/-\d+$/, ''),
     )
 
@@ -48,7 +48,7 @@ async function fetchStopPlaceDepartures(
         },
     )
 
-    const stopPlacesWithDepartures = allStopPlaceIds.map(stopId => {
+    const stopPlacesWithDepartures = allStopPlaceIds.map((stopId) => {
         const stop = sortedStops.find(
             ({ id }) => id === stopId.replace(/-\d+$/, ''),
         )

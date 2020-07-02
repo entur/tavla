@@ -9,7 +9,7 @@ import App from './containers/App'
 import './main.scss'
 
 const history = createBrowserHistory()
-history.listen(location => {
+history.listen((location) => {
     const locationAnonymized = location.pathname.substring(
         0,
         location.pathname.indexOf('@'),
