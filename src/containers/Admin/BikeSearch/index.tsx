@@ -19,14 +19,12 @@ function mapFeaturesToItems(features: BikeRentalStation[]): Item[] {
 }
 
 const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
-    const [stations, setStations] = useState([])
+    const [stations, setStations] = useState<BikeRentalStation[]>([])
 
     useEffect(() => {
         service
             .getBikeRentalStationsByPosition(position, 100000)
-            .then(newStations => {
-                setStations(newStations)
-            })
+            .then(setStations)
     }, [position])
 
     const getItems = (query: string): Item[] => {
