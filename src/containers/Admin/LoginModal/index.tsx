@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import firebase from 'firebase'
 
-import EmailLogin from './EmailLogin'
-import LoginOptions from './LoginOptions'
-import Signup from './Signup'
+import EmailLogin from './EmailLogin/EmailLogin'
+import LoginOptions from './LoginOptions/LoginOptions'
+import Signup from './Signup/Signup'
+import ResetPassword from './ResetPassword/ResetPassword'
 
 import { Modal } from '@entur/modal'
 
 import { useIsFirebaseInitialized } from '../../../firebase-init'
 import { useFirebaseAuthentication } from '../../../auth'
 
-import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
+import './styles.scss'
 
-export type ModalType = 'LoginOptionsModal' | 'LoginEmailModal' | 'SignupModal'
+export type ModalType =
+    | 'LoginOptionsModal'
+    | 'LoginEmailModal'
+    | 'SignupModal'
+    | 'ResetPasswordModal'
 
 const LoginModal = () => {
     const isFirebaseInitialized = useIsFirebaseInitialized()
@@ -33,9 +37,11 @@ const LoginModal = () => {
     const displayModal = () => {
         switch (modalType) {
             case 'LoginEmailModal':
-                return <EmailLogin />
+                return <EmailLogin setModalType={setModalType} />
             case 'SignupModal':
                 return <Signup setModalType={setModalType} />
+            case 'ResetPasswordModal':
+                return <ResetPassword setModalType={setModalType} />
             default:
                 return <LoginOptions setModalType={setModalType} />
         }
@@ -51,14 +57,12 @@ const LoginModal = () => {
 
     if (modalOpen) {
         return (
-            <Modal onDismiss={handleDismiss} size="small" title="">
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <img
-                        src={sikkerhetBom}
-                        srcSet={`${retinaSikkerhetBom} 2x`}
-                        style={{ width: '45%', margin: '0 auto' }}
-                    />
-                </div>
+            <Modal
+                onDismiss={handleDismiss}
+                size="small"
+                title=""
+                className="login-modal"
+            >
                 {displayModal()}
             </Modal>
         )

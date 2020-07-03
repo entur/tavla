@@ -285,3 +285,24 @@ export const getDocumentId = (): string | undefined => {
         return id[1]
     }
 }
+
+export function useFormFields<T>(
+    initialState: T,
+): [
+    T,
+    (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void,
+] {
+    const [inputs, setValues] = useState<T>(initialState)
+
+    return [
+        inputs,
+        function(
+            event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+        ): void {
+            setValues({
+                ...inputs,
+                [event.target.id]: event.target.value,
+            })
+        },
+    ]
+}

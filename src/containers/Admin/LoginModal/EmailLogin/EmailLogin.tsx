@@ -1,40 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, Dispatch, SetStateAction } from 'react'
 import firebase from 'firebase'
 
 import { TextField, InputGroup } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
-import { EmailIcon, ClosedLockIcon } from '@entur/icons'
+import { EmailIcon, ClosedLockIcon, BackArrowIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading2, Link } from '@entur/typography'
 
-export interface User {
+import { useFormFields } from '../../../../utils'
+import { ModalType } from '../.'
+
+import './styles.scss'
+
+import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
+
+export interface UserLogin {
     email: string
     password: string
 }
 
-export function useFormFields<T>(
-    initialState: T,
-): [
-    T,
-    (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void,
-] {
-    const [inputs, setValues] = useState<T>(initialState)
-
-    return [
-        inputs,
-        function(
-            event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-        ): void {
-            setValues({
-                ...inputs,
-                [event.target.id]: event.target.value,
-            })
-        },
-    ]
+interface Props {
+    setModalType: Dispatch<SetStateAction<ModalType>>
 }
 
-const EmailLogin = () => {
-    const [inputs, handleInputsChange] = useFormFields<User>({
+const EmailLogin = ({ setModalType }: Props): JSX.Element => {
+    const [inputs, handleInputsChange] = useFormFields<UserLogin>({
         email: '',
         password: '',
     })
@@ -58,8 +49,6 @@ const EmailLogin = () => {
                     setEmailError('Vi finner ingen konto med denne e-posten.')
                 } else if (error.code === 'auth/wrong-password') {
                     setPasswordError('Feil passord.')
-                } else if (error.code === 'auth/too-many-requests') {
-                    setPasswordError('For mange innloggingsforsøk, prøv igjen senere.')
                 } else {
                     console.error(error)
                 }
@@ -72,16 +61,20 @@ const EmailLogin = () => {
         signIn(inputs.email, inputs.password)
     }
 
-    const handleReset = () => {
-        firebase.auth().sendPasswordResetEmail(inputs.email).then(function() {
-          // Email sent.
-        }).catch(function(error) {
-          alert(error + ':((((((')
-        });    
-    }
-
     return (
         <>
+            <BackArrowIcon
+                size={30}
+                onClick={() => setModalType('LoginOptionsModal')}
+                className="go-to"
+            />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <img
+                    src={sikkerhetBom}
+                    srcSet={`${retinaSikkerhetBom} 2x`}
+                    style={{ width: '45%', margin: '0 auto' }}
+                />
+            </div>
             <Heading2 style={{ textAlign: 'center' }} margin="none">
                 Logg inn med e-post
             </Heading2>
@@ -99,6 +92,7 @@ const EmailLogin = () => {
                                 onChange={handleInputsChange}
                                 id="email"
                                 prepend={<EmailIcon inline />}
+                                placeholder="eksempel@entur.no"
                             />
                         </InputGroup>
                     </GridItem>
@@ -129,8 +123,10 @@ const EmailLogin = () => {
                 </GridContainer>
             </form>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Link onClick={handleReset}>Jeg har glemt passord</Link>    
-            </div> 
+                <Link onClick={() => setModalType('ResetPasswordModal')}>
+                    Jeg har glemt passord
+                </Link>
+            </div>
         </>
     )
 }
