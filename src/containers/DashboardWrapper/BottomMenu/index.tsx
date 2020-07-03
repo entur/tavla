@@ -1,11 +1,12 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { Heading3, Paragraph } from '@entur/typography'
-import { ActionChip } from '@entur/chip'
 import { EditIcon, SettingsIcon, CheckIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Button } from '@entur/button'
 import { colors } from '@entur/tokens'
+
+import MenuButton from './MenuButton.tsx'
 
 import { useSettingsContext } from '../../../settings'
 
@@ -117,12 +118,16 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     return (
         <div ref={menuRef} className={`bottom-menu ${className || ''}`}>
             <div className="bottom-menu__actions">
-                <ActionChip onClick={(): void => setModalOpen(true)}>
-                    <EditIcon /> Endre visning
-                </ActionChip>
-                <ActionChip onClick={onSettingsButtonClick}>
-                    <SettingsIcon /> Rediger tavla
-                </ActionChip>
+                <MenuButton
+                    title="Endre visning"
+                    icon={<EditIcon />}
+                    callback={(): void => setModalOpen(true)}
+                />
+                <MenuButton
+                    title="Rediger tavla"
+                    icon={<SettingsIcon />}
+                    callback={onSettingsButtonClick}
+                />
             </div>
 
             <Modal
