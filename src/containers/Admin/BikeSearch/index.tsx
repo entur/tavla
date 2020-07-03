@@ -40,8 +40,10 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
         )
     }
 
-    const onItemSelected = (item: Item): void => {
-        onSelected(item.value)
+    const onItemSelected = (item: Item | null): void => {
+        if (item) {
+            onSelected(item.value)
+        }
     }
 
     return (

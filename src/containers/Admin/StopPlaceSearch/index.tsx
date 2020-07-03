@@ -35,8 +35,10 @@ async function getItems(query: string): Promise<Item[]> {
 }
 
 const SelectionPanelSearch = ({ handleAddNewStop }: Props): JSX.Element => {
-    const onItemSelected = (item: Item): void => {
-        handleAddNewStop(item.value)
+    const onItemSelected = (item: Item | null): void => {
+        if (item) {
+            handleAddNewStop(item.value)
+        }
     }
 
     return (
