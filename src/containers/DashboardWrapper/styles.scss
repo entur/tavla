@@ -4,8 +4,7 @@
     background-color: $colors-brand-blue;
     color: white;
     padding: 2rem 4rem;
-    overflow-x: auto;
-    height: calc(100vh);
+    overflow: hidden;
 
     &__no-stops {
         img {
@@ -32,36 +31,43 @@
         flex-direction: row;
         justify-content: space-between;
         margin-bottom: 1rem;
-    }
-
-    &__logo-wrapper p {
-        margin: -0.5rem 0 0 0;
-    }
-
-    &__logo {
-        height: 54px;
-        width: 100%;
+        overflow: hidden;
     }
 
     &__bottom-menu {
-        position: absolute;
+        position: fixed;
+        margin-left: auto;
+        margin-right: auto;
         bottom: 0;
         left: 0;
         right: 0;
-        display: none;
+        transition: transform 0.3s ease-out;
+        transform: translate(0, 100%);
     }
 
-    &:hover {
-        .dashboard-wrapper__bottom-menu {
-            display: flex;
+    @media (min-width: 901px) {
+        &__logo-wrapper p {
+            margin: -0.5rem 0 0 0;
+        }
+
+        &__logo {
+            height: 54px;
+            width: 100%;
         }
     }
 }
 
-@media (max-width: 700px) {
-    .dashboard-wrapper {
-        padding: 2rem 1rem;
+@media (min-width: 901px) {
+    body:hover {
+        .dashboard-wrapper__bottom-menu {
+            transition: transform 0.3s ease-in;
+            transform: translate(0, 0);
+        }
+    }
+}
 
+@media (max-width: 900px) {
+    .dashboard-wrapper {
         &__logo-wrapper p {
             margin: -0.5rem 0 0 0;
         }

@@ -1,27 +1,19 @@
 @import '../../../assets/styles/import.scss';
 
 .bottom-menu {
-    height: 80px;
-    align-items: center;
-    bottom: 3rem;
-    justify-content: space-between;
-    flex-direction: row;
-    position: fixed;
     display: flex;
-    width: 100%;
-    padding: 0 4rem;
-
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    position: absolute;
+    height: 5em;
+    width: 40em;
+    bottom: 0;
+    background-color: #393d79;
+    border-radius: 10px 10px 0px 0px;
+    
     &__actions {
         display: flex;
-
-        > * {
-            margin-left: 0.5rem;
-        }
-    }
-
-    &__back-button {
-        padding: 0;
-        height: 2rem;
     }
 }
 
@@ -98,15 +90,11 @@
     }
 }
 
-@media (max-height: 900px) {
+@media (max-width: 900px) {
     .bottom-menu {
-        padding: 3rem 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .bottom-menu {
-        position: sticky;
-        padding: 0 1rem 0 0;
+        position: fixed;
+        height: 5em;
+        width: 100%;
+        border-radius: 0px 0px 0px 0px;
     }
 }

@@ -3,15 +3,13 @@
 body {
     margin: 0;
     background-color: $colors-brand-blue;
+    overflow-y: unset;
+    overflow-x: unset;
+    min-height: 100vh;
 }
 
 div {
     scrollbar-width: none;
-}
-
-#app {
-    height: 100vh;
-    width: 100vw;
 }
 
 input[type=number] {
@@ -20,4 +18,5 @@ input[type=number] {
 
 .eds-contrast {
     background-color: initial;
+    overflow: hidden;
 }

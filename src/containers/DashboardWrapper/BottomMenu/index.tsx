@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { Heading3, Paragraph } from '@entur/typography'
 import { ActionChip } from '@entur/chip'
@@ -8,7 +8,9 @@ import { Button } from '@entur/button'
 import { colors } from '@entur/tokens'
 
 import { useSettingsContext } from '../../../settings'
-import BackButton from '../../../components/backButton/BackButton'
+
+import { useScrollPosition } from '@n8tb1t/use-scroll-position'
+import { useWindowWidth } from '@react-hook/window-size'
 
 import './styles.scss'
 
@@ -47,10 +49,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [choice, setChoice] = useState<string>(settings.dashboard || '')
 
-    const goBack = useCallback(() => {
-        history.push('/')
-    }, [history])
-
     const { documentId } = useParams()
 
     const onSettingsButtonClick = useCallback(
@@ -80,8 +78,44 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         [choice, setDashboard],
     )
 
+    const menuRef = useRef<HTMLDivElement>()
+
+    const [mobileWidth, setMobileWidth] = useState<boolean>(
+        document.body.clientWidth <= 900,
+    )
+    const width = useWindowWidth()
+    useEffect(() => {
+        if (width > 900) {
+            setMobileWidth(false)
+            menuRef.current.style.transform = ''
+        } else if (width <= 900) {
+            setMobileWidth(true)
+            menuRef.current.style.transform = 'translate(0%, 0%)'
+        }
+    }, [width, setMobileWidth])
+
+    const [hideOnScroll, setHideOnScroll] = useState(true)
+    useScrollPosition(
+        ({ prevPos, currPos }) => {
+            if (!mobileWidth) return
+            const isShow = currPos.y < prevPos.y
+            const menu = menuRef.current
+            if (isShow !== hideOnScroll) {
+                setHideOnScroll(isShow)
+                if (isShow) {
+                    menu.style.transform = 'translate(0%, 100%)'
+                    menu.style.transition = 'transform 0,3s ease-out'
+                } else {
+                    menu.style.transform = 'translate(0%, 0%)'
+                    menu.style.transition = 'transform 0,3s ease-in'
+                }
+            }
+        },
+        [hideOnScroll, setHideOnScroll],
+    )
+
     return (
-        <footer className={`bottom-menu ${className || ''}`}>
+        <div ref={menuRef} className={`bottom-menu ${className || ''}`}>
             <div className="bottom-menu__actions">
                 <ActionChip onClick={(): void => setModalOpen(true)}>
                     <EditIcon /> Endre visning
@@ -90,6 +124,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                     <SettingsIcon /> Rediger tavla
                 </ActionChip>
             </div>
+
             <Modal
                 size="small"
                 open={modalOpen}
@@ -142,7 +177,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                     </div>
                 </form>
             </Modal>
-        </footer>
+        </div>
     )
 }
 

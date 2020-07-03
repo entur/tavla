@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-    Route,
-    Switch,
-    Redirect,
-    Router,
-} from './DashboardWrapper/BottomMenu/node_modules/react-router-dom'
+import { Route, Switch, Redirect, Router } from 'react-router-dom'
 import analytics from 'universal-ga'
 
 import { SettingsContext, useSettings } from '../settings'

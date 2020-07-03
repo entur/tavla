@@ -39,6 +39,8 @@
     "@entur/tokens": "^1.3.5",
     "@entur/travel": "^4.0.3",
     "@entur/typography": "^1.2.0",
+    "@n8tb1t/use-scroll-position": "^1.0.43",
+    "@react-hook/window-size": "^3.0.6",
     "connect-history-api-fallback": "^1.6.0",
     "date-fns": "^2.14.0",
     "firebase": "^7.15.2",
