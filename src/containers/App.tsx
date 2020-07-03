@@ -4,7 +4,7 @@ import analytics from 'universal-ga'
 
 import { SettingsContext, useSettings } from '../settings'
 import { useAnonymousLogin, UserProvider } from '../auth'
-import initializeFirebase from '../firebase-init'
+import '../firebase-init'
 
 import Compact from '../dashboards/Compact'
 import Chrono from '../dashboards/Chrono'
@@ -13,8 +13,6 @@ import Timeline from '../dashboards/Timeline'
 import LandingPage from './LandingPage'
 import Admin from './Admin'
 import Privacy from './Privacy'
-
-initializeFirebase()
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
@@ -39,7 +37,7 @@ const Content = (): JSX.Element => {
 
     const Dashboard = settings[0]
         ? getDashboardComponent(settings[0].dashboard)
-        : null
+        : (): null => null
 
     return (
         <UserProvider value={user}>

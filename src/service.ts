@@ -1,4 +1,4 @@
-import createEnturService from '@entur/sdk'
+import createEnturService, { LegMode, TransportSubmode } from '@entur/sdk'
 
 import { StopPlaceWithLines, Line } from './types'
 import { unique } from './utils'
@@ -13,7 +13,10 @@ export default createEnturService({
     },
 })
 
-function journeyplannerPost(query, variables): Promise<any> {
+function journeyplannerPost<T>(
+    query: string,
+    variables: Record<string, any>,
+): Promise<T> {
     return fetch(`${process.env.JOURNEYPLANNER_HOST}/graphql`, {
         method: 'POST',
         headers: {
@@ -24,7 +27,7 @@ function journeyplannerPost(query, variables): Promise<any> {
             query,
             variables,
         }),
-    }).then(res => res.json())
+    }).then((res) => res.json())
 }
 
 interface EstimatedCall {
@@ -33,11 +36,23 @@ interface EstimatedCall {
     }
     serviceJourney: {
         line: {
-            transportMode: string
-            transportSubmode: string
+            id: string
+            transportMode: LegMode
+            transportSubmode: TransportSubmode
             publicCode: string
         }
     }
+}
+
+interface StopPlaceWithEstimatedCalls {
+    id: string
+    name: string
+    description: string
+    latitude: number
+    longitude: number
+    transportMode: LegMode
+    transportSubmode: TransportSubmode
+    estimatedCalls: EstimatedCall[]
 }
 
 function getNumericPublicCode(publicCode: string): number | void {
@@ -76,10 +91,12 @@ function estimatedCallsComparator(a: EstimatedCall, b: EstimatedCall): number {
 
 export async function getStopPlacesWithLines(
     stopPlaceIds: Array<string>,
-): Promise<Array<StopPlaceWithLines>> {
+): Promise<StopPlaceWithLines[]> {
     try {
         const variables = { ids: stopPlaceIds }
-        const results = await journeyplannerPost(
+        const results = await journeyplannerPost<{
+            data: { stopPlaces: StopPlaceWithEstimatedCalls[] }
+        }>(
             `query ($ids: [String]!) {
                 stopPlaces(ids: $ids) {
                     id,
@@ -95,6 +112,7 @@ export async function getStopPlacesWithLines(
                         }
                         serviceJourney {
                             line {
+                                id
                                 transportMode,
                                 transportSubmode,
                                 publicCode
@@ -107,24 +125,26 @@ export async function getStopPlacesWithLines(
             variables,
         )
 
-        const stops = results.data.stopPlaces.map(stopPlace => {
-            const lines = stopPlace.estimatedCalls
-                .sort(estimatedCallsComparator)
-                .map(({ destinationDisplay, serviceJourney }) => ({
-                    ...serviceJourney.line,
-                    name: `${serviceJourney.line.publicCode} ${destinationDisplay.frontText}`,
-                }))
+        const stops: StopPlaceWithLines[] = results.data.stopPlaces.map(
+            (stopPlace) => {
+                const lines = stopPlace.estimatedCalls
+                    .sort(estimatedCallsComparator)
+                    .map(({ destinationDisplay, serviceJourney }) => ({
+                        ...serviceJourney.line,
+                        name: `${serviceJourney.line.publicCode} ${destinationDisplay.frontText}`,
+                    }))
 
-            const uniqueLines = unique(
-                lines,
-                (a: Line, b: Line) => a.name === b.name,
-            )
+                const uniqueLines = unique(
+                    lines,
+                    (a: Line, b: Line) => a.name === b.name,
+                )
 
-            return {
-                ...stopPlace,
-                lines: uniqueLines,
-            }
-        })
+                return {
+                    ...stopPlace,
+                    lines: uniqueLines,
+                }
+            },
+        )
 
         return stops
     } catch (error) {

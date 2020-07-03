@@ -52,19 +52,19 @@ We are using Firebase for hosting tavla.entur.no (Firebase Hosting) and we are u
 PS! Make sure you are following the licenses and terms for Tavla: https://github.com/entur/tavla#licenses-and-terms
 
 ### Create a project
-First of all you need a Firebase _project. Go to https://console.firebase.google.com to set up a new project.
+First of all you need a Firebase _project_. Go to https://console.firebase.google.com to set up a new project.
 
 When the project is set up, add a new Web app to your project from the Project Overview. You don't need to "Add Firebase SDK" – that's already done in this repo.
 
-### Download config for local development
-In order to ease local development and allow hot reloading and such, we need to reference the Firebase config through an environment variable called `FIREBASE_CONFIG`, rather than rely on the auto-config that Firebase provides through `firebase serve`.
+### Download config
+We need to reference the Firebase config through an environment variable called `FIREBASE_CONFIG`.
 
-Press the cogwheel next to "Project Settings" in the left menu and go to "Project settings". Scroll down and find the Config under "Firebase SDK snippet". Copy the config object (the part after `const firebaseConfig = `). You need to stringify this and put it in your `.env.staging` file. To stringify it, you can open the browser console and run `JSON.stringify(<CONFIG OBJECT>)`. Set the resulting string as the value for `FIREBASE_CONFIG` in the .env.staging file:
+Press the cogwheel next to "Project Settings" in the left menu and go to "Project settings". Scroll down and find the Config under "Firebase SDK snippet". Copy the config object (the part after `const firebaseConfig = `). You need to stringify this and put it in your `.env.staging` file. To stringify it, you can open the browser console and run `JSON.stringify(<CONFIG OBJECT>)`. Set the resulting string as the value for `FIREBASE_CONFIG` in the .env.prod file:
 
 ```diff
-# .env.staging
-JOURNEYPLANNER_HOST=https://api.staging.entur.io/journey-planner/v2
-GEOCODER_HOST=https://api.staging.entur.io/geocoder/v1
+# .env.prod
+JOURNEYPLANNER_HOST=https://api.entur.io/journey-planner/v2
+GEOCODER_HOST=https://api.entur.io/geocoder/v1
 -FIREBASE_CONFIG='{"apiKey":"AIz...
 +FIREBASE_CONFIG='{"apiKey":"<YOUR_CONFIG ... >
 ```

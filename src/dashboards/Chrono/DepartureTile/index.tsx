@@ -7,6 +7,7 @@ import {
     unique,
     getTransportIconIdentifier,
     createTileSubLabel,
+    isNotNullOrUndefined,
 } from '../../../utils'
 import { StopPlaceWithDepartures, LineData } from '../../../types'
 
@@ -32,7 +33,7 @@ function getTransportHeaderIcons(
         icon: getIcon(type, subType, colors.blues.blue60),
     }))
 
-    return transportIcons.map(({ icon }) => icon)
+    return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
 }
 
 const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
@@ -41,7 +42,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
 
     return (
         <Tile title={name} icons={headerIcons}>
-            {departures.map(data => {
+            {departures.map((data) => {
                 const icon = getIcon(data.type, data.subType)
                 const subLabel = createTileSubLabel(data)
 

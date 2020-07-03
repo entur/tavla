@@ -15,7 +15,19 @@ import { useWindowWidth } from '@react-hook/window-size'
 
 import './styles.scss'
 
-function RadioBox({ value, selected, onChange, children }): JSX.Element {
+interface RadioBoxProps {
+    value: string
+    selected: boolean
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    children: JSX.Element | JSX.Element[]
+}
+
+function RadioBox({
+    value,
+    selected,
+    onChange,
+    children,
+}: RadioBoxProps): JSX.Element {
     const id = `radio-${value}`
 
     return (
@@ -53,7 +65,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const { documentId } = useParams()
 
     const onSettingsButtonClick = useCallback(
-        event => {
+        (event) => {
             if (documentId) {
                 history.push(`/admin/${documentId}`)
             } else {
@@ -65,13 +77,16 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         [history, documentId],
     )
 
-    const onChange = useCallback(event => {
-        event.preventDefault()
-        setChoice(event.target.value)
-    }, [])
+    const onChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            event.preventDefault()
+            setChoice(event.target.value)
+        },
+        [],
+    )
 
     const submit = useCallback(
-        event => {
+        (event) => {
             event.preventDefault()
             setModalOpen(false)
             setDashboard(choice)

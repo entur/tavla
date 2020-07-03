@@ -19,7 +19,7 @@ export interface Line {
 }
 
 export type StopPlaceWithDepartures = StopPlace & {
-    departures?: Array<LineData>
+    departures: Array<LineData>
 }
 
 export type StopPlaceWithLines = StopPlace & { lines: Array<Line> }
