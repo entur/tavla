@@ -3,7 +3,6 @@ import { useState, useEffect, useContext, createContext } from 'react'
 import firebase, { User } from 'firebase/app'
 import 'firebase/auth'
 
-import { useIsFirebaseInitialized } from './firebase-init'
 /**
  * If user is undefined, we don't know yet if user is logged in.
  * If user is null, we know there's not a logged in user
@@ -11,11 +10,8 @@ import { useIsFirebaseInitialized } from './firebase-init'
  */
 export function useAnonymousLogin(): User | null | undefined {
     const [user, setUser] = useState<User | null | undefined>()
-    const firebaseInitialized = useIsFirebaseInitialized()
 
     useEffect(() => {
-        if (!firebaseInitialized) return
-
         const unsubscribe = firebase.auth().onAuthStateChanged((newUser) => {
             setUser(newUser)
             if (newUser) {
@@ -25,7 +21,7 @@ export function useAnonymousLogin(): User | null | undefined {
         })
 
         return unsubscribe
-    }, [firebaseInitialized])
+    }, [])
 
     return user
 }
