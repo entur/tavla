@@ -59,16 +59,16 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     useEffect(() => {
         const ids = [...newStops, ...nearestStopPlaceIds]
         if (ids.length) {
-            getStopPlacesWithLines(ids.map(id => id.replace(/-\d+$/, ''))).then(
-                resultingStopPlaces => {
-                    setStopPlaces(
-                        resultingStopPlaces.map((s, index) => ({
-                            ...s,
-                            id: ids[index],
-                        })),
-                    )
-                },
-            )
+            getStopPlacesWithLines(
+                ids.map((id) => id.replace(/-\d+$/, '')),
+            ).then((resultingStopPlaces) => {
+                setStopPlaces(
+                    resultingStopPlaces.map((s, index) => ({
+                        ...s,
+                        id: ids[index],
+                    })),
+                )
+            })
         }
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
 
@@ -78,7 +78,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             .map(({ id }) => id)
         const ids = [...newStations, ...nearestBikeRentalStationIds]
         if (ids.length) {
-            service.getBikeRentalStations(ids).then(freshStations => {
+            service.getBikeRentalStations(ids).then((freshStations) => {
                 const sortedStations = freshStations.sort(
                     (a: BikeRentalStation, b: BikeRentalStation) =>
                         a.name.localeCompare(b.name, 'no'),
@@ -91,8 +91,8 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const addNewStop = useCallback(
         (stopId: string) => {
             const numberOfDuplicates = [...nearestStopPlaceIds, ...newStops]
-                .map(id => id.replace(/-\d+$/, ''))
-                .filter(id => id === stopId).length
+                .map((id) => id.replace(/-\d+$/, ''))
+                .filter((id) => id === stopId).length
             const id = !numberOfDuplicates
                 ? stopId
                 : `${stopId}-${numberOfDuplicates}`
@@ -113,7 +113,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
         subMode?: TransportSubmode
     }> = useMemo(() => {
         const modesFromStopPlaces = stopPlaces
-            .map(stopPlace =>
+            .map((stopPlace) =>
                 stopPlace.lines.map(({ transportMode, transportSubmode }) => ({
                     mode: transportMode,
                     subMode: transportSubmode,

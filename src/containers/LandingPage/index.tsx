@@ -20,7 +20,7 @@ const LandingPage = ({ history }: Props): JSX.Element => {
                 coordinates: position,
             }
 
-            createSettings(initialSettings).then(docRef => {
+            createSettings(initialSettings).then((docRef) => {
                 history.push(`/t/${docRef.id}`)
             })
         },

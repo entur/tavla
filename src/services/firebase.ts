@@ -8,10 +8,7 @@ const SETTINGS_COLLECTION = 'settings'
 type DocumentReference = firestore.DocumentReference
 
 export const getSettings = (id: string): DocumentReference => {
-    return firebase
-        .firestore()
-        .collection(SETTINGS_COLLECTION)
-        .doc(id)
+    return firebase.firestore().collection(SETTINGS_COLLECTION).doc(id)
 }
 
 export const updateSettingField = async (
@@ -34,8 +31,5 @@ export const updateSettingField = async (
 export const createSettings = async (
     settings: Settings,
 ): Promise<DocumentReference> => {
-    return firebase
-        .firestore()
-        .collection(SETTINGS_COLLECTION)
-        .add(settings)
+    return firebase.firestore().collection(SETTINGS_COLLECTION).add(settings)
 }
