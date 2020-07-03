@@ -18,7 +18,7 @@ async function fetchBikeRentalStations(
     }
 
     const allStationIds = [...newStations, ...nearestBikeRentalStations]
-        .filter(id => !hiddenStations.includes(id))
+        .filter((id) => !hiddenStations.includes(id))
         .filter((id, index, ids) => ids.indexOf(id) === index)
 
     const allStations = await service.getBikeRentalStations(allStationIds)

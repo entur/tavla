@@ -12,15 +12,12 @@ export function useFirebaseAuthentication(): User | null | undefined {
     const [user, setUser] = useState<User | null | undefined>()
 
     useEffect(() => {
-        const unsubscribe = firebase.auth().onAuthStateChanged(newUser => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((newUser) => {
             setUser(newUser)
             if (newUser) {
                 return
             }
-            firebase
-                .auth()
-                .signInAnonymously()
-                .catch(console.error)
+            firebase.auth().signInAnonymously().catch(console.error)
         })
 
         return unsubscribe

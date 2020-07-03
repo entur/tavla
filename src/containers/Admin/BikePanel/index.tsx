@@ -22,7 +22,7 @@ function BikePanel(props: Props): JSX.Element {
     }, [hiddenStations.length, setHiddenStations, stations])
 
     const onToggleStation = useCallback(
-        event => {
+        (event) => {
             const stationId = event.target.id
             const newDisabledList = toggleValueInList(hiddenStations, stationId)
             setHiddenStations(newDisabledList)

@@ -19,7 +19,7 @@ export function useLocationPermission(): [LocationPermission, () => void] {
         if (!navigator || !navigator.permissions) return
         navigator.permissions
             .query({ name: 'geolocation' })
-            .then(perm => setPermission(perm.state))
+            .then((perm) => setPermission(perm.state))
     }, [someNumber])
 
     return [

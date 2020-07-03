@@ -85,7 +85,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
 
     const onItemSelected = (item: Item): void => {
         if (item.value === YOUR_POSITION) {
-            setLocation(previousLocation => ({
+            setLocation((previousLocation) => ({
                 ...previousLocation,
                 selectedLocationName: YOUR_POSITION,
             }))

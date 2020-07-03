@@ -19,7 +19,7 @@ function StopPlacePanel(props: Props): JSX.Element {
     const filteredStopPlaces = useMemo(
         () =>
             stops
-                .map(stopPlace => ({
+                .map((stopPlace) => ({
                     ...stopPlace,
                     lines: stopPlace.lines.filter(
                         ({ transportMode }) =>
@@ -39,7 +39,7 @@ function StopPlacePanel(props: Props): JSX.Element {
     }, [hiddenStops.length, setHiddenStops, stops])
 
     const onToggleStop = useCallback(
-        event => {
+        (event) => {
             const stopId = event.target.id
             const newDisabledList = toggleValueInList(hiddenStops, stopId)
             setHiddenStops(newDisabledList)
@@ -76,7 +76,7 @@ function StopPlacePanel(props: Props): JSX.Element {
             const stop = stops.find(({ id }) => id === stopPlaceId)
             const lines = stop ? stop.lines : []
             const lineNames = lines.map(({ name }) => name)
-            const allWereSelected = lines.every(line =>
+            const allWereSelected = lines.every((line) =>
                 isRouteSelected(stopPlaceId, line.name),
             )
 
@@ -90,7 +90,7 @@ function StopPlacePanel(props: Props): JSX.Element {
             } else {
                 newHiddenRoutesForStop = (
                     hiddenRoutes[stopPlaceId] || []
-                ).filter(name => !lineNames.includes(name))
+                ).filter((name) => !lineNames.includes(name))
             }
 
             setHiddenRoutes({
@@ -146,7 +146,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                         >
                             <Checkbox
                                 id={`checkbox-all-lines-${id}`}
-                                checked={lines.every(line =>
+                                checked={lines.every((line) =>
                                     isRouteSelected(id, line.name),
                                 )}
                                 onChange={(): void => onToggleAllLines(id)}

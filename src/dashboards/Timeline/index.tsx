@@ -27,7 +27,7 @@ function diffSincePreviousTick(minute: number): number {
 
 function competitorPosition(waitTime: number): number {
     const negativeTickOffset = Math.abs(
-        TICKS.filter(tick => tick < 0).reduce((a, b) => a + b, 0),
+        TICKS.filter((tick) => tick < 0).reduce((a, b) => a + b, 0),
     )
     return ZOOM * (waitTime + negativeTickOffset * 60)
 }

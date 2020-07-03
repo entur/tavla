@@ -27,7 +27,7 @@ function journeyplannerPost<T>(
             query,
             variables,
         }),
-    }).then(res => res.json())
+    }).then((res) => res.json())
 }
 
 interface EstimatedCall {
@@ -126,7 +126,7 @@ export async function getStopPlacesWithLines(
         )
 
         const stops: StopPlaceWithLines[] = results.data.stopPlaces.map(
-            stopPlace => {
+            (stopPlace) => {
                 const lines = stopPlace.estimatedCalls
                     .sort(estimatedCallsComparator)
                     .map(({ destinationDisplay, serviceJourney }) => ({

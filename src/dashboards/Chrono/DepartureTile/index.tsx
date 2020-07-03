@@ -42,7 +42,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
 
     return (
         <Tile title={name} icons={headerIcons}>
-            {departures.map(data => {
+            {departures.map((data) => {
                 const icon = getIcon(data.type, data.subType)
                 const subLabel = createTileSubLabel(data)
 
