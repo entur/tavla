@@ -195,7 +195,7 @@ function StopPlacePanel(props: Props): JSX.Element {
 }
 
 interface Props {
-    stops: Array<StopPlaceWithLines>
+    stops: StopPlaceWithLines[]
 }
 
 export default StopPlacePanel

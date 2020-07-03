@@ -3,7 +3,7 @@ import { updateSettingField } from '../services/firebase'
 export type FieldTypes =
     | string
     | number
-    | Array<string>
+    | string[]
     | firebase.firestore.GeoPoint
     | { [key: string]: string[] }
 

@@ -68,7 +68,7 @@ function BikePanel(props: Props): JSX.Element {
 }
 
 interface Props {
-    stations: Array<BikeRentalStation>
+    stations: BikeRentalStation[]
 }
 
 export default BikePanel

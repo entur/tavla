@@ -90,7 +90,7 @@ function estimatedCallsComparator(a: EstimatedCall, b: EstimatedCall): number {
 }
 
 export async function getStopPlacesWithLines(
-    stopPlaceIds: Array<string>,
+    stopPlaceIds: string[],
 ): Promise<StopPlaceWithLines[]> {
     try {
         const variables = { ids: stopPlaceIds }

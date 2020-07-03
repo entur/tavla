@@ -17,8 +17,8 @@ function Tile({ title, icons, children }: Props): JSX.Element {
 
 interface Props {
     title: string
-    icons: JSX.Element | Array<JSX.Element>
-    children: Array<JSX.Element>
+    icons: JSX.Element | JSX.Element[]
+    children: JSX.Element[]
 }
 
 export default Tile

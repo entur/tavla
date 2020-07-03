@@ -33,14 +33,14 @@ function competitorPosition(waitTime: number): number {
 }
 
 function groupDeparturesByMode(
-    departures: Array<LineData>,
-): { [mode in LegMode]?: Array<LineData> } {
+    departures: LineData[],
+): { [mode in LegMode]?: LineData[] } {
     return departures.reduce(
         (map, departure) => ({
             ...map,
             [departure.type]: [...(map[departure.type] || []), departure],
         }),
-        {} as { [mode in LegMode]?: Array<LineData> },
+        {} as { [mode in LegMode]?: LineData[] },
     )
 }
 
@@ -111,7 +111,7 @@ function Tick({ minutes, mode, index }: TickProps): JSX.Element {
 interface TimelineData {
     stopId: string
     name: string
-    groupedDepartures: [LegMode, LineData[]][]
+    groupedDepartures: Array<[LegMode, LineData[]]>
 }
 
 const TimelineDashboard = ({ history }: Props): JSX.Element => {

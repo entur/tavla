@@ -19,28 +19,26 @@ import { getDocumentId } from '../utils'
 
 export interface Settings {
     coordinates?: Coordinates
-    hiddenStations: Array<string>
-    hiddenStops: Array<string>
-    hiddenModes: Array<LegMode>
+    hiddenStations: string[]
+    hiddenStops: string[]
+    hiddenModes: LegMode[]
     hiddenRoutes: {
-        [stopPlaceId: string]: Array<string>
+        [stopPlaceId: string]: string[]
     }
     distance?: number
-    newStations?: Array<string>
-    newStops?: Array<string>
+    newStations?: string[]
+    newStops?: string[]
     dashboard?: string | void
 }
 
 interface SettingsSetters {
-    setHiddenStations: (hiddenStations: Array<string>) => void
-    setHiddenStops: (hiddenStops: Array<string>) => void
-    setHiddenModes: (hiddenModes: Array<LegMode>) => void
-    setHiddenRoutes: (hiddenModes: {
-        [stopPlaceId: string]: Array<string>
-    }) => void
+    setHiddenStations: (hiddenStations: string[]) => void
+    setHiddenStops: (hiddenStops: string[]) => void
+    setHiddenModes: (hiddenModes: LegMode[]) => void
+    setHiddenRoutes: (hiddenModes: { [stopPlaceId: string]: string[] }) => void
     setDistance: (distance: number) => void
-    setNewStations: (newStations: Array<string>) => void
-    setNewStops: (newStops: Array<string>) => void
+    setNewStations: (newStations: string[]) => void
+    setNewStops: (newStops: string[]) => void
     setDashboard: (dashboard: string) => void
 }
 
@@ -115,28 +113,28 @@ export function useSettings(): [Settings, SettingsSetters] {
     )
 
     const setHiddenStations = useCallback(
-        (newHiddenStations: Array<string>): void => {
+        (newHiddenStations: string[]): void => {
             set('hiddenStations', newHiddenStations)
         },
         [set],
     )
 
     const setHiddenStops = useCallback(
-        (newHiddenStops: Array<string>): void => {
+        (newHiddenStops: string[]): void => {
             set('hiddenStops', newHiddenStops)
         },
         [set],
     )
 
     const setHiddenModes = useCallback(
-        (newHiddenModes: Array<LegMode>): void => {
+        (newHiddenModes: LegMode[]): void => {
             set('hiddenModes', newHiddenModes)
         },
         [set],
     )
 
     const setHiddenRoutes = useCallback(
-        (newHiddenRoutes: { [stopPlaceId: string]: Array<string> }): void => {
+        (newHiddenRoutes: { [stopPlaceId: string]: string[] }): void => {
             set('hiddenRoutes', newHiddenRoutes)
         },
         [set],
@@ -150,14 +148,14 @@ export function useSettings(): [Settings, SettingsSetters] {
     )
 
     const setNewStations = useCallback(
-        (newStations: Array<string>): void => {
+        (newStations: string[]): void => {
             set('newStations', newStations)
         },
         [set],
     )
 
     const setNewStops = useCallback(
-        (newStops: Array<string>): void => {
+        (newStops: string[]): void => {
             set('newStops', newStops)
         },
         [set],
