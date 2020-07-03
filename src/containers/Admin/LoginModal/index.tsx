@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import firebase from 'firebase'
 
-import EmailLogin from './EmailLogin/EmailLogin'
-import LoginOptions from './LoginOptions/LoginOptions'
-import Signup from './Signup/Signup'
-import ResetPassword from './ResetPassword/ResetPassword'
+import EmailLogin from './EmailLogin'
+import LoginOptions from './LoginOptions'
+import Signup from './Signup'
+import ResetPassword from './ResetPassword'
+import EmailSent from './EmailSent'
+
+import './styles.scss'
 
 import { Modal } from '@entur/modal'
 
 import { useIsFirebaseInitialized } from '../../../firebase-init'
 import { useFirebaseAuthentication } from '../../../auth'
 
-import './styles.scss'
-
 export type ModalType =
     | 'LoginOptionsModal'
     | 'LoginEmailModal'
     | 'SignupModal'
     | 'ResetPasswordModal'
+    | 'EmailSentModal'
 
 const LoginModal = () => {
     const isFirebaseInitialized = useIsFirebaseInitialized()
@@ -42,6 +44,8 @@ const LoginModal = () => {
                 return <Signup setModalType={setModalType} />
             case 'ResetPasswordModal':
                 return <ResetPassword setModalType={setModalType} />
+            case 'EmailSentModal':
+                return <EmailSent setModalType={setModalType} />
             default:
                 return <LoginOptions setModalType={setModalType} />
         }

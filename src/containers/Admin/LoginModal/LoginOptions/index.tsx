@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from 'react'
 import { Heading2, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
-import { ModalType } from '../.'
+import { ModalType } from '..'
 
 import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
@@ -15,21 +15,15 @@ interface Props {
 const LoginOptions = ({ setModalType }: Props): JSX.Element => {
     return (
         <div>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <img
-                    src={sikkerhetBom}
-                    srcSet={`${retinaSikkerhetBom} 2x`}
-                    style={{ width: '45%', margin: '0 auto' }}
-                />
+            <div className="centered">
+                <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>
-            <Heading2 style={{ textAlign: 'center' }} margin="bottom">
-                Logg inn for å fortsette
-            </Heading2>
+            <Heading2 margin="bottom">Logg inn for å fortsette</Heading2>
             <Paragraph style={{ textAlign: 'center' }}>
                 For å låse tavlas redigeringsrettigheter til en konto, må du
                 være innlogget.
             </Paragraph>
-            <GridContainer spacing="small" style={{ padding: '10%' }}>
+            <GridContainer spacing="small">
                 <GridItem small={12}>
                     <PrimaryButton
                         width="fluid"

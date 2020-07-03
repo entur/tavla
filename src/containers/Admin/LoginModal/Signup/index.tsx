@@ -64,19 +64,14 @@ const Signup = ({ setModalType }: Props) => {
             <BackArrowIcon
                 size={30}
                 onClick={() => setModalType('LoginOptionsModal')}
+                className="go-to"
             />
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <img
-                    src={sikkerhetBom}
-                    srcSet={`${retinaSikkerhetBom} 2x`}
-                    style={{ width: '45%', margin: '0 auto' }}
-                />
+            <div className="centered">
+                <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>
-            <Heading2 style={{ textAlign: 'center' }} margin="none">
-                Lag en ny konto
-            </Heading2>
+            <Heading2 margin="none">Lag en ny konto</Heading2>
 
-            <GridContainer spacing="small" style={{ padding: '10%' }}>
+            <GridContainer spacing="medium">
                 <GridItem small={12}>
                     <InputGroup
                         label="E-post"
@@ -89,29 +84,20 @@ const Signup = ({ setModalType }: Props) => {
                             onChange={handleInputsChange}
                             id="email"
                             prepend={<EmailIcon inline />}
-                            placeholder="eksempel@entur.no"
+                            placeholder="F.eks. ola.nordmann@entur.no"
                         />
                     </InputGroup>
                 </GridItem>
 
                 <GridItem small={12}>
-                    <InputGroup
-                        label="Passord"
-                        variant={isSufficientPassword ? undefined : 'info'}
-                        feedback={
-                            !isSufficientPassword &&
-                            'Passordet må være minst 8 tegn.'
-                        }
-                        onFocus={() => setIsSufficientPassword(false)}
-                        onBlur={() => setIsSufficientPassword(true)}
-                    >
+                    <InputGroup label="Passord">
                         <TextField
                             type="password"
                             value={inputs.password}
                             onChange={handleInputsChange}
                             id="password"
                             prepend={<ClosedLockIcon inline />}
-                            placeholder="Entur123"
+                            placeholder="Minst 8 tegn"
                         />
                     </InputGroup>
                 </GridItem>
@@ -139,13 +125,14 @@ const Signup = ({ setModalType }: Props) => {
                         width="fluid"
                         type="submit"
                         onClick={handleSubmit}
+                        className="modal-submit"
                     >
                         Lag konto
                     </PrimaryButton>
                 </GridItem>
             </GridContainer>
 
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className="centered">
                 <Link onClick={() => setModalType('LoginEmailModal')}>
                     Jeg har allerede en konto
                 </Link>

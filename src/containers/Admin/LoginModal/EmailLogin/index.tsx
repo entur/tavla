@@ -8,9 +8,7 @@ import { PrimaryButton } from '@entur/button'
 import { Heading2, Link } from '@entur/typography'
 
 import { useFormFields } from '../../../../utils'
-import { ModalType } from '../.'
-
-import './styles.scss'
+import { ModalType } from '..'
 
 import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
@@ -68,18 +66,12 @@ const EmailLogin = ({ setModalType }: Props): JSX.Element => {
                 onClick={() => setModalType('LoginOptionsModal')}
                 className="go-to"
             />
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <img
-                    src={sikkerhetBom}
-                    srcSet={`${retinaSikkerhetBom} 2x`}
-                    style={{ width: '45%', margin: '0 auto' }}
-                />
+            <div className="centered">
+                <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>
-            <Heading2 style={{ textAlign: 'center' }} margin="none">
-                Logg inn med e-post
-            </Heading2>
+            <Heading2 margin="none">Logg inn med e-post</Heading2>
             <form>
-                <GridContainer spacing="small" style={{ padding: '10%' }}>
+                <GridContainer spacing="medium">
                     <GridItem small={12}>
                         <InputGroup
                             label="E-post"
@@ -92,7 +84,7 @@ const EmailLogin = ({ setModalType }: Props): JSX.Element => {
                                 onChange={handleInputsChange}
                                 id="email"
                                 prepend={<EmailIcon inline />}
-                                placeholder="eksempel@entur.no"
+                                placeholder="F.eks. ola.nordmann@entur.no"
                             />
                         </InputGroup>
                     </GridItem>
@@ -108,6 +100,7 @@ const EmailLogin = ({ setModalType }: Props): JSX.Element => {
                                 onChange={handleInputsChange}
                                 id="password"
                                 prepend={<ClosedLockIcon inline />}
+                                placeholder="Minst 8 tegn"
                             />
                         </InputGroup>
                     </GridItem>
@@ -116,13 +109,14 @@ const EmailLogin = ({ setModalType }: Props): JSX.Element => {
                             width="fluid"
                             type="submit"
                             onClick={handleSubmit}
+                            className="modal-submit"
                         >
                             Logg inn
                         </PrimaryButton>
                     </GridItem>
                 </GridContainer>
             </form>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className="centered">
                 <Link onClick={() => setModalType('ResetPasswordModal')}>
                     Jeg har glemt passord
                 </Link>
