@@ -67,7 +67,7 @@ const LoginModal = (): JSX.Element => {
         )
     }
     return isLoggedIn ? (
-        <a onClick={(): Promise<void> => firebase.auth().signOut()}>Sign-out</a>
+        <a onClick={(): Promise<void> => firebase.auth().signOut()}>Logg ut</a>
     ) : (
         <a onClick={(): void => setModalOpen(true)}>Logg inn</a>
     )
