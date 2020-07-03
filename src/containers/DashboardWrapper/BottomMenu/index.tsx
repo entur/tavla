@@ -85,14 +85,14 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     )
     const width = useWindowWidth()
     useEffect(() => {
-        if (width > 900) {
+        if (width > 900 && mobileWidth) {
             setMobileWidth(false)
             menuRef.current.style.transform = ''
-        } else if (width <= 900) {
+        } else if (width <= 900 && !mobileWidth) {
             setMobileWidth(true)
             menuRef.current.style.transform = 'translate(0%, 0%)'
         }
-    }, [width, setMobileWidth])
+    }, [width, mobileWidth, setMobileWidth])
 
     const [hideOnScroll, setHideOnScroll] = useState(true)
     useScrollPosition(
@@ -111,7 +111,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                 }
             }
         },
-        [hideOnScroll, setHideOnScroll],
+        [hideOnScroll, mobileWidth, setHideOnScroll],
     )
 
     return (
