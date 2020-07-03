@@ -28,7 +28,7 @@ function mapFeaturesToItems(features: Feature[]): Item[] {
     })
 }
 
-function getErrorMessage(error): string {
+function getErrorMessage(error: PositionError): string {
     switch (error.code) {
         case error.PERMISSION_DENIED:
             return 'Du må godta bruk av posisjon i nettleseren før vi kan hente den.'
@@ -74,7 +74,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
         getAddressFromPosition(position)
     }
 
-    const handleDeniedLocation = (error): void => {
+    const handleDeniedLocation = (error: PositionError): void => {
         refreshLocationPermission()
         setErrorMessage(getErrorMessage(error))
         setLocation({
@@ -103,7 +103,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
         }
     }
 
-    const handleGoToBoard = (event): void => {
+    const handleGoToBoard = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault()
         if (chosenCoord) {
             handleCoordinatesSelected(chosenCoord)

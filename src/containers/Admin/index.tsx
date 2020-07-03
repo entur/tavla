@@ -7,7 +7,6 @@ import StopPlacePanel from './StopPlacePanel'
 import BikePanel from './BikePanel'
 import ModePanel from './ModePanel'
 import DistanceEditor from './DistanceEditor'
-import LoginButton from './LoginButton'
 import LoginModal from './LoginModal'
 
 import { useDebounce, isLegMode, unique, getDocumentId } from '../../utils'
@@ -17,23 +16,26 @@ import { StopPlaceWithLines } from '../../types'
 
 import { useSettingsContext } from '../../settings'
 import { useNearestPlaces } from '../../logic'
-
-import AdminHeader from './AdminHeader'
+import { DEFAULT_DISTANCE } from '../../constants'
 
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
 
 import './styles.scss'
+import AdminHeader from './AdminHeader'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
-    const [settings, settingsSetters, persistSettings] = useSettingsContext()
+    const [settings, settingsSetters] = useSettingsContext()
 
     const { hiddenModes, newStops, newStations } = settings
 
     const { setHiddenModes, setNewStops, setNewStations } = settingsSetters
 
-    const [distance, setDistance] = useState(settings.distance)
+    const [distance, setDistance] = useState<number>(
+        settings.distance || DEFAULT_DISTANCE,
+    )
     const debouncedDistance = useDebounce(distance, 800)
+
     useEffect(() => {
         if (settings.distance != debouncedDistance) {
             settingsSetters.setDistance(debouncedDistance)
@@ -133,39 +135,21 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     }, [stations.length, stopPlaces])
 
     const documentId = getDocumentId()
-    const discardSettingsAndGoToDash = useCallback(() => {
-        const answerIsYes = confirm(
-            'Er du sikker på at du vil gå tilbake uten å lagre endringene dine? Lagre-knapp finner du nederst til høyre på siden.',
-        )
-        if (answerIsYes) {
-            if (documentId) {
-                window.location.pathname = window.location.pathname.replace(
-                    'admin',
-                    't',
-                )
-            } else {
-                window.location.pathname = window.location.pathname.replace(
-                    'admin',
-                    'dashboard',
-                )
-            }
-        }
-    }, [documentId])
 
-    const submitSettingsAndGoToDash = useCallback(() => {
-        persistSettings()
+    const goToDash = useCallback(() => {
         if (documentId) {
             history.push(window.location.pathname.replace('admin', 't'))
         }
         history.push(window.location.pathname.replace('admin', 'dashboard'))
-    }, [history, persistSettings, documentId])
+    }, [history, documentId])
 
     return (
         <Contrast className="admin">
             <LoginModal />
 
-            <AdminHeader goBackToDashboard={discardSettingsAndGoToDash} />
-            <div className="admin__content">
+            <AdminHeader goBackToDashboard={goToDash} />
+
+            <div>
                 <div className="admin__selection-panel">
                     <DistanceEditor
                         distance={distance}
@@ -198,9 +182,9 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             <Button
                 className="admin__submit-button"
                 variant="primary"
-                onClick={submitSettingsAndGoToDash}
+                onClick={goToDash}
             >
-                Oppdater tavla
+                Se avgangstavla
             </Button>
         </Contrast>
     )

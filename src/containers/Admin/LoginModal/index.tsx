@@ -11,7 +11,6 @@ import './styles.scss'
 
 import { Modal } from '@entur/modal'
 
-import { useIsFirebaseInitialized } from '../../../firebase-init'
 import { useFirebaseAuthentication } from '../../../auth'
 
 export type ModalType =
@@ -22,8 +21,6 @@ export type ModalType =
     | 'EmailSentModal'
 
 const LoginModal = () => {
-    const isFirebaseInitialized = useIsFirebaseInitialized()
-
     const user = useFirebaseAuthentication()
 
     const isLoggedIn = user && !user.isAnonymous
@@ -56,8 +53,6 @@ const LoginModal = () => {
             handleDismiss()
         }
     }, [isLoggedIn, modalOpen])
-
-    if (!isFirebaseInitialized) return null
 
     if (modalOpen) {
         return (
