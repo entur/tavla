@@ -23,7 +23,7 @@ interface UserSignUp {
     repeatPassword: string
 }
 
-const Signup = ({ setModalType }: Props) => {
+const Signup = ({ setModalType }: Props): JSX.Element => {
     const [inputs, handleInputsChange] = useFormFields<UserSignUp>({
         email: '',
         password: '',
@@ -31,10 +31,9 @@ const Signup = ({ setModalType }: Props) => {
     })
 
     const [isPasswordMatch, setIsPasswordMatch] = useState(true)
-    const [isSufficientPassword, setIsSufficientPassword] = useState(true)
     const [emailError, setEmailError] = useState<string>()
 
-    const handleSubmit = () => {
+    const handleSubmit = (): void => {
         const { email, password } = inputs
 
         if (inputs.password !== inputs.repeatPassword) {
@@ -48,7 +47,7 @@ const Signup = ({ setModalType }: Props) => {
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
-            .catch(function(error) {
+            .catch(function (error) {
                 if (error.code === 'auth/email-already-in-use') {
                     setEmailError('Denne e-posten er allerede registrert.')
                 } else if (error.code === 'auth/invalid-email') {
@@ -63,7 +62,7 @@ const Signup = ({ setModalType }: Props) => {
         <>
             <BackArrowIcon
                 size={30}
-                onClick={() => setModalType('LoginOptionsModal')}
+                onClick={(): void => setModalType('LoginOptionsModal')}
                 className="go-to"
             />
             <div className="centered">
@@ -133,7 +132,7 @@ const Signup = ({ setModalType }: Props) => {
             </GridContainer>
 
             <div className="centered">
-                <Link onClick={() => setModalType('LoginEmailModal')}>
+                <Link onClick={(): void => setModalType('LoginEmailModal')}>
                     Jeg har allerede en konto
                 </Link>
             </div>

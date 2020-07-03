@@ -33,7 +33,7 @@ const ResetPassword = ({ setModalType }: Props): JSX.Element => {
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={() => setModalType('LoginEmailModal')}
+                        onClick={(): void => setModalType('LoginEmailModal')}
                         className="modal-submit"
                     >
                         Logg inn

@@ -20,7 +20,7 @@ export type ModalType =
     | 'ResetPasswordModal'
     | 'EmailSentModal'
 
-const LoginModal = () => {
+const LoginModal = (): JSX.Element => {
     const user = useFirebaseAuthentication()
 
     const isLoggedIn = user && !user.isAnonymous
@@ -28,12 +28,12 @@ const LoginModal = () => {
     const [modalType, setModalType] = useState<ModalType>('LoginOptionsModal')
     const [modalOpen, setModalOpen] = useState(false)
 
-    const handleDismiss = () => {
+    const handleDismiss = (): void => {
         setModalType('LoginOptionsModal')
         setModalOpen(false)
     }
 
-    const displayModal = () => {
+    const displayModal = (): JSX.Element => {
         switch (modalType) {
             case 'LoginEmailModal':
                 return <EmailLogin setModalType={setModalType} />
@@ -67,9 +67,9 @@ const LoginModal = () => {
         )
     }
     return isLoggedIn ? (
-        <a onClick={() => firebase.auth().signOut()}>Sign-out</a>
+        <a onClick={(): Promise<void> => firebase.auth().signOut()}>Sign-out</a>
     ) : (
-        <a onClick={() => setModalOpen(true)}>Logg inn</a>
+        <a onClick={(): void => setModalOpen(true)}>Logg inn</a>
     )
 }
 

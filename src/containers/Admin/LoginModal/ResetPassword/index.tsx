@@ -28,7 +28,7 @@ const ResetPassword = ({ setModalType }: Props): JSX.Element => {
 
     const [emailError, setEmailError] = useState<string>()
 
-    const handleReset = () => {
+    const handleReset = (): void => {
         const actionCodeSettings = {
             url: window.location.href,
         }
@@ -36,10 +36,10 @@ const ResetPassword = ({ setModalType }: Props): JSX.Element => {
         firebase
             .auth()
             .sendPasswordResetEmail(inputs.email, actionCodeSettings)
-            .then(function() {
+            .then(function () {
                 setModalType('EmailSentModal')
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 if (error.code === 'auth/invalid-email') {
                     setEmailError('E-posten er ikke gyldig')
                 } else if (error.code === 'auth/user-not-found') {
@@ -54,7 +54,7 @@ const ResetPassword = ({ setModalType }: Props): JSX.Element => {
         <>
             <BackArrowIcon
                 size={30}
-                onClick={() => setModalType('LoginEmailModal')}
+                onClick={(): void => setModalType('LoginEmailModal')}
                 className="go-to"
             />
             <div className="centered">
@@ -78,6 +78,7 @@ const ResetPassword = ({ setModalType }: Props): JSX.Element => {
                             onChange={handleInputsChange}
                             id="email"
                             prepend={<EmailIcon inline />}
+                            placeholder="F.eks. ola.nordmann@entur.no"
                         />
                     </InputGroup>
                 </GridItem>

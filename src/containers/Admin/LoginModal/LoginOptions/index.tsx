@@ -27,7 +27,7 @@ const LoginOptions = ({ setModalType }: Props): JSX.Element => {
                 <GridItem small={12}>
                     <PrimaryButton
                         width="fluid"
-                        onClick={() => setModalType('LoginEmailModal')}
+                        onClick={(): void => setModalType('LoginEmailModal')}
                     >
                         Logg inn med e-post
                     </PrimaryButton>
@@ -35,7 +35,7 @@ const LoginOptions = ({ setModalType }: Props): JSX.Element => {
                 <GridItem small={12}>
                     <SecondaryButton
                         width="fluid"
-                        onClick={() => setModalType('SignupModal')}
+                        onClick={(): void => setModalType('SignupModal')}
                     >
                         Lag en ny konto
                     </SecondaryButton>

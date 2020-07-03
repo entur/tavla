@@ -38,7 +38,7 @@ const EmailLogin = ({ setModalType }: Props): JSX.Element => {
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
-            .catch(function(error) {
+            .catch(function (error) {
                 if (error.code === 'auth/invalid-email') {
                     setEmailError('E-posten er ikke gyldig')
                 } else if (error.code === 'auth/user-disabled') {
@@ -63,7 +63,7 @@ const EmailLogin = ({ setModalType }: Props): JSX.Element => {
         <>
             <BackArrowIcon
                 size={30}
-                onClick={() => setModalType('LoginOptionsModal')}
+                onClick={(): void => setModalType('LoginOptionsModal')}
                 className="go-to"
             />
             <div className="centered">
@@ -117,7 +117,7 @@ const EmailLogin = ({ setModalType }: Props): JSX.Element => {
                 </GridContainer>
             </form>
             <div className="centered">
-                <Link onClick={() => setModalType('ResetPasswordModal')}>
+                <Link onClick={(): void => setModalType('ResetPasswordModal')}>
                     Jeg har glemt passord
                 </Link>
             </div>

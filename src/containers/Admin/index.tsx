@@ -149,7 +149,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 
             <AdminHeader goBackToDashboard={goToDash} />
 
-            <div>
+            <div className="admin__content">
                 <div className="admin__selection-panel">
                     <DistanceEditor
                         distance={distance}

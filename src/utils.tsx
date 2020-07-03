@@ -304,7 +304,7 @@ export function useFormFields<T>(
 
     return [
         inputs,
-        function(
+        function (
             event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
         ): void {
             setValues({
