@@ -2,7 +2,7 @@ import React from 'react'
 
 import './styles.scss'
 
-function MenuButton({ title, icon, callback }): JSX.Element {
+function MenuButton({ title, icon, callback }: Props): JSX.Element {
     return (
         <div
             onClick={callback}
@@ -12,6 +12,12 @@ function MenuButton({ title, icon, callback }): JSX.Element {
             <a>{title}</a>
         </div>
     )
+}
+
+interface Props {
+    title: string
+    icon: JSX.Element
+    callback?: any
 }
 
 export default MenuButton
