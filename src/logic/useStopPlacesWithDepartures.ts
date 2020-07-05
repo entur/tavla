@@ -15,8 +15,8 @@ import useNearestPlaces from './useNearestPlaces'
 
 async function fetchStopPlaceDepartures(
     settings: Settings,
-    nearestStopPlaces: Array<string>,
-): Promise<Array<StopPlaceWithDepartures>> {
+    nearestStopPlaces: string[],
+): Promise<StopPlaceWithDepartures[]> {
     const { newStops, hiddenStops, hiddenModes, hiddenRoutes } = settings
 
     const allStopPlaceIds = unique([...newStops, ...nearestStopPlaces]).filter(
@@ -83,18 +83,17 @@ async function fetchStopPlaceDepartures(
     return stopPlacesWithDepartures.filter(isNotNullOrUndefined)
 }
 
-export default function useStopPlacesWithDepartures(): Array<
-    StopPlaceWithDepartures
-> | null {
+export default function useStopPlacesWithDepartures():
+    | StopPlaceWithDepartures[]
+    | null {
     const [settings] = useSettingsContext()
     const nearestPlaces = useNearestPlaces(
         settings.coordinates,
         settings.distance,
     )
-    const [
-        stopPlacesWithDepartures,
-        setStopPlacesWithDepartures,
-    ] = useState<Array<StopPlaceWithDepartures> | null>(null)
+    const [stopPlacesWithDepartures, setStopPlacesWithDepartures] = useState<
+        StopPlaceWithDepartures[] | null
+    >(null)
 
     const nearestStopPlaces = useMemo(
         () =>

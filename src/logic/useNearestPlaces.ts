@@ -6,8 +6,8 @@ import service from '../service'
 export default function useNearestPlaces(
     position: Coordinates,
     distance: number,
-): Array<NearestPlace> {
-    const [nearestPlaces, setNearestPlaces] = useState<Array<NearestPlace>>([])
+): NearestPlace[] {
+    const [nearestPlaces, setNearestPlaces] = useState<NearestPlace[]>([])
 
     useEffect(() => {
         service

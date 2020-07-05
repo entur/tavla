@@ -17,7 +17,7 @@ export const updateSettingField = async (
     fieldValue:
         | string
         | number
-        | Array<string>
+        | string[]
         | firebase.firestore.GeoPoint
         | { [key: string]: string[] },
 ): Promise<void> => {

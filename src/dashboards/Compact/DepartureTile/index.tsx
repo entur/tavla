@@ -17,9 +17,9 @@ import TileRow from '../components/TileRow'
 import './styles.scss'
 
 function getTransportHeaderIcons(
-    departures: Array<LineData>,
-    hiddenModes?: Array<LegMode>,
-): Array<JSX.Element> {
+    departures: LineData[],
+    hiddenModes?: LegMode[],
+): JSX.Element[] {
     const transportModes = unique(
         departures
             .map(({ type, subType }) => ({ type, subType }))
