@@ -1,6 +1,6 @@
 @import '../../../../assets/styles/import.scss';
 
-.bottom_menu_button{
+.bottom_menu_button {
     height: 100%;
     padding: 1rem;
     display: flex;
@@ -12,19 +12,17 @@
     font: inherit;
 }
 
-.bottom_menu_button:hover{
+.bottom_menu_button:hover {
     cursor: pointer;
 }
 
-.iconHolder{
+.iconHolder {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
     padding-bottom: 0.3rem;
 }
-
-
 
 // Hover.css //
 // Float //
@@ -37,7 +35,10 @@
     transition-property: transform;
     transition-timing-function: ease-out;
 }
-.hvr-float:hover, .hvr-float:focus, .hvr-float:active {
+
+.hvr-float:hover,
+.hvr-float:focus,
+.hvr-float:active {
     transform: translateY(-8px);
 }
 
@@ -50,8 +51,9 @@
     position: relative;
     overflow: hidden;
 }
-.hvr-underline-from-center:before {
-content: "";
+
+.hvr-underline-from-center::before {
+    content: "";
     position: absolute;
     z-index: -1;
     left: 51%;
@@ -63,7 +65,10 @@ content: "";
     transition-duration: 0.3s;
     transition-timing-function: ease-out;
 }
-.hvr-underline-from-center:hover:before, .hvr-underline-from-center:focus:before, .hvr-underline-from-center:active:before {
+
+.hvr-underline-from-center:hover::before,
+.hvr-underline-from-center:focus::before,
+.hvr-underline-from-center:active::before {
     left: 33%;
     right: 33%;
 }

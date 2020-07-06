@@ -10,9 +10,9 @@
     width: 40rem;
     bottom: 0;
     background-color: #393d79;
-    border-radius: 10px 10px 0px 0px;
+    border-radius: 10px 10px 0 0;
     z-index: 5;
-    
+
     &__actions {
         display: flex;
     }
@@ -96,6 +96,6 @@
         position: fixed;
         height: 5em;
         width: 100%;
-        border-radius: 0px 0px 0px 0px;
+        border-radius: 0 0 0 0;
     }
 }
