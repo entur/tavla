@@ -2,11 +2,14 @@
 
 .bottom_menu_button{
     height: 100%;
-    padding: 1em;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     background-color: rgba(0, 0, 0, 0);
+    border: hidden;
+    color: rgb(255, 255, 255);
+    font: inherit;
 }
 
 .bottom_menu_button:hover{
@@ -18,6 +21,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    padding-bottom: 0.3rem;
 }
 
 
@@ -27,18 +31,13 @@
 .hvr-float {
     display: inline-block;
     vertical-align: middle;
-    -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
     box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-    -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
-    -webkit-transition-property: transform;
     transition-property: transform;
-    -webkit-transition-timing-function: ease-out;
     transition-timing-function: ease-out;
 }
 .hvr-float:hover, .hvr-float:focus, .hvr-float:active {
-    -webkit-transform: translateY(-8px);
     transform: translateY(-8px);
 }
 
@@ -46,7 +45,6 @@
 .hvr-underline-from-center {
     display: inline-block;
     vertical-align: middle;
-    -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
     box-shadow: 0 0 1px rgba(0, 0, 0, 0);
     position: relative;
@@ -61,11 +59,8 @@ content: "";
     bottom: 10px;
     background: #ff5959;
     height: 3px;
-    -webkit-transition-property: left, right;
     transition-property: left, right;
-    -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
-    -webkit-transition-timing-function: ease-out;
     transition-timing-function: ease-out;
 }
 .hvr-underline-from-center:hover:before, .hvr-underline-from-center:focus:before, .hvr-underline-from-center:active:before {

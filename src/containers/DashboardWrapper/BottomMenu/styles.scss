@@ -6,11 +6,12 @@
     justify-content: space-evenly;
     align-content: center;
     align-items: center;
-    height: 5em;
-    width: 40em;
+    min-height: 6.4rem;
+    width: 40rem;
     bottom: 0;
     background-color: #393d79;
     border-radius: 10px 10px 0px 0px;
+    z-index: 5;
     
     &__actions {
         display: flex;

@@ -27,7 +27,7 @@ function DashboardWrapper(props: Props): JSX.Element {
     } = props
 
     const onSettingsButtonClick = useCallback(
-        (event) => {
+        event => {
             const path = window.location.pathname.split('@')[1]
             history.push(`/admin/@${path}`)
             event.preventDefault()

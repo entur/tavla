@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { Heading3, Paragraph } from '@entur/typography'
-import { EditIcon, SettingsIcon, CheckIcon } from '@entur/icons'
+import { EditIcon, ConfigurationIcon, CheckIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Button } from '@entur/button'
 import { colors } from '@entur/tokens'
 
-import MenuButton from './MenuButton.tsx'
+import MenuButton from './MenuButton'
 
 import { useSettingsContext } from '../../../settings'
 
@@ -65,7 +65,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const { documentId } = useParams()
 
     const onSettingsButtonClick = useCallback(
-        (event) => {
+        event => {
             if (documentId) {
                 history.push(`/admin/${documentId}`)
             } else {
@@ -86,7 +86,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     )
 
     const submit = useCallback(
-        (event) => {
+        event => {
             event.preventDefault()
             setModalOpen(false)
             setDashboard(choice)
@@ -135,12 +135,12 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <div className="bottom-menu__actions">
                 <MenuButton
                     title="Endre visning"
-                    icon={<EditIcon />}
+                    icon={<EditIcon size={21} />}
                     callback={(): void => setModalOpen(true)}
                 />
                 <MenuButton
                     title="Rediger tavla"
-                    icon={<SettingsIcon />}
+                    icon={<ConfigurationIcon size={21} />}
                     callback={onSettingsButtonClick}
                 />
             </div>
