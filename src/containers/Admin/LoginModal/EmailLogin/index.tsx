@@ -5,7 +5,7 @@ import { TextField, InputGroup } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
 import { EmailIcon, ClosedLockIcon, BackArrowIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
-import { Heading2, Link } from '@entur/typography'
+import { Heading3, Link } from '@entur/typography'
 
 import { useFormFields } from '../../../../utils'
 import { ModalType } from '..'
@@ -68,7 +68,7 @@ const EmailLogin = ({ setModalType }: Props): JSX.Element => {
             <div className="centered">
                 <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>
-            <Heading2 margin="none">Logg inn med e-post</Heading2>
+            <Heading3 margin="none">Logg inn med e-post</Heading3>
             <form>
                 <GridContainer spacing="medium">
                     <GridItem small={12}>

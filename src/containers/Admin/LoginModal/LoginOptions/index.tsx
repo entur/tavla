@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react'
 
-import { Heading2, Paragraph } from '@entur/typography'
+import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { ModalType } from '..'
@@ -18,7 +18,7 @@ const LoginOptions = ({ setModalType }: Props): JSX.Element => {
             <div className="centered">
                 <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>
-            <Heading2 margin="bottom">Logg inn for å fortsette</Heading2>
+            <Heading3 margin="bottom">Logg inn for å fortsette</Heading3>
             <Paragraph style={{ textAlign: 'center' }}>
                 For å låse tavlas redigeringsrettigheter til en konto, må du
                 være innlogget.

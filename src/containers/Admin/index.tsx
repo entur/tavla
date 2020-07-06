@@ -23,6 +23,7 @@ import StopPlaceSearch from './StopPlaceSearch'
 
 import './styles.scss'
 import AdminHeader from './AdminHeader'
+import LockModal from '../LockModal'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const [settings, settingsSetters] = useSettingsContext()
@@ -145,6 +146,8 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 
     return (
         <Contrast className="admin">
+            <LockModal />
+
             <AdminHeader goBackToDashboard={goToDash} />
 
             <div className="admin__content">
