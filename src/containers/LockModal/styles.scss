@@ -1,0 +1,42 @@
+@import '../../assets/styles/import.scss';
+
+.lock-modal.eds-modal__content {
+    padding-top: 0.8rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 1.5rem;
+
+    p {
+        padding: 0 1rem;
+        text-align: center;
+        margin: 0;
+    }
+
+    h2,
+    h3 {
+        text-align: center;
+    }
+
+    .eds-grid__container {
+        padding: 10%;
+    }
+
+    img {
+        width: 45%;
+        margin: 0 auto;
+    }
+
+    a {
+        cursor: pointer;
+        margin-bottom: 3rem;
+    }
+
+    .modal-submit {
+        margin-top: 1rem;
+    }
+
+    .centered {
+        display: flex;
+        justify-content: center;
+    }
+}

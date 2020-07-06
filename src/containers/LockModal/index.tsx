@@ -13,7 +13,7 @@ import LoginModal from '../Admin/LoginModal'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
 
-import './../Admin/LoginModal/styles.scss'
+import './styles.scss'
 
 interface Props {
     open: boolean
@@ -40,7 +40,13 @@ const LockModal = ({ open, onDismiss }: Props): JSX.Element => {
     }
 
     return (
-        <Modal size="small" open={open} title="" onDismiss={onDismiss}>
+        <Modal
+            size="small"
+            open={open}
+            title=""
+            onDismiss={onDismiss}
+            className="lock-modal"
+        >
             <div className="centered">
                 <img src={Check} srcSet={`${retinaCheck} 2x`} />
             </div>
