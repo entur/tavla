@@ -65,7 +65,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const { documentId } = useParams()
 
     const onSettingsButtonClick = useCallback(
-        event => {
+        (event) => {
             if (documentId) {
                 history.push(`/admin/${documentId}`)
             } else {
@@ -86,7 +86,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     )
 
     const submit = useCallback(
-        event => {
+        (event) => {
             event.preventDefault()
             setModalOpen(false)
             setDashboard(choice)
