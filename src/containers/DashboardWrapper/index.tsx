@@ -52,7 +52,7 @@ function DashboardWrapper(props: Props): JSX.Element {
         (!stopPlacesWithDepartures || !stopPlacesWithDepartures.length) &&
         (!bikeRentalStations || !bikeRentalStations.length)
 
-    const renderContents = (): JSX.Element | Array<JSX.Element> => {
+    const renderContents = (): JSX.Element | JSX.Element[] => {
         if (!noData && !initialLoading) {
             return children
         }
@@ -101,10 +101,10 @@ function DashboardWrapper(props: Props): JSX.Element {
 }
 
 interface Props {
-    stopPlacesWithDepartures?: Array<StopPlaceWithDepartures> | null
-    bikeRentalStations?: Array<BikeRentalStation> | null
+    stopPlacesWithDepartures?: StopPlaceWithDepartures[] | null
+    bikeRentalStations?: BikeRentalStation[] | null
     className: string
-    children: JSX.Element | Array<JSX.Element>
+    children: JSX.Element | JSX.Element[]
     history: any
 }
 

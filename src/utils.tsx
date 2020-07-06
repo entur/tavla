@@ -145,7 +145,7 @@ export function getIcon(
 export function groupBy<T extends { [key: string]: any }>(
     objectArray: T[],
     property: keyof T,
-): { [key: string]: Array<T> } {
+): { [key: string]: T[] } {
     return objectArray.reduce((acc, obj) => {
         const key = obj[property]
         if (!acc[key]) {
@@ -162,9 +162,9 @@ function formatDeparture(minDiff: number, departureTime: Date): string {
 }
 
 export function unique<T>(
-    array: Array<T>,
+    array: T[],
     isEqual: (a: T, b: T) => boolean = (a, b): boolean => a === b,
-): Array<T> {
+): T[] {
     return array.filter((item, index, items) => {
         const previousItems = items.slice(0, index)
         return !previousItems.some((uniqueItem) => isEqual(item, uniqueItem))
@@ -222,7 +222,7 @@ export function createTileSubLabel({
     }
 }
 
-export function toggleValueInList<T>(list: Array<T>, item: T): Array<T> {
+export function toggleValueInList<T>(list: T[], item: T): T[] {
     if (list.includes(item)) {
         return list.filter((i) => i !== item)
     }

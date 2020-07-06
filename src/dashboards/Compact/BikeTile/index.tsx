@@ -44,7 +44,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
 }
 
 interface Props {
-    stations: Array<BikeRentalStation>
+    stations: BikeRentalStation[]
 }
 
 export default BikeTile

@@ -39,8 +39,8 @@ function ModePanel({
 
 interface Props {
     transportModes: Array<{ mode: LegMode; subMode?: TransportSubmode }>
-    disabledModes: Array<LegMode>
-    onModesChange: (disabledModes: Array<LegMode>) => void
+    disabledModes: LegMode[]
+    onModesChange: (disabledModes: LegMode[]) => void
 }
 
 export default ModePanel
