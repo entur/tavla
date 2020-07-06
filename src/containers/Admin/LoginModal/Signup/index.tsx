@@ -59,7 +59,6 @@ const Signup = ({ setModalType }: Props): JSX.Element => {
             setIsPasswordMatch(false)
             return
         }
-        console.log(emailError)
         setIsPasswordMatch(true)
     }
 
