@@ -9,7 +9,7 @@ function MenuButton({ title, icon, callback }: Props): JSX.Element {
             className="bottom_menu_button hvr-float hvr-underline-from-center"
         >
             <div className="iconHolder">{icon}</div>
-            <a>{title}</a>
+            {title}
         </button>
     )
 }
