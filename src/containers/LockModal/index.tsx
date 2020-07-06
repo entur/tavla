@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
-import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
+import { Modal } from '@entur/modal'
 
 import Check from '../../assets/images/check.png'
 import retinaCheck from '../../assets/images/check@2x.png'
@@ -13,7 +13,7 @@ import LoginModal from '../Admin/LoginModal'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
 
-const LockModal = (): JSX.Element => {
+const LockModal = ({ open, onDismiss }): JSX.Element => {
     const user = useFirebaseAuthentication()
 
     const [{ owner }, { setOwner }] = useSettingsContext()
@@ -33,12 +33,7 @@ const LockModal = (): JSX.Element => {
     }
 
     return (
-        <Modal
-            onDismiss={() => false}
-            size="small"
-            title=""
-            className="login-modal"
-        >
+        <Modal size="small" open={open} title="Lås tavla" onDismiss={onDismiss}>
             <div className="centered">
                 <img src={Check} srcSet={`${retinaCheck} 2x`} />
             </div>
@@ -53,7 +48,7 @@ const LockModal = (): JSX.Element => {
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={() => false}
+                        onClick={onDismiss}
                         className="modal-submit"
                     >
                         Se avgangstavla

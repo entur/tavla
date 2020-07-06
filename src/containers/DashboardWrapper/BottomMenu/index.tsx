@@ -1,7 +1,18 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, {
+    useState,
+    useCallback,
+    useEffect,
+    useRef,
+    forwardRef,
+} from 'react'
 import { useParams } from 'react-router-dom'
 import { Heading3, Paragraph } from '@entur/typography'
-import { EditIcon, ConfigurationIcon, CheckIcon } from '@entur/icons'
+import {
+    EditIcon,
+    ConfigurationIcon,
+    CheckIcon,
+    OpenedLockIcon,
+} from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Button } from '@entur/button'
 import { colors } from '@entur/tokens'
@@ -14,6 +25,7 @@ import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { useWindowWidth } from '@react-hook/window-size'
 
 import './styles.scss'
+import LockModal from '../../LockModal'
 
 interface RadioBoxProps {
     value: string
@@ -60,6 +72,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const [settings, { setDashboard }] = useSettingsContext()
 
     const [modalOpen, setModalOpen] = useState<boolean>(false)
+    const [lockModalOpen, setLockModalOpen] = useState<boolean>(false)
     const [choice, setChoice] = useState<string>(settings.dashboard || '')
 
     const { documentId } = useParams()
@@ -143,6 +156,17 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                     icon={<ConfigurationIcon size={21} />}
                     callback={onSettingsButtonClick}
                 />
+                <MenuButton
+                    title="Lås tavle"
+                    icon={<OpenedLockIcon size={21} />}
+                    callback={(): void => setLockModalOpen(true)}
+                    tooltip={
+                        <>
+                            Lås tavla til en konto slik <br />
+                            at bare du kan redigere den.
+                        </>
+                    }
+                />
             </div>
 
             <Modal
@@ -197,6 +221,11 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                     </div>
                 </form>
             </Modal>
+
+            <LockModal
+                open={lockModalOpen}
+                onDismiss={(): void => setLockModalOpen(false)}
+            />
         </div>
     )
 }
