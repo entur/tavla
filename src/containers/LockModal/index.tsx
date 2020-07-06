@@ -13,27 +13,34 @@ import LoginModal from '../Admin/LoginModal'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
 
-const LockModal = ({ open, onDismiss }): JSX.Element => {
+import './../Admin/LoginModal/styles.scss'
+
+interface Props {
+    open: boolean
+    onDismiss: () => void
+}
+
+const LockModal = ({ open, onDismiss }: Props): JSX.Element => {
     const user = useFirebaseAuthentication()
 
-    const [{ owner }, { setOwner }] = useSettingsContext()
+    const [settings, { setOwner }] = useSettingsContext()
 
     useEffect(() => {
-        if (user && !user.isAnonymous && owner !== user.uid) {
+        if (user && !user.isAnonymous && settings.owner !== user.uid && open) {
             setOwner(user.uid)
         }
-    }, [owner, user, setOwner])
+    }, [settings.owner, user, setOwner, open])
 
     if (user === undefined) {
         return null
     }
 
     if (!user || user.isAnonymous) {
-        return <LoginModal />
+        return <LoginModal open={open} onDismiss={onDismiss} />
     }
 
     return (
-        <Modal size="small" open={open} title="Lås tavla" onDismiss={onDismiss}>
+        <Modal size="small" open={open} title="" onDismiss={onDismiss}>
             <div className="centered">
                 <img src={Check} srcSet={`${retinaCheck} 2x`} />
             </div>
