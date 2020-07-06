@@ -31,19 +31,11 @@ const Signup = ({ setModalType }: Props): JSX.Element => {
     })
 
     const [isPasswordMatch, setIsPasswordMatch] = useState(true)
+    const [isPasswordLongEnough, setIsPaswordLongEnough] = useState(true)
     const [emailError, setEmailError] = useState<string>()
 
     const handleSubmit = (): void => {
         const { email, password } = inputs
-
-        if (inputs.password !== inputs.repeatPassword) {
-            setIsPasswordMatch(false)
-            return
-        }
-
-        setIsPasswordMatch(true)
-        setEmailError(undefined)
-
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
@@ -53,9 +45,22 @@ const Signup = ({ setModalType }: Props): JSX.Element => {
                 } else if (error.code === 'auth/invalid-email') {
                     setEmailError('Dette er ikke en gyldig e-post.')
                 } else {
-                    console.error(error)
+                    setEmailError(undefined)
                 }
             })
+
+        if (inputs.password.length >= 8) {
+            setIsPaswordLongEnough(true)
+        } else {
+            setIsPaswordLongEnough(false)
+        }
+
+        if (inputs.password !== inputs.repeatPassword) {
+            setIsPasswordMatch(false)
+            return
+        }
+        console.log(emailError)
+        setIsPasswordMatch(true)
     }
 
     return (
@@ -89,7 +94,14 @@ const Signup = ({ setModalType }: Props): JSX.Element => {
                 </GridItem>
 
                 <GridItem small={12}>
-                    <InputGroup label="Passord">
+                    <InputGroup
+                        label="Passord"
+                        variant={isPasswordLongEnough ? undefined : 'error'}
+                        feedback={
+                            !isPasswordLongEnough &&
+                            'Passord må ha minst 8 tegn.'
+                        }
+                    >
                         <TextField
                             type="password"
                             value={inputs.password}

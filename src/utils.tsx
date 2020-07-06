@@ -300,15 +300,15 @@ export function useFormFields<T>(
     T,
     (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void,
 ] {
-    const [inputs, setValues] = useState<T>(initialState)
+    const [values, setValues] = useState<T>(initialState)
 
     return [
-        inputs,
+        values,
         function (
             event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
         ): void {
             setValues({
-                ...inputs,
+                ...values,
                 [event.target.id]: event.target.value,
             })
         },

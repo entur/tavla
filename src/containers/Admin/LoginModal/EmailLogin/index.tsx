@@ -55,7 +55,6 @@ const EmailLogin = ({ setModalType }: Props): JSX.Element => {
 
     const handleSubmit = (event: React.FormEvent): void => {
         event.preventDefault()
-        console.log(inputs)
         signIn(inputs.email, inputs.password)
     }
 
