@@ -1,14 +1,17 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { Heading3, Paragraph } from '@entur/typography'
-import { ActionChip } from '@entur/chip'
-import { EditIcon, SettingsIcon, CheckIcon } from '@entur/icons'
+import { EditIcon, ConfigurationIcon, CheckIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Button } from '@entur/button'
 import { colors } from '@entur/tokens'
 
+import MenuButton from './MenuButton'
+
 import { useSettingsContext } from '../../../settings'
-import BackButton from '../../../components/backButton/BackButton'
+
+import { useScrollPosition } from '@n8tb1t/use-scroll-position'
+import { useWindowWidth } from '@react-hook/window-size'
 
 import './styles.scss'
 
@@ -53,15 +56,11 @@ function RadioBox({
     )
 }
 
-function Footer({ className, history }: Props): JSX.Element {
+function BottomMenu({ className, history }: Props): JSX.Element {
     const [settings, { setDashboard }] = useSettingsContext()
 
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [choice, setChoice] = useState<string>(settings.dashboard || '')
-
-    const goBack = useCallback(() => {
-        history.push('/')
-    }, [history])
 
     const { documentId } = useParams()
 
@@ -95,17 +94,57 @@ function Footer({ className, history }: Props): JSX.Element {
         [choice, setDashboard],
     )
 
+    const menuRef = useRef<HTMLDivElement>()
+
+    const [mobileWidth, setMobileWidth] = useState<boolean>(
+        document.body.clientWidth <= 900,
+    )
+    const width = useWindowWidth()
+    useEffect(() => {
+        if (width > 900 && mobileWidth) {
+            setMobileWidth(false)
+            menuRef.current.style.transform = ''
+        } else if (width <= 900 && !mobileWidth) {
+            setMobileWidth(true)
+            menuRef.current.style.transform = 'translate(0%, 0%)'
+        }
+    }, [width, mobileWidth, setMobileWidth])
+
+    const [hideOnScroll, setHideOnScroll] = useState(true)
+    useScrollPosition(
+        ({ prevPos, currPos }) => {
+            if (!mobileWidth) return
+            const isShow = currPos.y < prevPos.y
+            const menu = menuRef.current
+            if (isShow !== hideOnScroll) {
+                setHideOnScroll(isShow)
+                if (isShow) {
+                    menu.style.transform = 'translate(0%, 100%)'
+                    menu.style.transition = 'transform 0,3s ease-out'
+                } else {
+                    menu.style.transform = 'translate(0%, 0%)'
+                    menu.style.transition = 'transform 0,3s ease-in'
+                }
+            }
+        },
+        [hideOnScroll, mobileWidth, setHideOnScroll],
+    )
+
     return (
-        <footer className={`footer ${className || ''}`}>
-            <BackButton className="footer__back-button" action={goBack} />
-            <div className="footer__actions">
-                <ActionChip onClick={(): void => setModalOpen(true)}>
-                    <EditIcon /> Endre visning
-                </ActionChip>
-                <ActionChip onClick={onSettingsButtonClick}>
-                    <SettingsIcon /> Rediger tavla
-                </ActionChip>
+        <div ref={menuRef} className={`bottom-menu ${className || ''}`}>
+            <div className="bottom-menu__actions">
+                <MenuButton
+                    title="Endre visning"
+                    icon={<EditIcon size={21} />}
+                    callback={(): void => setModalOpen(true)}
+                />
+                <MenuButton
+                    title="Rediger tavla"
+                    icon={<ConfigurationIcon size={21} />}
+                    callback={onSettingsButtonClick}
+                />
             </div>
+
             <Modal
                 size="small"
                 open={modalOpen}
@@ -144,7 +183,7 @@ function Footer({ className, history }: Props): JSX.Element {
                             stoppet. Ikke egnet for bysykkel.
                         </Paragraph>
                     </RadioBox>
-                    <div className="footer-modal__buttons">
+                    <div className="bottom-menu-modal__buttons">
                         <Button
                             variant="secondary"
                             type="button"
@@ -158,7 +197,7 @@ function Footer({ className, history }: Props): JSX.Element {
                     </div>
                 </form>
             </Modal>
-        </footer>
+        </div>
     )
 }
 
@@ -168,4 +207,4 @@ interface Props {
     onSettingsButtonClick: any
 }
 
-export default Footer
+export default BottomMenu
