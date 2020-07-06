@@ -4,7 +4,7 @@
     &__tiles {
         display: flex;
         flex-direction: row;
-        overflow-x: auto;
+        overflow-x: hidden;
 
         .tile {
             margin-right: 2rem;

@@ -1,27 +1,20 @@
 @import '../../../assets/styles/import.scss';
 
-.footer {
-    height: 80px;
-    align-items: center;
-    bottom: 3rem;
-    justify-content: space-between;
-    flex-direction: row;
-    position: fixed;
+.bottom-menu {
     display: flex;
-    width: 100%;
-    padding: 0 4rem;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: center;
+    min-height: 6.4rem;
+    width: 40rem;
+    bottom: 0;
+    background-color: #393d79;
+    border-radius: 10px 10px 0 0;
+    z-index: 5;
 
     &__actions {
         display: flex;
-
-        > * {
-            margin-left: 0.5rem;
-        }
-    }
-
-    &__back-button {
-        padding: 0;
-        height: 2rem;
     }
 }
 
@@ -82,7 +75,7 @@
     }
 }
 
-.footer-modal__buttons {
+.bottom-menu-modal__buttons {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -98,15 +91,11 @@
     }
 }
 
-@media (max-height: 900px) {
-    .footer {
-        padding: 3rem 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .footer {
-        position: sticky;
-        padding: 0 1rem 0 0;
+@media (max-width: 900px) {
+    .bottom-menu {
+        position: fixed;
+        height: 5em;
+        width: 100%;
+        border-radius: 0 0 0 0;
     }
 }

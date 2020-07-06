@@ -11,7 +11,7 @@ import TavlaLogo from '../../assets/icons/tavlaLogo'
 import { Clock } from '../../components'
 import { StopPlaceWithDepartures } from '../../types'
 
-import Footer from './Footer'
+import BottomMenu from './BottomMenu'
 
 import './styles.scss'
 
@@ -90,8 +90,8 @@ function DashboardWrapper(props: Props): JSX.Element {
             </div>
             {renderContents()}
             <Contrast>
-                <Footer
-                    className="dashboard-wrapper__footer"
+                <BottomMenu
+                    className="dashboard-wrapper__bottom-menu"
                     history={history}
                     onSettingsButtonClick={onSettingsButtonClick}
                 />

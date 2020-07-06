@@ -123,7 +123,7 @@ Properties of a dashboard:
 
 Although the dashboards are independent and might look totally different, they have some things in common:
 * They use some React hooks that handle data fetching (`useStopPlacesWithDepartures`, `useBikeRentalStations`)
-* They use the DashboardWrapper component to add the default header and footer
+* They use the DashboardWrapper component to add the default header and menu
 
 Adding a new Dashboard is easy. Let's go through it!
 
@@ -178,7 +178,7 @@ interface Props {
 export default Sooon
 ```
 
-The DashboardWrapper component will give us the default header and footer. `useStopPlaceDepartures` is a [React hook](https://reactjs.org/docs/hooks-intro.html) that will give us relevant stop place departures data based on the configurations in the admin panel every 30 seconds.
+The DashboardWrapper component will give us the default header and menu. `useStopPlaceDepartures` is a [React hook](https://reactjs.org/docs/hooks-intro.html) that will give us relevant stop place departures data based on the configurations in the admin panel every 30 seconds.
 
 There is no way to select your new dashboard yet, so let's fix that.
 
@@ -206,7 +206,7 @@ function getDashboardComponent(dashboardKey?: string | void) {
 }
 ```
 
-In `src/containers/DashboardWrapper/Footer/index.tsx`, add an entry for your dashboard in the picker:
+In `src/containers/DashboardWrapper/BottomMenu/index.tsx`, add an entry for your dashboard in the picker:
 
 ```diff
 <form onSubmit={submit}>
@@ -226,14 +226,14 @@ In `src/containers/DashboardWrapper/Footer/index.tsx`, add an entry for your das
 +       <Heading3>Sooon</Heading3>
 +       <Paragraph>A dashboard that says "sooooon".</Paragraph>
 +   </RadioBox>
-    <div className="footer-modal__buttons">
+    <div className="bottom-menu-modal__buttons">
         <Button variant="primary" type="submit">Lagre valg</Button>
         <Button variant="secondary" type="button" onClick={(): void => setModalOpen(false)}>Avbryt</Button>
     </div>
 </form>
 ```
 
-That's it! You should now be able to select your dashboard in the menu, And you should see the "Hello World" heading.
+That's it! You should now be able to select your dashboard in the menu, and you should see the "Hello World" heading.
 
 
 #### Step 4: Displaying some data
