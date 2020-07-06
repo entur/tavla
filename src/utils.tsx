@@ -284,7 +284,7 @@ export interface Suggestion {
 }
 
 // Matches the ID in an URL, if it exists.
-const ID_REGEX = /\/(?:t|(?:admin))\/(\w+)(?:\/)?/
+const ID_REGEX = /^\/(?:t|(?:admin))\/(\w+)(?:\/)?/
 
 export const getDocumentId = (): string | undefined => {
     const id = window.location.pathname.match(ID_REGEX)
@@ -292,4 +292,25 @@ export const getDocumentId = (): string | undefined => {
     if (id) {
         return id[1]
     }
+}
+
+export function useFormFields<T>(
+    initialState: T,
+): [
+    T,
+    (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void,
+] {
+    const [values, setValues] = useState<T>(initialState)
+
+    return [
+        values,
+        function (
+            event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+        ): void {
+            setValues({
+                ...values,
+                [event.target.id]: event.target.value,
+            })
+        },
+    ]
 }
