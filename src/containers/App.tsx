@@ -3,7 +3,7 @@ import { Route, Switch, Redirect, Router } from 'react-router-dom'
 import analytics from 'universal-ga'
 
 import { SettingsContext, useSettings } from '../settings'
-import { useAnonymousLogin, UserProvider } from '../auth'
+import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
 
 import Compact from '../dashboards/Compact'
@@ -32,7 +32,7 @@ function getDashboardComponent(dashboardKey?: string | void) {
 }
 
 const Content = (): JSX.Element => {
-    const user = useAnonymousLogin()
+    const user = useFirebaseAuthentication()
     const settings = useSettings()
 
     const Dashboard = settings[0]
@@ -44,15 +44,13 @@ const Content = (): JSX.Element => {
             <SettingsContext.Provider value={settings}>
                 <Switch>
                     <Route exact path="/" component={LandingPage} />
+                    <Route exact path="/t/:documentId" component={Dashboard} />
                     <Route
-                        path={['/dashboard', '/t/:documentId']}
-                        component={Dashboard}
-                    />
-                    <Route
-                        path="/admin/:documentId"
                         exact
+                        path="/admin/:documentId"
                         component={settings[0] && Admin}
                     />
+                    <Route path="/dashboard" component={Dashboard} />
                     <Route path="/admin" component={Admin} />
                     <Route path="/privacy" component={Privacy} />
                     <Redirect from="*" to="/" />

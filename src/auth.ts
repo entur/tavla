@@ -8,7 +8,7 @@ import 'firebase/auth'
  * If user is null, we know there's not a logged in user
  * If user is User, we have a logged-in or anonymous user.
  */
-export function useAnonymousLogin(): User | null | undefined {
+export function useFirebaseAuthentication(): User | null | undefined {
     const [user, setUser] = useState<User | null | undefined>()
 
     useEffect(() => {

@@ -31,6 +31,7 @@
     "@entur/dropdown": "^1.2.0",
     "@entur/expand": "^3.2.3",
     "@entur/form": "^3.0.3",
+    "@entur/grid": "^0.2.7",
     "@entur/icons": "^1.7.0",
     "@entur/layout": "^1.4.4",
     "@entur/loader": "^0.3.21",
