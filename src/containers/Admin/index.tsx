@@ -145,8 +145,6 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 
     return (
         <Contrast className="admin">
-            <LoginModal />
-
             <AdminHeader goBackToDashboard={goToDash} />
 
             <div className="admin__content">
