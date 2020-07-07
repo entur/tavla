@@ -7,6 +7,7 @@ import {
     CheckIcon,
     OpenedLockIcon,
     LogOutIcon,
+    UserIcon,
 } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Button } from '@entur/button'
@@ -23,6 +24,7 @@ import { useWindowWidth } from '@react-hook/window-size'
 
 import './styles.scss'
 import LockModal from '../../LockModal'
+import LoginModal from '../../Admin/LoginModal/.'
 import { useFirebaseAuthentication } from '../../../auth'
 
 interface RadioBoxProps {
@@ -74,36 +76,9 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [lockModalOpen, setLockModalOpen] = useState<boolean>(false)
     const [choice, setChoice] = useState<string>(settings.dashboard || '')
+    const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
 
     const { documentId } = useParams()
-
-    const displayLockingOrLogoutButton = (): JSX.Element | null => {
-        if (!settings.owner) {
-            return (
-                <MenuButton
-                    title="Lås tavle"
-                    icon={<OpenedLockIcon size={21} />}
-                    callback={(): void => setLockModalOpen(true)}
-                    tooltip={
-                        <>
-                            Lås tavla til en konto slik <br />
-                            at bare du kan redigere den.
-                        </>
-                    }
-                />
-            )
-        } else if (user && !user.isAnonymous) {
-            return (
-                <MenuButton
-                    title="Logg ut"
-                    icon={<LogOutIcon size={21} />}
-                    callback={(): Promise<void> => firebase.auth().signOut()}
-                />
-            )
-        } else {
-            return null
-        }
-    }
 
     const onSettingsButtonClick = useCallback(
         (event) => {
@@ -116,6 +91,51 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             }
         },
         [history, documentId],
+    )
+
+    const lockingButton = !settings.owner && (
+        <MenuButton
+            title="Lås tavle"
+            icon={<OpenedLockIcon size={21} />}
+            callback={(): void => setLockModalOpen(true)}
+            tooltip={
+                <>
+                    Lås tavla til en konto slik <br />
+                    at bare du kan redigere den.
+                </>
+            }
+        />
+    )
+
+    const logoutButton =
+        user && !user.isAnonymous ? (
+            <MenuButton
+                title="Logg ut"
+                icon={<LogOutIcon size={21} />}
+                callback={(): Promise<void> => firebase.auth().signOut()}
+            />
+        ) : (
+            <MenuButton
+                title="Logg inn"
+                icon={<UserIcon size={21} />}
+                callback={(): void => setLoginModalOpen(true)}
+            />
+        )
+
+    const editButton = (!settings.owner ||
+        (user && user.uid == settings.owner)) && (
+        <div>
+            <MenuButton
+                title="Endre visning"
+                icon={<EditIcon size={21} />}
+                callback={(): void => setModalOpen(true)}
+            />
+            <MenuButton
+                title="Rediger tavla"
+                icon={<ConfigurationIcon size={21} />}
+                callback={onSettingsButtonClick}
+            />
+        </div>
     )
 
     const onChange = useCallback(
@@ -174,17 +194,9 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     return (
         <div ref={menuRef} className={`bottom-menu ${className || ''}`}>
             <div className="bottom-menu__actions">
-                <MenuButton
-                    title="Endre visning"
-                    icon={<EditIcon size={21} />}
-                    callback={(): void => setModalOpen(true)}
-                />
-                <MenuButton
-                    title="Rediger tavla"
-                    icon={<ConfigurationIcon size={21} />}
-                    callback={onSettingsButtonClick}
-                />
-                {displayLockingOrLogoutButton()}
+                {editButton}
+                {lockingButton}
+                {logoutButton}
             </div>
 
             <Modal
@@ -243,6 +255,11 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <LockModal
                 open={lockModalOpen}
                 onDismiss={(): void => setLockModalOpen(false)}
+            />
+
+            <LoginModal
+                open={loginModalOpen}
+                onDismiss={(): void => setLoginModalOpen(false)}
             />
         </div>
     )
