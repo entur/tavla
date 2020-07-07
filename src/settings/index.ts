@@ -31,11 +31,6 @@ export interface Settings {
     dashboard?: string | void
 }
 
-const protectedPath =
-    location.pathname == '/' ||
-    location.pathname.split('/')[1] == 'permissionDenied' ||
-    location.pathname.split('/')[1] == 'privacy'
-
 interface SettingsSetters {
     setHiddenStations: (hiddenStations: string[]) => void
     setHiddenStops: (hiddenStops: string[]) => void
@@ -73,6 +68,11 @@ export function useSettings(): [Settings, SettingsSetters] {
     const location = useLocation()
 
     useEffect(() => {
+        const protectedPath =
+            location.pathname == '/' ||
+            location.pathname.split('/')[1] == 'permissionDenied' ||
+            location.pathname.split('/')[1] == 'privacy'
+
         if (protectedPath) return
 
         const id = getDocumentId()

@@ -58,6 +58,7 @@ const Content = (): JSX.Element => {
                     <Route path="/privacy" component={Privacy} />
 
                     <Route
+                        exact
                         path="/permissionDenied/:documentId"
                         component={LockedTavle}
                     />
