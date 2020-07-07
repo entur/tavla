@@ -14,9 +14,7 @@ function ErrorWrapper({
 }: Props): JSX.Element {
     return (
         <Contrast className="error-wrapper">
-            <div>
-                <img src={`${image}`} />
-            </div>
+            <img className="style-image" src={`${image}`} />
             <h1>{title}</h1>
             <div className="main-text">{message}</div>
             <PrimaryButton
