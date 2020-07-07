@@ -13,6 +13,9 @@ import Timeline from '../dashboards/Timeline'
 import LandingPage from './LandingPage'
 import Admin from './Admin'
 import Privacy from './Privacy'
+import { LockedTavle } from './Error/ErrorPages'
+
+import PrivateRoute from '../routers/PrivateRoute'
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
@@ -45,7 +48,7 @@ const Content = (): JSX.Element => {
                 <Switch>
                     <Route exact path="/" component={LandingPage} />
                     <Route exact path="/t/:documentId" component={Dashboard} />
-                    <Route
+                    <PrivateRoute
                         exact
                         path="/admin/:documentId"
                         component={settings[0] && Admin}
@@ -53,6 +56,12 @@ const Content = (): JSX.Element => {
                     <Route path="/dashboard" component={Dashboard} />
                     <Route path="/admin" component={Admin} />
                     <Route path="/privacy" component={Privacy} />
+
+                    <Route
+                        path="/permissionDenied/:documentId"
+                        component={LockedTavle}
+                    />
+
                     <Redirect from="*" to="/" />
                 </Switch>
             </SettingsContext.Provider>

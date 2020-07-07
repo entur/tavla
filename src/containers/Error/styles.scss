@@ -1,0 +1,23 @@
+@import '../../assets/styles/import.scss';
+
+.error-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.primary-button {
+    width: 15rem;
+    margin: 3rem 3rem 3rem 3rem;
+}
+
+h1 {
+    width: 25rem;
+    text-align: center;
+}
+
+.main-text {
+    width: 35rem;
+    text-align: center;
+}
