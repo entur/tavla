@@ -59,16 +59,11 @@ const Content = (): JSX.Element => {
                             exact
                             path="/admin/:documentId"
                             component={settings[0] && Admin}
+                            errorComponent={LockedTavle}
                         />
                         <Route path="/dashboard" component={Dashboard} />
                         <Route path="/admin" component={Admin} />
                         <Route path="/privacy" component={Privacy} />
-
-                        <Route
-                            exact
-                            path="/permissionDenied/:documentId"
-                            component={LockedTavle}
-                        />
                         <Redirect from="*" to="/" />
                     </Switch>
                 </ToastProvider>
