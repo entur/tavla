@@ -23,14 +23,20 @@ interface Props {
 const LockModal = ({ open, onDismiss }: Props): JSX.Element => {
     const user = useFirebaseAuthentication()
 
-    const [settings, { setOwner }] = useSettingsContext()
+    const [settings, { setOwners }] = useSettingsContext()
 
     useEffect(() => {
-        if (user && !user.isAnonymous && settings.owner !== user.uid && open) {
-            setOwner(user.uid)
+        if (
+            user &&
+            !user.isAnonymous &&
+            !settings.owners.includes(user.uid) &&
+            open
+        ) {
+            const newOwnersList = [...settings.owners, user.uid]
+            setOwners(newOwnersList)
         }
-    }, [settings.owner, user, setOwner, open])
-
+    }, [settings.owners, user, setOwners, open])
+    
     if (user === undefined) {
         return null
     }

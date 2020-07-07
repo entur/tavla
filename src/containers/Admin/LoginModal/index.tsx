@@ -10,6 +10,7 @@ import EmailSent from './EmailSent'
 import './styles.scss'
 
 import { Modal } from '@entur/modal'
+import { useToast } from '@entur/alert'
 
 import { useFirebaseAuthentication } from '../../../auth'
 
@@ -29,6 +30,8 @@ const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
     const user = useFirebaseAuthentication()
 
     const isLoggedIn = user && !user.isAnonymous
+
+    const { addToast } = useToast()
 
     const [modalType, setModalType] = useState<ModalType>('LoginOptionsModal')
 
@@ -50,9 +53,14 @@ const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
     useEffect(() => {
         if (isLoggedIn && open) {
             setModalType('LoginOptionsModal')
+            addToast({
+                title: 'Logget inn',
+                content: 'Du har nå logget inn på din konto.',
+                variant: 'success',
+            })
             onDismiss()
         }
-    }, [isLoggedIn, open, onDismiss])
+    }, [isLoggedIn, open, onDismiss, addToast])
 
     const handleDismiss = (): void => {
         setModalType('LoginOptionsModal')

@@ -26,6 +26,7 @@
   "dependencies": {
     "@babel/runtime": "^7.10.2",
     "@entur/a11y": "^0.2.23",
+    "@entur/alert": "^0.5.26",
     "@entur/button": "^2.2.11",
     "@entur/chip": "^0.3.16",
     "@entur/dropdown": "^1.2.0",

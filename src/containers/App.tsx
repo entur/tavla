@@ -17,6 +17,8 @@ import { LockedTavle } from './Error/ErrorPages'
 
 import PrivateRoute from '../routers/PrivateRoute'
 
+import { ToastProvider } from '@entur/alert'
+
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
 
@@ -45,26 +47,31 @@ const Content = (): JSX.Element => {
     return (
         <UserProvider value={user}>
             <SettingsContext.Provider value={settings}>
-                <Switch>
-                    <Route exact path="/" component={LandingPage} />
-                    <Route exact path="/t/:documentId" component={Dashboard} />
-                    <PrivateRoute
-                        exact
-                        path="/admin/:documentId"
-                        component={settings[0] && Admin}
-                    />
-                    <Route path="/dashboard" component={Dashboard} />
-                    <Route path="/admin" component={Admin} />
-                    <Route path="/privacy" component={Privacy} />
+                <ToastProvider>
+                    <Switch>
+                        <Route exact path="/" component={LandingPage} />
+                        <Route
+                            exact
+                            path="/t/:documentId"
+                            component={Dashboard}
+                        />
+                        <PrivateRoute
+                            exact
+                            path="/admin/:documentId"
+                            component={settings[0] && Admin}
+                        />
+                        <Route path="/dashboard" component={Dashboard} />
+                        <Route path="/admin" component={Admin} />
+                        <Route path="/privacy" component={Privacy} />
 
-                    <Route
-                        exact
-                        path="/permissionDenied/:documentId"
-                        component={LockedTavle}
-                    />
-
-                    <Redirect from="*" to="/" />
-                </Switch>
+                        <Route
+                            exact
+                            path="/permissionDenied/:documentId"
+                            component={LockedTavle}
+                        />
+                        <Redirect from="*" to="/" />
+                    </Switch>
+                </ToastProvider>
             </SettingsContext.Provider>
         </UserProvider>
     )
