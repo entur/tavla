@@ -32,10 +32,6 @@ const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
 
     const [modalType, setModalType] = useState<ModalType>('LoginOptionsModal')
 
-    const handleDismiss = (): void => {
-        setModalType('LoginOptionsModal')
-    }
-
     const displayModal = (): JSX.Element => {
         switch (modalType) {
             case 'LoginEmailModal':
@@ -53,14 +49,19 @@ const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
 
     useEffect(() => {
         if (isLoggedIn && open) {
-            handleDismiss()
+            setModalType('LoginOptionsModal')
             onDismiss()
         }
     }, [isLoggedIn, open, onDismiss])
 
+    const handleDismiss = (): void => {
+        setModalType('LoginOptionsModal')
+        onDismiss()
+    }
+
     return (
         <Modal
-            onDismiss={onDismiss}
+            onDismiss={handleDismiss}
             open={open}
             size="small"
             title=""
