@@ -5,7 +5,7 @@ import { TextField, InputGroup } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
 import { EmailIcon, BackArrowIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
-import { Heading2, Paragraph } from '@entur/typography'
+import { Heading3, Paragraph } from '@entur/typography'
 
 import { useFormFields } from '../../../../utils'
 import { ModalType } from '..'
@@ -60,7 +60,7 @@ const ResetPassword = ({ setModalType }: Props): JSX.Element => {
             <div className="centered">
                 <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>
-            <Heading2 margin="none">Glemt passord</Heading2>
+            <Heading3 margin="none">Glemt passord</Heading3>
             <Paragraph>
                 Skriv inn e-postadressen som du registrerte profilen din på, så
                 sender vi deg en lenke der du kan lage et nytt passord.

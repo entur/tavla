@@ -7,7 +7,6 @@ import StopPlacePanel from './StopPlacePanel'
 import BikePanel from './BikePanel'
 import ModePanel from './ModePanel'
 import DistanceEditor from './DistanceEditor'
-import LoginModal from './LoginModal'
 
 import { useDebounce, isLegMode, unique, getDocumentId } from '../../utils'
 
@@ -23,6 +22,7 @@ import StopPlaceSearch from './StopPlaceSearch'
 
 import './styles.scss'
 import AdminHeader from './AdminHeader'
+import LockModal from '../LockModal'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const [settings, settingsSetters] = useSettingsContext()

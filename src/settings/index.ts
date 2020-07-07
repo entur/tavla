@@ -29,6 +29,7 @@ export interface Settings {
     newStations?: string[]
     newStops?: string[]
     dashboard?: string | void
+    owner?: string
 }
 
 interface SettingsSetters {
@@ -40,6 +41,7 @@ interface SettingsSetters {
     setNewStations: (newStations: string[]) => void
     setNewStops: (newStops: string[]) => void
     setDashboard: (dashboard: string) => void
+    setOwner: (owner: string) => void
 }
 
 export const SettingsContext = createContext<
@@ -55,6 +57,7 @@ export const SettingsContext = createContext<
         setNewStations: (): void => undefined,
         setNewStops: (): void => undefined,
         setDashboard: (): void => undefined,
+        setOwner: (): void => undefined,
     },
 ])
 
@@ -178,6 +181,13 @@ export function useSettings(): [Settings, SettingsSetters] {
         [set],
     )
 
+    const setOwner = useCallback(
+        (owner: string): void => {
+            set('owner', owner)
+        },
+        [set],
+    )
+
     const setters = {
         setHiddenStations,
         setHiddenStops,
@@ -187,6 +197,7 @@ export function useSettings(): [Settings, SettingsSetters] {
         setNewStations,
         setNewStops,
         setDashboard,
+        setOwner,
     }
 
     return [settings, setters]
