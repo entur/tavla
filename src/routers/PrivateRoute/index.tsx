@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom'
 
 import { useUser } from '../../auth'
 import usePermittedTavle from '../../logic/usePermittedTavle'
+import { getDocumentId } from '../../utils'
 
 function PrivateRoute({
     path,
@@ -12,6 +13,9 @@ function PrivateRoute({
 }: Props): JSX.Element {
     const permitted = usePermittedTavle()
     const user = useUser()
+
+    if (!getDocumentId())
+        return <Route path={path} exact={exact} component={component} />
 
     if (!user) return null
 
