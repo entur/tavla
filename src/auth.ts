@@ -4,7 +4,7 @@ import firebase, { User } from 'firebase/app'
 import 'firebase/auth'
 
 /**
- * If user is´ undefined, we don't know yet if user is logged in.
+ * If user is undefined, we don't know yet if user is logged in.
  * If user is null, we know there's not a logged in user
  * If user is User, we have a logged-in or anonymous user.
  */
