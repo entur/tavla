@@ -4,6 +4,7 @@ import ErrorWrapper from '.'
 import LoginModal from '../Admin/LoginModal'
 
 import sikkerhetBomLight from './../../assets/images/sikkerhet_bom_light.png'
+import duerLight from './../../assets/images/duer.png'
 
 import { useUser } from '../../auth'
 import firebase from 'firebase'
@@ -22,6 +23,7 @@ export function LockedTavle({ history }: Props): JSX.Element {
               setDisplayLogin(true)
           }
         : (): void => {
+              event.preventDefault()
               addToast({
                   title: 'Logget ut',
                   content: 'Du er nå logget ut av din konto',
@@ -53,6 +55,25 @@ export function LockedTavle({ history }: Props): JSX.Element {
                 message={errorMessage}
                 image={sikkerhetBomLight}
                 callbackMessage={callbackMessage}
+                callback={callback}
+                history={history}
+            />
+        </div>
+    )
+}
+
+export function PageDoesNotExist({ history }: Props): JSX.Element {
+    const callback = (event: React.FormEvent): void => {
+        event.preventDefault()
+        history.push(`/`)
+    }
+    return (
+        <div>
+            <ErrorWrapper
+                title="Her var det tomt!"
+                message="Det finnes ingen tavle på denne url-en. Du kan lage en avgangstavle ved å trykke på knappen nedenfor."
+                image={duerLight}
+                callbackMessage="Gå tilbake"
                 callback={callback}
                 history={history}
             />

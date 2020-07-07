@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch, Redirect, Router } from 'react-router-dom'
+import { Route, Switch, Router } from 'react-router-dom'
 import analytics from 'universal-ga'
 
 import { SettingsContext, useSettings } from '../settings'
@@ -13,7 +13,7 @@ import Timeline from '../dashboards/Timeline'
 import LandingPage from './LandingPage'
 import Admin from './Admin'
 import Privacy from './Privacy'
-import { LockedTavle } from './Error/ErrorPages'
+import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
 
 import PrivateRoute from '../routers/PrivateRoute'
 
@@ -64,7 +64,7 @@ const Content = (): JSX.Element => {
                         <Route path="/dashboard" component={Dashboard} />
                         <Route path="/admin" component={Admin} />
                         <Route path="/privacy" component={Privacy} />
-                        <Redirect from="*" to="/" />
+                        <Route path="/" component={PageDoesNotExist} />
                     </Switch>
                 </ToastProvider>
             </SettingsContext.Provider>
