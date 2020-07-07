@@ -13,7 +13,7 @@ export const DEFAULT_SETTINGS: Settings = {
     newStops: [],
     dashboard: '',
     coordinates: undefined,
-    owner: '',
+    owners: [],
 }
 
 const VERSION_PREFIX_REGEX = /^v(\d)+::/

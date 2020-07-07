@@ -12,6 +12,7 @@ import {
 import { Modal } from '@entur/modal'
 import { Button } from '@entur/button'
 import { colors } from '@entur/tokens'
+import { useToast } from '@entur/alert'
 
 import firebase from 'firebase'
 
@@ -78,6 +79,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const [choice, setChoice] = useState<string>(settings.dashboard || '')
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
 
+    const { addToast } = useToast()
+
     const { documentId } = useParams()
 
     const onSettingsButtonClick = useCallback(
@@ -93,7 +96,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         [history, documentId],
     )
 
-    const lockingButton = !settings.owner && (
+    const lockingButton = settings.owners.length === 0 && (
         <MenuButton
             title="Lås tavle"
             icon={<OpenedLockIcon size={21} />}
@@ -112,7 +115,14 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <MenuButton
                 title="Logg ut"
                 icon={<LogOutIcon size={21} />}
-                callback={(): Promise<void> => firebase.auth().signOut()}
+                callback={(): void => {
+                    addToast({
+                        title: 'Logget ut',
+                        content: 'Du er nå logget ut av din konto',
+                        variant: 'success',
+                    })
+                    firebase.auth().signOut()
+                }}
             />
         ) : (
             <MenuButton
@@ -122,8 +132,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             />
         )
 
-    const editButton = (!settings.owner ||
-        (user && user.uid == settings.owner)) && (
+    const editButton = (settings.owners.length === 0 ||
+        (user && settings.owners.includes(user.uid))) && (
         <div>
             <MenuButton
                 title="Endre visning"

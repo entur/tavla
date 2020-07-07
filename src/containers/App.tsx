@@ -14,6 +14,8 @@ import LandingPage from './LandingPage'
 import Admin from './Admin'
 import Privacy from './Privacy'
 
+import { ToastProvider } from '@entur/alert'
+
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
 
@@ -42,19 +44,25 @@ const Content = (): JSX.Element => {
     return (
         <UserProvider value={user}>
             <SettingsContext.Provider value={settings}>
-                <Switch>
-                    <Route exact path="/" component={LandingPage} />
-                    <Route exact path="/t/:documentId" component={Dashboard} />
-                    <Route
-                        exact
-                        path="/admin/:documentId"
-                        component={settings[0] && Admin}
-                    />
-                    <Route path="/dashboard" component={Dashboard} />
-                    <Route path="/admin" component={Admin} />
-                    <Route path="/privacy" component={Privacy} />
-                    <Redirect from="*" to="/" />
-                </Switch>
+                <ToastProvider>
+                    <Switch>
+                        <Route exact path="/" component={LandingPage} />
+                        <Route
+                            exact
+                            path="/t/:documentId"
+                            component={Dashboard}
+                        />
+                        <Route
+                            exact
+                            path="/admin/:documentId"
+                            component={settings[0] && Admin}
+                        />
+                        <Route path="/dashboard" component={Dashboard} />
+                        <Route path="/admin" component={Admin} />
+                        <Route path="/privacy" component={Privacy} />
+                        <Redirect from="*" to="/" />
+                    </Switch>
+                </ToastProvider>
             </SettingsContext.Provider>
         </UserProvider>
     )
