@@ -10,8 +10,14 @@ import EmailSent from './EmailSent'
 import './styles.scss'
 
 import { Modal } from '@entur/modal'
+import { useToast } from '@entur/alert'
 
 import { useFirebaseAuthentication } from '../../../auth'
+
+interface Props {
+    open: boolean
+    onDismiss: () => void
+}
 
 export type ModalType =
     | 'LoginOptionsModal'
@@ -20,18 +26,14 @@ export type ModalType =
     | 'ResetPasswordModal'
     | 'EmailSentModal'
 
-const LoginModal = (): JSX.Element => {
+const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
     const user = useFirebaseAuthentication()
 
     const isLoggedIn = user && !user.isAnonymous
 
-    const [modalType, setModalType] = useState<ModalType>('LoginOptionsModal')
-    const [modalOpen, setModalOpen] = useState(false)
+    const { addToast } = useToast()
 
-    const handleDismiss = (): void => {
-        setModalType('LoginOptionsModal')
-        setModalOpen(false)
-    }
+    const [modalType, setModalType] = useState<ModalType>('LoginOptionsModal')
 
     const displayModal = (): JSX.Element => {
         switch (modalType) {
@@ -49,27 +51,32 @@ const LoginModal = (): JSX.Element => {
     }
 
     useEffect(() => {
-        if (isLoggedIn && modalOpen) {
-            handleDismiss()
+        if (isLoggedIn && open) {
+            setModalType('LoginOptionsModal')
+            addToast({
+                title: 'Logget inn',
+                content: 'Du har nå logget inn på din konto.',
+                variant: 'success',
+            })
+            onDismiss()
         }
-    }, [isLoggedIn, modalOpen])
+    }, [isLoggedIn, open, onDismiss, addToast])
 
-    if (modalOpen) {
-        return (
-            <Modal
-                onDismiss={handleDismiss}
-                size="small"
-                title=""
-                className="login-modal"
-            >
-                {displayModal()}
-            </Modal>
-        )
+    const handleDismiss = (): void => {
+        setModalType('LoginOptionsModal')
+        onDismiss()
     }
-    return isLoggedIn ? (
-        <a onClick={(): Promise<void> => firebase.auth().signOut()}>Logg ut</a>
-    ) : (
-        <a onClick={(): void => setModalOpen(true)}>Logg inn</a>
+
+    return (
+        <Modal
+            onDismiss={handleDismiss}
+            open={open}
+            size="small"
+            title=""
+            className="login-modal"
+        >
+            {displayModal()}
+        </Modal>
     )
 }
 

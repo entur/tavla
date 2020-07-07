@@ -1,6 +1,6 @@
-@import '../../../assets/styles/import.scss';
+@import '../../assets/styles/import.scss';
 
-.login-modal.eds-modal__content {
+.lock-modal.eds-modal__content {
     padding-top: 0.8rem;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -38,9 +38,5 @@
     .centered {
         display: flex;
         justify-content: center;
-    }
-
-    .go-to:hover {
-        cursor: pointer;
     }
 }
