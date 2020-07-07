@@ -87,12 +87,17 @@ export function useSettings(): [Settings, SettingsSetters] {
             })
         }
 
-        const positionArray = location.pathname
-            .split('/')[2]
-            .split('@')[1]
-            .split('-')
-            .join('.')
-            .split(/,/)
+        let positionArray: string[] = []
+        try {
+            positionArray = location.pathname
+                .split('/')[2]
+                .split('@')[1]
+                .split('-')
+                .join('.')
+                .split(/,/)
+        } catch (error) {
+            return
+        }
 
         setSettings({
             ...restoreFromUrl(),
