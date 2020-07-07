@@ -6,13 +6,18 @@ import LoginModal from '../Admin/LoginModal'
 import sikkerhetBomLight from './../../assets/images/sikkerhet_bom_light.png'
 
 export function LockedTavle({ history }: Props): JSX.Element {
-    const [displayLogin, displayLoginChange] = useState<boolean>(false)
+    const [displayLogin, setDisplayLogin] = useState<boolean>(false)
     const handleSubmit = (event: React.FormEvent): void => {
         event.preventDefault()
-        displayLoginChange(!displayLogin)
+        setDisplayLogin(true)
     }
 
-    const loginModal = displayLogin ? <LoginModal /> : false
+    const loginModal = (
+        <LoginModal
+            open={displayLogin}
+            onDismiss={(): void => setDisplayLogin(false)}
+        />
+    )
 
     return (
         <div>
