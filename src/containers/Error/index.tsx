@@ -4,6 +4,7 @@ import { PrimaryButton } from '@entur/button'
 
 import './styles.scss'
 import { Contrast } from '@entur/layout'
+import { Heading1 } from '@entur/typography'
 
 function ErrorWrapper({
     title,
@@ -12,19 +13,23 @@ function ErrorWrapper({
     callbackMessage,
     callback,
 }: Props): JSX.Element {
+    const errorCallback = callback ? (
+        <PrimaryButton
+            size="medium"
+            width="fluid"
+            onClick={callback}
+            className="center primary-button"
+        >
+            {callbackMessage}
+        </PrimaryButton>
+    ) : null
+
     return (
         <Contrast className="error-wrapper">
             <img className="style-image" src={`${image}`} />
-            <h1>{title}</h1>
+            <Heading1 margin="top">{title}</Heading1>
             <div className="main-text">{message}</div>
-            <PrimaryButton
-                size="medium"
-                width="fluid"
-                onClick={callback}
-                className="center primary-button"
-            >
-                {callbackMessage}
-            </PrimaryButton>
+            {errorCallback}
         </Contrast>
     )
 }
