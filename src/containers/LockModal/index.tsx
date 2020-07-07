@@ -36,7 +36,7 @@ const LockModal = ({ open, onDismiss }: Props): JSX.Element => {
             setOwners(newOwnersList)
         }
     }, [settings.owners, user, setOwners, open])
-    
+
     if (user === undefined) {
         return null
     }
