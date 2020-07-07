@@ -3,9 +3,9 @@ import React, { useCallback, useMemo } from 'react'
 import { ExpandablePanel } from '@entur/expand'
 import { Checkbox } from '@entur/form'
 
-import { getIcon, toggleValueInList } from '../../../utils'
-import { StopPlaceWithLines } from '../../../types'
-import { useSettingsContext } from '../../../settings'
+import { getIcon, toggleValueInList } from '../../../../utils'
+import { StopPlaceWithLines } from '../../../../types'
+import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
 

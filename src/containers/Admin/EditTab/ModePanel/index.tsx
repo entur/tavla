@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { LegMode, TransportSubmode } from '@entur/sdk'
 
-import { toggleValueInList } from '../../../utils'
+import { toggleValueInList } from '../../../../utils'
 
 import ModePanelRow from './ModePanelRow'
 
