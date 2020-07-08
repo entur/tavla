@@ -112,6 +112,7 @@ export function useSettings(): [Settings, SettingsSetters] {
 
         setSettings({
             ...restoreFromUrl(),
+            owners: [],
             coordinates: {
                 latitude: Number(positionArray[0]),
                 longitude: Number(positionArray[1]),
