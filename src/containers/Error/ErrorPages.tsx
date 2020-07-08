@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import ErrorWrapper from '.'
 import LoginModal from '../Admin/LoginModal'
 
-import sikkerhetBomLight from './../../assets/images/sikkerhet_bom_light.png'
-import duerLight from './../../assets/images/duer.png'
+import sikkerhetBomLight from './../../assets/images/sikkerhet_bom_light@2x.png'
+import duerLight from './../../assets/images/duer@2x.png'
 
 import { useUser } from '../../auth'
 import firebase from 'firebase'
