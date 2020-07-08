@@ -1,0 +1,25 @@
+@import '../../assets/styles/import.scss';
+
+.error-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 5rem 0 5rem;
+}
+
+.primary-button {
+    margin: 3rem;
+}
+
+.main-text {
+    max-width: 27rem;
+    text-align: center;
+}
+
+.style-image {
+    padding: 10rem 0 2rem 0;
+    width: 25rem;
+    max-width: 100%;
+    min-width: 15rem;
+}
