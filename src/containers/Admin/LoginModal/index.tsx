@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import firebase from 'firebase'
 
 import EmailLogin from './EmailLogin'
@@ -26,6 +26,16 @@ export type ModalType =
     | 'ResetPasswordModal'
     | 'EmailSentModal'
 
+function usePrevious<T>(value: T): T {
+    const ref = useRef<T>()
+
+    useEffect(() => {
+        ref.current = value
+    }, [value])
+
+    return ref.current
+}
+
 const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
     const user = useFirebaseAuthentication()
 
@@ -50,8 +60,10 @@ const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
         }
     }
 
+    const prevIsLoggedIn = usePrevious(isLoggedIn)
+
     useEffect(() => {
-        if (isLoggedIn && open) {
+        if (isLoggedIn && !prevIsLoggedIn && open) {
             setModalType('LoginOptionsModal')
             addToast({
                 title: 'Logget inn',
@@ -60,7 +72,7 @@ const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
             })
             onDismiss()
         }
-    }, [isLoggedIn, open, onDismiss, addToast])
+    }, [isLoggedIn, open, onDismiss, addToast, prevIsLoggedIn])
 
     const handleDismiss = (): void => {
         setModalType('LoginOptionsModal')

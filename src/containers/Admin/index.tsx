@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Button } from '@entur/button'
 import { Contrast } from '@entur/layout'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
@@ -13,6 +13,8 @@ import EditTab from './EditTab'
 const AdminPage = ({ history }: Props): JSX.Element => {
     const documentId = getDocumentId()
 
+    const [currentIndex, setCurrentIndex] = useState<number>(0)
+
     const goToDash = useCallback(() => {
         if (documentId) {
             history.push(window.location.pathname.replace('admin', 't'))
@@ -23,7 +25,10 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     return (
         <Contrast className="admin">
             <AdminHeader goBackToDashboard={goToDash} />
-            <Tabs>
+            <Tabs
+                index={currentIndex}
+                onChange={(newIndex) => setCurrentIndex(newIndex)}
+            >
                 <TabList>
                     <Tab>Rediger innhold</Tab>
                     <Tab>Last opp logo</Tab>
@@ -33,7 +38,10 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                         <EditTab />
                     </TabPanel>
                     <TabPanel>
-                        <LogoTab />
+                        <LogoTab
+                            tabIndex={currentIndex}
+                            setTabIndex={() => setCurrentIndex(0)}
+                        />
                     </TabPanel>
                 </TabPanels>
             </Tabs>
