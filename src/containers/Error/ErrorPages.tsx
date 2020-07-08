@@ -5,6 +5,7 @@ import LoginModal from '../Admin/LoginModal'
 
 import sikkerhetBomLight from './../../assets/images/sikkerhet_bom_light@2x.png'
 import duerLight from './../../assets/images/duer@2x.png'
+import sauerLight from './../../assets/images/sauer_lag@2x.png'
 
 import { useUser } from '../../auth'
 import firebase from 'firebase'
@@ -75,6 +76,19 @@ export function PageDoesNotExist({ history }: Props): JSX.Element {
                 image={duerLight}
                 callbackMessage="Gå tilbake"
                 callback={callback}
+                history={history}
+            />
+        </div>
+    )
+}
+
+export function NoStopsOnTavle({ history }: Props): JSX.Element {
+    return (
+        <div>
+            <ErrorWrapper
+                title="Nå havnet vi på ville veier."
+                message="Vi finner ingen stoppesteder å vise på denne tavla. Rediger tavla eller prøv et nytt søk."
+                image={sauerLight}
                 history={history}
             />
         </div>
