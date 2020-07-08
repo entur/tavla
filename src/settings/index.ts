@@ -78,7 +78,15 @@ export function useSettings(): [Settings, SettingsSetters] {
         if (id) {
             return getSettings(id).onSnapshot((document) => {
                 if (document.exists) {
-                    setSettings(document.data() as Settings)
+                    const data = document.data()
+
+                    // Handle settings which were initialized before `owners` was introduced.
+                    if (data.owners === undefined) {
+                        persistToFirebase(getDocumentId(), 'owners', [])
+                        data.owners = []
+                    }
+
+                    setSettings(data as Settings)
                 } else {
                     window.location.pathname = '/'
                 }
