@@ -136,7 +136,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         (user && settings.owners.includes(user.uid))) && (
         <div>
             <MenuButton
-                title="Endre visning"
+                title="Visning"
                 icon={<EditIcon size={21} />}
                 callback={(): void => setModalOpen(true)}
             />

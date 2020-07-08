@@ -2,10 +2,11 @@
 
 .bottom_menu_button {
     height: 100%;
-    padding: 1rem;
+    width: fit-content;
+    padding: 24px 48px 24px 48px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    align-content: center;
     background-color: rgba(0, 0, 0, 0);
     border: hidden;
     color: rgb(255, 255, 255);
@@ -22,6 +23,10 @@
     flex-direction: row;
     justify-content: center;
     padding-bottom: 0.3rem;
+}
+
+.titleHolder {
+    width: 9rem;
 }
 
 // Hover.css //
