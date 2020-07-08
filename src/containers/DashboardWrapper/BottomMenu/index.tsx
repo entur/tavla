@@ -141,7 +141,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                 callback={(): void => setModalOpen(true)}
             />
             <MenuButton
-                title="Rediger tavla"
+                title="Rediger"
                 icon={<ConfigurationIcon size={21} />}
                 callback={onSettingsButtonClick}
             />
