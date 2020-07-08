@@ -13,7 +13,9 @@ export default function usePermittedTavle(): boolean {
             getSettings(documentId).onSnapshot((document) => {
                 setPermission(
                     document.exists &&
-                        document.data().owners.includes(user.uid),
+                        (document.data().owners.includes(user.uid) ||
+                            !document.data().owners ||
+                            document.data().owners.length < 1),
                 )
             })
         }
