@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import differenceInSeconds from 'date-fns/differenceInSeconds'
 import differenceInMinutes from 'date-fns/differenceInMinutes'
@@ -313,4 +313,14 @@ export function useFormFields<T>(
             })
         },
     ]
+}
+
+export function usePrevious<T>(value: T): T {
+    const ref = useRef<T>()
+
+    useEffect(() => {
+        ref.current = value
+    }, [value])
+
+    return ref.current
 }
