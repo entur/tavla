@@ -16,9 +16,8 @@ function ErrorWrapper({
     const errorCallback = callback ? (
         <PrimaryButton
             size="medium"
-            width="fluid"
             onClick={callback}
-            className="center primary-button"
+            className="primary-button"
         >
             {callbackMessage}
         </PrimaryButton>
@@ -27,7 +26,7 @@ function ErrorWrapper({
     return (
         <Contrast className="error-wrapper">
             <img className="style-image" src={`${image}`} />
-            <Heading1 margin="top">{title}</Heading1>
+            <Heading1 margin="both">{title}</Heading1>
             <div className="main-text">{message}</div>
             {errorCallback}
         </Contrast>
