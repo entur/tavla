@@ -78,14 +78,14 @@ function DashboardWrapper(props: Props): JSX.Element {
         )
     }
 
-    const [{ logo }] = useSettingsContext()
+    const [{ logoSize, logo }] = useSettingsContext()
 
     return (
         <Contrast className={`dashboard-wrapper ${className}`}>
             <div className="dashboard-wrapper__top">
                 <div className="dashboard-wrapper__logo-wrapper">
                     {logo ? (
-                        <img src={logo} height={32} />
+                        <img src={logo} height={logoSize} />
                     ) : (
                         <TavlaLogo className="dashboard-wrapper__logo" />
                     )}

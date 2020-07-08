@@ -2,15 +2,17 @@ import React, { useState } from 'react'
 
 import LogoUpload from './LogoUpload'
 import { useSettingsContext } from '../../../settings'
+import SizePicker from './SizePicker'
 
 const LogoTab = (): JSX.Element => {
-    const [, { setLogo }] = useSettingsContext()
+    const [{ logoSize }, { setLogo, setLogoSize }] = useSettingsContext()
 
-    const handleChange = (url: string): void => {
-        setLogo(url)
-    }
-
-    return <LogoUpload onChange={handleChange} />
+    return (
+        <>
+            <LogoUpload onChange={setLogo} />
+            <SizePicker onChange={setLogoSize} value={logoSize} />
+        </>
+    )
 }
 
 export default LogoTab
