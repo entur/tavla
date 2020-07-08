@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Coordinates, BikeRentalStation } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
 
-import service from '../../../service'
+import service from '../../../../service'
 
 import './styles.scss'
 

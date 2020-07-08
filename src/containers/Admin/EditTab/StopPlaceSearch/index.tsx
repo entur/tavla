@@ -2,7 +2,7 @@ import React from 'react'
 import { Coordinates, Feature } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
 
-import service from '../../../service'
+import service from '../../../../service'
 
 import './styles.scss'
 
