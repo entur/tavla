@@ -19,10 +19,10 @@ import { DEFAULT_DISTANCE } from '../../constants'
 
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
+import AdminHeader from './AdminHeader'
+import LogoTab from './LogoTab'
 
 import './styles.scss'
-import AdminHeader from './AdminHeader'
-import LockModal from '../LockModal'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const [settings, settingsSetters] = useSettingsContext()
@@ -146,6 +146,8 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     return (
         <Contrast className="admin">
             <AdminHeader goBackToDashboard={goToDash} />
+
+            <LogoTab />
 
             <div className="admin__content">
                 <div className="admin__selection-panel">

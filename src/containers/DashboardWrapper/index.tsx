@@ -14,6 +14,7 @@ import { StopPlaceWithDepartures } from '../../types'
 import BottomMenu from './BottomMenu'
 
 import './styles.scss'
+import { useSettingsContext } from '../../settings'
 
 function DashboardWrapper(props: Props): JSX.Element {
     const secondsSinceMount = useCounter()
@@ -77,11 +78,17 @@ function DashboardWrapper(props: Props): JSX.Element {
         )
     }
 
+    const [{ logo }] = useSettingsContext()
+
     return (
         <Contrast className={`dashboard-wrapper ${className}`}>
             <div className="dashboard-wrapper__top">
                 <div className="dashboard-wrapper__logo-wrapper">
-                    <TavlaLogo className="dashboard-wrapper__logo" />
+                    {logo ? (
+                        <img src={logo} height={32} />
+                    ) : (
+                        <TavlaLogo className="dashboard-wrapper__logo" />
+                    )}
                     <SubParagraph>
                         Finn din rute på entur.no eller i Entur-appen.
                     </SubParagraph>

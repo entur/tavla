@@ -1,0 +1,6 @@
+service firebase.storage {
+    match /b/{bucket}/o/images/{uuid}/{image} {
+        allow read;
+        allow create: if request.auth != null && request.auth.uid != null && request.resource.size < 5 * 1024 * 1024 && request.resource.contentType.matches('image/.*');
+    }
+}
