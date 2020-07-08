@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react'
 
-import { Slider } from '../../../components'
-import { MAX_DISTANCE } from '../../../constants'
+import { Slider } from '../../../../components'
+import { MAX_DISTANCE } from '../../../../constants'
 
 import './styles.scss'
 

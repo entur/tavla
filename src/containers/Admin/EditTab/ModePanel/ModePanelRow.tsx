@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { Switch } from '@entur/form'
 import { LegMode, TransportSubmode } from '@entur/sdk'
 
-import { getIcon } from '../../../utils'
+import { getIcon } from '../../../../utils'
 
 import './styles.scss'
 
