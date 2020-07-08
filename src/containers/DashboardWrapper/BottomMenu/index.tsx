@@ -279,7 +279,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 interface Props {
     className?: string
     history: any
-    onSettingsButtonClick: any
 }
 
 export default BottomMenu
