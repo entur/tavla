@@ -71,7 +71,12 @@ export function useSettings(): [Settings, SettingsSetters] {
     const location = useLocation()
 
     useEffect(() => {
-        if (location.pathname == '/') return
+        const protectedPath =
+            location.pathname == '/' ||
+            location.pathname.split('/')[1] == 'permissionDenied' ||
+            location.pathname.split('/')[1] == 'privacy'
+
+        if (protectedPath) return
 
         const id = getDocumentId()
 
@@ -93,12 +98,17 @@ export function useSettings(): [Settings, SettingsSetters] {
             })
         }
 
-        const positionArray = location.pathname
-            .split('/')[2]
-            .split('@')[1]
-            .split('-')
-            .join('.')
-            .split(/,/)
+        let positionArray: string[] = []
+        try {
+            positionArray = location.pathname
+                .split('/')[2]
+                .split('@')[1]
+                .split('-')
+                .join('.')
+                .split(/,/)
+        } catch (error) {
+            return
+        }
 
         setSettings({
             ...restoreFromUrl(),

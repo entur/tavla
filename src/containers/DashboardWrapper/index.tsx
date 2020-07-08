@@ -6,10 +6,10 @@ import { Contrast } from '@entur/layout'
 
 import { useCounter } from '../../utils'
 
-import errorImage from '../../assets/images/noStops.png'
 import TavlaLogo from '../../assets/icons/tavlaLogo'
 import { Clock } from '../../components'
 import { StopPlaceWithDepartures } from '../../types'
+import { NoStopsOnTavle } from './../Error/ErrorPages'
 
 import BottomMenu from './BottomMenu'
 
@@ -65,16 +65,7 @@ function DashboardWrapper(props: Props): JSX.Element {
             return <Loader>Laster...</Loader>
         }
 
-        return (
-            <div className="dashboard-wrapper__no-stops">
-                <img src={errorImage} />
-                <div>
-                    <header>Er du utenfor allfarvei?</header>
-                    Vi finner ingen stoppesteder her, trykk på tannhjulet for å
-                    endre på søket.
-                </div>
-            </div>
-        )
+        return <NoStopsOnTavle history={history} />
     }
 
     return (
