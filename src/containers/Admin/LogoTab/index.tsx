@@ -3,11 +3,14 @@ import { Heading2, Paragraph } from '@entur/typography'
 import LoginModal from '../LoginModal'
 import { useFirebaseAuthentication } from '../../../auth'
 import { User } from 'firebase/app'
+import { getDocumentId } from '../../../utils'
 
 const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false)
     const user = useFirebaseAuthentication()
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>()
+
+    const documentId = getDocumentId()
 
     useEffect((): void => {
         if (tabIndex === 1 && user && user.isAnonymous) {
@@ -24,6 +27,18 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             setOpen(false)
             setTabIndex()
         }
+    }
+
+    if (!documentId) {
+        return (
+            <div>
+                <Heading2>Last opp logo</Heading2>
+                <Paragraph>
+                    Vi har oppgradert tavla. Ønsker du tilgang på denne
+                    funksjonaliteten må du lage en ny tavle.
+                </Paragraph>
+            </div>
+        )
     }
 
     return (
