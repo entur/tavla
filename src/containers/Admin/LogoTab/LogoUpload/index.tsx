@@ -1,12 +1,16 @@
 import React from 'react'
 
 import { FileUpload } from '@entur/fileupload'
+import { Heading4 } from '@entur/typography'
 
 import { uploadLogo } from '../../../../services/firebase'
+import { useSettingsContext } from '../../../../settings'
 
 import '@entur/fileupload/dist/styles.css'
 
-const LogoUpload = ({ onChange }: Props): JSX.Element => {
+const LogoUpload = (): JSX.Element => {
+    const [, { setLogo }] = useSettingsContext()
+
     const [files, setFiles] = React.useState([])
     const [error, setError] = React.useState(false)
 
@@ -22,7 +26,7 @@ const LogoUpload = ({ onChange }: Props): JSX.Element => {
         uploadLogo(file)
             .then((imageUrl) => {
                 setFiles(acceptedFiles)
-                onChange(imageUrl)
+                setLogo(imageUrl)
             })
             .catch(() => {
                 setError(true)
@@ -30,19 +34,19 @@ const LogoUpload = ({ onChange }: Props): JSX.Element => {
     }
 
     return (
-        <FileUpload
-            accept="image/*"
-            files={files}
-            errorUpload={error}
-            onDrop={handleDrop}
-            onDelete={handleDelete}
-            multiple={false}
-        />
-    )
-}
+        <>
+            <Heading4>Filopplasting</Heading4>
 
-interface Props {
-    onChange: (url: string) => void
+            <FileUpload
+                accept="image/*"
+                files={files}
+                errorUpload={error}
+                onDrop={handleDrop}
+                onDelete={handleDelete}
+                multiple={false}
+            />
+        </>
+    )
 }
 
 export default LogoUpload

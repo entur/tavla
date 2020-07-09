@@ -1,13 +1,14 @@
 import React from 'react'
 import { colors } from '@entur/tokens'
 
-function TavlaLogo({ className, theme = 'dark' }: Props): JSX.Element {
+function TavlaLogo({ className, theme = 'dark', height }: Props): JSX.Element {
     const fillColor = theme === 'dark' ? 'white' : colors.brand.blue
     return (
         <svg
             className={className}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 300 54"
+            height={height}
         >
             <g fill="none" fillRule="evenodd">
                 <path

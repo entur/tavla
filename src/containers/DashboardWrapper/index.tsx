@@ -78,7 +78,7 @@ function DashboardWrapper(props: Props): JSX.Element {
         )
     }
 
-    const [{ logoSize, logo }] = useSettingsContext()
+    const [{ logoSize, logo, description }] = useSettingsContext()
 
     return (
         <Contrast className={`dashboard-wrapper ${className}`}>
@@ -87,10 +87,15 @@ function DashboardWrapper(props: Props): JSX.Element {
                     {logo ? (
                         <img src={logo} height={logoSize} />
                     ) : (
-                        <TavlaLogo className="dashboard-wrapper__logo" />
+                        <TavlaLogo
+                            className="dashboard-wrapper__logo"
+                            height={logoSize}
+                        />
                     )}
                     <SubParagraph>
-                        Finn din rute på entur.no eller i Entur-appen.
+                        {logoSize === '32px' &&
+                            ((logo && description) ||
+                                'Finn din rute på entur.no eller i Entur-appen')}
                     </SubParagraph>
                 </div>
                 <Clock className="dashboard-wrapper__clock" />

@@ -32,6 +32,7 @@ export interface Settings {
     owners?: string[]
     logo?: string
     logoSize: string
+    description: string
 }
 
 interface SettingsSetters {
@@ -46,6 +47,7 @@ interface SettingsSetters {
     setOwners: (owners: string[]) => void
     setLogo: (url: string) => void
     setLogoSize: (size: string) => void
+    setDescription: (description: string) => void
 }
 
 export const SettingsContext = createContext<
@@ -64,6 +66,7 @@ export const SettingsContext = createContext<
         setOwners: (): void => undefined,
         setLogo: (): void => undefined,
         setLogoSize: (): void => undefined,
+        setDescription: (): void => undefined,
     },
 ])
 
@@ -198,6 +201,13 @@ export function useSettings(): [Settings, SettingsSetters] {
         [set],
     )
 
+    const setDescription = useCallback(
+        (description: string): void => {
+            set('description', description)
+        },
+        [set],
+    )
+
     const setters = {
         setHiddenStations,
         setHiddenStops,
@@ -210,6 +220,7 @@ export function useSettings(): [Settings, SettingsSetters] {
         setOwners,
         setLogo,
         setLogoSize,
+        setDescription,
     }
 
     return [settings, setters]

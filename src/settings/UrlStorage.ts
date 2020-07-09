@@ -16,6 +16,7 @@ export const DEFAULT_SETTINGS: Settings = {
     owners: [],
     logo: null,
     logoSize: '32px',
+    description: '',
 }
 
 const VERSION_PREFIX_REGEX = /^v(\d)+::/

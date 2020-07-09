@@ -2,9 +2,13 @@ import React, { ChangeEvent } from 'react'
 
 import { RadioGroup, Radio } from '@entur/form'
 
-const SizePicker = ({ value, onChange }: Props): JSX.Element => {
+import { useSettingsContext } from '../../../../settings'
+
+const SizePicker = (): JSX.Element => {
+    const [{ logoSize }, { setLogoSize }] = useSettingsContext()
+
     const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        onChange(event.target.value)
+        setLogoSize(event.target.value)
     }
 
     return (
@@ -12,17 +16,12 @@ const SizePicker = ({ value, onChange }: Props): JSX.Element => {
             name="logo-size"
             label="Størrelse på logo"
             onChange={handleChange}
-            value={value}
+            value={logoSize}
         >
             <Radio value="32px">32px</Radio>
             <Radio value="56px">56px</Radio>
         </RadioGroup>
     )
-}
-
-interface Props {
-    onChange: (size: string) => void
-    value: string
 }
 
 export default SizePicker
