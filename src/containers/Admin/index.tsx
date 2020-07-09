@@ -9,6 +9,7 @@ import './styles.scss'
 import AdminHeader from './AdminHeader'
 import LogoTab from './LogoTab'
 import EditTab from './EditTab'
+import ThemeTab from './ThemeTab'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const documentId = getDocumentId()
@@ -31,11 +32,15 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             >
                 <TabList>
                     <Tab>Rediger innhold</Tab>
+                    <Tab>Velg farger</Tab>
                     <Tab>Last opp logo</Tab>
                 </TabList>
                 <TabPanels>
                     <TabPanel>
                         <EditTab />
+                    </TabPanel>
+                    <TabPanel>
+                        <ThemeTab />
                     </TabPanel>
                     <TabPanel>
                         <LogoTab

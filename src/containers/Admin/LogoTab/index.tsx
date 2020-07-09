@@ -8,12 +8,11 @@ import { getDocumentId } from '../../../utils'
 const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false)
     const user = useFirebaseAuthentication()
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>()
 
     const documentId = getDocumentId()
 
     useEffect((): void => {
-        if (tabIndex === 1 && user && user.isAnonymous) {
+        if (tabIndex === 2 && user && user.isAnonymous) {
             setOpen(true)
         }
 

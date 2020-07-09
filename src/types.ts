@@ -34,3 +34,5 @@ export interface TileSubLabel {
     hasCancellation?: boolean
     hasSituation?: boolean
 }
+
+export type ThemeType = 'default' | 'dark' | 'light' | 'grey'

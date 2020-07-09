@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { useLocation } from 'react-router-dom'
 import { LegMode, Coordinates } from '@entur/sdk'
+import { ThemeType } from '../types'
 
 import { persist as persistToFirebase, FieldTypes } from './FirestoreStorage'
 import {
@@ -30,6 +31,7 @@ export interface Settings {
     newStops?: string[]
     dashboard?: string | void
     owners?: string[]
+    theme: ThemeType
 }
 
 interface SettingsSetters {
@@ -42,6 +44,7 @@ interface SettingsSetters {
     setNewStops: (newStops: string[]) => void
     setDashboard: (dashboard: string) => void
     setOwners: (owners: string[]) => void
+    setTheme: (theme: ThemeType) => void
 }
 
 export const SettingsContext = createContext<
@@ -58,6 +61,7 @@ export const SettingsContext = createContext<
         setNewStops: (): void => undefined,
         setDashboard: (): void => undefined,
         setOwners: (): void => undefined,
+        setTheme: (): void => undefined,
     },
 ])
 
@@ -85,10 +89,14 @@ export function useSettings(): [Settings, SettingsSetters] {
                 if (document.exists) {
                     const data = document.data()
 
-                    // Handle settings which were initialized before `owners` was introduced.
+                    // Handle settings which were initialized before `new settings` was introduced.
                     if (data.owners === undefined) {
                         persistToFirebase(getDocumentId(), 'owners', [])
                         data.owners = []
+                    }
+
+                    if (data.theme === undefined) {
+                        persistToFirebase(getDocumentId(), 'theme', 'default')
                     }
 
                     setSettings(data as Settings)
@@ -197,6 +205,13 @@ export function useSettings(): [Settings, SettingsSetters] {
         [set],
     )
 
+    const setTheme = useCallback(
+        (theme: ThemeType): void => {
+            set('theme', theme)
+        },
+        [set],
+    )
+
     const setters = {
         setHiddenStations,
         setHiddenStops,
@@ -207,6 +222,7 @@ export function useSettings(): [Settings, SettingsSetters] {
         setNewStops,
         setDashboard,
         setOwners,
+        setTheme,
     }
 
     return [settings, setters]

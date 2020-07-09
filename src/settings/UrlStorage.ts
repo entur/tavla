@@ -14,6 +14,7 @@ export const DEFAULT_SETTINGS: Settings = {
     dashboard: '',
     coordinates: undefined,
     owners: [],
+    theme: 'default',
 }
 
 const VERSION_PREFIX_REGEX = /^v(\d)+::/
