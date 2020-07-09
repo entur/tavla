@@ -68,7 +68,11 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
 
     return (
         <>
-            <LoginModal onDismiss={handleModal} open={open} />
+            <LoginModal
+                onDismiss={handleModal}
+                open={open}
+                loginDescription="For å laste opp logo og beskrivelse på avgangstavla, må du ha en konto."
+            />
             <Heading2>Last opp logo</Heading2>
             <GridContainer spacing="small">
                 <GridItem small={6}>

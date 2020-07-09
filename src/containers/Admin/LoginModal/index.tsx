@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import firebase from 'firebase'
 
 import EmailLogin from './EmailLogin'
 import LoginOptions from './LoginOptions'
@@ -17,6 +16,7 @@ import { useFirebaseAuthentication } from '../../../auth'
 interface Props {
     open: boolean
     onDismiss: () => void
+    loginDescription?: string
 }
 
 export type ModalType =
@@ -36,7 +36,11 @@ function usePrevious<T>(value: T): T {
     return ref.current
 }
 
-const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
+const LoginModal = ({
+    open,
+    onDismiss,
+    loginDescription,
+}: Props): JSX.Element => {
     const user = useFirebaseAuthentication()
 
     const isLoggedIn = user && !user.isAnonymous
@@ -56,7 +60,12 @@ const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
             case 'EmailSentModal':
                 return <EmailSent setModalType={setModalType} />
             default:
-                return <LoginOptions setModalType={setModalType} />
+                return (
+                    <LoginOptions
+                        setModalType={setModalType}
+                        loginDescription={loginDescription}
+                    />
+                )
         }
     }
 
