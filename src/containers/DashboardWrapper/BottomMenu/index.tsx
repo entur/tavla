@@ -203,8 +203,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const [idle, setIdle] = useState<boolean>(false)
     useEffect(() => {
         if (mobileWidth) return
-        const createTimeout = (): NodeJS.Timeout => {
-            return setTimeout(() => {
+        const createTimeout = (): number => {
+            return window.setTimeout(() => {
                 setIdle(true)
                 window.getSelection().removeAllRanges()
                 const focusElement = document.activeElement as HTMLElement
