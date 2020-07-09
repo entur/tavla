@@ -6,12 +6,9 @@ import { Tooltip } from '@entur/tooltip'
 
 function MenuButton({ title, icon, callback, tooltip }: Props): JSX.Element {
     const button = (
-        <button
-            onClick={callback}
-            className="bottom_menu_button hvr-float hvr-underline-from-center"
-        >
+        <button onClick={callback} className="bottom_menu_button hvr-float">
             <div className="iconHolder">{icon}</div>
-            {title}
+            <span className="titleHolder">{title}</span>
         </button>
     )
 
