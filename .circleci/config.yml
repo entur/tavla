@@ -76,10 +76,8 @@ workflows:
               - build
       - prod-approval:
           requires:
-              - build
+              - deploy-staging
           type: approval
-          filters: *filter-only-release
       - deploy:
-          filters: *filter-only-release
           requires:
             - prod-approval
