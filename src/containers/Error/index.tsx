@@ -39,7 +39,6 @@ interface Props {
     image: any
     callbackMessage?: string
     callback?: (event: React.SyntheticEvent<HTMLButtonElement>) => void
-    history: any
 }
 
 export default ErrorWrapper

@@ -63,8 +63,6 @@ function TavlaLogo({ className, theme = 'dark' }: Props): JSX.Element {
 interface Props {
     className?: string
     theme?: 'dark' | 'light'
-    height?: number | string
-    width?: number | string
 }
 
 export default TavlaLogo

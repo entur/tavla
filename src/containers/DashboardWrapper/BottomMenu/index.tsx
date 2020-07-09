@@ -96,7 +96,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         [history, documentId],
     )
 
-    const lockingButton = settings.owners.length === 0 && (
+    const lockingButton = settings.owners.length === 0 && documentId && (
         <MenuButton
             title="Lås tavle"
             icon={<OpenedLockIcon size={21} />}
@@ -111,7 +111,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     )
 
     const logoutButton =
-        user && !user.isAnonymous ? (
+        documentId &&
+        (user && !user.isAnonymous ? (
             <MenuButton
                 title="Logg ut"
                 icon={<LogOutIcon size={21} />}
@@ -130,7 +131,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                 icon={<UserIcon size={21} />}
                 callback={(): void => setLoginModalOpen(true)}
             />
-        )
+        ))
 
     const editButton = (settings.owners.length === 0 ||
         (user && settings.owners.includes(user.uid))) && (
@@ -307,7 +308,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 interface Props {
     className?: string
     history: any
-    onSettingsButtonClick: any
 }
 
 export default BottomMenu

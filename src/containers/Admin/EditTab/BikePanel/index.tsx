@@ -2,8 +2,8 @@ import React, { useCallback } from 'react'
 import { Checkbox } from '@entur/form'
 import { BikeRentalStation } from '@entur/sdk'
 
-import { toggleValueInList } from '../../../utils'
-import { useSettingsContext } from '../../../settings'
+import { toggleValueInList } from '../../../../utils'
+import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
 

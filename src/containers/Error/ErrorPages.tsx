@@ -57,7 +57,6 @@ export function LockedTavle({ history }: Props): JSX.Element {
                 image={sikkerhetBomLight}
                 callbackMessage={callbackMessage}
                 callback={callback}
-                history={history}
             />
         </div>
     )
@@ -76,20 +75,18 @@ export function PageDoesNotExist({ history }: Props): JSX.Element {
                 image={duerLight}
                 callbackMessage="Gå tilbake"
                 callback={callback}
-                history={history}
             />
         </div>
     )
 }
 
-export function NoStopsOnTavle({ history }: Props): JSX.Element {
+export function NoStopsOnTavle(): JSX.Element {
     return (
         <div>
             <ErrorWrapper
                 title="Nå havnet vi på ville veier."
                 message="Vi finner ingen stoppesteder å vise på denne tavla. Rediger tavla eller prøv et nytt søk."
                 image={sauerLight}
-                history={history}
             />
         </div>
     )

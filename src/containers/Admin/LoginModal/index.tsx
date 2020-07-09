@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import firebase from 'firebase'
 
 import EmailLogin from './EmailLogin'
 import LoginOptions from './LoginOptions'
 import Signup from './Signup'
 import ResetPassword from './ResetPassword'
 import EmailSent from './EmailSent'
+import { User } from 'firebase/app'
 
 import './styles.scss'
 
@@ -13,10 +13,11 @@ import { Modal } from '@entur/modal'
 import { useToast } from '@entur/alert'
 
 import { useFirebaseAuthentication } from '../../../auth'
+import { usePrevious } from '../../../utils'
 
 interface Props {
     open: boolean
-    onDismiss: () => void
+    onDismiss: (user?: User) => void
 }
 
 export type ModalType =
@@ -50,17 +51,19 @@ const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
         }
     }
 
+    const prevIsLoggedIn = usePrevious(isLoggedIn)
+
     useEffect(() => {
-        if (isLoggedIn && open) {
+        if (isLoggedIn && !prevIsLoggedIn && open) {
             setModalType('LoginOptionsModal')
             addToast({
                 title: 'Logget inn',
                 content: 'Du har nå logget inn på din konto.',
                 variant: 'success',
             })
-            onDismiss()
+            onDismiss(user)
         }
-    }, [isLoggedIn, open, onDismiss, addToast])
+    }, [isLoggedIn, open, onDismiss, addToast, prevIsLoggedIn, user])
 
     const handleDismiss = (): void => {
         setModalType('LoginOptionsModal')

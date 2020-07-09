@@ -65,7 +65,7 @@ function DashboardWrapper(props: Props): JSX.Element {
             return <Loader>Laster...</Loader>
         }
 
-        return <NoStopsOnTavle history={history} />
+        return <NoStopsOnTavle />
     }
 
     return (
@@ -84,7 +84,6 @@ function DashboardWrapper(props: Props): JSX.Element {
                 <BottomMenu
                     className="dashboard-wrapper__bottom-menu"
                     history={history}
-                    onSettingsButtonClick={onSettingsButtonClick}
                 />
             </Contrast>
         </Contrast>

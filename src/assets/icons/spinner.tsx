@@ -23,7 +23,6 @@ function Spinner({
 }
 
 interface Props {
-    className?: string
     color?: string
     size?: number | string
     spin?: boolean

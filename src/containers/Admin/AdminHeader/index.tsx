@@ -15,7 +15,6 @@ function AdminHeader(props: Props): JSX.Element {
                     className="admin-header__back-button"
                     action={goBackToDashboard}
                 />
-                <h1>Rediger tavle</h1>
             </div>
             <div className="admin-header__right">
                 <div className="github-logo">
