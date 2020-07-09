@@ -15,13 +15,11 @@ aliases:
           - master
           - /release-.*/
     - &slack-status-staging
-      title: Tavla
       success_message: '🎉En ny versjon av Tavla er nå i staging!🎉'
       failure_message: 'Det skjedde en feil ved deploy av Tavla til staging😔'
       include_job_number_field: false
       include_project_field: false
     - &slack-status-prod
-      title: Tavla
       success_message: '🎉En ny versjon av Tavla er nå prodsatt!🎉'
       failure_message: 'Det skjedde en feil ved deploy av Tavla til prod😔'
       include_job_number_field: false
