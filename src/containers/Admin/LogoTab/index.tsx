@@ -7,6 +7,7 @@ import {
     ListItem,
     Heading4,
     Link,
+    Label,
 } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
 
@@ -21,7 +22,7 @@ import './styles.scss'
 
 const Requirements = (): JSX.Element => (
     <>
-        <Heading4>Krav til logo for best resultat</Heading4>
+        <Label>Krav til logo for best resultat</Label>
         <UnorderedList>
             <ListItem>
                 Logo bør lastes opp med transparent bakgrunn i .png eller
@@ -76,7 +77,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 loginDescription="For å laste opp logo og beskrivelse på avgangstavla, må du ha en konto."
             />
             <Heading2>Last opp logo</Heading2>
-            <GridContainer spacing="small" className="logo-grid">
+            <GridContainer spacing="large" className="logo-grid">
                 <GridItem small={6}>
                     <Paragraph>
                         Her kan du legge inn egen logo på din tavle. Logoen vil

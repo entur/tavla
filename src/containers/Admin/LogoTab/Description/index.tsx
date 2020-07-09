@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 
-import { Heading3, Heading6, Paragraph } from '@entur/typography'
+import { Label, Heading3, Paragraph } from '@entur/typography'
 import { TextField } from '@entur/form'
 
 import { useDebounce } from '../../../../utils'
@@ -29,7 +29,7 @@ const Description = (): JSX.Element => {
                 ligger i nærheten av eller henvise til andre kanaler. Maks 80
                 tegn.
             </Paragraph>
-            <Heading6>Beskrivelse av avgangstavla</Heading6>
+            <Label>Beskrivelse av avgangstavla</Label>
             <TextField
                 value={value}
                 onChange={(event: FormEvent<HTMLInputElement>): void =>

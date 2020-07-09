@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { FileUpload } from '@entur/fileupload'
 import { FileRejection } from 'react-dropzone'
-import { Heading4 } from '@entur/typography'
+import { Label } from '@entur/typography'
 
 import { uploadLogo } from '../../../../services/firebase'
 import { useSettingsContext } from '../../../../settings'
@@ -53,7 +53,7 @@ const LogoUpload = (): JSX.Element => {
 
     return (
         <>
-            <Heading4>Filopplasting</Heading4>
+            <Label>Filopplasting</Label>
 
             <FileUpload
                 accept="image/*"

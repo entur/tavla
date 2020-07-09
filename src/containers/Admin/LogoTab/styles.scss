@@ -3,12 +3,28 @@
 .logo-grid {
     .eds-file-upload__wrapper {
         width: 100%;
+        margin-top: 5px;
+        margin-bottom: 1rem;
 
         .eds-file-upload__dropzone {
-            height: 6rem;
+            height: 8rem;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+    }
+
+    h3 {
+        margin-top: 0;
+        line-height: 1;
+        margin-bottom: 1.5rem;
+    }
+
+    .eds-form-component--radio__container {
+        display: inline-flex;
+        vertical-align: top;
+        &:not(:first-of-type) {
+            margin-left: 1rem;
         }
     }
 }
