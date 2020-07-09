@@ -167,6 +167,30 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 
     const menuRef = useRef<HTMLDivElement>()
 
+    const [idle, setIdle] = useState<boolean>(false)
+    useEffect(() => {
+        const createTimeout = (): NodeJS.Timeout => {
+            return setTimeout(() => {
+                setIdle(true)
+                document.body.style.cursor = 'none'
+            }, 2000)
+        }
+        let timeout = createTimeout()
+
+        const resetTimeout = (): void => {
+            clearTimeout(timeout)
+            timeout = createTimeout()
+            setIdle(false)
+            document.body.style.cursor = 'auto'
+        }
+        window.addEventListener('mousemove', resetTimeout)
+
+        return (): void => {
+            window.removeEventListener('mousemove', resetTimeout)
+            clearTimeout(timeout)
+        }
+    }, [setIdle])
+
     const [mobileWidth, setMobileWidth] = useState<boolean>(
         document.body.clientWidth <= 900,
     )
@@ -202,7 +226,12 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     )
 
     return (
-        <div ref={menuRef} className={`bottom-menu ${className || ''}`}>
+        <div
+            ref={menuRef}
+            className={`bottom-menu
+                ${className || ''}
+                ${idle ? 'hidden-menu' : false}`}
+        >
             <div className="bottom-menu__actions">
                 {editButton}
                 {lockingButton}

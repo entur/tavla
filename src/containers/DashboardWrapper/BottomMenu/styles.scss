@@ -7,26 +7,26 @@
     background-color: #393d79;
     border-radius: 10px 10px 0 0;
     transition: transform 0.3s ease-out;
-    transform: translate(0, 100%);
+    transform: translate(0, 0);
     z-index: 5;
 
     &__actions {
         display: flex;
     }
 }
-.bottom-menu:first-child{
+
+.bottom-menu:first-child {
     padding-left: 2rem;
 }
-.bottom-menu:last-child{
+
+.bottom-menu:last-child {
     padding-right: 2rem;
 }
 
 @media (min-width: 901px) {
-    body:hover {
-        .bottom-menu {
-            transition: transform 0.3s ease-in;
-            transform: translate(0, 0);
-        }
+    .hidden-menu {
+        transition: transform 0.3s ease-in;
+        transform: translate(0, 100%);
     }
 }
 
