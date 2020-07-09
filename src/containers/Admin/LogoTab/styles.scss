@@ -1,0 +1,14 @@
+@import '../../../assets/styles/import.scss';
+
+.logo-grid {
+    .eds-file-upload__wrapper {
+        width: 100%;
+
+        .eds-file-upload__dropzone {
+            height: 6rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
