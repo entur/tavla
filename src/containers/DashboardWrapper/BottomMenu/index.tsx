@@ -168,8 +168,41 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 
     const menuRef = useRef<HTMLDivElement>()
 
+    const [mobileWidth, setMobileWidth] = useState<boolean>(
+        document.body.clientWidth <= 900,
+    )
+    const width = useWindowWidth()
+    useEffect(() => {
+        if (width > 900 && mobileWidth) {
+            setMobileWidth(false)
+            menuRef.current.classList.remove('hidden-menu')
+        } else if (width <= 900 && !mobileWidth) {
+            setMobileWidth(true)
+            menuRef.current.classList.add('hidden-menu')
+        }
+    }, [width, mobileWidth, setMobileWidth])
+
+    const [hideOnScroll, setHideOnScroll] = useState(true)
+    useScrollPosition(
+        ({ prevPos, currPos }) => {
+            if (!mobileWidth) return
+            const isShow = currPos.y < prevPos.y
+            const menu = menuRef.current
+            if (isShow !== hideOnScroll) {
+                setHideOnScroll(isShow)
+                if (isShow) {
+                    menu.classList.add('hidden-menu')
+                } else {
+                    menu.classList.remove('hidden-menu')
+                }
+            }
+        },
+        [hideOnScroll, mobileWidth, setHideOnScroll],
+    )
+
     const [idle, setIdle] = useState<boolean>(false)
     useEffect(() => {
+        if (mobileWidth) return
         const createTimeout = (): NodeJS.Timeout => {
             return setTimeout(() => {
                 setIdle(true)
@@ -190,41 +223,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             window.removeEventListener('mousemove', resetTimeout)
             clearTimeout(timeout)
         }
-    }, [setIdle])
-
-    const [mobileWidth, setMobileWidth] = useState<boolean>(
-        document.body.clientWidth <= 900,
-    )
-    const width = useWindowWidth()
-    useEffect(() => {
-        if (width > 900 && mobileWidth) {
-            setMobileWidth(false)
-            menuRef.current.style.transform = ''
-        } else if (width <= 900 && !mobileWidth) {
-            setMobileWidth(true)
-            menuRef.current.style.transform = 'translate(0%, 0%)'
-        }
-    }, [width, mobileWidth, setMobileWidth])
-
-    const [hideOnScroll, setHideOnScroll] = useState(true)
-    useScrollPosition(
-        ({ prevPos, currPos }) => {
-            if (!mobileWidth) return
-            const isShow = currPos.y < prevPos.y
-            const menu = menuRef.current
-            if (isShow !== hideOnScroll) {
-                setHideOnScroll(isShow)
-                if (isShow) {
-                    menu.style.transform = 'translate(0%, 100%)'
-                    menu.style.transition = 'transform 0,3s ease-out'
-                } else {
-                    menu.style.transform = 'translate(0%, 0%)'
-                    menu.style.transition = 'transform 0,3s ease-in'
-                }
-            }
-        },
-        [hideOnScroll, mobileWidth, setHideOnScroll],
-    )
+    }, [mobileWidth, setIdle])
 
     return (
         <div

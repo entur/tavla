@@ -23,11 +23,9 @@
     padding-right: 2rem;
 }
 
-@media (min-width: 901px) {
-    .hidden-menu {
-        transition: transform 0.3s ease-in;
-        transform: translate(0, 100%);
-    }
+.hidden-menu {
+    transition: transform 0.3s ease-in;
+    transform: translate(0, 100%);
 }
 
 .radiobox {
