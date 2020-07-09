@@ -9,10 +9,9 @@ aliases:
       branches:
         only:
           - master
-    - &filter-only-master-and-release
+    - &filter-only-release
       branches:
         only:
-          - master
           - /release-.*/
     - &slack-status-staging
       success_message: '🎉En ny versjon av Tavla er nå i staging!🎉'
@@ -79,8 +78,8 @@ workflows:
           requires:
               - build
           type: approval
-          filters: *filter-only-master-and-release
+          filters: *filter-only-release
       - deploy:
-          filters: *filter-only-master-and-release
+          filters: *filter-only-release
           requires:
             - prod-approval
