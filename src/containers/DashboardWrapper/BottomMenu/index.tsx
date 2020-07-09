@@ -206,6 +206,9 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         const createTimeout = (): NodeJS.Timeout => {
             return setTimeout(() => {
                 setIdle(true)
+                window.getSelection().removeAllRanges()
+                const focusElement = document.activeElement as HTMLElement
+                focusElement.blur()
                 document.body.style.cursor = 'none'
             }, 2000)
         }
@@ -217,13 +220,19 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             setIdle(false)
             document.body.style.cursor = 'auto'
         }
-        window.addEventListener('mousemove', resetTimeout)
+        const handledResetTimeout = (): void => {
+            if (!idle) return
+            resetTimeout()
+        }
+        window.addEventListener('mousemove', handledResetTimeout)
+        window.addEventListener('focusin', resetTimeout)
 
         return (): void => {
-            window.removeEventListener('mousemove', resetTimeout)
+            window.removeEventListener('mousemove', handledResetTimeout)
+            window.removeEventListener('focusin', resetTimeout)
             clearTimeout(timeout)
         }
-    }, [mobileWidth, setIdle])
+    }, [idle, mobileWidth, setIdle])
 
     return (
         <div
