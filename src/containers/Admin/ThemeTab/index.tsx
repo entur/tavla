@@ -4,7 +4,7 @@ import { useSettingsContext } from '../../../settings'
 import { ThemeType } from '../../../types'
 
 const ThemeTab = (): JSX.Element => {
-    const [radioValue, setRadioValue] = useState(null)
+    const [radioValue, setRadioValue] = useState<ThemeType>(null)
     const [settings, { setTheme }] = useSettingsContext()
 
     const markCorrectRadioBox = (): void => {
@@ -25,17 +25,22 @@ const ThemeTab = (): JSX.Element => {
     }
 
     useEffect(() => {
-        if (settings.theme) {
-            markCorrectRadioBox()
+        if (settings.theme && radioValue == null) {
+            setRadioValue(settings.theme)
         }
-    })
+    }, [radioValue, settings.theme])
+
+    const switchTheme = (value: ThemeType): void => {
+        setRadioValue(value)
+        setTheme(value)
+    }
 
     return (
         <div>
             <RadioGroup
                 name="theme"
                 value={radioValue}
-                onChange={(e) => setRadioValue(e.target.value)}
+                onChange={(e): void => switchTheme(e.target.value as ThemeType)}
             >
                 <Radio value="default">Entur (standard)</Radio>
                 <Radio value="dark">Dark theme</Radio>
