@@ -14,6 +14,12 @@
         display: flex;
     }
 }
+.bottom-menu:first-child{
+    padding-left: 2rem;
+}
+.bottom-menu:last-child{
+    padding-right: 2rem;
+}
 
 @media (min-width: 901px) {
     body:hover {
