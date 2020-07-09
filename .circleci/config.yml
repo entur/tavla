@@ -5,11 +5,27 @@ aliases:
     - &ssh-fingerprint
       fingerprints:
         - “ab:f2:26:09:86:b8:d3:28:be:bd:5b:86:7d:70:3e:ce”
+    - &filter-only-master
+      branches:
+        only:
+          - master
     - &filter-only-master-and-release
       branches:
         only:
           - master
           - /release-.*/
+    - &slack-status-staging
+      title: Tavla
+      success_message: '🎉En ny versjon av Tavla er nå i staging!🎉'
+      failure_message: 'Det skjedde en feil ved deploy av Tavla til staging😔'
+      include_job_number_field: false
+      include_project_field: false
+    - &slack-status-prod
+      title: Tavla
+      success_message: '🎉En ny versjon av Tavla er nå prodsatt!🎉'
+      failure_message: 'Det skjedde en feil ved deploy av Tavla til prod😔'
+      include_job_number_field: false
+      include_project_field: false
 jobs:
   build:
     docker:
@@ -37,7 +53,7 @@ jobs:
       - run:
           name: Deploy web
           command: npm run deploy:prod --token=$FIREBASE_TOKEN --non-interactive
-      - slack/status
+      - slack/status: *slack-status-prod
   deploy-staging:
     docker:
       - image: circleci/node:10
@@ -51,17 +67,14 @@ jobs:
       - run:
           name: Deploy web staging
           command: npm run deploy:staging --token=$FIREBASE_TOKEN --non-interactive
-      - slack/status
+      - slack/status: *slack-status-staging
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - build
       - deploy-staging:
-          filters:
-              branches:
-                only:
-                  - master
+          filters: *filter-only-master
           requires:
               - build
       - prod-approval:
