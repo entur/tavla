@@ -1,9 +1,15 @@
+version: 2.1
+orbs:
+  slack: circleci/slack@3.4.2
 aliases:
     - &ssh-fingerprint
       fingerprints:
         - “ab:f2:26:09:86:b8:d3:28:be:bd:5b:86:7d:70:3e:ce”
-
-version: 2
+    - &filter-only-master-and-release
+      branches:
+        only:
+          - master
+          - /release-.*/
 jobs:
   build:
     docker:
@@ -31,7 +37,7 @@ jobs:
       - run:
           name: Deploy web
           command: npm run deploy:prod --token=$FIREBASE_TOKEN --non-interactive
-
+      - slack/status
   deploy-staging:
     docker:
       - image: circleci/node:10
@@ -45,10 +51,10 @@ jobs:
       - run:
           name: Deploy web staging
           command: npm run deploy:staging --token=$FIREBASE_TOKEN --non-interactive
-
+      - slack/status
 workflows:
   version: 2
-  build-and-deploy-staging:
+  build-and-deploy:
     jobs:
       - build
       - deploy-staging:
@@ -58,3 +64,12 @@ workflows:
                   - master
           requires:
               - build
+      - prod-approval:
+          requires:
+              - build
+          type: approval
+          filters: *filter-only-master-and-release
+      - deploy:
+          filters: *filter-only-master-and-release
+          requires:
+            - prod-approval
