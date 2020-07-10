@@ -2,9 +2,9 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/storage'
 import { firestore } from 'firebase'
-import { v4 as uuidv4 } from 'uuid'
 
 import { Settings } from '../settings/index'
+import { getDocumentId } from '../utils'
 
 const SETTINGS_COLLECTION = 'settings'
 
@@ -38,10 +38,22 @@ export const createSettings = async (
 }
 
 export const uploadLogo = async (image: File): Promise<string> => {
+    const token = await firebase.auth().currentUser.getIdToken()
+
+    const getImageUploadToken = firebase
+        .functions()
+        .httpsCallable('getImageUploadToken')
+
+    const documentId = getDocumentId()
+
+    const response = await getImageUploadToken({ imageUid: documentId, token })
+
+    await firebase.auth().signInWithCustomToken(response.data.uploadToken)
+
     const uploadTask = firebase
         .storage()
         .ref()
-        .child(`images/${uuidv4()}/${image.name}`)
+        .child(`images/${documentId}`)
         .put(image)
 
     return new Promise((resolve, reject) => {
