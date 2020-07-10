@@ -1,4 +1,5 @@
 @import '../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .slider {
     width: 100%;
@@ -14,7 +15,7 @@
         div {
             height: 20px;
             width: 50px;
-            color: $colors-blues-blue60;
+            color: var(--tavla-blue-60);
             font-size: 14px;
             font-weight: 400;
             line-height: 16px;

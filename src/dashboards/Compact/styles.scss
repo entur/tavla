@@ -62,7 +62,7 @@
     }
 
     .react-grid-item.react-grid-placeholder {
-        background: $colors-blues-blue20;
+        background: var(--tavla-blue-20);
         opacity: 0.2;
         transition-duration: 100ms;
         z-index: 2;

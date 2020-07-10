@@ -14,7 +14,7 @@ import LandingPage from './LandingPage'
 import Admin from './Admin'
 import Privacy from './Privacy'
 import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
-import ThemeProvider from './ThemeWrapper/DarkTheme'
+import ThemeProvider from './ThemeWrapper/ThemeProvider'
 
 import PrivateRoute from '../routers/PrivateRoute'
 

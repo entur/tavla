@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { RadioGroup, Radio } from '@entur/form'
 import { useSettingsContext } from '../../../settings'
 import { ThemeType } from '../../../types'
-import { useTheme } from '../../ThemeWrapper/DarkTheme'
+import { useTheme } from '../../ThemeWrapper/ThemeProvider'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<ThemeType>(null)

@@ -1,8 +1,9 @@
 @import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
 
 .tilerow {
     display: flex;
-    border-bottom: 2px solid $colors-blues-blue20;
+    border-bottom: 2px solid var(--tavla-blue-20);
     padding: 1rem 0;
 
     &:last-child {
