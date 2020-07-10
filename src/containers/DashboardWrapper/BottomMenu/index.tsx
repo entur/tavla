@@ -205,6 +205,12 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         if (mobileWidth) return
         const createTimeout = (): number => {
             return window.setTimeout(() => {
+                if (
+                    document
+                        .getElementById('app')
+                        .getAttribute('aria-hidden') == 'true'
+                )
+                    return
                 setIdle(true)
                 window.getSelection().removeAllRanges()
                 const focusElement = document.activeElement as HTMLElement
@@ -214,8 +220,12 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         }
         let timeout = createTimeout()
 
-        const resetTimeout = (): void => {
+        const removeTimeout = (): void => {
             clearTimeout(timeout)
+        }
+
+        const resetTimeout = (): void => {
+            removeTimeout()
             timeout = createTimeout()
             setIdle(false)
             document.body.style.cursor = 'auto'
@@ -225,11 +235,18 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             resetTimeout()
         }
         window.addEventListener('mousemove', handledResetTimeout)
-        window.addEventListener('focusin', resetTimeout)
+        const menu = menuRef.current
+        window.addEventListener('focusin', removeTimeout)
+        window.addEventListener('focusout', resetTimeout)
+        menu.addEventListener('mouseover', removeTimeout)
+        menu.addEventListener('mouseout', resetTimeout)
 
         return (): void => {
             window.removeEventListener('mousemove', handledResetTimeout)
-            window.removeEventListener('focusin', resetTimeout)
+            window.removeEventListener('focusin', removeTimeout)
+            window.removeEventListener('focusout', resetTimeout)
+            menu.removeEventListener('mouseover', removeTimeout)
+            menu.removeEventListener('mouseout', resetTimeout)
             clearTimeout(timeout)
         }
     }, [idle, mobileWidth, setIdle])
@@ -239,7 +256,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             ref={menuRef}
             className={`bottom-menu
                 ${className || ''}
-                ${idle ? 'hidden-menu' : false}`}
+                ${idle ? 'hidden-menu' : ''}`}
         >
             <div className="bottom-menu__actions">
                 {editButton}
