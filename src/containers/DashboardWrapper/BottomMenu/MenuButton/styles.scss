@@ -1,4 +1,5 @@
 @import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
 
 .bottom_menu_button {
     height: fit-content;
@@ -7,9 +8,9 @@
     display: flex;
     flex-direction: column;
     align-content: center;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: var(--tavla-menu-background-color);
     border: hidden;
-    color: rgb(255, 255, 255);
+    color: var(--tavla-font-color);
     font: inherit;
 }
 

@@ -24,12 +24,13 @@ function ErrorWrapper({
     ) : null
 
     return (
-        <Contrast className="error-wrapper">
+        // Div under er Contrast
+        <div className="error-wrapper">
             <img className="style-image" src={`${image}`} />
             <Heading1 margin="both">{title}</Heading1>
             <div className="main-text">{message}</div>
             {errorCallback}
-        </Contrast>
+        </div>
     )
 }
 

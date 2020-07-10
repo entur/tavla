@@ -24,7 +24,8 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     }, [history, documentId])
 
     return (
-        <Contrast className="admin">
+        // Div under er <Contrast
+        <div className="admin">
             <AdminHeader goBackToDashboard={goToDash} />
             <Tabs
                 index={currentIndex}
@@ -57,7 +58,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             >
                 Se avgangstavla
             </Button>
-        </Contrast>
+        </div>
     )
 }
 

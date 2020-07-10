@@ -1,7 +1,8 @@
 @import '../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .back-button {
-    background-color: $colors-brand-blue;
+    background-color: var(--tavla-background-color);
     border: none;
     color: $colors-brand-coral;
     cursor: pointer;
