@@ -100,6 +100,11 @@ export function useSettings(): [Settings, SettingsSetters] {
                         data.owners = []
                     }
 
+                    if (data.description === undefined) {
+                        persistToFirebase(getDocumentId(), 'description', '')
+                        data.description = ''
+                    }
+
                     setSettings(data as Settings)
                 } else {
                     window.location.pathname = '/'
