@@ -1,7 +1,8 @@
 @import '../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .dashboard-wrapper {
-    background-color: $colors-brand-blue;
+    background-color: var(--tavla-background-color);
     color: white;
     padding: 2rem 4rem;
     overflow: hidden;

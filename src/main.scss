@@ -1,8 +1,9 @@
 @import './assets/styles/import.scss';
+@import './variables.scss';
 
 body {
     margin: 0;
-    background-color: $colors-brand-blue;
+    background-color: var(--tavla-background-color);
     overflow-y: unset;
     overflow-x: unset;
     min-height: 100vh;
@@ -12,7 +13,7 @@ div {
     scrollbar-width: none;
 }
 
-input[type=number] {
+input[type='number'] {
     -moz-appearance: textfield;
 }
 

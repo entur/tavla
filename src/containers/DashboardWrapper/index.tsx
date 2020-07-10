@@ -69,7 +69,8 @@ function DashboardWrapper(props: Props): JSX.Element {
     }
 
     return (
-        <Contrast className={`dashboard-wrapper ${className}`}>
+        // Div under er <Contrast
+        <div className={`dashboard-wrapper ${className}`}>
             <div className="dashboard-wrapper__top">
                 <div className="dashboard-wrapper__logo-wrapper">
                     <TavlaLogo className="dashboard-wrapper__logo" />
@@ -86,7 +87,7 @@ function DashboardWrapper(props: Props): JSX.Element {
                     history={history}
                 />
             </Contrast>
-        </Contrast>
+        </div>
     )
 }
 
