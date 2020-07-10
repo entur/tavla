@@ -80,29 +80,48 @@ export function useSettings(): [Settings, SettingsSetters] {
     const location = useLocation()
 
     useEffect(() => {
-        if (location.pathname == '/') return
+        const protectedPath =
+            location.pathname == '/' ||
+            location.pathname.split('/')[1] == 'permissionDenied' ||
+            location.pathname.split('/')[1] == 'privacy'
+
+        if (protectedPath) return
 
         const id = getDocumentId()
 
         if (id) {
             return getSettings(id).onSnapshot((document) => {
                 if (document.exists) {
-                    setSettings(document.data() as Settings)
+                    const data = document.data()
+
+                    // Handle settings which were initialized before `owners` was introduced.
+                    if (data.owners === undefined) {
+                        persistToFirebase(getDocumentId(), 'owners', [])
+                        data.owners = []
+                    }
+
+                    setSettings(data as Settings)
                 } else {
                     window.location.pathname = '/'
                 }
             })
         }
 
-        const positionArray = location.pathname
-            .split('/')[2]
-            .split('@')[1]
-            .split('-')
-            .join('.')
-            .split(/,/)
+        let positionArray: string[] = []
+        try {
+            positionArray = location.pathname
+                .split('/')[2]
+                .split('@')[1]
+                .split('-')
+                .join('.')
+                .split(/,/)
+        } catch (error) {
+            return
+        }
 
         setSettings({
             ...restoreFromUrl(),
+            owners: [],
             coordinates: {
                 latitude: Number(positionArray[0]),
                 longitude: Number(positionArray[1]),

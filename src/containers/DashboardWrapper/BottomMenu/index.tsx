@@ -96,7 +96,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         [history, documentId],
     )
 
-    const lockingButton = settings.owners.length === 0 && (
+    const lockingButton = settings.owners.length === 0 && documentId && (
         <MenuButton
             title="Lås tavle"
             icon={<OpenedLockIcon size={21} />}
@@ -111,7 +111,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     )
 
     const logoutButton =
-        user && !user.isAnonymous ? (
+        documentId &&
+        (user && !user.isAnonymous ? (
             <MenuButton
                 title="Logg ut"
                 icon={<LogOutIcon size={21} />}
@@ -130,18 +131,18 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                 icon={<UserIcon size={21} />}
                 callback={(): void => setLoginModalOpen(true)}
             />
-        )
+        ))
 
     const editButton = (settings.owners.length === 0 ||
         (user && settings.owners.includes(user.uid))) && (
         <div>
             <MenuButton
-                title="Endre visning"
+                title="Visning"
                 icon={<EditIcon size={21} />}
                 callback={(): void => setModalOpen(true)}
             />
             <MenuButton
-                title="Rediger tavla"
+                title="Rediger"
                 icon={<ConfigurationIcon size={21} />}
                 callback={onSettingsButtonClick}
             />
@@ -174,10 +175,10 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     useEffect(() => {
         if (width > 900 && mobileWidth) {
             setMobileWidth(false)
-            menuRef.current.style.transform = ''
+            menuRef.current.classList.remove('hidden-menu')
         } else if (width <= 900 && !mobileWidth) {
             setMobileWidth(true)
-            menuRef.current.style.transform = 'translate(0%, 0%)'
+            menuRef.current.classList.add('hidden-menu')
         }
     }, [width, mobileWidth, setMobileWidth])
 
@@ -190,19 +191,56 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             if (isShow !== hideOnScroll) {
                 setHideOnScroll(isShow)
                 if (isShow) {
-                    menu.style.transform = 'translate(0%, 100%)'
-                    menu.style.transition = 'transform 0,3s ease-out'
+                    menu.classList.add('hidden-menu')
                 } else {
-                    menu.style.transform = 'translate(0%, 0%)'
-                    menu.style.transition = 'transform 0,3s ease-in'
+                    menu.classList.remove('hidden-menu')
                 }
             }
         },
         [hideOnScroll, mobileWidth, setHideOnScroll],
     )
 
+    const [idle, setIdle] = useState<boolean>(false)
+    useEffect(() => {
+        if (mobileWidth) return
+        const createTimeout = (): number => {
+            return window.setTimeout(() => {
+                setIdle(true)
+                window.getSelection().removeAllRanges()
+                const focusElement = document.activeElement as HTMLElement
+                focusElement.blur()
+                document.body.style.cursor = 'none'
+            }, 2000)
+        }
+        let timeout = createTimeout()
+
+        const resetTimeout = (): void => {
+            clearTimeout(timeout)
+            timeout = createTimeout()
+            setIdle(false)
+            document.body.style.cursor = 'auto'
+        }
+        const handledResetTimeout = (): void => {
+            if (!idle) return
+            resetTimeout()
+        }
+        window.addEventListener('mousemove', handledResetTimeout)
+        window.addEventListener('focusin', resetTimeout)
+
+        return (): void => {
+            window.removeEventListener('mousemove', handledResetTimeout)
+            window.removeEventListener('focusin', resetTimeout)
+            clearTimeout(timeout)
+        }
+    }, [idle, mobileWidth, setIdle])
+
     return (
-        <div ref={menuRef} className={`bottom-menu ${className || ''}`}>
+        <div
+            ref={menuRef}
+            className={`bottom-menu
+                ${className || ''}
+                ${idle ? 'hidden-menu' : false}`}
+        >
             <div className="bottom-menu__actions">
                 {editButton}
                 {lockingButton}
@@ -278,7 +316,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 interface Props {
     className?: string
     history: any
-    onSettingsButtonClick: any
 }
 
 export default BottomMenu

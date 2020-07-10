@@ -129,7 +129,7 @@ const EditTab = (): JSX.Element => {
 
     return (
         <div>
-            <Heading2>Rediger Innhold</Heading2>
+            <Heading2>Rediger innhold</Heading2>
             <div className="admin__content">
                 <div className="admin__selection-panel">
                     <DistanceEditor

@@ -5,13 +5,14 @@ import {
     Paragraph,
     UnorderedList,
     ListItem,
-    Heading4,
     Link,
     Label,
 } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
 
 import { useFirebaseAuthentication } from '../../../auth'
+import { User } from 'firebase/app'
+import { getDocumentId } from '../../../utils'
 
 import LoginModal from '../LoginModal'
 import LogoUpload from './LogoUpload'
@@ -52,6 +53,8 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false)
     const user = useFirebaseAuthentication()
 
+    const documentId = getDocumentId()
+
     useEffect((): void => {
         if (tabIndex === 1 && user && user.isAnonymous) {
             setOpen(true)
@@ -60,19 +63,31 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         if (user && !user.isAnonymous) {
             setOpen(false)
         }
-    }, [user, tabIndex])
+    }, [user, tabIndex, setTabIndex])
 
-    const handleModal = (): void => {
-        setOpen(false)
-        if (!(user && !user.isAnonymous)) {
+    const handleDismiss = (newUser: User): void => {
+        if (!(newUser && !newUser.isAnonymous)) {
+            setOpen(false)
             setTabIndex()
         }
+    }
+
+    if (!documentId) {
+        return (
+            <div>
+                <Heading2>Last opp logo</Heading2>
+                <Paragraph>
+                    Vi har oppgradert tavla. Ønsker du tilgang på denne
+                    funksjonaliteten må du lage en ny tavle.
+                </Paragraph>
+            </div>
+        )
     }
 
     return (
         <>
             <LoginModal
-                onDismiss={handleModal}
+                onDismiss={handleDismiss}
                 open={open}
                 loginDescription="For å laste opp logo og beskrivelse på avgangstavla, må du ha en konto."
             />

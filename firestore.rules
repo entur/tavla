@@ -3,7 +3,7 @@ service cloud.firestore {
   match /databases/{database}/documents/settings/{document} {
     allow read;
     allow create: if request.auth != null && request.data.description.size() <= 50;
-    allow update: if request.auth != null && (resource.data.owners.size() == 0 || resource.data.owners.hasAny([request.auth.uid])
-      && request.data.description.size() <= 50);
+    allow update: if request.auth != null && (resource.data.owners.size() == 0 || !('owners' in resource.data)
+      || resource.data.owners.hasAny([request.auth.uid]) && request.data.description.size() <= 50);
   }
 }

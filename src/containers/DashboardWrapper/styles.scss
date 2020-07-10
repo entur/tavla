@@ -41,22 +41,11 @@
         bottom: 0;
         left: 0;
         right: 0;
-        transition: transform 0.3s ease-out;
-        transform: translate(0, 100%);
     }
 
     @media (min-width: 901px) {
         &__logo-wrapper p {
             margin: -0.5rem 0 0 0;
-        }
-    }
-}
-
-@media (min-width: 901px) {
-    body:hover {
-        .dashboard-wrapper__bottom-menu {
-            transition: transform 0.3s ease-in;
-            transform: translate(0, 0);
         }
     }
 }

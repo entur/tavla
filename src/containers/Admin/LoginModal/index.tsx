@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import EmailLogin from './EmailLogin'
 import LoginOptions from './LoginOptions'
 import Signup from './Signup'
 import ResetPassword from './ResetPassword'
 import EmailSent from './EmailSent'
+import { User } from 'firebase/app'
 
 import './styles.scss'
 
@@ -12,10 +13,11 @@ import { Modal } from '@entur/modal'
 import { useToast } from '@entur/alert'
 
 import { useFirebaseAuthentication } from '../../../auth'
+import { usePrevious } from '../../../utils'
 
 interface Props {
     open: boolean
-    onDismiss: () => void
+    onDismiss: (user?: User) => void
     loginDescription?: string
 }
 
@@ -25,16 +27,6 @@ export type ModalType =
     | 'SignupModal'
     | 'ResetPasswordModal'
     | 'EmailSentModal'
-
-function usePrevious<T>(value: T): T {
-    const ref = useRef<T>()
-
-    useEffect(() => {
-        ref.current = value
-    }, [value])
-
-    return ref.current
-}
 
 const LoginModal = ({
     open,
@@ -79,9 +71,9 @@ const LoginModal = ({
                 content: 'Du har nå logget inn på din konto.',
                 variant: 'success',
             })
-            onDismiss()
+            onDismiss(user)
         }
-    }, [isLoggedIn, open, onDismiss, addToast, prevIsLoggedIn])
+    }, [isLoggedIn, open, onDismiss, addToast, prevIsLoggedIn, user])
 
     const handleDismiss = (): void => {
         setModalType('LoginOptionsModal')
