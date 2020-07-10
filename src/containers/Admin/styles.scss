@@ -1,12 +1,13 @@
 @import '../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .admin {
-    background-color: $colors-brand-blue;
+    background-color: var(--tavla-background-color);
     margin-left: auto;
     margin-right: auto;
     justify-content: center;
     padding: 2% 5%;
-    color: white;
+    color: var(--tavla-font-color);
 
     &__content {
         display: flex;

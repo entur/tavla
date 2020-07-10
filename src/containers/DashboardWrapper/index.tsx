@@ -81,12 +81,13 @@ function DashboardWrapper(props: Props): JSX.Element {
                 <Clock className="dashboard-wrapper__clock" />
             </div>
             {renderContents()}
-            <Contrast>
+            {/* Div under er <Contrast */}
+            <div>
                 <BottomMenu
                     className="dashboard-wrapper__bottom-menu"
                     history={history}
                 />
-            </Contrast>
+            </div>
         </div>
     )
 }

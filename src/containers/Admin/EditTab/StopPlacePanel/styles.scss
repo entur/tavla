@@ -1,8 +1,9 @@
 @import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
 
 .stop-place-panel {
     width: 400px;
-    background-color: $colors-blues-blue10;
+    background-color: var(--tavla-box-background-color);
     overflow: auto;
     padding: 1rem 2rem;
     margin-top: 2rem;
@@ -54,7 +55,7 @@
         margin-bottom: 0.5rem;
 
         > label {
-            color: white;
+            color: var(--tavla-font-color);
         }
     }
 
@@ -65,7 +66,7 @@
         margin-bottom: 0.5rem;
 
         .eds-checkbox__label {
-            color: white;
+            color: var(--tavla-font-color);
             display: flex;
             align-items: center;
 

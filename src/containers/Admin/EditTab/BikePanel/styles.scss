@@ -1,7 +1,8 @@
 @import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
 
 .bike-panel {
-    background-color: $colors-blues-blue10;
+    background-color: var(--tavla-box-background-color);
     padding: 1rem 2rem;
     width: 400px;
     margin-top: 2rem;
@@ -13,12 +14,12 @@
         align-items: center;
 
         label {
-            color: white;
+            color: var(--tavla-font-color);
         }
     }
 
     &__row {
-        color: white;
+        color: var(--tavla-font-color);
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -32,7 +33,7 @@
 
         > label > span {
             margin: 0 0 0 0.5rem;
-            color: white;
+            color: var(--tavla-font-color);
         }
     }
 }
