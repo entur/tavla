@@ -4,7 +4,7 @@ import { useUser } from '../auth'
 import { getSettings } from '../services/firebase'
 
 export default function usePermittedTavle(): boolean {
-    const [permitted, setPermission] = useState<boolean>(false)
+    const [permitted, setPermission] = useState<boolean>()
     const documentId = getDocumentId()
     const user = useUser()
 
@@ -19,7 +19,6 @@ export default function usePermittedTavle(): boolean {
                 )
             })
         }
-        setPermission(false)
     }, [documentId, user, setPermission])
-    return permitted ? permitted : null
+    return permitted
 }

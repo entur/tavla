@@ -1,11 +1,12 @@
 @import '../../../../assets/styles/import.scss';
 
 .bottom_menu_button {
-    height: 100%;
-    padding: 1rem;
+    height: fit-content;
+    width: fit-content;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    align-content: center;
     background-color: rgba(0, 0, 0, 0);
     border: hidden;
     color: rgb(255, 255, 255);
@@ -24,6 +25,10 @@
     padding-bottom: 0.3rem;
 }
 
+.titleHolder {
+    width: 9rem;
+}
+
 // Hover.css //
 // Float //
 .hvr-float {
@@ -40,35 +45,4 @@
 .hvr-float:focus,
 .hvr-float:active {
     transform: translateY(-8px);
-}
-
-// Underline //
-.hvr-underline-from-center {
-    display: inline-block;
-    vertical-align: middle;
-    transform: perspective(1px) translateZ(0);
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-    position: relative;
-    overflow: hidden;
-}
-
-.hvr-underline-from-center::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    left: 51%;
-    right: 51%;
-    bottom: 10px;
-    background: #ff5959;
-    height: 3px;
-    transition-property: left, right;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-out;
-}
-
-.hvr-underline-from-center:hover::before,
-.hvr-underline-from-center:focus::before,
-.hvr-underline-from-center:active::before {
-    left: 33%;
-    right: 33%;
 }
