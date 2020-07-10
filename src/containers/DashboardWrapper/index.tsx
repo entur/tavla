@@ -14,6 +14,7 @@ import { NoStopsOnTavle } from './../Error/ErrorPages'
 import BottomMenu from './BottomMenu'
 
 import './styles.scss'
+import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 
 function DashboardWrapper(props: Props): JSX.Element {
     const secondsSinceMount = useCounter()
@@ -69,26 +70,26 @@ function DashboardWrapper(props: Props): JSX.Element {
     }
 
     return (
-        // Div under er <Contrast
-        <div className={`dashboard-wrapper ${className}`}>
-            <div className="dashboard-wrapper__top">
-                <div className="dashboard-wrapper__logo-wrapper">
-                    <TavlaLogo className="dashboard-wrapper__logo" />
-                    <SubParagraph>
-                        Finn din rute på entur.no eller i Entur-appen.
-                    </SubParagraph>
+        <ThemeContrastWrapper>
+            <div className={`dashboard-wrapper ${className}`}>
+                <div className="dashboard-wrapper__top">
+                    <div className="dashboard-wrapper__logo-wrapper">
+                        <TavlaLogo className="dashboard-wrapper__logo" />
+                        <SubParagraph>
+                            Finn din rute på entur.no eller i Entur-appen.
+                        </SubParagraph>
+                    </div>
+                    <Clock className="dashboard-wrapper__clock" />
                 </div>
-                <Clock className="dashboard-wrapper__clock" />
+                {renderContents()}
+                <ThemeContrastWrapper>
+                    <BottomMenu
+                        className="dashboard-wrapper__bottom-menu"
+                        history={history}
+                    />
+                </ThemeContrastWrapper>
             </div>
-            {renderContents()}
-            {/* Div under er <Contrast */}
-            <div>
-                <BottomMenu
-                    className="dashboard-wrapper__bottom-menu"
-                    history={history}
-                />
-            </div>
-        </div>
+        </ThemeContrastWrapper>
     )
 }
 

@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react'
+import React, { Fragment, useMemo, useEffect, useState } from 'react'
 import { Heading2 } from '@entur/typography'
 import { LegBone } from '@entur/travel'
 import { LegMode } from '@entur/sdk'
@@ -11,6 +11,7 @@ import { useStopPlacesWithDepartures } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
 import './styles.scss'
+import { useSettingsContext } from '../../settings'
 
 const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]
 
@@ -76,6 +77,8 @@ interface TickProps {
 }
 
 function Tick({ minutes, mode, index }: TickProps): JSX.Element {
+    const [settings] = useSettingsContext()
+    const [color, setColor] = useState(colors.blues.blue30)
     let label = `${minutes} min`
     let marginLeft = -30
 
@@ -88,8 +91,14 @@ function Tick({ minutes, mode, index }: TickProps): JSX.Element {
         label = ''
     }
 
+    useEffect(() => {
+        if (settings && settings.theme && !(minutes < 0)) {
+            setColor(getIconColor(mode, true))
+        }
+    }, [settings, minutes, mode])
+
     const width = diffSincePreviousTick(minutes) * (60 * ZOOM)
-    const color = minutes < 0 ? colors.blues.blue30 : getIconColor(mode)
+    // const color = minutes < 0 ? colors.blues.blue30 : getIconColor(mode)
 
     return (
         <div style={{ minWidth: width }}>

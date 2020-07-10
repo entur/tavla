@@ -48,27 +48,33 @@ function isSubModeCarFerry(subMode?: string): boolean {
 
 export function getIconColor(
     type: LegMode,
+    contrast: boolean,
     subType?: TransportSubmode,
 ): string {
-    if (isSubModeAirportLink(subType)) return colors.transport.contrast.plane
+    let icontype: 'contrast' | 'default' = 'default'
+    if (contrast) {
+        icontype = 'contrast'
+    }
+
+    if (isSubModeAirportLink(subType)) return colors.transport[icontype].plane
 
     switch (type) {
         case 'bus':
-            return colors.transport.contrast.bus
+            return colors.transport[icontype].bus
         case 'bicycle':
-            return colors.transport.contrast.mobility
+            return colors.transport[icontype].mobility
         case 'water':
-            return colors.transport.contrast.ferry
+            return colors.transport[icontype].ferry
         case 'metro':
-            return colors.transport.contrast.metro
+            return colors.transport[icontype].metro
         case 'rail':
-            return colors.transport.contrast.train
+            return colors.transport[icontype].train
         case 'tram':
-            return colors.transport.contrast.tram
+            return colors.transport[icontype].tram
         case 'air':
-            return colors.transport.contrast.plane
+            return colors.transport[icontype].plane
         default:
-            return colors.transport.contrast.walk
+            return colors.transport[icontype].walk
     }
 }
 
@@ -116,7 +122,8 @@ export function getIcon(
     subMode?: TransportSubmode,
     color?: string,
 ): JSX.Element | null {
-    const colorToUse = color ?? getIconColor(legMode, subMode)
+    //* [TODO:] Fikse om det skal være contrast eller ikke!!!
+    const colorToUse = color ?? getIconColor(legMode, true, subMode)
 
     const identifier = getTransportIconIdentifier(legMode, subMode)
 

@@ -5,6 +5,7 @@ import { PrimaryButton } from '@entur/button'
 import './styles.scss'
 import { Contrast } from '@entur/layout'
 import { Heading1 } from '@entur/typography'
+import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 
 function ErrorWrapper({
     title,
@@ -24,13 +25,14 @@ function ErrorWrapper({
     ) : null
 
     return (
-        // Div under er Contrast
-        <div className="error-wrapper">
-            <img className="style-image" src={`${image}`} />
-            <Heading1 margin="both">{title}</Heading1>
-            <div className="main-text">{message}</div>
-            {errorCallback}
-        </div>
+        <ThemeContrastWrapper>
+            <div className="error-wrapper">
+                <img className="style-image" src={`${image}`} />
+                <Heading1 margin="both">{title}</Heading1>
+                <div className="main-text">{message}</div>
+                {errorCallback}
+            </div>
+        </ThemeContrastWrapper>
     )
 }
 
