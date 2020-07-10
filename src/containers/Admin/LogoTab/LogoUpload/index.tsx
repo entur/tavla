@@ -2,25 +2,23 @@ import React, { useState } from 'react'
 
 import { FileUpload } from '@entur/fileupload'
 import { FileRejection } from 'react-dropzone'
-import { Label } from '@entur/typography'
+import { Label, Link } from '@entur/typography'
+import { DeleteIcon } from '@entur/icons'
 
 import { uploadLogo } from '../../../../services/firebase'
 import { useSettingsContext } from '../../../../settings'
 
 import '@entur/fileupload/dist/styles.css'
 
+const UPLOAD_ZONE_TEXT =
+    'Slipp logofilen din her eller klikk for å velge fil å laste opp'
+
 const LogoUpload = (): JSX.Element => {
-    const [, { setLogo }] = useSettingsContext()
+    const [{ logo }, { setLogo }] = useSettingsContext()
 
-    const [files, setFiles] = React.useState([])
-    const [error, setError] = React.useState<string>()
-    const [standbyText, setStandbyText] = useState(
-        'Slipp logofilen din her eller klikk for å velge fil å laste opp',
-    )
-
-    const handleDelete = (): void => {
-        setFiles([])
-    }
+    const [error, setError] = useState<string>()
+    const [uploadVisible, setUploadVisible] = useState(!logo)
+    const [standbyText, setStandbyText] = useState(UPLOAD_ZONE_TEXT)
 
     const handleDrop = (acceptedFiles?: File[]): void => {
         if (acceptedFiles.length === 0) return
@@ -33,8 +31,8 @@ const LogoUpload = (): JSX.Element => {
 
         uploadLogo(file)
             .then((imageUrl) => {
-                setFiles(acceptedFiles)
                 setLogo(imageUrl)
+                setUploadVisible(false)
             })
             .catch(() => {
                 setError('Filopplastingen var ikke vellykket')
@@ -51,22 +49,42 @@ const LogoUpload = (): JSX.Element => {
         }
     }
 
+    const handleReset = (): void => {
+        setUploadVisible(true)
+        setStandbyText(UPLOAD_ZONE_TEXT)
+    }
+
+    const handleDelete = (): void => {
+        setLogo(null)
+        handleReset()
+    }
+
     return (
         <>
             <Label>Filopplasting</Label>
 
-            <FileUpload
-                accept="image/*"
-                files={files}
-                errorUpload={!!error}
-                errorText={error}
-                onDrop={handleDrop}
-                onDelete={handleDelete}
-                onDropRejected={handleReject}
-                multiple={false}
-                maxSize={5 * 1024 * 1024}
-                standbyText={standbyText}
-            />
+            {uploadVisible ? (
+                <FileUpload
+                    accept="image/*"
+                    files={[]}
+                    errorUpload={!!error}
+                    errorText={error}
+                    onDrop={handleDrop}
+                    onDelete={handleReset}
+                    onDropRejected={handleReject}
+                    multiple={false}
+                    maxSize={5 * 1024 * 1024}
+                    standbyText={standbyText}
+                />
+            ) : (
+                <div className="logo-preview">
+                    <img src={logo} />
+                    <div className="logo-preview-toolbar">
+                        <Link onClick={handleReset}>Last opp ny fil</Link>
+                        <DeleteIcon onClick={handleDelete} />
+                    </div>
+                </div>
+            )}
         </>
     )
 }

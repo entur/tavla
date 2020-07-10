@@ -23,8 +23,33 @@
     .eds-form-component--radio__container {
         display: inline-flex;
         vertical-align: top;
+        
         &:not(:first-of-type) {
             margin-left: 1rem;
+        }
+    }
+
+    .logo-preview {
+        img {
+            max-width: 100%;
+            display: block;
+            border: 0.125rem #d1d3d3 dashed;
+        }
+
+        .logo-preview-toolbar {
+            display: flex;
+            margin-top: 0.3rem;
+            justify-content: flex-end;
+            align-items: center;
+            
+            a {
+                cursor: pointer;
+                margin-right: 2rem;
+            }
+
+            svg {
+                cursor: pointer;
+            }
         }
     }
 }
