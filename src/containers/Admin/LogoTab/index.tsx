@@ -34,7 +34,11 @@ const Requirements = (): JSX.Element => (
                 anbefaler å bruke en lys eller hvit logo på de mørke temaene, og
                 farget/sort logo på lys bakgrunn for å sikre krav til universell
                 utforming. Om du er i tvil kan du sjekke kontrasten{' '}
-                <Link href="https://webaim.org/resources/contrastchecker">
+                <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://webaim.org/resources/contrastchecker"
+                >
                     her
                 </Link>
                 .
@@ -92,7 +96,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 loginDescription="For å laste opp logo og beskrivelse på avgangstavla, må du ha en konto."
             />
             <Heading2>Last opp logo</Heading2>
-            <GridContainer spacing="large" className="logo-grid">
+            <GridContainer spacing="extraLarge" className="logo-grid">
                 <GridItem small={6}>
                     <Paragraph>
                         Her kan du legge inn egen logo på din tavle. Logoen vil

@@ -76,7 +76,11 @@ function DashboardWrapper(props: Props): JSX.Element {
             <div className="dashboard-wrapper__top">
                 <div className="dashboard-wrapper__logo-wrapper">
                     {logo ? (
-                        <img src={logo} height={logoSize} />
+                        <img
+                            src={logo}
+                            height={logoSize}
+                            className="dashboard-wrapper__logo"
+                        />
                     ) : (
                         <TavlaLogo
                             className="dashboard-wrapper__logo"

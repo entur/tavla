@@ -9,8 +9,6 @@ import { Loader } from '@entur/loader'
 import { uploadLogo } from '../../../../services/firebase'
 import { useSettingsContext } from '../../../../settings'
 
-import '@entur/fileupload/dist/styles.css'
-
 const UPLOAD_ZONE_TEXT =
     'Slipp logofilen din her eller klikk for å velge fil å laste opp'
 
