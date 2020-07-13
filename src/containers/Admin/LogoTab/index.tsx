@@ -97,7 +97,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             />
             <Heading2>Last opp logo</Heading2>
             <GridContainer spacing="extraLarge" className="logo-grid">
-                <GridItem small={6}>
+                <GridItem small={12} medium={12} large={6}>
                     <Paragraph>
                         Her kan du legge inn egen logo på din tavle. Logoen vil
                         være plassert i øverste venstre hjørne, og ha en høyde
@@ -109,7 +109,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                     <LogoUpload />
                     <SizePicker />
                 </GridItem>
-                <GridItem small={6}>
+                <GridItem small={12} medium={12} large={6}>
                     <Description />
                 </GridItem>
             </GridContainer>

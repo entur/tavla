@@ -8,7 +8,7 @@ service cloud.firestore {
 
     function hasEditAccess() {
       return request.auth != null && (resource.data.owners.size() == 0 || !('owners' in resource.data)
-        || resource.data.owners.hasAny([request.auth.uid]))
+        || resource.data.owners.hasAny([request.auth.uid]));
     }
 
     allow read;
