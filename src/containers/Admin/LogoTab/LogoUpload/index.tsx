@@ -90,8 +90,10 @@ const LogoUpload = (): JSX.Element => {
                 <div className="logo-preview">
                     <img src={logo} />
                     <div className="logo-preview-toolbar">
-                        <Link onClick={handleReset}>Last opp ny fil</Link>
-                        <DeleteIcon onClick={handleDelete} />
+                        <Link onClick={handleReset}>Last opp ny logo</Link>
+                        <Link onClick={handleDelete}>
+                            <DeleteIcon onClick={handleDelete} /> Slett logo
+                        </Link>
                     </div>
                 </div>
             )}
