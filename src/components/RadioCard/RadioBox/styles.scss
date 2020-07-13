@@ -1,0 +1,25 @@
+@import '../../../assets/styles/import.scss';
+
+.radio {
+    height: 1.5rem;
+    width: 1.5rem;
+    border: 1px solid #54568c;
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checked {
+    background-color: $colors-brand-blue;
+    border-color: $colors-brand-blue;
+
+    svg {
+        color: $colors-validation-mint-contrast;
+    }
+}
+
+.icon {
+    width: 80%;
+    height: 70%;
+}

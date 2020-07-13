@@ -1,0 +1,9 @@
+@import '../../../assets/styles/import.scss';
+
+.visning-wrapper {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
