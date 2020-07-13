@@ -15,10 +15,10 @@ import BottomMenu from './BottomMenu'
 
 import './styles.scss'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
+import { useSettingsContext } from '../../settings'
 
 function DashboardWrapper(props: Props): JSX.Element {
     const secondsSinceMount = useCounter()
-
     const {
         className,
         children,
@@ -70,26 +70,24 @@ function DashboardWrapper(props: Props): JSX.Element {
     }
 
     return (
-        <ThemeContrastWrapper useContrast={true}>
-            <div className={`dashboard-wrapper ${className}`}>
-                <div className="dashboard-wrapper__top">
-                    <div className="dashboard-wrapper__logo-wrapper">
-                        <TavlaLogo className="dashboard-wrapper__logo" />
-                        <SubParagraph>
-                            Finn din rute på entur.no eller i Entur-appen.
-                        </SubParagraph>
-                    </div>
-                    <Clock className="dashboard-wrapper__clock" />
+        <div className={`dashboard-wrapper ${className}`}>
+            <div className="dashboard-wrapper__top">
+                <div className="dashboard-wrapper__logo-wrapper">
+                    <TavlaLogo className="dashboard-wrapper__logo" />
+                    <SubParagraph>
+                        Finn din rute på entur.no eller i Entur-appen.
+                    </SubParagraph>
                 </div>
-                {renderContents()}
-                <ThemeContrastWrapper useContrast={true}>
-                    <BottomMenu
-                        className="dashboard-wrapper__bottom-menu"
-                        history={history}
-                    />
-                </ThemeContrastWrapper>
+                <Clock className="dashboard-wrapper__clock" />
             </div>
-        </ThemeContrastWrapper>
+            {renderContents()}
+            <ThemeContrastWrapper useContrast={true}>
+                <BottomMenu
+                    className="dashboard-wrapper__bottom-menu"
+                    history={history}
+                />
+            </ThemeContrastWrapper>
+        </div>
     )
 }
 
