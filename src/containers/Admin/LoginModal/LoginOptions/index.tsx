@@ -13,9 +13,12 @@ interface Props {
     loginDescription?: string
 }
 
+const defaultLoginDescription =
+    'For å låse tavlas redigeringsrettigheter til en konto, må du være innlogget.'
+
 const LoginOptions = ({
     setModalType,
-    loginDescription,
+    loginDescription = defaultLoginDescription,
 }: Props): JSX.Element => {
     return (
         <div>
@@ -46,11 +49,6 @@ const LoginOptions = ({
             </GridContainer>
         </div>
     )
-}
-
-LoginOptions.defaultProps = {
-    loginDescription:
-        'For å låse tavlas redigeringsrettigheter til en konto, må du svære innlogget.',
 }
 
 export default LoginOptions
