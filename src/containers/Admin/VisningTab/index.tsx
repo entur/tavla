@@ -6,16 +6,23 @@ import RadioCard from '../../../components/RadioCard'
 import CompactSVG from '../../../assets/previews/Kompakt.svg'
 import ChronoSVG from '../../../assets/previews/Kronologisk.svg'
 import TimelineSVG from '../../../assets/previews/Tidslinje.svg'
+import { useSettingsContext } from '../../../settings'
 
 const VisningTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
-    const [radioValue, setRadioValue] = useState<string>('Compact')
+    const [settings, { setDashboard }] = useSettingsContext()
+    const [radioValue, setRadioValue] = useState<string>(
+        settings.dashboard || 'Compact',
+    )
 
     const updateChoice = useCallback(
         (value: string) => {
             event.preventDefault()
-            if (value != radioValue) setRadioValue(value)
+            if (value != radioValue) {
+                setRadioValue(value)
+                setDashboard(value)
+            }
         },
-        [radioValue, setRadioValue],
+        [radioValue, setRadioValue, setDashboard],
     )
     return (
         <div>
