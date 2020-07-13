@@ -13,30 +13,30 @@
         cursor: pointer;
     }
 
+    &__selected {
+        background-color: $colors-blues-blue20;
+    }
+
     &__preview {
         width: 100%;
     }
 
     &__radio-container {
         margin-top: 1rem;
-    }
 
-    &__description {
-        margin-left: 3rem;
-    }
+        &__header-wrapper {
+            margin-bottom: 0.5rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
 
-    &__selected {
-        background-color: $colors-blues-blue20;
-    }
+            &__radio-element {
+                margin-right: 1rem;
+            }
+        }
 
-    &__header-wrapper {
-        margin-bottom: 0.5rem;
-        width: 100%;
-        display: flex;
-        align-items: center;
-
-        &__radio-element {
-            margin-right: 1rem;
+        &__description {
+            margin-left: 3rem;
         }
     }
 }

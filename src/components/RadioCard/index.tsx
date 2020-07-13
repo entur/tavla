@@ -26,14 +26,14 @@ function RadioCard({
         >
             <img className="radio-card__preview" src={preview} />
             <div className="radio-card__radio-container">
-                <div className="radio-container__header-wrapper">
+                <div className="radio-card__radio-container__header-wrapper">
                     <RadioBox
-                        className="radio-card__header-wrapper__radio-element"
+                        className="radio-card__radio-container__header-wrapper__radio-element"
                         selected={selected}
                     />
                     <Heading3 margin="none">{title}</Heading3>
                 </div>
-                <Paragraph className="radio-container__description">
+                <Paragraph className="radio-card__radio-container__description">
                     {description}
                 </Paragraph>
             </div>
