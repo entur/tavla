@@ -46,10 +46,16 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const [contrast, setContrast] = useState<boolean>(false)
 
     useEffect(() => {
-        if (settings && settings.theme === 'dark') {
+        if (
+            settings &&
+            (settings.theme === 'dark' || settings.theme === 'default')
+        ) {
             setContrast(true)
         }
-        if (settings && settings.theme !== 'dark') {
+        if (
+            settings &&
+            !(settings.theme === 'dark' || settings.theme === 'default')
+        ) {
             setContrast(false)
         }
     }, [settings])

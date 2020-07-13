@@ -70,7 +70,7 @@ function DashboardWrapper(props: Props): JSX.Element {
     }
 
     return (
-        <ThemeContrastWrapper>
+        <ThemeContrastWrapper useContrast={true}>
             <div className={`dashboard-wrapper ${className}`}>
                 <div className="dashboard-wrapper__top">
                     <div className="dashboard-wrapper__logo-wrapper">
@@ -82,7 +82,7 @@ function DashboardWrapper(props: Props): JSX.Element {
                     <Clock className="dashboard-wrapper__clock" />
                 </div>
                 {renderContents()}
-                <ThemeContrastWrapper>
+                <ThemeContrastWrapper useContrast={true}>
                     <BottomMenu
                         className="dashboard-wrapper__bottom-menu"
                         history={history}

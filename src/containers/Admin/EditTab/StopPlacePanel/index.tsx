@@ -19,10 +19,16 @@ function StopPlacePanel(props: Props): JSX.Element {
     const { stops } = props
 
     useEffect(() => {
-        if (settings && settings.theme === 'dark') {
+        if (
+            settings &&
+            (settings.theme === 'dark' || settings.theme === 'default')
+        ) {
             setContrast(true)
         }
-        if (settings && settings.theme !== 'dark') {
+        if (
+            settings &&
+            !(settings.theme === 'dark' || settings.theme === 'default')
+        ) {
             setContrast(false)
         }
     }, [settings])

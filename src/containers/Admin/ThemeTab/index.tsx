@@ -4,6 +4,8 @@ import { useSettingsContext } from '../../../settings'
 import { ThemeType } from '../../../types'
 import { useTheme } from '../../ThemeWrapper/ThemeProvider'
 
+import './styles.scss'
+
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<ThemeType>(null)
     const [settings, { setTheme }] = useSettingsContext()
@@ -23,13 +25,18 @@ const ThemeTab = (): JSX.Element => {
     }
 
     return (
-        <div>
+        <div className="theme-tab">
             <RadioGroup
                 name="theme"
                 value={radioValue}
                 onChange={(e): void => switchTheme(e.target.value as ThemeType)}
             >
-                <Radio value="default">Entur (standard)</Radio>
+                <Radio
+                    value="default"
+                    className="theme_tab__color theme_tab__eds-paragraph"
+                >
+                    Entur (standard)
+                </Radio>
                 <Radio value="dark">Dark theme</Radio>
                 <Radio value="light">Light theme</Radio>
                 <Radio value="grey">Grey theme</Radio>

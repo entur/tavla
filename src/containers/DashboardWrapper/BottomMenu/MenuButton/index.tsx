@@ -3,6 +3,7 @@ import React from 'react'
 import './styles.scss'
 
 import { Tooltip } from '@entur/tooltip'
+import ThemeContrastWrapper from '../../../ThemeWrapper/ThemeContrastWrapper'
 
 function MenuButton({ title, icon, callback, tooltip }: Props): JSX.Element {
     const button = (
@@ -14,9 +15,11 @@ function MenuButton({ title, icon, callback, tooltip }: Props): JSX.Element {
 
     if (tooltip) {
         return (
-            <Tooltip content={tooltip} placement="top">
-                {button}
-            </Tooltip>
+            <ThemeContrastWrapper useContrast={true}>
+                <Tooltip content={tooltip} placement="top">
+                    {button}
+                </Tooltip>
+            </ThemeContrastWrapper>
         )
     }
 

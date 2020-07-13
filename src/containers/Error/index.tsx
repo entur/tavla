@@ -25,7 +25,7 @@ function ErrorWrapper({
     ) : null
 
     return (
-        <ThemeContrastWrapper>
+        <ThemeContrastWrapper useContrast={true}>
             <div className="error-wrapper">
                 <img className="style-image" src={`${image}`} />
                 <Heading1 margin="both">{title}</Heading1>

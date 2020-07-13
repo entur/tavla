@@ -93,7 +93,7 @@ function Tick({ minutes, mode, index }: TickProps): JSX.Element {
 
     useEffect(() => {
         if (settings && settings.theme && !(minutes < 0)) {
-            if (settings.theme === 'dark') {
+            if (settings.theme === 'dark' || settings.theme === 'default') {
                 setColor(getIconColor(mode, true))
             } else {
                 setColor(getIconColor(mode, false))
@@ -135,8 +135,10 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
 
     useEffect(() => {
         if (settings) {
-            if (settings.theme === 'dark') {
+            if (settings.theme === 'dark' || settings.theme === 'default') {
                 setContrast(true)
+            } else {
+                setContrast(false)
             }
         }
     }, [settings])

@@ -1,0 +1,17 @@
+@import '../../../variables.scss';
+
+.theme-tab {
+    color: var(--tavla-font-color);
+
+    &__eds-paragraph {
+        color: var(--tavla-font-color);
+    }
+
+    &__color {
+        color: var(--tavla-font-color);
+    }
+}
+
+.eds-paragraph {
+    color: var(--tavla-font-color);
+}

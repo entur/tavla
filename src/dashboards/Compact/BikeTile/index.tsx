@@ -1,12 +1,25 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
 
 import Tile from '../components/Tile'
 import TileRow from '../components/TileRow'
+import { useSettingsContext } from '../../../settings'
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
+    const [settings] = useSettingsContext()
+    const [contrast, setContrast] = useState<'default' | 'contrast'>('contrast')
+
+    useEffect(() => {
+        if (settings) {
+            if (settings.theme === 'dark' || settings.theme === 'default') {
+                setContrast('contrast')
+            } else {
+                setContrast('default')
+            }
+        }
+    }, [settings])
     return (
         <Tile
             title="Bysykkel"
@@ -19,7 +32,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                     key={id}
                     icon={
                         <BicycleIcon
-                            color={colors.transport.contrast.mobility}
+                            color={colors.transport[contrast].mobility}
                         />
                     }
                     label={name}
