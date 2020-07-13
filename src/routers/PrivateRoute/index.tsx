@@ -17,7 +17,7 @@ function PrivateRoute({
     if (!getDocumentId())
         return <Route path={path} exact={exact} component={component} />
 
-    if (!user) return null
+    if (!user || permitted == undefined) return null
 
     return permitted ? (
         <Route path={path} exact={exact} component={component} />
