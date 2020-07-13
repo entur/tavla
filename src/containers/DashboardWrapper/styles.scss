@@ -7,6 +7,10 @@
     padding: 2rem 4rem;
     overflow: hidden;
 
+    p {
+        color: var(--tavla-font-color);
+    }
+
     &__no-stops {
         img {
             display: block;

@@ -15,7 +15,7 @@
         div {
             height: 20px;
             width: 50px;
-            color: var(--tavla-blue-60);
+            color: $colors-blues-blue60;
             font-size: 14px;
             font-weight: 400;
             line-height: 16px;
@@ -55,23 +55,23 @@
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        background: white;
-        border: 0.2px solid white;
+        background: var(--tavla-menu-background-color);
+        border: 0.2px solid var(--tavla-menu-background-color);
     }
 
     &::-moz-range-track {
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        background: white;
-        border: 0.2px solid white;
+        background: var(--tavla-menu-background-color);
+        border: 0.2px solid var(--tavla-menu-background-color);
     }
 
     &::-ms-track {
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        border: 0.2px solid white;
+        border: 0.2px solid var(--tavla-menu-background-color);
         background: transparent;
         border-color: transparent;
         color: transparent;
@@ -82,18 +82,18 @@
     }
 
     &::-ms-fill-upper {
-        background: white;
+        background: var(--tavla-menu-background-color);
     }
 
     &::-ms-fill-left {
-        background: white;
+        background: var(--tavla-menu-background-color);
     }
 
     &:focus {
         outline: none;
 
         &::-webkit-slider-runnable-track {
-            background: white;
+            background: var(--tavla-menu-background-color);
         }
     }
 }
