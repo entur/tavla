@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Heading2 } from '@entur/typography'
 
 import './styles.scss'
@@ -8,7 +8,7 @@ import ChronoSVG from '../../../assets/previews/Kronologisk.svg'
 import TimelineSVG from '../../../assets/previews/Tidslinje.svg'
 import { useSettingsContext } from '../../../settings'
 
-const VisningTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
+const VisningTab = (): JSX.Element => {
     const [settings, { setDashboard }] = useSettingsContext()
     const [radioValue, setRadioValue] = useState<string>(
         settings.dashboard || 'Compact',
@@ -55,11 +55,6 @@ const VisningTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             </div>
         </div>
     )
-}
-
-interface Props {
-    tabIndex: number
-    setTabIndex: () => void
 }
 
 export default VisningTab

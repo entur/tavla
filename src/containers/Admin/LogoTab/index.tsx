@@ -13,7 +13,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const documentId = getDocumentId()
 
     useEffect((): void => {
-        if (tabIndex === 1 && user && user.isAnonymous) {
+        if (tabIndex === 2 && user && user.isAnonymous) {
             setOpen(true)
         }
 

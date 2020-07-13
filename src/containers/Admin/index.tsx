@@ -40,15 +40,12 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                         <EditTab />
                     </TabPanel>
                     <TabPanel>
-                        <VisningTab
-                            tabIndex={currentIndex}
-                            setTabIndex={(): void => setCurrentIndex(0)}
-                        />
+                        <VisningTab />
                     </TabPanel>
                     <TabPanel>
                         <LogoTab
                             tabIndex={currentIndex}
-                            setTabIndex={(): void => setCurrentIndex(1)}
+                            setTabIndex={(): void => setCurrentIndex(2)}
                         />
                     </TabPanel>
                 </TabPanels>
