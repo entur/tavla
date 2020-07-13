@@ -1,7 +1,7 @@
 .radio-card {
-    width: 25rem;
+    max-width: 35rem;
     padding: 1rem;
-    margin: 1.3rem 2.6rem 1.3rem 0;
+    margin: 1.5rem 1.5rem 1.5rem 0;
     border: 2px solid rgb(84, 86, 140);
     border-radius: 4px;
     background-color: #181c56;
@@ -36,5 +36,5 @@ img {
 }
 
 .description {
-    margin-left: 2.5rem;
+    margin-left: 3rem;
 }
