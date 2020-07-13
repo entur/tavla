@@ -28,55 +28,12 @@ import LockModal from '../../LockModal'
 import LoginModal from '../../Admin/LoginModal/.'
 import { useFirebaseAuthentication } from '../../../auth'
 
-interface RadioBoxProps {
-    value: string
-    selected: boolean
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-    children: JSX.Element | JSX.Element[]
-}
-
-function RadioBox({
-    value,
-    selected,
-    onChange,
-    children,
-}: RadioBoxProps): JSX.Element {
-    const id = `radio-${value}`
-
-    return (
-        <label
-            className={`radiobox ${selected ? 'radiobox--checked' : ''}`}
-            htmlFor={id}
-        >
-            <div
-                className={`radiobox__checkmark ${
-                    selected ? 'radiobox__checkmark--checked' : ''
-                }`}
-            >
-                {selected ? (
-                    <CheckIcon color={colors.brand.blue} size="extra-large" />
-                ) : null}
-            </div>
-            <input
-                id={id}
-                type="radio"
-                value={value}
-                onChange={onChange}
-                checked={selected}
-            />
-            <div className="radiobox__children">{children}</div>
-        </label>
-    )
-}
-
 function BottomMenu({ className, history }: Props): JSX.Element {
     const user = useFirebaseAuthentication()
 
-    const [settings, { setDashboard }] = useSettingsContext()
+    const [settings] = useSettingsContext()
 
-    const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [lockModalOpen, setLockModalOpen] = useState<boolean>(false)
-    const [choice, setChoice] = useState<string>(settings.dashboard || '')
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
 
     const { addToast } = useToast()
@@ -135,35 +92,11 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 
     const editButton = (settings.owners.length === 0 ||
         (user && settings.owners.includes(user.uid))) && (
-        <div>
-            <MenuButton
-                title="Endre visning"
-                icon={<EditIcon size={21} />}
-                callback={(): void => setModalOpen(true)}
-            />
-            <MenuButton
-                title="Rediger tavla"
-                icon={<ConfigurationIcon size={21} />}
-                callback={onSettingsButtonClick}
-            />
-        </div>
-    )
-
-    const onChange = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            event.preventDefault()
-            setChoice(event.target.value)
-        },
-        [],
-    )
-
-    const submit = useCallback(
-        (event) => {
-            event.preventDefault()
-            setModalOpen(false)
-            setDashboard(choice)
-        },
-        [choice, setDashboard],
+        <MenuButton
+            title="Rediger tavla"
+            icon={<ConfigurationIcon size={21} />}
+            callback={onSettingsButtonClick}
+        />
     )
 
     const menuRef = useRef<HTMLDivElement>()
@@ -209,60 +142,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                 {lockingButton}
                 {logoutButton}
             </div>
-
-            <Modal
-                size="small"
-                open={modalOpen}
-                title="Endre visning"
-                onDismiss={(): void => setModalOpen(false)}
-            >
-                <Paragraph>Velg visningen du ønsker for Tavla.</Paragraph>
-                <form onSubmit={submit}>
-                    <RadioBox
-                        value=""
-                        selected={choice === ''}
-                        onChange={onChange}
-                    >
-                        <Heading3 margin="none">Kompakt</Heading3>
-                        <Paragraph>
-                            De tre neste avgangene til en linje vises på samme
-                            rad.
-                        </Paragraph>
-                    </RadioBox>
-                    <RadioBox
-                        value="Chrono"
-                        selected={choice === 'Chrono'}
-                        onChange={onChange}
-                    >
-                        <Heading3 margin="none">Kronologisk</Heading3>
-                        <Paragraph>Hver avgang vises på en egen rad.</Paragraph>
-                    </RadioBox>
-                    <RadioBox
-                        value="Timeline"
-                        selected={choice === 'Timeline'}
-                        onChange={onChange}
-                    >
-                        <Heading3 margin="none">Tidslinja</Heading3>
-                        <Paragraph>
-                            En visuell fremvisning der avgangene beveger seg mot
-                            stoppet. Ikke egnet for bysykkel.
-                        </Paragraph>
-                    </RadioBox>
-                    <div className="bottom-menu-modal__buttons">
-                        <Button
-                            variant="secondary"
-                            type="button"
-                            onClick={(): void => setModalOpen(false)}
-                        >
-                            Avbryt
-                        </Button>
-                        <Button variant="primary" type="submit">
-                            Lagre valg
-                        </Button>
-                    </div>
-                </form>
-            </Modal>
-
             <LockModal
                 open={lockModalOpen}
                 onDismiss={(): void => setLockModalOpen(false)}
