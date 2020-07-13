@@ -22,7 +22,7 @@ function RadioCard({
             className={`radio-card ${selected ? 'selected' : ''}`}
             onClick={sendChoice}
         >
-            <img src={preview} />
+            <img className="preview" src={preview} />
             <div className="radio-container">
                 <div className="header-wrapper">
                     <RadioBox className="radio-element" selected={selected} />
