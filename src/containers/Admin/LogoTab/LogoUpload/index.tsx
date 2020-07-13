@@ -4,6 +4,7 @@ import { FileUpload } from '@entur/fileupload'
 import { FileRejection } from 'react-dropzone'
 import { Label, Link } from '@entur/typography'
 import { DeleteIcon } from '@entur/icons'
+import { Loader } from '@entur/loader'
 
 import { uploadLogo } from '../../../../services/firebase'
 import { useSettingsContext } from '../../../../settings'
@@ -19,24 +20,29 @@ const LogoUpload = (): JSX.Element => {
     const [error, setError] = useState<string>()
     const [uploadVisible, setUploadVisible] = useState(!logo)
     const [standbyText, setStandbyText] = useState(UPLOAD_ZONE_TEXT)
+    const [progress, setProgress] = useState<number>()
 
     const handleDrop = (acceptedFiles?: File[]): void => {
         if (acceptedFiles.length === 0) return
 
         setStandbyText('Logoen din lastes opp')
-
         setError(undefined)
+        setProgress(0)
 
         const [file] = acceptedFiles
 
-        uploadLogo(file)
-            .then((imageUrl) => {
-                setLogo(imageUrl)
-                setUploadVisible(false)
-            })
-            .catch(() => {
-                setError('Filopplastingen var ikke vellykket')
-            })
+        const handleFinished = (imageUrl: string): void => {
+            setLogo(imageUrl)
+            setUploadVisible(false)
+            setProgress(undefined)
+        }
+
+        const handleError = (): void => {
+            setError('Filopplastingen var ikke vellykket')
+            setProgress(undefined)
+        }
+
+        uploadLogo(file, setProgress, handleFinished, handleError)
     }
 
     const handleReject = (rejections: FileRejection[]): void => {
@@ -64,18 +70,22 @@ const LogoUpload = (): JSX.Element => {
             <Label>Filopplasting</Label>
 
             {uploadVisible ? (
-                <FileUpload
-                    accept="image/*"
-                    files={[]}
-                    errorUpload={!!error}
-                    errorText={error}
-                    onDrop={handleDrop}
-                    onDelete={handleReset}
-                    onDropRejected={handleReject}
-                    multiple={false}
-                    maxSize={5 * 1024 * 1024}
-                    standbyText={standbyText}
-                />
+                <>
+                    <FileUpload
+                        accept="image/*"
+                        files={[]}
+                        errorUpload={!!error}
+                        errorText={error}
+                        onDrop={handleDrop}
+                        onDelete={handleReset}
+                        onDropRejected={handleReject}
+                        multiple={false}
+                        maxSize={5 * 1024 * 1024}
+                        standbyText={standbyText}
+                    />
+
+                    {progress !== undefined && <Loader progress={progress} />}
+                </>
             ) : (
                 <div className="logo-preview">
                     <img src={logo} />

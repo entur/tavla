@@ -37,7 +37,12 @@ export const createSettings = async (
     return firebase.firestore().collection(SETTINGS_COLLECTION).add(settings)
 }
 
-export const uploadLogo = async (image: File): Promise<string> => {
+export const uploadLogo = async (
+    image: File,
+    onProgress: (progress: number) => void,
+    onFinished: (url: string) => void,
+    onError: () => void,
+): Promise<void> => {
     const token = await firebase.auth().currentUser.getIdToken()
 
     const getImageUploadToken = firebase
@@ -56,14 +61,18 @@ export const uploadLogo = async (image: File): Promise<string> => {
         .child(`images/${documentId}`)
         .put(image)
 
-    return new Promise((resolve, reject) => {
-        uploadTask.on(
-            firebase.storage.TaskEvent.STATE_CHANGED,
-            null,
-            reject,
-            async () => {
-                resolve(await uploadTask.snapshot.ref.getDownloadURL())
-            },
-        )
-    })
+    uploadTask.on(
+        firebase.storage.TaskEvent.STATE_CHANGED,
+        (snapshot) => {
+            const progress = Math.round(
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
+            )
+
+            onProgress(progress)
+        },
+        onError,
+        async () => {
+            onFinished(await uploadTask.snapshot.ref.getDownloadURL())
+        },
+    )
 }
