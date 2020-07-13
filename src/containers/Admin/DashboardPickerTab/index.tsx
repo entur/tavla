@@ -8,7 +8,7 @@ import ChronoSVG from '../../../assets/previews/Kronologisk.svg'
 import TimelineSVG from '../../../assets/previews/Tidslinje.svg'
 import { useSettingsContext } from '../../../settings'
 
-const VisningTab = (): JSX.Element => {
+const DashboardPickerTab = (): JSX.Element => {
     const [settings, { setDashboard }] = useSettingsContext()
     const [radioValue, setRadioValue] = useState<string>(
         settings.dashboard || 'Compact',
@@ -57,4 +57,4 @@ const VisningTab = (): JSX.Element => {
     )
 }
 
-export default VisningTab
+export default DashboardPickerTab

@@ -5,20 +5,20 @@ import { colors } from '@entur/tokens'
 
 import './styles.scss'
 
-interface RadioBoxProps {
+interface Props {
     selected: boolean
     className?: string
 }
 
-export function RadioBox({ selected, className }: RadioBoxProps): JSX.Element {
+export function RadioBox({ selected, className }: Props): JSX.Element {
     return (
         <div
             className={`radio checkmark ${
-                selected ? 'checked' : ''
+                selected ? 'radio__checked' : ''
             } ${className}`}
         >
             {selected ? (
-                <CheckIcon className="icon" color={colors.brand.blue} />
+                <CheckIcon className="radio__icon" color={colors.brand.blue} />
             ) : null}
         </div>
     )

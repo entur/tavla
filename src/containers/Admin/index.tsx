@@ -9,7 +9,7 @@ import './styles.scss'
 import AdminHeader from './AdminHeader'
 import LogoTab from './LogoTab'
 import EditTab from './EditTab'
-import VisningTab from './VisningTab'
+import VisningTab from './DashboardPickerTab'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const documentId = getDocumentId()

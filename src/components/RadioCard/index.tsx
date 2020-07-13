@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react'
 
-import './styles.scss'
 import { Heading3, Paragraph } from '@entur/typography'
+
 import { RadioBox } from './RadioBox'
+
+import './styles.scss'
 
 function RadioCard({
     title,
@@ -19,18 +21,21 @@ function RadioCard({
 
     return (
         <div
-            className={`radio-card ${selected ? 'selected' : ''}`}
+            className={`radio-card ${selected ? 'radio-card__selected' : ''}`}
             onClick={sendChoice}
         >
-            <img className="preview" src={preview} />
-            <div className="radio-container">
-                <div className="header-wrapper">
-                    <RadioBox className="radio-element" selected={selected} />
-                    <Heading3 className="title" margin="none">
-                        {title}
-                    </Heading3>
+            <img className="radio-card__preview" src={preview} />
+            <div className="radio-card__radio-container">
+                <div className="radio-container__header-wrapper">
+                    <RadioBox
+                        className="radio-card__header-wrapper__radio-element"
+                        selected={selected}
+                    />
+                    <Heading3 margin="none">{title}</Heading3>
                 </div>
-                <Paragraph className="description">{description}</Paragraph>
+                <Paragraph className="radio-container__description">
+                    {description}
+                </Paragraph>
             </div>
         </div>
     )

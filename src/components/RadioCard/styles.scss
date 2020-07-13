@@ -1,40 +1,42 @@
+@import './../../assets/styles/import.scss';
+
 .radio-card {
     max-width: 35rem;
     padding: 1rem;
     margin: 1.5rem 1.5rem 1.5rem 0;
-    border: 2px solid rgb(84, 86, 140);
-    border-radius: 4px;
-    background-color: #181c56;
-}
+    border: 2px solid $colors-blues-blue30;
+    border-radius: 0.3rem;
+    background-color: $colors-brand-blue;
 
-.preview {
-    width: 100%;
-}
+    &:hover {
+        background-color: $colors-blues-blue20;
+        cursor: pointer;
+    }
 
-.radio-card:hover {
-    background-color: #393d79;
-    cursor: pointer;
-}
+    &__preview {
+        width: 100%;
+    }
 
-.radio-card.selected {
-    background-color: #393d79;
-}
+    &__radio-container {
+        margin-top: 1rem;
+    }
 
-.radio-container {
-    margin-top: 1rem;
-}
+    &__description {
+        margin-left: 3rem;
+    }
 
-.header-wrapper {
-    margin-bottom: 0.5rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-}
+    &__selected {
+        background-color: $colors-blues-blue20;
+    }
 
-.radio-element {
-    margin-right: 1rem;
-}
+    &__header-wrapper {
+        margin-bottom: 0.5rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
 
-.description {
-    margin-left: 3rem;
+        &__radio-element {
+            margin-right: 1rem;
+        }
+    }
 }
