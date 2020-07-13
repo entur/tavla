@@ -7,6 +7,7 @@ import { Contrast } from '@entur/layout'
 import { useCounter } from '../../utils'
 
 import TavlaLogo from '../../assets/icons/tavlaLogo'
+import EnturWhite from '../../assets/icons/enturWhite'
 import { Clock } from '../../components'
 import { StopPlaceWithDepartures } from '../../types'
 import { NoStopsOnTavle } from './../Error/ErrorPages'
@@ -97,6 +98,11 @@ function DashboardWrapper(props: Props): JSX.Element {
             </div>
             {renderContents()}
             <Contrast>
+                {logo && (
+                    <div className="dashboard-wrapper__byline">
+                        Tjenesten leveres av <EnturWhite />
+                    </div>
+                )}
                 <BottomMenu
                     className="dashboard-wrapper__bottom-menu"
                     history={history}
