@@ -93,7 +93,11 @@ function Tick({ minutes, mode, index }: TickProps): JSX.Element {
 
     useEffect(() => {
         if (settings && settings.theme && !(minutes < 0)) {
-            setColor(getIconColor(mode, true))
+            if (settings.theme === 'dark') {
+                setColor(getIconColor(mode, true))
+            } else {
+                setColor(getIconColor(mode, false))
+            }
         }
     }, [settings, minutes, mode])
 
@@ -126,6 +130,16 @@ interface TimelineData {
 const TimelineDashboard = ({ history }: Props): JSX.Element => {
     useCounter()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
+    const [settings] = useSettingsContext()
+    const [contrast, setContrast] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (settings) {
+            if (settings.theme === 'dark') {
+                setContrast(true)
+            }
+        }
+    }, [settings])
 
     const data: TimelineData[] = useMemo(
         () =>
@@ -172,7 +186,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                             const waitTime = timeUntil(
                                                 expectedDepartureTime,
                                             )
-                                            const icon = getIcon(type)
+                                            const icon = getIcon(type, contrast)
                                             return (
                                                 <div
                                                     key={id}

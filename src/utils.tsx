@@ -119,11 +119,11 @@ export function getTransportIconIdentifier(
 
 export function getIcon(
     legMode: LegMode,
+    contrast = false,
     subMode?: TransportSubmode,
     color?: string,
 ): JSX.Element | null {
-    //* [TODO:] Fikse om det skal være contrast eller ikke!!!
-    const colorToUse = color ?? getIconColor(legMode, true, subMode)
+    const colorToUse = color ?? getIconColor(legMode, contrast, subMode)
 
     const identifier = getTransportIconIdentifier(legMode, subMode)
 
