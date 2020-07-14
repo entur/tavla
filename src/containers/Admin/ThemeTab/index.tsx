@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { RadioGroup, Radio } from '@entur/form'
+
 import { useSettingsContext } from '../../../settings'
 import { ThemeType } from '../../../types'
 import { useTheme } from '../../ThemeWrapper/ThemeProvider'
+import RadioCard from '../../../components/RadioCard'
+import CompactSVG from '../../../assets/previews/Kompakt.svg'
 
 import './styles.scss'
 
@@ -26,21 +29,34 @@ const ThemeTab = (): JSX.Element => {
 
     return (
         <div className="theme-tab">
-            <RadioGroup
-                name="theme"
-                value={radioValue}
-                onChange={(e): void => switchTheme(e.target.value as ThemeType)}
-            >
-                <Radio
-                    value="default"
-                    className="theme_tab__color theme_tab__eds-paragraph"
-                >
-                    Entur (standard)
-                </Radio>
-                <Radio value="dark">Dark theme</Radio>
-                <Radio value="light">Light theme</Radio>
-                <Radio value="grey">Grey theme</Radio>
-            </RadioGroup>
+            <RadioCard
+                title="Entur (standard)"
+                cardValue="default"
+                preview={CompactSVG}
+                selected={radioValue === 'default'}
+                callback={(val): void => switchTheme(val as ThemeType)}
+            />
+            <RadioCard
+                title="Dark theme"
+                cardValue="dark"
+                preview={CompactSVG}
+                selected={radioValue === 'dark'}
+                callback={(val): void => switchTheme(val as ThemeType)}
+            />
+            <RadioCard
+                title="Light theme"
+                cardValue="light"
+                preview={CompactSVG}
+                selected={radioValue === 'light'}
+                callback={(val): void => switchTheme(val as ThemeType)}
+            />
+            <RadioCard
+                title="Grey theme"
+                cardValue="grey"
+                preview={CompactSVG}
+                selected={radioValue === 'grey'}
+                callback={(val): void => switchTheme(val as ThemeType)}
+            />
         </div>
     )
 }

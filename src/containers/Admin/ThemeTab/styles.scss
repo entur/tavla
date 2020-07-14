@@ -2,6 +2,11 @@
 
 .theme-tab {
     color: var(--tavla-font-color);
+    width: 100%;
+    display: grid;
+    box-sizing: border-box;
+    grid-auto-rows: row;
+    grid-template-columns: repeat(auto-fill, minmax(23rem, 1fr));
 
     &__eds-paragraph {
         color: var(--tavla-font-color);
