@@ -206,34 +206,46 @@ function getDashboardComponent(dashboardKey?: string | void) {
 }
 ```
 
-In `src/containers/DashboardWrapper/BottomMenu/index.tsx`, add an entry for your dashboard in the picker:
+In `src/containers/Admin/VisningTab/index.tsx`, add an entry for your dashboard in the picker:
 
 ```diff
-<form onSubmit={submit}>
-    <RadioBox value="" selected={choice === ''} onChange={onChange}>
-        <Heading3>Kompakt</Heading3>
-        <Paragraph>De tre neste avgangene til en linje vises på samme rad.</Paragraph>
-    </RadioBox>
-    <RadioBox value="Chrono" selected={choice === 'Chrono'} onChange={onChange}>
-        <Heading3>Kronologisk</Heading3>
-        <Paragraph>Hver avgang får sin egen rad.</Paragraph>
-    </RadioBox>
-    <RadioBox value="Timeline" selected={choice === 'Timeline'} onChange={onChange}>
-        <Heading3>Tidslinja</Heading3>
-        <Paragraph>Avgangene ruller mot høyre mot målet. Ikke egnet for bysykkel.</Paragraph>
-    </RadioBox>
-+   <RadioBox value="Sooon" selected={choice === 'Sooon'} onChange={onChange}>
-+       <Heading3>Sooon</Heading3>
-+       <Paragraph>A dashboard that says "sooooon".</Paragraph>
-+   </RadioBox>
-    <div className="bottom-menu-modal__buttons">
-        <Button variant="primary" type="submit">Lagre valg</Button>
-        <Button variant="secondary" type="button" onClick={(): void => setModalOpen(false)}>Avbryt</Button>
-    </div>
-</form>
+<div className="visning-wrapper">
+    <RadioCard
+        title="Kompakt (standard)"
+        description="Alle avgangene til en linje vises på en samlet rad. Ikke egnet for linjer som varierer spor/plattform."
+        cardValue="Compact"
+        selected={radioValue === 'Compact'}
+        preview={CompactSVG}
+        callback={(val): void => updateChoice(val)}
+    />
+    <RadioCard
+        title="Kronologisk"
+        description="Avgangene vises i en kronologisk rekkefølge. Egner seg godt for linjer som varierer spor/plattform."
+        cardValue="Chrono"
+        selected={radioValue === 'Chrono'}
+        preview={ChronoSVG}
+        callback={(val): void => updateChoice(val)}
+    />
++   <RadioCard
++       title="Sooon"
++       description="A dashboard that says "sooooon"."
++       cardValue="Sooon"
++       selected={radioValue === 'Sooon'}
++       preview={SooonSVG}
++       callback={(val): void => updateChoice(val)}
++   />
+    <RadioCard
+        title="Tidslinje"
+        description="Avgangene vises i en visualisert fremstilling. Viser ikke bysykkel, spor/plattform eller avvik."
+        cardValue="Timeline"
+        selected={radioValue === 'Timeline'}
+        preview={TimelineSVG}
+        callback={(val): void => updateChoice(val)}
+    />
+</div>
 ```
 
-That's it! You should now be able to select your dashboard in the menu, and you should see the "Hello World" heading.
+That's it! You should now be able to select your dashboard in the admin tab, and you should see the "Hello World" heading.
 
 
 #### Step 4: Displaying some data

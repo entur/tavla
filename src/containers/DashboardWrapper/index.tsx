@@ -5,13 +5,15 @@ import { Contrast } from '@entur/layout'
 
 import { useCounter } from '../../utils'
 
+import EnturLogo from '../../assets/icons/enturLogo'
 import { StopPlaceWithDepartures } from '../../types'
 import { NoStopsOnTavle } from './../Error/ErrorPages'
 
 import BottomMenu from './BottomMenu'
 
 import './styles.scss'
-import Header from '../../components/Header'
+import Header from './../../components/Header'
+import { useSettingsContext } from '../../settings'
 
 function DashboardWrapper(props: Props): JSX.Element {
     const secondsSinceMount = useCounter()
@@ -57,11 +59,19 @@ function DashboardWrapper(props: Props): JSX.Element {
         return <NoStopsOnTavle />
     }
 
+    const [{ logo }] = useSettingsContext()
+
     return (
         <Contrast className={`dashboard-wrapper ${className}`}>
             <Header dashboard={true} theme="dark" />
             {renderContents()}
             <Contrast>
+                {logo && (
+                    <div className="dashboard-wrapper__byline">
+                        Tjenesten leveres av{' '}
+                        <EnturLogo height="24px" style="white" />
+                    </div>
+                )}
                 <BottomMenu
                     className="dashboard-wrapper__bottom-menu"
                     history={history}

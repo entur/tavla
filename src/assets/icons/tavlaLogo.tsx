@@ -6,23 +6,25 @@ import TavlaPositive from './../logos/Tavla-positive.svg'
 import TavlaNegative from './../logos/Tavla-negative.svg'
 
 function TavlaLogo({ className, theme }: Props): JSX.Element {
-    let logo = ''
+    let tavlaLogo = ''
+
     switch (theme) {
         case 'light':
-            logo = TavlaBlue
+            tavlaLogo = TavlaBlue
             break
         case 'dark':
-            logo = TavlaWhite
+            tavlaLogo = TavlaWhite
             break
         case 'positive':
-            logo = TavlaPositive
+            tavlaLogo = TavlaPositive
             break
         case 'negative':
-            logo = TavlaNegative
+            tavlaLogo = TavlaNegative
             break
+        default:
+            tavlaLogo = TavlaWhite
     }
-
-    return <img src={logo} className={className} />
+    return <img src={tavlaLogo} className={className} />
 }
 
 interface Props {

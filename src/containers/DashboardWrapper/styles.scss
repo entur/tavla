@@ -14,4 +14,14 @@
         left: 0;
         right: 0;
     }
+
+    &__byline {
+        margin-top: 4.5rem;
+        display: flex;
+        align-items: center;
+
+        img {
+            padding-left: 0.75rem;
+        }
+    }
 }

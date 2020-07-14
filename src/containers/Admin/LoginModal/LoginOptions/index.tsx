@@ -10,9 +10,16 @@ import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
 
 interface Props {
     setModalType: Dispatch<SetStateAction<ModalType>>
+    loginDescription?: string
 }
 
-const LoginOptions = ({ setModalType }: Props): JSX.Element => {
+const defaultLoginDescription =
+    'For å låse tavlas redigeringsrettigheter til en konto, må du være innlogget.'
+
+const LoginOptions = ({
+    setModalType,
+    loginDescription = defaultLoginDescription,
+}: Props): JSX.Element => {
     return (
         <div>
             <div className="centered">
@@ -20,8 +27,7 @@ const LoginOptions = ({ setModalType }: Props): JSX.Element => {
             </div>
             <Heading3 margin="bottom">Logg inn for å fortsette</Heading3>
             <Paragraph style={{ textAlign: 'center' }}>
-                For å låse tavlas redigeringsrettigheter til en konto, må du
-                være innlogget.
+                {loginDescription}
             </Paragraph>
             <GridContainer spacing="small">
                 <GridItem small={12}>

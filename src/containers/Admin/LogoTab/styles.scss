@@ -1,0 +1,71 @@
+@import '../../../assets/styles/import.scss';
+
+.logo-grid {
+    .eds-file-upload__wrapper {
+        width: 100%;
+        margin-top: 5px;
+        margin-bottom: 1rem;
+
+        .eds-file-upload__dropzone {
+            height: 8rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    h3 {
+        margin-top: 0;
+        line-height: 1;
+        margin-bottom: 1.5rem;
+    }
+
+    .eds-form-component--radio__container {
+        display: inline-flex;
+        vertical-align: top;
+
+        &:not(:first-of-type) {
+            margin-left: 1rem;
+        }
+    }
+
+    .eds-loader {
+        max-width: 100%;
+    }
+
+    .logo-preview {
+        img {
+            max-width: 100%;
+            display: block;
+            border: 0.125rem #d1d3d3 dashed;
+        }
+
+        .logo-preview-toolbar {
+            display: flex;
+            margin-top: 0.4rem;
+            margin-bottom: 1rem;
+            align-items: center;
+
+            a {
+                cursor: pointer;
+
+                &:first-of-type {
+                    margin-right: 2rem;
+                }
+            }
+
+            svg {
+                cursor: pointer;
+            }
+        }
+    }
+
+    // The design system overrides this when using contrast, but we still want it.
+    .eds-form-control-wrapper--disabled {
+        background-color: #e9e9e9;
+    }
+
+    @media (min-width: 1600px) {
+        gap: 8rem;
+    }
+}
