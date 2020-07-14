@@ -1,14 +1,61 @@
 import React, { useState, useEffect } from 'react'
-import { Heading2, Paragraph } from '@entur/typography'
-import LoginModal from '../LoginModal'
+
+import {
+    Heading2,
+    Paragraph,
+    UnorderedList,
+    ListItem,
+    Link,
+    Label,
+} from '@entur/typography'
+import { GridItem, GridContainer } from '@entur/grid'
+
 import { useFirebaseAuthentication } from '../../../auth'
 import { User } from 'firebase/app'
 import { getDocumentId } from '../../../utils'
 
+import LoginModal from '../LoginModal'
+import LogoUpload from './LogoUpload'
+import SizePicker from './SizePicker'
+import Description from './Description'
+
+import './styles.scss'
+
+const Requirements = (): JSX.Element => (
+    <>
+        <Label>Krav til logo for best resultat</Label>
+        <UnorderedList>
+            <ListItem>
+                Logo bør lastes opp med transparent bakgrunn i .png eller
+                .svg-format.
+            </ListItem>
+            <ListItem>
+                Ha god nok kontrast til bakgrunnen i valgt fargetema. Vi
+                anbefaler å bruke en lys eller hvit logo på de mørke temaene, og
+                farget/sort logo på lys bakgrunn for å sikre krav til universell
+                utforming. Om du er i tvil kan du sjekke kontrasten{' '}
+                <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://webaim.org/resources/contrastchecker"
+                >
+                    her
+                </Link>
+                .
+            </ListItem>
+            <ListItem>
+                For å unngå en pikslete logo, bør den lastes opp i dobbel
+                størrelse som høyden i valgt logostørrelse. Minste høyde på
+                filen bør derfor være 64 piksler. Ved stor logo bør filen være
+                minst 112px høy.
+            </ListItem>
+        </UnorderedList>
+    </>
+)
+
 const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false)
     const user = useFirebaseAuthentication()
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>()
 
     const documentId = getDocumentId()
 
@@ -22,7 +69,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         }
     }, [user, tabIndex, setTabIndex])
 
-    const handle = (newUser: User): void => {
+    const handleDismiss = (newUser: User): void => {
         if (!(newUser && !newUser.isAnonymous)) {
             setOpen(false)
             setTabIndex()
@@ -42,13 +89,31 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     }
 
     return (
-        <div>
-            <LoginModal onDismiss={handle} open={open} />
+        <>
+            <LoginModal
+                onDismiss={handleDismiss}
+                open={open}
+                loginDescription="For å laste opp logo og beskrivelse på avgangstavla, må du ha en konto."
+            />
             <Heading2>Last opp logo</Heading2>
-            <Paragraph>
-                Snart kommer det mulighet for å laste opp egen logo på tavla.
-            </Paragraph>
-        </div>
+            <GridContainer spacing="extraLarge" className="logo-grid">
+                <GridItem small={12} medium={12} large={6}>
+                    <Paragraph>
+                        Her kan du legge inn egen logo på din tavle. Logoen vil
+                        være plassert i øverste venstre hjørne, og ha en høyde
+                        på 32 piksler som standard. Du kan velge å sette
+                        størrelsen til stor logo (56px), men da vil du ikke
+                        kunne legge til en beskrivelse av avgangstavla.
+                    </Paragraph>
+                    <Requirements />
+                    <LogoUpload />
+                    <SizePicker />
+                </GridItem>
+                <GridItem small={12} medium={12} large={6}>
+                    <Description />
+                </GridItem>
+            </GridContainer>
+        </>
     )
 }
 
