@@ -9,6 +9,7 @@
 
     &__logo {
         display: block;
+        height: 2rem;
     }
 
     &__logo-wrapper {
@@ -17,9 +18,28 @@
         }
     }
 
-    @media (min-width: 901px) {
-        &__logo {
-            height: 2rem;
+    &__resources {
+        display: flex;
+        justify-content: space-between;
+        width: 25rem;
+
+        &__icon {
+            cursor: pointer;
+            flex: 1 0 auto;
+            width: fit-content;
+
+            &__text {
+                font-size: 1rem;
+                padding-right: 0.5rem;
+                margin: 0;
+                display: inline;
+                vertical-align: middle;
+            }
+
+            a {
+                color: $colors-brand-lavender;
+                vertical-align: middle;
+            }
         }
     }
 
@@ -30,6 +50,14 @@
 
         &__logo {
             height: 1.5rem;
+        }
+
+        &__resources {
+            width: 10rem;
+
+            &__icon__text {
+                display: none;
+            }
         }
     }
 }
