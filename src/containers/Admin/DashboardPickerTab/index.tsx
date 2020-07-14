@@ -27,7 +27,7 @@ const DashboardPickerTab = (): JSX.Element => {
     return (
         <div>
             <Heading2 className="heading">Velg visning</Heading2>
-            <div className="visning-wrapper">
+            <div className="display-wrapper">
                 <RadioCard
                     title="Kompakt (standard)"
                     description="Alle avgangene til en linje vises på en samlet rad. Ikke egnet for linjer som varierer spor/plattform."
@@ -35,6 +35,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     selected={radioValue === 'Compact'}
                     preview={CompactSVG}
                     callback={(val): void => updateChoice(val)}
+                    className="display-wrapper__display-card"
                 />
                 <RadioCard
                     title="Kronologisk"
@@ -43,6 +44,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     selected={radioValue === 'Chrono'}
                     preview={ChronoSVG}
                     callback={(val): void => updateChoice(val)}
+                    className="display-wrapper__display-card"
                 />
                 <RadioCard
                     title="Tidslinje"
@@ -51,6 +53,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     selected={radioValue === 'Timeline'}
                     preview={TimelineSVG}
                     callback={(val): void => updateChoice(val)}
+                    className="display-wrapper__display-card"
                 />
             </div>
         </div>
