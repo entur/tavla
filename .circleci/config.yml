@@ -35,9 +35,9 @@ jobs:
       - add_ssh_keys: *ssh-fingerprint
       - run: npm ci
       - run:
-          working_directory: ~/Tavla/functions
           name: Install functions
-          npm ci
+          working_directory: ~/Tavla/functions
+          command: npm ci
       - run: npm test
       - run: npm run lint
 
