@@ -5,7 +5,7 @@
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
-    "deploy:prod": "firebase deploy --only functions -P propd",
+    "deploy:prod": "firebase deploy --only functions -P prod",
     "deploy:staging": "firebase deploy --only functions -P staging",
     "logs": "firebase functions:log"
   },
