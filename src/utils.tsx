@@ -51,10 +51,7 @@ export function getIconColor(
     contrast: boolean,
     subType?: TransportSubmode,
 ): string {
-    let icontype: 'contrast' | 'default' = 'default'
-    if (contrast) {
-        icontype = 'contrast'
-    }
+    const icontype = contrast ? 'contrast' : 'default'
 
     if (isSubModeAirportLink(subType)) return colors.transport[icontype].plane
 

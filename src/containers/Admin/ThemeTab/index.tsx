@@ -19,11 +19,10 @@ const ThemeTab = (): JSX.Element => {
     const { themeContext, setThemeContext } = useTheme()
 
     useEffect(() => {
-        if (settings && settings.theme && radioValue == null) {
-            console.log(settings)
+        if (settings?.theme && !radioValue) {
             setRadioValue(settings.theme)
         }
-    }, [settings, radioValue, settings.theme])
+    }, [settings, radioValue])
 
     const switchTheme = (value: ThemeType): void => {
         setRadioValue(value)

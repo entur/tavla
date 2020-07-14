@@ -107,6 +107,7 @@ export function useSettings(): [Settings, SettingsSetters] {
                     if (data.theme === undefined) {
                         persistToFirebase(getDocumentId(), 'theme', 'default')
                     }
+
                     if (data.description === undefined) {
                         persistToFirebase(getDocumentId(), 'description', '')
                         data.description = ''

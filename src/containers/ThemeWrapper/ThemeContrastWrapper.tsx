@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { Contrast } from '@entur/layout'
 
 interface Props {
-    children: any
+    children: React.ReactNode
     useContrast?: boolean
 }
 

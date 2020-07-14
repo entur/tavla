@@ -37,21 +37,12 @@ const ModePanelRow = ({
 }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
     const [contrast, setContrast] = useState<boolean>(false)
+    const contrastThemes = ['default', 'dark']
 
     useEffect(() => {
-        if (
-            settings &&
-            (settings.theme === 'dark' || settings.theme === 'default')
-        ) {
-            setContrast(true)
-        }
-        if (
-            settings &&
-            !(settings.theme === 'dark' || settings.theme === 'default')
-        ) {
-            setContrast(false)
-        }
-    }, [settings])
+        const isContrast = contrastThemes.includes(settings?.theme)
+        setContrast(isContrast)
+    }, [settings, contrastThemes])
 
     const handleChange = useCallback(() => {
         onChange(mode)

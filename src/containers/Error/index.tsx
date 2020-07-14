@@ -18,13 +18,7 @@ function ErrorWrapper({
     const [settings] = useSettingsContext()
 
     useEffect(() => {
-        if (settings) {
-            if (settings.theme === 'default') {
-                setUseContrastWrapper(true)
-            } else {
-                setUseContrastWrapper(false)
-            }
-        }
+        setUseContrastWrapper(settings?.theme === 'default')
     }, [settings])
 
     const errorCallback = callback ? (

@@ -49,7 +49,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                 <AdminHeader goBackToDashboard={goToDash} />
                 <Tabs
                     index={currentIndex}
-                    onChange={(newIndex) => setCurrentIndex(newIndex)}
+                    onChange={setCurrentIndex}
                     className="admin__tabs"
                 >
                     <TabList className="admin__tabs">

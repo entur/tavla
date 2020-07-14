@@ -28,15 +28,6 @@ function DashboardWrapper(props: Props): JSX.Element {
         stopPlacesWithDepartures,
     } = props
 
-    const onSettingsButtonClick = useCallback(
-        (event) => {
-            const path = window.location.pathname.split('@')[1]
-            history.push(`/admin/@${path}`)
-            event.preventDefault()
-        },
-        [history],
-    )
-
     const [initialLoading, setInitialLoading] = useState<boolean>(true)
 
     useEffect(() => {
@@ -71,18 +62,14 @@ function DashboardWrapper(props: Props): JSX.Element {
     }
 
     const [{ logoSize, logo, description, theme }] = useSettingsContext()
-    const [useContrast, setUseContrast] = useState<boolean>(true)
+    const [useContrastWrapper, setUseContrastWrapper] = useState<boolean>(true)
 
     useEffect(() => {
-        if (theme === 'default') {
-            setUseContrast(true)
-        } else {
-            setUseContrast(false)
-        }
+        setUseContrastWrapper(theme === 'default')
     }, [theme])
 
     return (
-        <ThemeContrastWrapper useContrast={useContrast}>
+        <ThemeContrastWrapper useContrast={useContrastWrapper}>
             <div className={`dashboard-wrapper ${className}`}>
                 <div className="dashboard-wrapper__top">
                     <div className="dashboard-wrapper__logo-wrapper">
