@@ -10,7 +10,9 @@ type ThemeContextType = {
 
 const ThemeContext = React.createContext<ThemeContextType>({
     themeContext: undefined,
-    setThemeContext: () => {},
+    setThemeContext: () => {
+        return
+    },
 })
 
 const ThemeProvider: FC = (props) => {
