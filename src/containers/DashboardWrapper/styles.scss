@@ -6,34 +6,6 @@
     padding: 2rem 4rem;
     overflow: hidden;
 
-    &__no-stops {
-        img {
-            display: block;
-            margin: auto;
-        }
-
-        div {
-            color: $colors-blues-blue20;
-            margin: auto;
-            position: relative;
-            text-align: center;
-            top: -8.25rem;
-            width: 20rem;
-
-            header {
-                font-weight: 600;
-            }
-        }
-    }
-
-    &__top {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-        overflow: hidden;
-    }
-
     &__bottom-menu {
         position: fixed;
         margin-left: auto;
@@ -41,33 +13,5 @@
         bottom: 0;
         left: 0;
         right: 0;
-    }
-
-    @media (min-width: 901px) {
-        &__logo-wrapper p {
-            margin: -0.5rem 0 0 0;
-        }
-
-        &__logo {
-            height: 54px;
-            width: 100%;
-        }
-    }
-}
-
-@media (max-width: 900px) {
-    .dashboard-wrapper {
-        &__logo-wrapper p {
-            margin: -0.5rem 0 0 0;
-        }
-
-        &__clock {
-            display: none;
-        }
-
-        &__logo {
-            height: 27px;
-            width: 148px;
-        }
     }
 }

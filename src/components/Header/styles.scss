@@ -1,0 +1,29 @@
+@import '../../assets/styles/import.scss';
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    overflow: hidden;
+
+    &__logo {
+        display: block;
+    }
+
+    @media (min-width: 901px) {
+        &__logo {
+            height: 2rem;
+        }
+    }
+
+    @media (max-width: 900px) {
+        &__clock {
+            display: none;
+        }
+
+        &__logo {
+            height: 1.5rem;
+        }
+    }
+}
