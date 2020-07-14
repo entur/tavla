@@ -47,6 +47,10 @@ jobs:
       - checkout
       - add_ssh_keys: *ssh-fingerprint
       - run: npm ci
+      - run: &install-cf
+          name: Install functions
+          working_directory: ~/Tavla/functions
+          command: npm ci
       - run:
           name: Deploy web
           command: npm run deploy:prod --token=$FIREBASE_TOKEN --non-interactive
@@ -61,6 +65,7 @@ jobs:
       - checkout
       - add_ssh_keys: *ssh-fingerprint
       - run: npm ci
+      - run: *install-cf
       - run:
           name: Deploy web staging
           command: npm run deploy:staging --token=$FIREBASE_TOKEN --non-interactive
