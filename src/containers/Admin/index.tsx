@@ -1,8 +1,10 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { Button } from '@entur/button'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
+import { ClosedLockIcon } from '@entur/icons'
 
 import { getDocumentId } from '../../utils'
+import { useFirebaseAuthentication } from '../../auth'
 
 import './styles.scss'
 import AdminHeader from './AdminHeader'
@@ -10,6 +12,7 @@ import LogoTab from './LogoTab'
 import EditTab from './EditTab'
 import ThemeTab from './ThemeTab'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
+import VisningTab from './DashboardPickerTab'
 import { useSettingsContext } from '../../settings'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
@@ -27,6 +30,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     }, [settings])
 
     const documentId = getDocumentId()
+    const user = useFirebaseAuthentication()
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
 
@@ -36,6 +40,8 @@ const AdminPage = ({ history }: Props): JSX.Element => {
         }
         history.push(window.location.pathname.replace('admin', 'dashboard'))
     }, [history, documentId])
+
+    const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon />
 
     return (
         <ThemeContrastWrapper useContrast={useContrastWrapper}>
@@ -49,11 +55,15 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                     <TabList className="admin__tabs">
                         <Tab className="admin__tabs">Rediger innhold</Tab>
                         <Tab>Velg farger</Tab>
-                        <Tab>Last opp logo</Tab>
+                        <Tab>Velg visning</Tab>
+                        <Tab>Last opp logo {lockIcon}</Tab>
                     </TabList>
                     <TabPanels>
                         <TabPanel>
                             <EditTab />
+                        </TabPanel>
+                        <TabPanel>
+                            <VisningTab />
                         </TabPanel>
                         <TabPanel>
                             <ThemeTab />
@@ -61,7 +71,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                         <TabPanel>
                             <LogoTab
                                 tabIndex={currentIndex}
-                                setTabIndex={() => setCurrentIndex(0)}
+                                setTabIndex={setCurrentIndex}
                             />
                         </TabPanel>
                     </TabPanels>

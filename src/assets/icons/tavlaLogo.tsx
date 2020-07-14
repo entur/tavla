@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { colors } from '@entur/tokens'
 import { useSettingsContext } from '../../settings'
 
-function TavlaLogo({ className }: Props): JSX.Element {
+function TavlaLogo({ className, height }: Props): JSX.Element {
     const [settings] = useSettingsContext()
     const [tavlaColor, setTavlaColor] = useState<string>(colors.brand.coral)
     const [enturColor, setEnturColor] = useState<string>(colors.brand.blue)
@@ -33,6 +33,7 @@ function TavlaLogo({ className }: Props): JSX.Element {
             className={className}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 300 54"
+            height={height}
         >
             <g fill="none" fillRule="evenodd">
                 <path
@@ -84,6 +85,7 @@ function TavlaLogo({ className }: Props): JSX.Element {
 
 interface Props {
     className?: string
+    height?: string
 }
 
 export default TavlaLogo

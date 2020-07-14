@@ -2,11 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
 import { Loader } from '@entur/loader'
 import { SubParagraph } from '@entur/typography'
-import { Contrast } from '@entur/layout'
 
 import { useCounter } from '../../utils'
 
 import TavlaLogo from '../../assets/icons/tavlaLogo'
+import EnturWhite from '../../assets/icons/enturWhite'
 import { Clock } from '../../components'
 import { StopPlaceWithDepartures } from '../../types'
 import { NoStopsOnTavle } from './../Error/ErrorPages'
@@ -15,6 +15,7 @@ import BottomMenu from './BottomMenu'
 
 import './styles.scss'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
+import { useSettingsContext } from '../../settings'
 
 function DashboardWrapper(props: Props): JSX.Element {
     const secondsSinceMount = useCounter()
@@ -68,19 +69,39 @@ function DashboardWrapper(props: Props): JSX.Element {
         return <NoStopsOnTavle />
     }
 
+    const [{ logoSize, logo, description }] = useSettingsContext()
+
     return (
         <div className={`dashboard-wrapper ${className}`}>
             <div className="dashboard-wrapper__top">
                 <div className="dashboard-wrapper__logo-wrapper">
-                    <TavlaLogo className="dashboard-wrapper__logo" />
+                    {logo ? (
+                        <img
+                            src={logo}
+                            height={logoSize}
+                            className="dashboard-wrapper__logo"
+                        />
+                    ) : (
+                        <TavlaLogo
+                            className="dashboard-wrapper__logo"
+                            height={logoSize}
+                        />
+                    )}
                     <SubParagraph>
-                        Finn din rute på entur.no eller i Entur-appen.
+                        {logoSize === '32px' &&
+                            (description ||
+                                'Finn din rute på entur.no eller i Entur-appen')}
                     </SubParagraph>
                 </div>
                 <Clock className="dashboard-wrapper__clock" />
             </div>
             {renderContents()}
             <ThemeContrastWrapper useContrast={true}>
+                {logo && (
+                    <div className="dashboard-wrapper__byline">
+                        Tjenesten leveres av <EnturWhite />
+                    </div>
+                )}
                 <BottomMenu
                     className="dashboard-wrapper__bottom-menu"
                     history={history}
