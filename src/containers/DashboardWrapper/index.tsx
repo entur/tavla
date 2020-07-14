@@ -15,7 +15,6 @@ import BottomMenu from './BottomMenu'
 
 import './styles.scss'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
-import { useSettingsContext } from '../../settings'
 
 function DashboardWrapper(props: Props): JSX.Element {
     const secondsSinceMount = useCounter()

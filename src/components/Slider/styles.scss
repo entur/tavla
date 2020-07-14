@@ -55,23 +55,23 @@
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        background: var(--tavla-menu-background-color);
-        border: 0.2px solid var(--tavla-menu-background-color);
+        background: var(--tavla-button-background-color);
+        border: 0.2px solid var(--tavla-button-background-color);
     }
 
     &::-moz-range-track {
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        background: var(--tavla-menu-background-color);
-        border: 0.2px solid var(--tavla-menu-background-color);
+        background: var(--tavla-button-background-color);
+        border: 0.2px solid var(--tavla-button-background-color);
     }
 
     &::-ms-track {
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        border: 0.2px solid var(--tavla-menu-background-color);
+        border: 0.2px solid var(--tavla-button-background-color);
         background: transparent;
         border-color: transparent;
         color: transparent;
@@ -82,18 +82,18 @@
     }
 
     &::-ms-fill-upper {
-        background: var(--tavla-menu-background-color);
+        background: var(--tavla-button-background-color);
     }
 
     &::-ms-fill-left {
-        background: var(--tavla-menu-background-color);
+        background: var(--tavla-button-background-color);
     }
 
     &:focus {
         outline: none;
 
         &::-webkit-slider-runnable-track {
-            background: var(--tavla-menu-background-color);
+            background: var(--tavla-button-background-color);
         }
     }
 }

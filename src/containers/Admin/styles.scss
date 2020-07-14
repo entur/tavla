@@ -24,8 +24,12 @@
         position: fixed;
         bottom: 2rem;
         right: 2rem;
-        background-color: var(--tavla-menu-background-color);
+        background-color: var(--tavla-button-background-color);
         color: var(--tavla-font-color);
+    }
+
+    &__submit-button:hover {
+        background-color: var(--tavla-box-background-color);
     }
 
     &__selection-panel {
@@ -43,22 +47,28 @@
 }
 
 .eds-tab {
-    background-color: var(--tavla-menu-background-color);
+    background-color: var(--tavla-button-background-color);
     color: var(--tavla-font-color);
-    border: none;
+    border-color: var(--tavla-button-background-color);
+}
+
+.eds-tab::after {
+    background-color: var(--tavla-button-background-color);
 }
 
 .eds-tab[aria-selected='true'] {
     background-color: var(--tavla-background-color);
     color: var(--tavla-font-color);
-    border-top: 0.125rem solid var(--tavla-menu-background-color);
-    border-left: 0.125rem solid var(--tavla-menu-background-color);
-    border-right: 0.125rem solid var(--tavla-menu-background-color);
-    border-bottom: none;
+    border-color: var(--tavla-button-background-color);
 }
 
 .eds-tab-list::after {
-    background-color: var(--tavla-menu-background-color);
+    background-color: var(--tavla-button-background-color);
+    z-index: -1;
+}
+
+.eds-tab[aria-selected='true']::after {
+    background-color: var(--tavla-background-color);
 }
 
 @media (max-width: 1000px) {
