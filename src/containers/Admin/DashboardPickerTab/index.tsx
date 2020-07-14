@@ -26,7 +26,7 @@ const DashboardPickerTab = (): JSX.Element => {
     )
     return (
         <div>
-            <Heading2>Velg visning</Heading2>
+            <Heading2 className="heading">Velg visning</Heading2>
             <div className="visning-wrapper">
                 <RadioCard
                     title="Kompakt (standard)"

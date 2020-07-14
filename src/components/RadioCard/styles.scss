@@ -1,20 +1,21 @@
 @import './../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .radio-card {
     max-width: 35rem;
     padding: 1rem;
     margin: 1.5rem 1.5rem 1.5rem 0;
-    border: 2px solid $colors-blues-blue30;
+    border: 2px solid var(--tavla-border-color);
     border-radius: 0.3rem;
-    background-color: $colors-brand-blue;
+    background-color: var(--tavla-background-color);
 
     &:hover {
-        background-color: $colors-blues-blue20;
+        background-color: var(--tavla-selected-color);
         cursor: pointer;
     }
 
     &__selected {
-        background-color: $colors-blues-blue20;
+        background-color: var(--tavla-selected-color);
     }
 
     &__preview {
@@ -32,6 +33,10 @@
 
             &__radio-element {
                 margin-right: 1rem;
+            }
+
+            &__title {
+                color: var(--tavla-font-color);
             }
         }
 

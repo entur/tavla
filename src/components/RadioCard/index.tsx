@@ -31,7 +31,12 @@ function RadioCard({
                         className="radio-card__radio-container__header-wrapper__radio-element"
                         selected={selected}
                     />
-                    <Heading3 margin="none">{title}</Heading3>
+                    <Heading3
+                        className="radio-card__radio-container__header-wrapper__title"
+                        margin="none"
+                    >
+                        {title}
+                    </Heading3>
                 </div>
                 <Paragraph className="radio-card__radio-container__description">
                     {description}

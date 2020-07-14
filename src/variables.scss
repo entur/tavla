@@ -7,6 +7,7 @@
     --tavla-button-background-color: #393d79;
     --tavla-github-logo: #aeb7e2;
     --tavla-border-color: #393d79;
+    --tavla-selected-color: #393d79;
 }
 
 .dark-theme {
@@ -16,6 +17,7 @@
     --tavla-button-background-color: #212122;
     --tavla-github-logo: #212122;
     --tavla-border-color: #212122;
+    --tavla-selected-color: rgba(255, 255, 255, 0.14);
 }
 
 .light-theme {
@@ -25,6 +27,7 @@
     --tavla-button-background-color: rgb(243, 243, 243);
     --tavla-github-logo: #f3f3f3;
     --tavla-border-color: #f3f3f3;
+    --tavla-selected-color: #f3f3f3;
 }
 
 .grey-theme {
@@ -34,4 +37,5 @@
     --tavla-button-background-color: rgb(255, 255, 255);
     --tavla-github-logo: #ffffff;
     --tavla-border-color: #ffffff;
+    --tavla-selected-color: #ffffff;
 }
