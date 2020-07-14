@@ -58,7 +58,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                         <Tab>Velg farger</Tab>
                         <Tab>Last opp logo {lockIcon}</Tab>
                     </TabList>
-                    <TabPanels>
+                    <TabPanels className="admin__tabs__tab-panels">
                         <TabPanel>
                             <EditTab />
                         </TabPanel>

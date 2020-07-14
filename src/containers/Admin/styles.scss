@@ -18,6 +18,10 @@
 
     &__tabs {
         background-color: var(--tavla-background-color);
+
+        &__tab-panels {
+            padding-left: 0;
+        }
     }
 
     &__submit-button {
