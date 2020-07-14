@@ -105,6 +105,11 @@ export function useSettings(): [Settings, SettingsSetters] {
                         data.description = ''
                     }
 
+                    if (data.logoSize === undefined) {
+                        persistToFirebase(getDocumentId(), 'logoSize', '32px')
+                        data.logoSize = '32px'
+                    }
+
                     setSettings(data as Settings)
                 } else {
                     window.location.pathname = '/'

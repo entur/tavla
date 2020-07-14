@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Dispatch } from 'react'
 
 import {
     Heading2,
@@ -60,7 +60,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const documentId = getDocumentId()
 
     useEffect((): void => {
-        if (tabIndex === 1 && user && user.isAnonymous) {
+        if (tabIndex === 2 && user && user.isAnonymous) {
             setOpen(true)
         }
 
@@ -72,7 +72,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const handleDismiss = (newUser: User): void => {
         if (!(newUser && !newUser.isAnonymous)) {
             setOpen(false)
-            setTabIndex()
+            setTabIndex(0)
         }
     }
 
@@ -119,7 +119,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
 
 interface Props {
     tabIndex: number
-    setTabIndex: () => void
+    setTabIndex: Dispatch<number>
 }
 
 export default LogoTab

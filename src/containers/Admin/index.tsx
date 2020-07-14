@@ -12,6 +12,7 @@ import './styles.scss'
 import AdminHeader from './AdminHeader'
 import LogoTab from './LogoTab'
 import EditTab from './EditTab'
+import VisningTab from './DashboardPickerTab'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const documentId = getDocumentId()
@@ -33,10 +34,11 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             <AdminHeader goBackToDashboard={goToDash} />
             <Tabs
                 index={currentIndex}
-                onChange={(newIndex) => setCurrentIndex(newIndex)}
+                onChange={(newIndex): void => setCurrentIndex(newIndex)}
             >
                 <TabList>
                     <Tab>Rediger innhold</Tab>
+                    <Tab>Velg visning</Tab>
                     <Tab>Last opp logo {lockIcon}</Tab>
                 </TabList>
                 <TabPanels>
@@ -44,9 +46,12 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                         <EditTab />
                     </TabPanel>
                     <TabPanel>
+                        <VisningTab />
+                    </TabPanel>
+                    <TabPanel>
                         <LogoTab
                             tabIndex={currentIndex}
-                            setTabIndex={() => setCurrentIndex(0)}
+                            setTabIndex={setCurrentIndex}
                         />
                     </TabPanel>
                 </TabPanels>
