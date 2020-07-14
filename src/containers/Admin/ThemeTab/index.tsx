@@ -41,6 +41,7 @@ const ThemeTab = (): JSX.Element => {
                     preview={Entur}
                     selected={radioValue === 'default'}
                     callback={(val): void => switchTheme(val as ThemeType)}
+                    className="theme-tab__theme-card"
                 />
                 <RadioCard
                     title="Dark theme"
@@ -48,6 +49,7 @@ const ThemeTab = (): JSX.Element => {
                     preview={Dark}
                     selected={radioValue === 'dark'}
                     callback={(val): void => switchTheme(val as ThemeType)}
+                    className="theme-tab__theme-card"
                 />
                 <RadioCard
                     title="Light theme"
@@ -55,6 +57,7 @@ const ThemeTab = (): JSX.Element => {
                     preview={Light}
                     selected={radioValue === 'light'}
                     callback={(val): void => switchTheme(val as ThemeType)}
+                    className="theme-tab__theme-card"
                 />
                 <RadioCard
                     title="Grey theme"
@@ -62,6 +65,7 @@ const ThemeTab = (): JSX.Element => {
                     preview={Grey}
                     selected={radioValue === 'grey'}
                     callback={(val): void => switchTheme(val as ThemeType)}
+                    className="theme-tab__theme-card"
                 />
             </div>
         </div>

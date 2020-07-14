@@ -6,7 +6,7 @@
     display: grid;
     box-sizing: border-box;
     grid-auto-rows: row;
-    grid-template-columns: repeat(auto-fill, minmax(23rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
 
     &__eds-paragraph {
         color: var(--tavla-font-color);
@@ -15,7 +15,12 @@
     &__color {
         color: var(--tavla-font-color);
     }
+
+    &__theme-card {
+        max-width: 35rem;
+    }
 }
+
 .eds-paragraph {
     color: var(--tavla-font-color);
 }

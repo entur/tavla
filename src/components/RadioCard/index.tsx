@@ -13,6 +13,7 @@ function RadioCard({
     selected,
     preview,
     callback,
+    className,
 }: Props): JSX.Element {
     const sendChoice = useCallback(() => {
         event.preventDefault()
@@ -21,7 +22,9 @@ function RadioCard({
 
     return (
         <div
-            className={`radio-card ${selected ? 'radio-card__selected' : ''}`}
+            className={`radio-card ${
+                selected ? 'radio-card__selected' : ''
+            } ${className}`}
             onClick={sendChoice}
         >
             <img className="radio-card__preview" src={preview} />
@@ -53,6 +56,7 @@ interface Props {
     selected: boolean
     description?: string
     callback?: (value: string) => void
+    className?: string
 }
 
 export default RadioCard
