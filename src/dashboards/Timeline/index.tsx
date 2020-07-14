@@ -104,7 +104,6 @@ function Tick({ minutes, mode, index }: TickProps): JSX.Element {
     }, [settings, minutes, mode])
 
     const width = diffSincePreviousTick(minutes) * (60 * ZOOM)
-    // const color = minutes < 0 ? colors.blues.blue30 : getIconColor(mode)
 
     return (
         <div style={{ minWidth: width }}>

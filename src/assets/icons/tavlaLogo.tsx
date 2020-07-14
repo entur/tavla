@@ -11,20 +11,19 @@ function TavlaLogo({ className, height }: Props): JSX.Element {
     )
 
     useEffect(() => {
-        if (settings) {
-            if (settings.theme === 'dark') {
-                setTavlaColor('white')
-                setEnturColor('white')
-                setUnderlineColor('white')
-            } else if (settings.theme === 'default') {
-                setTavlaColor(colors.brand.coral)
-                setEnturColor('white')
-                setUnderlineColor(colors.brand.coral)
-            } else {
-                setTavlaColor('black')
-                setEnturColor('black')
-                setUnderlineColor('black')
-            }
+        if (!settings) return
+        if (settings.theme === 'dark') {
+            setTavlaColor('white')
+            setEnturColor('white')
+            setUnderlineColor('white')
+        } else if (settings.theme === 'default') {
+            setTavlaColor(colors.brand.coral)
+            setEnturColor('white')
+            setUnderlineColor(colors.brand.coral)
+        } else {
+            setTavlaColor('black')
+            setEnturColor('black')
+            setUnderlineColor('black')
         }
     }, [settings])
 
