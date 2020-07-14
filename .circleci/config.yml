@@ -34,6 +34,10 @@ jobs:
       - checkout
       - add_ssh_keys: *ssh-fingerprint
       - run: npm ci
+      - run:
+          working_directory: ~/Tavla/functions
+          name: Install functions
+          npm ci
       - run: npm test
       - run: npm run lint
 
@@ -71,7 +75,7 @@ workflows:
     jobs:
       - build
       - deploy-staging:
-          filters: *filter-only-master
+          # filters: *filter-only-master
           requires:
               - build
       - prod-approval:
