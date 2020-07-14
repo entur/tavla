@@ -22,7 +22,7 @@ function Header({ dashboard, theme }: Props): JSX.Element {
             <div className="header">
                 <div className={`header__logo-wrapper`}>
                     {headerLogo}
-                    <LeadParagraph>
+                    <LeadParagraph className="header__logo-wrapper__description">
                         {logoSize === '32px' &&
                             (description ||
                                 'Finn din rute på entur.no eller i Entur-appen')}

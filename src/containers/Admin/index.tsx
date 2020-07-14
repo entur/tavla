@@ -9,10 +9,10 @@ import { getDocumentId } from '../../utils'
 import { useFirebaseAuthentication } from '../../auth'
 
 import './styles.scss'
-import AdminHeader from './AdminHeader'
 import LogoTab from './LogoTab'
 import EditTab from './EditTab'
 import VisningTab from './DashboardPickerTab'
+import Header from '../../components/Header'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const documentId = getDocumentId()
@@ -31,7 +31,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 
     return (
         <Contrast className="admin">
-            <AdminHeader goBackToDashboard={goToDash} />
+            <Header dashboard={false} />
             <Tabs
                 index={currentIndex}
                 onChange={(newIndex): void => setCurrentIndex(newIndex)}
