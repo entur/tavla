@@ -35,6 +35,11 @@ export interface TileSubLabel {
     hasSituation?: boolean
 }
 
-export type ThemeType = 'default' | 'dark' | 'light' | 'grey'
+export enum Theme {
+    DEFAULT = 'default',
+    DARK = 'dark',
+    LIGHT = 'light',
+    GREY = 'grey',
+}
 
 export type IconColorType = 'default' | 'contrast'

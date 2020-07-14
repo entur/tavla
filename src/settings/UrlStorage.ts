@@ -2,6 +2,7 @@ import lz from 'lz-string'
 
 import { DEFAULT_DISTANCE } from '../constants'
 import { Settings } from './index'
+import { Theme } from '../types'
 
 export const DEFAULT_SETTINGS: Settings = {
     hiddenStations: [],
@@ -14,7 +15,7 @@ export const DEFAULT_SETTINGS: Settings = {
     dashboard: '',
     coordinates: undefined,
     owners: [],
-    theme: 'default',
+    theme: Theme.DEFAULT,
     logo: null,
     logoSize: '32px',
     description: '',

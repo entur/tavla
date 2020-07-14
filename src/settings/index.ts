@@ -7,7 +7,7 @@ import {
 } from 'react'
 import { useLocation } from 'react-router-dom'
 import { LegMode, Coordinates } from '@entur/sdk'
-import { ThemeType } from '../types'
+import { Theme } from '../types'
 
 import { persist as persistToFirebase, FieldTypes } from './FirestoreStorage'
 import {
@@ -31,7 +31,7 @@ export interface Settings {
     newStops?: string[]
     dashboard?: string | void
     owners?: string[]
-    theme: ThemeType
+    theme: Theme
     logo?: string
     logoSize: string
     description: string
@@ -47,7 +47,7 @@ interface SettingsSetters {
     setNewStops: (newStops: string[]) => void
     setDashboard: (dashboard: string) => void
     setOwners: (owners: string[]) => void
-    setTheme: (theme: ThemeType) => void
+    setTheme: (theme: Theme) => void
     setLogo: (url: string) => void
     setLogoSize: (size: string) => void
     setDescription: (description: string) => void
@@ -225,7 +225,7 @@ export function useSettings(): [Settings, SettingsSetters] {
     )
 
     const setTheme = useCallback(
-        (theme: ThemeType): void => {
+        (theme: Theme): void => {
             set('theme', theme)
         },
         [set],

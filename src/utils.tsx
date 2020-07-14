@@ -20,7 +20,7 @@ import { colors } from '@entur/tokens'
 
 import { Departure, LegMode, TransportSubmode } from '@entur/sdk'
 
-import { LineData, TileSubLabel, ThemeType, IconColorType } from './types'
+import { LineData, TileSubLabel, Theme, IconColorType } from './types'
 
 export function isNotNullOrUndefined<T>(
     thing: T | undefined | null,
@@ -46,7 +46,7 @@ function isSubModeCarFerry(subMode?: string): boolean {
     return carFerryTypes.includes(subMode)
 }
 
-export function getIconColorType(theme: ThemeType): IconColorType {
+export function getIconColorType(theme: Theme): IconColorType {
     const defaultThemes = ['light', 'grey']
     if (defaultThemes.includes(theme)) {
         return 'default'

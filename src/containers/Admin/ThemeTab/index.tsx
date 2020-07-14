@@ -3,7 +3,7 @@ import { RadioGroup, Radio } from '@entur/form'
 import { Heading2 } from '@entur/typography'
 
 import { useSettingsContext } from '../../../settings'
-import { ThemeType } from '../../../types'
+import { Theme } from '../../../types'
 import { useTheme } from '../../ThemeWrapper/ThemeProvider'
 import RadioCard from '../../../components/RadioCard'
 import Grey from '../../../assets/previews/Grey-theme.svg'
@@ -14,7 +14,7 @@ import Entur from '../../../assets/previews/Entur-theme.svg'
 import './styles.scss'
 
 const ThemeTab = (): JSX.Element => {
-    const [radioValue, setRadioValue] = useState<ThemeType>(null)
+    const [radioValue, setRadioValue] = useState<Theme>(null)
     const [settings, { setTheme }] = useSettingsContext()
     const { themeContext, setThemeContext } = useTheme()
 
@@ -24,7 +24,7 @@ const ThemeTab = (): JSX.Element => {
         }
     }, [settings, radioValue])
 
-    const switchTheme = (value: ThemeType): void => {
+    const switchTheme = (value: Theme): void => {
         setRadioValue(value)
         setTheme(value)
         setThemeContext(value)
@@ -39,7 +39,7 @@ const ThemeTab = (): JSX.Element => {
                     cardValue="default"
                     preview={Entur}
                     selected={radioValue === 'default'}
-                    callback={(val): void => switchTheme(val as ThemeType)}
+                    callback={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
                 <RadioCard
@@ -47,7 +47,7 @@ const ThemeTab = (): JSX.Element => {
                     cardValue="dark"
                     preview={Dark}
                     selected={radioValue === 'dark'}
-                    callback={(val): void => switchTheme(val as ThemeType)}
+                    callback={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
                 <RadioCard
@@ -55,7 +55,7 @@ const ThemeTab = (): JSX.Element => {
                     cardValue="light"
                     preview={Light}
                     selected={radioValue === 'light'}
-                    callback={(val): void => switchTheme(val as ThemeType)}
+                    callback={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
                 <RadioCard
@@ -63,7 +63,7 @@ const ThemeTab = (): JSX.Element => {
                     cardValue="grey"
                     preview={Grey}
                     selected={radioValue === 'grey'}
-                    callback={(val): void => switchTheme(val as ThemeType)}
+                    callback={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
             </div>

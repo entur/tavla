@@ -1,11 +1,11 @@
 import React, { FC, useState, useMemo, useEffect } from 'react'
 
-import { ThemeType } from '../../types'
+import { Theme } from '../../types'
 import { useSettingsContext } from '../../settings'
 
 type ThemeContextType = {
-    themeContext: ThemeType
-    setThemeContext: (theme: ThemeType) => void
+    themeContext: Theme
+    setThemeContext: (theme: Theme) => void
 }
 
 const ThemeContext = React.createContext<ThemeContextType>({
@@ -17,7 +17,7 @@ const ThemeContext = React.createContext<ThemeContextType>({
 
 const ThemeProvider: FC = (props) => {
     const [settings] = useSettingsContext()
-    const [themeContext, setThemeContext] = useState<ThemeType>(undefined)
+    const [themeContext, setThemeContext] = useState<Theme>(undefined)
 
     useEffect(() => {
         if (settings && settings.theme && themeContext == undefined) {
