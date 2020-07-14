@@ -172,7 +172,11 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
             <div className="timeline__body">
                 {data.map(({ stopId, name, groupedDepartures }) => (
                     <div key={stopId} className="timeline__stop">
-                        <Heading2 margin="none" style={{ margin: 0 }}>
+                        <Heading2
+                            className="timeline__heading"
+                            margin="none"
+                            style={{ margin: 0 }}
+                        >
                             {name}
                         </Heading2>
                         {groupedDepartures.map(([mode, departures]) => (

@@ -69,45 +69,56 @@ function DashboardWrapper(props: Props): JSX.Element {
         return <NoStopsOnTavle />
     }
 
-    const [{ logoSize, logo, description }] = useSettingsContext()
+    const [{ logoSize, logo, description, theme }] = useSettingsContext()
+    const [useContrast, setUseContrast] = useState<boolean>(true)
+
+    useEffect(() => {
+        if (theme === 'default') {
+            setUseContrast(true)
+        } else {
+            setUseContrast(false)
+        }
+    }, [theme])
 
     return (
-        <div className={`dashboard-wrapper ${className}`}>
-            <div className="dashboard-wrapper__top">
-                <div className="dashboard-wrapper__logo-wrapper">
-                    {logo ? (
-                        <img
-                            src={logo}
-                            height={logoSize}
-                            className="dashboard-wrapper__logo"
-                        />
-                    ) : (
-                        <TavlaLogo
-                            className="dashboard-wrapper__logo"
-                            height={logoSize}
-                        />
-                    )}
-                    <SubParagraph>
-                        {logoSize === '32px' &&
-                            (description ||
-                                'Finn din rute på entur.no eller i Entur-appen')}
-                    </SubParagraph>
-                </div>
-                <Clock className="dashboard-wrapper__clock" />
-            </div>
-            {renderContents()}
-            <ThemeContrastWrapper useContrast={true}>
-                {logo && (
-                    <div className="dashboard-wrapper__byline">
-                        Tjenesten leveres av <EnturWhite />
+        <ThemeContrastWrapper useContrast={useContrast}>
+            <div className={`dashboard-wrapper ${className}`}>
+                <div className="dashboard-wrapper__top">
+                    <div className="dashboard-wrapper__logo-wrapper">
+                        {logo ? (
+                            <img
+                                src={logo}
+                                height={logoSize}
+                                className="dashboard-wrapper__logo"
+                            />
+                        ) : (
+                            <TavlaLogo
+                                className="dashboard-wrapper__logo"
+                                height={logoSize}
+                            />
+                        )}
+                        <SubParagraph>
+                            {logoSize === '32px' &&
+                                (description ||
+                                    'Finn din rute på entur.no eller i Entur-appen')}
+                        </SubParagraph>
                     </div>
-                )}
-                <BottomMenu
-                    className="dashboard-wrapper__bottom-menu"
-                    history={history}
-                />
-            </ThemeContrastWrapper>
-        </div>
+                    <Clock className="dashboard-wrapper__clock" />
+                </div>
+                {renderContents()}
+                <ThemeContrastWrapper useContrast={true}>
+                    {logo && (
+                        <div className="dashboard-wrapper__byline">
+                            Tjenesten leveres av <EnturWhite />
+                        </div>
+                    )}
+                    <BottomMenu
+                        className="dashboard-wrapper__bottom-menu"
+                        history={history}
+                    />
+                </ThemeContrastWrapper>
+            </div>
+        </ThemeContrastWrapper>
     )
 }
 

@@ -16,6 +16,10 @@
         overflow: hidden;
     }
 
+    &__heading {
+        color: var(--tavla-font-color);
+    }
+
     &__track {
         height: 6rem;
         position: relative;
@@ -49,7 +53,7 @@
     &__label {
         background-color: white;
         padding: 4px;
-        color: var(--tavla-font-color);
+        color: black;
         border-radius: 1px;
         height: 2rem;
         margin-bottom: 0.5rem;
