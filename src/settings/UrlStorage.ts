@@ -14,6 +14,9 @@ export const DEFAULT_SETTINGS: Settings = {
     dashboard: '',
     coordinates: undefined,
     owners: [],
+    logo: null,
+    logoSize: '32px',
+    description: '',
 }
 
 const VERSION_PREFIX_REGEX = /^v(\d)+::/

@@ -18,6 +18,7 @@ import { usePrevious } from '../../../utils'
 interface Props {
     open: boolean
     onDismiss: (user?: User) => void
+    loginDescription?: string
 }
 
 export type ModalType =
@@ -27,7 +28,11 @@ export type ModalType =
     | 'ResetPasswordModal'
     | 'EmailSentModal'
 
-const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
+const LoginModal = ({
+    open,
+    onDismiss,
+    loginDescription,
+}: Props): JSX.Element => {
     const user = useFirebaseAuthentication()
 
     const isLoggedIn = user && !user.isAnonymous
@@ -47,7 +52,12 @@ const LoginModal = ({ open, onDismiss }: Props): JSX.Element => {
             case 'EmailSentModal':
                 return <EmailSent setModalType={setModalType} />
             default:
-                return <LoginOptions setModalType={setModalType} />
+                return (
+                    <LoginOptions
+                        setModalType={setModalType}
+                        loginDescription={loginDescription}
+                    />
+                )
         }
     }
 

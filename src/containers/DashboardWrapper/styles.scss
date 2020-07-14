@@ -26,6 +26,10 @@
         }
     }
 
+    &__logo {
+        margin-bottom: 0.2rem;
+    }
+
     &__top {
         display: flex;
         flex-direction: row;
@@ -43,14 +47,19 @@
         right: 0;
     }
 
+    &__byline {
+        margin-top: 3rem;
+        display: flex;
+        align-items: center;
+
+        svg {
+            height: 48px;
+        }
+    }
+
     @media (min-width: 901px) {
         &__logo-wrapper p {
             margin: -0.5rem 0 0 0;
-        }
-
-        &__logo {
-            height: 54px;
-            width: 100%;
         }
     }
 }

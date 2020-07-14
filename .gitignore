@@ -4,3 +4,5 @@ dist/
 .vscode/
 .idea/
 .firebase/*.cache
+*.log
+functions/lib

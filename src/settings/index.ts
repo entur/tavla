@@ -30,6 +30,9 @@ export interface Settings {
     newStops?: string[]
     dashboard?: string | void
     owners?: string[]
+    logo?: string
+    logoSize: string
+    description: string
 }
 
 interface SettingsSetters {
@@ -42,6 +45,9 @@ interface SettingsSetters {
     setNewStops: (newStops: string[]) => void
     setDashboard: (dashboard: string) => void
     setOwners: (owners: string[]) => void
+    setLogo: (url: string) => void
+    setLogoSize: (size: string) => void
+    setDescription: (description: string) => void
 }
 
 export const SettingsContext = createContext<
@@ -58,6 +64,9 @@ export const SettingsContext = createContext<
         setNewStops: (): void => undefined,
         setDashboard: (): void => undefined,
         setOwners: (): void => undefined,
+        setLogo: (): void => undefined,
+        setLogoSize: (): void => undefined,
+        setDescription: (): void => undefined,
     },
 ])
 
@@ -89,6 +98,16 @@ export function useSettings(): [Settings, SettingsSetters] {
                     if (data.owners === undefined) {
                         persistToFirebase(getDocumentId(), 'owners', [])
                         data.owners = []
+                    }
+
+                    if (data.description === undefined) {
+                        persistToFirebase(getDocumentId(), 'description', '')
+                        data.description = ''
+                    }
+
+                    if (data.logoSize === undefined) {
+                        persistToFirebase(getDocumentId(), 'logoSize', '32px')
+                        data.logoSize = '32px'
                     }
 
                     setSettings(data as Settings)
@@ -197,6 +216,27 @@ export function useSettings(): [Settings, SettingsSetters] {
         [set],
     )
 
+    const setLogo = useCallback(
+        (url: string): void => {
+            set('logo', url)
+        },
+        [set],
+    )
+
+    const setLogoSize = useCallback(
+        (size: string): void => {
+            set('logoSize', size)
+        },
+        [set],
+    )
+
+    const setDescription = useCallback(
+        (description: string): void => {
+            set('description', description)
+        },
+        [set],
+    )
+
     const setters = {
         setHiddenStations,
         setHiddenStops,
@@ -207,6 +247,9 @@ export function useSettings(): [Settings, SettingsSetters] {
         setNewStops,
         setDashboard,
         setOwners,
+        setLogo,
+        setLogoSize,
+        setDescription,
     }
 
     return [settings, setters]

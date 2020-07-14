@@ -1,9 +1,12 @@
 import React, { useCallback, useState } from 'react'
+
 import { Button } from '@entur/button'
 import { Contrast } from '@entur/layout'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
+import { ClosedLockIcon } from '@entur/icons'
 
 import { getDocumentId } from '../../utils'
+import { useFirebaseAuthentication } from '../../auth'
 
 import './styles.scss'
 import AdminHeader from './AdminHeader'
@@ -13,6 +16,7 @@ import VisningTab from './DashboardPickerTab'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const documentId = getDocumentId()
+    const user = useFirebaseAuthentication()
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
 
@@ -22,6 +26,8 @@ const AdminPage = ({ history }: Props): JSX.Element => {
         }
         history.push(window.location.pathname.replace('admin', 'dashboard'))
     }, [history, documentId])
+
+    const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon />
 
     return (
         <Contrast className="admin">
@@ -33,7 +39,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                 <TabList>
                     <Tab>Rediger innhold</Tab>
                     <Tab>Velg visning</Tab>
-                    <Tab>Last opp logo</Tab>
+                    <Tab>Last opp logo {lockIcon}</Tab>
                 </TabList>
                 <TabPanels>
                     <TabPanel>
@@ -45,7 +51,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                     <TabPanel>
                         <LogoTab
                             tabIndex={currentIndex}
-                            setTabIndex={(): void => setCurrentIndex(2)}
+                            setTabIndex={setCurrentIndex}
                         />
                     </TabPanel>
                 </TabPanels>
