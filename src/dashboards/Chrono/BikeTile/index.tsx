@@ -8,17 +8,20 @@ import Tile from '../components/Tile'
 
 import './styles.scss'
 import { useSettingsContext } from '../../../settings'
+import { IconColorType } from '../../../types'
+import { getIconColorType } from '../../../utils'
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
-    const [iconType, setIconType] = useState<'default' | 'contrast'>('contrast')
-    const defaultIconThemes = ['light', 'grey']
+    const [iconColorType, setIconColorType] = useState<IconColorType>(
+        'contrast',
+    )
 
     useEffect(() => {
-        defaultIconThemes.includes(settings?.theme)
-            ? setIconType('default')
-            : setIconType('contrast')
-    }, [settings, defaultIconThemes])
+        if (settings) {
+            setIconColorType(getIconColorType(settings.theme))
+        }
+    }, [settings])
 
     return (
         <Tile
@@ -34,7 +37,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                 <div key={id} className="bikerow">
                     <div className="bikerow__icon">
                         <BicycleIcon
-                            color={colors.transport[iconType].mobility}
+                            color={colors.transport[iconColorType].mobility}
                         />
                     </div>
                     <div className="bikerow__texts">

@@ -8,8 +8,13 @@ import {
     unique,
     getTransportIconIdentifier,
     createTileSubLabel,
+    getIconColorType,
 } from '../../../utils'
-import { StopPlaceWithDepartures, LineData } from '../../../types'
+import {
+    StopPlaceWithDepartures,
+    LineData,
+    IconColorType,
+} from '../../../types'
 
 import Tile from '../components/Tile'
 import TileRow from '../components/TileRow'
@@ -43,20 +48,13 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const headerIcons = getTransportHeaderIcons(departures)
     const routes = Object.keys(groupedDepartures)
     const [settings] = useSettingsContext()
-    const [contrast, setContrast] = useState<boolean>(false)
+    const [iconColorType, setIconColorType] = useState<IconColorType>(
+        'contrast',
+    )
 
     useEffect(() => {
-        if (
-            settings &&
-            (settings.theme === 'dark' || settings.theme === 'default')
-        ) {
-            setContrast(true)
-        }
-        if (
-            settings &&
-            !(settings.theme === 'dark' || settings.theme === 'default')
-        ) {
-            setContrast(false)
+        if (settings) {
+            setIconColorType(getIconColorType(settings.theme))
         }
     }, [settings])
 
@@ -66,7 +64,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                 const subType = groupedDepartures[route][0].subType
                 const routeData = groupedDepartures[route].slice(0, 3)
                 const routeType = routeData[0].type
-                const icon = getIcon(routeType, contrast, subType)
+                const icon = getIcon(routeType, iconColorType, subType)
 
                 return (
                     <TileRow

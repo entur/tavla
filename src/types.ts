@@ -36,3 +36,5 @@ export interface TileSubLabel {
 }
 
 export type ThemeType = 'default' | 'dark' | 'light' | 'grey'
+
+export type IconColorType = 'default' | 'contrast'

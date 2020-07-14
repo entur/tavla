@@ -8,8 +8,13 @@ import {
     getTransportIconIdentifier,
     createTileSubLabel,
     isNotNullOrUndefined,
+    getIconColorType,
 } from '../../../utils'
-import { StopPlaceWithDepartures, LineData } from '../../../types'
+import {
+    StopPlaceWithDepartures,
+    LineData,
+    IconColorType,
+} from '../../../types'
 
 import Tile from '../components/Tile'
 import TileRow from '../components/TileRow'
@@ -40,29 +45,21 @@ function getTransportHeaderIcons(
 const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
-
     const [settings] = useSettingsContext()
-    const [contrast, setContrast] = useState<boolean>(false)
+    const [iconColorType, setIconColorType] = useState<IconColorType>(
+        'contrast',
+    )
 
     useEffect(() => {
-        if (
-            settings &&
-            (settings.theme === 'dark' || settings.theme === 'default')
-        ) {
-            setContrast(true)
+        if (settings) {
+            setIconColorType(getIconColorType(settings.theme))
         }
-        if (
-            settings &&
-            !(settings.theme === 'dark' || settings.theme === 'default')
-        ) {
-            setContrast(false)
-        }
-    }, [settings, contrast, departures])
+    }, [settings])
 
     return (
         <Tile title={name} icons={headerIcons}>
             {departures.map((data) => {
-                const icon = getIcon(data.type, contrast, data.subType)
+                const icon = getIcon(data.type, iconColorType, data.subType)
                 const subLabel = createTileSubLabel(data)
 
                 return (

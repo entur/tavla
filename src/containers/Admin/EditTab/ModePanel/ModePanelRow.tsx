@@ -3,10 +3,11 @@ import React, { useCallback, useState, useEffect } from 'react'
 import { Switch } from '@entur/form'
 import { LegMode, TransportSubmode } from '@entur/sdk'
 
-import { getIcon } from '../../../../utils'
+import { getIcon, getIconColorType } from '../../../../utils'
 
 import './styles.scss'
 import { useSettingsContext } from '../../../../settings'
+import { IconColorType } from '../../../../types'
 
 const getTransportModeTitle = (type: LegMode): string => {
     switch (type) {
@@ -36,13 +37,15 @@ const ModePanelRow = ({
     value,
 }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
-    const [contrast, setContrast] = useState<boolean>(false)
-    const contrastThemes = ['default', 'dark']
+    const [iconColorType, setIconColorType] = useState<IconColorType>(
+        'contrast',
+    )
 
     useEffect(() => {
-        const isContrast = contrastThemes.includes(settings?.theme)
-        setContrast(isContrast)
-    }, [settings, contrastThemes])
+        if (settings) {
+            setIconColorType(getIconColorType(settings.theme))
+        }
+    }, [settings])
 
     const handleChange = useCallback(() => {
         onChange(mode)
@@ -52,7 +55,7 @@ const ModePanelRow = ({
         <div className="mode-panel-row">
             <div>
                 <div className="mode-panel-row__icon">
-                    {getIcon(mode, contrast, subMode)}
+                    {getIcon(mode, iconColorType, subMode)}
                 </div>
                 <span className="mode-panel-row__label">
                     {getTransportModeTitle(mode)}

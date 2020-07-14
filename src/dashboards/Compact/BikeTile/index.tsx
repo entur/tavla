@@ -6,20 +6,21 @@ import { BicycleIcon } from '@entur/icons'
 import Tile from '../components/Tile'
 import TileRow from '../components/TileRow'
 import { useSettingsContext } from '../../../settings'
+import { IconColorType } from '../../../types'
+import { getIconColorType } from '../../../utils'
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
-    const [contrast, setContrast] = useState<'default' | 'contrast'>('contrast')
+    const [iconColorType, setIconColorType] = useState<IconColorType>(
+        'contrast',
+    )
 
     useEffect(() => {
         if (settings) {
-            if (settings.theme === 'dark' || settings.theme === 'default') {
-                setContrast('contrast')
-            } else {
-                setContrast('default')
-            }
+            setIconColorType(getIconColorType(settings.theme))
         }
     }, [settings])
+
     return (
         <Tile
             title="Bysykkel"
@@ -32,7 +33,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                     key={id}
                     icon={
                         <BicycleIcon
-                            color={colors.transport[contrast].mobility}
+                            color={colors.transport[iconColorType].mobility}
                         />
                     }
                     label={name}

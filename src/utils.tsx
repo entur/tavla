@@ -20,7 +20,7 @@ import { colors } from '@entur/tokens'
 
 import { Departure, LegMode, TransportSubmode } from '@entur/sdk'
 
-import { LineData, TileSubLabel } from './types'
+import { LineData, TileSubLabel, ThemeType, IconColorType } from './types'
 
 export function isNotNullOrUndefined<T>(
     thing: T | undefined | null,
@@ -46,32 +46,39 @@ function isSubModeCarFerry(subMode?: string): boolean {
     return carFerryTypes.includes(subMode)
 }
 
+export function getIconColorType(theme: ThemeType): IconColorType {
+    const defaultThemes = ['light', 'grey']
+    if (defaultThemes.includes(theme)) {
+        return 'default'
+    }
+    return 'contrast'
+}
+
 export function getIconColor(
     type: LegMode,
-    contrast: boolean,
+    iconColorType: IconColorType,
     subType?: TransportSubmode,
 ): string {
-    const icontype = contrast ? 'contrast' : 'default'
-
-    if (isSubModeAirportLink(subType)) return colors.transport[icontype].plane
+    if (isSubModeAirportLink(subType))
+        return colors.transport[iconColorType].plane
 
     switch (type) {
         case 'bus':
-            return colors.transport[icontype].bus
+            return colors.transport[iconColorType].bus
         case 'bicycle':
-            return colors.transport[icontype].mobility
+            return colors.transport[iconColorType].mobility
         case 'water':
-            return colors.transport[icontype].ferry
+            return colors.transport[iconColorType].ferry
         case 'metro':
-            return colors.transport[icontype].metro
+            return colors.transport[iconColorType].metro
         case 'rail':
-            return colors.transport[icontype].train
+            return colors.transport[iconColorType].train
         case 'tram':
-            return colors.transport[icontype].tram
+            return colors.transport[iconColorType].tram
         case 'air':
-            return colors.transport[icontype].plane
+            return colors.transport[iconColorType].plane
         default:
-            return colors.transport[icontype].walk
+            return colors.transport[iconColorType].walk
     }
 }
 
@@ -116,11 +123,11 @@ export function getTransportIconIdentifier(
 
 export function getIcon(
     legMode: LegMode,
-    contrast = false,
+    iconColorType: IconColorType,
     subMode?: TransportSubmode,
     color?: string,
 ): JSX.Element | null {
-    const colorToUse = color ?? getIconColor(legMode, contrast, subMode)
+    const colorToUse = color ?? getIconColor(legMode, iconColorType, subMode)
 
     const identifier = getTransportIconIdentifier(legMode, subMode)
 

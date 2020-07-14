@@ -4,8 +4,14 @@ import { LegBone } from '@entur/travel'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 
-import { getIcon, getIconColor, timeUntil, useCounter } from '../../utils'
-import { LineData } from '../../types'
+import {
+    getIcon,
+    getIconColor,
+    timeUntil,
+    useCounter,
+    getIconColorType,
+} from '../../utils'
+import { LineData, IconColorType } from '../../types'
 
 import { useStopPlacesWithDepartures } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
@@ -92,12 +98,8 @@ function Tick({ minutes, mode, index }: TickProps): JSX.Element {
     }
 
     useEffect(() => {
-        if (settings && settings.theme && !(minutes < 0)) {
-            if (settings.theme === 'dark' || settings.theme === 'default') {
-                setColor(getIconColor(mode, true))
-            } else {
-                setColor(getIconColor(mode, false))
-            }
+        if (settings && !(minutes < 0)) {
+            setColor(getIconColor(mode, getIconColorType(settings.theme)))
         }
     }, [settings, minutes, mode])
 
@@ -131,15 +133,13 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
     useCounter()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const [settings] = useSettingsContext()
-    const [contrast, setContrast] = useState<boolean>(false)
+    const [iconColorType, setIconColorType] = useState<IconColorType>(
+        'contrast',
+    )
 
     useEffect(() => {
         if (settings) {
-            if (settings.theme === 'dark' || settings.theme === 'default') {
-                setContrast(true)
-            } else {
-                setContrast(false)
-            }
+            setIconColorType(getIconColorType(settings.theme))
         }
     }, [settings])
 
@@ -192,7 +192,10 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                             const waitTime = timeUntil(
                                                 expectedDepartureTime,
                                             )
-                                            const icon = getIcon(type, contrast)
+                                            const icon = getIcon(
+                                                type,
+                                                iconColorType,
+                                            )
                                             return (
                                                 <div
                                                     key={id}

@@ -3,14 +3,16 @@ import React, { useCallback, useMemo, useEffect, useState } from 'react'
 import { ExpandablePanel } from '@entur/expand'
 import { Checkbox } from '@entur/form'
 
-import { getIcon, toggleValueInList } from '../../../../utils'
-import { StopPlaceWithLines } from '../../../../types'
+import { getIcon, toggleValueInList, getIconColorType } from '../../../../utils'
+import { StopPlaceWithLines, IconColorType } from '../../../../types'
 import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
 
 function StopPlacePanel(props: Props): JSX.Element {
-    const [contrast, setContrast] = useState<boolean>(false)
+    const [iconColorType, setIconColorType] = useState<IconColorType>(
+        'contrast',
+    )
 
     const [settings, { setHiddenStops, setHiddenRoutes }] = useSettingsContext()
 
@@ -19,17 +21,8 @@ function StopPlacePanel(props: Props): JSX.Element {
     const { stops } = props
 
     useEffect(() => {
-        if (
-            settings &&
-            (settings.theme === 'dark' || settings.theme === 'default')
-        ) {
-            setContrast(true)
-        }
-        if (
-            settings &&
-            !(settings.theme === 'dark' || settings.theme === 'default')
-        ) {
-            setContrast(false)
+        if (settings) {
+            setIconColorType(getIconColorType(settings.theme))
         }
     }, [settings])
 
@@ -180,7 +173,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                                     const routeId = `${id}-${routeName}`
                                     const icon = getIcon(
                                         transportMode,
-                                        contrast,
+                                        iconColorType,
                                         transportSubmode,
                                     )
 
