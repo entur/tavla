@@ -16,6 +16,7 @@ import BottomMenu from './BottomMenu'
 import './styles.scss'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 import { useSettingsContext } from '../../settings'
+import EnturBlack from '../../assets/icons/enturBlack'
 
 function DashboardWrapper(props: Props): JSX.Element {
     const secondsSinceMount = useCounter()
@@ -109,7 +110,13 @@ function DashboardWrapper(props: Props): JSX.Element {
                 <ThemeContrastWrapper useContrast={true}>
                     {logo && (
                         <div className="dashboard-wrapper__byline">
-                            Tjenesten leveres av <EnturWhite />
+                            Tjenesten leveres av{' '}
+                            {theme &&
+                            (theme === 'default' || theme === 'dark') ? (
+                                <EnturWhite />
+                            ) : (
+                                <EnturBlack />
+                            )}
                         </div>
                     )}
                     <BottomMenu

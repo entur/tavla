@@ -3,10 +3,10 @@ import { Button } from '@entur/button'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
 
+import './styles.scss'
 import { getDocumentId } from '../../utils'
 import { useFirebaseAuthentication } from '../../auth'
 
-import './styles.scss'
 import AdminHeader from './AdminHeader'
 import LogoTab from './LogoTab'
 import EditTab from './EditTab'
