@@ -76,7 +76,7 @@ workflows:
     jobs:
       - build
       - deploy-staging:
-          # filters: *filter-only-master
+          filters: *filter-only-master
           requires:
               - build
       - prod-approval:
