@@ -54,8 +54,8 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                 >
                     <TabList className="admin__tabs">
                         <Tab className="admin__tabs">Rediger innhold</Tab>
-                        <Tab>Velg farger</Tab>
                         <Tab>Velg visning</Tab>
+                        <Tab>Velg farger</Tab>
                         <Tab>Last opp logo {lockIcon}</Tab>
                     </TabList>
                     <TabPanels>
