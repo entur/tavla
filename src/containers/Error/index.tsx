@@ -14,12 +14,7 @@ function ErrorWrapper({
     callbackMessage,
     callback,
 }: Props): JSX.Element {
-    const [useContrastWrapper, setUseContrastWrapper] = useState<boolean>(true)
     const [settings] = useSettingsContext()
-
-    useEffect(() => {
-        setUseContrastWrapper(settings?.theme === 'default')
-    }, [settings])
 
     const errorCallback = callback ? (
         <PrimaryButton
@@ -32,7 +27,7 @@ function ErrorWrapper({
     ) : null
 
     return (
-        <ThemeContrastWrapper useContrast={useContrastWrapper}>
+        <ThemeContrastWrapper useContrast={settings?.theme === 'default'}>
             <div className="error-wrapper">
                 <img className="style-image" src={`${image}`} />
                 <Heading1 className="heading" margin="both">

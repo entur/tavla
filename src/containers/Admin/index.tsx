@@ -16,18 +16,7 @@ import VisningTab from './DashboardPickerTab'
 import { useSettingsContext } from '../../settings'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
-    const [useContrastWrapper, setUseContrastWrapper] = useState<boolean>(true)
     const [settings] = useSettingsContext()
-
-    useEffect(() => {
-        if (settings) {
-            if (settings.theme === 'default') {
-                setUseContrastWrapper(true)
-            } else {
-                setUseContrastWrapper(false)
-            }
-        }
-    }, [settings])
 
     const documentId = getDocumentId()
     const user = useFirebaseAuthentication()
@@ -44,7 +33,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon />
 
     return (
-        <ThemeContrastWrapper useContrast={useContrastWrapper}>
+        <ThemeContrastWrapper useContrast={settings?.theme === 'default'}>
             <div className="admin">
                 <AdminHeader goBackToDashboard={goToDash} />
                 <Tabs
