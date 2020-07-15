@@ -63,7 +63,6 @@ function DashboardWrapper(props: Props): JSX.Element {
 
     return (
         <Contrast className={`dashboard-wrapper ${className}`}>
-            <Header dashboard={true} theme="dark" />
             {renderContents()}
             <Contrast>
                 {logo && (

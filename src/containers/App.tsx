@@ -18,6 +18,7 @@ import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
 import PrivateRoute from '../routers/PrivateRoute'
 
 import { ToastProvider } from '@entur/alert'
+import Header from '../components/Header'
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
@@ -48,6 +49,7 @@ const Content = (): JSX.Element => {
         <UserProvider value={user}>
             <SettingsContext.Provider value={settings}>
                 <ToastProvider>
+                    <Header theme="dark" />
                     <Switch>
                         <Route exact path="/" component={LandingPage} />
                         <Route

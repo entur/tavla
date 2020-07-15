@@ -4,17 +4,18 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-bottom: 3rem;
+    margin: 0 4rem 1rem 4rem;
+    padding-top: 2rem;
     overflow: hidden;
-
-    &__logo {
-        display: block;
-        height: 2rem;
-    }
 
     &__logo-wrapper {
         &__description {
             margin-bottom: 0;
+        }
+
+        &__logo {
+            //display: block;
+            height: 2rem;
         }
     }
 

@@ -12,7 +12,6 @@ import './styles.scss'
 import LogoTab from './LogoTab'
 import EditTab from './EditTab'
 import VisningTab from './DashboardPickerTab'
-import Header from '../../components/Header'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const documentId = getDocumentId()
@@ -31,7 +30,6 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 
     return (
         <Contrast className="admin">
-            <Header dashboard={false} />
             <Tabs
                 index={currentIndex}
                 onChange={(newIndex): void => setCurrentIndex(newIndex)}
