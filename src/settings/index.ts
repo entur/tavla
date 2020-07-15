@@ -17,11 +17,14 @@ import { getSettings } from '../services/firebase'
 
 import { getDocumentId } from '../utils'
 
+export type Mode = 'bysykkel' | 'kollektiv'
+
 export interface Settings {
     coordinates?: Coordinates
     hiddenStations: string[]
     hiddenStops: string[]
-    hiddenModes: { [stopPlaceId: string]: LegMode[] }
+    hiddenModes: Mode[]
+    hiddenStopModes: { [stopPlaceId: string]: LegMode[] }
     hiddenRoutes: {
         [stopPlaceId: string]: string[]
     }
@@ -38,7 +41,9 @@ export interface Settings {
 interface SettingsSetters {
     setHiddenStations: (hiddenStations: string[]) => void
     setHiddenStops: (hiddenStops: string[]) => void
-    setHiddenModes: (hiddenModes: { [stopPlaceId: string]: LegMode[] }) => void
+    setHiddenStopModes: (hiddenModes: {
+        [stopPlaceId: string]: LegMode[]
+    }) => void
     setHiddenRoutes: (hiddenModes: { [stopPlaceId: string]: string[] }) => void
     setDistance: (distance: number) => void
     setNewStations: (newStations: string[]) => void
@@ -57,7 +62,7 @@ export const SettingsContext = createContext<
     {
         setHiddenStations: (): void => undefined,
         setHiddenStops: (): void => undefined,
-        setHiddenModes: (): void => undefined,
+        setHiddenStopModes: (): void => undefined,
         setHiddenRoutes: (): void => undefined,
         setDistance: (): void => undefined,
         setNewStations: (): void => undefined,
@@ -167,7 +172,7 @@ export function useSettings(): [Settings, SettingsSetters] {
         [set],
     )
 
-    const setHiddenModes = useCallback(
+    const setHiddenStopModes = useCallback(
         (newHiddenModes: { [stopPlaceId: string]: LegMode[] }): void => {
             set('hiddenModes', newHiddenModes)
         },
@@ -240,7 +245,7 @@ export function useSettings(): [Settings, SettingsSetters] {
     const setters = {
         setHiddenStations,
         setHiddenStops,
-        setHiddenModes,
+        setHiddenStopModes,
         setHiddenRoutes,
         setDistance,
         setNewStations,

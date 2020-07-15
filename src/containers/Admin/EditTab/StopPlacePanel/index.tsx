@@ -14,10 +14,10 @@ import { LegMode } from '@entur/sdk'
 function StopPlacePanel(props: Props): JSX.Element {
     const [
         settings,
-        { setHiddenStops, setHiddenRoutes, setHiddenModes },
+        { setHiddenStops, setHiddenRoutes, setHiddenStopModes },
     ] = useSettingsContext()
 
-    const { hiddenModes, hiddenStops, hiddenRoutes } = settings
+    const { hiddenStopModes, hiddenStops, hiddenRoutes } = settings
 
     const { stops } = props
 
@@ -99,15 +99,15 @@ function StopPlacePanel(props: Props): JSX.Element {
 
     const onToggleMode = useCallback(
         (stopPlaceId: string, mode: LegMode): void => {
-            setHiddenModes({
-                ...hiddenModes,
+            setHiddenStopModes({
+                ...hiddenStopModes,
                 [stopPlaceId]: toggleValueInList(
-                    hiddenModes[stopPlaceId] || [],
+                    hiddenStopModes[stopPlaceId] || [],
                     mode,
                 ),
             })
         },
-        [setHiddenModes, hiddenModes],
+        [setHiddenStopModes, hiddenStopModes],
     )
 
     if (!filteredStopPlaces.length) {
@@ -166,9 +166,9 @@ function StopPlacePanel(props: Props): JSX.Element {
                                                     onToggleMode(id, mode)
                                                 }}
                                                 checked={
-                                                    !hiddenModes[id]?.includes(
-                                                        mode,
-                                                    )
+                                                    !hiddenStopModes[
+                                                        id
+                                                    ]?.includes(mode)
                                                 }
                                             />
                                         ))}
@@ -190,7 +190,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                             {lines
                                 .filter(
                                     (line) =>
-                                        !hiddenModes[id]?.includes(
+                                        !hiddenStopModes[id]?.includes(
                                             line.transportMode,
                                         ),
                                 )

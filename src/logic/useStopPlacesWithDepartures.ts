@@ -17,7 +17,7 @@ async function fetchStopPlaceDepartures(
     settings: Settings,
     nearestStopPlaces: string[],
 ): Promise<StopPlaceWithDepartures[]> {
-    const { newStops, hiddenStops, hiddenModes, hiddenRoutes } = settings
+    const { newStops, hiddenStops, hiddenStopModes, hiddenRoutes } = settings
 
     const allStopPlaceIds = unique([...newStops, ...nearestStopPlaces]).filter(
         (id) => !hiddenStops.includes(id),
@@ -67,7 +67,7 @@ async function fetchStopPlaceDepartures(
                 ({ route, type }) =>
                     (!hiddenRoutes[stopId] ||
                         !hiddenRoutes[stopId].includes(route)) &&
-                    !hiddenModes[stopId]?.includes(type),
+                    !hiddenStopModes[stopId]?.includes(type),
             )
 
         return {
