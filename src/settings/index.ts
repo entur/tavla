@@ -110,6 +110,7 @@ export function useSettings(): [Settings, SettingsSetters] {
 
                     if (
                         data.owners === undefined ||
+                        data.owners.length === 0 ||
                         data.owners.includes(user?.uid)
                     ) {
                         if (data.owners === undefined) {
@@ -168,7 +169,7 @@ export function useSettings(): [Settings, SettingsSetters] {
                 longitude: Number(positionArray[1]),
             },
         })
-    }, [location, user, settings])
+    }, [location, user])
 
     const set = useCallback(
         <T>(key: string, value: FieldTypes): void => {
