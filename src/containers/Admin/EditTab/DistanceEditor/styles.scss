@@ -2,40 +2,13 @@
 
 .distance-editor {
     width: 400px;
-    min-height: 7rem;
+    display: flex;
+    flex-direction: column;
 
     &__text {
-        padding-right: 60px;
-        height: 24px;
-        color: white;
-        font-size: 15px;
+        font-size: 0.875rem;
         font-weight: 500;
-    }
-
-    &__input {
-        background: transparent;
-        border: none;
-        color: white;
-        font-size: 14px;
-        width: 3rem;
-        border-bottom: 2px solid $colors-brand-coral;
-        padding: 0.2rem;
-        margin: 0 4px 0 4px;
-        text-align: center;
-
-        &::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        &::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        &:focus {
-            outline: none;
-        }
+        margin: 0;
     }
 }
 

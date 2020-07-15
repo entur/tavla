@@ -1,12 +1,6 @@
 @import '../../../../assets/styles/import.scss';
 
 .stop-place-panel {
-    width: 400px;
-    background-color: $colors-blues-blue10;
-    overflow: auto;
-    padding: 1rem 2rem;
-    margin-top: 2rem;
-
     &__header {
         display: flex;
         justify-content: space-between;
@@ -23,6 +17,11 @@
         &__header {
             display: flex;
             flex-direction: row;
+            align-items: center;
+
+            .eds-switch:not(:first-of-type) {
+                margin-left: 1rem;
+            }
 
             > span {
                 font-size: 1rem;

@@ -101,11 +101,24 @@ function StopPlacePanel(props: Props): JSX.Element {
         [hiddenRoutes, isRouteSelected, setHiddenRoutes, stops],
     )
 
+    const onToggleMode = useCallback(
+        (stopPlaceId: string, mode: LegMode): void => {
+            setHiddenModes({
+                ...hiddenModes,
+                [stopPlaceId]: toggleValueInList(
+                    hiddenModes[stopPlaceId] || [],
+                    mode,
+                ),
+            })
+        },
+        [setHiddenModes, hiddenModes],
+    )
+
     if (!filteredStopPlaces.length) {
         return (
             <div className="stop-place-panel">
                 <div className="stop-place-panel__header">
-                    <h2>Stoppesteder</h2>
+                    <Paragraph>Det er ingen stoppesteder i nærheten.</Paragraph>
                 </div>
             </div>
         )
@@ -114,7 +127,6 @@ function StopPlacePanel(props: Props): JSX.Element {
     return (
         <div className="stop-place-panel">
             <div className="stop-place-panel__header">
-                <h2>Stoppesteder</h2>
                 <div className="stop-place-panel__checkall">
                     <Checkbox
                         id="check-all-stop-places"

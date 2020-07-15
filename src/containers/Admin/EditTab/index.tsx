@@ -1,9 +1,8 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 
-import '../styles.scss'
+import './styles.scss'
 
 import DistanceEditor from './DistanceEditor'
-import ModePanel from './ModePanel'
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
@@ -128,27 +127,22 @@ const EditTab = (): JSX.Element => {
     }, [stations.length, stopPlaces])
 
     return (
-        <div>
+        <div className="edit-tab">
             <Heading2>Rediger innhold</Heading2>
-            <div className="admin__content">
-                <div className="admin__selection-panel">
-                    <DistanceEditor
-                        distance={distance}
-                        onDistanceUpdated={setDistance}
-                    />
-                    <ModePanel
-                        transportModes={modes}
-                        disabledModes={hiddenModes}
-                        onModesChange={setHiddenModes}
-                    />
-                </div>
-                <div className="admin__selection-panel">
-                    <div className="search-stop-places">
+            <GridContainer spacing="extraLarge">
+                <GridItem medium={8} small={12}>
+                    <Heading2>Kollektiv</Heading2>
+                    <div className="edit-tab__set-stops">
                         <StopPlaceSearch handleAddNewStop={addNewStop} />
+                        <DistanceEditor
+                            distance={distance}
+                            onDistanceUpdated={setDistance}
+                        />
                     </div>
                     <StopPlacePanel stops={stopPlaces} />
-                </div>
-                {!hiddenModes.includes('bicycle') ? (
+                </GridItem>
+
+                <GridItem medium={4} small={12}>
                     <div className="admin__selection-panel">
                         <div className="search-stop-places">
                             <BikePanelSearch
@@ -158,8 +152,8 @@ const EditTab = (): JSX.Element => {
                         </div>
                         <BikePanel stations={stations} />
                     </div>
-                ) : null}
-            </div>
+                </GridItem>
+            </GridContainer>
         </div>
     )
 }

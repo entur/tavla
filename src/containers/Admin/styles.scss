@@ -8,13 +8,6 @@
     padding: 2% 5%;
     color: white;
 
-    &__content {
-        display: flex;
-        flex-direction: row;
-        overflow: scroll;
-        height: calc(100vh);
-    }
-
     &__submit-button {
         position: fixed;
         bottom: 2rem;
