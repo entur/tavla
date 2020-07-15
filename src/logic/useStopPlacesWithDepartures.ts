@@ -34,17 +34,12 @@ async function fetchStopPlaceDepartures(
         .filter(isNotNullOrUndefined)
         .sort((a, b) => a.name.localeCompare(b.name, 'no'))
 
-    const whiteListedModes = Object.values(LegMode).filter(
-        (mode: LegMode) => !hiddenModes.includes(mode),
-    )
-
     const departures = await service.getDeparturesFromStopPlaces(
         allStopPlaceIdsWithoutDuplicateNumber,
         {
             includeNonBoarding: false,
             limit: 200,
             limitPerLine: 3,
-            whiteListedModes,
         },
     )
 
@@ -69,9 +64,10 @@ async function fetchStopPlaceDepartures(
         const mappedAndFilteredDepartures = departuresForThisStopPlace.departures
             .map(transformDepartureToLineData)
             .filter(
-                ({ route }) =>
-                    !hiddenRoutes[stopId] ||
-                    !hiddenRoutes[stopId].includes(route),
+                ({ route, type }) =>
+                    (!hiddenRoutes[stopId] ||
+                        !hiddenRoutes[stopId].includes(route)) &&
+                    !hiddenModes[stopId]?.includes(type),
             )
 
         return {

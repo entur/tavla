@@ -21,7 +21,7 @@ export interface Settings {
     coordinates?: Coordinates
     hiddenStations: string[]
     hiddenStops: string[]
-    hiddenModes: LegMode[]
+    hiddenModes: { [stopPlaceId: string]: LegMode[] }
     hiddenRoutes: {
         [stopPlaceId: string]: string[]
     }
@@ -38,7 +38,7 @@ export interface Settings {
 interface SettingsSetters {
     setHiddenStations: (hiddenStations: string[]) => void
     setHiddenStops: (hiddenStops: string[]) => void
-    setHiddenModes: (hiddenModes: LegMode[]) => void
+    setHiddenModes: (hiddenModes: { [stopPlaceId: string]: LegMode[] }) => void
     setHiddenRoutes: (hiddenModes: { [stopPlaceId: string]: string[] }) => void
     setDistance: (distance: number) => void
     setNewStations: (newStations: string[]) => void
@@ -168,7 +168,7 @@ export function useSettings(): [Settings, SettingsSetters] {
     )
 
     const setHiddenModes = useCallback(
-        (newHiddenModes: LegMode[]): void => {
+        (newHiddenModes: { [stopPlaceId: string]: LegMode[] }): void => {
             set('hiddenModes', newHiddenModes)
         },
         [set],

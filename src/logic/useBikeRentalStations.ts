@@ -11,11 +11,7 @@ async function fetchBikeRentalStations(
     settings: Settings,
     nearestBikeRentalStations: string[],
 ): Promise<BikeRentalStation[] | null> {
-    const { newStations, hiddenStations, hiddenModes } = settings
-
-    if (hiddenModes.includes('bicycle')) {
-        return []
-    }
+    const { newStations, hiddenStations } = settings
 
     const allStationIds = [...newStations, ...nearestBikeRentalStations]
         .filter((id) => !hiddenStations.includes(id))

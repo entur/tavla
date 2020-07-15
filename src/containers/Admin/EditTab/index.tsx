@@ -18,11 +18,12 @@ import service, { getStopPlacesWithLines } from '../../../service'
 import { BikeRentalStation, LegMode, TransportSubmode } from '@entur/sdk'
 
 import { Heading2 } from '@entur/typography'
+import { GridContainer, GridItem } from '@entur/grid'
 
 const EditTab = (): JSX.Element => {
     const [settings, settingsSetters] = useSettingsContext()
-    const { hiddenModes, newStops, newStations } = settings
-    const { setHiddenModes, setNewStops, setNewStations } = settingsSetters
+    const { newStops, newStations } = settings
+    const { setNewStops, setNewStations } = settingsSetters
     const [distance, setDistance] = useState<number>(
         settings.distance || DEFAULT_DISTANCE,
     )

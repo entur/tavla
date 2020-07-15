@@ -16,14 +16,9 @@ import TileRow from '../components/TileRow'
 
 import './styles.scss'
 
-function getTransportHeaderIcons(
-    departures: LineData[],
-    hiddenModes?: LegMode[],
-): JSX.Element[] {
+function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     const transportModes = unique(
-        departures
-            .map(({ type, subType }) => ({ type, subType }))
-            .filter(({ type }) => !hiddenModes || !hiddenModes.includes(type)),
+        departures.map(({ type, subType }) => ({ type, subType })),
         (a, b) =>
             getTransportIconIdentifier(a.type, a.subType) ===
             getTransportIconIdentifier(b.type, b.subType),

@@ -1,0 +1,27 @@
+@import '../../../assets/styles/import.scss';
+
+.edit-tab {
+    .eds-grid__item {
+        background-color: $colors-blues-blue10;
+        padding: 2rem;
+
+        h2 {
+            margin: 0;
+        }
+    }   
+
+    &__set-stops {
+        display: flex;
+        align-items: flex-start;
+        margin-top: 1rem;
+    }
+
+    .distance-editor {
+        margin-left: 2rem;
+        width: auto;
+    }
+
+    .stop-place-search {
+        flex-grow: 1;
+    }
+}
