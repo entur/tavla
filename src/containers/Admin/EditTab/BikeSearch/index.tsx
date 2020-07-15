@@ -48,7 +48,6 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
 
     return (
         <div className="bike-search">
-            <span>Bysykkelstativ</span>
             <Dropdown
                 searchable
                 openOnFocus

@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 
 import { ExpandablePanel } from '@entur/expand'
-import { Checkbox, TravelSwitch } from '@entur/form'
+import { Checkbox, TravelSwitch, TravelSwitchProps } from '@entur/form'
 
-import { getIcon, toggleValueInList } from '../../../../utils'
+import { getIcon, toggleValueInList, unique } from '../../../../utils'
 import { StopPlaceWithLines } from '../../../../types'
 import { useSettingsContext } from '../../../../settings'
 
@@ -147,22 +147,32 @@ function StopPlacePanel(props: Props): JSX.Element {
                             className="stop-place-panel__row__expandable"
                             title={
                                 <div className="stop-place-panel__row__header">
-                                    <TravelSwitch
-                                        transport="bus"
-                                        onChange={() => onToggleMode(id, 'bus')}
-                                        checked={
-                                            !hiddenModes[id]?.includes('bus')
+                                    <span
+                                        onClick={(event) =>
+                                            event.stopPropagation()
                                         }
-                                    />
-                                    <TravelSwitch
-                                        transport="rail"
-                                        onChange={() =>
-                                            onToggleMode(id, 'rail')
-                                        }
-                                        checked={
-                                            !hiddenModes[id]?.includes('rail')
-                                        }
-                                    />
+                                    >
+                                        {unique(
+                                            lines.map(
+                                                (line) => line.transportMode,
+                                            ),
+                                        ).map((mode) => (
+                                            <TravelSwitch
+                                                key={mode}
+                                                transport={
+                                                    mode as TravelSwitchProps['transport']
+                                                }
+                                                onChange={(event): void => {
+                                                    onToggleMode(id, mode)
+                                                }}
+                                                checked={
+                                                    !hiddenModes[id]?.includes(
+                                                        mode,
+                                                    )
+                                                }
+                                            />
+                                        ))}
+                                    </span>
                                     <span>{name}</span>
                                 </div>
                             }

@@ -9,16 +9,17 @@ import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
 
 import { useSettingsContext } from '../../../settings'
-import { useDebounce, isLegMode, unique } from '../../../utils'
+import { useDebounce } from '../../../utils'
 import { DEFAULT_DISTANCE } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
 
-import { BikeRentalStation, LegMode, TransportSubmode } from '@entur/sdk'
+import { BikeRentalStation } from '@entur/sdk'
 
 import { Heading2 } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
+import { Switch } from '@entur/form'
 
 const EditTab = (): JSX.Element => {
     const [settings, settingsSetters] = useSettingsContext()
@@ -103,36 +104,15 @@ const EditTab = (): JSX.Element => {
         [newStations, setNewStations],
     )
 
-    const modes: Array<{
-        mode: LegMode
-        subMode?: TransportSubmode
-    }> = useMemo(() => {
-        const modesFromStopPlaces = stopPlaces
-            .map((stopPlace) =>
-                stopPlace.lines.map(({ transportMode, transportSubmode }) => ({
-                    mode: transportMode,
-                    subMode: transportSubmode,
-                })),
-            )
-            .reduce((a, b) => [...a, ...b], [])
-            .filter(({ mode }) => isLegMode(mode))
-
-        const uniqModesFromStopPlaces = unique(
-            modesFromStopPlaces,
-            (a, b) => a.mode === b.mode,
-        )
-
-        return stations.length
-            ? [{ mode: 'bicycle' }, ...uniqModesFromStopPlaces]
-            : uniqModesFromStopPlaces
-    }, [stations.length, stopPlaces])
-
     return (
         <div className="edit-tab">
             <Heading2>Rediger innhold</Heading2>
             <GridContainer spacing="extraLarge">
                 <GridItem medium={8} small={12}>
-                    <Heading2>Kollektiv</Heading2>
+                    <div className="edit-tab__header">
+                        <Heading2>Kollektiv</Heading2>
+                        <Switch />
+                    </div>
                     <div className="edit-tab__set-stops">
                         <StopPlaceSearch handleAddNewStop={addNewStop} />
                         <DistanceEditor
@@ -144,15 +124,15 @@ const EditTab = (): JSX.Element => {
                 </GridItem>
 
                 <GridItem medium={4} small={12}>
-                    <div className="admin__selection-panel">
-                        <div className="search-stop-places">
-                            <BikePanelSearch
-                                position={settings.coordinates}
-                                onSelected={addNewStation}
-                            />
-                        </div>
-                        <BikePanel stations={stations} />
+                    <div className="edit-tab__header">
+                        <Heading2>Bysykkel</Heading2>
+                        <Switch />
                     </div>
+                    <BikePanelSearch
+                        position={settings.coordinates}
+                        onSelected={addNewStation}
+                    />
+                    <BikePanel stations={stations} />
                 </GridItem>
             </GridContainer>
         </div>

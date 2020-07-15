@@ -10,6 +10,15 @@
         }
     }   
 
+    &__header {
+        display: flex;
+        justify-content: space-between;
+
+        .eds-switch {
+            padding: 0;
+        }
+    }
+
     &__set-stops {
         display: flex;
         align-items: flex-start;

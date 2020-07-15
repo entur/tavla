@@ -36,11 +36,11 @@ function BikePanel(props: Props): JSX.Element {
 
     return (
         <div className="bike-panel">
-            <div className="bike-panel__header">
-                <h2>Bysykler</h2>
+            <div className="bike-panel__row">
                 <Checkbox
                     id="check-all-stop-places-bike"
                     name="check-all-stop-places-bike"
+                    label="Velg alle"
                     onChange={onChooseAllPressed}
                     checked={!hiddenStations.length}
                 >
