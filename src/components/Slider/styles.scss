@@ -1,5 +1,23 @@
 @import '../../assets/styles/import.scss';
 
+@mixin reset-track {
+    width: 100%;
+    height: 0.3rem;
+    cursor: pointer;
+    background: #FFF;
+    border: 1px solid #FFF;
+}
+
+@mixin reset-thumb {
+    border: 1px solid #FFF;
+    height: 1.25rem;
+    width: 1.25rem;
+    border-radius: 100%;
+    background: #FFF;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
 .slider {
     width: 100%;
     height: 0.6%;
@@ -22,70 +40,31 @@
     }
 
     &::-webkit-slider-thumb {
+        @include reset-thumb();
         -webkit-appearance: none;
-        border: 1px solid $colors-brand-coral;
-        height: 1.25rem;
-        width: 1.25rem;
-        border-radius: 100%;
-        background: $colors-brand-coral;
-        cursor: pointer;
         margin-top: -0.6em;
     }
 
     &::-moz-range-thumb {
-        border: 1px solid $colors-brand-coral;
-        height: 1.25rem;
-        width: 1.25rem;
-        border-radius: 100%;
-        background: $colors-brand-coral;
-        cursor: pointer;
+        @include reset-thumb();
+
     }
 
     &::-ms-thumb {
-        border: 1px solid $colors-brand-coral;
-        height: 1.25rem;
-        width: 1.25rem;
-        border-radius: 100%;
-        background: $colors-brand-coral;
-        cursor: pointer;
+        @include reset-thumb();
     }
 
     &::-webkit-slider-runnable-track {
-        width: 100%;
-        height: 0.5rem;
-        cursor: pointer;
-        background: white;
-        border: 0.2px solid white;
+        @include reset-track();
     }
 
     &::-moz-range-track {
-        width: 100%;
-        height: 0.5rem;
-        cursor: pointer;
-        background: white;
-        border: 0.2px solid white;
+        @include reset-track();
+
     }
 
     &::-ms-track {
-        width: 100%;
-        height: 0.5rem;
-        cursor: pointer;
-        border: 0.2px solid white;
-        background: transparent;
-        border-color: transparent;
-        color: transparent;
-    }
-
-    &::-ms-fill-lower {
-        background: $colors-brand-coral;
-    }
-
-    &::-ms-fill-upper {
-        background: white;
-    }
-
-    &::-ms-fill-left {
-        background: white;
+        @include reset-track();
     }
 
     &:focus {
