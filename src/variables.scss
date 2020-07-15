@@ -1,6 +1,6 @@
 @import './assets/styles/import.scss';
 
-:root {
+.default-theme {
     --tavla-background-color: #181c56;
     --tavla-font-color: #ffffff;
     --tavla-box-background-color: #292b6a;
@@ -10,7 +10,10 @@
     --tavla-selected-color: #393d79;
     --tavla-label-font-color: rgb(174, 183, 226);
     --tavla-checkbox-color: #54568c;
+    --tavla-checkbox-hover-color: #8285a8;
     --tavla-hover-color: #aeb7e2;
+    --tavla-input-border-color: #181c56;
+    --tavla-input-border-hover-color: #aeb7e2;
 }
 
 .dark-theme {
@@ -22,8 +25,11 @@
     --tavla-border-color: #212122;
     --tavla-selected-color: #353535;
     --tavla-label-font-color: #949494;
-    --tavla-checkbox-color: #949494;
+    --tavla-checkbox-color: #292929;
+    --tavla-checkbox-hover-color: #4d4d4d;
     --tavla-hover-color: #4d4d4d;
+    --tavla-input-border-color: #4d4d4d;
+    --tavla-input-border-hover-color: #4d4d4d;
 }
 
 .light-theme {
@@ -36,7 +42,10 @@
     --tavla-selected-color: #f3f3f3;
     --tavla-label-font-color: #949494;
     --tavla-checkbox-color: #949494;
+    --tavla-checkbox-hover-color: #d1d3d3;
     --tavla-hover-color: #d1d3d3;
+    --tavla-input-border-color: #949494;
+    --tavla-input-border-hover-color: #949494;
 }
 
 .grey-theme {
@@ -49,5 +58,8 @@
     --tavla-selected-color: #f8f8f8;
     --tavla-label-font-color: #949494;
     --tavla-checkbox-color: #949494;
+    --tavla-checkbox-hover-color: #d1d3d3;
     --tavla-hover-color: #d1d3d3;
+    --tavla-input-border-color: #949494;
+    --tavla-input-border-hover-color: #949494;
 }
