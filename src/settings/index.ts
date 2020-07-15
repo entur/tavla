@@ -17,6 +17,7 @@ import {
 import { getSettings } from '../services/firebase'
 
 import { getDocumentId } from '../utils'
+import { useFirebaseAuthentication } from '../auth'
 
 export interface Settings {
     coordinates?: Coordinates
@@ -31,10 +32,10 @@ export interface Settings {
     newStops?: string[]
     dashboard?: string | void
     owners?: string[]
-    theme: Theme
+    theme?: Theme
     logo?: string
-    logoSize: string
-    description: string
+    logoSize?: string
+    description?: string
 }
 
 interface SettingsSetters {
@@ -82,6 +83,7 @@ export function useSettings(): [Settings, SettingsSetters] {
     const [settings, setSettings] = useState<Settings>()
 
     const location = useLocation()
+    const user = useFirebaseAuthentication()
 
     useEffect(() => {
         const protectedPath =
@@ -98,27 +100,48 @@ export function useSettings(): [Settings, SettingsSetters] {
                 if (document.exists) {
                     const data = document.data()
 
-                    // Handle settings which were initialized before `new settings` was introduced.
-                    if (data.owners === undefined) {
-                        persistToFirebase(getDocumentId(), 'owners', [])
-                        data.owners = []
+                    const defaultSettings = {
+                        description: '',
+                        logoSize: '32px',
+                        theme: 'default',
+                        owners: [] as string[],
+                        ...data,
                     }
 
-                    if (data.theme === undefined) {
-                        persistToFirebase(getDocumentId(), 'theme', 'default')
+                    if (
+                        data.owners === undefined ||
+                        data.owners.includes(user?.uid)
+                    ) {
+                        if (data.owners === undefined) {
+                            persistToFirebase(getDocumentId(), 'owners', [])
+                        }
+
+                        if (data.theme === undefined) {
+                            persistToFirebase(
+                                getDocumentId(),
+                                'theme',
+                                'default',
+                            )
+                        }
+
+                        if (data.description === undefined) {
+                            persistToFirebase(
+                                getDocumentId(),
+                                'description',
+                                '',
+                            )
+                        }
+
+                        if (data.logoSize === undefined) {
+                            persistToFirebase(
+                                getDocumentId(),
+                                'logoSize',
+                                '32px',
+                            )
+                        }
                     }
 
-                    if (data.description === undefined) {
-                        persistToFirebase(getDocumentId(), 'description', '')
-                        data.description = ''
-                    }
-
-                    if (data.logoSize === undefined) {
-                        persistToFirebase(getDocumentId(), 'logoSize', '32px')
-                        data.logoSize = '32px'
-                    }
-
-                    setSettings(data as Settings)
+                    setSettings(defaultSettings as Settings)
                 } else {
                     window.location.pathname = '/'
                 }
@@ -145,7 +168,7 @@ export function useSettings(): [Settings, SettingsSetters] {
                 longitude: Number(positionArray[1]),
             },
         })
-    }, [location])
+    }, [location, user, settings])
 
     const set = useCallback(
         <T>(key: string, value: FieldTypes): void => {

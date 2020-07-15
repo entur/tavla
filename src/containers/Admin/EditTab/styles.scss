@@ -19,17 +19,21 @@
 
 .eds-checkbox__container:hover input + .eds-checkbox__icon {
     border-color: var(--tavla-checkbox-hover-color);
-    background-color: transparent;
+    background-color: var(--tavla-input-background-color);
 }
 
 .eds-form-control-wrapper {
     --border-color: var(--tavla-input-border-color);
     --border-color-hover: var(--tavla-input-border-hover-color);
-    background-color: var(--tavla-box-background-color);
+    background-color: var(--tavla-input-background-color);
 }
 
 .eds-dropdown__input {
-    color: var(--tavla-font-color);
+    color: var(--tavla-input-font-color);
+}
+
+.eds-dropdown__input::placeholder {
+    color: var(--tavla-input-font-color);
 }
 
 .eds-form-control__prepend svg,

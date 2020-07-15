@@ -24,7 +24,12 @@ function ModePanel({
     )
 
     return (
-        <ThemeContrastWrapper useContrast={settings?.theme === Theme.DARK}>
+        <ThemeContrastWrapper
+            useContrast={
+                settings?.theme === Theme.DEFAULT ||
+                settings?.theme === Theme.DARK
+            }
+        >
             <div className="mode-panel">
                 <h2>Transportmidler</h2>
                 <div>

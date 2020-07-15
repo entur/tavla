@@ -8,7 +8,7 @@ function TavlaLogo({ className, height }: Props): JSX.Element {
     const [enturColor, setEnturColor] = useState<string>(colors.brand.blue)
 
     useEffect(() => {
-        if (!settings) return
+        if (!settings && !settings?.theme) return
         if (settings.theme === Theme.DARK || settings.theme === Theme.DEFAULT) {
             setEnturColor('white')
         } else {

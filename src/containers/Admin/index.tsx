@@ -11,14 +11,11 @@ import AdminHeader from './AdminHeader'
 import LogoTab from './LogoTab'
 import EditTab from './EditTab'
 import ThemeTab from './ThemeTab'
-import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 import VisningTab from './DashboardPickerTab'
 import { useSettingsContext } from '../../settings'
 import { Theme } from '../../types'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
-    const [settings] = useSettingsContext()
-
     const documentId = getDocumentId()
     const user = useFirebaseAuthentication()
 
@@ -34,47 +31,45 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon />
 
     return (
-        <ThemeContrastWrapper useContrast={settings?.theme === Theme.DEFAULT}>
-            <div className="admin">
-                <AdminHeader goBackToDashboard={goToDash} />
-                <Tabs
-                    index={currentIndex}
-                    onChange={setCurrentIndex}
-                    className="admin__tabs"
-                >
-                    <TabList className="admin__tabs">
-                        <Tab className="admin__tabs">Rediger innhold</Tab>
-                        <Tab>Velg visning</Tab>
-                        <Tab>Velg farger</Tab>
-                        <Tab>Last opp logo {lockIcon}</Tab>
-                    </TabList>
-                    <TabPanels className="admin__tabs__tab-panels">
-                        <TabPanel>
-                            <EditTab />
-                        </TabPanel>
-                        <TabPanel>
-                            <VisningTab />
-                        </TabPanel>
-                        <TabPanel>
-                            <ThemeTab />
-                        </TabPanel>
-                        <TabPanel>
-                            <LogoTab
-                                tabIndex={currentIndex}
-                                setTabIndex={setCurrentIndex}
-                            />
-                        </TabPanel>
-                    </TabPanels>
-                </Tabs>
-                <Button
-                    className="admin__submit-button"
-                    variant="primary"
-                    onClick={goToDash}
-                >
-                    Se avgangstavla
-                </Button>
-            </div>
-        </ThemeContrastWrapper>
+        <div className="admin">
+            <AdminHeader goBackToDashboard={goToDash} />
+            <Tabs
+                index={currentIndex}
+                onChange={setCurrentIndex}
+                className="admin__tabs"
+            >
+                <TabList className="admin__tabs">
+                    <Tab className="admin__tabs">Rediger innhold</Tab>
+                    <Tab>Velg visning</Tab>
+                    <Tab>Velg farger</Tab>
+                    <Tab>Last opp logo {lockIcon}</Tab>
+                </TabList>
+                <TabPanels className="admin__tabs__tab-panels">
+                    <TabPanel>
+                        <EditTab />
+                    </TabPanel>
+                    <TabPanel>
+                        <VisningTab />
+                    </TabPanel>
+                    <TabPanel>
+                        <ThemeTab />
+                    </TabPanel>
+                    <TabPanel>
+                        <LogoTab
+                            tabIndex={currentIndex}
+                            setTabIndex={setCurrentIndex}
+                        />
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
+            <Button
+                className="admin__submit-button"
+                variant="primary"
+                onClick={goToDash}
+            >
+                Se avgangstavla
+            </Button>
+        </div>
     )
 }
 
