@@ -23,7 +23,7 @@ import './styles.scss'
 
 const Requirements = (): JSX.Element => (
     <>
-        <Label>Krav til logo for best resultat</Label>
+        <Label className="label">Krav til logo for best resultat</Label>
         <UnorderedList>
             <ListItem>
                 Logo bør lastes opp med transparent bakgrunn i .png eller

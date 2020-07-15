@@ -1,29 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { colors } from '@entur/tokens'
 import { useSettingsContext } from '../../settings'
+import { Theme } from '../../types'
 
 function TavlaLogo({ className, height }: Props): JSX.Element {
     const [settings] = useSettingsContext()
-    const [tavlaColor, setTavlaColor] = useState<string>(colors.brand.coral)
     const [enturColor, setEnturColor] = useState<string>(colors.brand.blue)
-    const [underlineColor, setUnderlineColor] = useState<string>(
-        colors.brand.coral,
-    )
 
     useEffect(() => {
         if (!settings) return
-        if (settings.theme === 'dark') {
-            setTavlaColor('white')
+        if (settings.theme === Theme.DARK || settings.theme === Theme.DEFAULT) {
             setEnturColor('white')
-            setUnderlineColor('white')
-        } else if (settings.theme === 'default') {
-            setTavlaColor(colors.brand.coral)
-            setEnturColor('white')
-            setUnderlineColor(colors.brand.coral)
         } else {
-            setTavlaColor('black')
             setEnturColor('black')
-            setUnderlineColor('black')
         }
     }, [settings])
 
@@ -39,7 +28,10 @@ function TavlaLogo({ className, height }: Props): JSX.Element {
                     fill={enturColor}
                     d="M5.6,5v7.4h14.2v5H5.6v7.2h16v5H0V0h21.6v5H5.6z"
                 />
-                <path fill={underlineColor} d="M52.1,42.2H0v-5h52.1V42.2z" />
+                <path
+                    fill={colors.brand.coral}
+                    d="M52.1,42.2H0v-5h52.1V42.2z"
+                />
                 <path
                     fill={enturColor}
                     d="M51.6,29.7L32.3,12.1v17.7h-5.6V0h0.6l19.3,18V0h5.6v29.7H51.6z"
@@ -66,7 +58,7 @@ function TavlaLogo({ className, height }: Props): JSX.Element {
         L120.1,27.8z"
                 />
                 <g
-                    fill={tavlaColor}
+                    fill={colors.brand.coral}
                     fontFamily="Nationale-DemiBold, Nationale"
                     fontSize="40.5"
                     fontWeight="600"

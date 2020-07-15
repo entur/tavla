@@ -8,7 +8,7 @@ import { useCounter } from '../../utils'
 import TavlaLogo from '../../assets/icons/tavlaLogo'
 import EnturWhite from '../../assets/icons/enturWhite'
 import { Clock } from '../../components'
-import { StopPlaceWithDepartures } from '../../types'
+import { StopPlaceWithDepartures, Theme } from '../../types'
 import { NoStopsOnTavle } from './../Error/ErrorPages'
 
 import BottomMenu from './BottomMenu'
@@ -64,7 +64,7 @@ function DashboardWrapper(props: Props): JSX.Element {
     const [{ logoSize, logo, description, theme }] = useSettingsContext()
 
     return (
-        <ThemeContrastWrapper useContrast={theme === 'default'}>
+        <ThemeContrastWrapper useContrast={theme === Theme.DEFAULT}>
             <div className={`dashboard-wrapper ${className}`}>
                 <div className="dashboard-wrapper__top">
                     <div className="dashboard-wrapper__logo-wrapper">
@@ -94,7 +94,8 @@ function DashboardWrapper(props: Props): JSX.Element {
                         <div className="dashboard-wrapper__byline">
                             Tjenesten leveres av{' '}
                             {theme &&
-                            (theme === 'default' || theme === 'dark') ? (
+                            (theme === Theme.DEFAULT ||
+                                theme === Theme.DARK) ? (
                                 <EnturWhite />
                             ) : (
                                 <EnturBlack />

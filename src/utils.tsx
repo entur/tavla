@@ -47,7 +47,7 @@ function isSubModeCarFerry(subMode?: string): boolean {
 }
 
 export function getIconColorType(theme: Theme): IconColorType {
-    const defaultThemes = ['light', 'grey']
+    const defaultThemes = [Theme.LIGHT, Theme.GREY]
     if (defaultThemes.includes(theme)) {
         return 'default'
     }
