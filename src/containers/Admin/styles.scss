@@ -56,6 +56,11 @@
     border-color: var(--tavla-button-background-color);
 }
 
+.eds-tab:hover {
+    background-color: var(--tavla-hover-color);
+    border-color: var(--tavla-hover-color);
+}
+
 .eds-tab::after {
     background-color: var(--tavla-button-background-color);
 }

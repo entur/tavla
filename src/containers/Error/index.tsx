@@ -6,6 +6,7 @@ import './styles.scss'
 import { Heading1 } from '@entur/typography'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 import { useSettingsContext } from '../../settings'
+import { Theme } from '../../types'
 
 function ErrorWrapper({
     title,
@@ -27,7 +28,7 @@ function ErrorWrapper({
     ) : null
 
     return (
-        <ThemeContrastWrapper useContrast={settings?.theme === 'default'}>
+        <ThemeContrastWrapper useContrast={settings?.theme === Theme.DEFAULT}>
             <div className="error-wrapper">
                 <img className="style-image" src={`${image}`} />
                 <Heading1 className="heading" margin="both">

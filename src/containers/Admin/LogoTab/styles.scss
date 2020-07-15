@@ -1,4 +1,9 @@
 @import '../../../assets/styles/import.scss';
+@import '../../../variables.scss';
+
+.label {
+    color: var(--tavla-label-font-color);
+}
 
 .logo-grid {
     .eds-file-upload__wrapper {

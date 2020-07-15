@@ -14,6 +14,7 @@ import ThemeTab from './ThemeTab'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 import VisningTab from './DashboardPickerTab'
 import { useSettingsContext } from '../../settings'
+import { Theme } from '../../types'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
@@ -33,7 +34,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon />
 
     return (
-        <ThemeContrastWrapper useContrast={settings?.theme === 'default'}>
+        <ThemeContrastWrapper useContrast={settings?.theme === Theme.DEFAULT}>
             <div className="admin">
                 <AdminHeader goBackToDashboard={goToDash} />
                 <Tabs

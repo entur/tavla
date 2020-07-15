@@ -8,6 +8,9 @@
     --tavla-github-logo: #aeb7e2;
     --tavla-border-color: #393d79;
     --tavla-selected-color: #393d79;
+    --tavla-label-font-color: rgb(174, 183, 226);
+    --tavla-checkbox-color: #54568c;
+    --tavla-hover-color: #aeb7e2;
 }
 
 .dark-theme {
@@ -17,7 +20,10 @@
     --tavla-button-background-color: #212122;
     --tavla-github-logo: #212122;
     --tavla-border-color: #212122;
-    --tavla-selected-color: rgba(255, 255, 255, 0.14);
+    --tavla-selected-color: #353535;
+    --tavla-label-font-color: #949494;
+    --tavla-checkbox-color: #949494;
+    --tavla-hover-color: #4d4d4d;
 }
 
 .light-theme {
@@ -28,6 +34,9 @@
     --tavla-github-logo: #f3f3f3;
     --tavla-border-color: #f3f3f3;
     --tavla-selected-color: #f3f3f3;
+    --tavla-label-font-color: #949494;
+    --tavla-checkbox-color: #949494;
+    --tavla-hover-color: #d1d3d3;
 }
 
 .grey-theme {
@@ -37,5 +46,8 @@
     --tavla-button-background-color: rgb(255, 255, 255);
     --tavla-github-logo: #ffffff;
     --tavla-border-color: #ffffff;
-    --tavla-selected-color: #ffffff;
+    --tavla-selected-color: #f8f8f8;
+    --tavla-label-font-color: #949494;
+    --tavla-checkbox-color: #949494;
+    --tavla-hover-color: #d1d3d3;
 }
