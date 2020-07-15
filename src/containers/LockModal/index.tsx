@@ -9,7 +9,7 @@ import retinaCheck from '../../assets/images/check@2x.png'
 import { useFirebaseAuthentication } from '../../auth'
 import { useSettingsContext } from '../../settings'
 
-import LoginModal from '../Admin/LoginModal'
+import LoginModal from '../../components/LoginModal'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
 

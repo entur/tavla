@@ -7,11 +7,11 @@ import { EmailIcon, ClosedLockIcon, BackArrowIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading2, Link } from '@entur/typography'
 
-import { useFormFields } from '../../../../utils'
+import { useFormFields } from '../../../utils'
 import { ModalType } from '../index'
 
-import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
+import sikkerhetBom from './../../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from './../../../assets/images/sikkerhet_bom@2x.png'
 
 interface Props {
     setModalType: Dispatch<SetStateAction<ModalType>>

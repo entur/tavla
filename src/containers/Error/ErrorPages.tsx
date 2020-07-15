@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import ErrorWrapper from '.'
-import LoginModal from '../Admin/LoginModal'
+import LoginModal from '../../components/LoginModal'
 
 import sikkerhetBomLight from './../../assets/images/sikkerhet_bom_light@2x.png'
 import duerLight from './../../assets/images/duer@2x.png'

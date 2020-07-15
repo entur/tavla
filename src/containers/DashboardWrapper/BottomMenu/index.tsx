@@ -25,7 +25,7 @@ import { useWindowWidth } from '@react-hook/window-size'
 
 import './styles.scss'
 import LockModal from '../../LockModal'
-import LoginModal from '../../Admin/LoginModal/.'
+import LoginModal from '../../../components/LoginModal'
 import { useFirebaseAuthentication } from '../../../auth'
 
 function BottomMenu({ className, history }: Props): JSX.Element {

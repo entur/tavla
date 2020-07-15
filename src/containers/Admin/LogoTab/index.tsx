@@ -14,7 +14,7 @@ import { useFirebaseAuthentication } from '../../../auth'
 import { User } from 'firebase/app'
 import { getDocumentId } from '../../../utils'
 
-import LoginModal from '../LoginModal'
+import LoginModal from '../../../components/LoginModal'
 import LogoUpload from './LogoUpload'
 import SizePicker from './SizePicker'
 import Description from './Description'
