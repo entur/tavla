@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Contrast } from '@entur/layout'
+
 import { DashboardHeader } from './DashboardHeader'
 import { DefaultHeader } from './DefaultHeader'
 
@@ -11,10 +13,18 @@ function Header({ theme }: Props): JSX.Element {
         window.location.pathname.split('/')[1] == 'dashboard'
 
     if (onDashboard) {
-        return <DashboardHeader theme={theme} />
+        return (
+            <Contrast>
+                <DashboardHeader theme={theme} />
+            </Contrast>
+        )
     }
 
-    return <DefaultHeader theme={theme} />
+    return (
+        <Contrast>
+            <DefaultHeader theme={theme} />
+        </Contrast>
+    )
 }
 
 interface Props {

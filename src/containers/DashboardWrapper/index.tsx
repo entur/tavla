@@ -12,7 +12,6 @@ import { NoStopsOnTavle } from './../Error/ErrorPages'
 import BottomMenu from './BottomMenu'
 
 import './styles.scss'
-import Header from './../../components/Header'
 import { useSettingsContext } from '../../settings'
 
 function DashboardWrapper(props: Props): JSX.Element {
