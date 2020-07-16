@@ -17,6 +17,7 @@ import './styles.scss'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 import { useSettingsContext } from '../../settings'
 import EnturBlack from '../../assets/icons/enturBlack'
+import UpgradeTavlaBanner from './UpgradeTavlaBanner/UpgradeTavlaBanner'
 
 function DashboardWrapper(props: Props): JSX.Element {
     const secondsSinceMount = useCounter()
@@ -64,53 +65,56 @@ function DashboardWrapper(props: Props): JSX.Element {
     const [{ logoSize, logo, description, theme }] = useSettingsContext()
 
     return (
-        <ThemeContrastWrapper
-            useContrast={theme === Theme.DEFAULT || theme === Theme.DARK}
-        >
-            <div className={`dashboard-wrapper ${className}`}>
-                <div className="dashboard-wrapper__top">
-                    <div className="dashboard-wrapper__logo-wrapper">
-                        {logo ? (
-                            <img
-                                src={logo}
-                                height={logoSize}
-                                className="dashboard-wrapper__logo"
-                            />
-                        ) : (
-                            <TavlaLogo
-                                className="dashboard-wrapper__logo"
-                                height={logoSize}
-                            />
-                        )}
-                        <SubParagraph>
-                            {logoSize === '32px' &&
-                                (description ||
-                                    'Finn din rute på entur.no eller i Entur-appen')}
-                        </SubParagraph>
-                    </div>
-                    <Clock className="dashboard-wrapper__clock" />
-                </div>
-                {renderContents()}
-                <ThemeContrastWrapper useContrast={true}>
-                    {logo && (
-                        <div className="dashboard-wrapper__byline">
-                            Tjenesten leveres av{' '}
-                            {theme &&
-                            (theme === Theme.DEFAULT ||
-                                theme === Theme.DARK) ? (
-                                <EnturWhite />
+        <div>
+            <UpgradeTavlaBanner />
+            <ThemeContrastWrapper
+                useContrast={theme === Theme.DEFAULT || theme === Theme.DARK}
+            >
+                <div className={`dashboard-wrapper ${className}`}>
+                    <div className="dashboard-wrapper__top">
+                        <div className="dashboard-wrapper__logo-wrapper">
+                            {logo ? (
+                                <img
+                                    src={logo}
+                                    height={logoSize}
+                                    className="dashboard-wrapper__logo"
+                                />
                             ) : (
-                                <EnturBlack />
+                                <TavlaLogo
+                                    className="dashboard-wrapper__logo"
+                                    height={logoSize}
+                                />
                             )}
+                            <SubParagraph>
+                                {logoSize === '32px' &&
+                                    (description ||
+                                        'Finn din rute på entur.no eller i Entur-appen')}
+                            </SubParagraph>
                         </div>
-                    )}
-                    <BottomMenu
-                        className="dashboard-wrapper__bottom-menu"
-                        history={history}
-                    />
-                </ThemeContrastWrapper>
-            </div>
-        </ThemeContrastWrapper>
+                        <Clock className="dashboard-wrapper__clock" />
+                    </div>
+                    {renderContents()}
+                    <ThemeContrastWrapper useContrast={true}>
+                        {logo && (
+                            <div className="dashboard-wrapper__byline">
+                                Tjenesten leveres av{' '}
+                                {theme &&
+                                (theme === Theme.DEFAULT ||
+                                    theme === Theme.DARK) ? (
+                                    <EnturWhite />
+                                ) : (
+                                    <EnturBlack />
+                                )}
+                            </div>
+                        )}
+                        <BottomMenu
+                            className="dashboard-wrapper__bottom-menu"
+                            history={history}
+                        />
+                    </ThemeContrastWrapper>
+                </div>
+            </ThemeContrastWrapper>
+        </div>
     )
 }
 

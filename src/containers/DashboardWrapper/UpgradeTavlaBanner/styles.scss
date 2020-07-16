@@ -1,0 +1,19 @@
+.banner {
+    background: rgb(239, 211, 88);
+    width: 100%;
+    height: 37px;
+    text-align: center;
+    line-height: 21px;
+    margin: 0 auto;
+    color: rgb(24, 28, 86);
+    line-height: 37px;
+
+    &__icon {
+        margin-right: 8px;
+        top: 5px;
+    }
+
+    &__link {
+        color: rgb(24, 28, 86);
+    }
+}
