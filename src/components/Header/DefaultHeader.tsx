@@ -41,7 +41,7 @@ export function DefaultHeader({ theme }: Props): JSX.Element {
     const hideLogin = user == undefined
     const userItem = userLoggedin ? (
         <div className="header__resources__item" onClick={logout}>
-            <p className="header__resources__item__text">Logg ut</p>
+            <span className="header__resources__item__text">Logg ut</span>
             <LogOutIcon
                 className="header__resources__item__icon"
                 size="1.5rem"
@@ -49,7 +49,7 @@ export function DefaultHeader({ theme }: Props): JSX.Element {
         </div>
     ) : (
         <div className="header__resources__item" onClick={login}>
-            <p className="header__resources__item__text">Logg inn</p>
+            <span className="header__resources__item__text">Logg inn</span>
             <UserIcon className="header__resources__item__icon" size="1.5rem" />
         </div>
     )
@@ -69,9 +69,9 @@ export function DefaultHeader({ theme }: Props): JSX.Element {
                 {!hideLogin ? userItem : null}
                 <div className="header__resources__item">
                     <a href="/privacy">
-                        <p className="header__resources__item__text">
+                        <span className="header__resources__item__text">
                             Personvern
-                        </p>
+                        </span>
                         <ClosedLockIcon
                             className="header__resources__item__icon"
                             size="1.5rem"
@@ -84,7 +84,9 @@ export function DefaultHeader({ theme }: Props): JSX.Element {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <p className="header__resources__item__text">Github</p>
+                        <span className="header__resources__item__text">
+                            Github
+                        </span>
                         <Github
                             className="header__resources__item__icon"
                             size="1.5rem"

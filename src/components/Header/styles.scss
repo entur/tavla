@@ -13,10 +13,10 @@
             margin-bottom: 0;
             margin-top: 0.75rem;
             font-size: 1.25rem;
+            display: block;
         }
 
         &__logo {
-            //display: block;
             height: 2rem;
         }
     }
@@ -25,6 +25,7 @@
         &__date {
             margin-top: 0.75rem;
             font-size: 1.25rem;
+            display: block;
         }
     }
 

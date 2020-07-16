@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { Paragraph } from '@entur/typography'
-
 import { useSettings } from '../../settings'
 
 import Clock from '../Clock'
@@ -16,21 +14,21 @@ export function DashboardHeader({ theme }: Props): JSX.Element {
         <img src={logo} height={logoSize} />
     ) : (
         <a href="/">
-            <TavlaLogo className={`header__logo-wrapper__logo`} theme={theme} />
+            <TavlaLogo className="header__logo-wrapper__logo" theme={theme} />
         </a>
     )
 
     return (
         <div className="header">
-            <div className={`header__logo-wrapper`}>
+            <div className="header__logo-wrapper">
                 {headerLogo}
-                <Paragraph className="header__logo-wrapper__description">
+                <span className="header__logo-wrapper__description">
                     {logoSize === '32px' &&
                         (description ||
                             'Finn din rute på entur.no eller i Entur-appen')}
-                </Paragraph>
+                </span>
             </div>
-            <Clock className={`header__clock`} />
+            <Clock className="header__clock" />
         </div>
     )
 }
