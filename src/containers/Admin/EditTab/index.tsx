@@ -106,12 +106,10 @@ const EditTab = (): JSX.Element => {
 
     const toggleMode = useCallback(
         (mode: Mode) => {
-            console.log('toggling modes')
             setHiddenModes(toggleValueInList(hiddenModes, mode))
         },
         [setHiddenModes, hiddenModes]
     )
-    console.log(hiddenModes)
     
     return (
         <div className="edit-tab">

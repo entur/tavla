@@ -1,10 +1,15 @@
 @import '../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .dashboard-wrapper {
-    background-color: $colors-brand-blue;
-    color: white;
+    background-color: var(--tavla-background-color);
+    color: var(--tavla-font-color);
     padding: 2rem 4rem;
     overflow: hidden;
+
+    p {
+        color: var(--tavla-font-color);
+    }
 
     &__no-stops {
         img {
@@ -13,7 +18,7 @@
         }
 
         div {
-            color: $colors-blues-blue20;
+            color: var(--tavla-border-color);
             margin: auto;
             position: relative;
             text-align: center;
@@ -51,6 +56,7 @@
         margin-top: 3rem;
         display: flex;
         align-items: center;
+        color: var(--tavla-font-color);
 
         svg {
             height: 48px;

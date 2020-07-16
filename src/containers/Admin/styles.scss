@@ -1,17 +1,32 @@
 @import '../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .admin {
-    background-color: $colors-brand-blue;
+    background-color: var(--tavla-background-color);
     margin-left: auto;
     margin-right: auto;
     justify-content: center;
     padding: 2% 5%;
-    color: white;
+    color: var(--tavla-font-color);
+
+    &__tabs {
+        background-color: var(--tavla-background-color);
+
+        &__tab-panels {
+            padding-left: 0;
+        }
+    }
 
     &__submit-button {
         position: fixed;
         bottom: 2rem;
         right: 2rem;
+        background-color: var(--tavla-button-background-color);
+        color: var(--tavla-font-color);
+    }
+
+    &__submit-button:hover {
+        background-color: var(--tavla-box-background-color);
     }
 
     &__selection-panel {
@@ -26,6 +41,36 @@
         padding-right: 2.2rem;
         padding-top: 2rem;
     }
+}
+
+.eds-tab {
+    background-color: var(--tavla-button-background-color);
+    color: var(--tavla-font-color);
+    border-color: var(--tavla-button-background-color);
+}
+
+.eds-tab:hover {
+    background-color: var(--tavla-hover-color);
+    border-color: var(--tavla-hover-color);
+}
+
+.eds-tab::after {
+    background-color: var(--tavla-button-background-color);
+}
+
+.eds-tab[aria-selected='true'] {
+    background-color: var(--tavla-background-color);
+    color: var(--tavla-font-color);
+    border-color: var(--tavla-button-background-color);
+}
+
+.eds-tab-list::after {
+    background-color: var(--tavla-button-background-color);
+    z-index: -1;
+}
+
+.eds-tab[aria-selected='true']::after {
+    background-color: var(--tavla-background-color);
 }
 
 @media (max-width: 1000px) {

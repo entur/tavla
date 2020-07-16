@@ -31,7 +31,7 @@ const LandingPage = ({ history }: Props): JSX.Element => {
         <div className="landing-page">
             <header>
                 <h1>
-                    <TavlaLogo className="landing-page__logo" theme="light" />
+                    <TavlaLogo className="landing-page__logo" />
                 </h1>
                 <h2>Sanntidstavla du selv kan tilpasse etter dine behov.</h2>
             </header>

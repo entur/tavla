@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { useLocation } from 'react-router-dom'
 import { LegMode, Coordinates } from '@entur/sdk'
+import { Theme } from '../types'
 
 import { persist as persistToFirebase, FieldTypes } from './FirestoreStorage'
 import {
@@ -16,6 +17,7 @@ import {
 import { getSettings } from '../services/firebase'
 
 import { getDocumentId } from '../utils'
+import { useFirebaseAuthentication } from '../auth'
 
 export type Mode = 'bysykkel' | 'kollektiv'
 
@@ -33,9 +35,10 @@ export interface Settings {
     newStops?: string[]
     dashboard?: string | void
     owners?: string[]
+    theme?: Theme
     logo?: string
-    logoSize: string
-    description: string
+    logoSize?: string
+    description?: string
 }
 
 interface SettingsSetters {
@@ -51,6 +54,7 @@ interface SettingsSetters {
     setNewStops: (newStops: string[]) => void
     setDashboard: (dashboard: string) => void
     setOwners: (owners: string[]) => void
+    setTheme: (theme: Theme) => void
     setLogo: (url: string) => void
     setLogoSize: (size: string) => void
     setDescription: (description: string) => void
@@ -71,6 +75,7 @@ export const SettingsContext = createContext<
         setNewStops: (): void => undefined,
         setDashboard: (): void => undefined,
         setOwners: (): void => undefined,
+        setTheme: (): void => undefined,
         setLogo: (): void => undefined,
         setLogoSize: (): void => undefined,
         setDescription: (): void => undefined,
@@ -85,6 +90,7 @@ export function useSettings(): [Settings, SettingsSetters] {
     const [settings, setSettings] = useState<Settings>()
 
     const location = useLocation()
+    const user = useFirebaseAuthentication()
 
     useEffect(() => {
         const protectedPath =
@@ -101,23 +107,49 @@ export function useSettings(): [Settings, SettingsSetters] {
                 if (document.exists) {
                     const data = document.data()
 
-                    // Handle settings which were initialized before `owners` was introduced.
-                    if (data.owners === undefined) {
-                        persistToFirebase(getDocumentId(), 'owners', [])
-                        data.owners = []
+                    const defaultSettings = {
+                        description: '',
+                        logoSize: '32px',
+                        theme: 'default',
+                        owners: [] as string[],
+                        ...data,
                     }
 
-                    if (data.description === undefined) {
-                        persistToFirebase(getDocumentId(), 'description', '')
-                        data.description = ''
+                    if (
+                        data.owners === undefined ||
+                        data.owners.length === 0 ||
+                        data.owners.includes(user?.uid)
+                    ) {
+                        if (data.owners === undefined) {
+                            persistToFirebase(getDocumentId(), 'owners', [])
+                        }
+
+                        if (data.theme === undefined) {
+                            persistToFirebase(
+                                getDocumentId(),
+                                'theme',
+                                'default',
+                            )
+                        }
+
+                        if (data.description === undefined) {
+                            persistToFirebase(
+                                getDocumentId(),
+                                'description',
+                                '',
+                            )
+                        }
+
+                        if (data.logoSize === undefined) {
+                            persistToFirebase(
+                                getDocumentId(),
+                                'logoSize',
+                                '32px',
+                            )
+                        }
                     }
 
-                    if (data.logoSize === undefined) {
-                        persistToFirebase(getDocumentId(), 'logoSize', '32px')
-                        data.logoSize = '32px'
-                    }
-
-                    setSettings(data as Settings)
+                    setSettings(defaultSettings as Settings)
                 } else {
                     window.location.pathname = '/'
                 }
@@ -144,7 +176,7 @@ export function useSettings(): [Settings, SettingsSetters] {
                 longitude: Number(positionArray[1]),
             },
         })
-    }, [location])
+    }, [location, user])
 
     const set = useCallback(
         <T>(key: string, value: FieldTypes): void => {
@@ -230,6 +262,12 @@ export function useSettings(): [Settings, SettingsSetters] {
         [set],
     )
 
+    const setTheme = useCallback(
+        (theme: Theme): void => {
+            set('theme', theme)
+        },
+        [set],
+    )
     const setLogo = useCallback(
         (url: string): void => {
             set('logo', url)
@@ -262,6 +300,7 @@ export function useSettings(): [Settings, SettingsSetters] {
         setNewStops,
         setDashboard,
         setOwners,
+        setTheme,
         setLogo,
         setLogoSize,
         setDescription,

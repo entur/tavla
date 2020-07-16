@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { colors } from '@entur/tokens'
+import { useSettingsContext } from '../../settings'
+import { Theme } from '../../types'
 
-function TavlaLogo({ className, theme = 'dark', height }: Props): JSX.Element {
-    const fillColor = theme === 'dark' ? 'white' : colors.brand.blue
+function TavlaLogo({ className, height }: Props): JSX.Element {
+    const [settings] = useSettingsContext()
+    const [enturColor, setEnturColor] = useState<string>(colors.brand.blue)
+
+    useEffect(() => {
+        if (!settings && !settings?.theme) return
+        if (settings.theme === Theme.DARK || settings.theme === Theme.DEFAULT) {
+            setEnturColor('white')
+        } else {
+            setEnturColor('black')
+        }
+    }, [settings])
+
     return (
         <svg
             className={className}
@@ -12,7 +25,7 @@ function TavlaLogo({ className, theme = 'dark', height }: Props): JSX.Element {
         >
             <g fill="none" fillRule="evenodd">
                 <path
-                    fill={fillColor}
+                    fill={enturColor}
                     d="M5.6,5v7.4h14.2v5H5.6v7.2h16v5H0V0h21.6v5H5.6z"
                 />
                 <path
@@ -20,15 +33,15 @@ function TavlaLogo({ className, theme = 'dark', height }: Props): JSX.Element {
                     d="M52.1,42.2H0v-5h52.1V42.2z"
                 />
                 <path
-                    fill={fillColor}
+                    fill={enturColor}
                     d="M51.6,29.7L32.3,12.1v17.7h-5.6V0h0.6l19.3,18V0h5.6v29.7H51.6z"
                 />
                 <path
-                    fill={fillColor}
+                    fill={enturColor}
                     d="M79.8,17.5h-8.4v24.7h-5.6V17.5h-8.4v-5h22.4L79.8,17.5L79.8,17.5z"
                 />
                 <path
-                    fill={fillColor}
+                    fill={enturColor}
                     // eslint-disable-next-line max-len
                     d="M96.6,42.8c-1.9,0-3.6-0.3-5.2-0.9c-1.5-0.6-2.9-1.4-4-2.5c-1.1-1.1-1.9-2.4-2.6-3.9c-0.6-1.5-0.9-3.3-0.9-5.2
         V12.5h5.6v17.7c0,1.5,0.2,2.7,0.7,3.7c0.5,1,1.1,1.8,1.8,2.3s1.5,1,2.3,1.2c0.8,0.2,1.5,0.3,2.2,0.3c0.6,0,1.4-0.1,2.2-0.3
@@ -36,7 +49,7 @@ function TavlaLogo({ className, theme = 'dark', height }: Props): JSX.Element {
         c-1.1,1.1-2.4,1.9-4,2.5C100.3,42.5,98.6,42.8,96.6,42.8z"
                 />
                 <path
-                    fill={fillColor}
+                    fill={enturColor}
                     // eslint-disable-next-line max-len
                     d="M120.1,32.8v9.5h-5.6V12.5h13.3c1.5,0,2.9,0.2,4.1,0.8c1.3,0.5,2.3,1.2,3.2,2.1c0.9,0.9,1.6,2,2.1,3.2
         c0.5,1.3,0.7,2.6,0.7,4.1c0,1.1-0.2,2.2-0.5,3.2c-0.3,1.1-0.7,2-1.2,2.8c-0.5,0.8-1.2,1.6-1.9,2.2c-0.8,0.6-1.6,1-2.5,1.3l7.3,10
@@ -63,7 +76,6 @@ function TavlaLogo({ className, theme = 'dark', height }: Props): JSX.Element {
 
 interface Props {
     className?: string
-    theme?: 'dark' | 'light'
     height?: string
 }
 

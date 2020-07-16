@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 
@@ -8,13 +8,19 @@ import {
     getTransportIconIdentifier,
     createTileSubLabel,
     isNotNullOrUndefined,
+    getIconColorType,
 } from '../../../utils'
-import { StopPlaceWithDepartures, LineData } from '../../../types'
+import {
+    StopPlaceWithDepartures,
+    LineData,
+    IconColorType,
+} from '../../../types'
 
 import Tile from '../components/Tile'
 import TileRow from '../components/TileRow'
 
 import './styles.scss'
+import { useSettingsContext } from '../../../settings'
 
 function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     const transportModes = unique(
@@ -25,7 +31,7 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     )
 
     const transportIcons = transportModes.map(({ type, subType }) => ({
-        icon: getIcon(type, subType, colors.blues.blue60),
+        icon: getIcon(type, undefined, subType, colors.blues.blue60),
     }))
 
     return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
@@ -34,11 +40,21 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
 const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
+    const [settings] = useSettingsContext()
+    const [iconColorType, setIconColorType] = useState<IconColorType>(
+        'contrast',
+    )
+
+    useEffect(() => {
+        if (settings) {
+            setIconColorType(getIconColorType(settings.theme))
+        }
+    }, [settings])
 
     return (
         <Tile title={name} icons={headerIcons}>
             {departures.map((data) => {
-                const icon = getIcon(data.type, data.subType)
+                const icon = getIcon(data.type, iconColorType, data.subType)
                 const subLabel = createTileSubLabel(data)
 
                 return (

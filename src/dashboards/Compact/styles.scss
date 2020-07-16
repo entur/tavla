@@ -1,4 +1,5 @@
 @import '../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .compact {
     &__tiles {
@@ -27,12 +28,17 @@
     }
 
     .react-grid-item::after {
-        content: "";
+        content: '';
         position: absolute;
         width: 100%;
         height: 50px;
         bottom: 0;
-        background: linear-gradient(0deg, rgba($colors-blues-blue10, 1) 0%, rgba($colors-blues-blue10, 0.7) 50%, rgba($colors-blues-blue10, 0) 100%);
+        background: linear-gradient(
+            0deg,
+            rgba(var(--tavla-box-background-color), 1) 0%,
+            rgba(var(--tavla-box-background-color), 0.7) 50%,
+            rgba(var(--tavla-box-background-color), 0) 100%
+        );
         z-index: 1;
     }
 
@@ -56,7 +62,7 @@
     }
 
     .react-grid-item.react-grid-placeholder {
-        background: $colors-blues-blue20;
+        background: var(--tavla-border-color);
         opacity: 0.2;
         transition-duration: 100ms;
         z-index: 2;
@@ -83,7 +89,7 @@
     }
 
     .react-grid-item > .react-resizable-handle::after {
-        content: "";
+        content: '';
         position: absolute;
         width: 20%;
         height: 0.25rem;

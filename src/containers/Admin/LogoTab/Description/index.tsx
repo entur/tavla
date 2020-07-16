@@ -6,6 +6,8 @@ import { TextField } from '@entur/form'
 import { useDebounce } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 
+import '../styles.scss'
+
 const Description = (): JSX.Element => {
     const [{ description, logoSize }, { setDescription }] = useSettingsContext()
 
@@ -21,7 +23,7 @@ const Description = (): JSX.Element => {
 
     return (
         <>
-            <Heading3>Legg til beskrivelse</Heading3>
+            <Heading3 className="heading">Legg til beskrivelse</Heading3>
             <Paragraph>
                 Her kan du skrive inn en beskrivelse av tavla. Beskrivelsen er
                 plassert under logoen oppe i venstre hjørne. Dette feltet kan
