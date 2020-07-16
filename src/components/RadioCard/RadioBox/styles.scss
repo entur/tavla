@@ -12,14 +12,10 @@
     &__checked {
         background-color: $colors-brand-blue;
         border-color: $colors-brand-blue;
-
-        svg {
-            color: $colors-validation-mint-contrast;
-        }
     }
 
     &__icon {
-        width: 80%;
-        height: 70%;
+        width: 2rem;
+        height: 2rem;
     }
 }
