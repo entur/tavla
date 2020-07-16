@@ -66,7 +66,7 @@ export function DefaultHeader({ theme }: Props): JSX.Element {
             <div className="header__resources">
                 {userItem}
                 <div className="header__resources__item">
-                    <a href="https://tavla.entur.no/privacy">
+                    <a href="/privacy">
                         <p className="header__resources__item__text">
                             Personvern
                         </p>
@@ -77,7 +77,11 @@ export function DefaultHeader({ theme }: Props): JSX.Element {
                     </a>
                 </div>
                 <div className="header__resources__item">
-                    <a href="https://github.com/entur/tavla/">
+                    <a
+                        href="https://github.com/entur/tavla/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <p className="header__resources__item__text">Github</p>
                         <Github
                             className="header__resources__item__icon"
