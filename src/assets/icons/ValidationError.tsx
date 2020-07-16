@@ -1,25 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import { useSettingsContext } from '../../settings'
+import React from 'react'
 import { Theme } from '../../types'
+import { useThemeColor } from '../../utils'
 
 function ValidationError(): JSX.Element {
-    const [settings] = useSettingsContext()
-    const [crossIconColor, setCrosssIconColor] = useState<string>('#ffffff')
-    const [backgroundIconColor, setBackgroundIconColor] = useState<string>(
+    const crossIconColor = useThemeColor(
+        {
+            [Theme.DARK]: '#000000',
+            [Theme.DEFAULT]: '292c6a',
+        },
+        '#ffffff',
+    )
+    const backgroundIconColor = useThemeColor(
+        {
+            [Theme.DARK]: '#FF9494',
+            [Theme.DEFAULT]: '#FF9494',
+        },
         '#d31b1b',
     )
 
-    useEffect(() => {
-        if (!settings) return
-        if (settings.theme === Theme.DEFAULT) {
-            setCrosssIconColor('#292c6a')
-            setBackgroundIconColor('#FF9494')
-        }
-        if (settings.theme === Theme.DARK) {
-            setCrosssIconColor('#000000')
-            setBackgroundIconColor('#FF9494')
-        }
-    }, [settings])
     return (
         <svg
             version="1.1"

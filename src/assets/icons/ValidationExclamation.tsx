@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { useSettingsContext } from '../../settings'
+import React from 'react'
 import { Theme } from '../../types'
+import { useThemeColor } from '../../utils'
 
 function ValidationExclamation(): JSX.Element {
-    const [settings] = useSettingsContext()
-    const [exclamationIconColor, setExclamationIconColor] = useState<string>(
-        '#292c6a',
+    const exclamationIconColor = useThemeColor(
+        {
+            [Theme.DARK]: '#171717',
+            [Theme.DEFAULT]: '#292c6a',
+        },
+        'black',
     )
 
-    useEffect(() => {
-        if (!settings) return
-        if (settings.theme === Theme.DEFAULT) setExclamationIconColor('#292c6a')
-        else if (settings.theme === Theme.DARK)
-            setExclamationIconColor('#171717')
-        else setExclamationIconColor('black')
-    }, [settings])
     return (
         <svg
             version="1.1"

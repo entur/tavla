@@ -21,6 +21,7 @@ import { colors } from '@entur/tokens'
 import { Departure, LegMode, TransportSubmode } from '@entur/sdk'
 
 import { LineData, TileSubLabel, Theme, IconColorType } from './types'
+import { useSettingsContext } from './settings'
 
 export function isNotNullOrUndefined<T>(
     thing: T | undefined | null,
@@ -334,4 +335,12 @@ export function usePrevious<T>(value: T): T {
     }, [value])
 
     return ref.current
+}
+
+export const useThemeColor = (
+    color: { [key: string]: string },
+    fallback: string,
+): string => {
+    const [settings] = useSettingsContext()
+    return color[settings?.theme] || fallback
 }

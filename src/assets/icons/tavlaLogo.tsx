@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { colors } from '@entur/tokens'
-import { useSettingsContext } from '../../settings'
 import { Theme } from '../../types'
+import { useThemeColor } from '../../utils'
 
 function TavlaLogo({ className, height }: Props): JSX.Element {
-    const [settings] = useSettingsContext()
-    const [enturColor, setEnturColor] = useState<string>(colors.brand.blue)
-
-    useEffect(() => {
-        if (!settings && !settings?.theme) return
-        if (settings.theme === Theme.DARK || settings.theme === Theme.DEFAULT) {
-            setEnturColor('white')
-        } else {
-            setEnturColor('black')
-        }
-    }, [settings])
+    const enturColor = useThemeColor(
+        {
+            [Theme.DARK]: 'white',
+            [Theme.DEFAULT]: 'white',
+        },
+        'black',
+    )
 
     return (
         <svg
