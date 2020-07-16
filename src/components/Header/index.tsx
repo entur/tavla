@@ -13,20 +13,13 @@ function Header({ theme }: Props): JSX.Element {
     if (featureToggleDisplayHeader) return null
 
     const onDashboard = path == 't' || path == 'dashboard'
-
-    if (onDashboard) {
-        return (
-            <Contrast>
-                <DashboardHeader theme={theme} />
-            </Contrast>
-        )
-    }
-
-    return (
-        <Contrast>
-            <DefaultHeader theme={theme} />
-        </Contrast>
+    const header = onDashboard ? (
+        <DashboardHeader theme={theme} />
+    ) : (
+        <DefaultHeader theme={theme} />
     )
+
+    return <Contrast>{header}</Contrast>
 }
 
 interface Props {
