@@ -7,7 +7,7 @@
     }
 
     .eds-grid__item {
-        background-color: $colors-blues-blue10;
+        background-color: var(--tavla-box-background-color);
         padding: 2rem;
 
         h2 {

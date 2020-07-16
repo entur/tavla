@@ -108,17 +108,20 @@ const EditTab = (): JSX.Element => {
         (mode: Mode) => {
             setHiddenModes(toggleValueInList(hiddenModes, mode))
         },
-        [setHiddenModes, hiddenModes]
+        [setHiddenModes, hiddenModes],
     )
-    
+
     return (
         <div className="edit-tab">
-            <Heading2>Rediger innhold</Heading2>
+            <Heading2 className="heading">Rediger innhold</Heading2>
             <GridContainer spacing="extraLarge">
                 <GridItem medium={8} small={12}>
                     <div className="edit-tab__header">
                         <Heading2>Kollektiv</Heading2>
-                        <Switch onChange={() => toggleMode('kollektiv')} checked={!hiddenModes.includes('kollektiv')} />
+                        <Switch
+                            onChange={() => toggleMode('kollektiv')}
+                            checked={!hiddenModes.includes('kollektiv')}
+                        />
                     </div>
                     <div className="edit-tab__set-stops">
                         <StopPlaceSearch handleAddNewStop={addNewStop} />
@@ -133,7 +136,10 @@ const EditTab = (): JSX.Element => {
                 <GridItem medium={4} small={12}>
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>
-                        <Switch onChange={() => toggleMode('bysykkel')} checked={!hiddenModes.includes('bysykkel')} />
+                        <Switch
+                            onChange={() => toggleMode('bysykkel')}
+                            checked={!hiddenModes.includes('bysykkel')}
+                        />
                     </div>
                     <BikePanelSearch
                         position={settings.coordinates}
