@@ -13,14 +13,10 @@
     &__checked {
         background-color: var(--tavla-background-color);
         border-color: var(--tavla-background-color);
-
-        svg {
-            color: $colors-validation-mint-contrast;
-        }
     }
 
     &__icon {
-        width: 80%;
-        height: 70%;
+        width: 2rem;
+        height: 2rem;
     }
 }
