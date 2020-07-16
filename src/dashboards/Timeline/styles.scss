@@ -1,4 +1,5 @@
 @import '../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .timeline {
     padding: 2rem 4rem;
@@ -8,11 +9,15 @@
     }
 
     &__stop {
-        background-color: $colors-blues-blue10;
+        background-color: var(--tavla-box-background-color);
         width: 100%;
         margin-bottom: 1rem;
         padding: 2rem;
         overflow: hidden;
+    }
+
+    &__heading {
+        color: var(--tavla-font-color);
     }
 
     &__track {
@@ -48,7 +53,7 @@
     &__label {
         background-color: white;
         padding: 4px;
-        color: $colors-brand-blue;
+        color: black;
         border-radius: 1px;
         height: 2rem;
         margin-bottom: 0.5rem;

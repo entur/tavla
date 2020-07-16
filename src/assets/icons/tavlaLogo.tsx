@@ -1,35 +1,28 @@
 import React from 'react'
 
+import { Theme } from '../../types'
+
 import TavlaWhite from './../logos/Tavla-white.svg'
 import TavlaBlue from './../logos/Tavla-blue.svg'
-import TavlaPositive from './../logos/Tavla-positive.svg'
-import TavlaNegative from './../logos/Tavla-negative.svg'
+import { useSettingsContext } from '../../settings'
 
-function TavlaLogo({ className, theme }: Props): JSX.Element {
-    let tavlaLogo = ''
+function TavlaLogo({ className }: Props): JSX.Element {
+    const [settings] = useSettingsContext()
 
-    switch (theme) {
-        case 'light':
-            tavlaLogo = TavlaBlue
-            break
-        case 'dark':
-            tavlaLogo = TavlaWhite
-            break
-        case 'positive':
-            tavlaLogo = TavlaPositive
-            break
-        case 'negative':
-            tavlaLogo = TavlaNegative
-            break
+    switch (settings?.theme) {
+        case Theme.LIGHT:
+            return <img src={TavlaBlue} className={className} />
+        case Theme.GREY:
+            return <img src={TavlaBlue} className={className} />
+        case Theme.DARK:
+            return <img src={TavlaWhite} className={className} />
         default:
-            tavlaLogo = TavlaWhite
+            return <img src={TavlaWhite} className={className} />
     }
-    return <img src={tavlaLogo} className={className} />
 }
 
 interface Props {
     className?: string
-    theme?: 'dark' | 'light' | 'positive' | 'negative'
 }
 
 export default TavlaLogo

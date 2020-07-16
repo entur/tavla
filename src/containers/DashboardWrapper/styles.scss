@@ -1,8 +1,9 @@
 @import '../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .dashboard-wrapper {
-    background-color: $colors-brand-blue;
-    color: white;
+    background-color: var(--tavla-background-color);
+    color: var(--tavla-font-color);
     padding: 2rem 4rem;
     overflow: hidden;
 
@@ -19,6 +20,7 @@
         margin-top: 4.5rem;
         display: flex;
         align-items: center;
+        color: var(--tavla-font-color);
 
         img {
             padding-left: 0.75rem;

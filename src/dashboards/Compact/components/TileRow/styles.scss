@@ -1,8 +1,9 @@
 @import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
 
 .tilerow {
     display: flex;
-    border-bottom: 2px solid $colors-blues-blue20;
+    border-bottom: 2px solid var(--tavla-border-color);
     padding: 1rem 0;
 
     &:last-child {
@@ -13,6 +14,7 @@
     &__label {
         margin: 0;
         margin-bottom: 0.5rem;
+        color: var(--tavla-font-color);
     }
 
     &__icon {
@@ -41,7 +43,6 @@
 
         &__cancellation {
             align-items: center;
-            background-color: $colors-brand-white;
             border-radius: 0.5rem;
             display: flex;
             height: 0.875rem;

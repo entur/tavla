@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
 import { Loader } from '@entur/loader'
-import { Contrast } from '@entur/layout'
 
 import { useCounter } from '../../utils'
-
-import EnturLogo from '../../assets/icons/enturLogo'
-import { StopPlaceWithDepartures } from '../../types'
-import { NoStopsOnTavle } from './../Error/ErrorPages'
+import { useSettingsContext } from '../../settings'
 
 import BottomMenu from './BottomMenu'
+import EnturLogo from '../../assets/icons/enturLogo'
+import { NoStopsOnTavle } from './../Error/ErrorPages'
+import { StopPlaceWithDepartures, Theme } from '../../types'
+import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 
 import './styles.scss'
-import { useSettingsContext } from '../../settings'
 
 function DashboardWrapper(props: Props): JSX.Element {
     const secondsSinceMount = useCounter()
-
     const {
         className,
         children,
@@ -58,24 +56,28 @@ function DashboardWrapper(props: Props): JSX.Element {
         return <NoStopsOnTavle />
     }
 
-    const [{ logo }] = useSettingsContext()
+    const [{ logo, theme }] = useSettingsContext()
 
     return (
-        <Contrast className={`dashboard-wrapper ${className}`}>
-            {renderContents()}
-            <Contrast>
-                {logo && (
-                    <div className="dashboard-wrapper__byline">
-                        Tjenesten leveres av{' '}
-                        <EnturLogo height="24px" style="white" />
-                    </div>
-                )}
-                <BottomMenu
-                    className="dashboard-wrapper__bottom-menu"
-                    history={history}
-                />
-            </Contrast>
-        </Contrast>
+        <ThemeContrastWrapper
+            useContrast={theme === Theme.DEFAULT || theme === Theme.DARK}
+        >
+            <div className={`dashboard-wrapper ${className}`}>
+                {renderContents()}
+                <ThemeContrastWrapper useContrast={true}>
+                    {logo && (
+                        <div className="dashboard-wrapper__byline">
+                            Tjenesten leveres av{' '}
+                            <EnturLogo height="24px" style="white" />
+                        </div>
+                    )}
+                    <BottomMenu
+                        className="dashboard-wrapper__bottom-menu"
+                        history={history}
+                    />
+                </ThemeContrastWrapper>
+            </div>
+        </ThemeContrastWrapper>
     )
 }
 

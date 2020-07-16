@@ -1,16 +1,23 @@
-import React, { Fragment, useMemo } from 'react'
+import React, { Fragment, useMemo, useEffect, useState } from 'react'
 import { Heading2 } from '@entur/typography'
 import { LegBone } from '@entur/travel'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 
-import { getIcon, getIconColor, timeUntil, useCounter } from '../../utils'
-import { LineData } from '../../types'
+import {
+    getIcon,
+    getIconColor,
+    timeUntil,
+    useCounter,
+    getIconColorType,
+} from '../../utils'
+import { LineData, IconColorType } from '../../types'
 
 import { useStopPlacesWithDepartures } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
 import './styles.scss'
+import { useSettingsContext } from '../../settings'
 
 const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]
 
@@ -76,6 +83,8 @@ interface TickProps {
 }
 
 function Tick({ minutes, mode, index }: TickProps): JSX.Element {
+    const [settings] = useSettingsContext()
+    const [color, setColor] = useState(colors.blues.blue30)
     let label = `${minutes} min`
     let marginLeft = -30
 
@@ -88,8 +97,13 @@ function Tick({ minutes, mode, index }: TickProps): JSX.Element {
         label = ''
     }
 
+    useEffect(() => {
+        if (settings && !(minutes < 0)) {
+            setColor(getIconColor(mode, getIconColorType(settings.theme)))
+        }
+    }, [settings, minutes, mode])
+
     const width = diffSincePreviousTick(minutes) * (60 * ZOOM)
-    const color = minutes < 0 ? colors.blues.blue30 : getIconColor(mode)
 
     return (
         <div style={{ minWidth: width }}>
@@ -117,6 +131,16 @@ interface TimelineData {
 const TimelineDashboard = ({ history }: Props): JSX.Element => {
     useCounter()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
+    const [settings] = useSettingsContext()
+    const [iconColorType, setIconColorType] = useState<IconColorType>(
+        'contrast',
+    )
+
+    useEffect(() => {
+        if (settings) {
+            setIconColorType(getIconColorType(settings.theme))
+        }
+    }, [settings])
 
     const data: TimelineData[] = useMemo(
         () =>
@@ -147,7 +171,11 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
             <div className="timeline__body">
                 {data.map(({ stopId, name, groupedDepartures }) => (
                     <div key={stopId} className="timeline__stop">
-                        <Heading2 margin="none" style={{ margin: 0 }}>
+                        <Heading2
+                            className="timeline__heading"
+                            margin="none"
+                            style={{ margin: 0 }}
+                        >
                             {name}
                         </Heading2>
                         {groupedDepartures.map(([mode, departures]) => (
@@ -163,7 +191,10 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                             const waitTime = timeUntil(
                                                 expectedDepartureTime,
                                             )
-                                            const icon = getIcon(type)
+                                            const icon = getIcon(
+                                                type,
+                                                iconColorType,
+                                            )
                                             return (
                                                 <div
                                                     key={id}

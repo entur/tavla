@@ -5,7 +5,7 @@ import { useSettings } from '../../settings'
 import Clock from '../Clock'
 import { TavlaLogo } from '../../assets/icons'
 
-export function DashboardHeader({ theme }: Props): JSX.Element {
+export function DashboardHeader(): JSX.Element {
     const settings = useSettings()[0]
     if (!settings) return null
     const { logo, logoSize, description } = settings
@@ -14,7 +14,7 @@ export function DashboardHeader({ theme }: Props): JSX.Element {
         <img src={logo} height={logoSize} />
     ) : (
         <a href="/">
-            <TavlaLogo className="header__logo-wrapper__logo" theme={theme} />
+            <TavlaLogo className="header__logo-wrapper__logo" />
         </a>
     )
 
@@ -31,8 +31,4 @@ export function DashboardHeader({ theme }: Props): JSX.Element {
             <Clock className="header__clock" />
         </div>
     )
-}
-
-interface Props {
-    theme?: 'dark' | 'light' | 'positive' | 'negative'
 }

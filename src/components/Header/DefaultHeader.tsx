@@ -9,7 +9,7 @@ import LoginModal from '../LoginModal'
 import { useUser } from '../../auth'
 import firebase from 'firebase'
 
-export function DefaultHeader({ theme }: Props): JSX.Element {
+export function DefaultHeader(): JSX.Element {
     const [displayLoginModal, setDisplayLoginModal] = useState<boolean>(false)
     const user = useUser()
     const userLoggedIn = user && !user.isAnonymous
@@ -59,10 +59,7 @@ export function DefaultHeader({ theme }: Props): JSX.Element {
             {loginModal}
             <div className={`header__logo-wrapper`}>
                 <a href="/">
-                    <TavlaLogo
-                        className={`header__logo-wrapper__logo`}
-                        theme={theme}
-                    />
+                    <TavlaLogo className={`header__logo-wrapper__logo`} />
                 </a>
             </div>
             <div className="header__resources">
@@ -96,8 +93,4 @@ export function DefaultHeader({ theme }: Props): JSX.Element {
             </div>
         </div>
     )
-}
-
-interface Props {
-    theme?: 'dark' | 'light' | 'positive' | 'negative'
 }

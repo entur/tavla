@@ -23,7 +23,7 @@ import './styles.scss'
 
 const Requirements = (): JSX.Element => (
     <>
-        <Label>Krav til logo for best resultat</Label>
+        <Label className="label">Krav til logo for best resultat</Label>
         <UnorderedList>
             <ListItem>
                 Logo bør lastes opp med transparent bakgrunn i .png eller
@@ -60,7 +60,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const documentId = getDocumentId()
 
     useEffect((): void => {
-        if (tabIndex === 2 && user && user.isAnonymous) {
+        if (tabIndex === 3 && user && user.isAnonymous) {
             setOpen(true)
         }
 
@@ -79,7 +79,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     if (!documentId) {
         return (
             <div>
-                <Heading2>Last opp logo</Heading2>
+                <Heading2 className="heading">Last opp logo</Heading2>
                 <Paragraph>
                     Vi har oppgradert tavla. Ønsker du tilgang på denne
                     funksjonaliteten må du lage en ny tavle.
@@ -95,7 +95,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 open={open}
                 loginDescription="For å laste opp logo og beskrivelse på avgangstavla, må du ha en konto."
             />
-            <Heading2>Last opp logo</Heading2>
+            <Heading2 className="heading">Last opp logo</Heading2>
             <GridContainer spacing="extraLarge" className="logo-grid">
                 <GridItem small={12} medium={12} large={6}>
                     <Paragraph>

@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { PrimaryButton } from '@entur/button'
 
 import './styles.scss'
-import { Contrast } from '@entur/layout'
 import { Heading1 } from '@entur/typography'
+import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
+import { useSettingsContext } from '../../settings'
+import { Theme } from '../../types'
 
 function ErrorWrapper({
     title,
@@ -13,6 +15,8 @@ function ErrorWrapper({
     callbackMessage,
     callback,
 }: Props): JSX.Element {
+    const [settings] = useSettingsContext()
+
     const errorCallback = callback ? (
         <PrimaryButton
             size="medium"
@@ -24,12 +28,16 @@ function ErrorWrapper({
     ) : null
 
     return (
-        <Contrast className="error-wrapper">
-            <img className="style-image" src={`${image}`} />
-            <Heading1 margin="both">{title}</Heading1>
-            <div className="main-text">{message}</div>
-            {errorCallback}
-        </Contrast>
+        <ThemeContrastWrapper useContrast={settings?.theme === Theme.DEFAULT}>
+            <div className="error-wrapper">
+                <img className="style-image" src={`${image}`} />
+                <Heading1 className="heading" margin="both">
+                    {title}
+                </Heading1>
+                <div className="main-text">{message}</div>
+                {errorCallback}
+            </div>
+        </ThemeContrastWrapper>
     )
 }
 

@@ -1,4 +1,5 @@
 @import '../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .error-wrapper {
     display: flex;
@@ -6,10 +7,17 @@
     align-items: center;
     width: 100%;
     padding: 2rem 5rem 0 5rem;
+    color: var(--tavla-font-color);
 }
 
 .primary-button {
     margin: 3rem;
+    background-color: var(--tavla-button-background-color);
+    color: var(--tavla-font-color);
+}
+
+.heading {
+    color: var(--tavla-font-color);
 }
 
 .main-text {
