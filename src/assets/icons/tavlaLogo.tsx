@@ -16,8 +16,10 @@ function TavlaLogo({ className }: Props): JSX.Element {
             return <img src={TavlaBlue} className={className} />
         case Theme.DARK:
             return <img src={TavlaWhite} className={className} />
-        default:
+        case Theme.DEFAULT:
             return <img src={TavlaWhite} className={className} />
+        default:
+            return <img src={TavlaBlue} className={className} />
     }
 }
 
