@@ -108,11 +108,16 @@ export function useSettings(): [Settings, SettingsSetters] {
                         ...data,
                     }
 
-                    if (
+                    // The fields under are added if missing, and if the tavle is not locked.
+                    // If a tavle is locked by a user, you are not allowed to write to
+                    // tavle unless you are logged in as the user who locked tavla, so we need
+                    // yo check if you have edit access.
+                    const editAccess =
                         data.owners === undefined ||
                         data.owners.length === 0 ||
                         data.owners.includes(user?.uid)
-                    ) {
+
+                    if (editAccess) {
                         if (data.owners === undefined) {
                             persistToFirebase(getDocumentId(), 'owners', [])
                         }
