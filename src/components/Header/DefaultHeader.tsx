@@ -12,7 +12,7 @@ import firebase from 'firebase'
 export function DefaultHeader({ theme }: Props): JSX.Element {
     const [displayLoginModal, setDisplayLoginModal] = useState<boolean>(false)
     const user = useUser()
-    const userLoggedin = user && !user.isAnonymous
+    const userLoggedIn = user && !user.isAnonymous
     const { addToast } = useToast()
 
     const login = (): void => {
@@ -30,7 +30,7 @@ export function DefaultHeader({ theme }: Props): JSX.Element {
         firebase.auth().signOut()
     }
 
-    const loginModal = !userLoggedin ? (
+    const loginModal = !userLoggedIn ? (
         <LoginModal
             open={displayLoginModal}
             onDismiss={(): void => setDisplayLoginModal(false)}
@@ -39,7 +39,7 @@ export function DefaultHeader({ theme }: Props): JSX.Element {
     ) : null
 
     const hideLogin = user == undefined
-    const userItem = userLoggedin ? (
+    const userItem = userLoggedIn ? (
         <div className="header__resources__item" onClick={logout}>
             <span className="header__resources__item__text">Logg ut</span>
             <LogOutIcon
