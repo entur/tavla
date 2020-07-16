@@ -44,6 +44,7 @@ interface SettingsSetters {
     setHiddenStopModes: (hiddenModes: {
         [stopPlaceId: string]: LegMode[]
     }) => void
+    setHiddenModes: (modes: Mode[]) => void
     setHiddenRoutes: (hiddenModes: { [stopPlaceId: string]: string[] }) => void
     setDistance: (distance: number) => void
     setNewStations: (newStations: string[]) => void
@@ -63,6 +64,7 @@ export const SettingsContext = createContext<
         setHiddenStations: (): void => undefined,
         setHiddenStops: (): void => undefined,
         setHiddenStopModes: (): void => undefined,
+        setHiddenModes: (): void => undefined,
         setHiddenRoutes: (): void => undefined,
         setDistance: (): void => undefined,
         setNewStations: (): void => undefined,
@@ -173,7 +175,14 @@ export function useSettings(): [Settings, SettingsSetters] {
     )
 
     const setHiddenStopModes = useCallback(
-        (newHiddenModes: { [stopPlaceId: string]: LegMode[] }): void => {
+        (newHiddenStopModes: { [stopPlaceId: string]: LegMode[] }): void => {
+            set('hiddenStopModes', newHiddenStopModes)
+        },
+        [set],
+    )
+
+    const setHiddenModes = useCallback(
+        (newHiddenModes: Mode[]): void => {
             set('hiddenModes', newHiddenModes)
         },
         [set],
@@ -245,6 +254,7 @@ export function useSettings(): [Settings, SettingsSetters] {
     const setters = {
         setHiddenStations,
         setHiddenStops,
+        setHiddenModes,
         setHiddenStopModes,
         setHiddenRoutes,
         setDistance,

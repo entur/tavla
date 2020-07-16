@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import { ExpandablePanel } from '@entur/expand'
 import { Checkbox, TravelSwitch, TravelSwitchProps } from '@entur/form'
@@ -18,7 +18,7 @@ function StopPlacePanel(props: Props): JSX.Element {
     ] = useSettingsContext()
 
     const { hiddenStopModes, hiddenStops, hiddenRoutes } = settings
-
+    
     const { stops } = props
 
     const filteredStopPlaces = useMemo(
@@ -162,7 +162,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                                                 transport={
                                                     mode as TravelSwitchProps['transport']
                                                 }
-                                                onChange={(event): void => {
+                                                onChange={(): void => {
                                                     onToggleMode(id, mode)
                                                 }}
                                                 checked={

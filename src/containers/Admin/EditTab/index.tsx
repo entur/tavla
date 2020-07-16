@@ -8,8 +8,8 @@ import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
 
-import { useSettingsContext } from '../../../settings'
-import { useDebounce } from '../../../utils'
+import { useSettingsContext, Mode } from '../../../settings'
+import { useDebounce, toggleValueInList } from '../../../utils'
 import { DEFAULT_DISTANCE } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces } from '../../../logic'
@@ -23,8 +23,8 @@ import { Switch } from '@entur/form'
 
 const EditTab = (): JSX.Element => {
     const [settings, settingsSetters] = useSettingsContext()
-    const { newStops, newStations } = settings
-    const { setNewStops, setNewStations } = settingsSetters
+    const { newStops, newStations, hiddenModes } = settings
+    const { setNewStops, setNewStations, setHiddenModes } = settingsSetters
     const [distance, setDistance] = useState<number>(
         settings.distance || DEFAULT_DISTANCE,
     )
@@ -104,6 +104,15 @@ const EditTab = (): JSX.Element => {
         [newStations, setNewStations],
     )
 
+    const toggleMode = useCallback(
+        (mode: Mode) => {
+            console.log('toggling modes')
+            setHiddenModes(toggleValueInList(hiddenModes, mode))
+        },
+        [setHiddenModes, hiddenModes]
+    )
+    console.log(hiddenModes)
+    
     return (
         <div className="edit-tab">
             <Heading2>Rediger innhold</Heading2>
@@ -111,7 +120,7 @@ const EditTab = (): JSX.Element => {
                 <GridItem medium={8} small={12}>
                     <div className="edit-tab__header">
                         <Heading2>Kollektiv</Heading2>
-                        <Switch />
+                        <Switch onChange={() => toggleMode('kollektiv')} checked={!hiddenModes.includes('kollektiv')} />
                     </div>
                     <div className="edit-tab__set-stops">
                         <StopPlaceSearch handleAddNewStop={addNewStop} />
@@ -126,7 +135,7 @@ const EditTab = (): JSX.Element => {
                 <GridItem medium={4} small={12}>
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>
-                        <Switch />
+                        <Switch onChange={() => toggleMode('bysykkel')} checked={!hiddenModes.includes('bysykkel')} />
                     </div>
                     <BikePanelSearch
                         position={settings.coordinates}

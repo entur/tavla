@@ -83,6 +83,11 @@ export default function useStopPlacesWithDepartures():
     | StopPlaceWithDepartures[]
     | null {
     const [settings] = useSettingsContext()
+
+    if (settings.hiddenModes.includes('kollektiv')) {
+        return
+    }
+
     const nearestPlaces = useNearestPlaces(
         settings.coordinates,
         settings.distance,
