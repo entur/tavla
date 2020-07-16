@@ -3,7 +3,7 @@ import React from 'react'
 import { useCounter } from '../../utils'
 
 import './styles.scss'
-import { LeadParagraph, Heading2 } from '@entur/typography'
+import { Heading2, Paragraph } from '@entur/typography'
 
 const DAYS = [
     'Søndag',
@@ -44,10 +44,16 @@ function Clock({ className }: Props): JSX.Element {
 
     return (
         <div className={`clock ${className}`}>
-            <Heading2 margin="none" className="clock__time" as="span">
+            <Heading2
+                margin="none"
+                className={`clock__time ${className}_time`}
+                as="span"
+            >
                 {time}
             </Heading2>
-            <LeadParagraph className="clock__date">{date}</LeadParagraph>
+            <Paragraph className={`clock__date ${className}__date`}>
+                {date}
+            </Paragraph>
         </div>
     )
 }

@@ -11,11 +11,20 @@
     &__logo-wrapper {
         &__description {
             margin-bottom: 0;
+            margin-top: 0.75rem;
+            font-size: 1.25rem;
         }
 
         &__logo {
             //display: block;
             height: 2rem;
+        }
+    }
+
+    &__clock {
+        &__date {
+            margin-top: 0.75rem;
+            font-size: 1.25rem;
         }
     }
 
@@ -40,7 +49,7 @@
             }
 
             &__icon {
-                color: $colors-brand-lavender;
+                color: $colors-brand-white;
                 vertical-align: middle;
             }
         }

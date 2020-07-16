@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { LeadParagraph } from '@entur/typography'
+import { Paragraph } from '@entur/typography'
 
 import { useSettings } from '../../settings'
 
@@ -24,11 +24,11 @@ export function DashboardHeader({ theme }: Props): JSX.Element {
         <div className="header">
             <div className={`header__logo-wrapper`}>
                 {headerLogo}
-                <LeadParagraph className="header__logo-wrapper__description">
+                <Paragraph className="header__logo-wrapper__description">
                     {logoSize === '32px' &&
                         (description ||
                             'Finn din rute på entur.no eller i Entur-appen')}
-                </LeadParagraph>
+                </Paragraph>
             </div>
             <Clock className={`header__clock`} />
         </div>
