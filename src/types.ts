@@ -34,3 +34,12 @@ export interface TileSubLabel {
     hasCancellation?: boolean
     hasSituation?: boolean
 }
+
+export enum Theme {
+    DEFAULT = 'default',
+    DARK = 'dark',
+    LIGHT = 'light',
+    GREY = 'grey',
+}
+
+export type IconColorType = 'default' | 'contrast'

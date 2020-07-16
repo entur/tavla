@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
 import { Heading3 } from '@entur/typography'
 import { colors } from '@entur/tokens'
@@ -7,8 +7,22 @@ import { BicycleIcon } from '@entur/icons'
 import Tile from '../components/Tile'
 
 import './styles.scss'
+import { useSettingsContext } from '../../../settings'
+import { IconColorType } from '../../../types'
+import { getIconColorType } from '../../../utils'
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
+    const [settings] = useSettingsContext()
+    const [iconColorType, setIconColorType] = useState<IconColorType>(
+        'contrast',
+    )
+
+    useEffect(() => {
+        if (settings) {
+            setIconColorType(getIconColorType(settings.theme))
+        }
+    }, [settings])
+
     return (
         <Tile
             title="Bysykkel"
@@ -23,7 +37,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                 <div key={id} className="bikerow">
                     <div className="bikerow__icon">
                         <BicycleIcon
-                            color={colors.transport.contrast.mobility}
+                            color={colors.transport[iconColorType].mobility}
                         />
                     </div>
                     <div className="bikerow__texts">

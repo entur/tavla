@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ValidationCheck from '../../../assets/icons/ValidationCheck.svg'
+import ValidationCheck from '../../../assets/icons/ValidationCheck'
 
 import './styles.scss'
 
@@ -14,9 +14,7 @@ export function RadioBox({ selected, className }: Props): JSX.Element {
         <div
             className={`radio ${selected ? 'radio__checked' : ''} ${className}`}
         >
-            {selected ? (
-                <img src={ValidationCheck} className="radio__icon" />
-            ) : null}
+            {selected ? <ValidationCheck /> : null}
         </div>
     )
 }

@@ -1,11 +1,12 @@
 @import '../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .clock {
     text-align: right;
 
     &__time {
         height: 36px;
-        color: white;
+        color: var(--tavla-font-color);
         font-size: 34px;
         font-weight: 500;
         line-height: 36px;
@@ -13,7 +14,7 @@
     }
 
     &__date {
-        color: $colors-brand-lavender;
+        color: var(--tavla-font-color);
         font-size: 16px;
         font-weight: 400;
         line-height: 16px;

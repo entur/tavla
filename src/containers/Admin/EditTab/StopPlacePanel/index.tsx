@@ -1,20 +1,31 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useEffect, useState } from 'react'
 
 import { ExpandablePanel } from '@entur/expand'
 import { Checkbox } from '@entur/form'
 
-import { getIcon, toggleValueInList } from '../../../../utils'
-import { StopPlaceWithLines } from '../../../../types'
+import { getIcon, toggleValueInList, getIconColorType } from '../../../../utils'
+import { StopPlaceWithLines, IconColorType, Theme } from '../../../../types'
 import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
+import ThemeContrastWrapper from '../../../ThemeWrapper/ThemeContrastWrapper'
 
 function StopPlacePanel(props: Props): JSX.Element {
+    const [iconColorType, setIconColorType] = useState<IconColorType>(
+        'contrast',
+    )
+
     const [settings, { setHiddenStops, setHiddenRoutes }] = useSettingsContext()
 
     const { hiddenModes, hiddenStops, hiddenRoutes } = settings
 
     const { stops } = props
+
+    useEffect(() => {
+        if (settings) {
+            setIconColorType(getIconColorType(settings.theme))
+        }
+    }, [settings])
 
     const filteredStopPlaces = useMemo(
         () =>
@@ -112,85 +123,88 @@ function StopPlacePanel(props: Props): JSX.Element {
     }
 
     return (
-        <div className="stop-place-panel">
-            <div className="stop-place-panel__header">
-                <h2>Stoppesteder</h2>
-                <div className="stop-place-panel__checkall">
-                    <Checkbox
-                        id="check-all-stop-places"
-                        name="check-all-stop-places"
-                        onChange={onChooseAllPressed}
-                        checked={!hiddenStops.length}
-                    >
-                        Velg alle
-                    </Checkbox>
-                </div>
-            </div>
-            {filteredStopPlaces.map(({ name, id, lines }) => {
-                return (
-                    <div key={id} className="stop-place-panel__row">
+        <ThemeContrastWrapper useContrast={settings?.theme === Theme.DEFAULT}>
+            <div className="stop-place-panel">
+                <div className="stop-place-panel__header">
+                    <h2>Stoppesteder</h2>
+                    <div className="stop-place-panel__checkall">
                         <Checkbox
-                            id={id}
-                            className="stop-place-panel__row__checkbox"
-                            checked={!hiddenStops.includes(id)}
-                            onChange={onToggleStop}
-                        />
-                        <ExpandablePanel
-                            variant="midnight"
-                            className="stop-place-panel__row__expandable"
-                            title={
-                                <div className="stop-place-panel__row__header">
-                                    <span>{name}</span>
-                                </div>
-                            }
+                            id="check-all-stop-places"
+                            name="check-all-stop-places"
+                            onChange={onChooseAllPressed}
+                            checked={!hiddenStops.length}
                         >
+                            Velg alle
+                        </Checkbox>
+                    </div>
+                </div>
+                {filteredStopPlaces.map(({ name, id, lines }) => {
+                    return (
+                        <div key={id} className="stop-place-panel__row">
                             <Checkbox
-                                id={`checkbox-all-lines-${id}`}
-                                checked={lines.every((line) =>
-                                    isRouteSelected(id, line.name),
-                                )}
-                                onChange={(): void => onToggleAllLines(id)}
-                                className="stop-place-panel__route-checkbox"
+                                id={id}
+                                className="stop-place-panel__row__checkbox"
+                                checked={!hiddenStops.includes(id)}
+                                onChange={onToggleStop}
+                            />
+                            <ExpandablePanel
+                                variant="midnight"
+                                className="stop-place-panel__row__expandable"
+                                title={
+                                    <div className="stop-place-panel__row__header">
+                                        <span>{name}</span>
+                                    </div>
+                                }
                             >
-                                Velg alle
-                            </Checkbox>
-                            {lines.map(
-                                ({
-                                    name: routeName,
-                                    transportMode,
-                                    transportSubmode,
-                                }) => {
-                                    const routeId = `${id}-${routeName}`
-                                    const icon = getIcon(
+                                <Checkbox
+                                    id={`checkbox-all-lines-${id}`}
+                                    checked={lines.every((line) =>
+                                        isRouteSelected(id, line.name),
+                                    )}
+                                    onChange={(): void => onToggleAllLines(id)}
+                                    className="stop-place-panel__route-checkbox"
+                                >
+                                    Velg alle
+                                </Checkbox>
+                                {lines.map(
+                                    ({
+                                        name: routeName,
                                         transportMode,
                                         transportSubmode,
-                                    )
+                                    }) => {
+                                        const routeId = `${id}-${routeName}`
+                                        const icon = getIcon(
+                                            transportMode,
+                                            iconColorType,
+                                            transportSubmode,
+                                        )
 
-                                    return (
-                                        <Checkbox
-                                            key={`checkbox-${routeId}`}
-                                            id={`checkbox-${routeId}`}
-                                            className="stop-place-panel__route"
-                                            name={routeName}
-                                            onChange={(): void =>
-                                                onToggleRoute(id, routeName)
-                                            }
-                                            checked={isRouteSelected(
-                                                id,
-                                                routeName,
-                                            )}
-                                        >
-                                            {icon}
-                                            {routeName}
-                                        </Checkbox>
-                                    )
-                                },
-                            )}
-                        </ExpandablePanel>
-                    </div>
-                )
-            })}
-        </div>
+                                        return (
+                                            <Checkbox
+                                                key={`checkbox-${routeId}`}
+                                                id={`checkbox-${routeId}`}
+                                                className="stop-place-panel__route"
+                                                name={routeName}
+                                                onChange={(): void =>
+                                                    onToggleRoute(id, routeName)
+                                                }
+                                                checked={isRouteSelected(
+                                                    id,
+                                                    routeName,
+                                                )}
+                                            >
+                                                {icon}
+                                                {routeName}
+                                            </Checkbox>
+                                        )
+                                    },
+                                )}
+                            </ExpandablePanel>
+                        </div>
+                    )
+                })}
+            </div>
+        </ThemeContrastWrapper>
     )
 }
 

@@ -1,4 +1,5 @@
 @import '../../assets/styles/import.scss';
+@import '../../variables.scss';
 
 .slider {
     width: 100%;
@@ -14,7 +15,7 @@
         div {
             height: 20px;
             width: 50px;
-            color: $colors-blues-blue60;
+            color: var(--tavla-label-font-color);
             font-size: 14px;
             font-weight: 400;
             line-height: 16px;
@@ -54,23 +55,23 @@
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        background: white;
-        border: 0.2px solid white;
+        background: var(--tavla-button-background-color);
+        border: 0.2px solid var(--tavla-button-background-color);
     }
 
     &::-moz-range-track {
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        background: white;
-        border: 0.2px solid white;
+        background: var(--tavla-button-background-color);
+        border: 0.2px solid var(--tavla-button-background-color);
     }
 
     &::-ms-track {
         width: 100%;
         height: 0.5rem;
         cursor: pointer;
-        border: 0.2px solid white;
+        border: 0.2px solid var(--tavla-button-background-color);
         background: transparent;
         border-color: transparent;
         color: transparent;
@@ -81,18 +82,18 @@
     }
 
     &::-ms-fill-upper {
-        background: white;
+        background: var(--tavla-button-background-color);
     }
 
     &::-ms-fill-left {
-        background: white;
+        background: var(--tavla-button-background-color);
     }
 
     &:focus {
         outline: none;
 
         &::-webkit-slider-runnable-track {
-            background: white;
+            background: var(--tavla-button-background-color);
         }
     }
 }

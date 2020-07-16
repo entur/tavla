@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 
 import '../styles.scss'
+import './styles.scss'
 
 import DistanceEditor from './DistanceEditor'
 import ModePanel from './ModePanel'
@@ -129,7 +130,7 @@ const EditTab = (): JSX.Element => {
 
     return (
         <div>
-            <Heading2>Rediger innhold</Heading2>
+            <Heading2 className="heading">Rediger innhold</Heading2>
             <div className="admin__content">
                 <div className="admin__selection-panel">
                     <DistanceEditor

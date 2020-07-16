@@ -9,6 +9,8 @@ import { Loader } from '@entur/loader'
 import { uploadLogo } from '../../../../services/firebase'
 import { useSettingsContext } from '../../../../settings'
 
+import '../styles.scss'
+
 const UPLOAD_ZONE_TEXT =
     'Slipp logofilen din her eller klikk for å velge fil å laste opp'
 
@@ -65,7 +67,7 @@ const LogoUpload = (): JSX.Element => {
 
     return (
         <>
-            <Label>Filopplasting</Label>
+            <Label className="label">Filopplasting</Label>
 
             {uploadVisible ? (
                 <>

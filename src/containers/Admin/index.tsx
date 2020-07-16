@@ -1,18 +1,19 @@
-import React, { useCallback, useState } from 'react'
-
+import React, { useCallback, useState, useEffect } from 'react'
 import { Button } from '@entur/button'
-import { Contrast } from '@entur/layout'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
 
+import './styles.scss'
 import { getDocumentId } from '../../utils'
 import { useFirebaseAuthentication } from '../../auth'
 
-import './styles.scss'
 import AdminHeader from './AdminHeader'
 import LogoTab from './LogoTab'
 import EditTab from './EditTab'
+import ThemeTab from './ThemeTab'
 import VisningTab from './DashboardPickerTab'
+import { useSettingsContext } from '../../settings'
+import { Theme } from '../../types'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const documentId = getDocumentId()
@@ -30,23 +31,28 @@ const AdminPage = ({ history }: Props): JSX.Element => {
     const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon />
 
     return (
-        <Contrast className="admin">
+        <div className="admin">
             <AdminHeader goBackToDashboard={goToDash} />
             <Tabs
                 index={currentIndex}
-                onChange={(newIndex): void => setCurrentIndex(newIndex)}
+                onChange={setCurrentIndex}
+                className="admin__tabs"
             >
-                <TabList>
-                    <Tab>Rediger innhold</Tab>
+                <TabList className="admin__tabs">
+                    <Tab className="admin__tabs">Rediger innhold</Tab>
                     <Tab>Velg visning</Tab>
+                    <Tab>Velg farger</Tab>
                     <Tab>Last opp logo {lockIcon}</Tab>
                 </TabList>
-                <TabPanels>
+                <TabPanels className="admin__tabs__tab-panels">
                     <TabPanel>
                         <EditTab />
                     </TabPanel>
                     <TabPanel>
                         <VisningTab />
+                    </TabPanel>
+                    <TabPanel>
+                        <ThemeTab />
                     </TabPanel>
                     <TabPanel>
                         <LogoTab
@@ -63,7 +69,7 @@ const AdminPage = ({ history }: Props): JSX.Element => {
             >
                 Se avgangstavla
             </Button>
-        </Contrast>
+        </div>
     )
 }
 

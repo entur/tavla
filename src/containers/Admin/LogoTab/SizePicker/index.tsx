@@ -4,6 +4,8 @@ import { RadioGroup, Radio } from '@entur/form'
 
 import { useSettingsContext } from '../../../../settings'
 
+import './styles.scss'
+
 const SizePicker = (): JSX.Element => {
     const [{ logoSize }, { setLogoSize }] = useSettingsContext()
 
@@ -17,6 +19,7 @@ const SizePicker = (): JSX.Element => {
             label="Størrelse på logo"
             onChange={handleChange}
             value={logoSize}
+            className="eds-label"
         >
             <Radio value="32px">32px</Radio>
             <Radio value="56px">56px</Radio>

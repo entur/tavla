@@ -1,4 +1,5 @@
 @import '../../../assets/styles/import.scss';
+@import '../../../variables.scss';
 
 .admin-header {
     display: flex;
@@ -25,7 +26,7 @@
     }
 
     .github-logo > a {
-        color: $colors-brand-lavender;
+        color: var(--tavla-lavender);
     }
 }
 
