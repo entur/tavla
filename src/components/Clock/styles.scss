@@ -6,9 +6,11 @@
 
     &__time {
         line-height: 2rem;
+        color: var(--tavla-font-color);
     }
 
     &__date {
         margin-bottom: 0;
+        color: var(--tavla-font-color);
     }
 }
