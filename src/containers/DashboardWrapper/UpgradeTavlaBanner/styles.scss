@@ -1,11 +1,13 @@
+@import '../../../assets/styles/import.scss';
+
 .banner {
-    background: rgb(239, 211, 88);
+    background: $colors-validation-canary;
     width: 100%;
     height: 37px;
     text-align: center;
     line-height: 21px;
     margin: 0 auto;
-    color: rgb(24, 28, 86);
+    color: $colors-brand-blue;
     line-height: 37px;
 
     &__icon {
@@ -14,6 +16,6 @@
     }
 
     &__link {
-        color: rgb(24, 28, 86);
+        color: $colors-brand-blue;
     }
 }
