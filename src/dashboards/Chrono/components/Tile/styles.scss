@@ -1,10 +1,11 @@
 @import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
 
 .chrono .tile {
     height: fit-content;
     width: 25rem;
-    background-color: $colors-blues-blue10;
-    color: white;
+    background-color: var(--tavla-box-background-color);
+    color: var(--tavla-font-color);
     flex: none;
     padding: 2rem;
     overflow: auto;

@@ -1,10 +1,11 @@
 @import '../../../assets/styles/import.scss';
+@import '../../../variables.scss';
 
 .bottom-menu {
     position: relative;
     min-height: 6.4rem;
     width: fit-content;
-    background-color: #393d79;
+    background-color: var(--tavla-button-background-color);
     border-radius: 10px 10px 0 0;
     transition: transform 0.3s ease-out;
     transform: translate(0, 0);

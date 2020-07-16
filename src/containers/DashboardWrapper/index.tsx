@@ -2,24 +2,24 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
 import { Loader } from '@entur/loader'
 import { SubParagraph } from '@entur/typography'
-import { Contrast } from '@entur/layout'
 
 import { useCounter } from '../../utils'
 
 import TavlaLogo from '../../assets/icons/tavlaLogo'
 import EnturWhite from '../../assets/icons/enturWhite'
 import { Clock } from '../../components'
-import { StopPlaceWithDepartures } from '../../types'
+import { StopPlaceWithDepartures, Theme } from '../../types'
 import { NoStopsOnTavle } from './../Error/ErrorPages'
 
 import BottomMenu from './BottomMenu'
 
 import './styles.scss'
+import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 import { useSettingsContext } from '../../settings'
+import EnturBlack from '../../assets/icons/enturBlack'
 
 function DashboardWrapper(props: Props): JSX.Element {
     const secondsSinceMount = useCounter()
-
     const {
         className,
         children,
@@ -27,15 +27,6 @@ function DashboardWrapper(props: Props): JSX.Element {
         bikeRentalStations,
         stopPlacesWithDepartures,
     } = props
-
-    const onSettingsButtonClick = useCallback(
-        (event) => {
-            const path = window.location.pathname.split('@')[1]
-            history.push(`/admin/@${path}`)
-            event.preventDefault()
-        },
-        [history],
-    )
 
     const [initialLoading, setInitialLoading] = useState<boolean>(true)
 
@@ -70,45 +61,56 @@ function DashboardWrapper(props: Props): JSX.Element {
         return <NoStopsOnTavle />
     }
 
-    const [{ logoSize, logo, description }] = useSettingsContext()
+    const [{ logoSize, logo, description, theme }] = useSettingsContext()
 
     return (
-        <Contrast className={`dashboard-wrapper ${className}`}>
-            <div className="dashboard-wrapper__top">
-                <div className="dashboard-wrapper__logo-wrapper">
-                    {logo ? (
-                        <img
-                            src={logo}
-                            height={logoSize}
-                            className="dashboard-wrapper__logo"
-                        />
-                    ) : (
-                        <TavlaLogo
-                            className="dashboard-wrapper__logo"
-                            height={logoSize}
-                        />
-                    )}
-                    <SubParagraph>
-                        {logoSize === '32px' &&
-                            (description ||
-                                'Finn din rute på entur.no eller i Entur-appen')}
-                    </SubParagraph>
-                </div>
-                <Clock className="dashboard-wrapper__clock" />
-            </div>
-            {renderContents()}
-            <Contrast>
-                {logo && (
-                    <div className="dashboard-wrapper__byline">
-                        Tjenesten leveres av <EnturWhite />
+        <ThemeContrastWrapper
+            useContrast={theme === Theme.DEFAULT || theme === Theme.DARK}
+        >
+            <div className={`dashboard-wrapper ${className}`}>
+                <div className="dashboard-wrapper__top">
+                    <div className="dashboard-wrapper__logo-wrapper">
+                        {logo ? (
+                            <img
+                                src={logo}
+                                height={logoSize}
+                                className="dashboard-wrapper__logo"
+                            />
+                        ) : (
+                            <TavlaLogo
+                                className="dashboard-wrapper__logo"
+                                height={logoSize}
+                            />
+                        )}
+                        <SubParagraph>
+                            {logoSize === '32px' &&
+                                (description ||
+                                    'Finn din rute på entur.no eller i Entur-appen')}
+                        </SubParagraph>
                     </div>
-                )}
-                <BottomMenu
-                    className="dashboard-wrapper__bottom-menu"
-                    history={history}
-                />
-            </Contrast>
-        </Contrast>
+                    <Clock className="dashboard-wrapper__clock" />
+                </div>
+                {renderContents()}
+                <ThemeContrastWrapper useContrast={true}>
+                    {logo && (
+                        <div className="dashboard-wrapper__byline">
+                            Tjenesten leveres av{' '}
+                            {theme &&
+                            (theme === Theme.DEFAULT ||
+                                theme === Theme.DARK) ? (
+                                <EnturWhite />
+                            ) : (
+                                <EnturBlack />
+                            )}
+                        </div>
+                    )}
+                    <BottomMenu
+                        className="dashboard-wrapper__bottom-menu"
+                        history={history}
+                    />
+                </ThemeContrastWrapper>
+            </div>
+        </ThemeContrastWrapper>
     )
 }
 

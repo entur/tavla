@@ -14,10 +14,13 @@ import LandingPage from './LandingPage'
 import Admin from './Admin'
 import Privacy from './Privacy'
 import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
+import ThemeProvider from './ThemeWrapper/ThemeProvider'
 
 import PrivateRoute from '../routers/PrivateRoute'
 
 import { ToastProvider } from '@entur/alert'
+
+import './styles.scss'
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
@@ -47,26 +50,33 @@ const Content = (): JSX.Element => {
     return (
         <UserProvider value={user}>
             <SettingsContext.Provider value={settings}>
-                <ToastProvider>
-                    <Switch>
-                        <Route exact path="/" component={LandingPage} />
-                        <Route
-                            exact
-                            path="/t/:documentId"
-                            component={Dashboard}
-                        />
-                        <PrivateRoute
-                            exact
-                            path="/admin/:documentId"
-                            component={settings[0] && Admin}
-                            errorComponent={LockedTavle}
-                        />
-                        <Route path="/dashboard" component={Dashboard} />
-                        <Route path="/admin" component={Admin} />
-                        <Route path="/privacy" component={Privacy} />
-                        <Route path="/" component={PageDoesNotExist} />
-                    </Switch>
-                </ToastProvider>
+                <ThemeProvider>
+                    <div className="themeBackground">
+                        <ToastProvider>
+                            <Switch>
+                                <Route exact path="/" component={LandingPage} />
+                                <Route
+                                    exact
+                                    path="/t/:documentId"
+                                    component={Dashboard}
+                                />
+                                <PrivateRoute
+                                    exact
+                                    path="/admin/:documentId"
+                                    component={settings[0] && Admin}
+                                    errorComponent={LockedTavle}
+                                />
+                                <Route
+                                    path="/dashboard"
+                                    component={Dashboard}
+                                />
+                                <Route path="/admin" component={Admin} />
+                                <Route path="/privacy" component={Privacy} />
+                                <Route path="/" component={PageDoesNotExist} />
+                            </Switch>
+                        </ToastProvider>
+                    </div>
+                </ThemeProvider>
             </SettingsContext.Provider>
         </UserProvider>
     )
