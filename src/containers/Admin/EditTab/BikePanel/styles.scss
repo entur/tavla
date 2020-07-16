@@ -1,40 +1,7 @@
 @import '../../../../assets/styles/import.scss';
 
 .bike-panel {
-    &__header {
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
-        align-items: center;
-
-        label {
-            color: white;
-        }
-    }
-
-    &__row {
-        color: white;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding: 1rem 0;
-        border-bottom: 2px solid $colors-blues-blue20;
-
-        &:last-child {
-            border: 0;
-            padding-bottom: 0;
-        }
-
-        > label > span {
-            margin: 0 0 0 0.5rem;
-            color: white;
-        }
-    }
-}
-
-@media (max-width: 1000px) {
-    .bike-panel {
-        width: unset;
-        margin-top: 0;
+    .eds-checkbox__container:not(:first-child) {
+        margin-top: 0.8rem;
     }
 }

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Checkbox } from '@entur/form'
+import { Checkbox, Fieldset } from '@entur/form'
 import { BikeRentalStation } from '@entur/sdk'
 
 import { toggleValueInList } from '../../../../utils'
@@ -31,39 +31,33 @@ function BikePanel(props: Props): JSX.Element {
     )
 
     if (!stations.length) {
-        return <div className="selection-panel" />
+        return null
     }
 
     return (
-        <div className="bike-panel">
-            <div className="bike-panel__row">
+        <Fieldset className="bike-panel">
+            <Checkbox
+                id="check-all-stop-places-bike"
+                name="check-all-stop-places-bike"
+                label="Velg alle"
+                onChange={onChooseAllPressed}
+                checked={!hiddenStations.length}
+            >
+                Velg alle
+            </Checkbox>
+            {stations.map(({ name, id }) => (
                 <Checkbox
-                    id="check-all-stop-places-bike"
-                    name="check-all-stop-places-bike"
-                    label="Velg alle"
-                    onChange={onChooseAllPressed}
-                    checked={!hiddenStations.length}
+                    key={id}
+                    id={id}
+                    label={name}
+                    name={name}
+                    checked={!hiddenStations.includes(id)}
+                    onChange={onToggleStation}
                 >
-                    Velg alle
+                    {name}
                 </Checkbox>
-            </div>
-            {stations.map(({ name, id }, index) => {
-                return (
-                    <div key={index} className="bike-panel__row">
-                        <Checkbox
-                            key={id}
-                            id={id}
-                            label={name}
-                            name={name}
-                            checked={!hiddenStations.includes(id)}
-                            onChange={onToggleStation}
-                        >
-                            {name}
-                        </Checkbox>
-                    </div>
-                )
-            })}
-        </div>
+            ))}
+        </Fieldset>
     )
 }
 
