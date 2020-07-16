@@ -34,6 +34,7 @@ export function DefaultHeader({ theme }: Props): JSX.Element {
         <LoginModal
             open={displayLogin}
             onDismiss={(): void => setDisplayLogin(false)}
+            loginDescription="Logg inn på for å se en oversikt over dine tavler og for muligheten til å låse nye tavler til din konto."
         />
     ) : null
 

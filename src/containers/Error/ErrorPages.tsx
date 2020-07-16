@@ -41,6 +41,7 @@ export function LockedTavle({ history }: Props): JSX.Element {
         <LoginModal
             open={displayLogin}
             onDismiss={(): void => setDisplayLogin(false)}
+            loginDescription="Logg inn på en konto som eier denne tavla for å redigere den."
         />
     ) : null
 
