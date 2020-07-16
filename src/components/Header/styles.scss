@@ -30,11 +30,14 @@
 
     &__resources {
         display: flex;
-        justify-content: space-between;
-        width: 25rem;
+        justify-content: flex-end;
+        width: fit-content;
 
         &__item {
             cursor: pointer;
+            padding-left: 3rem;
+            vertical-align: middle;
+            float: right;
 
             &__text,
             a,
