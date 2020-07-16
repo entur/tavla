@@ -64,7 +64,9 @@ function DashboardWrapper(props: Props): JSX.Element {
     const [{ logoSize, logo, description, theme }] = useSettingsContext()
 
     return (
-        <ThemeContrastWrapper useContrast={theme === Theme.DEFAULT}>
+        <ThemeContrastWrapper
+            useContrast={theme === Theme.DEFAULT || theme === Theme.DARK}
+        >
             <div className={`dashboard-wrapper ${className}`}>
                 <div className="dashboard-wrapper__top">
                     <div className="dashboard-wrapper__logo-wrapper">
