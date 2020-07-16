@@ -8,8 +8,10 @@ function TavlaLogo({ className, height }: Props): JSX.Element {
         {
             [Theme.DARK]: 'white',
             [Theme.DEFAULT]: 'white',
+            [Theme.GREY]: 'black',
+            [Theme.LIGHT]: 'black',
         },
-        'black',
+        '#181d56',
     )
 
     return (
