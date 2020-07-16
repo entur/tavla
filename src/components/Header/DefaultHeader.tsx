@@ -24,7 +24,7 @@ export function DefaultHeader(): JSX.Element {
         event.preventDefault()
         addToast({
             title: 'Logget ut',
-            content: 'Du er nå logget ut av din konto',
+            content: 'Du er nå logget ut av din konto.',
             variant: 'success',
         })
         firebase.auth().signOut()
