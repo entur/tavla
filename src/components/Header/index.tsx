@@ -8,9 +8,11 @@ import { DefaultHeader } from './DefaultHeader'
 import './styles.scss'
 
 function Header({ theme }: Props): JSX.Element {
-    const onDashboard =
-        window.location.pathname.split('/')[1] == 't' ||
-        window.location.pathname.split('/')[1] == 'dashboard'
+    const path = window.location.pathname.split('/')[1]
+    const featureToggleDisplayHeader = path == '' || path == 'privacy'
+    if (featureToggleDisplayHeader) return null
+
+    const onDashboard = path == 't' || path == 'dashboard'
 
     if (onDashboard) {
         return (
