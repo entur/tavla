@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { RadioGroup, Radio } from '@entur/form'
-import { Heading2 } from '@entur/typography'
+import { Heading2, Paragraph } from '@entur/typography'
 
 import { useSettingsContext } from '../../../settings'
 import { Theme } from '../../../types'
@@ -12,11 +12,13 @@ import Light from '../../../assets/previews/Light-theme.svg'
 import Entur from '../../../assets/previews/Entur-theme.svg'
 
 import './styles.scss'
+import { getDocumentId } from '../../../utils'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme>(null)
     const [settings, { setTheme }] = useSettingsContext()
     const { themeContext, setThemeContext } = useTheme()
+    const documentId = getDocumentId()
 
     useEffect(() => {
         if (settings?.theme && !radioValue) {
@@ -28,6 +30,18 @@ const ThemeTab = (): JSX.Element => {
         setRadioValue(value)
         setTheme(value)
         setThemeContext(value)
+    }
+
+    if (!documentId) {
+        return (
+            <div>
+                <Heading2 className="heading">Velg farger</Heading2>
+                <Paragraph>
+                    Vi har oppgradert tavla. Ønsker du tilgang på denne
+                    funksjonaliteten må du lage en ny tavle.
+                </Paragraph>
+            </div>
+        )
     }
 
     return (
