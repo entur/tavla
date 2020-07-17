@@ -5,22 +5,18 @@
     width: 100%;
     height: 0.3rem;
     cursor: pointer;
-    background: #FFF;
-    border: 1px solid #FFF;
+    background: var(--tavla-slider-color);
+    border: 1px solid var(--tavla-slider-color);
 }
 
 @mixin reset-thumb {
-    border: 1px solid #FFF;
+    border: 1px solid var(--tavla-slider-thumb-color);
     height: 1.25rem;
     width: 1.25rem;
     border-radius: 100%;
-    background: #FFF;
+    background: var(--tavla-slider-thumb-color);
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-
-    // TODO FIXME!!!
-    //background: var(--tavla-button-background-color);
-    //border: 0.2px solid var(--tavla-button-background-color);
 }
 
 .slider {
@@ -76,7 +72,7 @@
         outline: none;
 
         &::-webkit-slider-runnable-track {
-            background: var(--tavla-button-background-color);
+            background: var(--tavla-slider-color);
         }
     }
 }
