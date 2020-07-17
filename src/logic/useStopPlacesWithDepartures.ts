@@ -19,6 +19,10 @@ async function fetchStopPlaceDepartures(
 ): Promise<StopPlaceWithDepartures[]> {
     const { newStops, hiddenStops, hiddenStopModes, hiddenRoutes } = settings
 
+    if (settings.hiddenModes.includes('kollektiv')) {
+        return
+    }
+
     const allStopPlaceIds = unique([...newStops, ...nearestStopPlaces]).filter(
         (id) => !hiddenStops.includes(id),
     )
@@ -100,10 +104,6 @@ export default function useStopPlacesWithDepartures():
     )
 
     useEffect(() => {
-        if (settings.hiddenModes.includes('kollektiv')) {
-            return
-        }
-
         fetchStopPlaceDepartures(settings, nearestStopPlaces).then(
             setStopPlacesWithDepartures,
         )
