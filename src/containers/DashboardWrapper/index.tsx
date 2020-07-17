@@ -17,7 +17,7 @@ import './styles.scss'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 import { useSettingsContext } from '../../settings'
 import EnturBlack from '../../assets/icons/enturBlack'
-import UpgradeTavlaBanner from './UpgradeTavlaBanner/UpgradeTavlaBanner'
+import UpgradeTavlaBanner from './UpgradeTavlaBanner/index'
 
 function DashboardWrapper(props: Props): JSX.Element {
     const secondsSinceMount = useCounter()
