@@ -1,23 +1,12 @@
 import React from 'react'
 import { Heading1, Heading2, Heading3, Paragraph } from '@entur/typography'
 
-import BackButton from '../../components/backButton/BackButton'
-
 import './styles.scss'
 
-const Privacy = ({ history }: Props): JSX.Element => {
-    const goBackToDashboard = (): void => {
-        history.push(window.location.pathname.replace('privacy', ''))
-    }
-
+const Privacy = (): JSX.Element => {
     return (
         <article className="privacy">
             <div className="privacy__header">
-                <BackButton
-                    className="privacy__header__back-button"
-                    action={goBackToDashboard}
-                />
-
                 <Heading1>Personvern</Heading1>
             </div>
 
