@@ -38,7 +38,7 @@ function StopPlacePanel(props: Props): JSX.Element {
     }, [settings])
 
     const filteredStopPlaces = useMemo(
-        () => stops.filter(({ lines }) => lines.length > 0),
+        () => stops.filter(({ lines }) => lines.length),
         [stops],
     )
 
@@ -143,8 +143,8 @@ function StopPlacePanel(props: Props): JSX.Element {
                                         >
                                             {unique(
                                                 lines.map(
-                                                    (line) =>
-                                                        line.transportMode,
+                                                    ({ transportMode }) =>
+                                                        transportMode,
                                                 ),
                                             ).map((mode) => (
                                                 <TravelSwitch
