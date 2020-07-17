@@ -39,6 +39,16 @@
     .stop-place-search {
         flex-grow: 1;
     }
+
+    @media (max-width: 900px) {
+        &__set-stops {
+            display: block;
+        }
+
+        .distance-editor {
+            margin: 1rem 0;
+        }
+    }
 }
 
 .heading {

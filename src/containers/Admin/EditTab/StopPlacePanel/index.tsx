@@ -99,9 +99,7 @@ function StopPlacePanel(props: Props): JSX.Element {
     if (!filteredStopPlaces.length) {
         return (
             <div className="stop-place-panel">
-                <div className="stop-place-panel__header">
-                    <Paragraph>Det er ingen stoppesteder i nærheten.</Paragraph>
-                </div>
+                <Paragraph>Det er ingen stoppesteder i nærheten.</Paragraph>
             </div>
         )
     }

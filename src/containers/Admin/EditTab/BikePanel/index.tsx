@@ -6,6 +6,7 @@ import { toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
+import { Paragraph } from '@entur/typography'
 
 function BikePanel(props: Props): JSX.Element {
     const [settings, { setHiddenStations }] = useSettingsContext()
@@ -31,7 +32,11 @@ function BikePanel(props: Props): JSX.Element {
     )
 
     if (!stations.length) {
-        return null
+        return (
+            <Fieldset className="bike-panel">
+                <Paragraph>Det er ingen stasjoner i nærheten.</Paragraph>
+            </Fieldset>
+        )
     }
 
     return (
