@@ -4,50 +4,22 @@ import { Heading2 } from '@entur/typography'
 import './styles.scss'
 
 import RadioCard from '../../../components/RadioCard'
-import CompactDark from '../../../assets/previews/previewDark/Kompakt-dark.svg'
-import ChronoDark from '../../../assets/previews/previewDark/Kronologisk-dark.svg'
-import TimelineDark from '../../../assets/previews/previewDark/Tidslinje-dark.svg'
-import CompactLight from '../../../assets/previews/previewLight/Kompakt-light.svg'
-import ChronoLight from '../../../assets/previews/previewLight/Kronologisk-light.svg'
-import TimelineLight from '../../../assets/previews/previewLight/Tidslinje-light.svg'
-import CompactDefault from '../../../assets/previews/previewDefault/Kompakt-blue.svg'
-import ChronoDefault from '../../../assets/previews/previewDefault/Kronologisk-blue.svg'
-import TimelineDefault from '../../../assets/previews/previewDefault/Tidslinje-blue.svg'
-import CompactGrey from '../../../assets/previews/previewGrey/Kompakt-grey.svg'
-import ChronoGrey from '../../../assets/previews/previewGrey/Kronologisk-grey.svg'
-import TimelineGrey from '../../../assets/previews/previewGrey/Tidslinje-grey.svg'
 
 import { useSettingsContext } from '../../../settings'
-import { Theme } from '../../../types'
+import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
 
 const DashboardPickerTab = (): JSX.Element => {
     const [settings, { setDashboard }] = useSettingsContext()
-    const [compactSVG, setCompactSVG] = useState(CompactDefault)
-    const [chronoSVG, setChronoSVG] = useState(ChronoDefault)
-    const [timelineSVG, setTimelineSVG] = useState(TimelineDefault)
+    const [compactSVG, setCompactSVG] = useState()
+    const [chronoSVG, setChronoSVG] = useState()
+    const [timelineSVG, setTimelineSVG] = useState()
 
     useEffect(() => {
-        switch (settings?.theme) {
-            case Theme.DARK:
-                setChronoSVG(ChronoDark)
-                setCompactSVG(CompactDark)
-                setTimelineSVG(TimelineDark)
-                break
-            case Theme.LIGHT:
-                setChronoSVG(ChronoLight)
-                setCompactSVG(CompactLight)
-                setTimelineSVG(TimelineLight)
-                break
-            case Theme.GREY:
-                setChronoSVG(ChronoGrey)
-                setCompactSVG(CompactGrey)
-                setTimelineSVG(TimelineGrey)
-                break
-            default:
-                setChronoSVG(ChronoDefault)
-                setCompactSVG(CompactDefault)
-                setTimelineSVG(TimelineDefault)
-        }
+        if (!settings) return
+        const dashboardImages = ThemeDashbboardPreview(settings.theme)
+        setCompactSVG(dashboardImages.Compact)
+        setChronoSVG(dashboardImages.Chrono)
+        setTimelineSVG(dashboardImages.Timeline)
     }, [settings])
 
     const [radioValue, setRadioValue] = useState<string>(
