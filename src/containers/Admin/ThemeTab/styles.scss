@@ -21,8 +21,13 @@
     }
 }
 
-.eds-paragraph {
+.legacy-theme-tab {
     color: var(--tavla-font-color);
+    width: 100%;
+
+    &__eds-paragraph {
+        color: var(--tavla-font-color);
+    }
 }
 
 .heading {

@@ -44,7 +44,7 @@ function BikePanel(props: Props): JSX.Element {
                     onChange={onChooseAllPressed}
                     checked={!hiddenStations.length}
                 >
-                    Velg alle
+                    <span className="bike-panel__eds-paragraph">Velg alle</span>
                 </Checkbox>
             </div>
             {stations.map(({ name, id }, index) => {
