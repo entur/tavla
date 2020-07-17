@@ -10,17 +10,7 @@ import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPrev
 
 const DashboardPickerTab = (): JSX.Element => {
     const [settings, { setDashboard }] = useSettingsContext()
-    const [compactSVG, setCompactSVG] = useState()
-    const [chronoSVG, setChronoSVG] = useState()
-    const [timelineSVG, setTimelineSVG] = useState()
-
-    useEffect(() => {
-        if (!settings) return
-        const dashboardImages = ThemeDashbboardPreview(settings.theme)
-        setCompactSVG(dashboardImages.Compact)
-        setChronoSVG(dashboardImages.Chrono)
-        setTimelineSVG(dashboardImages.Timeline)
-    }, [settings])
+    const dashboardImages = ThemeDashbboardPreview(settings?.theme)
 
     const [radioValue, setRadioValue] = useState<string>(
         settings.dashboard || 'Compact',
@@ -45,7 +35,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     description="Alle avgangene til en linje vises på en samlet rad. Ikke egnet for linjer som varierer spor/plattform."
                     cardValue="Compact"
                     selected={radioValue === 'Compact'}
-                    preview={compactSVG}
+                    preview={dashboardImages.Compact}
                     callback={(val): void => updateChoice(val)}
                     className="display-wrapper__display-card"
                 />
@@ -54,7 +44,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     description="Avgangene vises i en kronologisk rekkefølge. Egner seg godt for linjer som varierer spor/plattform."
                     cardValue="Chrono"
                     selected={radioValue === 'Chrono'}
-                    preview={chronoSVG}
+                    preview={dashboardImages.Chrono}
                     callback={(val): void => updateChoice(val)}
                     className="display-wrapper__display-card"
                 />
@@ -63,7 +53,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     description="Avgangene vises i en visualisert fremstilling. Viser ikke bysykkel, spor/plattform eller avvik."
                     cardValue="Timeline"
                     selected={radioValue === 'Timeline'}
-                    preview={timelineSVG}
+                    preview={dashboardImages.Timeline}
                     callback={(val): void => updateChoice(val)}
                     className="display-wrapper__display-card"
                 />
