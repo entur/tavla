@@ -53,6 +53,10 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         [history, documentId],
     )
 
+    const onTablesButtonClick = (): void => {
+        history.push(`/tavler`)
+    }
+
     const lockingButton = settings.owners.length === 0 && documentId && (
         <MenuButton
             title="Lås tavle"
@@ -96,6 +100,14 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             title="Rediger tavla"
             icon={<ConfigurationIcon size={21} />}
             callback={onSettingsButtonClick}
+        />
+    )
+
+    const tablesButton = (
+        <MenuButton
+            title="Mine tavler"
+            icon={<UserIcon size={21} />}
+            callback={onTablesButtonClick}
         />
     )
 
@@ -194,6 +206,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <div className="bottom-menu__actions">
                 {editButton}
                 {lockingButton}
+                {tablesButton}
                 {logoutButton}
             </div>
             <LockModal

@@ -22,6 +22,7 @@ import { ToastProvider } from '@entur/alert'
 import Header from '../components/Header'
 
 import './styles.scss'
+import MyTables from './MyTables'
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
@@ -72,6 +73,7 @@ const Content = (): JSX.Element => {
                                     path="/dashboard"
                                     component={Dashboard}
                                 />
+                                <Route path="/tavler" component={MyTables} />
                                 <Route path="/admin" component={Admin} />
                                 <Route path="/privacy" component={Privacy} />
                                 <Route path="/" component={PageDoesNotExist} />
