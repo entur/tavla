@@ -19,17 +19,25 @@ export function DashboardHeader(): JSX.Element {
         </a>
     )
 
+    const boardDescription = logo ? (
+        <span className="header__logo-wrapper__description">
+            {logoSize === '32px' &&
+                (description ||
+                    'Finn din rute på entur.no eller i Entur-appen')}
+        </span>
+    ) : (
+        <span className="header__logo-wrapper__description">
+            {'Finn din rute på entur.no eller i Entur-appen'}
+        </span>
+    )
+
     return (
         <div>
             <UpgradeTavlaBanner />
             <div className="header">
                 <div className="header__logo-wrapper">
                     {headerLogo}
-                    <span className="header__logo-wrapper__description">
-                        {logoSize === '32px' &&
-                            (description ||
-                                'Finn din rute på entur.no eller i Entur-appen')}
-                    </span>
+                    {boardDescription}
                 </div>
                 <Clock className="header__clock" />
             </div>
