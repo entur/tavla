@@ -12,6 +12,11 @@
     border: 0.125rem solid var(--tavla-checkbox-color);
 }
 
+.eds-checkbox__container input:checked + .eds-checkbox__icon,
+.eds-checkbox__container input:indeterminate + .eds-checkbox__icon {
+    background-color: var(--tavla-checkbox-color);
+}
+
 .eds-checkbox__container:hover input:checked + .eds-checkbox__icon,
 .eds-checkbox__container:hover input:indeterminate + .eds-checkbox__icon {
     border-color: var(--tavla-checkbox-hover-color);
