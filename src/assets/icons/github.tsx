@@ -1,6 +1,10 @@
 import React from 'react'
 
-function Github({ size = 25, color = 'currentColor' }: Props): JSX.Element {
+function Github({
+    size = 25,
+    color = 'currentColor',
+    className,
+}: Props): JSX.Element {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -10,6 +14,7 @@ function Github({ size = 25, color = 'currentColor' }: Props): JSX.Element {
             height={size}
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 16 16"
+            className={className}
         >
             <path
                 fillRule="evenodd"
@@ -24,6 +29,7 @@ function Github({ size = 25, color = 'currentColor' }: Props): JSX.Element {
 interface Props {
     color?: string
     size?: number | string
+    className?: string
 }
 
 export default Github
