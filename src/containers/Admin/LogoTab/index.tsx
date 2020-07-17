@@ -78,9 +78,9 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
 
     if (!documentId) {
         return (
-            <div>
+            <div className="logo-page">
                 <Heading2 className="heading">Last opp logo</Heading2>
-                <Paragraph>
+                <Paragraph className="logo-page__paragraph">
                     Vi har oppgradert tavla. Ønsker du tilgang på denne
                     funksjonaliteten må du lage en ny tavle.
                 </Paragraph>
@@ -89,7 +89,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     }
 
     return (
-        <>
+        <div className="logo-page">
             <LoginModal
                 onDismiss={handleDismiss}
                 open={open}
@@ -98,7 +98,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             <Heading2 className="heading">Last opp logo</Heading2>
             <GridContainer spacing="extraLarge" className="logo-grid">
                 <GridItem small={12} medium={12} large={6}>
-                    <Paragraph>
+                    <Paragraph className="logo-page__paragraph">
                         Her kan du legge inn egen logo på din tavle. Logoen vil
                         være plassert i øverste venstre hjørne, og ha en høyde
                         på 32 piksler som standard. Du kan velge å sette
@@ -113,7 +113,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                     <Description />
                 </GridItem>
             </GridContainer>
-        </>
+        </div>
     )
 }
 

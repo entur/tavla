@@ -5,4 +5,8 @@
     .eds-checkbox__container:not(:first-child) {
         margin-top: 0.8rem;
     }
+
+    &__eds-paragraph, .eds-paragraph {
+        color: var(--tavla-font-color);
+    }
 }

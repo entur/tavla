@@ -21,8 +21,12 @@ const SizePicker = (): JSX.Element => {
             value={logoSize}
             className="eds-label"
         >
-            <Radio value="32px">32px</Radio>
-            <Radio value="56px">56px</Radio>
+            <Radio value="32px">
+                <span className="eds-label__eds-paragraph">32px</span>
+            </Radio>
+            <Radio value="56px">
+                <span className="eds-label__eds-paragraph">56px</span>
+            </Radio>
         </RadioGroup>
     )
 }

@@ -59,7 +59,7 @@ function BikePanel(props: Props): JSX.Element {
                     checked={!hiddenStations.includes(id)}
                     onChange={onToggleStation}
                 >
-                    {name}
+                    <span className="bike-panel__eds-paragraph">{name}</span>
                 </Checkbox>
             ))}
         </Fieldset>
