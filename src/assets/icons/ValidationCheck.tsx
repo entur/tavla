@@ -7,7 +7,6 @@ import { useThemeColor } from '../../utils'
 
 function ValidationCheck(): JSX.Element {
     const checkIconColor = colors.validation.mintContrast
-    console.log(checkIconColor)
 
     const backgroundIconColor = useThemeColor(
         {
