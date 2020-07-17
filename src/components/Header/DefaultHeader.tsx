@@ -22,12 +22,13 @@ export function DefaultHeader(): JSX.Element {
 
     const logout = (): void => {
         event.preventDefault()
+        firebase.auth().signOut()
+        setDisplayLoginModal(false)
         addToast({
             title: 'Logget ut',
             content: 'Du er nå logget ut av din konto.',
             variant: 'success',
         })
-        firebase.auth().signOut()
     }
 
     const loginModal = !userLoggedIn ? (
