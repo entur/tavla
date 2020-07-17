@@ -49,6 +49,10 @@
             margin: 1rem 0;
         }
     }
+
+    .eds-dropdown__input[value=''] + .eds-form-control__append {
+        visibility: hidden;
+    }
 }
 
 .heading {
