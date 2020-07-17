@@ -7,42 +7,6 @@
     padding: 2rem 4rem;
     overflow: hidden;
 
-    p {
-        color: var(--tavla-font-color);
-    }
-
-    &__no-stops {
-        img {
-            display: block;
-            margin: auto;
-        }
-
-        div {
-            color: var(--tavla-border-color);
-            margin: auto;
-            position: relative;
-            text-align: center;
-            top: -8.25rem;
-            width: 20rem;
-
-            header {
-                font-weight: 600;
-            }
-        }
-    }
-
-    &__logo {
-        margin-bottom: 0.2rem;
-    }
-
-    &__top {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-        overflow: hidden;
-    }
-
     &__bottom-menu {
         position: fixed;
         margin-left: auto;
@@ -53,36 +17,13 @@
     }
 
     &__byline {
-        margin-top: 3rem;
+        margin-top: 4.5rem;
         display: flex;
         align-items: center;
         color: var(--tavla-font-color);
 
-        svg {
-            height: 48px;
-        }
-    }
-
-    @media (min-width: 901px) {
-        &__logo-wrapper p {
-            margin: -0.5rem 0 0 0;
-        }
-    }
-}
-
-@media (max-width: 900px) {
-    .dashboard-wrapper {
-        &__logo-wrapper p {
-            margin: -0.5rem 0 0 0;
-        }
-
-        &__clock {
-            display: none;
-        }
-
-        &__logo {
-            height: 27px;
-            width: 148px;
+        img {
+            padding-left: 0.75rem;
         }
     }
 }

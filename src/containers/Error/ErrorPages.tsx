@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import ErrorWrapper from '.'
-import LoginModal from '../Admin/LoginModal'
+import LoginModal from '../../components/LoginModal'
 
 import sikkerhetBomLight from './../../assets/images/sikkerhet_bom_light@2x.png'
 import duerLight from './../../assets/images/duer@2x.png'
@@ -27,7 +27,7 @@ export function LockedTavle({ history }: Props): JSX.Element {
               event.preventDefault()
               addToast({
                   title: 'Logget ut',
-                  content: 'Du er nå logget ut av din konto',
+                  content: 'Du er nå logget ut av din konto.',
                   variant: 'success',
               })
               firebase
@@ -41,6 +41,7 @@ export function LockedTavle({ history }: Props): JSX.Element {
         <LoginModal
             open={displayLogin}
             onDismiss={(): void => setDisplayLogin(false)}
+            loginDescription="For å redigere denne tavla, må du først logge inn på kontoen den tilhører."
         />
     ) : null
 

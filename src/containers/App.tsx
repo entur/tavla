@@ -19,6 +19,7 @@ import ThemeProvider from './ThemeWrapper/ThemeProvider'
 import PrivateRoute from '../routers/PrivateRoute'
 
 import { ToastProvider } from '@entur/alert'
+import Header from '../components/Header'
 
 import './styles.scss'
 
@@ -53,6 +54,7 @@ const Content = (): JSX.Element => {
                 <ThemeProvider>
                     <div className="themeBackground">
                         <ToastProvider>
+                            <Header />
                             <Switch>
                                 <Route exact path="/" component={LandingPage} />
                                 <Route
