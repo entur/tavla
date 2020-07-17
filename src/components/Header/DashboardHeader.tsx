@@ -4,6 +4,7 @@ import { useSettings } from '../../settings'
 
 import Clock from '../Clock'
 import { TavlaLogo } from '../../assets/icons'
+import UpgradeTavlaBanner from '../../containers/DashboardWrapper/UpgradeTavlaBanner'
 
 export function DashboardHeader(): JSX.Element {
     const settings = useSettings()[0]
@@ -19,16 +20,19 @@ export function DashboardHeader(): JSX.Element {
     )
 
     return (
-        <div className="header">
-            <div className="header__logo-wrapper">
-                {headerLogo}
-                <span className="header__logo-wrapper__description">
-                    {logoSize === '32px' &&
-                        (description ||
-                            'Finn din rute på entur.no eller i Entur-appen')}
-                </span>
+        <div>
+            <UpgradeTavlaBanner />
+            <div className="header">
+                <div className="header__logo-wrapper">
+                    {headerLogo}
+                    <span className="header__logo-wrapper__description">
+                        {logoSize === '32px' &&
+                            (description ||
+                                'Finn din rute på entur.no eller i Entur-appen')}
+                    </span>
+                </div>
+                <Clock className="header__clock" />
             </div>
-            <Clock className="header__clock" />
         </div>
     )
 }
