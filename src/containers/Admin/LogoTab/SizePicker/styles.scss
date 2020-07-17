@@ -3,4 +3,7 @@
 
 .eds-label {
     color: var(--tavla-label-font-color);
+    &__eds-paragraph {
+        color: var(--tavla-checkbox-color);
+    }
 }

@@ -34,9 +34,9 @@ const ThemeTab = (): JSX.Element => {
 
     if (!documentId) {
         return (
-            <div>
+            <div className="legacy-theme-tab">
                 <Heading2 className="heading">Velg farger</Heading2>
-                <Paragraph>
+                <Paragraph className="legacy-theme-tab__eds-paragraph">
                     Vi har oppgradert tavla. Ønsker du tilgang på denne
                     funksjonaliteten må du lage en ny tavle.
                 </Paragraph>

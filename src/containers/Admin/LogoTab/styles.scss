@@ -5,6 +5,12 @@
     color: var(--tavla-label-font-color);
 }
 
+.logo-page {
+    &__paragraph {
+        color: var(--tavla-font-color);
+    }
+}
+
 .logo-grid {
     .eds-file-upload__wrapper {
         width: 100%;
