@@ -17,6 +17,10 @@
         flex-direction: row;
         align-items: center;
 
+        &__empty {
+            padding: 1rem 1.5rem 1rem 0;
+        }
+
         .eds-expandable-panel__trigger,
         .eds-expandable-panel__trigger:hover {
             background: none;
