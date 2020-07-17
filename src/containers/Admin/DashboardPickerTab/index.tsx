@@ -1,15 +1,55 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { Heading2 } from '@entur/typography'
 
 import './styles.scss'
+
 import RadioCard from '../../../components/RadioCard'
-import CompactSVG from '../../../assets/previews/Kompakt.svg'
-import ChronoSVG from '../../../assets/previews/Kronologisk.svg'
-import TimelineSVG from '../../../assets/previews/Tidslinje.svg'
+import CompactDark from '../../../assets/previews/previewDark/Kompakt-dark.svg'
+import ChronoDark from '../../../assets/previews/previewDark/Kronologisk-dark.svg'
+import TimelineDark from '../../../assets/previews/previewDark/Tidslinje-dark.svg'
+import CompactLight from '../../../assets/previews/previewLight/Kompakt-light.svg'
+import ChronoLight from '../../../assets/previews/previewLight/Kronologisk-light.svg'
+import TimelineLight from '../../../assets/previews/previewLight/Tidslinje-light.svg'
+import CompactDefault from '../../../assets/previews/previewDefault/Kompakt-blue.svg'
+import ChronoDefault from '../../../assets/previews/previewDefault/Kronologisk-blue.svg'
+import TimelineDefault from '../../../assets/previews/previewDefault/Tidslinje-blue.svg'
+import CompactGrey from '../../../assets/previews/previewGrey/Kompakt-grey.svg'
+import ChronoGrey from '../../../assets/previews/previewGrey/Kronologisk-grey.svg'
+import TimelineGrey from '../../../assets/previews/previewGrey/Tidslinje-grey.svg'
+
 import { useSettingsContext } from '../../../settings'
+import { Theme } from '../../../types'
 
 const DashboardPickerTab = (): JSX.Element => {
     const [settings, { setDashboard }] = useSettingsContext()
+    const [compactSVG, setCompactSVG] = useState(CompactDefault)
+    const [chronoSVG, setChronoSVG] = useState(ChronoDefault)
+    const [timelineSVG, setTimelineSVG] = useState(TimelineDefault)
+
+    useEffect(() => {
+        switch (settings?.theme) {
+            case Theme.DARK:
+                setChronoSVG(ChronoDark)
+                setCompactSVG(CompactDark)
+                setTimelineSVG(TimelineDark)
+                break
+            case Theme.LIGHT:
+                setChronoSVG(ChronoLight)
+                setCompactSVG(CompactLight)
+                setTimelineSVG(TimelineLight)
+                break
+            case Theme.GREY:
+                setChronoSVG(ChronoGrey)
+                setCompactSVG(CompactGrey)
+                setTimelineSVG(TimelineGrey)
+                break
+            default:
+                setChronoSVG(ChronoDefault)
+                setCompactSVG(CompactDefault)
+                setTimelineSVG(TimelineDefault)
+        }
+    }, [settings])
+
     const [radioValue, setRadioValue] = useState<string>(
         settings.dashboard || 'Compact',
     )
@@ -33,7 +73,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     description="Alle avgangene til en linje vises på en samlet rad. Ikke egnet for linjer som varierer spor/plattform."
                     cardValue="Compact"
                     selected={radioValue === 'Compact'}
-                    preview={CompactSVG}
+                    preview={compactSVG}
                     callback={(val): void => updateChoice(val)}
                     className="display-wrapper__display-card"
                 />
@@ -42,7 +82,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     description="Avgangene vises i en kronologisk rekkefølge. Egner seg godt for linjer som varierer spor/plattform."
                     cardValue="Chrono"
                     selected={radioValue === 'Chrono'}
-                    preview={ChronoSVG}
+                    preview={chronoSVG}
                     callback={(val): void => updateChoice(val)}
                     className="display-wrapper__display-card"
                 />
@@ -51,7 +91,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     description="Avgangene vises i en visualisert fremstilling. Viser ikke bysykkel, spor/plattform eller avvik."
                     cardValue="Timeline"
                     selected={radioValue === 'Timeline'}
-                    preview={TimelineSVG}
+                    preview={timelineSVG}
                     callback={(val): void => updateChoice(val)}
                     className="display-wrapper__display-card"
                 />
