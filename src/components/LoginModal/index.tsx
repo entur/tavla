@@ -12,8 +12,8 @@ import './styles.scss'
 import { Modal } from '@entur/modal'
 import { useToast } from '@entur/alert'
 
-import { useFirebaseAuthentication } from '../../../auth'
-import { usePrevious } from '../../../utils'
+import { useFirebaseAuthentication } from '../../auth'
+import { usePrevious } from '../../utils'
 
 interface Props {
     open: boolean

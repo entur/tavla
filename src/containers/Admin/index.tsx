@@ -7,13 +7,10 @@ import './styles.scss'
 import { getDocumentId } from '../../utils'
 import { useFirebaseAuthentication } from '../../auth'
 
-import AdminHeader from './AdminHeader'
 import LogoTab from './LogoTab'
 import EditTab from './EditTab'
 import ThemeTab from './ThemeTab'
 import VisningTab from './DashboardPickerTab'
-import { useSettingsContext } from '../../settings'
-import { Theme } from '../../types'
 
 const AdminPage = ({ history }: Props): JSX.Element => {
     const documentId = getDocumentId()
@@ -32,7 +29,6 @@ const AdminPage = ({ history }: Props): JSX.Element => {
 
     return (
         <div className="admin">
-            <AdminHeader goBackToDashboard={goToDash} />
             <Tabs
                 index={currentIndex}
                 onChange={setCurrentIndex}

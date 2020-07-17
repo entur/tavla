@@ -25,7 +25,7 @@ import { useWindowWidth } from '@react-hook/window-size'
 
 import './styles.scss'
 import LockModal from '../../LockModal'
-import LoginModal from '../../Admin/LoginModal/.'
+import LoginModal from '../../../components/LoginModal'
 import { useFirebaseAuthentication } from '../../../auth'
 
 function BottomMenu({ className, history }: Props): JSX.Element {
@@ -76,7 +76,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                 callback={(): void => {
                     addToast({
                         title: 'Logget ut',
-                        content: 'Du er nå logget ut av din konto',
+                        content: 'Du er nå logget ut av din konto.',
                         variant: 'success',
                     })
                     firebase.auth().signOut()

@@ -18,6 +18,7 @@ const LandingPage = ({ history }: Props): JSX.Element => {
             const initialSettings = {
                 ...DEFAULT_SETTINGS,
                 coordinates: position,
+                created: new Date(),
             }
 
             createSettings(initialSettings).then((docRef) => {
