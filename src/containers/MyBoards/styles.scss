@@ -1,0 +1,10 @@
+@import '../../assets/styles/import.scss';
+
+.my-boards {
+    background-color: var(--tavla-background-color);
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    padding: 2rem 4rem;
+    color: var(--tavla-font-color);
+}

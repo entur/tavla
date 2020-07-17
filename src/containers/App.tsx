@@ -22,7 +22,7 @@ import { ToastProvider } from '@entur/alert'
 import Header from '../components/Header'
 
 import './styles.scss'
-import MyTables from './MyTables'
+import MyTables from './MyBoards'
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
