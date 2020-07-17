@@ -121,6 +121,7 @@ const EditTab = (): JSX.Element => {
                         <Switch
                             onChange={() => toggleMode('kollektiv')}
                             checked={!hiddenModes.includes('kollektiv')}
+                            size="large"
                         />
                     </div>
                     <div className="edit-tab__set-stops">
@@ -139,6 +140,7 @@ const EditTab = (): JSX.Element => {
                         <Switch
                             onChange={() => toggleMode('bysykkel')}
                             checked={!hiddenModes.includes('bysykkel')}
+                            size="large"
                         />
                     </div>
                     <BikePanelSearch

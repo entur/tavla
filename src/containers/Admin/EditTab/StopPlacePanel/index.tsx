@@ -104,8 +104,10 @@ function StopPlacePanel(props: Props): JSX.Element {
         )
     }
 
+    const useContrast = [Theme.DEFAULT, Theme.DARK].includes(settings?.theme)
+
     return (
-        <ThemeContrastWrapper useContrast={settings?.theme === Theme.DEFAULT}>
+        <ThemeContrastWrapper useContrast={useContrast}>
             <div className="stop-place-panel">
                 <div className="stop-place-panel__header">
                     <div
@@ -152,6 +154,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                                                     transport={
                                                         mode as TravelSwitchProps['transport']
                                                     }
+                                                    size="large"
                                                     onChange={(): void => {
                                                         onToggleMode(id, mode)
                                                     }}

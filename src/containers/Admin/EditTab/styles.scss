@@ -51,7 +51,7 @@
     }
 
     .eds-dropdown__input[value=''] + .eds-form-control__append {
-        visibility: hidden;
+        display: none;
     }
 }
 
