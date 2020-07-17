@@ -72,7 +72,10 @@ const Content = (): JSX.Element => {
                                     path="/dashboard"
                                     component={Dashboard}
                                 />
-                                <Route path="/admin" component={Admin} />
+                                <Route
+                                    path="/admin"
+                                    component={settings[0] && Admin}
+                                />
                                 <Route path="/privacy" component={Privacy} />
                                 <Route path="/" component={PageDoesNotExist} />
                             </Switch>

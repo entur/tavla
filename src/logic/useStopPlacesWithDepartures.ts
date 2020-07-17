@@ -65,9 +65,8 @@ async function fetchStopPlaceDepartures(
             .map(transformDepartureToLineData)
             .filter(
                 ({ route, type }) =>
-                    (!hiddenRoutes[stopId] ||
-                        !hiddenRoutes[stopId].includes(route)) &&
-                    !hiddenStopModes[stopId]?.includes(type),
+                    !hiddenRoutes?.[stopId]?.includes(route) &&
+                    !hiddenStopModes?.[stopId]?.includes(type),
             )
 
         return {
@@ -83,10 +82,6 @@ export default function useStopPlacesWithDepartures():
     | StopPlaceWithDepartures[]
     | null {
     const [settings] = useSettingsContext()
-
-    if (settings.hiddenModes.includes('kollektiv')) {
-        return
-    }
 
     const nearestPlaces = useNearestPlaces(
         settings.coordinates,
@@ -105,6 +100,10 @@ export default function useStopPlacesWithDepartures():
     )
 
     useEffect(() => {
+        if (settings.hiddenModes.includes('kollektiv')) {
+            return
+        }
+
         fetchStopPlaceDepartures(settings, nearestStopPlaces).then(
             setStopPlacesWithDepartures,
         )

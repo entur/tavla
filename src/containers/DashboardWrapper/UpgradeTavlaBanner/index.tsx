@@ -13,9 +13,9 @@ const UpgradeTavlaBanner = (): JSX.Element => {
             <NewIcon className="banner__icon" />
             <span>
                 <b>Vi pusser opp Tavla! </b>
-                <Link to="/" className="banner__link">
+                <a href="/" className="banner__link">
                     Lag din tavle på nytt
-                </Link>{' '}
+                </a>{' '}
                 for å få tilgang til de nye funksjonene.
             </span>
         </div>

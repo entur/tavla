@@ -102,59 +102,48 @@ export function useSettings(): [Settings, SettingsSetters] {
 
         const id = getDocumentId()
 
+        const defaultSettings = {
+            description: '',
+            logoSize: '32px',
+            theme: Theme.DEFAULT,
+            owners: [] as string[],
+            hiddenStopModes: {},
+        }
+
         if (id) {
             return getSettings(id).onSnapshot((document) => {
                 if (document.exists) {
                     const data = document.data()
 
-                    const defaultSettings = {
-                        description: '',
-                        logoSize: '32px',
-                        theme: 'default',
-                        owners: [] as string[],
+                    const settingsWithDefaults = {
+                        ...defaultSettings,
                         ...data,
                     }
 
                     // The fields under are added if missing, and if the tavle is not locked.
                     // If a tavle is locked by a user, you are not allowed to write to
                     // tavle unless you are logged in as the user who locked tavla, so we need
-                    // yo check if you have edit access.
+                    // to check if you have edit access.
                     const editAccess =
                         data.owners === undefined ||
                         data.owners.length === 0 ||
                         data.owners.includes(user?.uid)
 
                     if (editAccess) {
-                        if (data.owners === undefined) {
-                            persistToFirebase(getDocumentId(), 'owners', [])
-                        }
-
-                        if (data.theme === undefined) {
-                            persistToFirebase(
-                                getDocumentId(),
-                                'theme',
-                                'default',
-                            )
-                        }
-
-                        if (data.description === undefined) {
-                            persistToFirebase(
-                                getDocumentId(),
-                                'description',
-                                '',
-                            )
-                        }
-
-                        if (data.logoSize === undefined) {
-                            persistToFirebase(
-                                getDocumentId(),
-                                'logoSize',
-                                '32px',
-                            )
-                        }
+                        Object.entries(defaultSettings).forEach(
+                            ([key, value]) => {
+                                if (data[key] === undefined) {
+                                    persistToFirebase(
+                                        getDocumentId(),
+                                        key,
+                                        value,
+                                    )
+                                }
+                            },
+                        )
                     }
 
-                    setSettings(defaultSettings as Settings)
+                    setSettings(settingsWithDefaults as Settings)
                 } else {
                     window.location.pathname = '/'
                 }
@@ -174,8 +163,8 @@ export function useSettings(): [Settings, SettingsSetters] {
         }
 
         setSettings({
+            ...defaultSettings,
             ...restoreFromUrl(),
-            owners: [],
             coordinates: {
                 latitude: Number(positionArray[0]),
                 longitude: Number(positionArray[1]),
