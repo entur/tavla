@@ -35,13 +35,7 @@ function createTimeString(date: Date): string {
     return `Sist endret ${timestring} ${time}`
 }
 
-function BoardCard({
-    settings,
-    id,
-    timestamp,
-    callback,
-    className,
-}: Props): JSX.Element {
+function BoardCard({ settings, id, timestamp, className }: Props): JSX.Element {
     const preview = ThemeDashbboardPreview(settings.theme)
     const dashboardType = settings.dashboard ? settings.dashboard : 'Chrono'
     const timeString = timestamp
@@ -49,7 +43,7 @@ function BoardCard({
         : 'Ikke endret'
 
     return (
-        <div className={`board-card ${className}`} onClick={callback}>
+        <div className={`board-card ${className}`}>
             <a href={`/t/${id}`}>
                 <img
                     className="board-card__preview"
@@ -85,7 +79,6 @@ interface Props {
     settings: Settings
     id: string
     timestamp: firebase.firestore.Timestamp
-    callback?: () => void
     className?: string
 }
 
