@@ -37,7 +37,7 @@ function BoardCard({ settings, id, callback, className }: Props): JSX.Element {
                 <div className="board-card__text-container__text">
                     <LinkIcon className="board-card__text-container__text__icon" />
                     <span className="board-card__text-container__text__description">
-                        {`${window.location.host}/${id}`}
+                        {`${window.location.host}/t/${id}`}
                     </span>
                 </div>
             </div>
