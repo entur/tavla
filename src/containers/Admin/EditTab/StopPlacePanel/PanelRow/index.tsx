@@ -79,9 +79,11 @@ const PanelRow = ({
                         )
 
                         return (
-                            <div className="stop-place-panel__row__content">
+                            <div
+                                className="stop-place-panel__row__content"
+                                key={`checkbox-${routeId}`}
+                            >
                                 <Checkbox
-                                    key={`checkbox-${routeId}`}
                                     id={`checkbox-${routeId}`}
                                     className="stop-place-panel__route"
                                     name={routeName}

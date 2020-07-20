@@ -53,34 +53,49 @@ const EditTab = (): JSX.Element => {
     )
 
     useEffect(() => {
+        let ignoreResponse = false
+
         const ids = [...newStops, ...nearestStopPlaceIds]
-        if (ids.length) {
-            getStopPlacesWithLines(
-                ids.map((id) => id.replace(/-\d+$/, '')),
-            ).then((resultingStopPlaces) => {
+
+        getStopPlacesWithLines(ids.map((id) => id.replace(/-\d+$/, ''))).then(
+            (resultingStopPlaces) => {
+                if (ignoreResponse) return
+
                 setStopPlaces(
                     resultingStopPlaces.map((s, index) => ({
                         ...s,
                         id: ids[index],
                     })),
                 )
-            })
+            },
+        )
+
+        return () => {
+            ignoreResponse = true
         }
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
 
     useEffect(() => {
+        let ignoreResponse = false
+
         const nearestBikeRentalStationIds = nearestPlaces
             .filter(({ type }) => type === 'BikeRentalStation')
             .map(({ id }) => id)
+
         const ids = [...newStations, ...nearestBikeRentalStationIds]
-        if (ids.length) {
-            service.getBikeRentalStations(ids).then((freshStations) => {
-                const sortedStations = freshStations.sort(
-                    (a: BikeRentalStation, b: BikeRentalStation) =>
-                        a.name.localeCompare(b.name, 'no'),
-                )
-                setStations(sortedStations)
-            })
+
+        service.getBikeRentalStations(ids).then((freshStations) => {
+            if (ignoreResponse) return
+
+            const sortedStations = freshStations.sort(
+                (a: BikeRentalStation, b: BikeRentalStation) =>
+                    a.name.localeCompare(b.name, 'no'),
+            )
+            setStations(sortedStations)
+        })
+
+        return () => {
+            ignoreResponse = true
         }
     }, [nearestPlaces, newStations])
 
