@@ -73,7 +73,8 @@ const Content = (): JSX.Element => {
                                     path="/dashboard"
                                     component={Dashboard}
                                 />
-                                <Route path="/tavler" component={MyTables} />
+                                {/* Kommenter inn dennne når Mine Tavler er på plass */}
+                                {/* <Route path="/tavler" component={MyTables} /> */}
                                 <Route path="/admin" component={Admin} />
                                 <Route path="/privacy" component={Privacy} />
                                 <Route path="/" component={PageDoesNotExist} />
