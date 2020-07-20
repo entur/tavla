@@ -88,7 +88,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                 <div className="stop-place-panel__header">
                     <div
                         className="stop-place-panel__checkall"
-                        onClick={(event) => event.stopPropagation()}
+                        onClick={(event): void => event.stopPropagation()}
                     >
                         <Checkbox
                             id="check-all-stop-places"
