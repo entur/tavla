@@ -13,10 +13,13 @@ function BoardCard({ settings, id, callback, className }: Props): JSX.Element {
 
     return (
         <div className={`board-card ${className}`} onClick={callback}>
-            <img
-                className="board-card__preview"
-                src={preview[`${dashboardType}`]}
-            />
+            <a href={`/t/${id}`}>
+                <img
+                    className="board-card__preview"
+                    src={preview[`${dashboardType}`]}
+                />
+            </a>
+
             <div className="board-card__text-container">
                 <Heading3
                     className="board-card__text-container__title"
