@@ -73,7 +73,7 @@ const MineTavlerModal = ({ open, onDismiss, history }: Props): JSX.Element => {
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={() => handleLockingTavle(true)}
+                        onClick={(): void => handleLockingTavle(true)}
                         className="modal-submit"
                     >
                         Ja, lås tavle til min konto
@@ -83,7 +83,7 @@ const MineTavlerModal = ({ open, onDismiss, history }: Props): JSX.Element => {
                     <SecondaryButton
                         width="fluid"
                         type="submit"
-                        onClick={() => handleLockingTavle(false)}
+                        onClick={(): void => handleLockingTavle(false)}
                     >
                         Fortsett uten å låse tavle
                     </SecondaryButton>

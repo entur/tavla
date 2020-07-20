@@ -65,7 +65,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
-    // Når Mine tavler er på plass, så fjern Logg-inn button fra menyen (ikke logg ut)
+    //TODO: 20.07-20 Når Mine tavler er på plass, så fjern Logg-inn button fra menyen (ikke logg ut)
     const logoutButton =
         documentId &&
         (user && !user.isAnonymous ? (
@@ -89,7 +89,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             />
         ))
 
-    // Fjern false når funksjonaliteten for Mine Tavler er på plass
+    //TODO: 20.07-20 Fjern false når funksjonaliteten for Mine Tavler er på plass
     const tablesButton = false && (
         <MenuButton
             title="Mine tavler"
