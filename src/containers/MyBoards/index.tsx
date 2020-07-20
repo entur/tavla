@@ -13,6 +13,7 @@ import BoardCard from './BoardCard'
 
 import './styles.scss'
 import { Heading2 } from '@entur/typography'
+import { NoTavlerAvailable } from '../Error/ErrorPages'
 
 type DocumentData = firestore.DocumentData
 
@@ -37,7 +38,8 @@ const MyBoards = ({ history }: Props): JSX.Element => {
         return unsubscribe
     }, [user, setBoards])
 
-    if (!boards) return null //TODO: Error page
+    if (boards == undefined) return null
+    if (!boards) return <NoTavlerAvailable history={history} />
 
     return (
         <ThemeContrastWrapper useContrast={settings?.theme === Theme.DEFAULT}>

@@ -93,6 +93,24 @@ export function NoStopsOnTavle(): JSX.Element {
     )
 }
 
+export function NoTavlerAvailable({ history }: Props): JSX.Element {
+    const callback = (event: React.FormEvent): void => {
+        event.preventDefault()
+        history.push(`/`)
+    }
+    return (
+        <div>
+            <ErrorWrapper
+                title="Her var det tomt!"
+                message="Du har ingen tavler som er lagret på denne kontoen. Trykk på knappen nedenfor for å lage en avgangstavle."
+                image={duerLight}
+                callbackMessage="Lag en ny tavle"
+                callback={callback}
+            />
+        </div>
+    )
+}
+
 interface Props {
     history: any
 }
