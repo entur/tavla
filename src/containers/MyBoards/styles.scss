@@ -1,10 +1,20 @@
 @import '../../assets/styles/import.scss';
 
 .my-boards {
-    background-color: var(--tavla-background-color);
     margin-left: auto;
     margin-right: auto;
     justify-content: center;
     padding: 2rem 4rem;
-    color: var(--tavla-font-color);
+    background-color: var(--tavla-background-color);
+
+    &__title {
+        color: var(--tavla-font-color);
+    }
+
+    &__board-list {
+        display: grid;
+        box-sizing: border-box;
+        grid-auto-flow: row;
+        grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
+    }
 }
