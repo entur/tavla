@@ -1,12 +1,27 @@
 import React, { ChangeEvent } from 'react'
 
-import { Checkbox, TravelSwitch, TravelSwitchProps } from '@entur/form'
+import { Checkbox, TravelSwitch, TravelSwitchProps, Switch } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
 import { LegMode } from '@entur/sdk'
 
 import { unique, getIcon, getIconColorType } from '../../../../../utils'
 import { Settings } from '../../../../../settings'
 import { StopPlaceWithLines } from '../../../../../types'
+
+const isTransport = (mode: string): mode is TravelSwitchProps['transport'] => {
+    return [
+        'bus',
+        'rail',
+        'water',
+        'air',
+        'tram',
+        'bike',
+        'metro',
+        'scooter',
+        'airportLinkRail',
+        'airportLinkBus',
+    ].includes(mode)
+}
 
 const PanelRow = ({
     onToggleStop,
@@ -37,17 +52,26 @@ const PanelRow = ({
             </span>
             <span>{name}</span>
             <span onClick={(event) => event.stopPropagation()}>
-                {uniqueModes.map((mode) => (
-                    <TravelSwitch
-                        key={mode}
-                        transport={mode as TravelSwitchProps['transport']}
-                        size="large"
-                        onChange={(): void => {
-                            onToggleMode(id, mode)
-                        }}
-                        checked={!settings.hiddenStopModes[id]?.includes(mode)}
-                    />
-                ))}
+                {uniqueModes.map((mode) => {
+                    const props: Partial<TravelSwitchProps> = {
+                        key: mode,
+                        size: 'large',
+                        onChange: (): void => onToggleMode(id, mode),
+                        checked: !settings.hiddenStopModes[id]?.includes(mode),
+                    }
+
+                    if (isTransport(mode)) {
+                        return <TravelSwitch {...props} transport={mode} />
+                    } else if (mode === 'coach') {
+                        return (
+                            <TravelSwitch {...props} transport="bus">
+                                Coach
+                            </TravelSwitch>
+                        )
+                    } else {
+                        return null
+                    }
+                })}
             </span>
         </div>
     )
