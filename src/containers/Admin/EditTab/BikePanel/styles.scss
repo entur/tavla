@@ -2,49 +2,11 @@
 @import '../../../../variables.scss';
 
 .bike-panel {
-    background-color: var(--tavla-box-background-color);
-    padding: 1rem 2rem;
-    width: 400px;
-    margin-top: 2rem;
+    .eds-checkbox__container:not(:first-child) {
+        margin-top: 0.8rem;
+    }
 
-    &__eds-paragraph {
+    &__eds-paragraph, .eds-paragraph {
         color: var(--tavla-font-color);
-    }
-
-    &__header {
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
-        align-items: center;
-
-        label {
-            color: var(--tavla-font-color);
-        }
-    }
-
-    &__row {
-        color: var(--tavla-font-color);
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding: 1rem 0;
-        border-bottom: 2px solid var(--tavla-border-color);
-
-        &:last-child {
-            border: 0;
-            padding-bottom: 0;
-        }
-
-        > label > span {
-            margin: 0 0 0 0.5rem;
-            color: var(--tavla-font-color);
-        }
-    }
-}
-
-@media (max-width: 1000px) {
-    .bike-panel {
-        width: unset;
-        margin-top: 0;
     }
 }

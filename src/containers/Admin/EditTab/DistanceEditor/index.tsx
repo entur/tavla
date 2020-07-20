@@ -1,9 +1,9 @@
 import React, { memo, useCallback } from 'react'
 
 import { Slider } from '../../../../components'
-import { MAX_DISTANCE } from '../../../../constants'
 
 import './styles.scss'
+import { Label } from '@entur/typography'
 
 function DistanceEditor(props: Props): JSX.Element {
     const { distance, onDistanceUpdated } = props
@@ -17,19 +17,11 @@ function DistanceEditor(props: Props): JSX.Element {
 
     return (
         <div className="distance-editor">
-            <p className="distance-editor__text">
-                Vis stopp og stativer innen
-                <input
-                    type="number"
-                    value={distance}
-                    className="distance-editor__input"
-                    onChange={handleDistanceUpdate}
-                    min="1"
-                    max={MAX_DISTANCE}
-                />
-                meter.
-            </p>
+            <Label>Hvor langt unna vil du inkludere stoppesteder?</Label>
             <Slider handleChange={handleDistanceUpdate} distance={distance} />
+            <p className="distance-editor__text">
+                Viser stoppesteder innenfor <b>{distance}</b> m avstand.
+            </p>
         </div>
     )
 }

@@ -3,14 +3,18 @@
 
 .distance-editor {
     width: 400px;
-    min-height: 7rem;
+    display: flex;
+    flex-direction: column;
 
     &__text {
-        padding-right: 60px;
-        height: 24px;
-        color: var(--tavla-font-color);
-        font-size: 15px;
+        font-size: 0.875rem;
         font-weight: 500;
+        margin: 0;
+        color: var(--tavla-font-color);
+
+        b {
+            font-weight: bold;
+        }
     }
 
     &__input {

@@ -10,13 +10,22 @@ export default function useNearestPlaces(
     const [nearestPlaces, setNearestPlaces] = useState<NearestPlace[]>([])
 
     useEffect(() => {
+        let ignoreResponse = false
+
         service
             .getNearestPlaces(position, {
                 maximumDistance: distance,
                 filterByPlaceTypes: ['StopPlace', 'BikeRentalStation'],
                 multiModalMode: 'parent',
             })
-            .then(setNearestPlaces)
+            .then((places) => {
+                if (ignoreResponse) return
+                setNearestPlaces(places)
+            })
+
+        return () => {
+            ignoreResponse = true
+        }
     }, [distance, position])
 
     return nearestPlaces

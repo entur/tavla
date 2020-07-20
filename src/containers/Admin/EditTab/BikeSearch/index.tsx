@@ -5,6 +5,7 @@ import { Dropdown } from '@entur/dropdown'
 import service from '../../../../service'
 
 import './styles.scss'
+import { Label } from '@entur/typography'
 
 interface Item {
     value: string
@@ -48,7 +49,7 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
 
     return (
         <div className="bike-search">
-            <span>Bysykkelstativ</span>
+            <Label>Bysykkelstativ</Label>
             <Dropdown
                 searchable
                 openOnFocus

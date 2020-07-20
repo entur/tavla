@@ -9,13 +9,6 @@
     padding: 2rem 4rem;
     color: var(--tavla-font-color);
 
-    &__content {
-        display: flex;
-        flex-direction: row;
-        overflow: scroll;
-        height: calc(100vh);
-    }
-
     &__tabs {
         background-color: var(--tavla-background-color);
 
