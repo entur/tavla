@@ -62,16 +62,23 @@
     }
 
     @media (max-width: 900px) {
+        margin: 0 1rem 1rem 1rem;
         &__clock {
             display: none;
         }
 
-        &__logo {
-            height: 1.5rem;
+        &__logo-wrapper {
+            &__logo {
+                height: 1.5rem;
+            }
         }
 
         &__resources {
             width: 10rem;
+
+            &__item {
+                padding-left: 2.5rem;
+            }
 
             &__item__text {
                 display: none;
