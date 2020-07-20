@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from 'react'
-import { LegMode } from '@entur/sdk'
 
 import { StopPlaceWithDepartures } from '../types'
 import {

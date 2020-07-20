@@ -23,7 +23,7 @@ export default function useNearestPlaces(
                 setNearestPlaces(places)
             })
 
-        return () => {
+        return (): void => {
             ignoreResponse = true
         }
     }, [distance, position])
