@@ -65,6 +65,7 @@
 
 .eds-checkbox__icon, .eds-contrast .eds-checkbox__icon {
     border: 0.125rem solid var(--tavla-checkbox-color);
+    background-color: var(--tavla-checkbox-color);
 }
 
 .eds-checkbox__container input:checked + .eds-checkbox__icon,
@@ -81,7 +82,7 @@
 .eds-checkbox__container:hover input + .eds-checkbox__icon,
 .eds-contrast .eds-checkbox__container:hover input + .eds-checkbox__icon {
     border-color: var(--tavla-checkbox-hover-color);
-    background-color: var(--tavla-input-background-color);
+    background-color: var(--tavla-checkbox-color);
 }
 
 .eds-form-control-wrapper {

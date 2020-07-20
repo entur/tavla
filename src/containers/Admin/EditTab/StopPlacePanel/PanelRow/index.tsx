@@ -27,12 +27,14 @@ const PanelRow = ({
 
     const header = (
         <div className="stop-place-panel__row__header">
-            <Checkbox
-                id={id}
-                className="stop-place-panel__row__checkbox"
-                checked={!settings.hiddenStops.includes(id)}
-                onChange={onToggleStop}
-            />
+            <span onClick={(event) => event.stopPropagation()}>
+                <Checkbox
+                    id={id}
+                    className="stop-place-panel__row__checkbox"
+                    checked={!settings.hiddenStops.includes(id)}
+                    onChange={onToggleStop}
+                />
+            </span>
             <span>{name}</span>
             <span onClick={(event) => event.stopPropagation()}>
                 {uniqueModes.map((mode) => (
@@ -77,23 +79,25 @@ const PanelRow = ({
                         )
 
                         return (
-                            <Checkbox
-                                key={`checkbox-${routeId}`}
-                                id={`checkbox-${routeId}`}
-                                className="stop-place-panel__route"
-                                name={routeName}
-                                onChange={(): void =>
-                                    onToggleRoute(id, routeName)
-                                }
-                                checked={
-                                    !settings.hiddenRoutes[id]?.includes(
-                                        routeName,
-                                    )
-                                }
-                            >
-                                {icon}
-                                {routeName}
-                            </Checkbox>
+                            <div className="stop-place-panel__row__content">
+                                <Checkbox
+                                    key={`checkbox-${routeId}`}
+                                    id={`checkbox-${routeId}`}
+                                    className="stop-place-panel__route"
+                                    name={routeName}
+                                    onChange={(): void =>
+                                        onToggleRoute(id, routeName)
+                                    }
+                                    checked={
+                                        !settings.hiddenRoutes[id]?.includes(
+                                            routeName,
+                                        )
+                                    }
+                                >
+                                    {icon}
+                                    {routeName}
+                                </Checkbox>
+                            </div>
                         )
                     },
                 )}

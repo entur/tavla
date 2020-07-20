@@ -2,6 +2,10 @@
 @import '../../../../variables.scss';
 
 .stop-place-panel {
+    .eds-paragraph {
+        color: #fff;
+    }
+
     &__header {
         display: flex;
         padding: 1rem 0;
@@ -40,6 +44,8 @@
             > span {
                 display: flex;
                 color: var(--tavla-font-color);
+                font-weight: 600;
+                -webkit-font-smoothing: antialiased;
             }
         }
 
