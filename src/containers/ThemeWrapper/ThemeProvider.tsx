@@ -10,12 +10,12 @@ type ThemeContextType = {
 
 const ThemeContext = React.createContext<ThemeContextType>({
     themeContext: undefined,
-    setThemeContext: () => {
+    setThemeContext: (): void => {
         return
     },
 })
 
-const ThemeProvider: FC = (props) => {
+const ThemeProvider: FC = (props): JSX.Element => {
     const [settings] = useSettingsContext()
     const [themeContext, setThemeContext] = useState<Theme>(undefined)
 
@@ -25,9 +25,10 @@ const ThemeProvider: FC = (props) => {
         }
     }, [settings, themeContext])
 
-    const contextValue = useMemo(() => ({ themeContext, setThemeContext }), [
-        themeContext,
-    ])
+    const contextValue = useMemo(
+        (): ThemeContextType => ({ themeContext, setThemeContext }),
+        [themeContext],
+    )
     return (
         <div className={`${themeContext}-theme`}>
             <ThemeContext.Provider value={contextValue} {...props} />
@@ -35,7 +36,7 @@ const ThemeProvider: FC = (props) => {
     )
 }
 
-export const useTheme = () => {
+export const useTheme = (): ThemeContextType => {
     return React.useContext(ThemeContext)
 }
 

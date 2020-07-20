@@ -1,7 +1,6 @@
 import React from 'react'
 import { NewIcon } from '@entur/icons'
 import './styles.scss'
-import { Link } from 'react-router-dom'
 import { getDocumentId } from '../../../utils'
 
 const UpgradeTavlaBanner = (): JSX.Element => {
