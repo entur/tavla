@@ -8,9 +8,45 @@ import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPrev
 
 import './styles.scss'
 
-function BoardCard({ settings, id, callback, className }: Props): JSX.Element {
+const DAYS = ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør']
+
+const MONTHS = [
+    'januar',
+    'februar',
+    'mars',
+    'april',
+    'mai',
+    'juni',
+    'juli',
+    'august',
+    'september',
+    'oktober',
+    'november',
+    'desember',
+]
+
+function createTimeString(date: Date): string {
+    const timestring = `${DAYS[date.getDay()]} ${date.getDate()}. ${
+        MONTHS[date.getMonth()]
+    }`
+    const hours = `${date.getHours()}`.padStart(2, '0')
+    const minutes = `${date.getMinutes()}`.padStart(2, '0')
+    const time = `${hours}:${minutes}`
+    return `Sist endret ${timestring} ${time}`
+}
+
+function BoardCard({
+    settings,
+    id,
+    timestamp,
+    callback,
+    className,
+}: Props): JSX.Element {
     const preview = ThemeDashbboardPreview(settings.theme)
     const dashboardType = settings.dashboard ? settings.dashboard : 'Chrono'
+    const timeString = timestamp
+        ? createTimeString(timestamp.toDate())
+        : 'Ikke endret'
 
     return (
         <div className={`board-card ${className}`} onClick={callback}>
@@ -31,7 +67,7 @@ function BoardCard({ settings, id, callback, className }: Props): JSX.Element {
                 <div className="board-card__text-container__text">
                     <ClockIcon className="board-card__text-container__text__icon" />
                     <span className="board-card__text-container__text__description">
-                        {`Sist endret`}
+                        {timeString}
                     </span>
                 </div>
                 <div className="board-card__text-container__text">
@@ -48,6 +84,7 @@ function BoardCard({ settings, id, callback, className }: Props): JSX.Element {
 interface Props {
     settings: Settings
     id: string
+    timestamp: firebase.firestore.Timestamp
     callback?: () => void
     className?: string
 }
