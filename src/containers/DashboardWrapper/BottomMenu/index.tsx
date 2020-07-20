@@ -1,17 +1,11 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { Heading3, Paragraph } from '@entur/typography'
 import {
-    EditIcon,
     ConfigurationIcon,
-    CheckIcon,
     OpenedLockIcon,
     LogOutIcon,
     UserIcon,
 } from '@entur/icons'
-import { Modal } from '@entur/modal'
-import { Button } from '@entur/button'
-import { colors } from '@entur/tokens'
 import { useToast } from '@entur/alert'
 
 import firebase from 'firebase'
@@ -27,6 +21,7 @@ import './styles.scss'
 import LockModal from '../../LockModal'
 import LoginModal from '../../../components/LoginModal'
 import { useFirebaseAuthentication } from '../../../auth'
+import MineTavlerModal from '../../MineTavlerModal'
 
 function BottomMenu({ className, history }: Props): JSX.Element {
     const user = useFirebaseAuthentication()
@@ -35,6 +30,9 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 
     const [lockModalOpen, setLockModalOpen] = useState<boolean>(false)
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
+    const [mineTavlerModalOpen, setMineTavlerModalOpen] = useState<boolean>(
+        false,
+    )
 
     const { addToast } = useToast()
 
@@ -53,10 +51,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         [history, documentId],
     )
 
-    const onTablesButtonClick = (): void => {
-        history.push(`/tavler`)
-    }
-
     const lockingButton = settings.owners.length === 0 && documentId && (
         <MenuButton
             title="Lås tavle"
@@ -71,6 +65,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
+    // Når Mine tavler er på plass, så fjern Logg-inn button fra menyen (ikke logg ut)
     const logoutButton =
         documentId &&
         (user && !user.isAnonymous ? (
@@ -103,11 +98,12 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
-    const tablesButton = (
+    // Fjern false når funksjonaliteten for Mine Tavler er på plass
+    const tablesButton = false && (
         <MenuButton
             title="Mine tavler"
             icon={<UserIcon size={21} />}
-            callback={onTablesButtonClick}
+            callback={(): void => setMineTavlerModalOpen(true)}
         />
     )
 
@@ -218,6 +214,12 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                 open={loginModalOpen}
                 onDismiss={(): void => setLoginModalOpen(false)}
             />
+
+            <MineTavlerModal
+                open={mineTavlerModalOpen}
+                onDismiss={(): void => setMineTavlerModalOpen(false)}
+                history={history}
+            ></MineTavlerModal>
         </div>
     )
 }
