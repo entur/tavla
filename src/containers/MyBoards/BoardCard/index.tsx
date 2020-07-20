@@ -38,6 +38,7 @@ function createTimeString(date: Date): string {
 function BoardCard({ settings, id, timestamp, className }: Props): JSX.Element {
     const preview = ThemeDashbboardPreview(settings.theme)
     const dashboardType = settings.dashboard ? settings.dashboard : 'Chrono'
+    const boardTitle = settings.boardName ? settings.boardName : 'Uten navn'
     const timeString = timestamp
         ? createTimeString(timestamp.toDate())
         : 'Ikke endret'
@@ -56,7 +57,7 @@ function BoardCard({ settings, id, timestamp, className }: Props): JSX.Element {
                     className="board-card__text-container__title"
                     margin="none"
                 >
-                    {'title'}
+                    {boardTitle}
                 </Heading3>
                 <div className="board-card__text-container__text">
                     <ClockIcon className="board-card__text-container__text__icon" />

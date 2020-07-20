@@ -14,10 +14,11 @@ import './styles.scss'
 
 const LandingPage = ({ history }: Props): JSX.Element => {
     const addLocation = useCallback(
-        (position: Coordinates): void => {
+        (position: Coordinates, locationName: string): void => {
             const initialSettings = {
                 ...DEFAULT_SETTINGS,
                 coordinates: position,
+                boardName: locationName,
                 created: new Date(),
             }
 

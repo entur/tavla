@@ -20,6 +20,7 @@ import { getDocumentId } from '../utils'
 import { useFirebaseAuthentication } from '../auth'
 
 export interface Settings {
+    boardName?: string
     coordinates?: Coordinates
     hiddenStations: string[]
     hiddenStops: string[]
@@ -39,6 +40,7 @@ export interface Settings {
 }
 
 interface SettingsSetters {
+    setBoardName: (boardName: string) => void
     setHiddenStations: (hiddenStations: string[]) => void
     setHiddenStops: (hiddenStops: string[]) => void
     setHiddenModes: (hiddenModes: LegMode[]) => void
@@ -59,6 +61,7 @@ export const SettingsContext = createContext<
 >([
     null,
     {
+        setBoardName: (): void => undefined,
         setHiddenStations: (): void => undefined,
         setHiddenStops: (): void => undefined,
         setHiddenModes: (): void => undefined,
@@ -190,6 +193,13 @@ export function useSettings(): [Settings, SettingsSetters] {
         [settings],
     )
 
+    const setBoardName = useCallback(
+        (boardName: string): void => {
+            set('boardName', boardName)
+        },
+        [set],
+    )
+
     const setHiddenStations = useCallback(
         (newHiddenStations: string[]): void => {
             set('hiddenStations', newHiddenStations)
@@ -281,6 +291,7 @@ export function useSettings(): [Settings, SettingsSetters] {
     )
 
     const setters = {
+        setBoardName,
         setHiddenStations,
         setHiddenStops,
         setHiddenModes,
