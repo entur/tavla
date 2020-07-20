@@ -29,7 +29,9 @@ analytics.set('anonymizeIp', true)
 analytics.set('page', window.location.pathname)
 analytics.pageview(window.location.pathname)
 
-function getDashboardComponent(dashboardKey?: string | void) {
+function getDashboardComponent(
+    dashboardKey?: string | void,
+): (props: Props) => JSX.Element {
     switch (dashboardKey) {
         case 'Timeline':
             return Timeline
@@ -74,7 +76,10 @@ const Content = (): JSX.Element => {
                                 />
                                 {/*TODO: 20.07-20 Kommenter inn dennne når Mine Tavler er på plass */}
                                 {/* <Route path="/tavler" component={MyTables} /> */}
-                                <Route path="/admin" component={Admin} />
+                                <Route
+                                    path="/admin"
+                                    component={settings[0] && Admin}
+                                />
                                 <Route path="/privacy" component={Privacy} />
                                 <Route path="/" component={PageDoesNotExist} />
                             </Switch>

@@ -1,11 +1,22 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { MAX_DISTANCE } from '../../constants'
 
 import './styles.scss'
 
 function Slider(props: Props): JSX.Element {
+    const sliderRef = useRef<HTMLDivElement>()
+
+    useEffect(() => {
+        if (sliderRef.current) {
+            sliderRef.current.style.setProperty(
+                '--slider-progress',
+                String(props.distance / MAX_DISTANCE),
+            )
+        }
+    }, [props.distance])
+
     return (
-        <div className="slider">
+        <div className="slider" ref={sliderRef}>
             <input
                 id="typeinp"
                 type="range"

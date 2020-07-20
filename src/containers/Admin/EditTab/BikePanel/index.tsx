@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react'
-import { Checkbox } from '@entur/form'
+import { Checkbox, Fieldset } from '@entur/form'
 import { BikeRentalStation } from '@entur/sdk'
 
 import { toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
+import { Paragraph } from '@entur/typography'
 
 function BikePanel(props: Props): JSX.Element {
     const [settings, { setHiddenStations }] = useSettingsContext()
@@ -31,39 +32,37 @@ function BikePanel(props: Props): JSX.Element {
     )
 
     if (!stations.length) {
-        return <div className="selection-panel" />
+        return (
+            <Fieldset className="bike-panel">
+                <Paragraph>Det er ingen stasjoner i nærheten.</Paragraph>
+            </Fieldset>
+        )
     }
 
     return (
-        <div className="bike-panel">
-            <div className="bike-panel__header">
-                <h2>Bysykler</h2>
+        <Fieldset className="bike-panel">
+            <Checkbox
+                id="check-all-stop-places-bike"
+                name="check-all-stop-places-bike"
+                label="Velg alle"
+                onChange={onChooseAllPressed}
+                checked={!hiddenStations.length}
+            >
+                Velg alle
+            </Checkbox>
+            {stations.map(({ name, id }) => (
                 <Checkbox
-                    id="check-all-stop-places-bike"
-                    name="check-all-stop-places-bike"
-                    onChange={onChooseAllPressed}
-                    checked={!hiddenStations.length}
+                    key={id}
+                    id={id}
+                    label={name}
+                    name={name}
+                    checked={!hiddenStations.includes(id)}
+                    onChange={onToggleStation}
                 >
-                    <span className="bike-panel__eds-paragraph">Velg alle</span>
+                    <span className="bike-panel__eds-paragraph">{name}</span>
                 </Checkbox>
-            </div>
-            {stations.map(({ name, id }, index) => {
-                return (
-                    <div key={index} className="bike-panel__row">
-                        <Checkbox
-                            key={id}
-                            id={id}
-                            label={name}
-                            name={name}
-                            checked={!hiddenStations.includes(id)}
-                            onChange={onToggleStation}
-                        >
-                            {name}
-                        </Checkbox>
-                    </div>
-                )
-            })}
-        </div>
+            ))}
+        </Fieldset>
     )
 }
 

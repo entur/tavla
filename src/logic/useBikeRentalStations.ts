@@ -13,8 +13,8 @@ async function fetchBikeRentalStations(
 ): Promise<BikeRentalStation[] | null> {
     const { newStations, hiddenStations, hiddenModes } = settings
 
-    if (hiddenModes.includes('bicycle')) {
-        return []
+    if (hiddenModes.includes('bysykkel')) {
+        return
     }
 
     const allStationIds = [...newStations, ...nearestBikeRentalStations]

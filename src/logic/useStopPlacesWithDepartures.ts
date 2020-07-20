@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from 'react'
-import { LegMode } from '@entur/sdk'
 
 import { StopPlaceWithDepartures } from '../types'
 import {
@@ -17,7 +16,11 @@ async function fetchStopPlaceDepartures(
     settings: Settings,
     nearestStopPlaces: string[],
 ): Promise<StopPlaceWithDepartures[]> {
-    const { newStops, hiddenStops, hiddenModes, hiddenRoutes } = settings
+    const { newStops, hiddenStops, hiddenStopModes, hiddenRoutes } = settings
+
+    if (settings.hiddenModes.includes('kollektiv')) {
+        return
+    }
 
     const allStopPlaceIds = unique([...newStops, ...nearestStopPlaces]).filter(
         (id) => !hiddenStops.includes(id),
@@ -34,17 +37,12 @@ async function fetchStopPlaceDepartures(
         .filter(isNotNullOrUndefined)
         .sort((a, b) => a.name.localeCompare(b.name, 'no'))
 
-    const whiteListedModes = Object.values(LegMode).filter(
-        (mode: LegMode) => !hiddenModes.includes(mode),
-    )
-
     const departures = await service.getDeparturesFromStopPlaces(
         allStopPlaceIdsWithoutDuplicateNumber,
         {
             includeNonBoarding: false,
             limit: 200,
             limitPerLine: 3,
-            whiteListedModes,
         },
     )
 
@@ -69,9 +67,9 @@ async function fetchStopPlaceDepartures(
         const mappedAndFilteredDepartures = departuresForThisStopPlace.departures
             .map(transformDepartureToLineData)
             .filter(
-                ({ route }) =>
-                    !hiddenRoutes[stopId] ||
-                    !hiddenRoutes[stopId].includes(route),
+                ({ route, type }) =>
+                    !hiddenRoutes?.[stopId]?.includes(route) &&
+                    !hiddenStopModes?.[stopId]?.includes(type),
             )
 
         return {
@@ -87,6 +85,7 @@ export default function useStopPlacesWithDepartures():
     | StopPlaceWithDepartures[]
     | null {
     const [settings] = useSettingsContext()
+
     const nearestPlaces = useNearestPlaces(
         settings.coordinates,
         settings.distance,
