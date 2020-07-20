@@ -70,7 +70,7 @@ const EditTab = (): JSX.Element => {
             },
         )
 
-        return () => {
+        return (): void => {
             ignoreResponse = true
         }
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
@@ -94,7 +94,7 @@ const EditTab = (): JSX.Element => {
             setStations(sortedStations)
         })
 
-        return () => {
+        return (): void => {
             ignoreResponse = true
         }
     }, [nearestPlaces, newStations])
@@ -134,7 +134,7 @@ const EditTab = (): JSX.Element => {
                     <div className="edit-tab__header">
                         <Heading2>Kollektiv</Heading2>
                         <Switch
-                            onChange={() => toggleMode('kollektiv')}
+                            onChange={(): void => toggleMode('kollektiv')}
                             checked={!hiddenModes.includes('kollektiv')}
                             size="large"
                         />
@@ -153,7 +153,7 @@ const EditTab = (): JSX.Element => {
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>
                         <Switch
-                            onChange={() => toggleMode('bysykkel')}
+                            onChange={(): void => toggleMode('bysykkel')}
                             checked={!hiddenModes.includes('bysykkel')}
                             size="large"
                         />

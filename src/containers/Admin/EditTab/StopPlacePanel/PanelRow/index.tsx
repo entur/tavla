@@ -42,7 +42,7 @@ const PanelRow = ({
 
     const header = (
         <div className="stop-place-panel__row__header">
-            <span onClick={(event) => event.stopPropagation()}>
+            <span onClick={(event): void => event.stopPropagation()}>
                 <Checkbox
                     id={id}
                     className="stop-place-panel__row__checkbox"
@@ -51,7 +51,7 @@ const PanelRow = ({
                 />
             </span>
             <span>{name}</span>
-            <span onClick={(event) => event.stopPropagation()}>
+            <span onClick={(event): void => event.stopPropagation()}>
                 {uniqueModes.map((mode) => {
                     const props: Partial<TravelSwitchProps> = {
                         key: mode,
