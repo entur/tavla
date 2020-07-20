@@ -8,7 +8,7 @@
     &__preview {
         width: 100%;
         padding: 1rem;
-        margin: 1.5rem 1.5rem 1.5rem 0;
+        margin: 1.5rem 1.5rem 1.25rem 0;
         border: 2px solid var(--tavla-border-color);
         border-radius: 0.3rem;
 
@@ -23,9 +23,20 @@
             color: var(--tavla-font-color);
         }
 
-        &__description {
-            margin-left: 3rem;
+        &__text {
             color: var(--tavla-font-color);
+            margin-top: 0.5rem;
+
+            &__icon {
+                size: 1rem;
+                margin-right: 0.75rem;
+                color: var(--tavla-icon-color);
+                vertical-align: middle;
+            }
+
+            &__description {
+                vertical-align: text-top;
+            }
         }
     }
 }

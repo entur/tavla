@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Heading3 } from '@entur/typography'
+import { LinkIcon, ClockIcon } from '@entur/icons'
 
 import { Settings } from '../../../settings'
 import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
@@ -27,9 +28,18 @@ function BoardCard({ settings, id, callback, className }: Props): JSX.Element {
                 >
                     {'title'}
                 </Heading3>
-                <span className="board-card__text-container__description">
-                    {id}
-                </span>
+                <div className="board-card__text-container__text">
+                    <ClockIcon className="board-card__text-container__text__icon" />
+                    <span className="board-card__text-container__text__description">
+                        {`Sist endret`}
+                    </span>
+                </div>
+                <div className="board-card__text-container__text">
+                    <LinkIcon className="board-card__text-container__text__icon" />
+                    <span className="board-card__text-container__text__description">
+                        {`${window.location.host}/${id}`}
+                    </span>
+                </div>
             </div>
         </div>
     )
