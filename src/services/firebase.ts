@@ -43,7 +43,10 @@ export const updateSettingField = async (
         .firestore()
         .collection(SETTINGS_COLLECTION)
         .doc(docId)
-        .update({ [fieldId]: fieldValue })
+        .update({
+            [fieldId]: fieldValue,
+            lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
+        })
 }
 
 export const createSettings = async (
@@ -88,6 +91,13 @@ export const uploadLogo = async (
         onError,
         async () => {
             onFinished(await uploadTask.snapshot.ref.getDownloadURL())
+            firebase
+                .firestore()
+                .collection(SETTINGS_COLLECTION)
+                .doc(documentId)
+                .update({
+                    lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
+                })
         },
     )
 }
