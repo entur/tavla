@@ -111,6 +111,34 @@ export function NoTavlerAvailable({ history }: Props): JSX.Element {
     )
 }
 
+export function NoAccessToTavler(): JSX.Element {
+    const [displayLogin, setDisplayLogin] = useState<boolean>(false)
+    const callback = (event: React.FormEvent): void => {
+        event.preventDefault()
+        setDisplayLogin(true)
+    }
+    const loginModal = (
+        <LoginModal
+            open={displayLogin}
+            onDismiss={(): void => setDisplayLogin(false)}
+            loginCase="error"
+        />
+    )
+
+    return (
+        <div>
+            {loginModal}
+            <ErrorWrapper
+                title="Lenger kommer du ikke!"
+                message="Du er ikke logget inn, og kan derfor ikke se dine tavler. Trykk på knappen nedenfor for å logge inn."
+                image={sikkerhetBomLight}
+                callbackMessage="Logg inn"
+                callback={callback}
+            />
+        </div>
+    )
+}
+
 interface Props {
     history: any
 }

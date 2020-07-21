@@ -13,7 +13,7 @@ import BoardCard from './BoardCard'
 
 import './styles.scss'
 import { Heading2 } from '@entur/typography'
-import { NoTavlerAvailable } from '../Error/ErrorPages'
+import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 
 type DocumentData = firestore.DocumentData
 
@@ -39,6 +39,7 @@ const MyBoards = ({ history }: Props): JSX.Element => {
         return unsubscribe
     }, [user, setBoards])
 
+    if (!user || user.isAnonymous) return <NoAccessToTavler />
     if (boards == undefined) return null
     if (!boards) return <NoTavlerAvailable history={history} />
     boards.sort((n1: BoardProps, n2: BoardProps) => {
