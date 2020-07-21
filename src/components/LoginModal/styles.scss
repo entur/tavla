@@ -18,6 +18,12 @@
         align-items: center;
     }
 
+    .eds-form-control-wrapper {
+        input::placeholder {
+            color: #888aa8;
+        }
+    }
+
     h2,
     h3 {
         text-align: center;
