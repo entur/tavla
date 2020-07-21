@@ -76,7 +76,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             callback={(): void => {
                 copy(URL)
                 addToast({
-                    title: 'Copiert',
+                    title: 'Kopiert',
                     content:
                         'Linken har nå blitt kopiert til din utklippstavle.',
                     variant: 'success',
