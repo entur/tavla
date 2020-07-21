@@ -26,17 +26,28 @@ const MONTHS = [
     'desember',
 ]
 
-function createTimeString(date: Date): string {
-    const timestring = `${DAYS[date.getDay()]} ${date.getDate()}. ${
+function createTimeString(date: Date, modified: boolean): string {
+    const currentYear = new Date().getFullYear()
+
+    const dateString = `${DAYS[date.getDay()]} ${date.getDate()}. ${
         MONTHS[date.getMonth()]
     }`
     const hours = `${date.getHours()}`.padStart(2, '0')
     const minutes = `${date.getMinutes()}`.padStart(2, '0')
-    const time = `${hours}:${minutes}`
-    return `Sist endret ${timestring} ${time}`
+    const timeString = `${hours}:${minutes}`
+    const yearString =
+        currentYear == date.getFullYear() ? '' : `${date.getFullYear()}`
+    const prependWords = modified ? 'Sist endret' : 'Ble laget'
+    return `${prependWords} ${dateString} ${yearString} ${timeString}`
 }
 
-function BoardCard({ settings, id, timestamp, className }: Props): JSX.Element {
+function BoardCard({
+    settings,
+    id,
+    timestamp,
+    created,
+    className,
+}: Props): JSX.Element {
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
 
     const onClickTitle = useCallback(() => {
@@ -55,9 +66,14 @@ function BoardCard({ settings, id, timestamp, className }: Props): JSX.Element {
 
     const preview = ThemeDashbboardPreview(settings.theme)
     const dashboardType = settings.dashboard ? settings.dashboard : 'Chrono'
-    const timeString = timestamp
-        ? createTimeString(timestamp.toDate())
-        : 'Ikke endret'
+    const preferredDate = timestamp ? timestamp : created
+    const timeString =
+        preferredDate != undefined
+            ? createTimeString(
+                  preferredDate.toDate(),
+                  preferredDate == timestamp,
+              )
+            : 'Ikke endret'
     const boardTitle = settings.boardName ? settings.boardName : 'Uten navn'
     const boardTitleEditorRef = useRef<HTMLInputElement>()
     const boardTitleElement = titleEditMode ? (
@@ -107,6 +123,7 @@ interface Props {
     settings: Settings
     id: string
     timestamp: firebase.firestore.Timestamp
+    created: firebase.firestore.Timestamp
     className?: string
 }
 

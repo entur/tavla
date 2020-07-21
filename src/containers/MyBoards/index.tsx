@@ -28,7 +28,8 @@ const MyBoards = ({ history }: Props): JSX.Element => {
             next: (querySnapshot) => {
                 const updatedBoards = querySnapshot.docs.map((docSnapshot) => ({
                     data: docSnapshot.data(),
-                    timestamp: docSnapshot.data()['lastmodified'],
+                    lastmodified: docSnapshot.data()['lastmodified'],
+                    created: docSnapshot.data()['created'],
                     id: docSnapshot.id,
                 }))
                 setBoards(updatedBoards)
@@ -52,7 +53,8 @@ const MyBoards = ({ history }: Props): JSX.Element => {
                         <BoardCard
                             key={board.id}
                             id={board.id}
-                            timestamp={board.timestamp}
+                            timestamp={board.lastmodified}
+                            created={board.created}
                             settings={board.data}
                         />
                     ))}
@@ -69,7 +71,8 @@ interface Props {
 interface BoardProps {
     data: Settings
     id: string
-    timestamp: firebase.firestore.Timestamp
+    lastmodified: firebase.firestore.Timestamp
+    created: firebase.firestore.Timestamp
 }
 
 export default MyBoards
