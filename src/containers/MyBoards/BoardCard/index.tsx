@@ -65,7 +65,7 @@ function BoardCard({
     )
 
     const preview = ThemeDashbboardPreview(settings.theme)
-    const dashboardType = settings.dashboard ? settings.dashboard : 'Chrono'
+    const dashboardType = settings.dashboard || 'Chrono'
     const preferredDate = timestamp ? timestamp : created
     const timeString =
         preferredDate != undefined
@@ -74,7 +74,7 @@ function BoardCard({
                   preferredDate == timestamp,
               )
             : 'Ikke endret'
-    const boardTitle = settings.boardName ? settings.boardName : 'Uten navn'
+    const boardTitle = settings.boardName || 'Uten navn'
     const boardTitleEditorRef = useRef<HTMLInputElement>()
     const boardTitleElement = titleEditMode ? (
         <input
