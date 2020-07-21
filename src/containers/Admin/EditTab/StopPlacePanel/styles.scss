@@ -2,38 +2,65 @@
 @import '../../../../variables.scss';
 
 .stop-place-panel {
-    width: 400px;
-    background-color: var(--tavla-box-background-color);
-    overflow: auto;
-    padding: 1rem 2rem;
-    margin-top: 2rem;
+    .eds-paragraph {
+        color: #fff;
+    }
 
     &__header {
         display: flex;
-        justify-content: space-between;
-        flex-direction: row;
+        padding: 1rem 0;
         align-items: center;
     }
 
+    &__header, &__row:not(:last-child) {
+        border-bottom: 0.125rem solid var(--tavla-border-color);
+    }
+
     &__row {
-        background-color: transparent;
         display: flex;
         flex-direction: row;
-        margin-bottom: 0.5rem;
+        align-items: center;
+
+        &__empty {
+            padding: 1rem 1.5rem 1rem 0;
+        }
+
+        .eds-expandable-panel__trigger,
+        .eds-expandable-panel__trigger:hover {
+            background: none;
+            padding-left: 0;
+            box-shadow: none;
+        }
 
         &__header {
             display: flex;
             flex-direction: row;
+            align-items: center;
+
+            .eds-switch {
+                margin-left: 1rem;
+            }
 
             > span {
-                font-size: 1rem;
-                font-weight: 500;
-                margin-left: 1rem;
+                display: flex;
+                color: var(--tavla-font-color);
+                font-weight: 600;
+                -webkit-font-smoothing: antialiased;
+                align-items: center;
             }
         }
 
-        &__checkbox {
-            margin: 0.75rem 1rem 0 0;
+        &__content {
+            display: grid;
+
+            @media (min-width: 1200px) {
+                grid-template-columns: 1fr 1fr;
+
+            }
+
+            @media (min-width: 1600px) {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
         }
 
         &__expandable {
@@ -71,16 +98,9 @@
             align-items: center;
 
             svg {
-                margin-right: 0.5rem;
                 font-size: 1.5rem;
+                margin-right: 0.5rem;
             }
         }
-    }
-}
-
-@media (max-width: 1000px) {
-    .stop-place-panel {
-        width: unset;
-        margin-top: 0;
     }
 }

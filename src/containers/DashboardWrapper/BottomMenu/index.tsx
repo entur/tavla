@@ -1,17 +1,11 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { Heading3, Paragraph } from '@entur/typography'
 import {
-    EditIcon,
     ConfigurationIcon,
-    CheckIcon,
     OpenedLockIcon,
     LogOutIcon,
     UserIcon,
 } from '@entur/icons'
-import { Modal } from '@entur/modal'
-import { Button } from '@entur/button'
-import { colors } from '@entur/tokens'
 import { useToast } from '@entur/alert'
 
 import firebase from 'firebase'

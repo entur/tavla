@@ -9,13 +9,6 @@
     padding: 2rem 4rem;
     color: var(--tavla-font-color);
 
-    &__content {
-        display: flex;
-        flex-direction: row;
-        overflow: scroll;
-        height: calc(100vh);
-    }
-
     &__tabs {
         background-color: var(--tavla-background-color);
 
@@ -83,12 +76,27 @@
 
 @media (max-width: 1000px) {
     .admin {
+        padding: 1.5rem;
         &__content {
             display: block;
         }
 
+        &__travel-switch {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        &__checkbox-and-stopplace {
+            color: red;
+        }
+
         &__selection-panel {
             margin: 0 0 2rem 0;
+        }
+
+        .stop-place-panel__row__header {
+            flex-direction: column;
+            align-items: baseline;
         }
     }
 }

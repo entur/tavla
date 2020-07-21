@@ -10,6 +10,7 @@ export const DEFAULT_SETTINGS: Settings = {
     hiddenRoutes: {},
     distance: DEFAULT_DISTANCE,
     hiddenModes: [],
+    hiddenStopModes: {},
     newStations: [],
     newStops: [],
     dashboard: '',

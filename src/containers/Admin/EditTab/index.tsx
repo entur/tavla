@@ -1,30 +1,30 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 
-import '../styles.scss'
 import './styles.scss'
 
 import DistanceEditor from './DistanceEditor'
-import ModePanel from './ModePanel'
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
 
-import { useSettingsContext } from '../../../settings'
-import { useDebounce, isLegMode, unique } from '../../../utils'
+import { useSettingsContext, Mode } from '../../../settings'
+import { useDebounce, toggleValueInList } from '../../../utils'
 import { DEFAULT_DISTANCE } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
 
-import { BikeRentalStation, LegMode, TransportSubmode } from '@entur/sdk'
+import { BikeRentalStation } from '@entur/sdk'
 
 import { Heading2 } from '@entur/typography'
+import { GridContainer, GridItem } from '@entur/grid'
+import { Switch } from '@entur/form'
 
 const EditTab = (): JSX.Element => {
     const [settings, settingsSetters] = useSettingsContext()
-    const { hiddenModes, newStops, newStations } = settings
-    const { setHiddenModes, setNewStops, setNewStations } = settingsSetters
+    const { newStops, newStations, hiddenModes } = settings
+    const { setNewStops, setNewStations, setHiddenModes } = settingsSetters
     const [distance, setDistance] = useState<number>(
         settings.distance || DEFAULT_DISTANCE,
     )
@@ -53,34 +53,49 @@ const EditTab = (): JSX.Element => {
     )
 
     useEffect(() => {
+        let ignoreResponse = false
+
         const ids = [...newStops, ...nearestStopPlaceIds]
-        if (ids.length) {
-            getStopPlacesWithLines(
-                ids.map((id) => id.replace(/-\d+$/, '')),
-            ).then((resultingStopPlaces) => {
+
+        getStopPlacesWithLines(ids.map((id) => id.replace(/-\d+$/, ''))).then(
+            (resultingStopPlaces) => {
+                if (ignoreResponse) return
+
                 setStopPlaces(
                     resultingStopPlaces.map((s, index) => ({
                         ...s,
                         id: ids[index],
                     })),
                 )
-            })
+            },
+        )
+
+        return (): void => {
+            ignoreResponse = true
         }
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
 
     useEffect(() => {
+        let ignoreResponse = false
+
         const nearestBikeRentalStationIds = nearestPlaces
             .filter(({ type }) => type === 'BikeRentalStation')
             .map(({ id }) => id)
+
         const ids = [...newStations, ...nearestBikeRentalStationIds]
-        if (ids.length) {
-            service.getBikeRentalStations(ids).then((freshStations) => {
-                const sortedStations = freshStations.sort(
-                    (a: BikeRentalStation, b: BikeRentalStation) =>
-                        a.name.localeCompare(b.name, 'no'),
-                )
-                setStations(sortedStations)
-            })
+
+        service.getBikeRentalStations(ids).then((freshStations) => {
+            if (ignoreResponse) return
+
+            const sortedStations = freshStations.sort(
+                (a: BikeRentalStation, b: BikeRentalStation) =>
+                    a.name.localeCompare(b.name, 'no'),
+            )
+            setStations(sortedStations)
+        })
+
+        return (): void => {
+            ignoreResponse = true
         }
     }, [nearestPlaces, newStations])
 
@@ -104,63 +119,52 @@ const EditTab = (): JSX.Element => {
         [newStations, setNewStations],
     )
 
-    const modes: Array<{
-        mode: LegMode
-        subMode?: TransportSubmode
-    }> = useMemo(() => {
-        const modesFromStopPlaces = stopPlaces
-            .map((stopPlace) =>
-                stopPlace.lines.map(({ transportMode, transportSubmode }) => ({
-                    mode: transportMode,
-                    subMode: transportSubmode,
-                })),
-            )
-            .reduce((a, b) => [...a, ...b], [])
-            .filter(({ mode }) => isLegMode(mode))
-
-        const uniqModesFromStopPlaces = unique(
-            modesFromStopPlaces,
-            (a, b) => a.mode === b.mode,
-        )
-
-        return stations.length
-            ? [{ mode: 'bicycle' }, ...uniqModesFromStopPlaces]
-            : uniqModesFromStopPlaces
-    }, [stations.length, stopPlaces])
+    const toggleMode = useCallback(
+        (mode: Mode) => {
+            setHiddenModes(toggleValueInList(hiddenModes, mode))
+        },
+        [setHiddenModes, hiddenModes],
+    )
 
     return (
-        <div>
+        <div className="edit-tab">
             <Heading2 className="heading">Rediger innhold</Heading2>
-            <div className="admin__content">
-                <div className="admin__selection-panel">
-                    <DistanceEditor
-                        distance={distance}
-                        onDistanceUpdated={setDistance}
-                    />
-                    <ModePanel
-                        transportModes={modes}
-                        disabledModes={hiddenModes}
-                        onModesChange={setHiddenModes}
-                    />
-                </div>
-                <div className="admin__selection-panel">
-                    <div className="search-stop-places">
+            <GridContainer spacing="extraLarge">
+                <GridItem medium={8} small={12}>
+                    <div className="edit-tab__header">
+                        <Heading2>Kollektiv</Heading2>
+                        <Switch
+                            onChange={(): void => toggleMode('kollektiv')}
+                            checked={!hiddenModes.includes('kollektiv')}
+                            size="large"
+                        />
+                    </div>
+                    <div className="edit-tab__set-stops">
                         <StopPlaceSearch handleAddNewStop={addNewStop} />
+                        <DistanceEditor
+                            distance={distance}
+                            onDistanceUpdated={setDistance}
+                        />
                     </div>
                     <StopPlacePanel stops={stopPlaces} />
-                </div>
-                {!hiddenModes.includes('bicycle') ? (
-                    <div className="admin__selection-panel">
-                        <div className="search-stop-places">
-                            <BikePanelSearch
-                                position={settings.coordinates}
-                                onSelected={addNewStation}
-                            />
-                        </div>
-                        <BikePanel stations={stations} />
+                </GridItem>
+
+                <GridItem medium={4} small={12}>
+                    <div className="edit-tab__header">
+                        <Heading2>Bysykkel</Heading2>
+                        <Switch
+                            onChange={(): void => toggleMode('bysykkel')}
+                            checked={!hiddenModes.includes('bysykkel')}
+                            size="large"
+                        />
                     </div>
-                ) : null}
-            </div>
+                    <BikePanelSearch
+                        position={settings.coordinates}
+                        onSelected={addNewStation}
+                    />
+                    <BikePanel stations={stations} />
+                </GridItem>
+            </GridContainer>
         </div>
     )
 }
