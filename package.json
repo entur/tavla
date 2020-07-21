@@ -37,7 +37,7 @@
         "@entur/icons": "^1.7.0",
         "@entur/layout": "^1.4.4",
         "@entur/loader": "^0.3.21",
-        "@entur/modal": "^1.1.19",
+        "@entur/modal": "^1.1.23",
         "@entur/sdk": "^1.6.0",
         "@entur/tab": "^0.4.12",
         "@entur/tokens": "^1.3.6",

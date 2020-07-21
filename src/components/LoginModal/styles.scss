@@ -13,6 +13,11 @@
         margin: 0;
     }
 
+    .modal-header {
+        display: flex;
+        align-items: center;
+    }
+
     h2,
     h3 {
         text-align: center;

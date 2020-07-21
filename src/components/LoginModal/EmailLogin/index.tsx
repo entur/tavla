@@ -1,5 +1,5 @@
 import React, { useState, Dispatch, SetStateAction } from 'react'
-import firebase from 'firebase'
+import firebase, { User } from 'firebase'
 
 import { TextField, InputGroup } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -12,6 +12,7 @@ import { ModalType } from '..'
 
 import sikkerhetBom from './../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from './../../../assets/images/sikkerhet_bom@2x.png'
+import CloseButton from '../CloseButton/CloseButton'
 
 export interface UserLogin {
     email: string
@@ -20,9 +21,10 @@ export interface UserLogin {
 
 interface Props {
     setModalType: Dispatch<SetStateAction<ModalType>>
+    onDismiss: (user?: User) => void
 }
 
-const EmailLogin = ({ setModalType }: Props): JSX.Element => {
+const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
     const [inputs, handleInputsChange] = useFormFields<UserLogin>({
         email: '',
         password: '',
@@ -58,13 +60,21 @@ const EmailLogin = ({ setModalType }: Props): JSX.Element => {
         signIn(inputs.email, inputs.password)
     }
 
+    const handleClose = (): void => {
+        setModalType('LoginOptionsModal')
+        onDismiss()
+    }
+
     return (
         <>
-            <BackArrowIcon
-                size={30}
-                onClick={(): void => setModalType('LoginOptionsModal')}
-                className="go-to"
-            />
+            <div className="modal-header">
+                <BackArrowIcon
+                    size={30}
+                    onClick={(): void => setModalType('LoginOptionsModal')}
+                    className="go-to"
+                />
+                <CloseButton onClick={handleClose} />
+            </div>
             <div className="centered">
                 <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>

@@ -8,6 +8,8 @@ import { ModalType } from '..'
 
 import Check from './../../../assets/images/check.png'
 import retinaCheck from './../../../assets/images/check@2x.png'
+import { User } from 'firebase'
+import CloseButton from '../CloseButton/CloseButton'
 
 export interface UserResetPassword {
     email: string
@@ -15,11 +17,17 @@ export interface UserResetPassword {
 
 interface Props {
     setModalType: Dispatch<SetStateAction<ModalType>>
+    onDismiss: (user?: User) => void
 }
 
-const ResetPassword = ({ setModalType }: Props): JSX.Element => {
+const ResetPassword = ({ setModalType, onDismiss }: Props): JSX.Element => {
+    const handleClose = (): void => {
+        setModalType('LoginOptionsModal')
+        onDismiss()
+    }
     return (
         <>
+            <CloseButton onClick={handleClose} />
             <div className="centered">
                 <img src={Check} srcSet={`${retinaCheck} 2x`} />
             </div>
