@@ -5,8 +5,10 @@ import {
     OpenedLockIcon,
     LogOutIcon,
     UserIcon,
+    ShareIcon,
 } from '@entur/icons'
 import { useToast } from '@entur/alert'
+import copy from 'copy-to-clipboard'
 
 import firebase from 'firebase'
 
@@ -24,6 +26,8 @@ import MineTavlerModal from '../../MineTavlerModal'
 import { useFirebaseAuthentication } from '../../../auth'
 
 function BottomMenu({ className, history }: Props): JSX.Element {
+    const URL = document.location.href
+
     const user = useFirebaseAuthentication()
 
     const [settings] = useSettingsContext()
@@ -65,6 +69,22 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
+    const shareButton = (
+        <MenuButton
+            title="Del tavle"
+            icon={<ShareIcon size={21} />}
+            callback={(): void => {
+                copy(URL)
+                addToast({
+                    title: 'Kopiert',
+                    content:
+                        'Linken har nå blitt kopiert til din utklippstavle.',
+                    variant: 'success',
+                })
+            }}
+        />
+    )
+
     //TODO: 20.07-20 Når Mine tavler er på plass, så fjern Logg-inn button fra menyen (ikke logg ut)
     const logoutButton =
         documentId &&
@@ -101,7 +121,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const editButton = (settings.owners.length === 0 ||
         (user && settings.owners.includes(user.uid))) && (
         <MenuButton
-            title="Rediger tavla"
+            title="Rediger"
             icon={<ConfigurationIcon size={21} />}
             callback={onSettingsButtonClick}
         />
@@ -202,6 +222,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <div className="bottom-menu__actions">
                 {editButton}
                 {lockingButton}
+                {shareButton}
                 {tablesButton}
                 {logoutButton}
             </div>
