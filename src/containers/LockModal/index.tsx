@@ -42,7 +42,9 @@ const LockModal = ({ open, onDismiss }: Props): JSX.Element => {
     }
 
     if (!user || user.isAnonymous) {
-        return <LoginModal open={open} onDismiss={onDismiss} />
+        return (
+            <LoginModal open={open} onDismiss={onDismiss} loginCase={'lock'} />
+        )
     }
 
     return (

@@ -30,22 +30,27 @@ const MineTavlerModal = ({ open, onDismiss, history }: Props): JSX.Element => {
     }
 
     if (!user || user.isAnonymous) {
-        return <LoginModal open={open} onDismiss={onDismiss} />
+        return (
+            <LoginModal
+                open={open}
+                onDismiss={onDismiss}
+                loginCase={'mytables'}
+            />
+        )
     }
 
     const handleLockingTavle = (lock: boolean): void => {
-        if (lock) {
-            if (
-                user &&
-                !user.isAnonymous &&
-                !settings.owners.includes(user.uid) &&
-                open
-            ) {
-                const newOwnersList = [...settings.owners, user.uid]
-                setOwners(newOwnersList)
-                onDismiss()
-                history.push(`/tavler`)
-            }
+        if (
+            lock &&
+            user &&
+            !user.isAnonymous &&
+            !settings.owners.includes(user.uid) &&
+            open
+        ) {
+            const newOwnersList = [...settings.owners, user.uid]
+            setOwners(newOwnersList)
+            onDismiss()
+            history.push(`/tavler`)
         }
         onDismiss()
         history.push(`/tavler`)
