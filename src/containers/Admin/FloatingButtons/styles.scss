@@ -1,18 +1,30 @@
 .admin__floating-buttons {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-
+    display: flex;
+    flex-direction: column;
+    
     .eds-button {
-        margin-left: 1rem;
+        width: 100%;
         border: 2px solid var(--floating-button-background);
         color: var(--floating-button-font-color);
         background: transparent;
+        margin-top: 1rem;
 
         &.eds-button--variant-primary {
             background: var(--floating-button-primary-background);
             color: var(--floating-button-primary-font-color);
             border: none;
+        }
+    }
+
+    @media (min-width: 600px) {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;   
+        flex-direction: row;
+
+        .eds-button {
+            width: fit-content;
+            margin-left: 1rem;
         }
     }
 }
