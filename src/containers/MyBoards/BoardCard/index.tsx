@@ -70,7 +70,7 @@ function BoardCard({ settings, id, timestamp, className }: Props): JSX.Element {
     }, [setTitleEditMode])
 
     return (
-        <div className={`board-card ${className}`}>
+        <div className={`board-card ${className ? className : ''}`}>
             <a href={`/t/${id}`}>
                 <img
                     className="board-card__preview"
