@@ -5,8 +5,10 @@ import {
     OpenedLockIcon,
     LogOutIcon,
     UserIcon,
+    ShareIcon,
 } from '@entur/icons'
 import { useToast } from '@entur/alert'
+import copy from 'copy-to-clipboard'
 
 import firebase from 'firebase'
 
@@ -23,6 +25,8 @@ import LoginModal from '../../../components/LoginModal'
 import { useFirebaseAuthentication } from '../../../auth'
 
 function BottomMenu({ className, history }: Props): JSX.Element {
+    const URL = document.location.href
+
     const user = useFirebaseAuthentication()
 
     const [settings] = useSettingsContext()
@@ -61,6 +65,22 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
+    const shareButton = (
+        <MenuButton
+            title="Del tavle"
+            icon={<ShareIcon size={21} />}
+            callback={(): void => {
+                copy(URL)
+                addToast({
+                    title: 'Copiert',
+                    content:
+                        'Linken har nå blitt kopiert til din utklippstavle.',
+                    variant: 'success',
+                })
+            }}
+        />
+    )
+
     const logoutButton =
         documentId &&
         (user && !user.isAnonymous ? (
@@ -87,7 +107,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const editButton = (settings.owners.length === 0 ||
         (user && settings.owners.includes(user.uid))) && (
         <MenuButton
-            title="Rediger tavla"
+            title="Rediger"
             icon={<ConfigurationIcon size={21} />}
             callback={onSettingsButtonClick}
         />
@@ -188,6 +208,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <div className="bottom-menu__actions">
                 {editButton}
                 {lockingButton}
+                {shareButton}
                 {logoutButton}
             </div>
             <LockModal
