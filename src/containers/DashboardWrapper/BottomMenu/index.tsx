@@ -20,6 +20,7 @@ import { useWindowWidth } from '@react-hook/window-size'
 import './styles.scss'
 import LockModal from '../../LockModal'
 import LoginModal from '../../../components/LoginModal'
+import MineTavlerModal from '../../MineTavlerModal'
 import { useFirebaseAuthentication } from '../../../auth'
 
 function BottomMenu({ className, history }: Props): JSX.Element {
@@ -29,6 +30,9 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 
     const [lockModalOpen, setLockModalOpen] = useState<boolean>(false)
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
+    const [mineTavlerModalOpen, setMineTavlerModalOpen] = useState<boolean>(
+        false,
+    )
 
     const { addToast } = useToast()
 
@@ -46,10 +50,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         },
         [history, documentId],
     )
-
-    const onTablesButtonClick = (): void => {
-        history.push(`/tavler`)
-    }
 
     const lockingButton = settings.owners.length === 0 && documentId && (
         <MenuButton
@@ -80,13 +80,15 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                     firebase.auth().signOut()
                 }}
             />
-        ) : (
-            <MenuButton
-                title="Logg inn"
-                icon={<UserIcon size={21} />}
-                callback={(): void => setLoginModalOpen(true)}
-            />
-        ))
+        ) : null)
+
+    const tablesButton = (
+        <MenuButton
+            title="Mine tavler"
+            icon={<UserIcon size={21} />}
+            callback={(): void => setMineTavlerModalOpen(true)}
+        />
+    )
 
     const editButton = (settings.owners.length === 0 ||
         (user && settings.owners.includes(user.uid))) && (
@@ -94,14 +96,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             title="Rediger tavla"
             icon={<ConfigurationIcon size={21} />}
             callback={onSettingsButtonClick}
-        />
-    )
-
-    const tablesButton = (
-        <MenuButton
-            title="Mine tavler"
-            icon={<UserIcon size={21} />}
-            callback={onTablesButtonClick}
         />
     )
 
@@ -211,6 +205,13 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <LoginModal
                 open={loginModalOpen}
                 onDismiss={(): void => setLoginModalOpen(false)}
+                loginCase="default"
+            />
+
+            <MineTavlerModal
+                open={mineTavlerModalOpen}
+                onDismiss={(): void => setMineTavlerModalOpen(false)}
+                history={history}
             />
         </div>
     )

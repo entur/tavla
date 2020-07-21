@@ -15,10 +15,12 @@ import { useToast } from '@entur/alert'
 import { useFirebaseAuthentication } from '../../auth'
 import { usePrevious } from '../../utils'
 
+export type LoginCase = 'lock' | 'mytables' | 'logo' | 'error' | 'default'
+
 interface Props {
     open: boolean
     onDismiss: (user?: User) => void
-    loginDescription?: string
+    loginCase: LoginCase
 }
 
 export type ModalType =
@@ -28,11 +30,7 @@ export type ModalType =
     | 'ResetPasswordModal'
     | 'EmailSentModal'
 
-const LoginModal = ({
-    open,
-    onDismiss,
-    loginDescription,
-}: Props): JSX.Element => {
+const LoginModal = ({ open, onDismiss, loginCase }: Props): JSX.Element => {
     const user = useFirebaseAuthentication()
 
     const isLoggedIn = user && !user.isAnonymous
@@ -55,7 +53,7 @@ const LoginModal = ({
                 return (
                     <LoginOptions
                         setModalType={setModalType}
-                        loginDescription={loginDescription}
+                        loginCase={loginCase}
                     />
                 )
         }
