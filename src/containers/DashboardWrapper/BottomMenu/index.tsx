@@ -213,7 +213,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <LoginModal
                 open={loginModalOpen}
                 onDismiss={(): void => setLoginModalOpen(false)}
-                loginCase={'default'}
+                loginCase="default"
             />
 
             <MineTavlerModal

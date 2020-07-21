@@ -93,7 +93,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             <LoginModal
                 onDismiss={handleDismiss}
                 open={open}
-                loginCase={'logo'}
+                loginCase="logo"
             />
             <Heading2 className="heading">Last opp logo</Heading2>
             <GridContainer spacing="extraLarge" className="logo-grid">

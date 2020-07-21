@@ -34,7 +34,7 @@ const MineTavlerModal = ({ open, onDismiss, history }: Props): JSX.Element => {
             <LoginModal
                 open={open}
                 onDismiss={onDismiss}
-                loginCase={'mytables'}
+                loginCase="mytables"
             />
         )
     }
@@ -81,7 +81,7 @@ const MineTavlerModal = ({ open, onDismiss, history }: Props): JSX.Element => {
                         onClick={(): void => handleLockingTavle(true)}
                         className="modal-submit"
                     >
-                        Ja, lås tavle til min konto
+                        Ja, lås tavla til min konto
                     </PrimaryButton>
                 </GridItem>
                 <GridItem small={12}>
@@ -90,7 +90,7 @@ const MineTavlerModal = ({ open, onDismiss, history }: Props): JSX.Element => {
                         type="submit"
                         onClick={(): void => handleLockingTavle(false)}
                     >
-                        Fortsett uten å låse tavle
+                        Fortsett uten å låse tavla
                     </SecondaryButton>
                 </GridItem>
             </GridContainer>

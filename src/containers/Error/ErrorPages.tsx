@@ -41,7 +41,7 @@ export function LockedTavle({ history }: Props): JSX.Element {
         <LoginModal
             open={displayLogin}
             onDismiss={(): void => setDisplayLogin(false)}
-            loginCase={'error'}
+            loginCase="error"
         />
     ) : null
 

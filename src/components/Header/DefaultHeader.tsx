@@ -35,7 +35,7 @@ export function DefaultHeader(): JSX.Element {
         <LoginModal
             open={displayLoginModal}
             onDismiss={(): void => setDisplayLoginModal(false)}
-            loginCase={'default'}
+            loginCase="default"
         />
     ) : null
 
