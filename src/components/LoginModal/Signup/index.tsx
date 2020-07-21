@@ -34,16 +34,16 @@ const Signup = ({ setModalType }: Props): JSX.Element => {
     })
 
     const [isPasswordMatch, setIsPasswordMatch] = useState(true)
-    const [isPasswordLongEnough, setIsPaswordLongEnough] = useState(true)
+    const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(true)
     const [emailError, setEmailError] = useState<string>()
 
     const handleSubmit = (): void => {
         const { email, password } = inputs
 
         if (inputs.password.length >= 8) {
-            setIsPaswordLongEnough(true)
+            setIsPasswordLongEnough(true)
         } else {
-            setIsPaswordLongEnough(false)
+            setIsPasswordLongEnough(false)
         }
 
         if (email.match(EMAIL_REGEX)) {
