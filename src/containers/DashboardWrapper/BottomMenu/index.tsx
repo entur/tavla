@@ -22,6 +22,7 @@ import { useWindowWidth } from '@react-hook/window-size'
 import './styles.scss'
 import LockModal from '../../LockModal'
 import LoginModal from '../../../components/LoginModal'
+import MineTavlerModal from '../../MineTavlerModal'
 import { useFirebaseAuthentication } from '../../../auth'
 
 function BottomMenu({ className, history }: Props): JSX.Element {
@@ -33,6 +34,9 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 
     const [lockModalOpen, setLockModalOpen] = useState<boolean>(false)
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
+    const [mineTavlerModalOpen, setMineTavlerModalOpen] = useState<boolean>(
+        false,
+    )
 
     const { addToast } = useToast()
 
@@ -81,6 +85,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
+    //TODO: 20.07-20 Når Mine tavler er på plass, så fjern Logg-inn button fra menyen (ikke logg ut)
     const logoutButton =
         documentId &&
         (user && !user.isAnonymous ? (
@@ -103,6 +108,15 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                 callback={(): void => setLoginModalOpen(true)}
             />
         ))
+
+    //TODO: 20.07-20 Fjern false når funksjonaliteten for Mine Tavler er på plass
+    const tablesButton = false && (
+        <MenuButton
+            title="Mine tavler"
+            icon={<UserIcon size={21} />}
+            callback={(): void => setMineTavlerModalOpen(true)}
+        />
+    )
 
     const editButton = (settings.owners.length === 0 ||
         (user && settings.owners.includes(user.uid))) && (
@@ -209,6 +223,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                 {editButton}
                 {lockingButton}
                 {shareButton}
+                {tablesButton}
                 {logoutButton}
             </div>
             <LockModal
@@ -219,6 +234,13 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <LoginModal
                 open={loginModalOpen}
                 onDismiss={(): void => setLoginModalOpen(false)}
+                loginCase="default"
+            />
+
+            <MineTavlerModal
+                open={mineTavlerModalOpen}
+                onDismiss={(): void => setMineTavlerModalOpen(false)}
+                history={history}
             />
         </div>
     )

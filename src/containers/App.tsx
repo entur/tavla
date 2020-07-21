@@ -74,6 +74,8 @@ const Content = (): JSX.Element => {
                                     path="/dashboard"
                                     component={Dashboard}
                                 />
+                                {/*TODO: 20.07-20 Kommenter inn dennne når Mine Tavler er på plass */}
+                                {/* <Route path="/tavler" component={MyTables} /> */}
                                 <Route
                                     path="/admin"
                                     component={settings[0] && Admin}
