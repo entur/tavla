@@ -41,6 +41,13 @@ const MyBoards = ({ history }: Props): JSX.Element => {
 
     if (boards == undefined) return null
     if (!boards) return <NoTavlerAvailable history={history} />
+    boards.sort((n1: BoardProps, n2: BoardProps) => {
+        const n1Date = n1.lastmodified ? n1.lastmodified : n1.created
+        const n2Date = n2.lastmodified ? n2.lastmodified : n2.created
+        if (n1Date && n2Date) return n2Date.toMillis() - n1Date.toMillis()
+        if (!n2Date) return -1
+        return 1
+    })
 
     return (
         <ThemeContrastWrapper useContrast={settings?.theme === Theme.DEFAULT}>
