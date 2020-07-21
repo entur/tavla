@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react'
 
-import { Checkbox, TravelSwitch, TravelSwitchProps, Switch } from '@entur/form'
+import { Checkbox, TravelSwitch, TravelSwitchProps } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
 import { LegMode } from '@entur/sdk'
 
-import { unique, getIcon, getIconColorType } from '../../../../../utils'
+import { unique } from '../../../../../utils'
 import { Settings } from '../../../../../settings'
 import { StopPlaceWithLines } from '../../../../../types'
 
@@ -30,8 +30,6 @@ const PanelRow = ({
     settings,
     stopPlace,
 }: Props): JSX.Element => {
-    const iconColorType = getIconColorType(settings.theme) || 'contrast'
-
     const { id, lines, name } = stopPlace
 
     const visibleLines = lines.filter(
@@ -93,40 +91,29 @@ const PanelRow = ({
                 className="stop-place-panel__row__expandable"
                 title={header}
             >
-                {visibleLines.map(
-                    ({ name: routeName, transportMode, transportSubmode }) => {
+                <div className="stop-place-panel__row__content">
+                    {visibleLines.map(({ name: routeName }) => {
                         const routeId = `${id}-${routeName}`
-                        const icon = getIcon(
-                            transportMode,
-                            iconColorType,
-                            transportSubmode,
-                        )
 
                         return (
-                            <div
-                                className="stop-place-panel__row__content"
+                            <Checkbox
                                 key={`checkbox-${routeId}`}
+                                className="stop-place-panel__route"
+                                name={routeName}
+                                onChange={(): void =>
+                                    onToggleRoute(id, routeName)
+                                }
+                                checked={
+                                    !settings.hiddenRoutes[id]?.includes(
+                                        routeName,
+                                    )
+                                }
                             >
-                                <Checkbox
-                                    id={`checkbox-${routeId}`}
-                                    className="stop-place-panel__route"
-                                    name={routeName}
-                                    onChange={(): void =>
-                                        onToggleRoute(id, routeName)
-                                    }
-                                    checked={
-                                        !settings.hiddenRoutes[id]?.includes(
-                                            routeName,
-                                        )
-                                    }
-                                >
-                                    {icon}
-                                    {routeName}
-                                </Checkbox>
-                            </div>
+                                {routeName}
+                            </Checkbox>
                         )
-                    },
-                )}
+                    })}
+                </div>
             </ExpandablePanel>
         </div>
     )
