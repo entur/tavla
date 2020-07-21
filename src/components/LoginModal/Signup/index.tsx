@@ -45,20 +45,23 @@ const Signup = ({ setModalType }: Props): JSX.Element => {
         } else {
             setIsPasswordLongEnough(false)
         }
-
         if (email.match(EMAIL_REGEX)) {
             setEmailError(undefined)
         } else {
             setEmailError('Dette er ikke en gyldig e-post.')
         }
-
         if (inputs.password !== inputs.repeatPassword) {
             setIsPasswordMatch(false)
         } else {
             setIsPasswordMatch(true)
         }
 
-        if (!isPasswordLongEnough || !isPasswordMatch) {
+        const valid =
+            inputs.password.length >= 8 &&
+            email.match(EMAIL_REGEX) &&
+            inputs.password === inputs.repeatPassword
+
+        if (!valid) {
             return
         }
 
@@ -74,8 +77,6 @@ const Signup = ({ setModalType }: Props): JSX.Element => {
                     setEmailError(undefined)
                 }
             })
-
-        setIsPasswordMatch(true)
     }
 
     return (
