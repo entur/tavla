@@ -13,6 +13,9 @@ import { ModalType } from '../index'
 import sikkerhetBom from './../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from './../../../assets/images/sikkerhet_bom@2x.png'
 
+// eslint-disable-next-line
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
 interface Props {
     setModalType: Dispatch<SetStateAction<ModalType>>
 }
@@ -31,11 +34,34 @@ const Signup = ({ setModalType }: Props): JSX.Element => {
     })
 
     const [isPasswordMatch, setIsPasswordMatch] = useState(true)
-    const [isPasswordLongEnough, setIsPaswordLongEnough] = useState(true)
+    const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(true)
     const [emailError, setEmailError] = useState<string>()
 
     const handleSubmit = (): void => {
         const { email, password } = inputs
+
+        if (inputs.password.length >= 8) {
+            setIsPasswordLongEnough(true)
+        } else {
+            setIsPasswordLongEnough(false)
+        }
+
+        if (email.match(EMAIL_REGEX)) {
+            setEmailError(undefined)
+        } else {
+            setEmailError('Dette er ikke en gyldig e-post.')
+        }
+
+        if (inputs.password !== inputs.repeatPassword) {
+            setIsPasswordMatch(false)
+        } else {
+            setIsPasswordMatch(true)
+        }
+
+        if (!isPasswordLongEnough || !isPasswordMatch) {
+            return
+        }
+
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
@@ -49,16 +75,6 @@ const Signup = ({ setModalType }: Props): JSX.Element => {
                 }
             })
 
-        if (inputs.password.length >= 8) {
-            setIsPaswordLongEnough(true)
-        } else {
-            setIsPaswordLongEnough(false)
-        }
-
-        if (inputs.password !== inputs.repeatPassword) {
-            setIsPasswordMatch(false)
-            return
-        }
         setIsPasswordMatch(true)
     }
 
