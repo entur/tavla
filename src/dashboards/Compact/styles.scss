@@ -104,3 +104,20 @@
         bottom: 0.5rem;
     }
 }
+
+@media (max-width: 1000px) {
+    .compact {
+        padding: 1.5rem;
+        overflow: auto;
+
+        &__tiles {
+            display: block;
+        }
+
+        .tile {
+            margin-bottom: 1rem;
+            max-height: unset;
+            width: 100%;
+        }
+    }
+}

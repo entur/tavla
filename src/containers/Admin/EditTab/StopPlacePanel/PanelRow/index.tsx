@@ -27,16 +27,21 @@ const PanelRow = ({
 
     const header = (
         <div className="stop-place-panel__row__header">
-            <span onClick={(event): void => event.stopPropagation()}>
-                <Checkbox
-                    id={id}
-                    className="stop-place-panel__row__checkbox"
-                    checked={!settings.hiddenStops.includes(id)}
-                    onChange={onToggleStop}
-                />
+            <span className="admin__checkbox-and-stopplace">
+                <span onClick={(event): void => event.stopPropagation()}>
+                    <Checkbox
+                        id={id}
+                        className="stop-place-panel__row__checkbox"
+                        checked={!settings.hiddenStops.includes(id)}
+                        onChange={onToggleStop}
+                    />
+                </span>
+                <span>{name}</span>
             </span>
-            <span>{name}</span>
-            <span onClick={(event): void => event.stopPropagation()}>
+            <span
+                className="admin__travel-switch"
+                onClick={(event): void => event.stopPropagation()}
+            >
                 {uniqueModes.map((mode) => (
                     <TravelSwitch
                         key={mode}
