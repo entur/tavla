@@ -16,15 +16,7 @@
             padding-left: 0;
         }
     }
-
-    &__submit-button {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        background-color: var(--tavla-button-background-color);
-        color: var(--tavla-font-color);
-    }
-
+    
     &__submit-button:hover {
         background-color: var(--tavla-box-background-color);
     }

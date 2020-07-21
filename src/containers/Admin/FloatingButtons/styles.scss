@@ -1,0 +1,18 @@
+.admin__floating-buttons {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+
+    .eds-button {
+        margin-left: 1rem;
+        border: 2px solid var(--floating-button-background);
+        color: var(--floating-button-font-color);
+        background: transparent;
+
+        &.eds-button--variant-primary {
+            background: var(--floating-button-primary-background);
+            color: var(--floating-button-primary-font-color);
+            border: none;
+        }
+    }
+}
