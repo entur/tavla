@@ -46,12 +46,21 @@
                 color: var(--tavla-font-color);
                 font-weight: 600;
                 -webkit-font-smoothing: antialiased;
+                align-items: center;
             }
         }
 
         &__content {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+
+            @media (min-width: 1200px) {
+                grid-template-columns: 1fr 1fr;
+
+            }
+
+            @media (min-width: 1600px) {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
         }
 
         &__expandable {

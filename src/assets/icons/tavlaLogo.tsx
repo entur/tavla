@@ -9,6 +9,10 @@ import { useSettingsContext } from '../../settings'
 function TavlaLogo({ className }: Props): JSX.Element {
     const [settings] = useSettingsContext()
 
+    if (window.location.pathname === '/') {
+        return <img src={TavlaBlue} className={className} />
+    }
+
     switch (settings?.theme) {
         case Theme.LIGHT:
             return <img src={TavlaBlue} className={className} />
@@ -19,7 +23,7 @@ function TavlaLogo({ className }: Props): JSX.Element {
         case Theme.DEFAULT:
             return <img src={TavlaWhite} className={className} />
         default:
-            return <img src={TavlaBlue} className={className} />
+            return <img src={TavlaWhite} className={className} />
     }
 }
 
