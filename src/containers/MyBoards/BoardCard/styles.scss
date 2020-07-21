@@ -23,6 +23,17 @@
             color: var(--tavla-font-color);
         }
 
+        input {
+            background-color: var(--tavla-button-background-color);
+            font-family: var(--eds-font-family);
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 2.25rem;
+            border-style: none;
+            border-radius: 0.3rem;
+            outline: none;
+        }
+
         &__text {
             color: var(--tavla-font-color);
             margin-top: 0.5rem;

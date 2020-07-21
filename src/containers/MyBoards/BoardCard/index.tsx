@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 
 import { Heading3 } from '@entur/typography'
 import { LinkIcon, ClockIcon } from '@entur/icons'
@@ -36,12 +36,38 @@ function createTimeString(date: Date): string {
 }
 
 function BoardCard({ settings, id, timestamp, className }: Props): JSX.Element {
+    const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
+
     const preview = ThemeDashbboardPreview(settings.theme)
     const dashboardType = settings.dashboard ? settings.dashboard : 'Chrono'
-    const boardTitle = settings.boardName ? settings.boardName : 'Uten navn'
     const timeString = timestamp
         ? createTimeString(timestamp.toDate())
         : 'Ikke endret'
+    const boardTitle = settings.boardName ? settings.boardName : 'Uten navn'
+    const boardTitleEditorRef = useRef<HTMLInputElement>()
+    const boardTitleElement = titleEditMode ? (
+        <input
+            className="board-card__text-container__title"
+            defaultValue={boardTitle}
+            ref={boardTitleEditorRef}
+            autoFocus={true}
+        />
+    ) : (
+        <Heading3 className="board-card__text-container__title" margin="none">
+            {boardTitle}
+        </Heading3>
+    )
+
+    const onClickTitle = useCallback(() => {
+        event.preventDefault()
+        setTitleEditMode(true)
+    }, [setTitleEditMode])
+
+    const onBlurTitle = useCallback(() => {
+        event.preventDefault()
+        setTitleEditMode(false)
+        //save new title
+    }, [setTitleEditMode])
 
     return (
         <div className={`board-card ${className}`}>
@@ -53,12 +79,10 @@ function BoardCard({ settings, id, timestamp, className }: Props): JSX.Element {
             </a>
 
             <div className="board-card__text-container">
-                <Heading3
-                    className="board-card__text-container__title"
-                    margin="none"
-                >
-                    {boardTitle}
-                </Heading3>
+                <span onClick={onClickTitle} onBlur={onBlurTitle}>
+                    {boardTitleElement}
+                </span>
+
                 <div className="board-card__text-container__text">
                     <ClockIcon className="board-card__text-container__text__icon" />
                     <span className="board-card__text-container__text__description">
