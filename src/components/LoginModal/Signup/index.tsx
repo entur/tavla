@@ -54,10 +54,11 @@ const Signup = ({ setModalType }: Props): JSX.Element => {
 
         if (inputs.password !== inputs.repeatPassword) {
             setIsPasswordMatch(false)
-            return
+        } else {
+            setIsPasswordMatch(true)
         }
 
-        if (!isPasswordLongEnough) {
+        if (!isPasswordLongEnough || !isPasswordMatch) {
             return
         }
 
