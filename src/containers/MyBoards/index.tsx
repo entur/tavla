@@ -74,6 +74,7 @@ const MyBoards = ({ history }: Props): JSX.Element => {
                         <BoardCard
                             key={board.id}
                             id={board.id}
+                            uid={user.uid}
                             timestamp={board.lastmodified}
                             created={board.created}
                             settings={board.data}

@@ -1,11 +1,21 @@
 import React, { useState, useCallback, useEffect } from 'react'
 
 import { Heading3 } from '@entur/typography'
-import { LinkIcon, ClockIcon, ConfigurationIcon, ShareIcon } from '@entur/icons'
+import {
+    LinkIcon,
+    ClockIcon,
+    ConfigurationIcon,
+    ShareIcon,
+    OpenedLockIcon,
+} from '@entur/icons'
 import { OverflowMenu, OverflowMenuItem, OverflowMenuLink } from '@entur/menu'
 
 import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
-import { persist } from '../../../settings/FirestoreStorage'
+import {
+    persist,
+    removeOwners,
+    removeFromOwners,
+} from '../../../settings/FirestoreStorage'
 
 import './styles.scss'
 import { Settings } from '../../../settings'
@@ -47,6 +57,7 @@ function createTimeString(date: Date, modified: boolean): string {
 function BoardCard({
     settings,
     id,
+    uid,
     timestamp,
     created,
     className,
@@ -129,6 +140,11 @@ function BoardCard({
         })
     }
 
+    const overflowUnlockTavle = useCallback(() => {
+        event.preventDefault()
+        removeFromOwners(id, uid)
+    }, [id, uid])
+
     const overflowMenu = (
         <OverflowMenu className="board-card__text-container__top-wrapper__overflow">
             <OverflowMenuLink onSelect={overflowRedigerTavle}>
@@ -142,6 +158,12 @@ function BoardCard({
                     <ShareIcon inline />
                 </span>
                 Del tavle
+            </OverflowMenuItem>
+            <OverflowMenuItem onSelect={overflowUnlockTavle}>
+                <span aria-hidden>
+                    <OpenedLockIcon inline />
+                </span>
+                Lås opp
             </OverflowMenuItem>
         </OverflowMenu>
     )
@@ -181,6 +203,7 @@ function BoardCard({
 interface Props {
     settings: Settings
     id: string
+    uid: string
     timestamp: firebase.firestore.Timestamp
     created: firebase.firestore.Timestamp
     className?: string
