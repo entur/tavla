@@ -16,6 +16,10 @@
     color: var(--tavla-font-color);
 }
 
+.primary-button:hover {
+    background-color: var(--tavla-hover-color);
+}
+
 .heading {
     color: var(--tavla-font-color);
 }
