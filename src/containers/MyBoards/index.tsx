@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react'
-
 import { firestore } from 'firebase'
 
-import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
-import { Theme } from '../../types'
+import { Contrast } from '@entur/layout'
+import { Heading2 } from '@entur/typography'
 
-import { useSettingsContext, Settings } from '../../settings'
+import { Settings } from '../../settings'
 import { getBoardsOnSnapshot } from '../../services/firebase'
 import { useUser } from '../../auth'
-
 import BoardCard from './BoardCard'
+import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 
 import './styles.scss'
-import { Heading2 } from '@entur/typography'
-import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 
 type DocumentData = firestore.DocumentData
 
@@ -28,7 +25,6 @@ function sortBoard(boards: BoardProps[]): BoardProps[] {
 }
 
 const MyBoards = ({ history }: Props): JSX.Element => {
-    const [settings] = useSettingsContext()
     const [boards, setBoards] = useState<DocumentData>()
     const user = useUser()
 
@@ -68,7 +64,7 @@ const MyBoards = ({ history }: Props): JSX.Element => {
     }
 
     return (
-        <ThemeContrastWrapper useContrast={settings?.theme === Theme.DEFAULT}>
+        <Contrast>
             <div className="my-boards">
                 <Heading2 className="my-boards__title">
                     Mine tavler ({boards.length})
@@ -85,7 +81,7 @@ const MyBoards = ({ history }: Props): JSX.Element => {
                     ))}
                 </div>
             </div>
-        </ThemeContrastWrapper>
+        </Contrast>
     )
 }
 
