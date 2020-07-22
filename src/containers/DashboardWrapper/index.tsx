@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
 import { Loader } from '@entur/loader'
 
-import { useCounter } from '../../utils'
+import { useCounter, isDarkOrDefaultTheme } from '../../utils'
 import { useSettingsContext } from '../../settings'
 
 import BottomMenu from './BottomMenu'
 import EnturLogo from '../../assets/icons/enturLogo'
 import { NoStopsOnTavle } from './../Error/ErrorPages'
-import { StopPlaceWithDepartures, Theme } from '../../types'
+import { StopPlaceWithDepartures } from '../../types'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 
 import './styles.scss'
@@ -58,17 +58,19 @@ function DashboardWrapper(props: Props): JSX.Element {
 
     const [{ logo, theme }] = useSettingsContext()
 
+    const getEnturLogo = (): JSX.Element => {
+        const logoColor = isDarkOrDefaultTheme(theme) ? 'white' : 'black'
+        return <EnturLogo height="24px" style={logoColor} />
+    }
+
     return (
-        <ThemeContrastWrapper
-            useContrast={theme === Theme.DEFAULT || theme === Theme.DARK}
-        >
+        <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
             <div className={`dashboard-wrapper ${className}`}>
                 {renderContents()}
                 <ThemeContrastWrapper useContrast={true}>
                     {logo && (
                         <div className="dashboard-wrapper__byline">
-                            Tjenesten leveres av{' '}
-                            <EnturLogo height="24px" style="white" />
+                            Tjenesten leveres av {getEnturLogo()}
                         </div>
                     )}
                     <BottomMenu

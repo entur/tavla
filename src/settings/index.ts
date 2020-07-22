@@ -99,9 +99,13 @@ export function useSettings(): [Settings, SettingsSetters] {
         const protectedPath =
             location.pathname == '/' ||
             location.pathname.split('/')[1] == 'permissionDenied' ||
-            location.pathname.split('/')[1] == 'privacy'
+            location.pathname.split('/')[1] == 'privacy' ||
+            location.pathname.split('/')[1] == 'tavler'
 
-        if (protectedPath) return
+        if (protectedPath) {
+            setSettings(null)
+            return
+        }
 
         const id = getDocumentId()
 

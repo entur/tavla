@@ -3,7 +3,7 @@
 
 .stop-place-panel {
     .eds-paragraph {
-        color: #fff;
+        color: var(--tavla-font-color);
     }
 
     &__header {
@@ -12,7 +12,8 @@
         align-items: center;
     }
 
-    &__header, &__row:not(:last-child) {
+    &__header,
+    &__row:not(:last-child) {
         border-bottom: 0.125rem solid var(--tavla-border-color);
     }
 
@@ -55,7 +56,6 @@
 
             @media (min-width: 1200px) {
                 grid-template-columns: 1fr 1fr;
-
             }
 
             @media (min-width: 1600px) {

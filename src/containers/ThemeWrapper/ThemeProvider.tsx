@@ -20,20 +20,30 @@ const ThemeProvider: FC = (props): JSX.Element => {
     const [themeContext, setThemeContext] = useState<Theme>(undefined)
 
     useEffect(() => {
-        if (settings && settings.theme && themeContext == undefined) {
-            setThemeContext(settings.theme)
+        if (!settings?.theme) {
+            setThemeContext(Theme.DEFAULT)
+            return
         }
+        setThemeContext(settings.theme)
     }, [settings, themeContext])
+
+    useEffect(() => {
+        if (settings) {
+            // eslint-disable-next-line
+            ['dark', 'light', 'grey', 'default'].forEach((theme) => {
+                document.body.classList.remove(`${theme}-theme`)
+            })
+
+            document.body.classList.add(`${settings.theme}-theme`)
+        }
+    }, [settings])
 
     const contextValue = useMemo(
         (): ThemeContextType => ({ themeContext, setThemeContext }),
         [themeContext],
     )
-    return (
-        <div className={`${themeContext}-theme`}>
-            <ThemeContext.Provider value={contextValue} {...props} />
-        </div>
-    )
+
+    return <ThemeContext.Provider value={contextValue} {...props} />
 }
 
 export const useTheme = (): ThemeContextType => {

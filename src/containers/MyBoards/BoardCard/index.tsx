@@ -62,8 +62,8 @@ function BoardCard({
 
     const onClickPreview = useCallback(() => {
         event.preventDefault()
-        window.location.href = `/t/${id}`
-    }, [id])
+        history.push(`/t/${id}`)
+    }, [id, history])
 
     const onClickTitle = useCallback(() => {
         event.preventDefault()
