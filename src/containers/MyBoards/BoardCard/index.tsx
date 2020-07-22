@@ -7,6 +7,7 @@ import {
     ConfigurationIcon,
     ShareIcon,
     OpenedLockIcon,
+    DeleteIcon,
 } from '@entur/icons'
 import { OverflowMenu, OverflowMenuItem, OverflowMenuLink } from '@entur/menu'
 
@@ -15,6 +16,7 @@ import {
     persist,
     removeOwners,
     removeFromOwners,
+    deleteTavle,
 } from '../../../settings/FirestoreStorage'
 
 import './styles.scss'
@@ -145,6 +147,11 @@ function BoardCard({
         removeFromOwners(id, uid)
     }, [id, uid])
 
+    const overflowDeleteTavle = useCallback(() => {
+        event.preventDefault()
+        deleteTavle(id)
+    }, [id])
+
     const overflowMenu = (
         <OverflowMenu className="board-card__text-container__top-wrapper__overflow">
             <OverflowMenuLink onSelect={overflowRedigerTavle}>
@@ -164,6 +171,12 @@ function BoardCard({
                     <OpenedLockIcon inline />
                 </span>
                 Lås opp
+            </OverflowMenuItem>
+            <OverflowMenuItem onSelect={overflowDeleteTavle}>
+                <span aria-hidden>
+                    <DeleteIcon inline />
+                </span>
+                Slett tavle
             </OverflowMenuItem>
         </OverflowMenu>
     )

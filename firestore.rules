@@ -14,5 +14,6 @@ service cloud.firestore {
     allow read;
     allow create: if request.auth != null && hasValidDescription();
     allow update: if request.auth != null && hasEditAccess() && hasValidDescription();
+    allow delete: if request.auth != null && hasEditAccess();
   }
 }

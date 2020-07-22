@@ -1,4 +1,8 @@
-import { updateSettingField, removeFromArray } from '../services/firebase'
+import {
+    updateSettingField,
+    removeFromArray,
+    deleteDocument,
+} from '../services/firebase'
 
 export type FieldTypes =
     | string
@@ -21,4 +25,8 @@ export function removeOwners(docId: string): void {
 
 export function removeFromOwners(docId: string, uid: string): void {
     removeFromArray(docId, 'owners', uid)
+}
+
+export function deleteTavle(docId: string): void {
+    deleteDocument(docId)
 }

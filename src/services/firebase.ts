@@ -69,6 +69,14 @@ export const removeFromArray = async (
         })
 }
 
+export const deleteDocument = async (docId: string): Promise<void> => {
+    return firebase
+        .firestore()
+        .collection(SETTINGS_COLLECTION)
+        .doc(docId)
+        .delete()
+}
+
 export const createSettings = async (
     settings: Settings,
 ): Promise<DocumentReference> => {
