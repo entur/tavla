@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 
 import { Heading3 } from '@entur/typography'
-import { LinkIcon, ClockIcon, ConfigurationIcon } from '@entur/icons'
+import { LinkIcon, ClockIcon, ConfigurationIcon, ShareIcon } from '@entur/icons'
 import { OverflowMenu, OverflowMenuItem, OverflowMenuLink } from '@entur/menu'
 
 import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
@@ -9,6 +9,8 @@ import { persist } from '../../../settings/FirestoreStorage'
 
 import './styles.scss'
 import { Settings } from '../../../settings'
+import copy from 'copy-to-clipboard'
+import { useToast } from '@entur/alert'
 
 const DAYS = ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør']
 
@@ -81,11 +83,6 @@ function BoardCard({
         [id, settings.boardName],
     )
 
-    const overflowRedigerTavle = useCallback(() => {
-        event.preventDefault()
-        history.push(`/admin/${id}`)
-    }, [id, history])
-
     const preview = ThemeDashbboardPreview(settings.theme)
     const dashboardType = settings.dashboard || 'Chrono'
     const preferredDate = timestamp ? timestamp : created
@@ -117,6 +114,21 @@ function BoardCard({
         </Heading3>
     )
 
+    const overflowRedigerTavle = useCallback(() => {
+        event.preventDefault()
+        history.push(`/admin/${id}`)
+    }, [id, history])
+
+    const { addToast } = useToast()
+    const overflowShareTavle = (): void => {
+        copy(`${window.location.host}/t/${id}`)
+        addToast({
+            title: 'Kopiert',
+            content: 'Linken har nå blitt kopiert til din utklippstavle.',
+            variant: 'success',
+        })
+    }
+
     const overflowMenu = (
         <OverflowMenu className="board-card__text-container__top-wrapper__overflow">
             <OverflowMenuLink onSelect={overflowRedigerTavle}>
@@ -125,6 +137,12 @@ function BoardCard({
                 </span>
                 Rediger tavle
             </OverflowMenuLink>
+            <OverflowMenuItem onSelect={overflowShareTavle}>
+                <span aria-hidden>
+                    <ShareIcon inline />
+                </span>
+                Del tavle
+            </OverflowMenuItem>
         </OverflowMenu>
     )
 
