@@ -1,28 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react'
 
 import { Heading3 } from '@entur/typography'
-import {
-    LinkIcon,
-    ClockIcon,
-    ConfigurationIcon,
-    ShareIcon,
-    OpenedLockIcon,
-    DeleteIcon,
-} from '@entur/icons'
-import { OverflowMenu, OverflowMenuItem, OverflowMenuLink } from '@entur/menu'
+import { LinkIcon, ClockIcon } from '@entur/icons'
 
 import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
-import {
-    persist,
-    removeOwners,
-    removeFromOwners,
-    deleteTavle,
-} from '../../../settings/FirestoreStorage'
+import { persist } from '../../../settings/FirestoreStorage'
+import { Settings } from '../../../settings'
+import BoardOverflowMenu from './OverflowMenu'
 
 import './styles.scss'
-import { Settings } from '../../../settings'
-import copy from 'copy-to-clipboard'
-import { useToast } from '@entur/alert'
 
 const DAYS = ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør']
 
@@ -127,60 +113,6 @@ function BoardCard({
         </Heading3>
     )
 
-    const overflowRedigerTavle = useCallback(() => {
-        event.preventDefault()
-        history.push(`/admin/${id}`)
-    }, [id, history])
-
-    const { addToast } = useToast()
-    const overflowShareTavle = (): void => {
-        copy(`${window.location.host}/t/${id}`)
-        addToast({
-            title: 'Kopiert',
-            content: 'Linken har nå blitt kopiert til din utklippstavle.',
-            variant: 'success',
-        })
-    }
-
-    const overflowUnlockTavle = useCallback(() => {
-        event.preventDefault()
-        removeFromOwners(id, uid)
-    }, [id, uid])
-
-    const overflowDeleteTavle = useCallback(() => {
-        event.preventDefault()
-        deleteTavle(id)
-    }, [id])
-
-    const overflowMenu = (
-        <OverflowMenu className="board-card__text-container__top-wrapper__overflow">
-            <OverflowMenuLink onSelect={overflowRedigerTavle}>
-                <span aria-hidden>
-                    <ConfigurationIcon inline />
-                </span>
-                Rediger tavle
-            </OverflowMenuLink>
-            <OverflowMenuItem onSelect={overflowShareTavle}>
-                <span aria-hidden>
-                    <ShareIcon inline />
-                </span>
-                Del tavle
-            </OverflowMenuItem>
-            <OverflowMenuItem onSelect={overflowUnlockTavle}>
-                <span aria-hidden>
-                    <OpenedLockIcon inline />
-                </span>
-                Lås opp
-            </OverflowMenuItem>
-            <OverflowMenuItem onSelect={overflowDeleteTavle}>
-                <span aria-hidden>
-                    <DeleteIcon inline />
-                </span>
-                Slett tavle
-            </OverflowMenuItem>
-        </OverflowMenu>
-    )
-
     return (
         <div className={`board-card ${className ? className : ''}`}>
             <div onClick={onClickPreview}>
@@ -193,7 +125,7 @@ function BoardCard({
             <div className="board-card__text-container">
                 <div className="board-card__text-container__top-wrapper">
                     <span onClick={onClickTitle}>{boardTitleElement}</span>
-                    {overflowMenu}
+                    <BoardOverflowMenu id={id} uid={uid} history={history} />
                 </div>
 
                 <div className="board-card__text-container__text">
