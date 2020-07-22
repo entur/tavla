@@ -4,6 +4,7 @@ import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
+import { useToast } from '@entur/alert'
 
 import CloseButton from '../../../../../components/LoginModal/CloseButton/CloseButton'
 
@@ -15,15 +16,22 @@ import { deleteTavle } from '../../../../../settings/FirestoreStorage'
 import './styles.scss'
 
 const DeleteTavleModal = ({ open, onDismiss, id }: Props): JSX.Element => {
+    const { addToast } = useToast()
     const overflowDeleteTavle = useCallback(
         (remove: boolean) => {
             if (remove) {
                 event.preventDefault()
                 deleteTavle(id)
+                addToast({
+                    title: 'Avgangstavla ble slettet.',
+                    content:
+                        'Tavla ble slettet permanent og er dermed ikke lenger tilgjengelig.',
+                    variant: 'success',
+                })
             }
             onDismiss()
         },
-        [id, onDismiss],
+        [id, onDismiss, addToast],
     )
 
     return (

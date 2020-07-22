@@ -4,6 +4,7 @@ import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
+import { useToast } from '@entur/alert'
 
 import CloseButton from '../../../../../components/LoginModal/CloseButton/CloseButton'
 
@@ -15,15 +16,22 @@ import { removeFromOwners } from '../../../../../settings/FirestoreStorage'
 import './styles.scss'
 
 const RemoveLockModal = ({ open, onDismiss, id, uid }: Props): JSX.Element => {
+    const { addToast } = useToast()
     const overflowRemoveLockedTavle = useCallback(
         (remove: boolean) => {
             if (remove) {
                 event.preventDefault()
                 removeFromOwners(id, uid)
+                addToast({
+                    title: 'Tavla ble fjernet fra din konto.',
+                    content:
+                        'Avgangstavla er ikke lenger låst til din konto. Den eksisterer fortsatt og er fra nå tilgjengelig for andre å redigere.',
+                    variant: 'success',
+                })
             }
             onDismiss()
         },
-        [id, uid, onDismiss],
+        [id, uid, onDismiss, addToast],
     )
 
     return (
