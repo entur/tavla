@@ -24,7 +24,7 @@ const ThemeProvider: FC = (props): JSX.Element => {
             setThemeContext(settings.theme)
         }
         setThemeContext(Theme.DEFAULT)
-    }, [settings, themeContext])
+    }, [settings])
 
     useEffect(() => {
         if (settings) {
