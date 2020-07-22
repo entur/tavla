@@ -344,3 +344,7 @@ export const useThemeColor = (
     const [settings] = useSettingsContext()
     return color[settings?.theme] || fallback
 }
+
+export function isDarkOrDefaultTheme(theme: Theme): boolean {
+    return theme === Theme.DARK || theme === Theme.DEFAULT
+}
