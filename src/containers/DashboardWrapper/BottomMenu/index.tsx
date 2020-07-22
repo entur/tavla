@@ -5,8 +5,10 @@ import {
     OpenedLockIcon,
     LogOutIcon,
     UserIcon,
+    ShareIcon,
 } from '@entur/icons'
 import { useToast } from '@entur/alert'
+import copy from 'copy-to-clipboard'
 
 import firebase from 'firebase'
 
@@ -20,15 +22,21 @@ import { useWindowWidth } from '@react-hook/window-size'
 import './styles.scss'
 import LockModal from '../../LockModal'
 import LoginModal from '../../../components/LoginModal'
+import MineTavlerModal from '../../MineTavlerModal'
 import { useFirebaseAuthentication } from '../../../auth'
 
 function BottomMenu({ className, history }: Props): JSX.Element {
+    const URL = document.location.href
+
     const user = useFirebaseAuthentication()
 
     const [settings] = useSettingsContext()
 
     const [lockModalOpen, setLockModalOpen] = useState<boolean>(false)
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
+    const [mineTavlerModalOpen, setMineTavlerModalOpen] = useState<boolean>(
+        false,
+    )
 
     const { addToast } = useToast()
 
@@ -61,6 +69,23 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
+    const shareButton = (
+        <MenuButton
+            title="Del tavle"
+            icon={<ShareIcon size={21} />}
+            callback={(): void => {
+                copy(URL)
+                addToast({
+                    title: 'Kopiert',
+                    content:
+                        'Linken har nå blitt kopiert til din utklippstavle.',
+                    variant: 'success',
+                })
+            }}
+        />
+    )
+
+    //TODO: 20.07-20 Når Mine tavler er på plass, så fjern Logg-inn button fra menyen (ikke logg ut)
     const logoutButton =
         documentId &&
         (user && !user.isAnonymous ? (
@@ -84,10 +109,19 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             />
         ))
 
+    //TODO: 20.07-20 Fjern false når funksjonaliteten for Mine Tavler er på plass
+    const tablesButton = false && (
+        <MenuButton
+            title="Mine tavler"
+            icon={<UserIcon size={21} />}
+            callback={(): void => setMineTavlerModalOpen(true)}
+        />
+    )
+
     const editButton = (settings.owners.length === 0 ||
         (user && settings.owners.includes(user.uid))) && (
         <MenuButton
-            title="Rediger tavla"
+            title="Rediger"
             icon={<ConfigurationIcon size={21} />}
             callback={onSettingsButtonClick}
         />
@@ -188,6 +222,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <div className="bottom-menu__actions">
                 {editButton}
                 {lockingButton}
+                {shareButton}
+                {tablesButton}
                 {logoutButton}
             </div>
             <LockModal
@@ -198,6 +234,13 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <LoginModal
                 open={loginModalOpen}
                 onDismiss={(): void => setLoginModalOpen(false)}
+                loginCase="default"
+            />
+
+            <MineTavlerModal
+                open={mineTavlerModalOpen}
+                onDismiss={(): void => setMineTavlerModalOpen(false)}
+                history={history}
             />
         </div>
     )

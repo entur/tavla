@@ -14,11 +14,14 @@ import { useToast } from '@entur/alert'
 
 import { useFirebaseAuthentication } from '../../auth'
 import { usePrevious } from '../../utils'
+import CloseButton from './CloseButton/CloseButton'
+
+export type LoginCase = 'lock' | 'mytables' | 'logo' | 'error' | 'default'
 
 interface Props {
     open: boolean
     onDismiss: (user?: User) => void
-    loginDescription?: string
+    loginCase: LoginCase
 }
 
 export type ModalType =
@@ -28,11 +31,7 @@ export type ModalType =
     | 'ResetPasswordModal'
     | 'EmailSentModal'
 
-const LoginModal = ({
-    open,
-    onDismiss,
-    loginDescription,
-}: Props): JSX.Element => {
+const LoginModal = ({ open, onDismiss, loginCase }: Props): JSX.Element => {
     const user = useFirebaseAuthentication()
 
     const isLoggedIn = user && !user.isAnonymous
@@ -44,18 +43,35 @@ const LoginModal = ({
     const displayModal = (): JSX.Element => {
         switch (modalType) {
             case 'LoginEmailModal':
-                return <EmailLogin setModalType={setModalType} />
+                return (
+                    <EmailLogin
+                        setModalType={setModalType}
+                        onDismiss={onDismiss}
+                    />
+                )
             case 'SignupModal':
-                return <Signup setModalType={setModalType} />
+                return (
+                    <Signup setModalType={setModalType} onDismiss={onDismiss} />
+                )
             case 'ResetPasswordModal':
-                return <ResetPassword setModalType={setModalType} />
+                return (
+                    <ResetPassword
+                        setModalType={setModalType}
+                        onDismiss={onDismiss}
+                    />
+                )
             case 'EmailSentModal':
-                return <EmailSent setModalType={setModalType} />
+                return (
+                    <EmailSent
+                        setModalType={setModalType}
+                        onDismiss={onDismiss}
+                    />
+                )
             default:
                 return (
                     <LoginOptions
                         setModalType={setModalType}
-                        loginDescription={loginDescription}
+                        loginCase={loginCase}
                     />
                 )
         }
@@ -80,6 +96,10 @@ const LoginModal = ({
         onDismiss()
     }
 
+    const closeButton = modalType === 'LoginOptionsModal' && (
+        <CloseButton onClick={handleDismiss} />
+    )
+
     return (
         <Modal
             onDismiss={handleDismiss}
@@ -88,6 +108,7 @@ const LoginModal = ({
             title=""
             className="login-modal"
         >
+            {closeButton}
             {displayModal()}
         </Modal>
     )

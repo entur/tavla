@@ -14,6 +14,7 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
 
 import './styles.scss'
+import CloseButton from '../../components/LoginModal/CloseButton/CloseButton'
 
 interface Props {
     open: boolean
@@ -42,7 +43,7 @@ const LockModal = ({ open, onDismiss }: Props): JSX.Element => {
     }
 
     if (!user || user.isAnonymous) {
-        return <LoginModal open={open} onDismiss={onDismiss} />
+        return <LoginModal open={open} onDismiss={onDismiss} loginCase="lock" />
     }
 
     return (
@@ -53,6 +54,7 @@ const LockModal = ({ open, onDismiss }: Props): JSX.Element => {
             onDismiss={onDismiss}
             className="lock-modal"
         >
+            <CloseButton onClick={onDismiss} />
             <div className="centered">
                 <img src={Check} srcSet={`${retinaCheck} 2x`} />
             </div>

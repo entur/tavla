@@ -13,6 +13,17 @@
         margin: 0;
     }
 
+    .modal-header {
+        display: flex;
+        align-items: center;
+    }
+
+    .eds-form-control-wrapper {
+        input::placeholder {
+            color: #888aa8;
+        }
+    }
+
     h2,
     h3 {
         text-align: center;
@@ -30,6 +41,11 @@
     a {
         cursor: pointer;
         margin-bottom: 3rem;
+    }
+
+    .eds-link {
+        color: $colors-brand-blue;
+        text-decoration: underline;
     }
 
     .modal-submit {
