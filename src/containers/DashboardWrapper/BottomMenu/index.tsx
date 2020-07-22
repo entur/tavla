@@ -211,7 +211,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <MineTavlerModal
                 open={mineTavlerModalOpen}
                 onDismiss={(): void => setMineTavlerModalOpen(false)}
-                history={history}
             />
         </div>
     )
