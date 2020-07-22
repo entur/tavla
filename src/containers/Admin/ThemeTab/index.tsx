@@ -3,7 +3,6 @@ import { Heading2, Paragraph } from '@entur/typography'
 
 import { useSettingsContext } from '../../../settings'
 import { Theme } from '../../../types'
-import { useTheme } from '../../ThemeWrapper/ThemeProvider'
 import RadioCard from '../../../components/RadioCard'
 import Grey from '../../../assets/previews/Grey-theme.svg'
 import Dark from '../../../assets/previews/Dark-theme.svg'
@@ -16,7 +15,6 @@ import { getDocumentId } from '../../../utils'
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme>(null)
     const [settings, { setTheme }] = useSettingsContext()
-    const { setThemeContext } = useTheme()
     const documentId = getDocumentId()
 
     useEffect(() => {
@@ -28,7 +26,6 @@ const ThemeTab = (): JSX.Element => {
     const switchTheme = (value: Theme): void => {
         setRadioValue(value)
         setTheme(value)
-        setThemeContext(value)
     }
 
     if (!documentId) {

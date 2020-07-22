@@ -20,10 +20,11 @@ const ThemeProvider: FC = (props): JSX.Element => {
     const [themeContext, setThemeContext] = useState<Theme>(undefined)
 
     useEffect(() => {
-        if (settings && settings.theme && themeContext == undefined) {
+        if (settings?.theme) {
             setThemeContext(settings.theme)
         }
-    }, [settings, themeContext])
+        setThemeContext(Theme.DEFAULT)
+    }, [settings])
 
     useEffect(() => {
         if (settings) {
