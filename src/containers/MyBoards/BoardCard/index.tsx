@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 
 import { Heading3 } from '@entur/typography'
 import { LinkIcon, ClockIcon } from '@entur/icons'
@@ -56,6 +56,11 @@ function BoardCard({
         setBoardTitle(settings.boardName)
     }, [settings.boardName])
 
+    const onClickPreview = useCallback(() => {
+        event.preventDefault()
+        window.location.href = `/t/${id}`
+    }, [id])
+
     const onClickTitle = useCallback(() => {
         event.preventDefault()
         setTitleEditMode(true)
@@ -103,12 +108,12 @@ function BoardCard({
 
     return (
         <div className={`board-card ${className ? className : ''}`}>
-            <a href={`/t/${id}`}>
+            <div onClick={onClickPreview}>
                 <img
                     className="board-card__preview"
                     src={preview[`${dashboardType}`]}
                 />
-            </a>
+            </div>
 
             <div className="board-card__text-container">
                 <span onClick={onClickTitle}>{boardTitleElement}</span>
