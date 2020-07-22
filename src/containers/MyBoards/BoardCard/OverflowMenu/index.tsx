@@ -11,9 +11,10 @@ import { useToast } from '@entur/alert'
 
 import copy from 'copy-to-clipboard'
 
-import '../styles.scss'
 import RemoveLockModal from './Modals/RemoveLockModal'
 import DeleteTavleModal from './Modals/DeleteTavleModal'
+
+import '../styles.scss'
 
 function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
     const [removeLockModalOpen, setRemoveLockModalOpen] = useState<boolean>(

@@ -6,7 +6,7 @@ import { LinkIcon, ClockIcon } from '@entur/icons'
 import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
 import { persist } from '../../../settings/FirestoreStorage'
 import { Settings } from '../../../settings'
-import BoardOverflowMenu from './OverFlowMenu/.'
+import BoardOverflowMenu from './OverflowMenu/.'
 
 import './styles.scss'
 
