@@ -1,5 +1,9 @@
 @import './../../assets/styles/import.scss';
 
+.login-modal.eds-modal__overlay {
+    background: var(--tavla-modal-overlay-color);
+}
+
 .login-modal.eds-modal__content {
     padding-top: 0.8rem;
     padding-left: 1.5rem;
@@ -16,10 +20,6 @@
     .modal-header {
         display: flex;
         align-items: center;
-    }
-
-    .eds-modal__overlay {
-        background: var(--tavla-modal-overlay-color);
     }
 
     .eds-form-control-wrapper {
