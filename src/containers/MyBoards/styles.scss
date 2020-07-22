@@ -19,3 +19,11 @@
         grid-auto-rows: 1fr;
     }
 }
+
+@media (max-width: 500px) {
+    .my-boards {
+        &__board-list {
+            grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+        }
+    }
+}

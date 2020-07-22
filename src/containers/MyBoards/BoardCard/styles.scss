@@ -28,6 +28,7 @@
     &__text-container {
         &__title {
             color: var(--tavla-font-color);
+            word-break: break-word;
         }
 
         input {
@@ -54,6 +55,7 @@
 
             &__description {
                 vertical-align: text-top;
+                word-break: break-word;
             }
         }
     }
