@@ -2,8 +2,8 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 
 import { useUser } from '../../auth'
-import usePermittedTavle from '../../logic/usePermittedTavle'
 import { getDocumentId } from '../../utils'
+import { useSettingsContext } from '../../settings'
 
 function PrivateRoute({
     path,
@@ -11,13 +11,18 @@ function PrivateRoute({
     component,
     errorComponent,
 }: Props): JSX.Element {
-    const permitted = usePermittedTavle()
+    const [settings] = useSettingsContext()
     const user = useUser()
 
     if (!getDocumentId())
         return <Route path={path} exact={exact} component={component} />
 
-    if (!user || permitted == undefined) return null
+    if (!settings || !user) return null
+
+    const permitted =
+        !settings.owners ||
+        settings.owners.length === 0 ||
+        settings.owners.includes(user.uid)
 
     return permitted ? (
         <Route path={path} exact={exact} component={component} />
