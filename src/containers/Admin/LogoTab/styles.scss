@@ -11,6 +11,16 @@
     }
 }
 
+.eds-form-control-wrapper {
+    --border-color: var(--tavla-input-border-color);
+    --border-color-hover: var(--tavla-input-border-hover-color);
+    background-color: var(--tavla-input-background-color);
+
+    input::placeholder {
+        color: var(--tavla-input-placeholder-color);
+    }
+}
+
 .logo-grid {
     .eds-file-upload__wrapper {
         width: 100%;
