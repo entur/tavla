@@ -61,7 +61,7 @@ function BoardCard({
         setTitleEditMode(true)
     }, [setTitleEditMode])
 
-    const onBlurTitle = useCallback(
+    const onChangeTitle = useCallback(
         (e) => {
             event.preventDefault()
             const newTitle = e.target.value
@@ -89,7 +89,11 @@ function BoardCard({
             className="board-card__text-container__title"
             defaultValue={boardTitle}
             autoFocus={true}
-            onBlur={onBlurTitle}
+            onBlur={onChangeTitle}
+            onKeyUp={(e): void => {
+                e.preventDefault
+                if (e.keyCode == 13) onChangeTitle(e)
+            }}
         />
     ) : (
         <Heading3 className="board-card__text-container__title" margin="none">
