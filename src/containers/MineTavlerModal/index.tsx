@@ -14,6 +14,7 @@ import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 
 import './styles.scss'
+import CloseButton from '../../components/LoginModal/CloseButton/CloseButton'
 
 const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
     const user = useFirebaseAuthentication()
@@ -64,6 +65,7 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
             onDismiss={onDismiss}
             className="mine-tavler-modal"
         >
+            <CloseButton onClick={onDismiss} />
             <div className="centered">
                 <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>

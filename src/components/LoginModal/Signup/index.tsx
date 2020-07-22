@@ -1,5 +1,5 @@
 import React, { useState, Dispatch, SetStateAction } from 'react'
-import firebase from 'firebase'
+import firebase, { User } from 'firebase'
 
 import { TextField, InputGroup } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -12,12 +12,14 @@ import { ModalType } from '../index'
 
 import sikkerhetBom from './../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from './../../../assets/images/sikkerhet_bom@2x.png'
+import CloseButton from '../CloseButton/CloseButton'
 
 // eslint-disable-next-line
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 interface Props {
     setModalType: Dispatch<SetStateAction<ModalType>>
+    onDismiss: (user?: User) => void
 }
 
 interface UserSignUp {
@@ -26,7 +28,7 @@ interface UserSignUp {
     repeatPassword: string
 }
 
-const Signup = ({ setModalType }: Props): JSX.Element => {
+const Signup = ({ setModalType, onDismiss }: Props): JSX.Element => {
     const [inputs, handleInputsChange] = useFormFields<UserSignUp>({
         email: '',
         password: '',
@@ -45,20 +47,23 @@ const Signup = ({ setModalType }: Props): JSX.Element => {
         } else {
             setIsPasswordLongEnough(false)
         }
-
         if (email.match(EMAIL_REGEX)) {
             setEmailError(undefined)
         } else {
             setEmailError('Dette er ikke en gyldig e-post.')
         }
-
         if (inputs.password !== inputs.repeatPassword) {
             setIsPasswordMatch(false)
         } else {
             setIsPasswordMatch(true)
         }
 
-        if (!isPasswordLongEnough || !isPasswordMatch) {
+        const valid =
+            inputs.password.length >= 8 &&
+            email.match(EMAIL_REGEX) &&
+            inputs.password === inputs.repeatPassword
+
+        if (!valid) {
             return
         }
 
@@ -74,17 +79,23 @@ const Signup = ({ setModalType }: Props): JSX.Element => {
                     setEmailError(undefined)
                 }
             })
+    }
 
-        setIsPasswordMatch(true)
+    const handleClose = (): void => {
+        setModalType('LoginOptionsModal')
+        onDismiss()
     }
 
     return (
         <>
-            <BackArrowIcon
-                size={30}
-                onClick={(): void => setModalType('LoginOptionsModal')}
-                className="go-to"
-            />
+            <div className="modal-header">
+                <BackArrowIcon
+                    size={30}
+                    onClick={(): void => setModalType('LoginOptionsModal')}
+                    className="go-to"
+                />
+                <CloseButton onClick={handleClose} />
+            </div>
             <div className="centered">
                 <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>
