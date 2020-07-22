@@ -18,6 +18,10 @@
         align-items: center;
     }
 
+    .eds-modal__overlay {
+        background: var(--tavla-modal-overlay-color);
+    }
+
     .eds-form-control-wrapper {
         input::placeholder {
             color: #888aa8;

@@ -13,6 +13,10 @@
         margin: 0;
     }
 
+    .eds-modal__overlay {
+        background: var(--tavla-modal-overlay-color);
+    }
+
     h2,
     h3 {
         text-align: center;
