@@ -69,11 +69,11 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
             <div className="centered">
                 <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>
-            <Heading3 margin="none">Vil du låse tavla først?</Heading3>
+            <Heading3 margin="none">Låse opp avgangstavle</Heading3>
             <Paragraph>
-                Denne avgangstavla er ulåst. Hvis du vil lagre den til senere og
-                gjøre så bare du kan redigere den, bør du først låse den til din
-                konto.
+                Er du sikker på at du vil fjerne denne tavla fra din konto?
+                Tavla vil fortsatt eksistere, men ikke lenger være knyttet til
+                din konto.
             </Paragraph>
             <GridContainer spacing="medium">
                 <GridItem small={12}>
