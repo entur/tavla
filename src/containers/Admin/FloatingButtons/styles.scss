@@ -1,0 +1,34 @@
+.admin__floating-buttons {
+    display: flex;
+    flex-direction: column;
+    
+    .eds-button {
+        width: 100%;
+        border: 2px solid var(--floating-button-background);
+        color: var(--floating-button-font-color);
+        background: var(--tavla-background-color);
+        margin-top: 1rem;
+        padding: 2rem 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.eds-button--variant-primary {
+            background: var(--floating-button-primary-background);
+            color: var(--floating-button-primary-font-color);
+            border: none;
+        }
+    }
+
+    @media (min-width: 600px) {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;   
+        flex-direction: row;
+
+        .eds-button {
+            width: fit-content;
+            margin-left: 2rem;
+        }
+    }
+}

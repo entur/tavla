@@ -1,29 +1,20 @@
-import React, { useCallback, useState } from 'react'
-import { Button } from '@entur/button'
+import React, { useState } from 'react'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
 
 import './styles.scss'
-import { getDocumentId } from '../../utils'
 import { useFirebaseAuthentication } from '../../auth'
 
 import LogoTab from './LogoTab'
 import EditTab from './EditTab'
 import ThemeTab from './ThemeTab'
 import VisningTab from './DashboardPickerTab'
+import FloatingButtons from './FloatingButtons'
 
-const AdminPage = ({ history }: Props): JSX.Element => {
-    const documentId = getDocumentId()
+const AdminPage = (): JSX.Element => {
     const user = useFirebaseAuthentication()
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
-
-    const goToDash = useCallback(() => {
-        if (documentId) {
-            history.push(window.location.pathname.replace('admin', 't'))
-        }
-        history.push(window.location.pathname.replace('admin', 'dashboard'))
-    }, [history, documentId])
 
     const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon />
 
@@ -58,19 +49,9 @@ const AdminPage = ({ history }: Props): JSX.Element => {
                     </TabPanel>
                 </TabPanels>
             </Tabs>
-            <Button
-                className="admin__submit-button"
-                variant="primary"
-                onClick={goToDash}
-            >
-                Se avgangstavla
-            </Button>
+            <FloatingButtons />
         </div>
     )
-}
-
-interface Props {
-    history: any
 }
 
 export default AdminPage

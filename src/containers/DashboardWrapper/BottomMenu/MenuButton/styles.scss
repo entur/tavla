@@ -4,7 +4,7 @@
 .bottom_menu_button {
     height: fit-content;
     width: fit-content;
-    padding: 2rem;
+    padding: 0.75rem;
     display: flex;
     flex-direction: column;
     align-content: center;
@@ -12,6 +12,10 @@
     border: hidden;
     color: var(--tavla-font-color);
     font: inherit;
+
+    @media (min-width: 500px) {
+        padding: 2rem;
+    }
 }
 
 .bottom_menu_button:hover {

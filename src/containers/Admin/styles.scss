@@ -13,18 +13,10 @@
         background-color: var(--tavla-background-color);
 
         &__tab-panels {
-            padding-left: 0;
+            padding: 0;
         }
     }
-
-    &__submit-button {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        background-color: var(--tavla-button-background-color);
-        color: var(--tavla-font-color);
-    }
-
+    
     &__submit-button:hover {
         background-color: var(--tavla-box-background-color);
     }
@@ -40,6 +32,12 @@
         height: 50px;
         padding-right: 2.2rem;
         padding-top: 2rem;
+    }
+
+    @media (max-width: 400px) {
+        .eds-grid--spacing-extraLarge {
+            grid-gap: 1rem;
+        }
     }
 }
 
