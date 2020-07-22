@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 
 import { Heading3 } from '@entur/typography'
 import { LinkIcon, ClockIcon } from '@entur/icons'
@@ -49,6 +49,12 @@ function BoardCard({
     className,
 }: Props): JSX.Element {
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
+    const [boardTitle, setBoardTitle] = useState<string>('Uten tittel')
+
+    useEffect(() => {
+        if (!settings.boardName) return
+        setBoardTitle(settings.boardName)
+    }, [settings.boardName])
 
     const onClickTitle = useCallback(() => {
         event.preventDefault()
@@ -58,10 +64,14 @@ function BoardCard({
     const onBlurTitle = useCallback(
         (e) => {
             event.preventDefault()
+            const newTitle = e.target.value
             setTitleEditMode(false)
-            persist(id, 'boardName', e.target.value)
+            if (newTitle == settings.boardName) return
+
+            setBoardTitle(newTitle)
+            persist(id, 'boardName', newTitle)
         },
-        [id, setTitleEditMode],
+        [id, settings.boardName],
     )
 
     const preview = ThemeDashbboardPreview(settings.theme)
@@ -74,7 +84,6 @@ function BoardCard({
                   preferredDate == timestamp,
               )
             : 'Ikke endret'
-    const boardTitle = settings.boardName || 'Uten navn'
     const boardTitleEditorRef = useRef<HTMLInputElement>()
     const boardTitleElement = titleEditMode ? (
         <input
