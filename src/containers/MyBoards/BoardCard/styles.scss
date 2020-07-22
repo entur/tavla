@@ -18,6 +18,10 @@
             cursor: pointer;
         }
 
+        img {
+            width: 100%;
+        }
+
         &__icon {
             position: absolute;
             top: calc(50% - 1.5rem);

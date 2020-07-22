@@ -75,7 +75,7 @@ const MyBoards = ({ history }: Props): JSX.Element => {
     return (
         <Contrast>
             <div className="my-boards">
-                <Heading2 className="my-boards__title">
+                <Heading2 className="my-boards__title" margin="bottom">
                     Mine tavler ({boards.length})
                 </Heading2>
                 <div className="my-boards__board-list">
