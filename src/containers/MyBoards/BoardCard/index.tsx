@@ -84,12 +84,10 @@ function BoardCard({
                   preferredDate == timestamp,
               )
             : 'Ikke endret'
-    const boardTitleEditorRef = useRef<HTMLInputElement>()
     const boardTitleElement = titleEditMode ? (
         <input
             className="board-card__text-container__title"
             defaultValue={boardTitle}
-            ref={boardTitleEditorRef}
             autoFocus={true}
             onBlur={onBlurTitle}
         />

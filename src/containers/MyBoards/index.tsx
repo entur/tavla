@@ -45,8 +45,8 @@ const MyBoards = ({ history }: Props): JSX.Element => {
                     (docSnapshot) =>
                         ({
                             data: docSnapshot.data(),
-                            lastmodified: docSnapshot.data()['lastmodified'],
-                            created: docSnapshot.data()['created'],
+                            lastmodified: docSnapshot.data().lastmodified,
+                            created: docSnapshot.data().created,
                             id: docSnapshot.id,
                         } as BoardProps),
                 )
