@@ -59,11 +59,8 @@ function DashboardWrapper(props: Props): JSX.Element {
     const [{ logo, theme }] = useSettingsContext()
 
     const getEnturLogo = (): JSX.Element => {
-        return isDarkOrDefaultTheme(theme) ? (
-            <EnturLogo height="24px" style="white" />
-        ) : (
-            <EnturLogo height="24px" style="black" />
-        )
+        const logoColor = isDarkOrDefaultTheme(theme) ? 'white' : 'black'
+        return <EnturLogo height="24px" style={logoColor} />
     }
 
     return (
