@@ -115,11 +115,8 @@ function BoardCard({
 
     return (
         <div className={`board-card ${className ? className : ''}`}>
-            <div onClick={onClickPreview}>
-                <img
-                    className="board-card__preview"
-                    src={preview[`${dashboardType}`]}
-                />
+            <div onClick={onClickPreview} className="board-card__preview">
+                <img src={preview[`${dashboardType}`]} />
             </div>
 
             <div className="board-card__text-container">
