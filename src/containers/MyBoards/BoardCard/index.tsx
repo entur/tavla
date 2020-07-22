@@ -1,13 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react'
 
 import { Heading3 } from '@entur/typography'
-import { LinkIcon, ClockIcon } from '@entur/icons'
+import { LinkIcon, ClockIcon, ConfigurationIcon } from '@entur/icons'
+import { OverflowMenu, OverflowMenuItem, OverflowMenuLink } from '@entur/menu'
 
-import { Settings } from '../../../settings'
 import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
 import { persist } from '../../../settings/FirestoreStorage'
 
 import './styles.scss'
+import { Settings } from '../../../settings'
 
 const DAYS = ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør']
 
@@ -47,6 +48,7 @@ function BoardCard({
     timestamp,
     created,
     className,
+    history,
 }: Props): JSX.Element {
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
     const [boardTitle, setBoardTitle] = useState<string>('Uten tittel')
@@ -79,6 +81,11 @@ function BoardCard({
         [id, settings.boardName],
     )
 
+    const overflowRedigerTavle = useCallback(() => {
+        event.preventDefault()
+        history.push(`/admin/${id}`)
+    }, [id, history])
+
     const preview = ThemeDashbboardPreview(settings.theme)
     const dashboardType = settings.dashboard || 'Chrono'
     const preferredDate = timestamp ? timestamp : created
@@ -91,7 +98,7 @@ function BoardCard({
             : 'Ikke endret'
     const boardTitleElement = titleEditMode ? (
         <input
-            className="board-card__text-container__title"
+            className="board-card__text-container__top-wrapper__title"
             defaultValue={boardTitle}
             autoFocus={true}
             onBlur={onChangeTitle}
@@ -101,9 +108,24 @@ function BoardCard({
             }}
         />
     ) : (
-        <Heading3 className="board-card__text-container__title" margin="none">
+        <Heading3
+            className="board-card__text-container__top-wrapper__title"
+            margin="none"
+            as="span"
+        >
             {boardTitle}
         </Heading3>
+    )
+
+    const overflowMenu = (
+        <OverflowMenu className="board-card__text-container__top-wrapper__overflow">
+            <OverflowMenuLink onSelect={overflowRedigerTavle}>
+                <span aria-hidden>
+                    <ConfigurationIcon inline />
+                </span>
+                Rediger tavle
+            </OverflowMenuLink>
+        </OverflowMenu>
     )
 
     return (
@@ -116,7 +138,10 @@ function BoardCard({
             </div>
 
             <div className="board-card__text-container">
-                <span onClick={onClickTitle}>{boardTitleElement}</span>
+                <div className="board-card__text-container__top-wrapper">
+                    <span onClick={onClickTitle}>{boardTitleElement}</span>
+                    {overflowMenu}
+                </div>
 
                 <div className="board-card__text-container__text">
                     <ClockIcon className="board-card__text-container__text__icon" />
@@ -141,6 +166,7 @@ interface Props {
     timestamp: firebase.firestore.Timestamp
     created: firebase.firestore.Timestamp
     className?: string
+    history: any
 }
 
 export default BoardCard
