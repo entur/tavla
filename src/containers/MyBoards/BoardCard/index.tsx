@@ -47,6 +47,7 @@ function BoardCard({
     timestamp,
     created,
     className,
+    history,
 }: Props): JSX.Element {
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
     const [boardTitle, setBoardTitle] = useState<string>('Uten tittel')
@@ -58,8 +59,8 @@ function BoardCard({
 
     const onClickPreview = useCallback(() => {
         event.preventDefault()
-        window.location.href = `/t/${id}`
-    }, [id])
+        history.push(`/t/${id}`)
+    }, [id, history])
 
     const onClickTitle = useCallback(() => {
         event.preventDefault()
@@ -141,6 +142,7 @@ interface Props {
     timestamp: firebase.firestore.Timestamp
     created: firebase.firestore.Timestamp
     className?: string
+    history: any
 }
 
 export default BoardCard

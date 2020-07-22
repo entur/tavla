@@ -77,6 +77,7 @@ const MyBoards = ({ history }: Props): JSX.Element => {
                             timestamp={board.lastmodified}
                             created={board.created}
                             settings={board.data}
+                            history={history}
                         />
                     ))}
                 </div>
