@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { firestore } from 'firebase'
 
 import { Contrast } from '@entur/layout'
-import { Heading2 } from '@entur/typography'
+import { Heading2, Heading3 } from '@entur/typography'
+import { AddIcon } from '@entur/icons'
 
+import { ThemeDashbboardPreview } from '../../assets/icons/ThemeDashboardPreview'
 import { Settings } from '../../settings'
 import { getBoardsOnSnapshot } from '../../services/firebase'
 import { useUser } from '../../auth'
@@ -11,6 +13,7 @@ import BoardCard from './BoardCard'
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 
 import './styles.scss'
+import { Theme } from '../../types'
 
 type DocumentData = firestore.DocumentData
 
@@ -27,6 +30,12 @@ function sortBoard(boards: BoardProps[]): BoardProps[] {
 const MyBoards = ({ history }: Props): JSX.Element => {
     const [boards, setBoards] = useState<DocumentData>()
     const user = useUser()
+    const preview = ThemeDashbboardPreview(Theme.DEFAULT)
+
+    const onClickNew = useCallback(() => {
+        event.preventDefault()
+        history.push('/')
+    }, [history])
 
     useEffect(() => {
         if (user === null) {
@@ -80,6 +89,32 @@ const MyBoards = ({ history }: Props): JSX.Element => {
                             history={history}
                         />
                     ))}
+                    <div className="board-card">
+                        <div
+                            className="board-card__preview"
+                            style={{ position: 'relative' }}
+                            onClick={onClickNew}
+                        >
+                            <img
+                                src={preview['Chrono']}
+                                style={{ visibility: 'hidden' }}
+                            />
+                            <AddIcon
+                                size={'3rem'}
+                                className="board-card__preview__icon"
+                            />
+                        </div>
+                        <div className="board-card__text-container">
+                            <span>
+                                <Heading3
+                                    className="board-card__text-container__title"
+                                    margin="none"
+                                >
+                                    Lag ny tavle
+                                </Heading3>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Contrast>
