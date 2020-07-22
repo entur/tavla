@@ -6,8 +6,12 @@
         width: 100%;
         border: 2px solid var(--floating-button-background);
         color: var(--floating-button-font-color);
-        background: transparent;
+        background: var(--tavla-background-color);
         margin-top: 1rem;
+        padding: 2rem 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &.eds-button--variant-primary {
             background: var(--floating-button-primary-background);
@@ -24,7 +28,7 @@
 
         .eds-button {
             width: fit-content;
-            margin-left: 1rem;
+            margin-left: 2rem;
         }
     }
 }
