@@ -27,7 +27,7 @@
     --floating-button-font-color: #fff;
     --floating-button-primary-background: rgb(174, 183, 226);
     --floating-button-primary-font-color: rgb(24, 28, 86);
-
+    --tavla-modal-overlay-color: rgba(24, 28, 86, 0.8);
 }
 
 .default-theme {
@@ -53,6 +53,7 @@
     --tavla-slider-color: #fff;
     --tavla-slider-thumb-color: #fff;
     --tavla-slider-fill-color: rgb(174, 183, 226);
+    --tavla-modal-overlay-color: rgba(24, 28, 86, 0.8);
 }
 
 .dark-theme {
@@ -83,6 +84,7 @@
     --floating-button-font-color: #fff;
     --floating-button-primary-background: rgba(255, 255, 255, 0.14);
     --floating-button-primary-font-color: #fff;
+    --tavla-modal-overlay-color: rgba(0, 0, 0, 0.8);
 }
 
 .light-theme {
@@ -112,6 +114,7 @@
     --floating-button-font-color: #000;
     --floating-button-primary-background: rgb(243, 243, 243);
     --floating-button-primary-font-color: #000;
+    --tavla-modal-overlay-color: rgba(220, 216, 216, 0.8);
 }
 
 .grey-theme {
@@ -139,4 +142,5 @@
     --floating-button-font-color: #000;
     --floating-button-primary-background: #fff;
     --floating-button-primary-font-color: #000;
+    --tavla-modal-overlay-color: rgba(233, 233, 233, 0.8);
 }

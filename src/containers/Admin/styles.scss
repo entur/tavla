@@ -33,6 +33,12 @@
         padding-right: 2.2rem;
         padding-top: 2rem;
     }
+
+    @media (max-width: 400px) {
+        .eds-grid--spacing-extraLarge {
+            grid-gap: 1rem;
+        }
+    }
 }
 
 .eds-tab {
