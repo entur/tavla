@@ -8,7 +8,7 @@ import { useSettingsContext } from '../../settings'
 import BottomMenu from './BottomMenu'
 import EnturLogo from '../../assets/icons/enturLogo'
 import { NoStopsOnTavle } from './../Error/ErrorPages'
-import { StopPlaceWithDepartures, Theme } from '../../types'
+import { StopPlaceWithDepartures } from '../../types'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 
 import './styles.scss'
