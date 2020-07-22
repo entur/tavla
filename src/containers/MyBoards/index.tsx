@@ -11,6 +11,7 @@ import BoardCard from './BoardCard'
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 
 import './styles.scss'
+import { useTheme } from '../ThemeWrapper/ThemeProvider'
 
 type DocumentData = firestore.DocumentData
 

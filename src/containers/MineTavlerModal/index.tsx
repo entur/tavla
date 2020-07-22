@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
@@ -15,8 +15,10 @@ import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 
 import './styles.scss'
 import CloseButton from '../../components/LoginModal/CloseButton/CloseButton'
+import { useHistory } from 'react-router'
 
 const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
+    const history = useHistory()
     const user = useFirebaseAuthentication()
     const [settings, { setOwners }] = useSettingsContext()
 
@@ -25,8 +27,7 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
     }
 
     if (user && !user.isAnonymous && settings.owners.length !== 0 && open) {
-        onDismiss()
-        window.location.href = `/tavler`
+        history.push('/tavler')
         return null
     }
 
@@ -50,11 +51,9 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
         ) {
             const newOwnersList = [...settings.owners, user.uid]
             setOwners(newOwnersList)
-            onDismiss()
-            window.location.href = `/tavler`
         }
-        onDismiss()
-        window.location.href = `/tavler`
+
+        history.push('/tavler')
     }
 
     return (
