@@ -39,7 +39,7 @@ function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
     }
 
     return (
-        <div>
+        <>
             <OverflowMenu className="board-card__text-container__top-wrapper__overflow">
                 <OverflowMenuLink onSelect={overflowRedigerTavle}>
                     <span aria-hidden>
@@ -82,7 +82,7 @@ function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
                 onDismiss={(): void => setDeleteTavleModalOpen(false)}
                 id={id}
             />
-        </div>
+        </>
     )
 }
 

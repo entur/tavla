@@ -108,6 +108,7 @@ function BoardCard({
             className="board-card__text-container__top-wrapper__title"
             margin="none"
             as="span"
+            onClick={onClickTitle}
         >
             {boardTitle}
         </Heading3>
@@ -121,7 +122,7 @@ function BoardCard({
 
             <div className="board-card__text-container">
                 <div className="board-card__text-container__top-wrapper">
-                    <span onClick={onClickTitle}>{boardTitleElement}</span>
+                    {boardTitleElement}
                     <BoardOverflowMenu id={id} uid={uid} history={history} />
                 </div>
 
