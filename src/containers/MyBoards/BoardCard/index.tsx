@@ -6,7 +6,7 @@ import { LinkIcon, ClockIcon } from '@entur/icons'
 import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
 import { persist } from '../../../settings/FirestoreStorage'
 import { Settings } from '../../../settings'
-import BoardOverflowMenu from './OverflowMenu'
+import BoardOverflowMenu from './OverflowMenu/.'
 
 import './styles.scss'
 
@@ -108,6 +108,7 @@ function BoardCard({
             className="board-card__text-container__top-wrapper__title"
             margin="none"
             as="span"
+            onClick={onClickTitle}
         >
             {boardTitle}
         </Heading3>
@@ -121,7 +122,7 @@ function BoardCard({
 
             <div className="board-card__text-container">
                 <div className="board-card__text-container__top-wrapper">
-                    <span onClick={onClickTitle}>{boardTitleElement}</span>
+                    {boardTitleElement}
                     <BoardOverflowMenu id={id} uid={uid} history={history} />
                 </div>
 
