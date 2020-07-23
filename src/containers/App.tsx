@@ -22,6 +22,7 @@ import { ToastProvider } from '@entur/alert'
 import Header from '../components/Header'
 
 import './styles.scss'
+import MyBoards from './MyBoards'
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
@@ -74,8 +75,7 @@ const Content = (): JSX.Element => {
                                     path="/dashboard"
                                     component={Dashboard}
                                 />
-                                {/*TODO: 20.07-20 Kommenter inn dennne når Mine Tavler er på plass */}
-                                {/* <Route path="/tavler" component={MyTables} /> */}
+                                <Route path="/tavler" component={MyBoards} />
                                 <Route
                                     path="/admin"
                                     component={settings[0] && Admin}

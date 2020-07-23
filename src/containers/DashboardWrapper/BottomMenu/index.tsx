@@ -85,7 +85,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
-    //TODO: 20.07-20 Når Mine tavler er på plass, så fjern Logg-inn button fra menyen (ikke logg ut)
     const logoutButton =
         documentId &&
         (user && !user.isAnonymous ? (
@@ -101,16 +100,9 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                     firebase.auth().signOut()
                 }}
             />
-        ) : (
-            <MenuButton
-                title="Logg inn"
-                icon={<UserIcon size={21} />}
-                callback={(): void => setLoginModalOpen(true)}
-            />
-        ))
+        ) : null)
 
-    //TODO: 20.07-20 Fjern false når funksjonaliteten for Mine Tavler er på plass
-    const tablesButton = false && (
+    const tablesButton = (
         <MenuButton
             title="Mine tavler"
             icon={<UserIcon size={21} />}
@@ -240,7 +232,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             <MineTavlerModal
                 open={mineTavlerModalOpen}
                 onDismiss={(): void => setMineTavlerModalOpen(false)}
-                history={history}
             />
         </div>
     )

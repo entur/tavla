@@ -13,10 +13,12 @@ import LoginModal from '../../components/LoginModal'
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 
+import { getDocumentId } from '../../utils'
+
 import './styles.scss'
 import CloseButton from '../../components/LoginModal/CloseButton/CloseButton'
 
-const MineTavlerModal = ({ open, onDismiss, history }: Props): JSX.Element => {
+const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
     const user = useFirebaseAuthentication()
     const [settings, { setOwners }] = useSettingsContext()
 
@@ -26,7 +28,7 @@ const MineTavlerModal = ({ open, onDismiss, history }: Props): JSX.Element => {
 
     if (user && !user.isAnonymous && settings.owners.length !== 0 && open) {
         onDismiss()
-        history.push(`/tavler`)
+        window.location.href = `/tavler`
         return null
     }
 
@@ -40,6 +42,11 @@ const MineTavlerModal = ({ open, onDismiss, history }: Props): JSX.Element => {
         )
     }
 
+    if (user && !user.isAnonymous && !getDocumentId() && open) {
+        window.location.href = `/tavler`
+        return null
+    }
+
     const handleLockingTavle = (lock: boolean): void => {
         if (
             lock &&
@@ -51,10 +58,10 @@ const MineTavlerModal = ({ open, onDismiss, history }: Props): JSX.Element => {
             const newOwnersList = [...settings.owners, user.uid]
             setOwners(newOwnersList)
             onDismiss()
-            history.push(`/tavler`)
+            window.location.href = `/tavler`
         }
         onDismiss()
-        history.push(`/tavler`)
+        window.location.href = `/tavler`
     }
 
     return (
@@ -105,5 +112,4 @@ export default MineTavlerModal
 interface Props {
     open: boolean
     onDismiss: () => void
-    history: any
 }

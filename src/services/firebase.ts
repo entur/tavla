@@ -9,9 +9,24 @@ import { getDocumentId } from '../utils'
 const SETTINGS_COLLECTION = 'settings'
 
 type DocumentReference = firestore.DocumentReference
+type QuerySnapshot = firestore.QuerySnapshot
 
 export const getSettings = (id: string): DocumentReference => {
     return firebase.firestore().collection(SETTINGS_COLLECTION).doc(id)
+}
+
+export const getBoardsOnSnapshot = (
+    userId: string,
+    observer: {
+        next: (querySnapshot: QuerySnapshot) => void
+        error: () => void
+    },
+): (() => void) => {
+    const db = firebase.firestore()
+    return db
+        .collection(SETTINGS_COLLECTION)
+        .where('owners', 'array-contains', userId)
+        .onSnapshot(observer)
 }
 
 export const updateSettingField = async (
@@ -28,7 +43,10 @@ export const updateSettingField = async (
         .firestore()
         .collection(SETTINGS_COLLECTION)
         .doc(docId)
-        .update({ [fieldId]: fieldValue })
+        .update({
+            [fieldId]: fieldValue,
+            lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
+        })
 }
 
 export const createSettings = async (
@@ -73,6 +91,13 @@ export const uploadLogo = async (
         onError,
         async () => {
             onFinished(await uploadTask.snapshot.ref.getDownloadURL())
+            firebase
+                .firestore()
+                .collection(SETTINGS_COLLECTION)
+                .doc(documentId)
+                .update({
+                    lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
+                })
         },
     )
 }

@@ -93,6 +93,52 @@ export function NoStopsOnTavle(): JSX.Element {
     )
 }
 
+export function NoTavlerAvailable({ history }: Props): JSX.Element {
+    const callback = (event: React.FormEvent): void => {
+        event.preventDefault()
+        history.push(`/`)
+    }
+    return (
+        <div>
+            <ErrorWrapper
+                title="Her var det tomt!"
+                message="Du har ingen tavler som er lagret på denne kontoen. Trykk på knappen nedenfor for å lage en avgangstavle."
+                image={duerLight}
+                callbackMessage="Lag en ny tavle"
+                callback={callback}
+            />
+        </div>
+    )
+}
+
+export function NoAccessToTavler(): JSX.Element {
+    const [displayLogin, setDisplayLogin] = useState<boolean>(false)
+    const callback = (event: React.FormEvent): void => {
+        event.preventDefault()
+        setDisplayLogin(true)
+    }
+    const loginModal = (
+        <LoginModal
+            open={displayLogin}
+            onDismiss={(): void => setDisplayLogin(false)}
+            loginCase="error"
+        />
+    )
+
+    return (
+        <div>
+            {loginModal}
+            <ErrorWrapper
+                title="Lenger kommer du ikke!"
+                message="Du er ikke logget inn, og kan derfor ikke se dine tavler. Trykk på knappen nedenfor for å logge inn."
+                image={sikkerhetBomLight}
+                callbackMessage="Logg inn"
+                callback={callback}
+            />
+        </div>
+    )
+}
+
 interface Props {
     history: any
 }
