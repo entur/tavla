@@ -13,6 +13,8 @@ import LoginModal from '../../components/LoginModal'
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 
+import { getDocumentId } from '../../utils'
+
 import './styles.scss'
 import CloseButton from '../../components/LoginModal/CloseButton/CloseButton'
 
@@ -38,6 +40,11 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
                 loginCase="mytables"
             />
         )
+    }
+
+    if (user && !user.isAnonymous && !getDocumentId() && open) {
+        window.location.href = `/tavler`
+        return null
     }
 
     const handleLockingTavle = (lock: boolean): void => {
