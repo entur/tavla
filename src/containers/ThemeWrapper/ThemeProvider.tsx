@@ -17,8 +17,8 @@ const ThemeProvider: FC = (props): JSX.Element => {
     const themeContext = settings?.theme || Theme.DEFAULT
 
     useEffect(() => {
-        // eslint-disable-next-line
-        ['dark', 'light', 'grey', 'default'].forEach((theme) => {
+        const themes = ['dark', 'light', 'grey', 'default']
+        themes.forEach((theme) => {
             document.body.classList.remove(`${theme}-theme`)
         })
 

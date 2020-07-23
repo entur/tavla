@@ -48,7 +48,7 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
     }
 
     if (user && !user.isAnonymous && !getDocumentId() && open) {
-        window.location.href = `/tavler`
+        history.push('/tavler')
         return null
     }
 
