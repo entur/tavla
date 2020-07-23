@@ -22,12 +22,16 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
     const user = useFirebaseAuthentication()
     const [settings, { setOwners }] = useSettingsContext()
 
-    if (user === undefined) {
-        return null
-    }
+    const isLocked =
+        user && !user.isAnonymous && settings.owners.length !== 0 && open
 
-    if (user && !user.isAnonymous && settings.owners.length !== 0 && open) {
-        history.push('/tavler')
+    useEffect(() => {
+        if (isLocked) {
+            history.push('/tavler')
+        }
+    }, [isLocked, history])
+
+    if (user === undefined || isLocked) {
         return null
     }
 

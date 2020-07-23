@@ -1,4 +1,4 @@
-import React, { FC, useState, useMemo, useEffect } from 'react'
+import React, { FC, useMemo, useEffect } from 'react'
 
 import { Theme } from '../../types'
 import { useSettingsContext } from '../../settings'
@@ -17,12 +17,13 @@ const ThemeProvider: FC = (props): JSX.Element => {
     const themeContext = settings?.theme || Theme.DEFAULT
 
     useEffect(() => {
+        // eslint-disable-next-line
         ['dark', 'light', 'grey', 'default'].forEach((theme) => {
             document.body.classList.remove(`${theme}-theme`)
         })
 
         document.body.classList.add(`${themeContext}-theme`)
-    }, [settings])
+    }, [settings, themeContext])
 
     const contextValue = useMemo((): ThemeContextType => ({ themeContext }), [
         themeContext,

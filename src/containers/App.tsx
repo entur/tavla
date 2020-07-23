@@ -1,11 +1,5 @@
-import React, { useEffect } from 'react'
-import {
-    Route,
-    Switch,
-    Router,
-    useHistory,
-    useLocation,
-} from 'react-router-dom'
+import React from 'react'
+import { Route, Switch, Router, useLocation } from 'react-router-dom'
 import analytics from 'universal-ga'
 
 import { SettingsContext, useSettings } from '../settings'

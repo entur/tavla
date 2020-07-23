@@ -10,7 +10,6 @@ import { OverflowMenu, OverflowMenuItem, OverflowMenuLink } from '@entur/menu'
 import { useToast } from '@entur/alert'
 
 import {
-    removeOwners,
     removeFromOwners,
     deleteTavle,
 } from '../../../settings/FirestoreStorage'
