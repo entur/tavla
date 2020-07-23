@@ -49,6 +49,34 @@ export const updateSettingField = async (
         })
 }
 
+export const removeFromArray = async (
+    docId: string,
+    fieldId: string,
+    fieldValue:
+        | string
+        | number
+        | string[]
+        | firebase.firestore.GeoPoint
+        | { [key: string]: string[] },
+): Promise<void> => {
+    return firebase
+        .firestore()
+        .collection(SETTINGS_COLLECTION)
+        .doc(docId)
+        .update({
+            [fieldId]: firebase.firestore.FieldValue.arrayRemove(fieldValue),
+            lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
+        })
+}
+
+export const deleteDocument = async (docId: string): Promise<void> => {
+    return firebase
+        .firestore()
+        .collection(SETTINGS_COLLECTION)
+        .doc(docId)
+        .delete()
+}
+
 export const createSettings = async (
     settings: Settings,
 ): Promise<DocumentReference> => {

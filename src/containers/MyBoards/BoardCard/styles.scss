@@ -30,9 +30,19 @@
     }
 
     &__text-container {
-        &__title {
-            color: var(--tavla-font-color);
-            word-break: break-word;
+        &__top-wrapper {
+            display: inline;
+
+            &__title {
+                color: var(--tavla-font-color);
+                width: fit-content;
+                max-width: 80%;
+                word-break: break-word;
+            }
+
+            &__overflow {
+                float: right;
+            }
         }
 
         input {

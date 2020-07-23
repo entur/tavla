@@ -55,6 +55,20 @@ export function DefaultHeader(): JSX.Element {
         </div>
     )
 
+    const tavlerItem = !userLoggedIn || (
+        <div className="header__resources__item">
+            <a href="/tavler">
+                <span className="header__resources__item__text">
+                    Mine tavler
+                </span>
+                <UserIcon
+                    className="header__resources__item__icon"
+                    size="1.5rem"
+                />
+            </a>
+        </div>
+    )
+
     return (
         <div className="header">
             {loginModal}
@@ -65,6 +79,7 @@ export function DefaultHeader(): JSX.Element {
             </div>
             <div className="header__resources">
                 {!hideLogin ? userItem : null}
+                {tavlerItem}
                 <div className="header__resources__item">
                     <a href="/privacy">
                         <span className="header__resources__item__text">

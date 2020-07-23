@@ -3,9 +3,10 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { Heading3 } from '@entur/typography'
 import { LinkIcon, ClockIcon } from '@entur/icons'
 
-import { Settings } from '../../../settings'
 import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
 import { persist } from '../../../settings/FirestoreStorage'
+import { Settings } from '../../../settings'
+import BoardOverflowMenu from './OverflowMenu/.'
 
 import './styles.scss'
 
@@ -44,6 +45,7 @@ function createTimeString(date: Date, modified: boolean): string {
 function BoardCard({
     settings,
     id,
+    uid,
     timestamp,
     created,
     className,
@@ -92,7 +94,7 @@ function BoardCard({
             : 'Ikke endret'
     const boardTitleElement = titleEditMode ? (
         <input
-            className="board-card__text-container__title"
+            className="board-card__text-container__top-wrapper__title"
             defaultValue={boardTitle}
             autoFocus={true}
             onBlur={onChangeTitle}
@@ -102,7 +104,12 @@ function BoardCard({
             }}
         />
     ) : (
-        <Heading3 className="board-card__text-container__title" margin="none">
+        <Heading3
+            className="board-card__text-container__top-wrapper__title"
+            margin="none"
+            as="span"
+            onClick={onClickTitle}
+        >
             {boardTitle}
         </Heading3>
     )
@@ -114,7 +121,10 @@ function BoardCard({
             </div>
 
             <div className="board-card__text-container">
-                <span onClick={onClickTitle}>{boardTitleElement}</span>
+                <div className="board-card__text-container__top-wrapper">
+                    {boardTitleElement}
+                    <BoardOverflowMenu id={id} uid={uid} history={history} />
+                </div>
 
                 <div className="board-card__text-container__text">
                     <ClockIcon className="board-card__text-container__text__icon" />
@@ -136,6 +146,7 @@ function BoardCard({
 interface Props {
     settings: Settings
     id: string
+    uid: string
     timestamp: firebase.firestore.Timestamp
     created: firebase.firestore.Timestamp
     className?: string

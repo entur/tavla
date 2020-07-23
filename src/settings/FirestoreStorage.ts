@@ -1,4 +1,8 @@
-import { updateSettingField } from '../services/firebase'
+import {
+    updateSettingField,
+    removeFromArray,
+    deleteDocument,
+} from '../services/firebase'
 
 export type FieldTypes =
     | string
@@ -15,23 +19,14 @@ export function persist(
     updateSettingField(docId, fieldId, fieldValue)
 }
 
-export function changePath(): void {
-    const urlParts = window.location.pathname.split('/')
-    const newPathname = urlParts.join('/')
-    switch (urlParts[0]) {
-        case 'admin':
-            urlParts.shift()
-            window.history.pushState(
-                window.history.state,
-                document.title,
-                newPathname,
-            )
-            break
-        default:
-            window.history.pushState(
-                window.history.state,
-                document.title,
-                window.location.pathname,
-            )
-    }
+export function removeOwners(docId: string): void {
+    persist(docId, 'owners', [])
+}
+
+export function removeFromOwners(docId: string, uid: string): void {
+    removeFromArray(docId, 'owners', uid)
+}
+
+export function deleteTavle(docId: string): void {
+    deleteDocument(docId)
 }

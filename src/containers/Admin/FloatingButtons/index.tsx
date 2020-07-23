@@ -9,7 +9,7 @@ import LockModal from '../../LockModal'
 
 import './styles.scss'
 
-const FloatingButtons = () => {
+const FloatingButtons = (): JSX.Element => {
     const history = useHistory()
     const [{ owners }] = useSettingsContext()
     const documentId = getDocumentId()
