@@ -1,47 +1,33 @@
-import React, { FC, useState, useMemo, useEffect } from 'react'
+import React, { FC, useMemo, useEffect } from 'react'
 
 import { Theme } from '../../types'
 import { useSettingsContext } from '../../settings'
 
 type ThemeContextType = {
     themeContext: Theme
-    setThemeContext: (theme: Theme) => void
 }
 
 const ThemeContext = React.createContext<ThemeContextType>({
     themeContext: undefined,
-    setThemeContext: (): void => {
-        return
-    },
 })
 
 const ThemeProvider: FC = (props): JSX.Element => {
     const [settings] = useSettingsContext()
-    const [themeContext, setThemeContext] = useState<Theme>(undefined)
+
+    const themeContext = settings?.theme || Theme.DEFAULT
 
     useEffect(() => {
-        if (!settings?.theme) {
-            setThemeContext(Theme.DEFAULT)
-            return
-        }
-        setThemeContext(settings.theme)
+        const themes = ['dark', 'light', 'grey', 'default']
+        themes.forEach((theme) => {
+            document.body.classList.remove(`${theme}-theme`)
+        })
+
+        document.body.classList.add(`${themeContext}-theme`)
     }, [settings, themeContext])
 
-    useEffect(() => {
-        if (settings) {
-            // eslint-disable-next-line
-            ['dark', 'light', 'grey', 'default'].forEach((theme) => {
-                document.body.classList.remove(`${theme}-theme`)
-            })
-
-            document.body.classList.add(`${settings.theme}-theme`)
-        }
-    }, [settings])
-
-    const contextValue = useMemo(
-        (): ThemeContextType => ({ themeContext, setThemeContext }),
-        [themeContext],
-    )
+    const contextValue = useMemo((): ThemeContextType => ({ themeContext }), [
+        themeContext,
+    ])
 
     return <ThemeContext.Provider value={contextValue} {...props} />
 }

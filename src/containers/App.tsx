@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch, Router } from 'react-router-dom'
+import { Route, Switch, Router, useLocation } from 'react-router-dom'
 import analytics from 'universal-ga'
 
 import { SettingsContext, useSettings } from '../settings'
@@ -46,6 +46,9 @@ function getDashboardComponent(
 const Content = (): JSX.Element => {
     const user = useFirebaseAuthentication()
     const settings = useSettings()
+    const location = useLocation()
+
+    const isOnTavle = !['/privacy', '/tavler'].includes(location.pathname)
 
     const Dashboard = settings[0]
         ? getDashboardComponent(settings[0].dashboard)
@@ -53,7 +56,7 @@ const Content = (): JSX.Element => {
 
     return (
         <UserProvider value={user}>
-            <SettingsContext.Provider value={settings}>
+            <SettingsContext.Provider value={isOnTavle && settings}>
                 <ThemeProvider>
                     <div className="themeBackground">
                         <ToastProvider>
