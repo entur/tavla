@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { ClosedLockIcon, UserIcon, LogOutIcon } from '@entur/icons'
 import { useToast } from '@entur/alert'
@@ -57,7 +58,7 @@ export function DefaultHeader(): JSX.Element {
 
     const tavlerItem = !userLoggedIn || (
         <div className="header__resources__item">
-            <a href="/tavler">
+            <Link to="/tavler">
                 <span className="header__resources__item__text">
                     Mine tavler
                 </span>
@@ -65,7 +66,7 @@ export function DefaultHeader(): JSX.Element {
                     className="header__resources__item__icon"
                     size="1.5rem"
                 />
-            </a>
+            </Link>
         </div>
     )
 
@@ -73,15 +74,15 @@ export function DefaultHeader(): JSX.Element {
         <div className="header">
             {loginModal}
             <div className={`header__logo-wrapper`}>
-                <a href="/">
+                <Link to="/">
                     <TavlaLogo className={`header__logo-wrapper__logo`} />
-                </a>
+                </Link>
             </div>
             <div className="header__resources">
                 {!hideLogin ? userItem : null}
                 {tavlerItem}
                 <div className="header__resources__item">
-                    <a href="/privacy">
+                    <Link to="/privacy">
                         <span className="header__resources__item__text">
                             Personvern
                         </span>
@@ -89,7 +90,7 @@ export function DefaultHeader(): JSX.Element {
                             className="header__resources__item__icon"
                             size="1.5rem"
                         />
-                    </a>
+                    </Link>
                 </div>
                 <div className="header__resources__item">
                     <a
