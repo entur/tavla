@@ -8,7 +8,7 @@ import { ModalType } from '..'
 
 import Check from './../../../assets/images/check.png'
 import retinaCheck from './../../../assets/images/check@2x.png'
-import { User } from 'firebase'
+import { User } from 'firebase/app'
 import CloseButton from '../CloseButton/CloseButton'
 
 export interface UserResetPassword {

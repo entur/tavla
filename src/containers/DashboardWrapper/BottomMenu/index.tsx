@@ -10,7 +10,7 @@ import {
 import { useToast } from '@entur/alert'
 import copy from 'copy-to-clipboard'
 
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 
 import MenuButton from './MenuButton'
 

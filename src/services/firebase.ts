@@ -1,7 +1,6 @@
-import firebase from 'firebase/app'
+import firebase, { firestore } from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/storage'
-import { firestore } from 'firebase'
 
 import { Settings } from '../settings/index'
 import { getDocumentId } from '../utils'
