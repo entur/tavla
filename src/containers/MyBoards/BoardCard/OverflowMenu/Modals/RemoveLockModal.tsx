@@ -59,7 +59,7 @@ const RemoveLockModal = ({ open, onDismiss, id, uid }: Props): JSX.Element => {
                         onClick={(): void => overflowRemoveLockedTavle(true)}
                         className="modal-submit"
                     >
-                        Ja, fjern tavla til min konto
+                        Ja, fjern tavla fra min konto
                     </PrimaryButton>
                 </GridItem>
                 <GridItem small={12}>
