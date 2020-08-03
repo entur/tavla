@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { firestore } from 'firebase'
 
 import { Contrast } from '@entur/layout'
@@ -31,11 +32,6 @@ const MyBoards = ({ history }: Props): JSX.Element => {
     const [boards, setBoards] = useState<DocumentData>()
     const user = useUser()
     const preview = ThemeDashbboardPreview(Theme.DEFAULT)
-
-    const onClickNew = useCallback(() => {
-        event.preventDefault()
-        history.push('/')
-    }, [history])
 
     useEffect(() => {
         if (user === null) {
@@ -90,32 +86,33 @@ const MyBoards = ({ history }: Props): JSX.Element => {
                             history={history}
                         />
                     ))}
-                    <div className="board-card">
-                        <div
-                            className="board-card__preview"
-                            style={{ position: 'relative' }}
-                            onClick={onClickNew}
-                        >
-                            <img
-                                src={preview['Chrono']}
-                                style={{ visibility: 'hidden' }}
-                            />
-                            <AddIcon
-                                size={'3rem'}
-                                className="board-card__preview__icon"
-                            />
+                    <Link to="/">
+                        <div className="board-card">
+                            <div
+                                className="board-card__preview"
+                                style={{ position: 'relative' }}
+                            >
+                                <img
+                                    src={preview['Chrono']}
+                                    style={{ visibility: 'hidden' }}
+                                />
+                                <AddIcon
+                                    size={'3rem'}
+                                    className="board-card__preview__icon"
+                                />
+                            </div>
+                            <div className="board-card__text-container">
+                                <span>
+                                    <Heading3
+                                        className="board-card__text-container__title"
+                                        margin="none"
+                                    >
+                                        Lag ny tavle
+                                    </Heading3>
+                                </span>
+                            </div>
                         </div>
-                        <div className="board-card__text-container">
-                            <span>
-                                <Heading3
-                                    className="board-card__text-container__title"
-                                    margin="none"
-                                >
-                                    Lag ny tavle
-                                </Heading3>
-                            </span>
-                        </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
         </Contrast>

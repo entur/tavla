@@ -1,7 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { NewIcon } from '@entur/icons'
-import './styles.scss'
+
 import { getDocumentId } from '../../../utils'
+
+import './styles.scss'
 
 const UpgradeTavlaBanner = (): JSX.Element => {
     const documentId = getDocumentId()
@@ -12,9 +15,9 @@ const UpgradeTavlaBanner = (): JSX.Element => {
             <NewIcon className="banner__icon" />
             <span>
                 <b>Vi pusser opp Tavla! </b>
-                <a href="/" className="banner__link">
+                <Link to="/" className="banner__link">
                     Lag din tavle på nytt
-                </a>{' '}
+                </Link>{' '}
                 for å få tilgang til de nye funksjonene.
             </span>
         </div>
