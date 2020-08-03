@@ -55,7 +55,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         [history, documentId],
     )
 
-    const lockingButton = settings.owners.length === 0 && documentId && (
+    const lockingButton = !settings.owners?.length && documentId && (
         <MenuButton
             title="Lås tavle"
             icon={<OpenedLockIcon size={21} />}
@@ -110,7 +110,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
-    const editButton = (settings.owners.length === 0 ||
+    const editButton = (!settings.owners?.length ||
         (user && settings.owners.includes(user.uid))) && (
         <MenuButton
             title="Rediger"
@@ -119,7 +119,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
-    const menuRef = useRef<HTMLDivElement>()
+    const menuRef = useRef<HTMLDivElement>(null)
 
     const [mobileWidth, setMobileWidth] = useState<boolean>(
         document.body.clientWidth <= 900,
@@ -128,10 +128,14 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     useEffect(() => {
         if (width > 900 && mobileWidth) {
             setMobileWidth(false)
-            menuRef.current.classList.remove('hidden-menu')
+            if (menuRef.current) {
+                menuRef.current.classList.remove('hidden-menu')
+            }
         } else if (width <= 900 && !mobileWidth) {
             setMobileWidth(true)
-            menuRef.current.classList.add('hidden-menu')
+            if (menuRef.current) {
+                menuRef.current.classList.add('hidden-menu')
+            }
         }
     }, [width, mobileWidth, setMobileWidth])
 
@@ -143,6 +147,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             const menu = menuRef.current
             if (isShow !== hideOnScroll) {
                 setHideOnScroll(isShow)
+                if (!menu) return
                 if (isShow) {
                     menu.classList.add('hidden-menu')
                 } else {
@@ -161,11 +166,11 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                 if (
                     document
                         .getElementById('app')
-                        .getAttribute('aria-hidden') == 'true'
+                        ?.getAttribute('aria-hidden') == 'true'
                 )
                     return
                 setIdle(true)
-                window.getSelection().removeAllRanges()
+                window.getSelection()?.removeAllRanges()
                 const focusElement = document.activeElement as HTMLElement
                 focusElement.blur()
                 document.body.style.cursor = 'none'
@@ -191,15 +196,19 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         const menu = menuRef.current
         window.addEventListener('focusin', removeTimeout)
         window.addEventListener('focusout', resetTimeout)
-        menu.addEventListener('mouseover', removeTimeout)
-        menu.addEventListener('mouseout', resetTimeout)
+        if (menu) {
+            menu.addEventListener('mouseover', removeTimeout)
+            menu.addEventListener('mouseout', resetTimeout)
+        }
 
         return (): void => {
             window.removeEventListener('mousemove', handledResetTimeout)
             window.removeEventListener('focusin', removeTimeout)
             window.removeEventListener('focusout', resetTimeout)
-            menu.removeEventListener('mouseover', removeTimeout)
-            menu.removeEventListener('mouseout', resetTimeout)
+            if (menu) {
+                menu.removeEventListener('mouseover', removeTimeout)
+                menu.removeEventListener('mouseout', resetTimeout)
+            }
             clearTimeout(timeout)
         }
     }, [idle, mobileWidth, setIdle])

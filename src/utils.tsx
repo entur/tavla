@@ -47,7 +47,8 @@ function isSubModeCarFerry(subMode?: string): boolean {
     return carFerryTypes.includes(subMode)
 }
 
-export function getIconColorType(theme: Theme): IconColorType {
+export function getIconColorType(theme: Theme | undefined): IconColorType {
+    if (!theme) return 'contrast'
     const defaultThemes = [Theme.LIGHT, Theme.GREY]
     if (defaultThemes.includes(theme)) {
         return 'default'
@@ -124,7 +125,7 @@ export function getTransportIconIdentifier(
 
 export function getIcon(
     legMode: LegMode,
-    iconColorType: IconColorType,
+    iconColorType?: IconColorType,
     subMode?: TransportSubmode,
     color?: string,
 ): JSX.Element | null {
@@ -328,7 +329,7 @@ export function useFormFields<T>(
 }
 
 export function usePrevious<T>(value: T): T {
-    const ref = useRef<T>()
+    const ref = useRef<T>(value)
 
     useEffect(() => {
         ref.current = value
@@ -342,6 +343,9 @@ export const useThemeColor = (
     fallback: string,
 ): string => {
     const [settings] = useSettingsContext()
+    if (!settings?.theme) {
+        return fallback
+    }
     return color[settings?.theme] || fallback
 }
 

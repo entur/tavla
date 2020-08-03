@@ -13,7 +13,8 @@ import { useToast } from '@entur/alert'
 import { getDocumentId } from '../../utils'
 
 export function LockedTavle({ history }: Props): JSX.Element {
-    const userLoggedin = !useUser().isAnonymous
+    const user = useUser()
+    const userLoggedin = Boolean(user && !user.isAnonymous)
     const documentId = getDocumentId()
     const { addToast } = useToast()
 

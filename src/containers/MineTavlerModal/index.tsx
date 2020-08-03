@@ -19,13 +19,13 @@ import './styles.scss'
 import CloseButton from '../../components/LoginModal/CloseButton/CloseButton'
 import { useHistory } from 'react-router'
 
-const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
+const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const history = useHistory()
     const user = useFirebaseAuthentication()
     const [settings, { setOwners }] = useSettingsContext()
 
     const isLocked =
-        user && !user.isAnonymous && settings.owners.length !== 0 && open
+        user && !user.isAnonymous && settings.owners?.length && open
 
     useEffect(() => {
         if (isLocked) {
@@ -57,7 +57,7 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
             lock &&
             user &&
             !user.isAnonymous &&
-            !settings.owners.includes(user.uid) &&
+            !settings.owners?.includes(user.uid) &&
             open
         ) {
             const newOwnersList = [...settings.owners, user.uid]
@@ -110,9 +110,9 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element => {
     )
 }
 
-export default MineTavlerModal
-
 interface Props {
     open: boolean
     onDismiss: () => void
 }
+
+export default MineTavlerModal
