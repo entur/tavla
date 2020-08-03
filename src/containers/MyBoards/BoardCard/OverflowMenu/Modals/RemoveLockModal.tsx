@@ -20,7 +20,6 @@ const RemoveLockModal = ({ open, onDismiss, id, uid }: Props): JSX.Element => {
     const overflowRemoveLockedTavle = useCallback(
         (remove: boolean) => {
             if (remove) {
-                event.preventDefault()
                 removeFromOwners(id, uid)
                 addToast({
                     title: 'Tavla ble fjernet fra din konto.',

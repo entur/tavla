@@ -26,7 +26,7 @@ function MenuButton({ title, icon, callback, tooltip }: Props): JSX.Element {
 interface Props {
     title: string
     icon: JSX.Element
-    callback?: (event: React.SyntheticEvent<HTMLButtonElement>) => void
+    callback?: (event: React.MouseEvent<HTMLButtonElement>) => void
     tooltip?: React.ReactNode
 }
 

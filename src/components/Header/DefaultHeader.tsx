@@ -16,12 +16,16 @@ export function DefaultHeader(): JSX.Element {
     const userLoggedIn = user && !user.isAnonymous
     const { addToast } = useToast()
 
-    const login = (): void => {
+    const login = (
+        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    ): void => {
         event.preventDefault()
         setDisplayLoginModal(true)
     }
 
-    const logout = (): void => {
+    const logout = (
+        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    ): void => {
         event.preventDefault()
         firebase.auth().signOut()
         setDisplayLoginModal(false)

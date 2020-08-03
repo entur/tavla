@@ -43,7 +43,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const { documentId } = useParams()
 
     const onSettingsButtonClick = useCallback(
-        (event) => {
+        (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             if (documentId) {
                 history.push(`/admin/${documentId}`)
             } else {

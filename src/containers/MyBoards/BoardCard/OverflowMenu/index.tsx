@@ -24,7 +24,6 @@ function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
         false,
     )
     const overflowRedigerTavle = useCallback(() => {
-        event.preventDefault()
         history.push(`/admin/${id}`)
     }, [id, history])
 

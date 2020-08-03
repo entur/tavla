@@ -28,7 +28,7 @@ function sortBoard(boards: BoardProps[]): BoardProps[] {
     })
 }
 
-const MyBoards = ({ history }: Props): JSX.Element => {
+const MyBoards = ({ history }: Props): JSX.Element | null => {
     const [boards, setBoards] = useState<DocumentData>()
     const user = useUser()
     const preview = ThemeDashbboardPreview(Theme.DEFAULT)

@@ -15,10 +15,15 @@ function RadioCard({
     callback,
     className,
 }: Props): JSX.Element {
-    const sendChoice = useCallback(() => {
-        event.preventDefault()
-        callback(cardValue)
-    }, [cardValue, callback])
+    const sendChoice = useCallback(
+        (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            event.preventDefault()
+            if (callback) {
+                callback(cardValue)
+            }
+        },
+        [cardValue, callback],
+    )
 
     return (
         <div

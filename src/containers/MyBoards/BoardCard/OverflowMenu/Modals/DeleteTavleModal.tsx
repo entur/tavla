@@ -20,7 +20,6 @@ const DeleteTavleModal = ({ open, onDismiss, id }: Props): JSX.Element => {
     const overflowDeleteTavle = useCallback(
         (remove: boolean) => {
             if (remove) {
-                event.preventDefault()
                 deleteTavle(id)
                 addToast({
                     title: 'Avgangstavla ble slettet.',

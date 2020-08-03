@@ -19,11 +19,11 @@ export function LockedTavle({ history }: Props): JSX.Element {
 
     const [displayLogin, setDisplayLogin] = useState<boolean>(false)
     const callback = !userLoggedin
-        ? (event: React.FormEvent): void => {
+        ? (event: React.SyntheticEvent<HTMLButtonElement>): void => {
               event.preventDefault()
               setDisplayLogin(true)
           }
-        : (): void => {
+        : (event: React.SyntheticEvent<HTMLButtonElement>): void => {
               event.preventDefault()
               addToast({
                   title: 'Logget ut',
@@ -64,7 +64,7 @@ export function LockedTavle({ history }: Props): JSX.Element {
 }
 
 export function PageDoesNotExist({ history }: Props): JSX.Element {
-    const callback = (event: React.FormEvent): void => {
+    const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
         event.preventDefault()
         history.push(`/`)
     }
@@ -94,7 +94,7 @@ export function NoStopsOnTavle(): JSX.Element {
 }
 
 export function NoTavlerAvailable({ history }: Props): JSX.Element {
-    const callback = (event: React.FormEvent): void => {
+    const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
         event.preventDefault()
         history.push(`/`)
     }
@@ -113,7 +113,7 @@ export function NoTavlerAvailable({ history }: Props): JSX.Element {
 
 export function NoAccessToTavler(): JSX.Element {
     const [displayLogin, setDisplayLogin] = useState<boolean>(false)
-    const callback = (event: React.FormEvent): void => {
+    const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
         event.preventDefault()
         setDisplayLogin(true)
     }
