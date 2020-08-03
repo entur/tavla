@@ -46,7 +46,7 @@ function Clock({ className }: Props): JSX.Element {
         <div className={`clock ${className}`}>
             <Heading2
                 margin="none"
-                className={`clock__time ${className}_time`}
+                className={`clock__time ${className}__time`}
                 as="span"
             >
                 {time}
