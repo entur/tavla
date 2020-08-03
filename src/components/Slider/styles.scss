@@ -7,8 +7,14 @@
     cursor: pointer;
     background: var(--tavla-slider-color);
     border: none;
-    background-image: -webkit-gradient(linear, left top, right top, color-stop(var(--slider-progress), var(--tavla-slider-fill-color)),
-                                       color-stop(var(--slider-progress), var(--tavla-slider-color)));
+    background-image:
+        -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(var(--slider-progress), var(--tavla-slider-fill-color)),
+            color-stop(var(--slider-progress), var(--tavla-slider-color))
+        );
 }
 
 @mixin reset-thumb {
@@ -17,7 +23,7 @@
     width: 1.25rem;
     border-radius: 100%;
     background: var(--tavla-slider-thumb-color);
-    box-shadow: 0px 0.125rem 0.25rem 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.125rem 0.25rem 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
 
@@ -44,13 +50,13 @@
 
     &::-webkit-slider-thumb {
         @include reset-thumb();
+
         -webkit-appearance: none;
         margin-top: -0.6em;
     }
 
     &::-moz-range-thumb {
         @include reset-thumb();
-
     }
 
     &::-ms-thumb {
@@ -63,7 +69,6 @@
 
     &::-moz-range-track {
         @include reset-track();
-
     }
 
     &::-ms-track {

@@ -1,7 +1,7 @@
 .admin__floating-buttons {
     display: flex;
     flex-direction: column;
-    
+
     .eds-button {
         width: 100%;
         border: 2px solid var(--floating-button-background);
@@ -24,7 +24,7 @@
     @media (min-width: 600px) {
         position: fixed;
         bottom: 2rem;
-        right: 2rem;   
+        right: 2rem;
         flex-direction: row;
 
         .eds-button {

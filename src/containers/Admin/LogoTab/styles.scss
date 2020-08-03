@@ -13,6 +13,7 @@
     .eds-form-control-wrapper {
         --border-color: var(--tavla-input-border-color);
         --border-color-hover: var(--tavla-input-border-hover-color);
+
         background-color: var(--tavla-input-background-color);
 
         input::placeholder {
@@ -20,9 +21,7 @@
         }
     }
 
-    .eds-form-component--radio__container
-        .eds-form-component--radio__radio
-        .eds-form-component--radio__circle {
+    .eds-form-component--radio__container .eds-form-component--radio__radio .eds-form-component--radio__circle {
         background-color: var(--tavla-checkbox-color);
     }
 
@@ -30,16 +29,12 @@
         border-color: var(--tavla-checkbox-color);
         background-color: transparent;
     }
-    .eds-form-component--radio__container
-        :hover
-        ~ .eds-form-component--radio__radio {
+
+    .eds-form-component--radio__container :hover ~ .eds-form-component--radio__radio {
         border-color: var(--tavla-checkbox-hover-color);
     }
 
-    .eds-form-component--radio__container
-        :hover
-        ~ .eds-form-component--radio__radio
-        .eds-form-component--radio__circle {
+    .eds-form-component--radio__container :hover ~ .eds-form-component--radio__radio .eds-form-component--radio__circle {
         background-color: var(--tavla-checkbox-hover-color);
     }
 
@@ -55,11 +50,12 @@
     .eds-link:link,
     .eds-link:visited {
         color: var(--tavla-font-color);
-        background-image: linear-gradient(
-            120deg,
-            var(--tavla-font-color) 0%,
-            var(--tavla-font-color) 100%
-        );
+        background-image:
+            linear-gradient(
+                120deg,
+                var(--tavla-font-color) 0%,
+                var(--tavla-font-color) 100%
+            );
     }
 }
 
