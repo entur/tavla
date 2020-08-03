@@ -18,7 +18,6 @@ const DashboardPickerTab = (): JSX.Element => {
 
     const updateChoice = useCallback(
         (value: string) => {
-            event.preventDefault()
             if (value != radioValue) {
                 setRadioValue(value)
                 setDashboard(value)

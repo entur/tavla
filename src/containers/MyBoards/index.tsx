@@ -27,15 +27,18 @@ function sortBoard(boards: BoardProps[]): BoardProps[] {
     })
 }
 
-const MyBoards = ({ history }: Props): JSX.Element => {
+const MyBoards = ({ history }: Props): JSX.Element | null => {
     const [boards, setBoards] = useState<DocumentData>()
     const user = useUser()
     const preview = ThemeDashbboardPreview(Theme.DEFAULT)
 
-    const onClickNew = useCallback(() => {
-        event.preventDefault()
-        history.push('/')
-    }, [history])
+    const onClickNew = useCallback(
+        (event: React.MouseEvent<HTMLDivElement>) => {
+            event.preventDefault()
+            history.push('/')
+        },
+        [history],
+    )
 
     useEffect(() => {
         if (user === null) {

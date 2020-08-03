@@ -59,20 +59,26 @@ function BoardCard({
         setBoardTitle(settings.boardName)
     }, [settings.boardName])
 
-    const onClickPreview = useCallback(() => {
-        event.preventDefault()
-        history.push(`/t/${id}`)
-    }, [id, history])
+    const onClickPreview = useCallback(
+        (event: React.MouseEvent<HTMLDivElement>) => {
+            event.preventDefault()
+            history.push(`/t/${id}`)
+        },
+        [id, history],
+    )
 
     const onClickTitle = useCallback(() => {
-        event.preventDefault()
         setTitleEditMode(true)
     }, [setTitleEditMode])
 
     const onChangeTitle = useCallback(
-        (e) => {
+        (
+            event:
+                | React.FocusEvent<HTMLInputElement>
+                | React.KeyboardEvent<HTMLInputElement>,
+        ) => {
             event.preventDefault()
-            const newTitle = e.target.value
+            const newTitle = event.currentTarget.value
             setTitleEditMode(false)
             if (newTitle == settings.boardName) return
 
@@ -99,7 +105,7 @@ function BoardCard({
             autoFocus={true}
             onBlur={onChangeTitle}
             onKeyUp={(e): void => {
-                e.preventDefault
+                e.preventDefault()
                 if (e.keyCode == 13) onChangeTitle(e)
             }}
         />
