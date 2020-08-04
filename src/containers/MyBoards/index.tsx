@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { firestore } from 'firebase'
+import { firestore } from 'firebase/app'
 
 import { Contrast } from '@entur/layout'
 import { Heading2, Heading3 } from '@entur/typography'

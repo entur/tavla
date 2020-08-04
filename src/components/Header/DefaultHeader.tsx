@@ -8,7 +8,7 @@ import { TavlaLogo, Github } from '../../assets/icons'
 import LoginModal from '../LoginModal'
 
 import { useUser } from '../../auth'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 
 export function DefaultHeader(): JSX.Element {
     const [displayLoginModal, setDisplayLoginModal] = useState<boolean>(false)

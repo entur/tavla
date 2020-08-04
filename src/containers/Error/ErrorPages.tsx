@@ -8,7 +8,7 @@ import duerLight from './../../assets/images/duer@2x.png'
 import sauerLight from './../../assets/images/sauer_lag@2x.png'
 
 import { useUser } from '../../auth'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import { useToast } from '@entur/alert'
 import { getDocumentId } from '../../utils'
 
