@@ -8,6 +8,9 @@ import { useLocationPermission } from '../../../hooks'
 import './styles.scss'
 
 const YOUR_POSITION = 'Posisjonen din'
+enum CountyID {
+    Trøndelag = 'KVE:TopographicPlace:50',
+}
 
 interface Item {
     value: string
@@ -139,7 +142,9 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
             return defaultSuggestions
         }
 
-        const featuresData = await service.getFeatures(query)
+        const featuresData = await service.getFeatures(query, undefined, {
+            'boundary.county_ids': CountyID.Trøndelag,
+        })
         const suggestedFeatures = mapFeaturesToItems(featuresData)
         return [...defaultSuggestions, ...suggestedFeatures]
     }
