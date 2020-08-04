@@ -13,7 +13,9 @@ import TimelineGrey from '../../assets/previews/previewGrey/Tidslinje-grey.svg'
 
 import { Theme } from '../../types'
 
-export function ThemeDashbboardPreview(theme: Theme): any {
+export function ThemeDashbboardPreview(
+    theme: Theme | undefined,
+): { [key: string]: any } {
     switch (theme) {
         case Theme.DARK:
             return {

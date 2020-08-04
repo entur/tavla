@@ -88,7 +88,7 @@ export const uploadLogo = async (
     onFinished: (url: string) => void,
     onError: () => void,
 ): Promise<void> => {
-    const token = await firebase.auth().currentUser.getIdToken()
+    const token = await firebase.auth().currentUser?.getIdToken()
 
     const getImageUploadToken = firebase
         .functions()
