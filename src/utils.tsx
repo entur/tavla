@@ -13,7 +13,7 @@ import {
     TrainIcon,
     TramIcon,
     PlaneIcon,
-    CarFerryIcon,
+    CarferryIcon,
 } from '@entur/icons'
 
 import { colors } from '@entur/tokens'
@@ -138,7 +138,7 @@ export function getIcon(
         case 'bicycle':
             return <BicycleIcon color={colorToUse} />
         case 'carferry':
-            return <CarFerryIcon color={colorToUse} />
+            return <CarferryIcon color={colorToUse} />
         case 'ferry':
             return <FerryIcon color={colorToUse} />
         case 'subway':
