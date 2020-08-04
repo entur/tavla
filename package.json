@@ -10,7 +10,7 @@
     "scripts": {
         "test": "tsc --noEmit",
         "eslint": "eslint src --ext 'js,jsx,ts,tsx'",
-        "stylelint": "stylelint src/**/*.scss",
+        "stylelint": "stylelint \"src/**/*.scss\"",
         "lint": "npm run eslint && npm run stylelint",
         "start": "webpack-dev-server",
         "clean": "rm -rf dist/",

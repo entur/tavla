@@ -12,11 +12,6 @@
         align-items: center;
     }
 
-    &__header,
-    &__row:not(:last-child) {
-        border-bottom: 0.125rem solid var(--tavla-border-color);
-    }
-
     &__row {
         display: flex;
         flex-direction: row;
@@ -102,5 +97,10 @@
                 margin-right: 0.5rem;
             }
         }
+    }
+
+    &__header,
+    &__row:not(:last-child) {
+        border-bottom: 0.125rem solid var(--tavla-border-color);
     }
 }
