@@ -10,14 +10,14 @@ function PrivateRoute({
     exact,
     component,
     errorComponent,
-}: Props): JSX.Element {
+}: Props): JSX.Element | null {
     const [settings] = useSettingsContext()
     const user = useUser()
 
+    if (!component || !settings || !user) return null
+
     if (!getDocumentId())
         return <Route path={path} exact={exact} component={component} />
-
-    if (!settings || !user) return null
 
     const permitted =
         !settings.owners ||
@@ -32,7 +32,7 @@ function PrivateRoute({
 }
 
 interface Props {
-    component: ({ history }: HistoryProps) => JSX.Element
+    component: (({ history }: HistoryProps) => JSX.Element) | null
     errorComponent: ({ history }: HistoryProps) => JSX.Element
     path: string
     exact: boolean

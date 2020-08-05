@@ -3,7 +3,7 @@ import { LegMode, TransportSubmode, StopPlace } from '@entur/sdk'
 export interface LineData {
     id: string
     type: LegMode
-    subType: TransportSubmode
+    subType?: TransportSubmode
     time: string
     route: string
     expectedDepartureTime: string

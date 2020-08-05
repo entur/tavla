@@ -4,7 +4,7 @@ import { MAX_DISTANCE } from '../../constants'
 import './styles.scss'
 
 function Slider(props: Props): JSX.Element {
-    const sliderRef = useRef<HTMLDivElement>()
+    const sliderRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         if (sliderRef.current) {

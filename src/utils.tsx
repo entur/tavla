@@ -188,7 +188,9 @@ export function timeUntil(time: string): number {
     return differenceInSeconds(parseISO(time), new Date())
 }
 
-export function transformDepartureToLineData(departure: Departure): LineData {
+export function transformDepartureToLineData(
+    departure: Departure,
+): LineData | null {
     const {
         date,
         expectedDepartureTime,
@@ -198,7 +200,9 @@ export function transformDepartureToLineData(departure: Departure): LineData {
         cancellation,
     } = departure
 
-    const { line } = serviceJourney.journeyPattern
+    const { line } = serviceJourney.journeyPattern || {}
+
+    if (!line) return null
 
     const departureTime = parseISO(expectedDepartureTime)
     const minDiff = differenceInMinutes(departureTime, new Date())
@@ -209,7 +213,7 @@ export function transformDepartureToLineData(departure: Departure): LineData {
 
     const transportMode =
         line.transportMode === 'coach' ? 'bus' : line.transportMode
-    const subType = departure.serviceJourney.transportSubmode
+    const subType = departure.serviceJourney?.transportSubmode
 
     return {
         id: `${date}::${departure.serviceJourney.id}`,
@@ -349,6 +353,6 @@ export const useThemeColor = (
     return color[settings?.theme] || fallback
 }
 
-export function isDarkOrDefaultTheme(theme: Theme): boolean {
-    return theme === Theme.DARK || theme === Theme.DEFAULT
+export function isDarkOrDefaultTheme(theme?: Theme): boolean {
+    return !theme || theme === Theme.DARK || theme === Theme.DEFAULT
 }

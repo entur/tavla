@@ -7,7 +7,9 @@ import { useSettingsContext } from '../../../../settings'
 import './styles.scss'
 
 const SizePicker = (): JSX.Element => {
-    const [{ logoSize }, { setLogoSize }] = useSettingsContext()
+    const [settings, { setLogoSize }] = useSettingsContext()
+
+    const { logoSize = '32px' } = settings || {}
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
         setLogoSize(event.target.value)

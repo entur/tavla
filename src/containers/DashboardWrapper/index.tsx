@@ -40,7 +40,7 @@ function DashboardWrapper(props: Props): JSX.Element {
         (!stopPlacesWithDepartures || !stopPlacesWithDepartures.length) &&
         (!bikeRentalStations || !bikeRentalStations.length)
 
-    const renderContents = (): JSX.Element | JSX.Element[] => {
+    const renderContents = (): JSX.Element | JSX.Element[] | null => {
         if (!noData && !initialLoading) {
             return children
         }
@@ -56,7 +56,9 @@ function DashboardWrapper(props: Props): JSX.Element {
         return <NoStopsOnTavle />
     }
 
-    const [{ logo, theme }] = useSettingsContext()
+    const [settings] = useSettingsContext()
+
+    const { logo, theme } = settings || {}
 
     const getEnturLogo = (): JSX.Element => {
         const logoColor = isDarkOrDefaultTheme(theme) ? 'white' : 'black'

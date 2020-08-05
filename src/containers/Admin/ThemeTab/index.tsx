@@ -13,7 +13,7 @@ import './styles.scss'
 import { getDocumentId } from '../../../utils'
 
 const ThemeTab = (): JSX.Element => {
-    const [radioValue, setRadioValue] = useState<Theme>(null)
+    const [radioValue, setRadioValue] = useState<Theme | null>(null)
     const [settings, { setTheme }] = useSettingsContext()
     const documentId = getDocumentId()
 

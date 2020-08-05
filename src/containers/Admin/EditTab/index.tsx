@@ -9,7 +9,11 @@ import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
 
 import { useSettingsContext, Mode } from '../../../settings'
-import { useDebounce, toggleValueInList } from '../../../utils'
+import {
+    useDebounce,
+    toggleValueInList,
+    isNotNullOrUndefined,
+} from '../../../utils'
 import { DEFAULT_DISTANCE } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces } from '../../../logic'
@@ -23,24 +27,24 @@ import { Switch } from '@entur/form'
 
 const EditTab = (): JSX.Element => {
     const [settings, settingsSetters] = useSettingsContext()
-    const { newStops, newStations, hiddenModes } = settings
+    const { newStops, newStations, hiddenModes } = settings || {}
     const { setNewStops, setNewStations, setHiddenModes } = settingsSetters
     const [distance, setDistance] = useState<number>(
-        settings.distance || DEFAULT_DISTANCE,
+        settings?.distance || DEFAULT_DISTANCE,
     )
     const debouncedDistance = useDebounce(distance, 800)
 
     useEffect(() => {
-        if (settings.distance != debouncedDistance) {
+        if (settings?.distance !== debouncedDistance) {
             settingsSetters.setDistance(debouncedDistance)
         }
-    }, [debouncedDistance, settingsSetters, settings.distance])
+    }, [debouncedDistance, settingsSetters, settings])
 
     const [stopPlaces, setStopPlaces] = useState<StopPlaceWithLines[]>([])
     const [stations, setStations] = useState<BikeRentalStation[]>([])
 
     const nearestPlaces = useNearestPlaces(
-        settings.coordinates,
+        settings?.coordinates,
         debouncedDistance,
     )
 
@@ -87,10 +91,11 @@ const EditTab = (): JSX.Element => {
         service.getBikeRentalStations(ids).then((freshStations) => {
             if (ignoreResponse) return
 
-            const sortedStations = freshStations.sort(
-                (a: BikeRentalStation, b: BikeRentalStation) =>
+            const sortedStations = freshStations
+                .filter(isNotNullOrUndefined)
+                .sort((a: BikeRentalStation, b: BikeRentalStation) =>
                     a.name.localeCompare(b.name, 'no'),
-            )
+                )
             setStations(sortedStations)
         })
 
@@ -121,7 +126,7 @@ const EditTab = (): JSX.Element => {
 
     const toggleMode = useCallback(
         (mode: Mode) => {
-            setHiddenModes(toggleValueInList(hiddenModes, mode))
+            setHiddenModes(toggleValueInList(hiddenModes || [], mode))
         },
         [setHiddenModes, hiddenModes],
     )
@@ -135,7 +140,7 @@ const EditTab = (): JSX.Element => {
                         <Heading2>Kollektiv</Heading2>
                         <Switch
                             onChange={(): void => toggleMode('kollektiv')}
-                            checked={!hiddenModes.includes('kollektiv')}
+                            checked={!hiddenModes?.includes('kollektiv')}
                             size="large"
                         />
                     </div>
@@ -154,12 +159,12 @@ const EditTab = (): JSX.Element => {
                         <Heading2>Bysykkel</Heading2>
                         <Switch
                             onChange={(): void => toggleMode('bysykkel')}
-                            checked={!hiddenModes.includes('bysykkel')}
+                            checked={!hiddenModes?.includes('bysykkel')}
                             size="large"
                         />
                     </div>
                     <BikePanelSearch
-                        position={settings.coordinates}
+                        position={settings?.coordinates}
                         onSelected={addNewStation}
                     />
                     <BikePanel stations={stations} />

@@ -6,7 +6,7 @@ import { getDocumentId } from '../../../utils'
 
 import './styles.scss'
 
-const UpgradeTavlaBanner = (): JSX.Element => {
+const UpgradeTavlaBanner = (): JSX.Element | null => {
     const documentId = getDocumentId()
 
     if (documentId) return null

@@ -13,7 +13,7 @@ const DashboardPickerTab = (): JSX.Element => {
     const dashboardImages = ThemeDashbboardPreview(settings?.theme)
 
     const [radioValue, setRadioValue] = useState<string>(
-        settings.dashboard || 'Compact',
+        settings?.dashboard || 'Compact',
     )
 
     const updateChoice = useCallback(

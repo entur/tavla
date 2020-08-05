@@ -23,9 +23,11 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
     const [stations, setStations] = useState<BikeRentalStation[]>([])
 
     useEffect(() => {
-        service
-            .getBikeRentalStationsByPosition(position, 100000)
-            .then(setStations)
+        if (position) {
+            service
+                .getBikeRentalStationsByPosition(position, 100000)
+                .then(setStations)
+        }
     }, [position])
 
     const getItems = (query: string): Item[] => {
@@ -63,7 +65,7 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
 
 interface Props {
     onSelected: (stationId: string) => void
-    position: Coordinates
+    position: Coordinates | undefined
 }
 
 export default BikePanelSearch

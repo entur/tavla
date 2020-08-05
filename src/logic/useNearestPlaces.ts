@@ -4,12 +4,13 @@ import { NearestPlace, Coordinates } from '@entur/sdk'
 import service from '../service'
 
 export default function useNearestPlaces(
-    position: Coordinates,
-    distance: number,
+    position: Coordinates | undefined,
+    distance: number | undefined,
 ): NearestPlace[] {
     const [nearestPlaces, setNearestPlaces] = useState<NearestPlace[]>([])
 
     useEffect(() => {
+        if (!position || !distance) return
         let ignoreResponse = false
 
         service

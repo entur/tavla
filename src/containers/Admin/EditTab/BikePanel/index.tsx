@@ -10,7 +10,7 @@ import { Paragraph } from '@entur/typography'
 
 function BikePanel(props: Props): JSX.Element {
     const [settings, { setHiddenStations }] = useSettingsContext()
-    const { hiddenStations } = settings
+    const { hiddenStations = [] } = settings || {}
 
     const { stations } = props
 

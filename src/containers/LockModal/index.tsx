@@ -21,7 +21,7 @@ interface Props {
     onDismiss: () => void
 }
 
-const LockModal = ({ open, onDismiss }: Props): JSX.Element => {
+const LockModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const user = useFirebaseAuthentication()
 
     const [settings, { setOwners }] = useSettingsContext()
@@ -30,13 +30,14 @@ const LockModal = ({ open, onDismiss }: Props): JSX.Element => {
         if (
             user &&
             !user.isAnonymous &&
+            settings?.owners &&
             !settings.owners.includes(user.uid) &&
             open
         ) {
-            const newOwnersList = [...settings.owners, user.uid]
+            const newOwnersList = [...(settings?.owners || []), user.uid]
             setOwners(newOwnersList)
         }
-    }, [settings.owners, user, setOwners, open])
+    }, [settings, user, setOwners, open])
 
     if (user === undefined) {
         return null

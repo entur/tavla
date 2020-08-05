@@ -69,8 +69,8 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         }
     }, [user, tabIndex, setTabIndex])
 
-    const handleDismiss = (newUser: User): void => {
-        if (!(newUser && !newUser.isAnonymous)) {
+    const handleDismiss = (newUser: User | undefined): void => {
+        if (!newUser || newUser.isAnonymous) {
             setOpen(false)
             setTabIndex(0)
         }
