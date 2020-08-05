@@ -44,7 +44,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const routes = Object.keys(groupedDepartures)
     const [settings] = useSettingsContext()
     const [iconColorType, setIconColorType] = useState<IconColorType>(
-        'contrast',
+        IconColorType.CONTRAST,
     )
 
     useEffect(() => {

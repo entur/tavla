@@ -133,7 +133,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const [settings] = useSettingsContext()
     const [iconColorType, setIconColorType] = useState<IconColorType>(
-        'contrast',
+        IconColorType.CONTRAST,
     )
 
     useEffect(() => {
