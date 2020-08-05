@@ -41,7 +41,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const headerIcons = getTransportHeaderIcons(departures)
     const [settings] = useSettingsContext()
     const [iconColorType, setIconColorType] = useState<IconColorType>(
-        'contrast',
+        IconColorType.CONTRAST,
     )
 
     useEffect(() => {

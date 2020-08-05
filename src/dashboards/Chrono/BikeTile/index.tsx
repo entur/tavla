@@ -14,7 +14,7 @@ import { getIconColorType } from '../../../utils'
 const BikeTile = ({ stations }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
     const [iconColorType, setIconColorType] = useState<IconColorType>(
-        'contrast',
+        IconColorType.CONTRAST,
     )
 
     useEffect(() => {

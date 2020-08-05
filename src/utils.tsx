@@ -48,12 +48,12 @@ function isSubModeCarFerry(subMode?: string): boolean {
 }
 
 export function getIconColorType(theme: Theme | undefined): IconColorType {
-    if (!theme) return 'contrast'
+    if (!theme) return IconColorType.CONTRAST
     const defaultThemes = [Theme.LIGHT, Theme.GREY]
     if (defaultThemes.includes(theme)) {
-        return 'default'
+        return IconColorType.DEFAULT
     }
-    return 'contrast'
+    return IconColorType.CONTRAST
 }
 
 export function getIconColor(
@@ -61,9 +61,9 @@ export function getIconColor(
     iconColorType: IconColorType,
     subType?: TransportSubmode,
 ): string {
-    if (isSubModeAirportLink(subType))
+    if (isSubModeAirportLink(subType)) {
         return colors.transport[iconColorType].plane
-
+    }
     switch (type) {
         case 'bus':
             return colors.transport[iconColorType].bus
@@ -125,7 +125,7 @@ export function getTransportIconIdentifier(
 
 export function getIcon(
     legMode: LegMode,
-    iconColorType?: IconColorType,
+    iconColorType: IconColorType = IconColorType.CONTRAST,
     subMode?: TransportSubmode,
     color?: string,
 ): JSX.Element | null {
