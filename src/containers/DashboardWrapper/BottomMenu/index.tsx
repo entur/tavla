@@ -55,7 +55,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         [history, documentId],
     )
 
-    const lockingButton = !settings.owners?.length && documentId && (
+    const lockingButton = settings && !settings.owners?.length && documentId && (
         <MenuButton
             title="Lås tavle"
             icon={<OpenedLockIcon size={21} />}
@@ -110,8 +110,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
-    const editButton = (!settings.owners?.length ||
-        (user && settings.owners.includes(user.uid))) && (
+    const editButton = (!settings?.owners?.length ||
+        (user && settings.owners?.includes(user.uid))) && (
         <MenuButton
             title="Rediger"
             icon={<ConfigurationIcon size={21} />}

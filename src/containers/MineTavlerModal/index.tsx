@@ -25,7 +25,7 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const [settings, { setOwners }] = useSettingsContext()
 
     const isLocked =
-        user && !user.isAnonymous && settings.owners?.length && open
+        user && !user.isAnonymous && settings?.owners?.length && open
 
     useEffect(() => {
         if (isLocked) {
@@ -57,6 +57,7 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
             lock &&
             user &&
             !user.isAnonymous &&
+            settings &&
             !settings.owners?.includes(user.uid) &&
             open
         ) {

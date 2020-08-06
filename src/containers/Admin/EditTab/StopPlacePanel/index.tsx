@@ -4,8 +4,8 @@ import { Checkbox } from '@entur/form'
 import { LegMode } from '@entur/sdk'
 import { Paragraph } from '@entur/typography'
 
-import { toggleValueInList } from '../../../../utils'
-import { StopPlaceWithLines, Theme } from '../../../../types'
+import { toggleValueInList, isDarkOrDefaultTheme } from '../../../../utils'
+import { StopPlaceWithLines } from '../../../../types'
 import { useSettingsContext } from '../../../../settings'
 
 import ThemeContrastWrapper from '../../../ThemeWrapper/ThemeContrastWrapper'
@@ -19,7 +19,8 @@ function StopPlacePanel(props: Props): JSX.Element {
         { setHiddenStops, setHiddenRoutes, setHiddenStopModes },
     ] = useSettingsContext()
 
-    const { hiddenStopModes, hiddenStops, hiddenRoutes } = settings
+    const { hiddenStopModes = {}, hiddenStops = [], hiddenRoutes = {} } =
+        settings || {}
 
     const { stops } = props
 
@@ -80,7 +81,7 @@ function StopPlacePanel(props: Props): JSX.Element {
         )
     }
 
-    const useContrast = [Theme.DEFAULT, Theme.DARK].includes(settings?.theme)
+    const useContrast = isDarkOrDefaultTheme(settings?.theme)
 
     return (
         <ThemeContrastWrapper useContrast={useContrast}>
@@ -100,16 +101,18 @@ function StopPlacePanel(props: Props): JSX.Element {
                         </Checkbox>
                     </div>
                 </div>
-                {filteredStopPlaces.map((stopPlace) => (
-                    <PanelRow
-                        onToggleMode={onToggleMode}
-                        onToggleRoute={onToggleRoute}
-                        onToggleStop={onToggleStop}
-                        stopPlace={stopPlace}
-                        settings={settings}
-                        key={stopPlace.id}
-                    />
-                ))}
+                {settings
+                    ? filteredStopPlaces.map((stopPlace) => (
+                          <PanelRow
+                              onToggleMode={onToggleMode}
+                              onToggleRoute={onToggleRoute}
+                              onToggleStop={onToggleStop}
+                              stopPlace={stopPlace}
+                              settings={settings}
+                              key={stopPlace.id}
+                          />
+                      ))
+                    : null}
             </div>
         </ThemeContrastWrapper>
     )

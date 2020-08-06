@@ -80,7 +80,7 @@ const LoginModal = ({ open, onDismiss, loginCase }: Props): JSX.Element => {
     const prevIsLoggedIn = usePrevious(isLoggedIn)
 
     useEffect(() => {
-        if (isLoggedIn && !prevIsLoggedIn && open) {
+        if (user && isLoggedIn && !prevIsLoggedIn && open) {
             setModalType('LoginOptionsModal')
             addToast({
                 title: 'Logget inn',

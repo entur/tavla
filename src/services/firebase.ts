@@ -4,6 +4,7 @@ import 'firebase/storage'
 
 import { Settings } from '../settings/index'
 import { getDocumentId } from '../utils'
+import { FieldTypes } from '../settings/FirestoreStorage'
 
 const SETTINGS_COLLECTION = 'settings'
 
@@ -31,12 +32,7 @@ export const getBoardsOnSnapshot = (
 export const updateSettingField = async (
     docId: string,
     fieldId: string,
-    fieldValue:
-        | string
-        | number
-        | string[]
-        | firebase.firestore.GeoPoint
-        | { [key: string]: string[] },
+    fieldValue: FieldTypes,
 ): Promise<void> => {
     return firebase
         .firestore()

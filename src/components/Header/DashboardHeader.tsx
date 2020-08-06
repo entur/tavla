@@ -7,7 +7,7 @@ import Clock from '../Clock'
 import { TavlaLogo } from '../../assets/icons'
 import UpgradeTavlaBanner from '../../containers/DashboardWrapper/UpgradeTavlaBanner'
 
-export function DashboardHeader(): JSX.Element {
+export function DashboardHeader(): JSX.Element | null {
     const settings = useSettings()[0]
     if (!settings) return null
     const { logo, logoSize, description } = settings

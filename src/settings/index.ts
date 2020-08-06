@@ -57,7 +57,7 @@ interface SettingsSetters {
     setDashboard: (dashboard: string) => void
     setOwners: (owners: string[]) => void
     setTheme: (theme: Theme) => void
-    setLogo: (url: string) => void
+    setLogo: (url: string | null) => void
     setLogoSize: (size: string) => void
     setDescription: (description: string) => void
 }
@@ -85,12 +85,20 @@ export const SettingsContext = createContext<
     },
 ])
 
-export function useSettingsContext(): [Settings, SettingsSetters] {
+export function useSettingsContext(): [Settings | null, SettingsSetters] {
     return useContext(SettingsContext)
 }
 
-export function useSettings(): [Settings, SettingsSetters] {
-    const [settings, setSettings] = useState<Settings>()
+const DEFAULT_SETTINGS: Partial<Settings> = {
+    description: '',
+    logoSize: '32px',
+    theme: Theme.DEFAULT,
+    owners: [] as string[],
+    hiddenStopModes: {},
+}
+
+export function useSettings(): [Settings | null, SettingsSetters] {
+    const [settings, setSettings] = useState<Settings | null>(null)
 
     const location = useLocation()
     const user = useFirebaseAuthentication()
@@ -109,51 +117,37 @@ export function useSettings(): [Settings, SettingsSetters] {
 
         const id = getDocumentId()
 
-        const defaultSettings = {
-            description: '',
-            logoSize: '32px',
-            theme: Theme.DEFAULT,
-            owners: [] as string[],
-            hiddenStopModes: {},
-        }
-
         if (id) {
             return getSettings(id).onSnapshot((document) => {
-                if (document.exists) {
-                    const data = document.data()
-
-                    const settingsWithDefaults = {
-                        ...defaultSettings,
-                        ...data,
-                    }
-
-                    // The fields under are added if missing, and if the tavle is not locked.
-                    // If a tavle is locked by a user, you are not allowed to write to
-                    // tavle unless you are logged in as the user who locked tavla, so we need
-                    // to check if you have edit access.
-                    const editAccess =
-                        data.owners === undefined ||
-                        data.owners.length === 0 ||
-                        data.owners.includes(user?.uid)
-
-                    if (editAccess) {
-                        Object.entries(defaultSettings).forEach(
-                            ([key, value]) => {
-                                if (data[key] === undefined) {
-                                    persistToFirebase(
-                                        getDocumentId(),
-                                        key,
-                                        value,
-                                    )
-                                }
-                            },
-                        )
-                    }
-
-                    setSettings(settingsWithDefaults as Settings)
-                } else {
+                if (!document.exists) {
                     window.location.pathname = '/'
+                    return
                 }
+
+                const data = document.data() as Settings
+
+                const settingsWithDefaults: Settings = {
+                    ...DEFAULT_SETTINGS,
+                    ...data,
+                }
+
+                // The fields under are added if missing, and if the tavle is not locked.
+                // If a tavle is locked by a user, you are not allowed to write to
+                // tavle unless you are logged in as the user who locked tavla, so we need
+                // to check if you have edit access.
+                const editAccess =
+                    user &&
+                    (!data.owners?.length || data.owners.includes(user.uid))
+
+                if (editAccess) {
+                    Object.entries(DEFAULT_SETTINGS).forEach(([key, value]) => {
+                        if (data[key as keyof Settings] === undefined) {
+                            persistToFirebase(id, key, value as FieldTypes)
+                        }
+                    })
+                }
+
+                setSettings(settingsWithDefaults)
             })
         }
 
@@ -170,7 +164,7 @@ export function useSettings(): [Settings, SettingsSetters] {
         }
 
         setSettings({
-            ...defaultSettings,
+            ...DEFAULT_SETTINGS,
             ...restoreFromUrl(),
             coordinates: {
                 latitude: Number(positionArray[0]),
@@ -181,11 +175,13 @@ export function useSettings(): [Settings, SettingsSetters] {
 
     const set = useCallback(
         <T>(key: string, value: FieldTypes): void => {
-            const newSettings = { ...settings, [key]: value }
+            const newSettings = { ...settings, [key]: value } as Settings
             setSettings(newSettings)
 
-            if (getDocumentId()) {
-                persistToFirebase(getDocumentId(), key, value)
+            const id = getDocumentId()
+
+            if (id) {
+                persistToFirebase(id, key, value)
                 return
             }
             persistToUrl(newSettings)
@@ -277,7 +273,7 @@ export function useSettings(): [Settings, SettingsSetters] {
         [set],
     )
     const setLogo = useCallback(
-        (url: string): void => {
+        (url: string | null): void => {
             set('logo', url)
         },
         [set],

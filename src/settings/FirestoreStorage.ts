@@ -10,6 +10,7 @@ export type FieldTypes =
     | string[]
     | firebase.firestore.GeoPoint
     | { [key: string]: string[] }
+    | null
 
 export function persist(
     docId: string,

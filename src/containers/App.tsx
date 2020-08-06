@@ -56,7 +56,9 @@ const Content = (): JSX.Element => {
 
     return (
         <UserProvider value={user}>
-            <SettingsContext.Provider value={isOnTavle && settings}>
+            <SettingsContext.Provider
+                value={isOnTavle ? settings : [null, settings[1]]}
+            >
                 <ThemeProvider>
                     <div className="themeBackground">
                         <ToastProvider>
@@ -81,7 +83,9 @@ const Content = (): JSX.Element => {
                                 <Route path="/tavler" component={MyBoards} />
                                 <Route
                                     path="/admin"
-                                    component={settings[0] && Admin}
+                                    component={
+                                        settings[0] ? Admin : (): null => null
+                                    }
                                 />
                                 <Route path="/privacy" component={Privacy} />
                                 <Route path="/" component={PageDoesNotExist} />

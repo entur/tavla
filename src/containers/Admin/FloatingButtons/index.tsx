@@ -11,8 +11,10 @@ import './styles.scss'
 
 const FloatingButtons = (): JSX.Element => {
     const history = useHistory()
-    const [{ owners }] = useSettingsContext()
+    const [settings] = useSettingsContext()
     const documentId = getDocumentId()
+
+    const owners = settings?.owners
 
     const [lockModalOpen, setLockModalOpen] = useState<boolean>(false)
 
@@ -23,7 +25,7 @@ const FloatingButtons = (): JSX.Element => {
         history.push(window.location.pathname.replace('admin', 'dashboard'))
     }, [history, documentId])
 
-    const showLockButton = owners.length === 0 && documentId
+    const showLockButton = !owners?.length && documentId
 
     return (
         <>

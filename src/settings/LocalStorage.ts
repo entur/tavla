@@ -2,7 +2,9 @@ export function getFromLocalStorage<T>(key: string): T | undefined {
     let ls
     if (window.localStorage) {
         try {
-            ls = JSON.parse(window.localStorage.getItem(key))
+            const savedValue = window.localStorage.getItem(key)
+            if (!savedValue) return undefined
+            ls = JSON.parse(savedValue)
         } catch (e) {
             console.log(e)
         }

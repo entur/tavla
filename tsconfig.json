@@ -9,7 +9,7 @@
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "typeRoots": ["./types", "node_modules/@types"],
-        "noImplicitAny": true,
+        "strict": true,
         "downlevelIteration": true
     },
     "include": ["types", "./src/**/*"],

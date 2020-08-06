@@ -15,7 +15,9 @@ const UPLOAD_ZONE_TEXT =
     'Slipp logofilen din her eller klikk for å velge fil å laste opp'
 
 const LogoUpload = (): JSX.Element => {
-    const [{ logo }, { setLogo }] = useSettingsContext()
+    const [settings, { setLogo }] = useSettingsContext()
+
+    const logo = settings?.logo
 
     const [error, setError] = useState<string>()
     const [uploadVisible, setUploadVisible] = useState(!logo)
@@ -23,7 +25,7 @@ const LogoUpload = (): JSX.Element => {
     const [progress, setProgress] = useState<number>()
 
     const handleDrop = (acceptedFiles?: File[]): void => {
-        if (acceptedFiles.length === 0) return
+        if (!acceptedFiles?.length) return
 
         setStandbyText('Logoen din lastes opp')
         setError(undefined)
