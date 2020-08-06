@@ -135,21 +135,21 @@ export function getIcon(
 
     switch (identifier) {
         case 'bus':
-            return <BusIcon color={colorToUse} />
+            return <BusIcon key={identifier} color={colorToUse} />
         case 'bicycle':
-            return <BicycleIcon color={colorToUse} />
+            return <BicycleIcon key={identifier} color={colorToUse} />
         case 'carferry':
-            return <CarferryIcon color={colorToUse} />
+            return <CarferryIcon key={identifier} color={colorToUse} />
         case 'ferry':
-            return <FerryIcon color={colorToUse} />
+            return <FerryIcon key={identifier} color={colorToUse} />
         case 'subway':
-            return <SubwayIcon color={colorToUse} />
+            return <SubwayIcon key={identifier} color={colorToUse} />
         case 'train':
-            return <TrainIcon color={colorToUse} />
+            return <TrainIcon key={identifier} color={colorToUse} />
         case 'tram':
-            return <TramIcon color={colorToUse} />
+            return <TramIcon key={identifier} color={colorToUse} />
         case 'plane':
-            return <PlaneIcon color={colorToUse} />
+            return <PlaneIcon key={identifier} color={colorToUse} />
         default:
             return null
     }
