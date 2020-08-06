@@ -1,5 +1,6 @@
 import firebase, { firestore } from 'firebase/app'
 import 'firebase/firestore'
+import 'firebase/functions'
 import 'firebase/storage'
 
 import { Settings } from '../settings/index'
