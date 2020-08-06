@@ -17,7 +17,6 @@ export const DEFAULT_SETTINGS: Settings = {
     coordinates: undefined,
     owners: [],
     theme: Theme.DEFAULT,
-    logo: undefined,
     logoSize: '32px',
     description: '',
 }
