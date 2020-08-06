@@ -69,12 +69,12 @@ function DashboardWrapper(props: Props): JSX.Element {
         <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
             <div className={`dashboard-wrapper ${className}`}>
                 {renderContents()}
+                {logo && (
+                    <div className="dashboard-wrapper__byline">
+                        Tjenesten leveres av {getEnturLogo()}
+                    </div>
+                )}
                 <ThemeContrastWrapper useContrast={true}>
-                    {logo && (
-                        <div className="dashboard-wrapper__byline">
-                            Tjenesten leveres av {getEnturLogo()}
-                        </div>
-                    )}
                     <BottomMenu
                         className="dashboard-wrapper__bottom-menu"
                         history={history}
