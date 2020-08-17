@@ -14,6 +14,9 @@ Run the following commands to install dependencies:
 git clone git@github.com:[YOUR USERNAME]/tavla.git
 cd tavla
 npm install
+cd functions
+npm install
+cd ..
 ```
 
 Run the development server with
