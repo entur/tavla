@@ -1,7 +1,7 @@
 {
   "projects": {
-    "prod": "entur-tavla-prod",
-    "staging": "entur-tavla-staging",
-    "default": "entur-tavla-staging"
+    "prod": "entur-tavle",
+    "staging": "entur-tavle",
+    "default": "bekk-entur-tavla-staging"
   }
 }
