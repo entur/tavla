@@ -56,6 +56,14 @@ const DashboardPickerTab = (): JSX.Element => {
                     callback={(val): void => updateChoice(val)}
                     className="display-wrapper__display-card"
                 />
+                <RadioCard
+                    title="Stationview"
+                    description="Klassisk avgangstavle for holdeplasser. Viser neste buss fra valgte holdeplass."
+                    cardValue="Stationview"
+                    selected={radioValue === 'Stationview'}
+                    preview={dashboardImages.Timeline}
+                    callback={(val): void => updateChoice(val)}
+                />
             </div>
         </div>
     )

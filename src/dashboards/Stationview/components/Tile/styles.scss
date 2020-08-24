@@ -1,0 +1,29 @@
+@import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
+
+.tile {
+    height: 100%;
+    width: 25rem;
+    background-color: var(--tavla-box-background-color);
+    flex: none;
+    padding: 2rem;
+    overflow: scroll;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+
+        h2 {
+            margin: 0;
+            color: var(--tavla-font-color);
+        }
+    }
+
+    &__header-icons {
+        display: flex;
+        align-items: center;
+        font-size: 2rem;
+    }
+}
