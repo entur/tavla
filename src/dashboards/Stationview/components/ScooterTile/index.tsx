@@ -24,7 +24,7 @@ function countScootersByOperator(list: Scooter[]) {
     return operators
 }
 
-function ScooterView(): JSX.Element {
+function ScooterTile(): JSX.Element {
     const [settings] = useSettingsContext()
     const [scooters, setScooters] = useState<Scooter[]>([])
 
@@ -82,5 +82,4 @@ function ScooterView(): JSX.Element {
     }
 }
 
-
-export default ScooterView
+export default ScooterTile

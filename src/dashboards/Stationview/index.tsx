@@ -7,7 +7,7 @@ import StopPlacePanel from '../../containers/Admin/EditTab/StopPlacePanel'
 import { timeUntil, useCounter } from '../../utils'
 import StationTile from './StationTile'
 
-import ScooterView from './components/ScooterTile'
+import ScooterTile from './components/ScooterTile'
 
 import './styles.scss'
 
@@ -49,7 +49,7 @@ function Stationview({ history }: Props): JSX.Element {
                     
                 )
             })} */}
-            <ScooterView />
+            <ScooterTile />
         </DashboardWrapper>
     )
 }
