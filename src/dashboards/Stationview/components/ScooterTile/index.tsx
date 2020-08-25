@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
 import service from '../../../../service'
-import { useSettingsContext, Settings } from '../../../../settings'
 import { ScooterOperator, Scooter } from '@entur/sdk'
-
 import ScooterRow from './ScooterRow'
 
 import { ScooterIcon } from '@entur/icons'
+import { useSettingsContext } from '../../../../settings'
+
 import VoiLogo from '../../../../assets/icons/voiLogo'
 import TierLogo from '../../../../assets/icons/tierLogo'
 import LimeLogo from '../../../../assets/icons/limeLogo'
@@ -44,7 +44,7 @@ function ScooterView(): JSX.Element {
 
     if (scooters.length > 0 && settings?.distance) {
         const sortedOperators = countScootersByOperator(scooters)
-   
+        console.log(sortedOperators)
         return (
             <div className="scooterview">
                 <header className="scooterview__header">

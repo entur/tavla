@@ -1,0 +1,58 @@
+@import '../../../../../assets/styles/import.scss';
+@import '../../../../../variables.scss';
+
+
+.scooterview .scooterrow {
+    display: flex;
+    border-bottom: 2px solid var(--tavla-border-color);
+    padding: 1rem 0 0.75rem 0;
+
+    &:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    &__label {
+        margin: 0;
+        margin-bottom: 0.5rem;
+        color: var(--tavla-font-color);
+    }
+
+    &__icon {
+        min-width: 2rem;
+        margin-right: 1rem;
+        font-size: 2rem;
+    }
+
+    &__texts {
+        flex-direction: row;
+        flex-grow: 1;
+    }
+
+    &__label {
+        margin: 0;
+        margin-top: 0.25rem;
+    }
+
+    &__sublabels {
+        //display: grid;
+        //grid-template-columns: repeat(1, 1fr);
+        font-size: 1.25rem;
+        justify-content: space-between;
+        color: #aeb7e2;
+        //max-width: 20rem;
+    }
+
+    &__sublabel {
+        align-items: center;
+        display: flex;
+        font-size: 1.25rem;
+        font-weight: 400;
+        margin: 0;
+        margin-top: 7px;
+        margin-left: auto;
+        min-width: 5rem;
+        text-align: right;
+        color: var(--tavla-font-color);
+    }
+}

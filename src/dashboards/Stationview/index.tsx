@@ -7,7 +7,7 @@ import StopPlacePanel from '../../containers/Admin/EditTab/StopPlacePanel'
 import { timeUntil, useCounter } from '../../utils'
 import StationTile from './StationTile'
 
-import ScooterView from './components/ScooterView'
+import ScooterView from './components/ScooterTile'
 
 import './styles.scss'
 
