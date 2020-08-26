@@ -5,9 +5,9 @@ import { useStopPlacesWithDepartures } from '../../logic'
 import StopPlacePanel from '../../containers/Admin/EditTab/StopPlacePanel'
 
 import { timeUntil, useCounter } from '../../utils'
-import StationTile from './StationTile'
 
-import ScooterTile from './components/ScooterTile'
+import StationTile from './StationTile'
+import ScooterTile from './ScooterTile'
 
 import './styles.scss'
 
@@ -19,8 +19,6 @@ function getStationviewLabel(expectedDepartureTime: string): string {
 
 function Stationview({ history }: Props): JSX.Element {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
-
-    console.log(stopPlacesWithDepartures)
 
     return (
         <DashboardWrapper

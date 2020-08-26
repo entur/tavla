@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react'
 
-import service from '../../../../service'
+import service from '../../../service'
 import { ScooterOperator, Scooter } from '@entur/sdk'
 import ScooterRow from './ScooterRow'
 
 import { ScooterIcon } from '@entur/icons'
-import { useSettingsContext } from '../../../../settings'
+import { useSettingsContext } from '../../../settings'
 
-import ScooterOperatorLogo from '../../../../assets/icons/scooterOperatorLogo'
-import TierLogo from '../../../../assets/icons/tierLogo'
-import LimeLogo from '../../../../assets/icons/limeLogo'
+import ScooterOperatorLogo from '../../../assets/icons/scooterOperatorLogo'
 
 import './styles.scss'
 
@@ -22,7 +20,6 @@ function countScootersByOperator(
         lime: [],
         zvipp: [],
     }
-    console.log(operators)
     list.map((scooter) => operators[scooter.operator].push(scooter))
     return operators
 }
@@ -33,8 +30,6 @@ function ScooterTile(): JSX.Element {
 
     useEffect(() => {
         if (settings?.coordinates && settings?.distance) {
-            console.log('Dette er distansen: ')
-            console.log(settings?.distance)
             service
                 .getScootersByPosition({
                     latitude: settings.coordinates.latitude,
@@ -64,7 +59,6 @@ function ScooterTile(): JSX.Element {
                         let logo = `${
                             operator.charAt(0).toUpperCase() + operator.slice(1)
                         }`
-                        console.log(logo)
                         if (settings?.distance) {
                             return (
                                 <ScooterRow

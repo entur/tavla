@@ -1,11 +1,16 @@
 import React from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
-import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../logic'
+import {
+    useBikeRentalStations,
+    useStopPlacesWithDepartures,
+    useScooters,
+} from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
+import ScooterTile from './ScooterTile'
 import './styles.scss'
 
 import {
@@ -37,6 +42,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
+    console.log(useScooters())
+
     // Remove stop places without departures
     if (stopPlacesWithDepartures) {
         stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
@@ -55,8 +62,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const extraCols = anyBikeRentalStations ? 1 : 0
 
     const cols = {
-        lg: numberOfStopPlaces + extraCols,
-        md: numberOfStopPlaces + extraCols,
+        lg: numberOfStopPlaces + extraCols + 1,
+        md: numberOfStopPlaces + extraCols + 1,
         sm: 1,
         xs: 1,
         xxs: 1,
@@ -106,6 +113,9 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     ) : (
                         []
                     )}
+                    <div key={'akgeakgkaek'} data-grid={numberOfStopPlaces + 1}>
+                        <ScooterTile />
+                    </div>
                 </ResponsiveReactGridLayout>
             </div>
         </DashboardWrapper>
