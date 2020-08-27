@@ -19,11 +19,12 @@ import { getSettings } from '../services/firebase'
 import { getDocumentId } from '../utils'
 import { useFirebaseAuthentication } from '../auth'
 
-export type Mode = 'bysykkel' | 'kollektiv'
+export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
 
 export interface Settings {
     boardName?: string
     coordinates?: Coordinates
+    hiddenOperators?: string[]
     hiddenStations: string[]
     hiddenStops: string[]
     hiddenModes: Mode[]
@@ -44,6 +45,7 @@ export interface Settings {
 
 interface SettingsSetters {
     setBoardName: (boardName: string) => void
+    setHiddenOperators: (hiddenOperators: string[]) => void
     setHiddenStations: (hiddenStations: string[]) => void
     setHiddenStops: (hiddenStops: string[]) => void
     setHiddenStopModes: (hiddenModes: {
@@ -68,6 +70,7 @@ export const SettingsContext = createContext<
     null,
     {
         setBoardName: (): void => undefined,
+        setHiddenOperators: (): void => undefined,
         setHiddenStations: (): void => undefined,
         setHiddenStops: (): void => undefined,
         setHiddenStopModes: (): void => undefined,
@@ -196,6 +199,13 @@ export function useSettings(): [Settings | null, SettingsSetters] {
         [set],
     )
 
+    const setHiddenOperators = useCallback(
+        (newHiddenOperators: string[]): void => {
+            set('hiddenOperators', newHiddenOperators)
+        },
+        [set],
+    )
+
     const setHiddenStations = useCallback(
         (newHiddenStations: string[]): void => {
             set('hiddenStations', newHiddenStations)
@@ -295,6 +305,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
 
     const setters = {
         setBoardName,
+        setHiddenOperators,
         setHiddenStations,
         setHiddenStops,
         setHiddenModes,
