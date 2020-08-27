@@ -1,11 +1,9 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { ScooterOperator, Scooter } from '@entur/sdk'
 
 import service from '../service'
 import { useSettingsContext, Settings } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'
-
-import useNearestPlaces from './useNearestPlaces'
 
 function countScootersByOperator(
     list: Scooter[] | null,
@@ -47,19 +45,7 @@ export default function useScooters(): Record<
     Scooter[]
 > | null {
     const [settings] = useSettingsContext()
-    const [scooters, setScooters] = useState<Scooter[] | null>(null)
-    const nearestPlaces = useNearestPlaces(
-        settings?.coordinates,
-        settings?.distance,
-    )
-
-    // const nearestBikeRentalStations = useMemo(
-    //     () =>
-    //         nearestPlaces
-    //             .filter(({ type }) => type === 'BikeRentalStation')
-    //             .map(({ id }) => id),
-    //     [nearestPlaces],
-    // )
+    const [scooters, setScooters] = useState<Scooter[] | null>([])
 
     useEffect(() => {
         if (!settings) return

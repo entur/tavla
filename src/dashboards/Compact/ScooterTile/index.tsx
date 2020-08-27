@@ -31,7 +31,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                 {Object.entries(scooters || {})
                     .filter((operator) => operator[1].length > 0)
                     .map((row) => {
-                        const operator = row[0]
+                        const operator = row[0] as ScooterOperator
                         const logo = operator
                         if (settings?.distance) {
                             return (

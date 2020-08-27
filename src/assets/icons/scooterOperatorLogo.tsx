@@ -17,7 +17,7 @@ function ScooterOperatorLogo({ logo, className, height }: Props): JSX.Element {
 }
 
 interface Props {
-    logo: string
+    logo: ScooterOperator
     className?: string
     height?: string
 }
