@@ -11,10 +11,10 @@ function countScootersByOperator(
     list: Scooter[] | null,
 ): Record<ScooterOperator, Scooter[]> {
     const operators: Record<ScooterOperator, Scooter[]> = {
-        voi: [],
-        tier: [],
-        lime: [],
-        zvipp: [],
+        [ScooterOperator.VOI]: [],
+        [ScooterOperator.TIER]: [],
+        [ScooterOperator.LIME]: [],
+        [ScooterOperator.ZVIPP]: [],
     }
     list?.map((scooter) => operators[scooter.operator].push(scooter))
     return operators
