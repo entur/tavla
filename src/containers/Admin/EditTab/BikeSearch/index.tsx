@@ -33,7 +33,6 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
     const getItems = (query: string): Item[] => {
         const inputValue = query.trim().toLowerCase()
         const inputLength = inputValue.length
-
         if (!inputLength) return []
 
         return mapFeaturesToItems(
