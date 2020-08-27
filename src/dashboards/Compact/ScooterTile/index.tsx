@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 import service from '../../../service'
 import { ScooterOperator, Scooter } from '@entur/sdk'
@@ -11,39 +11,10 @@ import ScooterOperatorLogo from '../../../assets/icons/scooterOperatorLogo'
 
 import './styles.scss'
 
-function countScootersByOperator(
-    list: Scooter[],
-): Record<ScooterOperator, Scooter[]> {
-    const operators: Record<ScooterOperator, Scooter[]> = {
-        voi: [],
-        tier: [],
-        lime: [],
-        zvipp: [],
-    }
-    list.map((scooter) => operators[scooter.operator].push(scooter))
-    return operators
-}
-
-function ScooterTile(): JSX.Element {
+function ScooterTile({ scooters }: Props): JSX.Element {
     const [settings] = useSettingsContext()
-    const [scooters, setScooters] = useState<Scooter[]>([])
 
-    useEffect(() => {
-        if (settings?.coordinates && settings?.distance) {
-            service
-                .getScootersByPosition({
-                    latitude: settings.coordinates.latitude,
-                    longitude: settings.coordinates.longitude,
-                    distance: settings.distance,
-                    limit: 50,
-                    //operators: ['TIER', 'VOI'], // Use the ScooterOperator enum if using TypeScript
-                })
-                .then(setScooters)
-        }
-    }, [settings])
-
-    if (scooters.length > 0) {
-        const sortedOperators = countScootersByOperator(scooters)
+    if (Object.entries(scooters)) {
         return (
             <div className="scooterview">
                 <header className="scooterview__header">
@@ -52,7 +23,7 @@ function ScooterTile(): JSX.Element {
                         <ScooterIcon />
                     </div>
                 </header>
-                {Object.entries(sortedOperators)
+                {Object.entries(scooters)
                     .filter((operator) => operator[1].length > 0)
                     .map((row) => {
                         let operator = row[0]
@@ -88,6 +59,10 @@ function ScooterTile(): JSX.Element {
             </div>
         )
     }
+}
+
+interface Props {
+    scooters: Record<ScooterOperator, Scooter[]>
 }
 
 export default ScooterTile

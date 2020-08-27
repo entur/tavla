@@ -44,8 +44,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    //console.log(useScooters())
-
     // Remove stop places without departures
     if (stopPlacesWithDepartures) {
         stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
@@ -59,8 +57,12 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const anyBikeRentalStations =
         bikeRentalStations && bikeRentalStations.length
 
-    // #todo: finne om vi har noen scooters og sjekke på det. reduce ned fra keys i scooters
-    const anyScooters = scooters && Object.values(scooters).reduce((acc, curr,) => acc + curr.length) > 0
+    // Var en rød strek her som forsvant av seg selv. Kan potensielt ha brukket koden :/
+    const anyScooters =
+        scooters &&
+        Object.values(scooters)
+            .map((sctr) => sctr.length)
+            .reduce((acc, val) => acc + val) > 0
 
     const localStorageLayout: Layouts =
         getFromLocalStorage(history.location.key) || {}
@@ -75,7 +77,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         xs: 1,
         xxs: 1,
     }
-
+    console.log('Scooter key(s): ')
+    console.log((numberOfStopPlaces + scooterCol).toString())
+    console.log('Rental bikes key(s): ')
+    console.log(numberOfStopPlaces.toString())
     return (
         <DashboardWrapper
             className="compact"
@@ -120,9 +125,18 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     ) : (
                         []
                     )}
-                    <div key={'adgaegaegea'} data-grid={getDataGrid(4)}>
-                        <ScooterTile />
-                    </div>
+                    {scooters ? (
+                        <div
+                            key={(numberOfStopPlaces + scooterCol).toString()}
+                            data-grid={getDataGrid(
+                                numberOfStopPlaces + scooterCol,
+                            )}
+                        >
+                            <ScooterTile scooters={scooters} />
+                        </div>
+                    ) : (
+                        []
+                    )}
                 </ResponsiveReactGridLayout>
             </div>
         </DashboardWrapper>
