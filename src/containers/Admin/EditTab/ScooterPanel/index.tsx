@@ -16,7 +16,7 @@ function ScooterPanel(props: Props): JSX.Element {
 
     console.log(operators)
     const onChooseAllPressed = useCallback(() => {
-        if (hiddenOperators.length > 0) {
+        if (hiddenOperators.length > 0 || null) {
             setHiddenOperators([])
         } else {
             setHiddenOperators(operators.map((sctr) => sctr.operator))
