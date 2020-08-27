@@ -40,9 +40,11 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const bikeRentalStations = useBikeRentalStations()
 
+    let scooters = useScooters()
+
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    console.log(useScooters())
+    //console.log(useScooters())
 
     // Remove stop places without departures
     if (stopPlacesWithDepartures) {
@@ -57,13 +59,18 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const anyBikeRentalStations =
         bikeRentalStations && bikeRentalStations.length
 
+    // #todo: finne om vi har noen scooters og sjekke på det. reduce ned fra keys i scooters
+    const anyScooters = scooters && Object.values(scooters).reduce((acc, curr,) => acc + curr.length) > 0
+
     const localStorageLayout: Layouts =
         getFromLocalStorage(history.location.key) || {}
-    const extraCols = anyBikeRentalStations ? 1 : 0
+    const bikeCol = anyBikeRentalStations ? 1 : 0
+
+    const scooterCol = anyScooters ? 1 : 0
 
     const cols = {
-        lg: numberOfStopPlaces + extraCols + 1,
-        md: numberOfStopPlaces + extraCols + 1,
+        lg: numberOfStopPlaces + bikeCol + scooterCol,
+        md: numberOfStopPlaces + bikeCol + scooterCol,
         sm: 1,
         xs: 1,
         xxs: 1,
@@ -113,7 +120,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     ) : (
                         []
                     )}
-                    <div key={'akgeakgkaek'} data-grid={numberOfStopPlaces + 1}>
+                    <div key={'adgaegaegea'} data-grid={getDataGrid(4)}>
                         <ScooterTile />
                     </div>
                 </ResponsiveReactGridLayout>
