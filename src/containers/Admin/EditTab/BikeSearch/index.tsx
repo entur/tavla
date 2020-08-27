@@ -21,7 +21,6 @@ function mapFeaturesToItems(features: BikeRentalStation[]): Item[] {
 
 const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
     const [stations, setStations] = useState<BikeRentalStation[]>([])
-    const [input, setInput] = useState('')
 
     useEffect(() => {
         if (position) {
@@ -46,13 +45,6 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
     const onItemSelected = (item: Item | null): void => {
         if (item) {
             onSelected(item.value)
-        }
-    }
-
-    const clearInputValue = (test: string): void => {
-        let inputValue = test
-        if (inputValue) {
-            inputValue = ''
         }
     }
 

@@ -12,7 +12,7 @@ function ScooterRow({ icon, operator, counter, distance }: Props): JSX.Element {
                 <div className="scooterrow__sublabels">
                     I nærheten ({distance} m)
                     <div className="scooterrow__sublabel">
-                        {counter > 1 && counter != 0
+                        {counter > 1
                             ? `${counter} sparkesykler`
                             : `${counter} sparkesykkel`}
                     </div>

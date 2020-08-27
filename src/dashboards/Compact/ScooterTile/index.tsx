@@ -1,6 +1,5 @@
 import React from 'react'
 
-import service from '../../../service'
 import { ScooterOperator, Scooter } from '@entur/sdk'
 import ScooterRow from './ScooterRow'
 
@@ -14,7 +13,13 @@ import './styles.scss'
 function ScooterTile({ scooters }: Props): JSX.Element {
     const [settings] = useSettingsContext()
 
-    if (Object.entries(scooters)) {
+    if (!(Object.entries(scooters || {}).length > 0)) {
+        return (
+            <div>
+                <h1>Laster inn scooters</h1>
+            </div>
+        )
+    } else {
         return (
             <div className="scooterview">
                 <header className="scooterview__header">
@@ -23,13 +28,11 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                         <ScooterIcon />
                     </div>
                 </header>
-                {Object.entries(scooters)
+                {Object.entries(scooters || {})
                     .filter((operator) => operator[1].length > 0)
                     .map((row) => {
-                        let operator = row[0]
-                        let logo = `${
-                            operator.charAt(0).toUpperCase() + operator.slice(1)
-                        }`
+                        const operator = row[0]
+                        const logo = operator
                         if (settings?.distance) {
                             return (
                                 <ScooterRow
@@ -52,17 +55,11 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                     })}
             </div>
         )
-    } else {
-        return (
-            <div>
-                <h1>Laster inn scooters</h1>
-            </div>
-        )
     }
 }
 
 interface Props {
-    scooters: Record<ScooterOperator, Scooter[]>
+    scooters: Record<ScooterOperator, Scooter[]> | undefined
 }
 
 export default ScooterTile

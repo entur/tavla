@@ -54,18 +54,16 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const numberOfStopPlaces = stopPlacesWithDepartures
         ? stopPlacesWithDepartures.length
         : 0
-    const anyBikeRentalStations =
+    const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
 
     // Var en rød strek her som forsvant av seg selv. Kan potensielt ha brukket koden :/
-    const anyScooters =
-        scooters &&
-        Object.values(scooters)
-            .map((sctr) => sctr.length)
-            .reduce((acc, val) => acc + val) > 0
+    const anyScooters: boolean | null =
+        scooters && Object.values(scooters).some((sctr) => sctr.length)
 
     const localStorageLayout: Layouts =
         getFromLocalStorage(history.location.key) || {}
+
     const bikeCol = anyBikeRentalStations ? 1 : 0
 
     const scooterCol = anyScooters ? 1 : 0
@@ -77,10 +75,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         xs: 1,
         xxs: 1,
     }
-    console.log('Scooter key(s): ')
-    console.log((numberOfStopPlaces + scooterCol).toString())
-    console.log('Rental bikes key(s): ')
-    console.log(numberOfStopPlaces.toString())
     return (
         <DashboardWrapper
             className="compact"
