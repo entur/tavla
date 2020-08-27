@@ -14,7 +14,7 @@ function countScootersByOperator(
         [ScooterOperator.LIME]: [],
         [ScooterOperator.ZVIPP]: [],
     }
-    list?.map((scooter) => operators[scooter.operator].push(scooter))
+    list?.forEach((scooter) => operators[scooter.operator].push(scooter))
     return operators
 }
 

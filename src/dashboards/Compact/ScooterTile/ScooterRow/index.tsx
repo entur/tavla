@@ -23,7 +23,7 @@ function ScooterRow({ icon, operator, counter, distance }: Props): JSX.Element {
 }
 
 interface Props {
-    icon: JSX.Element
+    icon: JSX.Element | null
     operator: string
     counter: number
     distance: number
