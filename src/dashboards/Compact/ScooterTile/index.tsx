@@ -21,10 +21,10 @@ function ScooterTile({ scooters }: Props): JSX.Element {
         )
     }
     return (
-        <div className="scooterview">
-            <header className="scooterview__header">
+        <div className="scootertile">
+            <header className="scootertile__header">
                 <h2>Sparkesykler</h2>
-                <div className="scooterview__header-icons">
+                <div className="scootertile__header-icons">
                     <ScooterIcon />
                 </div>
             </header>

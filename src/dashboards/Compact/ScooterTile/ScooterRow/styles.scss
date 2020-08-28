@@ -2,7 +2,7 @@
 @import '../../../../variables.scss';
 
 
-.scooterview .scooterrow {
+.scootertile .scooterrow {
     display: flex;
     border-bottom: 2px solid var(--tavla-border-color);
     padding: 1rem 0 0.75rem 0;
@@ -21,7 +21,7 @@
     &__icon {
         min-width: 2rem;
         margin-right: 1rem;
-        font-size: 2rem;
+        font-size: 5rem;
     }
 
     &__texts {
@@ -40,7 +40,7 @@
         font-size: 1.25rem;
         justify-content: space-between;
         color: #aeb7e2;
-        //max-width: 20rem;
+        max-width: 20rem;
     }
 
     &__sublabel {
