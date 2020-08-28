@@ -7,6 +7,7 @@ import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
+import ScooterPanel from './ScooterPanel'
 
 import { useSettingsContext, Mode } from '../../../settings'
 import {
@@ -16,10 +17,10 @@ import {
 } from '../../../utils'
 import { DEFAULT_DISTANCE } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearestPlaces } from '../../../logic'
+import { useNearestPlaces, useScooters } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
 
-import { BikeRentalStation } from '@entur/sdk'
+import { BikeRentalStation, Scooter, ScooterOperator } from '@entur/sdk'
 
 import { Heading2 } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -42,11 +43,17 @@ const EditTab = (): JSX.Element => {
 
     const [stopPlaces, setStopPlaces] = useState<StopPlaceWithLines[]>([])
     const [stations, setStations] = useState<BikeRentalStation[]>([])
+    const [operators, setOperators] = useState<Record<
+        ScooterOperator,
+        Scooter[]
+    > | null>(null)
 
     const nearestPlaces = useNearestPlaces(
         settings?.coordinates,
         debouncedDistance,
     )
+
+    const scooters = useScooters()
 
     const nearestStopPlaceIds = useMemo(
         () =>
@@ -55,6 +62,16 @@ const EditTab = (): JSX.Element => {
                 .map(({ id }) => id),
         [nearestPlaces],
     )
+
+    useEffect(() => {
+        let ignoreResponse = false
+
+        setOperators(scooters)
+
+        return (): void => {
+            ignoreResponse = true
+        }
+    }, [scooters])
 
     useEffect(() => {
         let ignoreResponse = false
@@ -168,6 +185,18 @@ const EditTab = (): JSX.Element => {
                         onSelected={addNewStation}
                     />
                     <BikePanel stations={stations} />
+                </GridItem>
+
+                <GridItem medium={4} small={12}>
+                    <div className="edit-tab__header">
+                        <Heading2>El-sparkesykkel</Heading2>
+                        <Switch
+                            onChange={(): void => toggleMode('sparkesykkel')}
+                            checked={!hiddenModes?.includes('sparkesykkel')}
+                            size="large"
+                        />
+                    </div>
+                    <ScooterPanel operators={operators} />
                 </GridItem>
             </GridContainer>
         </div>
