@@ -34,7 +34,7 @@ const EditTab = (): JSX.Element => {
         settings?.distance || DEFAULT_DISTANCE,
     )
     const debouncedDistance = useDebounce(distance, 800)
-
+    console.log(hiddenModes)
     useEffect(() => {
         if (settings?.distance !== debouncedDistance) {
             settingsSetters.setDistance(debouncedDistance)

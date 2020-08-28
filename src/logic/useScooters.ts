@@ -21,7 +21,7 @@ function countScootersByOperator(
 async function fetchScooters(settings: Settings): Promise<Scooter[] | null> {
     const { coordinates, distance, hiddenModes, hiddenOperators } = settings
 
-    if (hiddenModes.includes('bysykkel')) {
+    if (hiddenModes.includes('sparkesykkel')) {
         return null
     }
 
@@ -73,5 +73,5 @@ export function useOperators(): Record<ScooterOperator, Scooter[]> | null {
         return (): void => clearInterval(intervalId)
     }, [scooters, settings])
 
-    return countScootersByOperator(scooters)
+    return scooters ? countScootersByOperator(scooters) : null
 }
