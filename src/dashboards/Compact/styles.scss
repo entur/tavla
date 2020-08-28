@@ -14,6 +14,13 @@
             overflow-x: hidden;
             margin-bottom: 1rem;
         }
+
+        .scootertile {
+            width: 100%;
+            padding-top: 2rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
     }
 
     .react-grid-layout {
@@ -113,6 +120,12 @@
         }
 
         .tile {
+            margin-bottom: 1rem;
+            max-height: unset;
+            width: 100%;
+        }
+
+        .scootertile {
             margin-bottom: 1rem;
             max-height: unset;
             width: 100%;
