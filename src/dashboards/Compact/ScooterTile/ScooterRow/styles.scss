@@ -2,10 +2,13 @@
 @import '../../../../variables.scss';
 
 
-.scooterview .scooterrow {
+.scootertile .scooterrow {
     display: flex;
     border-bottom: 2px solid var(--tavla-border-color);
     padding: 1rem 0 0.75rem 0;
+    flex-direction: row;
+    align-items: flex-start;
+
 
     &:last-child {
         border-bottom: 0;
@@ -14,24 +17,22 @@
 
     &__label {
         margin: 0;
+        margin-top: -1px;
         margin-bottom: 0.5rem;
         color: var(--tavla-font-color);
+        line-height: unset;
     }
 
     &__icon {
-        min-width: 2rem;
+        align-self: flex-start;
+        line-height: 2.25rem;
         margin-right: 1rem;
-        font-size: 2rem;
+        margin-bottom: 0.5rem;
     }
 
     &__texts {
         flex-direction: row;
         flex-grow: 1;
-    }
-
-    &__label {
-        margin: 0;
-        margin-top: 0.25rem;
     }
 
     &__sublabels {
@@ -40,7 +41,7 @@
         font-size: 1.25rem;
         justify-content: space-between;
         color: #aeb7e2;
-        //max-width: 20rem;
+        max-width: 20rem;
     }
 
     &__sublabel {
