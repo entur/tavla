@@ -40,10 +40,7 @@ async function fetchScooters(settings: Settings): Promise<Scooter[] | null> {
     return scooters
 }
 
-export default function useScooters(): Record<
-    ScooterOperator,
-    Scooter[]
-> | null {
+export default function useScooters(): Scooter[] | null {
     const [settings] = useSettingsContext()
     const [scooters, setScooters] = useState<Scooter[] | null>([])
 
@@ -53,7 +50,22 @@ export default function useScooters(): Record<
         const intervalId = setInterval(() => {
             fetchScooters(settings).then(setScooters)
         }, REFRESH_INTERVAL)
+        return (): void => clearInterval(intervalId)
+    }, [scooters, settings])
 
+    return scooters
+}
+
+export function useOperators(): Record<ScooterOperator, Scooter[]> | null {
+    const [settings] = useSettingsContext()
+    const [scooters, setScooters] = useState<Scooter[] | null>([])
+
+    useEffect(() => {
+        if (!settings) return
+        fetchScooters(settings).then(setScooters)
+        const intervalId = setInterval(() => {
+            fetchScooters(settings).then(setScooters)
+        }, REFRESH_INTERVAL)
         return (): void => clearInterval(intervalId)
     }, [scooters, settings])
 

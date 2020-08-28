@@ -5,6 +5,7 @@ import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
     useScooters,
+    useOperators,
 } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
@@ -40,7 +41,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const bikeRentalStations = useBikeRentalStations()
 
-    const scooters = useScooters()
+    const scooters = useOperators()
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 

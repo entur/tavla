@@ -43,17 +43,12 @@ const EditTab = (): JSX.Element => {
 
     const [stopPlaces, setStopPlaces] = useState<StopPlaceWithLines[]>([])
     const [stations, setStations] = useState<BikeRentalStation[]>([])
-    const [operators, setOperators] = useState<Record<
-        ScooterOperator,
-        Scooter[]
-    > | null>(null)
+    const [scooters, setScooters] = useState<Scooter[]>([])
 
     const nearestPlaces = useNearestPlaces(
         settings?.coordinates,
         debouncedDistance,
     )
-
-    const scooters = useScooters()
 
     const nearestStopPlaceIds = useMemo(
         () =>
@@ -63,15 +58,16 @@ const EditTab = (): JSX.Element => {
         [nearestPlaces],
     )
 
+    const operators = useScooters()
     useEffect(() => {
         let ignoreResponse = false
-
-        setOperators(scooters)
-
+        if (!(operators === null)) {
+            setScooters(operators)
+        }
         return (): void => {
             ignoreResponse = true
         }
-    }, [scooters])
+    }, [operators, scooters, settings])
 
     useEffect(() => {
         let ignoreResponse = false
@@ -189,14 +185,14 @@ const EditTab = (): JSX.Element => {
 
                 <GridItem medium={4} small={12}>
                     <div className="edit-tab__header">
-                        <Heading2>El-sparkesykkel</Heading2>
+                        <Heading2>Sparkesykkel</Heading2>
                         <Switch
                             onChange={(): void => toggleMode('sparkesykkel')}
                             checked={!hiddenModes?.includes('sparkesykkel')}
                             size="large"
                         />
                     </div>
-                    <ScooterPanel operators={operators} />
+                    <ScooterPanel operators={scooters} />
                 </GridItem>
             </GridContainer>
         </div>

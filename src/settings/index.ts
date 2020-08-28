@@ -24,7 +24,7 @@ export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
 export interface Settings {
     boardName?: string
     coordinates?: Coordinates
-    hiddenOperators?: string[]
+    hiddenOperators: string[]
     hiddenStations: string[]
     hiddenStops: string[]
     hiddenModes: Mode[]
