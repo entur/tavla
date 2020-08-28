@@ -19,7 +19,7 @@ function countScootersByOperator(
 }
 
 async function fetchScooters(settings: Settings): Promise<Scooter[] | null> {
-    const { coordinates, distance, hiddenModes } = settings
+    const { coordinates, distance, hiddenModes, hiddenOperators } = settings
 
     if (hiddenModes.includes('bysykkel')) {
         return null
@@ -33,10 +33,14 @@ async function fetchScooters(settings: Settings): Promise<Scooter[] | null> {
             longitude: coordinates.longitude,
             distance,
             limit: 50,
-            //operators: ['TIER', 'VOI'], // Use the ScooterOperator enum if using TypeScript
+            operators: [
+                ScooterOperator.TIER,
+                ScooterOperator.VOI,
+                ScooterOperator.LIME,
+                ScooterOperator.ZVIPP,
+            ].filter((operator) => !hiddenOperators.includes(operator)), // Use the ScooterOperator enum if using TypeScript
         })
     }
-
     return scooters
 }
 

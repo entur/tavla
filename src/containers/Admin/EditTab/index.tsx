@@ -20,7 +20,7 @@ import { StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces, useScooters } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
 
-import { BikeRentalStation, Scooter, ScooterOperator } from '@entur/sdk'
+import { BikeRentalStation, Scooter } from '@entur/sdk'
 
 import { Heading2 } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -192,7 +192,7 @@ const EditTab = (): JSX.Element => {
                             size="large"
                         />
                     </div>
-                    <ScooterPanel operators={scooters} />
+                    <ScooterPanel scooters={scooters} />
                 </GridItem>
             </GridContainer>
         </div>

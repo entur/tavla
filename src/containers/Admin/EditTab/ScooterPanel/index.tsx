@@ -12,15 +12,15 @@ function ScooterPanel(props: Props): JSX.Element {
     const [settings, { setHiddenOperators }] = useSettingsContext()
     const { hiddenOperators = [] } = settings || {}
 
-    const { operators } = props
-    const uniqueOperators = [...new Set(operators.map((item) => item.operator))]
+    const { scooters } = props
+    const allOperators = ['voi', 'tier', 'lime', 'zvipp']
     const onChooseAllPressed = useCallback(() => {
         if (hiddenOperators.length > 0) {
             setHiddenOperators([])
         } else {
-            setHiddenOperators(uniqueOperators.map((operator) => operator))
+            setHiddenOperators(allOperators)
         }
-    }, [hiddenOperators.length, setHiddenOperators, uniqueOperators])
+    }, [hiddenOperators.length, setHiddenOperators, allOperators])
 
     const onToggleOperator = useCallback(
         (event) => {
@@ -34,13 +34,6 @@ function ScooterPanel(props: Props): JSX.Element {
         [hiddenOperators, setHiddenOperators],
     )
 
-    if (!Object.entries(operators || {}).length) {
-        return (
-            <Fieldset className="bike-panel">
-                <Paragraph>Det er ingen sparkesykler i nærheten.</Paragraph>
-            </Fieldset>
-        )
-    }
     return (
         <Fieldset className="bike-panel">
             <Checkbox
@@ -52,7 +45,7 @@ function ScooterPanel(props: Props): JSX.Element {
             >
                 Velg alle
             </Checkbox>
-            {uniqueOperators.map((operator) => (
+            {allOperators.map((operator) => (
                 <Checkbox
                     key={operator}
                     id={operator}
@@ -71,7 +64,7 @@ function ScooterPanel(props: Props): JSX.Element {
 }
 
 interface Props {
-    operators: Scooter[]
+    scooters: Scooter[]
 }
 
 export default ScooterPanel
