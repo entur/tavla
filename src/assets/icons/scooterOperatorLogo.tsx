@@ -5,13 +5,17 @@ import Lime from './../logos/lime-24.svg'
 import Tier from './../logos/tier-logo.svg'
 import { ScooterOperator } from '@entur/sdk'
 
-function ScooterOperatorLogo({ logo, className, height }: Props): JSX.Element | null {
+function ScooterOperatorLogo({
+    logo,
+    className,
+    width,
+}: Props): JSX.Element | null {
     if (logo === ScooterOperator.VOI) {
-        return <img src={Voi} height={height} className={className} />
+        return <img src={Voi} width={width} className={className} />
     } else if (logo === ScooterOperator.TIER) {
-        return <img src={Tier} height={height} className={className} />
+        return <img src={Tier} width={width} className={className} />
     } else if (logo === ScooterOperator.LIME) {
-        return <img src={Lime} height={height} className={className} />
+        return <img src={Lime} width={width} className={className} />
     }
     return null
 }
@@ -19,7 +23,7 @@ function ScooterOperatorLogo({ logo, className, height }: Props): JSX.Element | 
 interface Props {
     logo: ScooterOperator
     className?: string
-    height?: string
+    width?: string
 }
 
 export default ScooterOperatorLogo

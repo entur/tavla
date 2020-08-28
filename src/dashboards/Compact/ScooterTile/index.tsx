@@ -6,6 +6,7 @@ import ScooterRow from './ScooterRow'
 import { ScooterIcon } from '@entur/icons'
 import { useSettingsContext } from '../../../settings'
 
+import { Heading2 } from '@entur/typography'
 import ScooterOperatorLogo from '../../../assets/icons/scooterOperatorLogo'
 
 import './styles.scss'
@@ -23,7 +24,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
     return (
         <div className="scootertile">
             <header className="scootertile__header">
-                <h2>Sparkesykler</h2>
+                <Heading2>Sparkesykler</Heading2>
                 <div className="scootertile__header-icons">
                     <ScooterIcon />
                 </div>
@@ -40,7 +41,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                                 icon={
                                     <ScooterOperatorLogo
                                         logo={logo}
-                                        height={'25px'}
+                                        width={'32px'}
                                     />
                                 }
                                 operator={
