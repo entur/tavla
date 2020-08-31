@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { NearestPlace, Coordinates } from '@entur/sdk'
+import { NearestPlace, Coordinates, TypeName } from '@entur/sdk'
 
 import service from '../service'
 
@@ -16,7 +16,10 @@ export default function useNearestPlaces(
         service
             .getNearestPlaces(position, {
                 maximumDistance: distance,
-                filterByPlaceTypes: ['StopPlace', 'BikeRentalStation'],
+                filterByPlaceTypes: [
+                    TypeName.STOP_PLACE,
+                    TypeName.BIKE_RENTAL_STATION,
+                ],
                 multiModalMode: 'parent',
             })
             .then((places) => {
