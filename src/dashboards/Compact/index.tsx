@@ -44,7 +44,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const scooters = countScootersByOperator(useScooters())
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
-    console.log(scooters)
 
     // Remove stop places without departures
     if (stopPlacesWithDepartures) {
