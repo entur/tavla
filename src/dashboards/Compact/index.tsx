@@ -5,7 +5,7 @@ import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
     useScooters,
-    useOperators,
+    countScootersByOperator,
 } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
@@ -41,9 +41,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const bikeRentalStations = useBikeRentalStations()
 
-    const scooters = useOperators()
+    const scooters = countScootersByOperator(useScooters())
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
+    console.log(scooters)
 
     // Remove stop places without departures
     if (stopPlacesWithDepartures) {

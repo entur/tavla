@@ -3,11 +3,14 @@ import { ScooterOperator, Scooter } from '@entur/sdk'
 
 import service from '../service'
 import { useSettingsContext, Settings } from '../settings'
-import { REFRESH_INTERVAL } from '../constants'
+import { REFRESH_INTERVAL, ALL_OPERATORS } from '../constants'
 
-function countScootersByOperator(
+export function countScootersByOperator(
     list: Scooter[] | null,
-): Record<ScooterOperator, Scooter[]> {
+): Record<ScooterOperator, Scooter[]> | null {
+    if (list === null) {
+        return null
+    }
     const operators: Record<ScooterOperator, Scooter[]> = {
         [ScooterOperator.VOI]: [],
         [ScooterOperator.TIER]: [],
@@ -33,12 +36,9 @@ async function fetchScooters(settings: Settings): Promise<Scooter[] | null> {
             longitude: coordinates.longitude,
             distance,
             limit: 50,
-            operators: [
-                ScooterOperator.TIER,
-                ScooterOperator.VOI,
-                ScooterOperator.LIME,
-                ScooterOperator.ZVIPP,
-            ].filter((operator) => !hiddenOperators.includes(operator)), // Use the ScooterOperator enum if using TypeScript
+            operators: ALL_OPERATORS.filter(
+                (operator) => !hiddenOperators.includes(operator),
+            ),
         })
     }
     return scooters
@@ -58,20 +58,4 @@ export default function useScooters(): Scooter[] | null {
     }, [scooters, settings])
 
     return scooters
-}
-
-export function useOperators(): Record<ScooterOperator, Scooter[]> | null {
-    const [settings] = useSettingsContext()
-    const [scooters, setScooters] = useState<Scooter[] | null>([])
-
-    useEffect(() => {
-        if (!settings) return
-        fetchScooters(settings).then(setScooters)
-        const intervalId = setInterval(() => {
-            fetchScooters(settings).then(setScooters)
-        }, REFRESH_INTERVAL)
-        return (): void => clearInterval(intervalId)
-    }, [scooters, settings])
-
-    return scooters ? countScootersByOperator(scooters) : null
 }

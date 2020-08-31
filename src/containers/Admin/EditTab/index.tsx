@@ -61,7 +61,7 @@ const EditTab = (): JSX.Element => {
     const operators = useScooters()
     useEffect(() => {
         let ignoreResponse = false
-        if (!(operators === null)) {
+        if (operators !== null) {
             setScooters(operators)
         }
         return (): void => {
@@ -192,7 +192,7 @@ const EditTab = (): JSX.Element => {
                             size="large"
                         />
                     </div>
-                    <ScooterPanel scooters={scooters} />
+                    <ScooterPanel />
                 </GridItem>
             </GridContainer>
         </div>

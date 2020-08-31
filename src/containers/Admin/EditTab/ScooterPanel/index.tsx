@@ -1,26 +1,23 @@
 import React, { useCallback } from 'react'
 import { Checkbox, Fieldset } from '@entur/form'
-import { ScooterOperator, Scooter } from '@entur/sdk'
+import { ALL_OPERATORS } from '../../../../constants'
 
 import { toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
-import { Paragraph } from '@entur/typography'
 
-function ScooterPanel(props: Props): JSX.Element {
+function ScooterPanel(): JSX.Element {
     const [settings, { setHiddenOperators }] = useSettingsContext()
     const { hiddenOperators = [] } = settings || {}
 
-    const { scooters } = props
-    const allOperators = ['voi', 'tier', 'lime', 'zvipp']
     const onChooseAllPressed = useCallback(() => {
         if (hiddenOperators.length > 0) {
             setHiddenOperators([])
         } else {
-            setHiddenOperators(allOperators)
+            setHiddenOperators(ALL_OPERATORS)
         }
-    }, [hiddenOperators.length, setHiddenOperators, allOperators])
+    }, [hiddenOperators.length, setHiddenOperators])
 
     const onToggleOperator = useCallback(
         (event) => {
@@ -45,7 +42,7 @@ function ScooterPanel(props: Props): JSX.Element {
             >
                 Velg alle
             </Checkbox>
-            {allOperators.map((operator) => (
+            {ALL_OPERATORS.map((operator) => (
                 <Checkbox
                     key={operator}
                     id={operator}
@@ -61,10 +58,6 @@ function ScooterPanel(props: Props): JSX.Element {
             ))}
         </Fieldset>
     )
-}
-
-interface Props {
-    scooters: Scooter[]
 }
 
 export default ScooterPanel
