@@ -7,6 +7,7 @@ import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
+import ScooterPanel from './ScooterPanel'
 
 import { useSettingsContext, Mode } from '../../../settings'
 import {
@@ -16,10 +17,10 @@ import {
 } from '../../../utils'
 import { DEFAULT_DISTANCE } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearestPlaces } from '../../../logic'
+import { useNearestPlaces, useScooters } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
 
-import { BikeRentalStation } from '@entur/sdk'
+import { BikeRentalStation, Scooter } from '@entur/sdk'
 
 import { Heading2 } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -33,7 +34,6 @@ const EditTab = (): JSX.Element => {
         settings?.distance || DEFAULT_DISTANCE,
     )
     const debouncedDistance = useDebounce(distance, 800)
-
     useEffect(() => {
         if (settings?.distance !== debouncedDistance) {
             settingsSetters.setDistance(debouncedDistance)
@@ -168,6 +168,18 @@ const EditTab = (): JSX.Element => {
                         onSelected={addNewStation}
                     />
                     <BikePanel stations={stations} />
+                </GridItem>
+
+                <GridItem medium={4} small={12}>
+                    <div className="edit-tab__header">
+                        <Heading2>Sparkesykkel</Heading2>
+                        <Switch
+                            onChange={(): void => toggleMode('sparkesykkel')}
+                            checked={!hiddenModes?.includes('sparkesykkel')}
+                            size="large"
+                        />
+                    </div>
+                    <ScooterPanel />
                 </GridItem>
             </GridContainer>
         </div>

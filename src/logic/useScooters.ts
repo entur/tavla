@@ -3,11 +3,14 @@ import { ScooterOperator, Scooter } from '@entur/sdk'
 
 import service from '../service'
 import { useSettingsContext, Settings } from '../settings'
-import { REFRESH_INTERVAL } from '../constants'
+import { REFRESH_INTERVAL, ALL_OPERATORS } from '../constants'
 
-function countScootersByOperator(
+export function countScootersByOperator(
     list: Scooter[] | null,
-): Record<ScooterOperator, Scooter[]> {
+): Record<ScooterOperator, Scooter[]> | null {
+    if (list === null) {
+        return null
+    }
     const operators: Record<ScooterOperator, Scooter[]> = {
         [ScooterOperator.VOI]: [],
         [ScooterOperator.TIER]: [],
@@ -19,31 +22,28 @@ function countScootersByOperator(
 }
 
 async function fetchScooters(settings: Settings): Promise<Scooter[] | null> {
-    const { coordinates, distance, hiddenModes } = settings
+    const { coordinates, distance, hiddenModes, hiddenOperators } = settings
 
-    if (hiddenModes.includes('bysykkel')) {
+    if (hiddenModes.includes('sparkesykkel')) {
         return null
     }
 
     let scooters: Scooter[] = []
-
     if (coordinates) {
         scooters = await service.getScootersByPosition({
             latitude: coordinates.latitude,
             longitude: coordinates.longitude,
             distance,
             limit: 50,
-            //operators: ['TIER', 'VOI'], // Use the ScooterOperator enum if using TypeScript
+            operators: ALL_OPERATORS.filter(
+                (operator) => !hiddenOperators.includes(operator),
+            ),
         })
     }
-
     return scooters
 }
 
-export default function useScooters(): Record<
-    ScooterOperator,
-    Scooter[]
-> | null {
+export default function useScooters(): Scooter[] | null {
     const [settings] = useSettingsContext()
     const [scooters, setScooters] = useState<Scooter[] | null>([])
 
@@ -53,9 +53,7 @@ export default function useScooters(): Record<
         const intervalId = setInterval(() => {
             fetchScooters(settings).then(setScooters)
         }, REFRESH_INTERVAL)
-
         return (): void => clearInterval(intervalId)
-    }, [scooters, settings])
-
-    return countScootersByOperator(scooters)
+    }, [settings])
+    return scooters
 }

@@ -6,6 +6,7 @@ import { Theme } from '../types'
 
 export const DEFAULT_SETTINGS: Settings = {
     hiddenStations: [],
+    hiddenOperators: [],
     hiddenStops: [],
     hiddenRoutes: {},
     distance: DEFAULT_DISTANCE,
