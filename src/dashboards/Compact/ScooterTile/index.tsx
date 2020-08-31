@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import ReactMapGL from 'react-map-gl'
 
 import { ScooterOperator, Scooter } from '@entur/sdk'
 import ScooterRow from './ScooterRow'
@@ -13,6 +14,13 @@ import './styles.scss'
 
 function ScooterTile({ scooters }: Props): JSX.Element {
     const [settings] = useSettingsContext()
+    const [viewport, setViewPort] = useState({
+        latitude: 59.909,
+        longitude: 10.746,
+        zoom: 10,
+        width: '400',
+        height: '400',
+    })
 
     if (!(Object.entries(scooters || {}).length > 0)) {
         return (
@@ -29,31 +37,9 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                     <ScooterIcon />
                 </div>
             </header>
-            {Object.entries(scooters || {})
-                .filter((operator) => operator[1].length > 0)
-                .map((row) => {
-                    const operator = row[0] as ScooterOperator
-                    const logo = operator
-                    if (settings?.distance) {
-                        return (
-                            <ScooterRow
-                                key={operator}
-                                icon={
-                                    <ScooterOperatorLogo
-                                        logo={logo}
-                                        width={'32px'}
-                                    />
-                                }
-                                operator={
-                                    operator.charAt(0).toUpperCase() +
-                                    operator.slice(1)
-                                }
-                                counter={row[1].length}
-                                distance={settings.distance}
-                            />
-                        )
-                    }
-                })}
+            <ReactMapGL {...viewport} mapboxApiAccessToken={'tokens goes here'}>
+                bike
+            </ReactMapGL>
         </div>
     )
 }
