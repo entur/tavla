@@ -59,7 +59,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
 }
 
 interface Props {
-    scooters: Record<ScooterOperator, Scooter[]> | undefined
+    scooters: Record<ScooterOperator, Scooter[]>
 }
 
 export default ScooterTile

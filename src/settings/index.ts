@@ -6,7 +6,7 @@ import {
     useEffect,
 } from 'react'
 import { useLocation } from 'react-router-dom'
-import { LegMode, Coordinates } from '@entur/sdk'
+import { LegMode, Coordinates, ScooterOperator } from '@entur/sdk'
 import { Theme } from '../types'
 
 import { persist as persistToFirebase, FieldTypes } from './FirestoreStorage'
@@ -24,7 +24,7 @@ export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
 export interface Settings {
     boardName?: string
     coordinates?: Coordinates
-    hiddenOperators: string[]
+    hiddenOperators: ScooterOperator[]
     hiddenStations: string[]
     hiddenStops: string[]
     hiddenModes: Mode[]
@@ -45,7 +45,7 @@ export interface Settings {
 
 interface SettingsSetters {
     setBoardName: (boardName: string) => void
-    setHiddenOperators: (hiddenOperators: string[]) => void
+    setHiddenOperators: (hiddenOperators: ScooterOperator[]) => void
     setHiddenStations: (hiddenStations: string[]) => void
     setHiddenStops: (hiddenStops: string[]) => void
     setHiddenStopModes: (hiddenModes: {
@@ -200,7 +200,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
     )
 
     const setHiddenOperators = useCallback(
-        (newHiddenOperators: string[]): void => {
+        (newHiddenOperators: ScooterOperator[]): void => {
             set('hiddenOperators', newHiddenOperators)
         },
         [set],

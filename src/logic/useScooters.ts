@@ -29,7 +29,6 @@ async function fetchScooters(settings: Settings): Promise<Scooter[] | null> {
     }
 
     let scooters: Scooter[] = []
-
     if (coordinates) {
         scooters = await service.getScootersByPosition({
             latitude: coordinates.latitude,
@@ -55,7 +54,6 @@ export default function useScooters(): Scooter[] | null {
             fetchScooters(settings).then(setScooters)
         }, REFRESH_INTERVAL)
         return (): void => clearInterval(intervalId)
-    }, [scooters, settings])
-
+    }, [settings])
     return scooters
 }

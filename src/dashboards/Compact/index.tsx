@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import {
@@ -41,7 +41,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const bikeRentalStations = useBikeRentalStations()
 
-    const scooters = countScootersByOperator(useScooters())
+    const toMemo = useScooters()
+    const scooters = useMemo(() => countScootersByOperator(toMemo), [toMemo])
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
@@ -61,7 +62,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     // Var en rød strek her som forsvant av seg selv. Kan potensielt ha brukket koden :/
     const anyScooters: boolean | null =
         scooters && Object.values(scooters).some((sctr) => sctr.length)
-
     const localStorageLayout: Layouts =
         getFromLocalStorage(history.location.key) || {}
 

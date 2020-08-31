@@ -42,7 +42,6 @@ const EditTab = (): JSX.Element => {
 
     const [stopPlaces, setStopPlaces] = useState<StopPlaceWithLines[]>([])
     const [stations, setStations] = useState<BikeRentalStation[]>([])
-    const [scooters, setScooters] = useState<Scooter[]>([])
 
     const nearestPlaces = useNearestPlaces(
         settings?.coordinates,
@@ -56,17 +55,6 @@ const EditTab = (): JSX.Element => {
                 .map(({ id }) => id),
         [nearestPlaces],
     )
-
-    const operators = useScooters()
-    useEffect(() => {
-        let ignoreResponse = false
-        if (operators !== null) {
-            setScooters(operators)
-        }
-        return (): void => {
-            ignoreResponse = true
-        }
-    }, [operators, scooters, settings])
 
     useEffect(() => {
         let ignoreResponse = false
