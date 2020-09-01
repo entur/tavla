@@ -13,11 +13,22 @@ import {
 } from '../../utils'
 import { LineData, IconColorType } from '../../types'
 
+
 import { useStopPlacesWithDepartures } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
+import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
+
 import './styles.scss'
 import { useSettingsContext } from '../../settings'
+
+import {
+    getFromLocalStorage,
+    saveToLocalStorage,
+} from '../../settings/LocalStorage'
+
+const ResponsiveReactGridLayout = WidthProvider(Responsive)
+
 
 const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]
 
@@ -76,6 +87,10 @@ function getLegBonePattern(
     }
 }
 
+function onLayoutChange(layouts: Layouts, key: string): void {
+    saveToLocalStorage(key, layouts)
+}
+
 interface TickProps {
     minutes: number
     mode: LegMode
@@ -130,11 +145,14 @@ interface TimelineData {
 
 const TimelineDashboard = ({ history }: Props): JSX.Element => {
     useCounter()
+    const dashboardKey = history.location.key
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const [settings] = useSettingsContext()
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
+
+    
 
     useEffect(() => {
         if (settings) {
@@ -162,6 +180,22 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
         [stopPlacesWithDepartures],
     )
 
+    const numberOfStopPlaces = stopPlacesWithDepartures
+        ? stopPlacesWithDepartures.length
+        : 0
+
+    const cols = {
+        lg: 1,
+        md: 1,
+        sm: 1,
+        xs: 1,
+        xxs: 1,
+    }
+
+    const localStorageLayout: Layouts =
+        getFromLocalStorage(history.location.key) || {}
+
+
     return (
         <DashboardWrapper
             className="timeline"
@@ -169,8 +203,24 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
             <div className="timeline__body">
+            <ResponsiveReactGridLayout
+                        key={numberOfStopPlaces}
+                        cols={cols}
+                        layouts={localStorageLayout}
+                        rowHeight={550}
+                        compactType="vertical"
+                        onLayoutChange={(
+                            layout: Layout[],
+                            layouts: Layouts,
+                        ): void => {
+                            if (numberOfStopPlaces > 0) {
+                                onLayoutChange(layouts, dashboardKey)
+                            }
+                        }}
+                    >            
                 {data.map(({ stopId, name, groupedDepartures }) => (
                     <div key={stopId} className="timeline__stop">
+                        
                         <Heading2
                             className="timeline__heading"
                             margin="none"
@@ -179,7 +229,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                             {name}
                         </Heading2>
                         {groupedDepartures.map(([mode, departures]) => (
-                            <Fragment key={mode}>
+                            <Fragment key={mode} >
                                 <div className="timeline__track">
                                     {departures.map(
                                         ({
@@ -232,6 +282,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                         ))}
                     </div>
                 ))}
+            </ResponsiveReactGridLayout>
             </div>
         </DashboardWrapper>
     )
