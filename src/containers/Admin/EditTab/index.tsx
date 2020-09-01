@@ -130,6 +130,7 @@ const EditTab = (): JSX.Element => {
         },
         [setHiddenModes, hiddenModes],
     )
+    console.log(hiddenModes)
 
     return (
         <div className="edit-tab">

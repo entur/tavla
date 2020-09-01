@@ -1,11 +1,10 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
     useScooters,
-    countScootersByOperator,
 } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
@@ -58,7 +57,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
 
-    const anyScooters: boolean | null = scooters && scooters.length > 0
+    const anyScooters: number | null = scooters && scooters.length
 
     const localStorageLayout: Layouts =
         getFromLocalStorage(history.location.key) || {}
@@ -78,8 +77,9 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         <DashboardWrapper
             className="compact"
             history={history}
-            bikeRentalStations={bikeRentalStations}
+            bikeRentalStations={bikeRentalStations ? bikeRentalStations : []}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
+            scooters={scooters ? scooters : []}
         >
             <div className="compact__tiles">
                 <ResponsiveReactGridLayout
