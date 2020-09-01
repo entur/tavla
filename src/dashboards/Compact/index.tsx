@@ -77,9 +77,9 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         <DashboardWrapper
             className="compact"
             history={history}
-            bikeRentalStations={bikeRentalStations ? bikeRentalStations : []}
+            bikeRentalStations={bikeRentalStations}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
-            scooters={scooters ? scooters : []}
+            scooters={scooters}
         >
             <div className="compact__tiles">
                 <ResponsiveReactGridLayout
