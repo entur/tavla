@@ -41,8 +41,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const bikeRentalStations = useBikeRentalStations()
 
-    const toMemo = useScooters()
-    const scooters = useMemo(() => countScootersByOperator(toMemo), [toMemo])
+    const scooters = useScooters()
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
@@ -59,9 +58,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
 
-    // Var en rød strek her som forsvant av seg selv. Kan potensielt ha brukket koden :/
-    const anyScooters: boolean | null =
-        scooters && Object.values(scooters).some((sctr) => sctr.length)
+    const anyScooters: boolean | null = scooters && scooters.length > 0
+
     const localStorageLayout: Layouts =
         getFromLocalStorage(history.location.key) || {}
 
