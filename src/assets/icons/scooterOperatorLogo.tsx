@@ -1,8 +1,9 @@
 import React from 'react'
 
-import Voi from './../logos/voi-logo.svg'
-import Lime from './../logos/lime-24.svg'
-import Tier from './../logos/tier-logo.svg'
+import Voi from './../logos/Voi.svg'
+import Lime from './../logos/Lime.svg'
+import Tier from './../logos/Tier.svg'
+import Zvipp from './../logos/Zvipp.svg'
 import { ScooterOperator } from '@entur/sdk'
 
 function ScooterOperatorLogo({
@@ -16,6 +17,8 @@ function ScooterOperatorLogo({
         return <img src={Tier} width={width} className={className} />
     } else if (logo === ScooterOperator.LIME) {
         return <img src={Lime} width={width} className={className} />
+    } else if (logo === ScooterOperator.ZVIPP) {
+        return <img src={Zvipp} width={width} className={className} />
     }
     return null
 }

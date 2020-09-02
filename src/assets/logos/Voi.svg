@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28" height="28" viewBox="0 0 28 28">
+  <defs>
+    <circle id="voi-b" cx="12" cy="12" r="12"/>
+    <filter id="voi-a" width="130.8%" height="130.8%" x="-15.4%" y="-11.2%" filterUnits="objectBoundingBox">
+      <feMorphology in="SourceAlpha" operator="dilate" radius=".2" result="shadowSpreadOuter1"/>
+      <feOffset dy="1" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="1"/>
+      <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd" transform="translate(2 1)">
+    <use fill="#000" filter="url(#voi-a)" xlink:href="#voi-b"/>
+    <use fill="#FFF" stroke="#BABBCF" stroke-width=".4" xlink:href="#voi-b"/>
+    <path fill="#F46C63" fill-rule="nonzero" d="M15.7030719,7.5 L11.7462958,16.3680832 L8.93978125,16.3680832 L5,7.5 L7.80651475,7.5 L10.4075427,13.5330718 L13.088139,7.5 L15.7030719,7.5 Z M17.3091118,16.4995696 C16.8580593,16.5096342 16.4227005,16.342795 16.1063189,16.0386341 C15.7818564,15.7342689 15.6051217,15.3164664 15.6180952,14.8844686 C15.6180952,14.4120884 15.7808367,14.030289 16.1063189,13.7390689 C16.789765,13.1563037 17.8284578,13.1563037 18.5119031,13.7390689 C18.837387,14.0312627 18.9998707,14.4130621 18.9993541,14.8844686 C19.0121122,15.3162156 18.8353934,15.7337134 18.5111304,16.0379035 C18.1950642,16.3421457 17.7600108,16.509239 17.309111,16.4995696 L17.3091118,16.4995696 Z"/>
+  </g>
+</svg>
