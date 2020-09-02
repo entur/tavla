@@ -44,7 +44,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                     >
                         <ScooterOperatorLogo
                             logo={sctr.operator}
-                            width={'32px'}
+                            width="32px"
                         />
                     </Marker>
                 ))}
