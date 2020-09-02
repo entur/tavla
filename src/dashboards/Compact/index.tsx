@@ -57,7 +57,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
 
-    const anyScooters: number | null = scooters && scooters.length
+    const anyScooters = Boolean(scooters && scooters.length)
 
     const localStorageLayout: Layouts =
         getFromLocalStorage(history.location.key) || {}
