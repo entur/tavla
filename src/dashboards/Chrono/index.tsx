@@ -1,7 +1,6 @@
 import React from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
-
 import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
@@ -38,8 +37,6 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    
-
     // Remove stop places without departures
     if (stopPlacesWithDepartures) {
         stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
@@ -73,7 +70,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
             <div className="chrono__tiles">
-            <ResponsiveReactGridLayout
+                <ResponsiveReactGridLayout
                     key={numberOfStopPlaces}
                     cols={cols}
                     layouts={localStorageLayout}
@@ -88,18 +85,18 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                         }
                     }}
                 >
-                {(stopPlacesWithDepartures || [])
-                    .filter(({ departures }) => departures.length > 0)
-                    .map((stop, index) => (
-                        <DepartureTile
-                            key={index}
-                            stopPlaceWithDepartures={stop}
-                        />
-                    ))}
-                {bikeRentalStations && bikeRentalStations.length ? (
-                    <BikeTile stations={bikeRentalStations} />
-                ) : null}
-                 </ResponsiveReactGridLayout>
+                    {(stopPlacesWithDepartures || [])
+                        .filter(({ departures }) => departures.length > 0)
+                        .map((stop, index) => (
+                            <DepartureTile
+                                key={index}
+                                stopPlaceWithDepartures={stop}
+                            />
+                        ))}
+                    {bikeRentalStations && bikeRentalStations.length ? (
+                        <BikeTile stations={bikeRentalStations} />
+                    ) : null}
+                </ResponsiveReactGridLayout>
             </div>
         </DashboardWrapper>
     )
