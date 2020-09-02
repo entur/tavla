@@ -85,17 +85,27 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                         }
                     }}
                 >
-                    {(stopPlacesWithDepartures || [])
-                        .filter(({ departures }) => departures.length > 0)
-                        .map((stop, index) => (
+                    {(stopPlacesWithDepartures || []).map((stop, index) => (
+                        <div
+                            key={index.toString()}
+                            data-grid={getDataGrid(index)}
+                        >
                             <DepartureTile
                                 key={index}
                                 stopPlaceWithDepartures={stop}
                             />
-                        ))}
-                    {bikeRentalStations && bikeRentalStations.length ? (
-                        <BikeTile stations={bikeRentalStations} />
-                    ) : null}
+                        </div>
+                    ))}
+                    {bikeRentalStations && anyBikeRentalStations ? (
+                        <div
+                            key={numberOfStopPlaces.toString()}
+                            data-grid={getDataGrid(numberOfStopPlaces)}
+                        >
+                            <BikeTile stations={bikeRentalStations} />
+                        </div>
+                    ) : (
+                        []
+                    )}
                 </ResponsiveReactGridLayout>
             </div>
         </DashboardWrapper>
