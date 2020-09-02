@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import { ScooterOperator, Scooter } from '@entur/sdk'
-import ScooterRow from './ScooterRow'
-
+import { Scooter } from '@entur/sdk'
+import { colors } from '@entur/tokens'
 import { ScooterIcon } from '@entur/icons'
 import { useSettingsContext } from '../../../settings'
 
@@ -20,7 +19,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
         longitude: settings?.coordinates?.longitude,
         width: 'auto',
         height: '55vh',
-        zoom: 15.5,
+        zoom: 13.5,
     })
 
     return (
@@ -28,7 +27,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
             <header className="scootertile__header">
                 <Heading2>Sparkesykler</Heading2>
                 <div className="scootertile__header-icons">
-                    <ScooterIcon />
+                    <ScooterIcon color={colors.blues.blue60} />
                 </div>
             </header>
             <ReactMapGL
