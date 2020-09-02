@@ -1,5 +1,5 @@
 import React from 'react'
-import { BikeRentalStation } from '@entur/sdk'
+import { BikeRentalStation, Scooter } from '@entur/sdk'
 import { Loader } from '@entur/loader'
 
 import { useCounter, isDarkOrDefaultTheme } from '../../utils'
@@ -21,10 +21,13 @@ function DashboardWrapper(props: Props): JSX.Element {
         history,
         bikeRentalStations,
         stopPlacesWithDepartures,
+        scooters,
     } = props
 
     const noData =
-        !stopPlacesWithDepartures?.length && !bikeRentalStations?.length
+        !stopPlacesWithDepartures?.length &&
+        !bikeRentalStations?.length &&
+        !scooters?.length
 
     const renderContents = (): JSX.Element | JSX.Element[] | null => {
         if (!noData) {
@@ -74,6 +77,7 @@ function DashboardWrapper(props: Props): JSX.Element {
 interface Props {
     stopPlacesWithDepartures?: StopPlaceWithDepartures[] | null
     bikeRentalStations?: BikeRentalStation[] | null
+    scooters?: Scooter[] | null
     className: string
     children: JSX.Element | JSX.Element[]
     history: any

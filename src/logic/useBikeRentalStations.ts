@@ -57,6 +57,5 @@ export default function useBikeRentalStations(): BikeRentalStation[] | null {
 
         return (): void => clearInterval(intervalId)
     }, [nearestBikeRentalStations, settings])
-
     return bikeRentalStations
 }

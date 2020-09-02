@@ -1,11 +1,16 @@
 import React from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
-import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../logic'
+import {
+    useBikeRentalStations,
+    useStopPlacesWithDepartures,
+    useScooters,
+} from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
+import ScooterTile from './ScooterTile'
 import './styles.scss'
 
 import {
@@ -35,6 +40,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const bikeRentalStations = useBikeRentalStations()
 
+    const scooters = useScooters()
+
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
     // Remove stop places without departures
@@ -47,27 +54,32 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const numberOfStopPlaces = stopPlacesWithDepartures
         ? stopPlacesWithDepartures.length
         : 0
-    const anyBikeRentalStations =
+    const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
+
+    const anyScooters = Boolean(scooters && scooters.length)
 
     const localStorageLayout: Layouts =
         getFromLocalStorage(history.location.key) || {}
-    const extraCols = anyBikeRentalStations ? 1 : 0
+
+    const bikeCol = anyBikeRentalStations ? 1 : 0
+
+    const scooterCol = anyScooters ? 1 : 0
 
     const cols = {
-        lg: numberOfStopPlaces + extraCols,
-        md: numberOfStopPlaces + extraCols,
+        lg: numberOfStopPlaces + bikeCol + scooterCol,
+        md: numberOfStopPlaces + bikeCol + scooterCol,
         sm: 1,
         xs: 1,
         xxs: 1,
     }
-
     return (
         <DashboardWrapper
             className="compact"
             history={history}
             bikeRentalStations={bikeRentalStations}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
+            scooters={scooters}
         >
             <div className="compact__tiles">
                 <ResponsiveReactGridLayout
@@ -102,6 +114,18 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                             data-grid={getDataGrid(numberOfStopPlaces)}
                         >
                             <BikeTile stations={bikeRentalStations} />
+                        </div>
+                    ) : (
+                        []
+                    )}
+                    {scooters ? (
+                        <div
+                            key={'sparkesykkel'}
+                            data-grid={getDataGrid(
+                                numberOfStopPlaces + scooterCol,
+                            )}
+                        >
+                            <ScooterTile scooters={scooters} />
                         </div>
                     ) : (
                         []
