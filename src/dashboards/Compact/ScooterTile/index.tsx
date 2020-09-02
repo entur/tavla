@@ -14,7 +14,8 @@ import './styles.scss'
 
 function ScooterTile({ scooters }: Props): JSX.Element {
     const [settings] = useSettingsContext()
-    const [viewport, setViewPort] = useState({
+
+    const [viewport] = useState({
         latitude: settings?.coordinates?.latitude,
         longitude: settings?.coordinates?.longitude,
         width: 'auto',
@@ -32,10 +33,8 @@ function ScooterTile({ scooters }: Props): JSX.Element {
             </header>
             <ReactMapGL
                 {...viewport}
-                mapboxApiAccessToken={
-                    'pk.eyJ1IjoiZW50dXIiLCJhIjoiY2tlaWgyMGdwMTJoOTJ1bHB5aW92YTh3dSJ9.eDtvqlDi6C7fhXxmjqeN2Q'
-                }
-                mapStyle={'mapbox://styles/entur/cj9fk2u1w0a1p2sqlrkmxp685'}
+                mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
+                mapStyle={process.env.MAPBOX_STYLE}
             >
                 {scooters.map((sctr) => (
                     <Marker
