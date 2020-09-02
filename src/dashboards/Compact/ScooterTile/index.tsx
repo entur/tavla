@@ -20,7 +20,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
         longitude: settings?.coordinates?.longitude,
         width: 'auto',
         height: '55vh',
-        zoom: 13.5,
+        zoom: 15.5,
     })
 
     return (
