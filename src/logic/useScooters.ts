@@ -24,7 +24,10 @@ export function countScootersByOperator(
 async function fetchScooters(settings: Settings): Promise<Scooter[] | null> {
     const { coordinates, distance, hiddenModes, hiddenOperators } = settings
 
-    if (hiddenModes.includes('sparkesykkel')) {
+    if (
+        hiddenModes.includes('sparkesykkel') ||
+        ALL_OPERATORS.every((operator) => hiddenOperators.includes(operator))
+    ) {
         return null
     }
 

@@ -17,10 +17,10 @@ import {
 } from '../../../utils'
 import { DEFAULT_DISTANCE } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearestPlaces, useScooters } from '../../../logic'
+import { useNearestPlaces } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
 
-import { BikeRentalStation, Scooter } from '@entur/sdk'
+import { BikeRentalStation } from '@entur/sdk'
 
 import { Heading2 } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'

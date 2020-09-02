@@ -23,13 +23,6 @@ function ScooterTile({ scooters }: Props): JSX.Element {
         zoom: 16,
     })
 
-    if (!(Object.entries(scooters || {}).length > 0)) {
-        return (
-            <div>
-                <h1>Laster inn scooters</h1>
-            </div>
-        )
-    }
     return (
         <div className="scootertile">
             <header className="scootertile__header">
