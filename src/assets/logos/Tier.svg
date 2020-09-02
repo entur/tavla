@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28" height="28" viewBox="0 0 28 28">
+  <defs>
+    <circle id="tier-b" cx="12" cy="12" r="12"/>
+    <filter id="tier-a" width="130.8%" height="130.8%" x="-15.4%" y="-11.2%" filterUnits="objectBoundingBox">
+      <feMorphology in="SourceAlpha" operator="dilate" radius=".2" result="shadowSpreadOuter1"/>
+      <feOffset dy="1" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="1"/>
+      <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd" transform="translate(2 1)">
+    <use fill="#000" filter="url(#tier-a)" xlink:href="#tier-b"/>
+    <use fill="#FFF" stroke="#BABBCF" stroke-width=".4" xlink:href="#tier-b"/>
+    <path fill="#69D2AA" fill-rule="nonzero" d="M5.3180706,8 L18.6819294,8 C18.8575479,8 19,8.14221096 19,8.31753212 L19,9.48235933 C19,9.65795187 18.8575479,9.79989144 18.6819294,9.79989144 L13.0074954,9.79989144 L13.0074954,16.6821965 C13.0074954,16.8577891 12.8650433,17 12.6894248,17 L11.3105752,17 C11.1349567,17 10.9925045,16.8577891 10.9925045,16.6821965 L10.9925045,9.79989144 L5.3180706,9.79989144 C5.14245213,9.79989144 5,9.65795187 5,9.48235933 L5,8.31753212 C5,8.14221096 5.14245213,8 5.3180706,8 L5.3180706,8 Z"/>
+  </g>
+</svg>

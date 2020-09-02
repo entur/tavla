@@ -52,7 +52,7 @@ function ScooterPanel(): JSX.Element {
                     onChange={onToggleOperator}
                 >
                     <span className="bike-panel__eds-paragraph">
-                        {operator}
+                        {operator.charAt(0).toUpperCase() + operator.slice(1)}
                     </span>
                 </Checkbox>
             ))}

@@ -17,10 +17,10 @@ import {
 } from '../../../utils'
 import { DEFAULT_DISTANCE } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearestPlaces, useScooters } from '../../../logic'
+import { useNearestPlaces } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
 
-import { BikeRentalStation, Scooter } from '@entur/sdk'
+import { BikeRentalStation } from '@entur/sdk'
 
 import { Heading2 } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -135,7 +135,7 @@ const EditTab = (): JSX.Element => {
         <div className="edit-tab">
             <Heading2 className="heading">Rediger innhold</Heading2>
             <GridContainer spacing="extraLarge">
-                <GridItem medium={8} small={12}>
+                <GridItem medium={6} small={12}>
                     <div className="edit-tab__header">
                         <Heading2>Kollektiv</Heading2>
                         <Switch
@@ -154,7 +154,7 @@ const EditTab = (): JSX.Element => {
                     <StopPlacePanel stops={stopPlaces} />
                 </GridItem>
 
-                <GridItem medium={4} small={12}>
+                <GridItem medium={3} small={12}>
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>
                         <Switch
@@ -170,7 +170,7 @@ const EditTab = (): JSX.Element => {
                     <BikePanel stations={stations} />
                 </GridItem>
 
-                <GridItem medium={4} small={12}>
+                <GridItem medium={3} small={8}>
                     <div className="edit-tab__header">
                         <Heading2>Sparkesykkel</Heading2>
                         <Switch

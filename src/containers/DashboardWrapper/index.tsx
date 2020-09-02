@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { BikeRentalStation } from '@entur/sdk'
+import React from 'react'
+import { BikeRentalStation, Scooter } from '@entur/sdk'
 import { Loader } from '@entur/loader'
 
 import { useCounter, isDarkOrDefaultTheme } from '../../utils'
@@ -21,27 +21,16 @@ function DashboardWrapper(props: Props): JSX.Element {
         history,
         bikeRentalStations,
         stopPlacesWithDepartures,
+        scooters,
     } = props
 
-    const [initialLoading, setInitialLoading] = useState<boolean>(true)
-
-    useEffect(() => {
-        if (
-            initialLoading &&
-            (bikeRentalStations || typeof bikeRentalStations === 'undefined') &&
-            (stopPlacesWithDepartures ||
-                typeof stopPlacesWithDepartures === 'undefined')
-        ) {
-            setInitialLoading(false)
-        }
-    }, [bikeRentalStations, initialLoading, stopPlacesWithDepartures])
-
     const noData =
-        (!stopPlacesWithDepartures || !stopPlacesWithDepartures.length) &&
-        (!bikeRentalStations || !bikeRentalStations.length)
+        !stopPlacesWithDepartures?.length &&
+        !bikeRentalStations?.length &&
+        !scooters?.length
 
     const renderContents = (): JSX.Element | JSX.Element[] | null => {
-        if (!noData && !initialLoading) {
+        if (!noData) {
             return children
         }
 
@@ -88,6 +77,7 @@ function DashboardWrapper(props: Props): JSX.Element {
 interface Props {
     stopPlacesWithDepartures?: StopPlaceWithDepartures[] | null
     bikeRentalStations?: BikeRentalStation[] | null
+    scooters?: Scooter[] | null
     className: string
     children: JSX.Element | JSX.Element[]
     history: any
