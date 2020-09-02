@@ -12,13 +12,36 @@ function ScooterOperatorLogo({
     width,
 }: Props): JSX.Element | null {
     if (logo === ScooterOperator.VOI) {
-        return <img src={Voi} width={width} className={className} />
+        return (
+            <img src={Voi} width={width} height={width} className={className} />
+        )
     } else if (logo === ScooterOperator.TIER) {
-        return <img src={Tier} width={width} className={className} />
+        return (
+            <img
+                src={Tier}
+                width={width}
+                height={width}
+                className={className}
+            />
+        )
     } else if (logo === ScooterOperator.LIME) {
-        return <img src={Lime} width={width} className={className} />
+        return (
+            <img
+                src={Lime}
+                width={width}
+                height={width}
+                className={className}
+            />
+        )
     } else if (logo === ScooterOperator.ZVIPP) {
-        return <img src={Zvipp} width={width} className={className} />
+        return (
+            <img
+                src={Zvipp}
+                width={width}
+                height={width}
+                className={className}
+            />
+        )
     }
     return null
 }
