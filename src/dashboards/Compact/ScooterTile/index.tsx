@@ -9,6 +9,7 @@ import { useSettingsContext } from '../../../settings'
 
 import { Heading2 } from '@entur/typography'
 import ScooterOperatorLogo from '../../../assets/icons/scooterOperatorLogo'
+import PositionPin from '../../../assets/icons/positionPin'
 
 import './styles.scss'
 
@@ -37,6 +38,12 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                 }
                 mapStyle={'mapbox://styles/entur/cj9fk2u1w0a1p2sqlrkmxp685'}
             >
+                <Marker
+                    latitude={viewport.latitude ? viewport.latitude : 0}
+                    longitude={viewport.longitude ? viewport.longitude : 0}
+                >
+                    <PositionPin width={'24px'} />
+                </Marker>
                 {scooters.map((sctr) => (
                     <Marker
                         key={sctr.id}
@@ -45,7 +52,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                     >
                         <ScooterOperatorLogo
                             logo={sctr.operator}
-                            width={'32px'}
+                            width={'24px'}
                         />
                     </Marker>
                 ))}
