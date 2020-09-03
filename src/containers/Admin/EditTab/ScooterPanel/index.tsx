@@ -1,25 +1,16 @@
 import React, { useCallback, useState } from 'react'
 import { Checkbox, Fieldset } from '@entur/form'
-import { ALL_OPERATORS, DEFAULT_ZOOM } from '../../../../constants'
-import ReactMapGL, { Marker } from 'react-map-gl'
+import { ALL_OPERATORS } from '../../../../constants'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
-import { Slider } from '../../../../components'
 
 function ScooterPanel(): JSX.Element {
     const [settings, { setHiddenOperators }] = useSettingsContext()
     const { hiddenOperators = [] } = settings || {}
-    const [viewport, setViewPort] = useState({
-        latitude: settings?.coordinates?.latitude,
-        longitude: settings?.coordinates?.longitude,
-        width: 'auto',
-        height: '40vh',
-        zoom: settings?.zoom ? settings?.zoom : DEFAULT_ZOOM,
-    })
 
     const onChooseAllPressed = useCallback(() => {
         if (hiddenOperators.length > 0) {
