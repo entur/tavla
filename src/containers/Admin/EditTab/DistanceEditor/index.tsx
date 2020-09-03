@@ -4,6 +4,7 @@ import { Slider } from '../../../../components'
 
 import './styles.scss'
 import { Label } from '@entur/typography'
+import { MAX_DISTANCE } from '../../../../constants'
 
 function DistanceEditor(props: Props): JSX.Element {
     const { distance, onDistanceUpdated } = props
@@ -18,7 +19,12 @@ function DistanceEditor(props: Props): JSX.Element {
     return (
         <div className="distance-editor">
             <Label>Hvor langt unna vil du inkludere stoppesteder?</Label>
-            <Slider handleChange={handleDistanceUpdate} distance={distance} />
+            <Slider
+                handleChange={handleDistanceUpdate}
+                distance={distance}
+                min={1}
+                max={MAX_DISTANCE}
+                step={1}/>
             <p className="distance-editor__text">
                 Viser stoppesteder innenfor <b>{distance}</b> m avstand.
             </p>

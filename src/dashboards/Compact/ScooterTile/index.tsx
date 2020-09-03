@@ -12,15 +12,16 @@ import ScooterOperatorLogo from '../../../assets/icons/scooterOperatorLogo'
 import PositionPin from '../../../assets/icons/positionPin'
 
 import './styles.scss'
+import { DEFAULT_ZOOM } from '../../../constants'
 
 function ScooterTile({ scooters }: Props): JSX.Element {
     const [settings] = useSettingsContext()
-    const [viewport, setViewPort] = useState({
+    const [viewport] = useState({
         latitude: settings?.coordinates?.latitude,
         longitude: settings?.coordinates?.longitude,
         width: 'auto',
         height: '55vh',
-        zoom: 15.5,
+        zoom: settings?.zoom ? settings?.zoom : DEFAULT_ZOOM,
     })
 
     return (

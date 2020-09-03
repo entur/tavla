@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { Checkbox, Fieldset } from '@entur/form'
-import { ALL_OPERATORS } from '../../../../constants'
+import { ALL_OPERATORS, DEFAULT_ZOOM } from '../../../../constants'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -8,6 +8,7 @@ import { toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
+import { Slider } from '../../../../components'
 
 function ScooterPanel(): JSX.Element {
     const [settings, { setHiddenOperators }] = useSettingsContext()
@@ -17,7 +18,7 @@ function ScooterPanel(): JSX.Element {
         longitude: settings?.coordinates?.longitude,
         width: 'auto',
         height: '40vh',
-        zoom: 15.5,
+        zoom: settings?.zoom ? settings?.zoom : DEFAULT_ZOOM,
     })
 
     const onChooseAllPressed = useCallback(() => {
@@ -65,13 +66,6 @@ function ScooterPanel(): JSX.Element {
                     </span>
                 </Checkbox>
             ))}
-            <ReactMapGL
-                {...viewport}
-                mapboxApiAccessToken={
-                    'pk.eyJ1IjoiZW50dXIiLCJhIjoiY2tlaWgyMGdwMTJoOTJ1bHB5aW92YTh3dSJ9.eDtvqlDi6C7fhXxmjqeN2Q'
-                }
-                mapStyle={'mapbox://styles/entur/cj9fk2u1w0a1p2sqlrkmxp685'}
-            />
         </Fieldset>
     )
 }

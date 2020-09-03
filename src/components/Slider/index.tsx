@@ -20,9 +20,9 @@ function Slider(props: Props): JSX.Element {
             <input
                 id="typeinp"
                 type="range"
-                min="1"
-                max={MAX_DISTANCE}
-                step="1"
+                min={props.min}
+                max={props.max}
+                step={props.step} //"1"
                 onChange={props.handleChange}
                 className="slider"
                 value={props.distance}
@@ -36,6 +36,9 @@ function Slider(props: Props): JSX.Element {
 }
 
 interface Props {
+    min: number
+    max: number
+    step: number
     distance: number
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
