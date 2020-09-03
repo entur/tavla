@@ -16,8 +16,17 @@ import { LineData, IconColorType } from '../../types'
 import { useStopPlacesWithDepartures } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
+import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
+
 import './styles.scss'
 import { useSettingsContext } from '../../settings'
+
+import {
+    getFromLocalStorage,
+    saveToLocalStorage,
+} from '../../settings/LocalStorage'
+
+const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]
 
@@ -76,6 +85,10 @@ function getLegBonePattern(
     }
 }
 
+function onLayoutChange(layouts: Layouts, key: string): void {
+    saveToLocalStorage(key, layouts)
+}
+
 interface TickProps {
     minutes: number
     mode: LegMode
@@ -130,6 +143,7 @@ interface TimelineData {
 
 const TimelineDashboard = ({ history }: Props): JSX.Element => {
     useCounter()
+    const dashboardKey = history.location.key
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const [settings] = useSettingsContext()
     const [iconColorType, setIconColorType] = useState<IconColorType>(
@@ -162,6 +176,21 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
         [stopPlacesWithDepartures],
     )
 
+    const numberOfStopPlaces = stopPlacesWithDepartures
+        ? stopPlacesWithDepartures.length
+        : 0
+
+    const cols = {
+        lg: 1,
+        md: 1,
+        sm: 1,
+        xs: 1,
+        xxs: 1,
+    }
+
+    const localStorageLayout: Layouts =
+        getFromLocalStorage(history.location.key) || {}
+
     return (
         <DashboardWrapper
             className="timeline"
@@ -169,69 +198,85 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
             <div className="timeline__body">
-                {data.map(({ stopId, name, groupedDepartures }) => (
-                    <div key={stopId} className="timeline__stop">
-                        <Heading2
-                            className="timeline__heading"
-                            margin="none"
-                            style={{ margin: 0 }}
-                        >
-                            {name}
-                        </Heading2>
-                        {groupedDepartures.map(([mode, departures]) => (
-                            <Fragment key={mode}>
-                                <div className="timeline__track">
-                                    {departures.map(
-                                        ({
-                                            id,
-                                            type,
-                                            expectedDepartureTime,
-                                            route,
-                                        }) => {
-                                            const waitTime = timeUntil(
-                                                expectedDepartureTime,
-                                            )
-                                            const icon = getIcon(
+                <ResponsiveReactGridLayout
+                    key={numberOfStopPlaces}
+                    cols={cols}
+                    layouts={localStorageLayout}
+                    rowHeight={550}
+                    compactType="vertical"
+                    onLayoutChange={(
+                        layout: Layout[],
+                        layouts: Layouts,
+                    ): void => {
+                        if (numberOfStopPlaces > 0) {
+                            onLayoutChange(layouts, dashboardKey)
+                        }
+                    }}
+                >
+                    {data.map(({ stopId, name, groupedDepartures }) => (
+                        <div key={stopId} className="timeline__stop">
+                            <Heading2
+                                className="timeline__heading"
+                                margin="none"
+                                style={{ margin: 0 }}
+                            >
+                                {name}
+                            </Heading2>
+                            {groupedDepartures.map(([mode, departures]) => (
+                                <Fragment key={mode}>
+                                    <div className="timeline__track">
+                                        {departures.map(
+                                            ({
+                                                id,
                                                 type,
-                                                iconColorType,
-                                            )
-                                            return (
-                                                <div
-                                                    key={id}
-                                                    className="timeline__competitor"
-                                                    style={{
-                                                        right: competitorPosition(
-                                                            waitTime,
-                                                        ),
-                                                    }}
-                                                >
-                                                    <div className="timeline__label">
-                                                        {route}
+                                                expectedDepartureTime,
+                                                route,
+                                            }) => {
+                                                const waitTime = timeUntil(
+                                                    expectedDepartureTime,
+                                                )
+                                                const icon = getIcon(
+                                                    type,
+                                                    iconColorType,
+                                                )
+                                                return (
+                                                    <div
+                                                        key={id}
+                                                        className="timeline__competitor"
+                                                        style={{
+                                                            right: competitorPosition(
+                                                                waitTime,
+                                                            ),
+                                                        }}
+                                                    >
+                                                        <div className="timeline__label">
+                                                            {route}
+                                                        </div>
+                                                        {icon}
                                                     </div>
-                                                    {icon}
-                                                </div>
-                                            )
-                                        },
-                                    )}
-                                </div>
-                                <div className="timeline__line">
-                                    {[...TICKS]
-                                        .reverse()
-                                        .map((minutes, index) => {
-                                            return (
-                                                <Tick
-                                                    key={minutes}
-                                                    mode={mode}
-                                                    minutes={minutes}
-                                                    index={index}
-                                                />
-                                            )
-                                        })}
-                                </div>
-                            </Fragment>
-                        ))}
-                    </div>
-                ))}
+                                                )
+                                            },
+                                        )}
+                                    </div>
+                                    <div className="timeline__line">
+                                        {[...TICKS]
+                                            .reverse()
+                                            .map((minutes, index) => {
+                                                return (
+                                                    <Tick
+                                                        key={minutes}
+                                                        mode={mode}
+                                                        minutes={minutes}
+                                                        index={index}
+                                                    />
+                                                )
+                                            })}
+                                    </div>
+                                </Fragment>
+                            ))}
+                        </div>
+                    ))}
+                </ResponsiveReactGridLayout>
             </div>
         </DashboardWrapper>
     )
