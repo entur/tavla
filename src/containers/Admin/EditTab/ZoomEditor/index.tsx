@@ -45,7 +45,8 @@ function ZoomEditor(props: Props): JSX.Element {
                 step={0.1}
             />
             <p className="zoom-editor__text">
-                Viser stoppesteder innenfor <b>{zoom}</b> m avstand.
+                Kartet er zoomet in med nivå{' '}
+                <b>{Math.round((zoom - 12.5) * 10) / 10}</b>.
             </p>
             <ReactMapGL
                 {...viewport}

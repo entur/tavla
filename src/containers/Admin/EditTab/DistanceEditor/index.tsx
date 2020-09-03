@@ -24,7 +24,12 @@ function DistanceEditor(props: Props): JSX.Element {
                 distance={distance}
                 min={1}
                 max={MAX_DISTANCE}
-                step={1}/>
+                step={1}
+            />
+            <div className="slider__labels">
+                <div>1 m</div>
+                <div>{MAX_DISTANCE} m</div>
+            </div>
             <p className="distance-editor__text">
                 Viser stoppesteder innenfor <b>{distance}</b> m avstand.
             </p>

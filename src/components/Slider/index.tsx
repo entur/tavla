@@ -10,10 +10,10 @@ function Slider(props: Props): JSX.Element {
         if (sliderRef.current) {
             sliderRef.current.style.setProperty(
                 '--slider-progress',
-                String(props.distance / MAX_DISTANCE),
+                String((props.distance - props.min) / (props.max - props.min)),
             )
         }
-    }, [props.distance])
+    }, [props.distance, props.max, props.min])
 
     return (
         <div className="slider" ref={sliderRef}>
@@ -27,10 +27,6 @@ function Slider(props: Props): JSX.Element {
                 className="slider"
                 value={props.distance}
             />
-            <div className="slider__labels">
-                <div>1 m</div>
-                <div>{MAX_DISTANCE} m</div>
-            </div>
         </div>
     )
 }
