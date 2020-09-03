@@ -16,7 +16,7 @@ function ZoomEditor(props: Props): JSX.Element {
         longitude: settings?.coordinates?.longitude,
         width: 'auto',
         height: '40vh',
-        zoom: settings?.zoom ? settings?.zoom : DEFAULT_ZOOM,
+        zoom: settings?.zoom ?? DEFAULT_ZOOM,
     })
 
     const handleZoomUpdate = useCallback(
@@ -39,13 +39,13 @@ function ZoomEditor(props: Props): JSX.Element {
             <Label>Hvor langt unna vil du at kartet skal være zoomet?</Label>
             <Slider
                 handleChange={handleZoomUpdate}
-                distance={zoom}
+                value={zoom}
                 min={13.5}
                 max={18}
                 step={0.1}
             />
             <p className="zoom-editor__text">
-                Kartet er zoomet in med nivå{' '}
+                Kartet er zoomet inn med nivå{' '}
                 <b>{Math.round((zoom - 12.5) * 10) / 10}</b>.
             </p>
             <ReactMapGL

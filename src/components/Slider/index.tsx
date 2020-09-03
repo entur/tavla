@@ -10,10 +10,10 @@ function Slider(props: Props): JSX.Element {
         if (sliderRef.current) {
             sliderRef.current.style.setProperty(
                 '--slider-progress',
-                String((props.distance - props.min) / (props.max - props.min)),
+                String((props.value - props.min) / (props.max - props.min)),
             )
         }
-    }, [props.distance, props.max, props.min])
+    }, [props.value, props.max, props.min])
 
     return (
         <div className="slider" ref={sliderRef}>
@@ -25,7 +25,7 @@ function Slider(props: Props): JSX.Element {
                 step={props.step} //"1"
                 onChange={props.handleChange}
                 className="slider"
-                value={props.distance}
+                value={props.value}
             />
         </div>
     )
@@ -35,7 +35,7 @@ interface Props {
     min: number
     max: number
     step: number
-    distance: number
+    value: number
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 

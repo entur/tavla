@@ -21,7 +21,7 @@ function DistanceEditor(props: Props): JSX.Element {
             <Label>Hvor langt unna vil du inkludere stoppesteder?</Label>
             <Slider
                 handleChange={handleDistanceUpdate}
-                distance={distance}
+                value={distance}
                 min={1}
                 max={MAX_DISTANCE}
                 step={1}
