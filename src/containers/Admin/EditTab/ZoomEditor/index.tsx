@@ -36,7 +36,7 @@ function ZoomEditor(props: Props): JSX.Element {
 
     return (
         <div className="zoom-editor">
-            <Label>Hvor langt unna vil du at kartet skal være zoomet?</Label>
+            <Label>Hvor langt inn vil du at kartet skal være zoomet?</Label>
             <Slider
                 handleChange={handleZoomUpdate}
                 value={zoom}
