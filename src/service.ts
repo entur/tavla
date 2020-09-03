@@ -3,7 +3,7 @@ import createEnturService, { LegMode, TransportSubmode } from '@entur/sdk'
 import { StopPlaceWithLines, Line } from './types'
 import { unique } from './utils'
 
-const CLIENT_NAME = 'bekk-tavla' || ''
+const CLIENT_NAME = process.env.CLIENT_NAME || ''
 
 if (!CLIENT_NAME && process.env.NODE_ENV !== 'production') {
     console.error(

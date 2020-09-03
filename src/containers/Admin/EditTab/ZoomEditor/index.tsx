@@ -50,8 +50,8 @@ function ZoomEditor(props: Props): JSX.Element {
             </p>
             <ReactMapGL
                 {...viewport}
-                mapboxApiAccessToken="pk.eyJ1IjoiZW50dXIiLCJhIjoiY2tlaWgyMGdwMTJoOTJ1bHB5aW92YTh3dSJ9.eDtvqlDi6C7fhXxmjqeN2Q"
-                mapStyle="mapbox://styles/entur/cj9fk2u1w0a1p2sqlrkmxp685"
+                mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
+                mapStyle={process.env.MAPBOX_STYLE}
             />
         </div>
     )
