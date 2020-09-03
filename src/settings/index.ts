@@ -153,7 +153,12 @@ export function useSettings(): [Settings | null, SettingsSetters] {
                     })
                 }
 
-                setSettings(settingsWithDefaults)
+                setSettings((prevSettings) => {
+                    const onAdmin = location.pathname.split('/')[1] === 'admin'
+                    return prevSettings && onAdmin
+                        ? prevSettings
+                        : settingsWithDefaults
+                })
             })
         }
 

@@ -34,16 +34,14 @@ function ScooterTile({ scooters }: Props): JSX.Element {
             </header>
             <ReactMapGL
                 {...viewport}
-                mapboxApiAccessToken={
-                    'pk.eyJ1IjoiZW50dXIiLCJhIjoiY2tlaWgyMGdwMTJoOTJ1bHB5aW92YTh3dSJ9.eDtvqlDi6C7fhXxmjqeN2Q'
-                }
-                mapStyle={'mapbox://styles/entur/cj9fk2u1w0a1p2sqlrkmxp685'}
+                mapboxApiAccessToken="pk.eyJ1IjoiZW50dXIiLCJhIjoiY2tlaWgyMGdwMTJoOTJ1bHB5aW92YTh3dSJ9.eDtvqlDi6C7fhXxmjqeN2Q"
+                mapStyle="mapbox://styles/entur/cj9fk2u1w0a1p2sqlrkmxp685"
             >
                 <Marker
                     latitude={viewport.latitude ? viewport.latitude : 0}
                     longitude={viewport.longitude ? viewport.longitude : 0}
                 >
-                    <PositionPin width={'24px'} />
+                    <PositionPin width="24px" />
                 </Marker>
                 {scooters.map((sctr) => (
                     <Marker
@@ -53,7 +51,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                     >
                         <ScooterOperatorLogo
                             logo={sctr.operator}
-                            width={'24px'}
+                            width="24px"
                         />
                     </Marker>
                 ))}

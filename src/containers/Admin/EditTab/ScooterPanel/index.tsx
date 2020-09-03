@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Checkbox, Fieldset } from '@entur/form'
 import { ALL_OPERATORS } from '../../../../constants'
-import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
