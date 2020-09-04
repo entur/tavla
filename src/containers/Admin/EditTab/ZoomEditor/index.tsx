@@ -36,7 +36,7 @@ function ZoomEditor(props: Props): JSX.Element {
 
     return (
         <div className="zoom-editor">
-            <Label>Hvor langt inn vil du at kartet skal være zoomet?</Label>
+            <Label>Justér zoom-nivå i kartet</Label>
             <Slider
                 handleChange={handleZoomUpdate}
                 value={zoom}
@@ -44,10 +44,6 @@ function ZoomEditor(props: Props): JSX.Element {
                 max={18}
                 step={0.1}
             />
-            <p className="zoom-editor__text">
-                Kartet er zoomet inn med nivå{' '}
-                <b>{Math.round((zoom - 12.5) * 10) / 10}</b>.
-            </p>
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
