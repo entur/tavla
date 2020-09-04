@@ -43,6 +43,9 @@ async function fetchScooters(settings: Settings): Promise<Scooter[] | null> {
             ),
         })
     }
+    if (!scooters.length) {
+        return null
+    }
     return scooters
 }
 

@@ -19,6 +19,22 @@ npm install
 cd ..
 ```
 
+### Set a client name
+You need to set a client name that identifies your application. You decide yourself what it should be, but it should consist of
+the name of your company or organization and the name of the application.
+
+```diff
+# .env.prod
+-CLIENT_NAME=entur-tavla
++CLIENT_NAME=awesomecompany-tavla
+```
+```diff
+# .env.staging
+-CLIENT_NAME=entur-tavla-staging
++CLIENT_NAME=awesomecompany-tavla-staging
+```
+
+### Develop
 Run the development server with
 
 ```

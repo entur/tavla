@@ -77,9 +77,9 @@ export function DefaultHeader(): JSX.Element {
     return (
         <div className="header">
             {loginModal}
-            <div className={`header__logo-wrapper`}>
+            <div className="header__logo-wrapper">
                 <Link to="/">
-                    <TavlaLogo className={`header__logo-wrapper__logo`} />
+                    <TavlaLogo className="header__logo-wrapper__logo" />
                 </Link>
             </div>
             <div className="header__resources">

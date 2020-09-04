@@ -8,6 +8,7 @@ import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
 import ScooterPanel from './ScooterPanel'
+import ZoomEditor from './ZoomEditor'
 
 import { useSettingsContext, Mode } from '../../../settings'
 import {
@@ -15,7 +16,7 @@ import {
     toggleValueInList,
     isNotNullOrUndefined,
 } from '../../../utils'
-import { DEFAULT_DISTANCE } from '../../../constants'
+import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
@@ -33,6 +34,7 @@ const EditTab = (): JSX.Element => {
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
     )
+    const [zoom, setZoom] = useState<number>(settings?.zoom || DEFAULT_ZOOM)
     const debouncedDistance = useDebounce(distance, 800)
     useEffect(() => {
         if (settings?.distance !== debouncedDistance) {
@@ -180,6 +182,7 @@ const EditTab = (): JSX.Element => {
                         />
                     </div>
                     <ScooterPanel />
+                    <ZoomEditor zoom={zoom} onZoomUpdated={setZoom} />
                 </GridItem>
             </GridContainer>
         </div>

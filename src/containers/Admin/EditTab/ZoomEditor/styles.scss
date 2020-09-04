@@ -1,0 +1,51 @@
+@import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
+
+.zoom-editor {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+
+    &__text {
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin: 0;
+        color: var(--tavla-font-color);
+
+        b {
+            font-weight: bold;
+        }
+    }
+
+    &__input {
+        background: transparent;
+        border: none;
+        color: var(--tavla-font-color);
+        font-size: 14px;
+        width: 3rem;
+        border-bottom: 2px solid $colors-brand-coral;
+        padding: 0.2rem;
+        margin: 0 4px 0 4px;
+        text-align: center;
+
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    .zoom-editor {
+        width: unset;
+    }
+}

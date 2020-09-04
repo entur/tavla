@@ -97,7 +97,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                                     style={{ visibility: 'hidden' }}
                                 />
                                 <AddIcon
-                                    size={'3rem'}
+                                    size="3rem"
                                     className="board-card__preview__icon"
                                 />
                             </div>
