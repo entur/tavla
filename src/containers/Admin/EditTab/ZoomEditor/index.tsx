@@ -39,7 +39,7 @@ function ZoomEditor(props: Props): JSX.Element {
 
     return (
         <div className="zoom-editor">
-            <Label>Justér zoom-nivå i kartet</Label>
+            <Label>Juster zoom-nivå i kartet</Label>
             <Slider
                 handleChange={handleZoomUpdate}
                 value={zoom}
@@ -54,10 +54,10 @@ function ZoomEditor(props: Props): JSX.Element {
                 mapStyle={process.env.MAPBOX_STYLE}
             >
                 <Marker
-                    latitude={viewport.latitude ? viewport.latitude : 0}
-                    longitude={viewport.longitude ? viewport.longitude : 0}
+                    latitude={viewport.latitude || 0}
+                    longitude={viewport.longitude || 0}
                 >
-                    <PositionPin width="24px" />
+                    <PositionPin size="24px" />
                 </Marker>
                 {props.scooters
                     ? props.scooters.map((sctr) => (
@@ -68,7 +68,7 @@ function ZoomEditor(props: Props): JSX.Element {
                           >
                               <ScooterOperatorLogo
                                   logo={sctr.operator}
-                                  width="24px"
+                                  size="24px"
                               />
                           </Marker>
                       ))
