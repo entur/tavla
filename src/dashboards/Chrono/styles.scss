@@ -1,7 +1,4 @@
-
 @import '../../assets/styles/import.scss';
-
-
 
 .chrono {
     &__tiles {
@@ -16,6 +13,7 @@
         }
     }
 }
+
 @media (max-width: 1000px) {
     .chrono {
         padding: 1.5rem;
