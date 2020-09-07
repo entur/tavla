@@ -44,6 +44,7 @@ function ZoomEditor(props: Props): JSX.Element {
                 max={18}
                 step={0.1}
             />
+            <div style={{ marginBottom: '0.5rem' }}></div>
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
