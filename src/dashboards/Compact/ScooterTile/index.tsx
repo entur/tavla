@@ -9,18 +9,19 @@ import { useSettingsContext } from '../../../settings'
 
 import { Heading2 } from '@entur/typography'
 import ScooterOperatorLogo from '../../../assets/icons/scooterOperatorLogo'
+import PositionPin from '../../../assets/icons/positionPin'
 
 import './styles.scss'
+import { DEFAULT_ZOOM } from '../../../constants'
 
 function ScooterTile({ scooters }: Props): JSX.Element {
     const [settings] = useSettingsContext()
-
     const [viewport] = useState({
         latitude: settings?.coordinates?.latitude,
         longitude: settings?.coordinates?.longitude,
         width: 'auto',
         height: '55vh',
-        zoom: 15.5,
+        zoom: settings?.zoom ?? DEFAULT_ZOOM,
     })
 
     return (
@@ -36,16 +37,19 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                 mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
                 mapStyle={process.env.MAPBOX_STYLE}
             >
+                <Marker
+                    latitude={viewport.latitude || 0}
+                    longitude={viewport.longitude || 0}
+                >
+                    <PositionPin size="24px" />
+                </Marker>
                 {scooters.map((sctr) => (
                     <Marker
                         key={sctr.id}
                         latitude={sctr.lat}
                         longitude={sctr.lon}
                     >
-                        <ScooterOperatorLogo
-                            logo={sctr.operator}
-                            width="32px"
-                        />
+                        <ScooterOperatorLogo logo={sctr.operator} size="24px" />
                     </Marker>
                 ))}
             </ReactMapGL>

@@ -9,16 +9,24 @@ import { ScooterOperator } from '@entur/sdk'
 function ScooterOperatorLogo({
     logo,
     className,
-    width,
+    size,
 }: Props): JSX.Element | null {
     if (logo === ScooterOperator.VOI) {
-        return <img src={Voi} width={width} className={className} />
+        return (
+            <img src={Voi} width={size} height={size} className={className} />
+        )
     } else if (logo === ScooterOperator.TIER) {
-        return <img src={Tier} width={width} className={className} />
+        return (
+            <img src={Tier} width={size} height={size} className={className} />
+        )
     } else if (logo === ScooterOperator.LIME) {
-        return <img src={Lime} width={width} className={className} />
+        return (
+            <img src={Lime} width={size} height={size} className={className} />
+        )
     } else if (logo === ScooterOperator.ZVIPP) {
-        return <img src={Zvipp} width={width} className={className} />
+        return (
+            <img src={Zvipp} width={size} height={size} className={className} />
+        )
     }
     return null
 }
@@ -26,7 +34,7 @@ function ScooterOperatorLogo({
 interface Props {
     logo: ScooterOperator
     className?: string
-    width?: string
+    size?: string
 }
 
 export default ScooterOperatorLogo

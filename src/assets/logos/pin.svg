@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="41px" viewBox="0 0 30 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>map pin copy 2</title>
+    <defs>
+        <filter x="-11.5%" y="-103.6%" width="123.0%" height="307.3%" filterUnits="objectBoundingBox" id="filter-1">
+            <feGaussianBlur stdDeviation="0.707616708" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+    </defs>
+    <g id="Sparkesykler-skisser-draft" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ikoner-" transform="translate(-360.000000, -1012.000000)">
+            <g id="map-pin-copy-2" transform="translate(360.000000, 1012.000000)">
+                <ellipse id="Oval" fill-opacity="0.7" fill="#000000" filter="url(#filter-1)" cx="14.3385491" cy="36.8705548" rx="9.21763869" ry="1.02418208"></ellipse>
+                <path d="M0,15.015608 C0,24.2752329 13.1284099,36.3667379 13.1284099,36.3667379 C13.7967513,37.0141714 14.8831283,37.0203585 15.5610457,36.3544355 C15.5610457,36.3544355 28.6770982,24.2752329 28.6770982,15.015608 C28.6770982,5.50572292 21.2688478,3.59011066e-13 14.3385491,3.59011066e-13 C7.40825036,3.59011066e-13 0,5.50572292 0,15.015608 Z M14.3385491,20.0208106 C11.7098151,20.0208106 9.55903272,17.7684694 9.55903272,15.015608 C9.55903272,12.2627465 11.7098151,10.0104053 14.3385491,10.0104053 C16.9672831,10.0104053 19.1180654,12.2627465 19.1180654,15.015608 C19.1180654,17.7684694 16.9672831,20.0208106 14.3385491,20.0208106 L14.3385491,20.0208106 Z" id="Map-pin-icon" fill="#181C56"></path>
+            </g>
+        </g>
+    </g>
+</svg>

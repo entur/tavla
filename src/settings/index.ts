@@ -33,6 +33,7 @@ export interface Settings {
         [stopPlaceId: string]: string[]
     }
     distance?: number
+    zoom?: number
     newStations?: string[]
     newStops?: string[]
     dashboard?: string | void
@@ -54,6 +55,7 @@ interface SettingsSetters {
     setHiddenModes: (modes: Mode[]) => void
     setHiddenRoutes: (hiddenModes: { [stopPlaceId: string]: string[] }) => void
     setDistance: (distance: number) => void
+    setZoom: (zoom: number) => void
     setNewStations: (newStations: string[]) => void
     setNewStops: (newStops: string[]) => void
     setDashboard: (dashboard: string) => void
@@ -77,6 +79,7 @@ export const SettingsContext = createContext<
         setHiddenModes: (): void => undefined,
         setHiddenRoutes: (): void => undefined,
         setDistance: (): void => undefined,
+        setZoom: (): void => undefined,
         setNewStations: (): void => undefined,
         setNewStops: (): void => undefined,
         setDashboard: (): void => undefined,
@@ -253,6 +256,13 @@ export function useSettings(): [Settings | null, SettingsSetters] {
         [set],
     )
 
+    const setZoom = useCallback(
+        (newZoom: number): void => {
+            set('zoom', newZoom)
+        },
+        [set],
+    )
+
     const setNewStations = useCallback(
         (newStations: string[]): void => {
             set('newStations', newStations)
@@ -317,6 +327,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
         setHiddenStopModes,
         setHiddenRoutes,
         setDistance,
+        setZoom,
         setNewStations,
         setNewStops,
         setDashboard,
