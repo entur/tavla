@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useState } from 'react'
-import ReactMapGL from 'react-map-gl'
+import ReactMapGL, { Marker } from 'react-map-gl'
 
 import { Slider } from '../../../../components'
 
@@ -7,6 +7,9 @@ import './styles.scss'
 import { Label } from '@entur/typography'
 import { DEFAULT_ZOOM } from '../../../../constants'
 import { useSettingsContext } from '../../../../settings'
+import { Scooter } from '@entur/sdk'
+import ScooterOperatorLogo from '../../../../assets/icons/scooterOperatorLogo'
+import PositionPin from '../../../../assets/icons/positionPin'
 
 function ZoomEditor(props: Props): JSX.Element {
     const [settings, { setZoom }] = useSettingsContext()
@@ -49,7 +52,28 @@ function ZoomEditor(props: Props): JSX.Element {
                 {...viewport}
                 mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
                 mapStyle={process.env.MAPBOX_STYLE}
-            />
+            >
+                <Marker
+                    latitude={viewport.latitude ? viewport.latitude : 0}
+                    longitude={viewport.longitude ? viewport.longitude : 0}
+                >
+                    <PositionPin width="24px" />
+                </Marker>
+                {props.scooters
+                    ? props.scooters.map((sctr) => (
+                          <Marker
+                              key={sctr.id}
+                              latitude={sctr.lat}
+                              longitude={sctr.lon}
+                          >
+                              <ScooterOperatorLogo
+                                  logo={sctr.operator}
+                                  width="24px"
+                              />
+                          </Marker>
+                      ))
+                    : []}
+            </ReactMapGL>
         </div>
     )
 }
@@ -57,6 +81,7 @@ function ZoomEditor(props: Props): JSX.Element {
 interface Props {
     zoom: number
     onZoomUpdated: (newZoom: number) => void
+    scooters: Scooter[] | null
 }
 
 export default memo<Props>(ZoomEditor)

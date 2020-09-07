@@ -18,7 +18,7 @@ import {
 } from '../../../utils'
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearestPlaces } from '../../../logic'
+import { useNearestPlaces, useScooters } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
 
 import { BikeRentalStation } from '@entur/sdk'
@@ -57,6 +57,7 @@ const EditTab = (): JSX.Element => {
                 .map(({ id }) => id),
         [nearestPlaces],
     )
+    const scooters = useScooters()
 
     useEffect(() => {
         let ignoreResponse = false
@@ -182,7 +183,11 @@ const EditTab = (): JSX.Element => {
                         />
                     </div>
                     <ScooterPanel />
-                    <ZoomEditor zoom={zoom} onZoomUpdated={setZoom} />
+                    <ZoomEditor
+                        zoom={zoom}
+                        onZoomUpdated={setZoom}
+                        scooters={scooters}
+                    />
                 </GridItem>
             </GridContainer>
         </div>
