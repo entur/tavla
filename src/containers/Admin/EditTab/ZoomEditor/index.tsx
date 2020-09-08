@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback } from 'react'
 import ReactMapGL, { Marker } from 'react-map-gl'
 
 import { Slider } from '../../../../components'
@@ -12,36 +12,24 @@ import ScooterOperatorLogo from '../../../../assets/icons/scooterOperatorLogo'
 import PositionPin from '../../../../assets/icons/positionPin'
 
 function ZoomEditor(props: Props): JSX.Element {
-    const [settings, { setZoom }] = useSettingsContext()
+    const [settings] = useSettingsContext()
     const { zoom, onZoomUpdated } = props
-    const [viewport, setViewPort] = useState({
-        latitude: settings?.coordinates?.latitude,
-        longitude: settings?.coordinates?.longitude,
-        width: 'auto',
-        height: '40vh',
-        zoom: settings?.zoom ?? DEFAULT_ZOOM,
-    })
 
-    const handleZoomUpdate = useCallback(
+    const { latitude = 0, longitude = 0 } = settings?.coordinates || {}
+
+    const handleSliderChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
-            onZoomUpdated(Number(event.target.value))
-            setZoom(Number(event.target.value))
-            setViewPort({
-                latitude: settings?.coordinates?.latitude,
-                longitude: settings?.coordinates?.longitude,
-                width: 'auto',
-                height: '40vh',
-                zoom: settings?.zoom ? settings?.zoom : DEFAULT_ZOOM,
-            })
+            const newZoom = Number(event.target.value)
+            onZoomUpdated(newZoom)
         },
-        [onZoomUpdated, setZoom, settings],
+        [onZoomUpdated],
     )
 
     return (
         <div className="zoom-editor">
             <Label>Juster zoom-nivå i kartet</Label>
             <Slider
-                handleChange={handleZoomUpdate}
+                handleChange={handleSliderChange}
                 value={zoom}
                 min={13.5}
                 max={18}
@@ -49,14 +37,15 @@ function ZoomEditor(props: Props): JSX.Element {
             />
             <div style={{ marginBottom: '0.5rem' }}></div>
             <ReactMapGL
-                {...viewport}
+                latitude={latitude}
+                longitude={longitude}
+                width="auto"
+                height="40vh"
+                zoom={zoom || DEFAULT_ZOOM}
                 mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
                 mapStyle={process.env.MAPBOX_STYLE}
             >
-                <Marker
-                    latitude={viewport.latitude || 0}
-                    longitude={viewport.longitude || 0}
-                >
+                <Marker latitude={latitude} longitude={longitude}>
                     <PositionPin size="24px" />
                 </Marker>
                 {props.scooters

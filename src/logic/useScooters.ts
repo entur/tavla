@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
-import { ScooterOperator, Scooter } from '@entur/sdk'
+import { useState, useEffect, useMemo } from 'react'
+import { ScooterOperator, Scooter, Coordinates } from '@entur/sdk'
 
 import service from '../service'
-import { useSettingsContext, Settings } from '../settings'
+import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL, ALL_OPERATORS } from '../constants'
 
 export function countScootersByOperator(
@@ -21,45 +21,54 @@ export function countScootersByOperator(
     return operators
 }
 
-async function fetchScooters(settings: Settings): Promise<Scooter[] | null> {
-    const { coordinates, distance, hiddenModes, hiddenOperators } = settings
-
-    if (
-        hiddenModes.includes('sparkesykkel') ||
-        ALL_OPERATORS.every((operator) => hiddenOperators.includes(operator))
-    ) {
-        return null
+async function fetchScooters(
+    coordinates: Coordinates,
+    distance: number,
+    operators: ScooterOperator[],
+): Promise<Scooter[]> {
+    if (!coordinates || !distance || !operators?.length) {
+        return []
     }
 
-    let scooters: Scooter[] = []
-    if (coordinates) {
-        scooters = await service.getScootersByPosition({
-            latitude: coordinates.latitude,
-            longitude: coordinates.longitude,
-            distance,
-            limit: 50,
-            operators: ALL_OPERATORS.filter(
-                (operator) => !hiddenOperators.includes(operator),
-            ),
-        })
-    }
-    if (!scooters.length) {
-        return null
-    }
-    return scooters
+    return service.getScootersByPosition({
+        latitude: coordinates.latitude,
+        longitude: coordinates.longitude,
+        distance,
+        limit: 50,
+        operators,
+    })
 }
 
 export default function useScooters(): Scooter[] | null {
     const [settings] = useSettingsContext()
     const [scooters, setScooters] = useState<Scooter[] | null>([])
 
+    const { coordinates, distance, hiddenOperators, hiddenModes } =
+        settings || {}
+
+    const operators = useMemo(
+        () =>
+            ALL_OPERATORS.filter(
+                (operator) =>
+                    !hiddenOperators || !hiddenOperators?.includes(operator),
+            ),
+        [hiddenOperators],
+    )
+
+    const isDisabled = Boolean(hiddenModes?.includes('sparkesykkel'))
+
     useEffect(() => {
-        if (!settings) return
-        fetchScooters(settings).then(setScooters)
+        if (!coordinates || !distance || isDisabled) {
+            return setScooters(null)
+        }
+
+        fetchScooters(coordinates, distance, operators).then(setScooters)
         const intervalId = setInterval(() => {
-            fetchScooters(settings).then(setScooters)
+            fetchScooters(coordinates, distance, operators).then(setScooters)
         }, REFRESH_INTERVAL)
+
         return (): void => clearInterval(intervalId)
-    }, [settings])
+    }, [coordinates, distance, operators, isDisabled])
+
     return scooters
 }

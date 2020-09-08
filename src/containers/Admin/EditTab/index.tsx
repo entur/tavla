@@ -35,6 +35,14 @@ const EditTab = (): JSX.Element => {
         settings?.distance || DEFAULT_DISTANCE,
     )
     const [zoom, setZoom] = useState<number>(settings?.zoom || DEFAULT_ZOOM)
+    const debouncedZoom = useDebounce(zoom, 200)
+
+    useEffect(() => {
+        if (settings && settings.zoom !== debouncedZoom) {
+            settingsSetters.setZoom(debouncedZoom)
+        }
+    }, [settings, debouncedZoom, settingsSetters])
+
     const debouncedDistance = useDebounce(distance, 800)
     useEffect(() => {
         if (settings?.distance !== debouncedDistance) {
