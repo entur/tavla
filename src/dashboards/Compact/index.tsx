@@ -120,6 +120,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     )}
                     {scooters?.length ? (
                         <div
+                            id="scooter"
                             key="sparkesykkel"
                             data-grid={getDataGrid(
                                 numberOfStopPlaces + scooterCol,
