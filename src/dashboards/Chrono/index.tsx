@@ -1,4 +1,4 @@
-import React from 'react'
+import React,  {useState,useEffect}  from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../logic'
@@ -44,14 +44,17 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
         )
     }
 
-    const numberOfStopPlaces = stopPlacesWithDepartures
-        ? stopPlacesWithDepartures.length
-        : 0
+    const numberOfStopPlaces = stopPlacesWithDepartures?.length || 0
+
     const anyBikeRentalStations =
         bikeRentalStations && bikeRentalStations.length
 
-    const localStorageLayout: Layouts =
-        getFromLocalStorage(history.location.key) || {}
+    const [layouts, setLayouts] = useState(getFromLocalStorage(history.location.key) || {})
+
+    useEffect(() => {
+    saveToLocalStorage(dashboardKey, layouts)
+  }, [dashboardKey, layouts])
+
     const extraCols = anyBikeRentalStations ? 1 : 0
 
     const cols = {
@@ -73,7 +76,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                 <ResponsiveReactGridLayout
                     key={numberOfStopPlaces}
                     cols={cols}
-                    layouts={localStorageLayout}
+                    layouts={layouts}
                     compactType="horizontal"
                     isResizable={true}
                     onLayoutChange={(
@@ -81,7 +84,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                         layouts: Layouts,
                     ): void => {
                         if (numberOfStopPlaces > 0) {
-                            onLayoutChange(layouts, dashboardKey)
+                            setLayouts(layouts)
                         }
                     }}
                 >
