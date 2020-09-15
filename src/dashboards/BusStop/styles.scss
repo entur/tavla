@@ -1,0 +1,35 @@
+@import '../../assets/styles/import.scss';
+
+
+
+.busStop {
+    &__tiles {
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+
+        .tile {
+            margin-right: 2rem;
+            max-height: 75vh;
+            overflow-y: hidden;
+        }
+    }
+
+}
+
+    @media (max-width: 1000px) {
+        .busStop {
+            padding: 1.5rem;
+            overflow: auto;
+    
+            &__tiles {
+                display: block;
+            }
+    
+            .tile {
+                margin-bottom: 1rem;
+                max-height: unset;
+                width: 100%;
+            }
+        }
+    }

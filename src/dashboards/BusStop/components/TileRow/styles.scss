@@ -1,0 +1,50 @@
+@import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
+
+.busStop .tilerow {
+    display: flex;
+    border-bottom: 2px solid var(--tavla-border-color);
+    padding: 1rem 0 0.75rem 0;
+
+    &__icon {
+        min-width: 2rem;
+        margin-right: 1rem;
+        font-size: 2rem;
+    }
+
+    &__label {
+        margin: 0;
+        margin-top: 0.25rem;
+
+    }
+
+    &__sublabel {
+        align-items: center;
+        display: flex;
+        font-size: 1.25rem;
+        font-weight: 400;
+        margin: 0;
+        margin-top: 7px;
+        margin-left: auto;
+        min-width: 5rem;
+        text-align: right;
+
+        &__cancellation {
+            align-items: center;
+            background-color: $colors-brand-white;
+            border-radius: 0.5rem;
+            display: flex;
+            height: 0.875rem;
+            justify-content: center;
+            margin-left: 1rem;
+            overflow: visible;
+            width: 0.875rem;
+        }
+
+        &__situation {
+            font-size: 1.125rem;
+            height: 1.25rem;
+            margin-left: 1rem;
+        }
+    }
+}
