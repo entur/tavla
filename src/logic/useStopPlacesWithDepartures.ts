@@ -7,20 +7,20 @@ import {
     isNotNullOrUndefined,
 } from '../utils'
 import service from '../service'
-import { useSettingsContext, Settings } from '../settings'
+import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'
 
 import useNearestPlaces from './useNearestPlaces'
+import { LegMode } from '@entur/sdk'
 
 async function fetchStopPlaceDepartures(
-    settings: Settings,
+    newStops: string[],
+    hiddenStops: string[],
+    hiddenStopModes: { [stopPlaceId: string]: LegMode[] },
+    hiddenRoutes: { [stopPlaceId: string]: string[] },
     nearestStopPlaces: string[],
 ): Promise<StopPlaceWithDepartures[]> {
-    const { newStops, hiddenStops, hiddenStopModes, hiddenRoutes } = settings
-
-    if (settings.hiddenModes.includes('kollektiv')) {
-        return []
-    }
+    //const { newStops, hiddenStops, hiddenStopModes, hiddenRoutes } = settings
 
     const allStopPlaceIds = unique([...newStops, ...nearestStopPlaces]).filter(
         (id) => !hiddenStops.includes(id),
@@ -95,6 +95,14 @@ export default function useStopPlacesWithDepartures():
         StopPlaceWithDepartures[] | null
     >(null)
 
+    const {
+        newStops,
+        hiddenStops,
+        hiddenStopModes,
+        hiddenRoutes,
+        hiddenModes,
+    } = settings || {}
+
     const nearestStopPlaces = useMemo(
         () =>
             nearestPlaces
@@ -103,19 +111,55 @@ export default function useStopPlacesWithDepartures():
         [nearestPlaces],
     )
 
+    const newStopsMemo = useMemo(() => newStops?.map((s) => s), [newStops])
+    const hiddenStopsMemo = useMemo(() => hiddenStops?.map((hs) => hs), [
+        hiddenStops,
+    ])
+    const hiddenStopModesMemo = useMemo(() => hiddenStopModes, [
+        hiddenStopModes,
+    ])
+    const hiddenRoutesMemo = useMemo(() => hiddenRoutes, [hiddenRoutes])
+
+
+    const isDisabled = Boolean(hiddenModes?.includes('kollektiv'))
+
     useEffect(() => {
-        if (!settings) return
-        fetchStopPlaceDepartures(settings, nearestStopPlaces).then(
-            setStopPlacesWithDepartures,
-        )
+        if (
+            !newStopsMemo ||
+            !hiddenStopsMemo ||
+            !hiddenStopModesMemo ||
+            !hiddenRoutesMemo ||
+            isDisabled
+        ) {
+            return setStopPlacesWithDepartures(null)
+        }
+        fetchStopPlaceDepartures(
+            newStopsMemo,
+            hiddenStopsMemo,
+            hiddenStopModesMemo,
+            hiddenRoutesMemo,
+            nearestStopPlaces,
+        ).then(setStopPlacesWithDepartures)
         const intervalId = setInterval(() => {
-            fetchStopPlaceDepartures(settings, nearestStopPlaces).then(
-                setStopPlacesWithDepartures,
-            )
+            fetchStopPlaceDepartures(
+                newStopsMemo,
+                hiddenStopsMemo,
+                hiddenStopModesMemo,
+                hiddenRoutesMemo,
+                nearestStopPlaces,
+            ).then(setStopPlacesWithDepartures)
         }, REFRESH_INTERVAL)
 
         return (): void => clearInterval(intervalId)
-    }, [nearestStopPlaces, settings])
+    }, [
+        hiddenModes,
+        hiddenRoutesMemo,
+        hiddenStopModesMemo,
+        hiddenStopsMemo,
+        isDisabled,
+        nearestStopPlaces,
+        newStopsMemo,
+    ])
 
     return stopPlacesWithDepartures
 }
