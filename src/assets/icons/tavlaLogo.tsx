@@ -6,11 +6,12 @@ import TavlaWhite from './../logos/Tavla-white.svg'
 import TavlaBlue from './../logos/Tavla-blue.svg'
 import { useSettingsContext } from '../../settings'
 
-function TavlaLogo({ className }: Props): JSX.Element {
+function TavlaLogo({ className, forceColor }: Props): JSX.Element {
     const [settings] = useSettingsContext()
 
-    if (window.location.pathname === '/') {
-        return <img src={TavlaBlue} className={className} />
+    if (forceColor) {
+        const LogoSource = forceColor === 'blue' ? TavlaBlue : TavlaWhite
+        return <img src={LogoSource} className={className} />
     }
 
     switch (settings?.theme) {
@@ -29,6 +30,7 @@ function TavlaLogo({ className }: Props): JSX.Element {
 
 interface Props {
     className?: string
+    forceColor?: 'blue' | 'white'
 }
 
 export default TavlaLogo

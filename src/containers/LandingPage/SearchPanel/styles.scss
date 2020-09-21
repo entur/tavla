@@ -6,16 +6,13 @@
 
 .search-container {
     display: flex;
-    justify-content: center;
-    flex-direction: row;
     align-items: flex-end;
     position: relative;
     min-width: 55%;
 }
 
 .input-container {
-    margin-right: 0.25rem;
-    min-width: 300px;
+    margin-right: 1rem;
 }
 
 .input-spinner-container {

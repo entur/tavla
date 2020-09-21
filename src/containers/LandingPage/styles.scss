@@ -1,59 +1,78 @@
 @import '../../assets/styles/import.scss';
 
+$max-width: 86rem;
+
 .landing-page {
-    width: 100vw;
-    height: 100vh;
     color: $colors-brand-blue;
-    margin: 0;
     background-color: white;
-    padding: 2rem;
+
+    &__header-grid {
+        max-width: $max-width;
+        margin: auto;
+        padding: 1rem;
+    }
 
     header {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        background-color: white;
-        padding-top: 3.5%;
+        margin: 2rem auto;
+    }
 
-        h1 {
-            margin: 0;
+    &__carousel {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__link-wrapper {
+        display: block;
+        padding-top: 3rem;
+    }
+
+    &__entur-link.eds-link {
+        background-image: linear-gradient(120deg, $colors-brand-coral, $colors-brand-coral);
+        font-size: $font-sizes-extra-large;
+        font-weight: $font-weights-heading;
+    }
+
+    &__search-panel {
+        max-width: $max-width;
+        margin: 2rem auto;
+    }
+
+    &__main-image-container {
+        background: linear-gradient($colors-brand-blue 0%, $colors-brand-blue 50%, $colors-brand-white 50%, $colors-brand-white 100%);
+
+        > img {
+            display: block;
+            margin: auto;
         }
     }
 
-    p {
-        text-align: center;
-        margin-bottom: 0;
+    &__screenshot {
+        max-width: 100%;
+    }
+
+    article {
+        max-width: $max-width;
+        margin: 2rem auto;
+        padding: 1rem;
     }
 
     &__logo {
-        height: 54px;
-    }
-
-    &__content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: white;
+        height: 24px;
     }
 
     &__cover-photo {
-        height: 30rem;
-    }
-
-    .github-logo {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-
-        > a {
-            color: $colors-brand-blue;
-        }
+        max-width: $max-width;
     }
 }
 
-@media (max-width: 1280px) {
-    .landing-page__cover-photo {
-        height: auto;
-        width: 90%;
+@media (max-width: $breakpoints-large) {
+    .landing-page {
+        &__main-image-container {
+            display: none;
+        }
+
+        article {
+            display: none;
+        }
     }
 }

@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom'
 import analytics from 'universal-ga'
 import { createBrowserHistory } from 'history'
 
-import App from './containers/App'
-
 import './main.scss'
+
+import App from './containers/App'
 
 const history = createBrowserHistory()
 history.listen((location) => {

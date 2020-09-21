@@ -1,0 +1,36 @@
+@import '../../../assets/styles/import.scss';
+
+.navbar {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    max-width: 86rem;
+    padding: 1rem;
+
+    ul {
+        display: flex;
+        flex-direction: row;
+    }
+
+    li {
+        list-style-type: none;
+
+        svg {
+            margin-left: 0.5rem;
+        }
+    }
+}
+
+@media (max-width: $breakpoints-large) {
+    .navbar {
+        li span {
+            display: none;
+        }
+
+        li svg {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+    }
+}
