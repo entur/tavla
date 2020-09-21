@@ -32,7 +32,7 @@
         "@entur/dropdown": "^1.3.10",
         "@entur/expand": "^3.2.11",
         "@entur/fileupload": "^0.3.6",
-        "@entur/form": "^3.4.3",
+        "@entur/form": "^3.4.6",
         "@entur/grid": "^0.2.9",
         "@entur/icons": "^1.12.0",
         "@entur/layout": "^1.7.3",

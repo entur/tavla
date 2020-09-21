@@ -6,7 +6,7 @@
     justify-content: space-between;
     margin: auto;
     max-width: 86rem;
-    padding: 1rem;
+    padding: $space-medium;
 
     ul {
         display: flex;
@@ -24,6 +24,12 @@
 
 @media (max-width: $breakpoints-large) {
     .navbar {
+        padding: $space-small $space-medium;
+
+        li a {
+            padding: 0;
+        }
+
         li span {
             display: none;
         }

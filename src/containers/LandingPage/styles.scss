@@ -9,11 +9,15 @@ $max-width: 86rem;
     &__header-grid {
         max-width: $max-width;
         margin: auto;
-        padding: 1rem;
+        padding: $space-medium;
+    }
+
+    &__contrast {
+        overflow: visible;
     }
 
     header {
-        margin: 2rem auto;
+        margin: $space-extra-large auto;
     }
 
     &__carousel {
@@ -23,7 +27,7 @@ $max-width: 86rem;
 
     &__link-wrapper {
         display: block;
-        padding-top: 3rem;
+        padding-top: $space-extra-large3;
     }
 
     &__entur-link.eds-link {
@@ -34,7 +38,7 @@ $max-width: 86rem;
 
     &__search-panel {
         max-width: $max-width;
-        margin: 2rem auto;
+        margin: $space-extra-large auto;
     }
 
     &__main-image-container {
@@ -52,8 +56,7 @@ $max-width: 86rem;
 
     article {
         max-width: $max-width;
-        margin: 2rem auto;
-        padding: 1rem;
+        margin: $space-extra-large5 auto;
     }
 
     &__logo {

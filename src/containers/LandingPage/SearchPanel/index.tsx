@@ -158,7 +158,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                             searchable
                             openOnFocus
                             debounceTimeout={500}
-                            placeholder="Adresse eller sted"
+                            placeholder="Skriv inn stoppested eller adresse"
                             items={getItems}
                             onChange={onItemSelected}
                         />

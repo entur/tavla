@@ -40,7 +40,7 @@ function LandingPage({ history }: Props): JSX.Element {
                 <Navbar />
             </Contrast>
             <div className="landing-page__content">
-                <Contrast>
+                <Contrast className="landing-page__contrast">
                     <GridContainer
                         spacing="medium"
                         className="landing-page__header-grid"
@@ -83,7 +83,7 @@ function LandingPage({ history }: Props): JSX.Element {
                 </div>
 
                 <article>
-                    <GridContainer spacing="medium">
+                    <GridContainer spacing="extraLarge">
                         <GridItem small={12} large={6}>
                             <img
                                 src={coverPhoto}

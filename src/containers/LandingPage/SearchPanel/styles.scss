@@ -13,6 +13,11 @@
 
 .input-container {
     margin-right: 1rem;
+    width: 100%;
+
+    .eds-input-group {
+        width: 100%;
+    }
 }
 
 .input-spinner-container {
@@ -51,10 +56,10 @@
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: $breakpoints-large) {
     .search-panel {
         &__submit-button {
-            width: 90%;
+            width: 100%;
         }
 
         .search-container {
@@ -72,8 +77,9 @@
 
         .input-container {
             margin-bottom: 0.5rem;
+            margin-right: 0;
             min-width: unset;
-            width: 90%;
+            width: 100%;
         }
     }
 }
