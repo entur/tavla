@@ -28,6 +28,7 @@ $max-width: 86rem;
     &__link-wrapper {
         display: block;
         padding-top: $space-extra-large3;
+        text-align: right;
     }
 
     &__entur-link.eds-link {
@@ -64,18 +65,28 @@ $max-width: 86rem;
     }
 
     &__cover-photo {
+        padding: $space-medium;
+        width: 100%;
         max-width: $max-width;
     }
 }
 
 @media (max-width: $breakpoints-large) {
     .landing-page {
+        &__header-grid {
+            padding: $space-medium;
+        }
+
         &__main-image-container {
             display: none;
         }
 
         article {
             display: none;
+        }
+
+        &__link-wrapper {
+            text-align: left;
         }
     }
 }
