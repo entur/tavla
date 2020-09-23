@@ -5,7 +5,7 @@ const postcssPresetEnv = require('postcss-preset-env')
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 
-module.exports = env => {
+module.exports = (env) => {
     return {
         mode: 'development',
         entry: './src/main.tsx',
@@ -66,7 +66,7 @@ module.exports = env => {
                     ],
                 },
                 {
-                    test: /\.(svg|png|jpe?g|eot|woff2?)$/,
+                    test: /\.(svg|png|jpe?g|gif|eot|woff2?)$/,
                     loader: 'file-loader',
                     options: {
                         outputPath: 'assets/',
