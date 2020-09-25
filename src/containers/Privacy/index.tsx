@@ -1,14 +1,23 @@
 import React from 'react'
-import { Heading1, Heading2, Heading3, Paragraph } from '@entur/typography'
+import {
+    Heading1,
+    Heading2,
+    Heading3,
+    Paragraph,
+    Link,
+} from '@entur/typography'
 
 import './styles.scss'
+import { Contrast } from '@entur/layout'
 
 const Privacy = (): JSX.Element => {
     return (
         <article className="privacy">
-            <div className="privacy__header">
-                <Heading1>Personvern</Heading1>
-            </div>
+            <Contrast>
+                <div className="privacy__header">
+                    <Heading1>Personvern</Heading1>
+                </div>
+            </Contrast>
 
             <div className="privacy__body">
                 <Heading2>Analyseverktøy</Heading2>
@@ -36,9 +45,9 @@ const Privacy = (): JSX.Element => {
                     Vi benytter to informasjonskapsler av typen _ga, én av typen
                     _gat samt én _gid. Varighet og nærmere beskrivelse av disse
                     finnes{' '}
-                    <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/cookie-usage">
+                    <Link href="https://developers.google.com/analytics/devguides/collection/analyticsjs/cookie-usage">
                         her
-                    </a>
+                    </Link>
                     .
                 </Paragraph>
 
@@ -71,10 +80,6 @@ const Privacy = (): JSX.Element => {
             </div>
         </article>
     )
-}
-
-interface Props {
-    history: any
 }
 
 export default Privacy

@@ -1,12 +1,10 @@
-@import '../../../assets/styles/import.scss';
+@import '../../assets/styles/import.scss';
 
 .navbar {
     align-items: center;
     display: flex;
     justify-content: space-between;
-    margin: auto;
-    max-width: 100rem;
-    padding: $space-medium;
+    padding: $space-medium 4rem;
 
     ul {
         display: flex;
@@ -28,6 +26,8 @@
 
         li a {
             padding: 0;
+            min-width: unset;
+            margin-left: 1rem;
         }
 
         li span {
