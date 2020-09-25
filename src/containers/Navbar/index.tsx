@@ -4,9 +4,9 @@ import firebase from 'firebase/app'
 
 import { useToast } from '@entur/alert'
 import { TopNavigationItem } from '@entur/menu'
-import { ClosedLockIcon, UserIcon, LogOutIcon } from '@entur/icons'
+import { ClosedLockIcon, UserIcon, LogOutIcon, GithubIcon } from '@entur/icons'
 
-import { Github, TavlaLogo } from '../../assets/icons'
+import { TavlaLogo } from '../../assets/icons'
 import LoginModal from '../../components/LoginModal'
 
 import { useUser } from '../../auth'
@@ -104,7 +104,7 @@ export default function Navbar(): JSX.Element {
                             href="https://github.com/entur/tavla"
                         >
                             <span>GitHub</span>
-                            <Github size="16px" />
+                            <GithubIcon />
                         </TopNavigationItem>
                     </li>
                 </ul>
