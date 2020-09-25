@@ -1,27 +1,17 @@
 import { useState, useEffect, useMemo } from 'react'
+import { isEqual } from 'lodash'
 import { BikeRentalStation } from '@entur/sdk'
+import { usePrevious, isNotNullOrUndefined } from '../utils'
 
 import service from '../service'
-import { useSettingsContext, Settings } from '../settings'
+import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'
 
 import useNearestPlaces from './useNearestPlaces'
-import { isNotNullOrUndefined } from '../utils'
 
 async function fetchBikeRentalStations(
-    settings: Settings,
-    nearestBikeRentalStations: string[],
+    allStationIds: string[],
 ): Promise<BikeRentalStation[] | null> {
-    const { newStations, hiddenStations, hiddenModes } = settings
-
-    if (hiddenModes.includes('bysykkel')) {
-        return null
-    }
-
-    const allStationIds = [...newStations, ...nearestBikeRentalStations]
-        .filter((id) => !hiddenStations.includes(id))
-        .filter((id, index, ids) => ids.indexOf(id) === index)
-
     const allStations = await service.getBikeRentalStations(allStationIds)
     return allStations.filter(isNotNullOrUndefined)
 }
@@ -36,6 +26,8 @@ export default function useBikeRentalStations(): BikeRentalStation[] | null {
         settings?.distance,
     )
 
+    const { newStations, hiddenStations, hiddenModes } = settings || {}
+
     const nearestBikeRentalStations = useMemo(
         () =>
             nearestPlaces
@@ -44,18 +36,26 @@ export default function useBikeRentalStations(): BikeRentalStation[] | null {
         [nearestPlaces],
     )
 
-    useEffect(() => {
-        if (!settings) return
-        fetchBikeRentalStations(settings, nearestBikeRentalStations).then(
-            setBikeRentalStations,
-        )
-        const intervalId = setInterval(() => {
-            fetchBikeRentalStations(settings, nearestBikeRentalStations).then(
-                setBikeRentalStations,
-            )
-        }, REFRESH_INTERVAL)
+    const allStationIds = [...newStations, ...nearestBikeRentalStations]
+        .filter((id) => !hiddenStations?.includes(id))
+        .filter((id, index, ids) => ids.indexOf(id) === index)
 
+    const prevStationIds = usePrevious(allStationIds)
+
+    const isDisabled = Boolean(hiddenModes?.includes('bysykkel'))
+    useEffect(() => {
+        const isStationsEqual = isEqual(allStationIds, prevStationIds)
+        if (isDisabled) {
+            return setBikeRentalStations(null)
+        }
+        if (!isStationsEqual) {
+            fetchBikeRentalStations(allStationIds).then(setBikeRentalStations)
+        }
+        const intervalId = setInterval(() => {
+            fetchBikeRentalStations(allStationIds).then(setBikeRentalStations)
+        }, REFRESH_INTERVAL)
         return (): void => clearInterval(intervalId)
-    }, [nearestBikeRentalStations, settings])
+    }, [allStationIds, isDisabled, prevStationIds])
+
     return bikeRentalStations
 }
