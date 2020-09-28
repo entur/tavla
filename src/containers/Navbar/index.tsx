@@ -48,7 +48,6 @@ export default function Navbar(): JSX.Element {
         />
     ) : null
 
-    const hideLogin = location.pathname !== '/tavler'
     const userItem = userLoggedIn ? (
         <li>
             <TopNavigationItem onClick={logout}>
@@ -60,15 +59,6 @@ export default function Navbar(): JSX.Element {
         <li>
             <TopNavigationItem onClick={login}>
                 <span>Logg inn</span>
-                <UserIcon />
-            </TopNavigationItem>
-        </li>
-    )
-
-    const tavlerItem = location.pathname !== '/tavler' && (
-        <li>
-            <TopNavigationItem as={Link} to="/tavler">
-                <span>Mine tavler</span>
                 <UserIcon />
             </TopNavigationItem>
         </li>
@@ -86,8 +76,16 @@ export default function Navbar(): JSX.Element {
             </div>
             <div className="navbar__right">
                 <ul>
-                    {hideLogin ? null : userItem}
-                    {tavlerItem}
+                    {location.pathname === '/tavler' ? (
+                        userItem
+                    ) : (
+                        <li>
+                            <TopNavigationItem as={Link} to="/tavler">
+                                <span>Mine tavler</span>
+                                <UserIcon />
+                            </TopNavigationItem>
+                        </li>
+                    )}
                     <li>
                         <TopNavigationItem
                             as={Link}
