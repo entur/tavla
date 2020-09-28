@@ -130,8 +130,8 @@ export function NoAccessToTavler(): JSX.Element {
         <div>
             {loginModal}
             <ErrorWrapper
-                title="Lenger kommer du ikke!"
-                message="Du er ikke logget inn, og kan derfor ikke se dine tavler. Trykk på knappen nedenfor for å logge inn."
+                title="Dine tavler venter!"
+                message="Du må logge inn for å se oversikten over tavlene dine. Trykk på knappen nedenfor for å logge inn."
                 image={sikkerhetBomLight}
                 callbackMessage="Logg inn"
                 callback={callback}
