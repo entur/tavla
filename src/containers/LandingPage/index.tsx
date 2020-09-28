@@ -14,7 +14,6 @@ import { DEFAULT_SETTINGS } from '../../settings/UrlStorage'
 
 import SearchPanel from './SearchPanel'
 import TypographyCarousel from './TypographyCarousel'
-import Navbar from './Navbar'
 import './styles.scss'
 
 function LandingPage({ history }: Props): JSX.Element {
@@ -36,9 +35,6 @@ function LandingPage({ history }: Props): JSX.Element {
 
     return (
         <div className="landing-page">
-            <Contrast>
-                <Navbar />
-            </Contrast>
             <div className="landing-page__content">
                 <Contrast className="landing-page__contrast">
                     <GridContainer

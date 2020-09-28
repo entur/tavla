@@ -6,11 +6,9 @@
 
     &__header {
         background-color: $colors-brand-blue;
-        padding: 5rem 5rem;
+        padding: 2rem 3rem;
 
         h1 {
-            color: white;
-            font-size: 32px;
             margin-left: 1rem;
         }
     }
@@ -19,16 +17,16 @@
         max-width: 1000px;
         color: $colors-brand-blue;
         background-color: white;
-        padding: 2rem 6rem;
+        padding: 2rem 4rem;
     }
 }
 
 @media (max-width: 1000px) {
     .privacy__header {
-        padding: 1rem;
+        padding: 0;
     }
 
     .privacy__body {
-        padding: 2rem;
+        padding: 1rem;
     }
 }
