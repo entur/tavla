@@ -20,7 +20,7 @@
     &__icon {
         min-width: 2rem;
         margin-right: 1rem;
-        font-size: 2rem;
+        font-size: $font-sizes-extra-large4;
     }
 
     &__texts {
@@ -30,10 +30,10 @@
 
     &__sublabels {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        font-size: 1.25rem;
+        grid-template-columns: repeat(20, 1fr);
         justify-content: space-between;
-        max-width: 20rem;
+        min-width: 130rem;
+        font-size: 1.25rem;
     }
 
     &__sublabel {

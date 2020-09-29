@@ -20,18 +20,12 @@ function ScooterTile({ scooters }: Props): JSX.Element {
         latitude: settings?.coordinates?.latitude,
         longitude: settings?.coordinates?.longitude,
         width: 'auto',
-        height: '55vh',
+        height: '100%',
         zoom: settings?.zoom ?? DEFAULT_ZOOM,
     })
 
     return (
         <div className="scootertile">
-            <header className="scootertile__header">
-                <Heading2>Sparkesykler</Heading2>
-                <div className="scootertile__header-icons">
-                    <ScooterIcon color={colors.blues.blue60} />
-                </div>
-            </header>
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
