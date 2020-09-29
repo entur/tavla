@@ -5,6 +5,7 @@ $max-width: 86rem;
 .landing-page {
     color: $colors-brand-blue;
     background-color: white;
+    padding-bottom: $space-extra-large9;
 
     &__header-grid {
         max-width: $max-width;
@@ -34,7 +35,7 @@ $max-width: 86rem;
     &__entur-link.eds-link {
         background-image: linear-gradient(120deg, $colors-brand-coral, $colors-brand-coral);
         font-size: $font-sizes-extra-large;
-        font-weight: $font-weights-heading;
+        font-weight: $font-weights-body;
     }
 
     &__search-panel {
@@ -60,8 +61,12 @@ $max-width: 86rem;
         margin: $space-extra-large5 auto;
     }
 
+    &__article-grid-item {
+        padding: 0 $space-default;
+    }
+
     &__logo {
-        height: 24px;
+        height: 32px;
     }
 
     &__cover-photo {
@@ -81,8 +86,8 @@ $max-width: 86rem;
             display: none;
         }
 
-        article {
-            display: none;
+        &__entur-link.eds-link {
+            font-size: $font-sizes-large;
         }
 
         &__link-wrapper {

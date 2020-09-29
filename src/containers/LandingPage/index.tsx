@@ -80,14 +80,22 @@ function LandingPage({ history }: Props): JSX.Element {
 
                 <article>
                     <GridContainer spacing="extraLarge">
-                        <GridItem small={12} large={6}>
+                        <GridItem
+                            small={12}
+                            large={6}
+                            className="landing-page__article-grid-item"
+                        >
                             <img
                                 src={coverPhoto}
                                 className="landing-page__screenshot"
                                 alt="Skjermbilde av Tavla"
                             />
                         </GridItem>
-                        <GridItem small={12} large={6}>
+                        <GridItem
+                            small={12}
+                            large={6}
+                            className="landing-page__article-grid-item"
+                        >
                             <Heading2>Avgangstavla med dine behov</Heading2>
                             <Paragraph>
                                 Tavla er en nettside som viser avgangene til all
