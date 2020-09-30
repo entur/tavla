@@ -65,6 +65,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
     }, [denied])
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
+    const [warningMessage, setWarningMessage] = useState<string | null>(null)
 
     const [location, setLocation] = useState<Location>({
         hasLocation: false,
@@ -105,6 +106,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
 
     const onItemSelected = (item: Item | null): void => {
         if (!item) return
+        setWarningMessage(null)
         if (item.value === YOUR_POSITION) {
             setLocation((previousLocation) => ({
                 ...previousLocation,
@@ -126,11 +128,14 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
 
     const handleGoToBoard = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault()
+
         if (chosenCoord && location.selectedLocationName) {
             handleCoordinatesSelected(
                 chosenCoord,
                 location.selectedLocationName,
             )
+        } else {
+            setWarningMessage('Vennligst velg et sted for tavla di.')
         }
     }
 
@@ -148,6 +153,13 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
         return [...defaultSuggestions, ...suggestedFeatures]
     }
 
+    let dropdownVariant: 'error' | 'warning' | undefined
+    if (errorMessage) {
+        dropdownVariant = 'error'
+    } else if (warningMessage) {
+        dropdownVariant = 'warning'
+    }
+
     return (
         <form className="search-panel" onSubmit={handleGoToBoard}>
             <div className="search-container">
@@ -160,6 +172,8 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                             placeholder="Skriv inn stoppested eller adresse"
                             items={getItems}
                             onChange={onItemSelected}
+                            variant={dropdownVariant}
+                            feedback={errorMessage || warningMessage || ''}
                         />
                     </div>
                 </div>
@@ -167,16 +181,10 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                     variant="primary"
                     className="search-panel__submit-button"
                     type="submit"
-                    disabled={!location.hasLocation}
                 >
                     Opprett tavle
                 </Button>
             </div>
-            {errorMessage && (
-                <p role="alert" style={{ color: 'red', textAlign: 'center' }}>
-                    {errorMessage}
-                </p>
-            )}
         </form>
     )
 }
