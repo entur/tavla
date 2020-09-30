@@ -34,7 +34,7 @@
         z-index: 1;
     }
 
-    .react-grid-item::after {
+    .react-grid-item:not(#compact-scooter-tile)::after {
         content: '';
         position: absolute;
         width: 100%;
@@ -99,13 +99,30 @@
         height: 0.25rem;
         bottom: 0;
         margin: 0 40%;
-        border-radius: 50vh;
+        border-radius: 0.13rem;
         background-color: var(--tavla-font-color);
         opacity: 0.7;
         transition: bottom 0.3s;
     }
 
+    .react-grid-item:matches(#compact-scooter-tile) > .react-resizable-handle::after {
+        content: '';
+        position: absolute;
+        width: 20%;
+        height: 0.25rem;
+        bottom: 0;
+        margin: 0 40%;
+        border-radius: 0.13rem;
+        background-color: var(--tavla-background-color);
+        opacity: 1;
+        transition: bottom 0.3s;
+    }
+
     .react-grid-item:hover > .react-resizable-handle::after {
+        bottom: 0.5rem;
+    }
+
+    .react-grid-item:matches(#compact-scooter-tile):hover > .react-resizable-handle::after {
         bottom: 0.5rem;
     }
 }
