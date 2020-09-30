@@ -65,7 +65,6 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
     }, [denied])
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
-    const [warningMessage, setWarningMessage] = useState<string | null>(null)
 
     const [location, setLocation] = useState<Location>({
         hasLocation: false,
@@ -106,7 +105,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
 
     const onItemSelected = (item: Item | null): void => {
         if (!item) return
-        setWarningMessage(null)
+        setErrorMessage(null)
         if (item.value === YOUR_POSITION) {
             setLocation((previousLocation) => ({
                 ...previousLocation,
@@ -135,7 +134,9 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                 location.selectedLocationName,
             )
         } else {
-            setWarningMessage('Vennligst velg et sted for tavla di.')
+            setErrorMessage(
+                'Du må skrive inn et sted for å lage ein avgangstavle.',
+            )
         }
     }
 
@@ -153,13 +154,6 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
         return [...defaultSuggestions, ...suggestedFeatures]
     }
 
-    let dropdownVariant: 'error' | 'warning' | undefined
-    if (errorMessage) {
-        dropdownVariant = 'error'
-    } else if (warningMessage) {
-        dropdownVariant = 'warning'
-    }
-
     return (
         <form className="search-panel" onSubmit={handleGoToBoard}>
             <div className="search-container">
@@ -172,8 +166,8 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                             placeholder="Skriv inn stoppested eller adresse"
                             items={getItems}
                             onChange={onItemSelected}
-                            variant={dropdownVariant}
-                            feedback={errorMessage || warningMessage || ''}
+                            variant={errorMessage ? 'error' : undefined}
+                            feedback={errorMessage || ''}
                         />
                     </div>
                 </div>
