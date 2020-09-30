@@ -16,6 +16,17 @@ import SearchPanel from './SearchPanel'
 import TypographyCarousel from './TypographyCarousel'
 import './styles.scss'
 
+function EnturLink({ className }: { className: string }): JSX.Element {
+    return (
+        <div>
+            <Link href="https://entur.no" className={className}>
+                Planlegg din neste reise her{' '}
+            </Link>
+            <ForwardIcon style={{ marginLeft: 5 }} />
+        </div>
+    )
+}
+
 function LandingPage({ history }: Props): JSX.Element {
     const addLocation = useCallback(
         (position: Coordinates, locationName: string): void => {
@@ -57,15 +68,7 @@ function LandingPage({ history }: Props): JSX.Element {
                             </div>
                         </GridItem>
                         <GridItem small={12} medium={4}>
-                            <div className="landing-page__link-wrapper">
-                                <Link
-                                    href="https://entur.no"
-                                    className="landing-page__entur-link"
-                                >
-                                    Planlegg din neste reise her{' '}
-                                </Link>
-                                <ForwardIcon style={{ marginLeft: 5 }} />
-                            </div>
+                            <EnturLink className="landing-page__link-wrapper--desktop" />
                         </GridItem>
                     </GridContainer>
                 </Contrast>
@@ -117,6 +120,7 @@ function LandingPage({ history }: Props): JSX.Element {
                                 innspill eller ideer til hvordan tjenesten kan
                                 bli bedre, kan du skrive til oss på Github.
                             </Paragraph>
+                            <EnturLink className="landing-page__link-wrapper--mobile" />
                         </GridItem>
                     </GridContainer>
                 </article>

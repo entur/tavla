@@ -26,10 +26,15 @@ $max-width: 86rem;
         flex-direction: column;
     }
 
-    &__link-wrapper {
+    &__link-wrapper--desktop {
         display: block;
         padding-top: $space-extra-large3;
         text-align: right;
+    }
+
+    &__link-wrapper--mobile {
+        display: none;
+        padding-top: $space-extra-large3;
     }
 
     &__entur-link.eds-link {
@@ -90,8 +95,12 @@ $max-width: 86rem;
             font-size: $font-sizes-large;
         }
 
-        &__link-wrapper {
-            text-align: left;
+        &__link-wrapper--desktop {
+            display: none;
+        }
+
+        &__link-wrapper--mobile {
+            display: block;
         }
     }
 }
