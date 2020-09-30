@@ -7,7 +7,7 @@ import { ForwardIcon } from '@entur/icons'
 import { GridContainer, GridItem } from '@entur/grid'
 
 import coverPhoto from '../../assets/images/farger.gif'
-import FrontPagePhoto from '../../assets/images/front-page.jpg'
+import FrontPagePhoto from '../../assets/images/front-page.webp'
 
 import { createSettings } from '../../services/firebase'
 import { DEFAULT_SETTINGS } from '../../settings/UrlStorage'
