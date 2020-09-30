@@ -19,6 +19,11 @@
         ::placeholder {
             color: $colors-blues-blue40;
         }
+
+        input {
+            font-size: $font-sizes-extra-large;
+            line-height: $line-heights-extra-large4;
+        }
     }
 
     .eds-dropdown-list__item {
@@ -32,6 +37,10 @@
         &--highlighted {
             background-color: $colors-greys-grey20;
         }
+    }
+
+    &__submit-button {
+        height: 60px;
     }
 }
 
@@ -91,6 +100,12 @@
     .search-panel {
         &__submit-button {
             width: 100%;
+            height: 44px;
+        }
+
+        .eds-form-control-wrapper--dark input {
+            font-size: 1rem;
+            line-height: 1rem;
         }
 
         .search-container {
