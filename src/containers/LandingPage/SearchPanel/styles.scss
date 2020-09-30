@@ -39,6 +39,10 @@
         }
     }
 
+    .eds-form-control__append {
+        display: none;
+    }
+
     &__submit-button {
         height: 60px;
     }
@@ -52,7 +56,7 @@
 }
 
 .input-container {
-    margin-right: 1rem;
+    margin-right: 2rem;
     width: 100%;
 
     .eds-input-group {
