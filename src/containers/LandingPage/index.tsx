@@ -18,8 +18,8 @@ import './styles.scss'
 
 function EnturLink({ className }: { className: string }): JSX.Element {
     return (
-        <div>
-            <Link href="https://entur.no" className={className}>
+        <div className={className}>
+            <Link href="https://entur.no" className="landing-page__entur-link">
                 Planlegg din neste reise her{' '}
             </Link>
             <ForwardIcon style={{ marginLeft: 5 }} />
