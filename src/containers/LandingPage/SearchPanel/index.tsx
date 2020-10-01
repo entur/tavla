@@ -134,9 +134,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                 location.selectedLocationName,
             )
         } else {
-            setErrorMessage(
-                'Du må skrive inn et sted for å lage en avgangstavle.',
-            )
+            setErrorMessage('Du må velge et sted for å lage en avgangstavle.')
         }
     }
 
