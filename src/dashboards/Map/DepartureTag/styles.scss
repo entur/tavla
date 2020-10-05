@@ -1,0 +1,52 @@
+@import '../../../assets/styles/import.scss';
+@import '../../../variables.scss';
+
+.departure-tile {
+    position: relative;
+    background-color: white;
+    color: $colors-brand-blue;
+    margin: 0rem 1rem 0rem 1rem;
+    border-radius: 4px;
+    min-width: 376px;
+    max-width: 376px;
+    height: auto;
+    box-shadow: 0 20px 25px -10px rgba(0, 0, 0, 0.1);
+    &__stop{
+        margin: 1rem 1.5rem 0.5rem 1.5rem;
+        font-size: 1.25rem;
+    }
+}
+
+.departure-row {
+    display: flex;
+    align-items: center;
+    margin: 0rem 1.5rem 1.5rem 1.5rem;
+    padding-top: 0.5rem;
+    font: 'national';
+    &__direction {
+        flex: 1;
+        display: flex;
+        justify-self: left;
+        padding-left: 0.5625rem;
+        line-height: normal;
+        font-weight: 500;
+    }
+    &__departure {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+        max-width: 3.25rem;
+        padding-left: 0.5rem;
+        font-weight: 600;
+    }
+}
+
+.divider {
+	content: "";
+	position: absolute;
+	bottom: 4.5rem;
+	left: 1.4rem;
+	right: 1.4rem;
+    height: 1px;
+    background-color: rgb(243, 243, 243);
+}

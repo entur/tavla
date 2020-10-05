@@ -1,0 +1,29 @@
+@import '../../../assets/styles/import.scss';
+@import '../../../variables.scss';
+
+.bicycle-tag {
+    background-color: #388F76;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    border-radius: 5px;
+    padding: 0.3125rem;
+    font: 'national';
+    font-size: 0.875rem;
+    font-weight: 400;
+    &__row {
+        display: flex;
+        align-items: center;
+        height: 1.25rem;
+        width: 100%;
+        &__icon {
+            min-width: 1rem;
+            margin-right: 0.25rem;
+            font-size: 1.125rem;
+            padding-top: 0.25rem;
+        }
+        &__amount {
+            width: 100%;
+        }
+    }
+}

@@ -8,7 +8,7 @@ function PositionPin({ className, size }: Props): JSX.Element | null {
 
 interface Props {
     className?: string
-    size?: string
+    size?: number | string
 }
 
 export default PositionPin

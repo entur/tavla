@@ -1,0 +1,26 @@
+@import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
+
+.icon-box {
+    color: $colors-brand-white;
+    max-width: auto;
+    width: auto;
+    height: 2rem;
+    border-radius: 4px;
+    align-items: flex-start;
+    text-align: center;
+    display: flex;
+    font-size: $font-sizes-medium;
+    padding: 0.3rem 0.5625rem 0 0.5625rem;
+
+    &__icon {
+        font-size: 1.125rem;
+        padding-top: 0.10rem;
+        margin-right: 0.25rem;
+        height: 24px;
+    }
+    &__departure {
+        width: 100%;
+        font-size: 14px;
+    }
+}
