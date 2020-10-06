@@ -12,7 +12,7 @@ import './styles.scss'
 import BicycleTag from '../BicycleTag'
 import DepartureTag from '../DepartureTag'
 import StopPlaceTag from '../StopPlaceTag'
-import { useWalkTime} from '../../../logic'
+import { useWalkTime } from '../../../logic'
 
 const MapView = ({
     bikeRentalStations,

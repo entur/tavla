@@ -7,10 +7,12 @@
     align-items: center;
     justify-content: center;
     line-height: 1.25rem;
+
     &__icon-row {
         display: flex;
         align-items: center;
         margin-bottom: 0.2rem;
+
         &__icon {
             font-size: 1.125rem;
             width: 1.5rem;
@@ -20,12 +22,13 @@
             padding-top: 0.2rem;
         }
     }
+
     &__stopplace {
         color: $colors-brand-blue;
         text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
         height: auto;
-        margin-bottom: 0rem;
     }
+
     &__walking-distance {
         line-height: 1rem;
         color: $colors-brand-blue;
