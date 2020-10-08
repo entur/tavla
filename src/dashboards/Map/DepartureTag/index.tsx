@@ -1,5 +1,9 @@
 import React from 'react'
-import { StopPlaceWithDepartures, IconColorType } from '../../../types'
+import {
+    StopPlaceWithDepartures,
+    IconColorType,
+    LineData,
+} from '../../../types'
 
 import './styles.scss'
 import { getIcon, getIconColor } from '../../../utils'
@@ -7,6 +11,17 @@ import DepartureIcon from './DepartureIcon'
 import { colors } from '@entur/tokens'
 import { Heading4 } from '@entur/typography'
 
+function getDepartureTime(departure: LineData): string {
+    return departure.expectedDepartureTime.substr(11, 5)
+}
+
+function getDepartureDirection(departure: LineData): string[] {
+    return departure.route.split(/([\s])/g).slice(1)
+}
+
+function getDepartureNumber(departure: LineData): string {
+    return departure.route.split(/[\s]/g)[0]
+}
 const DepartureTag = (props: Props): JSX.Element => {
     return (
         <div className="departure-tile">
@@ -31,13 +46,13 @@ const DepartureTag = (props: Props): JSX.Element => {
                                 IconColorType.DEFAULT,
                                 departure.subType,
                             )}
-                            departure={departure.route.split(/[\s]/g)[0]}
+                            routeNumber={getDepartureNumber(departure)}
                         />
                         <div className="departure-row__direction">
-                            {departure.route.split(/([\s])/g).slice(1)}
+                            {getDepartureDirection(departure)}
                         </div>
                         <div className="departure-row__departure">
-                            {departure.expectedDepartureTime.substr(11, 5)}
+                            {getDepartureTime(departure)}
                         </div>
                     </div>
                 ))}
