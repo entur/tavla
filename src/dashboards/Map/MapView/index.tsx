@@ -12,23 +12,24 @@ import './styles.scss'
 import BicycleTag from '../BicycleTag'
 import DepartureTag from '../DepartureTag'
 import StopPlaceTag from '../StopPlaceTag'
-import { useWalkTime } from '../../../logic'
+
+const HEADER_HEIGHT = 124
 
 const MapView = ({
     bikeRentalStations,
     stopPlacesWithDepartures,
+    walkTimes,
 }: Props): JSX.Element => {
     const [settings, { setZoom }] = useSettingsContext()
     const [viewport, setViewPort] = useState({
         latitude: settings?.coordinates?.latitude,
         longitude: settings?.coordinates?.longitude,
         width: 'auto',
-        height: window.innerHeight - 124,
+        height: window.innerHeight - HEADER_HEIGHT,
         zoom: settings?.zoom ?? DEFAULT_ZOOM,
         maxZoom: 16,
         minZoom: 13.5,
     })
-    const walkTimes = useWalkTime(stopPlacesWithDepartures)
     return (
         <div>
             <ReactMapGL
@@ -42,7 +43,7 @@ const MapView = ({
                         latitude: settings?.coordinates?.latitude,
                         longitude: settings?.coordinates?.longitude,
                         width: 'auto',
-                        height: window.innerHeight - 124,
+                        height: window.innerHeight - HEADER_HEIGHT,
                         zoom,
                         maxZoom,
                         minZoom,
@@ -60,7 +61,15 @@ const MapView = ({
                         >
                             <StopPlaceTag
                                 stopPlace={stopPlace}
-                                walkTimes={walkTimes}
+                                walkTime={
+                                    walkTimes?.find((walkTime) =>
+                                        walkTime
+                                            ? walkTime.stopId ===
+                                                  stopPlace.id &&
+                                              walkTime.walkTime !== undefined
+                                            : null,
+                                    )?.walkTime
+                                }
                             />
                         </Marker>
                     ) : (
@@ -103,6 +112,7 @@ const MapView = ({
 interface Props {
     stopPlacesWithDepartures: StopPlaceWithDepartures[] | null
     bikeRentalStations: BikeRentalStation[] | null
+    walkTimes: Array<{ stopId: string; walkTime: number } | null> | null
 }
 
 export default MapView

@@ -1,7 +1,11 @@
 import React from 'react'
 
 import DashboardWrapper from '../../containers/DashboardWrapper'
-import { useStopPlacesWithDepartures, useBikeRentalStations } from '../../logic'
+import {
+    useStopPlacesWithDepartures,
+    useBikeRentalStations,
+    useWalkTime,
+} from '../../logic'
 
 import './styles.scss'
 import MapView from './MapView'
@@ -9,6 +13,7 @@ import MapView from './MapView'
 const MapDashboard = ({ history }: Props): JSX.Element => {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const bikeRentalStations = useBikeRentalStations()
+    const walkTimes = useWalkTime(stopPlacesWithDepartures)
 
     return (
         <DashboardWrapper
@@ -20,6 +25,7 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
             <MapView
                 bikeRentalStations={bikeRentalStations}
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
+                walkTimes={walkTimes}
             ></MapView>
         </DashboardWrapper>
     )
