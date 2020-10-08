@@ -35,7 +35,7 @@ const MapView = ({
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
-                mapStyle={process.env.MAPBOX_STYLE}
+                mapStyle={process.env.MAPBOX_STYLE_MAPVIEW}
                 onViewportChange={(vp): void => {
                     const { zoom, maxZoom, minZoom } = vp
                     setZoom(zoom)
