@@ -62,12 +62,10 @@ const MapView = ({
                             <StopPlaceTag
                                 stopPlace={stopPlace}
                                 walkTime={
-                                    walkTimes?.find((walkTime) =>
-                                        walkTime
-                                            ? walkTime.stopId ===
-                                                  stopPlace.id &&
-                                              walkTime.walkTime !== undefined
-                                            : null,
+                                    walkTimes?.find(
+                                        (walkTime) =>
+                                            walkTime.stopId === stopPlace.id &&
+                                            walkTime.walkTime !== undefined,
                                     )?.walkTime
                                 }
                             />
@@ -112,7 +110,7 @@ const MapView = ({
 interface Props {
     stopPlacesWithDepartures: StopPlaceWithDepartures[] | null
     bikeRentalStations: BikeRentalStation[] | null
-    walkTimes: Array<{ stopId: string; walkTime: number } | null> | null
+    walkTimes: Array<{ stopId: string; walkTime: number }> | null
 }
 
 export default MapView

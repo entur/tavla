@@ -19,7 +19,6 @@ function getDepartureNumber(departure: LineData): string {
     return departure.route.split(/[\s]/g)[0]
 }
 const DepartureTag = (props: Props): JSX.Element => {
-    console.log(props.stopPlace)
     return (
         <div className="departure-tile">
             <Heading4

@@ -9,7 +9,7 @@ import { usePrevious, isNotNullOrUndefined } from '../utils'
 async function getWalkTime(
     stopPlaces: StopPlaceWithDepartures[],
     from: Coordinates,
-): Promise<Array<{ stopId: string; walkTime: number } | null>> {
+): Promise<Array<{ stopId: string; walkTime: number }>> {
     const travelTimes = Promise.all(
         stopPlaces
             .map(
@@ -33,7 +33,12 @@ async function getWalkTime(
                         }))
                         .catch((error) => null),
             )
-            .filter(isNotNullOrUndefined),
+            .filter(isNotNullOrUndefined) as Array<
+            Promise<{
+                stopId: string
+                walkTime: number
+            }>
+        >,
     )
 
     return travelTimes
@@ -41,12 +46,12 @@ async function getWalkTime(
 
 export default function useTravelTime(
     stopPlaces: StopPlaceWithDepartures[] | null,
-): Array<{ stopId: string; walkTime: number } | null> | null {
+): Array<{ stopId: string; walkTime: number }> | null {
     const [settings] = useSettingsContext()
     const [travelTime, setTravelTime] = useState<Array<{
         stopId: string
         walkTime: number
-    } | null> | null>(null)
+    }> | null>(null)
 
     const {
         latitude: fromLatitude,
