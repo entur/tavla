@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react'
-import { MAX_DISTANCE } from '../../constants'
 
 import './styles.scss'
 

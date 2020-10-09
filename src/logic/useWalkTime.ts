@@ -31,7 +31,7 @@ async function getWalkTime(
                             stopId: stopPlace.id,
                             walkTime: result[0].duration,
                         }))
-                        .catch((error) => null),
+                        .catch(() => null),
             )
             .filter(isNotNullOrUndefined) as Array<
             Promise<{
