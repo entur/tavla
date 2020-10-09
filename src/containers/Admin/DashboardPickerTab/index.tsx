@@ -56,6 +56,15 @@ const DashboardPickerTab = (): JSX.Element => {
                     callback={(val): void => updateChoice(val)}
                     className="display-wrapper__display-card"
                 />
+                <RadioCard
+                    title="Kart"
+                    description="Avgangene vises i visualisert i et kart. Viser ikke Sparkesykler, spor/platform eller avvik."
+                    cardValue="Map"
+                    selected={radioValue === 'Map'}
+                    preview={dashboardImages.Map}
+                    callback={(val): void => updateChoice(val)}
+                    className="display-wrapper__display-card"
+                />
             </div>
         </div>
     )
