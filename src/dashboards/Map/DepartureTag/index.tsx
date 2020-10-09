@@ -11,10 +11,6 @@ import DepartureIcon from './DepartureIcon'
 import { colors } from '@entur/tokens'
 import { Heading4 } from '@entur/typography'
 
-function getDepartureTime(departure: LineData): string {
-    return departure.expectedDepartureTime.substr(11, 5)
-}
-
 function getDepartureDirection(departure: LineData): string[] {
     return departure.route.split(/([\s])/g).slice(1)
 }
@@ -23,6 +19,7 @@ function getDepartureNumber(departure: LineData): string {
     return departure.route.split(/[\s]/g)[0]
 }
 const DepartureTag = (props: Props): JSX.Element => {
+    console.log(props.stopPlace)
     return (
         <div className="departure-tile">
             <Heading4
@@ -52,7 +49,7 @@ const DepartureTag = (props: Props): JSX.Element => {
                             {getDepartureDirection(departure)}
                         </div>
                         <div className="departure-row__departure">
-                            {getDepartureTime(departure)}
+                            {departure.time}
                         </div>
                     </div>
                 ))}
