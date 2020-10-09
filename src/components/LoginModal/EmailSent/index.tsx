@@ -1,15 +1,15 @@
 import React, { Dispatch, SetStateAction } from 'react'
+import { User } from 'firebase/app'
 
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
 
 import { ModalType } from '..'
-
-import Check from './../../../assets/images/check.png'
-import retinaCheck from './../../../assets/images/check@2x.png'
-import { User } from 'firebase/app'
 import CloseButton from '../CloseButton/CloseButton'
+
+import Check from '../../../assets/images/check.png'
+import retinaCheck from '../../../assets/images/check@2x.png'
 
 export interface UserResetPassword {
     email: string

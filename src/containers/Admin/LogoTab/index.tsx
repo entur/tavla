@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Dispatch } from 'react'
+import { User } from 'firebase/app'
 
 import {
     Heading2,
@@ -11,10 +12,9 @@ import {
 import { GridItem, GridContainer } from '@entur/grid'
 
 import { useFirebaseAuthentication } from '../../../auth'
-import { User } from 'firebase/app'
 import { getDocumentId } from '../../../utils'
-
 import LoginModal from '../../../components/LoginModal'
+
 import LogoUpload from './LogoUpload'
 import SizePicker from './SizePicker'
 import Description from './Description'

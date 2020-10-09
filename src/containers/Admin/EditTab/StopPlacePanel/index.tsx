@@ -9,8 +9,8 @@ import { StopPlaceWithLines } from '../../../../types'
 import { useSettingsContext } from '../../../../settings'
 
 import ThemeContrastWrapper from '../../../ThemeWrapper/ThemeContrastWrapper'
-import PanelRow from './PanelRow'
 
+import PanelRow from './PanelRow'
 import './styles.scss'
 
 function StopPlacePanel(props: Props): JSX.Element {

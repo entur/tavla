@@ -7,17 +7,17 @@ import {
 } from 'react'
 import { useLocation } from 'react-router-dom'
 import { LegMode, Coordinates, ScooterOperator } from '@entur/sdk'
-import { Theme } from '../types'
 
-import { persist as persistToFirebase, FieldTypes } from './FirestoreStorage'
+import { Theme } from '../types'
+import { getSettings } from '../services/firebase'
+import { getDocumentId } from '../utils'
+import { useFirebaseAuthentication } from '../auth'
+
 import {
     persist as persistToUrl,
     restore as restoreFromUrl,
 } from './UrlStorage'
-import { getSettings } from '../services/firebase'
-
-import { getDocumentId } from '../utils'
-import { useFirebaseAuthentication } from '../auth'
+import { persist as persistToFirebase, FieldTypes } from './FirestoreStorage'
 
 export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
 

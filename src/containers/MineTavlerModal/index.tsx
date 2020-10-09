@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useHistory } from 'react-router'
 
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
@@ -9,6 +10,7 @@ import { useFirebaseAuthentication } from '../../auth'
 import { useSettingsContext } from '../../settings'
 
 import LoginModal from '../../components/LoginModal'
+import CloseButton from '../../components/LoginModal/CloseButton/CloseButton'
 
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
@@ -16,8 +18,6 @@ import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 import { getDocumentId } from '../../utils'
 
 import './styles.scss'
-import CloseButton from '../../components/LoginModal/CloseButton/CloseButton'
-import { useHistory } from 'react-router'
 
 const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const history = useHistory()

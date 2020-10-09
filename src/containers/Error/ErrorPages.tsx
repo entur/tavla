@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
+import firebase from 'firebase/app'
 
-import ErrorWrapper from '.'
+import { useToast } from '@entur/alert'
+
 import LoginModal from '../../components/LoginModal'
 
-import sikkerhetBomLight from './../../assets/images/sikkerhet_bom_light@2x.png'
-import duerLight from './../../assets/images/duer@2x.png'
-import sauerLight from './../../assets/images/sauer_lag@2x.png'
-
 import { useUser } from '../../auth'
-import firebase from 'firebase/app'
-import { useToast } from '@entur/alert'
 import { getDocumentId } from '../../utils'
+
+import sikkerhetBomLight from '../../assets/images/sikkerhet_bom_light@2x.png'
+import duerLight from '../../assets/images/duer@2x.png'
+import sauerLight from '../../assets/images/sauer_lag@2x.png'
+
+import ErrorWrapper from '.'
 
 export function LockedTavle({ history }: Props): JSX.Element {
     const user = useUser()

@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 
 import { Heading3, Paragraph } from '@entur/typography'
 import { Modal } from '@entur/modal'
+import { GridContainer, GridItem } from '@entur/grid'
+import { PrimaryButton } from '@entur/button'
 
 import Check from '../../assets/images/check.png'
 import retinaCheck from '../../assets/images/check@2x.png'
@@ -9,12 +11,10 @@ import retinaCheck from '../../assets/images/check@2x.png'
 import { useFirebaseAuthentication } from '../../auth'
 import { useSettingsContext } from '../../settings'
 
+import CloseButton from '../../components/LoginModal/CloseButton/CloseButton'
 import LoginModal from '../../components/LoginModal'
-import { GridContainer, GridItem } from '@entur/grid'
-import { PrimaryButton } from '@entur/button'
 
 import './styles.scss'
-import CloseButton from '../../components/LoginModal/CloseButton/CloseButton'
 
 interface Props {
     open: boolean
