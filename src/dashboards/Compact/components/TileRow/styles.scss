@@ -33,7 +33,7 @@
         grid-template-columns: repeat(20, 1fr);
         justify-content: space-between;
         min-width: 130rem;
-        font-size: 1.25rem;
+        font-size: $font-sizes-extra-large;
     }
 
     &__sublabel {

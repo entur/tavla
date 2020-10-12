@@ -3,11 +3,8 @@ import ReactMapGL, { Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { Scooter } from '@entur/sdk'
-import { colors } from '@entur/tokens'
-import { ScooterIcon } from '@entur/icons'
 import { useSettingsContext } from '../../../settings'
 
-import { Heading2 } from '@entur/typography'
 import ScooterOperatorLogo from '../../../assets/icons/scooterOperatorLogo'
 import PositionPin from '../../../assets/icons/positionPin'
 
@@ -35,7 +32,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                     latitude={viewport.latitude || 0}
                     longitude={viewport.longitude || 0}
                 >
-                    <PositionPin size="24px" />
+                    <PositionPin size="24" />
                 </Marker>
                 {scooters.map((sctr) => (
                     <Marker
@@ -43,7 +40,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                         latitude={sctr.lat}
                         longitude={sctr.lon}
                     >
-                        <ScooterOperatorLogo logo={sctr.operator} size="24px" />
+                        <ScooterOperatorLogo logo={sctr.operator} size="24" />
                     </Marker>
                 ))}
             </ReactMapGL>
