@@ -1,6 +1,9 @@
 rules_version = '2';
 
 service firebase.storage {
+    match /b/{bucket}/o/public/{imageId} {
+      allow read;
+    }
     match /b/{bucket}/o/images/{uid} {
         allow read;
         allow create: if request.auth != null && request.auth.uid != null
