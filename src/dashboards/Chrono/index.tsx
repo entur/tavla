@@ -4,15 +4,15 @@ import { WidthProvider, Responsive } from 'react-grid-layout'
 import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
-import BikeTile from './BikeTile'
-import DepartureTile from './DepartureTile'
-
-import './styles.scss'
-
 import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
+
+import BikeTile from './BikeTile'
+import DepartureTile from './DepartureTile'
+
+import './styles.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 

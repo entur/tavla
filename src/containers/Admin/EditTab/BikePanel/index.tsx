@@ -1,12 +1,13 @@
 import React, { useCallback } from 'react'
-import { Checkbox, Fieldset } from '@entur/form'
+
 import { BikeRentalStation } from '@entur/sdk'
+import { Checkbox, Fieldset } from '@entur/form'
+import { Paragraph } from '@entur/typography'
 
 import { toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
-import { Paragraph } from '@entur/typography'
 
 function BikePanel(props: Props): JSX.Element {
     const [settings, { setHiddenStations }] = useSettingsContext()

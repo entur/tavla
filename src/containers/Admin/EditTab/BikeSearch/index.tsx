@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
+
 import { Coordinates, BikeRentalStation } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
+import { Label } from '@entur/typography'
 
 import service from '../../../../service'
 
 import './styles.scss'
-import { Label } from '@entur/typography'
 
 interface Item {
     value: string
