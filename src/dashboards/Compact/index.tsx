@@ -9,15 +9,16 @@ import {
 import DashboardWrapper from '../../containers/DashboardWrapper'
 import ResizeHandle from '../../assets/icons/ResizeHandle'
 
-import DepartureTile from './DepartureTile'
-import BikeTile from './BikeTile'
-import ScooterTile from './ScooterTile'
-import './styles.scss'
-
 import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
+
+import DepartureTile from './DepartureTile'
+import BikeTile from './BikeTile'
+import ScooterTile from './ScooterTile'
+
+import './styles.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 

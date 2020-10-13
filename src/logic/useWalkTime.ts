@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { isEqual } from 'lodash'
-import service from '../service'
+
 import { Coordinates } from '@entur/sdk'
+
+import service from '../service'
 import { useSettingsContext } from '../settings'
 import { StopPlaceWithDepartures } from '../types'
 import { usePrevious, isNotNullOrUndefined } from '../utils'
@@ -10,38 +12,30 @@ async function getWalkTime(
     stopPlaces: StopPlaceWithDepartures[],
     from: Coordinates,
 ): Promise<Array<{ stopId: string; walkTime: number }>> {
-    const travelTimes = Promise.all(
-        stopPlaces
-            .map(
-                async (stopPlace) =>
-                    await service
-                        .getTripPatterns({
-                            from: {
-                                name: 'pin',
-                                coordinates: from,
-                            },
-                            to: {
-                                name: stopPlace.name,
-                                place: stopPlace.id,
-                            },
-                            modes: ['foot'],
-                            limit: 1,
-                        })
-                        .then((result) => ({
-                            stopId: stopPlace.id,
-                            walkTime: result[0].duration,
-                        }))
-                        .catch(() => null),
-            )
-            .filter(isNotNullOrUndefined) as Array<
-            Promise<{
-                stopId: string
-                walkTime: number
-            }>
-        >,
+    const travelTimes = await Promise.all(
+        stopPlaces.map((stopPlace) =>
+            service
+                .getTripPatterns({
+                    from: {
+                        name: 'pin',
+                        coordinates: from,
+                    },
+                    to: {
+                        name: stopPlace.name,
+                        place: stopPlace.id,
+                    },
+                    modes: ['foot'],
+                    limit: 1,
+                })
+                .then((result) => ({
+                    stopId: stopPlace.id,
+                    walkTime: result[0].duration,
+                }))
+                .catch(() => null),
+        ),
     )
 
-    return travelTimes
+    return travelTimes.filter(isNotNullOrUndefined)
 }
 
 export default function useTravelTime(

@@ -2,6 +2,8 @@ import React from 'react'
 import { Route, Switch, Router, useLocation } from 'react-router-dom'
 import analytics from 'universal-ga'
 
+import { ToastProvider } from '@entur/alert'
+
 import { SettingsContext, useSettings } from '../settings'
 import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
@@ -11,19 +13,17 @@ import Chrono from '../dashboards/Chrono'
 import Timeline from '../dashboards/Timeline'
 import MapDashboard from '../dashboards/Map'
 
+import PrivateRoute from '../routers/PrivateRoute'
+import Header from '../components/Header'
+
 import LandingPage from './LandingPage'
 import Admin from './Admin'
 import Privacy from './Privacy'
 import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
 import ThemeProvider from './ThemeWrapper/ThemeProvider'
 
-import PrivateRoute from '../routers/PrivateRoute'
-
-import { ToastProvider } from '@entur/alert'
-import Header from '../components/Header'
-
-import './styles.scss'
 import MyBoards from './MyBoards'
+import './styles.scss'
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)

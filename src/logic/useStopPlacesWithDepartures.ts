@@ -1,5 +1,8 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { isEqual } from 'lodash'
+
+import { StopPlaceDetails, DeparturesById } from '@entur/sdk'
+
 import { StopPlaceWithDepartures } from '../types'
 import {
     transformDepartureToLineData,
@@ -12,7 +15,6 @@ import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'
 
 import useNearestPlaces from './useNearestPlaces'
-import { StopPlaceDetails, DeparturesById } from '@entur/sdk'
 
 async function fetchStopPlaceDepartures(
     allStopPlaceIdsWithoutDuplicateNumber: string[],

@@ -1,12 +1,13 @@
 import React from 'react'
 
 import { PrimaryButton } from '@entur/button'
-
-import './styles.scss'
 import { Heading1 } from '@entur/typography'
-import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
+
 import { useSettingsContext } from '../../settings'
 import { Theme } from '../../types'
+import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
+
+import './styles.scss'
 
 function ErrorWrapper({
     title,

@@ -1,5 +1,10 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
+import copy from 'copy-to-clipboard'
+import firebase from 'firebase/app'
+import { useScrollPosition } from '@n8tb1t/use-scroll-position'
+import { useWindowWidth } from '@react-hook/window-size'
+
 import {
     ConfigurationIcon,
     OpenedLockIcon,
@@ -8,22 +13,16 @@ import {
     ShareIcon,
 } from '@entur/icons'
 import { useToast } from '@entur/alert'
-import copy from 'copy-to-clipboard'
-
-import firebase from 'firebase/app'
-
-import MenuButton from './MenuButton'
 
 import { useSettingsContext } from '../../../settings'
+import { useFirebaseAuthentication } from '../../../auth'
 
-import { useScrollPosition } from '@n8tb1t/use-scroll-position'
-import { useWindowWidth } from '@react-hook/window-size'
-
-import './styles.scss'
 import LockModal from '../../LockModal'
 import LoginModal from '../../../components/LoginModal'
 import MineTavlerModal from '../../MineTavlerModal'
-import { useFirebaseAuthentication } from '../../../auth'
+
+import MenuButton from './MenuButton'
+import './styles.scss'
 
 function BottomMenu({ className, history }: Props): JSX.Element {
     const URL = document.location.href

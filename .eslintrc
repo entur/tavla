@@ -42,6 +42,14 @@
     "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "eol-last": 1,
+    "import/no-useless-path-segments": "error",
+    "import/order": [
+      "error",
+      {
+          "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+          "newlines-between": "always-and-inside-groups"
+      }
+    ],
     "no-shadow": 2,
     "no-unused-vars": 1,
     "object-shorthand": ["error", "always"],

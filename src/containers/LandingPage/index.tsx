@@ -6,9 +6,6 @@ import { Contrast } from '@entur/layout'
 import { ForwardIcon } from '@entur/icons'
 import { GridContainer, GridItem } from '@entur/grid'
 
-import coverPhoto from '../../assets/images/farger.gif'
-import FrontPagePhoto from '../../assets/images/front-page.webp'
-
 import { createSettings } from '../../services/firebase'
 import { DEFAULT_SETTINGS } from '../../settings/UrlStorage'
 
@@ -78,7 +75,7 @@ function LandingPage({ history }: Props): JSX.Element {
 
                 <div className="landing-page__main-image-container">
                     <img
-                        src={FrontPagePhoto}
+                        src="https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Fjernbanetorget.webp?alt=media"
                         className="landing-page__cover-photo"
                         alt="Folk og kollektivtrafikk i landskap"
                     />
@@ -92,7 +89,7 @@ function LandingPage({ history }: Props): JSX.Element {
                             className="landing-page__article-grid-item"
                         >
                             <img
-                                src={coverPhoto}
+                                src="https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media"
                                 className="landing-page__screenshot"
                                 alt="Skjermbilde av Tavla"
                             />

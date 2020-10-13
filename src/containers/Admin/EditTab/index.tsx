@@ -1,6 +1,22 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 
-import './styles.scss'
+import { BikeRentalStation } from '@entur/sdk'
+import { Heading2 } from '@entur/typography'
+import { GridContainer, GridItem } from '@entur/grid'
+import { Switch } from '@entur/form'
+
+import { useSettingsContext, Mode } from '../../../settings'
+
+import {
+    useDebounce,
+    toggleValueInList,
+    isNotNullOrUndefined,
+} from '../../../utils'
+
+import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
+import { StopPlaceWithLines } from '../../../types'
+import { useNearestPlaces, useScooters } from '../../../logic'
+import service, { getStopPlacesWithLines } from '../../../service'
 
 import DistanceEditor from './DistanceEditor'
 import StopPlacePanel from './StopPlacePanel'
@@ -10,22 +26,7 @@ import BikePanel from './BikePanel'
 import ScooterPanel from './ScooterPanel'
 import ZoomEditor from './ZoomEditor'
 
-import { useSettingsContext, Mode } from '../../../settings'
-import {
-    useDebounce,
-    toggleValueInList,
-    isNotNullOrUndefined,
-} from '../../../utils'
-import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
-import { StopPlaceWithLines } from '../../../types'
-import { useNearestPlaces, useScooters } from '../../../logic'
-import service, { getStopPlacesWithLines } from '../../../service'
-
-import { BikeRentalStation } from '@entur/sdk'
-
-import { Heading2 } from '@entur/typography'
-import { GridContainer, GridItem } from '@entur/grid'
-import { Switch } from '@entur/form'
+import './styles.scss'
 
 const EditTab = (): JSX.Element => {
     const [settings, settingsSetters] = useSettingsContext()

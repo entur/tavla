@@ -3,13 +3,14 @@ import ReactMapGL, { Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { Scooter } from '@entur/sdk'
+
 import { useSettingsContext } from '../../../settings'
+import { DEFAULT_ZOOM } from '../../../constants'
 
 import ScooterOperatorLogo from '../../../assets/icons/scooterOperatorLogo'
 import PositionPin from '../../../assets/icons/positionPin'
 
 import './styles.scss'
-import { DEFAULT_ZOOM } from '../../../constants'
 
 function ScooterTile({ scooters }: Props): JSX.Element {
     const [settings] = useSettingsContext()

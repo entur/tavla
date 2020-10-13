@@ -8,10 +8,10 @@ import { PrimaryButton } from '@entur/button'
 import { Heading2, Link } from '@entur/typography'
 
 import { useFormFields } from '../../../utils'
-import { ModalType } from '../index'
+import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
 
-import sikkerhetBom from './../../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from './../../../assets/images/sikkerhet_bom@2x.png'
+import { ModalType } from '../index'
 import CloseButton from '../CloseButton/CloseButton'
 
 // eslint-disable-next-line
