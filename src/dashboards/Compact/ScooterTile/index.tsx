@@ -32,7 +32,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                     latitude={viewport.latitude || 0}
                     longitude={viewport.longitude || 0}
                 >
-                    <PositionPin size="24" />
+                    <PositionPin size={24} />
                 </Marker>
                 {scooters.map((sctr) => (
                     <Marker
@@ -40,7 +40,7 @@ function ScooterTile({ scooters }: Props): JSX.Element {
                         latitude={sctr.lat}
                         longitude={sctr.lon}
                     >
-                        <ScooterOperatorLogo logo={sctr.operator} size="24" />
+                        <ScooterOperatorLogo logo={sctr.operator} size={24} />
                     </Marker>
                 ))}
             </ReactMapGL>
