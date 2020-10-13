@@ -47,7 +47,7 @@ function ZoomEditor(props: Props): JSX.Element {
                 mapStyle={process.env.MAPBOX_STYLE}
             >
                 <Marker latitude={latitude} longitude={longitude}>
-                    <PositionPin size="24px" />
+                    <PositionPin size={24} />
                 </Marker>
                 {props.scooters
                     ? props.scooters.map((sctr) => (
@@ -58,7 +58,7 @@ function ZoomEditor(props: Props): JSX.Element {
                           >
                               <ScooterOperatorLogo
                                   logo={sctr.operator}
-                                  size="24px"
+                                  size={24}
                               />
                           </Marker>
                       ))

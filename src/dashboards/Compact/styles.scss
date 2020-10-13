@@ -17,7 +17,6 @@
 
         .scootertile {
             width: 100%;
-            padding-top: 2rem;
             overflow: hidden;
             margin-bottom: 1rem;
         }
@@ -32,6 +31,7 @@
         transition: all 200ms ease;
         transition-property: left, top;
         z-index: 1;
+        display: flex;
     }
 
     .react-grid-item:not(#compact-scooter-tile)::after {
@@ -43,6 +43,18 @@
         background-color: var(--tavla-box-background-color);
         mask-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 1) 100%);
         -webkit-mask-image: -webkit-linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 1) 100%);
+        z-index: 1;
+    }
+
+    .react-grid-item:not(#compact-scooter-tile)::before {
+        content: '';
+        position: absolute;
+        width: 2rem;
+        height: 80%;
+        right: 0;
+        bottom: 0;
+        background-color: var(--tavla-box-background-color);
+        mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 70%, rgba(0, 0, 0, 1) 100%);
         z-index: 1;
     }
 
@@ -79,51 +91,39 @@
 
     .react-grid-item > .react-resizable-handle {
         position: absolute;
+        display: flex;
+        justify-content: flex-end;
         width: 100%;
-        height: 30px;
+        height: 3rem;
         bottom: 0;
-        cursor: ns-resize;
-        z-index: 2;
+        z-index: 3;
         opacity: 0;
-        transition: opacity 0.3s;
-    }
-
-    .react-grid-item:hover > .react-resizable-handle {
-        opacity: 1;
+        transition-property: opacity;
+        transition-duration: 0.3s;
     }
 
     .react-grid-item > .react-resizable-handle::after {
         content: '';
         position: absolute;
-        width: 20%;
-        height: 0.25rem;
-        bottom: 0;
-        margin: 0 40%;
-        border-radius: 0.13rem;
-        background-color: var(--tavla-font-color);
-        opacity: 0.7;
-        transition: bottom 0.3s;
+        cursor: nwse-resize;
+        width: 2rem;
+        height: 2rem;
+        bottom: 0.5rem;
+        right: 0.5rem;
     }
 
-    .react-grid-item:matches(#compact-scooter-tile) > .react-resizable-handle::after {
-        content: '';
+    .resizeHandle {
         position: absolute;
-        width: 20%;
-        height: 0.25rem;
-        bottom: 0;
-        margin: 0 40%;
-        border-radius: 0.13rem;
-        background-color: var(--tavla-background-color);
+        z-index: 2;
+        bottom: 0.3rem;
+        right: 0.3rem;
+        opacity: 0;
+        transition-property: opacity;
+        transition-duration: 0.3s;
+    }
+
+    .react-grid-item:hover > .resizeHandle {
         opacity: 1;
-        transition: bottom 0.3s;
-    }
-
-    .react-grid-item:hover > .react-resizable-handle::after {
-        bottom: 0.5rem;
-    }
-
-    .react-grid-item:matches(#compact-scooter-tile):hover > .react-resizable-handle::after {
-        bottom: 0.5rem;
     }
 }
 

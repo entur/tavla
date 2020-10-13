@@ -7,6 +7,7 @@ import {
     useScooters,
 } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
+import ResizeHandle from '../../assets/icons/ResizeHandle'
 
 import {
     getFromLocalStorage,
@@ -25,10 +26,13 @@ function onLayoutChange(layouts: Layouts, key: string): void {
     saveToLocalStorage(key, layouts)
 }
 
-function getDataGrid(index: number): { [key: string]: number } {
+function getDataGrid(
+    index: number,
+    maxWidth: number,
+): { [key: string]: number } {
     return {
         w: 1,
-        maxW: 1,
+        maxW: maxWidth,
         minH: 1,
         h: 4,
         x: index,
@@ -45,7 +49,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    // Remove stop places without departures
     if (stopPlacesWithDepartures) {
         stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
             ({ departures }) => departures.length > 0,
@@ -74,6 +77,9 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         xs: 1,
         xxs: 1,
     }
+
+    const maxWidthCols = cols.lg + 1
+
     return (
         <DashboardWrapper
             className="compact"
@@ -101,8 +107,13 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     {(stopPlacesWithDepartures || []).map((stop, index) => (
                         <div
                             key={index.toString()}
-                            data-grid={getDataGrid(index)}
+                            data-grid={getDataGrid(index, maxWidthCols)}
                         >
+                            <ResizeHandle
+                                size="32"
+                                className="resizeHandle"
+                                variant="light"
+                            />
                             <DepartureTile
                                 key={index}
                                 stopPlaceWithDepartures={stop}
@@ -112,8 +123,16 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     {bikeRentalStations && anyBikeRentalStations ? (
                         <div
                             key={numberOfStopPlaces.toString()}
-                            data-grid={getDataGrid(numberOfStopPlaces)}
+                            data-grid={getDataGrid(
+                                numberOfStopPlaces,
+                                maxWidthCols,
+                            )}
                         >
+                            <ResizeHandle
+                                size="32"
+                                className="resizeHandle"
+                                variant="light"
+                            />
                             <BikeTile stations={bikeRentalStations} />
                         </div>
                     ) : (
@@ -125,8 +144,14 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                             key="sparkesykkel"
                             data-grid={getDataGrid(
                                 numberOfStopPlaces + scooterCol,
+                                maxWidthCols,
                             )}
                         >
+                            <ResizeHandle
+                                size="32"
+                                className="resizeHandle"
+                                variant="dark"
+                            />
                             <ScooterTile scooters={scooters} />
                         </div>
                     ) : (

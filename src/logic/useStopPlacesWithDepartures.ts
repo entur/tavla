@@ -34,7 +34,7 @@ async function fetchStopPlaceDepartures(
         {
             includeNonBoarding: false,
             limit: 200,
-            limitPerLine: 3,
+            limitPerLine: 20,
         },
     )
     return { sortedStops, departures }

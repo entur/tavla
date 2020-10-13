@@ -6,12 +6,13 @@
     width: 25rem;
     background-color: var(--tavla-box-background-color);
     flex: none;
-    padding: 2rem;
     overflow: scroll;
+    padding-top: 0;
 
     &__header {
         display: flex;
         justify-content: space-between;
+        padding: 0 2rem 0 2rem;
         align-items: center;
         margin-bottom: 1rem;
 

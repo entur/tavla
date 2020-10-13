@@ -35,7 +35,7 @@ function ScooterOperatorLogo({
 interface Props {
     logo: ScooterOperator
     className?: string
-    size?: string
+    size?: number
 }
 
 export default ScooterOperatorLogo
