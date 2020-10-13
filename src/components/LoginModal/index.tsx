@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react'
+import { User } from 'firebase/app'
+
+import { useToast } from '@entur/alert'
+import { Modal } from '@entur/modal'
+
+import { useFirebaseAuthentication } from '../../auth'
+import { usePrevious } from '../../utils'
 
 import EmailLogin from './EmailLogin'
 import LoginOptions from './LoginOptions'
 import Signup from './Signup'
 import ResetPassword from './ResetPassword'
 import EmailSent from './EmailSent'
-import { User } from 'firebase/app'
 
-import './styles.scss'
-
-import { Modal } from '@entur/modal'
-import { useToast } from '@entur/alert'
-
-import { useFirebaseAuthentication } from '../../auth'
-import { usePrevious } from '../../utils'
 import CloseButton from './CloseButton/CloseButton'
+import './styles.scss'
 
 export type LoginCase = 'lock' | 'mytables' | 'logo' | 'error' | 'default'
 

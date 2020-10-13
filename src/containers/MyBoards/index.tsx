@@ -10,11 +10,12 @@ import { ThemeDashbboardPreview } from '../../assets/icons/ThemeDashboardPreview
 import { Settings } from '../../settings'
 import { getBoardsOnSnapshot } from '../../services/firebase'
 import { useUser } from '../../auth'
-import BoardCard from './BoardCard'
+import { Theme } from '../../types'
+
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 
+import BoardCard from './BoardCard'
 import './styles.scss'
-import { Theme } from '../../types'
 
 type DocumentData = firestore.DocumentData
 

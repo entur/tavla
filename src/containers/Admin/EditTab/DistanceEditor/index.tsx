@@ -1,10 +1,11 @@
 import React, { memo, useCallback } from 'react'
 
+import { Label } from '@entur/typography'
+
 import { Slider } from '../../../../components'
+import { MAX_DISTANCE } from '../../../../constants'
 
 import './styles.scss'
-import { Label } from '@entur/typography'
-import { MAX_DISTANCE } from '../../../../constants'
 
 function DistanceEditor(props: Props): JSX.Element {
     const { distance, onDistanceUpdated } = props

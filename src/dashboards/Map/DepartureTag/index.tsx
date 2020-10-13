@@ -1,15 +1,18 @@
 import React from 'react'
+
+import { colors } from '@entur/tokens'
+import { Heading4 } from '@entur/typography'
+
 import {
     StopPlaceWithDepartures,
     IconColorType,
     LineData,
 } from '../../../types'
 
-import './styles.scss'
 import { getIcon, getIconColor } from '../../../utils'
+
 import DepartureIcon from './DepartureIcon'
-import { colors } from '@entur/tokens'
-import { Heading4 } from '@entur/typography'
+import './styles.scss'
 
 function getDepartureDirection(departure: LineData): string[] {
     return departure.route.split(/([\s])/g).slice(1)

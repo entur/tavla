@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react'
 import { isEqual } from 'lodash'
 import { BikeRentalStation } from '@entur/sdk'
-import { usePrevious, isNotNullOrUndefined } from '../utils'
 
+import { usePrevious, isNotNullOrUndefined } from '../utils'
 import service from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'

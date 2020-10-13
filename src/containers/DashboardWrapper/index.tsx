@@ -5,12 +5,14 @@ import { Loader } from '@entur/loader'
 import { useCounter, isDarkOrDefaultTheme } from '../../utils'
 import { useSettingsContext } from '../../settings'
 
-import BottomMenu from './BottomMenu'
 import EnturLogo from '../../assets/icons/enturLogo'
-import { NoStopsOnTavle } from './../Error/ErrorPages'
+
 import { StopPlaceWithDepartures } from '../../types'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 
+import { NoStopsOnTavle } from '../Error/ErrorPages'
+
+import BottomMenu from './BottomMenu'
 import './styles.scss'
 
 function DashboardWrapper(props: Props): JSX.Element {

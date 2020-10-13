@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
-
 import ReactMapGL, { Marker } from 'react-map-gl'
-import { StopPlaceWithDepartures } from '../../../types'
+
 import { BikeRentalStation } from '@entur/sdk'
+
+import { StopPlaceWithDepartures } from '../../../types'
 import PositionPin from '../../../assets/icons/positionPin'
 
 import { DEFAULT_ZOOM } from '../../../constants'
 import { useSettingsContext } from '../../../settings'
 
-import './styles.scss'
 import BicycleTag from '../BicycleTag'
 import DepartureTag from '../DepartureTag'
 import StopPlaceTag from '../StopPlaceTag'
+
+import './styles.scss'
 
 const HEADER_HEIGHT = 124
 

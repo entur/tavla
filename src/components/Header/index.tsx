@@ -2,8 +2,9 @@ import React from 'react'
 
 import { Contrast } from '@entur/layout'
 
-import { DashboardHeader } from './DashboardHeader'
 import Navbar from '../../containers/Navbar'
+
+import { DashboardHeader } from './DashboardHeader'
 
 import './styles.scss'
 

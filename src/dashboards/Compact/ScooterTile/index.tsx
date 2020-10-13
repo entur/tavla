@@ -5,9 +5,10 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { Scooter } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 import { ScooterIcon } from '@entur/icons'
+import { Heading2 } from '@entur/typography'
+
 import { useSettingsContext } from '../../../settings'
 
-import { Heading2 } from '@entur/typography'
 import ScooterOperatorLogo from '../../../assets/icons/scooterOperatorLogo'
 import PositionPin from '../../../assets/icons/positionPin'
 

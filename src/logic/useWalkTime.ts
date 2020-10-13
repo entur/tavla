@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { isEqual } from 'lodash'
-import service from '../service'
+
 import { Coordinates } from '@entur/sdk'
+
+import service from '../service'
 import { useSettingsContext } from '../settings'
 import { StopPlaceWithDepartures } from '../types'
 import { usePrevious, isNotNullOrUndefined } from '../utils'

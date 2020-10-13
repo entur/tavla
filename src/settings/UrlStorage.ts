@@ -1,8 +1,9 @@
 import lz from 'lz-string'
 
 import { DEFAULT_DISTANCE } from '../constants'
-import { Settings } from './index'
 import { Theme } from '../types'
+
+import { Settings } from './index'
 
 export const DEFAULT_SETTINGS: Settings = {
     hiddenStations: [],

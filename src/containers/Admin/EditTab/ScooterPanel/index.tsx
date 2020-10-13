@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { Checkbox, Fieldset } from '@entur/form'
-import { ALL_OPERATORS } from '../../../../constants'
 
+import { ALL_OPERATORS } from '../../../../constants'
 import { toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 

@@ -1,9 +1,11 @@
 import React from 'react'
+
 import { Heading3 } from '@entur/typography'
+
 import ValidationExclamation from '../../../../assets/icons/ValidationExclamation'
 import ValidationError from '../../../../assets/icons/ValidationError'
-
 import { TileSubLabel } from '../../../../types'
+
 import './styles.scss'
 
 export function TileRow({ label, icon, subLabel }: Props): JSX.Element {
