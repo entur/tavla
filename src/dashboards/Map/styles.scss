@@ -1,10 +1,18 @@
 @import '../../assets/styles/import.scss';
 @import '../../variables.scss';
 
-.map-tile {
+.map-view {
     width: 100%;
-    float: left;
-    box-sizing: border-box;
+    color: white;
     padding: 0;
-    position: relative;
+}
+
+.departure-display {
+    width: 100%;
+    display: flex;
+    position: absolute;
+    height: auto;
+    bottom: 1.5rem;
+    align-items: center;
+    justify-content: center;
 }

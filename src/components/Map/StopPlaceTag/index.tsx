@@ -1,10 +1,11 @@
 import React from 'react'
+
 import { colors } from '@entur/tokens'
 
 import { getIcon, getIconColor } from '../../../utils'
-import { IconColorType, StopPlaceWithDepartures } from '../../../types'
 
 import './styles.scss'
+import { IconColorType, StopPlaceWithDepartures } from '../../../types'
 
 const StopPlaceTag = ({ stopPlace, walkTime }: Props): JSX.Element => {
     const uniqueTypes = [
@@ -15,7 +16,6 @@ const StopPlaceTag = ({ stopPlace, walkTime }: Props): JSX.Element => {
         icon: getIcon(type, undefined, undefined, colors.brand.white),
         color: getIconColor(type, IconColorType.DEFAULT, undefined),
     }))
-
     return (
         <div className="stopplace-tag">
             <div className="stopplace-tag__icon-row">
@@ -39,7 +39,7 @@ const StopPlaceTag = ({ stopPlace, walkTime }: Props): JSX.Element => {
 
 interface Props {
     stopPlace: StopPlaceWithDepartures
-    walkTime: number | undefined
+    walkTime: number | null
 }
 
 export default StopPlaceTag

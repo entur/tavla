@@ -15,7 +15,7 @@
             margin-bottom: 1rem;
         }
 
-        .scootertile {
+        .maptile {
             width: 100%;
             overflow: hidden;
             margin-bottom: 1rem;
@@ -34,7 +34,7 @@
         display: flex;
     }
 
-    .react-grid-item:not(#compact-scooter-tile)::after {
+    .react-grid-item:not(#compact-map-tile)::after {
         content: '';
         position: absolute;
         width: 100%;
@@ -46,7 +46,7 @@
         z-index: 1;
     }
 
-    .react-grid-item:not(#compact-scooter-tile)::before {
+    .react-grid-item:not(#compact-map-tile)::before {
         content: '';
         position: absolute;
         width: 2rem;
@@ -142,7 +142,7 @@
             width: 100%;
         }
 
-        .scootertile {
+        .maptile {
             margin-bottom: 1rem;
             max-height: unset;
             width: 100%;
