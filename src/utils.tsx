@@ -233,6 +233,7 @@ export function createTileSubLabel({
     time,
 }: LineData): TileSubLabel {
     return {
+        situation,
         hasSituation: Boolean(situation),
         hasCancellation,
         time,

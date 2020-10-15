@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { colors } from '@entur/tokens'
+import { Heading2, Heading3 } from '@entur/typography'
+import {
+    Table,
+    TableBody,
+    TableRow,
+    DataCell,
+    TableHead,
+    HeaderCell,
+} from '@entur/table'
 
 import {
     getIcon,
@@ -15,9 +24,7 @@ import {
     IconColorType,
 } from '../../../types'
 
-import Tile from '../components/Tile'
-import TileRow from '../components/TileRow'
-
+import SubLabelIcon from '../components/SubLabelIcon'
 import './styles.scss'
 import { useSettingsContext } from '../../../settings'
 
@@ -37,7 +44,7 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
 }
 
 const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
-    const { departures, name } = stopPlaceWithDepartures
+    const { departures } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
     const [settings] = useSettingsContext()
     const [iconColorType, setIconColorType] = useState<IconColorType>(
@@ -51,21 +58,52 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     }, [settings])
 
     return (
-        <Tile title={name} icons={headerIcons}>
-            {departures.map((data) => {
-                const icon = getIcon(data.type, iconColorType, data.subType)
-                const subLabel = createTileSubLabel(data)
-
-                return (
-                    <TileRow
-                        key={data.id}
-                        label={data.route}
-                        subLabel={subLabel}
-                        icon={icon}
-                    />
-                )
-            })}
-        </Tile>
+        <div className="tile">
+            <header className="tile__header">
+                <Heading2>{stopPlaceWithDepartures.name}</Heading2>
+                <div className="tile__header__icons">{headerIcons}</div>
+            </header>
+            <Table spacing="small" fixed>
+                <col style={{ width: '3%' }} />
+                <col style={{ width: '22%' }} />
+                <col style={{ width: '5%' }} />
+                <col style={{ width: '70%' }} />
+                <TableHead>
+                    <TableRow>
+                        <HeaderCell> </HeaderCell>
+                        <HeaderCell>Linje</HeaderCell>
+                        <HeaderCell>Avgang</HeaderCell>
+                        <HeaderCell>Avvik</HeaderCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {departures.map((data) => (
+                        <TableRow key={data.id}>
+                            <DataCell>
+                                <Heading3>
+                                    <div>
+                                        {getIcon(
+                                            data.type,
+                                            iconColorType,
+                                            data.subType,
+                                        )}
+                                    </div>
+                                </Heading3>
+                            </DataCell>
+                            <DataCell>
+                                <Heading3>{data.route}</Heading3>
+                            </DataCell>
+                            <DataCell>{data.time}</DataCell>
+                            <DataCell>
+                                <SubLabelIcon
+                                    subLabel={createTileSubLabel(data)}
+                                />
+                            </DataCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
     )
 }
 

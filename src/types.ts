@@ -30,6 +30,7 @@ export interface NearestPlaces {
 }
 
 export interface TileSubLabel {
+    situation?: string
     time: string
     hasCancellation?: boolean
     hasSituation?: boolean

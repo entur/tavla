@@ -88,10 +88,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                             key={index.toString()}
                             data-grid={getDataGrid(index)}
                         >
-                            <DepartureTile
-                                key={index}
-                                stopPlaceWithDepartures={stop}
-                            />
+                            <DepartureTile stopPlaceWithDepartures={stop} />
                         </div>
                     ))}
                     {bikeRentalStations && anyBikeRentalStations ? (
