@@ -33,7 +33,7 @@ function ScooterOperatorLogo({
 }
 
 interface Props {
-    logo: ScooterOperator
+    logo: ScooterOperator | null
     className?: string
     size?: number
 }
