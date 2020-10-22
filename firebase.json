@@ -30,7 +30,7 @@
             },
             {
                 "key": "Content-Security-Policy",
-                "value": "default-src 'self'; script-src 'self' https://www.google-analytics.com blob:; connect-src 'self' https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com https://*.entur.io https://*.entur.org https://www.googleapis.com https://firestore.googleapis.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://firebasestorage.googleapis.com; object-src 'none'"
+                "value": "default-src 'self'; script-src 'self' https://www.google-analytics.com blob:; connect-src 'self' https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com https://*.entur.io https://*.entur.org https://*.googleapis.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://*.googleapis.com; object-src 'none'"
             },
             {
                 "key": "Permissions-Policy",
