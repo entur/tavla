@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { Blockquote } from '@entur/typography'
-
 import { Theme } from '../../types'
 import { useThemeColor } from '../../utils'
 
