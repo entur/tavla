@@ -15,6 +15,7 @@ import MapDashboard from '../dashboards/Map'
 
 import PrivateRoute from '../routers/PrivateRoute'
 import Header from '../components/Header'
+import BusStop from '../dashboards/BusStop'
 
 import LandingPage from './LandingPage'
 import Admin from './Admin'
@@ -41,6 +42,8 @@ function getDashboardComponent(
             return Chrono
         case 'Map':
             return MapDashboard
+        case 'BusStop':
+            return BusStop
         default:
             return Compact
     }
