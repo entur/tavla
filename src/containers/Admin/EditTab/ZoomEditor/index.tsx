@@ -13,7 +13,7 @@ import PositionPin from '../../../../assets/icons/positionPin'
 import './styles.scss'
 
 function ZoomEditor(props: Props): JSX.Element {
-    const [settings] = useSettingsContext()
+    const [settings, { setZoom }] = useSettingsContext()
     const { zoom, onZoomUpdated } = props
 
     const { latitude = 0, longitude = 0 } = settings?.coordinates || {}
@@ -22,8 +22,9 @@ function ZoomEditor(props: Props): JSX.Element {
         (event: React.ChangeEvent<HTMLInputElement>) => {
             const newZoom = Number(event.target.value)
             onZoomUpdated(newZoom)
+            setZoom(newZoom)
         },
-        [onZoomUpdated],
+        [onZoomUpdated, setZoom],
     )
 
     return (
