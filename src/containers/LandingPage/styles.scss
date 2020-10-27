@@ -33,24 +33,11 @@ $max-width: 86rem;
     &__link-wrapper {
         display: flex;
         align-items: center;
+        padding: $space-extra-large3 $space-large;
+        text-align: right;
 
-        &--desktop {
-            padding-top: $space-extra-large3;
-            text-align: right;
-            justify-content: flex-end;
-
-            svg {
-                font-size: $font-sizes-extra-large;
-            }
-        }
-
-        &--mobile {
-            display: none;
-            padding-top: $space-extra-large3;
-
-            svg {
-                font-size: $font-sizes-large;
-            }
+        svg {
+            font-size: $font-sizes-extra-large;
         }
     }
 
@@ -113,13 +100,7 @@ $max-width: 86rem;
         }
 
         &__link-wrapper {
-            &--desktop {
-                display: none;
-            }
-
-            &--mobile {
-                display: flex;
-            }
+            padding: $space-extra-large3 $space-medium;
         }
     }
 }

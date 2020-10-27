@@ -13,12 +13,9 @@ import SearchPanel from './SearchPanel'
 import TypographyCarousel from './TypographyCarousel'
 import './styles.scss'
 
-function EnturLink({ mobile }: { mobile?: boolean }): JSX.Element {
-    const className = `landing-page__link-wrapper landing-page__link-wrapper--${
-        mobile ? 'mobile' : 'desktop'
-    }`
+function EnturLink(): JSX.Element {
     return (
-        <div className={className}>
+        <div className="landing-page__link-wrapper">
             <Link href="https://entur.no" className="landing-page__entur-link">
                 Planlegg din neste reise her
             </Link>
@@ -66,9 +63,6 @@ function LandingPage({ history }: Props): JSX.Element {
                                     handleCoordinatesSelected={addLocation}
                                 />
                             </div>
-                        </GridItem>
-                        <GridItem small={12} medium={4}>
-                            <EnturLink />
                         </GridItem>
                     </GridContainer>
                 </Contrast>
@@ -120,9 +114,9 @@ function LandingPage({ history }: Props): JSX.Element {
                                 innspill eller ideer til hvordan tjenesten kan
                                 bli bedre, kan du skrive til oss på Github.
                             </Paragraph>
-                            <EnturLink mobile />
                         </GridItem>
                     </GridContainer>
+                    <EnturLink />
                 </article>
             </div>
         </div>
