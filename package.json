@@ -47,6 +47,7 @@
         "@entur/typography": "^1.4.1",
         "@n8tb1t/use-scroll-position": "^1.0.47",
         "@react-hook/window-size": "^3.0.7",
+        "@types/supercluster": "^5.0.2",
         "connect-history-api-fallback": "^1.6.0",
         "copy-to-clipboard": "^3.3.1",
         "date-fns": "^2.16.1",
@@ -61,7 +62,9 @@
         "react-map-gl": "^4.1.6",
         "react-router": "^5.2.0",
         "react-router-dom": "^5.2.0",
-        "universal-ga": "^1.2.0"
+        "supercluster": "^6.0.0",
+        "universal-ga": "^1.2.0",
+        "use-supercluster": "^0.2.9"
     },
     "devDependencies": {
         "@babel/cli": "^7.11.6",
