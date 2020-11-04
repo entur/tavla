@@ -65,7 +65,6 @@ const Map = ({
             },
         }),
     )
-    viewport.zoom
     const bounds = mapRef.current
         ? (mapRef.current.getMap().getBounds().toArray().flat() as [
               number,
@@ -76,14 +75,14 @@ const Map = ({
         : ([0, 0, 0, 0] as [number, number, number, number])
 
     const { clusters: scooterClusters } = useSupercluster({
-        points: scooterpoints ? scooterpoints : [],
+        points: scooterpoints || [],
         bounds,
         zoom: viewport.zoom,
         options: { radius: 38, maxZoom: 18 },
     })
 
     const { clusters: stationClusters } = useSupercluster({
-        points: bikeRentalStationPoints ? bikeRentalStationPoints : [],
+        points: bikeRentalStationPoints || [],
         bounds,
         zoom: viewport.zoom,
         options: {
@@ -137,9 +136,10 @@ const Map = ({
                 const { cluster: isCluster } = scooterCluster.properties
                 let pointCount = 0
 
-                if (isCluster)
+                if (isCluster) {
                     pointCount = (scooterCluster.properties as ClusterProperties)
                         .point_count
+                }
 
                 return (
                     <Marker
