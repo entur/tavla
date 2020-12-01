@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { isEqual } from 'lodash'
 
-import { Coordinates } from '@entur/sdk'
+import { Coordinates, QueryMode } from '@entur/sdk'
 
 import service from '../service'
 import { useSettingsContext } from '../settings'
@@ -24,7 +24,7 @@ async function getWalkTime(
                         name: stopPlace.name,
                         place: stopPlace.id,
                     },
-                    modes: ['foot'],
+                    modes: [QueryMode.FOOT],
                     limit: 1,
                 })
                 .then((result) => ({
