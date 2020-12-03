@@ -39,7 +39,7 @@
         "@entur/loader": "^0.3.28",
         "@entur/menu": "^2.0.0",
         "@entur/modal": "^1.3.2",
-        "@entur/sdk": "^2.1.0",
+        "@entur/sdk": "^3.0.0-alpha.3",
         "@entur/tab": "^0.4.15",
         "@entur/table": "^4.0.4",
         "@entur/tokens": "^2.0.0",
