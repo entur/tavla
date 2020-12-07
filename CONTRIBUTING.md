@@ -4,7 +4,7 @@ Here you will find instructions on how to setup Tavla locally and tips on how to
 
 ## Installation and Setup
 
-First of all: Make sure you have Node.js v10.13.0 or above installed. Check with `node -v`.
+First of all: Make sure you have Node.js v12 or above installed. Check with `node -v`.
 
 Fork the repo: https://github.com/entur/tavla/fork
 
