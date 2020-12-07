@@ -18,7 +18,7 @@ import {
 
 import { colors } from '@entur/tokens'
 
-import { Departure, LegMode, TransportSubmode } from '@entur/sdk'
+import { Departure, LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 
 import { LineData, TileSubLabel, Theme, IconColorType } from './types'
 import { useSettingsContext } from './settings'
@@ -57,7 +57,7 @@ export function getIconColorType(theme: Theme | undefined): IconColorType {
 }
 
 export function getIconColor(
-    type: LegMode,
+    type: TransportMode | LegMode,
     iconColorType: IconColorType,
     subType?: TransportSubmode,
 ): string {
@@ -95,7 +95,7 @@ type TransportIconIdentifier =
     | 'plane'
 
 export function getTransportIconIdentifier(
-    legMode: LegMode,
+    legMode: TransportMode | LegMode,
     subMode?: TransportSubmode,
 ): TransportIconIdentifier | null {
     if (isSubModeCarFerry(subMode)) {
@@ -124,14 +124,14 @@ export function getTransportIconIdentifier(
 }
 
 export function getIcon(
-    legMode: LegMode,
+    mode: TransportMode,
     iconColorType: IconColorType = IconColorType.CONTRAST,
     subMode?: TransportSubmode,
     color?: string,
 ): JSX.Element | null {
-    const colorToUse = color ?? getIconColor(legMode, iconColorType, subMode)
+    const colorToUse = color ?? getIconColor(mode, iconColorType, subMode)
 
-    const identifier = getTransportIconIdentifier(legMode, subMode)
+    const identifier = getTransportIconIdentifier(mode, subMode)
 
     switch (identifier) {
         case 'bus':
@@ -211,8 +211,8 @@ export function transformDepartureToLineData(
         destinationDisplay.frontText
     }`.trim()
 
-    const transportMode =
-        line.transportMode === 'coach' ? 'bus' : line.transportMode
+    const transportMode: TransportMode =
+        line.transportMode === 'coach' ? TransportMode.BUS : line.transportMode
     const subType = departure.serviceJourney?.transportSubmode
 
     return {

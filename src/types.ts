@@ -1,8 +1,8 @@
-import { LegMode, TransportSubmode, StopPlace } from '@entur/sdk'
+import { TransportMode, TransportSubmode, StopPlace } from '@entur/sdk'
 
 export interface LineData {
     id: string
-    type: LegMode
+    type: TransportMode
     subType?: TransportSubmode
     time: string
     route: string
@@ -14,7 +14,7 @@ export interface LineData {
 export interface Line {
     id: string
     name: string
-    transportMode: LegMode
+    transportMode: TransportMode
     transportSubmode: TransportSubmode
 }
 

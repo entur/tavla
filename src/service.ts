@@ -1,4 +1,4 @@
-import createEnturService, { LegMode, TransportSubmode } from '@entur/sdk'
+import createEnturService, { TransportMode, TransportSubmode } from '@entur/sdk'
 
 import { StopPlaceWithLines, Line } from './types'
 import { unique } from './utils'
@@ -43,7 +43,7 @@ interface EstimatedCall {
     serviceJourney: {
         line: {
             id: string
-            transportMode: LegMode
+            transportMode: TransportMode
             transportSubmode: TransportSubmode
             publicCode: string
         }
@@ -56,7 +56,7 @@ interface StopPlaceWithEstimatedCalls {
     description: string
     latitude: number
     longitude: number
-    transportMode: LegMode
+    transportMode: TransportMode
     transportSubmode: TransportSubmode
     estimatedCalls: EstimatedCall[]
 }

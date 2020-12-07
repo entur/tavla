@@ -33,7 +33,10 @@ const PanelRow = ({
     const { id, lines, name } = stopPlace
 
     const visibleLines = lines.filter(
-        (line) => !settings.hiddenStopModes[id]?.includes(line.transportMode),
+        (line) =>
+            !settings.hiddenStopModes[id]?.includes(
+                (line.transportMode as unknown) as LegMode,
+            ),
     )
 
     const uniqueModes = unique(lines.map(({ transportMode }) => transportMode))
@@ -59,8 +62,11 @@ const PanelRow = ({
                     const props: Partial<TravelSwitchProps> = {
                         key: mode,
                         size: 'large',
-                        onChange: (): void => onToggleMode(id, mode),
-                        checked: !settings.hiddenStopModes[id]?.includes(mode),
+                        onChange: (): void =>
+                            onToggleMode(id, (mode as unknown) as LegMode),
+                        checked: !settings.hiddenStopModes[id]?.includes(
+                            (mode as unknown) as LegMode,
+                        ),
                     }
 
                     if (isTransport(mode)) {
