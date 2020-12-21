@@ -12,9 +12,10 @@ export function countScootersByOperator(
         return null
     }
     const operators: Record<ScooterOperator, Scooter[]> = {
-        [ScooterOperator.VOI]: [],
-        [ScooterOperator.TIER]: [],
+        [ScooterOperator.BOLT]: [],
         [ScooterOperator.LIME]: [],
+        [ScooterOperator.TIER]: [],
+        [ScooterOperator.VOI]: [],
         [ScooterOperator.ZVIPP]: [],
     }
     list?.forEach((scooter) => operators[scooter.operator].push(scooter))

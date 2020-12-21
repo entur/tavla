@@ -42,10 +42,6 @@
     .eds-form-control__append {
         display: none;
     }
-
-    &__submit-button {
-        height: 60px;
-    }
 }
 
 .search-container {
@@ -103,7 +99,6 @@
     .search-panel {
         &__submit-button {
             width: 100%;
-            height: 44px;
         }
 
         .eds-form-control-wrapper--dark input {

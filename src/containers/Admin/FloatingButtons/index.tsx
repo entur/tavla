@@ -32,7 +32,7 @@ const FloatingButtons = (): JSX.Element => {
             <div className="admin__floating-buttons">
                 {showLockButton && (
                     <Button
-                        open={lockModalOpen}
+                        variant="secondary"
                         onClick={(): void => setLockModalOpen(true)}
                     >
                         Lås tavle til konto

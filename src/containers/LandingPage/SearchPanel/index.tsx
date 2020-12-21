@@ -171,6 +171,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                 </div>
                 <Button
                     variant="primary"
+                    size="medium"
                     className="search-panel__submit-button"
                     type="submit"
                 >
