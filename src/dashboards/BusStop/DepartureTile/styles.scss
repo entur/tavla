@@ -11,11 +11,16 @@
 
     &__header {
         display: flex;
+        justify-content: space-between;
         align-items: center;
         margin-bottom: 1rem;
 
         h2 {
             margin: 0;
+        }
+
+        svg {
+            margin-left: 0.5rem;
         }
     }
 
