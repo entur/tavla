@@ -15,7 +15,7 @@ const Privacy = (): JSX.Element => {
         <article className="privacy">
             <Contrast>
                 <div className="privacy__header">
-                    <Heading1>Personvern</Heading1>
+                    <Heading1>Informasjonskapsler</Heading1>
                 </div>
             </Contrast>
 

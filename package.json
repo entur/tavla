@@ -34,7 +34,7 @@
         "@entur/fileupload": "^0.3.16",
         "@entur/form": "^3.4.7",
         "@entur/grid": "^0.2.11",
-        "@entur/icons": "1.13.1",
+        "@entur/icons": "1.17.0",
         "@entur/layout": "^1.9.0",
         "@entur/loader": "^0.3.32",
         "@entur/menu": "^2.0.0",
