@@ -4,7 +4,7 @@ import firebase from 'firebase/app'
 
 import { useToast } from '@entur/alert'
 import { TopNavigationItem } from '@entur/menu'
-import { ClosedLockIcon, UserIcon, LogOutIcon, GithubIcon } from '@entur/icons'
+import { UserIcon, LogOutIcon, GithubIcon, PrivacyIcon } from '@entur/icons'
 
 import { TavlaLogo } from '../../assets/icons'
 import LoginModal from '../../components/LoginModal'
@@ -92,8 +92,8 @@ export default function Navbar(): JSX.Element {
                             to="/privacy"
                             active={location.pathname === '/privacy'}
                         >
-                            <span>Personvern</span>
-                            <ClosedLockIcon />
+                            <span>Informasjonskapsler</span>
+                            <PrivacyIcon />
                         </TopNavigationItem>
                     </li>
                     <li>
