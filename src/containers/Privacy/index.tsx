@@ -77,6 +77,14 @@ const Privacy = (): JSX.Element => {
                     trenger du tilgang til internett. Dette får du enten via
                     WiFi eller mobilt nettverk.
                 </Paragraph>
+
+                <Heading2>Autentisering</Heading2>
+                <Paragraph>
+                    Vi bruker Firebase Authentication ved autentisering, og lagring av brukernavn og passord ved innlogging.
+                    Les mer om <Link href="https://firebase.google.com/docs/auth">Firebase Auth</Link> samt mer om
+                    <Link href="https://firebase.google.com/support/privacy">Firebase Privacy Policy.</Link>
+                </Paragraph>
+
             </div>
         </article>
     )
