@@ -52,14 +52,14 @@ export default function Navbar(): JSX.Element {
         <li>
             <TopNavigationItem onClick={logout}>
                 <span>Logg ut</span>
-                <LogOutIcon />
+                <LogOutIcon size="20" />
             </TopNavigationItem>
         </li>
     ) : (
         <li>
             <TopNavigationItem onClick={login}>
                 <span>Logg inn</span>
-                <UserIcon />
+                <UserIcon size="20" />
             </TopNavigationItem>
         </li>
     )
@@ -82,7 +82,7 @@ export default function Navbar(): JSX.Element {
                         <li>
                             <TopNavigationItem as={Link} to="/tavler">
                                 <span>Mine tavler</span>
-                                <UserIcon />
+                                <UserIcon size="20" />
                             </TopNavigationItem>
                         </li>
                     )}
@@ -93,7 +93,7 @@ export default function Navbar(): JSX.Element {
                             active={location.pathname === '/privacy'}
                         >
                             <span>Informasjonskapsler</span>
-                            <PrivacyIcon />
+                            <PrivacyIcon size="20" />
                         </TopNavigationItem>
                     </li>
                     <li>
@@ -102,7 +102,7 @@ export default function Navbar(): JSX.Element {
                             href="https://github.com/entur/tavla"
                         >
                             <span>GitHub</span>
-                            <GithubIcon />
+                            <GithubIcon size="20" />
                         </TopNavigationItem>
                     </li>
                 </ul>
