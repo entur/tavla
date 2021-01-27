@@ -85,7 +85,7 @@ const Privacy = (): JSX.Element => {
                     <Link href="https://firebase.google.com/docs/auth">
                         Firebase Auth
                     </Link>{' '}
-                    samt mer om
+                    samt mer om{' '}
                     <Link href="https://firebase.google.com/support/privacy">
                         Firebase Privacy Policy.
                     </Link>
