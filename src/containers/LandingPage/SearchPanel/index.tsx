@@ -166,6 +166,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                             onChange={onItemSelected}
                             variant={errorMessage ? 'error' : undefined}
                             feedback={errorMessage || ''}
+                            highlightFirstItemOnOpen
                         />
                     </div>
                 </div>
