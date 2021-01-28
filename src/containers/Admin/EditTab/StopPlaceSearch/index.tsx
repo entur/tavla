@@ -53,6 +53,7 @@ const SelectionPanelSearch = ({ handleAddNewStop }: Props): JSX.Element => {
                 placeholder="Søk på stoppested for å legge til flere"
                 items={getItems}
                 onChange={onItemSelected}
+                highlightFirstItemOnOpen
             />
         </div>
     )

@@ -58,6 +58,7 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
                 placeholder="Søk på bysykkelstativ for å legge til"
                 items={getItems}
                 onChange={onItemSelected}
+                highlightFirstItemOnOpen
             />
         </div>
     )
