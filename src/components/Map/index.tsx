@@ -105,7 +105,7 @@ const Map = ({
             mapStyle={mapStyle || process.env.MAPBOX_STYLE_MAPVIEW}
             onViewportChange={
                 interactive
-                    ? (newViewPort): void => {
+                    ? (newViewPort: any): void => {
                           const {
                               zoom: newZoom,
                               maxZoom,
