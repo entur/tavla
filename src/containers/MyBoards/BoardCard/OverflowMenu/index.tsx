@@ -17,12 +17,10 @@ import DeleteTavleModal from './Modals/DeleteTavleModal'
 import '../styles.scss'
 
 function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
-    const [removeLockModalOpen, setRemoveLockModalOpen] = useState<boolean>(
-        false,
-    )
-    const [deleteTavleModalOpen, setDeleteTavleModalOpen] = useState<boolean>(
-        false,
-    )
+    const [removeLockModalOpen, setRemoveLockModalOpen] =
+        useState<boolean>(false)
+    const [deleteTavleModalOpen, setDeleteTavleModalOpen] =
+        useState<boolean>(false)
     const overflowRedigerTavle = useCallback(() => {
         history.push(`/admin/${id}`)
     }, [id, history])

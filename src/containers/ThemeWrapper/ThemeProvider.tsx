@@ -25,9 +25,10 @@ const ThemeProvider: FC = (props): JSX.Element => {
         document.body.classList.add(`${themeContext}-theme`)
     }, [settings, themeContext])
 
-    const contextValue = useMemo((): ThemeContextType => ({ themeContext }), [
-        themeContext,
-    ])
+    const contextValue = useMemo(
+        (): ThemeContextType => ({ themeContext }),
+        [themeContext],
+    )
 
     return <ThemeContext.Provider value={contextValue} {...props} />
 }

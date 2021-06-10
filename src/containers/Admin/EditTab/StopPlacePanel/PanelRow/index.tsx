@@ -35,7 +35,7 @@ const PanelRow = ({
     const visibleLines = lines.filter(
         (line) =>
             !settings.hiddenStopModes[id]?.includes(
-                (line.transportMode as unknown) as LegMode,
+                line.transportMode as unknown as LegMode,
             ),
     )
 
@@ -63,9 +63,9 @@ const PanelRow = ({
                         key: mode,
                         size: 'large',
                         onChange: (): void =>
-                            onToggleMode(id, (mode as unknown) as LegMode),
+                            onToggleMode(id, mode as unknown as LegMode),
                         checked: !settings.hiddenStopModes[id]?.includes(
-                            (mode as unknown) as LegMode,
+                            mode as unknown as LegMode,
                         ),
                     }
 

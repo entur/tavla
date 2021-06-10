@@ -185,7 +185,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
     }, [location, user])
 
     const set = useCallback(
-        <T>(key: string, value: FieldTypes): void => {
+        (key: string, value: FieldTypes): void => {
             const newSettings = { ...settings, [key]: value } as Settings
             setSettings(newSettings)
 

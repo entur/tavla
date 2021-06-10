@@ -21,9 +21,9 @@ import BusStopGrey from '../previews/previewGrey/Holdeplass-gray.svg'
 
 import { Theme } from '../../types'
 
-export function ThemeDashbboardPreview(
-    theme: Theme | undefined,
-): { [key: string]: any } {
+export function ThemeDashbboardPreview(theme: Theme | undefined): {
+    [key: string]: any
+} {
     switch (theme) {
         case Theme.DARK:
             return {

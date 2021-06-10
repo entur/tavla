@@ -38,7 +38,7 @@
   },
   "rules": {
     "@typescript-eslint/array-type": ["error", { "default": "array-simple" }],
-    "@typescript-eslint/ban-ts-ignore": "warn",
+    "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "eol-last": 1,

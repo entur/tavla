@@ -96,9 +96,10 @@ export default function useStopPlacesWithDepartures():
 
                     if (!stop) return
 
-                    const departuresForThisStopPlace = stopsAndDepartures.departures
-                        .filter(isNotNullOrUndefined)
-                        .find(({ id }) => stop.id === id)
+                    const departuresForThisStopPlace =
+                        stopsAndDepartures.departures
+                            .filter(isNotNullOrUndefined)
+                            .find(({ id }) => stop.id === id)
 
                     if (
                         !departuresForThisStopPlace ||
@@ -107,16 +108,17 @@ export default function useStopPlacesWithDepartures():
                         return { ...stop, departures: [] }
                     }
 
-                    const mappedAndFilteredDepartures = departuresForThisStopPlace.departures
-                        .map(transformDepartureToLineData)
-                        .filter(isNotNullOrUndefined)
-                        .filter(
-                            ({ route, type }) =>
-                                !hiddenRoutes?.[stopId]?.includes(route) &&
-                                !hiddenStopModes?.[stopId]?.includes(
-                                    (type as unknown) as LegMode,
-                                ),
-                        )
+                    const mappedAndFilteredDepartures =
+                        departuresForThisStopPlace.departures
+                            .map(transformDepartureToLineData)
+                            .filter(isNotNullOrUndefined)
+                            .filter(
+                                ({ route, type }) =>
+                                    !hiddenRoutes?.[stopId]?.includes(route) &&
+                                    !hiddenStopModes?.[stopId]?.includes(
+                                        type as unknown as LegMode,
+                                    ),
+                            )
                     return {
                         ...stop,
                         departures: mappedAndFilteredDepartures,

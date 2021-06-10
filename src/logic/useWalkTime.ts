@@ -47,13 +47,11 @@ export default function useTravelTime(
         walkTime: number
     }> | null>(null)
 
-    const {
-        latitude: fromLatitude,
-        longitude: fromLongitude,
-    } = settings?.coordinates ?? {
-        latitude: 0,
-        longitude: 0,
-    }
+    const { latitude: fromLatitude, longitude: fromLongitude } =
+        settings?.coordinates ?? {
+            latitude: 0,
+            longitude: 0,
+        }
 
     const ids = stopPlaces?.map((stopPlace) => stopPlace.id)
     const previousIds = usePrevious(ids)
