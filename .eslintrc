@@ -41,7 +41,8 @@
     "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/no-unused-vars": "error",
-    "eol-last": 1,
+    "@typescript-eslint/no-shadow": "error",
+    "eol-last": "warn",
     "import/no-useless-path-segments": "error",
     "import/order": [
       "error",
@@ -50,14 +51,14 @@
           "newlines-between": "always-and-inside-groups"
       }
     ],
-    "no-shadow": 2,
-    "no-unused-vars": 1,
+    "no-shadow": "off",
+    "no-unused-vars": "warn",
     "object-shorthand": ["error", "always"],
     "prefer-const": "warn",
     "prettier/prettier": "error",
     "react/jsx-curly-brace-presence": "error",
     "react/jsx-first-prop-new-line": ["error", "multiline-multiprop"],
-    "react/jsx-no-undef": [2, { "allowGlobals": true }],
+    "react/jsx-no-undef": ["error", { "allowGlobals": true }],
     "react/jsx-uses-react": "warn",
     "react/jsx-uses-vars": "warn",
     "react/no-unused-prop-types": "error",
