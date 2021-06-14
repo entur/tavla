@@ -65,14 +65,12 @@ const Map = ({
             },
         }),
     )
-    const bounds = mapRef.current
-        ? (mapRef.current.getMap().getBounds().toArray().flat() as [
-              number,
-              number,
-              number,
-              number,
-          ])
-        : ([0, 0, 0, 0] as [number, number, number, number])
+
+    const bounds = (mapRef.current
+        ?.getMap()
+        ?.getBounds()
+        ?.toArray()
+        ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
 
     const { clusters: scooterClusters } = useSupercluster({
         points: scooterpoints || [],
