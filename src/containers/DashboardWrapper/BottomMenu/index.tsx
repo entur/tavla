@@ -33,9 +33,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 
     const [lockModalOpen, setLockModalOpen] = useState<boolean>(false)
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
-    const [mineTavlerModalOpen, setMineTavlerModalOpen] = useState<boolean>(
-        false,
-    )
+    const [mineTavlerModalOpen, setMineTavlerModalOpen] =
+        useState<boolean>(false)
 
     const { addToast } = useToast()
 
@@ -54,19 +53,21 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         [history, documentId],
     )
 
-    const lockingButton = settings && !settings.owners?.length && documentId && (
-        <MenuButton
-            title="Lås tavle"
-            icon={<OpenedLockIcon size={21} />}
-            callback={(): void => setLockModalOpen(true)}
-            tooltip={
-                <>
-                    Lås tavla til en konto slik <br />
-                    at bare du kan redigere den.
-                </>
-            }
-        />
-    )
+    const lockingButton = settings &&
+        !settings.owners?.length &&
+        documentId && (
+            <MenuButton
+                title="Lås tavle"
+                icon={<OpenedLockIcon size={21} />}
+                callback={(): void => setLockModalOpen(true)}
+                tooltip={
+                    <>
+                        Lås tavla til en konto slik <br />
+                        at bare du kan redigere den.
+                    </>
+                }
+            />
+        )
 
     const shareButton = (
         <MenuButton

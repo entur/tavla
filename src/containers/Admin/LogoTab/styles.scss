@@ -21,7 +21,13 @@
         }
     }
 
-    .eds-form-component--radio__container .eds-form-component--radio__radio .eds-form-component--radio__circle {
+    .logo-grid .eds-form-control-wrapper--disabled {
+        background-color: var(--tavla-input-disabled-background-color);
+    }
+
+    .eds-form-component--radio__container
+        .eds-form-component--radio__radio
+        .eds-form-component--radio__circle {
         background-color: var(--tavla-checkbox-color);
     }
 
@@ -30,16 +36,17 @@
         background-color: transparent;
     }
 
-    .eds-form-component--radio__container :hover ~ .eds-form-component--radio__radio {
+    .eds-form-component--radio__container
+        :hover
+        ~ .eds-form-component--radio__radio {
         border-color: var(--tavla-checkbox-hover-color);
     }
 
-    .eds-form-component--radio__container :hover ~ .eds-form-component--radio__radio .eds-form-component--radio__circle {
+    .eds-form-component--radio__container
+        :hover
+        ~ .eds-form-component--radio__radio
+        .eds-form-component--radio__circle {
         background-color: var(--tavla-checkbox-hover-color);
-    }
-
-    .logo-grid .eds-form-control-wrapper--disabled {
-        background-color: var(--tavla-input-disabled-background-color);
     }
 
     .eds-form-control::placeholder {
@@ -50,12 +57,11 @@
     .eds-link:link,
     .eds-link:visited {
         color: var(--tavla-font-color);
-        background-image:
-            linear-gradient(
-                120deg,
-                var(--tavla-font-color) 0%,
-                var(--tavla-font-color) 100%
-            );
+        background-image: linear-gradient(
+            120deg,
+            var(--tavla-font-color) 0%,
+            var(--tavla-font-color) 100%
+        );
     }
 }
 

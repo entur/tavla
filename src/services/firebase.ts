@@ -120,7 +120,8 @@ export const uploadLogo = async (
                 .collection(SETTINGS_COLLECTION)
                 .doc(documentId)
                 .update({
-                    lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastmodified:
+                        firebase.firestore.FieldValue.serverTimestamp(),
                 })
         },
     )

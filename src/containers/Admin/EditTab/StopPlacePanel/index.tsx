@@ -14,13 +14,14 @@ import PanelRow from './PanelRow'
 import './styles.scss'
 
 function StopPlacePanel(props: Props): JSX.Element {
-    const [
-        settings,
-        { setHiddenStops, setHiddenRoutes, setHiddenStopModes },
-    ] = useSettingsContext()
+    const [settings, { setHiddenStops, setHiddenRoutes, setHiddenStopModes }] =
+        useSettingsContext()
 
-    const { hiddenStopModes = {}, hiddenStops = [], hiddenRoutes = {} } =
-        settings || {}
+    const {
+        hiddenStopModes = {},
+        hiddenStops = [],
+        hiddenRoutes = {},
+    } = settings || {}
 
     const { stops } = props
 

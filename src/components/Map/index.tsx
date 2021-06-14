@@ -36,20 +36,20 @@ const Map = ({
     })
     const mapRef = useRef<InteractiveMap>(null)
     const scooterpoints = scooters?.map((scooter: Scooter) => ({
-        type: 'Feature' as 'Feature',
+        type: 'Feature' as const,
         properties: {
             cluster: false,
             scooterId: scooter.id,
             scooterOperator: scooter.operator,
         },
         geometry: {
-            type: 'Point' as 'Point',
+            type: 'Point' as const,
             coordinates: [scooter.lon, scooter.lat],
         },
     }))
     const bikeRentalStationPoints = bikeRentalStations?.map(
         (bikeRentalStation: BikeRentalStation) => ({
-            type: 'Feature' as 'Feature',
+            type: 'Feature' as const,
             properties: {
                 cluster: false,
                 stationId: bikeRentalStation.id,
@@ -57,7 +57,7 @@ const Map = ({
                 spacesAvailable: bikeRentalStation.spacesAvailable,
             },
             geometry: {
-                type: 'Point' as 'Point',
+                type: 'Point' as const,
                 coordinates: [
                     bikeRentalStation.longitude,
                     bikeRentalStation.latitude,
@@ -86,11 +86,11 @@ const Map = ({
         options: {
             radius: 45,
             maxZoom: 18,
-            map: (props): {} => ({
+            map: (props): Record<string, unknown> => ({
                 bikesAvailable: props.bikesAvailable,
                 spacesAvailable: props.spacesAvailable,
             }),
-            reduce: (acc, props): {} => {
+            reduce: (acc, props): Record<string, unknown> => {
                 acc.bikesAvailable += props.bikesAvailable
                 acc.spacesAvailable += props.spacesAvailable
                 return acc
@@ -126,17 +126,16 @@ const Map = ({
             ref={mapRef}
         >
             {scooterClusters.map((scooterCluster) => {
-                const [
-                    slongitude,
-                    slatitude,
-                ] = scooterCluster.geometry.coordinates
+                const [slongitude, slatitude] =
+                    scooterCluster.geometry.coordinates
 
                 const { cluster: isCluster } = scooterCluster.properties
                 let pointCount = 0
 
                 if (isCluster) {
-                    pointCount = (scooterCluster.properties as ClusterProperties)
-                        .point_count
+                    pointCount = (
+                        scooterCluster.properties as ClusterProperties
+                    ).point_count
                 }
 
                 return (
@@ -185,10 +184,8 @@ const Map = ({
                 ),
             )}
             {stationClusters.map((stationCluster) => {
-                const [
-                    slongitude,
-                    slatitude,
-                ] = stationCluster.geometry.coordinates
+                const [slongitude, slatitude] =
+                    stationCluster.geometry.coordinates
 
                 const { cluster: isCluster } = stationCluster.properties
 
