@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, createContext } from 'react'
 
-import firebase, { User } from 'firebase/app'
+import firebase from 'firebase/app'
 import 'firebase/auth'
 
 /**
@@ -8,8 +8,8 @@ import 'firebase/auth'
  * If user is null, we know there's not a logged in user
  * If user is User, we have a logged-in or anonymous user.
  */
-export function useFirebaseAuthentication(): User | null | undefined {
-    const [user, setUser] = useState<User | null | undefined>()
+export function useFirebaseAuthentication(): firebase.User | null | undefined {
+    const [user, setUser] = useState<firebase.User | null | undefined>()
 
     useEffect(() => {
         const unsubscribe = firebase.auth().onAuthStateChanged((newUser) => {
@@ -26,10 +26,10 @@ export function useFirebaseAuthentication(): User | null | undefined {
     return user
 }
 
-const UserContext = createContext<User | null | undefined>(null)
+const UserContext = createContext<firebase.User | null | undefined>(null)
 
 export const UserProvider = UserContext.Provider
 
-export function useUser(): User | null | undefined {
+export function useUser(): firebase.User | null | undefined {
     return useContext(UserContext)
 }

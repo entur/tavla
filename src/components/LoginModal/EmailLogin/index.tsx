@@ -1,5 +1,5 @@
 import React, { useState, Dispatch, SetStateAction } from 'react'
-import firebase, { User } from 'firebase/app'
+import firebase from 'firebase/app'
 
 import { TextField, InputGroup } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -21,7 +21,7 @@ export interface UserLogin {
 
 interface Props {
     setModalType: Dispatch<SetStateAction<ModalType>>
-    onDismiss: (user?: User) => void
+    onDismiss: (user?: firebase.User) => void
 }
 
 const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {

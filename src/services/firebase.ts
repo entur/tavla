@@ -1,4 +1,4 @@
-import firebase, { firestore } from 'firebase/app'
+import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/functions'
 import 'firebase/storage'
@@ -9,8 +9,8 @@ import { FieldTypes } from '../settings/FirestoreStorage'
 
 const SETTINGS_COLLECTION = 'settings'
 
-type DocumentReference = firestore.DocumentReference
-type QuerySnapshot = firestore.QuerySnapshot
+type DocumentReference = firebase.firestore.DocumentReference
+type QuerySnapshot = firebase.firestore.QuerySnapshot
 
 export const getSettings = (id: string): DocumentReference => {
     return firebase.firestore().collection(SETTINGS_COLLECTION).doc(id)
