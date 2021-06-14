@@ -26,10 +26,18 @@
     "node": true
   },
   "settings": {
-    "import/extensions": [".js", ".jsx"],
+    "import/extensions": [
+      ".js",
+      ".jsx"
+    ],
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
       }
     },
     "react": {
@@ -37,7 +45,12 @@
     }
   },
   "rules": {
-    "@typescript-eslint/array-type": ["error", { "default": "array-simple" }],
+    "@typescript-eslint/array-type": [
+      "error",
+      {
+        "default": "array-simple"
+      }
+    ],
     "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/no-unused-vars": "error",
@@ -47,18 +60,36 @@
     "import/order": [
       "error",
       {
-          "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
-          "newlines-between": "always-and-inside-groups"
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "newlines-between": "always-and-inside-groups"
       }
     ],
     "no-shadow": "off",
     "no-unused-vars": "warn",
-    "object-shorthand": ["error", "always"],
+    "object-shorthand": [
+      "error",
+      "always"
+    ],
     "prefer-const": "warn",
     "prettier/prettier": "error",
     "react/jsx-curly-brace-presence": "error",
-    "react/jsx-first-prop-new-line": ["error", "multiline-multiprop"],
-    "react/jsx-no-undef": ["error", { "allowGlobals": true }],
+    "react/jsx-first-prop-new-line": [
+      "error",
+      "multiline-multiprop"
+    ],
+    "react/jsx-no-undef": [
+      "error",
+      {
+        "allowGlobals": true
+      }
+    ],
     "react/jsx-uses-react": "warn",
     "react/jsx-uses-vars": "warn",
     "react/no-unused-prop-types": "error",
