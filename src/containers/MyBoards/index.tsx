@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { firestore } from 'firebase/app'
+import firebase from 'firebase/app'
 
 import { Contrast } from '@entur/layout'
 import { Heading2, Heading3 } from '@entur/typography'
@@ -17,7 +17,7 @@ import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 import BoardCard from './BoardCard'
 import './styles.scss'
 
-type DocumentData = firestore.DocumentData
+type DocumentData = firebase.firestore.DocumentData
 
 function sortBoard(boards: BoardProps[]): BoardProps[] {
     return boards.sort((n1: BoardProps, n2: BoardProps) => {
@@ -44,7 +44,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
             next: (querySnapshot) => {
                 if (querySnapshot.metadata.hasPendingWrites) return
                 const updatedBoards = querySnapshot.docs.map(
-                    (docSnapshot) =>
+                    (docSnapshot: any) =>
                         ({
                             data: docSnapshot.data(),
                             lastmodified: docSnapshot.data().lastmodified,

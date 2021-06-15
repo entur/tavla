@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Dispatch } from 'react'
-import { User } from 'firebase/app'
+import firebase from 'firebase/app'
 
 import {
     Heading2,
@@ -69,7 +69,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         }
     }, [user, tabIndex, setTabIndex])
 
-    const handleDismiss = (newUser: User | undefined): void => {
+    const handleDismiss = (newUser: firebase.User | undefined): void => {
         if (!newUser || newUser.isAnonymous) {
             setOpen(false)
             setTabIndex(0)

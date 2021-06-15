@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react'
-import { User } from 'firebase/app'
+import firebase from 'firebase/app'
 
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
@@ -17,7 +17,7 @@ export interface UserResetPassword {
 
 interface Props {
     setModalType: Dispatch<SetStateAction<ModalType>>
-    onDismiss: (user?: User) => void
+    onDismiss: (user?: firebase.User) => void
 }
 
 const ResetPassword = ({ setModalType, onDismiss }: Props): JSX.Element => {

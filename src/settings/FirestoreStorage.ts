@@ -1,3 +1,5 @@
+import firebase from 'firebase/app'
+
 import {
     updateSettingField,
     removeFromArray,
