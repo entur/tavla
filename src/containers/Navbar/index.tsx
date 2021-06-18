@@ -68,10 +68,7 @@ export default function Navbar(): JSX.Element {
         <nav className="navbar">
             <div className="navbar__left">
                 <Link to="/">
-                    <TavlaLogo
-                        className="landing-page__logo"
-                        forceColor="white"
-                    />
+                    <TavlaLogo className="landing-page__logo" />
                 </Link>
             </div>
             <div className="navbar__right">
