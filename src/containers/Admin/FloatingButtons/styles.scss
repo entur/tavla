@@ -1,6 +1,7 @@
 .admin__floating-buttons {
     display: flex;
     flex-direction: column;
+    z-index: 10;
 
     .eds-button {
         width: 100%;
