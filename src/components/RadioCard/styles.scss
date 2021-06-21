@@ -11,6 +11,9 @@
     &:hover {
         background-color: var(--tavla-selected-color);
         cursor: pointer;
+        .radio {
+            border: 2px solid var(--tavla-background-color);
+        }
     }
 
     &__selected {
