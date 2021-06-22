@@ -26,12 +26,6 @@ import './styles.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
-function onLayoutChange(layouts: Layouts, key: string): void {
-    console.log('SAVE layout')
-    console.log(layouts)
-    saveToLocalStorage(key, layouts)
-}
-
 function getDataGrid(
     index: number,
     maxWidth: number,
@@ -50,6 +44,11 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
     const [breakpoint, setBreakpoint] = useState<string>('lg')
     const dashboardKey = history.location.key
+    const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
+        getFromLocalStorage(dashboardKey),
+    )
+
+    console.log(gridLayouts)
 
     const bikeRentalStations = useBikeRentalStations()
 
@@ -71,17 +70,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const anyScooters = Boolean(scooters && scooters.length)
 
-    const localStorageLayout: Layouts =
-        getFromLocalStorage(history.location.key) || {}
-
     const bikeCol = anyBikeRentalStations ? 1 : 0
-
-    console.log('bikeCol:', bikeCol)
-    console.log('localStorage:', localStorageLayout)
 
     const scooterCol = anyScooters ? 1 : 0
 
-    console.log(numberOfStopPlaces)
     const totalItems = numberOfStopPlaces + bikeCol + scooterCol
 
     const cols: { [key: string]: number } = {
@@ -106,7 +98,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 <ResponsiveReactGridLayout
                     key={breakpoint}
                     cols={cols}
-                    compactType="vertical"
+                    layouts={gridLayouts}
                     isResizable={true}
                     onBreakpointChange={(newBreakpoint: string) => {
                         setBreakpoint(newBreakpoint)
@@ -116,7 +108,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                         layouts: Layouts,
                     ): void => {
                         if (totalItems > 0) {
-                            onLayoutChange(layouts, dashboardKey)
+                            setGridLayouts(layouts)
+                            saveToLocalStorage(dashboardKey, layouts)
                         }
                     }}
                 >
