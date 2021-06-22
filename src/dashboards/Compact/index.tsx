@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import {
@@ -27,6 +27,8 @@ import './styles.scss'
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 function onLayoutChange(layouts: Layouts, key: string): void {
+    console.log('SAVE layout')
+    console.log(layouts)
     saveToLocalStorage(key, layouts)
 }
 
@@ -39,13 +41,14 @@ function getDataGrid(
         maxW: maxWidth,
         minH: 1,
         h: 4,
-        x: index,
+        x: index % maxWidth,
         y: 0,
     }
 }
 
 const EnturDashboard = ({ history }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
+    const [breakpoint, setBreakpoint] = useState<string>('lg')
     const dashboardKey = history.location.key
 
     const bikeRentalStations = useBikeRentalStations()
@@ -73,17 +76,23 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
 
+    console.log('bikeCol:', bikeCol)
+    console.log('localStorage:', localStorageLayout)
+
     const scooterCol = anyScooters ? 1 : 0
 
-    const cols = {
-        lg: numberOfStopPlaces + bikeCol + scooterCol,
-        md: numberOfStopPlaces + bikeCol + scooterCol,
+    console.log(numberOfStopPlaces)
+    const totalItems = numberOfStopPlaces + bikeCol + scooterCol
+
+    const cols: { [key: string]: number } = {
+        lg: totalItems >= 4 ? 4 : totalItems,
+        md: totalItems >= 3 ? 3 : totalItems,
         sm: 1,
         xs: 1,
         xxs: 1,
     }
 
-    const maxWidthCols = cols.lg + 1
+    const maxWidthCols = cols[breakpoint]
 
     return (
         <DashboardWrapper
@@ -95,16 +104,18 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         >
             <div className="compact__tiles">
                 <ResponsiveReactGridLayout
-                    key={numberOfStopPlaces}
+                    key="layout"
                     cols={cols}
-                    layouts={localStorageLayout}
-                    compactType="horizontal"
+                    compactType="vertical"
                     isResizable={true}
+                    onBreakpointChange={(newBreakpoint: string) => {
+                        setBreakpoint(newBreakpoint)
+                    }}
                     onLayoutChange={(
                         layout: Layout[],
                         layouts: Layouts,
                     ): void => {
-                        if (numberOfStopPlaces > 0) {
+                        if (totalItems > 0) {
                             onLayoutChange(layouts, dashboardKey)
                         }
                     }}
@@ -146,9 +157,9 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     {scooters?.length ? (
                         <div
                             id="compact-map-tile"
-                            key="sparkesykkel"
+                            key={numberOfStopPlaces + bikeCol}
                             data-grid={getDataGrid(
-                                numberOfStopPlaces + scooterCol,
+                                numberOfStopPlaces + bikeCol,
                                 maxWidthCols,
                             )}
                         >
