@@ -48,8 +48,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         getFromLocalStorage(dashboardKey),
     )
 
-    console.log(gridLayouts)
-
     const bikeRentalStations = useBikeRentalStations()
 
     const scooters = useScooters()
@@ -107,7 +105,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                         layout: Layout[],
                         layouts: Layouts,
                     ): void => {
-                        if (totalItems > 0) {
+                        if (numberOfStopPlaces > 0) {
                             setGridLayouts(layouts)
                             saveToLocalStorage(dashboardKey, layouts)
                         }
