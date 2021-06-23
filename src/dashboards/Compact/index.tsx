@@ -75,14 +75,16 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const totalItems = numberOfStopPlaces + bikeCol + scooterCol
 
     const cols: { [key: string]: number } = {
-        lg: totalItems >= 4 ? 4 : totalItems,
-        md: totalItems >= 3 ? 3 : totalItems,
+        lg: Math.min(totalItems, 4),
+        md: Math.min(totalItems, 3),
         sm: 1,
         xs: 1,
         xxs: 1,
     }
 
     const maxWidthCols = cols[breakpoint]
+
+    console.log(gridLayouts)
 
     return (
         <DashboardWrapper
