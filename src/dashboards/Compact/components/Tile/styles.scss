@@ -18,6 +18,9 @@
         h2 {
             margin: 0;
             color: var(--tavla-font-color);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         svg {
