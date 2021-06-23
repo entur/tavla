@@ -84,8 +84,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const maxWidthCols = cols[breakpoint]
 
-    console.log(gridLayouts)
-
     return (
         <DashboardWrapper
             className="compact"
