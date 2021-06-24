@@ -2,6 +2,7 @@ const path = require('path')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const postcssPresetEnv = require('postcss-preset-env')
+const CopyPlugin = require("copy-webpack-plugin");
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 
@@ -92,6 +93,12 @@ module.exports = (env) => {
                     `.env.${typeof env === 'string' ? env : 'staging'}`,
                 ),
             }),
+            new CopyPlugin({
+                patterns: [
+                  { from: "manifest.json" },
+                  { from: "public/images/", to: "images"},
+                ],
+              }),
         ],
         watch: typeof env !== 'string',
         optimization: {
