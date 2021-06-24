@@ -3,7 +3,7 @@
 
 .busStop .tile {
     width: 100%;
-    background-color: red;//var(--tavla-box-background-color);
+    background-color: var(--tavla-box-background-color);
     color: var(--tavla-font-color);
     flex: none;
     padding: 2rem;
