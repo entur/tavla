@@ -87,6 +87,7 @@
         "babel-eslint": "^10.1.0",
         "babel-loader": "^8.2.2",
         "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+        "copy-webpack-plugin": "^6.4.1",
         "css-loader": "^3.6.0",
         "dotenv": "^8.6.0",
         "dotenv-webpack": "^1.8.0",

@@ -1,9 +1,8 @@
 import React from 'react'
 import { Heading2 } from '@entur/typography'
-
 import './styles.scss'
 
-function Tile({ title, icons, children }: Props): JSX.Element {
+export function Tile({ title, icons, children }: Props): JSX.Element {
     return (
         <div className="tile">
             <header className="tile__header">
