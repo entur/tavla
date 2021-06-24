@@ -23,6 +23,7 @@ import BikeTile from './BikeTile'
 import MapTile from './MapTile'
 
 import './styles.scss'
+//import { MapController } from 'react-map-gl'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -66,13 +67,20 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
 
-    const anyScooters = Boolean(scooters && scooters.length)
+    //const anyScooters = Boolean(scooters && scooters.length)
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
 
-    const scooterCol = anyScooters ? 1 : 0
+    //const scooterCol = anyScooters ? 1 : 0
+    // ny
+    const mapCol =
+        bikeRentalStations?.length ||
+        scooters?.length ||
+        stopPlacesWithDepartures?.length
+            ? 1
+            : 0
 
-    const totalItems = numberOfStopPlaces + bikeCol + scooterCol
+    const totalItems = numberOfStopPlaces + bikeCol + mapCol //oppdatert
 
     const cols: { [key: string]: number } = {
         lg: Math.min(totalItems, 4),
@@ -99,7 +107,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     layouts={gridLayouts}
                     isResizable={true}
                     onBreakpointChange={(newBreakpoint: string) => {
-                        setBreakpoint(newBreakpoint)
+                        setBreakpoint(newBreakpoint), console.log(gridLayouts)
                     }}
                     onLayoutChange={(
                         layout: Layout[],
@@ -108,6 +116,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                         if (numberOfStopPlaces > 0) {
                             setGridLayouts(layouts)
                             saveToLocalStorage(dashboardKey, layouts)
+                            console.log(gridLayouts, layouts)
                         }
                     }}
                 >
@@ -145,12 +154,14 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     ) : (
                         []
                     )}
-                    {scooters?.length ? (
+                    {scooters?.length ||
+                    stopPlacesWithDepartures?.length ||
+                    bikeRentalStations?.length ? (
                         <div
                             id="compact-map-tile"
-                            key={numberOfStopPlaces + bikeCol}
+                            key={totalItems - 1}
                             data-grid={getDataGrid(
-                                numberOfStopPlaces + bikeCol,
+                                totalItems - 1,
                                 maxWidthCols,
                             )}
                         >
