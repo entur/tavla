@@ -67,12 +67,11 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
 
-    const anyScooters = Boolean(scooters && scooters.length)
+    //const anyScooters = Boolean(scooters && scooters.length)
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
 
-    const scooterCol = anyScooters ? 1 : 0
-    
+    //const scooterCol = anyScooters ? 1 : 0
     const mapCol =
         bikeRentalStations?.length ||
         scooters?.length ||
