@@ -67,12 +67,12 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
 
-    //const anyScooters = Boolean(scooters && scooters.length)
+    const anyScooters = Boolean(scooters && scooters.length)
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
 
-    //const scooterCol = anyScooters ? 1 : 0
-    // ny
+    const scooterCol = anyScooters ? 1 : 0
+    
     const mapCol =
         bikeRentalStations?.length ||
         scooters?.length ||
@@ -80,7 +80,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
             ? 1
             : 0
 
-    const totalItems = numberOfStopPlaces + bikeCol + mapCol //oppdatert
+    const totalItems = numberOfStopPlaces + bikeCol + mapCol
 
     const cols: { [key: string]: number } = {
         lg: Math.min(totalItems, 4),
@@ -107,7 +107,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     layouts={gridLayouts}
                     isResizable={true}
                     onBreakpointChange={(newBreakpoint: string) => {
-                        setBreakpoint(newBreakpoint), console.log(gridLayouts)
+                        setBreakpoint(newBreakpoint)
                     }}
                     onLayoutChange={(
                         layout: Layout[],
@@ -116,7 +116,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                         if (numberOfStopPlaces > 0) {
                             setGridLayouts(layouts)
                             saveToLocalStorage(dashboardKey, layouts)
-                            console.log(gridLayouts, layouts)
                         }
                     }}
                 >
