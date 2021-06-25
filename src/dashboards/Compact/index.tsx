@@ -23,7 +23,6 @@ import BikeTile from './BikeTile'
 import MapTile from './MapTile'
 
 import './styles.scss'
-//import { MapController } from 'react-map-gl'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -67,18 +66,13 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
 
-    //const anyScooters = Boolean(scooters && scooters.length)
-
     const bikeCol = anyBikeRentalStations ? 1 : 0
-
-    //const scooterCol = anyScooters ? 1 : 0
-    const mapCol =
+    const hasData = Boolean(
         bikeRentalStations?.length ||
-        scooters?.length ||
-        stopPlacesWithDepartures?.length
-            ? 1
-            : 0
-
+            scooters?.length ||
+            stopPlacesWithDepartures?.length,
+    )
+    const mapCol = hasData ? 1 : 0
     const totalItems = numberOfStopPlaces + bikeCol + mapCol
 
     const cols: { [key: string]: number } = {
@@ -152,9 +146,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     ) : (
                         []
                     )}
-                    {scooters?.length ||
-                    stopPlacesWithDepartures?.length ||
-                    bikeRentalStations?.length ? (
+                    {hasData ? (
                         <div
                             id="compact-map-tile"
                             key={totalItems - 1}

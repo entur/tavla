@@ -19,7 +19,7 @@ import {
 } from './UrlStorage'
 import { persist as persistToFirebase, FieldTypes } from './FirestoreStorage'
 
-export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel' | 'kartfunksjon'
+export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
 
 export interface Settings {
     boardName?: string
