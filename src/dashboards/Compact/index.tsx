@@ -168,17 +168,21 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                                 className="resizeHandle"
                                 variant="dark"
                             />
-                            <MapTile
-                                scooters={scooters}
-                                stopPlaces={stopPlacesWithDepartures}
-                                bikeRentalStations={bikeRentalStations}
-                                walkTimes={null}
-                                latitude={settings?.coordinates?.latitude ?? 0}
-                                longitude={
-                                    settings?.coordinates?.longitude ?? 0
-                                }
-                                zoom={settings?.zoom ?? DEFAULT_ZOOM}
-                            />
+                            {settings?.showMap ? (
+                                <MapTile
+                                    scooters={scooters}
+                                    stopPlaces={stopPlacesWithDepartures}
+                                    bikeRentalStations={bikeRentalStations}
+                                    walkTimes={null}
+                                    latitude={
+                                        settings?.coordinates?.latitude ?? 0
+                                    }
+                                    longitude={
+                                        settings?.coordinates?.longitude ?? 0
+                                    }
+                                    zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                                />
+                            ) : null}
                         </div>
                     ) : (
                         []
