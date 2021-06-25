@@ -8,6 +8,7 @@ import {
 
 export type FieldTypes =
     | string
+    | boolean
     | number
     | string[]
     | firebase.firestore.GeoPoint

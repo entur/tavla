@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
-
 import { BikeRentalStation } from '@entur/sdk'
 import { Heading2 } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -30,8 +29,9 @@ import './styles.scss'
 
 const EditTab = (): JSX.Element => {
     const [settings, settingsSetters] = useSettingsContext()
-    const { newStops, newStations, hiddenModes } = settings || {}
-    const { setNewStops, setNewStations, setHiddenModes } = settingsSetters
+    const { newStops, newStations, hiddenModes, showMap } = settings || {}
+    const { setNewStops, setNewStations, setHiddenModes, setShowMap } =
+        settingsSetters
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
     )
@@ -147,7 +147,7 @@ const EditTab = (): JSX.Element => {
         <div className="edit-tab">
             <Heading2 className="heading">Rediger innhold</Heading2>
             <GridContainer spacing="extraLarge">
-                <GridItem medium={6} small={12}>
+                <GridItem medium={6} small={12} className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kollektiv</Heading2>
                         <Switch
@@ -166,7 +166,7 @@ const EditTab = (): JSX.Element => {
                     <StopPlacePanel stops={stopPlaces} />
                 </GridItem>
 
-                <GridItem medium={3} small={12}>
+                <GridItem medium={3} small={12} className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>
                         <Switch
@@ -183,20 +183,38 @@ const EditTab = (): JSX.Element => {
                 </GridItem>
 
                 <GridItem medium={3} small={8}>
-                    <div className="edit-tab__header">
-                        <Heading2>Sparkesykkel</Heading2>
-                        <Switch
-                            onChange={(): void => toggleMode('sparkesykkel')}
-                            checked={!hiddenModes?.includes('sparkesykkel')}
-                            size="large"
+                    <div className="edit-tab__tile">
+                        <div className="edit-tab__header">
+                            <Heading2>Sparkesykkel</Heading2>
+                            <Switch
+                                onChange={(): void =>
+                                    toggleMode('sparkesykkel')
+                                }
+                                checked={!hiddenModes?.includes('sparkesykkel')}
+                                size="large"
+                            />
+                        </div>
+                        <ScooterPanel />
+                    </div>
+                    <div className="edit-tab__tile edit-tab__tile__second">
+                        <div className="edit-tab__header">
+                            <Heading2>Kart</Heading2>
+                            <Switch
+                                onChange={(
+                                    event: React.ChangeEvent<HTMLInputElement>,
+                                ): void => {
+                                    setShowMap(event.currentTarget.checked)
+                                }}
+                                checked={showMap}
+                                size="large"
+                            />
+                        </div>
+                        <ZoomEditor
+                            zoom={zoom}
+                            onZoomUpdated={setZoom}
+                            scooters={scooters}
                         />
                     </div>
-                    <ScooterPanel />
-                    <ZoomEditor
-                        zoom={zoom}
-                        onZoomUpdated={setZoom}
-                        scooters={scooters}
-                    />
                 </GridItem>
             </GridContainer>
         </div>

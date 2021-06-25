@@ -66,13 +66,14 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
 
-    const anyScooters = Boolean(scooters && scooters.length)
-
     const bikeCol = anyBikeRentalStations ? 1 : 0
-
-    const scooterCol = anyScooters ? 1 : 0
-
-    const totalItems = numberOfStopPlaces + bikeCol + scooterCol
+    const hasData = Boolean(
+        bikeRentalStations?.length ||
+            scooters?.length ||
+            stopPlacesWithDepartures?.length,
+    )
+    const mapCol = hasData ? 1 : 0
+    const totalItems = numberOfStopPlaces + bikeCol + mapCol
 
     const cols: { [key: string]: number } = {
         lg: Math.min(totalItems, 4),
@@ -145,12 +146,12 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     ) : (
                         []
                     )}
-                    {scooters?.length ? (
+                    {hasData ? (
                         <div
                             id="compact-map-tile"
-                            key={numberOfStopPlaces + bikeCol}
+                            key={totalItems - 1}
                             data-grid={getDataGrid(
-                                numberOfStopPlaces + bikeCol,
+                                totalItems - 1,
                                 maxWidthCols,
                             )}
                         >
@@ -159,17 +160,21 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                                 className="resizeHandle"
                                 variant="dark"
                             />
-                            <MapTile
-                                scooters={scooters}
-                                stopPlaces={stopPlacesWithDepartures}
-                                bikeRentalStations={bikeRentalStations}
-                                walkTimes={null}
-                                latitude={settings?.coordinates?.latitude ?? 0}
-                                longitude={
-                                    settings?.coordinates?.longitude ?? 0
-                                }
-                                zoom={settings?.zoom ?? DEFAULT_ZOOM}
-                            />
+                            {settings?.showMap ? (
+                                <MapTile
+                                    scooters={scooters}
+                                    stopPlaces={stopPlacesWithDepartures}
+                                    bikeRentalStations={bikeRentalStations}
+                                    walkTimes={null}
+                                    latitude={
+                                        settings?.coordinates?.latitude ?? 0
+                                    }
+                                    longitude={
+                                        settings?.coordinates?.longitude ?? 0
+                                    }
+                                    zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                                />
+                            ) : null}
                         </div>
                     ) : (
                         []

@@ -42,6 +42,7 @@ export interface Settings {
     logo?: string
     logoSize?: string
     description?: string
+    showMap?: boolean
 }
 
 interface SettingsSetters {
@@ -64,6 +65,7 @@ interface SettingsSetters {
     setLogo: (url: string | null) => void
     setLogoSize: (size: string) => void
     setDescription: (description: string) => void
+    setShowMap: (visible: boolean) => void
 }
 
 export const SettingsContext = createContext<
@@ -88,6 +90,7 @@ export const SettingsContext = createContext<
         setLogo: (): void => undefined,
         setLogoSize: (): void => undefined,
         setDescription: (): void => undefined,
+        setShowMap: (): void => undefined,
     },
 ])
 
@@ -318,6 +321,13 @@ export function useSettings(): [Settings | null, SettingsSetters] {
         [set],
     )
 
+    const setShowMap = useCallback(
+        (visible: boolean): void => {
+            set('showMap', visible)
+        },
+        [set],
+    )
+
     const setters = {
         setBoardName,
         setHiddenOperators,
@@ -336,6 +346,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
         setLogo,
         setLogoSize,
         setDescription,
+        setShowMap,
     }
 
     return [settings, setters]
