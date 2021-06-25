@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { WidthProvider, Responsive } from 'react-grid-layout'
+import React, { useState } from 'react'
+import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
@@ -16,20 +16,27 @@ import './styles.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
-function getDataGrid(index: number): { [key: string]: number } {
+function getDataGrid(
+    index: number,
+    maxWidth: number,
+): { [key: string]: number } {
     return {
         w: 1,
-        maxW: 1,
+        maxW: maxWidth,
         minH: 1,
         h: 4,
-        x: index,
+        x: index % maxWidth,
         y: 0,
     }
 }
 
 const ChronoDashboard = ({ history }: Props): JSX.Element => {
     const dashboardKey = history.location.key
-
+    const [breakpoint, setBreakpoint] = useState<string>('sm')
+    const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
+        getFromLocalStorage(dashboardKey),
+    )
+    console.log(gridLayouts)
     const bikeRentalStations = useBikeRentalStations()
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
@@ -45,23 +52,21 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
     const anyBikeRentalStations =
         bikeRentalStations && bikeRentalStations.length
 
-    const [layouts, setLayouts] = useState(
-        getFromLocalStorage(history.location.key) || {},
-    )
-
-    useEffect(() => {
-        saveToLocalStorage(dashboardKey, layouts)
-    }, [dashboardKey, layouts])
-
     const extraCols = anyBikeRentalStations ? 1 : 0
 
-    const cols = {
-        lg: numberOfStopPlaces + extraCols,
-        md: numberOfStopPlaces + extraCols,
+    const totalItems = numberOfStopPlaces + extraCols
+
+    const cols: { [key: string]: number } = {
+        lg: Math.min(totalItems, 4),
+        md: Math.min(totalItems, 3),
         sm: 1,
         xs: 1,
         xxs: 1,
     }
+
+    const maxWidthCols = cols[breakpoint]
+
+    console.log(stopPlacesWithDepartures)
 
     return (
         <DashboardWrapper
@@ -72,21 +77,27 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
         >
             <div className="chrono__tiles">
                 <ResponsiveReactGridLayout
-                    key={numberOfStopPlaces}
+                    key={breakpoint}
                     cols={cols}
-                    layouts={layouts}
-                    compactType="horizontal"
+                    layouts={gridLayouts}
                     isResizable={true}
-                    onLayoutChange={(): void => {
+                    onBreakpointChange={(newBreakpoint: string) => {
+                        setBreakpoint(newBreakpoint)
+                    }}
+                    onLayoutChange={(
+                        layout: Layout[],
+                        layouts: Layouts,
+                    ): void => {
                         if (numberOfStopPlaces > 0) {
-                            setLayouts(layouts)
+                            setGridLayouts(layouts)
+                            saveToLocalStorage(dashboardKey, layouts)
                         }
                     }}
                 >
                     {(stopPlacesWithDepartures || []).map((stop, index) => (
                         <div
                             key={index.toString()}
-                            data-grid={getDataGrid(index)}
+                            data-grid={getDataGrid(index, maxWidthCols)}
                         >
                             <DepartureTile stopPlaceWithDepartures={stop} />
                         </div>
@@ -94,7 +105,10 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                     {bikeRentalStations && anyBikeRentalStations ? (
                         <div
                             key={numberOfStopPlaces.toString()}
-                            data-grid={getDataGrid(numberOfStopPlaces)}
+                            data-grid={getDataGrid(
+                                numberOfStopPlaces,
+                                maxWidthCols,
+                            )}
                         >
                             <BikeTile stations={bikeRentalStations} />
                         </div>

@@ -55,10 +55,9 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
             {departures.map((data) => {
                 const icon = getIcon(data.type, iconColorType, data.subType)
                 const subLabel = createTileSubLabel(data)
-
                 return (
                     <TileRow
-                        key={data.id}
+                        key={data.id + Math.random()}
                         label={data.route}
                         subLabel={subLabel}
                         icon={icon}
