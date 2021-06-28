@@ -154,7 +154,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     ) : (
                         []
                     )}
-                    {hasData ? (
+                    {hasData && settings?.showMap ? (
                         <div
                             id="compact-map-tile"
                             key={totalItems - 1}
@@ -168,21 +168,17 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                                 className="resizeHandle"
                                 variant="dark"
                             />
-                            {settings?.showMap ? (
-                                <MapTile
-                                    scooters={scooters}
-                                    stopPlaces={stopPlacesWithDepartures}
-                                    bikeRentalStations={bikeRentalStations}
-                                    walkTimes={null}
-                                    latitude={
-                                        settings?.coordinates?.latitude ?? 0
-                                    }
-                                    longitude={
-                                        settings?.coordinates?.longitude ?? 0
-                                    }
-                                    zoom={settings?.zoom ?? DEFAULT_ZOOM}
-                                />
-                            ) : null}
+                            <MapTile
+                                scooters={scooters}
+                                stopPlaces={stopPlacesWithDepartures}
+                                bikeRentalStations={bikeRentalStations}
+                                walkTimes={null}
+                                latitude={settings?.coordinates?.latitude ?? 0}
+                                longitude={
+                                    settings?.coordinates?.longitude ?? 0
+                                }
+                                zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                            />
                         </div>
                     ) : (
                         []

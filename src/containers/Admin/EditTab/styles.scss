@@ -103,7 +103,12 @@
         &__set-stops {
             display: block;
         }
-
+        &__header {
+            align-items: 'center';
+        }
+        &__tile {
+            display: block;
+        }
         .distance-editor {
             margin: 1rem 0;
         }
