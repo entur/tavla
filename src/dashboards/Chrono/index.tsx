@@ -61,9 +61,6 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
 
     const maxWidthCols = cols[breakpoint]
 
-    console.log('maxWidthCols:', maxWidthCols)
-    console.log('gridLayouts:', gridLayouts)
-
     return (
         <DashboardWrapper
             className="chrono"
