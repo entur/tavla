@@ -30,6 +30,14 @@ function getDataGrid(
     }
 }
 
+const COLS: { [key: string]: number } = {
+    lg: 4,
+    md: 3,
+    sm: 1,
+    xs: 1,
+    xxs: 1,
+}
+
 const ChronoDashboard = ({ history }: Props): JSX.Element => {
     const dashboardKey = history.location.key
     const [breakpoint, setBreakpoint] = useState<string>('lg')
@@ -48,18 +56,11 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
 
     const numberOfStopPlaces = stopPlacesWithDepartures?.length || 0
 
-    const anyBikeRentalStations: number | null =
-        bikeRentalStations && bikeRentalStations.length
+    const anyBikeRentalStations = Boolean(
+        bikeRentalStations && bikeRentalStations.length,
+    )
 
-    const cols: { [key: string]: number } = {
-        lg: 4,
-        md: 3,
-        sm: 1,
-        xs: 1,
-        xxs: 1,
-    }
-
-    const maxWidthCols = cols[breakpoint]
+    const maxWidthCols = COLS[breakpoint]
 
     return (
         <DashboardWrapper
@@ -71,7 +72,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
             <div className="chrono__tiles">
                 <ResponsiveReactGridLayout
                     key={breakpoint}
-                    cols={cols}
+                    cols={COLS}
                     layouts={gridLayouts}
                     isResizable={true}
                     onBreakpointChange={(newBreakpoint: string) => {
