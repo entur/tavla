@@ -101,6 +101,8 @@ const Map = ({
     return (
         <ReactMapGL
             {...viewport}
+            dragPan={false}
+            touchAction="pan-y"
             mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
             mapStyle={mapStyle || process.env.MAPBOX_STYLE_MAPVIEW}
             onViewportChange={

@@ -26,6 +26,9 @@
         position: relative;
         transition: height 200ms ease;
     }
+    .react-grid-layout:last-child {
+        margin-bottom: 7rem;
+    }
 
     .react-grid-item {
         transition: all 200ms ease;
@@ -147,13 +150,10 @@
         &__tiles {
             display: block;
         }
-
         .tile {
-            margin-bottom: 1rem;
             max-height: unset;
             width: 100%;
         }
-
         .maptile {
             margin-bottom: 1rem;
             max-height: unset;
