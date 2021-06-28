@@ -1,7 +1,7 @@
 {
     "name": "Tavla - Enturs avgangstavle",
     "short_name": "Tavla",
-    "start_url": "/",
+    "start_url": "./",
     "display": "standalone",
     "background_color": "#181C56",
     "theme_color": "#181C56",
