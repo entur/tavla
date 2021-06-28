@@ -163,11 +163,14 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                                 maxWidthCols,
                             )}
                         >
-                            <ResizeHandle
-                                size="32"
-                                className="resizeHandle"
-                                variant="dark"
-                            />
+                            {isMobileWeb() ? (
+                                <ResizeHandle
+                                    size="32"
+                                    className="resizeHandle"
+                                    variant="dark"
+                                />
+                            ) : null}
+
                             <MapTile
                                 scooters={scooters}
                                 stopPlaces={stopPlacesWithDepartures}
