@@ -26,7 +26,7 @@ import './styles.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
-export function isMobileWeb(): boolean {
+function isMobileWeb(): boolean {
     return (
         typeof window.orientation !== 'undefined' ||
         navigator.userAgent.indexOf('IEMobile') !== -1
