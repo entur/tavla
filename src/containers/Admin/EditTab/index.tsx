@@ -146,7 +146,7 @@ const EditTab = (): JSX.Element => {
     return (
         <div className="edit-tab">
             <Heading2 className="heading">Rediger innhold</Heading2>
-            <GridContainer spacing="extraLarge" className="edit-tab__container">
+            <GridContainer spacing="extraLarge">
                 <GridItem medium={6} small={12} className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kollektiv</Heading2>
