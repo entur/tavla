@@ -42,7 +42,7 @@ function getDataGrid(
 
 const EnturDashboard = ({ history }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
-    const [breakpoint, setBreakpoint] = useState<string>('sm')
+    const [breakpoint, setBreakpoint] = useState<string>('lg')
     const dashboardKey = history.location.key
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey),

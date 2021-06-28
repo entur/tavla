@@ -32,11 +32,10 @@ function getDataGrid(
 
 const ChronoDashboard = ({ history }: Props): JSX.Element => {
     const dashboardKey = history.location.key
-    const [breakpoint, setBreakpoint] = useState<string>('sm')
+    const [breakpoint, setBreakpoint] = useState<string>('lg')
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey),
     )
-    console.log(gridLayouts)
     const bikeRentalStations = useBikeRentalStations()
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
@@ -49,16 +48,12 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
 
     const numberOfStopPlaces = stopPlacesWithDepartures?.length || 0
 
-    const anyBikeRentalStations =
+    const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
 
-    const extraCols = anyBikeRentalStations ? 1 : 0
-
-    const totalItems = numberOfStopPlaces + extraCols
-
     const cols: { [key: string]: number } = {
-        lg: Math.min(totalItems, 4),
-        md: Math.min(totalItems, 3),
+        lg: 4,
+        md: 3,
         sm: 1,
         xs: 1,
         xxs: 1,
@@ -66,7 +61,8 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
 
     const maxWidthCols = cols[breakpoint]
 
-    console.log(stopPlacesWithDepartures)
+    console.log('maxWidthCols:', maxWidthCols)
+    console.log('gridLayouts:', gridLayouts)
 
     return (
         <DashboardWrapper
@@ -99,7 +95,10 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                             key={index.toString()}
                             data-grid={getDataGrid(index, maxWidthCols)}
                         >
-                            <DepartureTile stopPlaceWithDepartures={stop} />
+                            <DepartureTile
+                                key={index}
+                                stopPlaceWithDepartures={stop}
+                            />
                         </div>
                     ))}
                     {bikeRentalStations && anyBikeRentalStations ? (
