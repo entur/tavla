@@ -163,7 +163,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                                 maxWidthCols,
                             )}
                         >
-                            {isMobileWeb() ? (
+                            {!isMobileWeb() ? (
                                 <ResizeHandle
                                     size="32"
                                     className="resizeHandle"
