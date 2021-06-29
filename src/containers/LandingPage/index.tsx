@@ -112,7 +112,7 @@ function LandingPage({ history }: Props): JSX.Element {
                                 heve brukeropplevelsen av den. Hvis du opplever
                                 noe merkelig når du bruker Tavla eller har
                                 innspill eller ideer til hvordan tjenesten kan
-                                bli bedre, kan du skrive til oss på Github.
+                                bli bedre, kan du skrive til oss på GitHub.
                             </Paragraph>
                         </GridItem>
                     </GridContainer>

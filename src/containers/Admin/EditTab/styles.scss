@@ -8,9 +8,8 @@
     &__tile {
         padding: 2rem;
         background-color: var(--tavla-box-background-color);
-        &__second {
-            margin-top: 2rem;
-        }
+        display: block;
+        overflow: auto;
     }
     .eds-checkbox-icon {
         background-color: var(--tavla-checkbox-color);
@@ -57,12 +56,17 @@
         color: var(--tavla-input-icon-color);
     }
 
-    .eds-grid__item {
-        height: fit-content;
+    .eds-grid {
+        &__item {
+            height: fit-content;
 
-        h2 {
-            margin: 0;
-            color: var(--tavla-font-color);
+            h2 {
+                margin: 0;
+                color: var(--tavla-font-color);
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
         }
     }
 
