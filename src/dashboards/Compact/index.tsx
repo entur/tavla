@@ -125,11 +125,13 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                             key={index.toString()}
                             data-grid={getDataGrid(index, maxWidthCols)}
                         >
-                            <ResizeHandle
-                                size="32"
-                                className="resizeHandle"
-                                variant="light"
-                            />
+                            {!isMobileWeb() ? (
+                                <ResizeHandle
+                                    size="32"
+                                    className="resizeHandle"
+                                    variant="light"
+                                />
+                            ) : null}
                             <DepartureTile
                                 key={index}
                                 stopPlaceWithDepartures={stop}
@@ -144,11 +146,13 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                                 maxWidthCols,
                             )}
                         >
-                            <ResizeHandle
-                                size="32"
-                                className="resizeHandle"
-                                variant="light"
-                            />
+                            {!isMobileWeb() ? (
+                                <ResizeHandle
+                                    size="32"
+                                    className="resizeHandle"
+                                    variant="light"
+                                />
+                            ) : null}
                             <BikeTile stations={bikeRentalStations} />
                         </div>
                     ) : (
@@ -163,11 +167,14 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                                 maxWidthCols,
                             )}
                         >
-                            <ResizeHandle
-                                size="32"
-                                className="resizeHandle"
-                                variant="dark"
-                            />
+                            {!isMobileWeb() ? (
+                                <ResizeHandle
+                                    size="32"
+                                    className="resizeHandle"
+                                    variant="dark"
+                                />
+                            ) : null}
+
                             <MapTile
                                 scooters={scooters}
                                 stopPlaces={stopPlacesWithDepartures}
