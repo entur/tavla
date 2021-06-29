@@ -108,5 +108,20 @@
             flex-direction: column;
             align-items: baseline;
         }
+
+        .eds-tab {
+            min-width: 10rem;
+        }
+    }
+}
+@media (max-width: 480px) {
+    .admin {
+        .eds-tab-list {
+            mask-image: linear-gradient(
+                to right,
+                rgba(0, 0, 0, 1) 85%,
+                rgba(0, 0, 0, 0) 100%
+            );
+        }
     }
 }
