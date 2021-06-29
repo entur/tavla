@@ -146,8 +146,13 @@ const EditTab = (): JSX.Element => {
     return (
         <div className="edit-tab">
             <Heading2 className="heading">Rediger innhold</Heading2>
-            <GridContainer spacing="extraLarge">
-                <GridItem medium={6} small={12} className="edit-tab__tile">
+            <GridContainer spacing="large" rowSpacing="large">
+                <GridItem
+                    large={6}
+                    medium={8}
+                    small={12}
+                    className="edit-tab__tile"
+                >
                     <div className="edit-tab__header">
                         <Heading2>Kollektiv</Heading2>
                         <Switch
@@ -165,8 +170,12 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <StopPlacePanel stops={stopPlaces} />
                 </GridItem>
-
-                <GridItem medium={3} small={12} className="edit-tab__tile">
+                <GridItem
+                    large={3}
+                    medium={4}
+                    small={12}
+                    className="edit-tab__tile"
+                >
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>
                         <Switch
@@ -181,40 +190,46 @@ const EditTab = (): JSX.Element => {
                     />
                     <BikePanel stations={stations} />
                 </GridItem>
-
-                <GridItem medium={3} small={8}>
-                    <div className="edit-tab__tile">
-                        <div className="edit-tab__header">
-                            <Heading2>Sparkesykkel</Heading2>
-                            <Switch
-                                onChange={(): void =>
-                                    toggleMode('sparkesykkel')
-                                }
-                                checked={!hiddenModes?.includes('sparkesykkel')}
-                                size="large"
-                            />
-                        </div>
-                        <ScooterPanel />
-                    </div>
-                    <div className="edit-tab__tile edit-tab__tile__second">
-                        <div className="edit-tab__header">
-                            <Heading2>Kart</Heading2>
-                            <Switch
-                                onChange={(
-                                    event: React.ChangeEvent<HTMLInputElement>,
-                                ): void => {
-                                    setShowMap(event.currentTarget.checked)
-                                }}
-                                checked={showMap}
-                                size="large"
-                            />
-                        </div>
-                        <ZoomEditor
-                            zoom={zoom}
-                            onZoomUpdated={setZoom}
-                            scooters={scooters}
+                <GridItem
+                    large={3}
+                    medium={4}
+                    small={12}
+                    className="edit-tab__tile"
+                >
+                    <div className="edit-tab__header">
+                        <Heading2>Sparkesykkel</Heading2>
+                        <Switch
+                            onChange={(): void => toggleMode('sparkesykkel')}
+                            checked={!hiddenModes?.includes('sparkesykkel')}
+                            size="large"
                         />
                     </div>
+                    <ScooterPanel />
+                    <div className="edit-tab__tile edit-tab__tile__second"></div>
+                </GridItem>
+                <GridItem
+                    large={3}
+                    medium={6}
+                    small={12}
+                    className="edit-tab__tile"
+                >
+                    <div className="edit-tab__header">
+                        <Heading2>Kart</Heading2>
+                        <Switch
+                            onChange={(
+                                event: React.ChangeEvent<HTMLInputElement>,
+                            ): void => {
+                                setShowMap(event.currentTarget.checked)
+                            }}
+                            checked={showMap}
+                            size="large"
+                        />
+                    </div>
+                    <ZoomEditor
+                        zoom={zoom}
+                        onZoomUpdated={setZoom}
+                        scooters={scooters}
+                    />
                 </GridItem>
             </GridContainer>
         </div>
