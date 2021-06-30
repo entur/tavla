@@ -76,10 +76,6 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
     const totalItems = numberOfStopPlaces + bikeCol + mapCol
 
     const maxWidthCols = COLS[breakpoint]
-    console.log('Total', totalItems),
-        console.log('bikeCol', bikeCol),
-        console.log('grid', gridLayouts),
-        console.log('Stopplaces', stopPlacesWithDepartures)
     return (
         <DashboardWrapper
             className="chrono"
