@@ -59,6 +59,8 @@ const EditTab = (): JSX.Element => {
         debouncedDistance,
     )
 
+    const locationName = settings?.boardName
+
     const nearestStopPlaceIds = useMemo(
         () =>
             nearestPlaces
@@ -146,7 +148,8 @@ const EditTab = (): JSX.Element => {
     return (
         <div className="edit-tab">
             <Heading2 className="heading">
-                Viser kollektivtilbud innenfor {distance} m rundt x
+                Viser kollektivtilbud innenfor {distance} m rundt{' '}
+                {locationName?.split(',')[0]}
             </Heading2>
             <GridContainer
                 spacing="extraLarge"
@@ -169,6 +172,10 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <div className="edit-tab__set-stops">
                         <StopPlaceSearch handleAddNewStop={addNewStop} />
+                        <DistanceEditor
+                            distance={distance}
+                            onDistanceUpdated={setDistance}
+                        />
                     </div>
                     <StopPlacePanel stops={stopPlaces} />
                 </GridItem>
