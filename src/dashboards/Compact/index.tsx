@@ -47,6 +47,14 @@ function getDataGrid(
     }
 }
 
+const COLS: { [key: string]: number } = {
+    lg: 4,
+    md: 3,
+    sm: 1,
+    xs: 1,
+    xxs: 1,
+}
+
 const EnturDashboard = ({ history }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
     const [breakpoint, setBreakpoint] = useState<string>('lg')
@@ -82,15 +90,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const mapCol = hasData ? 1 : 0
     const totalItems = numberOfStopPlaces + bikeCol + mapCol
 
-    const cols: { [key: string]: number } = {
-        lg: Math.min(totalItems, 4),
-        md: Math.min(totalItems, 3),
-        sm: 1,
-        xs: 1,
-        xxs: 1,
-    }
-
-    const maxWidthCols = cols[breakpoint]
+    const maxWidthCols = COLS[breakpoint]
 
     return (
         <DashboardWrapper
@@ -103,7 +103,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
             <div className="compact__tiles">
                 <ResponsiveReactGridLayout
                     key={breakpoint}
-                    cols={cols}
+                    cols={COLS}
                     layouts={gridLayouts}
                     isResizable={!isMobileWeb()}
                     isDraggable={!isMobileWeb()}

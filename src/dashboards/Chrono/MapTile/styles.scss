@@ -1,35 +1,34 @@
-@import '../../../../assets/styles/import.scss';
-@import '../../../../variables.scss';
+@import '../../../assets/styles/import.scss';
+@import '../../../variables.scss';
 
-.chrono .tile {
+.maptile {
     height: 100%;
-    width: 100%;
+    width: inherit;
     background-color: var(--tavla-box-background-color);
     color: var(--tavla-font-color);
     flex: none;
-    padding: 2rem;
-    overflow: scroll;
+    overflow: auto;
+    overflow-x: hidden;
+    padding-top: 0;
 
     &__header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 1rem;
+        padding: 0 2rem 0 2rem; //mulig annerledes
 
         h2 {
             margin: 0;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-
-        svg {
-            margin-left: 0.5rem;
+            color: var(--tavla-font-color);
+            font-size: 32px;
         }
     }
 
     &__header-icons {
         display: flex;
         align-items: center;
+        //font-size: 2rem;
+        color: var(--colors-blues-blue60);
     }
 }

@@ -1,18 +1,25 @@
 import React, { useState } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
-import { useBikeRentalStations, useStopPlacesWithDepartures } from '../../logic'
+import {
+    useBikeRentalStations,
+    useStopPlacesWithDepartures,
+    useScooters,
+} from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
+import { DEFAULT_ZOOM } from '../../constants'
 
 import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
+import './styles.scss'
+import { useSettingsContext } from '../../settings'
+
+import MapTile from './MapTile'
 
 import BikeTile from './BikeTile'
 import DepartureTile from './DepartureTile'
-
-import './styles.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -39,6 +46,7 @@ const COLS: { [key: string]: number } = {
 }
 
 const ChronoDashboard = ({ history }: Props): JSX.Element => {
+    const [settings] = useSettingsContext()
     const dashboardKey = history.location.key
     const [breakpoint, setBreakpoint] = useState<string>('lg')
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
@@ -46,22 +54,32 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
     )
     const bikeRentalStations = useBikeRentalStations()
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
+    const scooters = useScooters()
 
-    // Remove stop places without departures
+    const hasData = Boolean(
+        bikeRentalStations?.length ||
+            scooters?.length ||
+            stopPlacesWithDepartures?.length,
+    )
+
     if (stopPlacesWithDepartures) {
         stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
             ({ departures }) => departures.length > 0,
         )
     }
-
     const numberOfStopPlaces = stopPlacesWithDepartures?.length || 0
+    const anyBikeRentalStations: number | null =
+        bikeRentalStations && bikeRentalStations.length
 
-    const anyBikeRentalStations = Boolean(
-        bikeRentalStations && bikeRentalStations.length,
-    )
+    const bikeCol = anyBikeRentalStations ? 1 : 0
+    const mapCol = hasData ? 1 : 0
+    const totalItems = numberOfStopPlaces + bikeCol + mapCol
 
     const maxWidthCols = COLS[breakpoint]
-
+    console.log('Total', totalItems),
+        console.log('bikeCol', bikeCol),
+        console.log('grid', gridLayouts),
+        console.log('Stopplaces', stopPlacesWithDepartures)
     return (
         <DashboardWrapper
             className="chrono"
@@ -112,6 +130,30 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                     ) : (
                         []
                     )}
+                    {hasData && settings?.showMap ? (
+                        <div
+                            id="compact-map-tile"
+                            key={totalItems - 1}
+                            data-grid={getDataGrid(
+                                totalItems - 1,
+                                maxWidthCols,
+                            )}
+                        >
+                            <MapTile
+                                scooters={scooters}
+                                stopPlaces={stopPlacesWithDepartures}
+                                bikeRentalStations={bikeRentalStations}
+                                walkTimes={null}
+                                latitude={settings?.coordinates?.latitude ?? 0}
+                                longitude={
+                                    settings?.coordinates?.longitude ?? 0
+                                }
+                                zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                            />
+                        </div>
+                    ) : (
+                        []
+                    )}
                 </ResponsiveReactGridLayout>
             </div>
         </DashboardWrapper>
@@ -123,3 +165,7 @@ interface Props {
 }
 
 export default ChronoDashboard
+
+/*
+
+*/
