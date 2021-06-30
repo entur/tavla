@@ -5,7 +5,7 @@ import firebase from 'firebase/app'
 import { Heading3 } from '@entur/typography'
 import { LinkIcon, ClockIcon } from '@entur/icons'
 
-import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
+import { ThemeDashboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
 import { persist } from '../../../settings/FirestoreStorage'
 import { Settings } from '../../../settings'
 
@@ -82,7 +82,7 @@ function BoardCard({
         [id, settings.boardName],
     )
 
-    const preview = ThemeDashbboardPreview(settings.theme)
+    const preview = ThemeDashboardPreview(settings.theme)
     const dashboardType = settings.dashboard || 'Chrono'
     const preferredDate = timestamp ? timestamp : created
     const timeString =

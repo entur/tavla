@@ -6,7 +6,7 @@ import { Contrast } from '@entur/layout'
 import { Heading2, Heading3 } from '@entur/typography'
 import { AddIcon } from '@entur/icons'
 
-import { ThemeDashbboardPreview } from '../../assets/icons/ThemeDashboardPreview'
+import { ThemeDashboardPreview } from '../../assets/icons/ThemeDashboardPreview'
 import { Settings } from '../../settings'
 import { getBoardsOnSnapshot } from '../../services/firebase'
 import { useUser } from '../../auth'
@@ -32,7 +32,7 @@ function sortBoard(boards: BoardProps[]): BoardProps[] {
 const MyBoards = ({ history }: Props): JSX.Element | null => {
     const [boards, setBoards] = useState<DocumentData>()
     const user = useUser()
-    const preview = ThemeDashbboardPreview(Theme.DEFAULT)
+    const preview = ThemeDashboardPreview(Theme.DEFAULT)
 
     useEffect(() => {
         if (user === null) {
