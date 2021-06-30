@@ -161,7 +161,3 @@ interface Props {
 }
 
 export default ChronoDashboard
-
-/*
-
-*/
