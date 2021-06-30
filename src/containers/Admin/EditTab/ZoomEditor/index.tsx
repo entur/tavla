@@ -29,35 +29,34 @@ function ZoomEditor(props: Props): JSX.Element {
     return (
         <div className="zoom-editor">
             <div style={{ marginBottom: '0.5rem' }}></div>
-            <div className="__map-wrapper">
-                <ReactMapGL
-                    latitude={latitude}
-                    longitude={longitude}
-                    width="auto"
-                    height="40vh"
-                    zoom={zoom || DEFAULT_ZOOM}
-                    mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
-                    mapStyle={process.env.MAPBOX_STYLE}
-                >
-                    <Marker latitude={latitude} longitude={longitude}>
-                        <PositionPin size={24} />
-                    </Marker>
-                    {props.scooters
-                        ? props.scooters.map((sctr) => (
-                              <Marker
-                                  key={sctr.id}
-                                  latitude={sctr.lat}
-                                  longitude={sctr.lon}
-                              >
-                                  <ScooterOperatorLogo
-                                      logo={sctr.operator}
-                                      size={24}
-                                  />
-                              </Marker>
-                          ))
-                        : []}
-                </ReactMapGL>
-            </div>
+            <ReactMapGL
+                latitude={latitude}
+                longitude={longitude}
+                width="auto"
+                height="40vh"
+                zoom={zoom || DEFAULT_ZOOM}
+                mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
+                mapStyle={process.env.MAPBOX_STYLE}
+                className="settings-map"
+            >
+                <Marker latitude={latitude} longitude={longitude}>
+                    <PositionPin size={24} />
+                </Marker>
+                {props.scooters
+                    ? props.scooters.map((sctr) => (
+                          <Marker
+                              key={sctr.id}
+                              latitude={sctr.lat}
+                              longitude={sctr.lon}
+                          >
+                              <ScooterOperatorLogo
+                                  logo={sctr.operator}
+                                  size={24}
+                              />
+                          </Marker>
+                      ))
+                    : []}
+            </ReactMapGL>
             <Slider
                 handleChange={handleSliderChange}
                 value={zoom}

@@ -146,7 +146,7 @@ const EditTab = (): JSX.Element => {
     return (
         <div className="edit-tab">
             <Heading2 className="heading">
-                Viser kollektivtilbud innenfor x m rundt x
+                Viser kollektivtilbud innenfor {distance} m rundt x
             </Heading2>
             <GridContainer
                 spacing="extraLarge"

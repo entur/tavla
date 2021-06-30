@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
-import { Label } from '@entur/typography'
 
 import { ALL_OPERATORS } from '../../../../constants'
 import { toggleValueInList } from '../../../../utils'
