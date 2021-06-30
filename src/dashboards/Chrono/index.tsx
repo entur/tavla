@@ -22,7 +22,12 @@ import BikeTile from './BikeTile'
 import DepartureTile from './DepartureTile'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
-
+function isMobileWeb(): boolean {
+    return (
+        typeof window.orientation !== 'undefined' ||
+        navigator.userAgent.indexOf('IEMobile') !== -1
+    )
+}
 function getDataGrid(
     index: number,
     maxWidth: number,
@@ -88,7 +93,8 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                     key={breakpoint}
                     cols={COLS}
                     layouts={gridLayouts}
-                    isResizable={true}
+                    isResizable={!isMobileWeb()}
+                    isDraggable={!isMobileWeb()}
                     onBreakpointChange={(newBreakpoint: string) => {
                         setBreakpoint(newBreakpoint)
                     }}

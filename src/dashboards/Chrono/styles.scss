@@ -128,5 +128,8 @@
             max-height: unset;
             width: 100%;
         }
+        .react-grid-item > .react-resizable-handle {
+            visibility: hidden;
+        }
     }
 }
