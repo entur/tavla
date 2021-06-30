@@ -10,6 +10,7 @@
         background-color: var(--tavla-box-background-color);
         display: block;
         overflow: auto;
+        border-radius: 16px;
     }
     .eds-checkbox-icon {
         background-color: var(--tavla-checkbox-color);
@@ -115,6 +116,9 @@
 
     .eds-dropdown__input[value=''] + .eds-form-control__append {
         display: none;
+    }
+
+    &__grid {
     }
 }
 

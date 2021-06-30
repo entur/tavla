@@ -145,8 +145,14 @@ const EditTab = (): JSX.Element => {
 
     return (
         <div className="edit-tab">
-            <Heading2 className="heading">Rediger innhold</Heading2>
-            <GridContainer spacing="large" rowSpacing="large">
+            <Heading2 className="heading">
+                Viser kollektivtilbud innenfor x m rundt x
+            </Heading2>
+            <GridContainer
+                spacing="extraLarge"
+                rowSpacing="extraLarge"
+                className="edit-tab__grid"
+            >
                 <GridItem
                     large={6}
                     medium={8}
@@ -163,10 +169,6 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <div className="edit-tab__set-stops">
                         <StopPlaceSearch handleAddNewStop={addNewStop} />
-                        <DistanceEditor
-                            distance={distance}
-                            onDistanceUpdated={setDistance}
-                        />
                     </div>
                     <StopPlacePanel stops={stopPlaces} />
                 </GridItem>
@@ -205,7 +207,6 @@ const EditTab = (): JSX.Element => {
                         />
                     </div>
                     <ScooterPanel />
-                    <div className="edit-tab__tile edit-tab__tile__second"></div>
                 </GridItem>
                 <GridItem
                     large={3}

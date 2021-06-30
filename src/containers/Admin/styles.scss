@@ -8,6 +8,9 @@
     justify-content: center;
     padding: 2rem 4rem;
     color: var(--tavla-font-color);
+    &focus {
+        outline: none;
+    }
 
     &__tabs {
         background-color: var(--tavla-background-color);
@@ -74,7 +77,7 @@
 
 .eds-tab-panel:focus,
 .eds-tab:focus {
-    outline: none;
+    outline: none !important;
 }
 
 @media (min-width: 600px) {
