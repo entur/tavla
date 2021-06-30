@@ -43,13 +43,14 @@
         }
     }
 
-    &__map-wrapper {
-        overflow: hidden !important;
+    .slider {
+        margin-top: 0.8rem;
     }
+}
 
-    .mapboxgl-map {
-        border-radius: 16px !important;
-    }
+.settings-map {
+    border-radius: 8px !important;
+    z-index: 0;
 }
 
 @media (max-width: 1000px) {
