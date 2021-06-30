@@ -6,11 +6,11 @@ import './styles.scss'
 import RadioCard from '../../../components/RadioCard'
 
 import { useSettingsContext } from '../../../settings'
-import { ThemeDashbboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
+import { ThemeDashboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
 
 const DashboardPickerTab = (): JSX.Element => {
     const [settings, { setDashboard }] = useSettingsContext()
-    const dashboardImages = ThemeDashbboardPreview(settings?.theme)
+    const dashboardImages = ThemeDashboardPreview(settings?.theme)
 
     const [radioValue, setRadioValue] = useState<string>(
         settings?.dashboard || 'Compact',
