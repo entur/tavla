@@ -1,7 +1,6 @@
 import React, { memo, useCallback } from 'react'
 import ReactMapGL, { Marker } from 'react-map-gl'
 
-import { Label } from '@entur/typography'
 import { Scooter } from '@entur/sdk'
 
 import { Slider } from '../../../../components'
@@ -29,7 +28,36 @@ function ZoomEditor(props: Props): JSX.Element {
 
     return (
         <div className="zoom-editor">
-            <Label>Juster zoom-nivå i kartet</Label>
+            <div style={{ marginBottom: '0.5rem' }}></div>
+            <div className="__map-wrapper">
+                <ReactMapGL
+                    latitude={latitude}
+                    longitude={longitude}
+                    width="auto"
+                    height="40vh"
+                    zoom={zoom || DEFAULT_ZOOM}
+                    mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
+                    mapStyle={process.env.MAPBOX_STYLE}
+                >
+                    <Marker latitude={latitude} longitude={longitude}>
+                        <PositionPin size={24} />
+                    </Marker>
+                    {props.scooters
+                        ? props.scooters.map((sctr) => (
+                              <Marker
+                                  key={sctr.id}
+                                  latitude={sctr.lat}
+                                  longitude={sctr.lon}
+                              >
+                                  <ScooterOperatorLogo
+                                      logo={sctr.operator}
+                                      size={24}
+                                  />
+                              </Marker>
+                          ))
+                        : []}
+                </ReactMapGL>
+            </div>
             <Slider
                 handleChange={handleSliderChange}
                 value={zoom}
@@ -37,34 +65,6 @@ function ZoomEditor(props: Props): JSX.Element {
                 max={18}
                 step={0.1}
             />
-            <div style={{ marginBottom: '0.5rem' }}></div>
-            <ReactMapGL
-                latitude={latitude}
-                longitude={longitude}
-                width="auto"
-                height="40vh"
-                zoom={zoom || DEFAULT_ZOOM}
-                mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
-                mapStyle={process.env.MAPBOX_STYLE}
-            >
-                <Marker latitude={latitude} longitude={longitude}>
-                    <PositionPin size={24} />
-                </Marker>
-                {props.scooters
-                    ? props.scooters.map((sctr) => (
-                          <Marker
-                              key={sctr.id}
-                              latitude={sctr.lat}
-                              longitude={sctr.lon}
-                          >
-                              <ScooterOperatorLogo
-                                  logo={sctr.operator}
-                                  size={24}
-                              />
-                          </Marker>
-                      ))
-                    : []}
-            </ReactMapGL>
         </div>
     )
 }

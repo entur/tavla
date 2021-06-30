@@ -2,7 +2,6 @@ import React from 'react'
 import { Coordinates, Feature } from '@entur/sdk'
 
 import { Dropdown } from '@entur/dropdown'
-import { Label } from '@entur/typography'
 
 import service from '../../../../service'
 
@@ -45,12 +44,11 @@ const SelectionPanelSearch = ({ handleAddNewStop }: Props): JSX.Element => {
 
     return (
         <div className="stop-place-search">
-            <Label>Stoppested</Label>
             <Dropdown
                 searchable
                 openOnFocus
                 debounceTimeout={500}
-                placeholder="Søk på stoppested for å legge til flere"
+                placeholder="Søk på stoppested for å legge til"
                 items={getItems}
                 onChange={onItemSelected}
                 highlightFirstItemOnOpen

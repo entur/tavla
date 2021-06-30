@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 import { Coordinates, BikeRentalStation } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
-import { Label } from '@entur/typography'
 
 import service from '../../../../service'
 
@@ -51,7 +50,6 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
 
     return (
         <div className="bike-search">
-            <Label>Bysykkelstativ</Label>
             <Dropdown
                 searchable
                 openOnFocus
