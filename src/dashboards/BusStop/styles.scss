@@ -12,6 +12,9 @@
             max-height: 75vh;
             overflow-y: hidden;
         }
+        .tile:last-child {
+            margin-bottom: 5rem;
+        }
     }
 }
 

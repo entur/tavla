@@ -66,8 +66,8 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
             <Table spacing="small" fixed>
                 <col style={{ width: '3%' }} />
                 <col style={{ width: '22%' }} />
-                <col style={{ width: '5%' }} />
-                <col style={{ width: '70%' }} />
+                <col style={{ width: '8%' }} />
+                <col style={{ width: '62%' }} />
                 <TableHead>
                     <TableRow>
                         <HeaderCell> </HeaderCell>

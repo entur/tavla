@@ -15,6 +15,9 @@
         padding: 2rem;
         overflow: hidden;
     }
+    &__stop:last-child {
+        margin-bottom: 5rem;
+    }
 
     &__heading {
         color: var(--tavla-font-color);
