@@ -14,5 +14,15 @@
     height: auto;
     bottom: 1.5rem;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
+    overflow-x: scroll;
+}
+.content {
+    max-width: 100%;
+}
+
+@media (max-width: 1000px) {
+    .content {
+        margin-bottom: 5rem;
+    }
 }

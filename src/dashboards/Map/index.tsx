@@ -34,7 +34,10 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
             stopPlacesWithDepartures={stopPlacesWithDepartures}
             bikeRentalStations={bikeRentalStations}
         >
-            <div style={{ height: `calc(100vh - ${headerHeight}px)` }}>
+            <div
+                style={{ height: `calc(100vh - ${headerHeight}px)` }}
+                className="content"
+            >
                 <MapView
                     scooters={scooters}
                     bikeRentalStations={bikeRentalStations}
