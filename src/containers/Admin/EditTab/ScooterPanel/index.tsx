@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
+import { Label } from '@entur/typography'
 
 import { ALL_OPERATORS } from '../../../../constants'
 import { toggleValueInList } from '../../../../utils'
@@ -27,6 +28,10 @@ function ScooterPanel(): JSX.Element {
     return (
         <Fieldset className="scooter-panel">
             <div className="scooter-panel__container">
+                <Label>
+                    Sparkesykkel krever visningstype som støtter kart.
+                </Label>
+                <br />
                 {ALL_OPERATORS.map((operator) => (
                     <div
                         key={operator + 'btn'}

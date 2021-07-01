@@ -1,8 +1,14 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react'
+import React, {
+    useState,
+    useMemo,
+    useEffect,
+    useCallback,
+    SyntheticEvent,
+} from 'react'
 import { BikeRentalStation } from '@entur/sdk'
 import { Heading2 } from '@entur/typography'
-import { GridContainer, GridItem } from '@entur/grid'
-import { Switch } from '@entur/form'
+import { Switch, TextField } from '@entur/form'
+import { WidthProvider, Responsive } from 'react-grid-layout'
 
 import { useSettingsContext, Mode } from '../../../settings'
 
@@ -27,7 +33,18 @@ import ZoomEditor from './ZoomEditor'
 
 import './styles.scss'
 
+const ResponsiveReactGridLayout = WidthProvider(Responsive)
+
+const COLS: { [key: string]: number } = {
+    lg: 4.5,
+    md: 3,
+    sm: 1,
+    xs: 1,
+    xxs: 1,
+}
+
 const EditTab = (): JSX.Element => {
+    const [breakpoint, setBreakpoint] = useState<string>('lg')
     const [settings, settingsSetters] = useSettingsContext()
     const { newStops, newStations, hiddenModes, showMap } = settings || {}
     const { setNewStops, setNewStations, setHiddenModes, setShowMap } =
@@ -35,6 +52,7 @@ const EditTab = (): JSX.Element => {
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
     )
+
     const [zoom, setZoom] = useState<number>(settings?.zoom || DEFAULT_ZOOM)
     const debouncedZoom = useDebounce(zoom, 200)
 
@@ -145,23 +163,55 @@ const EditTab = (): JSX.Element => {
         [setHiddenModes, hiddenModes],
     )
 
+    const gridLayout = {
+        lg: [
+            { i: 'busStopPanel', x: 0, y: 0, w: 1.5, h: 4.5 },
+            { i: 'bikePanel', x: 1.5, y: 0, w: 1.5, h: 3 },
+            { i: 'scooterPanel', x: 1.5, y: 1.5, w: 1.5, h: 1.5 },
+            { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 2.5 },
+        ],
+        md: [
+            { i: 'busStopPanel', x: 0, y: 0, w: 1.5, h: 4.5 },
+            { i: 'bikePanel', x: 1.5, y: 0, w: 1.5, h: 3 },
+            { i: 'scooterPanel', x: 1.5, y: 1.5, w: 1.5, h: 1.5 },
+            { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 2.5 },
+        ],
+    }
+
+    const validateInput = (e: SyntheticEvent<HTMLInputElement>) => {
+        const newDistance = Number(e.currentTarget.value)
+
+        if (1 <= newDistance && 1000 >= newDistance) {
+            setDistance(newDistance)
+        }
+    }
+
     return (
         <div className="edit-tab">
             <Heading2 className="heading">
-                Viser kollektivtilbud innenfor {distance} m rundt{' '}
-                {locationName?.split(',')[0]}
+                Viser kollektivtilbud innenfor
+                <TextField
+                    className="edit-tab__radiusInput"
+                    size="large"
+                    defaultValue={distance}
+                    pattern="[0-9]*"
+                    onInput={validateInput}
+                />
+                m rundt {locationName?.split(',')[0]}
             </Heading2>
-            <GridContainer
-                spacing="extraLarge"
-                rowSpacing="extraLarge"
-                className="edit-tab__grid"
+            <ResponsiveReactGridLayout
+                key={breakpoint}
+                cols={COLS}
+                layouts={gridLayout}
+                autoSize={true}
+                margin={[32, 32]}
+                isResizable={false}
+                isDraggable={false}
+                onBreakpointChange={(newBreakpoint: string) => {
+                    setBreakpoint(newBreakpoint)
+                }}
             >
-                <GridItem
-                    large={6}
-                    medium={8}
-                    small={12}
-                    className="edit-tab__tile"
-                >
+                <div key="busStopPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kollektiv</Heading2>
                         <Switch
@@ -172,19 +222,10 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <div className="edit-tab__set-stops">
                         <StopPlaceSearch handleAddNewStop={addNewStop} />
-                        <DistanceEditor
-                            distance={distance}
-                            onDistanceUpdated={setDistance}
-                        />
                     </div>
                     <StopPlacePanel stops={stopPlaces} />
-                </GridItem>
-                <GridItem
-                    large={3}
-                    medium={4}
-                    small={12}
-                    className="edit-tab__tile"
-                >
+                </div>
+                <div key="bikePanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>
                         <Switch
@@ -198,13 +239,8 @@ const EditTab = (): JSX.Element => {
                         onSelected={addNewStation}
                     />
                     <BikePanel stations={stations} />
-                </GridItem>
-                <GridItem
-                    large={3}
-                    medium={4}
-                    small={12}
-                    className="edit-tab__tile"
-                >
+                </div>
+                <div key="scooterPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Sparkesykkel</Heading2>
                         <Switch
@@ -214,13 +250,8 @@ const EditTab = (): JSX.Element => {
                         />
                     </div>
                     <ScooterPanel />
-                </GridItem>
-                <GridItem
-                    large={3}
-                    medium={6}
-                    small={12}
-                    className="edit-tab__tile"
-                >
+                </div>
+                <div key="mapPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kart</Heading2>
                         <Switch
@@ -238,8 +269,8 @@ const EditTab = (): JSX.Element => {
                         onZoomUpdated={setZoom}
                         scooters={scooters}
                     />
-                </GridItem>
-            </GridContainer>
+                </div>
+            </ResponsiveReactGridLayout>
         </div>
     )
 }

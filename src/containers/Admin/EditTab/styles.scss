@@ -5,8 +5,24 @@
     .eds-contrast {
         background: inherit;
     }
+    &__radiusInput {
+        display: inline-block;
+        width: 8rem;
+        background-color: transparent !important;
+        margin: auto 0;
+        // border-bottom: 5px dotted var(--tavla-input-dotted-border-color);
+
+        .eds-form-control,
+        .eds-form-control__append {
+            text-align: center;
+            margin: 0;
+            font-size: 2rem;
+            color: var(--tavla-font-color);
+        }
+    }
     &__tile {
         padding: 2rem;
+        padding-top: 0;
         background-color: var(--tavla-box-background-color);
         display: block;
         overflow: auto;
@@ -74,10 +90,6 @@
     &__header {
         display: flex;
         justify-content: space-between;
-
-        &--spacing {
-            margin-top: 2rem;
-        }
 
         .eds-switch {
             padding: 0;
