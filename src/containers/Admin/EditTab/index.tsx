@@ -23,7 +23,6 @@ import { StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces, useScooters } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
 
-import DistanceEditor from './DistanceEditor'
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
@@ -41,6 +40,21 @@ const COLS: { [key: string]: number } = {
     sm: 1,
     xs: 1,
     xxs: 1,
+}
+
+const LAYOUT = {
+    lg: [
+        { i: 'busStopPanel', x: 0, y: 0, w: 1.5, h: 4.5 },
+        { i: 'bikePanel', x: 1.5, y: 0, w: 1.5, h: 3 },
+        { i: 'scooterPanel', x: 1.5, y: 1.5, w: 1.5, h: 1.5 },
+        { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 2.5 },
+    ],
+    md: [
+        { i: 'busStopPanel', x: 0, y: 0, w: 2, h: 4.5 },
+        { i: 'bikePanel', x: 2, y: 0, w: 1, h: 3 },
+        { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.5 },
+        { i: 'mapPanel', x: 0, y: 4.5, w: 3, h: 3 },
+    ],
 }
 
 const EditTab = (): JSX.Element => {
@@ -163,21 +177,6 @@ const EditTab = (): JSX.Element => {
         [setHiddenModes, hiddenModes],
     )
 
-    const gridLayout = {
-        lg: [
-            { i: 'busStopPanel', x: 0, y: 0, w: 1.5, h: 4.5 },
-            { i: 'bikePanel', x: 1.5, y: 0, w: 1.5, h: 3 },
-            { i: 'scooterPanel', x: 1.5, y: 1.5, w: 1.5, h: 1.5 },
-            { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 2.5 },
-        ],
-        md: [
-            { i: 'busStopPanel', x: 0, y: 0, w: 1.5, h: 4.5 },
-            { i: 'bikePanel', x: 1.5, y: 0, w: 1.5, h: 3 },
-            { i: 'scooterPanel', x: 1.5, y: 1.5, w: 1.5, h: 1.5 },
-            { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 2.5 },
-        ],
-    }
-
     const validateInput = (e: SyntheticEvent<HTMLInputElement>) => {
         const newDistance = Number(e.currentTarget.value)
 
@@ -202,7 +201,7 @@ const EditTab = (): JSX.Element => {
             <ResponsiveReactGridLayout
                 key={breakpoint}
                 cols={COLS}
-                layouts={gridLayout}
+                layouts={LAYOUT}
                 autoSize={true}
                 margin={[32, 32]}
                 isResizable={false}

@@ -87,6 +87,10 @@
         }
     }
 
+    .react-grid-layout {
+        padding: 0;
+    }
+
     &__header {
         display: flex;
         justify-content: space-between;
