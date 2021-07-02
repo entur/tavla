@@ -13,7 +13,6 @@
         .eds-form-control,
         .eds-form-control__append {
             font-size: inherit;
-
             white-space: nowrap;
             text-align: center;
             padding: 0;
@@ -23,14 +22,13 @@
     &__inputWrapper {
         display: inline-block;
         width: 10rem;
-        // border-bottom: 5px dotted var(--tavla-input-dotted-border-color) !important;
     }
 
-    &__inputWrapper:after {
-        content: ''; /* This is necessary for the pseudo element to work. */
-        display: block; /* This will put the pseudo element on its own line. */
-        margin: 0 auto; /* This will center the border. */
-        width: 7rem; /* Change this to whatever width you want. */
+    &__inputWrapper::after {
+        content: '';
+        display: block;
+        margin: 0 auto;
+        width: 7rem;
         border-bottom: 5px dotted var(--tavla-input-dotted-border-color) !important; /* This creates the border. Replace black with whatever color you want. */
     }
 
