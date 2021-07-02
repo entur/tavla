@@ -8,9 +8,6 @@
     justify-content: center;
     padding: 2rem 4rem;
     color: var(--tavla-font-color);
-    &focus {
-        outline: none;
-    }
 
     &__tabs {
         background-color: var(--tavla-background-color);

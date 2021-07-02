@@ -185,7 +185,6 @@ const EditTab = (): JSX.Element => {
 
     const validateInput = (e: SyntheticEvent<HTMLInputElement>) => {
         const newDistance = Number(e.currentTarget.value)
-        console.log(e.currentTarget)
         if (1 <= newDistance && 1000 >= newDistance) {
             setDistance(newDistance)
         } else if (newDistance < 1) {
@@ -202,7 +201,7 @@ const EditTab = (): JSX.Element => {
                 <div className="edit-tab__inputWrapper">
                     <Heading2 className="heading" margin="none">
                         <TextField
-                            className="edit-tab__radiusInput"
+                            className="edit-tab__radius-input"
                             size="large"
                             defaultValue={distance}
                             onKeyDown={validateInput}
