@@ -44,16 +44,22 @@ const COLS: { [key: string]: number } = {
 
 const LAYOUT = {
     lg: [
-        { i: 'busStopPanel', x: 0, y: 0, w: 1.5, h: 4.5 },
+        { i: 'busStopPanel', x: 0, y: 0, w: 1.5, h: 4.3 },
         { i: 'bikePanel', x: 1.5, y: 0, w: 1.5, h: 3 },
-        { i: 'scooterPanel', x: 1.5, y: 1.5, w: 1.5, h: 1.5 },
-        { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 2.5 },
+        { i: 'scooterPanel', x: 1.5, y: 1.5, w: 1.5, h: 1.3 },
+        { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 3.3 },
     ],
     md: [
-        { i: 'busStopPanel', x: 0, y: 0, w: 2, h: 4.5 },
+        { i: 'busStopPanel', x: 0, y: 0, w: 2, h: 4.7 },
         { i: 'bikePanel', x: 2, y: 0, w: 1, h: 3 },
-        { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.5 },
+        { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.7 },
         { i: 'mapPanel', x: 0, y: 4.5, w: 3, h: 3 },
+    ],
+    sm: [
+        { i: 'busStopPanel', x: 0, y: 0, w: 1, h: 3 },
+        { i: 'bikePanel', x: 0, y: 3, w: 1, h: 2 },
+        { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.3 },
+        { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
     ],
 }
 
@@ -179,9 +185,13 @@ const EditTab = (): JSX.Element => {
 
     const validateInput = (e: SyntheticEvent<HTMLInputElement>) => {
         const newDistance = Number(e.currentTarget.value)
-
+        console.log(e.currentTarget)
         if (1 <= newDistance && 1000 >= newDistance) {
             setDistance(newDistance)
+        } else if (newDistance < 1) {
+            setDistance(1)
+        } else {
+            setDistance(1000)
         }
     }
 
@@ -189,14 +199,23 @@ const EditTab = (): JSX.Element => {
         <div className="edit-tab">
             <Heading2 className="heading">
                 Viser kollektivtilbud innenfor
-                <TextField
-                    className="edit-tab__radiusInput"
-                    size="large"
-                    defaultValue={distance}
-                    pattern="[0-9]*"
-                    onInput={validateInput}
-                />
-                m rundt {locationName?.split(',')[0]}
+                <div className="edit-tab__inputWrapper">
+                    <Heading2 className="heading" margin="none">
+                        <TextField
+                            className="edit-tab__radiusInput"
+                            size="large"
+                            defaultValue={distance}
+                            onKeyDown={validateInput}
+                            append="m"
+                            type="number"
+                            max={1000}
+                            min={1}
+                            maxLength={4}
+                            minLength={1}
+                        />
+                    </Heading2>
+                </div>
+                rundt {locationName?.split(',')[0]}
             </Heading2>
             <ResponsiveReactGridLayout
                 key={breakpoint}

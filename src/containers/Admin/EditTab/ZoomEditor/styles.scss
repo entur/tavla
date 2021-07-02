@@ -3,6 +3,7 @@
 
 .zoom-editor {
     width: 400px;
+    height: 70%;
     display: flex;
     flex-direction: column;
 
@@ -51,6 +52,7 @@
 .settings-map {
     border-radius: 8px !important;
     z-index: 0;
+    padding-top: 0;
 }
 
 @media (max-width: 1000px) {

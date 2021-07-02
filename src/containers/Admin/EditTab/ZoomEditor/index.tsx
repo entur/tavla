@@ -28,12 +28,11 @@ function ZoomEditor(props: Props): JSX.Element {
 
     return (
         <div className="zoom-editor">
-            <div style={{ marginBottom: '0.5rem' }}></div>
             <ReactMapGL
                 latitude={latitude}
                 longitude={longitude}
                 width="auto"
-                height="40vh"
+                height="100%"
                 zoom={zoom || DEFAULT_ZOOM}
                 mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
                 mapStyle={process.env.MAPBOX_STYLE}

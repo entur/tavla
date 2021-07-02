@@ -5,21 +5,47 @@
     .eds-contrast {
         background: inherit;
     }
+
     &__radiusInput {
-        display: inline-block;
-        width: 8rem;
         background-color: transparent !important;
-        margin: auto 0;
-        // border-bottom: 5px dotted var(--tavla-input-dotted-border-color);
+        color: var(--tavla-font-color);
 
         .eds-form-control,
         .eds-form-control__append {
+            font-size: inherit;
+
+            white-space: nowrap;
             text-align: center;
-            margin: 0;
-            font-size: 2rem;
-            color: var(--tavla-font-color);
+            padding: 0;
         }
     }
+
+    &__inputWrapper {
+        display: inline-block;
+        width: 10rem;
+        // border-bottom: 5px dotted var(--tavla-input-dotted-border-color) !important;
+    }
+
+    &__inputWrapper:after {
+        content: ''; /* This is necessary for the pseudo element to work. */
+        display: block; /* This will put the pseudo element on its own line. */
+        margin: 0 auto; /* This will center the border. */
+        width: 7rem; /* Change this to whatever width you want. */
+        border-bottom: 5px dotted var(--tavla-input-dotted-border-color) !important; /* This creates the border. Replace black with whatever color you want. */
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    .eds-form-control::-webkit-outer-spin-button,
+    .eds-form-control::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    .eds-form-control[type='number'] {
+        -moz-appearance: textfield;
+    }
+
     &__tile {
         padding: 2rem;
         padding-top: 0;
