@@ -24,13 +24,12 @@
         }
     }
     .eds-icon {
-        width: fit-content;
         overflow: visible;
+        align-items: flex-end;
     }
     &__header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
         margin-bottom: 1rem;
 
         h2 {
@@ -43,6 +42,7 @@
     }
     &__header__icons {
         font-size: 2rem;
+        float: right;
     }
     &__header__header3 {
         overflow: hidden;

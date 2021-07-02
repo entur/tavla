@@ -34,5 +34,8 @@
             width: 100%;
             overflow-y: scroll;
         }
+        &__mapTile {
+            max-height: 60vh;
+        }
     }
 }
