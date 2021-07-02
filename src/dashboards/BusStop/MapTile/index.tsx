@@ -1,6 +1,5 @@
 import React from 'react'
 import 'mapbox-gl/dist/mapbox-gl.css'
-
 import { BikeRentalStation, Scooter } from '@entur/sdk'
 
 import MapView from '../../../components/Map'

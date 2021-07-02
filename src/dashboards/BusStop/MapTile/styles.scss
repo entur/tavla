@@ -14,9 +14,10 @@
     &__header {
         display: flex;
         justify-content: space-between;
+        float: left;
         align-items: center;
         margin-bottom: 1rem;
-        padding: 0 2rem 0 2rem; //mulig annerledes
+        padding: 0 2rem 0 2rem;
 
         h2 {
             margin: 0;
@@ -28,7 +29,6 @@
     &__header-icons {
         display: flex;
         align-items: center;
-        //font-size: 2rem;
         color: var(--colors-blues-blue60);
     }
 }

@@ -3,12 +3,30 @@
 
 .busStop .tile {
     width: 100%;
+    height: fit-content;
     background-color: var(--tavla-box-background-color);
     color: var(--tavla-font-color);
     flex: none;
     padding: 2rem;
     overflow: auto;
 
+    .eds-table {
+        &__row {
+            overflow-x: line-break;
+        }
+    }
+
+    .tilerow {
+        &__sublabel {
+            &__situation {
+                font-size: 100%;
+            }
+        }
+    }
+    .eds-icon {
+        width: fit-content;
+        overflow: visible;
+    }
     &__header {
         display: flex;
         justify-content: space-between;
@@ -23,9 +41,13 @@
             margin-left: 0.5rem;
         }
     }
-
     &__header__icons {
         font-size: 2rem;
+    }
+    &__header__header3 {
+        overflow: hidden;
+        white-space: wrap;
+        text-overflow: ellipsis;
     }
 }
 

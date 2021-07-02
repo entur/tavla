@@ -64,9 +64,9 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                 <div className="tile__header__icons">{headerIcons}</div>
             </header>
             <Table spacing="small" fixed>
-                <col style={{ width: '3%' }} />
+                <col style={{ width: '4%', minWidth: '2rem' }} />
                 <col style={{ width: '22%' }} />
-                <col style={{ width: '9%' }} />
+                <col style={{ width: '9%', minWidth: '5rem' }} />
                 <col style={{ width: '66%' }} />
                 <TableHead>
                     <TableRow>
@@ -91,7 +91,9 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                                 </Heading3>
                             </DataCell>
                             <DataCell>
-                                <Heading3>{data.route}</Heading3>
+                                <Heading3 className="tile__header__header3">
+                                    {data.route}
+                                </Heading3>
                             </DataCell>
                             <DataCell>{data.time}</DataCell>
                             <DataCell>
