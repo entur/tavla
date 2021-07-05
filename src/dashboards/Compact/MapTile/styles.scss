@@ -2,8 +2,8 @@
 @import '../../../variables.scss';
 
 .maptile {
-    height: 100%;
-    width: 25rem;
+    height: 400px;
+    width: inherit;
     background-color: var(--tavla-box-background-color);
     flex: none;
     overflow: scroll;
