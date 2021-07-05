@@ -47,6 +47,14 @@ function getDataGrid(
     }
 }
 
+const BREAKPOINTS = {
+    lg: 1200,
+    md: 996,
+    sm: 768,
+    xs: 480,
+    xxs: 0,
+}
+
 const COLS: { [key: string]: number } = {
     lg: 4,
     md: 3,
@@ -92,6 +100,29 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const maxWidthCols = COLS[breakpoint]
 
+    if (window.innerWidth < BREAKPOINTS.md) {
+        return (
+            <DashboardWrapper
+                className="compact"
+                history={history}
+                bikeRentalStations={bikeRentalStations}
+                stopPlacesWithDepartures={stopPlacesWithDepartures}
+                scooters={scooters}
+            >
+                <div className="compact__tiles">
+                    {(stopPlacesWithDepartures || []).map((stop, index) => (
+                        <div key={index.toString()}>
+                            <DepartureTile
+                                key={index}
+                                stopPlaceWithDepartures={stop}
+                            />
+                        </div>
+                    ))}
+                </div>
+            </DashboardWrapper>
+        )
+    }
+
     return (
         <DashboardWrapper
             className="compact"
@@ -103,6 +134,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
             <div className="compact__tiles">
                 <ResponsiveReactGridLayout
                     key={breakpoint}
+                    breakpoints={BREAKPOINTS}
                     cols={COLS}
                     layouts={gridLayouts}
                     isResizable={!isMobileWeb()}
@@ -125,13 +157,11 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                             key={index.toString()}
                             data-grid={getDataGrid(index, maxWidthCols)}
                         >
-                            {!isMobileWeb() ? (
-                                <ResizeHandle
-                                    size="32"
-                                    className="resizeHandle"
-                                    variant="light"
-                                />
-                            ) : null}
+                            <ResizeHandle
+                                size="32"
+                                className="resizeHandle"
+                                variant="light"
+                            />
                             <DepartureTile
                                 key={index}
                                 stopPlaceWithDepartures={stop}
