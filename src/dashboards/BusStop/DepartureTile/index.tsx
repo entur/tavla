@@ -80,20 +80,20 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                     }
                 />
                 <col
-                    style={!isMobileWeb() ? { width: '26%' } : { width: '46%' }}
+                    style={!isMobileWeb() ? { width: '26%' } : { width: '38%' }}
                 />
                 <col
                     style={
                         !isMobileWeb()
                             ? { width: '9%', minWidth: '5rem' }
-                            : { width: '28%' }
+                            : { width: '31%' }
                     }
                 />
                 <col
-                    style={!isMobileWeb() ? { width: '62%' } : { width: '11%' }}
+                    style={!isMobileWeb() ? { width: '62%' } : { width: '16%' }}
                 />
                 <TableHead>
-                    <TableRow>
+                    <TableRow className="tableRow">
                         <HeaderCell> </HeaderCell>
                         <HeaderCell>Linje</HeaderCell>
                         <HeaderCell>Avgang</HeaderCell>
