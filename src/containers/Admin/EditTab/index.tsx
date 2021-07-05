@@ -198,21 +198,19 @@ const EditTab = (): JSX.Element => {
         <div className="edit-tab">
             <Heading2 className="heading">
                 Viser kollektivtilbud innenfor
-                <div className="edit-tab__inputWrapper">
-                    <Heading2 className="heading" margin="none">
-                        <TextField
-                            className="edit-tab__radius-input"
-                            size="large"
-                            defaultValue={distance}
-                            onKeyDown={validateInput}
-                            append="m"
-                            type="number"
-                            max={1000}
-                            min={1}
-                            maxLength={4}
-                            minLength={1}
-                        />
-                    </Heading2>
+                <div className="edit-tab__input-wrapper">
+                    <TextField
+                        className="edit-tab__expanding-text-field heading"
+                        size="large"
+                        defaultValue={distance}
+                        onKeyDown={validateInput}
+                        append="m"
+                        type="number"
+                        max={1000}
+                        min={1}
+                        maxLength={4}
+                        minLength={1}
+                    />
                 </div>
                 rundt {locationName?.split(',')[0]}
             </Heading2>
