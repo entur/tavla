@@ -93,13 +93,13 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
     if (window.innerWidth < BREAKPOINTS.md) {
         return (
             <DashboardWrapper
-                className="compact"
+                className="chrono"
                 history={history}
                 bikeRentalStations={bikeRentalStations}
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
                 scooters={scooters}
             >
-                <div className="compact__tiles">
+                <div className="chrono__tiles">
                     {(stopPlacesWithDepartures || []).map((stop, index) => (
                         <div key={index.toString()}>
                             <DepartureTile
@@ -108,6 +108,32 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                             />
                         </div>
                     ))}
+
+                    {bikeRentalStations && anyBikeRentalStations ? (
+                        <div key={numberOfStopPlaces.toString()}>
+                            <BikeTile stations={bikeRentalStations} />
+                        </div>
+                    ) : (
+                        []
+                    )}
+
+                    {hasData && settings?.showMap ? (
+                        <div id="compact-map-tile" key={totalItems - 1}>
+                            <MapTile
+                                scooters={scooters}
+                                stopPlaces={stopPlacesWithDepartures}
+                                bikeRentalStations={bikeRentalStations}
+                                walkTimes={null}
+                                latitude={settings?.coordinates?.latitude ?? 0}
+                                longitude={
+                                    settings?.coordinates?.longitude ?? 0
+                                }
+                                zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                            />
+                        </div>
+                    ) : (
+                        []
+                    )}
                 </div>
             </DashboardWrapper>
         )
