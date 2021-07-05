@@ -5,12 +5,34 @@
     .eds-contrast {
         background: inherit;
     }
+
+    .eds-form-control,
+    .eds-form-control__append {
+        font-size: inherit;
+        white-space: nowrap;
+        text-align: center;
+        padding: 0;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    .eds-form-control::-webkit-outer-spin-button,
+    .eds-form-control::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    .eds-form-control[type='number'] {
+        -moz-appearance: textfield;
+    }
+
     &__tile {
         padding: 2rem;
+        padding-top: 0;
         background-color: var(--tavla-box-background-color);
-        &__second {
-            margin-top: 2rem;
-        }
+        display: block;
+        overflow: auto;
+        border-radius: 16px;
     }
     .eds-checkbox-icon {
         background-color: var(--tavla-checkbox-color);
@@ -57,26 +79,51 @@
         color: var(--tavla-input-icon-color);
     }
 
-    .eds-grid__item {
-        height: fit-content;
+    .eds-grid {
+        &__item {
+            height: fit-content;
 
-        h2 {
-            margin: 0;
-            color: var(--tavla-font-color);
+            h2 {
+                margin: 0;
+                color: var(--tavla-font-color);
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
         }
+    }
+
+    .react-grid-layout {
+        padding: 0;
     }
 
     &__header {
         display: flex;
         justify-content: space-between;
 
-        &--spacing {
-            margin-top: 2rem;
-        }
-
         .eds-switch {
             padding: 0;
         }
+    }
+
+    &__expanding-text-field {
+        font-size: inherit;
+    }
+
+    &__expanding-text-field.eds-form-control-wrapper {
+        background-color: transparent;
+    }
+
+    &__input-wrapper {
+        display: inline-block;
+    }
+
+    &__input-wrapper::after {
+        content: '';
+        display: block;
+        margin: 0 auto;
+        width: 7.5rem;
+        border-bottom: 5px dotted var(--tavla-input-dotted-border-color);
     }
 
     &__set-stops {

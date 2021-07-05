@@ -1,7 +1,6 @@
 import React, { memo, useCallback } from 'react'
 import ReactMapGL, { Marker } from 'react-map-gl'
 
-import { Label } from '@entur/typography'
 import { Scooter } from '@entur/sdk'
 
 import { Slider } from '../../../../components'
@@ -29,23 +28,15 @@ function ZoomEditor(props: Props): JSX.Element {
 
     return (
         <div className="zoom-editor">
-            <Label>Juster zoom-nivå i kartet</Label>
-            <Slider
-                handleChange={handleSliderChange}
-                value={zoom}
-                min={13.5}
-                max={18}
-                step={0.1}
-            />
-            <div style={{ marginBottom: '0.5rem' }}></div>
             <ReactMapGL
                 latitude={latitude}
                 longitude={longitude}
                 width="auto"
-                height="40vh"
+                height="100%"
                 zoom={zoom || DEFAULT_ZOOM}
                 mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
                 mapStyle={process.env.MAPBOX_STYLE}
+                className="settings-map"
             >
                 <Marker latitude={latitude} longitude={longitude}>
                     <PositionPin size={24} />
@@ -65,6 +56,13 @@ function ZoomEditor(props: Props): JSX.Element {
                       ))
                     : []}
             </ReactMapGL>
+            <Slider
+                handleChange={handleSliderChange}
+                value={zoom}
+                min={13.5}
+                max={18}
+                step={0.1}
+            />
         </div>
     )
 }
