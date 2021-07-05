@@ -1,6 +1,8 @@
 @import '../../assets/styles/import.scss';
 
 .busStop {
+    margin-bottom: 5rem;
+
     &__tiles {
         display: flex;
         flex-direction: column;
@@ -8,13 +10,13 @@
 
         .tile {
             margin-right: 2rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             max-height: 75vh;
             overflow-y: hidden;
         }
-        .tile:last-child {
-            margin-bottom: 5rem;
-        }
+    }
+    &__mapTile {
+        height: 75vh;
     }
 }
 
@@ -26,11 +28,14 @@
         &__tiles {
             display: block;
         }
-
         .tile {
             margin-bottom: 1rem;
-            max-height: unset;
+            max-height: 60vh;
             width: 100%;
+            overflow-y: scroll;
+        }
+        &__mapTile {
+            max-height: 60vh;
         }
     }
 }
