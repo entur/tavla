@@ -27,6 +27,7 @@
 
         &__tiles {
             display: block;
+            padding: 0.5rem;
         }
         .tile {
             margin-bottom: 1rem;
@@ -36,6 +37,19 @@
         }
         &__mapTile {
             max-height: 60vh;
+        }
+        .eds-table--small {
+            .eds-table__data-cell {
+                padding: 0;
+            }
+        }
+        .eds-table {
+            &__header_cell {
+                justify-content: left;
+            }
+            &__row {
+                align-items: left;
+            }
         }
     }
 }

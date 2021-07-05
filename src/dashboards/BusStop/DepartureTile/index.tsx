@@ -27,6 +27,7 @@ import {
 import SubLabelIcon from '../components/SubLabelIcon'
 import './styles.scss'
 import { useSettingsContext } from '../../../settings'
+import ExclamationIcon from '../../../components/ExclamationIcon/exclamation'
 
 function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     const transportModes = unique(
@@ -41,6 +42,13 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     }))
 
     return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
+}
+
+function isMobileWeb(): boolean {
+    return (
+        typeof window.orientation !== 'undefined' ||
+        navigator.userAgent.indexOf('IEMobile') !== -1
+    )
 }
 
 const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
@@ -64,10 +72,26 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                 <div className="tile__header__icons">{headerIcons}</div>
             </header>
             <Table spacing="small" fixed>
-                <col style={{ width: '4%', minWidth: '2rem' }} />
-                <col style={{ width: '22%' }} />
-                <col style={{ width: '9%', minWidth: '5rem' }} />
-                <col style={{ width: '66%' }} />
+                <col
+                    style={
+                        !isMobileWeb()
+                            ? { width: '4%', minWidth: '2rem' }
+                            : { width: '15%' }
+                    }
+                />
+                <col
+                    style={!isMobileWeb() ? { width: '26%' } : { width: '46%' }}
+                />
+                <col
+                    style={
+                        !isMobileWeb()
+                            ? { width: '9%', minWidth: '5rem' }
+                            : { width: '28%' }
+                    }
+                />
+                <col
+                    style={!isMobileWeb() ? { width: '62%' } : { width: '11%' }}
+                />
                 <TableHead>
                     <TableRow>
                         <HeaderCell> </HeaderCell>
@@ -97,9 +121,13 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                             </DataCell>
                             <DataCell>{data.time}</DataCell>
                             <DataCell>
-                                <SubLabelIcon
-                                    subLabel={createTileSubLabel(data)}
-                                />
+                                {isMobileWeb() ? (
+                                    <ExclamationIcon data={data} />
+                                ) : (
+                                    <SubLabelIcon
+                                        subLabel={createTileSubLabel(data)}
+                                    />
+                                )}
                             </DataCell>
                         </TableRow>
                     ))}
