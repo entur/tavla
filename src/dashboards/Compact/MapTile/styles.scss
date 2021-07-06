@@ -2,7 +2,7 @@
 @import '../../../variables.scss';
 
 .maptile {
-    height: 400px;
+    height: inherit;
     width: inherit;
     background-color: var(--tavla-box-background-color);
     flex: none;
