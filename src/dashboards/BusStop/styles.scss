@@ -49,14 +49,7 @@
         .eds-table--small {
             .eds-table__data-cell {
                 padding: 0;
-            }
-        }
-        .eds-table {
-            &__header_cell {
                 justify-content: left;
-            }
-            &__row {
-                align-items: left;
             }
         }
     }

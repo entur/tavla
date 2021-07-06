@@ -54,12 +54,10 @@
         }
         &__header-cell {
             align-items: left;
+            padding: 0;
         }
         &__data-cell {
             align-items: left;
-        }
-        &__header-cell {
-            padding: 0;
         }
         .eds-table__header-cell {
             padding: 0 0;
