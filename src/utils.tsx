@@ -239,11 +239,6 @@ export function createTileSubLabel({
         time,
     }
 }
-/*export function createTileSubLabelIcon({ situation }: LineData): TileSubLabel {
-    return {
-        situation,
-    }
-}*/
 
 export function toggleValueInList<T>(list: T[], item: T): T[] {
     if (list.includes(item)) {
