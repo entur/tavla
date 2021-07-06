@@ -13,6 +13,13 @@
             max-height: 75vh;
             overflow-y: scroll;
         }
+
+        .maptile {
+            height: inherit;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
     }
 
     .react-grid-layout {
@@ -125,6 +132,13 @@
 
         .tile {
             margin-bottom: 1rem;
+            max-height: unset;
+            width: 100%;
+        }
+
+        .maptile {
+            margin-bottom: 1rem;
+            height: 630px;
             max-height: unset;
             width: 100%;
         }

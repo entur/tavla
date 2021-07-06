@@ -16,6 +16,7 @@
         }
 
         .maptile {
+            height: inherit;
             width: 100%;
             overflow: hidden;
             margin-bottom: 1rem;
@@ -156,6 +157,7 @@
         }
         .maptile {
             margin-bottom: 1rem;
+            height: 630px;
             max-height: unset;
             width: 100%;
         }
