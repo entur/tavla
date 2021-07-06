@@ -58,6 +58,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
+    const isMobile = isMobileWeb()
 
     useEffect(() => {
         if (settings) {
@@ -73,24 +74,20 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
             <Table spacing="small" fixed>
                 <col
                     style={
-                        !isMobileWeb()
+                        !isMobile
                             ? { width: '4%', minWidth: '2rem' }
                             : { width: '15%' }
                     }
                 />
-                <col
-                    style={!isMobileWeb() ? { width: '26%' } : { width: '38%' }}
-                />
+                <col style={!isMobile ? { width: '26%' } : { width: '38%' }} />
                 <col
                     style={
-                        !isMobileWeb()
+                        !isMobile
                             ? { width: '9%', minWidth: '5rem' }
                             : { width: '31%' }
                     }
                 />
-                <col
-                    style={!isMobileWeb() ? { width: '62%' } : { width: '16%' }}
-                />
+                <col style={!isMobile ? { width: '62%' } : { width: '16%' }} />
                 <TableHead>
                     <TableRow className="tableRow">
                         <HeaderCell> </HeaderCell>
@@ -101,7 +98,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                 </TableHead>
                 <TableBody>
                     {departures.map((data) => (
-                        <TableRow key={data.id + Math.random()}>
+                        <TableRow key={data.id}>
                             <DataCell>
                                 <Heading3>
                                     <div>
@@ -120,8 +117,10 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                             </DataCell>
                             <DataCell>{data.time}</DataCell>
                             <DataCell>
-                                {isMobileWeb() && data?.situation ? (
-                                    <ExclamationIcon data={data} />
+                                {isMobile && data?.situation ? (
+                                    <ExclamationIcon
+                                        alertMessage={data?.situation}
+                                    />
                                 ) : (
                                     <SubLabelIcon
                                         subLabel={createTileSubLabel(data)}
