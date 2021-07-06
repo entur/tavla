@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import {
@@ -17,6 +17,7 @@ import {
 import { useSettingsContext } from '../../settings'
 
 import { DEFAULT_ZOOM } from '../../constants'
+import { usePrevious } from '../../utils'
 
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
@@ -63,6 +64,29 @@ const COLS: { [key: string]: number } = {
     xxs: 1,
 }
 
+function getTileOrderFromLayout(
+    layout: Layouts | undefined,
+    breakpoint: string,
+): string[] {
+    if (layout) {
+        const sortedLayout = layout[breakpoint]
+            .sort((a, b) => {
+                const yDiff = a.y - b.y
+                if (yDiff !== 0) {
+                    return yDiff
+                }
+                return a.x - b.x
+            })
+            .map((item) => {
+                return item.i
+            })
+
+        console.log(sortedLayout)
+        return sortedLayout
+    }
+    return []
+}
+
 const EnturDashboard = ({ history }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
     const [breakpoint, setBreakpoint] = useState<string>('lg')
@@ -70,6 +94,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey),
     )
+
+    const [tileOrder, setTileOrder] = useState<string[]>([])
 
     const bikeRentalStations = useBikeRentalStations()
 
@@ -100,6 +126,34 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const maxWidthCols = COLS[breakpoint]
 
+    const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
+
+    useEffect(() => {
+        const defaultTileOrder: string[] = []
+        if (stopPlacesWithDepartures) {
+            if (stopPlacesWithDepartures.length == prevNumberOfStopPlaces) {
+                return
+            }
+            stopPlacesWithDepartures.map((item) => {
+                defaultTileOrder.push(item.id)
+            })
+            setTileOrder(defaultTileOrder)
+        }
+        if (anyBikeRentalStations) {
+            defaultTileOrder.push('city-bike')
+            setTileOrder(defaultTileOrder)
+        }
+        if (mapCol) {
+            defaultTileOrder.push('map')
+            setTileOrder(defaultTileOrder)
+        }
+    }, [
+        stopPlacesWithDepartures,
+        prevNumberOfStopPlaces,
+        anyBikeRentalStations,
+        mapCol,
+    ])
+
     if (window.innerWidth < BREAKPOINTS.md) {
         return (
             <DashboardWrapper
@@ -110,38 +164,53 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 scooters={scooters}
             >
                 <div className="compact__tiles">
-                    {(stopPlacesWithDepartures || []).map((stop, index) => (
-                        <div key={index.toString()}>
-                            <DepartureTile
-                                key={index}
-                                stopPlaceWithDepartures={stop}
-                            />
-                        </div>
-                    ))}
-                    {bikeRentalStations && anyBikeRentalStations ? (
-                        <div key={numberOfStopPlaces.toString()}>
-                            <BikeTile stations={bikeRentalStations} />
-                        </div>
-                    ) : (
-                        []
-                    )}
-                    {hasData && settings?.showMap ? (
-                        <div key={totalItems - 1}>
-                            <MapTile
-                                scooters={scooters}
-                                stopPlaces={stopPlacesWithDepartures}
-                                bikeRentalStations={bikeRentalStations}
-                                walkTimes={null}
-                                latitude={settings?.coordinates?.latitude ?? 0}
-                                longitude={
-                                    settings?.coordinates?.longitude ?? 0
-                                }
-                                zoom={settings?.zoom ?? DEFAULT_ZOOM}
-                            />
-                        </div>
-                    ) : (
-                        []
-                    )}
+                    {tileOrder.map((item) => {
+                        if (item == 'map') {
+                            return hasData && settings?.showMap ? (
+                                <div key={item}>
+                                    <MapTile
+                                        scooters={scooters}
+                                        stopPlaces={stopPlacesWithDepartures}
+                                        bikeRentalStations={bikeRentalStations}
+                                        walkTimes={null}
+                                        latitude={
+                                            settings?.coordinates?.latitude ?? 0
+                                        }
+                                        longitude={
+                                            settings?.coordinates?.longitude ??
+                                            0
+                                        }
+                                        zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                                    />
+                                </div>
+                            ) : (
+                                []
+                            )
+                        } else if (item == 'city-bike') {
+                            return bikeRentalStations &&
+                                anyBikeRentalStations ? (
+                                <div key={item}>
+                                    <BikeTile stations={bikeRentalStations} />
+                                </div>
+                            ) : (
+                                []
+                            )
+                        } else if (stopPlacesWithDepartures) {
+                            const stopIndex =
+                                stopPlacesWithDepartures.findIndex(
+                                    (p) => p.id == item,
+                                )
+                            return (
+                                <div key={item}>
+                                    <DepartureTile
+                                        stopPlaceWithDepartures={
+                                            stopPlacesWithDepartures[stopIndex]
+                                        }
+                                    />
+                                </div>
+                            )
+                        }
+                    })}
                 </div>
             </DashboardWrapper>
         )
@@ -178,7 +247,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 >
                     {(stopPlacesWithDepartures || []).map((stop, index) => (
                         <div
-                            key={index.toString()}
+                            key={stop.id}
                             data-grid={getDataGrid(index, maxWidthCols)}
                         >
                             <ResizeHandle
@@ -194,7 +263,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     ))}
                     {bikeRentalStations && anyBikeRentalStations ? (
                         <div
-                            key={numberOfStopPlaces.toString()}
+                            key="city-bike"
                             data-grid={getDataGrid(
                                 numberOfStopPlaces,
                                 maxWidthCols,
@@ -215,7 +284,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     {hasData && settings?.showMap ? (
                         <div
                             id="compact-map-tile"
-                            key={totalItems - 1}
+                            key="map"
                             data-grid={getDataGrid(
                                 totalItems - 1,
                                 maxWidthCols,
