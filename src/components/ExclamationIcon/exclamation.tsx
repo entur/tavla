@@ -6,6 +6,7 @@ import './styles.scss'
 
 function ExclamationIcon(props: any): JSX.Element | null {
     const alertMessage = props.data?.situation
+
     return (
         <div
             onClick={() => {

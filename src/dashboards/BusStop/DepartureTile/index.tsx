@@ -64,7 +64,6 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
             setIconColorType(getIconColorType(settings.theme))
         }
     }, [settings])
-
     return (
         <div className="tile">
             <header className="tile__header">
@@ -102,7 +101,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                 </TableHead>
                 <TableBody>
                     {departures.map((data) => (
-                        <TableRow key={data.id}>
+                        <TableRow key={data.id + Math.random()}>
                             <DataCell>
                                 <Heading3>
                                     <div>
@@ -121,7 +120,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                             </DataCell>
                             <DataCell>{data.time}</DataCell>
                             <DataCell>
-                                {isMobileWeb() ? (
+                                {isMobileWeb() && data?.situation ? (
                                     <ExclamationIcon data={data} />
                                 ) : (
                                     <SubLabelIcon

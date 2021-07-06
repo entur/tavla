@@ -19,8 +19,11 @@
         height: 75vh;
     }
     .eds-table {
-        &__row {
-            justify-content: left;
+        &__head {
+            justify-content: stretch;
+        }
+        &__header-cell {
+            align-content: center;
         }
     }
 }

@@ -10,10 +10,6 @@
     padding: 2rem;
     overflow: auto;
 
-    .tableRow {
-        float: left;
-    }
-
     .tilerow {
         &__sublabel {
             &__situation {
@@ -50,16 +46,11 @@
 }
 
 @media (max-width: 1000px) {
-    .tilerow {
-        &__sublabel {
-            &__situation {
-                font-size: 50rem;
-            }
-        }
-    }
-    .eds-table {
+    .eds-table--small {
         &__row {
-            overflow-x: line-break;
+            overflow: hidden;
+            white-space: wrap;
+            text-overflow: ellipsis;
         }
         &__header-cell {
             align-items: left;
@@ -67,5 +58,14 @@
         &__data-cell {
             align-items: left;
         }
+        &__header-cell {
+            padding: 0rem;
+        }
+        .eds-table__header-cell {
+            padding: 0rem 0rem;
+        }
+    }
+    .tableRow {
+        align-items: left;
     }
 }
