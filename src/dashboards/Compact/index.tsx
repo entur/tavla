@@ -7,7 +7,7 @@ import {
     DropResult,
 } from 'react-beautiful-dnd'
 
-import { useLongPress } from 'use-long-press'
+import { useLongPress } from 'use-long-press/dist'
 
 import { Modal } from '@entur/modal'
 import { PrimaryButton } from '@entur/button'
