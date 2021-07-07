@@ -7,8 +7,11 @@ import {
     DropResult,
 } from 'react-beautiful-dnd'
 
+import { useLongPress } from 'use-long-press'
+
 import { Modal } from '@entur/modal'
 import { PrimaryButton } from '@entur/button'
+import { DraggableIcon } from '@entur/icons'
 
 import {
     useBikeRentalStations,
@@ -33,7 +36,6 @@ import BikeTile from './BikeTile'
 import MapTile from './MapTile'
 
 import './styles.scss'
-import { DraggableIcon } from '@entur/icons'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -115,7 +117,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
 
-    const [isOpen, setOpen] = React.useState(false) // for debugging
+    const [modalVisible, setModalVisible] = React.useState(false)
 
     useEffect(() => {
         const defaultTileOrder: TileItem[] = []
@@ -165,6 +167,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         setTileOrder(rearrangedTileOrder)
     }
 
+    const longPress = useLongPress(() => {
+        setModalVisible(true)
+    })
+
     if (window.innerWidth < BREAKPOINTS.md) {
         return (
             <DashboardWrapper
@@ -174,10 +180,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
                 scooters={scooters}
             >
-                <div className="compact__tiles--mobile">
+                <div className="compact__tiles" {...longPress}>
                     <Modal
-                        open={isOpen}
-                        onDismiss={() => setOpen(false)}
+                        open={modalVisible}
+                        onDismiss={() => setModalVisible(false)}
                         title="Endre rekkefølge"
                         size="medium"
                     >
@@ -221,13 +227,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                                 )}
                             </Droppable>
                         </DragDropContext>
-                        <PrimaryButton onClick={() => setOpen(false)}>
+                        <PrimaryButton onClick={() => setModalVisible(false)}>
                             Lukk
                         </PrimaryButton>
                     </Modal>
-                    <PrimaryButton onClick={() => setOpen(true)} type="button">
-                        Endre rekkefølge
-                    </PrimaryButton>
                     {tileOrder.map((item) => {
                         if (item.id == 'map') {
                             return hasData && settings?.showMap ? (
