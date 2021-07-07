@@ -1,0 +1,10 @@
+.modal-container {
+    align-content: center;
+    justify-content: center;
+    padding: 2rem;
+
+    &__button {
+        margin: 2rem !important;
+        padding: 2rem !important;
+    }
+}
