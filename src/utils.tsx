@@ -226,7 +226,8 @@ export function transformDepartureToLineData(
         hasCancellation: cancellation,
     }
 }
-
+// Note to self: Denne funksjonen brukes i både compact og chrono og er stedet hvor subLabel lages. Hvis showSituation er false,
+// burde ikke situation vises
 export function createTileSubLabel({
     situation,
     hasCancellation,

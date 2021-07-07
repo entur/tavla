@@ -10,7 +10,6 @@ export interface LineData {
     situation?: string
     hasCancellation?: boolean
 }
-
 export interface Line {
     id: string
     name: string

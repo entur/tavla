@@ -55,6 +55,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const { departures } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
     const [settings] = useSettingsContext()
+    const { hideSituations } = settings || {}
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
@@ -79,12 +80,12 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                             : { width: '15%' }
                     }
                 />
-                <col style={!isMobile ? { width: '26%' } : { width: '38%' }} />
+                <col style={!isMobile ? { width: '26%' } : { width: '41%' }} />
                 <col
                     style={
                         !isMobile
                             ? { width: '9%', minWidth: '5rem' }
-                            : { width: '31%' }
+                            : { width: '28%' }
                     }
                 />
                 <col style={!isMobile ? { width: '62%' } : { width: '16%' }} />
@@ -93,7 +94,9 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                         <HeaderCell> </HeaderCell>
                         <HeaderCell>Linje</HeaderCell>
                         <HeaderCell>Avgang</HeaderCell>
-                        <HeaderCell>Avvik</HeaderCell>
+                        {!hideSituations ? (
+                            <HeaderCell>Avvik</HeaderCell>
+                        ) : null}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -117,15 +120,21 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                             </DataCell>
                             <DataCell>{data.time}</DataCell>
                             <DataCell>
-                                {isMobile && data?.situation ? (
-                                    <ExclamationIcon
-                                        alertMessage={data?.situation}
-                                    />
-                                ) : (
-                                    <SubLabelIcon
-                                        subLabel={createTileSubLabel(data)}
-                                    />
-                                )}
+                                {!hideSituations ? (
+                                    <div>
+                                        {isMobile && data?.situation ? (
+                                            <ExclamationIcon
+                                                alertMessage={data?.situation}
+                                            />
+                                        ) : (
+                                            <SubLabelIcon
+                                                subLabel={createTileSubLabel(
+                                                    data,
+                                                )}
+                                            />
+                                        )}
+                                    </div>
+                                ) : null}
                             </DataCell>
                         </TableRow>
                     ))}

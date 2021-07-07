@@ -8,14 +8,22 @@ import { TileSubLabel } from '../../../../types'
 
 import './styles.scss'
 
-export function TileRow({ label, icon, subLabel }: Props): JSX.Element {
+export function TileRow({
+    label,
+    icon,
+    subLabel,
+    hideSituations,
+}: Props): JSX.Element {
     return (
         <div className="tilerow">
             <div className="tilerow__icon">{icon}</div>
             <Heading3 className="tilerow__label">{label}</Heading3>
             <div className="tilerow__sublabel">
                 {subLabel.time}
-                <SubLabelIcon subLabel={subLabel} />
+                <SubLabelIcon
+                    hideSituations={hideSituations}
+                    subLabel={subLabel}
+                />
             </div>
         </div>
     )
@@ -23,8 +31,10 @@ export function TileRow({ label, icon, subLabel }: Props): JSX.Element {
 
 function SubLabelIcon({
     subLabel,
+    hideSituations,
 }: {
     subLabel: TileSubLabel
+    hideSituations?: boolean
 }): JSX.Element | null {
     if (subLabel.hasCancellation)
         return (
@@ -33,7 +43,7 @@ function SubLabelIcon({
             </div>
         )
 
-    if (subLabel.hasSituation)
+    if (subLabel.hasSituation && !hideSituations)
         return (
             <div className="tilerow__sublabel__situation">
                 <ValidationExclamation />
@@ -47,6 +57,7 @@ interface Props {
     label: string
     subLabel: TileSubLabel
     icon: JSX.Element | null
+    hideSituations?: boolean
 }
 
 export default TileRow
