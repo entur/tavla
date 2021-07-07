@@ -67,7 +67,7 @@ interface SettingsSetters {
     setLogoSize: (size: string) => void
     setDescription: (description: string) => void
     setShowMap: (visible: boolean) => void
-    setHideSituations: (visible: boolean) => void
+    setHideSituations: (hidden: boolean) => void
 }
 
 export const SettingsContext = createContext<
@@ -332,8 +332,8 @@ export function useSettings(): [Settings | null, SettingsSetters] {
     )
 
     const setHideSituations = useCallback(
-        (visible: boolean): void => {
-            set('hideSituations', visible)
+        (hidden: boolean): void => {
+            set('hideSituations', hidden)
         },
         [set],
     )

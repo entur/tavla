@@ -14,7 +14,7 @@ function ToggleDetailsPanel(): JSX.Element {
         <Fieldset className="toggleDetail-panel">
             <div>
                 <FilterChip
-                    className="filterChipComp"
+                    className="filter-chip"
                     value="avviksinfo"
                     onChange={(
                         event: React.ChangeEvent<HTMLInputElement>,
