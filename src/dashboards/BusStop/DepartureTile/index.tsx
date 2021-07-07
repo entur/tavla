@@ -27,7 +27,7 @@ import {
 import SubLabelIcon from '../components/SubLabelIcon'
 import './styles.scss'
 import { useSettingsContext } from '../../../settings'
-import SituationModal from '../../../components/SituationModal/situationmodal'
+import SituationModal from '../../../components/SituationModal'
 
 function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     const transportModes = unique(

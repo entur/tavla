@@ -12,7 +12,7 @@ interface Props {
 
 function SituationModal(props: Props): JSX.Element {
     const { situationMessage } = props
-    const [isOpen, setOpen] = React.useState(false)
+    const [isOpen, setOpen] = React.useState<boolean>(false)
 
     return (
         <div onClick={() => setOpen(true)}>
