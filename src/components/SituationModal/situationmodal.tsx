@@ -17,24 +17,18 @@ function SituationModal(props: Props): JSX.Element {
     return (
         <div onClick={() => setOpen(true)}>
             <ValidationExclamation />
-            <div className="modal-container">
-                <Modal
-                    open={isOpen}
-                    onDismiss={() => setOpen(false)}
-                    title=""
-                    size="extraSmall"
-                    closeOnClickOutside={true}
-                >
-                    <Paragraph>{situationMessage + '.'}</Paragraph>
-                    <PrimaryButton
-                        onClick={() => setOpen(false)}
-                        size="medium"
-                        className="modal-container__button"
-                    >
-                        Lukk
-                    </PrimaryButton>
-                </Modal>
-            </div>
+            <Modal
+                open={isOpen}
+                onDismiss={() => setOpen(false)}
+                title=""
+                size="extraSmall"
+                closeOnClickOutside={true}
+            >
+                <Paragraph>{`${situationMessage}.`}</Paragraph>
+                <PrimaryButton onClick={() => setOpen(false)} size="medium">
+                    Lukk
+                </PrimaryButton>
+            </Modal>
         </div>
     )
 }
