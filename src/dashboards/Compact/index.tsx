@@ -4,7 +4,7 @@ import {
     DragDropContext,
     Droppable,
     Draggable,
-    DroppableProvided,
+    DropResult,
 } from 'react-beautiful-dnd'
 
 import { Modal } from '@entur/modal'
@@ -33,6 +33,7 @@ import BikeTile from './BikeTile'
 import MapTile from './MapTile'
 
 import './styles.scss'
+import { DraggableIcon } from '@entur/icons'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -152,9 +153,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         return result
     }
 
-    function onDragEnd(result: any) {
-        console.log(result)
-        console.log(typeof result)
+    function onDragEnd(result: DropResult): void {
         if (!result.destination) return
         if (result.destination.index === result.source.index) return
         const rearrangedTileOrder = reorder(
@@ -175,11 +174,11 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
                 scooters={scooters}
             >
-                <div className="compact__tiles">
+                <div className="compact__tiles--mobile">
                     <Modal
                         open={isOpen}
                         onDismiss={() => setOpen(false)}
-                        title="Her er en modal"
+                        title="Endre rekkefølge"
                         size="medium"
                     >
                         <DragDropContext onDragEnd={onDragEnd}>
@@ -195,9 +194,16 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                                                 draggableId={item.id}
                                                 index={index}
                                             >
-                                                {(draggableProvided) => (
+                                                {(
+                                                    draggableProvided,
+                                                    draggableSnapshot,
+                                                ) => (
                                                     <div
-                                                        className="compact__draggable-row"
+                                                        className={`compact__draggable-row ${
+                                                            draggableSnapshot.isDragging
+                                                                ? 'compact__draggable-row--is-dragging'
+                                                                : ''
+                                                        }`}
                                                         ref={
                                                             draggableProvided.innerRef
                                                         }
@@ -205,6 +211,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                                                         {...draggableProvided.dragHandleProps}
                                                     >
                                                         {item.name}
+                                                        <DraggableIcon />
                                                     </div>
                                                 )}
                                             </Draggable>
@@ -219,7 +226,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                         </PrimaryButton>
                     </Modal>
                     <PrimaryButton onClick={() => setOpen(true)} type="button">
-                        Vis en modal
+                        Endre rekkefølge
                     </PrimaryButton>
                     {tileOrder.map((item) => {
                         if (item.id == 'map') {
