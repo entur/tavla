@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
+import {
+    DragDropContext,
+    Droppable,
+    Draggable,
+    DroppableProvided,
+} from 'react-beautiful-dnd'
+
+import { Modal } from '@entur/modal'
+import { PrimaryButton } from '@entur/button'
 
 import {
     useBikeRentalStations,
@@ -64,29 +73,6 @@ const COLS: { [key: string]: number } = {
     xxs: 1,
 }
 
-function getTileOrderFromLayout(
-    layout: Layouts | undefined,
-    breakpoint: string,
-): string[] {
-    if (layout) {
-        const sortedLayout = layout[breakpoint]
-            .sort((a, b) => {
-                const yDiff = a.y - b.y
-                if (yDiff !== 0) {
-                    return yDiff
-                }
-                return a.x - b.x
-            })
-            .map((item) => {
-                return item.i
-            })
-
-        console.log(sortedLayout)
-        return sortedLayout
-    }
-    return []
-}
-
 const EnturDashboard = ({ history }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
     const [breakpoint, setBreakpoint] = useState<string>('lg')
@@ -95,7 +81,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         getFromLocalStorage(dashboardKey),
     )
 
-    const [tileOrder, setTileOrder] = useState<string[]>([])
+    const [tileOrder, setTileOrder] = useState<TileItem[]>([])
 
     const bikeRentalStations = useBikeRentalStations()
 
@@ -128,31 +114,57 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
 
+    const [isOpen, setOpen] = React.useState(false) // for debugging
+
     useEffect(() => {
-        const defaultTileOrder: string[] = []
+        const defaultTileOrder: TileItem[] = []
         if (stopPlacesWithDepartures) {
             if (stopPlacesWithDepartures.length == prevNumberOfStopPlaces) {
                 return
             }
             stopPlacesWithDepartures.map((item) => {
-                defaultTileOrder.push(item.id)
+                defaultTileOrder.push({ id: item.id, name: item.name })
             })
-            setTileOrder(defaultTileOrder)
         }
         if (anyBikeRentalStations) {
-            defaultTileOrder.push('city-bike')
-            setTileOrder(defaultTileOrder)
+            defaultTileOrder.push({ id: 'city-bike', name: 'Bysykkel' })
         }
         if (mapCol) {
-            defaultTileOrder.push('map')
-            setTileOrder(defaultTileOrder)
+            defaultTileOrder.push({ id: 'map', name: 'Kart' })
         }
+        setTileOrder(defaultTileOrder)
     }, [
         stopPlacesWithDepartures,
         prevNumberOfStopPlaces,
         anyBikeRentalStations,
         mapCol,
     ])
+
+    const reorder = (
+        list: TileItem[],
+        startIndex: number,
+        endIndex: number,
+    ) => {
+        const result = Array.from(list)
+        const [removed] = result.splice(startIndex, 1)
+        result.splice(endIndex, 0, removed)
+
+        return result
+    }
+
+    function onDragEnd(result: any) {
+        console.log(result)
+        console.log(typeof result)
+        if (!result.destination) return
+        if (result.destination.index === result.source.index) return
+        const rearrangedTileOrder = reorder(
+            tileOrder,
+            result.source.index,
+            result.destination.index,
+        )
+
+        setTileOrder(rearrangedTileOrder)
+    }
 
     if (window.innerWidth < BREAKPOINTS.md) {
         return (
@@ -164,10 +176,55 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 scooters={scooters}
             >
                 <div className="compact__tiles">
+                    <Modal
+                        open={isOpen}
+                        onDismiss={() => setOpen(false)}
+                        title="Her er en modal"
+                        size="medium"
+                    >
+                        <DragDropContext onDragEnd={onDragEnd}>
+                            <Droppable droppableId="droppable">
+                                {(droppableProvided) => (
+                                    <div
+                                        {...droppableProvided.droppableProps}
+                                        ref={droppableProvided.innerRef}
+                                    >
+                                        {tileOrder.map((item, index) => (
+                                            <Draggable
+                                                key={item.id}
+                                                draggableId={item.id}
+                                                index={index}
+                                            >
+                                                {(draggableProvided) => (
+                                                    <div
+                                                        className="compact__draggable-row"
+                                                        ref={
+                                                            draggableProvided.innerRef
+                                                        }
+                                                        {...draggableProvided.draggableProps}
+                                                        {...draggableProvided.dragHandleProps}
+                                                    >
+                                                        {item.name}
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                        {droppableProvided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
+                        <PrimaryButton onClick={() => setOpen(false)}>
+                            Lukk
+                        </PrimaryButton>
+                    </Modal>
+                    <PrimaryButton onClick={() => setOpen(true)} type="button">
+                        Vis en modal
+                    </PrimaryButton>
                     {tileOrder.map((item) => {
-                        if (item == 'map') {
+                        if (item.id == 'map') {
                             return hasData && settings?.showMap ? (
-                                <div key={item}>
+                                <div key={item.id}>
                                     <MapTile
                                         scooters={scooters}
                                         stopPlaces={stopPlacesWithDepartures}
@@ -186,10 +243,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                             ) : (
                                 []
                             )
-                        } else if (item == 'city-bike') {
+                        } else if (item.id == 'city-bike') {
                             return bikeRentalStations &&
                                 anyBikeRentalStations ? (
-                                <div key={item}>
+                                <div key={item.id}>
                                     <BikeTile stations={bikeRentalStations} />
                                 </div>
                             ) : (
@@ -198,10 +255,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                         } else if (stopPlacesWithDepartures) {
                             const stopIndex =
                                 stopPlacesWithDepartures.findIndex(
-                                    (p) => p.id == item,
+                                    (p) => p.id == item.id,
                                 )
                             return (
-                                <div key={item}>
+                                <div key={item.id}>
                                     <DepartureTile
                                         stopPlaceWithDepartures={
                                             stopPlacesWithDepartures[stopIndex]
@@ -321,6 +378,11 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
 interface Props {
     history: any
+}
+
+interface TileItem {
+    id: string
+    name: string
 }
 
 export default EnturDashboard

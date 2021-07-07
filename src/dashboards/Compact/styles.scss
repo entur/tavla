@@ -22,6 +22,17 @@
         }
     }
 
+    &__draggable-row {
+        width: 100%;
+        border: 2px solid var(--tavla-border-color);
+        margin-bottom: 8px;
+        background-color: var(--tavla-background-color);
+        color: var(--tavla-font-color);
+        padding: 8px;
+        text-align: center;
+        border-radius: 8px;
+    }
+
     .react-grid-layout {
         position: relative;
         transition: height 200ms ease;
