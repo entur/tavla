@@ -5,7 +5,7 @@ import ValidationExclamation from '../../assets/icons/ValidationExclamation'
 interface Props {
     alertMessage: string
 }
-function ExclamationIcon(props: Props): JSX.Element | null {
+function ExclamationIcon(props: Props): JSX.Element {
     const { alertMessage } = props
 
     return (
