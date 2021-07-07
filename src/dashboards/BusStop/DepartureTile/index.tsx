@@ -27,7 +27,7 @@ import {
 import SubLabelIcon from '../components/SubLabelIcon'
 import './styles.scss'
 import { useSettingsContext } from '../../../settings'
-import ExclamationIcon from '../../../components/ExclamationIcon/exclamation'
+import SituationModal from '../../../components/SituationModal'
 
 function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     const transportModes = unique(
@@ -123,8 +123,10 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                                 {!hideSituations ? (
                                     <div>
                                         {isMobile && data?.situation ? (
-                                            <ExclamationIcon
-                                                alertMessage={data?.situation}
+                                            <SituationModal
+                                                situationMessage={
+                                                    data?.situation
+                                                }
                                             />
                                         ) : (
                                             <SubLabelIcon
