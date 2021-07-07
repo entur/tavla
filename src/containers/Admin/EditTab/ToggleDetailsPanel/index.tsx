@@ -11,10 +11,10 @@ function ToggleDetailsPanel(): JSX.Element {
     const { hideSituations } = settings || {}
     const { setHideSituations } = settingsSetters
     return (
-        <Fieldset className="toggleDetail-panel">
+        <Fieldset className="toggle-detail-panel">
             <div>
                 <FilterChip
-                    className="filter-chip"
+                    className="toggle-detail-panel__filter-chip"
                     value="avviksinfo"
                     onChange={(
                         event: React.ChangeEvent<HTMLInputElement>,
