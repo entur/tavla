@@ -117,23 +117,30 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
 
-    const [modalVisible, setModalVisible] = React.useState(false)
+    const [modalVisible, setModalVisible] = useState(false)
 
     useEffect(() => {
-        const defaultTileOrder: TileItem[] = []
+        let defaultTileOrder: TileItem[] = []
         if (stopPlacesWithDepartures) {
             if (stopPlacesWithDepartures.length == prevNumberOfStopPlaces) {
                 return
             }
-            stopPlacesWithDepartures.map((item) => {
-                defaultTileOrder.push({ id: item.id, name: item.name })
-            })
+            defaultTileOrder = stopPlacesWithDepartures.map((item) => ({
+                id: item.id,
+                name: item.name,
+            }))
         }
         if (anyBikeRentalStations) {
-            defaultTileOrder.push({ id: 'city-bike', name: 'Bysykkel' })
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                { id: 'city-bike', name: 'Bysykkel' },
+            ]
         }
         if (mapCol) {
-            defaultTileOrder.push({ id: 'map', name: 'Kart' })
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                { id: 'map', name: 'Kart' },
+            ]
         }
         setTileOrder(defaultTileOrder)
     }, [
