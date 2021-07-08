@@ -18,6 +18,14 @@
     &__mapTile {
         height: 75vh;
     }
+    .eds-table {
+        &__head {
+            justify-content: stretch;
+        }
+        &__header-cell {
+            align-content: center;
+        }
+    }
 }
 
 @media (max-width: 1000px) {
@@ -27,6 +35,7 @@
 
         &__tiles {
             display: block;
+            padding: 0.5rem;
         }
         .tile {
             margin-bottom: 1rem;
@@ -36,6 +45,12 @@
         }
         &__mapTile {
             max-height: 60vh;
+        }
+        .eds-table--small {
+            .eds-table__data-cell {
+                padding: 0;
+                justify-content: left;
+            }
         }
     }
 }

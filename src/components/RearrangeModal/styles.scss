@@ -1,0 +1,28 @@
+@import './../../assets/styles/import.scss';
+@import '../../variables.scss';
+
+.rearrange-modal {
+    user-select: inherit;
+
+    /* disable the IOS popup when long-press on a link
+    https://github.com/minwork/use-long-press/issues/7#issuecomment-863255712 */
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+
+    &__draggable-row {
+        width: 100%;
+        border: 2px solid var(--tavla-border-color);
+        margin-bottom: 0.5rem;
+        color: var(--tavla-background-color);
+        background-color: var(--tavla-font-color);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &--is-dragging {
+            box-shadow: $shadows-card-shadow-hover-contrast;
+        }
+    }
+}

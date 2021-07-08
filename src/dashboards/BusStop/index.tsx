@@ -47,13 +47,13 @@ function BusStop({ history }: Props): JSX.Element {
                         ))}{' '}
                     </div>
                 </GridItem>
-                <GridItem
-                    large={4}
-                    medium={12}
-                    small={12}
-                    className="busStop__mapTile"
-                >
-                    {settings?.showMap ? (
+                {settings?.showMap ? (
+                    <GridItem
+                        large={4}
+                        medium={12}
+                        small={12}
+                        className="busStop__mapTile"
+                    >
                         <MapTile
                             scooters={scooters}
                             stopPlaces={stopPlacesWithDepartures}
@@ -63,10 +63,10 @@ function BusStop({ history }: Props): JSX.Element {
                             longitude={settings?.coordinates?.longitude ?? 0}
                             zoom={settings?.zoom ?? DEFAULT_ZOOM}
                         />
-                    ) : (
-                        []
-                    )}
-                </GridItem>
+                    </GridItem>
+                ) : (
+                    []
+                )}
             </GridContainer>
         </DashboardWrapper>
     )

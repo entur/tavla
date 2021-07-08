@@ -16,26 +16,10 @@
         }
 
         .maptile {
+            height: inherit;
             width: 100%;
             overflow: hidden;
             margin-bottom: 1rem;
-        }
-    }
-
-    &__draggable-row {
-        width: 100%;
-        border: 2px solid var(--tavla-border-color);
-        margin-bottom: 0.5rem;
-        color: var(--tavla-background-color);
-        background-color: var(--tavla-font-color);
-        padding: 1rem;
-        border-radius: 0.5rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        &--is-dragging {
-            box-shadow: $shadows-card-shadow-hover-contrast;
         }
     }
 
@@ -173,6 +157,7 @@
         }
         .maptile {
             margin-bottom: 1rem;
+            height: 630px;
             max-height: unset;
             width: 100%;
         }

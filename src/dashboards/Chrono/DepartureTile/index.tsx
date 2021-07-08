@@ -44,6 +44,7 @@ const DepartureTile = ({
     const { departures, name } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
     const [settings] = useSettingsContext()
+    const hideSituations = settings?.hideSituations
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
@@ -68,6 +69,7 @@ const DepartureTile = ({
                         label={data.route}
                         subLabel={subLabel}
                         icon={icon}
+                        hideSituations={hideSituations}
                     />
                 )
             })}

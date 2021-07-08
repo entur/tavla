@@ -10,12 +10,6 @@
     padding: 2rem;
     overflow: auto;
 
-    .eds-table {
-        &__row {
-            overflow-x: line-break;
-        }
-    }
-
     .tilerow {
         &__sublabel {
             &__situation {
@@ -51,7 +45,25 @@
     }
 }
 
-#tile__header__linje {
-    margin-left: auto;
-    margin-right: -40px;
+@media (max-width: 1000px) {
+    .eds-table--small {
+        &__row {
+            overflow: hidden;
+            white-space: wrap;
+            text-overflow: ellipsis;
+        }
+        &__header-cell {
+            align-items: left;
+            padding: 0;
+        }
+        &__data-cell {
+            align-items: left;
+        }
+        .eds-table__header-cell {
+            padding: 0 0;
+        }
+    }
+    .tableRow {
+        align-items: left;
+    }
 }

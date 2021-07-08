@@ -6,7 +6,7 @@ import React, {
     SyntheticEvent,
 } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
-import { Heading2 } from '@entur/typography'
+import { Heading2, Heading3 } from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
@@ -29,6 +29,7 @@ import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
 import ScooterPanel from './ScooterPanel'
 import ZoomEditor from './ZoomEditor'
+import ToggleDetailsPanel from './ToggleDetailsPanel'
 
 import './styles.scss'
 
@@ -58,7 +59,7 @@ const LAYOUT = {
     sm: [
         { i: 'busStopPanel', x: 0, y: 0, w: 1, h: 3 },
         { i: 'bikePanel', x: 0, y: 3, w: 1, h: 2 },
-        { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.3 },
+        { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.5 },
         { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
     ],
 }
@@ -219,7 +220,6 @@ const EditTab = (): JSX.Element => {
                 cols={COLS}
                 layouts={LAYOUT}
                 autoSize={true}
-                margin={[32, 32]}
                 isResizable={false}
                 isDraggable={false}
                 onBreakpointChange={(newBreakpoint: string) => {
@@ -239,6 +239,10 @@ const EditTab = (): JSX.Element => {
                         <StopPlaceSearch handleAddNewStop={addNewStop} />
                     </div>
                     <StopPlacePanel stops={stopPlaces} />
+                    <div>
+                        <Heading3>Detaljer i visningen</Heading3>
+                    </div>
+                    <ToggleDetailsPanel />
                 </div>
                 <div key="bikePanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
