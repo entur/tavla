@@ -37,7 +37,7 @@
         display: flex;
     }
 
-    .react-grid-item::after {
+    .react-grid-item:not(#chrono-map-tile)::after {
         content: '';
         position: absolute;
         width: 100%;

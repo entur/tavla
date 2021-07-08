@@ -118,7 +118,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                     )}
 
                     {hasData && settings?.showMap ? (
-                        <div id="compact-map-tile" key={totalItems - 1}>
+                        <div id="chrono-map-tile" key={totalItems - 1}>
                             <MapTile
                                 scooters={scooters}
                                 stopPlaces={stopPlacesWithDepartures}
@@ -193,7 +193,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                     )}
                     {hasData && settings?.showMap ? (
                         <div
-                            id="compact-map-tile"
+                            id="chrono-map-tile"
                             key={totalItems - 1}
                             data-grid={getDataGrid(
                                 totalItems - 1,
