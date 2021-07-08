@@ -1,5 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
+import {
+    DragDropContext,
+    Droppable,
+    Draggable,
+    DropResult,
+} from 'react-beautiful-dnd'
+
+import { useLongPress } from 'use-long-press/dist'
+
+import { Modal } from '@entur/modal'
+import { PrimaryButton } from '@entur/button'
+import { DraggableIcon } from '@entur/icons'
 
 import {
     useBikeRentalStations,
@@ -17,6 +29,7 @@ import {
 import { useSettingsContext } from '../../settings'
 
 import { DEFAULT_ZOOM } from '../../constants'
+import { usePrevious } from '../../utils'
 
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
@@ -71,6 +84,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         getFromLocalStorage(dashboardKey),
     )
 
+    const [tileOrder, setTileOrder] = useState<TileItem[]>([])
+
     const bikeRentalStations = useBikeRentalStations()
 
     const scooters = useScooters()
@@ -100,6 +115,69 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
     const maxWidthCols = COLS[breakpoint]
 
+    const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
+
+    const [modalVisible, setModalVisible] = useState(false)
+
+    useEffect(() => {
+        let defaultTileOrder: TileItem[] = []
+        if (stopPlacesWithDepartures) {
+            if (stopPlacesWithDepartures.length == prevNumberOfStopPlaces) {
+                return
+            }
+            defaultTileOrder = stopPlacesWithDepartures.map((item) => ({
+                id: item.id,
+                name: item.name,
+            }))
+        }
+        if (anyBikeRentalStations) {
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                { id: 'city-bike', name: 'Bysykkel' },
+            ]
+        }
+        if (mapCol) {
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                { id: 'map', name: 'Kart' },
+            ]
+        }
+        setTileOrder(defaultTileOrder)
+    }, [
+        stopPlacesWithDepartures,
+        prevNumberOfStopPlaces,
+        anyBikeRentalStations,
+        mapCol,
+    ])
+
+    const reorder = (
+        list: TileItem[],
+        startIndex: number,
+        endIndex: number,
+    ) => {
+        const result = Array.from(list)
+        const [removed] = result.splice(startIndex, 1)
+        result.splice(endIndex, 0, removed)
+
+        return result
+    }
+
+    function onDragEnd(result: DropResult): void {
+        if (!result.destination) return
+        if (result.destination.index === result.source.index) return
+        const rearrangedTileOrder = reorder(
+            tileOrder,
+            result.source.index,
+            result.destination.index,
+        )
+
+        setTileOrder(rearrangedTileOrder)
+    }
+
+    const longPress = useLongPress(() => {
+        setModalVisible(true)
+    })
+
     if (window.innerWidth < BREAKPOINTS.md) {
         return (
             <DashboardWrapper
@@ -109,39 +187,104 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
                 scooters={scooters}
             >
-                <div className="compact__tiles">
-                    {(stopPlacesWithDepartures || []).map((stop, index) => (
-                        <div key={index.toString()}>
-                            <DepartureTile
-                                key={index}
-                                stopPlaceWithDepartures={stop}
-                            />
-                        </div>
-                    ))}
-                    {bikeRentalStations && anyBikeRentalStations ? (
-                        <div key={numberOfStopPlaces.toString()}>
-                            <BikeTile stations={bikeRentalStations} />
-                        </div>
-                    ) : (
-                        []
-                    )}
-                    {hasData && settings?.showMap ? (
-                        <div key={totalItems - 1}>
-                            <MapTile
-                                scooters={scooters}
-                                stopPlaces={stopPlacesWithDepartures}
-                                bikeRentalStations={bikeRentalStations}
-                                walkTimes={null}
-                                latitude={settings?.coordinates?.latitude ?? 0}
-                                longitude={
-                                    settings?.coordinates?.longitude ?? 0
-                                }
-                                zoom={settings?.zoom ?? DEFAULT_ZOOM}
-                            />
-                        </div>
-                    ) : (
-                        []
-                    )}
+                <div className="compact__tiles" {...longPress}>
+                    <Modal
+                        open={modalVisible}
+                        onDismiss={() => setModalVisible(false)}
+                        title="Endre rekkefølge"
+                        size="medium"
+                    >
+                        <DragDropContext onDragEnd={onDragEnd}>
+                            <Droppable droppableId="droppable">
+                                {(droppableProvided) => (
+                                    <div
+                                        {...droppableProvided.droppableProps}
+                                        ref={droppableProvided.innerRef}
+                                    >
+                                        {tileOrder.map((item, index) => (
+                                            <Draggable
+                                                key={item.id}
+                                                draggableId={item.id}
+                                                index={index}
+                                            >
+                                                {(
+                                                    draggableProvided,
+                                                    draggableSnapshot,
+                                                ) => (
+                                                    <div
+                                                        className={`compact__draggable-row ${
+                                                            draggableSnapshot.isDragging
+                                                                ? 'compact__draggable-row--is-dragging'
+                                                                : ''
+                                                        }`}
+                                                        ref={
+                                                            draggableProvided.innerRef
+                                                        }
+                                                        {...draggableProvided.draggableProps}
+                                                        {...draggableProvided.dragHandleProps}
+                                                    >
+                                                        {item.name}
+                                                        <DraggableIcon />
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                        {droppableProvided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
+                        <PrimaryButton onClick={() => setModalVisible(false)}>
+                            Lukk
+                        </PrimaryButton>
+                    </Modal>
+                    {tileOrder.map((item) => {
+                        if (item.id == 'map') {
+                            return hasData && settings?.showMap ? (
+                                <div key={item.id}>
+                                    <MapTile
+                                        scooters={scooters}
+                                        stopPlaces={stopPlacesWithDepartures}
+                                        bikeRentalStations={bikeRentalStations}
+                                        walkTimes={null}
+                                        latitude={
+                                            settings?.coordinates?.latitude ?? 0
+                                        }
+                                        longitude={
+                                            settings?.coordinates?.longitude ??
+                                            0
+                                        }
+                                        zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                                    />
+                                </div>
+                            ) : (
+                                []
+                            )
+                        } else if (item.id == 'city-bike') {
+                            return bikeRentalStations &&
+                                anyBikeRentalStations ? (
+                                <div key={item.id}>
+                                    <BikeTile stations={bikeRentalStations} />
+                                </div>
+                            ) : (
+                                []
+                            )
+                        } else if (stopPlacesWithDepartures) {
+                            const stopIndex =
+                                stopPlacesWithDepartures.findIndex(
+                                    (p) => p.id == item.id,
+                                )
+                            return (
+                                <div key={item.id}>
+                                    <DepartureTile
+                                        stopPlaceWithDepartures={
+                                            stopPlacesWithDepartures[stopIndex]
+                                        }
+                                    />
+                                </div>
+                            )
+                        }
+                    })}
                 </div>
             </DashboardWrapper>
         )
@@ -178,7 +321,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 >
                     {(stopPlacesWithDepartures || []).map((stop, index) => (
                         <div
-                            key={index.toString()}
+                            key={stop.id}
                             data-grid={getDataGrid(index, maxWidthCols)}
                         >
                             <ResizeHandle
@@ -194,7 +337,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     ))}
                     {bikeRentalStations && anyBikeRentalStations ? (
                         <div
-                            key={numberOfStopPlaces.toString()}
+                            key="city-bike"
                             data-grid={getDataGrid(
                                 numberOfStopPlaces,
                                 maxWidthCols,
@@ -215,7 +358,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                     {hasData && settings?.showMap ? (
                         <div
                             id="compact-map-tile"
-                            key={totalItems - 1}
+                            key="map"
                             data-grid={getDataGrid(
                                 totalItems - 1,
                                 maxWidthCols,
@@ -252,6 +395,11 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
 interface Props {
     history: any
+}
+
+interface TileItem {
+    id: string
+    name: string
 }
 
 export default EnturDashboard

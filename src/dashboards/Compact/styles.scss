@@ -23,6 +23,23 @@
         }
     }
 
+    &__draggable-row {
+        width: 100%;
+        border: 2px solid var(--tavla-border-color);
+        margin-bottom: 0.5rem;
+        color: var(--tavla-background-color);
+        background-color: var(--tavla-font-color);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &--is-dragging {
+            box-shadow: $shadows-card-shadow-hover-contrast;
+        }
+    }
+
     .react-grid-layout {
         position: relative;
         transition: height 200ms ease;
