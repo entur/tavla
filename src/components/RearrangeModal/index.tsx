@@ -14,7 +14,7 @@ import { DraggableIcon } from '@entur/icons'
 import './styles.scss'
 
 function RearrangeModal({
-    tileOrder,
+    itemOrder: itemOrder,
     onTileOrderChanged,
     modalVisible,
     onDismiss,
@@ -33,7 +33,7 @@ function RearrangeModal({
         if (!result.destination) return
         if (result.destination.index === result.source.index) return
         const rearrangedTileOrder = reorder(
-            tileOrder,
+            itemOrder,
             result.source.index,
             result.destination.index,
         )
@@ -55,7 +55,7 @@ function RearrangeModal({
                             {...droppableProvided.droppableProps}
                             ref={droppableProvided.innerRef}
                         >
-                            {tileOrder.map((item, index) => (
+                            {itemOrder.map((item, index) => (
                                 <Draggable
                                     key={item.id}
                                     draggableId={item.id}
@@ -89,7 +89,7 @@ function RearrangeModal({
 }
 
 interface Props {
-    tileOrder: Item[]
+    itemOrder: Item[]
     modalVisible: boolean
     onDismiss: () => void
     onTileOrderChanged: (newTileOrder: Item[]) => void
