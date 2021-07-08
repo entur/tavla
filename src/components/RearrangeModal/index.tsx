@@ -14,7 +14,7 @@ import { DraggableIcon } from '@entur/icons'
 import './styles.scss'
 
 function RearrangeModal({
-    itemOrder: itemOrder,
+    itemOrder,
     onTileOrderChanged,
     modalVisible,
     onDismiss,
