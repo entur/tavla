@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
-import {
-    DragDropContext,
-    Droppable,
-    Draggable,
-    DropResult,
-} from 'react-beautiful-dnd'
 
 import { useLongPress } from 'use-long-press/dist'
 
-import { Modal } from '@entur/modal'
-import { PrimaryButton } from '@entur/button'
-import { DraggableIcon } from '@entur/icons'
+import RearrangeModal, { Item } from '../../components/RearrangeModal'
 
 import {
     useBikeRentalStations,
@@ -84,7 +76,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         getFromLocalStorage(dashboardKey),
     )
 
-    const [tileOrder, setTileOrder] = useState<TileItem[]>([])
+    const [tileOrder, setTileOrder] = useState<Item[]>([])
 
     const bikeRentalStations = useBikeRentalStations()
 
@@ -120,7 +112,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     const [modalVisible, setModalVisible] = useState(false)
 
     useEffect(() => {
-        let defaultTileOrder: TileItem[] = []
+        let defaultTileOrder: Item[] = []
         if (stopPlacesWithDepartures) {
             if (stopPlacesWithDepartures.length == prevNumberOfStopPlaces) {
                 return
@@ -150,33 +142,12 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         mapCol,
     ])
 
-    const reorder = (
-        list: TileItem[],
-        startIndex: number,
-        endIndex: number,
-    ) => {
-        const result = Array.from(list)
-        const [removed] = result.splice(startIndex, 1)
-        result.splice(endIndex, 0, removed)
-
-        return result
-    }
-
-    function onDragEnd(result: DropResult): void {
-        if (!result.destination) return
-        if (result.destination.index === result.source.index) return
-        const rearrangedTileOrder = reorder(
-            tileOrder,
-            result.source.index,
-            result.destination.index,
-        )
-
-        setTileOrder(rearrangedTileOrder)
-    }
-
-    const longPress = useLongPress(() => {
-        setModalVisible(true)
-    })
+    const longPress = useLongPress(
+        () => {
+            setModalVisible(true)
+        },
+        { threshold: 1000 },
+    )
 
     if (window.innerWidth < BREAKPOINTS.md) {
         return (
@@ -188,56 +159,12 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 scooters={scooters}
             >
                 <div className="compact__tiles" {...longPress}>
-                    <Modal
-                        open={modalVisible}
+                    <RearrangeModal
+                        tileOrder={tileOrder}
+                        onTileOrderChanged={setTileOrder}
+                        modalVisible={modalVisible}
                         onDismiss={() => setModalVisible(false)}
-                        title="Endre rekkefølge"
-                        size="medium"
-                    >
-                        <DragDropContext onDragEnd={onDragEnd}>
-                            <Droppable droppableId="droppable">
-                                {(droppableProvided) => (
-                                    <div
-                                        {...droppableProvided.droppableProps}
-                                        ref={droppableProvided.innerRef}
-                                    >
-                                        {tileOrder.map((item, index) => (
-                                            <Draggable
-                                                key={item.id}
-                                                draggableId={item.id}
-                                                index={index}
-                                            >
-                                                {(
-                                                    draggableProvided,
-                                                    draggableSnapshot,
-                                                ) => (
-                                                    <div
-                                                        className={`compact__draggable-row ${
-                                                            draggableSnapshot.isDragging
-                                                                ? 'compact__draggable-row--is-dragging'
-                                                                : ''
-                                                        }`}
-                                                        ref={
-                                                            draggableProvided.innerRef
-                                                        }
-                                                        {...draggableProvided.draggableProps}
-                                                        {...draggableProvided.dragHandleProps}
-                                                    >
-                                                        {item.name}
-                                                        <DraggableIcon />
-                                                    </div>
-                                                )}
-                                            </Draggable>
-                                        ))}
-                                        {droppableProvided.placeholder}
-                                    </div>
-                                )}
-                            </Droppable>
-                        </DragDropContext>
-                        <PrimaryButton onClick={() => setModalVisible(false)}>
-                            Lukk
-                        </PrimaryButton>
-                    </Modal>
+                    />
                     {tileOrder.map((item) => {
                         if (item.id == 'map') {
                             return hasData && settings?.showMap ? (
@@ -395,11 +322,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
 
 interface Props {
     history: any
-}
-
-interface TileItem {
-    id: string
-    name: string
 }
 
 export default EnturDashboard
