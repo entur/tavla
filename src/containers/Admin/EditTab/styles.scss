@@ -146,18 +146,30 @@
         flex-grow: 1;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1000px) {
         &__set-stops {
             display: block;
         }
         &__header {
-            align-items: 'center';
+            padding: 0.25rem;
+            .eds-h2 {
+                margin: 0;
+            }
         }
         &__tile {
             display: block;
+            padding: 1.25rem;
         }
-        .distance-editor {
-            margin: 1rem 0;
+        .heading {
+            justify-content: flex-start;
+        }
+
+        &__input-wrapper::after {
+            width: 5rem;
+            margin: 0;
+            margin-top: -1rem;
+            margin-left: 0.25rem;
+            border-bottom: 4px dotted var(--tavla-input-dotted-border-color);
         }
     }
 

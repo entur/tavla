@@ -59,7 +59,7 @@ const LAYOUT = {
     sm: [
         { i: 'busStopPanel', x: 0, y: 0, w: 1, h: 3 },
         { i: 'bikePanel', x: 0, y: 3, w: 1, h: 2 },
-        { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.3 },
+        { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.5 },
         { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
     ],
 }
@@ -220,7 +220,6 @@ const EditTab = (): JSX.Element => {
                 cols={COLS}
                 layouts={LAYOUT}
                 autoSize={true}
-                margin={[32, 32]}
                 isResizable={false}
                 isDraggable={false}
                 onBreakpointChange={(newBreakpoint: string) => {
