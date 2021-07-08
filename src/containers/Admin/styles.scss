@@ -117,7 +117,8 @@
 }
 @media (max-width: 1000px) {
     .admin {
-        padding: 0;
+        padding: 1.5rem;
+
         &__tabs {
             &__header {
                 padding-left: 1.5rem;
@@ -127,9 +128,6 @@
         }
         &__tiles {
             display: block;
-        }
-        .edit-tab {
-            padding: 1rem;
         }
         &__floating-buttons:last-child {
             margin-bottom: 5rem;
