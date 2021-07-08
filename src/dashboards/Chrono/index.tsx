@@ -111,7 +111,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                             <DepartureTile
                                 key={index}
                                 stopPlaceWithDepartures={stop}
-                                isMobile={true}
+                                isMobile
                                 numberOfTileRows={numberOfTileRows}
                             />
                         </div>
