@@ -128,7 +128,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 { id: 'city-bike', name: 'Bysykkel' },
             ]
         }
-        if (mapCol) {
+        if (hasData && settings?.showMap) {
             defaultTileOrder = [
                 ...defaultTileOrder,
                 { id: 'map', name: 'Kart' },
@@ -139,7 +139,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         stopPlacesWithDepartures,
         prevNumberOfStopPlaces,
         anyBikeRentalStations,
-        mapCol,
+        hasData,
+        settings?.showMap,
     ])
 
     const longPress = useLongPress(
@@ -160,7 +161,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
             >
                 <div className="compact__tiles" {...longPress}>
                     <RearrangeModal
-                        tileOrder={tileOrder}
+                        itemOrder={tileOrder}
                         onTileOrderChanged={setTileOrder}
                         modalVisible={modalVisible}
                         onDismiss={() => setModalVisible(false)}
