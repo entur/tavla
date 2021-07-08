@@ -91,6 +91,12 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
     const maxWidthCols = COLS[breakpoint]
 
     if (window.innerWidth < BREAKPOINTS.md) {
+        let numberOfTileRows = 10
+        if (window.innerWidth < BREAKPOINTS.xs) {
+            numberOfTileRows = 6
+        } else if (window.innerWidth < BREAKPOINTS.sm) {
+            numberOfTileRows = 8
+        }
         return (
             <DashboardWrapper
                 className="chrono"
@@ -105,6 +111,8 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                             <DepartureTile
                                 key={index}
                                 stopPlaceWithDepartures={stop}
+                                isMobile={true}
+                                numberOfTileRows={numberOfTileRows}
                             />
                         </div>
                     ))}

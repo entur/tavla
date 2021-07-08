@@ -36,7 +36,11 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
 }
 
-const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
+const DepartureTile = ({
+    stopPlaceWithDepartures,
+    isMobile = false,
+    numberOfTileRows = 7,
+}: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
     const [settings] = useSettingsContext()
@@ -44,6 +48,9 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
+
+    const limitedDepartures = departures.slice(0, numberOfTileRows)
+    const visibleDepartures = isMobile ? limitedDepartures : departures
 
     useEffect(() => {
         if (settings) {
@@ -53,7 +60,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
 
     return (
         <Tile title={name} icons={headerIcons}>
-            {departures.map((data) => {
+            {visibleDepartures.map((data) => {
                 const icon = getIcon(data.type, iconColorType, data.subType)
                 const subLabel = createTileSubLabel(data)
                 return (
@@ -72,6 +79,8 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
 
 interface Props {
     stopPlaceWithDepartures: StopPlaceWithDepartures
+    isMobile?: boolean
+    numberOfTileRows?: number
 }
 
 export default DepartureTile
