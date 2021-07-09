@@ -52,6 +52,14 @@ function getDataGrid(
     }
 }
 
+function sameTileContent(
+    newTileOrder: Item[],
+    storedTileOrder: Item[] | undefined,
+): boolean {
+    if (!storedTileOrder) return false
+    return newTileOrder.sort().join(',') === storedTileOrder.join(',')
+}
+
 const BREAKPOINTS = {
     lg: 1200,
     md: 996,
@@ -68,7 +76,7 @@ const COLS: { [key: string]: number } = {
     xxs: 1,
 }
 
-const EnturDashboard = ({ history }: Props): JSX.Element => {
+const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     const [settings] = useSettingsContext()
     const [breakpoint, setBreakpoint] = useState<string>('lg')
     const dashboardKey = history.location.key
@@ -76,7 +84,9 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
         getFromLocalStorage(dashboardKey),
     )
 
-    const [tileOrder, setTileOrder] = useState<Item[]>([])
+    const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
+        getFromLocalStorage(dashboardKey + 'compact-tile-order'),
+    )
 
     const bikeRentalStations = useBikeRentalStations()
 
@@ -134,13 +144,25 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 { id: 'map', name: 'Kart' },
             ]
         }
-        setTileOrder(defaultTileOrder)
+        const storedOrder: Item[] | undefined = getFromLocalStorage(
+            dashboardKey + 'compact-tile-order',
+        )
+        if (
+            storedOrder &&
+            storedOrder.length === defaultTileOrder.length &&
+            sameTileContent(defaultTileOrder, storedOrder)
+        ) {
+            setTileOrder(storedOrder)
+        } else {
+            setTileOrder(defaultTileOrder)
+        }
     }, [
         stopPlacesWithDepartures,
         prevNumberOfStopPlaces,
         anyBikeRentalStations,
         hasData,
         settings?.showMap,
+        dashboardKey,
     ])
 
     const longPress = useLongPress(
@@ -151,6 +173,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     )
 
     if (window.innerWidth < BREAKPOINTS.md) {
+        if (!tileOrder) return null
+
         return (
             <DashboardWrapper
                 className="compact"
@@ -162,7 +186,13 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 <div className="compact__tiles" {...longPress}>
                     <RearrangeModal
                         itemOrder={tileOrder}
-                        onTileOrderChanged={setTileOrder}
+                        onTileOrderChanged={(item) => {
+                            setTileOrder(item)
+                            saveToLocalStorage(
+                                dashboardKey + 'compact-tile-order',
+                                item,
+                            )
+                        }}
                         modalVisible={modalVisible}
                         onDismiss={() => setModalVisible(false)}
                     />
