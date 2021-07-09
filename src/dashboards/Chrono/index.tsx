@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import { useLongPress } from 'use-long-press/dist'
+import { useRouteMatch } from 'react-router'
 
 import {
     useBikeRentalStations,
@@ -19,19 +20,21 @@ import {
 import './styles.scss'
 import { useSettingsContext } from '../../settings'
 
-import { usePrevious } from '../../utils'
+import { isEqualUnsorted, usePrevious } from '../../utils'
 
 import DepartureTile from './DepartureTile'
 import MapTile from './MapTile'
 import BikeTile from './BikeTile'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
+
 function isMobileWeb(): boolean {
     return (
         typeof window.orientation !== 'undefined' ||
         navigator.userAgent.indexOf('IEMobile') !== -1
     )
 }
+
 function getDataGrid(
     index: number,
     maxWidth: number,
@@ -62,15 +65,21 @@ const COLS: { [key: string]: number } = {
     xxs: 1,
 }
 
-const ChronoDashboard = ({ history }: Props): JSX.Element => {
+const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
     const [settings] = useSettingsContext()
     const dashboardKey = history.location.key
+    const boardId =
+        useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
+            ?.documentId
+
     const [breakpoint, setBreakpoint] = useState<string>('lg')
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey),
     )
 
-    const [tileOrder, setTileOrder] = useState<Item[]>([])
+    const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
+        boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
+    )
 
     const bikeRentalStations = useBikeRentalStations()
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
@@ -123,13 +132,28 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                 { id: 'map', name: 'Kart' },
             ]
         }
-        setTileOrder(defaultTileOrder)
+        const storedTileOrder: Item[] | undefined = getFromLocalStorage(
+            boardId + '-tile-order',
+        )
+        if (
+            storedTileOrder &&
+            storedTileOrder.length === defaultTileOrder.length &&
+            isEqualUnsorted(
+                defaultTileOrder.map((item) => item.id),
+                storedTileOrder.map((item) => item.id),
+            )
+        ) {
+            setTileOrder(storedTileOrder)
+        } else {
+            setTileOrder(defaultTileOrder)
+        }
     }, [
         stopPlacesWithDepartures,
         prevNumberOfStopPlaces,
         anyBikeRentalStations,
         hasData,
         settings?.showMap,
+        boardId,
     ])
 
     const longPress = useLongPress(
@@ -146,6 +170,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
         } else if (window.innerWidth < BREAKPOINTS.sm) {
             numberOfTileRows = 8
         }
+        if (!tileOrder) return null
 
         return (
             <DashboardWrapper
@@ -158,7 +183,10 @@ const ChronoDashboard = ({ history }: Props): JSX.Element => {
                 <div className="chrono__tiles" {...longPress}>
                     <RearrangeModal
                         itemOrder={tileOrder}
-                        onTileOrderChanged={setTileOrder}
+                        onTileOrderChanged={(item) => {
+                            setTileOrder(item)
+                            saveToLocalStorage(boardId + '-tile-order', item)
+                        }}
                         modalVisible={modalVisible}
                         onDismiss={() => setModalVisible(false)}
                     />

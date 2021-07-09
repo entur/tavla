@@ -357,3 +357,8 @@ export const useThemeColor = (
 export function isDarkOrDefaultTheme(theme?: Theme): boolean {
     return !theme || theme === Theme.DARK || theme === Theme.DEFAULT
 }
+
+export function isEqualUnsorted<T>(array: T[], includes: T[]): boolean {
+    if (array.length !== includes.length) return false
+    return includes.every((i) => array.includes(i))
+}

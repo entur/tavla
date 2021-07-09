@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import { useLongPress } from 'use-long-press/dist'
+import { useRouteMatch } from 'react-router'
 
 import RearrangeModal, { Item } from '../../components/RearrangeModal'
 
@@ -21,7 +22,7 @@ import {
 import { useSettingsContext } from '../../settings'
 
 import { DEFAULT_ZOOM } from '../../constants'
-import { usePrevious } from '../../utils'
+import { isEqualUnsorted, usePrevious } from '../../utils'
 
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
@@ -68,15 +69,21 @@ const COLS: { [key: string]: number } = {
     xxs: 1,
 }
 
-const EnturDashboard = ({ history }: Props): JSX.Element => {
+const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     const [settings] = useSettingsContext()
     const [breakpoint, setBreakpoint] = useState<string>('lg')
     const dashboardKey = history.location.key
+    const boardId =
+        useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
+            ?.documentId
+
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey),
     )
 
-    const [tileOrder, setTileOrder] = useState<Item[]>([])
+    const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
+        boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
+    )
 
     const bikeRentalStations = useBikeRentalStations()
 
@@ -134,13 +141,28 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 { id: 'map', name: 'Kart' },
             ]
         }
-        setTileOrder(defaultTileOrder)
+        const storedTileOrder: Item[] | undefined = getFromLocalStorage(
+            boardId + '-tile-order',
+        )
+        if (
+            storedTileOrder &&
+            storedTileOrder.length === defaultTileOrder.length &&
+            isEqualUnsorted(
+                defaultTileOrder.map((item) => item.id),
+                storedTileOrder.map((item) => item.id),
+            )
+        ) {
+            setTileOrder(storedTileOrder)
+        } else {
+            setTileOrder(defaultTileOrder)
+        }
     }, [
         stopPlacesWithDepartures,
         prevNumberOfStopPlaces,
         anyBikeRentalStations,
         hasData,
         settings?.showMap,
+        boardId,
     ])
 
     const longPress = useLongPress(
@@ -151,6 +173,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
     )
 
     if (window.innerWidth < BREAKPOINTS.md) {
+        if (!tileOrder) return null
+
         return (
             <DashboardWrapper
                 className="compact"
@@ -162,7 +186,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                 <div className="compact__tiles" {...longPress}>
                     <RearrangeModal
                         itemOrder={tileOrder}
-                        onTileOrderChanged={setTileOrder}
+                        onTileOrderChanged={(item) => {
+                            setTileOrder(item)
+                            saveToLocalStorage(boardId + '-tile-order', item)
+                        }}
                         modalVisible={modalVisible}
                         onDismiss={() => setModalVisible(false)}
                     />

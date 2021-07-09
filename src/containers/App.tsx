@@ -34,7 +34,7 @@ analytics.pageview(window.location.pathname)
 
 function getDashboardComponent(
     dashboardKey?: string | void,
-): (props: Props) => JSX.Element {
+): (props: Props) => JSX.Element | null {
     switch (dashboardKey) {
         case 'Timeline':
             return Timeline
