@@ -94,10 +94,7 @@ module.exports = (env) => {
                 ),
             }),
             new CopyPlugin({
-                patterns: [
-                    { from: 'manifest.json' },
-                    { from: 'public/images/', to: 'images' },
-                ],
+                patterns: [{ from: 'public/images/', to: 'images' }],
             }),
         ],
         watch: typeof env !== 'string',

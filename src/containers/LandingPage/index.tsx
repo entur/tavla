@@ -33,9 +33,72 @@ function LandingPage({ history }: Props): JSX.Element {
                 boardName: locationName,
                 created: new Date(),
             }
-
             createSettings(initialSettings).then((docRef) => {
                 history.push(`/t/${docRef.id}`)
+                const manifest = window.document.getElementById(
+                    'manifest-placeholder',
+                )
+                if (manifest) {
+                    const myDynamicManifest = {
+                        name: 'Tavla - Enturs avgangstavle',
+                        short_name: 'Tavla',
+                        start_url: `./t/${docRef.id}`,
+                        display: 'standalone',
+                        background_color: '#181C56',
+                        theme_color: '#181C56',
+                        description: 'Lag din egen sanntidstavle.',
+                        orientation: 'portrait',
+                        lang: 'no',
+                        images: [
+                            {
+                                src: 'images/logo/logo-72x72.png',
+                                sizes: '72x72',
+                                type: 'image/png',
+                            },
+                            {
+                                src: 'images/logo/logo-96x96.png',
+                                sizes: '96x96',
+                                type: 'image/png',
+                            },
+                            {
+                                src: 'images/logo/logo-128x128.png',
+                                sizes: '128x128',
+                                type: 'image/png',
+                            },
+                            {
+                                src: 'images/logo/logo-144x144.png',
+                                sizes: '144x144',
+                                type: 'image/png',
+                            },
+                            {
+                                src: 'images/logo/logo-152x152.png',
+                                sizes: '152x152',
+                                type: 'image/png',
+                            },
+                            {
+                                src: 'images/logo/logo-192x192.png',
+                                sizes: '192x192',
+                                type: 'image/png',
+                            },
+                            {
+                                src: 'images/logo/logo-384x384.png',
+                                sizes: '384x384',
+                                type: 'image/png',
+                            },
+                            {
+                                src: 'images/logo/logo-512x512.png',
+                                sizes: '512x512',
+                                type: 'image/png',
+                            },
+                        ],
+                    }
+                    const stringManifest = JSON.stringify(myDynamicManifest)
+                    const blob = new Blob([stringManifest], {
+                        type: 'application/json',
+                    })
+                    const manifestURL = URL.createObjectURL(blob)
+                    manifest.setAttribute('href', manifestURL)
+                }
             })
         },
         [history],
