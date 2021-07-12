@@ -56,6 +56,7 @@ function updateManifest(pathName: string): void {
             name: 'Tavla - Enturs avgangstavle',
             short_name: 'Tavla',
             start_url: `.${pathName}`,
+            scope: `.${pathName}`,
             display: 'standalone',
             background_color: '#181C56',
             theme_color: '#181C56',
