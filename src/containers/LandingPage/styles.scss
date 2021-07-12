@@ -42,7 +42,11 @@ $max-width: 86rem;
     }
 
     &__entur-link.eds-link {
-        background-image: linear-gradient(120deg, $colors-brand-coral, $colors-brand-coral);
+        background-image: linear-gradient(
+            120deg,
+            $colors-brand-coral,
+            $colors-brand-coral
+        );
         font-size: $font-sizes-extra-large;
         font-weight: $font-weights-body;
     }
@@ -53,7 +57,12 @@ $max-width: 86rem;
     }
 
     &__main-image-container {
-        background: linear-gradient($colors-brand-blue 0%, $colors-brand-blue 50%, $colors-brand-white 50%, $colors-brand-white 100%);
+        background: linear-gradient(
+            $colors-brand-blue 0%,
+            $colors-brand-blue 50%,
+            $colors-brand-white 50%,
+            $colors-brand-white 100%
+        );
 
         > img {
             display: block;

@@ -28,7 +28,6 @@
 
     &__tile {
         padding: 2rem;
-        padding-top: 0;
         background-color: var(--tavla-box-background-color);
         display: block;
         overflow: auto;
@@ -93,10 +92,6 @@
         }
     }
 
-    .react-grid-layout {
-        padding: 0;
-    }
-
     &__header {
         display: flex;
         justify-content: space-between;
@@ -129,7 +124,6 @@
     &__set-stops {
         display: flex;
         align-items: flex-start;
-        margin-top: 1rem;
     }
 
     .distance-editor {
@@ -147,23 +141,17 @@
     }
 
     @media (max-width: 1000px) {
+        padding: 0;
+
         &__set-stops {
             display: block;
         }
         &__expanding-text-field {
             padding: 0;
         }
-        .eds-h2 {
-            line-height: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
         &__tile {
             display: block;
-            padding: 1.25rem;
-        }
-        .heading {
-            justify-content: flex-start;
+            padding: 1rem;
         }
         &__input-wrapper {
             padding: 0;
