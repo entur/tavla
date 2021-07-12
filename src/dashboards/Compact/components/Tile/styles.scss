@@ -33,4 +33,15 @@
         align-items: center;
         font-size: 2rem;
     }
+
+    &__walking-time {
+        font-family: Arial;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+        /* identical to box height, or 150% */
+
+        color: #AEB7E2;
+    }
 }

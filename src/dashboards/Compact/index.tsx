@@ -10,7 +10,9 @@ import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
     useScooters,
+    useWalkTime,
 } from '../../logic'
+import { WalkTime } from '../../logic/useWalkTime'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 import ResizeHandle from '../../assets/icons/ResizeHandle'
 
@@ -37,6 +39,15 @@ function isMobileWeb(): boolean {
         typeof window.orientation !== 'undefined' ||
         navigator.userAgent.indexOf('IEMobile') !== -1
     )
+}
+
+function getWalkTimeForStopPlace(
+    walkTimes: WalkTime[],
+    id: string,
+): number | undefined {
+    return walkTimes?.find(
+        (walkTime) => walkTime.stopId === id && walkTime.walkTime !== undefined,
+    )?.walkTime
 }
 
 function getDataGrid(
@@ -96,6 +107,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
             ({ departures }) => departures.length > 0,
         )
     }
+
+    const walkTimes = useWalkTime(stopPlacesWithDepartures)
 
     const numberOfStopPlaces = stopPlacesWithDepartures
         ? stopPlacesWithDepartures.length
@@ -232,6 +245,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                             return (
                                 <div key={item.id}>
                                     <DepartureTile
+                                        walkTime={getWalkTimeForStopPlace(
+                                            walkTimes || [],
+                                            item.id,
+                                        )}
                                         stopPlaceWithDepartures={
                                             stopPlacesWithDepartures[stopIndex]
                                         }
@@ -286,6 +303,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                             />
                             <DepartureTile
                                 key={index}
+                                walkTime={getWalkTimeForStopPlace(
+                                    walkTimes || [],
+                                    stop.id,
+                                )}
                                 stopPlaceWithDepartures={stop}
                             />
                         </div>
