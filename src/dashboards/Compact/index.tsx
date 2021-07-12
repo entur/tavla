@@ -202,7 +202,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element => {
                                     (p) => p.id == item.id,
                                 )
                             return (
-                                <div key={item.id}>
+                                <div
+                                    key={item.id}
+                                    className="compact__tiles__departureTile"
+                                >
                                     <DepartureTile
                                         stopPlaceWithDepartures={
                                             stopPlacesWithDepartures[stopIndex]
