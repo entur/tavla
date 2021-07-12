@@ -20,5 +20,9 @@
         box-sizing: border-box;
         grid-auto-flow: row;
         grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+        margin: 0 0 0 0;
+        &__display-card {
+            margin: 0 0 1rem 0;
+        }
     }
 }

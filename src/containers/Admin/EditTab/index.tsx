@@ -34,7 +34,12 @@ import ToggleDetailsPanel from './ToggleDetailsPanel'
 import './styles.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
-
+function isMobileWeb(): boolean {
+    return (
+        typeof window.orientation !== 'undefined' ||
+        navigator.userAgent.indexOf('IEMobile') !== -1
+    )
+}
 const COLS: { [key: string]: number } = {
     lg: 4.5,
     md: 3,
@@ -220,6 +225,7 @@ const EditTab = (): JSX.Element => {
                 cols={COLS}
                 layouts={LAYOUT}
                 autoSize={true}
+                margin={isMobileWeb() ? [0, 16] : [10, 10]}
                 isResizable={false}
                 isDraggable={false}
                 onBreakpointChange={(newBreakpoint: string) => {

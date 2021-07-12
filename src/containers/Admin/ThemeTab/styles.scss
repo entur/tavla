@@ -33,3 +33,17 @@
 .heading {
     color: var(--tavla-font-color);
 }
+
+@media (max-width: 450px) {
+    .theme-tab {
+        width: 100%;
+        display: grid;
+        box-sizing: border-box;
+        grid-auto-flow: row;
+        grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+        margin: 0 0 0 0;
+        &__theme-card {
+            margin: 0 0 1rem 0;
+        }
+    }
+}

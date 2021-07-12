@@ -70,23 +70,11 @@
     .eds-tab:focus {
         outline: none;
     }
-
-    @media (max-width: 400px) {
-        .eds-grid--spacing-extraLarge {
-            grid-gap: 1rem;
-        }
-    }
-}
-
-@media (min-width: 600px) {
-    .admin {
-        padding-bottom: 8rem;
-    }
 }
 
 @media (max-width: 1000px) {
     .admin {
-        padding: 1.5rem 1.5rem 8rem;
+        padding: 1rem;
 
         &__content {
             display: block;
@@ -113,12 +101,6 @@
         .eds-tab {
             min-width: 10rem;
         }
-    }
-}
-@media (max-width: 1000px) {
-    .admin {
-        padding: 1.5rem;
-
         &__tabs {
             &__header {
                 padding-left: 1.5rem;

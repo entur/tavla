@@ -122,9 +122,8 @@
 
 @media (max-width: 1000px) {
     .chrono {
-        padding: 1.5rem;
+        padding: 1rem;
         overflow: auto;
-
         &__tiles {
             display: block;
 
@@ -133,16 +132,14 @@
                 width: 100%;
             }
         }
-
         .maptile {
             margin-bottom: 1rem;
             height: 630px;
             max-height: unset;
             width: 100%;
         }
-      
         .react-grid-item > .react-resizable-handle {
-            visibility: hidden;            
+            visibility: hidden;
         }
     }
 }
