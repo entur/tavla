@@ -34,3 +34,9 @@
         justify-content: center;
     }
 }
+@media (max-width: 1000px) {
+    .mine-tavler-modal {
+        margin: 1rem;
+        height: fit-content;
+    }
+}
