@@ -22,6 +22,7 @@
 
 @media (max-width: 500px) {
     .my-boards {
+        padding: 1rem;
         &__board-list {
             grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
         }
