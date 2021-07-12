@@ -33,7 +33,6 @@ function LandingPage({ history }: Props): JSX.Element {
                 boardName: locationName,
                 created: new Date(),
             }
-
             createSettings(initialSettings).then((docRef) => {
                 history.push(`/t/${docRef.id}`)
             })
