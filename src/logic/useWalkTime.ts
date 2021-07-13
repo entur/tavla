@@ -8,10 +8,11 @@ import { useSettingsContext } from '../settings'
 import { StopPlaceWithDepartures } from '../types'
 import { usePrevious, isNotNullOrUndefined } from '../utils'
 
+export type WalkTime = { stopId: string; walkTime: number }
 async function getWalkTime(
     stopPlaces: StopPlaceWithDepartures[],
     from: Coordinates,
-): Promise<Array<{ stopId: string; walkTime: number }>> {
+): Promise<WalkTime[]> {
     const travelTimes = await Promise.all(
         stopPlaces.map((stopPlace) =>
             service
@@ -40,7 +41,7 @@ async function getWalkTime(
 
 export default function useTravelTime(
     stopPlaces: StopPlaceWithDepartures[] | null,
-): Array<{ stopId: string; walkTime: number }> | null {
+): WalkTime[] | null {
     const [settings] = useSettingsContext()
     const [travelTime, setTravelTime] = useState<Array<{
         stopId: string
