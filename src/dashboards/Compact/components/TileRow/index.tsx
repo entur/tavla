@@ -48,28 +48,24 @@ function SubLabelIcon({
     subLabel: TileSubLabel
     hideSituations?: boolean
 }): JSX.Element | null {
+    if (!hideSituations && subLabel?.situation)
+        if (isMobileWeb())
+            return (
+                <div className="tilerow__sublabel__situation">
+                    <SituationModal situationMessage={subLabel.situation} />
+                </div>
+            )
+        else
+            return (
+                <div className="tilerow__sublabel__situation">
+                    <ValidationExclamation />
+                </div>
+            )
+
     if (subLabel.hasCancellation)
         return (
             <div className="tilerow__sublabel__cancellation">
                 <ValidationError />
-            </div>
-        )
-
-    if (
-        subLabel.hasSituation &&
-        !hideSituations &&
-        isMobileWeb() &&
-        subLabel?.situation
-    )
-        return (
-            <div className="tilerow__sublabel__situation">
-                <SituationModal situationMessage={subLabel.situation} />
-            </div>
-        )
-    else if (subLabel.hasSituation && !hideSituations)
-        return (
-            <div className="tilerow__sublabel__situation">
-                <ValidationExclamation />
             </div>
         )
     return null
