@@ -5,6 +5,14 @@ import { TileSubLabel } from '../../../../types'
 import ValidationExclamation from '../../../../assets/icons/ValidationExclamation'
 import ValidationError from '../../../../assets/icons/ValidationError'
 import './styles.scss'
+import SituationModal from '../../../../components/SituationModal'
+
+function isMobileWeb(): boolean {
+    return (
+        typeof window.orientation !== 'undefined' ||
+        navigator.userAgent.indexOf('IEMobile') !== -1
+    )
+}
 
 export function TileRow({
     label,
@@ -40,20 +48,26 @@ function SubLabelIcon({
     subLabel: TileSubLabel
     hideSituations?: boolean
 }): JSX.Element | null {
+    if (!hideSituations && subLabel?.situation)
+        if (isMobileWeb())
+            return (
+                <div className="tilerow__sublabel__situation">
+                    <SituationModal situationMessage={subLabel.situation} />
+                </div>
+            )
+        else
+            return (
+                <div className="tilerow__sublabel__situation">
+                    <ValidationExclamation />
+                </div>
+            )
+
     if (subLabel.hasCancellation)
         return (
             <div className="tilerow__sublabel__cancellation">
                 <ValidationError />
             </div>
         )
-
-    if (subLabel.hasSituation && !hideSituations)
-        return (
-            <div className="tilerow__sublabel__situation">
-                <ValidationExclamation />
-            </div>
-        )
-
     return null
 }
 

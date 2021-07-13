@@ -11,6 +11,10 @@
             width: 100%;
             height: 100%;
             overflow-y: scroll;
+
+            &__header-icons {
+                font-size: 2rem;
+            }
         }
 
         .maptile {
