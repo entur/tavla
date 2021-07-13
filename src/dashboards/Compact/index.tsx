@@ -3,6 +3,7 @@ import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import { useLongPress } from 'use-long-press/dist'
 import { useRouteMatch } from 'react-router'
+import { Loader } from '@entur/loader'
 
 import RearrangeModal, { Item } from '../../components/RearrangeModal'
 
@@ -104,19 +105,17 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         bikeRentalStations && bikeRentalStations.length
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
-    const hasData = Boolean(
-        bikeRentalStations?.length ||
-            scooters?.length ||
-            stopPlacesWithDepartures?.length,
-    )
-    const mapCol = hasData ? 1 : 0
-    const totalItems = numberOfStopPlaces + bikeCol + mapCol
+    const mapCol = settings?.showMap ? 1 : 0
 
     const maxWidthCols = COLS[breakpoint]
 
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
 
     const [modalVisible, setModalVisible] = useState(false)
+
+    const hasFetchedData = Boolean(
+        stopPlacesWithDepartures && bikeRentalStations,
+    )
 
     useEffect(() => {
         let defaultTileOrder: Item[] = []
@@ -135,7 +134,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                 { id: 'city-bike', name: 'Bysykkel' },
             ]
         }
-        if (hasData && settings?.showMap) {
+        if (mapCol) {
             defaultTileOrder = [
                 ...defaultTileOrder,
                 { id: 'map', name: 'Kart' },
@@ -160,7 +159,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         stopPlacesWithDepartures,
         prevNumberOfStopPlaces,
         anyBikeRentalStations,
-        hasData,
+        mapCol,
         settings?.showMap,
         boardId,
     ])
@@ -195,7 +194,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                     />
                     {tileOrder.map((item) => {
                         if (item.id == 'map') {
-                            return hasData && settings?.showMap ? (
+                            return mapCol ? (
                                 <div key={item.id}>
                                     <MapTile
                                         scooters={scooters}
@@ -245,6 +244,12 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         )
     }
 
+    console.log(numberOfStopPlaces)
+    console.log(bikeCol)
+    console.log(mapCol)
+
+    console.log(gridLayouts)
+
     return (
         <DashboardWrapper
             className="compact"
@@ -253,97 +258,105 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
             stopPlacesWithDepartures={stopPlacesWithDepartures}
             scooters={scooters}
         >
-            <div className="compact__tiles">
-                <ResponsiveReactGridLayout
-                    key={breakpoint}
-                    breakpoints={BREAKPOINTS}
-                    cols={COLS}
-                    layouts={gridLayouts}
-                    isResizable={!isMobileWeb()}
-                    isDraggable={!isMobileWeb()}
-                    onBreakpointChange={(newBreakpoint: string) => {
-                        setBreakpoint(newBreakpoint)
-                    }}
-                    onLayoutChange={(
-                        layout: Layout[],
-                        layouts: Layouts,
-                    ): void => {
-                        if (numberOfStopPlaces > 0) {
-                            setGridLayouts(layouts)
-                            saveToLocalStorage(dashboardKey, layouts)
-                        }
-                    }}
-                >
-                    {(stopPlacesWithDepartures || []).map((stop, index) => (
-                        <div
-                            key={stop.id}
-                            data-grid={getDataGrid(index, maxWidthCols)}
-                        >
-                            <ResizeHandle
-                                size="32"
-                                className="resizeHandle"
-                                variant="light"
-                            />
-                            <DepartureTile
-                                key={index}
-                                stopPlaceWithDepartures={stop}
-                            />
-                        </div>
-                    ))}
-                    {bikeRentalStations && anyBikeRentalStations ? (
-                        <div
-                            key="city-bike"
-                            data-grid={getDataGrid(
-                                numberOfStopPlaces,
-                                maxWidthCols,
-                            )}
-                        >
-                            {!isMobileWeb() ? (
+            {!hasFetchedData ? (
+                <div className="compact__loading-screen">
+                    <Loader>Laster inn</Loader>
+                </div>
+            ) : (
+                <div className="compact__tiles">
+                    <ResponsiveReactGridLayout
+                        key={breakpoint}
+                        breakpoints={BREAKPOINTS}
+                        cols={COLS}
+                        layouts={gridLayouts}
+                        isResizable={!isMobileWeb()}
+                        isDraggable={!isMobileWeb()}
+                        onBreakpointChange={(newBreakpoint: string) => {
+                            setBreakpoint(newBreakpoint)
+                        }}
+                        onLayoutChange={(
+                            layout: Layout[],
+                            layouts: Layouts,
+                        ): void => {
+                            if (numberOfStopPlaces > 0) {
+                                setGridLayouts(layouts)
+                                saveToLocalStorage(dashboardKey, layouts)
+                            }
+                        }}
+                    >
+                        {(stopPlacesWithDepartures || []).map((stop, index) => (
+                            <div
+                                key={stop.id}
+                                data-grid={getDataGrid(index, maxWidthCols)}
+                            >
                                 <ResizeHandle
                                     size="32"
                                     className="resizeHandle"
                                     variant="light"
                                 />
-                            ) : null}
-                            <BikeTile stations={bikeRentalStations} />
-                        </div>
-                    ) : (
-                        []
-                    )}
-                    {hasData && settings?.showMap ? (
-                        <div
-                            id="compact-map-tile"
-                            key="map"
-                            data-grid={getDataGrid(
-                                totalItems - 1,
-                                maxWidthCols,
-                            )}
-                        >
-                            {!isMobileWeb() ? (
-                                <ResizeHandle
-                                    size="32"
-                                    className="resizeHandle"
-                                    variant="dark"
+                                <DepartureTile
+                                    key={index}
+                                    stopPlaceWithDepartures={stop}
                                 />
-                            ) : null}
+                            </div>
+                        ))}
+                        {bikeRentalStations && anyBikeRentalStations ? (
+                            <div
+                                key="city-bike"
+                                data-grid={getDataGrid(
+                                    numberOfStopPlaces,
+                                    maxWidthCols,
+                                )}
+                            >
+                                {!isMobileWeb() ? (
+                                    <ResizeHandle
+                                        size="32"
+                                        className="resizeHandle"
+                                        variant="light"
+                                    />
+                                ) : null}
+                                <BikeTile stations={bikeRentalStations} />
+                            </div>
+                        ) : (
+                            []
+                        )}
+                        {mapCol ? (
+                            <div
+                                id="compact-map-tile"
+                                key="map"
+                                data-grid={getDataGrid(
+                                    numberOfStopPlaces + bikeCol,
+                                    maxWidthCols,
+                                )}
+                            >
+                                {!isMobileWeb() ? (
+                                    <ResizeHandle
+                                        size="32"
+                                        className="resizeHandle"
+                                        variant="dark"
+                                    />
+                                ) : null}
 
-                            <MapTile
-                                scooters={scooters}
-                                stopPlaces={stopPlacesWithDepartures}
-                                bikeRentalStations={bikeRentalStations}
-                                walkTimes={null}
-                                latitude={settings?.coordinates?.latitude ?? 0}
-                                longitude={
-                                    settings?.coordinates?.longitude ?? 0
-                                }
-                                zoom={settings?.zoom ?? DEFAULT_ZOOM}
-                            />
-                        </div>
-                    ) : (
-                        []
-                    )}
-                </ResponsiveReactGridLayout>
-            </div>
+                                <MapTile
+                                    scooters={scooters}
+                                    stopPlaces={stopPlacesWithDepartures}
+                                    bikeRentalStations={bikeRentalStations}
+                                    walkTimes={null}
+                                    latitude={
+                                        settings?.coordinates?.latitude ?? 0
+                                    }
+                                    longitude={
+                                        settings?.coordinates?.longitude ?? 0
+                                    }
+                                    zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                                />
+                            </div>
+                        ) : (
+                            []
+                        )}
+                    </ResponsiveReactGridLayout>
+                </div>
+            )}
         </DashboardWrapper>
     )
 }
