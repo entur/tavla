@@ -2,16 +2,12 @@ import React from 'react'
 
 import './styles.scss'
 
-function PlatformInfo({ platform, type }: Props): JSX.Element {
-    return (
+function PlatformInfo({ platform, type }: Props): JSX.Element | null {
+    return platform && type ? (
         <div className="platform-info">
-            {platform !== '' && platform !== undefined
-                ? type === 'rail'
-                    ? `Spor ${platform}`
-                    : `Plattform ${platform}`
-                : ''}
+            {type === 'rail' ? `Spor ${platform}` : `Plattform ${platform}`}
         </div>
-    )
+    ) : null
 }
 
 interface Props {
