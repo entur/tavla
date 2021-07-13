@@ -23,6 +23,16 @@
         }
     }
 
+    &__loading-screen {
+        margin: 0;
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
     .react-grid-layout {
         position: relative;
         transition: height 200ms ease;

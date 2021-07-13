@@ -4,6 +4,7 @@ import { PrimaryButton } from '@entur/button'
 
 import { Paragraph } from '@entur/typography'
 
+import './styles.scss'
 import ValidationExclamation from '../../assets/icons/ValidationExclamation'
 
 interface Props {
@@ -20,9 +21,10 @@ function SituationModal(props: Props): JSX.Element {
             <Modal
                 open={isOpen}
                 onDismiss={() => setOpen(false)}
-                title=""
-                size="extraSmall"
+                title="Avviksmelding"
+                size="medium"
                 closeOnClickOutside={true}
+                className="situation-modal"
             >
                 <Paragraph>{`${situationMessage}.`}</Paragraph>
                 <PrimaryButton onClick={() => setOpen(false)} size="medium">
