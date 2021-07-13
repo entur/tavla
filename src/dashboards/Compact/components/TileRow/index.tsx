@@ -14,6 +14,21 @@ function isMobileWeb(): boolean {
     )
 }
 
+const platformInfo = (
+    platform: string | undefined,
+    type: string | undefined,
+) => {
+    return (
+        <div className="tilerow__platform-info">
+            {platform !== '' && platform !== undefined
+                ? type === 'rail'
+                    ? `Spor ${platform}`
+                    : `Plattform ${platform}`
+                : ''}
+        </div>
+    )
+}
+
 export function TileRow({
     label,
     icon,
@@ -27,13 +42,7 @@ export function TileRow({
             <div className="tilerow__icon">{icon}</div>
             <div className="tilerow__texts">
                 <Heading3 className="tilerow__label">{label}</Heading3>
-                <div className="tile__walking-time">
-                    {platform !== '' && platform !== undefined
-                        ? type === 'rail'
-                            ? `Spor ${platform}`
-                            : `Plattform ${platform}`
-                        : ''}
-                </div>
+                {platformInfo(platform, type)}
                 <div className="tilerow__sublabels">
                     {subLabels.map((subLabel, index) => (
                         <div className="tilerow__sublabel" key={index}>

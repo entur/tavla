@@ -63,4 +63,10 @@
             margin-right: -0.125rem;
         }
     }
+
+    &__platform-info {
+        font-size: 1rem;
+        color: var(--tavla-label-font-color);
+        margin-bottom: 0.5rem;
+    }
 }
