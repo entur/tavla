@@ -57,15 +57,6 @@ const DepartureTile = ({
         }
     }, [settings])
 
-    /*
-    quays?.map((item) => {
-        console.log(item)
-        console.log(item.publicCode)
-    })
-    */
-
-    console.log(departures)
-
     return (
         <Tile title={name} icons={headerIcons} walkTime={walkTime}>
             {routes.map((route) => {
