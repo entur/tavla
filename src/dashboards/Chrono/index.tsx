@@ -24,6 +24,7 @@ import { isEqualUnsorted, usePrevious } from '../../utils'
 
 import DepartureTile from './DepartureTile'
 import MapTile from './MapTile'
+
 import BikeTile from './BikeTile'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -58,7 +59,7 @@ const BREAKPOINTS = {
 }
 
 const COLS: { [key: string]: number } = {
-    lg: 4,
+    lg: 3,
     md: 3,
     sm: 1,
     xs: 1,

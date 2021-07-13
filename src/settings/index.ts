@@ -44,6 +44,7 @@ export interface Settings {
     description?: string
     showMap?: boolean
     hideSituations?: boolean
+    hideTracks?: boolean
 }
 
 interface SettingsSetters {
@@ -68,6 +69,7 @@ interface SettingsSetters {
     setDescription: (description: string) => void
     setShowMap: (visible: boolean) => void
     setHideSituations: (hidden: boolean) => void
+    setHideTracks: (hidden: boolean) => void
 }
 
 export const SettingsContext = createContext<
@@ -94,6 +96,7 @@ export const SettingsContext = createContext<
         setDescription: (): void => undefined,
         setShowMap: (): void => undefined,
         setHideSituations: (): void => undefined,
+        setHideTracks: (): void => undefined,
     },
 ])
 
@@ -337,6 +340,12 @@ export function useSettings(): [Settings | null, SettingsSetters] {
         },
         [set],
     )
+    const setHideTracks = useCallback(
+        (hidden: boolean): void => {
+            set('hideTracks', hidden)
+        },
+        [set],
+    )
 
     const setters = {
         setBoardName,
@@ -358,6 +367,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
         setDescription,
         setShowMap,
         setHideSituations,
+        setHideTracks,
     }
 
     return [settings, setters]
