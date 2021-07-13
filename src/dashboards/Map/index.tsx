@@ -4,7 +4,7 @@ import DashboardWrapper from '../../containers/DashboardWrapper'
 import {
     useStopPlacesWithDepartures,
     useBikeRentalStations,
-    useWalkTime,
+    useWalkInfo,
     useScooters,
 } from '../../logic'
 
@@ -20,7 +20,7 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const bikeRentalStations = useBikeRentalStations()
-    const walkTimes = useWalkTime(stopPlacesWithDepartures)
+    const walkTimes = useWalkInfo(stopPlacesWithDepartures)
     const scooters = useScooters()
     const HEADER_MARGIN = 16
     //Used to calculate the height of the viewport for the map

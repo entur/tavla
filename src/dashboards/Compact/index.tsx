@@ -10,9 +10,10 @@ import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
     useScooters,
-    useWalkTime,
+    useWalkInfo,
 } from '../../logic'
-import { WalkTime } from '../../logic/useWalkTime'
+
+import { WalkInfo } from '../../logic/useWalkInfo'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 import ResizeHandle from '../../assets/icons/ResizeHandle'
 
@@ -41,13 +42,11 @@ function isMobileWeb(): boolean {
     )
 }
 
-function getWalkTimeForStopPlace(
-    walkTimes: WalkTime[],
+function getWalkInfoForStopPlace(
+    walkInfos: WalkInfo[],
     id: string,
-): number | undefined {
-    return walkTimes?.find(
-        (walkTime) => walkTime.stopId === id && walkTime.walkTime !== undefined,
-    )?.walkTime
+): WalkInfo | undefined {
+    return walkInfos?.find((walkInfo) => walkInfo.stopId === id)
 }
 
 function getDataGrid(
@@ -108,7 +107,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         )
     }
 
-    const walkTimes = useWalkTime(stopPlacesWithDepartures)
+    const walkInfo = useWalkInfo(stopPlacesWithDepartures)
 
     const numberOfStopPlaces = stopPlacesWithDepartures
         ? stopPlacesWithDepartures.length
@@ -245,8 +244,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                             return (
                                 <div key={item.id}>
                                     <DepartureTile
-                                        walkTime={getWalkTimeForStopPlace(
-                                            walkTimes || [],
+                                        walkInfo={getWalkInfoForStopPlace(
+                                            walkInfo || [],
                                             item.id,
                                         )}
                                         stopPlaceWithDepartures={
@@ -303,8 +302,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                             />
                             <DepartureTile
                                 key={index}
-                                walkTime={getWalkTimeForStopPlace(
-                                    walkTimes || [],
+                                walkInfo={getWalkInfoForStopPlace(
+                                    walkInfo || [],
                                     stop.id,
                                 )}
                                 stopPlaceWithDepartures={stop}

@@ -21,6 +21,7 @@ import TileRow from '../components/TileRow'
 
 import './styles.scss'
 import { useSettingsContext } from '../../../settings'
+import { WalkInfo } from '../../../logic/useWalkInfo'
 
 function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     const transportModes = unique(
@@ -39,7 +40,7 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
 
 const DepartureTile = ({
     stopPlaceWithDepartures,
-    walkTime,
+    walkInfo,
 }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
     const groupedDepartures = groupBy<LineData>(departures, 'route')
@@ -58,7 +59,7 @@ const DepartureTile = ({
     }, [settings])
 
     return (
-        <Tile title={name} icons={headerIcons} walkTime={walkTime}>
+        <Tile title={name} icons={headerIcons} walkInfo={walkInfo}>
             {routes.map((route) => {
                 const subType = groupedDepartures[route][0].subType
                 const routeData = groupedDepartures[route]
@@ -81,7 +82,7 @@ const DepartureTile = ({
 
 interface Props {
     stopPlaceWithDepartures: StopPlaceWithDepartures
-    walkTime?: number
+    walkInfo?: WalkInfo
 }
 
 export default DepartureTile
