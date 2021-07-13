@@ -73,8 +73,7 @@ const DepartureTile = ({
                 const routeData = groupedDepartures[route]
                 const routeType = routeData[0].type
                 const icon = getIcon(routeType, iconColorType, subType)
-                const platform = groupedDepartures[route][0].quay?.publicCode
-                console.log(platform)
+                const platform = routeData[0].quay?.publicCode
                 return (
                     <TileRow
                         key={route}
@@ -83,6 +82,7 @@ const DepartureTile = ({
                         icon={icon}
                         hideSituations={hideSituations}
                         platform={platform}
+                        type={routeType}
                     />
                 )
             })}
