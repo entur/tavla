@@ -300,56 +300,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                 key={stop.id}
                                 data-grid={getDataGrid(index, maxWidthCols)}
                             >
-            <div className="compact__tiles">
-                <ResponsiveReactGridLayout
-                    key={breakpoint}
-                    breakpoints={BREAKPOINTS}
-                    cols={COLS}
-                    layouts={gridLayouts}
-                    isResizable={!isMobileWeb()}
-                    isDraggable={!isMobileWeb()}
-                    onBreakpointChange={(newBreakpoint: string) => {
-                        setBreakpoint(newBreakpoint)
-                    }}
-                    onLayoutChange={(
-                        layout: Layout[],
-                        layouts: Layouts,
-                    ): void => {
-                        if (numberOfStopPlaces > 0) {
-                            setGridLayouts(layouts)
-                            saveToLocalStorage(dashboardKey, layouts)
-                        }
-                    }}
-                >
-                    {(stopPlacesWithDepartures || []).map((stop, index) => (
-                        <div
-                            key={stop.id}
-                            data-grid={getDataGrid(index, maxWidthCols)}
-                        >
-                            <ResizeHandle
-                                size="32"
-                                className="resizeHandle"
-                                variant="light"
-                            />
-                            <DepartureTile
-                                key={index}
-                                walkTime={getWalkTimeForStopPlace(
-                                    walkTimes || [],
-                                    stop.id,
-                                )}
-                                stopPlaceWithDepartures={stop}
-                            />
-                        </div>
-                    ))}
-                    {bikeRentalStations && anyBikeRentalStations ? (
-                        <div
-                            key="city-bike"
-                            data-grid={getDataGrid(
-                                numberOfStopPlaces,
-                                maxWidthCols,
-                            )}
-                        >
-                            {!isMobileWeb() ? (
                                 <ResizeHandle
                                     size="32"
                                     className="resizeHandle"
@@ -357,6 +307,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                 />
                                 <DepartureTile
                                     key={index}
+                                    walkTime={getWalkTimeForStopPlace(
+                                        walkTimes || [],
+                                        stop.id,
+                                    )}
                                     stopPlaceWithDepartures={stop}
                                 />
                             </div>
