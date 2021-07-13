@@ -22,7 +22,7 @@ function SituationModal(props: Props): JSX.Element {
                 open={isOpen}
                 onDismiss={() => setOpen(false)}
                 title="Avviksmelding"
-                size="small"
+                size="medium"
                 closeOnClickOutside={true}
                 className="situation-modal"
             >
