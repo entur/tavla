@@ -57,6 +57,15 @@ const DepartureTile = ({
         }
     }, [settings])
 
+    /*
+    quays?.map((item) => {
+        console.log(item)
+        console.log(item.publicCode)
+    })
+    */
+
+    console.log(departures)
+
     return (
         <Tile title={name} icons={headerIcons} walkTime={walkTime}>
             {routes.map((route) => {
@@ -64,7 +73,8 @@ const DepartureTile = ({
                 const routeData = groupedDepartures[route]
                 const routeType = routeData[0].type
                 const icon = getIcon(routeType, iconColorType, subType)
-
+                const platform = groupedDepartures[route][0].quay?.publicCode
+                console.log(platform)
                 return (
                     <TileRow
                         key={route}
@@ -72,6 +82,7 @@ const DepartureTile = ({
                         subLabels={routeData.map(createTileSubLabel)}
                         icon={icon}
                         hideSituations={hideSituations}
+                        platform={platform}
                     />
                 )
             })}

@@ -1,4 +1,4 @@
-import { TransportMode, TransportSubmode, StopPlace } from '@entur/sdk'
+import { TransportMode, TransportSubmode, StopPlace, Quay } from '@entur/sdk'
 
 export interface LineData {
     id: string
@@ -9,6 +9,7 @@ export interface LineData {
     expectedDepartureTime: string
     situation?: string
     hasCancellation?: boolean
+    quay?: Quay | undefined
 }
 export interface Line {
     id: string

@@ -211,6 +211,8 @@ export function transformDepartureToLineData(
         destinationDisplay.frontText
     }`.trim()
 
+    const quay = departure.quay
+
     const transportMode: TransportMode =
         line.transportMode === 'coach' ? TransportMode.BUS : line.transportMode
     const subType = departure.serviceJourney?.transportSubmode
@@ -224,6 +226,7 @@ export function transformDepartureToLineData(
         route,
         situation: situations[0]?.summary?.[0]?.value,
         hasCancellation: cancellation,
+        quay,
     }
 }
 
