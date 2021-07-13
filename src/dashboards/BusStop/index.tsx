@@ -8,7 +8,9 @@ import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
     useScooters,
+    useWalkInfo,
 } from '../../logic'
+import { WalkInfo } from '../../logic/useWalkInfo'
 
 import { useSettingsContext } from '../../settings'
 
@@ -17,6 +19,13 @@ import DepartureTile from './DepartureTile'
 import MapTile from './MapTile'
 
 import './styles.scss'
+
+function getWalkInfoForStopPlace(
+    walkInfos: WalkInfo[],
+    id: string,
+): WalkInfo | undefined {
+    return walkInfos?.find((walkInfo) => walkInfo.stopId === id)
+}
 
 function BusStop({ history }: Props): JSX.Element {
     const [settings] = useSettingsContext()
@@ -29,6 +38,9 @@ function BusStop({ history }: Props): JSX.Element {
             ({ departures }) => departures.length > 0,
         )
     }
+
+    const walkInfo = useWalkInfo(stopPlacesWithDepartures)
+
     const mediumWidth = settings?.showMap ? 8 : 12
     return (
         <DashboardWrapper
@@ -43,6 +55,10 @@ function BusStop({ history }: Props): JSX.Element {
                             <DepartureTile
                                 key={index.toString()}
                                 stopPlaceWithDepartures={stop}
+                                walkInfo={getWalkInfoForStopPlace(
+                                    walkInfo || [],
+                                    stop.id,
+                                )}
                             />
                         ))}{' '}
                     </div>

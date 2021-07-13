@@ -43,6 +43,12 @@
         white-space: wrap;
         text-overflow: ellipsis;
     }
+    &__walking-time {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1rem;
+        color: var(--tavla-label-font-color);
+    }
 }
 
 @media (max-width: 1000px) {
