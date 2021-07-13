@@ -8,6 +8,7 @@ import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
     useScooters,
+    useWalkInfo,
 } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 import { DEFAULT_ZOOM } from '../../constants'
@@ -22,6 +23,8 @@ import { useSettingsContext } from '../../settings'
 
 import { isEqualUnsorted, usePrevious } from '../../utils'
 
+import { WalkInfo } from '../../logic/useWalkInfo'
+
 import DepartureTile from './DepartureTile'
 import MapTile from './MapTile'
 import BikeTile from './BikeTile'
@@ -33,6 +36,13 @@ function isMobileWeb(): boolean {
         typeof window.orientation !== 'undefined' ||
         navigator.userAgent.indexOf('IEMobile') !== -1
     )
+}
+
+function getWalkInfoForStopPlace(
+    walkInfos: WalkInfo[],
+    id: string,
+): WalkInfo | undefined {
+    return walkInfos?.find((walkInfo) => walkInfo.stopId === id)
 }
 
 function getDataGrid(
@@ -96,6 +106,9 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
             ({ departures }) => departures.length > 0,
         )
     }
+
+    const walkInfo = useWalkInfo(stopPlacesWithDepartures)
+
     const numberOfStopPlaces = stopPlacesWithDepartures?.length || 0
     const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
@@ -233,6 +246,10 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                         stopPlaceWithDepartures={
                                             stopPlacesWithDepartures[stopIndex]
                                         }
+                                        walkInfo={getWalkInfoForStopPlace(
+                                            walkInfo || [],
+                                            item.id,
+                                        )}
                                         isMobile
                                         numberOfTileRows={numberOfTileRows}
                                     />
@@ -281,6 +298,10 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                             <DepartureTile
                                 key={index}
                                 stopPlaceWithDepartures={stop}
+                                walkInfo={getWalkInfoForStopPlace(
+                                    walkInfo || [],
+                                    stop.id,
+                                )}
                             />
                         </div>
                     ))}
