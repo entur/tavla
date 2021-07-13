@@ -64,18 +64,6 @@ function SubLabelIcon({
                 <ValidationError />
             </div>
         )
-    /*if (!hideSituations && isMobileWeb() && subLabel?.situation)
-        return (
-            <div className="tilerow__sublabel__situation">
-                <SituationModal situationMessage={subLabel.situation} />
-            </div>
-        )
-    else if (subLabel.hasSituation && !hideSituations)
-        return (
-            <div className="tilerow__sublabel__situation">
-                <ValidationExclamation />
-            </div>
-        )*/
     return null
 }
 
