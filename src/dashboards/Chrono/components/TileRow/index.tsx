@@ -7,6 +7,14 @@ import ValidationError from '../../../../assets/icons/ValidationError'
 import { TileSubLabel } from '../../../../types'
 
 import './styles.scss'
+import SituationModal from '../../../../components/SituationModal'
+
+function isMobileWeb(): boolean {
+    return (
+        typeof window.orientation !== 'undefined' ||
+        navigator.userAgent.indexOf('IEMobile') !== -1
+    )
+}
 
 export function TileRow({
     label,
@@ -43,13 +51,23 @@ function SubLabelIcon({
             </div>
         )
 
-    if (subLabel.hasSituation && !hideSituations)
+    if (
+        subLabel.hasSituation &&
+        !hideSituations &&
+        isMobileWeb() &&
+        subLabel?.situation
+    )
+        return (
+            <div className="tilerow__sublabel__situation">
+                <SituationModal situationMessage={subLabel.situation} />
+            </div>
+        )
+    else if (subLabel.hasSituation && !hideSituations)
         return (
             <div className="tilerow__sublabel__situation">
                 <ValidationExclamation />
             </div>
         )
-
     return null
 }
 
