@@ -120,14 +120,33 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     const bikeCol = anyBikeRentalStations ? 1 : 0
     const mapCol = settings?.showMap ? 1 : 0
 
+    const hasData = Boolean(
+        bikeRentalStations?.length ||
+            scooters?.length ||
+            stopPlacesWithDepartures?.length,
+    )
+
     const maxWidthCols = COLS[breakpoint]
 
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
 
     const [modalVisible, setModalVisible] = useState(false)
 
+    const stopPlacesHasLoaded = Boolean(
+        stopPlacesWithDepartures ||
+            settings?.hiddenModes?.includes('kollektiv'),
+    )
+
+    const bikeHasLoaded = Boolean(
+        bikeRentalStations || settings?.hiddenModes?.includes('bysykkel'),
+    )
+
+    const scooterHasLoaded = Boolean(
+        scooters || settings?.hiddenModes?.includes('sparkesykkel'),
+    )
+
     const hasFetchedData = Boolean(
-        stopPlacesWithDepartures && bikeRentalStations,
+        stopPlacesHasLoaded && bikeHasLoaded && scooterHasLoaded,
     )
 
     useEffect(() => {
@@ -207,7 +226,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                     />
                     {tileOrder.map((item) => {
                         if (item.id == 'map') {
-                            return mapCol ? (
+                            return hasData && mapCol ? (
                                 <div key={item.id}>
                                     <MapTile
                                         scooters={scooters}
@@ -260,7 +279,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
             </DashboardWrapper>
         )
     }
-
     return (
         <DashboardWrapper
             className="compact"
