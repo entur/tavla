@@ -5,27 +5,15 @@ import { TileSubLabel } from '../../../../types'
 import ValidationExclamation from '../../../../assets/icons/ValidationExclamation'
 import ValidationError from '../../../../assets/icons/ValidationError'
 import './styles.scss'
+
 import SituationModal from '../../../../components/SituationModal'
+
+import PlatformInfo from './PlatformInfo'
 
 function isMobileWeb(): boolean {
     return (
         typeof window.orientation !== 'undefined' ||
         navigator.userAgent.indexOf('IEMobile') !== -1
-    )
-}
-
-const platformInfo = (
-    platform: string | undefined,
-    type: string | undefined,
-) => {
-    return (
-        <div className="tilerow__platform-info">
-            {platform !== '' && platform !== undefined
-                ? type === 'rail'
-                    ? `Spor ${platform}`
-                    : `Plattform ${platform}`
-                : ''}
-        </div>
     )
 }
 
@@ -42,7 +30,7 @@ export function TileRow({
             <div className="tilerow__icon">{icon}</div>
             <div className="tilerow__texts">
                 <Heading3 className="tilerow__label">{label}</Heading3>
-                {platformInfo(platform, type)}
+                <PlatformInfo platform={platform} type={type} />
                 <div className="tilerow__sublabels">
                     {subLabels.map((subLabel, index) => (
                         <div className="tilerow__sublabel" key={index}>

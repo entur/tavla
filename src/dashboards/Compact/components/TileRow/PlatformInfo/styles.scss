@@ -1,0 +1,8 @@
+@import '../../../../../assets/styles/import.scss';
+@import '../../../../../variables.scss';
+
+.platform-info {
+    font-size: 1rem;
+    color: var(--tavla-label-font-color);
+    margin-bottom: 0.5rem;
+}
