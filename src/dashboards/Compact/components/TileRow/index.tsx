@@ -28,23 +28,10 @@ export function TileRow({
             <div className="tilerow__texts">
                 <Heading3 className="tilerow__label">{label}</Heading3>
                 <div className="tile__walking-time">
-                    {type === 'bus' && platform !== '' && platform !== undefined
-                        ? `Plattform ${platform}`
-                        : ''}
-                    {type === 'rail' &&
-                    platform !== '' &&
-                    platform !== undefined
-                        ? `Spor ${platform}`
-                        : ''}
-                    {type === 'metro' &&
-                    platform !== '' &&
-                    platform !== undefined
-                        ? `Plattform ${platform}`
-                        : ''}
-                    {type === 'tram' &&
-                    platform !== '' &&
-                    platform !== undefined
-                        ? `Plattform ${platform}`
+                    {platform !== '' && platform !== undefined
+                        ? type === 'rail'
+                            ? `Spor ${platform}`
+                            : `Plattform ${platform}`
                         : ''}
                 </div>
                 <div className="tilerow__sublabels">

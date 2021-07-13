@@ -279,7 +279,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
             </DashboardWrapper>
         )
     }
-
     return (
         <DashboardWrapper
             className="compact"
