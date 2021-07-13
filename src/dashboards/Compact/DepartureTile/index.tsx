@@ -65,7 +65,7 @@ const DepartureTile = ({
                 const routeData = groupedDepartures[route]
                 const routeType = routeData[0].type
                 const icon = getIcon(routeType, iconColorType, subType)
-
+                const platform = routeData[0].quay?.publicCode
                 return (
                     <TileRow
                         key={route}
@@ -73,6 +73,8 @@ const DepartureTile = ({
                         subLabels={routeData.map(createTileSubLabel)}
                         icon={icon}
                         hideSituations={hideSituations}
+                        platform={platform}
+                        type={routeType}
                     />
                 )
             })}

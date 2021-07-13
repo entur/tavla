@@ -5,7 +5,10 @@ import { TileSubLabel } from '../../../../types'
 import ValidationExclamation from '../../../../assets/icons/ValidationExclamation'
 import ValidationError from '../../../../assets/icons/ValidationError'
 import './styles.scss'
+
 import SituationModal from '../../../../components/SituationModal'
+
+import PlatformInfo from './PlatformInfo'
 
 function isMobileWeb(): boolean {
     return (
@@ -19,12 +22,15 @@ export function TileRow({
     icon,
     subLabels,
     hideSituations,
+    platform,
+    type,
 }: Props): JSX.Element {
     return (
         <div className="tilerow">
             <div className="tilerow__icon">{icon}</div>
             <div className="tilerow__texts">
                 <Heading3 className="tilerow__label">{label}</Heading3>
+                <PlatformInfo platform={platform} type={type} />
                 <div className="tilerow__sublabels">
                     {subLabels.map((subLabel, index) => (
                         <div className="tilerow__sublabel" key={index}>
@@ -76,6 +82,8 @@ interface Props {
     subLabels: TileSubLabel[]
     icon: JSX.Element | null
     hideSituations?: boolean
+    platform?: string
+    type?: string
 }
 
 export default TileRow
