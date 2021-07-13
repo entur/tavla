@@ -55,7 +55,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
     const { departures } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
     const [settings] = useSettingsContext()
-    const { hideSituations } = settings || {}
+    const { hideSituations, hideTracks } = settings || {}
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
@@ -76,24 +76,26 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                 <col
                     style={
                         !isMobile
-                            ? { width: '4%', minWidth: '2rem' }
-                            : { width: '15%' }
+                            ? { width: '5%', minWidth: '2rem' }
+                            : { width: '10%' }
                     }
                 />
-                <col style={!isMobile ? { width: '26%' } : { width: '41%' }} />
+                <col style={!isMobile ? { width: '25%' } : { width: '35%' }} />
                 <col
                     style={
                         !isMobile
-                            ? { width: '9%', minWidth: '5rem' }
-                            : { width: '28%' }
+                            ? { width: '7%', minWidth: '5rem' }
+                            : { width: '30%' }
                     }
                 />
-                <col style={!isMobile ? { width: '62%' } : { width: '16%' }} />
+                <col style={!isMobile ? { width: '7%' } : { width: '10%' }} />
+                <col style={!isMobile ? { width: '56%' } : { width: '10%' }} />
                 <TableHead>
                     <TableRow className="tableRow">
                         <HeaderCell> </HeaderCell>
                         <HeaderCell>Linje</HeaderCell>
                         <HeaderCell>Avgang</HeaderCell>
+                        {!hideTracks ? <HeaderCell>Spor</HeaderCell> : null}
                         {!hideSituations ? (
                             <HeaderCell>Avvik</HeaderCell>
                         ) : null}
@@ -119,6 +121,13 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                                 </Heading3>
                             </DataCell>
                             <DataCell>{data.time}</DataCell>
+                            <DataCell>
+                                {!hideTracks ? (
+                                    <div>Hvis spor er på</div>
+                                ) : (
+                                    <div></div>
+                                )}
+                            </DataCell>
                             <DataCell>
                                 {!hideSituations ? (
                                     <div>
