@@ -11,7 +11,7 @@ export function Tile({ title, icons, walkTime, children }: Props): JSX.Element {
             </header>
             {walkTime ? (
                 <div className="tile__walking-time">
-                    {`${Math.ceil(walkTime / 60)} minutt å gå.`}
+                    {`${Math.ceil(walkTime / 60)} min å gå.`}
                 </div>
             ) : null}
             {children}
