@@ -8,11 +8,16 @@ import { useSettingsContext } from '../settings'
 import { StopPlaceWithDepartures } from '../types'
 import { usePrevious, isNotNullOrUndefined } from '../utils'
 
-export type WalkTime = { stopId: string; walkTime: number }
-async function getWalkTime(
+export type WalkInfo = {
+    stopId: string
+    walkTime: number
+    walkDistance: number
+}
+
+async function getWalkInfo(
     stopPlaces: StopPlaceWithDepartures[],
     from: Coordinates,
-): Promise<WalkTime[]> {
+): Promise<WalkInfo[]> {
     const travelTimes = await Promise.all(
         stopPlaces.map((stopPlace) =>
             service
@@ -31,6 +36,7 @@ async function getWalkTime(
                 .then((result) => ({
                     stopId: stopPlace.id,
                     walkTime: result[0].duration,
+                    walkDistance: result[0].walkDistance,
                 }))
                 .catch(() => null),
         ),
@@ -41,12 +47,9 @@ async function getWalkTime(
 
 export default function useTravelTime(
     stopPlaces: StopPlaceWithDepartures[] | null,
-): WalkTime[] | null {
+): WalkInfo[] | null {
     const [settings] = useSettingsContext()
-    const [travelTime, setTravelTime] = useState<Array<{
-        stopId: string
-        walkTime: number
-    }> | null>(null)
+    const [travelTime, setTravelTime] = useState<WalkInfo[] | null>(null)
 
     const { latitude: fromLatitude, longitude: fromLongitude } =
         settings?.coordinates ?? {
@@ -61,7 +64,7 @@ export default function useTravelTime(
             return setTravelTime(null)
         }
         if (!isEqual(ids, previousIds)) {
-            getWalkTime(stopPlaces, {
+            getWalkInfo(stopPlaces, {
                 latitude: fromLatitude,
                 longitude: fromLongitude,
             }).then(setTravelTime)
