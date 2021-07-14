@@ -28,6 +28,7 @@ import SubLabelIcon from '../components/SubLabelIcon'
 import './styles.scss'
 import { useSettingsContext } from '../../../settings'
 import SituationModal from '../../../components/SituationModal'
+import { WalkInfo } from '../../../logic/useWalkInfo'
 
 function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     const transportModes = unique(
@@ -44,6 +45,16 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
 }
 
+function formatWalkInfo(walkInfo: WalkInfo) {
+    if (walkInfo.walkTime / 60 < 1) {
+        return `Mindre enn 1 min å gå (${Math.ceil(walkInfo.walkDistance)} m)`
+    } else {
+        return `${Math.ceil(walkInfo.walkTime / 60)} min å gå (${Math.ceil(
+            walkInfo.walkDistance,
+        )} m)`
+    }
+}
+
 function isMobileWeb(): boolean {
     return (
         typeof window.orientation !== 'undefined' ||
@@ -51,7 +62,10 @@ function isMobileWeb(): boolean {
     )
 }
 
-const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
+const DepartureTile = ({
+    stopPlaceWithDepartures,
+    walkInfo,
+}: Props): JSX.Element => {
     const { departures } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
     const [settings] = useSettingsContext()
@@ -72,6 +86,11 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                 <Heading2>{stopPlaceWithDepartures.name}</Heading2>
                 <div className="tile__header__icons">{headerIcons}</div>
             </header>
+            {walkInfo ? (
+                <div className="tile__walking-time">
+                    {formatWalkInfo(walkInfo)}
+                </div>
+            ) : null}
             <Table spacing="small" fixed>
                 <col
                     style={
@@ -148,6 +167,7 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
 
 interface Props {
     stopPlaceWithDepartures: StopPlaceWithDepartures
+    walkInfo?: WalkInfo
 }
 
 export default DepartureTile
