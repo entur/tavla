@@ -69,7 +69,7 @@ const DepartureTile = ({
     const { departures } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
     const [settings] = useSettingsContext()
-    const { hideSituations, hideTracks } = settings || {}
+    const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
@@ -86,7 +86,7 @@ const DepartureTile = ({
                 <Heading2>{stopPlaceWithDepartures.name}</Heading2>
                 <div className="tile__header__icons">{headerIcons}</div>
             </header>
-            {walkInfo ? (
+            {walkInfo && !hideWalkInfo ? (
                 <div className="tile__walking-time">
                     {formatWalkInfo(walkInfo)}
                 </div>
