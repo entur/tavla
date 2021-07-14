@@ -45,11 +45,13 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
 }
 
-function formatWalkTime(walkTime: number) {
-    if (walkTime / 60 < 1) {
-        return 'Mindre enn 1 min å gå'
+function formatWalkInfo(walkInfo: WalkInfo) {
+    if (walkInfo.walkTime / 60 < 1) {
+        return `Mindre enn 1 min å gå (${Math.ceil(walkInfo.walkDistance)} m)`
     } else {
-        return `${Math.ceil(walkTime / 60)} min å gå`
+        return `${Math.ceil(walkInfo.walkTime / 60)} min å gå (${Math.ceil(
+            walkInfo.walkDistance,
+        )} m)`
     }
 }
 
@@ -86,9 +88,7 @@ const DepartureTile = ({
             </header>
             {walkInfo ? (
                 <div className="tile__walking-time">
-                    {`${formatWalkTime(walkInfo.walkTime)} (${Math.ceil(
-                        walkInfo.walkDistance,
-                    )} m)`}
+                    {formatWalkInfo(walkInfo)}
                 </div>
             ) : null}
             <Table spacing="small" fixed>

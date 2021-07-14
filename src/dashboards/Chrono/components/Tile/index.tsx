@@ -4,11 +4,13 @@ import { Heading2 } from '@entur/typography'
 import './styles.scss'
 import { WalkInfo } from '../../../../logic/useWalkInfo'
 
-function formatWalkTime(walkTime: number) {
-    if (walkTime / 60 < 1) {
-        return 'Mindre enn 1 min å gå'
+function formatWalkInfo(walkInfo: WalkInfo) {
+    if (walkInfo.walkTime / 60 < 1) {
+        return `Mindre enn 1 min å gå (${Math.ceil(walkInfo.walkDistance)} m)`
     } else {
-        return `${Math.ceil(walkTime / 60)} min å gå`
+        return `${Math.ceil(walkInfo.walkTime / 60)} min å gå (${Math.ceil(
+            walkInfo.walkDistance,
+        )} m)`
     }
 }
 
@@ -21,9 +23,7 @@ function Tile({ title, icons, walkInfo, children }: Props): JSX.Element {
             </header>
             {walkInfo ? (
                 <div className="tile__walking-time">
-                    {`${formatWalkTime(walkInfo.walkTime)} (${Math.ceil(
-                        walkInfo.walkDistance,
-                    )} m)`}
+                    {formatWalkInfo(walkInfo)}
                 </div>
             ) : null}
             {children}
