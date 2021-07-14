@@ -129,6 +129,13 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                                 </DataCell>
                             ) : null}
                             <DataCell>
+                                {!hideTracks ? (
+                                    <div>Hvis spor er på</div>
+                                ) : (
+                                    <div></div>
+                                )}
+                            </DataCell>
+                            <DataCell>
                                 {!hideSituations ? (
                                     <div>
                                         {isMobile && data?.situation ? (
