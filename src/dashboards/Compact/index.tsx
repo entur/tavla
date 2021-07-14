@@ -64,6 +64,15 @@ function getDataGrid(
     }
 }
 
+function getDefaultBreakpoint() {
+    if (window.innerWidth > BREAKPOINTS.lg) {
+        return 'lg'
+    } else if (window.innerWidth > BREAKPOINTS.md) {
+        return 'md'
+    }
+    return 'sm'
+}
+
 const BREAKPOINTS = {
     lg: 1200,
     md: 996,
@@ -73,8 +82,8 @@ const BREAKPOINTS = {
 }
 
 const COLS: { [key: string]: number } = {
-    lg: 4,
-    md: 3,
+    lg: 3,
+    md: 2,
     sm: 1,
     xs: 1,
     xxs: 1,
@@ -82,7 +91,7 @@ const COLS: { [key: string]: number } = {
 
 const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     const [settings] = useSettingsContext()
-    const [breakpoint, setBreakpoint] = useState<string>('lg')
+    const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const dashboardKey = history.location.key
     const boardId =
         useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
@@ -299,6 +308,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                         layouts={gridLayouts}
                         isResizable={!isMobileWeb()}
                         isDraggable={!isMobileWeb()}
+                        margin={[32, 32]}
                         onBreakpointChange={(newBreakpoint: string) => {
                             setBreakpoint(newBreakpoint)
                         }}
