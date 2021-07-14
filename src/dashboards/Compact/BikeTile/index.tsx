@@ -25,7 +25,10 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
         <Tile
             title="Bysykkel"
             icons={[
-                <BicycleIcon key="bike-icon" color={colors.blues.blue60} />,
+                <BicycleIcon
+                    key="bike-icon"
+                    color={colors.transport[iconColorType].mobility}
+                />,
             ]}
         >
             {stations.map(({ name, bikesAvailable, id, spacesAvailable }) => (

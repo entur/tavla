@@ -30,11 +30,10 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
             getTransportIconIdentifier(a.type, a.subType) ===
             getTransportIconIdentifier(b.type, b.subType),
     )
+    console.log(transportModes)
 
     return transportModes
-        .map(({ type, subType }) =>
-            getIcon(type, undefined, subType, colors.blues.blue60),
-        )
+        .map(({ type, subType }) => getIcon(type, undefined, subType))
         .filter(isNotNullOrUndefined)
 }
 
