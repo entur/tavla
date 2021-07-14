@@ -225,7 +225,7 @@ const EditTab = (): JSX.Element => {
                 cols={COLS}
                 layouts={LAYOUT}
                 autoSize={true}
-                margin={isMobileWeb() ? [0, 16] : [10, 10]}
+                margin={isMobileWeb() ? [0, 16] : [32, 32]}
                 isResizable={false}
                 isDraggable={false}
                 onBreakpointChange={(newBreakpoint: string) => {
