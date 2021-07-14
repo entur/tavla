@@ -49,6 +49,7 @@ const DepartureTile = ({
     const [settings] = useSettingsContext()
     const hideSituations = settings?.hideSituations
     const hideTracks = settings?.hideTracks
+    const hideWalkInfo = settings?.hideWalkInfo
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
@@ -60,7 +61,11 @@ const DepartureTile = ({
     }, [settings])
 
     return (
-        <Tile title={name} icons={headerIcons} walkInfo={walkInfo}>
+        <Tile
+            title={name}
+            icons={headerIcons}
+            walkInfo={!hideWalkInfo ? walkInfo : undefined}
+        >
             {routes.map((route) => {
                 const subType = groupedDepartures[route][0].subType
                 const routeData = groupedDepartures[route]

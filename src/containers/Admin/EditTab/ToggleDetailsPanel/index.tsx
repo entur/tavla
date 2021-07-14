@@ -8,8 +8,9 @@ import { useSettingsContext } from '../../../../settings'
 
 function ToggleDetailsPanel(): JSX.Element {
     const [settings, settingsSetters] = useSettingsContext()
-    const { hideSituations, hideTracks } = settings || {}
-    const { setHideSituations, setHideTracks } = settingsSetters
+    const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
+    const { setHideSituations, setHideTracks, setHideWalkInfo } =
+        settingsSetters
     return (
         <Fieldset className="toggle-detail-panel">
             <div className="toggle-detail-panel__chips">
@@ -24,6 +25,18 @@ function ToggleDetailsPanel(): JSX.Element {
                     checked={!hideSituations}
                 >
                     Avviksinfo
+                </FilterChip>
+                <FilterChip
+                    className="toggle-detail-panel__filter-chip"
+                    value="gangavstand"
+                    onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>,
+                    ): void => {
+                        setHideWalkInfo(!event.currentTarget.checked)
+                    }}
+                    checked={!hideWalkInfo}
+                >
+                    Gangavstand
                 </FilterChip>
                 <FilterChip
                     className="toggle-detail-panel__filter-chip"
