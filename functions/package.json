@@ -1,27 +1,27 @@
 {
-  "name": "tavla-functions",
-  "scripts": {
-    "build": "tsc",
-    "serve": "npm run build && firebase emulators:start --only functions",
-    "shell": "npm run build && firebase functions:shell",
-    "start": "npm run shell",
-    "deploy:prod": "firebase deploy --only functions -P prod",
-    "deploy:staging": "firebase deploy --only functions -P staging",
-    "logs": "firebase functions:log"
-  },
-  "engines": {
-    "node": "12"
-  },
-  "main": "lib/index.js",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "firebase-admin": "^8.10.0",
-    "firebase-functions": "^3.6.1"
-  },
-  "devDependencies": {
-    "@types/cors": "^2.8.6",
-    "firebase-functions-test": "^0.2.0",
-    "typescript": "^3.8.0"
-  },
-  "private": true
+    "name": "tavla-functions",
+    "scripts": {
+        "build": "tsc",
+        "serve": "npm run build && firebase emulators:start --only functions",
+        "shell": "npm run build && firebase functions:shell",
+        "start": "npm run shell",
+        "deploy:prod": "firebase deploy --only functions -P prod",
+        "deploy:staging": "firebase deploy --only functions -P staging",
+        "logs": "firebase functions:log"
+    },
+    "engines": {
+        "node": "12"
+    },
+    "main": "lib/index.js",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "firebase-admin": "^8.10.0",
+        "firebase-functions": "^3.6.1"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.6",
+        "firebase-functions-test": "^0.2.0",
+        "typescript": "^3.8.0"
+    },
+    "private": true
 }

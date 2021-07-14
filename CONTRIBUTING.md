@@ -20,6 +20,7 @@ cd ..
 ```
 
 ### Set a client name
+
 You need to set a client name that identifies your application. You decide yourself what it should be, but it should consist of
 the name of your company or organization and the name of the application.
 
@@ -28,6 +29,7 @@ the name of your company or organization and the name of the application.
 -CLIENT_NAME=entur-tavla
 +CLIENT_NAME=awesomecompany-tavla
 ```
+
 ```diff
 # .env.staging
 -CLIENT_NAME=entur-tavla-staging
@@ -35,6 +37,7 @@ the name of your company or organization and the name of the application.
 ```
 
 ### Develop
+
 Run the development server with
 
 ```
@@ -71,11 +74,13 @@ We are using Firebase for hosting tavla.entur.no (Firebase Hosting) and we are u
 PS! Make sure you are following the licenses and terms for Tavla: https://github.com/entur/tavla#licenses-and-terms
 
 ### Create a project
+
 First of all you need a Firebase _project_. Go to https://console.firebase.google.com to set up a new project.
 
 When the project is set up, add a new Web app to your project from the Project Overview. You don't need to "Add Firebase SDK" – that's already done in this repo.
 
 ### Download config
+
 We need to reference the Firebase config through an environment variable called `FIREBASE_CONFIG`.
 
 Press the cogwheel next to "Project Settings" in the left menu and go to "Project settings". Scroll down and find the Config under "Firebase SDK snippet". Copy the config object (the part after `const firebaseConfig = `). You need to stringify this and put it in your `.env.staging` file. To stringify it, you can open the browser console and run `JSON.stringify(<CONFIG OBJECT>)`. Set the resulting string as the value for `FIREBASE_CONFIG` in the .env.prod file:
@@ -89,7 +94,9 @@ GEOCODER_HOST=https://api.entur.io/geocoder/v1
 ```
 
 ### Configure .firebaserc
+
 Now let's update the `.firebaserc` file. Replace the project name with your own. You might not have a staging project, so just remove that:
+
 ```diff
 {
   "projects": {
@@ -101,16 +108,20 @@ Now let's update the `.firebaserc` file. Replace the project name with your own.
 ```
 
 ### Enable Authentication
+
 In the Firebase Console (console.firebase.google.com), go to "Authentication" and "Sign-in method". Enable "Anonymous".
 
 ### Enable Firestore
+
 In the Firebase Console (console.firebase.google.com), go to "Database" and setup Firestore. You need to select a region.
 We went for "eur3", the multi-region option in Europe.
 
 The Firestore Rules are defined in the `firestore.rules` file in this repository.
 
 ### Deploy
+
 We're close! Make sure you have the Firebase CLI installed globally:
+
 ```
 npm install --global firebase-tools
 ```
@@ -131,18 +142,19 @@ This will build the app and deploy it to the `prod` project that is defined in 
 
 Enjoy!
 
-
 ## Dashboards
 
 A _dashboard_ is an entire frontend or view/theme/skin that displays departure data in some fashion. Currently we have three such dashboards: "Kompakt" (Compact), "Kronologisk" (Chrono) and "Tidslinja" (Timeline).
 
 Properties of a dashboard:
-* Should be completely *separated* and *independent* from other dashboards.
-* Might not suit all use cases, locations or transports
+
+-   Should be completely _separated_ and _independent_ from other dashboards.
+-   Might not suit all use cases, locations or transports
 
 Although the dashboards are independent and might look totally different, they have some things in common:
-* They use some React hooks that handle data fetching (`useStopPlacesWithDepartures`, `useBikeRentalStations`)
-* They use the DashboardWrapper component to add the default header and menu
+
+-   They use some React hooks that handle data fetching (`useStopPlacesWithDepartures`, `useBikeRentalStations`)
+-   They use the DashboardWrapper component to add the default header and menu
 
 Adding a new Dashboard is easy. Let's go through it!
 
@@ -191,7 +203,7 @@ function Sooon({ history }: Props): JSX.Element {
 }
 
 interface Props {
-    history: any,
+    history: any;
 }
 
 export default Sooon
@@ -265,7 +277,6 @@ In `src/containers/Admin/VisningTab/index.tsx`, add an entry for your dashboard 
 ```
 
 That's it! You should now be able to select your dashboard in the admin tab, and you should see the "Hello World" heading.
-
 
 #### Step 4: Displaying some data
 
