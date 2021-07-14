@@ -77,10 +77,6 @@
     .eds-form-control__append svg {
         color: var(--tavla-input-icon-color);
     }
-    .react-grid-layout {
-        margin-left: -2rem;
-        margin-right: -2rem;
-    }
 
     .eds-grid {
         &__item {
@@ -177,7 +173,12 @@
         display: none;
     }
 }
-
+@media (min-width: 996px) {
+    .edit-tab {
+        margin-left: -2rem;
+        margin-right: -2rem;
+    }
+}
 .heading {
     color: var(--tavla-font-color);
 }

@@ -2,8 +2,6 @@
 @import '../../../../variables.scss';
 
 .toggle-detail-panel {
-    display: inline-block;
-
     &__chips {
         display: flex;
         direction: row;
