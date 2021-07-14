@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { colors } from '@entur/tokens'
 
 import {
     getIcon,
@@ -30,7 +29,6 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
             getTransportIconIdentifier(a.type, a.subType) ===
             getTransportIconIdentifier(b.type, b.subType),
     )
-    console.log(transportModes)
 
     return transportModes
         .map(({ type, subType }) => getIcon(type, undefined, subType))
