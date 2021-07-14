@@ -31,7 +31,7 @@
         background-color: var(--tavla-box-background-color);
         display: block;
         overflow: auto;
-        border-radius: 16px;
+        border-radius: 1rem;
     }
     .eds-checkbox-icon {
         background-color: var(--tavla-checkbox-color);
@@ -77,6 +77,10 @@
     .eds-form-control__append svg {
         color: var(--tavla-input-icon-color);
     }
+    .react-grid-layout {
+        margin-left: -2rem;
+        margin-right: -2rem;
+    }
 
     .eds-grid {
         &__item {
@@ -98,6 +102,9 @@
 
         .eds-switch {
             padding: 0;
+        }
+        .eds-h2 {
+            margin: 0 0 0.75rem 0;
         }
     }
 
