@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { colors } from '@entur/tokens'
 
 import {
     getIcon,
@@ -32,9 +31,7 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     )
 
     return transportModes
-        .map(({ type, subType }) =>
-            getIcon(type, undefined, subType, colors.blues.blue60),
-        )
+        .map(({ type, subType }) => getIcon(type, undefined, subType))
         .filter(isNotNullOrUndefined)
 }
 
