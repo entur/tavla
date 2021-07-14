@@ -123,37 +123,22 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                             <DataCell>{data.time}</DataCell>
                             {!hideTracks ? (
                                 <DataCell>
-                                    {data.quay?.publicCode
-                                        ? data.quay?.publicCode
-                                        : '-'}
+                                    {data.quay?.publicCode || '-'}
                                 </DataCell>
                             ) : null}
-                            <DataCell>
-                                {!hideTracks ? (
-                                    <div>Hvis spor er på</div>
-                                ) : (
-                                    <div></div>
-                                )}
-                            </DataCell>
-                            <DataCell>
-                                {!hideSituations ? (
-                                    <div>
-                                        {isMobile && data?.situation ? (
-                                            <SituationModal
-                                                situationMessage={
-                                                    data?.situation
-                                                }
-                                            />
-                                        ) : (
-                                            <SubLabelIcon
-                                                subLabel={createTileSubLabel(
-                                                    data,
-                                                )}
-                                            />
-                                        )}
-                                    </div>
-                                ) : null}
-                            </DataCell>
+                            {!hideSituations ? (
+                                <DataCell>
+                                    {isMobile && data?.situation ? (
+                                        <SituationModal
+                                            situationMessage={data?.situation}
+                                        />
+                                    ) : (
+                                        <SubLabelIcon
+                                            subLabel={createTileSubLabel(data)}
+                                        />
+                                    )}
+                                </DataCell>
+                            ) : null}
                         </TableRow>
                     ))}
                 </TableBody>

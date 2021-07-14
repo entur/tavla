@@ -31,13 +31,9 @@ export function TileRow({
             <div className="tilerow__icon">{icon}</div>
             <div className="tilerow__texts">
                 <Heading3 className="tilerow__label">{label}</Heading3>
-                <div>
-                    {!hideTracks ? (
-                        <PlatformInfo platform={platform} type={type} />
-                    ) : (
-                        [null]
-                    )}
-                </div>
+                {!hideTracks && (
+                    <PlatformInfo platform={platform} type={type} />
+                )}
                 <div className="tilerow__sublabels">
                     {subLabels.map((subLabel, index) => (
                         <div className="tilerow__sublabel" key={index}>
