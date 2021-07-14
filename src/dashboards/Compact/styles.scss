@@ -13,7 +13,7 @@
             overflow-y: hidden;
             overflow-x: hidden;
             margin-bottom: 1rem;
-            border-radius: 16px;
+            border-radius: 1rem;
         }
 
         .maptile {
@@ -21,6 +21,8 @@
             width: 100%;
             overflow: hidden;
             margin-bottom: 1rem;
+            border-radius: 1rem;
+            z-index: 1;
         }
     }
 
@@ -47,7 +49,6 @@
         transition-property: left, top;
         z-index: 1;
         display: flex;
-        border-radius: 16px;
     }
 
     .react-grid-item.cssTransforms {
@@ -127,8 +128,8 @@
             these margins on the sides, this styling is needed. 
             */
 
-            margin-left: -32px;
-            margin-right: -32px;
+            margin-left: -2rem;
+            margin-right: -2rem;
         }
     }
 }

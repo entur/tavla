@@ -91,7 +91,7 @@ const COLS: { [key: string]: number } = {
 
 const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     const [settings] = useSettingsContext()
-    const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint)
+    const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const dashboardKey = history.location.key
     const boardId =
         useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
