@@ -57,13 +57,14 @@
             padding: 0;
         }
         &__data-cell {
-            align-items: left;
+            align-items: center;
+            padding: 0.25rem;
         }
         .eds-table__header-cell {
             padding: 0 0;
         }
     }
     .tableRow {
-        align-items: left;
+        align-items: center;
     }
 }

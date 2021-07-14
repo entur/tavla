@@ -22,6 +22,7 @@ export function TileRow({
     icon,
     subLabels,
     hideSituations,
+    hideTracks,
     platform,
     type,
 }: Props): JSX.Element {
@@ -30,7 +31,13 @@ export function TileRow({
             <div className="tilerow__icon">{icon}</div>
             <div className="tilerow__texts">
                 <Heading3 className="tilerow__label">{label}</Heading3>
-                <PlatformInfo platform={platform} type={type} />
+                <div>
+                    {!hideTracks ? (
+                        <PlatformInfo platform={platform} type={type} />
+                    ) : (
+                        [null]
+                    )}
+                </div>
                 <div className="tilerow__sublabels">
                     {subLabels.map((subLabel, index) => (
                         <div className="tilerow__sublabel" key={index}>
@@ -82,6 +89,7 @@ interface Props {
     subLabels: TileSubLabel[]
     icon: JSX.Element | null
     hideSituations?: boolean
+    hideTracks?: boolean
     platform?: string
     type?: string
 }

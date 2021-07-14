@@ -85,11 +85,11 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                     style={
                         !isMobile
                             ? { width: '7%', minWidth: '5rem' }
-                            : { width: '30%' }
+                            : { width: '23%' }
                     }
                 />
-                <col style={!isMobile ? { width: '7%' } : { width: '10%' }} />
-                <col style={!isMobile ? { width: '56%' } : { width: '10%' }} />
+                <col style={!isMobile ? { width: '20%' } : { width: '17%' }} />
+                <col style={!isMobile ? { width: '43%' } : { width: '10%' }} />
                 <TableHead>
                     <TableRow className="tableRow">
                         <HeaderCell> </HeaderCell>
@@ -121,13 +121,13 @@ const DepartureTile = ({ stopPlaceWithDepartures }: Props): JSX.Element => {
                                 </Heading3>
                             </DataCell>
                             <DataCell>{data.time}</DataCell>
-                            <DataCell>
-                                {!hideTracks ? (
-                                    <div>Hvis spor er på</div>
-                                ) : (
-                                    <div></div>
-                                )}
-                            </DataCell>
+                            {!hideTracks ? (
+                                <DataCell>
+                                    {data.quay?.publicCode
+                                        ? data.quay?.publicCode
+                                        : '-'}
+                                </DataCell>
+                            ) : null}
                             <DataCell>
                                 {!hideSituations ? (
                                     <div>
