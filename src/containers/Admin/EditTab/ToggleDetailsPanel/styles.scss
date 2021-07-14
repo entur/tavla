@@ -2,14 +2,19 @@
 @import '../../../../variables.scss';
 
 .toggle-detail-panel {
-    &__filter-chip {
-        margin-top: 0.5rem;
-        margin-bottom: 0.8rem;
+    display: inline-block;
+
+    &__chips {
+        display: flex;
+        direction: row;
+        margin-top: 0.25rem;
     }
+
     .eds-filter-chip:not(:first-child) {
-        margin-top: 0.8rem;
-        padding-left: 0.8rem;
+        margin-bottom: 0.75rem;
+        margin-left: 0.75rem;
     }
+
     .eds-chip {
         background-color: var(--tavla-border-color);
     }

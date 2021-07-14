@@ -48,6 +48,7 @@ const DepartureTile = ({
     const routes = Object.keys(groupedDepartures)
     const [settings] = useSettingsContext()
     const hideSituations = settings?.hideSituations
+    const hideTracks = settings?.hideTracks
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
@@ -73,6 +74,7 @@ const DepartureTile = ({
                         subLabels={routeData.map(createTileSubLabel)}
                         icon={icon}
                         hideSituations={hideSituations}
+                        hideTracks={hideTracks}
                         platform={platform}
                         type={routeType}
                     />
