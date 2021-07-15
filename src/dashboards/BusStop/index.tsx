@@ -27,7 +27,7 @@ function getWalkInfoForStopPlace(
     return walkInfos?.find((walkInfo) => walkInfo.stopId === id)
 }
 
-function BusStop({ history }: Props): JSX.Element {
+function BusStop({ history }: Props): JSX.Element | null {
     const [settings] = useSettingsContext()
     const bikeRentalStations = useBikeRentalStations()
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
@@ -60,7 +60,7 @@ function BusStop({ history }: Props): JSX.Element {
                                     stop.id,
                                 )}
                             />
-                        ))}{' '}
+                        ))}
                     </div>
                 </GridItem>
                 {settings?.showMap ? (
@@ -80,9 +80,7 @@ function BusStop({ history }: Props): JSX.Element {
                             zoom={settings?.zoom ?? DEFAULT_ZOOM}
                         />
                     </GridItem>
-                ) : (
-                    []
-                )}
+                ) : null}
             </GridContainer>
         </DashboardWrapper>
     )

@@ -278,6 +278,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                     layouts={gridLayouts}
                     isResizable={!isMobileWeb()}
                     isDraggable={!isMobileWeb()}
+                    margin={[32, 32]}
                     onBreakpointChange={(newBreakpoint: string) => {
                         setBreakpoint(newBreakpoint)
                     }}
