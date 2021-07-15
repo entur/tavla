@@ -5,7 +5,6 @@
     &__chips {
         display: flex;
         direction: row;
-        display: flex;
         flex-wrap: wrap;
     }
 
@@ -29,9 +28,9 @@
         direction: column;
 
         .eds-filter-chip:not(:first-child) {
-            margin-left: 0rem;
+            margin-left: 0;
             margin-top: 0.75rem;
-            margin-bottom: 0rem;
+            margin-bottom: 0;
         }
     }
 }
