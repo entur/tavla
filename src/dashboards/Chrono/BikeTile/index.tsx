@@ -29,7 +29,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
             icons={[
                 <BicycleIcon
                     key="bike-tile-icon"
-                    color={colors.blues.blue60}
+                    color={colors.transport[iconColorType].mobility}
                 />,
             ]}
         >
