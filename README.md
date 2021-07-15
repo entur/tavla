@@ -15,7 +15,7 @@ Further detail on how to create your very own dashboard to be found in [CONTRIBU
 
 ### Licenses and Terms
 
-* The source code is licensed under EUPL-1.2.
-* The Nationale fonts are licensed separately. You can get a license at https://playtype.com/typefaces/nationale/.
-* All Entur trademark assets are to be used only by Entur (logo, illustrations and images).
-* Attribution must be given to Entur Tavla when hosting your own fork/clone, and it must be visible from the dashboard pages. A link to https://tavla.entur.no must be included.
+-   The source code is licensed under EUPL-1.2.
+-   The Nationale fonts are licensed separately. You can get a license at https://playtype.com/typefaces/nationale/.
+-   All Entur trademark assets are to be used only by Entur (logo, illustrations and images).
+-   Attribution must be given to Entur Tavla when hosting your own fork/clone, and it must be visible from the dashboard pages. A link to https://tavla.entur.no must be included.

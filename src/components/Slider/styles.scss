@@ -7,14 +7,13 @@
     cursor: pointer;
     background: var(--tavla-slider-color);
     border: none;
-    background-image:
-        -webkit-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(var(--slider-progress), var(--tavla-slider-fill-color)),
-            color-stop(var(--slider-progress), var(--tavla-slider-color))
-        );
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        right top,
+        color-stop(var(--slider-progress), var(--tavla-slider-fill-color)),
+        color-stop(var(--slider-progress), var(--tavla-slider-color))
+    );
 }
 
 @mixin reset-thumb {

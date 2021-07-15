@@ -6,7 +6,7 @@ terms of this Licence. Any use of the Work, other than as authorised under this 
 use is covered by a right of the copyright holder of the Work).
 The Work is provided under the terms of this Licence when the Licensor (as defined below) has placed the following
 notice immediately following the copyright notice for the Work:
-                          Licensed under the EUPL
+Licensed under the EUPL
 or has expressed by any other means his willingness to license under the EUPL.
 
 1.Definitions
@@ -168,7 +168,6 @@ Without prejudice to specific agreement between parties,
 resides or has his registered office,
 — this licence shall be governed by Belgian law if the Licensor has no seat, residence or registered office inside
 a European Union Member State.
-
 
                                                          Appendix
 

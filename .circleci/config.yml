@@ -1,18 +1,18 @@
 version: 2.1
 orbs:
-  slack: circleci/slack@3.4.2
+    slack: circleci/slack@3.4.2
 aliases:
     - &ssh-fingerprint
       fingerprints:
-        - “ab:f2:26:09:86:b8:d3:28:be:bd:5b:86:7d:70:3e:ce”
+          - “ab:f2:26:09:86:b8:d3:28:be:bd:5b:86:7d:70:3e:ce”
     - &filter-only-master
       branches:
-        only:
-          - master
+          only:
+              - master
     - &filter-only-release
       branches:
-        only:
-          - /release-.*/
+          only:
+              - /release-.*/
     - &slack-status-staging
       success_message: '🎉En ny versjon av Tavla er nå i staging!🎉'
       failure_message: 'Det skjedde en feil ved deploy av Tavla til staging😔'
@@ -24,65 +24,65 @@ aliases:
       include_job_number_field: false
       include_project_field: false
 jobs:
-  build:
-    docker:
-      - image: circleci/node:12
+    build:
+        docker:
+            - image: circleci/node:12
 
-    working_directory: ~/Tavla
+        working_directory: ~/Tavla
 
-    steps:
-      - checkout
-      - add_ssh_keys: *ssh-fingerprint
-      - run: npm ci
-      - run: npm test
-      - run: npm run lint
+        steps:
+            - checkout
+            - add_ssh_keys: *ssh-fingerprint
+            - run: npm ci
+            - run: npm test
+            - run: npm run lint
 
-  deploy:
-    docker:
-      - image: circleci/node:12
+    deploy:
+        docker:
+            - image: circleci/node:12
 
-    working_directory: ~/Tavla
+        working_directory: ~/Tavla
 
-    steps:
-      - checkout
-      - add_ssh_keys: *ssh-fingerprint
-      - run: npm ci
-      - run: &install-cf
-          name: Install functions
-          working_directory: ~/Tavla/functions
-          command: npm ci
-      - run:
-          name: Deploy web
-          command: npm run deploy:prod --token=$FIREBASE_TOKEN --non-interactive
-      - slack/status: *slack-status-prod
-  deploy-staging:
-    docker:
-      - image: circleci/node:12
+        steps:
+            - checkout
+            - add_ssh_keys: *ssh-fingerprint
+            - run: npm ci
+            - run: &install-cf
+                  name: Install functions
+                  working_directory: ~/Tavla/functions
+                  command: npm ci
+            - run:
+                  name: Deploy web
+                  command: npm run deploy:prod --token=$FIREBASE_TOKEN --non-interactive
+            - slack/status: *slack-status-prod
+    deploy-staging:
+        docker:
+            - image: circleci/node:12
 
-    working_directory: ~/Tavla
+        working_directory: ~/Tavla
 
-    steps:
-      - checkout
-      - add_ssh_keys: *ssh-fingerprint
-      - run: npm ci
-      - run: *install-cf
-      - run:
-          name: Deploy web staging
-          command: npm run deploy:staging --token=$FIREBASE_TOKEN --non-interactive
-      - slack/status: *slack-status-staging
+        steps:
+            - checkout
+            - add_ssh_keys: *ssh-fingerprint
+            - run: npm ci
+            - run: *install-cf
+            - run:
+                  name: Deploy web staging
+                  command: npm run deploy:staging --token=$FIREBASE_TOKEN --non-interactive
+            - slack/status: *slack-status-staging
 workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      - build
-      - deploy-staging:
-          filters: *filter-only-master
-          requires:
-              - build
-      - prod-approval:
-          requires:
-              - deploy-staging
-          type: approval
-      - deploy:
-          requires:
-            - prod-approval
+    version: 2
+    build-and-deploy:
+        jobs:
+            - build
+            - deploy-staging:
+                  filters: *filter-only-master
+                  requires:
+                      - build
+            - prod-approval:
+                  requires:
+                      - deploy-staging
+                  type: approval
+            - deploy:
+                  requires:
+                      - prod-approval
