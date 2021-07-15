@@ -33,11 +33,16 @@ async function getWalkInfo(
                     modes: [QueryMode.FOOT],
                     limit: 1,
                 })
-                .then((result) => ({
-                    stopId: stopPlace.id,
-                    walkTime: result[0].duration,
-                    walkDistance: result[0].walkDistance,
-                }))
+                .then((result) => {
+                    if (!result[0].duration || !result[0].walkDistance) {
+                        return null
+                    }
+                    return {
+                        stopId: stopPlace.id,
+                        walkTime: result[0].duration,
+                        walkDistance: result[0].walkDistance,
+                    }
+                })
                 .catch(() => null),
         ),
     )
