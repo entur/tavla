@@ -34,12 +34,14 @@ import ToggleDetailsPanel from './ToggleDetailsPanel'
 import './styles.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
+
 function isMobileWeb(): boolean {
     return (
         typeof window.orientation !== 'undefined' ||
         navigator.userAgent.indexOf('IEMobile') !== -1
     )
 }
+
 const COLS: { [key: string]: number } = {
     lg: 4.5,
     md: 3,

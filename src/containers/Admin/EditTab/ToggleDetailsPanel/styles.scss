@@ -5,7 +5,8 @@
     &__chips {
         display: flex;
         direction: row;
-        margin-top: 0.25rem;
+        display: flex;
+        flex-wrap: wrap;
     }
 
     .eds-filter-chip:not(:first-child) {
@@ -22,5 +23,15 @@
     &__eds-paragraph,
     .eds-paragraph {
         color: var(--tavla-font-color);
+    }
+    @media (max-width: 1000px) {
+        display: flex;
+        direction: column;
+
+        .eds-filter-chip:not(:first-child) {
+            margin-left: 0rem;
+            margin-top: 0.75rem;
+            margin-bottom: 0rem;
+        }
     }
 }
