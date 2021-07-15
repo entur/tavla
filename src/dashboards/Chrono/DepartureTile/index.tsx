@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { colors } from '@entur/tokens'
 
 import {
     getIcon,

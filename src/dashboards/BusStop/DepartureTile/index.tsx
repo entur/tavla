@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { colors } from '@entur/tokens'
 import { Heading2, Heading3 } from '@entur/typography'
 import {
     Table,
