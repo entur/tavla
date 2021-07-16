@@ -10,9 +10,19 @@ import './styles.scss'
 import { useSettingsContext } from '../../../settings'
 import { IconColorType } from '../../../types'
 import { getIconColorType } from '../../../utils'
+import useWalkInfoBike, { WalkInfoBike } from '../../../logic/useWalkInfoBike'
+import TileRow from '../../Compact/components/TileRow'
+
+function getWalkInfoBike(
+    walkInfos: WalkInfoBike[],
+    id: string,
+): WalkInfoBike | undefined {
+    return walkInfos.find((walkInfoBike) => walkInfoBike.stopId === id)
+}
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
+    const hideWalkInfo = settings?.hideWalkInfo
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
@@ -22,6 +32,8 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
             setIconColorType(getIconColorType(settings.theme))
         }
     }, [settings])
+
+    const walkInfoBike = useWalkInfoBike(stations)
 
     return (
         <Tile
@@ -33,7 +45,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                 />,
             ]}
         >
-            {stations.map(({ name, bikesAvailable, id, spacesAvailable }) => (
+            {/* {stations.map(({ name, bikesAvailable, id, spacesAvailable }) => (
                 <div key={id} className="bikerow">
                     <div className="bikerow__icon">
                         <BicycleIcon
@@ -56,7 +68,42 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                         </div>
                     </div>
                 </div>
-            ))}
+            ))} */}
+            {stations.map((station) => {
+                return (
+                    <TileRow
+                        key={station.id}
+                        icon={
+                            <BicycleIcon
+                                color={colors.transport[iconColorType].mobility}
+                            />
+                        }
+                        walkInfoBike={
+                            !hideWalkInfo
+                                ? getWalkInfoBike(
+                                      walkInfoBike || [],
+                                      station.id,
+                                  )
+                                : undefined
+                        }
+                        label={station.name}
+                        subLabels={[
+                            {
+                                time:
+                                    station.bikesAvailable === 1
+                                        ? '1 sykkel'
+                                        : `${station.bikesAvailable} sykler`,
+                            },
+                            {
+                                time:
+                                    station.spacesAvailable === 1
+                                        ? '1 lås'
+                                        : `${station.spacesAvailable} låser`,
+                            },
+                        ]}
+                    />
+                )
+            })}
         </Tile>
     )
 }
