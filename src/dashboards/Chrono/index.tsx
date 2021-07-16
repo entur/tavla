@@ -70,7 +70,7 @@ function getDefaultBreakpoint() {
 }
 
 const BREAKPOINTS = {
-    lg: 1200,
+    lg: 1400,
     md: 996,
     sm: 768,
     xs: 480,
@@ -79,7 +79,7 @@ const BREAKPOINTS = {
 
 const COLS: { [key: string]: number } = {
     lg: 3,
-    md: 3,
+    md: 2,
     sm: 1,
     xs: 1,
     xxs: 1,

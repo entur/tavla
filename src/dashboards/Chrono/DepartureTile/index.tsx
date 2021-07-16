@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
+import { HeaderCell, Table, TableHead, TableRow } from '@entur/table'
+
 import {
     getIcon,
     unique,
     getTransportIconIdentifier,
-    createTileSubLabel,
     isNotNullOrUndefined,
     getIconColorType,
 } from '../../../utils'
@@ -15,7 +16,7 @@ import {
 } from '../../../types'
 
 import Tile from '../components/Tile'
-import TileRow from '../components/TileRow'
+import TileRow from '../components/TileRows'
 
 import './styles.scss'
 import { useSettingsContext } from '../../../settings'
@@ -36,6 +37,31 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
 }
 
+function getColumnSizes(
+    isMobile: boolean,
+    hideTracks: boolean | undefined,
+    hideSituations: boolean | undefined,
+) {
+    const getColSize = (desktopWidth: string, mobileWidth: string) => (
+        <col
+            style={!isMobile ? { width: desktopWidth } : { width: mobileWidth }}
+        />
+    )
+    return (
+        <>
+            {getColSize('14%', '16%')}
+            {!hideTracks && !hideSituations
+                ? getColSize('44%', '42%')
+                : !hideTracks || !hideSituations
+                ? getColSize('54%', '54%')
+                : getColSize('64%', '66%')}
+            {getColSize('20%', '18%')}
+            {!hideTracks ? getColSize('10%', '12%') : null}
+            {!hideSituations ? getColSize('10%', '12%') : null}
+        </>
+    )
+}
+
 const DepartureTile = ({
     stopPlaceWithDepartures,
     walkInfo,
@@ -45,8 +71,7 @@ const DepartureTile = ({
     const { departures, name } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
     const [settings] = useSettingsContext()
-    const hideSituations = settings?.hideSituations
-    const hideWalkInfo = settings?.hideWalkInfo
+    const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
@@ -66,19 +91,26 @@ const DepartureTile = ({
             icons={headerIcons}
             walkInfo={!hideWalkInfo ? walkInfo : undefined}
         >
-            {visibleDepartures.map((data) => {
-                const icon = getIcon(data.type, iconColorType, data.subType)
-                const subLabel = createTileSubLabel(data)
-                return (
-                    <TileRow
-                        key={data.id + Math.random()}
-                        label={data.route}
-                        subLabel={subLabel}
-                        icon={icon}
-                        hideSituations={hideSituations}
-                    />
-                )
-            })}
+            <Table spacing="small" fixed>
+                {getColumnSizes(isMobile, hideTracks, hideSituations)}
+                <TableHead>
+                    <TableRow className="tableRow">
+                        <HeaderCell></HeaderCell>
+                        <HeaderCell>Linje</HeaderCell>
+                        <HeaderCell>Avgang</HeaderCell>
+                        {!hideTracks ? <HeaderCell>Spor</HeaderCell> : null}
+                        {!hideSituations ? (
+                            <HeaderCell>Avvik</HeaderCell>
+                        ) : null}
+                    </TableRow>
+                </TableHead>
+                <TileRow
+                    visibleDepartures={visibleDepartures}
+                    hideSituations={hideSituations}
+                    hideTracks={hideTracks}
+                    iconColorType={iconColorType}
+                />
+            </Table>
         </Tile>
     )
 }
