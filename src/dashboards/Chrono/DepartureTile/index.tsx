@@ -16,7 +16,7 @@ import {
 } from '../../../types'
 
 import Tile from '../components/Tile'
-import TileRow from '../components/TileRows'
+import TileRows from '../components/TileRows'
 
 import './styles.scss'
 import { useSettingsContext } from '../../../settings'
@@ -104,7 +104,7 @@ const DepartureTile = ({
                         ) : null}
                     </TableRow>
                 </TableHead>
-                <TileRow
+                <TileRows
                     visibleDepartures={visibleDepartures}
                     hideSituations={hideSituations}
                     hideTracks={hideTracks}
