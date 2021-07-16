@@ -95,12 +95,13 @@
     &__header {
         display: flex;
         justify-content: space-between;
+        margin: 1rem 0 1rem 0;
 
         .eds-switch {
             padding: 0;
         }
         .eds-h2 {
-            margin: 0 0 0.75rem 0;
+            margin: 0 0 0 0;
         }
     }
 
@@ -136,7 +137,6 @@
     }
 
     .zoom-editor {
-        margin-top: 2rem;
         width: auto;
     }
 
@@ -166,6 +166,9 @@
             margin-top: -1rem;
             margin-left: 0.2rem;
             border-bottom: 5px dotted var(--tavla-input-dotted-border-color);
+        }
+        .eds-h3 {
+            margin: 1rem 0;
         }
     }
 

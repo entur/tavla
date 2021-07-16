@@ -26,8 +26,9 @@ import {
 import { useSettingsContext } from '../../settings'
 
 import { DEFAULT_ZOOM } from '../../constants'
-import { isEqualUnsorted, usePrevious } from '../../utils'
+import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 
+const isMobile = isMobileWeb()
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
 import MapTile from './MapTile'
@@ -35,13 +36,6 @@ import MapTile from './MapTile'
 import './styles.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
-
-function isMobileWeb(): boolean {
-    return (
-        typeof window.orientation !== 'undefined' ||
-        navigator.userAgent.indexOf('IEMobile') !== -1
-    )
-}
 
 function getWalkInfoForStopPlace(
     walkInfos: WalkInfo[],
@@ -305,8 +299,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                         breakpoints={BREAKPOINTS}
                         cols={COLS}
                         layouts={gridLayouts}
-                        isResizable={!isMobileWeb()}
-                        isDraggable={!isMobileWeb()}
+                        isResizable={!isMobile}
+                        isDraggable={!isMobile}
                         margin={[32, 32]}
                         onBreakpointChange={(newBreakpoint: string) => {
                             setBreakpoint(newBreakpoint)
@@ -349,7 +343,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                     maxWidthCols,
                                 )}
                             >
-                                {!isMobileWeb() ? (
+                                {!isMobile ? (
                                     <ResizeHandle
                                         size="32"
                                         className="resizeHandle"
@@ -370,7 +364,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                     maxWidthCols,
                                 )}
                             >
-                                {!isMobileWeb() ? (
+                                {!isMobile ? (
                                     <ResizeHandle
                                         size="32"
                                         className="resizeHandle"

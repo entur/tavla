@@ -8,16 +8,12 @@ import './styles.scss'
 
 import SituationModal from '../../../../components/SituationModal'
 
+import { isMobileWeb } from '../../../../utils'
 import { WalkInfoBike } from '../../../../logic/useWalkInfoBike'
 
 import PlatformInfo from './PlatformInfo'
 
-function isMobileWeb(): boolean {
-    return (
-        typeof window.orientation !== 'undefined' ||
-        navigator.userAgent.indexOf('IEMobile') !== -1
-    )
-}
+const isMobile = isMobileWeb()
 
 function formatWalkInfo(walkInfoBike: WalkInfoBike) {
     if (walkInfoBike.walkTime / 60 < 1) {
@@ -78,7 +74,7 @@ function SubLabelIcon({
     hideSituations?: boolean
 }): JSX.Element | null {
     if (!hideSituations && subLabel?.situation)
-        if (isMobileWeb())
+        if (isMobile)
             return (
                 <div className="tilerow__sublabel__situation">
                     <SituationModal situationMessage={subLabel.situation} />

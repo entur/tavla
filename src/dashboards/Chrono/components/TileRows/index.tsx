@@ -11,14 +11,9 @@ import { IconColorType, LineData, TileSubLabel } from '../../../../types'
 import './styles.scss'
 
 import SituationModal from '../../../../components/SituationModal'
-import { createTileSubLabel, getIcon } from '../../../../utils'
+import { createTileSubLabel, getIcon, isMobileWeb } from '../../../../utils'
 
-function isMobileWeb(): boolean {
-    return (
-        typeof window.orientation !== 'undefined' ||
-        navigator.userAgent.indexOf('IEMobile') !== -1
-    )
-}
+const isMobile = isMobileWeb()
 
 export function TileRows({
     visibleDepartures,
@@ -78,7 +73,7 @@ function SubLabelIcon({
     hideSituations?: boolean
 }): JSX.Element | null {
     if (!hideSituations && subLabel?.situation)
-        if (isMobileWeb())
+        if (isMobile)
             return (
                 <div className="tilerow__sublabel__situation">
                     <SituationModal situationMessage={subLabel.situation} />

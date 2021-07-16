@@ -102,5 +102,9 @@
     .timeline {
         padding: 1rem;
         overflow: hidden;
+
+        &__stop:last-child {
+            margin-bottom: 6rem;
+        }
     }
 }

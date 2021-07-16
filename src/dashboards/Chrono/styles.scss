@@ -4,7 +4,6 @@
     &__tiles {
         display: flex;
         flex-direction: column;
-        overflow-x: hidden;
         overflow-y: hidden;
 
         .tile {
@@ -126,7 +125,9 @@
 @media (max-width: 1000px) {
     .chrono {
         padding: 1rem;
-        overflow: auto;
+        overflow-x: visible;
+        overflow-y: hidden;
+
         &__tiles {
             display: block;
 
@@ -136,7 +137,7 @@
             }
         }
         .maptile {
-            margin-bottom: 1rem;
+            margin-bottom: 6rem;
             height: 630px;
             max-height: unset;
             width: 100%;

@@ -345,6 +345,9 @@ export function usePrevious<T>(value: T): T {
 
     return ref.current
 }
+export const isMobileWeb = (): boolean =>
+    typeof window.orientation !== 'undefined' ||
+    navigator.userAgent.indexOf('IEMobile') !== -1
 
 export const useThemeColor = (
     color: { [key: string]: string },

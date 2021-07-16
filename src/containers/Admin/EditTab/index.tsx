@@ -16,6 +16,7 @@ import {
     useDebounce,
     toggleValueInList,
     isNotNullOrUndefined,
+    isMobileWeb,
 } from '../../../utils'
 
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
@@ -33,13 +34,9 @@ import ToggleDetailsPanel from './ToggleDetailsPanel'
 
 import './styles.scss'
 
+const isMobile = isMobileWeb()
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
-function isMobileWeb(): boolean {
-    return (
-        typeof window.orientation !== 'undefined' ||
-        navigator.userAgent.indexOf('IEMobile') !== -1
-    )
-}
+
 const COLS: { [key: string]: number } = {
     lg: 4.5,
     md: 3,
@@ -225,7 +222,7 @@ const EditTab = (): JSX.Element => {
                 cols={COLS}
                 layouts={LAYOUT}
                 autoSize={true}
-                margin={isMobileWeb() ? [0, 16] : [32, 32]}
+                margin={isMobile ? [0, 16] : [32, 32]}
                 isResizable={false}
                 isDraggable={false}
                 onBreakpointChange={(newBreakpoint: string) => {

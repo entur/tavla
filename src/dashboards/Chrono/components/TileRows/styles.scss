@@ -3,7 +3,7 @@
 
 .chrono .tilerow {
     border-bottom: 2px solid var(--tavla-border-color);
-    padding: 1rem 0;
+    padding: 1rem;
 
     &__icon {
         min-width: 2rem;
@@ -47,5 +47,8 @@
             height: 1.25rem;
             margin-left: 1rem;
         }
+    }
+    @media (max-width: 1000px) {
+        padding: 0.5rem;
     }
 }

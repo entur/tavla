@@ -16,6 +16,7 @@ import {
     createTileSubLabel,
     isNotNullOrUndefined,
     getIconColorType,
+    isMobileWeb,
 } from '../../../utils'
 import {
     StopPlaceWithDepartures,
@@ -28,6 +29,8 @@ import './styles.scss'
 import { useSettingsContext } from '../../../settings'
 import SituationModal from '../../../components/SituationModal'
 import { WalkInfo } from '../../../logic/useWalkInfo'
+
+const isMobile = isMobileWeb()
 
 function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     const transportModes = unique(
@@ -54,13 +57,6 @@ function formatWalkInfo(walkInfo: WalkInfo) {
     }
 }
 
-function isMobileWeb(): boolean {
-    return (
-        typeof window.orientation !== 'undefined' ||
-        navigator.userAgent.indexOf('IEMobile') !== -1
-    )
-}
-
 const DepartureTile = ({
     stopPlaceWithDepartures,
     walkInfo,
@@ -72,7 +68,6 @@ const DepartureTile = ({
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
-    const isMobile = isMobileWeb()
 
     useEffect(() => {
         if (settings) {
