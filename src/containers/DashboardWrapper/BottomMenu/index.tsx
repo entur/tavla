@@ -20,16 +20,12 @@ import { useFirebaseAuthentication } from '../../../auth'
 import LockModal from '../../LockModal'
 import LoginModal from '../../../components/LoginModal'
 import MineTavlerModal from '../../MineTavlerModal'
+import { isMobileWeb } from '../../../utils'
 
 import MenuButton from './MenuButton'
 import './styles.scss'
 
-function isMobileWeb(): boolean {
-    return (
-        typeof window.orientation !== 'undefined' ||
-        navigator.userAgent.indexOf('IEMobile') !== -1
-    )
-}
+const isMobile = isMobileWeb()
 
 function BottomMenu({ className, history }: Props): JSX.Element {
     const URL = document.location.href
@@ -146,7 +142,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         }
     }, [width, mobileWidth, setMobileWidth])
 
-    const isWeb = !isMobileWeb()
+    const isWeb = !isMobile
     const [hideOnScroll, setHideOnScroll] = useState(true)
     useScrollPosition(
         ({ prevPos, currPos }) => {

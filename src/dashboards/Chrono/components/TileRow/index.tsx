@@ -8,13 +8,9 @@ import { TileSubLabel } from '../../../../types'
 
 import './styles.scss'
 import SituationModal from '../../../../components/SituationModal'
+import { isMobileWeb } from '../../../../utils'
 
-function isMobileWeb(): boolean {
-    return (
-        typeof window.orientation !== 'undefined' ||
-        navigator.userAgent.indexOf('IEMobile') !== -1
-    )
-}
+const isMobile = isMobileWeb()
 
 export function TileRow({
     label,
@@ -45,7 +41,7 @@ function SubLabelIcon({
     hideSituations?: boolean
 }): JSX.Element | null {
     if (!hideSituations && subLabel?.situation)
-        if (isMobileWeb())
+        if (isMobile)
             return (
                 <div className="tilerow__sublabel__situation">
                     <SituationModal situationMessage={subLabel.situation} />

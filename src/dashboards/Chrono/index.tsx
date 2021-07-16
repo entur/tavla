@@ -21,7 +21,7 @@ import {
 import './styles.scss'
 import { useSettingsContext } from '../../settings'
 
-import { isEqualUnsorted, usePrevious } from '../../utils'
+import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 
 import { WalkInfo } from '../../logic/useWalkInfo'
 
@@ -32,12 +32,7 @@ import BikeTile from './BikeTile'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
-function isMobileWeb(): boolean {
-    return (
-        typeof window.orientation !== 'undefined' ||
-        navigator.userAgent.indexOf('IEMobile') !== -1
-    )
-}
+const isMobile = isMobileWeb()
 
 function getWalkInfoForStopPlace(
     walkInfos: WalkInfo[],
@@ -276,8 +271,8 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                     breakpoints={BREAKPOINTS}
                     cols={COLS}
                     layouts={gridLayouts}
-                    isResizable={!isMobileWeb()}
-                    isDraggable={!isMobileWeb()}
+                    isResizable={!isMobile}
+                    isDraggable={!isMobile}
                     onBreakpointChange={(newBreakpoint: string) => {
                         setBreakpoint(newBreakpoint)
                     }}
