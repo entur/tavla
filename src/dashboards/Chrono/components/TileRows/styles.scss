@@ -51,4 +51,11 @@
     @media (max-width: 1000px) {
         padding: 0.5rem;
     }
+
+    @media (max-width: 480px) {
+        &__icon {
+            min-width: 1.5rem;
+            font-size: 1.5rem;
+        }
+    }
 }
