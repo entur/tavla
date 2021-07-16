@@ -58,6 +58,7 @@
                 "newlines-between": "always-and-inside-groups"
             }
         ],
+        "no-console": "error",
         "no-shadow": "off",
         "no-unused-vars": "warn",
         "object-shorthand": ["error", "always"],
