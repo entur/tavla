@@ -51,7 +51,7 @@ function ToggleDetailsPanel(): JSX.Element {
                     Spor/plattform
                 </FilterChip>
             </div>
-            <Label className="filter-label">
+            <Label>
                 Obs! Noen av detaljene kan ikke vises i alle visningstyper.
             </Label>
         </Fieldset>
