@@ -105,8 +105,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
     )
 
-    let bikeRentalStations = useBikeRentalStations()
-
+    const bikeRentalStations = useBikeRentalStations()
     const scooters = useScooters()
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
