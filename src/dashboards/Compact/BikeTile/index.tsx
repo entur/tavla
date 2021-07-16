@@ -8,8 +8,9 @@ import TileRow from '../components/TileRow'
 import { useSettingsContext } from '../../../settings'
 import { IconColorType } from '../../../types'
 import { getIconColorType } from '../../../utils'
+import { WalkInfoBike } from '../../../logic/useWalkInfoBike'
 
-const BikeTile = ({ stations }: Props): JSX.Element => {
+const BikeTile = ({ stations, walkInfoBike }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
@@ -39,6 +40,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                             color={colors.transport[iconColorType].mobility}
                         />
                     }
+                    walkInfoBike={walkInfoBike}
                     label={name}
                     subLabels={[
                         {
@@ -62,6 +64,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
 
 interface Props {
     stations: BikeRentalStation[]
+    walkInfoBike?: WalkInfoBike
 }
 
 export default BikeTile
