@@ -44,8 +44,7 @@ async function getWalkInfoBike(
                         walkDistance: result[0].walkDistance,
                     }
                 })
-                .catch((e) => {
-                    console.error(e)
+                .catch(() => {
                     return null
                 }),
         ),
