@@ -29,6 +29,13 @@
         flex-direction: column;
         flex-grow: 1;
     }
+    &__walking-time {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1rem;
+        margin: 0.5rem 0;
+        color: var(--tavla-label-font-color);
+    }
 
     &__sublabels {
         display: grid;

@@ -9,14 +9,28 @@ import './styles.scss'
 import SituationModal from '../../../../components/SituationModal'
 
 import { isMobileWeb } from '../../../../utils'
+import { WalkInfoBike } from '../../../../logic/useWalkInfoBike'
 
 import PlatformInfo from './PlatformInfo'
 
 const isMobile = isMobileWeb()
 
+function formatWalkInfo(walkInfoBike: WalkInfoBike) {
+    if (walkInfoBike.walkTime / 60 < 1) {
+        return `Mindre enn 1 min å gå (${Math.ceil(
+            walkInfoBike.walkDistance,
+        )} m)`
+    } else {
+        return `${Math.ceil(walkInfoBike.walkTime / 60)} min å gå (${Math.ceil(
+            walkInfoBike.walkDistance,
+        )} m)`
+    }
+}
+
 export function TileRow({
     label,
     icon,
+    walkInfoBike,
     subLabels,
     hideSituations,
     hideTracks,
@@ -31,6 +45,11 @@ export function TileRow({
                 {!hideTracks && (
                     <PlatformInfo platform={platform} type={type} />
                 )}
+                {walkInfoBike ? (
+                    <div className="tilerow__walking-time">
+                        {formatWalkInfo(walkInfoBike)}
+                    </div>
+                ) : null}
                 <div className="tilerow__sublabels">
                     {subLabels.map((subLabel, index) => (
                         <div className="tilerow__sublabel" key={index}>
@@ -81,6 +100,7 @@ interface Props {
     label: string
     subLabels: TileSubLabel[]
     icon: JSX.Element | null
+    walkInfoBike?: WalkInfoBike
     hideSituations?: boolean
     hideTracks?: boolean
     platform?: string

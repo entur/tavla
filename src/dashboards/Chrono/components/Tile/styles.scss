@@ -10,6 +10,19 @@
     padding: 2rem;
     overflow: scroll;
 
+    .eds-table__head {
+        border-bottom: none;
+    }
+
+    .eds-table__header-cell {
+        text-align: left;
+    }
+
+    .eds-table__data-cell:not(:first-child),
+    .eds-table__header-cell:not(:first-child) {
+        padding: 1rem 0 1rem 0.1rem;
+    }
+
     &__header {
         display: flex;
         justify-content: space-between;

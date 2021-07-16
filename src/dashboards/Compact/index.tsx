@@ -100,7 +100,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     )
 
     const bikeRentalStations = useBikeRentalStations()
-
     const scooters = useScooters()
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
