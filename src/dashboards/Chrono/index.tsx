@@ -55,6 +55,15 @@ function getDataGrid(
     }
 }
 
+function getDefaultBreakpoint() {
+    if (window.innerWidth > BREAKPOINTS.lg) {
+        return 'lg'
+    } else if (window.innerWidth > BREAKPOINTS.md) {
+        return 'md'
+    }
+    return 'sm'
+}
+
 const BREAKPOINTS = {
     lg: 1200,
     md: 996,
@@ -78,7 +87,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
             ?.documentId
 
-    const [breakpoint, setBreakpoint] = useState<string>('lg')
+    const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey),
     )

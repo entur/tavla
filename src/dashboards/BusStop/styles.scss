@@ -10,13 +10,17 @@
 
         .tile {
             margin-right: 2rem;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
             max-height: 75vh;
             overflow-y: hidden;
+            border-radius: 1rem;
         }
     }
     &__mapTile {
         height: 75vh;
+        overflow: hidden;
+        border-radius: 1rem;
+        z-index: 1;
     }
     .eds-table {
         &__head {

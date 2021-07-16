@@ -11,9 +11,10 @@
     &__stop {
         background-color: var(--tavla-box-background-color);
         width: 100%;
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
         padding: 2rem;
         overflow: hidden;
+        border-radius: 1rem;
     }
     &__stop:last-child {
         margin-bottom: 5rem;
