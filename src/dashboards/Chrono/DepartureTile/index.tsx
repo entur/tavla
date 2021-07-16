@@ -49,15 +49,15 @@ function getColumnSizes(
     )
     return (
         <>
-            {getColSize('14%', '16%')}
+            {getColSize('14%', '14%')}
             {!hideTracks && !hideSituations
-                ? getColSize('44%', '42%')
+                ? getColSize('44%', '38%')
                 : !hideTracks || !hideSituations
-                ? getColSize('54%', '54%')
-                : getColSize('64%', '66%')}
-            {getColSize('20%', '18%')}
-            {!hideTracks ? getColSize('10%', '12%') : null}
-            {!hideSituations ? getColSize('10%', '12%') : null}
+                ? getColSize('54%', '49%')
+                : getColSize('64%', '61%')}
+            {getColSize('20%', '20%')}
+            {!hideTracks ? getColSize('10%', '11%') : null}
+            {!hideSituations ? getColSize('10%', '11%') : null}
         </>
     )
 }

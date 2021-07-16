@@ -52,4 +52,7 @@
         font-size: 1rem;
         color: var(--tavla-font-color);
     }
+    @media (max-width: 480px) {
+        padding: 2rem 1rem;
+    }
 }
