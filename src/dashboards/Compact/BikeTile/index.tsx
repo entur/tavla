@@ -8,10 +8,18 @@ import TileRow from '../components/TileRow'
 import { useSettingsContext } from '../../../settings'
 import { IconColorType } from '../../../types'
 import { getIconColorType } from '../../../utils'
-import { WalkInfoBike } from '../../../logic/useWalkInfoBike'
+import useWalkInfoBike, { WalkInfoBike } from '../../../logic/useWalkInfoBike'
 
-const BikeTile = ({ stations, walkInfoBike }: Props): JSX.Element => {
+function getWalkInfoBike(
+    walkInfos: WalkInfoBike[],
+    id: string,
+): WalkInfoBike | undefined {
+    return walkInfos.find((walkInfoBike) => walkInfoBike.stopId === id)
+}
+
+const BikeTile = ({ stations }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
+    const hideWalkInfo = settings?.hideWalkInfo
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
@@ -22,6 +30,7 @@ const BikeTile = ({ stations, walkInfoBike }: Props): JSX.Element => {
         }
     }, [settings])
 
+    const walkInfoBike = useWalkInfoBike(stations)
     return (
         <Tile
             title="Bysykkel"
@@ -32,39 +41,47 @@ const BikeTile = ({ stations, walkInfoBike }: Props): JSX.Element => {
                 />,
             ]}
         >
-            {stations.map(({ name, bikesAvailable, id, spacesAvailable }) => (
-                <TileRow
-                    key={id}
-                    icon={
-                        <BicycleIcon
-                            color={colors.transport[iconColorType].mobility}
-                        />
-                    }
-                    walkInfoBike={walkInfoBike}
-                    label={name}
-                    subLabels={[
-                        {
-                            time:
-                                bikesAvailable === 1
-                                    ? '1 sykkel'
-                                    : `${bikesAvailable} sykler`,
-                        },
-                        {
-                            time:
-                                spacesAvailable === 1
-                                    ? '1 lås'
-                                    : `${spacesAvailable} låser`,
-                        },
-                    ]}
-                />
-            ))}
+            {stations.map((station) => {
+                return (
+                    <TileRow
+                        key={station.id}
+                        icon={
+                            <BicycleIcon
+                                color={colors.transport[iconColorType].mobility}
+                            />
+                        }
+                        walkInfoBike={
+                            !hideWalkInfo
+                                ? getWalkInfoBike(
+                                      walkInfoBike || [],
+                                      station.id,
+                                  )
+                                : undefined
+                        }
+                        label={station.name}
+                        subLabels={[
+                            {
+                                time:
+                                    station.bikesAvailable === 1
+                                        ? '1 sykkel'
+                                        : `${station.bikesAvailable} sykler`,
+                            },
+                            {
+                                time:
+                                    station.spacesAvailable === 1
+                                        ? '1 lås'
+                                        : `${station.spacesAvailable} låser`,
+                            },
+                        ]}
+                    />
+                )
+            })}
         </Tile>
     )
 }
 
 interface Props {
     stations: BikeRentalStation[]
-    walkInfoBike?: WalkInfoBike
 }
 
 export default BikeTile

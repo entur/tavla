@@ -28,8 +28,6 @@ import { useSettingsContext } from '../../settings'
 import { DEFAULT_ZOOM } from '../../constants'
 import { isEqualUnsorted, usePrevious } from '../../utils'
 
-import useWalkInfoBike, { WalkInfoBike } from '../../logic/useWalkInfoBike'
-
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
 import MapTile from './MapTile'
@@ -50,13 +48,6 @@ function getWalkInfoForStopPlace(
     id: string,
 ): WalkInfo | undefined {
     return walkInfos?.find((walkInfo) => walkInfo.stopId === id)
-}
-
-function getWalkInfoBike(
-    walkInfos: WalkInfoBike[],
-    id: string,
-): WalkInfoBike | undefined {
-    return walkInfos?.find((walkInfoBike) => walkInfoBike.stopId === id)
 }
 
 function getDataGrid(
@@ -114,7 +105,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
     )
 
-    const bikeRentalStations = useBikeRentalStations()
+    let bikeRentalStations = useBikeRentalStations()
 
     const scooters = useScooters()
 
@@ -127,7 +118,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     }
 
     const walkInfo = useWalkInfo(stopPlacesWithDepartures)
-    const walkInfoBike = useWalkInfoBike(bikeRentalStations)
 
     const numberOfStopPlaces = stopPlacesWithDepartures
         ? stopPlacesWithDepartures.length
@@ -268,13 +258,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                             return bikeRentalStations &&
                                 anyBikeRentalStations ? (
                                 <div key={item.id}>
-                                    <BikeTile
-                                        stations={bikeRentalStations}
-                                        walkInfoBike={getWalkInfoBike(
-                                            walkInfoBike || [],
-                                            item.id,
-                                        )}
-                                    />
+                                    <BikeTile stations={bikeRentalStations} />
                                 </div>
                             ) : (
                                 []
@@ -373,19 +357,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                         variant="light"
                                     />
                                 ) : null}
-
-                                {(bikeRentalStations || []).map(
-                                    (stop, index) => (
-                                        <BikeTile
-                                            key={index}
-                                            stations={bikeRentalStations}
-                                            walkInfoBike={getWalkInfoBike(
-                                                walkInfoBike || [],
-                                                stop.id,
-                                            )}
-                                        />
-                                    ),
-                                )}
+                                <BikeTile stations={bikeRentalStations} />
                             </div>
                         ) : (
                             []

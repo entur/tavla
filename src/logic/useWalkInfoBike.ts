@@ -14,8 +14,8 @@ export type WalkInfoBike = {
 }
 
 async function getWalkInfoBike(
-    rentalStations: BikeRentalStation[], //bytte ut
-    from: Coordinates, //gjøre noe her
+    rentalStations: BikeRentalStation[],
+    from: Coordinates,
 ): Promise<WalkInfoBike[]> {
     const travelTimes = await Promise.all(
         rentalStations.map((stopPlace) =>
@@ -26,8 +26,10 @@ async function getWalkInfoBike(
                         coordinates: from,
                     },
                     to: {
-                        name: stopPlace.name,
-                        place: stopPlace.id,
+                        coordinates: {
+                            longitude: stopPlace.longitude,
+                            latitude: stopPlace.latitude,
+                        },
                     },
                     modes: [QueryMode.FOOT],
                     limit: 1,
@@ -42,14 +44,17 @@ async function getWalkInfoBike(
                         walkDistance: result[0].walkDistance,
                     }
                 })
-                .catch(() => null),
+                .catch((e) => {
+                    console.error(e)
+                    return null
+                }),
         ),
     )
 
     return travelTimes.filter(isNotNullOrUndefined)
 }
 
-export default function useTravelTime( //endre litt
+export default function useTravelTime(
     rentalStations: BikeRentalStation[] | null,
 ): WalkInfoBike[] | null {
     const [settings] = useSettingsContext()
@@ -63,17 +68,26 @@ export default function useTravelTime( //endre litt
 
     const ids = rentalStations?.map((stopPlace) => stopPlace.id)
     const previousIds = usePrevious(ids)
+    const travelTimeSet = travelTime !== null
+
     useEffect(() => {
         if (!rentalStations) {
             return setTravelTime(null)
         }
-        if (!isEqual(ids, previousIds)) {
+        if (!isEqual(ids, previousIds) || !travelTimeSet) {
             getWalkInfoBike(rentalStations, {
                 latitude: fromLatitude,
                 longitude: fromLongitude,
             }).then(setTravelTime)
         }
-    }, [fromLatitude, fromLongitude, ids, previousIds, rentalStations])
+    }, [
+        fromLatitude,
+        fromLongitude,
+        ids,
+        previousIds,
+        rentalStations,
+        travelTimeSet,
+    ])
 
     return travelTime
 }
