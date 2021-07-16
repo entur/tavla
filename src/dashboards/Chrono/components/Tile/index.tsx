@@ -35,7 +35,7 @@ interface Props {
     title: string
     icons: JSX.Element | JSX.Element[]
     walkInfo?: WalkInfo
-    children: JSX.Element[]
+    children: JSX.Element[] | JSX.Element
 }
 
 export default Tile
