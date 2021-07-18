@@ -6,6 +6,7 @@ import { unique } from './utils'
 const CLIENT_NAME = process.env.CLIENT_NAME || ''
 
 if (!CLIENT_NAME && process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line no-console
     console.error(
         'CLIENT_NAME is missing! Please set a client name in your environment config.',
     )

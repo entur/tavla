@@ -6,6 +6,7 @@ export function getFromLocalStorage<T>(key: string): T | undefined {
             if (!savedValue) return undefined
             ls = JSON.parse(savedValue)
         } catch (e) {
+            // eslint-disable-next-line no-console
             console.log(e)
         }
     }

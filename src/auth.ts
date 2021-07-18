@@ -17,6 +17,7 @@ export function useFirebaseAuthentication(): firebase.User | null | undefined {
             if (newUser) {
                 return
             }
+            // eslint-disable-next-line no-console
             firebase.auth().signInAnonymously().catch(console.error)
         })
 

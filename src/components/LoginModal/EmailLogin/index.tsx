@@ -50,6 +50,7 @@ const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
                 } else if (error.code === 'auth/wrong-password') {
                     setPasswordError('Feil passord.')
                 } else {
+                    // eslint-disable-next-line no-console
                     console.error(error)
                 }
             })
