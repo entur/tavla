@@ -8,7 +8,8 @@
     color: var(--tavla-font-color);
     flex: none;
     padding: 2rem;
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
 
     .eds-table__head {
         border-bottom: none;
