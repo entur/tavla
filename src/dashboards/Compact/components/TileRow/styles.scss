@@ -28,13 +28,20 @@
     &__texts {
         flex-direction: column;
         flex-grow: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
+
     &__walking-time {
         font-style: normal;
         font-weight: normal;
         font-size: 1rem;
         margin: 0.5rem 0;
         color: var(--tavla-label-font-color);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     &__sublabels {
