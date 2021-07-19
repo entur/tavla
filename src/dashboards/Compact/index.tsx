@@ -34,6 +34,7 @@ import BikeTile from './BikeTile'
 import MapTile from './MapTile'
 
 import './styles.scss'
+import { ProgressiveWebAppPrompt } from '../../containers/App'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -208,76 +209,92 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         if (!tileOrder) return null
 
         return (
-            <DashboardWrapper
-                className="compact"
-                history={history}
-                bikeRentalStations={bikeRentalStations}
-                stopPlacesWithDepartures={stopPlacesWithDepartures}
-                scooters={scooters}
-            >
-                <div className="compact__tiles" {...longPress}>
-                    <RearrangeModal
-                        itemOrder={tileOrder}
-                        onTileOrderChanged={(item) => {
-                            setTileOrder(item)
-                            saveToLocalStorage(boardId + '-tile-order', item)
-                        }}
-                        modalVisible={modalVisible}
-                        onDismiss={() => setModalVisible(false)}
-                    />
-                    {tileOrder.map((item) => {
-                        if (item.id == 'map') {
-                            return hasData && mapCol ? (
-                                <div key={item.id}>
-                                    <MapTile
-                                        scooters={scooters}
-                                        stopPlaces={stopPlacesWithDepartures}
-                                        bikeRentalStations={bikeRentalStations}
-                                        walkTimes={null}
-                                        latitude={
-                                            settings?.coordinates?.latitude ?? 0
-                                        }
-                                        longitude={
-                                            settings?.coordinates?.longitude ??
-                                            0
-                                        }
-                                        zoom={settings?.zoom ?? DEFAULT_ZOOM}
-                                    />
-                                </div>
-                            ) : (
-                                []
-                            )
-                        } else if (item.id == 'city-bike') {
-                            return bikeRentalStations &&
-                                anyBikeRentalStations ? (
-                                <div key={item.id}>
-                                    <BikeTile stations={bikeRentalStations} />
-                                </div>
-                            ) : (
-                                []
-                            )
-                        } else if (stopPlacesWithDepartures) {
-                            const stopIndex =
-                                stopPlacesWithDepartures.findIndex(
-                                    (p) => p.id == item.id,
+            <>
+                <DashboardWrapper
+                    className="compact"
+                    history={history}
+                    bikeRentalStations={bikeRentalStations}
+                    stopPlacesWithDepartures={stopPlacesWithDepartures}
+                    scooters={scooters}
+                >
+                    <div className="compact__tiles" {...longPress}>
+                        <RearrangeModal
+                            itemOrder={tileOrder}
+                            onTileOrderChanged={(item) => {
+                                setTileOrder(item)
+                                saveToLocalStorage(
+                                    boardId + '-tile-order',
+                                    item,
                                 )
-                            return (
-                                <div key={item.id}>
-                                    <DepartureTile
-                                        walkInfo={getWalkInfoForStopPlace(
-                                            walkInfo || [],
-                                            item.id,
-                                        )}
-                                        stopPlaceWithDepartures={
-                                            stopPlacesWithDepartures[stopIndex]
-                                        }
-                                    />
-                                </div>
-                            )
-                        }
-                    })}
-                </div>
-            </DashboardWrapper>
+                            }}
+                            modalVisible={modalVisible}
+                            onDismiss={() => setModalVisible(false)}
+                        />
+                        {tileOrder.map((item) => {
+                            if (item.id == 'map') {
+                                return hasData && mapCol ? (
+                                    <div key={item.id}>
+                                        <MapTile
+                                            scooters={scooters}
+                                            stopPlaces={
+                                                stopPlacesWithDepartures
+                                            }
+                                            bikeRentalStations={
+                                                bikeRentalStations
+                                            }
+                                            walkTimes={null}
+                                            latitude={
+                                                settings?.coordinates
+                                                    ?.latitude ?? 0
+                                            }
+                                            longitude={
+                                                settings?.coordinates
+                                                    ?.longitude ?? 0
+                                            }
+                                            zoom={
+                                                settings?.zoom ?? DEFAULT_ZOOM
+                                            }
+                                        />
+                                    </div>
+                                ) : (
+                                    []
+                                )
+                            } else if (item.id == 'city-bike') {
+                                return bikeRentalStations &&
+                                    anyBikeRentalStations ? (
+                                    <div key={item.id}>
+                                        <BikeTile
+                                            stations={bikeRentalStations}
+                                        />
+                                    </div>
+                                ) : (
+                                    []
+                                )
+                            } else if (stopPlacesWithDepartures) {
+                                const stopIndex =
+                                    stopPlacesWithDepartures.findIndex(
+                                        (p) => p.id == item.id,
+                                    )
+                                return (
+                                    <div key={item.id}>
+                                        <DepartureTile
+                                            walkInfo={getWalkInfoForStopPlace(
+                                                walkInfo || [],
+                                                item.id,
+                                            )}
+                                            stopPlaceWithDepartures={
+                                                stopPlacesWithDepartures[
+                                                    stopIndex
+                                                ]
+                                            }
+                                        />
+                                    </div>
+                                )
+                            }
+                        })}
+                    </div>
+                </DashboardWrapper>
+            </>
         )
     }
     return (

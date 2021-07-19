@@ -3,6 +3,7 @@ import { Route, Switch, Router, useLocation } from 'react-router-dom'
 import analytics from 'universal-ga'
 
 import { ToastProvider } from '@entur/alert'
+import PWAPrompt from 'react-ios-pwa-prompt'
 
 import { SettingsContext, useSettings } from '../settings'
 import { useFirebaseAuthentication, UserProvider } from '../auth'
@@ -115,6 +116,21 @@ function updateManifest(pathName: string): void {
     }
 }
 
+export const ProgressiveWebAppPrompt = (): JSX.Element => {
+    return (
+        <PWAPrompt
+            promptOnVisit={1}
+            timesToShow={1}
+            permanentlyHideOnDismiss={true}
+            debug={1} // TODO: Remove this line
+            copyTitle="Legg til Tavla på hjemskjermen"
+            copyShareButtonLabel="1) Trykk på 'Del'-knappen på menyen under."
+            copyAddHomeButtonLabel="2) Trykk 'Legg til på hjemskjerm'."
+            copyClosePrompt="Lukk"
+        />
+    )
+}
+
 const Content = (): JSX.Element => {
     const user = useFirebaseAuthentication()
     const settings = useSettings()
@@ -137,6 +153,7 @@ const Content = (): JSX.Element => {
             >
                 <ThemeProvider>
                     <div className="themeBackground">
+                        <ProgressiveWebAppPrompt />
                         <ToastProvider>
                             <Header />
                             <Switch>
