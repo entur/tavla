@@ -48,7 +48,7 @@ function BusStop({ history }: Props): JSX.Element | null {
             history={history}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
-            <GridContainer className="busStop__container">
+            <GridContainer>
                 <GridItem large={mediumWidth} medium={12} small={12}>
                     <div className={!settings?.showMap ? 'busStop__tiles' : ''}>
                         {(stopPlacesWithDepartures || []).map((stop, index) => (
