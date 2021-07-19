@@ -1,8 +1,6 @@
 @import '../../assets/styles/import.scss';
 
 .busStop {
-    margin-bottom: 5rem;
-
     &__tiles {
         display: flex;
         flex-direction: column;
@@ -39,7 +37,9 @@
 
         &__tiles {
             display: block;
+            margin-bottom: 5rem;
         }
+
         .tile {
             margin-bottom: 1rem;
             max-height: 60vh;
@@ -48,6 +48,8 @@
         }
         &__mapTile {
             max-height: 60vh;
+            margin-bottom: 6rem;
+            margin-top: 0;
         }
         .eds-table--small {
             .eds-table__data-cell {
