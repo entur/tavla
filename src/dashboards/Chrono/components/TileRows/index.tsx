@@ -12,28 +12,14 @@ import './styles.scss'
 
 import SituationModal from '../../../../components/SituationModal'
 import { createTileSubLabel, getIcon, isMobileWeb } from '../../../../utils'
-import { WalkInfoBike } from '../../../../logic/useWalkInfoBike'
 
 const isMobile = isMobileWeb()
-
-function formatWalkInfo(walkInfoBike: WalkInfoBike) {
-    if (walkInfoBike.walkTime / 60 < 1) {
-        return `Mindre enn 1 min å gå (${Math.ceil(
-            walkInfoBike.walkDistance,
-        )} m)`
-    } else {
-        return `${Math.ceil(walkInfoBike.walkTime / 60)} min å gå (${Math.ceil(
-            walkInfoBike.walkDistance,
-        )} m)`
-    }
-}
 
 export function TileRows({
     visibleDepartures,
     hideSituations,
     hideTracks,
     iconColorType,
-    walkInfoBike,
 }: Props): JSX.Element {
     return (
         <TableBody>
@@ -71,11 +57,6 @@ export function TileRows({
                                     />
                                 </div>
                             </DataCell>
-                        ) : null}
-                        {walkInfoBike ? (
-                            <div className="tilerow__walking-time">
-                                {formatWalkInfo(walkInfoBike)}
-                            </div>
                         ) : null}
                     </TableRow>
                 )
@@ -118,7 +99,6 @@ interface Props {
     visibleDepartures: LineData[]
     hideSituations: boolean | undefined
     hideTracks: boolean | undefined
-    walkInfoBike?: WalkInfoBike
     iconColorType: IconColorType
 }
 
