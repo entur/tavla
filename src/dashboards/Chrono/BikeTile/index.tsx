@@ -44,41 +44,36 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                 />,
             ]}
         >
-            {stations.map((station) => {
-                return (
-                    <TileRow
-                        key={station.id}
-                        icon={
-                            <BicycleIcon
-                                color={colors.transport[iconColorType].mobility}
-                            />
-                        }
-                        walkInfoBike={
-                            !hideWalkInfo
-                                ? getWalkInfoBike(
-                                      walkInfoBike || [],
-                                      station.id,
-                                  )
-                                : undefined
-                        }
-                        label={station.name}
-                        subLabels={[
-                            {
-                                time:
-                                    station.bikesAvailable === 1
-                                        ? '1 sykkel'
-                                        : `${station.bikesAvailable} sykler`,
-                            },
-                            {
-                                time:
-                                    station.spacesAvailable === 1
-                                        ? '1 lås'
-                                        : `${station.spacesAvailable} låser`,
-                            },
-                        ]}
-                    />
-                )
-            })}
+            {stations.map((station) => (
+                <TileRow
+                    key={station.id}
+                    icon={
+                        <BicycleIcon
+                            color={colors.transport[iconColorType].mobility}
+                        />
+                    }
+                    walkInfoBike={
+                        !hideWalkInfo
+                            ? getWalkInfoBike(walkInfoBike || [], station.id)
+                            : undefined
+                    }
+                    label={station.name}
+                    subLabels={[
+                        {
+                            time:
+                                station.bikesAvailable === 1
+                                    ? '1 sykkel'
+                                    : `${station.bikesAvailable} sykler`,
+                        },
+                        {
+                            time:
+                                station.spacesAvailable === 1
+                                    ? '1 lås'
+                                    : `${station.spacesAvailable} låser`,
+                        },
+                    ]}
+                />
+            ))}
         </Tile>
     )
 }
