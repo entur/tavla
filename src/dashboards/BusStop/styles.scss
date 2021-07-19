@@ -32,12 +32,11 @@
 
 @media (max-width: 1000px) {
     .busStop {
-        padding: 1rem;
+        padding: 1rem 1rem 6rem;
         overflow: auto;
 
         &__tiles {
             display: block;
-            margin-bottom: 5rem;
         }
 
         .tile {
@@ -48,8 +47,7 @@
         }
         &__mapTile {
             max-height: 60vh;
-            margin-bottom: 6rem;
-            margin-top: 0;
+            margin-bottom: 1rem;
         }
         .eds-table--small {
             .eds-table__data-cell {
