@@ -3,13 +3,11 @@ import { BackArrowIcon } from '@entur/icons'
 
 import './styles.scss'
 
-const BackButton = ({ action, className }: Props): JSX.Element => {
-    return (
-        <button className={`back-button ${className}`} onClick={action}>
-            <BackArrowIcon />
-        </button>
-    )
-}
+const BackButton = ({ action, className }: Props): JSX.Element => (
+    <button className={`back-button ${className}`} onClick={action}>
+        <BackArrowIcon />
+    </button>
+)
 
 interface Props {
     action: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void

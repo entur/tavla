@@ -165,8 +165,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const [idle, setIdle] = useState<boolean>(false)
     useEffect(() => {
         if (mobileWidth) return
-        const createTimeout = (): number => {
-            return window.setTimeout(() => {
+        const createTimeout = (): number =>
+            window.setTimeout(() => {
                 if (
                     document
                         .getElementById('app')
@@ -179,7 +179,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                 focusElement.blur()
                 document.body.style.cursor = 'none'
             }, 2000)
-        }
         let timeout = createTimeout()
 
         const removeTimeout = (): void => {

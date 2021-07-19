@@ -8,13 +8,11 @@ interface Props {
     onClick: () => void
 }
 
-const CloseButton = ({ onClick }: Props): JSX.Element => {
-    return (
-        <button className="close-button" onClick={onClick}>
-            <CloseIcon className="icon" />
-            Lukk
-        </button>
-    )
-}
+const CloseButton = ({ onClick }: Props): JSX.Element => (
+    <button className="close-button" onClick={onClick}>
+        <CloseIcon className="icon" />
+        Lukk
+    </button>
+)
 
 export default CloseButton

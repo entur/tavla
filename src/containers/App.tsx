@@ -178,12 +178,10 @@ interface Props {
     history: any
 }
 
-const App = ({ history }: Props): JSX.Element => {
-    return (
-        <Router history={history}>
-            <Content />
-        </Router>
-    )
-}
+const App = ({ history }: Props): JSX.Element => (
+    <Router history={history}>
+        <Content />
+    </Router>
+)
 
 export default App

@@ -8,8 +8,8 @@ import { unique } from '../../../../../utils'
 import { Settings } from '../../../../../settings'
 import { StopPlaceWithLines } from '../../../../../types'
 
-const isTransport = (mode: string): mode is TravelSwitchProps['transport'] => {
-    return [
+const isTransport = (mode: string): mode is TravelSwitchProps['transport'] =>
+    [
         'bus',
         'rail',
         'water',
@@ -21,7 +21,6 @@ const isTransport = (mode: string): mode is TravelSwitchProps['transport'] => {
         'airportLinkRail',
         'airportLinkBus',
     ].includes(mode)
-}
 
 const PanelRow = ({
     onToggleStop,

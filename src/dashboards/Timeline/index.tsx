@@ -217,16 +217,14 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                 <div className="timeline__line">
                                     {[...TICKS]
                                         .reverse()
-                                        .map((minutes, index) => {
-                                            return (
-                                                <Tick
-                                                    key={minutes}
-                                                    mode={mode}
-                                                    minutes={minutes}
-                                                    index={index}
-                                                />
-                                            )
-                                        })}
+                                        .map((minutes, index) => (
+                                            <Tick
+                                                key={minutes}
+                                                mode={mode}
+                                                minutes={minutes}
+                                                index={index}
+                                            />
+                                        ))}
                                 </div>
                             </Fragment>
                         ))}

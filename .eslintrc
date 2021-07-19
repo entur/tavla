@@ -42,6 +42,7 @@
         "@typescript-eslint/member-delimiter-style": "off",
         "@typescript-eslint/no-unused-vars": "error",
         "@typescript-eslint/no-shadow": "error",
+        "arrow-body-style": "error",
         "eol-last": "warn",
         "import/no-useless-path-segments": "error",
         "import/order": [
