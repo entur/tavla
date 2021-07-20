@@ -4,37 +4,38 @@
 .themeBackground {
     background-color: var(--tavla-background-color);
     height: 100vh;
+}
 
-    .iOSPWA-overlay {
-        background-color: transparent;
-        opacity: 0;
+.iOSPWA-overlay {
+    display: none;
+    background-color: transparent;
+    opacity: 0;
+}
+
+.iOSPWA-container {
+    background-color: #e1eff8;
+    border: 0.0625rem solid #f5f5f8;
+    border-radius: 0.25rem;
+    opacity: 1;
+    .iOSPWA-title {
+        color: #181c56;
     }
 
-    .iOSPWA-container {
-        background-color: #e1eff8;
-        border: 0.0625rem solid #f5f5f8;
-        border-radius: 0.25rem;
-        opacity: 1;
-        .iOSPWA-title {
-            color: #181c56;
-        }
+    .iOSPWA-description {
+        display: none;
+    }
 
-        .iOSPWA-description {
-            display: none;
-        }
+    .iOSPWA-step1-copy,
+    .iOSPWA-step2-copy {
+        color: #181c56;
+    }
 
-        .iOSPWA-step1-copy,
-        .iOSPWA-step2-copy {
-            color: #181c56;
-        }
-
-        .iOSPWA-step1,
-        .iOSPWA-step2,
-        .iOSPWA-step1-icon,
-        .iOSPWA-step2-icon,
-        .iOSPWA-cancel {
-            color: #181c56;
-            fill: #181c56 !important;
-        }
+    .iOSPWA-step1,
+    .iOSPWA-step2,
+    .iOSPWA-step1-icon,
+    .iOSPWA-step2-icon,
+    .iOSPWA-cancel {
+        color: #181c56;
+        fill: #181c56 !important;
     }
 }

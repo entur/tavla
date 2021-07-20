@@ -34,7 +34,6 @@ import BikeTile from './BikeTile'
 import MapTile from './MapTile'
 
 import './styles.scss'
-import { ProgressiveWebAppPrompt } from '../../containers/App'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 

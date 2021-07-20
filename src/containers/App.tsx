@@ -116,17 +116,18 @@ function updateManifest(pathName: string): void {
     }
 }
 
-export const ProgressiveWebAppPrompt = (): JSX.Element => {
+function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
+    if (pathName === '/' || pathName.includes('admin')) return null
     return (
         <PWAPrompt
-            promptOnVisit={1}
+            promptOnVisit={4}
             timesToShow={1}
             permanentlyHideOnDismiss={true}
-            debug={1} // TODO: Remove this line
             copyTitle="Legg til Tavla på hjemskjermen"
             copyShareButtonLabel="1) Trykk på 'Del'-knappen på menyen under."
             copyAddHomeButtonLabel="2) Trykk 'Legg til på hjemskjerm'."
             copyClosePrompt="Lukk"
+            delay={2000}
         />
     )
 }
@@ -146,14 +147,20 @@ const Content = (): JSX.Element => {
         updateManifest(location.pathname)
     }, [location.pathname])
 
+    const isInStandaloneMode = () =>
+        window.matchMedia('(display-mode: standalone)').matches ||
+        document.referrer.includes('android-app://')
+
     return (
         <UserProvider value={user}>
+            {isInStandaloneMode()
+                ? null
+                : ProgressiveWebAppPrompt(location.pathname)}
             <SettingsContext.Provider
                 value={isOnTavle ? settings : [null, settings[1]]}
             >
                 <ThemeProvider>
                     <div className="themeBackground">
-                        <ProgressiveWebAppPrompt />
                         <ToastProvider>
                             <Header />
                             <Switch>
