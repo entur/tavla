@@ -233,7 +233,7 @@ const EditTab = (): JSX.Element => {
                             placement={!isMobile ? 'bottom' : 'bottom-left'}
                             isOpen={showTooltip}
                             showCloseButton={true}
-                            disableHoverListener={false}
+                            disableHoverListener={true}
                             disableFocusListener={true}
                             popperModifiers={[
                                 {
