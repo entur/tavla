@@ -209,6 +209,18 @@ const EditTab = (): JSX.Element => {
             setDistance(1000)
         }
     }
+    const TooltipText = (props: { title: string; text: string }) =>
+        React.createElement(
+            'div',
+            {
+                className: 'tooltip-container',
+            },
+            [
+                React.createElement('h3', null, props.title),
+                React.createElement('p', null, props.text),
+            ],
+        )
+
     return (
         <div className="edit-tab">
             <div>
@@ -217,15 +229,17 @@ const EditTab = (): JSX.Element => {
                     <div className="edit-tab__input-wrapper">
                         <Tooltip
                             content={
-                                !isMobile
-                                    ? 'Endre på avstanden? Klikk på tallet for å skrive en ny verdi.'
-                                    : 'Klikk for å endre avstand.'
+                                <TooltipText
+                                    title="Endre på avstanden?"
+                                    text="Klikk på tallet for
+                                        å skrive en ny verdi."
+                                />
                             }
                             placement={!isMobile ? 'bottom' : 'bottom-left'}
                             isOpen={showTooltip}
                             showCloseButton={true}
-                            disableHoverListener={false}
-                            disableFocusListener={false}
+                            disableHoverListener={true}
+                            disableFocusListener={true}
                             popperModifiers={[
                                 {
                                     name: 'offset',

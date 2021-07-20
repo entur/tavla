@@ -5,7 +5,15 @@
     .eds-contrast {
         background: inherit;
     }
-
+    .tooltip-container {
+        line-height: 1.2rem;
+        font-weight: 500;
+        width: 13rem;
+        h3 {
+            font-weight: bold;
+            margin-bottom: -0.5rem;
+        }
+    }
     .eds-form-control,
     .eds-form-control__append {
         font-size: inherit;
