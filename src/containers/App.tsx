@@ -18,6 +18,8 @@ import PrivateRoute from '../routers/PrivateRoute'
 import Header from '../components/Header'
 import BusStop from '../dashboards/BusStop'
 
+import { isMobileWeb } from '../utils'
+
 import LandingPage from './LandingPage'
 import Admin from './Admin'
 import Privacy from './Privacy'
@@ -119,16 +121,17 @@ function updateManifest(pathName: string): void {
 function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
     if (pathName === '/' || pathName.includes('admin')) return null
     return (
-        <PWAPrompt
-            promptOnVisit={4}
-            timesToShow={1}
-            permanentlyHideOnDismiss={true}
-            copyTitle="Legg til Tavla på hjemskjermen"
-            copyShareButtonLabel="1) Trykk på 'Del'-knappen på menyen under."
-            copyAddHomeButtonLabel="2) Trykk 'Legg til på hjemskjerm'."
-            copyClosePrompt="Lukk"
-            delay={2000}
-        />
+        <div className="pwa-prompt">
+            <PWAPrompt
+                promptOnVisit={3}
+                timesToShow={1}
+                permanentlyHideOnDismiss={true}
+                copyTitle="Legg til Tavla på hjemskjermen"
+                copyShareButtonLabel="1) Trykk på 'Del'-knappen på menyen under."
+                copyAddHomeButtonLabel="2) Trykk 'Legg til på hjemskjerm'."
+                copyClosePrompt="Lukk"
+            />
+        </div>
     )
 }
 
@@ -153,7 +156,7 @@ const Content = (): JSX.Element => {
 
     return (
         <UserProvider value={user}>
-            {isInStandaloneMode()
+            {isInStandaloneMode() || !isMobileWeb()
                 ? null
                 : ProgressiveWebAppPrompt(location.pathname)}
             <SettingsContext.Provider
