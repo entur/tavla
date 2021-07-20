@@ -19,6 +19,10 @@ import Header from '../components/Header'
 import BusStop from '../dashboards/BusStop'
 
 import { isMobileWeb } from '../utils'
+import {
+    getFromLocalStorage,
+    saveToLocalStorage,
+} from '../settings/LocalStorage'
 
 import LandingPage from './LandingPage'
 import Admin from './Admin'
@@ -120,16 +124,24 @@ function updateManifest(pathName: string): void {
 
 function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
     if (pathName === '/' || pathName.includes('admin')) return null
+    if (
+        window.matchMedia('(display-mode: standalone)').matches ||
+        document.referrer.includes('android-app://')
+    )
+        return null
+    if (getFromLocalStorage('pwaPromptShown')) return null
+    const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 0
+    saveToLocalStorage('numberOfVisits', numberOfVisits + 1)
+    if (numberOfVisits < 10) return null
     return (
         <div className="pwa-prompt">
             <PWAPrompt
-                promptOnVisit={3}
-                timesToShow={1}
-                permanentlyHideOnDismiss={true}
+                debug={1} // forcing prompt to show
                 copyTitle="Legg til Tavla på hjemskjermen"
                 copyShareButtonLabel="1) Trykk på 'Del'-knappen på menyen under."
                 copyAddHomeButtonLabel="2) Trykk 'Legg til på hjemskjerm'."
                 copyClosePrompt="Lukk"
+                onClose={() => saveToLocalStorage('pwaPromptShown', true)}
             />
         </div>
     )
@@ -150,15 +162,9 @@ const Content = (): JSX.Element => {
         updateManifest(location.pathname)
     }, [location.pathname])
 
-    const isInStandaloneMode = () =>
-        window.matchMedia('(display-mode: standalone)').matches ||
-        document.referrer.includes('android-app://')
-
     return (
         <UserProvider value={user}>
-            {isInStandaloneMode() || !isMobileWeb()
-                ? null
-                : ProgressiveWebAppPrompt(location.pathname)}
+            {isMobileWeb() ? ProgressiveWebAppPrompt(location.pathname) : null}
             <SettingsContext.Provider
                 value={isOnTavle ? settings : [null, settings[1]]}
             >
