@@ -1,14 +1,12 @@
 @import '../assets/styles/import.scss';
 @import '../variables.scss';
 
-
 .themeBackground {
     background-color: var(--tavla-background-color);
     height: 100vh;
 }
 
 .pwa-prompt {
-
     .iOSPWA-overlay {
         display: none;
         background-color: transparent;
