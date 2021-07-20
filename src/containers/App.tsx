@@ -174,7 +174,7 @@ const Content = (): JSX.Element => {
 
     return (
         <UserProvider value={user}>
-            {!isMobileWeb() ? ProgressiveWebAppPrompt(location.pathname) : null}
+            {isMobileWeb() ? ProgressiveWebAppPrompt(location.pathname) : null}
             <SettingsContext.Provider
                 value={isOnTavle ? settings : [null, settings[1]]}
             >
