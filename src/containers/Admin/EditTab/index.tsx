@@ -6,7 +6,7 @@ import React, {
     SyntheticEvent,
 } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
-import { Heading2, Heading3 } from '@entur/typography'
+import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { WidthProvider, Responsive } from 'react-grid-layout'
@@ -209,17 +209,12 @@ const EditTab = (): JSX.Element => {
             setDistance(1000)
         }
     }
-    const TooltipText = (props: { title: string; text: string }) =>
-        React.createElement(
-            'div',
-            {
-                className: 'tooltip-container',
-            },
-            [
-                React.createElement('h3', null, props.title),
-                React.createElement('p', null, props.text),
-            ],
-        )
+    const TooltipText = (props: { title: string; text: string }) => (
+        <div className="tooltip-container">
+            <Heading4>{props.title}</Heading4>
+            <SubParagraph>{props.text}</SubParagraph>
+        </div>
+    )
 
     return (
         <div className="edit-tab">
@@ -238,7 +233,7 @@ const EditTab = (): JSX.Element => {
                             placement={!isMobile ? 'bottom' : 'bottom-left'}
                             isOpen={showTooltip}
                             showCloseButton={true}
-                            disableHoverListener={true}
+                            disableHoverListener={false}
                             disableFocusListener={true}
                             popperModifiers={[
                                 {

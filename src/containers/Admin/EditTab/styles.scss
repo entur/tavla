@@ -6,12 +6,15 @@
         background: inherit;
     }
     .tooltip-container {
-        line-height: 1.2rem;
         font-weight: 500;
-        width: 13rem;
-        h3 {
+        max-width: 13rem;
+        .eds-h4 {
+            color: var(--tavla-box-background-color);
             font-weight: bold;
             margin-bottom: -0.5rem;
+        }
+        .eds-sub-paragraph {
+            color: var(--tavla-box-background-color);
         }
     }
     .eds-form-control,
