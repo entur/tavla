@@ -131,6 +131,10 @@
         &__tiles {
             display: block;
 
+            .tile-wrapper:last-child {
+                margin-bottom: 6rem;
+            }
+
             .tile {
                 margin-bottom: 1rem;
                 width: 100%;

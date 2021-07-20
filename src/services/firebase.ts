@@ -12,9 +12,8 @@ const SETTINGS_COLLECTION = 'settings'
 type DocumentReference = firebase.firestore.DocumentReference
 type QuerySnapshot = firebase.firestore.QuerySnapshot
 
-export const getSettings = (id: string): DocumentReference => {
-    return firebase.firestore().collection(SETTINGS_COLLECTION).doc(id)
-}
+export const getSettings = (id: string): DocumentReference =>
+    firebase.firestore().collection(SETTINGS_COLLECTION).doc(id)
 
 export const getBoardsOnSnapshot = (
     userId: string,
@@ -34,8 +33,8 @@ export const updateSettingField = async (
     docId: string,
     fieldId: string,
     fieldValue: FieldTypes,
-): Promise<void> => {
-    return firebase
+): Promise<void> =>
+    firebase
         .firestore()
         .collection(SETTINGS_COLLECTION)
         .doc(docId)
@@ -43,7 +42,6 @@ export const updateSettingField = async (
             [fieldId]: fieldValue,
             lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
         })
-}
 
 export const removeFromArray = async (
     docId: string,
@@ -54,8 +52,8 @@ export const removeFromArray = async (
         | string[]
         | firebase.firestore.GeoPoint
         | { [key: string]: string[] },
-): Promise<void> => {
-    return firebase
+): Promise<void> =>
+    firebase
         .firestore()
         .collection(SETTINGS_COLLECTION)
         .doc(docId)
@@ -63,21 +61,14 @@ export const removeFromArray = async (
             [fieldId]: firebase.firestore.FieldValue.arrayRemove(fieldValue),
             lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
         })
-}
 
-export const deleteDocument = async (docId: string): Promise<void> => {
-    return firebase
-        .firestore()
-        .collection(SETTINGS_COLLECTION)
-        .doc(docId)
-        .delete()
-}
+export const deleteDocument = async (docId: string): Promise<void> =>
+    firebase.firestore().collection(SETTINGS_COLLECTION).doc(docId).delete()
 
 export const createSettings = async (
     settings: Settings,
-): Promise<DocumentReference> => {
-    return firebase.firestore().collection(SETTINGS_COLLECTION).add(settings)
-}
+): Promise<DocumentReference> =>
+    firebase.firestore().collection(SETTINGS_COLLECTION).add(settings)
 
 export const uploadLogo = async (
     image: File,

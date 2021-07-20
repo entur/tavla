@@ -29,36 +29,34 @@ const description = (loginCase: LoginCase): string => {
     }
 }
 
-const LoginOptions = ({ setModalType, loginCase }: Props): JSX.Element => {
-    return (
-        <div>
-            <div className="centered">
-                <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
-            </div>
-            <Heading3 margin="bottom">Logg inn for å fortsette</Heading3>
-            <Paragraph style={{ textAlign: 'center' }}>
-                {description(loginCase)}
-            </Paragraph>
-            <GridContainer spacing="small">
-                <GridItem small={12}>
-                    <PrimaryButton
-                        width="fluid"
-                        onClick={(): void => setModalType('LoginEmailModal')}
-                    >
-                        Logg inn med e-post
-                    </PrimaryButton>
-                </GridItem>
-                <GridItem small={12}>
-                    <SecondaryButton
-                        width="fluid"
-                        onClick={(): void => setModalType('SignupModal')}
-                    >
-                        Lag en ny konto
-                    </SecondaryButton>
-                </GridItem>
-            </GridContainer>
+const LoginOptions = ({ setModalType, loginCase }: Props): JSX.Element => (
+    <div>
+        <div className="centered">
+            <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
         </div>
-    )
-}
+        <Heading3 margin="bottom">Logg inn for å fortsette</Heading3>
+        <Paragraph style={{ textAlign: 'center' }}>
+            {description(loginCase)}
+        </Paragraph>
+        <GridContainer spacing="small">
+            <GridItem small={12}>
+                <PrimaryButton
+                    width="fluid"
+                    onClick={(): void => setModalType('LoginEmailModal')}
+                >
+                    Logg inn med e-post
+                </PrimaryButton>
+            </GridItem>
+            <GridItem small={12}>
+                <SecondaryButton
+                    width="fluid"
+                    onClick={(): void => setModalType('SignupModal')}
+                >
+                    Lag en ny konto
+                </SecondaryButton>
+            </GridItem>
+        </GridContainer>
+    </div>
+)
 
 export default LoginOptions

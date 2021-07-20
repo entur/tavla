@@ -208,15 +208,15 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         if (!tileOrder) return null
 
         return (
-            <>
-                <DashboardWrapper
-                    className="compact"
-                    history={history}
-                    bikeRentalStations={bikeRentalStations}
-                    stopPlacesWithDepartures={stopPlacesWithDepartures}
-                    scooters={scooters}
-                >
-                    <div className="compact__tiles" {...longPress}>
+            <DashboardWrapper
+                className="compact"
+                history={history}
+                bikeRentalStations={bikeRentalStations}
+                stopPlacesWithDepartures={stopPlacesWithDepartures}
+                scooters={scooters}
+            >
+                <div className="compact__tiles" {...longPress}>
+                    <div className="tile-wrapper">
                         <RearrangeModal
                             itemOrder={tileOrder}
                             onTileOrderChanged={(item) => {
@@ -292,8 +292,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                             }
                         })}
                     </div>
-                </DashboardWrapper>
-            </>
+                </div>
+            </DashboardWrapper>
         )
     }
     return (

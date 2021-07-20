@@ -8,7 +8,8 @@
 
     &__label {
         margin: 0;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
+        color: var(--tavla-font-color);
     }
 
     &__texts {
@@ -19,7 +20,18 @@
     &__icon {
         min-width: 2rem;
         margin-right: 1rem;
-        font-size: 1.5rem;
+        font-size: $font-sizes-extra-large4;
+    }
+
+    &__walking-time {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1rem;
+        margin: 0.5rem 0;
+        color: var(--tavla-label-font-color);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     &__sublabels {
@@ -28,9 +40,5 @@
         font-size: 1.25rem;
         justify-content: space-between;
         max-width: 18rem;
-
-        span {
-            font-weight: 400;
-        }
     }
 }

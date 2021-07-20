@@ -141,6 +141,9 @@
 
         &__tiles {
             display: block;
+            .tile-wrapper:last-child {
+                margin-bottom: 6rem;
+            }
         }
         .tile {
             max-height: unset;

@@ -6,8 +6,9 @@ import React, {
     SyntheticEvent,
 } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
-import { Heading2, Heading3 } from '@entur/typography'
+import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
+import { Tooltip } from '@entur/tooltip'
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
 import { useSettingsContext, Mode } from '../../../settings'
@@ -23,6 +24,10 @@ import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces, useScooters } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
+import {
+    saveToLocalStorage,
+    getFromLocalStorage,
+} from '../../../settings/LocalStorage'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
@@ -185,6 +190,14 @@ const EditTab = (): JSX.Element => {
         },
         [setHiddenModes, hiddenModes],
     )
+    const [showTooltip, setShowTooltip] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (!getFromLocalStorage('hasShownTooltip')) {
+            setShowTooltip(true)
+            saveToLocalStorage('hasShownTooltip', true)
+        }
+    }, [])
 
     const validateInput = (e: SyntheticEvent<HTMLInputElement>) => {
         const newDistance = Number(e.currentTarget.value)
@@ -196,27 +209,59 @@ const EditTab = (): JSX.Element => {
             setDistance(1000)
         }
     }
+    const TooltipText = (props: { title: string; text: string }) => (
+        <div className="tooltip-container">
+            <Heading4 margin="none">{props.title}</Heading4>
+            <SubParagraph margin="none">{props.text}</SubParagraph>
+        </div>
+    )
 
     return (
         <div className="edit-tab">
-            <Heading2 className="heading">
-                Viser kollektivtilbud innenfor
-                <div className="edit-tab__input-wrapper">
-                    <TextField
-                        className="edit-tab__expanding-text-field heading"
-                        size="large"
-                        defaultValue={distance}
-                        onKeyDown={validateInput}
-                        append="m"
-                        type="number"
-                        max={1000}
-                        min={1}
-                        maxLength={4}
-                        minLength={1}
-                    />
-                </div>
-                rundt {locationName?.split(',')[0]}
-            </Heading2>
+            <div>
+                <Heading2 className="heading">
+                    Viser kollektivtilbud innenfor
+                    <div className="edit-tab__input-wrapper">
+                        <Tooltip
+                            content={
+                                <TooltipText
+                                    title="Endre på avstanden?"
+                                    text="Klikk på tallet for
+                                        å skrive en ny verdi."
+                                />
+                            }
+                            placement={!isMobile ? 'bottom' : 'bottom-left'}
+                            isOpen={showTooltip}
+                            showCloseButton={true}
+                            disableHoverListener={true}
+                            disableFocusListener={true}
+                            popperModifiers={[
+                                {
+                                    name: 'offset',
+                                    options: {
+                                        offset: !isMobile ? [20, 30] : [15, 20],
+                                    },
+                                },
+                            ]}
+                        >
+                            <TextField
+                                className="edit-tab__expanding-text-field heading"
+                                size="large"
+                                defaultValue={distance}
+                                onKeyDown={validateInput}
+                                append="m"
+                                type="number"
+                                max={1000}
+                                min={1}
+                                maxLength={4}
+                                minLength={1}
+                            />
+                        </Tooltip>
+                    </div>
+                    rundt {locationName?.split(',')[0]}
+                </Heading2>
+            </div>
+
             <ResponsiveReactGridLayout
                 key={breakpoint}
                 cols={COLS}

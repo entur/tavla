@@ -27,16 +27,14 @@ async function getStopPlace(coordinates: {
 }
 
 function mapFeaturesToItems(features: Feature[]): Item[] {
-    return features.map(({ geometry, properties: { id, name, locality } }) => {
-        return {
-            value: id,
-            label: locality ? `${name}, ${locality}` : name,
-            coordinates: {
-                longitude: geometry.coordinates[0],
-                latitude: geometry.coordinates[1],
-            },
-        }
-    })
+    return features.map(({ geometry, properties: { id, name, locality } }) => ({
+        value: id,
+        label: locality ? `${name}, ${locality}` : name,
+        coordinates: {
+            longitude: geometry.coordinates[0],
+            latitude: geometry.coordinates[1],
+        },
+    }))
 }
 
 function getErrorMessage(error: PositionError): string {
