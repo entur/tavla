@@ -6,7 +6,7 @@ import React, {
     SyntheticEvent,
 } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
-import { Heading2, Heading3 } from '@entur/typography'
+import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { WidthProvider, Responsive } from 'react-grid-layout'
@@ -209,6 +209,13 @@ const EditTab = (): JSX.Element => {
             setDistance(1000)
         }
     }
+    const TooltipText = (props: { title: string; text: string }) => (
+        <div className="tooltip-container">
+            <Heading4 margin="none">{props.title}</Heading4>
+            <SubParagraph margin="none">{props.text}</SubParagraph>
+        </div>
+    )
+
     return (
         <div className="edit-tab">
             <div>
@@ -217,15 +224,17 @@ const EditTab = (): JSX.Element => {
                     <div className="edit-tab__input-wrapper">
                         <Tooltip
                             content={
-                                !isMobile
-                                    ? 'Endre på avstanden? Klikk på tallet for å skrive en ny verdi.'
-                                    : 'Klikk for å endre avstand.'
+                                <TooltipText
+                                    title="Endre på avstanden?"
+                                    text="Klikk på tallet for
+                                        å skrive en ny verdi."
+                                />
                             }
                             placement={!isMobile ? 'bottom' : 'bottom-left'}
                             isOpen={showTooltip}
                             showCloseButton={true}
                             disableHoverListener={false}
-                            disableFocusListener={false}
+                            disableFocusListener={true}
                             popperModifiers={[
                                 {
                                     name: 'offset',

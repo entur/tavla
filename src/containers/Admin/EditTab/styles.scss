@@ -5,7 +5,16 @@
     .eds-contrast {
         background: inherit;
     }
+    .tooltip-container {
+        font-weight: 500;
+        max-width: 15rem;
+        padding: 0.5rem;
 
+        h4,
+        p {
+            color: var(--tavla-box-background-color);
+        }
+    }
     .eds-form-control,
     .eds-form-control__append {
         font-size: inherit;
