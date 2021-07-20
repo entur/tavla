@@ -3,6 +3,7 @@ import { Route, Switch, Router, useLocation } from 'react-router-dom'
 import analytics from 'universal-ga'
 
 import { ToastProvider } from '@entur/alert'
+import PWAPrompt from 'react-ios-pwa-prompt'
 
 import { SettingsContext, useSettings } from '../settings'
 import { useFirebaseAuthentication, UserProvider } from '../auth'
@@ -16,6 +17,12 @@ import MapDashboard from '../dashboards/Map'
 import PrivateRoute from '../routers/PrivateRoute'
 import Header from '../components/Header'
 import BusStop from '../dashboards/BusStop'
+
+import { isMobileWeb } from '../utils'
+import {
+    getFromLocalStorage,
+    saveToLocalStorage,
+} from '../settings/LocalStorage'
 
 import LandingPage from './LandingPage'
 import Admin from './Admin'
@@ -31,6 +38,8 @@ analytics.set('anonymizeIp', true)
 
 analytics.set('page', window.location.pathname)
 analytics.pageview(window.location.pathname)
+
+const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1
 
 function getDashboardComponent(
     dashboardKey?: string | void,
@@ -115,6 +124,39 @@ function updateManifest(pathName: string): void {
     }
 }
 
+function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
+    useEffect(() => {
+        saveToLocalStorage('numberOfVisits', numberOfVisits + 1)
+    }, [])
+
+    if (
+        pathName === '/' ||
+        pathName.includes('admin') ||
+        window.matchMedia('(display-mode: standalone)').matches ||
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window.navigator.standalone ||
+        document.referrer.includes('android-app://') ||
+        getFromLocalStorage('pwaPromptShown') ||
+        numberOfVisits < 3
+    ) {
+        return null
+    }
+
+    return (
+        <div className="pwa-prompt">
+            <PWAPrompt
+                debug={1} // forcing prompt to show
+                copyTitle="Legg til Tavla på hjemskjermen"
+                copyShareButtonLabel="1) Trykk på 'Del'-knappen på menyen under."
+                copyAddHomeButtonLabel="2) Trykk 'Legg til på hjemskjerm'."
+                copyClosePrompt="Lukk"
+                onClose={() => saveToLocalStorage('pwaPromptShown', true)}
+            />
+        </div>
+    )
+}
+
 const Content = (): JSX.Element => {
     const user = useFirebaseAuthentication()
     const settings = useSettings()
@@ -132,6 +174,7 @@ const Content = (): JSX.Element => {
 
     return (
         <UserProvider value={user}>
+            {isMobileWeb() ? ProgressiveWebAppPrompt(location.pathname) : null}
             <SettingsContext.Provider
                 value={isOnTavle ? settings : [null, settings[1]]}
             >

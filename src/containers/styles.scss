@@ -5,3 +5,39 @@
     background-color: var(--tavla-background-color);
     height: 100vh;
 }
+
+.pwa-prompt {
+    .iOSPWA-overlay {
+        display: none;
+        background-color: transparent;
+        opacity: 0;
+    }
+
+    .iOSPWA-container {
+        background-color: $colors-blues-blue80;
+        border: 0.0625rem solid $colors-blues-blue90;
+        border-radius: 0.25rem;
+        opacity: 1;
+        .iOSPWA-title {
+            color: $colors-brand-blue;
+        }
+
+        .iOSPWA-description {
+            display: none;
+        }
+
+        .iOSPWA-step1-copy,
+        .iOSPWA-step2-copy {
+            color: $colors-brand-blue;
+        }
+
+        .iOSPWA-step1,
+        .iOSPWA-step2,
+        .iOSPWA-step1-icon,
+        .iOSPWA-step2-icon,
+        .iOSPWA-cancel {
+            color: $colors-brand-blue;
+            fill: $colors-brand-blue !important;
+        }
+    }
+}

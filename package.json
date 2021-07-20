@@ -64,6 +64,7 @@
         "react-beautiful-dnd": "^13.1.0",
         "react-dom": "^16.14.0",
         "react-grid-layout": "^1.2.5",
+        "react-ios-pwa-prompt": "chrisdancee/react-ios-pwa-prompt#pull/71/head",
         "react-map-gl": "^4.1.16",
         "react-router": "^5.2.0",
         "react-router-dom": "^5.2.0",
