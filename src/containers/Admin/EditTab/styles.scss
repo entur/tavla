@@ -7,13 +7,11 @@
     }
     .tooltip-container {
         font-weight: 500;
-        max-width: 13rem;
-        .eds-h4 {
-            color: var(--tavla-box-background-color);
-            font-weight: bold;
-            margin-bottom: -0.5rem;
-        }
-        .eds-sub-paragraph {
+        max-width: 15rem;
+        padding: 0.5rem;
+
+        h4,
+        p {
             color: var(--tavla-box-background-color);
         }
     }

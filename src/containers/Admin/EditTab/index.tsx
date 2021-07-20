@@ -211,8 +211,8 @@ const EditTab = (): JSX.Element => {
     }
     const TooltipText = (props: { title: string; text: string }) => (
         <div className="tooltip-container">
-            <Heading4>{props.title}</Heading4>
-            <SubParagraph>{props.text}</SubParagraph>
+            <Heading4 margin="none">{props.title}</Heading4>
+            <SubParagraph margin="none">{props.text}</SubParagraph>
         </div>
     )
 
