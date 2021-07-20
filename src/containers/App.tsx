@@ -39,6 +39,8 @@ analytics.set('anonymizeIp', true)
 analytics.set('page', window.location.pathname)
 analytics.pageview(window.location.pathname)
 
+const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1
+
 function getDashboardComponent(
     dashboardKey?: string | void,
 ): (props: Props) => JSX.Element | null {
@@ -123,16 +125,24 @@ function updateManifest(pathName: string): void {
 }
 
 function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
-    if (pathName === '/' || pathName.includes('admin')) return null
+    useEffect(() => {
+        saveToLocalStorage('numberOfVisits', numberOfVisits + 1)
+    }, [])
+
     if (
+        pathName === '/' ||
+        pathName.includes('admin') ||
         window.matchMedia('(display-mode: standalone)').matches ||
-        document.referrer.includes('android-app://')
-    )
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window.navigator.standalone ||
+        document.referrer.includes('android-app://') ||
+        getFromLocalStorage('pwaPromptShown') ||
+        numberOfVisits < 3
+    ) {
         return null
-    if (getFromLocalStorage('pwaPromptShown')) return null
-    const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 0
-    saveToLocalStorage('numberOfVisits', numberOfVisits + 1)
-    if (numberOfVisits < 10) return null
+    }
+
     return (
         <div className="pwa-prompt">
             <PWAPrompt
@@ -164,7 +174,7 @@ const Content = (): JSX.Element => {
 
     return (
         <UserProvider value={user}>
-            {isMobileWeb() ? ProgressiveWebAppPrompt(location.pathname) : null}
+            {!isMobileWeb() ? ProgressiveWebAppPrompt(location.pathname) : null}
             <SettingsContext.Provider
                 value={isOnTavle ? settings : [null, settings[1]]}
             >

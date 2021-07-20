@@ -14,12 +14,12 @@
     }
 
     .iOSPWA-container {
-        background-color: #e1eff8;
-        border: 0.0625rem solid #f5f5f8;
+        background-color: $colors-blues-blue80;
+        border: 0.0625rem solid $colors-blues-blue90;
         border-radius: 0.25rem;
         opacity: 1;
         .iOSPWA-title {
-            color: #181c56;
+            color: $colors-brand-blue;
         }
 
         .iOSPWA-description {
@@ -28,7 +28,7 @@
 
         .iOSPWA-step1-copy,
         .iOSPWA-step2-copy {
-            color: #181c56;
+            color: $colors-brand-blue;
         }
 
         .iOSPWA-step1,
@@ -36,8 +36,8 @@
         .iOSPWA-step1-icon,
         .iOSPWA-step2-icon,
         .iOSPWA-cancel {
-            color: #181c56;
-            fill: #181c56 !important;
+            color: $colors-brand-blue;
+            fill: $colors-brand-blue !important;
         }
     }
 }
