@@ -29,12 +29,13 @@ import { DEFAULT_ZOOM } from '../../constants'
 import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 
 const isMobile = isMobileWeb()
+import { LongPressProvider } from '../../logic/longPressContext'
+
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
 import MapTile from './MapTile'
 
 import './styles.scss'
-import { LongPressProvider } from './longPressContext'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -87,7 +88,7 @@ const COLS: { [key: string]: number } = {
 const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     const [settings] = useSettingsContext()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
-    const [isLongPressedStart, setIsLongPressedStart] = useState<boolean>(false)
+    const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
 
     const dashboardKey = history.location.key
@@ -209,23 +210,23 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
             threshold: 1000,
             onStart: () => {
                 isCancelled.current = setTimeout(() => {
-                    setIsLongPressedStart(true)
+                    setIsLongPressStarted(true)
                 }, 150)
             },
             onFinish: () => {
-                setIsLongPressedStart(false)
+                setIsLongPressStarted(false)
                 if (isCancelled.current) {
                     clearTimeout(isCancelled.current)
                 }
             },
             onCancel: () => {
-                setIsLongPressedStart(false)
+                setIsLongPressStarted(false)
                 if (isCancelled.current) {
                     clearTimeout(isCancelled.current)
                 }
             },
             onMove: () => {
-                setIsLongPressedStart(false)
+                setIsLongPressStarted(false)
                 if (isCancelled.current) {
                     clearTimeout(isCancelled.current)
                 }
@@ -244,7 +245,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
                 scooters={scooters}
             >
-                <LongPressProvider value={isLongPressedStart}>
+                <LongPressProvider value={isLongPressStarted}>
                     <div className="compact__tiles" {...longPress}>
                         <div className="tile-wrapper">
                             <RearrangeModal
