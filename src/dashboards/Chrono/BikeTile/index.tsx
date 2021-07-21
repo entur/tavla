@@ -10,7 +10,7 @@ import { useSettingsContext } from '../../../settings'
 import { IconColorType } from '../../../types'
 import { getIconColorType } from '../../../utils'
 import useWalkInfoBike, { WalkInfoBike } from '../../../logic/useWalkInfoBike'
-import TileRow from '../../Compact/components/TileRow'
+import TileRow from '../components/TileRow'
 
 function getWalkInfoBike(
     walkInfos: WalkInfoBike[],
