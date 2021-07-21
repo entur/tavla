@@ -125,7 +125,6 @@
 
     &__input-wrapper {
         display: inline-block;
-        width: 10rem;
     }
 
     &__input-wrapper::after {
@@ -184,6 +183,14 @@
 
     .eds-dropdown__input[value=''] + .eds-form-control__append {
         display: none;
+    }
+}
+
+@media (min-width: 500px) {
+    .edit-tab {
+        &__input-wrapper {
+            width: 10rem;
+        }
     }
 }
 @media (min-width: 996px) {
