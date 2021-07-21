@@ -64,8 +64,8 @@ function updateManifest(pathName: string): void {
         const dynamicManifest = {
             name: 'Tavla - Enturs avgangstavle',
             short_name: 'Tavla',
-            start_url: `.${pathName}`,
-            scope: `.${pathName}`,
+            start_url: `${pathName}`,
+            scope: `/`,
             display: 'standalone',
             background_color: '#181C56',
             theme_color: '#181C56',
@@ -77,41 +77,55 @@ function updateManifest(pathName: string): void {
                     src: 'images/logo/logo-72x72.png',
                     sizes: '72x72',
                     type: 'image/png',
+                    purpose: 'any maskable',
                 },
                 {
                     src: 'images/logo/logo-96x96.png',
                     sizes: '96x96',
                     type: 'image/png',
+                    purpose: 'any maskable',
                 },
                 {
                     src: 'images/logo/logo-128x128.png',
                     sizes: '128x128',
                     type: 'image/png',
+                    purpose: 'any maskable',
                 },
                 {
                     src: 'images/logo/logo-144x144.png',
                     sizes: '144x144',
                     type: 'image/png',
+                    purpose: 'any maskable',
                 },
                 {
                     src: 'images/logo/logo-152x152.png',
                     sizes: '152x152',
                     type: 'image/png',
+                    purpose: 'any maskable',
                 },
                 {
                     src: 'images/logo/logo-192x192.png',
                     sizes: '192x192',
                     type: 'image/png',
+                    purpose: 'any maskable',
                 },
                 {
                     src: 'images/logo/logo-384x384.png',
                     sizes: '384x384',
                     type: 'image/png',
+                    purpose: 'any maskable',
                 },
                 {
                     src: 'images/logo/logo-512x512.png',
                     sizes: '512x512',
                     type: 'image/png',
+                    purpose: 'any maskable',
+                },
+                {
+                    src: 'images/logo/logo-1024x1024.png',
+                    sizes: '1024x1024',
+                    type: 'image/png',
+                    purpose: 'any maskable',
                 },
             ],
         }
@@ -169,6 +183,11 @@ const Content = (): JSX.Element => {
         : (): null => null
 
     useEffect(() => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js', {
+                scope: location.pathname,
+            })
+        }
         updateManifest(location.pathname)
     }, [location.pathname])
 

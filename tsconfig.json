@@ -12,6 +12,6 @@
         "strict": true,
         "downlevelIteration": true
     },
-    "include": ["types", "./src/**/*"],
+    "include": ["types", "./src/**/*", "src/sw.js"],
     "exclude": ["node_modules"]
 }
