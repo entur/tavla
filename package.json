@@ -69,7 +69,7 @@
         "react-router-dom": "^5.2.0",
         "supercluster": "^6.0.2",
         "universal-ga": "^1.2.0",
-        "use-long-press": "^1.0.5",
+        "use-long-press": "^1.1.1",
         "use-supercluster": "^0.2.9"
     },
     "devDependencies": {

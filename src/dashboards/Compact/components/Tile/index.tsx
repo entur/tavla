@@ -1,8 +1,11 @@
-import React from 'react'
 import { Heading2 } from '@entur/typography'
 
 import './styles.scss'
+import React from 'react'
+
 import { WalkInfo } from '../../../../logic/useWalkInfo'
+
+import { useIsLongPressed } from '../../longPressContext'
 
 function formatWalkInfo(walkInfo: WalkInfo) {
     if (walkInfo.walkTime / 60 < 1) {
@@ -15,8 +18,9 @@ function formatWalkInfo(walkInfo: WalkInfo) {
 }
 
 export function Tile({ title, icons, walkInfo, children }: Props): JSX.Element {
+    const isPressed = useIsLongPressed()
     return (
-        <div className="tile">
+        <div className={isPressed ? 'tile tile--start' : 'tile'}>
             <header className="tile__header">
                 <Heading2>{title}</Heading2>
                 <div className="tile__header-icons">{icons}</div>
