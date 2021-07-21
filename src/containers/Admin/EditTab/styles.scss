@@ -185,6 +185,14 @@
         display: none;
     }
 }
+
+@media (min-width: 500px) {
+    .edit-tab {
+        &__input-wrapper {
+            width: 10rem;
+        }
+    }
+}
 @media (min-width: 996px) {
     .edit-tab {
         margin-left: -2rem;
