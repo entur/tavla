@@ -108,7 +108,12 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
             scooters?.length ||
             stopPlacesWithDepartures?.length,
     )
-
+    function clearLongPressTimeout() {
+        setIsLongPressStarted(false)
+        if (isCancelled.current) {
+            clearTimeout(isCancelled.current)
+        }
+    }
     if (stopPlacesWithDepartures) {
         stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
             ({ departures }) => departures.length > 0,
@@ -189,22 +194,13 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                 }, 150)
             },
             onFinish: () => {
-                setIsLongPressStarted(false)
-                if (isCancelled.current) {
-                    clearTimeout(isCancelled.current)
-                }
+                clearLongPressTimeout()
             },
             onCancel: () => {
-                setIsLongPressStarted(false)
-                if (isCancelled.current) {
-                    clearTimeout(isCancelled.current)
-                }
+                clearLongPressTimeout()
             },
             onMove: () => {
-                setIsLongPressStarted(false)
-                if (isCancelled.current) {
-                    clearTimeout(isCancelled.current)
-                }
+                clearLongPressTimeout()
             },
             cancelOnMovement: true,
         },

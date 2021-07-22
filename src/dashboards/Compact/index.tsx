@@ -91,6 +91,13 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
 
+    function clearLongPressTimeout() {
+        setIsLongPressStarted(false)
+        if (isCancelled.current) {
+            clearTimeout(isCancelled.current)
+        }
+    }
+
     const dashboardKey = history.location.key
     const boardId =
         useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
@@ -214,26 +221,18 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                 }, 150)
             },
             onFinish: () => {
-                setIsLongPressStarted(false)
-                if (isCancelled.current) {
-                    clearTimeout(isCancelled.current)
-                }
+                clearLongPressTimeout()
             },
             onCancel: () => {
-                setIsLongPressStarted(false)
-                if (isCancelled.current) {
-                    clearTimeout(isCancelled.current)
-                }
+                clearLongPressTimeout()
             },
             onMove: () => {
-                setIsLongPressStarted(false)
-                if (isCancelled.current) {
-                    clearTimeout(isCancelled.current)
-                }
+                clearLongPressTimeout()
             },
             cancelOnMovement: true,
         },
     )
+
     if (window.innerWidth < BREAKPOINTS.md) {
         if (!tileOrder) return null
 
