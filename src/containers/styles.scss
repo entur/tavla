@@ -20,7 +20,7 @@
         opacity: 1;
         .iOSPWA-title {
             color: $colors-brand-blue;
-            font-family: Nationale;
+            font-family: var(--tavla-font-family);
             font-weight: $font-weights-heading;
             font-size: $font-sizes-extra-large;
         }
@@ -32,7 +32,7 @@
         .iOSPWA-step1-copy,
         .iOSPWA-step2-copy {
             color: $colors-brand-blue;
-            font-family: Nationale;
+            font-family: var(--tavla-font-family);
             font-weight: $font-weights-body;
             font-size: $font-sizes-medium;
         }
@@ -44,7 +44,7 @@
         .iOSPWA-cancel {
             color: $colors-brand-blue;
             fill: $colors-brand-blue !important;
-            font-family: Nationale;
+            font-family: var(--tavla-font-family);
             font-weight: $font-weights-body;
             font-size: $font-sizes-large;
         }
