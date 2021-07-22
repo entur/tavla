@@ -194,24 +194,18 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                 {data.map(({ stopId, name, groupedDepartures }) => (
                     <div key={stopId} className="timeline__stop">
                         <header className="timeline__header">
-                            <Heading2
-                                className="timeline__heading"
-                                margin="none"
-                                style={{ margin: 0 }}
-                            >
+                            <Heading2 className="timeline__heading">
                                 {name}
                             </Heading2>
-                            {!hideWalkInfo ? (
-                                walkInfo ? (
-                                    <div className="timeline__walking-time">
-                                        {formatWalkInfo(
-                                            getWalkInfoForStopPlace(
-                                                walkInfo || [],
-                                                stopId,
-                                            ),
-                                        )}
-                                    </div>
-                                ) : null
+                            {!hideWalkInfo && walkInfo ? (
+                                <div className="timeline__walking-time">
+                                    {formatWalkInfo(
+                                        getWalkInfoForStopPlace(
+                                            walkInfo || [],
+                                            stopId,
+                                        ),
+                                    )}
+                                </div>
                             ) : undefined}
                         </header>
                         {groupedDepartures.map(([mode, departures]) => (
