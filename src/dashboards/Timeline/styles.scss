@@ -16,11 +16,26 @@
         overflow: hidden;
         border-radius: 1rem;
     }
+
     &__stop:last-child {
         margin-bottom: 5rem;
     }
 
+    &__header {
+        flex-wrap: wrap;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
     &__heading {
+        color: var(--tavla-font-color);
+    }
+
+    &__walking-time {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1rem;
         color: var(--tavla-font-color);
     }
 
