@@ -15,6 +15,7 @@
         padding: 2rem;
         overflow: hidden;
         border-radius: 1rem;
+        position: relative;
     }
 
     &__stop:last-child {
@@ -48,6 +49,8 @@
     &__line {
         display: flex;
         justify-content: flex-end;
+        position: relative;
+        z-index: 3;
     }
 
     &__leg-bone {
@@ -58,11 +61,36 @@
         }
     }
 
+    &__walk-marker {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 5rem;
+        bottom: 0;
+        z-index: 1;
+
+        svg {
+            color: var(--tavla-label-font-color);
+            font-size: 1.5rem;
+        }
+
+        &__line {
+            border-right: 0.25rem dotted var(--tavla-label-font-color);
+            width: 0;
+            flex: 1;
+            margin-top: 0.25rem;
+            background-color: transparent;
+        }
+    }
+
     &__competitor {
         position: absolute;
         text-align: center;
         transition: 1s all;
         bottom: 0;
+        z-index: 4;
 
         svg {
             animation: pulse 2s;

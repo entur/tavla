@@ -3,6 +3,7 @@ import { Heading2 } from '@entur/typography'
 import { LegBone } from '@entur/travel'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
+import { WalkingIcon } from '@entur/icons'
 
 import {
     getIcon,
@@ -56,6 +57,12 @@ function competitorPosition(waitTime: number): number {
         TICKS.filter((tick) => tick < 0).reduce((a, b) => a + b, 0),
     )
     return ZOOM * (waitTime + negativeTickOffset * 60)
+}
+
+function walkMarkerPosition(walkTime: number): number {
+    const offset = 30
+    const roundedWalkTime = Math.ceil(walkTime / 60) * 60
+    return competitorPosition(roundedWalkTime) + offset
 }
 
 function groupDeparturesByMode(
@@ -208,6 +215,23 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                 </div>
                             ) : undefined}
                         </header>
+                        {!hideWalkInfo &&
+                        getWalkInfoForStopPlace(walkInfo || [], stopId) ? (
+                            <div
+                                className="timeline__walk-marker"
+                                style={{
+                                    right: walkMarkerPosition(
+                                        getWalkInfoForStopPlace(
+                                            walkInfo || [],
+                                            stopId,
+                                        )?.walkTime || 0,
+                                    ),
+                                }}
+                            >
+                                <WalkingIcon />
+                                <div className="timeline__walk-marker__line" />
+                            </div>
+                        ) : null}
                         {groupedDepartures.map(([mode, departures]) => (
                             <Fragment key={mode}>
                                 <div className="timeline__track">
