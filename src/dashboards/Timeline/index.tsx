@@ -13,11 +13,12 @@ import {
 } from '../../utils'
 import { LineData, IconColorType } from '../../types'
 
-import { useStopPlacesWithDepartures } from '../../logic'
+import { useStopPlacesWithDepartures, useWalkInfo } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
 import './styles.scss'
 import { useSettingsContext } from '../../settings'
+import { WalkInfo } from '../../logic/useWalkInfo'
 
 const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]
 
@@ -30,6 +31,24 @@ function diffSincePreviousTick(minute: number): number {
     if (index < 0) return 0
     const prev = TICKS[index - 1] || 0
     return minute - prev
+}
+
+function getWalkInfoForStopPlace(
+    walkInfos: WalkInfo[] | undefined,
+    id: string,
+): WalkInfo | undefined {
+    return walkInfos?.find((walkInfo) => walkInfo.stopId === id)
+}
+
+function formatWalkInfo(walkInfo: WalkInfo | undefined) {
+    if (!walkInfo) return null
+    if (walkInfo.walkTime / 60 < 1) {
+        return `Mindre enn 1 min å gå (${Math.ceil(walkInfo.walkDistance)} m)`
+    } else {
+        return `${Math.ceil(walkInfo.walkTime / 60)} min å gå (${Math.ceil(
+            walkInfo.walkDistance,
+        )} m)`
+    }
 }
 
 function competitorPosition(waitTime: number): number {
@@ -136,6 +155,9 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
         IconColorType.CONTRAST,
     )
 
+    const walkInfo = useWalkInfo(stopPlacesWithDepartures)
+    const hideWalkInfo = settings?.hideWalkInfo
+
     useEffect(() => {
         if (settings) {
             setIconColorType(getIconColorType(settings.theme))
@@ -171,13 +193,21 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
             <div className="timeline__body">
                 {data.map(({ stopId, name, groupedDepartures }) => (
                     <div key={stopId} className="timeline__stop">
-                        <Heading2
-                            className="timeline__heading"
-                            margin="none"
-                            style={{ margin: 0 }}
-                        >
-                            {name}
-                        </Heading2>
+                        <header className="timeline__header">
+                            <Heading2 className="timeline__heading">
+                                {name}
+                            </Heading2>
+                            {!hideWalkInfo && walkInfo ? (
+                                <div className="timeline__walking-time">
+                                    {formatWalkInfo(
+                                        getWalkInfoForStopPlace(
+                                            walkInfo || [],
+                                            stopId,
+                                        ),
+                                    )}
+                                </div>
+                            ) : undefined}
+                        </header>
                         {groupedDepartures.map(([mode, departures]) => (
                             <Fragment key={mode}>
                                 <div className="timeline__track">
