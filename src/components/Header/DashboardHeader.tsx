@@ -6,6 +6,7 @@ import { useSettings } from '../../settings'
 import Clock from '../Clock'
 import { TavlaLogo } from '../../assets/icons'
 import UpgradeTavlaBanner from '../../containers/DashboardWrapper/UpgradeTavlaBanner'
+import { isMobileWeb } from '../../utils'
 
 export function DashboardHeader(): JSX.Element | null {
     const settings = useSettings()[0]
@@ -37,7 +38,7 @@ export function DashboardHeader(): JSX.Element | null {
             <div className="header">
                 <div className="header__logo-wrapper">
                     {headerLogo}
-                    {boardDescription}
+                    {!isMobileWeb() ? boardDescription : null}
                 </div>
                 <Clock className="header__clock" />
             </div>
