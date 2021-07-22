@@ -20,6 +20,9 @@
         opacity: 1;
         .iOSPWA-title {
             color: $colors-brand-blue;
+            font-family: var(--eds-font-family);
+            font-weight: 800;
+            font-size: 1.2rem;
         }
 
         .iOSPWA-description {
@@ -29,6 +32,9 @@
         .iOSPWA-step1-copy,
         .iOSPWA-step2-copy {
             color: $colors-brand-blue;
+            font-family: var(--eds-font-family);
+            font-weight: 600;
+            font-size: 0.95rem;
         }
 
         .iOSPWA-step1,
@@ -38,6 +44,9 @@
         .iOSPWA-cancel {
             color: $colors-brand-blue;
             fill: $colors-brand-blue !important;
+            font-family: var(--eds-font-family);
+            font-weight: 500;
+            font-size: 1rem;
         }
     }
 }
