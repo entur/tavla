@@ -209,6 +209,7 @@ const EditTab = (): JSX.Element => {
             setDistance(1000)
         }
     }
+
     const TooltipText = (props: { title: string; text: string }) => (
         <div className="tooltip-container">
             <Heading4 margin="none">{props.title}</Heading4>
@@ -248,7 +249,7 @@ const EditTab = (): JSX.Element => {
                                 className="edit-tab__expanding-text-field heading"
                                 size="large"
                                 defaultValue={distance}
-                                onKeyDown={validateInput}
+                                onChange={validateInput}
                                 append="m"
                                 type="number"
                                 max={1000}
