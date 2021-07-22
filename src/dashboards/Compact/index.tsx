@@ -28,7 +28,6 @@ import { useSettingsContext } from '../../settings'
 import { DEFAULT_ZOOM } from '../../constants'
 import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 
-const isMobile = isMobileWeb()
 import { LongPressProvider } from '../../logic/longPressContext'
 
 import DepartureTile from './DepartureTile'
@@ -38,6 +37,7 @@ import MapTile from './MapTile'
 import './styles.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
+const isMobile = isMobileWeb()
 
 function getWalkInfoForStopPlace(
     walkInfos: WalkInfo[],

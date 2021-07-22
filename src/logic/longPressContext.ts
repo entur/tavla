@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-export const LongPressContext = React.createContext<boolean>(false)
+const LongPressContext = React.createContext<boolean>(false)
 
 export const LongPressProvider = LongPressContext.Provider
 
