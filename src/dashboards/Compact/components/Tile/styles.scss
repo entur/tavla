@@ -9,6 +9,10 @@
     padding: 2rem;
     overflow: scroll;
 
+    &--pressed {
+        box-shadow: inset 0 0 65px -20px rgba(0, 0, 0, 0.54);
+    }
+
     &__header {
         display: flex;
         justify-content: space-between;
