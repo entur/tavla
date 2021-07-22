@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Tavla - Enturs avgangstavle</title>
-        <link rel="manifest" id="manifest-placeholder" href="manifest.json" />
+        <link rel="manifest" id="manifest-placeholder" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#181C56" />
         <meta name="apple-mobile-web-app-title" content="Tavla" />
@@ -44,6 +44,11 @@
             media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
             href="/images/splash/startup-image-750x1334.png"
         />
+        <script type="text/javascript">
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+            }
+        </script>
     </head>
 
     <body>
