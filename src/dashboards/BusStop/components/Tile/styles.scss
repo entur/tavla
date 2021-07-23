@@ -1,0 +1,65 @@
+@import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
+
+.busStop .tile {
+    height: 100%;
+    width: 100%;
+    background-color: var(--tavla-box-background-color);
+    color: var(--tavla-font-color);
+    flex: none;
+    padding: 2rem;
+    overflow: hidden;
+
+    &--pressed {
+        box-shadow: inset 0 0 65px -20px rgba(0, 0, 0, 0.54);
+    }
+
+    .eds-table__head {
+        border-bottom: none;
+    }
+
+    .eds-table__header-cell {
+        text-align: left;
+    }
+
+    .eds-table__data-cell:not(:first-child),
+    .eds-table__header-cell:not(:first-child) {
+        padding: 1rem 0.2rem 1rem 0.2rem;
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+
+        h2 {
+            margin: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        svg {
+            margin-left: 0.5rem;
+        }
+    }
+
+    &__header-icons {
+        display: flex;
+        align-items: center;
+    }
+
+    &__walking-time {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1rem;
+        color: var(--tavla-font-color);
+    }
+    @media (max-width: 480px) {
+        padding: 2rem 1rem;
+        .eds-table__data-cell {
+            justify-content: center;
+        }
+    }
+}

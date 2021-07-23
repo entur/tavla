@@ -1,31 +1,57 @@
 @import '../../assets/styles/import.scss';
 
 .busStop {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          supported by Chrome, Edge, Opera and Firefox */
     &__tiles {
-        display: flex;
+        display: block;
         flex-direction: column;
-        overflow-x: hidden;
+        overflow: hidden;
 
         .tile {
-            margin-right: 2rem;
+            width: 100%;
+            padding-top: 2rem;
             margin-bottom: 2rem;
-            max-height: 75vh;
-            overflow-y: hidden;
+            overflow: hidden;
             border-radius: 1rem;
+
+            &__header-icons {
+                font-size: 2rem;
+            }
+        }
+        .maptile {
+            height: inherit;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            z-index: 1;
         }
     }
-    &__mapTile {
-        height: 75vh;
-        overflow: hidden;
-        border-radius: 1rem;
-        z-index: 1;
+    &__loading-screen {
+        margin: 0;
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
     }
-    .eds-table {
-        &__head {
-            justify-content: stretch;
-        }
-        &__header-cell {
-            align-content: center;
+}
+@media (min-width: 996px) {
+    .busStop {
+        &__tiles {
+            /*
+            react-grid-layout uses a margin of 32px between all grid-items.
+            This makes the tiles not lign up with the header, so to counteract
+            these margins on the sides, this styling is needed. 
+            */
+            margin: -2rem;
         }
     }
 }
@@ -45,14 +71,15 @@
             width: 100%;
             overflow-y: scroll;
         }
-        &__mapTile {
-            max-height: 60vh;
-            margin-bottom: 1rem;
+        .maptile {
+            height: 487px;
+            max-height: unset;
+            width: 100%;
         }
         .eds-table--small {
             .eds-table__data-cell {
                 padding: 0;
-                justify-content: left;
+                justify-content: center;
             }
         }
     }

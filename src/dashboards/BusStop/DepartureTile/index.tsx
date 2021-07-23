@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Heading2, Heading3 } from '@entur/typography'
-import {
-    Table,
-    TableBody,
-    TableRow,
-    DataCell,
-    TableHead,
-    HeaderCell,
-} from '@entur/table'
+import { Table, TableRow, TableHead, HeaderCell } from '@entur/table'
 
 import {
     getIcon,
     unique,
     getTransportIconIdentifier,
-    createTileSubLabel,
     isNotNullOrUndefined,
     getIconColorType,
-    isMobileWeb,
 } from '../../../utils'
 import {
     StopPlaceWithDepartures,
@@ -24,13 +14,11 @@ import {
     IconColorType,
 } from '../../../types'
 
-import SubLabelIcon from '../components/SubLabelIcon'
 import './styles.scss'
 import { useSettingsContext } from '../../../settings'
-import SituationModal from '../../../components/SituationModal'
 import { WalkInfo } from '../../../logic/useWalkInfo'
-
-const isMobile = isMobileWeb()
+import Tile from '../components/Tile'
+import TileRows from '../components/TileRows'
 
 function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     const transportModes = unique(
@@ -47,21 +35,38 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
 }
 
-function formatWalkInfo(walkInfo: WalkInfo) {
-    if (walkInfo.walkTime / 60 < 1) {
-        return `Mindre enn 1 min å gå (${Math.ceil(walkInfo.walkDistance)} m)`
-    } else {
-        return `${Math.ceil(walkInfo.walkTime / 60)} min å gå (${Math.ceil(
-            walkInfo.walkDistance,
-        )} m)`
-    }
+function getRowSizes(
+    isMobile: boolean,
+    hideTracks: boolean | undefined,
+    hideSituations: boolean | undefined,
+) {
+    const getRowSize = (desktopWidth: string, mobileWidth: string) => (
+        <col
+            style={!isMobile ? { width: desktopWidth } : { width: mobileWidth }}
+        />
+    )
+    return (
+        <>
+            {getRowSize('10%', '10%')}
+            {!hideTracks && !hideSituations
+                ? getRowSize('24%', '43%')
+                : !hideTracks || !hideSituations
+                ? getRowSize('42', '42%')
+                : getRowSize('60%', '60%')}
+            {getRowSize('18%', '22%')}
+            {!hideTracks ? getRowSize('18%', '13%') : null}
+            {!hideSituations ? getRowSize('30%', '11%') : null}
+        </>
+    )
 }
 
 const DepartureTile = ({
     stopPlaceWithDepartures,
     walkInfo,
+    isMobile = false,
+    numberOfTileRows = 10,
 }: Props): JSX.Element => {
-    const { departures } = stopPlaceWithDepartures
+    const { departures, name } = stopPlaceWithDepartures
     const headerIcons = getTransportHeaderIcons(departures)
     const [settings] = useSettingsContext()
     const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
@@ -69,43 +74,26 @@ const DepartureTile = ({
         IconColorType.CONTRAST,
     )
 
+    const limitedDepartures = departures.slice(0, numberOfTileRows)
+    const visibleDepartures = isMobile ? limitedDepartures : departures
+
     useEffect(() => {
         if (settings) {
             setIconColorType(getIconColorType(settings.theme))
         }
     }, [settings])
+
     return (
-        <div className="tile">
-            <header className="tile__header">
-                <Heading2>{stopPlaceWithDepartures.name}</Heading2>
-                <div className="tile__header__icons">{headerIcons}</div>
-            </header>
-            {walkInfo && !hideWalkInfo ? (
-                <div className="tile__walking-time">
-                    {formatWalkInfo(walkInfo)}
-                </div>
-            ) : null}
+        <Tile
+            title={name}
+            icons={headerIcons}
+            walkInfo={!hideWalkInfo ? walkInfo : undefined}
+        >
             <Table spacing="small" fixed>
-                <col
-                    style={
-                        !isMobile
-                            ? { width: '5%', minWidth: '2rem' }
-                            : { width: '10%' }
-                    }
-                />
-                <col style={!isMobile ? { width: '25%' } : { width: '35%' }} />
-                <col
-                    style={
-                        !isMobile
-                            ? { width: '7%', minWidth: '5rem' }
-                            : { width: '23%' }
-                    }
-                />
-                <col style={!isMobile ? { width: '20%' } : { width: '17%' }} />
-                <col style={!isMobile ? { width: '43%' } : { width: '10%' }} />
+                {getRowSizes(isMobile, hideTracks, hideSituations)}
                 <TableHead>
                     <TableRow className="tableRow">
-                        <HeaderCell> </HeaderCell>
+                        <HeaderCell></HeaderCell>
                         <HeaderCell>Linje</HeaderCell>
                         <HeaderCell>Avgang</HeaderCell>
                         {!hideTracks ? <HeaderCell>Spor</HeaderCell> : null}
@@ -114,55 +102,22 @@ const DepartureTile = ({
                         ) : null}
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                    {departures.map((data) => (
-                        <TableRow key={data.id}>
-                            <DataCell>
-                                <Heading3>
-                                    <div>
-                                        {getIcon(
-                                            data.type,
-                                            iconColorType,
-                                            data.subType,
-                                        )}
-                                    </div>
-                                </Heading3>
-                            </DataCell>
-                            <DataCell>
-                                <Heading3 className="tile__header__header3">
-                                    {data.route}
-                                </Heading3>
-                            </DataCell>
-                            <DataCell>{data.time}</DataCell>
-                            {!hideTracks ? (
-                                <DataCell>
-                                    {data.quay?.publicCode || '-'}
-                                </DataCell>
-                            ) : null}
-                            {!hideSituations ? (
-                                <DataCell>
-                                    {isMobile && data?.situation ? (
-                                        <SituationModal
-                                            situationMessage={data?.situation}
-                                        />
-                                    ) : (
-                                        <SubLabelIcon
-                                            subLabel={createTileSubLabel(data)}
-                                        />
-                                    )}
-                                </DataCell>
-                            ) : null}
-                        </TableRow>
-                    ))}
-                </TableBody>
+                <TileRows
+                    visibleDepartures={visibleDepartures}
+                    hideSituations={hideSituations}
+                    hideTracks={hideTracks}
+                    iconColorType={iconColorType}
+                />
             </Table>
-        </div>
+        </Tile>
     )
 }
 
 interface Props {
     stopPlaceWithDepartures: StopPlaceWithDepartures
     walkInfo?: WalkInfo
+    isMobile?: boolean
+    numberOfTileRows?: number
 }
 
 export default DepartureTile

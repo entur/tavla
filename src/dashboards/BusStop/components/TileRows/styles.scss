@@ -1,0 +1,59 @@
+@import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
+
+.busStop .tilerow {
+    border-bottom: 2px solid var(--tavla-border-color);
+    padding: 1rem;
+
+    &__icon {
+        min-width: 2rem;
+        margin-right: 1rem;
+        font-size: 2rem;
+    }
+
+    &__label {
+        margin: 0;
+        margin-top: 0.25rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &__sublabel {
+        align-items: center;
+        display: flex;
+        font-size: 1.25rem;
+        font-weight: 400;
+        margin: 0;
+        margin-top: 7px;
+        min-width: 5rem;
+        text-align: right;
+
+        &__cancellation {
+            align-items: center;
+            background-color: $colors-brand-white;
+            border-radius: 0.5rem;
+            display: flex;
+            height: 0.875rem;
+            justify-content: center;
+            margin-left: 1rem;
+            overflow: visible;
+            width: 0.875rem;
+        }
+
+        &__situation {
+            font-size: 1.125rem;
+            height: 1.25rem;
+        }
+    }
+    @media (max-width: 1000px) {
+        padding: 0.5rem;
+    }
+
+    @media (max-width: 480px) {
+        &__icon {
+            min-width: 1.5rem;
+            font-size: 1.5rem;
+        }
+    }
+}
