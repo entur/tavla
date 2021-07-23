@@ -66,37 +66,6 @@ export function TileRows({
         </TableBody>
     )
 }
-
-/* function SubLabelIcon({
-    subLabel,
-    hideSituations,
-}: {
-    subLabel: TileSubLabel
-    hideSituations?: boolean
-}): JSX.Element | null {
-    if (!hideSituations && subLabel?.situation)
-        if (isMobile)
-            return (
-                <div className="tilerow__sublabel__situation">
-                    <SituationModal situationMessage={subLabel.situation} />
-                </div>
-            )
-        else
-            return (
-                <div className="tilerow__sublabel__situation">
-                    <ValidationExclamation />
-                </div>
-            )
-
-    if (subLabel.hasCancellation)
-        return (
-            <div className="tilerow__sublabel__cancellation">
-                <ValidationError />
-            </div>
-        )
-    return null
-}
-*/
 interface Props {
     visibleDepartures: LineData[]
     hideSituations: boolean | undefined

@@ -11,14 +11,13 @@
     &__tiles {
         display: block;
         flex-direction: column;
-        overflow-x: hidden;
-        overflow-y: hidden;
+        overflow: hidden;
 
         .tile {
             width: 100%;
             padding-top: 2rem;
             margin-bottom: 2rem;
-            overflow-y: hidden;
+            overflow: hidden;
             border-radius: 1rem;
 
             &__header-icons {
@@ -52,9 +51,7 @@
             This makes the tiles not lign up with the header, so to counteract
             these margins on the sides, this styling is needed. 
             */
-
-            margin-left: -2rem;
-            margin-right: -2rem;
+            margin: -2rem;
         }
     }
 }
