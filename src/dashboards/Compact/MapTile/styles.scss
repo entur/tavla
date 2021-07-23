@@ -13,14 +13,14 @@
     &__header {
         display: flex;
         justify-content: space-between;
-        padding: 0 2rem 0 2rem;
+        padding: 0 2rem;
         align-items: center;
         margin-bottom: 1rem;
 
         h2 {
             margin: 0;
             color: var(--tavla-font-color);
-            font-size: 32px;
+            font-size: 2rem;
         }
     }
 
