@@ -121,11 +121,9 @@
             /*
             react-grid-layout uses a margin of 32px between all grid-items.
             This makes the tiles not lign up with the header, so to counteract
-            these margins on the sides, this styling is needed. 
+            these margins on the sides and top, this styling is needed.
             */
-
-            margin-left: -2rem;
-            margin-right: -2rem;
+            margin: -2rem;
         }
     }
 }
