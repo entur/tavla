@@ -2,8 +2,8 @@
 @import '../../../variables.scss';
 
 .chrono .maptile {
-    height: inherit;
-    width: inherit;
+    height: 39.375rem;
+    width: 100%;
     background-color: var(--tavla-box-background-color);
     color: var(--tavla-font-color);
     flex: none;
@@ -16,19 +16,18 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 1rem;
-        padding: 0 2rem 0 2rem; //mulig annerledes
+        padding: 0 2rem;
 
         h2 {
             margin: 0;
             color: var(--tavla-font-color);
-            font-size: 32px;
+            font-size: 2rem;
         }
     }
 
     &__header-icons {
         display: flex;
         align-items: center;
-        //font-size: 2rem;
         color: var(--colors-blues-blue60);
     }
 }
