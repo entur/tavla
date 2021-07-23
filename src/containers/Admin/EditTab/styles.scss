@@ -2,10 +2,6 @@
 @import '../../../variables.scss';
 
 .edit-tab {
-    &__heading {
-        margin-left: 2rem;
-    }
-
     .eds-contrast {
         background: inherit;
     }
@@ -192,6 +188,10 @@
 
 @media (min-width: 500px) {
     .edit-tab {
+        &__heading {
+            margin-left: 2rem;
+        }
+
         &__input-wrapper {
             width: 10rem;
         }
