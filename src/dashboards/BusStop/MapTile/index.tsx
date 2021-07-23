@@ -11,7 +11,7 @@ import { StopPlaceWithDepartures } from '../../../types'
 function MapTile(data: Props): JSX.Element {
     return (
         <div className="maptile">
-            <MapView {...data} interactive={false}></MapView>
+            <MapView {...data} interactive />
         </div>
     )
 }

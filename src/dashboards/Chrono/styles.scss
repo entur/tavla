@@ -132,16 +132,12 @@
 
 @media (max-width: 1000px) {
     .chrono {
-        padding: 1rem;
+        padding: 1rem 1rem 6rem;
         overflow-x: visible;
         overflow-y: hidden;
 
         &__tiles {
             display: block;
-
-            .tile-wrapper:last-child {
-                margin-bottom: 6rem;
-            }
 
             .tile {
                 margin-bottom: 1rem;
@@ -149,8 +145,6 @@
             }
         }
         .maptile {
-            margin-bottom: 6rem;
-            height: 630px;
             max-height: unset;
             width: 100%;
         }
