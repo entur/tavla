@@ -29,28 +29,28 @@ export function TileRows({
                 return (
                     <TableRow key={data.id}>
                         <DataCell>
-                            <div className="tilerow__icon">{icon}</div>
+                            <div className="tilerows__icon">{icon}</div>
                         </DataCell>
                         <DataCell>
-                            <Heading3 className="tilerow__label">
+                            <Heading3 className="tilerows__label">
                                 {data.route}
                             </Heading3>
                         </DataCell>
                         <DataCell>
-                            <div className="tilerow__sublabel">
+                            <div className="tilerows__sublabel">
                                 {subLabel.time}
                             </div>
                         </DataCell>
                         {!hideTracks ? (
                             <DataCell>
-                                <div className="tilerow__sublabel">
+                                <div className="tilerows__sublabel">
                                     {data.quay?.publicCode || '-'}
                                 </div>
                             </DataCell>
                         ) : null}
                         {!hideSituations ? (
                             <DataCell>
-                                <div className="tilerow__sublabel">
+                                <div className="tilerows__sublabel">
                                     <SubLabelIcon
                                         hideSituations={hideSituations}
                                         subLabel={subLabel}
