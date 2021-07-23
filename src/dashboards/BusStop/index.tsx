@@ -312,6 +312,7 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
                         cols={COLS}
                         layouts={gridLayouts}
                         margin={[32, 32]}
+                        isDraggable={false}
                         onBreakpointChange={(newBreakpoint: string) => {
                             setBreakpoint(newBreakpoint)
                         }}
