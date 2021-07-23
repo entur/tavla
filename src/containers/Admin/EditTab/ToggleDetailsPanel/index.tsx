@@ -13,47 +13,51 @@ function ToggleDetailsPanel(): JSX.Element {
         settingsSetters
     return (
         <Fieldset className="toggle-detail-panel">
-            <div className="toggle-detail-panel__chips">
-                <FilterChip
-                    className="toggle-detail-panel__filter-chip"
-                    value="avviksinfo"
-                    onChange={(
-                        event: React.ChangeEvent<HTMLInputElement>,
-                    ): void => {
-                        setHideSituations(!event.currentTarget.checked)
-                    }}
-                    checked={!hideSituations}
-                >
-                    Avviksinfo
-                </FilterChip>
-                <FilterChip
-                    className="toggle-detail-panel__filter-chip"
-                    value="gangavstand"
-                    onChange={(
-                        event: React.ChangeEvent<HTMLInputElement>,
-                    ): void => {
-                        setHideWalkInfo(!event.currentTarget.checked)
-                    }}
-                    checked={!hideWalkInfo}
-                >
-                    Gangavstand
-                </FilterChip>
-                <FilterChip
-                    className="toggle-detail-panel__filter-chip"
-                    value="sporinfo"
-                    onChange={(
-                        event: React.ChangeEvent<HTMLInputElement>,
-                    ): void => {
-                        setHideTracks(!event.currentTarget.checked)
-                    }}
-                    checked={!hideTracks}
-                >
-                    Spor/plattform
-                </FilterChip>
+            <div className="toggle-detail-panel__container">
+                <Label>
+                    Obs! Noen av detaljene kan ikke vises i alle visningstyper.
+                </Label>
+                <br />
+                <div className="toggle-detail-panel__buttons">
+                    <FilterChip
+                        value="avviksinfo"
+                        onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>,
+                        ): void => {
+                            setHideSituations(!event.currentTarget.checked)
+                        }}
+                        checked={!hideSituations}
+                    >
+                        Avviksinfo
+                    </FilterChip>
+                </div>
+                <div className="toggle-detail-panel__buttons">
+                    <FilterChip
+                        value="gangavstand"
+                        onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>,
+                        ): void => {
+                            setHideWalkInfo(!event.currentTarget.checked)
+                        }}
+                        checked={!hideWalkInfo}
+                    >
+                        Gangavstand
+                    </FilterChip>
+                </div>
+                <div className="toggle-detail-panel__buttons">
+                    <FilterChip
+                        value="sporinfo"
+                        onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>,
+                        ): void => {
+                            setHideTracks(!event.currentTarget.checked)
+                        }}
+                        checked={!hideTracks}
+                    >
+                        Spor/plattform
+                    </FilterChip>
+                </div>
             </div>
-            <Label>
-                Obs! Noen av detaljene kan ikke vises i alle visningstyper.
-            </Label>
         </Fieldset>
     )
 }
