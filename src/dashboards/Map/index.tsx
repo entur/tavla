@@ -43,7 +43,7 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
                     bikeRentalStations={bikeRentalStations}
                     stopPlaces={stopPlacesWithDepartures}
                     walkTimes={walkTimes}
-                    interactive={true}
+                    interactive
                     latitude={settings?.coordinates?.latitude ?? 0}
                     longitude={settings?.coordinates?.longitude ?? 0}
                     zoom={settings?.zoom ?? DEFAULT_ZOOM}
