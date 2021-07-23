@@ -2,6 +2,10 @@
 @import '../../../variables.scss';
 
 .edit-tab {
+    &__heading {
+        margin-left: 2rem;
+    }
+
     .eds-contrast {
         background: inherit;
     }
@@ -110,7 +114,7 @@
             padding: 0;
         }
         .eds-h2 {
-            margin: 0 0 0 0;
+            margin: 0;
         }
     }
 
@@ -198,7 +202,4 @@
         margin-left: -2rem;
         margin-right: -2rem;
     }
-}
-.heading {
-    color: var(--tavla-font-color);
 }

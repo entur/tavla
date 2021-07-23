@@ -220,7 +220,7 @@ const EditTab = (): JSX.Element => {
     return (
         <div className="edit-tab">
             <div>
-                <Heading2 className="heading">
+                <Heading2 className="edit-tab__heading">
                     Viser kollektivtilbud innenfor
                     <div className="edit-tab__input-wrapper">
                         <Tooltip
