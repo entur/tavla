@@ -1,7 +1,7 @@
 @import '../../../../assets/styles/import.scss';
 @import '../../../../variables.scss';
 
-.chrono .tilerow {
+.chrono .tilerows {
     border-bottom: 2px solid var(--tavla-border-color);
     padding: 1rem;
 
@@ -13,19 +13,22 @@
 
     &__label {
         margin: 0;
-        margin-top: 0.25rem;
+        padding-right: 0.25rem;
+        vertical-align: middle;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+    }
+    .eds-table__data-cell {
+        vertical-align: middle;
     }
 
     &__sublabel {
         align-items: center;
         display: flex;
-        font-size: 1.25rem;
-        font-weight: 400;
+        font-size: $font-sizes-extra-large2;
+        font-weight: $font-weights-body;
         margin: 0;
-        margin-top: 7px;
         min-width: 5rem;
         text-align: right;
 
@@ -52,6 +55,9 @@
     }
 
     @media (max-width: 480px) {
+        &__sublabel {
+            font-size: $font-sizes-large;
+        }
         &__icon {
             min-width: 1.5rem;
             font-size: 1.5rem;
