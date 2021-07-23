@@ -74,13 +74,13 @@ function updateManifest(pathName: string): void {
             lang: 'no',
             icons: [
                 {
-                    src: `${window.location.hostname}/images/logo/logo-192x192.png`,
+                    src: '/images/logo/logo-192x192.png',
                     sizes: '192x192',
                     type: 'image/png',
                     purpose: 'any maskable',
                 },
                 {
-                    src: `${window.location.hostname}/images/logo/logo-512x512.png`,
+                    src: '/images/logo/logo-512x512.png',
                     sizes: '512x512',
                     type: 'image/png',
                     purpose: 'any maskable',
