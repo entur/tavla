@@ -7,11 +7,16 @@ import MapView from '../../../components/Map'
 import './styles.scss'
 
 import { StopPlaceWithDepartures } from '../../../types'
+import { isMobileWeb } from '../../../utils'
 
 function MapTile(data: Props): JSX.Element {
     return (
         <div className="maptile">
-            <MapView {...data} interactive />
+            {isMobileWeb() ? (
+                <MapView {...data} interactive />
+            ) : (
+                <MapView {...data} interactive={false} />
+            )}
         </div>
     )
 }
