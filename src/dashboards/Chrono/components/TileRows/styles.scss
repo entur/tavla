@@ -14,13 +14,9 @@
     &__label {
         margin: 0;
         padding-right: 0.25rem;
-        vertical-align: middle;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-    }
-    .eds-table__data-cell {
-        vertical-align: middle;
     }
 
     &__sublabel {
@@ -43,13 +39,8 @@
             overflow: visible;
             width: 0.875rem;
         }
-
-        &__situation {
-            font-size: 1.125rem;
-            height: 1.25rem;
-            margin-left: 1rem;
-        }
     }
+
     @media (max-width: 1000px) {
         padding: 0.5rem;
     }
