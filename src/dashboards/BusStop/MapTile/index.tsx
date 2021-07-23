@@ -12,11 +12,7 @@ import { isMobileWeb } from '../../../utils'
 function MapTile(data: Props): JSX.Element {
     return (
         <div className="maptile">
-            {isMobileWeb() ? (
-                <MapView {...data} interactive />
-            ) : (
-                <MapView {...data} interactive={false} />
-            )}
+            <MapView {...data} interactive={isMobileWeb()} />
         </div>
     )
 }
