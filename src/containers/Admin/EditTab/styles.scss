@@ -41,6 +41,7 @@
         display: block;
         overflow: auto;
         border-radius: 1rem;
+        overflow-x: hidden;
     }
     .eds-checkbox-icon {
         background-color: var(--tavla-checkbox-color);
@@ -112,6 +113,10 @@
         .eds-h2 {
             margin: 0;
         }
+
+        &--details-in-view {
+            margin-top: 0;
+        }
     }
 
     &__expanding-text-field {
@@ -153,7 +158,7 @@
         flex-grow: 1;
     }
 
-    @media (max-width: 1000px) {
+    @media (max-width: 996px) {
         padding: 0;
 
         &__set-stops {
