@@ -117,7 +117,15 @@ function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
         window.navigator.standalone ||
         document.referrer.includes('android-app://') ||
         getFromLocalStorage('pwaPromptShown') ||
-        numberOfVisits < 3
+        numberOfVisits < 3 ||
+        ![
+            'iPad Simulator',
+            'iPhone Simulator',
+            'iPod Simulator',
+            'iPad',
+            'iPhone',
+            'iPod',
+        ].includes(navigator.platform)
     ) {
         return null
     }
@@ -125,9 +133,9 @@ function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
     return (
         <div className="pwa-prompt">
             <PWAPrompt
-                debug={1} // forcing prompt to show
+                debug
                 copyTitle="Legg til Tavla på hjemskjermen"
-                copyShareButtonLabel="1) Trykk på 'Del'-knappen på menyen under."
+                copyShareButtonLabel="1) I Safari, trykk på 'Del'-knappen på menyen under."
                 copyAddHomeButtonLabel="2) Trykk 'Legg til på hjemskjerm'."
                 copyClosePrompt="Lukk"
                 onClose={() => saveToLocalStorage('pwaPromptShown', true)}
