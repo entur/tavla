@@ -103,37 +103,38 @@ function updateManifest(pathName: string): void {
     }
 }
 
+const hidePWA = (pathName: string) =>
+    pathName === '/' ||
+    pathName.includes('admin') ||
+    window.matchMedia('(display-mode: standalone)').matches ||
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    window.navigator.standalone ||
+    document.referrer.includes('android-app://') ||
+    getFromLocalStorage('pwaPromptShown') ||
+    numberOfVisits < 3 ||
+    ![
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod',
+    ].includes(navigator.platform)
+
 function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
     useEffect(() => {
         saveToLocalStorage('numberOfVisits', numberOfVisits + 1)
     }, [])
 
-    if (
-        pathName === '/' ||
-        pathName.includes('admin') ||
-        window.matchMedia('(display-mode: standalone)').matches ||
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        window.navigator.standalone ||
-        document.referrer.includes('android-app://') ||
-        getFromLocalStorage('pwaPromptShown') ||
-        numberOfVisits < 3 ||
-        ![
-            'iPad Simulator',
-            'iPhone Simulator',
-            'iPod Simulator',
-            'iPad',
-            'iPhone',
-            'iPod',
-        ].includes(navigator.platform)
-    ) {
+    if (hidePWA(pathName)) {
         return null
     }
 
     return (
         <div className="pwa-prompt">
             <PWAPrompt
-                debug
+                debug // forcing prompt to show
                 copyTitle="Legg til Tavla på hjemskjermen"
                 copyShareButtonLabel="1) I Safari, trykk på 'Del'-knappen på menyen under."
                 copyAddHomeButtonLabel="2) Trykk 'Legg til på hjemskjerm'."
