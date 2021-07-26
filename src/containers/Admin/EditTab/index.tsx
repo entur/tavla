@@ -50,27 +50,6 @@ const COLS: { [key: string]: number } = {
     xxs: 1,
 }
 
-const LAYOUT = {
-    lg: [
-        { i: 'busStopPanel', x: 0, y: 0, w: 1.5, h: 4.3 },
-        { i: 'bikePanel', x: 1.5, y: 0, w: 1.5, h: 3 },
-        { i: 'scooterPanel', x: 1.5, y: 1.5, w: 1.5, h: 1.3 },
-        { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 3.3 },
-    ],
-    md: [
-        { i: 'busStopPanel', x: 0, y: 0, w: 2, h: 4.7 },
-        { i: 'bikePanel', x: 2, y: 0, w: 1, h: 3 },
-        { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.7 },
-        { i: 'mapPanel', x: 0, y: 4.5, w: 3, h: 3 },
-    ],
-    sm: [
-        { i: 'busStopPanel', x: 0, y: 0, w: 1, h: 3 },
-        { i: 'bikePanel', x: 0, y: 3, w: 1, h: 2 },
-        { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.5 },
-        { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
-    ],
-}
-
 const EditTab = (): JSX.Element => {
     const [breakpoint, setBreakpoint] = useState<string>('lg')
     const [settings, settingsSetters] = useSettingsContext()
@@ -216,6 +195,36 @@ const EditTab = (): JSX.Element => {
             <SubParagraph margin="none">{props.text}</SubParagraph>
         </div>
     )
+
+    const LAYOUT = {
+        lg: [
+            {
+                i: 'busStopPanel',
+                x: 0,
+                y: 0,
+                w: 1.5,
+                h:
+                    2.35 +
+                    0.45 * stopPlaces.length +
+                    (stopPlaces.length > 0 ? 0.35 : 0),
+            },
+            { i: 'bikePanel', x: 1.5, y: 0, w: 1.5, h: 3 },
+            { i: 'scooterPanel', x: 1.5, y: 1.5, w: 1.5, h: 1.4 },
+            { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 3 },
+        ],
+        md: [
+            { i: 'busStopPanel', x: 0, y: 0, w: 2, h: 4.7 },
+            { i: 'bikePanel', x: 2, y: 0, w: 1, h: 3 },
+            { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.7 },
+            { i: 'mapPanel', x: 0, y: 4.5, w: 3, h: 3 },
+        ],
+        sm: [
+            { i: 'busStopPanel', x: 0, y: 0, w: 1, h: 3 },
+            { i: 'bikePanel', x: 0, y: 3, w: 1, h: 2 },
+            { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.5 },
+            { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
+        ],
+    }
 
     return (
         <div className="edit-tab">
