@@ -205,8 +205,9 @@ const EditTab = (): JSX.Element => {
                 w: 1.5,
                 h:
                     2.35 +
-                    0.48 * stopPlaces.length +
-                    (stopPlaces.length > 0 ? 0.32 : 0),
+                    (stopPlaces.length > 0
+                        ? 0.44 * stopPlaces.length + 0.32
+                        : 0),
             },
             {
                 i: 'bikePanel',
@@ -226,8 +227,9 @@ const EditTab = (): JSX.Element => {
                 w: 2,
                 h:
                     2.35 +
-                    0.44 * stopPlaces.length +
-                    (stopPlaces.length > 0 ? 0.32 : 0),
+                    (stopPlaces.length > 0
+                        ? 0.44 * stopPlaces.length + 0.32
+                        : 0),
             },
             {
                 i: 'bikePanel',
@@ -247,8 +249,9 @@ const EditTab = (): JSX.Element => {
                 w: 1,
                 h:
                     2.25 +
-                    0.6 * stopPlaces.length +
-                    (stopPlaces.length > 0 ? 0.32 : 0),
+                    (stopPlaces.length > 0
+                        ? 0.6 * stopPlaces.length + 0.32
+                        : 0),
             },
             {
                 i: 'bikePanel',
@@ -268,8 +271,9 @@ const EditTab = (): JSX.Element => {
                 w: 1,
                 h:
                     2.5 +
-                    0.75 * stopPlaces.length +
-                    (stopPlaces.length > 0 ? 0.25 : 0),
+                    (stopPlaces.length > 0
+                        ? 0.75 * stopPlaces.length + 0.25
+                        : 0),
             },
             {
                 i: 'bikePanel',
