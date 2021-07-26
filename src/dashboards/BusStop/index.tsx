@@ -343,7 +343,7 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
                         ))}
                         {mapCol ? (
                             <div
-                                id="busStop-map-tile"
+                                className="busStop__maptile"
                                 key={totalItems - 1}
                                 data-grid={getDataGrid(
                                     totalItems - 1,

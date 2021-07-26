@@ -347,7 +347,9 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <StopPlacePanel stops={stopPlaces} />
                     <div>
-                        <Heading3>Detaljer i visningen</Heading3>
+                        <Heading3 className="edit-tab__header--details-in-view">
+                            Detaljer i visningen
+                        </Heading3>
                     </div>
                     <ToggleDetailsPanel />
                 </div>
