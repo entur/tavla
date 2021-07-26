@@ -205,23 +205,80 @@ const EditTab = (): JSX.Element => {
                 w: 1.5,
                 h:
                     2.35 +
-                    0.45 * stopPlaces.length +
-                    (stopPlaces.length > 0 ? 0.35 : 0),
+                    0.48 * stopPlaces.length +
+                    (stopPlaces.length > 0 ? 0.32 : 0),
             },
-            { i: 'bikePanel', x: 1.5, y: 0, w: 1.5, h: 3 },
-            { i: 'scooterPanel', x: 1.5, y: 1.5, w: 1.5, h: 1.4 },
-            { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 3 },
+            {
+                i: 'bikePanel',
+                x: 1.5,
+                y: 0,
+                w: 1.5,
+                h: 1.55 + 0.24 * stations.length,
+            },
+            { i: 'scooterPanel', x: 3, y: 3.2, w: 1.5, h: 1.4 },
+            { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 3.2 },
         ],
         md: [
-            { i: 'busStopPanel', x: 0, y: 0, w: 2, h: 4.7 },
-            { i: 'bikePanel', x: 2, y: 0, w: 1, h: 3 },
-            { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.7 },
-            { i: 'mapPanel', x: 0, y: 4.5, w: 3, h: 3 },
+            {
+                i: 'busStopPanel',
+                x: 0,
+                y: 0,
+                w: 2,
+                h:
+                    2.35 +
+                    0.44 * stopPlaces.length +
+                    (stopPlaces.length > 0 ? 0.32 : 0),
+            },
+            {
+                i: 'bikePanel',
+                x: 2,
+                y: 0,
+                w: 1,
+                h: 1.55 + 0.24 * stations.length,
+            },
+            { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
+            { i: 'mapPanel', x: 0, y: 4.5, w: 2, h: 3 },
         ],
         sm: [
-            { i: 'busStopPanel', x: 0, y: 0, w: 1, h: 3 },
-            { i: 'bikePanel', x: 0, y: 3, w: 1, h: 2 },
-            { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.5 },
+            {
+                i: 'busStopPanel',
+                x: 0,
+                y: 0,
+                w: 1,
+                h:
+                    2.25 +
+                    0.6 * stopPlaces.length +
+                    (stopPlaces.length > 0 ? 0.32 : 0),
+            },
+            {
+                i: 'bikePanel',
+                x: 0,
+                y: 3,
+                w: 1,
+                h: 1.4 + 0.24 * stations.length,
+            },
+            { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
+            { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
+        ],
+        xs: [
+            {
+                i: 'busStopPanel',
+                x: 0,
+                y: 0,
+                w: 1,
+                h:
+                    2.5 +
+                    0.75 * stopPlaces.length +
+                    (stopPlaces.length > 0 ? 0.25 : 0),
+            },
+            {
+                i: 'bikePanel',
+                x: 0,
+                y: 3,
+                w: 1,
+                h: 1.4 + 0.265 * stations.length,
+            },
+            { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
             { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
         ],
     }
