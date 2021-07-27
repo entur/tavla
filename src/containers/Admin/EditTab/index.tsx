@@ -52,10 +52,8 @@ const COLS: { [key: string]: number } = {
 
 const EditTab = (): JSX.Element => {
     const [breakpoint, setBreakpoint] = useState<string>('lg')
-    const [settings, settingsSetters] = useSettingsContext()
+    const [settings, { setSettings }] = useSettingsContext()
     const { newStops, newStations, hiddenModes, showMap } = settings || {}
-    const { setNewStops, setNewStations, setHiddenModes, setShowMap } =
-        settingsSetters
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
     )
@@ -65,16 +63,20 @@ const EditTab = (): JSX.Element => {
 
     useEffect(() => {
         if (settings && settings.zoom !== debouncedZoom) {
-            settingsSetters.setZoom(debouncedZoom)
+            setSettings({
+                zoom: debouncedZoom,
+            })
         }
-    }, [settings, debouncedZoom, settingsSetters])
+    }, [settings, debouncedZoom, setSettings])
 
     const debouncedDistance = useDebounce(distance, 800)
     useEffect(() => {
         if (settings?.distance !== debouncedDistance) {
-            settingsSetters.setDistance(debouncedDistance)
+            setSettings({
+                distance: debouncedDistance,
+            })
         }
-    }, [debouncedDistance, settingsSetters, settings])
+    }, [debouncedDistance, setSettings, settings])
 
     const [stopPlaces, setStopPlaces] = useState<StopPlaceWithLines[]>([])
     const [stations, setStations] = useState<BikeRentalStation[]>([])
@@ -148,26 +150,34 @@ const EditTab = (): JSX.Element => {
             const numberOfDuplicates = [...nearestStopPlaceIds, ...newStops]
                 .map((id) => id.replace(/-\d+$/, ''))
                 .filter((id) => id === stopId).length
+
             const id = !numberOfDuplicates
                 ? stopId
                 : `${stopId}-${numberOfDuplicates}`
-            setNewStops([...newStops, id])
+
+            setSettings({
+                newStops: [...newStops, id],
+            })
         },
-        [nearestStopPlaceIds, newStops, setNewStops],
+        [nearestStopPlaceIds, newStops, setSettings],
     )
 
     const addNewStation = useCallback(
         (stationId: string) => {
-            setNewStations([...newStations, stationId])
+            setSettings({
+                newStations: [...newStations, stationId],
+            })
         },
-        [newStations, setNewStations],
+        [newStations, setSettings],
     )
 
     const toggleMode = useCallback(
         (mode: Mode) => {
-            setHiddenModes(toggleValueInList(hiddenModes || [], mode))
+            setSettings({
+                hiddenModes: toggleValueInList(hiddenModes || [], mode),
+            })
         },
-        [setHiddenModes, hiddenModes],
+        [setSettings, hiddenModes],
     )
     const [showTooltip, setShowTooltip] = useState<boolean>(false)
 
@@ -386,7 +396,9 @@ const EditTab = (): JSX.Element => {
                             onChange={(
                                 event: React.ChangeEvent<HTMLInputElement>,
                             ): void => {
-                                setShowMap(event.currentTarget.checked)
+                                setSettings({
+                                    showMap: event.currentTarget.checked,
+                                })
                             }}
                             checked={showMap}
                             size="large"

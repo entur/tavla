@@ -10,26 +10,31 @@ import { useSettingsContext } from '../../../../settings'
 import './styles.scss'
 
 function BikePanel(props: Props): JSX.Element {
-    const [settings, { setHiddenStations }] = useSettingsContext()
+    const [settings, { setSettings }] = useSettingsContext()
     const { hiddenStations = [] } = settings || {}
 
     const { stations } = props
 
     const onChooseAllPressed = useCallback(() => {
         if (hiddenStations.length > 0) {
-            setHiddenStations([])
+            setSettings({
+                hiddenStations: [],
+            })
         } else {
-            setHiddenStations(stations.map(({ id }) => id))
+            setSettings({
+                hiddenStations: stations.map(({ id }) => id),
+            })
         }
-    }, [hiddenStations.length, setHiddenStations, stations])
+    }, [hiddenStations.length, setSettings, stations])
 
     const onToggleStation = useCallback(
         (event) => {
             const stationId = event.target.id
-            const newDisabledList = toggleValueInList(hiddenStations, stationId)
-            setHiddenStations(newDisabledList)
+            setSettings({
+                hiddenStations: toggleValueInList(hiddenStations, stationId),
+            })
         },
-        [hiddenStations, setHiddenStations],
+        [hiddenStations, setSettings],
     )
 
     if (!stations.length) {

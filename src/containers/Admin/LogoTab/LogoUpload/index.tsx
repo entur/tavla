@@ -15,7 +15,7 @@ const UPLOAD_ZONE_TEXT =
     'Slipp logofilen din her eller klikk for å velge fil å laste opp'
 
 const LogoUpload = (): JSX.Element => {
-    const [settings, { setLogo }] = useSettingsContext()
+    const [settings, { setSettings }] = useSettingsContext()
 
     const logo = settings?.logo
 
@@ -34,7 +34,7 @@ const LogoUpload = (): JSX.Element => {
         const [file] = acceptedFiles
 
         const handleFinished = (imageUrl: string): void => {
-            setLogo(imageUrl)
+            setSettings({ logo: imageUrl })
             setUploadVisible(false)
             setProgress(undefined)
         }
@@ -63,7 +63,7 @@ const LogoUpload = (): JSX.Element => {
     }
 
     const handleDelete = (): void => {
-        setLogo(null)
+        setSettings({ logo: undefined })
         handleReset()
     }
 

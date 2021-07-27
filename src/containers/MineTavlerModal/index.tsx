@@ -22,7 +22,7 @@ import './styles.scss'
 const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const history = useHistory()
     const user = useFirebaseAuthentication()
-    const [settings, { setOwners }] = useSettingsContext()
+    const [settings, { setSettings }] = useSettingsContext()
 
     const isLocked =
         user && !user.isAnonymous && settings?.owners?.length && open
@@ -62,7 +62,9 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
             open
         ) {
             const newOwnersList = [...settings.owners, user.uid]
-            setOwners(newOwnersList)
+            setSettings({
+                owners: newOwnersList,
+            })
         }
 
         history.push('/tavler')

@@ -9,7 +9,7 @@ import { useSettingsContext } from '../../../../settings'
 import '../styles.scss'
 
 const Description = (): JSX.Element => {
-    const [settings, { setDescription }] = useSettingsContext()
+    const [settings, { setSettings }] = useSettingsContext()
 
     const { description, logoSize } = settings || {}
 
@@ -19,9 +19,11 @@ const Description = (): JSX.Element => {
 
     useEffect(() => {
         if (debouncedValue && description !== debouncedValue) {
-            setDescription(debouncedValue)
+            setSettings({
+                description: debouncedValue,
+            })
         }
-    }, [description, debouncedValue, setDescription])
+    }, [description, debouncedValue, setSettings])
 
     return (
         <>
