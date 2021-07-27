@@ -189,7 +189,7 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
             setModalVisible(true)
         },
         {
-            threshold: 1000,
+            threshold: 750,
             onStart: () => {
                 isCancelled.current = setTimeout(() => {
                     setIsLongPressStarted(true)
