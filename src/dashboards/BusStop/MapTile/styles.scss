@@ -7,8 +7,7 @@
     background-color: var(--tavla-box-background-color);
     color: var(--tavla-font-color);
     flex: none;
-    overflow: auto;
-    overflow-x: hidden;
+    overflow: hidden;
     padding-top: 0;
 
     &__header {
@@ -17,7 +16,7 @@
         float: left;
         align-items: center;
         margin-bottom: 1rem;
-        padding: 0 2rem 0 2rem;
+        padding: 0 2rem;
 
         h2 {
             margin: 0;
@@ -32,7 +31,7 @@
         color: var(--colors-blues-blue60);
     }
 
-    @media (max-width: 1000px) {
-        height: 39.375rem;
-    }
+    // @media (max-width: 1000px) {
+    //     height: 39.375rem;
+    // }
 }
