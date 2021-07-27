@@ -4,8 +4,6 @@ import { Checkbox } from '@entur/form'
 import { LegMode } from '@entur/sdk'
 import { Paragraph } from '@entur/typography'
 
-import { GridItem } from '@entur/grid'
-
 import { toggleValueInList, isDarkOrDefaultTheme } from '../../../../utils'
 import { StopPlaceWithLines } from '../../../../types'
 import { useSettingsContext } from '../../../../settings'
@@ -16,8 +14,15 @@ import PanelRow from './PanelRow'
 import './styles.scss'
 
 function StopPlacePanel(props: Props): JSX.Element {
-    const [settings, { setHiddenStops, setHiddenRoutes, setHiddenStopModes }] =
-        useSettingsContext()
+    const [
+        settings,
+        {
+            setSettingsAndStore,
+            setHiddenStops,
+            setHiddenRoutes,
+            setHiddenStopModes,
+        },
+    ] = useSettingsContext()
 
     const {
         hiddenStopModes = {},
@@ -77,30 +82,40 @@ function StopPlacePanel(props: Props): JSX.Element {
             const stopPlace = filteredStopPlaces.find(
                 (item) => item.id === stopPlaceId,
             )
-            if (stopPlace) {
-                const uniqueTransportModes = Array.from(
-                    new Set(stopPlace.lines.map((line) => line.transportMode)),
-                )
-                if (
-                    uniqueTransportModes.length ===
+
+            const uniqueTransportModes = Array.from(
+                new Set(stopPlace?.lines.map((line) => line.transportMode)),
+            )
+
+            if (
+                stopPlace &&
+                uniqueTransportModes.length ===
                     newHiddenModes[stopPlaceId].length
-                ) {
-                    const newDisabledList = toggleValueInList(
-                        hiddenStops,
-                        stopPlaceId,
-                    )
-                    console.log('NEW LIST!!', newDisabledList)
-                    setHiddenStops(newDisabledList)
-                }
+            ) {
+                const newDisabledList = toggleValueInList(
+                    hiddenStops,
+                    stopPlaceId,
+                )
+                // setHiddenStops(X)
+
+                setSettingsAndStore({
+                    hiddenStops: newDisabledList,
+                    hiddenStopModes: newHiddenModes,
+                })
+            } else {
+                setSettingsAndStore({
+                    hiddenStopModes: newHiddenModes,
+                })
             }
-            setHiddenStopModes(newHiddenModes)
+
+            // setHiddenModes(X)
         },
         [
             hiddenStopModes,
             filteredStopPlaces,
             setHiddenStopModes,
             hiddenStops,
-            setHiddenStops,
+            setSettingsAndStore,
         ],
     )
 

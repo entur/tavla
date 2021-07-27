@@ -49,6 +49,7 @@ export interface Settings {
 }
 
 interface SettingsSetters {
+    setSettingsAndStore: (settings: Partial<Settings>) => void
     setBoardName: (boardName: string) => void
     setHiddenOperators: (hiddenOperators: ScooterOperator[]) => void
     setHiddenStations: (hiddenStations: string[]) => void
@@ -79,6 +80,7 @@ export const SettingsContext = createContext<
 >([
     null,
     {
+        setSettingsAndStore: (): void => undefined,
         setBoardName: (): void => undefined,
         setHiddenOperators: (): void => undefined,
         setHiddenStations: (): void => undefined,
@@ -208,6 +210,23 @@ export function useSettings(): [Settings | null, SettingsSetters] {
                 return
             }
             persistToUrl(newSettings)
+        },
+        [settings],
+    )
+
+    const setSettingsAndStore = useCallback(
+        (newSettings: Partial<Settings>) => {
+            const mergedSettings = { ...settings, ...newSettings } as Settings
+            setSettings(mergedSettings)
+
+            const id = getDocumentId()
+            Object.entries(mergedSettings).map(([key, value]) => {
+                if (id) {
+                    persistToFirebase(id, key, value)
+                    return
+                }
+                persistToUrl(mergedSettings)
+            })
         },
         [settings],
     )
@@ -357,6 +376,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
     )
 
     const setters = {
+        setSettingsAndStore,
         setBoardName,
         setHiddenOperators,
         setHiddenStations,
