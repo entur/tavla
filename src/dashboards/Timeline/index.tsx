@@ -236,7 +236,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
     useEffect(() => {
         let defaultTileOrder: Item[] = []
         if (stopPlacesWithDepartures) {
-            if (stopPlacesWithDepartures.length == prevNumberOfStopPlaces) {
+            if (stopPlacesWithDepartures.length === prevNumberOfStopPlaces) {
                 return
             }
             defaultTileOrder = stopPlacesWithDepartures.map((item) => ({
@@ -248,11 +248,10 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
             boardId + '-tile-order',
         )
         if (
-            storedTileOrder &&
-            storedTileOrder.length === defaultTileOrder.length &&
+            storedTileOrder?.length === defaultTileOrder.length &&
             isEqualUnsorted(
                 defaultTileOrder.map((item) => item.id),
-                storedTileOrder.map((item) => item.id),
+                storedTileOrder?.map((item) => item.id),
             )
         ) {
             setTileOrder(storedTileOrder)
