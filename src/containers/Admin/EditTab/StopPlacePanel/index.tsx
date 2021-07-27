@@ -93,6 +93,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                     hiddenStops: [...hiddenStops, stopPlaceId],
                     hiddenStopModes: newHiddenModes,
                 })
+                return
             }
 
             setSettings({
