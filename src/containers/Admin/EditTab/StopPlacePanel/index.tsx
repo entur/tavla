@@ -4,6 +4,8 @@ import { Checkbox } from '@entur/form'
 import { LegMode } from '@entur/sdk'
 import { Paragraph } from '@entur/typography'
 
+import { GridItem } from '@entur/grid'
+
 import { toggleValueInList, isDarkOrDefaultTheme } from '../../../../utils'
 import { StopPlaceWithLines } from '../../../../types'
 import { useSettingsContext } from '../../../../settings'
@@ -63,15 +65,43 @@ function StopPlacePanel(props: Props): JSX.Element {
 
     const onToggleMode = useCallback(
         (stopPlaceId: string, mode: LegMode): void => {
-            setHiddenStopModes({
+            console.log(stopPlaceId)
+            //console.log(hiddenStopModes[stopPlaceId])
+            const newHiddenModes = {
                 ...hiddenStopModes,
                 [stopPlaceId]: toggleValueInList(
                     hiddenStopModes[stopPlaceId] || [],
                     mode,
                 ),
-            })
+            }
+            const stopPlace = filteredStopPlaces.find(
+                (item) => item.id === stopPlaceId,
+            )
+            if (stopPlace) {
+                const uniqueTransportModes = Array.from(
+                    new Set(stopPlace.lines.map((line) => line.transportMode)),
+                )
+                if (
+                    uniqueTransportModes.length ===
+                    newHiddenModes[stopPlaceId].length
+                ) {
+                    const newDisabledList = toggleValueInList(
+                        hiddenStops,
+                        stopPlaceId,
+                    )
+                    console.log('NEW LIST!!', newDisabledList)
+                    setHiddenStops(newDisabledList)
+                }
+            }
+            setHiddenStopModes(newHiddenModes)
         },
-        [setHiddenStopModes, hiddenStopModes],
+        [
+            hiddenStopModes,
+            filteredStopPlaces,
+            setHiddenStopModes,
+            hiddenStops,
+            setHiddenStops,
+        ],
     )
 
     if (!filteredStopPlaces.length) {

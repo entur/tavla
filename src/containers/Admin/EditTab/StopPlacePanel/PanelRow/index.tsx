@@ -40,6 +40,9 @@ const PanelRow = ({
 
     const uniqueModes = unique(lines.map(({ transportMode }) => transportMode))
 
+    // const anyUniqueMode
+
+    console.log(settings.hiddenStops)
     const header = (
         <div className="stop-place-panel__row__header">
             <span className="admin__checkbox-and-stopplace">
