@@ -33,22 +33,40 @@ function StopPlacePanel(props: Props): JSX.Element {
         if (hiddenStops.length > 0) {
             setSettings({
                 hiddenStops: [],
+                hiddenStopModes: Object.fromEntries(
+                    Object.keys(hiddenStopModes).map((key) => [key, []]),
+                ),
             })
         } else {
             setSettings({
                 hiddenStops: stops.map(({ id }) => id),
             })
         }
-    }, [hiddenStops.length, setSettings, stops])
+    }, [hiddenStopModes, hiddenStops.length, setSettings, stops])
 
     const onToggleStop = useCallback(
         (event) => {
+            const checked = event.target.checked
             const stopId = event.target.id
+            const stopPlace = filteredStopPlaces.find(
+                (item) => item.id === stopId,
+            )
+
+            const uniqueTransportModes = Array.from(
+                new Set(
+                    stopPlace?.lines.map(({ transportMode }) => transportMode),
+                ),
+            )
+
             setSettings({
                 hiddenStops: toggleValueInList(hiddenStops, stopId),
+                hiddenStopModes: {
+                    ...hiddenStopModes,
+                    [stopId]: !checked ? uniqueTransportModes : [],
+                },
             })
         },
-        [hiddenStops, setSettings],
+        [filteredStopPlaces, hiddenStopModes, hiddenStops, setSettings],
     )
 
     const onToggleRoute = useCallback(
@@ -69,17 +87,41 @@ function StopPlacePanel(props: Props): JSX.Element {
 
     const onToggleMode = useCallback(
         (stopPlaceId: string, mode: LegMode): void => {
+            const newHiddenModes = {
+                ...hiddenStopModes,
+                [stopPlaceId]: toggleValueInList(
+                    hiddenStopModes[stopPlaceId] || [],
+                    mode,
+                ),
+            }
+            const stopPlace = filteredStopPlaces.find(
+                (item) => item.id === stopPlaceId,
+            )
+
+            const uniqueTransportModes = Array.from(
+                new Set(
+                    stopPlace?.lines.map(({ transportMode }) => transportMode),
+                ),
+            )
+
+            const allModesUnchecked =
+                uniqueTransportModes.length ===
+                newHiddenModes[stopPlaceId].length
+
+            if (allModesUnchecked) {
+                setSettings({
+                    hiddenStops: [...hiddenStops, stopPlaceId],
+                    hiddenStopModes: newHiddenModes,
+                })
+                return
+            }
+
             setSettings({
-                hiddenStopModes: {
-                    ...hiddenStopModes,
-                    [stopPlaceId]: toggleValueInList(
-                        hiddenStopModes[stopPlaceId] || [],
-                        mode,
-                    ),
-                },
+                hiddenStops: hiddenStops.filter((id) => id !== stopPlaceId),
+                hiddenStopModes: newHiddenModes,
             })
         },
-        [hiddenStopModes, setSettings],
+        [filteredStopPlaces, hiddenStopModes, hiddenStops, setSettings],
     )
 
     if (!filteredStopPlaces.length) {
