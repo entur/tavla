@@ -204,11 +204,11 @@ export function useSettings(): [Settings | null, SettingsSetters] {
             setSettings(newSettings)
 
             const id = getDocumentId()
-
             if (id) {
                 persistToFirebase(id, key, value)
                 return
             }
+
             persistToUrl(newSettings)
         },
         [settings],
@@ -225,8 +225,9 @@ export function useSettings(): [Settings | null, SettingsSetters] {
                     persistToFirebase(id, key, value)
                     return
                 }
-                persistToUrl(mergedSettings)
             })
+
+            persistToUrl(mergedSettings)
         },
         [settings],
     )
