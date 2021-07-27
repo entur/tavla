@@ -14,7 +14,7 @@ import { getDocumentId } from '../../../utils'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
-    const [settings, { setTheme }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
     const documentId = getDocumentId()
 
     useEffect(() => {
@@ -25,7 +25,9 @@ const ThemeTab = (): JSX.Element => {
 
     const switchTheme = (value: Theme): void => {
         setRadioValue(value)
-        setTheme(value)
+        setSettings({
+            theme: value,
+        })
     }
 
     if (!documentId) {

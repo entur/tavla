@@ -7,10 +7,9 @@ import './styles.scss'
 import { useSettingsContext } from '../../../../settings'
 
 function ToggleDetailsPanel(): JSX.Element {
-    const [settings, settingsSetters] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
     const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
-    const { setHideSituations, setHideTracks, setHideWalkInfo } =
-        settingsSetters
+
     return (
         <Fieldset className="toggle-detail-panel">
             <div className="toggle-detail-panel__container">
@@ -24,7 +23,9 @@ function ToggleDetailsPanel(): JSX.Element {
                         onChange={(
                             event: React.ChangeEvent<HTMLInputElement>,
                         ): void => {
-                            setHideSituations(!event.currentTarget.checked)
+                            setSettings({
+                                hideSituations: !event.currentTarget.checked,
+                            })
                         }}
                         checked={!hideSituations}
                     >
@@ -37,7 +38,9 @@ function ToggleDetailsPanel(): JSX.Element {
                         onChange={(
                             event: React.ChangeEvent<HTMLInputElement>,
                         ): void => {
-                            setHideWalkInfo(!event.currentTarget.checked)
+                            setSettings({
+                                hideWalkInfo: !event.currentTarget.checked,
+                            })
                         }}
                         checked={!hideWalkInfo}
                     >
@@ -50,7 +53,9 @@ function ToggleDetailsPanel(): JSX.Element {
                         onChange={(
                             event: React.ChangeEvent<HTMLInputElement>,
                         ): void => {
-                            setHideTracks(!event.currentTarget.checked)
+                            setSettings({
+                                hideTracks: !event.currentTarget.checked,
+                            })
                         }}
                         checked={!hideTracks}
                     >

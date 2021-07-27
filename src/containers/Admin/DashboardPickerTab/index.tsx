@@ -9,7 +9,7 @@ import { useSettingsContext } from '../../../settings'
 import { ThemeDashboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
 
 const DashboardPickerTab = (): JSX.Element => {
-    const [settings, { setDashboard }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
     const dashboardImages = ThemeDashboardPreview(settings?.theme)
 
     const [radioValue, setRadioValue] = useState<string>(
@@ -20,10 +20,12 @@ const DashboardPickerTab = (): JSX.Element => {
         (value: string) => {
             if (value != radioValue) {
                 setRadioValue(value)
-                setDashboard(value)
+                setSettings({
+                    dashboard: value,
+                })
             }
         },
-        [radioValue, setRadioValue, setDashboard],
+        [radioValue, setRadioValue, setSettings],
     )
     return (
         <div>

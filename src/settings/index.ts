@@ -48,62 +48,14 @@ export interface Settings {
     hideWalkInfo?: boolean
 }
 
-interface SettingsSetters {
-    setBoardName: (boardName: string) => void
-    setHiddenOperators: (hiddenOperators: ScooterOperator[]) => void
-    setHiddenStations: (hiddenStations: string[]) => void
-    setHiddenStops: (hiddenStops: string[]) => void
-    setHiddenStopModes: (hiddenModes: {
-        [stopPlaceId: string]: LegMode[]
-    }) => void
-    setHiddenModes: (modes: Mode[]) => void
-    setHiddenRoutes: (hiddenModes: { [stopPlaceId: string]: string[] }) => void
-    setDistance: (distance: number) => void
-    setZoom: (zoom: number) => void
-    setNewStations: (newStations: string[]) => void
-    setNewStops: (newStops: string[]) => void
-    setDashboard: (dashboard: string) => void
-    setOwners: (owners: string[]) => void
-    setTheme: (theme: Theme) => void
-    setLogo: (url: string | null) => void
-    setLogoSize: (size: string) => void
-    setDescription: (description: string) => void
-    setShowMap: (visible: boolean) => void
-    setHideSituations: (hidden: boolean) => void
-    setHideTracks: (hidden: boolean) => void
-    setHideWalkInfo: (hidden: boolean) => void
-}
+type Setter = (settings: Partial<Settings>) => void
 
-export const SettingsContext = createContext<
-    [Settings | null, SettingsSetters]
->([
+export const SettingsContext = createContext<[Settings | null, Setter]>([
     null,
-    {
-        setBoardName: (): void => undefined,
-        setHiddenOperators: (): void => undefined,
-        setHiddenStations: (): void => undefined,
-        setHiddenStops: (): void => undefined,
-        setHiddenStopModes: (): void => undefined,
-        setHiddenModes: (): void => undefined,
-        setHiddenRoutes: (): void => undefined,
-        setDistance: (): void => undefined,
-        setZoom: (): void => undefined,
-        setNewStations: (): void => undefined,
-        setNewStops: (): void => undefined,
-        setDashboard: (): void => undefined,
-        setOwners: (): void => undefined,
-        setTheme: (): void => undefined,
-        setLogo: (): void => undefined,
-        setLogoSize: (): void => undefined,
-        setDescription: (): void => undefined,
-        setShowMap: (): void => undefined,
-        setHideSituations: (): void => undefined,
-        setHideTracks: (): void => undefined,
-        setHideWalkInfo: (): void => undefined,
-    },
+    (): void => undefined,
 ])
 
-export function useSettingsContext(): [Settings | null, SettingsSetters] {
+export function useSettingsContext(): [Settings | null, Setter] {
     return useContext(SettingsContext)
 }
 
@@ -115,8 +67,8 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     hiddenStopModes: {},
 }
 
-export function useSettings(): [Settings | null, SettingsSetters] {
-    const [settings, setSettings] = useState<Settings | null>(null)
+export function useSettings(): [Settings | null, Setter] {
+    const [settings, setLocalSettings] = useState<Settings | null>(null)
 
     const location = useLocation()
     const user = useFirebaseAuthentication()
@@ -129,7 +81,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
             location.pathname.split('/')[1] == 'tavler'
 
         if (protectedPath) {
-            setSettings(null)
+            setLocalSettings(null)
             return
         }
 
@@ -165,7 +117,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
                     })
                 }
 
-                setSettings((prevSettings) => {
+                setLocalSettings((prevSettings) => {
                     const onAdmin = location.pathname.split('/')[1] === 'admin'
                     return prevSettings && onAdmin
                         ? prevSettings
@@ -186,7 +138,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
             return
         }
 
-        setSettings({
+        setLocalSettings({
             ...DEFAULT_SETTINGS,
             ...restoreFromUrl(),
             coordinates: {
@@ -196,189 +148,23 @@ export function useSettings(): [Settings | null, SettingsSetters] {
         })
     }, [location, user])
 
-    const set = useCallback(
-        (key: string, value: FieldTypes): void => {
-            const newSettings = { ...settings, [key]: value } as Settings
-            setSettings(newSettings)
+    const setSettings = useCallback(
+        (newSettings: Partial<Settings>) => {
+            const mergedSettings = { ...settings, ...newSettings } as Settings
+            setLocalSettings(mergedSettings)
 
             const id = getDocumentId()
-
             if (id) {
-                persistToFirebase(id, key, value)
+                Object.entries(mergedSettings).map(([key, value]) => {
+                    persistToFirebase(id, key, value)
+                })
                 return
             }
-            persistToUrl(newSettings)
+
+            persistToUrl(mergedSettings)
         },
         [settings],
     )
 
-    const setBoardName = useCallback(
-        (boardName: string): void => {
-            set('boardName', boardName)
-        },
-        [set],
-    )
-
-    const setHiddenOperators = useCallback(
-        (newHiddenOperators: ScooterOperator[]): void => {
-            set('hiddenOperators', newHiddenOperators)
-        },
-        [set],
-    )
-
-    const setHiddenStations = useCallback(
-        (newHiddenStations: string[]): void => {
-            set('hiddenStations', newHiddenStations)
-        },
-        [set],
-    )
-
-    const setHiddenStops = useCallback(
-        (newHiddenStops: string[]): void => {
-            set('hiddenStops', newHiddenStops)
-        },
-        [set],
-    )
-
-    const setHiddenStopModes = useCallback(
-        (newHiddenStopModes: { [stopPlaceId: string]: LegMode[] }): void => {
-            set('hiddenStopModes', newHiddenStopModes)
-        },
-        [set],
-    )
-
-    const setHiddenModes = useCallback(
-        (newHiddenModes: Mode[]): void => {
-            set('hiddenModes', newHiddenModes)
-        },
-        [set],
-    )
-
-    const setHiddenRoutes = useCallback(
-        (newHiddenRoutes: { [stopPlaceId: string]: string[] }): void => {
-            set('hiddenRoutes', newHiddenRoutes)
-        },
-        [set],
-    )
-
-    const setDistance = useCallback(
-        (newDistance: number): void => {
-            set('distance', newDistance)
-        },
-        [set],
-    )
-
-    const setZoom = useCallback(
-        (newZoom: number): void => {
-            set('zoom', newZoom)
-        },
-        [set],
-    )
-
-    const setNewStations = useCallback(
-        (newStations: string[]): void => {
-            set('newStations', newStations)
-        },
-        [set],
-    )
-
-    const setNewStops = useCallback(
-        (newStops: string[]): void => {
-            set('newStops', newStops)
-        },
-        [set],
-    )
-
-    const setDashboard = useCallback(
-        (dashboard: string): void => {
-            set('dashboard', dashboard)
-        },
-        [set],
-    )
-
-    const setOwners = useCallback(
-        (owners: string[]): void => {
-            set('owners', owners)
-        },
-        [set],
-    )
-
-    const setTheme = useCallback(
-        (theme: Theme): void => {
-            set('theme', theme)
-        },
-        [set],
-    )
-    const setLogo = useCallback(
-        (url: string | null): void => {
-            set('logo', url)
-        },
-        [set],
-    )
-
-    const setLogoSize = useCallback(
-        (size: string): void => {
-            set('logoSize', size)
-        },
-        [set],
-    )
-
-    const setDescription = useCallback(
-        (description: string): void => {
-            set('description', description)
-        },
-        [set],
-    )
-
-    const setShowMap = useCallback(
-        (visible: boolean): void => {
-            set('showMap', visible)
-        },
-        [set],
-    )
-
-    const setHideSituations = useCallback(
-        (hidden: boolean): void => {
-            set('hideSituations', hidden)
-        },
-        [set],
-    )
-    const setHideTracks = useCallback(
-        (hidden: boolean): void => {
-            set('hideTracks', hidden)
-        },
-        [set],
-    )
-    const setHideWalkInfo = useCallback(
-        (hidden: boolean): void => {
-            set('hideWalkInfo', hidden)
-        },
-        [set],
-    )
-
-    const setters = {
-        setBoardName,
-        setHiddenOperators,
-        setHiddenStations,
-        setHiddenStops,
-        setHiddenModes,
-        setHiddenStopModes,
-        setHiddenRoutes,
-        setDistance,
-        setZoom,
-        setNewStations,
-        setNewStops,
-        setDashboard,
-        setOwners,
-        setTheme,
-        setLogo,
-        setLogoSize,
-        setDescription,
-        setShowMap,
-        setHideSituations,
-        setHideTracks,
-        setHideWalkInfo,
-    }
-
-    return [settings, setters]
+    return [settings, setSettings]
 }

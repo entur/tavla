@@ -24,7 +24,7 @@ interface Props {
 const LockModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const user = useFirebaseAuthentication()
 
-    const [settings, { setOwners }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
 
     useEffect(() => {
         if (
@@ -35,9 +35,11 @@ const LockModal = ({ open, onDismiss }: Props): JSX.Element | null => {
             open
         ) {
             const newOwnersList = [...(settings?.owners || []), user.uid]
-            setOwners(newOwnersList)
+            setSettings({
+                owners: newOwnersList,
+            })
         }
-    }, [settings, user, setOwners, open])
+    }, [settings, user, open, setSettings])
 
     if (user === undefined) {
         return null
