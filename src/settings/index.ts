@@ -220,12 +220,12 @@ export function useSettings(): [Settings | null, SettingsSetters] {
             setSettings(mergedSettings)
 
             const id = getDocumentId()
-            Object.entries(mergedSettings).map(([key, value]) => {
-                if (id) {
+            if (id) {
+                Object.entries(mergedSettings).map(([key, value]) => {
                     persistToFirebase(id, key, value)
-                    return
-                }
-            })
+                })
+                return
+            }
 
             persistToUrl(mergedSettings)
         },
