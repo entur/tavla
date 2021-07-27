@@ -43,12 +43,27 @@ function StopPlacePanel(props: Props): JSX.Element {
 
     const onToggleStop = useCallback(
         (event) => {
+            const checked = event.target.checked
             const stopId = event.target.id
+            const stopPlace = filteredStopPlaces.find(
+                (item) => item.id === stopId,
+            )
+
+            const uniqueTransportModes = Array.from(
+                new Set(
+                    stopPlace?.lines.map(({ transportMode }) => transportMode),
+                ),
+            )
+
             setSettings({
                 hiddenStops: toggleValueInList(hiddenStops, stopId),
+                hiddenStopModes: {
+                    ...hiddenStopModes,
+                    [stopId]: !checked ? uniqueTransportModes : [],
+                },
             })
         },
-        [hiddenStops, setSettings],
+        [filteredStopPlaces, hiddenStopModes, hiddenStops, setSettings],
     )
 
     const onToggleRoute = useCallback(
@@ -81,7 +96,9 @@ function StopPlacePanel(props: Props): JSX.Element {
             )
 
             const uniqueTransportModes = Array.from(
-                new Set(stopPlace?.lines.map((line) => line.transportMode)),
+                new Set(
+                    stopPlace?.lines.map(({ transportMode }) => transportMode),
+                ),
             )
 
             const allModesUnchecked =
