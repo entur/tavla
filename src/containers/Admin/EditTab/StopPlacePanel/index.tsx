@@ -33,13 +33,16 @@ function StopPlacePanel(props: Props): JSX.Element {
         if (hiddenStops.length > 0) {
             setSettings({
                 hiddenStops: [],
+                hiddenStopModes: Object.fromEntries(
+                    Object.keys(hiddenStopModes).map((key) => [key, []]),
+                ),
             })
         } else {
             setSettings({
                 hiddenStops: stops.map(({ id }) => id),
             })
         }
-    }, [hiddenStops.length, setSettings, stops])
+    }, [hiddenStopModes, hiddenStops.length, setSettings, stops])
 
     const onToggleStop = useCallback(
         (event) => {
