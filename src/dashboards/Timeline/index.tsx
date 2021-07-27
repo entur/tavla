@@ -1,9 +1,13 @@
-import React, { Fragment, useMemo, useEffect, useState } from 'react'
+import React, { Fragment, useMemo, useEffect, useState, useRef } from 'react'
 import { Heading2 } from '@entur/typography'
 import { LegBone } from '@entur/travel'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 import { WalkingIcon } from '@entur/icons'
+
+import { useRouteMatch } from 'react-router'
+
+import { useLongPress } from 'use-long-press/dist'
 
 import {
     getIcon,
@@ -11,6 +15,8 @@ import {
     timeUntil,
     useCounter,
     getIconColorType,
+    usePrevious,
+    isEqualUnsorted,
 } from '../../utils'
 import { LineData, IconColorType } from '../../types'
 
@@ -21,10 +27,26 @@ import './styles.scss'
 import { useSettingsContext } from '../../settings'
 import { WalkInfo } from '../../logic/useWalkInfo'
 
+import RearrangeModal, { Item } from '../../components/RearrangeModal'
+import {
+    getFromLocalStorage,
+    saveToLocalStorage,
+} from '../../settings/LocalStorage'
+
+import { LongPressProvider } from '../../logic/longPressContext'
+
 const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]
 
 // Use this to scale the race track.
 const ZOOM = 1
+
+const BREAKPOINTS = {
+    lg: 1400,
+    md: 996,
+    sm: 768,
+    xs: 480,
+    xxs: 0,
+}
 
 function diffSincePreviousTick(minute: number): number {
     if (minute <= 0) return -1 * minute
@@ -161,10 +183,30 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
+    const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
+    const isCancelled = useRef<NodeJS.Timeout>()
 
+    const boardId =
+        useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
+            ?.documentId
+
+    const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
+        boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
+    )
     const walkInfo = useWalkInfo(stopPlacesWithDepartures)
     const hideWalkInfo = settings?.hideWalkInfo
 
+    const numberOfStopPlaces = stopPlacesWithDepartures?.length || 0
+    const hasData = Boolean(stopPlacesWithDepartures?.length)
+    const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
+    const [modalVisible, setModalVisible] = useState(false)
+
+    function clearLongPressTimeout() {
+        setIsLongPressStarted(false)
+        if (isCancelled.current) {
+            clearTimeout(isCancelled.current)
+        }
+    }
     useEffect(() => {
         if (settings) {
             setIconColorType(getIconColorType(settings.theme))
@@ -190,6 +232,182 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                 }),
         [stopPlacesWithDepartures],
     )
+
+    useEffect(() => {
+        let defaultTileOrder: Item[] = []
+        if (stopPlacesWithDepartures) {
+            if (stopPlacesWithDepartures.length == prevNumberOfStopPlaces) {
+                return
+            }
+            defaultTileOrder = stopPlacesWithDepartures.map((item) => ({
+                id: item.id,
+                name: item.name,
+            }))
+        }
+        const storedTileOrder: Item[] | undefined = getFromLocalStorage(
+            boardId + '-tile-order',
+        )
+        if (
+            storedTileOrder &&
+            storedTileOrder.length === defaultTileOrder.length &&
+            isEqualUnsorted(
+                defaultTileOrder.map((item) => item.id),
+                storedTileOrder.map((item) => item.id),
+            )
+        ) {
+            setTileOrder(storedTileOrder)
+        } else {
+            setTileOrder(defaultTileOrder)
+        }
+    }, [
+        stopPlacesWithDepartures,
+        hasData,
+        settings?.showMap,
+        boardId,
+        prevNumberOfStopPlaces,
+    ])
+
+    const longPress = useLongPress(
+        () => {
+            setModalVisible(true)
+        },
+        {
+            threshold: 1000,
+            onStart: () => {
+                isCancelled.current = setTimeout(() => {
+                    setIsLongPressStarted(true)
+                }, 150)
+            },
+            onFinish: () => {
+                clearLongPressTimeout()
+            },
+            onCancel: () => {
+                clearLongPressTimeout()
+            },
+            onMove: () => {
+                clearLongPressTimeout()
+            },
+            cancelOnMovement: true,
+        },
+    )
+    function renderTile(item: TimelineData, tileItemId: string) {
+        const { groupedDepartures, name, stopId } = item
+        return (
+            <div key={tileItemId} className="timeline__stop">
+                <header className="timeline__header">
+                    <Heading2 className="timeline__heading">{name}</Heading2>
+                    {!hideWalkInfo && walkInfo ? (
+                        <div className="timeline__walking-time">
+                            {formatWalkInfo(
+                                getWalkInfoForStopPlace(walkInfo || [], stopId),
+                            )}
+                        </div>
+                    ) : undefined}
+                </header>
+                {!hideWalkInfo &&
+                getWalkInfoForStopPlace(walkInfo || [], stopId) ? (
+                    <div
+                        className="timeline__walk-marker"
+                        style={{
+                            right: walkMarkerPosition(
+                                getWalkInfoForStopPlace(walkInfo || [], stopId)
+                                    ?.walkTime || 0,
+                            ),
+                        }}
+                    >
+                        <WalkingIcon />
+                        <div className="timeline__walk-marker__line" />
+                    </div>
+                ) : null}
+                {groupedDepartures.map(([mode, departures]) => (
+                    <Fragment key={mode}>
+                        <div className="timeline__track">
+                            {departures.map(
+                                ({
+                                    id,
+                                    type,
+                                    expectedDepartureTime,
+                                    route,
+                                }) => {
+                                    const waitTime = timeUntil(
+                                        expectedDepartureTime,
+                                    )
+                                    const icon = getIcon(type, iconColorType)
+                                    return (
+                                        <div
+                                            key={id}
+                                            className="timeline__competitor"
+                                            style={{
+                                                right: competitorPosition(
+                                                    waitTime,
+                                                ),
+                                            }}
+                                        >
+                                            <div className="timeline__label">
+                                                {route}
+                                            </div>
+                                            {icon}
+                                        </div>
+                                    )
+                                },
+                            )}
+                        </div>
+                        <div className="timeline__line">
+                            {[...TICKS].reverse().map((minutes, index) => (
+                                <Tick
+                                    key={minutes}
+                                    mode={mode}
+                                    minutes={minutes}
+                                    index={index}
+                                />
+                            ))}
+                        </div>
+                    </Fragment>
+                ))}
+            </div>
+        )
+    }
+    if (window.innerWidth < BREAKPOINTS.md) {
+        if (!tileOrder) return null as any
+
+        return (
+            <DashboardWrapper
+                className="timeline"
+                history={history}
+                stopPlacesWithDepartures={stopPlacesWithDepartures}
+            >
+                <LongPressProvider value={isLongPressStarted}>
+                    <div className="timeline__body" {...longPress}>
+                        <RearrangeModal
+                            itemOrder={tileOrder}
+                            onTileOrderChanged={(item) => {
+                                setTileOrder(item)
+                                saveToLocalStorage(
+                                    boardId + '-tile-order',
+                                    item,
+                                )
+                            }}
+                            modalVisible={modalVisible}
+                            onDismiss={() => setModalVisible(false)}
+                        />
+                        <>
+                            {tileOrder.map((tileItem) => {
+                                if (stopPlacesWithDepartures) {
+                                    const stopIndex =
+                                        stopPlacesWithDepartures.findIndex(
+                                            (p) => p.id == tileItem.id,
+                                        )
+                                    const item = data[stopIndex]
+
+                                    return renderTile(item, tileItem.id)
+                                }
+                            })}
+                        </>
+                    </div>
+                </LongPressProvider>
+            </DashboardWrapper>
+        )
+    }
 
     return (
         <DashboardWrapper
