@@ -1,38 +1,38 @@
 @import '../../../assets/styles/import.scss';
 @import '../../../variables.scss';
 
-.busStop {
-    &__maptile {
-        height: 100%;
-        width: inherit;
-        background-color: var(--tavla-box-background-color);
-        color: var(--tavla-font-color);
-        flex: none;
-        overflow: hidden;
-        padding: 0;
-        margin: 0;
-        z-index: 3;
-        border-radius: 1rem;
+.busStop .maptile {
+    height: inherit;
+    width: inherit;
+    background-color: var(--tavla-box-background-color);
+    color: var(--tavla-font-color);
+    flex: none;
+    overflow: auto;
+    overflow-x: hidden;
+    padding-top: 0;
 
-        &__header {
-            display: flex;
-            justify-content: space-between;
-            float: left;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 0 2rem 0 2rem;
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        float: left;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0 2rem 0 2rem;
 
-            h2 {
-                margin: 0;
-                color: var(--tavla-font-color);
-                font-size: 32px;
-            }
+        h2 {
+            margin: 0;
+            color: var(--tavla-font-color);
+            font-size: 32px;
         }
+    }
 
-        &__header-icons {
-            display: flex;
-            align-items: center;
-            color: var(--colors-blues-blue60);
-        }
+    &__header-icons {
+        display: flex;
+        align-items: center;
+        color: var(--colors-blues-blue60);
+    }
+
+    @media (max-width: 1000px) {
+        height: 39.375rem;
     }
 }

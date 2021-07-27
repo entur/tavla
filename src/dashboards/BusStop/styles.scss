@@ -29,6 +29,8 @@
             width: 100%;
             overflow: hidden;
             margin-bottom: 1rem;
+            border-radius: 1rem;
+            z-index: 1;
         }
     }
     &__loading-screen {
@@ -61,17 +63,16 @@
 
         &__tiles {
             display: block;
-        }
 
-        .tile {
-            margin-bottom: 1rem;
-            max-height: 60vh;
-            width: 100%;
-            overflow-y: scroll;
+            .tile {
+                margin-bottom: 1rem;
+                max-height: 60vh;
+                width: 100%;
+                overflow-y: scroll;
+            }
         }
         .maptile {
-            height: 487px;
-            max-height: unset;
+            height: 60vh;
             width: 100%;
         }
         .eds-table--small {
