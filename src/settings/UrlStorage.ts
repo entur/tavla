@@ -11,7 +11,7 @@ export const DEFAULT_SETTINGS: Settings = {
     hiddenStops: [],
     hiddenRoutes: {},
     distance: DEFAULT_DISTANCE,
-    hiddenModes: [],
+    hiddenModes: ['sparkesykkel'],
     hiddenStopModes: {},
     newStations: [],
     newStops: [],
