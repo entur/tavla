@@ -272,7 +272,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
             setModalVisible(true)
         },
         {
-            threshold: 1000,
+            threshold: 750,
             onStart: () => {
                 isCancelled.current = setTimeout(() => {
                     setIsLongPressStarted(true)
