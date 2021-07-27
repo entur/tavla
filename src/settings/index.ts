@@ -49,7 +49,7 @@ export interface Settings {
 }
 
 interface SettingsSetters {
-    setSettingsAndStore: (settings: Partial<Settings>) => void
+    setSettings: (settings: Partial<Settings>) => void
     setBoardName: (boardName: string) => void
     setHiddenOperators: (hiddenOperators: ScooterOperator[]) => void
     setHiddenStations: (hiddenStations: string[]) => void
@@ -80,7 +80,7 @@ export const SettingsContext = createContext<
 >([
     null,
     {
-        setSettingsAndStore: (): void => undefined,
+        setSettings: (): void => undefined,
         setBoardName: (): void => undefined,
         setHiddenOperators: (): void => undefined,
         setHiddenStations: (): void => undefined,
@@ -118,7 +118,7 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
 }
 
 export function useSettings(): [Settings | null, SettingsSetters] {
-    const [settings, setSettings] = useState<Settings | null>(null)
+    const [settings, setLocalSettings] = useState<Settings | null>(null)
 
     const location = useLocation()
     const user = useFirebaseAuthentication()
@@ -131,7 +131,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
             location.pathname.split('/')[1] == 'tavler'
 
         if (protectedPath) {
-            setSettings(null)
+            setLocalSettings(null)
             return
         }
 
@@ -167,7 +167,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
                     })
                 }
 
-                setSettings((prevSettings) => {
+                setLocalSettings((prevSettings) => {
                     const onAdmin = location.pathname.split('/')[1] === 'admin'
                     return prevSettings && onAdmin
                         ? prevSettings
@@ -188,7 +188,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
             return
         }
 
-        setSettings({
+        setLocalSettings({
             ...DEFAULT_SETTINGS,
             ...restoreFromUrl(),
             coordinates: {
@@ -201,7 +201,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
     const set = useCallback(
         (key: string, value: FieldTypes): void => {
             const newSettings = { ...settings, [key]: value } as Settings
-            setSettings(newSettings)
+            setLocalSettings(newSettings)
 
             const id = getDocumentId()
             if (id) {
@@ -214,10 +214,10 @@ export function useSettings(): [Settings | null, SettingsSetters] {
         [settings],
     )
 
-    const setSettingsAndStore = useCallback(
+    const setSettings = useCallback(
         (newSettings: Partial<Settings>) => {
             const mergedSettings = { ...settings, ...newSettings } as Settings
-            setSettings(mergedSettings)
+            setLocalSettings(mergedSettings)
 
             const id = getDocumentId()
             if (id) {
@@ -377,7 +377,7 @@ export function useSettings(): [Settings | null, SettingsSetters] {
     )
 
     const setters = {
-        setSettingsAndStore,
+        setSettings,
         setBoardName,
         setHiddenOperators,
         setHiddenStations,

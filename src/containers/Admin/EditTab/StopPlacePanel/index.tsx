@@ -14,15 +14,8 @@ import PanelRow from './PanelRow'
 import './styles.scss'
 
 function StopPlacePanel(props: Props): JSX.Element {
-    const [
-        settings,
-        {
-            setSettingsAndStore,
-            setHiddenStops,
-            setHiddenRoutes,
-            setHiddenStopModes,
-        },
-    ] = useSettingsContext()
+    const [settings, { setSettings, setHiddenStops, setHiddenRoutes }] =
+        useSettingsContext()
 
     const {
         hiddenStopModes = {},
@@ -96,27 +89,17 @@ function StopPlacePanel(props: Props): JSX.Element {
                     hiddenStops,
                     stopPlaceId,
                 )
-                // setHiddenStops(X)
-
-                setSettingsAndStore({
+                setSettings({
                     hiddenStops: newDisabledList,
                     hiddenStopModes: newHiddenModes,
                 })
             } else {
-                setSettingsAndStore({
+                setSettings({
                     hiddenStopModes: newHiddenModes,
                 })
             }
-
-            // setHiddenModes(X)
         },
-        [
-            hiddenStopModes,
-            filteredStopPlaces,
-            setHiddenStopModes,
-            hiddenStops,
-            setSettingsAndStore,
-        ],
+        [hiddenStopModes, filteredStopPlaces, hiddenStops, setSettings],
     )
 
     if (!filteredStopPlaces.length) {
