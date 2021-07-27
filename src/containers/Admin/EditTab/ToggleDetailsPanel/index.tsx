@@ -7,7 +7,7 @@ import './styles.scss'
 import { useSettingsContext } from '../../../../settings'
 
 function ToggleDetailsPanel(): JSX.Element {
-    const [settings, { setSettings }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
     const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
 
     return (

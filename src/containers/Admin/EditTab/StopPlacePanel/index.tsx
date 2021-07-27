@@ -14,7 +14,7 @@ import PanelRow from './PanelRow'
 import './styles.scss'
 
 function StopPlacePanel(props: Props): JSX.Element {
-    const [settings, { setSettings }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
 
     const {
         hiddenStopModes = {},

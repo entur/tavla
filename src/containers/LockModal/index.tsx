@@ -24,7 +24,7 @@ interface Props {
 const LockModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const user = useFirebaseAuthentication()
 
-    const [settings, { setSettings }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
 
     useEffect(() => {
         if (

@@ -52,7 +52,7 @@ const COLS: { [key: string]: number } = {
 
 const EditTab = (): JSX.Element => {
     const [breakpoint, setBreakpoint] = useState<string>('lg')
-    const [settings, { setSettings }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
     const { newStops, newStations, hiddenModes, showMap } = settings || {}
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,

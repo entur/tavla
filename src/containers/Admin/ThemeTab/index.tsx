@@ -14,7 +14,7 @@ import { getDocumentId } from '../../../utils'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
-    const [settings, { setSettings }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
     const documentId = getDocumentId()
 
     useEffect(() => {

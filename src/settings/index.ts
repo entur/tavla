@@ -48,15 +48,14 @@ export interface Settings {
     hideWalkInfo?: boolean
 }
 
-interface SettingsSetters {
-    setSettings: (settings: Partial<Settings>) => void
-}
+type Setter = (settings: Partial<Settings>) => void
 
-export const SettingsContext = createContext<
-    [Settings | null, SettingsSetters]
->([null, { setSettings: (): void => undefined }])
+export const SettingsContext = createContext<[Settings | null, Setter]>([
+    null,
+    (): void => undefined,
+])
 
-export function useSettingsContext(): [Settings | null, SettingsSetters] {
+export function useSettingsContext(): [Settings | null, Setter] {
     return useContext(SettingsContext)
 }
 
@@ -68,7 +67,7 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     hiddenStopModes: {},
 }
 
-export function useSettings(): [Settings | null, SettingsSetters] {
+export function useSettings(): [Settings | null, Setter] {
     const [settings, setLocalSettings] = useState<Settings | null>(null)
 
     const location = useLocation()
@@ -167,5 +166,5 @@ export function useSettings(): [Settings | null, SettingsSetters] {
         [settings],
     )
 
-    return [settings, { setSettings }]
+    return [settings, setSettings]
 }

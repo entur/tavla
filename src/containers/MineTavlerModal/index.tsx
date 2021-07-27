@@ -22,7 +22,7 @@ import './styles.scss'
 const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const history = useHistory()
     const user = useFirebaseAuthentication()
-    const [settings, { setSettings }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
 
     const isLocked =
         user && !user.isAnonymous && settings?.owners?.length && open

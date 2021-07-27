@@ -10,7 +10,7 @@ import { useSettingsContext } from '../../../../settings'
 import './styles.scss'
 
 function BikePanel(props: Props): JSX.Element {
-    const [settings, { setSettings }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
     const { hiddenStations = [] } = settings || {}
 
     const { stations } = props

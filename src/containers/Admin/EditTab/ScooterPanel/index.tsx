@@ -10,7 +10,7 @@ import { useSettingsContext } from '../../../../settings'
 import './styles.scss'
 
 function ScooterPanel(): JSX.Element {
-    const [settings, { setSettings }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
     const { hiddenOperators = [] } = settings || {}
 
     const onToggleOperator = useCallback(

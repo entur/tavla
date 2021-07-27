@@ -9,7 +9,7 @@ import { useSettingsContext } from '../../../../settings'
 import '../styles.scss'
 
 const Description = (): JSX.Element => {
-    const [settings, { setSettings }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
 
     const { description, logoSize } = settings || {}
 

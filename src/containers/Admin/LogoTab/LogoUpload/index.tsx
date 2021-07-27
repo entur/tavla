@@ -15,7 +15,7 @@ const UPLOAD_ZONE_TEXT =
     'Slipp logofilen din her eller klikk for å velge fil å laste opp'
 
 const LogoUpload = (): JSX.Element => {
-    const [settings, { setSettings }] = useSettingsContext()
+    const [settings, setSettings] = useSettingsContext()
 
     const logo = settings?.logo
 
