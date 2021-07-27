@@ -69,43 +69,17 @@ function StopPlacePanel(props: Props): JSX.Element {
 
     const onToggleMode = useCallback(
         (stopPlaceId: string, mode: LegMode): void => {
-            console.log(stopPlaceId)
-            //console.log(hiddenStopModes[stopPlaceId])
-            const newHiddenModes = {
-                ...hiddenStopModes,
-                [stopPlaceId]: toggleValueInList(
-                    hiddenStopModes[stopPlaceId] || [],
-                    mode,
-                ),
-            }
-            const stopPlace = filteredStopPlaces.find(
-                (item) => item.id === stopPlaceId,
-            )
-
-            const uniqueTransportModes = Array.from(
-                new Set(stopPlace?.lines.map((line) => line.transportMode)),
-            )
-
-            if (
-                stopPlace &&
-                uniqueTransportModes.length ===
-                    newHiddenModes[stopPlaceId].length
-            ) {
-                const newDisabledList = toggleValueInList(
-                    hiddenStops,
-                    stopPlaceId,
-                )
-                setSettings({
-                    hiddenStops: newDisabledList,
-                    hiddenStopModes: newHiddenModes,
-                })
-            } else {
-                setSettings({
-                    hiddenStopModes: newHiddenModes,
-                })
-            }
+            setSettings({
+                hiddenStopModes: {
+                    ...hiddenStopModes,
+                    [stopPlaceId]: toggleValueInList(
+                        hiddenStopModes[stopPlaceId] || [],
+                        mode,
+                    ),
+                },
+            })
         },
-        [hiddenStopModes, filteredStopPlaces, hiddenStops, setSettings],
+        [hiddenStopModes, setSettings],
     )
 
     if (!filteredStopPlaces.length) {
