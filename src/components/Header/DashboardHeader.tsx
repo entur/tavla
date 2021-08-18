@@ -21,13 +21,10 @@ export function DashboardHeader(): JSX.Element | null {
         </Link>
     )
 
-    const logoDescription =
-        logoSize === '32px' &&
-        (description || 'Finn din rute på entur.no eller i Entur-appen')
     const boardDescription = (
         <span className="header__logo-wrapper__description">
-            {logo
-                ? logoDescription
+            {description
+                ? description
                 : 'Finn din rute på entur.no eller i Entur-appen'}
         </span>
     )
