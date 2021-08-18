@@ -63,7 +63,7 @@ const LogoUpload = (): JSX.Element => {
     }
 
     const handleDelete = (): void => {
-        setSettings({ logo: undefined })
+        setSettings({ logo: '' })
         handleReset()
     }
 
