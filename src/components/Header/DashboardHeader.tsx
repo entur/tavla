@@ -20,6 +20,8 @@ export function DashboardHeader(): JSX.Element | null {
             <TavlaLogo className="header__logo-wrapper__logo" />
         </Link>
     )
+        
+    const showBoardDescription = !isMobileWeb() && logoSize === '32px'
 
     const boardDescription = (
         <span className="header__logo-wrapper__description">
@@ -35,7 +37,7 @@ export function DashboardHeader(): JSX.Element | null {
             <div className="header">
                 <div className="header__logo-wrapper">
                     {headerLogo}
-                    {!isMobileWeb() ? boardDescription : null}
+                    {showBoardDescription ? boardDescription : null}
                 </div>
                 <Clock className="header__clock" />
             </div>
