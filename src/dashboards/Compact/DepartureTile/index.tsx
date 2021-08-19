@@ -44,7 +44,6 @@ const DepartureTile = ({
 }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
     const groupedDepartures = groupBy<LineData>(departures, 'route')
-    // const headerIcons = getTransportHeaderIcons(departures)
     const routes = Object.keys(groupedDepartures)
     const [settings] = useSettingsContext()
     const hideSituations = settings?.hideSituations
