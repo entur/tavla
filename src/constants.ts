@@ -9,5 +9,6 @@ export const ALL_OPERATORS = [
     ScooterOperator.TIER,
     ScooterOperator.LIME,
     ScooterOperator.ZVIPP,
+    ScooterOperator.BOLT,
 ]
 export const DEFAULT_ZOOM = 15.5
