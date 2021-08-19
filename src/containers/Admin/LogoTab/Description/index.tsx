@@ -15,7 +15,7 @@ const Description = (): JSX.Element => {
 
     const [value, setValue] = useState(description)
 
-    const debouncedValue = useDebounce(value, 1000)
+    const debouncedValue = useDebounce(value, 300)
 
     useEffect(() => {
         if (debouncedValue && description !== debouncedValue) {
