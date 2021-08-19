@@ -20,7 +20,7 @@ export function DashboardHeader(): JSX.Element | null {
             <TavlaLogo className="header__logo-wrapper__logo" />
         </Link>
     )
-        
+
     const showBoardDescription = !isMobileWeb() && logoSize === '32px'
 
     const boardDescription = (
