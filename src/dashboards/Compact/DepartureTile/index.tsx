@@ -22,7 +22,10 @@ import './styles.scss'
 import { useSettingsContext } from '../../../settings'
 import { WalkInfo } from '../../../logic/useWalkInfo'
 
-function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
+function getTransportHeaderIcons(
+    departures: LineData[],
+    iconColorType: IconColorType,
+): JSX.Element[] {
     const transportModes = unique(
         departures.map(({ type, subType }) => ({ type, subType })),
         (a, b) =>
@@ -31,7 +34,7 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     )
 
     return transportModes
-        .map(({ type, subType }) => getIcon(type, undefined, subType))
+        .map(({ type, subType }) => getIcon(type, iconColorType, subType))
         .filter(isNotNullOrUndefined)
 }
 
@@ -41,7 +44,6 @@ const DepartureTile = ({
 }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
     const groupedDepartures = groupBy<LineData>(departures, 'route')
-    const headerIcons = getTransportHeaderIcons(departures)
     const routes = Object.keys(groupedDepartures)
     const [settings] = useSettingsContext()
     const hideSituations = settings?.hideSituations
@@ -60,7 +62,7 @@ const DepartureTile = ({
     return (
         <Tile
             title={name}
-            icons={headerIcons}
+            icons={getTransportHeaderIcons(departures, iconColorType)}
             walkInfo={!hideWalkInfo ? walkInfo : undefined}
         >
             {routes.map((route) => {
