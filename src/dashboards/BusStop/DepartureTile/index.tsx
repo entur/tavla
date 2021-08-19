@@ -20,7 +20,10 @@ import { WalkInfo } from '../../../logic/useWalkInfo'
 import Tile from '../components/Tile'
 import TileRows from '../components/TileRows'
 
-function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
+function getTransportHeaderIcons(
+    departures: LineData[],
+    iconColorType: IconColorType,
+): JSX.Element[] {
     const transportModes = unique(
         departures.map(({ type, subType }) => ({ type, subType })),
         (a, b) =>
@@ -29,7 +32,7 @@ function getTransportHeaderIcons(departures: LineData[]): JSX.Element[] {
     )
 
     const transportIcons = transportModes.map(({ type, subType }) => ({
-        icon: getIcon(type, undefined, subType),
+        icon: getIcon(type, iconColorType, subType),
     }))
 
     return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
@@ -67,7 +70,6 @@ const DepartureTile = ({
     numberOfTileRows = 10,
 }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
-    const headerIcons = getTransportHeaderIcons(departures)
     const [settings] = useSettingsContext()
     const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
     const [iconColorType, setIconColorType] = useState<IconColorType>(
@@ -86,7 +88,7 @@ const DepartureTile = ({
     return (
         <Tile
             title={name}
-            icons={headerIcons}
+            icons={getTransportHeaderIcons(departures, iconColorType)}
             walkInfo={!hideWalkInfo ? walkInfo : undefined}
         >
             <Table spacing="small" fixed>
