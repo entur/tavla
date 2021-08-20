@@ -7,6 +7,16 @@ import service from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL, ALL_OPERATORS } from '../constants'
 
+enum VehicleOperator {
+    BOLT = 'YBO:Operator:bolt',
+    LIME = 'YLI:Operator:lime',
+    VOI = 'YVO:Operator:voi',
+    BERGEN_BYSYKKEL = 'YBE:Operator:bergenbysykkel',
+    KOLUMBUS_BYSYKKEL = 'YKO:Operator:kolumbusbysykkel',
+    OSLO_BYSYKKEL = 'YOS:Operator:oslobysykkel',
+    TRONDHEIM_BYSYKKEL = 'YTR:Operator:trondheimbysykkel',
+}
+
 export function countScootersByOperator(
     list: Scooter[] | null,
 ): Record<ScooterOperator, Scooter[]> | null {
@@ -24,7 +34,7 @@ export function countScootersByOperator(
     return operators
 }
 
-async function fetchScooters(
+async function fetchVehicles(
     coordinates: Coordinates,
     distance: number,
     operators: ScooterOperator[],
@@ -41,18 +51,20 @@ async function fetchScooters(
     //     operators,
     // })
 
-    const scooters = service.mobility.getVehicles({
+    const vehicles = service.mobility.getVehicles({
         lat: Number(coordinates.latitude),
         lon: Number(coordinates.longitude),
         range: distance,
         count: 50,
-        operators,
+        operators: Object.values(VehicleOperator),
         formFactors: [MobilityTypes.FormFactor.SCOOTER],
     }) as unknown as Scooter[]
-    return scooters
+
+    console.log(vehicles)
+    return vehicles
 }
 
-export default function useScooters(): Scooter[] | null {
+export default function useMobility(): Scooter[] | null {
     const [settings] = useSettingsContext()
     const [scooters, setScooters] = useState<Scooter[] | null>([])
 
@@ -75,9 +87,9 @@ export default function useScooters(): Scooter[] | null {
             return setScooters(null)
         }
 
-        fetchScooters(coordinates, distance, operators).then(setScooters)
+        fetchVehicles(coordinates, distance, operators).then(setScooters)
         const intervalId = setInterval(() => {
-            fetchScooters(coordinates, distance, operators).then(setScooters)
+            fetchVehicles(coordinates, distance, operators).then(setScooters)
         }, REFRESH_INTERVAL)
 
         return (): void => clearInterval(intervalId)
