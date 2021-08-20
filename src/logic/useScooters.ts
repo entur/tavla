@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react'
 import { ScooterOperator, Scooter, Coordinates } from '@entur/sdk'
 
+import { MobilityTypes } from '@entur/sdk'
+
 import service from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL, ALL_OPERATORS } from '../constants'
@@ -31,13 +33,23 @@ async function fetchScooters(
         return []
     }
 
-    return service.getScootersByPosition({
-        latitude: coordinates.latitude,
-        longitude: coordinates.longitude,
-        distance,
-        limit: 50,
+    // return service.getScootersByPosition({
+    //     latitude: coordinates.latitude,
+    //     longitude: coordinates.longitude,
+    //     distance,
+    //     limit: 50,
+    //     operators,
+    // })
+
+    const scooters = service.mobility.getVehicles({
+        lat: Number(coordinates.latitude),
+        lon: Number(coordinates.longitude),
+        range: distance,
+        count: 50,
         operators,
-    })
+        formFactors: [MobilityTypes.FormFactor.SCOOTER],
+    }) as unknown as Scooter[]
+    return scooters
 }
 
 export default function useScooters(): Scooter[] | null {
