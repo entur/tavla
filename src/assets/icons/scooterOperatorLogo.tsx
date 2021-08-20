@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { ScooterOperator } from '@entur/sdk'
+import { Operator } from '@entur/sdk/lib/mobility/types'
 
 import Voi from '../logos/Voi.svg'
 import Lime from '../logos/Lime.svg'
@@ -33,7 +34,7 @@ function ScooterOperatorLogo({
 }
 
 interface Props {
-    logo: ScooterOperator | null
+    logo: Operator | null
     className?: string
     size?: number
 }

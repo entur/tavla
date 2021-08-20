@@ -1,12 +1,11 @@
 import { useState, useEffect, useMemo } from 'react'
 import { ScooterOperator, Scooter, Coordinates } from '@entur/sdk'
 
-import { MobilityTypes } from '@entur/sdk'
+import { Vehicle, FormFactor } from '@entur/sdk/lib/mobility/types'
 
 import service from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL, ALL_OPERATORS } from '../constants'
-import { Vehicle } from '@entur/sdk/lib/mobility/types'
 
 enum VehicleOperator {
     BOLT = 'YBO:Operator:bolt',
@@ -39,18 +38,11 @@ async function fetchVehicles(
     coordinates: Coordinates,
     distance: number,
     operators: ScooterOperator[],
-): Promise<Scooter[]> {
+    formFactors: FormFactor[],
+): Promise<Vehicle[]> {
     if (!coordinates || !distance || !operators?.length) {
         return []
     }
-
-    // return service.getScootersByPosition({
-    //     latitude: coordinates.latitude,
-    //     longitude: coordinates.longitude,
-    //     distance,
-    //     limit: 50,
-    //     operators,
-    // })
 
     const vehicles: Promise<Vehicle[]> = service.mobility.getVehicles({
         lat: Number(coordinates.latitude),
@@ -58,16 +50,18 @@ async function fetchVehicles(
         range: distance,
         count: 50,
         operators: Object.values(VehicleOperator),
-        formFactors: [MobilityTypes.FormFactor.SCOOTER],
+        formFactors,
     })
 
     console.log(vehicles)
     return vehicles
 }
 
-export default function useMobility(): Scooter[] | null {
+export default function useMobility(
+    formFactors: FormFactor[] = [],
+): Vehicle[] | null {
     const [settings] = useSettingsContext()
-    const [scooters, setScooters] = useState<Scooter[] | null>([])
+    const [vehicles, setVehicles] = useState<Vehicle[] | null>([])
 
     const { coordinates, distance, hiddenOperators, hiddenModes } =
         settings || {}
@@ -85,16 +79,20 @@ export default function useMobility(): Scooter[] | null {
 
     useEffect(() => {
         if (!coordinates || !distance || isDisabled) {
-            return setScooters(null)
+            return setVehicles(null)
         }
 
-        fetchVehicles(coordinates, distance, operators).then(setScooters)
+        fetchVehicles(coordinates, distance, operators, formFactors).then(
+            setVehicles,
+        )
         const intervalId = setInterval(() => {
-            fetchVehicles(coordinates, distance, operators).then(setScooters)
+            fetchVehicles(coordinates, distance, operators, formFactors).then(
+                setVehicles,
+            )
         }, REFRESH_INTERVAL)
 
         return (): void => clearInterval(intervalId)
-    }, [coordinates, distance, operators, isDisabled])
+    }, [coordinates, distance, operators, isDisabled, formFactors])
 
-    return scooters
+    return vehicles
 }

@@ -1,6 +1,8 @@
 import React from 'react'
-import { BikeRentalStation, Scooter } from '@entur/sdk'
+import { BikeRentalStation } from '@entur/sdk'
 import { Loader } from '@entur/loader'
+
+import { Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import { useCounter, isDarkOrDefaultTheme } from '../../utils'
 import { useSettingsContext } from '../../settings'
@@ -79,7 +81,7 @@ function DashboardWrapper(props: Props): JSX.Element {
 interface Props {
     stopPlacesWithDepartures?: StopPlaceWithDepartures[] | null
     bikeRentalStations?: BikeRentalStation[] | null
-    scooters?: Scooter[] | null
+    scooters?: Vehicle[] | null
     className: string
     children: JSX.Element | JSX.Element[]
     history: any
