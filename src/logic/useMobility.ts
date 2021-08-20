@@ -6,6 +6,7 @@ import { MobilityTypes } from '@entur/sdk'
 import service from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL, ALL_OPERATORS } from '../constants'
+import { Vehicle } from '@entur/sdk/lib/mobility/types'
 
 enum VehicleOperator {
     BOLT = 'YBO:Operator:bolt',
@@ -51,14 +52,14 @@ async function fetchVehicles(
     //     operators,
     // })
 
-    const vehicles = service.mobility.getVehicles({
+    const vehicles: Promise<Vehicle[]> = service.mobility.getVehicles({
         lat: Number(coordinates.latitude),
         lon: Number(coordinates.longitude),
         range: distance,
         count: 50,
         operators: Object.values(VehicleOperator),
         formFactors: [MobilityTypes.FormFactor.SCOOTER],
-    }) as unknown as Scooter[]
+    })
 
     console.log(vehicles)
     return vehicles
