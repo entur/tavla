@@ -63,8 +63,8 @@ export const deleteImagefromStorage = firestoreDB
             change.before.data().logo &&
             change.after.data().logo != change.before.data().logo
         ) {
-            const path = extractPathFromUrl(change.before.data().logo)
             try {
+                const path = extractPathFromUrl(change.before.data().logo)
                 await storage().bucket().file(path).delete()
             } catch (error) {
                 console.error(error)
