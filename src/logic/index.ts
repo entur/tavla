@@ -4,4 +4,3 @@ export { default as useStopPlacesWithDepartures } from './useStopPlacesWithDepar
 export { default as useScooters } from './useMobility'
 export { default as useWalkInfo } from './useWalkInfo'
 export { default as useWeather } from './useWeather'
-export { countScootersByOperator } from './useMobility'

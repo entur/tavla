@@ -1,28 +1,11 @@
 import { useState, useEffect, useMemo } from 'react'
-import { ScooterOperator, Scooter, Coordinates } from '@entur/sdk'
+import { ScooterOperator, Coordinates } from '@entur/sdk'
 
 import { Vehicle, FormFactor } from '@entur/sdk/lib/mobility/types'
 
 import service from '../service'
 import { useSettingsContext } from '../settings'
 import { VehicleOperator, REFRESH_INTERVAL, ALL_OPERATORS } from '../constants'
-
-export function countScootersByOperator(
-    list: Scooter[] | null,
-): Record<ScooterOperator, Scooter[]> | null {
-    if (list === null) {
-        return null
-    }
-    const operators: Record<ScooterOperator, Scooter[]> = {
-        [ScooterOperator.BOLT]: [],
-        [ScooterOperator.LIME]: [],
-        [ScooterOperator.TIER]: [],
-        [ScooterOperator.VOI]: [],
-        [ScooterOperator.ZVIPP]: [],
-    }
-    list?.forEach((scooter) => operators[scooter.operator].push(scooter))
-    return operators
-}
 
 async function fetchVehicles(
     coordinates: Coordinates,
