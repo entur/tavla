@@ -51,7 +51,7 @@ function ZoomEditor(props: Props): JSX.Element {
                               longitude={sctr.lon}
                           >
                               <ScooterOperatorLogo
-                                  logo={sctr.system.operator}
+                                  operator={sctr.system.operator}
                                   size={24}
                               />
                           </Marker>

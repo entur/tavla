@@ -16,7 +16,10 @@ const ScooterMarkerTag = ({ pointCount, operator }: Props): JSX.Element =>
             </div>
         </div>
     ) : (
-        <ScooterOperatorLogo logo={operator} size={24}></ScooterOperatorLogo>
+        <ScooterOperatorLogo
+            operator={operator}
+            size={24}
+        ></ScooterOperatorLogo>
     )
 
 interface Props {

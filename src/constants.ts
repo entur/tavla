@@ -1,5 +1,3 @@
-import { ScooterOperator } from '@entur/sdk'
-
 export const WALK_SPEED = 1.4
 export const MAX_DISTANCE = 1000
 export const DEFAULT_DISTANCE = 500
@@ -14,11 +12,5 @@ export enum VehicleOperator {
     OSLO_BYSYKKEL = 'YOS:Operator:oslobysykkel',
     TRONDHEIM_BYSYKKEL = 'YTR:Operator:trondheimbysykkel',
 }
-export const ALL_OPERATORS = [
-    ScooterOperator.VOI,
-    ScooterOperator.TIER,
-    ScooterOperator.LIME,
-    ScooterOperator.ZVIPP,
-    ScooterOperator.BOLT,
-]
+export const ALL_OPERATORS = Object.values(VehicleOperator)
 export const DEFAULT_ZOOM = 15.5
