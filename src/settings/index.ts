@@ -6,12 +6,14 @@ import {
     useEffect,
 } from 'react'
 import { useLocation } from 'react-router-dom'
-import { LegMode, Coordinates, ScooterOperator } from '@entur/sdk'
+import { LegMode, Coordinates } from '@entur/sdk'
 
 import { Theme } from '../types'
 import { getSettings } from '../services/firebase'
 import { getDocumentId } from '../utils'
 import { useFirebaseAuthentication } from '../auth'
+
+import { VehicleOperator } from '../constants'
 
 import {
     persist as persistToUrl,
@@ -24,7 +26,7 @@ export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
 export interface Settings {
     boardName?: string
     coordinates?: Coordinates
-    hiddenOperators: ScooterOperator[]
+    hiddenMobilityOperators: VehicleOperator[]
     hiddenStations: string[]
     hiddenStops: string[]
     hiddenModes: Mode[]

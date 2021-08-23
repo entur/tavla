@@ -11,16 +11,19 @@ import './styles.scss'
 
 function ScooterPanel(): JSX.Element {
     const [settings, setSettings] = useSettingsContext()
-    const { hiddenOperators = [] } = settings || {}
+    const { hiddenMobilityOperators = [] } = settings || {}
 
     const onToggleOperator = useCallback(
         (event) => {
             const OperatorId = event.target.id
             setSettings({
-                hiddenOperators: toggleValueInList(hiddenOperators, OperatorId),
+                hiddenMobilityOperators: toggleValueInList(
+                    hiddenMobilityOperators,
+                    OperatorId,
+                ),
             })
         },
-        [hiddenOperators, setSettings],
+        [hiddenMobilityOperators, setSettings],
     )
 
     return (
@@ -40,7 +43,9 @@ function ScooterPanel(): JSX.Element {
                             id={operator}
                             value={operator}
                             name={operator}
-                            checked={!hiddenOperators.includes(operator)}
+                            checked={
+                                !hiddenMobilityOperators.includes(operator)
+                            }
                             onChange={onToggleOperator}
                         >
                             <span className="scooter-panel__eds-paragraph">

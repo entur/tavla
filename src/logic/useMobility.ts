@@ -36,16 +36,17 @@ export default function useMobility(
     const [settings] = useSettingsContext()
     const [vehicles, setVehicles] = useState<Vehicle[] | null>([])
 
-    const { coordinates, distance, hiddenOperators, hiddenModes } =
+    const { coordinates, distance, hiddenMobilityOperators, hiddenModes } =
         settings || {}
 
     const operators = useMemo(
         () =>
             ALL_OPERATORS.filter(
                 (operator) =>
-                    !hiddenOperators || !hiddenOperators?.includes(operator),
+                    !hiddenMobilityOperators ||
+                    !hiddenMobilityOperators?.includes(operator),
             ),
-        [hiddenOperators],
+        [hiddenMobilityOperators],
     )
 
     const isDisabled = Boolean(hiddenModes?.includes('sparkesykkel'))
