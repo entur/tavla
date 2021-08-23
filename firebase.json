@@ -1,74 +1,70 @@
 {
-  "hosting": {
-    "public": "dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ],
-    "headers": [
-      {
-        "source": "**",
+    "hosting": {
+        "public": "dist",
+        "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ],
         "headers": [
-          {
-            "key": "X-Content-Type-Options",
-            "value": "nosniff"
-          },
-          {
-            "key": "X-XSS-Protection",
-            "value": "1; mode=block"
-          },
-          {
-            "key": "Content-Security-Policy",
-            "value": "child-src 'self' blob:;default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google-analytics.com blob:; connect-src 'self' https://stats.g.doubleclick.net https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com https://*.entur.io https://*.entur.org https://*.cloudfunctions.net https://*.googleapis.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:  https://www.google.no  https://www.google.com https://*.googleapis.com https://www.google-analytics.com; object-src 'none'; frame-ancestors https:; manifest-src 'self' blob:"
-          },
-          {
-            "key": "Permissions-Policy",
-            "value": "geolocation=(self);"
-          },
-          {
-            "key": "Referrer-Policy",
-            "value": "strict-origin-when-cross-origin"
-          }
+            {
+                "source": "**",
+                "headers": [
+                    {
+                        "key": "X-Content-Type-Options",
+                        "value": "nosniff"
+                    },
+                    {
+                        "key": "X-XSS-Protection",
+                        "value": "1; mode=block"
+                    },
+                    {
+                        "key": "Content-Security-Policy",
+                        "value": "child-src 'self' blob:;default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google-analytics.com blob:; connect-src 'self' https://stats.g.doubleclick.net https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com https://*.entur.io https://*.entur.org https://*.cloudfunctions.net https://*.googleapis.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:  https://www.google.no  https://www.google.com https://*.googleapis.com https://www.google-analytics.com; object-src 'none'; frame-ancestors https:; manifest-src 'self' blob:"
+                    },
+                    {
+                        "key": "Permissions-Policy",
+                        "value": "geolocation=(self);"
+                    },
+                    {
+                        "key": "Referrer-Policy",
+                        "value": "strict-origin-when-cross-origin"
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
-  "storage": {
-    "rules": "storage.rules"
-  },
-  "functions": {
-    "predeploy": "npm --prefix \"$RESOURCE_DIR\" run build",
-    "source": "functions"
-  },
-  "emulators": {
-    "auth": {
-      "port": 9099
-    },
-    "functions": {
-      "port": 5001
     },
     "firestore": {
-      "port": 8080
-    },
-    "hosting": {
-      "port": 5000
+        "rules": "firestore.rules",
+        "indexes": "firestore.indexes.json"
     },
     "storage": {
-      "port": 9199
+        "rules": "storage.rules"
     },
-    "ui": {
-      "enabled": true
+    "functions": {
+        "predeploy": "npm --prefix \"$RESOURCE_DIR\" run build",
+        "source": "functions"
+    },
+    "emulators": {
+        "auth": {
+            "port": 9099
+        },
+        "functions": {
+            "port": 5001
+        },
+        "firestore": {
+            "port": 8080
+        },
+        "hosting": {
+            "port": 5000
+        },
+        "storage": {
+            "port": 9199
+        },
+        "ui": {
+            "enabled": true
+        }
     }
-  }
 }
