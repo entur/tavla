@@ -1,6 +1,5 @@
 import { https, firestore as firestoreDB } from 'firebase-functions'
 import { firestore, auth, initializeApp, storage } from 'firebase-admin'
-//import { extractPathFromUrl } from './utils'
 
 initializeApp()
 
