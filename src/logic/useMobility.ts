@@ -22,7 +22,7 @@ async function fetchVehicles(
         lon: Number(coordinates.longitude),
         range: distance,
         count: 50,
-        operators: Object.values(VehicleOperator),
+        operators,
         formFactors: formFactors ? formFactors : undefined,
     })
 
