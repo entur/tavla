@@ -58,10 +58,7 @@ export const getImageUploadToken = https.onCall(async (data, context) => {
 export const deleteImagefromStorage = firestoreDB
     .document('settings/{settingsID}')
     .onUpdate(async (change, context) => {
-        if (
-            change.before.data().logo &&
-            change.after.data().logo != change.before.data().logo
-        ) {
+        if (change.before.data().logo && !change.after.data().logo) {
             try {
                 const path = `images/${context.params.settingsID}`
                 await storage().bucket().file(path).delete()
