@@ -15,7 +15,7 @@
         "format:check": "prettier . --check",
         "lint": "npm run eslint && npm run stylelint && npm run format:check",
         "start": "webpack-dev-server",
-        "start:emulators": "webpack-dev-server --env development",
+        "start:emulators": "cd functions && npm run build && cd .. && webpack-dev-server --env development",
         "clean": "rm -rf dist/",
         "build:prod": "npm run clean && webpack --mode production --env prod",
         "build:staging": "npm run clean && webpack --mode production --env staging",
