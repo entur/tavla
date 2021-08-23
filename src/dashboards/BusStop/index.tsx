@@ -4,6 +4,8 @@ import { useRouteMatch } from 'react-router'
 import { useLongPress } from 'use-long-press/dist'
 import { Loader } from '@entur/loader'
 
+import { FormFactor } from '@entur/sdk/lib/mobility/types'
+
 import { usePrevious, isEqualUnsorted } from '../../utils'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
@@ -110,7 +112,7 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
         ? stopPlacesWithDepartures.length
         : 0
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
-    const scooters = useScooters()
+    const scooters = useScooters([FormFactor.SCOOTER])
     const bikeRentalStations = useBikeRentalStations()
 
     if (stopPlacesWithDepartures) {

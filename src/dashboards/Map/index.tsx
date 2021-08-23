@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { FormFactor } from '@entur/sdk/lib/mobility/types'
+
 import DashboardWrapper from '../../containers/DashboardWrapper'
 import {
     useStopPlacesWithDepartures,
@@ -15,13 +17,14 @@ import { useSettingsContext } from '../../settings'
 import { DEFAULT_ZOOM } from '../../constants'
 
 import DepartureTag from './DepartureTag'
+
 const MapDashboard = ({ history }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const bikeRentalStations = useBikeRentalStations()
     const walkTimes = useWalkInfo(stopPlacesWithDepartures)
-    const scooters = useScooters()
+    const scooters = useScooters([FormFactor.SCOOTER])
     const HEADER_MARGIN = 16
     //Used to calculate the height of the viewport for the map
     const headerHeight =

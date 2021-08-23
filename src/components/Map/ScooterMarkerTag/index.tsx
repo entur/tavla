@@ -1,7 +1,7 @@
 import React from 'react'
 import { ScooterIcon } from '@entur/icons'
 
-import { ScooterOperator } from '@entur/sdk'
+import { Operator } from '@entur/sdk/lib/mobility/types'
 
 import ScooterOperatorLogo from '../../../assets/icons/scooterOperatorLogo'
 
@@ -21,7 +21,7 @@ const ScooterMarkerTag = ({ pointCount, operator }: Props): JSX.Element =>
 
 interface Props {
     pointCount: number
-    operator: ScooterOperator | null
+    operator: Operator | null
 }
 
 export default ScooterMarkerTag

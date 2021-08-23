@@ -11,6 +11,8 @@ import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
+import { FormFactor } from '@entur/sdk/lib/mobility/types'
+
 import { useSettingsContext, Mode } from '../../../settings'
 
 import {
@@ -95,7 +97,7 @@ const EditTab = (): JSX.Element => {
                 .map(({ id }) => id),
         [nearestPlaces],
     )
-    const scooters = useScooters()
+    const scooters = useScooters([FormFactor.SCOOTER])
 
     useEffect(() => {
         let ignoreResponse = false

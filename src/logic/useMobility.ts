@@ -39,7 +39,7 @@ async function fetchVehicles(
     coordinates: Coordinates,
     distance: number,
     operators: ScooterOperator[],
-    formFactors: FormFactor[],
+    formFactors: FormFactor[] | undefined,
 ): Promise<Vehicle[]> {
     if (!coordinates || !distance || !operators?.length) {
         return []
@@ -51,7 +51,7 @@ async function fetchVehicles(
         range: distance,
         count: 50,
         operators: Object.values(VehicleOperator),
-        formFactors,
+        formFactors: formFactors ? formFactors : undefined,
     })
 
     console.log(vehicles)
@@ -59,7 +59,7 @@ async function fetchVehicles(
 }
 
 export default function useMobility(
-    formFactors: FormFactor[] = [],
+    formFactors: FormFactor[] | undefined = undefined,
 ): Vehicle[] | null {
     const [settings] = useSettingsContext()
     const [vehicles, setVehicles] = useState<Vehicle[] | null>([])
@@ -93,7 +93,7 @@ export default function useMobility(
         }, REFRESH_INTERVAL)
 
         return (): void => clearInterval(intervalId)
-    }, [coordinates, distance, operators, isDisabled, formFactors])
+    }, [coordinates, distance, operators, isDisabled])
 
     return vehicles
 }
