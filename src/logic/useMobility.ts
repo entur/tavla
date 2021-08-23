@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { ScooterOperator, Coordinates } from '@entur/sdk'
+import { Coordinates } from '@entur/sdk'
 
 import { Vehicle, FormFactor } from '@entur/sdk/lib/mobility/types'
 
@@ -10,7 +10,7 @@ import { VehicleOperator, REFRESH_INTERVAL, ALL_OPERATORS } from '../constants'
 async function fetchVehicles(
     coordinates: Coordinates,
     distance: number,
-    operators: ScooterOperator[],
+    operators: VehicleOperator[],
     formFactors: FormFactor[] | undefined,
 ): Promise<Vehicle[]> {
     if (!coordinates || !distance || !operators?.length) {
