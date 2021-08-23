@@ -11,6 +11,7 @@ enum VehicleOperator {
     BOLT = 'YBO:Operator:bolt',
     LIME = 'YLI:Operator:lime',
     VOI = 'YVO:Operator:voi',
+    TIER = 'YVO:Operator:tier',
     BERGEN_BYSYKKEL = 'YBE:Operator:bergenbysykkel',
     KOLUMBUS_BYSYKKEL = 'YKO:Operator:kolumbusbysykkel',
     OSLO_BYSYKKEL = 'YOS:Operator:oslobysykkel',
