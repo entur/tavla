@@ -27,7 +27,7 @@ export function TileRows({
                 const icon = getIcon(data.type, iconColorType, data.subType)
                 const subLabel = createTileSubLabel(data)
                 return (
-                    <TableRow key={data.id}>
+                    <TableRow key={data.id} className="tilerows">
                         <DataCell>
                             <div className="tilerows__icon">{icon}</div>
                         </DataCell>
