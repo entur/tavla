@@ -53,6 +53,39 @@ npm run serve         # Uses the .env.prod config file
 npm run serve:staging # Uses the .env.staging config file
 ```
 
+### Develop with local firebase emulators
+
+If you have already configured the firebase CLI you can skip the first two steps.
+
+1. Install Firebase CLI
+
+```
+npm i -g firebase-tools
+
+```
+
+2. Sign in to use the CLI
+
+```
+firebase login
+```
+
+3. Fire up the emulators with
+
+```
+firebase emulators:start
+```
+
+Your terminal should now tell you where you can find the interface for your emulated firebase instances. Usually it's at [localhost:4000](loclahost:4000).
+
+4.  From the root directory, fire up the web app using your emulators with
+
+```
+npm run local
+```
+
+Your web app should now be available at [localhost:9090](localhost:9090) showing a banner at the bottom indicating that you are running in emulator mode.
+
 ## Code Quality
 
 This project uses TypeScript, so make sure all files you add are .ts files and that TypeScript compiles with:
