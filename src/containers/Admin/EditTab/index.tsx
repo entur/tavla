@@ -9,6 +9,7 @@ import { BikeRentalStation } from '@entur/sdk'
 import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
+import { Button } from '@entur/button'
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
 import { useSettingsContext, Mode } from '../../../settings'
@@ -28,6 +29,14 @@ import {
     saveToLocalStorage,
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
+
+import { getSettings } from '../../../services/firebase'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/functions'
+import 'firebase/storage'
+type DocumentReference = firebase.firestore.DocumentReference
+type QuerySnapshot = firebase.firestore.QuerySnapshot
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
@@ -285,6 +294,20 @@ const EditTab = (): JSX.Element => {
         ],
     }
 
+    const [customUrlInput, setCustomUrlInput] = useState('')
+
+    const handleCustomUrlChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+    ): void => {
+        setCustomUrlInput(event.target.value)
+        console.log(customUrlInput)
+    }
+
+    const tryAddCustomUrl = () => {
+        const doc: DocumentReference = getSettings(customUrlInput)
+        console.log(doc.get())
+    }
+
     return (
         <div className="edit-tab">
             <div>
@@ -343,6 +366,26 @@ const EditTab = (): JSX.Element => {
                     setBreakpoint(newBreakpoint)
                 }}
             >
+                <div key="customUrlPanel" className="edit-tab__tile">
+                    <div className="edit-tab__header">
+                        <Heading2>Selvvalgt Tavla-link</Heading2>
+                    </div>
+                    <TextField
+                        size="medium"
+                        placeholder="Skriv inn Tavla-linken du ønsker"
+                        variant="info"
+                        onChange={handleCustomUrlChange}
+                    ></TextField>
+                    <Button
+                        onClick={tryAddCustomUrl}
+                        width="auto"
+                        variant="secondary"
+                        size="medium"
+                    >
+                        Lagre
+                    </Button>
+                </div>
+
                 <div key="busStopPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kollektiv</Heading2>
