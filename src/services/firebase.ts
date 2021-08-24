@@ -70,6 +70,22 @@ export const createSettings = async (
 ): Promise<DocumentReference> =>
     firebase.firestore().collection(SETTINGS_COLLECTION).add(settings)
 
+export const createSettingsWithId = async (
+    settings: Settings,
+    docId: string,
+): Promise<void> => {
+    firebase
+        .firestore()
+        .collection(SETTINGS_COLLECTION)
+        .doc(docId)
+        .set({ ...settings })
+        .catch(() => {
+            console.error(
+                'Error creating document',
+                `${SETTINGS_COLLECTION}/${docId}`,
+            )
+        })
+}
 export const uploadLogo = async (
     image: File,
     onProgress: (progress: number) => void,

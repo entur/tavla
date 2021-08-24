@@ -304,6 +304,7 @@ export interface Suggestion {
     }
 }
 
+// TODO: update to be less restrictive. e.g. '-' should be allowed
 // Matches the ID in an URL, if it exists.
 const ID_REGEX = /^\/(?:t|(?:admin))\/(\w+)(?:\/)?/
 

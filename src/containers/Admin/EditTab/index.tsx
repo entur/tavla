@@ -19,6 +19,7 @@ import {
     toggleValueInList,
     isNotNullOrUndefined,
     isMobileWeb,
+    getDocumentId,
 } from '../../../utils'
 
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
@@ -30,7 +31,11 @@ import {
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
 
-import { getSettings } from '../../../services/firebase'
+import {
+    getSettings,
+    deleteDocument,
+    createSettingsWithId,
+} from '../../../services/firebase'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/functions'
@@ -47,6 +52,7 @@ import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
 
 import './styles.scss'
+import copy from 'copy-to-clipboard'
 
 const isMobile = isMobileWeb()
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -304,8 +310,27 @@ const EditTab = (): JSX.Element => {
     }
 
     const tryAddCustomUrl = () => {
-        const doc: DocumentReference = getSettings(customUrlInput)
-        console.log(doc.get())
+        const docRef: DocumentReference = getSettings(customUrlInput)
+        docRef
+            .get()
+            .then((doc) => {
+                if (doc.exists) {
+                    console.log('This document ID already exists.')
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log('Document ID available!')
+                    if (settings) {
+                        createSettingsWithId(settings, customUrlInput)
+                        // TODO: old document should be deleted after new one is created
+                        // TODO: user should be redirected to new page afterwards
+                    } else {
+                        console.log('No current settings exist')
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log('Error getting document:', error)
+            })
     }
 
     return (
