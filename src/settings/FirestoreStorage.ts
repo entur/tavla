@@ -1,4 +1,3 @@
-import { Settings } from './index'
 import firebase from 'firebase/app'
 
 import {
@@ -7,6 +6,8 @@ import {
     deleteDocument,
     updateMultipleSettingsFields,
 } from '../services/firebase'
+
+import { Settings } from './index'
 
 export type FieldTypes =
     | string
