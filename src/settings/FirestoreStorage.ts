@@ -1,9 +1,11 @@
+import { Settings } from './index'
 import firebase from 'firebase/app'
 
 import {
-    updateSettingField,
+    updateSingleSettingsField,
     removeFromArray,
     deleteDocument,
+    updateMultipleSettingsFields,
 } from '../services/firebase'
 
 export type FieldTypes =
@@ -15,16 +17,20 @@ export type FieldTypes =
     | { [key: string]: string[] }
     | null
 
-export function persist(
+export function persistSingleField(
     docId: string,
     fieldId: string,
     fieldValue: FieldTypes,
 ): void {
-    updateSettingField(docId, fieldId, fieldValue)
+    updateSingleSettingsField(docId, fieldId, fieldValue)
+}
+
+export function persistMultipleFields(docId: string, settings: Settings): void {
+    updateMultipleSettingsFields(docId, settings)
 }
 
 export function removeOwners(docId: string): void {
-    persist(docId, 'owners', [])
+    persistSingleField(docId, 'owners', [])
 }
 
 export function removeFromOwners(docId: string, uid: string): void {
