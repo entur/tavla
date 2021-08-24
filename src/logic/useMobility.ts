@@ -1,16 +1,16 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Coordinates } from '@entur/sdk'
 
-import { Vehicle, FormFactor } from '@entur/sdk/lib/mobility/types'
+import { Vehicle, FormFactor, Operator } from '@entur/sdk/lib/mobility/types'
 
 import service from '../service'
 import { useSettingsContext } from '../settings'
-import { VehicleOperator, REFRESH_INTERVAL, ALL_OPERATORS } from '../constants'
+import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATORS } from '../constants'
 
 async function fetchVehicles(
     coordinates: Coordinates,
     distance: number,
-    operators: VehicleOperator[],
+    operators: Operator[],
     formFactors: FormFactor[] | undefined,
 ): Promise<Vehicle[]> {
     if (!coordinates || !distance || !operators?.length) {
@@ -22,7 +22,7 @@ async function fetchVehicles(
         lon: Number(coordinates.longitude),
         range: distance,
         count: 50,
-        operators,
+        operators: operators.map((operator) => operator.id),
         formFactors: formFactors ? formFactors : undefined,
     })
 
@@ -40,10 +40,10 @@ export default function useMobility(
 
     const operators = useMemo(
         () =>
-            ALL_OPERATORS.filter(
+            ALL_ACTIVE_OPERATORS.filter(
                 (operator) =>
                     !hiddenMobilityOperators ||
-                    !hiddenMobilityOperators?.includes(operator),
+                    !hiddenMobilityOperators?.includes(operator.id),
             ),
         [hiddenMobilityOperators],
     )

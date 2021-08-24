@@ -3,7 +3,7 @@ import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
 
-import { ALL_OPERATORS } from '../../../../constants'
+import { ALL_ACTIVE_OPERATORS } from '../../../../constants'
 import { toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 
@@ -33,24 +33,23 @@ function ScooterPanel(): JSX.Element {
                     Sparkesykkel krever visningstype som støtter kart.
                 </Label>
                 <br />
-                {ALL_OPERATORS.map((operator) => (
+                {ALL_ACTIVE_OPERATORS.map((operator) => (
                     <div
                         key={operator + 'btn'}
                         className="scooter-panel__buttons"
                     >
                         <FilterChip
-                            key={operator}
-                            id={operator}
-                            value={operator}
-                            name={operator}
+                            key={operator.id}
+                            id={operator.id}
+                            value={operator.id}
+                            name={operator.id}
                             checked={
-                                !hiddenMobilityOperators.includes(operator)
+                                !hiddenMobilityOperators.includes(operator.id)
                             }
                             onChange={onToggleOperator}
                         >
                             <span className="scooter-panel__eds-paragraph">
-                                {operator.charAt(0).toUpperCase() +
-                                    operator.slice(1)}
+                                {operator.name.translation[0].value}
                             </span>
                         </FilterChip>
                     </div>

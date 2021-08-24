@@ -13,8 +13,6 @@ import { getSettings } from '../services/firebase'
 import { getDocumentId } from '../utils'
 import { useFirebaseAuthentication } from '../auth'
 
-import { VehicleOperator } from '../constants'
-
 import {
     persist as persistToUrl,
     restore as restoreFromUrl,
@@ -26,7 +24,7 @@ export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
 export interface Settings {
     boardName?: string
     coordinates?: Coordinates
-    hiddenMobilityOperators: VehicleOperator[]
+    hiddenMobilityOperators: string[]
     hiddenStations: string[]
     hiddenStops: string[]
     hiddenModes: Mode[]
