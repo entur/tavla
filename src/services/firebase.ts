@@ -29,7 +29,7 @@ export const getBoardsOnSnapshot = (
         .onSnapshot(observer)
 }
 
-export const updateSettingField = async (
+export const updateSingleSettingsField = async (
     docId: string,
     fieldId: string,
     fieldValue: FieldTypes,
@@ -40,6 +40,19 @@ export const updateSettingField = async (
         .doc(docId)
         .update({
             [fieldId]: fieldValue,
+            lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
+        })
+
+export const updateMultipleSettingsFields = async (
+    docId: string,
+    settings: Settings,
+): Promise<void> =>
+    firebase
+        .firestore()
+        .collection(SETTINGS_COLLECTION)
+        .doc(docId)
+        .update({
+            ...settings,
             lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
         })
 
