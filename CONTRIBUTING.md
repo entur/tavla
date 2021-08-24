@@ -70,15 +70,7 @@ npm i -g firebase-tools
 firebase login
 ```
 
-3. Initialize emulators
-
-```
-firebase init emulators
-```
-
-Follow the prompt and make sure that the following services are toggled: authentication, functions, firestore, hosting and storage. Use the default ports.
-
-4. Fire up the emulators with
+3. Fire up the emulators with
 
 ```
 firebase emulators:start
@@ -86,7 +78,7 @@ firebase emulators:start
 
 Your terminal should now tell you where you can find the interface for your emulated firebase instances. Usually it's at [localhost:4000](loclahost:4000).
 
-From the root directory, fire up the web app using your emulators with
+4.  From the root directory, fire up the web app using your emulators with
 
 ```
 npm run local
