@@ -26,7 +26,6 @@ async function fetchVehicles(
         formFactors: formFactors ? formFactors : undefined,
     })
 
-    console.log(vehicles)
     return vehicles
 }
 
