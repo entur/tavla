@@ -1,6 +1,6 @@
 import React from 'react'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { BikeRentalStation, Scooter } from '@entur/sdk'
+import { BikeRentalStation } from '@entur/sdk'
 
 import { Vehicle } from '@entur/sdk/lib/mobility/types'
 
