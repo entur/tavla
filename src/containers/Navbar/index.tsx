@@ -21,14 +21,14 @@ export default function Navbar(): JSX.Element {
     const { addToast } = useToast()
 
     const login = (
-        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+        event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     ): void => {
         event.preventDefault()
         setDisplayLoginModal(true)
     }
 
     const logout = (
-        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+        event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     ): void => {
         event.preventDefault()
         firebase.auth().signOut()
