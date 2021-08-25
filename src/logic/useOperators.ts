@@ -11,12 +11,13 @@ export default function useOperators(ids?: string[]): Operator[] {
     const [operators, setOperators] = useState<Operator[]>([])
 
     useEffect(() => {
-        fetchOperators().then((op) => {
-            setOperators(op)
-
+        fetchOperators().then((data) => {
             if (ids && ids.length > 0) {
-                setOperators(op.filter((op2) => ids.includes(op2.id)))
+                return setOperators(
+                    data.filter((operator) => ids.includes(operator.id)),
+                )
             }
+            setOperators(data)
         })
     }, [])
 
