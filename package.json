@@ -55,7 +55,7 @@
         "@types/supercluster": "^5.0.2",
         "connect-history-api-fallback": "^1.6.0",
         "copy-to-clipboard": "^3.3.1",
-        "date-fns": "^2.22.1",
+        "date-fns": "^2.23.0",
         "firebase": "^8.6.7",
         "lodash.debounce": "^4.0.8",
         "lz-string": "^1.4.4",
