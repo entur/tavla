@@ -22,6 +22,7 @@ export default function useOperators(ids?: string[]): Operator[] {
             })
             // eslint-disable-next-line no-console
             .catch((error) => console.error(error))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return operators

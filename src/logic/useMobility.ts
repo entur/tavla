@@ -69,6 +69,7 @@ export default function useMobility(
         }, REFRESH_INTERVAL)
 
         return (): void => clearInterval(intervalId)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [coordinates, distance, operators, isDisabled])
 
     return vehicles
