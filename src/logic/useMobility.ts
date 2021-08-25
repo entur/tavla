@@ -6,8 +6,8 @@ import { Vehicle, FormFactor, Operator } from '@entur/sdk/lib/mobility/types'
 import service from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../constants'
+
 import useOperators from './useOperators'
-import { FileSystemCredentials } from 'aws-sdk'
 
 async function fetchVehicles(
     coordinates: Coordinates,
@@ -41,13 +41,15 @@ export default function useMobility(
     const { coordinates, distance, hiddenMobilityOperators, hiddenModes } =
         settings || {}
 
-    const operators = useMemo(() => {
-        return allOperators.filter(
-            (operator) =>
-                !hiddenMobilityOperators ||
-                !hiddenMobilityOperators?.includes(operator.id),
-        )
-    }, [hiddenMobilityOperators, allOperators])
+    const operators = useMemo(
+        () =>
+            allOperators.filter(
+                (operator) =>
+                    !hiddenMobilityOperators ||
+                    !hiddenMobilityOperators?.includes(operator.id),
+            ),
+        [hiddenMobilityOperators, allOperators],
+    )
 
     const isDisabled = Boolean(hiddenModes?.includes('sparkesykkel'))
 
