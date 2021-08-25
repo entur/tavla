@@ -42,7 +42,6 @@ export default function useMobility(
         settings || {}
 
     const operators = useMemo(() => {
-        console.log(allOperators)
         return allOperators.filter(
             (operator) =>
                 !hiddenMobilityOperators ||
