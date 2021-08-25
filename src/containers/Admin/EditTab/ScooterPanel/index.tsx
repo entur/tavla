@@ -3,14 +3,16 @@ import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
 
-import { ALL_ACTIVE_OPERATORS } from '../../../../constants'
 import { toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
+import useOperators from '../../../../logic/useOperators'
+import { ALL_ACTIVE_OPERATOR_IDS } from '../../../../constants'
 
 import './styles.scss'
 
 function ScooterPanel(): JSX.Element {
     const [settings, setSettings] = useSettingsContext()
+    const operators = useOperators(Object.values(ALL_ACTIVE_OPERATOR_IDS))
     const { hiddenMobilityOperators = [] } = settings || {}
 
     const onToggleOperator = useCallback(
@@ -33,9 +35,9 @@ function ScooterPanel(): JSX.Element {
                     Sparkesykkel krever visningstype som støtter kart.
                 </Label>
                 <br />
-                {ALL_ACTIVE_OPERATORS.map((operator) => (
+                {operators.map((operator, index) => (
                     <div
-                        key={operator + 'btn'}
+                        key={operator + 'btn' + index.toString()}
                         className="scooter-panel__buttons"
                     >
                         <FilterChip
