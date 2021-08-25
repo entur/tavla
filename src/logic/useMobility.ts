@@ -57,9 +57,11 @@ export default function useMobility(
             return setVehicles(null)
         }
 
-        fetchVehicles(coordinates, distance, operators, formFactors).then(
-            setVehicles,
-        )
+        fetchVehicles(coordinates, distance, operators, formFactors)
+            .then(setVehicles)
+            // eslint-disable-next-line no-console
+            .catch((error) => console.error(error))
+
         const intervalId = setInterval(() => {
             fetchVehicles(coordinates, distance, operators, formFactors).then(
                 setVehicles,
