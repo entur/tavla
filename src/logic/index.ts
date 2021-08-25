@@ -1,6 +1,7 @@
 export { default as useBikeRentalStations } from './useBikeRentalStations'
 export { default as useNearestPlaces } from './useNearestPlaces'
 export { default as useStopPlacesWithDepartures } from './useStopPlacesWithDepartures'
-export { default as useScooters } from './useMobility'
+export { default as useMobility } from './useMobility'
 export { default as useWalkInfo } from './useWalkInfo'
 export { default as useWeather } from './useWeather'
+export { default as useOperators } from './useOperators'

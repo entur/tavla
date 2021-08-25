@@ -7,7 +7,7 @@ import service from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../constants'
 
-import useOperators from './useOperators'
+import { useOperators } from './'
 
 async function fetchVehicles(
     coordinates: Coordinates,

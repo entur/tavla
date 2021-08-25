@@ -7,7 +7,7 @@ import {
     useStopPlacesWithDepartures,
     useBikeRentalStations,
     useWalkInfo,
-    useScooters,
+    useMobility,
 } from '../../logic'
 
 import MapView from '../../components/Map'
@@ -24,7 +24,7 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const bikeRentalStations = useBikeRentalStations()
     const walkTimes = useWalkInfo(stopPlacesWithDepartures)
-    const scooters = useScooters([FormFactor.SCOOTER])
+    const scooters = useMobility([FormFactor.SCOOTER])
     const HEADER_MARGIN = 16
     //Used to calculate the height of the viewport for the map
     const headerHeight =

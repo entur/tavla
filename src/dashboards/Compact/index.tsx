@@ -12,7 +12,7 @@ import RearrangeModal, { Item } from '../../components/RearrangeModal'
 import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
-    useScooters,
+    useMobility,
     useWalkInfo,
 } from '../../logic'
 
@@ -114,7 +114,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     )
 
     const bikeRentalStations = useBikeRentalStations()
-    const scooters = useScooters([FormFactor.SCOOTER])
+    const scooters = useMobility([FormFactor.SCOOTER])
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 

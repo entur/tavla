@@ -24,7 +24,7 @@ import {
 
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearestPlaces, useScooters } from '../../../logic'
+import { useNearestPlaces, useMobility } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
 import {
     saveToLocalStorage,
@@ -97,7 +97,7 @@ const EditTab = (): JSX.Element => {
                 .map(({ id }) => id),
         [nearestPlaces],
     )
-    const scooters = useScooters([FormFactor.SCOOTER])
+    const scooters = useMobility([FormFactor.SCOOTER])
 
     useEffect(() => {
         let ignoreResponse = false

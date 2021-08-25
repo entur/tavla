@@ -12,7 +12,7 @@ import DashboardWrapper from '../../containers/DashboardWrapper'
 import { DEFAULT_ZOOM } from '../../constants'
 import {
     useStopPlacesWithDepartures,
-    useScooters,
+    useMobility,
     useWalkInfo,
     useBikeRentalStations,
 } from '../../logic'
@@ -112,7 +112,7 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
         ? stopPlacesWithDepartures.length
         : 0
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
-    const scooters = useScooters([FormFactor.SCOOTER])
+    const scooters = useMobility([FormFactor.SCOOTER])
     const bikeRentalStations = useBikeRentalStations()
 
     if (stopPlacesWithDepartures) {
