@@ -1,11 +1,8 @@
 import React from 'react'
 
-import {
-    DragDropContext,
-    Droppable,
-    Draggable,
-    DropResult,
-} from 'react-beautiful-dnd'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+
+import type { DropResult } from 'react-beautiful-dnd'
 
 import { Modal } from '@entur/modal'
 import { PrimaryButton } from '@entur/button'

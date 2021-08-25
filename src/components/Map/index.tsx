@@ -4,7 +4,7 @@ import React, { useState, memo, useRef } from 'react'
 import ReactMapGL, { InteractiveMap, Marker } from 'react-map-gl'
 import useSupercluster from 'use-supercluster'
 
-import { ClusterProperties } from 'supercluster'
+import type { ClusterProperties } from 'supercluster'
 
 import PositionPin from '../../assets/icons/positionPin'
 
