@@ -32,10 +32,8 @@ import {
 } from '../../../settings/LocalStorage'
 
 import {
-    getSettings,
-    deleteDocument,
-    createSettingsWithId,
-    updateSettingField,
+    copySettingsToNewId,
+    setIdToBeDeleted,
 } from '../../../services/firebase'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
@@ -306,41 +304,24 @@ const EditTab = (): JSX.Element => {
     const handleCustomUrlChange = (
         event: React.ChangeEvent<HTMLInputElement>,
     ): void => {
+        if (event.currentTarget.value.match(/[^A-Za-z0-9æøåÆØÅ_-]/g)) {
+            event.currentTarget.value = event.currentTarget.value.replace(
+                /[^A-Za-z0-9æøåÆØÅ_-]/g,
+                '',
+            )
+            // TODO: add feedback for illegal input
+        }
         setCustomUrlInput(event.target.value)
     }
 
     const tryAddCustomUrl = () => {
-        const docRef: DocumentReference = getSettings(customUrlInput)
-        const docToDelete = getDocumentId() as string
-        docRef
-            .get()
-            .then((doc) => {
-                if (doc.exists) {
-                    console.info(
-                        'This Tavla-ID already exists. No new ID created',
-                    )
-                } else {
-                    if (settings) {
-                        updateSettingField(docToDelete, 'delete', true)
-                        console.log(docToDelete + ' has been updated.')
-                        createSettingsWithId(settings, customUrlInput)
-                        console.log(
-                            'Settings with id ' + customUrlInput + ' created.',
-                        )
-                        // window.location.pathname = '/admin/' + customUrlInput
-                        // IN-PROGRESS: old document should be deleted after new one is created
-                        // TODO: user should be redirected to new page afterwards
-                        // TODO: remember to update Regex-rules for id
-                    } else {
-                        console.error(
-                            "Error: No current settings exist. Can't create new Tavla-ID.",
-                        )
-                    }
-                }
-            })
-            .catch((error) => {
-                console.error('Error getting document:', error)
-            })
+        const currentDoc = getDocumentId() as string
+        copySettingsToNewId(customUrlInput, settings).then((success) => {
+            if (success) {
+                setIdToBeDeleted(currentDoc)
+                history.replaceState({}, '', customUrlInput)
+            }
+        })
     }
 
     return (

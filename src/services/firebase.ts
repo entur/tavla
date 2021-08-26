@@ -78,7 +78,6 @@ export const deleteDocumentsSetToBeDeleted = async (): Promise<void> =>
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                console.log(doc.id + ' should be deleted')
                 deleteDocument(doc.id)
             })
         })
@@ -150,4 +149,39 @@ export const uploadLogo = async (
                 })
         },
     )
+}
+
+export const copySettingsToNewId = (
+    newDocId: string,
+    settings: Settings | null,
+): Promise<boolean> => {
+    const newDocRef: DocumentReference = getSettings(newDocId)
+    const currentDoc = getDocumentId() as string
+    return newDocRef
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                console.info('This Tavla-ID already exists. No new ID created') // TODO: better user feedback needed
+                return false
+            } else {
+                if (settings) {
+                    createSettingsWithId(settings, newDocId)
+                    console.info('new Tavla-ID created with id ' + newDocId)
+                    return true
+                } else {
+                    console.error(
+                        "Error: No current settings exist. Can't create new Tavla-ID.",
+                    )
+                    return false
+                }
+            }
+        })
+        .catch((error) => {
+            console.error('Error copying to new Tavla-ID', error)
+            return false
+        })
+}
+
+export const setIdToBeDeleted = (docId: string) => {
+    updateSettingField(docId, 'delete', true)
 }
