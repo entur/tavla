@@ -6,13 +6,12 @@ import { Label } from '@entur/typography'
 import { toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 import { useOperators } from '../../../../logic'
-import { ALL_ACTIVE_OPERATOR_IDS } from '../../../../constants'
 
 import './styles.scss'
 
 function ScooterPanel(): JSX.Element {
     const [settings, setSettings] = useSettingsContext()
-    const operators = useOperators(Object.values(ALL_ACTIVE_OPERATOR_IDS))
+    const operators = useOperators()
     const { hiddenMobilityOperators = [] } = settings || {}
 
     const onToggleOperator = useCallback(

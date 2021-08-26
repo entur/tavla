@@ -2,27 +2,25 @@ import { useEffect, useState } from 'react'
 import { Operator } from '@entur/sdk/lib/mobility/types'
 
 import service from '../service'
+import { ALL_ACTIVE_OPERATOR_IDS } from '../constants'
 
 async function fetchOperators(): Promise<Operator[]> {
     return service.mobility.getOperators()
 }
 
-export default function useOperators(ids?: string[]): Operator[] {
+export default function useOperators(): Operator[] {
     const [operators, setOperators] = useState<Operator[]>([])
 
     useEffect(() => {
         fetchOperators()
             .then((data) => {
-                if (ids && ids.length > 0) {
-                    return setOperators(
-                        data.filter((operator) => ids.includes(operator.id)),
-                    )
-                }
-                setOperators(data)
+                const active = Object.values(ALL_ACTIVE_OPERATOR_IDS)
+                setOperators(
+                    data.filter((operator) => active.includes(operator.id)),
+                )
             })
             // eslint-disable-next-line no-console
             .catch((error) => console.error(error))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return operators
