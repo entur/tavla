@@ -17,7 +17,11 @@ import {
     persist as persistToUrl,
     restore as restoreFromUrl,
 } from './UrlStorage'
-import { persist as persistToFirebase, FieldTypes } from './FirestoreStorage'
+import {
+    persistSingleField as persistSingleFieldToFirebase,
+    persistMultipleFields as persistMultipleFieldsToFirebase,
+    FieldTypes,
+} from './FirestoreStorage'
 
 export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
 
@@ -112,7 +116,11 @@ export function useSettings(): [Settings | null, Setter] {
                 if (editAccess) {
                     Object.entries(DEFAULT_SETTINGS).forEach(([key, value]) => {
                         if (data[key as keyof Settings] === undefined) {
-                            persistToFirebase(id, key, value as FieldTypes)
+                            persistSingleFieldToFirebase(
+                                id,
+                                key,
+                                value as FieldTypes,
+                            )
                         }
                     })
                 }
@@ -155,9 +163,7 @@ export function useSettings(): [Settings | null, Setter] {
 
             const id = getDocumentId()
             if (id) {
-                Object.entries(mergedSettings).map(([key, value]) => {
-                    persistToFirebase(id, key, value)
-                })
+                persistMultipleFieldsToFirebase(id, mergedSettings)
                 return
             }
 

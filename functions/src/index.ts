@@ -1,5 +1,5 @@
-import { https } from 'firebase-functions'
-import { firestore, auth, initializeApp } from 'firebase-admin'
+import { https, firestore as firestoreDB } from 'firebase-functions'
+import { firestore, auth, initializeApp, storage } from 'firebase-admin'
 
 initializeApp()
 
@@ -54,3 +54,17 @@ export const getImageUploadToken = https.onCall(async (data, context) => {
 
     return { uploadToken }
 })
+
+export const deleteImagefromStorage = firestoreDB
+    .document('settings/{settingsID}')
+    .onUpdate(async (change, context) => {
+        if (change.before.data().logo && !change.after.data().logo) {
+            try {
+                const path = `images/${context.params.settingsID}`
+                await storage().bucket().file(path).delete()
+            } catch (error) {
+                console.error(error)
+                throw error
+            }
+        }
+    })

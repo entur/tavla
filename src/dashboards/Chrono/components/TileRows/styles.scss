@@ -2,7 +2,7 @@
 @import '../../../../variables.scss';
 
 .chrono .tilerows {
-    border-bottom: 2px solid var(--tavla-border-color);
+    border-bottom: 2px solid var(--tavla-border-color) !important;
     padding: 1rem;
 
     &__icon {
