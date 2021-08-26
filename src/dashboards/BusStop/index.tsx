@@ -112,7 +112,7 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
         ? stopPlacesWithDepartures.length
         : 0
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
-    const scooters = useMobility([FormFactor.SCOOTER])
+    const scooters = useMobility(FormFactor.SCOOTER)
     const bikeRentalStations = useBikeRentalStations()
 
     if (stopPlacesWithDepartures) {

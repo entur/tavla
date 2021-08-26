@@ -13,7 +13,7 @@ async function fetchVehicles(
     coordinates: Coordinates,
     distance: number,
     operators: Operator[],
-    formFactors: FormFactor[] | undefined,
+    formFactor: FormFactor | undefined,
 ): Promise<Vehicle[]> {
     if (!coordinates || !distance || !operators?.length) {
         return []
@@ -25,15 +25,13 @@ async function fetchVehicles(
         range: distance,
         count: 50,
         operators: operators.map((operator) => operator.id),
-        formFactors: formFactors ? formFactors : undefined,
+        formFactors: formFactor ? [formFactor] : undefined,
     })
 
     return vehicles
 }
 
-export default function useMobility(
-    formFactors: FormFactor[] | undefined = undefined,
-): Vehicle[] | null {
+export default function useMobility(formFactor?: FormFactor): Vehicle[] | null {
     const [settings] = useSettingsContext()
     const allOperators = useOperators(Object.values(ALL_ACTIVE_OPERATOR_IDS))
     const [vehicles, setVehicles] = useState<Vehicle[] | null>([])
@@ -58,20 +56,19 @@ export default function useMobility(
             return setVehicles(null)
         }
 
-        fetchVehicles(coordinates, distance, operators, formFactors)
+        fetchVehicles(coordinates, distance, operators, formFactor)
             .then(setVehicles)
             // eslint-disable-next-line no-console
             .catch((error) => console.error(error))
 
         const intervalId = setInterval(() => {
-            fetchVehicles(coordinates, distance, operators, formFactors).then(
+            fetchVehicles(coordinates, distance, operators, formFactor).then(
                 setVehicles,
             )
         }, REFRESH_INTERVAL)
 
         return (): void => clearInterval(intervalId)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [coordinates, distance, operators, isDisabled])
+    }, [coordinates, distance, operators, isDisabled, formFactor])
 
     return vehicles
 }

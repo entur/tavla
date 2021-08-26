@@ -103,7 +103,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
 
     const bikeRentalStations = useBikeRentalStations()
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
-    const scooters = useMobility([FormFactor.SCOOTER])
+    const scooters = useMobility(FormFactor.SCOOTER)
 
     const hasData = Boolean(
         bikeRentalStations?.length ||

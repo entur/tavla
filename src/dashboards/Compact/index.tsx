@@ -114,7 +114,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     )
 
     const bikeRentalStations = useBikeRentalStations()
-    const scooters = useMobility([FormFactor.SCOOTER])
+    const scooters = useMobility(FormFactor.SCOOTER)
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 

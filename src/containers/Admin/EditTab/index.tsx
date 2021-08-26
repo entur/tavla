@@ -97,7 +97,7 @@ const EditTab = (): JSX.Element => {
                 .map(({ id }) => id),
         [nearestPlaces],
     )
-    const scooters = useMobility([FormFactor.SCOOTER])
+    const scooters = useMobility(FormFactor.SCOOTER)
 
     useEffect(() => {
         let ignoreResponse = false
