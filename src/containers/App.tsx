@@ -32,6 +32,7 @@ import ThemeProvider from './ThemeWrapper/ThemeProvider'
 
 import MyBoards from './MyBoards'
 import './styles.scss'
+import { deleteDocumentsSetToBeDeleted } from '../services/firebase'
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)
@@ -149,6 +150,8 @@ const Content = (): JSX.Element => {
     const user = useFirebaseAuthentication()
     const settings = useSettings()
     const location = useLocation()
+
+    deleteDocumentsSetToBeDeleted()
 
     const isOnTavle = !['/privacy', '/tavler'].includes(location.pathname)
 

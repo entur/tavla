@@ -63,7 +63,25 @@ export const removeFromArray = async (
         })
 
 export const deleteDocument = async (docId: string): Promise<void> =>
-    firebase.firestore().collection(SETTINGS_COLLECTION).doc(docId).delete()
+    firebase
+        .firestore()
+        .collection(SETTINGS_COLLECTION)
+        .doc(docId)
+        .delete()
+        .catch((error) => console.info('Error: Failed to delete document'))
+
+export const deleteDocumentsSetToBeDeleted = async (): Promise<void> =>
+    firebase
+        .firestore()
+        .collection(SETTINGS_COLLECTION)
+        .where('delete', '==', true)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                console.log(doc.id + ' should be deleted')
+                deleteDocument(doc.id)
+            })
+        })
 
 export const createSettings = async (
     settings: Settings,

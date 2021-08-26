@@ -35,6 +35,7 @@ import {
     getSettings,
     deleteDocument,
     createSettingsWithId,
+    updateSettingField,
 } from '../../../services/firebase'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
@@ -306,30 +307,39 @@ const EditTab = (): JSX.Element => {
         event: React.ChangeEvent<HTMLInputElement>,
     ): void => {
         setCustomUrlInput(event.target.value)
-        console.log(customUrlInput)
     }
 
     const tryAddCustomUrl = () => {
         const docRef: DocumentReference = getSettings(customUrlInput)
+        const docToDelete = getDocumentId() as string
         docRef
             .get()
             .then((doc) => {
                 if (doc.exists) {
-                    console.log('This document ID already exists.')
+                    console.info(
+                        'This Tavla-ID already exists. No new ID created',
+                    )
                 } else {
-                    // doc.data() will be undefined in this case
-                    console.log('Document ID available!')
                     if (settings) {
+                        updateSettingField(docToDelete, 'delete', true)
+                        console.log(docToDelete + ' has been updated.')
                         createSettingsWithId(settings, customUrlInput)
-                        // TODO: old document should be deleted after new one is created
+                        console.log(
+                            'Settings with id ' + customUrlInput + ' created.',
+                        )
+                        // window.location.pathname = '/admin/' + customUrlInput
+                        // IN-PROGRESS: old document should be deleted after new one is created
                         // TODO: user should be redirected to new page afterwards
+                        // TODO: remember to update Regex-rules for id
                     } else {
-                        console.log('No current settings exist')
+                        console.error(
+                            "Error: No current settings exist. Can't create new Tavla-ID.",
+                        )
                     }
                 }
             })
             .catch((error) => {
-                console.log('Error getting document:', error)
+                console.error('Error getting document:', error)
             })
     }
 
