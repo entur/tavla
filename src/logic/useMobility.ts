@@ -13,7 +13,7 @@ async function fetchVehicles(
     coordinates: Coordinates,
     distance: number,
     operators: Operator[],
-    formFactor: FormFactor | undefined,
+    formFactor?: FormFactor,
 ): Promise<Vehicle[]> {
     if (!coordinates || !distance || !operators?.length) {
         return []
