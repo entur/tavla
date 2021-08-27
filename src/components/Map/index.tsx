@@ -1,10 +1,12 @@
-import { BikeRentalStation, Scooter } from '@entur/sdk'
+import { BikeRentalStation } from '@entur/sdk'
 import React, { useState, memo, useRef } from 'react'
 
 import ReactMapGL, { InteractiveMap, Marker } from 'react-map-gl'
 import useSupercluster from 'use-supercluster'
 
 import type { ClusterProperties } from 'supercluster'
+
+import { Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import PositionPin from '../../assets/icons/positionPin'
 
@@ -35,12 +37,12 @@ const Map = ({
         minZoom: 13.5,
     })
     const mapRef = useRef<InteractiveMap>(null)
-    const scooterpoints = scooters?.map((scooter: Scooter) => ({
+    const scooterpoints = scooters?.map((scooter: Vehicle) => ({
         type: 'Feature' as const,
         properties: {
             cluster: false,
             scooterId: scooter.id,
-            scooterOperator: scooter.operator,
+            scooterOperator: scooter.system.operator,
         },
         geometry: {
             type: 'Point' as const,
@@ -222,7 +224,7 @@ const Map = ({
 interface Props {
     stopPlaces?: StopPlaceWithDepartures[] | null
     bikeRentalStations?: BikeRentalStation[] | null
-    scooters?: Scooter[] | null
+    scooters?: Vehicle[] | null
     walkTimes?: Array<{ stopId: string; walkTime: number }> | null
     interactive: boolean
     mapStyle?: string | undefined

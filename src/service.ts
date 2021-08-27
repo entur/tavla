@@ -17,6 +17,7 @@ export default createEnturService({
     hosts: {
         journeyPlanner: process.env.JOURNEYPLANNER_HOST,
         geocoder: process.env.GEOCODER_HOST,
+        mobility: process.env.MOBILITY_HOST,
     },
 })
 

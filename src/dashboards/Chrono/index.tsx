@@ -4,10 +4,12 @@ import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useLongPress } from 'use-long-press/dist'
 import { useRouteMatch } from 'react-router'
 
+import { FormFactor } from '@entur/sdk/lib/mobility/types'
+
 import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
-    useScooters,
+    useMobility,
     useWalkInfo,
 } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
@@ -101,7 +103,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
 
     const bikeRentalStations = useBikeRentalStations()
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
-    const scooters = useScooters()
+    const scooters = useMobility(FormFactor.SCOOTER)
 
     const hasData = Boolean(
         bikeRentalStations?.length ||

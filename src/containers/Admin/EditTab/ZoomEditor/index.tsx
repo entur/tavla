@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react'
 import ReactMapGL, { Marker } from 'react-map-gl'
 
-import { Scooter } from '@entur/sdk'
+import { Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import { Slider } from '../../../../components'
 import { DEFAULT_ZOOM } from '../../../../constants'
@@ -51,7 +51,7 @@ function ZoomEditor(props: Props): JSX.Element {
                               longitude={sctr.lon}
                           >
                               <ScooterOperatorLogo
-                                  logo={sctr.operator}
+                                  operator={sctr.system.operator}
                                   size={24}
                               />
                           </Marker>
@@ -72,7 +72,7 @@ function ZoomEditor(props: Props): JSX.Element {
 interface Props {
     zoom: number
     onZoomUpdated: (newZoom: number) => void
-    scooters: Scooter[] | null
+    scooters: Vehicle[] | null
 }
 
 export default memo<Props>(ZoomEditor)

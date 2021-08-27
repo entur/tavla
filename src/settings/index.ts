@@ -6,7 +6,7 @@ import {
     useEffect,
 } from 'react'
 import { useLocation } from 'react-router-dom'
-import { LegMode, Coordinates, ScooterOperator } from '@entur/sdk'
+import { LegMode, Coordinates } from '@entur/sdk'
 
 import { Theme } from '../types'
 import { getSettings } from '../services/firebase'
@@ -28,7 +28,7 @@ export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
 export interface Settings {
     boardName?: string
     coordinates?: Coordinates
-    hiddenOperators: ScooterOperator[]
+    hiddenMobilityOperators: string[]
     hiddenStations: string[]
     hiddenStops: string[]
     hiddenModes: Mode[]
