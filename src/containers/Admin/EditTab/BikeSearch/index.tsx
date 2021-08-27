@@ -23,10 +23,18 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
     const [stations, setStations] = useState<BikeRentalStation[]>([])
 
     useEffect(() => {
+        let isMounted = true
         if (position) {
             service
                 .getBikeRentalStationsByPosition(position, 100000)
-                .then(setStations)
+                .then((data) => {
+                    if (isMounted) {
+                        setStations(data)
+                    }
+                })
+        }
+        return () => {
+            isMounted = false
         }
     }, [position])
 
