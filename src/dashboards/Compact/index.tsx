@@ -5,12 +5,14 @@ import { useLongPress } from 'use-long-press/dist'
 import { useRouteMatch } from 'react-router'
 import { Loader } from '@entur/loader'
 
+import { FormFactor } from '@entur/sdk/lib/mobility/types'
+
 import RearrangeModal, { Item } from '../../components/RearrangeModal'
 
 import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
-    useScooters,
+    useMobility,
     useWalkInfo,
 } from '../../logic'
 
@@ -112,7 +114,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     )
 
     const bikeRentalStations = useBikeRentalStations()
-    const scooters = useScooters()
+    const scooters = useMobility(FormFactor.SCOOTER)
 
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
