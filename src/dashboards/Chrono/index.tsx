@@ -240,10 +240,10 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                 modalVisible={modalVisible}
                                 onDismiss={() => setModalVisible(false)}
                             />
-                            {tileOrder.map((item) => {
+                            {tileOrder.map((item, index) => {
                                 if (item.id == 'map') {
                                     return hasData && settings?.showMap ? (
-                                        <div key={item.id}>
+                                        <div key={index}>
                                             <MapTile
                                                 scooters={scooters}
                                                 stopPlaces={
@@ -273,7 +273,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                 } else if (item.id == 'city-bike') {
                                     return bikeRentalStations &&
                                         anyBikeRentalStations ? (
-                                        <div key={item.id}>
+                                        <div key={index}>
                                             <BikeTile
                                                 stations={bikeRentalStations}
                                             />
@@ -287,9 +287,9 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                             (p) => p.id == item.id,
                                         )
                                     return (
-                                        <div key={item.id}>
+                                        <div key={index}>
                                             <DepartureTile
-                                                key={item.id}
+                                                key={index}
                                                 stopPlaceWithDepartures={
                                                     stopPlacesWithDepartures[
                                                         stopIndex
