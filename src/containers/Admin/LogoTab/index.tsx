@@ -20,6 +20,7 @@ import SizePicker from './SizePicker'
 import Description from './Description'
 
 import './styles.scss'
+import CustomURL from './CustomURL'
 
 const Requirements = (): JSX.Element => (
     <>
@@ -111,6 +112,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 </GridItem>
                 <GridItem small={12} medium={12} large={6}>
                     <Description />
+                    <CustomURL />
                 </GridItem>
             </GridContainer>
         </div>

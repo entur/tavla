@@ -39,8 +39,6 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/functions'
 import 'firebase/storage'
-type DocumentReference = firebase.firestore.DocumentReference
-type QuerySnapshot = firebase.firestore.QuerySnapshot
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
@@ -51,7 +49,6 @@ import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
 
 import './styles.scss'
-import copy from 'copy-to-clipboard'
 
 const isMobile = isMobileWeb()
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -299,31 +296,6 @@ const EditTab = (): JSX.Element => {
         ],
     }
 
-    const [customUrlInput, setCustomUrlInput] = useState('')
-
-    const handleCustomUrlChange = (
-        event: React.ChangeEvent<HTMLInputElement>,
-    ): void => {
-        if (event.currentTarget.value.match(/[^A-Za-z0-9æøåÆØÅ_-]/g)) {
-            event.currentTarget.value = event.currentTarget.value.replace(
-                /[^A-Za-z0-9æøåÆØÅ_-]/g,
-                '',
-            )
-            // TODO: add feedback for illegal input
-        }
-        setCustomUrlInput(event.target.value)
-    }
-
-    const tryAddCustomUrl = () => {
-        const currentDoc = getDocumentId() as string
-        copySettingsToNewId(customUrlInput, settings).then((success) => {
-            if (success) {
-                setIdToBeDeleted(currentDoc)
-                history.replaceState({}, '', customUrlInput)
-            }
-        })
-    }
-
     return (
         <div className="edit-tab">
             <div>
@@ -382,26 +354,6 @@ const EditTab = (): JSX.Element => {
                     setBreakpoint(newBreakpoint)
                 }}
             >
-                <div key="customUrlPanel" className="edit-tab__tile">
-                    <div className="edit-tab__header">
-                        <Heading2>Selvvalgt Tavla-link</Heading2>
-                    </div>
-                    <TextField
-                        size="medium"
-                        placeholder="Skriv inn Tavla-linken du ønsker"
-                        variant="info"
-                        onChange={handleCustomUrlChange}
-                    ></TextField>
-                    <Button
-                        onClick={tryAddCustomUrl}
-                        width="auto"
-                        variant="secondary"
-                        size="medium"
-                    >
-                        Lagre
-                    </Button>
-                </div>
-
                 <div key="busStopPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kollektiv</Heading2>

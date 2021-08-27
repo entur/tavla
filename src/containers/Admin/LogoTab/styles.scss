@@ -5,6 +5,7 @@
     color: var(--tavla-label-font-color);
 }
 .logo-grid {
+    padding-bottom: 5rem;
     // The design system overrides this when using contrast, but we still want it.
     .eds-form-control-wrapper--disabled {
         background-color: #e9e9e9;
@@ -30,6 +31,23 @@
         margin-top: 0;
         line-height: 1;
         margin-bottom: 1.5rem;
+    }
+
+    .customUrl {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+
+        .errorMessage {
+            color: var(--tavla-failure-font-color);
+        }
+
+        .succsessMessage {
+            color: var(--tavla-succsess-font-color);
+        }
+
+        .eds-form-control__prepend {
+            color: #888888; // This is hardcoded since variable references doesn't seem to work for dark theme
+        }
     }
 
     .eds-form-component--radio__container {
@@ -91,10 +109,6 @@
         input::placeholder {
             color: var(--tavla-input-placeholder-color);
         }
-    }
-    // Før denne
-    .logo-grid .eds-form-control-wrapper--disabled {
-        background-color: var(--tavla-input-disabled-background-color);
     }
 
     .eds-form-component--radio__container

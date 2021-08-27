@@ -63,12 +63,7 @@ export const removeFromArray = async (
         })
 
 export const deleteDocument = async (docId: string): Promise<void> =>
-    firebase
-        .firestore()
-        .collection(SETTINGS_COLLECTION)
-        .doc(docId)
-        .delete()
-        .catch((error) => console.info('Error: Failed to delete document'))
+    firebase.firestore().collection(SETTINGS_COLLECTION).doc(docId).delete()
 
 export const deleteDocumentsSetToBeDeleted = async (): Promise<void> =>
     firebase
@@ -161,12 +156,10 @@ export const copySettingsToNewId = (
         .get()
         .then((doc) => {
             if (doc.exists) {
-                console.info('This Tavla-ID already exists. No new ID created') // TODO: better user feedback needed
                 return false
             } else {
                 if (settings) {
                     createSettingsWithId(settings, newDocId)
-                    console.info('new Tavla-ID created with id ' + newDocId)
                     return true
                 } else {
                     console.error(
