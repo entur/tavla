@@ -289,10 +289,10 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
             cancelOnMovement: true,
         },
     )
-    function renderTile(item: TimelineData, key: number) {
+    function renderTile(item: TimelineData, tileItemId: string) {
         const { groupedDepartures, name, stopId } = item
         return (
-            <div key={key} className="timeline__stop">
+            <div key={tileItemId} className="timeline__stop">
                 <header className="timeline__header">
                     <Heading2 className="timeline__heading">{name}</Heading2>
                     {!hideWalkInfo && walkInfo ? (
@@ -318,21 +318,23 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                         <div className="timeline__walk-marker__line" />
                     </div>
                 ) : null}
-                {groupedDepartures.map(([mode, departures], key2) => (
-                    <Fragment key={key2}>
+                {groupedDepartures.map(([mode, departures]) => (
+                    <Fragment key={mode}>
                         <div className="timeline__track">
                             {departures.map(
-                                (
-                                    { type, expectedDepartureTime, route },
-                                    key3,
-                                ) => {
+                                ({
+                                    id,
+                                    type,
+                                    expectedDepartureTime,
+                                    route,
+                                }) => {
                                     const waitTime = timeUntil(
                                         expectedDepartureTime,
                                     )
                                     const icon = getIcon(type, iconColorType)
                                     return (
                                         <div
-                                            key={key3}
+                                            key={id}
                                             className="timeline__competitor"
                                             style={{
                                                 right: competitorPosition(
@@ -388,7 +390,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                             onDismiss={() => setModalVisible(false)}
                         />
                         <>
-                            {tileOrder.map((tileItem, key) => {
+                            {tileOrder.map((tileItem) => {
                                 if (stopPlacesWithDepartures) {
                                     const stopIndex =
                                         stopPlacesWithDepartures.findIndex(
@@ -396,7 +398,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                         )
                                     const item = data[stopIndex]
 
-                                    return renderTile(item, key)
+                                    return renderTile(item, tileItem.id)
                                 }
                             })}
                         </>
@@ -413,8 +415,8 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
             <div className="timeline__body">
-                {data.map(({ stopId, name, groupedDepartures }, key) => (
-                    <div key={key} className="timeline__stop">
+                {data.map(({ stopId, name, groupedDepartures }) => (
+                    <div key={stopId} className="timeline__stop">
                         <header className="timeline__header">
                             <Heading2 className="timeline__heading">
                                 {name}
@@ -447,18 +449,16 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                 <div className="timeline__walk-marker__line" />
                             </div>
                         ) : null}
-                        {groupedDepartures.map(([mode, departures], key2) => (
-                            <Fragment key={key2}>
+                        {groupedDepartures.map(([mode, departures]) => (
+                            <Fragment key={mode}>
                                 <div className="timeline__track">
                                     {departures.map(
-                                        (
-                                            {
-                                                type,
-                                                expectedDepartureTime,
-                                                route,
-                                            },
-                                            key3,
-                                        ) => {
+                                        ({
+                                            id,
+                                            type,
+                                            expectedDepartureTime,
+                                            route,
+                                        }) => {
                                             const waitTime = timeUntil(
                                                 expectedDepartureTime,
                                             )
@@ -468,7 +468,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                             )
                                             return (
                                                 <div
-                                                    key={key3}
+                                                    key={id}
                                                     className="timeline__competitor"
                                                     style={{
                                                         right: competitorPosition(
@@ -490,7 +490,7 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
                                         .reverse()
                                         .map((minutes, index) => (
                                             <Tick
-                                                key={index}
+                                                key={minutes}
                                                 mode={mode}
                                                 minutes={minutes}
                                                 index={index}
