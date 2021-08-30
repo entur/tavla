@@ -6,5 +6,6 @@ export const ALL_ACTIVE_OPERATOR_IDS = {
     LIME: 'YLI:Operator:lime',
     VOI: 'YVO:Operator:voi',
     TIER: 'YTI:Operator:Tier',
+    BOLT: 'YBO:Operator:bolt',
 }
 export const DEFAULT_ZOOM = 15.5
