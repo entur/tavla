@@ -91,12 +91,6 @@ export const createSettingsWithId = async (
         .collection(SETTINGS_COLLECTION)
         .doc(docId)
         .set({ ...settings })
-        .catch(() => {
-            console.error(
-                'Error creating document',
-                `${SETTINGS_COLLECTION}/${docId}`,
-            )
-        })
 }
 export const uploadLogo = async (
     image: File,
@@ -151,30 +145,22 @@ export const copySettingsToNewId = (
     settings: Settings | null,
 ): Promise<boolean> => {
     const newDocRef: DocumentReference = getSettings(newDocId)
-    const currentDoc = getDocumentId() as string
     return newDocRef
         .get()
-        .then((doc) => {
-            if (doc.exists) {
+        .then((document) => {
+            if (document.exists) {
                 return false
             } else {
                 if (settings) {
                     createSettingsWithId(settings, newDocId)
                     return true
                 } else {
-                    console.error(
-                        "Error: No current settings exist. Can't create new Tavla-ID.",
-                    )
                     return false
                 }
             }
         })
-        .catch((error) => {
-            console.error('Error copying to new Tavla-ID', error)
-            return false
-        })
+        .catch(() => false)
 }
 
-export const setIdToBeDeleted = (docId: string) => {
+export const setIdToBeDeleted = (docId: string): Promise<void> =>
     updateSettingField(docId, 'delete', true)
-}

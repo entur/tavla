@@ -35,7 +35,7 @@ enum inputFeedbackClass {
 }
 
 const CustomURL = (): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
+    const settings = useSettingsContext()
 
     const [customUrlInput, setCustomUrlInput] = useState('')
     const [feedbackMessage, setFeedbackMessage] = useState(
@@ -66,7 +66,7 @@ const CustomURL = (): JSX.Element => {
             handleFailedInputVisuals(inputFeedback.EMPTY_STRING)
             return
         }
-        copySettingsToNewId(customUrlInput, settings).then((success) => {
+        copySettingsToNewId(customUrlInput, settings[0]).then((success) => {
             if (success) {
                 setIdToBeDeleted(currentDoc)
                 handleNewIdVisuals()
@@ -84,9 +84,9 @@ const CustomURL = (): JSX.Element => {
         setCustomUrlInput('')
     }
 
-    const handleFailedInputVisuals = (inputFeedback: inputFeedback) => {
+    const handleFailedInputVisuals = (feedback: inputFeedback) => {
         setFeedbackMeessageClass(inputFeedbackClass.FAILURE)
-        setFeedbackMessage(inputFeedback)
+        setFeedbackMessage(feedback)
     }
 
     return (

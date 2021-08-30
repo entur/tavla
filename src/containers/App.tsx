@@ -8,6 +8,7 @@ import PWAPrompt from 'react-ios-pwa-prompt'
 import { SettingsContext, useSettings } from '../settings'
 import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
+import { deleteDocumentsSetToBeDeleted } from '../services/firebase'
 
 import Compact from '../dashboards/Compact'
 import Chrono from '../dashboards/Chrono'
@@ -31,8 +32,8 @@ import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
 import ThemeProvider from './ThemeWrapper/ThemeProvider'
 
 import MyBoards from './MyBoards'
+
 import './styles.scss'
-import { deleteDocumentsSetToBeDeleted } from '../services/firebase'
 
 analytics.initialize('UA-108877193-6')
 analytics.set('anonymizeIp', true)

@@ -152,10 +152,10 @@ export function useSettings(): [Settings | null, Setter] {
             const mergedSettings = { ...settings, ...newSettings } as Settings
             setLocalSettings(mergedSettings)
 
-            const id = getDocumentId()
-            if (id) {
+            const docId = getDocumentId()
+            if (docId) {
                 Object.entries(mergedSettings).map(([key, value]) => {
-                    persistToFirebase(id, key, value)
+                    persistToFirebase(docId, key, value)
                 })
                 return
             }
