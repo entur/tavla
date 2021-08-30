@@ -104,18 +104,18 @@ const EditTab = (): JSX.Element => {
 
         const ids = [...newStops, ...nearestStopPlaceIds]
 
-        getStopPlacesWithLines(ids.map((id) => id.replace(/-\d+$/, ''))).then(
-            (resultingStopPlaces) => {
-                if (ignoreResponse) return
+        getStopPlacesWithLines(
+            ids.map((id: string) => id.replace(/-\d+$/, '')),
+        ).then((resultingStopPlaces) => {
+            if (ignoreResponse) return
 
-                setStopPlaces(
-                    resultingStopPlaces.map((s, index) => ({
-                        ...s,
-                        id: ids[index],
-                    })),
-                )
-            },
-        )
+            setStopPlaces(
+                resultingStopPlaces.map((s, index) => ({
+                    ...s,
+                    id: ids[index],
+                })),
+            )
+        })
 
         return (): void => {
             ignoreResponse = true

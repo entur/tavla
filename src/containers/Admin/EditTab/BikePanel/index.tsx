@@ -50,7 +50,6 @@ function BikePanel(props: Props): JSX.Element {
             <Checkbox
                 id="check-all-stop-places-bike"
                 name="check-all-stop-places-bike"
-                label="Velg alle"
                 onChange={onChooseAllPressed}
                 checked={!hiddenStations.length}
             >
@@ -60,7 +59,6 @@ function BikePanel(props: Props): JSX.Element {
                 <Checkbox
                     key={id}
                     id={id}
-                    label={name}
                     name={name}
                     checked={!hiddenStations.includes(id)}
                     onChange={onToggleStation}
