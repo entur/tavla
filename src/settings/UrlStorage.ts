@@ -7,7 +7,7 @@ import { Settings } from './index'
 
 export const DEFAULT_SETTINGS: Settings = {
     hiddenStations: [],
-    hiddenOperators: [],
+    hiddenMobilityOperators: [],
     hiddenStops: [],
     hiddenRoutes: {},
     distance: DEFAULT_DISTANCE,

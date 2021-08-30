@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react'
 
-import { Checkbox, TravelSwitch, TravelSwitchProps } from '@entur/form'
+import { Checkbox, TravelSwitch } from '@entur/form'
+import type { TravelSwitchProps } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
 import { LegMode } from '@entur/sdk'
 

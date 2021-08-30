@@ -6,7 +6,7 @@ import {
     useEffect,
 } from 'react'
 import { useLocation } from 'react-router-dom'
-import { LegMode, Coordinates, ScooterOperator } from '@entur/sdk'
+import { LegMode, Coordinates } from '@entur/sdk'
 
 import { Theme } from '../types'
 import { getSettings } from '../services/firebase'
@@ -17,14 +17,18 @@ import {
     persist as persistToUrl,
     restore as restoreFromUrl,
 } from './UrlStorage'
-import { persist as persistToFirebase, FieldTypes } from './FirestoreStorage'
+import {
+    persistSingleField as persistSingleFieldToFirebase,
+    persistMultipleFields as persistMultipleFieldsToFirebase,
+    FieldTypes,
+} from './FirestoreStorage'
 
 export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
 
 export interface Settings {
     boardName?: string
     coordinates?: Coordinates
-    hiddenOperators: ScooterOperator[]
+    hiddenMobilityOperators: string[]
     hiddenStations: string[]
     hiddenStops: string[]
     hiddenModes: Mode[]
@@ -111,7 +115,11 @@ export function useSettings(): [Settings | null, Setter] {
                 if (editAccess) {
                     Object.entries(DEFAULT_SETTINGS).forEach(([key, value]) => {
                         if (data[key as keyof Settings] === undefined) {
-                            persistToFirebase(id, key, value as FieldTypes)
+                            persistSingleFieldToFirebase(
+                                id,
+                                key,
+                                value as FieldTypes,
+                            )
                         }
                     })
                 }
@@ -154,9 +162,7 @@ export function useSettings(): [Settings | null, Setter] {
 
             const docId = getDocumentId()
             if (docId) {
-                Object.entries(mergedSettings).map(([key, value]) => {
-                    persistToFirebase(docId, key, value)
-                })
+                persistMultipleFieldsToFirebase(docId, mergedSettings)
                 return
             }
 

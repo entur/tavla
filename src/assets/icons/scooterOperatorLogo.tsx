@@ -1,39 +1,35 @@
 import React from 'react'
 
-import { ScooterOperator } from '@entur/sdk'
+import { Operator } from '@entur/sdk/lib/mobility/types'
 
 import Voi from '../logos/Voi.svg'
 import Lime from '../logos/Lime.svg'
 import Tier from '../logos/Tier.svg'
-import Zvipp from '../logos/Zvipp.svg'
+import { ALL_ACTIVE_OPERATOR_IDS } from '../../constants'
 
 function ScooterOperatorLogo({
-    logo,
+    operator,
     className,
     size,
 }: Props): JSX.Element | null {
-    if (logo === ScooterOperator.VOI) {
+    if (operator?.id === ALL_ACTIVE_OPERATOR_IDS.VOI) {
         return (
             <img src={Voi} width={size} height={size} className={className} />
         )
-    } else if (logo === ScooterOperator.TIER) {
+    } else if (operator?.id === ALL_ACTIVE_OPERATOR_IDS.TIER) {
         return (
             <img src={Tier} width={size} height={size} className={className} />
         )
-    } else if (logo === ScooterOperator.LIME) {
+    } else if (operator?.id === ALL_ACTIVE_OPERATOR_IDS.LIME) {
         return (
             <img src={Lime} width={size} height={size} className={className} />
-        )
-    } else if (logo === ScooterOperator.ZVIPP) {
-        return (
-            <img src={Zvipp} width={size} height={size} className={className} />
         )
     }
     return null
 }
 
 interface Props {
-    logo: ScooterOperator | null
+    operator: Operator | null
     className?: string
     size?: number
 }

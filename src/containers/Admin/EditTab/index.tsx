@@ -11,6 +11,8 @@ import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
+import { FormFactor } from '@entur/sdk/lib/mobility/types'
+
 import { useSettingsContext, Mode } from '../../../settings'
 
 import {
@@ -22,7 +24,7 @@ import {
 
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearestPlaces, useScooters } from '../../../logic'
+import { useNearestPlaces, useMobility } from '../../../logic'
 import service, { getStopPlacesWithLines } from '../../../service'
 import {
     saveToLocalStorage,
@@ -95,25 +97,25 @@ const EditTab = (): JSX.Element => {
                 .map(({ id }) => id),
         [nearestPlaces],
     )
-    const scooters = useScooters()
+    const scooters = useMobility(FormFactor.SCOOTER)
 
     useEffect(() => {
         let ignoreResponse = false
 
         const ids = [...newStops, ...nearestStopPlaceIds]
 
-        getStopPlacesWithLines(ids.map((id) => id.replace(/-\d+$/, ''))).then(
-            (resultingStopPlaces) => {
-                if (ignoreResponse) return
+        getStopPlacesWithLines(
+            ids.map((id: string) => id.replace(/-\d+$/, '')),
+        ).then((resultingStopPlaces) => {
+            if (ignoreResponse) return
 
-                setStopPlaces(
-                    resultingStopPlaces.map((s, index) => ({
-                        ...s,
-                        id: ids[index],
-                    })),
-                )
-            },
-        )
+            setStopPlaces(
+                resultingStopPlaces.map((s, index) => ({
+                    ...s,
+                    id: ids[index],
+                })),
+            )
+        })
 
         return (): void => {
             ignoreResponse = true
