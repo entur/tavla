@@ -23,15 +23,16 @@ import { getDocumentId } from '../../../../utils'
 import '../styles.scss'
 
 enum inputFeedback {
-    ID_UNAVAILABE = 'Ikke ledig: Denne Tavla-linken er dessverre i bruk.',
-    ID_SET = 'Din nye Tavla-link er nå opprettet!',
-    EMPTY_STRING = 'Tomt felt: Tavle-linken kan ikke være tom.',
+    ID_UNAVAILABLE = 'Ikke ledig: Denne Tavla-lenken er dessverre i bruk.',
+    ID_SET = 'Din nye Tavla-lenke er nå opprettet!',
+    EMPTY_STRING = 'Tomt felt: Tavle-lenken kan ikke være tom.',
+    TOO_SHORT = 'For kort: Tavle-lenken må være på minst seks tegn.',
     NOTHING = '',
 }
 
 enum inputFeedbackClass {
-    SUCCSESS = 'succsessMessage',
-    FAILURE = 'errorMessage',
+    SUCCESS = 'success-message',
+    FAILURE = 'error-message',
 }
 
 const CustomURL = (): JSX.Element => {
@@ -65,19 +66,22 @@ const CustomURL = (): JSX.Element => {
         if (!customUrlInput) {
             handleFailedInputVisuals(inputFeedback.EMPTY_STRING)
             return
+        } else if (customUrlInput.length < 6) {
+            handleFailedInputVisuals(inputFeedback.TOO_SHORT)
+            return
         }
         copySettingsToNewId(customUrlInput, settings[0]).then((success) => {
             if (success) {
                 setIdToBeDeleted(currentDoc)
                 handleNewIdVisuals()
             } else {
-                handleFailedInputVisuals(inputFeedback.ID_UNAVAILABE)
+                handleFailedInputVisuals(inputFeedback.ID_UNAVAILABLE)
             }
         })
     }
 
     const handleNewIdVisuals = () => {
-        setFeedbackMeessageClass(inputFeedbackClass.SUCCSESS)
+        setFeedbackMeessageClass(inputFeedbackClass.SUCCESS)
         setFeedbackMessage(inputFeedback.ID_SET)
         setCurrentDoc(customUrlInput)
         history.replaceState({}, '', customUrlInput)
@@ -90,29 +94,24 @@ const CustomURL = (): JSX.Element => {
     }
 
     return (
-        <div className="customUrl">
-            <Heading3 className="heading">Lag egen Tavla-link</Heading3>
+        <div className="custom-url">
+            <Heading3 className="heading">Lag egen Tavla-lenke</Heading3>
             <Paragraph className="logo-page__paragraph">
-                Her kan du lage en selvbestemt link til tavla di. Dette gjør det
-                både lettere for deg óg andre å ha tilgang til tavla di. Linken
-                kan kun inneholde bokstaver (ikke æ, ø og å), tall, bindestrek
-                «-» og understrek «_».
+                Her kan du lage en selvbestemt lenke til tavla di. Dette gjør
+                det både lettere for deg óg andre å ha tilgang til tavla di.
+                Lenken kan kun inneholde bokstaver (ikke æ, ø og å), tall,
+                bindestrek «-» og understrek «_» og må inneholde minst seks
+                tegn.
             </Paragraph>
             <Paragraph>
                 <EmphasizedText>
-                    Obs, den gamle tavlelinken din slutter å fungere hvis du
+                    Obs, den gamle Tavla-lenken din vil slutte å fungere hvis du
                     setter en ny.
                 </EmphasizedText>
             </Paragraph>
             <Label>Linkaddresse</Label>
 
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    paddingBottom: '5px',
-                }}
-            >
+            <div className="input-area">
                 <TextField
                     value={customUrlInput}
                     onChange={handleCustomUrlChange}
@@ -120,11 +119,11 @@ const CustomURL = (): JSX.Element => {
                     placeholder={currentDoc}
                     prepend="tavla.entur.no/t/"
                 />
-                <Tooltip content="Sett Tavla-link" placement="top">
+                <Tooltip content="Sett Tavla-lenke" placement="top">
                     <SecondarySquareButton
-                        style={{ marginLeft: '1em' }}
+                        className="submit-button"
                         onClick={tryAddCustomUrl}
-                        aria-label="Sett Tavla-link"
+                        aria-label="Sett Tavla-lenke"
                     >
                         <CheckIcon />
                     </SecondarySquareButton>

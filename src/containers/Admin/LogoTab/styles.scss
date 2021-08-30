@@ -33,16 +33,26 @@
         margin-bottom: 1.5rem;
     }
 
-    .customUrl {
+    .custom-url {
         padding-top: 2rem;
         padding-bottom: 2rem;
 
-        .errorMessage {
+        .error-message {
             color: var(--tavla-failure-font-color);
         }
 
-        .succsessMessage {
-            color: var(--tavla-succsess-font-color);
+        .success-message {
+            color: var(--tavla-success-font-color);
+        }
+
+        .input-area {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 5px;
+        }
+
+        .submit-button {
+            margin-left: 1rem;
         }
 
         .eds-form-control__prepend {
