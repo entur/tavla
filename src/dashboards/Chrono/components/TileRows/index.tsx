@@ -23,11 +23,11 @@ export function TileRows({
 }: Props): JSX.Element {
     return (
         <TableBody>
-            {visibleDepartures.map((data, index) => {
+            {visibleDepartures.map((data) => {
                 const icon = getIcon(data.type, iconColorType, data.subType)
                 const subLabel = createTileSubLabel(data)
                 return (
-                    <TableRow key={index} className="tilerows">
+                    <TableRow key={data.id} className="tilerows">
                         <DataCell>
                             <div className="tilerows__icon">{icon}</div>
                         </DataCell>
