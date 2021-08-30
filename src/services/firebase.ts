@@ -176,4 +176,4 @@ export const copySettingsToNewId = (
 }
 
 export const setIdToBeDeleted = (docId: string): Promise<void> =>
-    updateSettingField(docId, 'delete', true)
+    updateSingleSettingsField(docId, 'delete', true)
