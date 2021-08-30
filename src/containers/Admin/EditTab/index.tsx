@@ -9,7 +9,6 @@ import { BikeRentalStation } from '@entur/sdk'
 import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
-import { Button } from '@entur/button'
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
 import { useSettingsContext, Mode } from '../../../settings'
@@ -19,7 +18,6 @@ import {
     toggleValueInList,
     isNotNullOrUndefined,
     isMobileWeb,
-    getDocumentId,
 } from '../../../utils'
 
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
@@ -30,15 +28,6 @@ import {
     saveToLocalStorage,
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
-
-import {
-    copySettingsToNewId,
-    setIdToBeDeleted,
-} from '../../../services/firebase'
-import firebase from 'firebase/app'
-import 'firebase/firestore'
-import 'firebase/functions'
-import 'firebase/storage'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
