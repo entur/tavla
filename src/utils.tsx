@@ -194,6 +194,7 @@ export function transformDepartureToLineData(
     const {
         date,
         expectedDepartureTime,
+        aimedDepartureTime,
         destinationDisplay,
         serviceJourney,
         situations,
@@ -218,7 +219,7 @@ export function transformDepartureToLineData(
     const subType = departure.serviceJourney?.transportSubmode
 
     return {
-        id: `${date}::${departure.serviceJourney.id}`,
+        id: `${date}::${aimedDepartureTime}::${departure.serviceJourney.id}`,
         expectedDepartureTime,
         type: transportMode,
         subType,
