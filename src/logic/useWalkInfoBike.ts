@@ -68,6 +68,7 @@ export default function useTravelTime(
     const travelTimeSet = travelTime !== null
 
     useEffect(() => {
+        let isMounted = true
         if (!rentalStations) {
             return setTravelTime(null)
         }
@@ -75,7 +76,12 @@ export default function useTravelTime(
             getWalkInfoBike(rentalStations, {
                 latitude: fromLatitude,
                 longitude: fromLongitude,
-            }).then(setTravelTime)
+            }).then((walkInfo) => {
+                isMounted && setTravelTime(walkInfo)
+            })
+        }
+        return () => {
+            isMounted = false
         }
     }, [
         fromLatitude,
