@@ -45,10 +45,12 @@ const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
                     setEmailError('E-posten er ikke gyldig')
                 } else if (error.code === 'auth/user-disabled') {
                     setEmailError('Brukeren er deaktivert.')
-                } else if (error.code === 'auth/user-not-found') {
-                    setEmailError('Vi finner ingen konto med denne e-posten.')
-                } else if (error.code === 'auth/wrong-password') {
-                    setPasswordError('Feil passord.')
+                } else if (
+                    error.code === 'auth/user-not-found' ||
+                    error.code === 'auth/wrong-password'
+                ) {
+                    setEmailError('Feil brukernavn eller passord.')
+                    setPasswordError('Feil brukernavn eller passord.')
                 } else {
                     // eslint-disable-next-line no-console
                     console.error(error)
