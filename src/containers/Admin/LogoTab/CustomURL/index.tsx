@@ -36,7 +36,7 @@ enum inputFeedbackClass {
 }
 
 const CustomURL = (): JSX.Element => {
-    const settings = useSettingsContext()
+    const [settings] = useSettingsContext()
 
     const [customUrlInput, setCustomUrlInput] = useState('')
     const [feedbackMessage, setFeedbackMessage] = useState(
@@ -70,7 +70,7 @@ const CustomURL = (): JSX.Element => {
             handleFailedInputVisuals(inputFeedback.TOO_SHORT)
             return
         }
-        copySettingsToNewId(customUrlInput, settings[0]).then((success) => {
+        copySettingsToNewId(customUrlInput, settings).then((success) => {
             if (success) {
                 setIdToBeDeleted(currentDoc)
                 handleNewIdVisuals()
