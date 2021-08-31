@@ -1,4 +1,4 @@
-import { https, firestore as firestoreDB } from 'firebase-functions'
+import { https, firestore as firestoreDB, region } from 'firebase-functions'
 import { firestore, auth, initializeApp, storage } from 'firebase-admin'
 
 initializeApp()
@@ -67,4 +67,31 @@ export const deleteImagefromStorage = firestoreDB
                 throw error
             }
         }
+    })
+
+export const scheduledDeleteOfDocumentsSetToBeDeleted = region('europe-west1')
+    .pubsub.schedule('every 24 hours')
+    .timeZone('Europe/Oslo')
+    .onRun(async () => {
+        try {
+            let batch = firestore().batch()
+            firestore()
+                .collection('settings')
+                .where('delete', '==', true)
+                .get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        batch.delete(doc.ref)
+                    })
+                    console.log(
+                        querySnapshot.size +
+                            ' documents set to be batch deleted.',
+                    )
+                    return batch.commit()
+                })
+                .then(() => console.log('Successfull delete of batch.'))
+        } catch (error) {
+            console.error(error)
+        }
+        return null
     })

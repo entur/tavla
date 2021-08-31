@@ -8,7 +8,6 @@ import PWAPrompt from 'react-ios-pwa-prompt'
 import { SettingsContext, useSettings } from '../settings'
 import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
-import { deleteDocumentsSetToBeDeleted } from '../services/firebase'
 
 import Compact from '../dashboards/Compact'
 import Chrono from '../dashboards/Chrono'
@@ -151,8 +150,6 @@ const Content = (): JSX.Element => {
     const user = useFirebaseAuthentication()
     const settings = useSettings()
     const location = useLocation()
-
-    deleteDocumentsSetToBeDeleted()
 
     const isOnTavle = !['/privacy', '/tavler'].includes(location.pathname)
 

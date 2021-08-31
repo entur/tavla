@@ -78,18 +78,6 @@ export const removeFromArray = async (
 export const deleteDocument = async (docId: string): Promise<void> =>
     firebase.firestore().collection(SETTINGS_COLLECTION).doc(docId).delete()
 
-export const deleteDocumentsSetToBeDeleted = async (): Promise<void> =>
-    firebase
-        .firestore()
-        .collection(SETTINGS_COLLECTION)
-        .where('delete', '==', true)
-        .get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                deleteDocument(doc.id)
-            })
-        })
-
 export const createSettings = async (
     settings: Settings,
 ): Promise<DocumentReference> =>
