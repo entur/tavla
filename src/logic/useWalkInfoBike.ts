@@ -49,7 +49,9 @@ async function getWalkInfoBike(
                         walkDistance: result[0].walkDistance,
                     }
                 })
-                .catch(() => null),
+                .catch((err) => {
+                    throw err
+                }),
         ),
     )
 
@@ -70,14 +72,10 @@ export default function useTravelTime(
 
     const ids = rentalStations?.map((stopPlace) => stopPlace.id)
     const previousIds = usePrevious(ids)
-    const travelTimeSet = travelTime !== null
 
     useEffect(() => {
         const abortController = new AbortController()
-        if (!rentalStations) {
-            return setTravelTime(null)
-        }
-        if (!isEqual(ids, previousIds) || !travelTimeSet) {
+        if ((!isEqual(ids, previousIds) || !travelTime) && rentalStations) {
             getWalkInfoBike(
                 rentalStations,
                 {
@@ -85,7 +83,13 @@ export default function useTravelTime(
                     longitude: fromLongitude,
                 },
                 abortController.signal,
-            ).then(setTravelTime)
+            )
+                .then(setTravelTime)
+                .catch((err) => {
+                    if (!abortController.signal.aborted) {
+                        throw err
+                    }
+                })
         }
         return () => {
             abortController.abort()
@@ -95,8 +99,8 @@ export default function useTravelTime(
         fromLongitude,
         ids,
         previousIds,
+        travelTime,
         rentalStations,
-        travelTimeSet,
     ])
 
     return travelTime
