@@ -69,12 +69,12 @@ export const deleteImagefromStorage = firestoreDB
         }
     })
 
-export const scheduledDeleteOfDocumentsSetToBeDeleted = region('europe-west1')
-    .pubsub.schedule('every 24 hours')
+export const scheduledDeleteOfDocumentsSetToBeDeleted = region('us-central1')
+    .pubsub.schedule('every day 04:00')
     .timeZone('Europe/Oslo')
-    .onRun(async () => {
+    .onRun(() => {
         try {
-            let batch = firestore().batch()
+            const batch = firestore().batch()
             firestore()
                 .collection('settings')
                 .where('delete', '==', true)
