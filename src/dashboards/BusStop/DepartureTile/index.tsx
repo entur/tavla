@@ -38,29 +38,26 @@ function getTransportHeaderIcons(
     return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
 }
 
-function getRowSizes(
+function getColSizes(
     isMobile: boolean,
     hideTracks: boolean | undefined,
     hideSituations: boolean | undefined,
 ) {
-    const getRowSize = (desktopWidth: string, mobileWidth: string) => (
-        <col
-            style={!isMobile ? { width: desktopWidth } : { width: mobileWidth }}
-        />
-    )
-    return (
-        <>
-            {getRowSize('10%', '10%')}
-            {!hideTracks && !hideSituations
-                ? getRowSize('24%', '43%')
+    const getColSize = (desktopWidth: string, mobileWidth: string) =>
+        !isMobile ? { width: desktopWidth } : { width: mobileWidth }
+
+    return {
+        iconCol: getColSize('10%', '10%'),
+        lineCol:
+            !hideTracks && !hideSituations
+                ? getColSize('24%', '43%')
                 : !hideTracks || !hideSituations
-                ? getRowSize('42', '42%')
-                : getRowSize('60%', '60%')}
-            {getRowSize('18%', '22%')}
-            {!hideTracks ? getRowSize('18%', '13%') : null}
-            {!hideSituations ? getRowSize('30%', '11%') : null}
-        </>
-    )
+                ? getColSize('42', '42%')
+                : getColSize('60%', '60%'),
+        departureCol: getColSize('18%', '22%'),
+        trackCol: !hideTracks ? getColSize('18%', '13%') : null,
+        situationCol: !hideSituations ? getColSize('30%', '11%') : null,
+    }
 }
 
 const DepartureTile = ({
@@ -85,6 +82,8 @@ const DepartureTile = ({
         }
     }, [settings])
 
+    const columnSizes = getColSizes(isMobile, hideTracks, hideSituations)
+
     return (
         <Tile
             title={name}
@@ -92,15 +91,24 @@ const DepartureTile = ({
             walkInfo={!hideWalkInfo ? walkInfo : undefined}
         >
             <Table spacing="small" fixed>
-                {getRowSizes(isMobile, hideTracks, hideSituations)}
                 <TableHead>
                     <TableRow className="tableRow">
-                        <HeaderCell></HeaderCell>
-                        <HeaderCell>Linje</HeaderCell>
-                        <HeaderCell>Avgang</HeaderCell>
-                        {!hideTracks ? <HeaderCell>Spor</HeaderCell> : null}
+                        <HeaderCell style={columnSizes.iconCol}></HeaderCell>
+                        <HeaderCell style={columnSizes.lineCol}>
+                            Linje
+                        </HeaderCell>
+                        <HeaderCell style={columnSizes.departureCol}>
+                            Avgang
+                        </HeaderCell>
+                        {!hideTracks ? (
+                            <HeaderCell style={columnSizes.trackCol}>
+                                Spor
+                            </HeaderCell>
+                        ) : null}
                         {!hideSituations ? (
-                            <HeaderCell>Avvik</HeaderCell>
+                            <HeaderCell style={columnSizes.situationCol}>
+                                Avvik
+                            </HeaderCell>
                         ) : null}
                     </TableRow>
                 </TableHead>
