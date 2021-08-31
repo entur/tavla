@@ -37,18 +37,19 @@
         padding-top: 2rem;
         padding-bottom: 2rem;
 
-        .error-message {
+        .error {
             color: var(--tavla-failure-font-color);
+            margin-right: 0.5rem;
         }
 
-        .success-message {
+        .success {
             color: var(--tavla-success-font-color);
+            margin-right: 0.5rem;
         }
 
         .input-area {
             display: flex;
             justify-content: center;
-            padding-bottom: 5px;
         }
 
         .submit-button {

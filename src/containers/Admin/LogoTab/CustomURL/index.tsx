@@ -5,11 +5,15 @@ import {
     Heading3,
     Paragraph,
     EmphasizedText,
-    StrongText,
+    SubParagraph,
 } from '@entur/typography'
 import { TextField } from '@entur/form'
 import { SecondarySquareButton } from '@entur/button'
-import { CheckIcon } from '@entur/icons'
+import {
+    CheckIcon,
+    ValidationCheckIcon,
+    ValidationErrorIcon,
+} from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 
 import {
@@ -30,9 +34,9 @@ enum inputFeedback {
     NOTHING = '',
 }
 
-enum inputFeedbackClass {
-    SUCCESS = 'success-message',
-    FAILURE = 'error-message',
+enum inputFeedbackType {
+    SUCCESS = 'success',
+    FAILURE = 'error',
 }
 
 const CustomURL = (): JSX.Element => {
@@ -42,8 +46,8 @@ const CustomURL = (): JSX.Element => {
     const [feedbackMessage, setFeedbackMessage] = useState(
         inputFeedback.NOTHING,
     )
-    const [feedbackMessageClass, setFeedbackMeessageClass] = useState(
-        inputFeedbackClass.FAILURE,
+    const [feedbackMessageType, setFeedbackMessageType] = useState(
+        inputFeedbackType.FAILURE,
     )
     const [currentDoc, setCurrentDoc] = useState(getDocumentId() as string)
 
@@ -81,7 +85,7 @@ const CustomURL = (): JSX.Element => {
     }
 
     const handleNewIdVisuals = () => {
-        setFeedbackMeessageClass(inputFeedbackClass.SUCCESS)
+        setFeedbackMessageType(inputFeedbackType.SUCCESS)
         setFeedbackMessage(inputFeedback.ID_SET)
         setCurrentDoc(customUrlInput)
         history.replaceState({}, '', customUrlInput)
@@ -89,7 +93,7 @@ const CustomURL = (): JSX.Element => {
     }
 
     const handleFailedInputVisuals = (feedback: inputFeedback) => {
-        setFeedbackMeessageClass(inputFeedbackClass.FAILURE)
+        setFeedbackMessageType(inputFeedbackType.FAILURE)
         setFeedbackMessage(feedback)
     }
 
@@ -130,9 +134,21 @@ const CustomURL = (): JSX.Element => {
                 </Tooltip>
             </div>
             {feedbackMessage && (
-                <StrongText className={feedbackMessageClass}>
+                <SubParagraph>
+                    {feedbackMessageType === inputFeedbackType.SUCCESS && (
+                        <ValidationCheckIcon
+                            inline
+                            className={feedbackMessageType}
+                        />
+                    )}
+                    {feedbackMessageType === inputFeedbackType.FAILURE && (
+                        <ValidationErrorIcon
+                            inline
+                            className={feedbackMessageType}
+                        />
+                    )}{' '}
                     {feedbackMessage}
-                </StrongText>
+                </SubParagraph>
             )}
         </div>
     )
