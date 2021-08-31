@@ -16,24 +16,29 @@ export type WalkInfoBike = {
 async function getWalkInfoBike(
     rentalStations: BikeRentalStation[],
     from: Coordinates,
+    signal: AbortSignal,
 ): Promise<WalkInfoBike[]> {
     const travelTimes = await Promise.all(
         rentalStations.map((stopPlace) =>
             service
-                .getTripPatterns({
-                    from: {
-                        name: 'pin',
-                        coordinates: from,
-                    },
-                    to: {
-                        coordinates: {
-                            longitude: stopPlace.longitude,
-                            latitude: stopPlace.latitude,
+                .getTripPatterns(
+                    {
+                        from: {
+                            name: 'pin',
+                            coordinates: from,
                         },
+                        to: {
+                            coordinates: {
+                                longitude: stopPlace.longitude,
+                                latitude: stopPlace.latitude,
+                            },
+                        },
+                        modes: [QueryMode.FOOT],
+                        limit: 1,
                     },
-                    modes: [QueryMode.FOOT],
-                    limit: 1,
-                })
+                    undefined,
+                    { signal },
+                )
                 .then((result) => {
                     if (!result[0].duration || !result[0].walkDistance) {
                         return null
@@ -68,20 +73,22 @@ export default function useTravelTime(
     const travelTimeSet = travelTime !== null
 
     useEffect(() => {
-        let isMounted = true
+        const abortController = new AbortController()
         if (!rentalStations) {
             return setTravelTime(null)
         }
         if (!isEqual(ids, previousIds) || !travelTimeSet) {
-            getWalkInfoBike(rentalStations, {
-                latitude: fromLatitude,
-                longitude: fromLongitude,
-            }).then((walkInfo) => {
-                isMounted && setTravelTime(walkInfo)
-            })
+            getWalkInfoBike(
+                rentalStations,
+                {
+                    latitude: fromLatitude,
+                    longitude: fromLongitude,
+                },
+                abortController.signal,
+            ).then(setTravelTime)
         }
         return () => {
-            isMounted = false
+            abortController.abort()
         }
     }, [
         fromLatitude,
