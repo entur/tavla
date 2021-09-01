@@ -4,10 +4,8 @@ import {
     Label,
     Paragraph,
     EmphasizedText,
-    SubParagraph,
     UnorderedList,
     ListItem,
-    Heading2,
 } from '@entur/typography'
 import { TextField } from '@entur/form'
 import { SecondarySquareButton } from '@entur/button'
@@ -159,7 +157,7 @@ const CustomURL = (): JSX.Element => {
                         value={customUrlInput}
                         onChange={handleCustomUrlChange}
                         maxLength={80}
-                        placeholder={'Lenkeaddresse'}
+                        placeholder="Lenkeaddresse"
                     />
                 </div>
                 <div className="submit-button">
