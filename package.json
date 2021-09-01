@@ -40,7 +40,7 @@
         "@entur/icons": "3.0.0",
         "@entur/layout": "^2.1.0",
         "@entur/loader": "^0.4.1",
-        "@entur/menu": "^4.0.0",
+        "@entur/menu": "^3.5.5",
         "@entur/modal": "^1.5.4",
         "@entur/sdk": "^4.0.0",
         "@entur/tab": "^0.4.24",
