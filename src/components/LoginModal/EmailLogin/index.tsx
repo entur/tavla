@@ -6,6 +6,7 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { EmailIcon, ClosedLockIcon, BackArrowIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Link } from '@entur/typography'
+import { SmallExpandableAlertBox } from '@entur/alert'
 
 import { useFormFields } from '../../../utils'
 import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
@@ -32,10 +33,12 @@ const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
 
     const [emailError, setEmailError] = useState<string>()
     const [passwordError, setPasswordError] = useState<string>()
+    const [userDeactivatedError, setUserDeactivatedError] = useState<string>()
 
     const signIn = (email: string, password: string): void => {
         setEmailError(undefined)
         setPasswordError(undefined)
+        setUserDeactivatedError(undefined)
 
         firebase
             .auth()
@@ -45,6 +48,15 @@ const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
                     setEmailError('E-posten er ikke gyldig')
                 } else if (error.code === 'auth/user-disabled') {
                     setEmailError('Brukeren er deaktivert.')
+                } else if (error.code === 'auth/too-many-requests') {
+                    setUserDeactivatedError(
+                        'Tilgang til denne brukerkontoen har blitt ' +
+                            'midlertidig deaktivert på grunn av mange ' +
+                            'mislykkede påloggingsforsøk. Du kan få ' +
+                            'tilgang igjen ved å tilbakestille passordet ' +
+                            'ditt, (følg «Jeg har glemt passord») ' +
+                            'eller du kan prøve igjen senere.',
+                    )
                 } else if (
                     error.code === 'auth/user-not-found' ||
                     error.code === 'auth/wrong-password'
@@ -84,6 +96,16 @@ const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
             <Heading3 margin="none">Logg inn med e-post</Heading3>
             <form>
                 <GridContainer spacing="medium">
+                    {userDeactivatedError && (
+                        <GridItem small={12}>
+                            <SmallExpandableAlertBox
+                                title="Konto deaktivert"
+                                variant="error"
+                            >
+                                {userDeactivatedError}
+                            </SmallExpandableAlertBox>
+                        </GridItem>
+                    )}
                     <GridItem small={12}>
                         <InputGroup
                             label="E-post"
