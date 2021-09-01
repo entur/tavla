@@ -31,6 +31,7 @@ import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
 import ThemeProvider from './ThemeWrapper/ThemeProvider'
 
 import MyBoards from './MyBoards'
+
 import './styles.scss'
 
 analytics.initialize('UA-108877193-6')

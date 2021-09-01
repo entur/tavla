@@ -83,6 +83,16 @@ export const createSettings = async (
 ): Promise<DocumentReference> =>
     firebase.firestore().collection(SETTINGS_COLLECTION).add(settings)
 
+export const createSettingsWithId = async (
+    settings: Settings,
+    docId: string,
+): Promise<void> => {
+    firebase
+        .firestore()
+        .collection(SETTINGS_COLLECTION)
+        .doc(docId)
+        .set({ ...settings })
+}
 export const uploadLogo = async (
     image: File,
     onProgress: (progress: number) => void,
@@ -130,3 +140,28 @@ export const uploadLogo = async (
         },
     )
 }
+
+export const copySettingsToNewId = (
+    newDocId: string,
+    settings: Settings | null,
+): Promise<boolean> => {
+    const newDocRef: DocumentReference = getSettings(newDocId)
+    return newDocRef
+        .get()
+        .then((document) => {
+            if (document.exists) {
+                return false
+            } else {
+                if (settings) {
+                    createSettingsWithId(settings, newDocId)
+                    return true
+                } else {
+                    return false
+                }
+            }
+        })
+        .catch(() => false)
+}
+
+export const setIdToBeDeleted = (docId: string): Promise<void> =>
+    updateSingleSettingsField(docId, 'delete', true)

@@ -76,6 +76,7 @@ export function useSettings(): [Settings | null, Setter] {
 
     const location = useLocation()
     const user = useFirebaseAuthentication()
+    const id = getDocumentId()
 
     useEffect(() => {
         const protectedPath =
@@ -88,8 +89,6 @@ export function useSettings(): [Settings | null, Setter] {
             setLocalSettings(null)
             return
         }
-
-        const id = getDocumentId()
 
         if (id) {
             return getSettings(id).onSnapshot((document: any) => {
@@ -154,16 +153,16 @@ export function useSettings(): [Settings | null, Setter] {
                 longitude: Number(positionArray[1]),
             },
         })
-    }, [location, user])
+    }, [location, user, id])
 
     const setSettings = useCallback(
         (newSettings: Partial<Settings>) => {
             const mergedSettings = { ...settings, ...newSettings } as Settings
             setLocalSettings(mergedSettings)
 
-            const id = getDocumentId()
-            if (id) {
-                persistMultipleFieldsToFirebase(id, mergedSettings)
+            const docId = getDocumentId()
+            if (docId) {
+                persistMultipleFieldsToFirebase(docId, mergedSettings)
                 return
             }
 
