@@ -15,6 +15,7 @@ import LogoTab from './LogoTab'
 import EditTab from './EditTab'
 import ThemeTab from './ThemeTab'
 import VisningTab from './DashboardPickerTab'
+import NameTab from './NameTab'
 import FloatingButtons from './FloatingButtons'
 
 const AdminPage = (): JSX.Element => {
@@ -41,6 +42,7 @@ const AdminPage = (): JSX.Element => {
                         <Tab>Velg visning</Tab>
                         <Tab>Velg farger</Tab>
                         <Tab>Last opp logo {lockIcon}</Tab>
+                        <Tab>Endre lenke {lockIcon}</Tab>
                     </TabList>
                     <TabPanels className="admin__tabs__tab-panels">
                         <TabPanel>
@@ -54,6 +56,12 @@ const AdminPage = (): JSX.Element => {
                         </TabPanel>
                         <TabPanel>
                             <LogoTab
+                                tabIndex={currentIndex}
+                                setTabIndex={setCurrentIndex}
+                            />
+                        </TabPanel>
+                        <TabPanel>
+                            <NameTab
                                 tabIndex={currentIndex}
                                 setTabIndex={setCurrentIndex}
                             />

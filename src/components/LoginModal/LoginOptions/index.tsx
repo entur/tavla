@@ -22,6 +22,8 @@ const description = (loginCase: LoginCase): string => {
             return 'For å låse tavlas redigeringsrettigheter til en konto, må du være innlogget.'
         case 'logo':
             return 'For å laste opp logo og beskrivelse på avgangstavla, må du ha en konto.'
+        case 'link':
+            return 'For å sette en personlig Tavla-lenke til avgangstavla, må du ha en konto.'
         case 'error':
             return 'For å redigere denne tavla, må du først logge inn på kontoen den tilhører.'
         default:

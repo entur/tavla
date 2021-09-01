@@ -16,7 +16,13 @@ import EmailSent from './EmailSent'
 import CloseButton from './CloseButton/CloseButton'
 import './styles.scss'
 
-export type LoginCase = 'lock' | 'mytables' | 'logo' | 'error' | 'default'
+export type LoginCase =
+    | 'lock'
+    | 'mytables'
+    | 'logo'
+    | 'link'
+    | 'error'
+    | 'default'
 
 interface Props {
     open: boolean

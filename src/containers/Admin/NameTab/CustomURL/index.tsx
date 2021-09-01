@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 
 import {
     Label,
-    Heading3,
     Paragraph,
     EmphasizedText,
     SubParagraph,
+    UnorderedList,
+    ListItem,
+    Heading2,
 } from '@entur/typography'
 import { TextField } from '@entur/form'
 import { SecondarySquareButton } from '@entur/button'
@@ -97,59 +99,81 @@ const CustomURL = (): JSX.Element => {
         setFeedbackMessage(feedback)
     }
 
-    return (
-        <div className="custom-url">
-            <Heading3 className="heading">Lag egen Tavla-lenke</Heading3>
-            <Paragraph className="logo-page__paragraph">
-                Her kan du lage en selvbestemt lenke til tavla di. Dette gjør
-                det både lettere for deg óg andre å ha tilgang til tavla di.
-                Lenken kan kun inneholde bokstaver (ikke æ, ø og å), tall,
-                bindestrek «-» og understrek «_» og må inneholde minst seks
-                tegn.
-            </Paragraph>
-            <Paragraph>
-                <EmphasizedText>
-                    Obs, den gamle Tavla-lenken din vil slutte å fungere hvis du
-                    setter en ny.
-                </EmphasizedText>
-            </Paragraph>
-            <Label>Linkaddresse</Label>
+    const Requirements = (): JSX.Element => (
+        <>
+            <Label className="label">Krav til Tavla-lenke</Label>
+            <UnorderedList>
+                <ListItem>Tavla-lenken må bestå av minst seks tegn.</ListItem>
+                <ListItem>
+                    Tavla-lenken kan kun bestå av bokstaver, tall, understrek
+                    «_» og bindestrek «-».
+                </ListItem>
+                <ListItem>
+                    Tavla-lenken kan ikke inneholde æ, ø eller å.
+                </ListItem>
+            </UnorderedList>
+        </>
+    )
 
-            <div className="input-area">
-                <TextField
-                    value={customUrlInput}
-                    onChange={handleCustomUrlChange}
-                    maxLength={80}
-                    placeholder={currentDoc}
-                    prepend="tavla.entur.no/t/"
-                />
-                <Tooltip content="Sett Tavla-lenke" placement="top">
-                    <SecondarySquareButton
-                        className="submit-button"
-                        onClick={tryAddCustomUrl}
-                        aria-label="Sett Tavla-lenke"
-                    >
-                        <CheckIcon />
-                    </SecondarySquareButton>
-                </Tooltip>
-            </div>
+    const FeedbackMessage = (): JSX.Element => (
+        <>
             {feedbackMessage && (
-                <SubParagraph>
+                <Label className="feedback">
                     {feedbackMessageType === inputFeedbackType.SUCCESS && (
                         <ValidationCheckIcon
+                            size={16}
                             inline
                             className={feedbackMessageType}
                         />
                     )}
                     {feedbackMessageType === inputFeedbackType.FAILURE && (
                         <ValidationErrorIcon
+                            size={16}
                             inline
                             className={feedbackMessageType}
                         />
                     )}{' '}
                     {feedbackMessage}
-                </SubParagraph>
+                </Label>
             )}
+        </>
+    )
+
+    return (
+        <div className="custom-url">
+            <Paragraph className="logo-page__paragraph">
+                Her kan du lage en selvbestemt lenke til tavla di. Dette gjør
+                det både lettere for deg óg andre å ha tilgang til tavla di.
+            </Paragraph>
+            <Paragraph>
+                <EmphasizedText>
+                    Obs, den gamle Tavla-lenken din vil slettes hvis du setter
+                    en ny.
+                </EmphasizedText>
+            </Paragraph>
+            <Requirements />
+            <div className="input-area">
+                <Paragraph className="prepend">tavla.entur.no/t/</Paragraph>
+                <div className="input-field">
+                    <TextField
+                        value={customUrlInput}
+                        onChange={handleCustomUrlChange}
+                        maxLength={80}
+                        placeholder={'Lenkeaddresse'}
+                    />
+                </div>
+                <div className="submit-button">
+                    <Tooltip content="Sett Tavla-lenke" placement="top">
+                        <SecondarySquareButton
+                            onClick={tryAddCustomUrl}
+                            aria-label="Sett Tavla-lenke"
+                        >
+                            <CheckIcon />
+                        </SecondarySquareButton>
+                    </Tooltip>
+                </div>
+            </div>
+            <FeedbackMessage />
         </div>
     )
 }
