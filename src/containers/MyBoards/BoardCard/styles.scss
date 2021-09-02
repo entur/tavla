@@ -31,18 +31,19 @@
     }
 
     &__text-container {
+        &__header-container {
+            display: flex;
+        }
+
         &__top-wrapper {
-            display: inline;
+            margin-left: auto;
+            flex: 1;
 
             &__title {
                 color: var(--tavla-font-color);
                 width: fit-content;
                 max-width: 80%;
                 word-break: break-word;
-            }
-
-            &__overflow {
-                float: right;
             }
         }
 
