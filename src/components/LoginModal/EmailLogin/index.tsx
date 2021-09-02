@@ -47,7 +47,7 @@ const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
                 if (error.code === 'auth/invalid-email') {
                     setEmailError('E-posten er ikke gyldig')
                 } else if (error.code === 'auth/user-disabled') {
-                    setEmailError('Brukeren er deaktivert.')
+                    setUserDeactivatedError('Brukerkontoen er deaktivert.')
                 } else if (error.code === 'auth/too-many-requests') {
                     setUserDeactivatedError(
                         'Tilgang til denne brukerkontoen har blitt ' +
