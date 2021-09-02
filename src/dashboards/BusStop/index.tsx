@@ -6,7 +6,7 @@ import { Loader } from '@entur/loader'
 
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
 
-import { usePrevious, isEqualUnsorted } from '../../utils'
+import { isEqualUnsorted } from '../../utils'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
 import { DEFAULT_ZOOM } from '../../constants'
@@ -26,6 +26,7 @@ import { useSettingsContext } from '../../settings'
 
 import RearrangeModal, { Item } from '../../components/RearrangeModal'
 import { LongPressProvider } from '../../logic/longPressContext'
+import { StopPlaceWithDepartures } from '../../types'
 
 import DepartureTile from './DepartureTile'
 
@@ -86,6 +87,26 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
     const [modalVisible, setModalVisible] = useState(false)
+    const [numberOfStopPlaces, setNumberOfStopPlaces] = useState<number>(0)
+    const stopPlacesWithDepartures = useStopPlacesWithDepartures()
+
+    const dashboardKey = history.location.key
+
+    const boardId =
+        useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
+            ?.documentId
+
+    const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
+        getFromLocalStorage(dashboardKey),
+    )
+    const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
+        boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
+    )
+
+    const scooters = useMobility(FormFactor.SCOOTER)
+    const bikeRentalStations = useBikeRentalStations()
+
+    const walkInfo = useWalkInfo(stopPlacesWithDepartures)
 
     function clearLongPressTimeout() {
         setIsLongPressStarted(false)
@@ -94,34 +115,14 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
         }
     }
 
-    const dashboardKey = history.location.key
-    const boardId =
-        useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
-            ?.documentId
-
-    const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
-        getFromLocalStorage(dashboardKey),
-    )
-
-    const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
-        boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
-    )
-
-    let stopPlacesWithDepartures = useStopPlacesWithDepartures()
-    const numberOfStopPlaces = stopPlacesWithDepartures
-        ? stopPlacesWithDepartures.length
-        : 0
-    const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
-    const scooters = useMobility(FormFactor.SCOOTER)
-    const bikeRentalStations = useBikeRentalStations()
-
-    if (stopPlacesWithDepartures) {
-        stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
+    function filterStopPlacesWithDepartures(
+        sPlacesWithDepartures: StopPlaceWithDepartures[],
+    ): StopPlaceWithDepartures[] {
+        return sPlacesWithDepartures.filter(
             ({ departures }) => departures.length > 0,
         )
     }
 
-    const walkInfo = useWalkInfo(stopPlacesWithDepartures)
     const mapCol = settings?.showMap ? 1 : 0
     const totalItems = numberOfStopPlaces + mapCol
     const hasData = Boolean(
@@ -149,13 +150,14 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
     useEffect(() => {
         let defaultTileOrder: Item[] = []
         if (stopPlacesWithDepartures) {
-            if (stopPlacesWithDepartures.length == prevNumberOfStopPlaces) {
-                return
-            }
-            defaultTileOrder = stopPlacesWithDepartures.map((item) => ({
+            const filtered = filterStopPlacesWithDepartures(
+                stopPlacesWithDepartures,
+            ).map((item) => ({
                 id: item.id,
                 name: item.name,
             }))
+            setNumberOfStopPlaces(filtered.length)
+            defaultTileOrder = filtered
         }
         if (mapCol) {
             defaultTileOrder = [
@@ -178,13 +180,7 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
         } else {
             setTileOrder(defaultTileOrder)
         }
-    }, [
-        stopPlacesWithDepartures,
-        prevNumberOfStopPlaces,
-        mapCol,
-        settings?.showMap,
-        boardId,
-    ])
+    }, [stopPlacesWithDepartures, mapCol, boardId])
 
     const longPress = useLongPress(
         () => {
