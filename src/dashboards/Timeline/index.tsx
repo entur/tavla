@@ -7,7 +7,7 @@ import { WalkingIcon } from '@entur/icons'
 
 import { useRouteMatch } from 'react-router'
 
-import { useLongPress } from 'use-long-press/dist'
+import { useLongPress } from 'use-long-press'
 
 import {
     getIcon,

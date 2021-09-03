@@ -23,7 +23,7 @@ module.exports = (env) => ({
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules|sdk/,
-                loader: 'awesome-typescript-loader',
+                loader: 'ts-loader',
             },
             {
                 test: /\.jsx?$/,
@@ -44,8 +44,9 @@ module.exports = (env) => ({
                     {
                         loader: 'postcss-loader',
                         options: {
-                            ident: 'postcss',
-                            plugins: () => [postcssPresetEnv()],
+                            postcssOptions: {
+                                plugins: [() => postcssPresetEnv()],
+                            },
                         },
                     },
                 ],
@@ -58,8 +59,9 @@ module.exports = (env) => ({
                     {
                         loader: 'postcss-loader',
                         options: {
-                            ident: 'postcss',
-                            plugins: () => [postcssPresetEnv()],
+                            postcssOptions: {
+                                plugins: [() => postcssPresetEnv()],
+                            },
                         },
                     },
                     'sass-loader',
@@ -76,7 +78,7 @@ module.exports = (env) => ({
     },
     devServer: {
         open: true,
-        contentBase: OUTPUT_PATH,
+        static: OUTPUT_PATH,
         port: 9090,
         historyApiFallback: true,
     },
@@ -100,7 +102,6 @@ module.exports = (env) => ({
             ],
         }),
     ],
-    watch: typeof env !== 'string',
     optimization: {
         splitChunks: {
             cacheGroups: {
