@@ -32,6 +32,7 @@ import DepartureTile from './DepartureTile'
 import MapTile from './MapTile'
 
 import BikeTile from './BikeTile'
+import WeatherTile from './WeatherTile'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -163,6 +164,14 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         const storedTileOrder: Item[] | undefined = getFromLocalStorage(
             boardId + '-tile-order',
         )
+        if (true) {
+            // TODO find condition for when weather should be shown
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                { id: 'weather', name: 'Vær' },
+            ]
+        }
+
         if (
             storedTileOrder &&
             storedTileOrder.length === defaultTileOrder.length &&
@@ -281,6 +290,12 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                     ) : (
                                         []
                                     )
+                                } else if (item.id == 'weather') {
+                                    return (
+                                        <div key={'TODO:UnikKey'}>
+                                            <WeatherTile />
+                                        </div>
+                                    )
                                 } else if (stopPlacesWithDepartures) {
                                     const stopIndex =
                                         stopPlacesWithDepartures.findIndex(
@@ -394,6 +409,14 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                         </div>
                     ) : (
                         []
+                    )}
+                    {true && (
+                        <div
+                            key={'TODO:UnikKey'}
+                            data-grid={getDataGrid(totalItems, maxWidthCols)}
+                        >
+                            <WeatherTile />
+                        </div>
                     )}
                 </ResponsiveReactGridLayout>
             </div>

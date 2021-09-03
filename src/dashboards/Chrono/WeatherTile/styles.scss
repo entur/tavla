@@ -1,0 +1,19 @@
+@import '../../../assets/styles/import.scss';
+@import '../../../variables.scss';
+
+.chrono .weathertile {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: inherit;
+    width: inherit;
+    background-color: var(--tavla-box-background-color);
+    color: var(--tavla-font-color);
+    overflow: auto;
+    overflow-x: hidden;
+    padding-top: 0;
+
+    @media (max-width: 1000px) {
+        height: 39.375rem;
+    }
+}
