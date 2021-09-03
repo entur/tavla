@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
-import { useLongPress } from 'use-long-press/dist'
+import { useLongPress } from 'use-long-press'
 import { useRouteMatch } from 'react-router'
 
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
