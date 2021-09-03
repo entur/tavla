@@ -23,7 +23,7 @@ module.exports = (env) => ({
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules|sdk/,
-                loader: 'awesome-typescript-loader',
+                loader: 'ts-loader',
             },
             {
                 test: /\.jsx?$/,
