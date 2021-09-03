@@ -44,8 +44,9 @@ module.exports = (env) => ({
                     {
                         loader: 'postcss-loader',
                         options: {
-                            ident: 'postcss',
-                            plugins: () => [postcssPresetEnv()],
+                            postcssOptions: {
+                                plugins: [() => postcssPresetEnv()],
+                            },
                         },
                     },
                 ],
@@ -58,8 +59,9 @@ module.exports = (env) => ({
                     {
                         loader: 'postcss-loader',
                         options: {
-                            ident: 'postcss',
-                            plugins: () => [postcssPresetEnv()],
+                            postcssOptions: {
+                                plugins: [() => postcssPresetEnv()],
+                            },
                         },
                     },
                     'sass-loader',
