@@ -81,6 +81,14 @@ function getDataGrid(
     }
 }
 
+function removeStopPlacesWithNoDepartures(
+    sPlacesWithDepartures: StopPlaceWithDepartures[],
+): StopPlaceWithDepartures[] {
+    return sPlacesWithDepartures.filter(
+        ({ departures }) => departures.length > 0,
+    )
+}
+
 const BusStop = ({ history }: Props): JSX.Element | null => {
     const [settings] = useSettingsContext()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
@@ -115,14 +123,6 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
         }
     }
 
-    function filterStopPlacesWithDepartures(
-        sPlacesWithDepartures: StopPlaceWithDepartures[],
-    ): StopPlaceWithDepartures[] {
-        return sPlacesWithDepartures.filter(
-            ({ departures }) => departures.length > 0,
-        )
-    }
-
     const mapCol = settings?.showMap ? 1 : 0
     const totalItems = numberOfStopPlaces + mapCol
     const hasData = Boolean(
@@ -150,7 +150,7 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
     useEffect(() => {
         let defaultTileOrder: Item[] = []
         if (stopPlacesWithDepartures) {
-            const filtered = filterStopPlacesWithDepartures(
+            const filtered = removeStopPlacesWithNoDepartures(
                 stopPlacesWithDepartures,
             ).map((item) => ({
                 id: item.id,
