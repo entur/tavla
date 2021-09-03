@@ -120,6 +120,6 @@
         "typescript": "^3.9.9",
         "webpack": "^5.51.2",
         "webpack-cli": "^4.8.0",
-        "webpack-dev-server": "^3.11.2"
+        "webpack-dev-server": "^4.1.0"
     }
 }
