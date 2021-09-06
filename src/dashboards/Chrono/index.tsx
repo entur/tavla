@@ -38,6 +38,8 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 const isMobile = isMobileWeb()
 
+const TEMP_SETTINGS = { showWeather: true }
+
 function getWalkInfoForStopPlace(
     walkInfos: WalkInfo[],
     id: string,
@@ -48,15 +50,18 @@ function getWalkInfoForStopPlace(
 function getDataGrid(
     index: number,
     maxWidth: number,
-): { [key: string]: number } {
-    return {
+    resizable: boolean = true,
+    height: number = 4,
+): { [key: string]: number | boolean } {
+    const dataGrid = {
         w: 1,
         maxW: maxWidth,
         minH: 1,
-        h: 4,
+        h: height,
         x: index % maxWidth,
         y: 0,
     }
+    return resizable ? dataGrid : { ...dataGrid, isResizable: false }
 }
 
 function getDefaultBreakpoint() {
@@ -131,7 +136,8 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
     const mapCol = hasData ? 1 : 0
-    const totalItems = numberOfStopPlaces + bikeCol + mapCol
+    const weatherCol = TEMP_SETTINGS.showWeather ? 1 : 0
+    const totalItems = numberOfStopPlaces + bikeCol + mapCol + weatherCol
 
     const maxWidthCols = COLS[breakpoint]
 
@@ -164,7 +170,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         const storedTileOrder: Item[] | undefined = getFromLocalStorage(
             boardId + '-tile-order',
         )
-        if (true) {
+        if (TEMP_SETTINGS.showWeather) {
             // TODO find condition for when weather should be shown
             defaultTileOrder = [
                 ...defaultTileOrder,
@@ -360,7 +366,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                 >
                     {(stopPlacesWithDepartures || []).map((stop, index) => (
                         <div
-                            key={index.toString()}
+                            key={stop.id}
                             data-grid={getDataGrid(index, maxWidthCols)}
                         >
                             <DepartureTile
@@ -375,7 +381,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                     ))}
                     {bikeRentalStations && anyBikeRentalStations ? (
                         <div
-                            key={numberOfStopPlaces.toString()}
+                            key={'bike_stations'}
                             data-grid={getDataGrid(
                                 numberOfStopPlaces,
                                 maxWidthCols,
@@ -389,9 +395,9 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                     {hasData && settings?.showMap ? (
                         <div
                             id="chrono-map-tile"
-                            key={totalItems - 1}
+                            key={'map'}
                             data-grid={getDataGrid(
-                                totalItems - 1,
+                                totalItems - 2,
                                 maxWidthCols,
                             )}
                         >
@@ -410,10 +416,13 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                     ) : (
                         []
                     )}
-                    {true && (
+                    {TEMP_SETTINGS.showWeather && (
                         <div
-                            key={'TODO:UnikKey'}
-                            data-grid={getDataGrid(totalItems, maxWidthCols)}
+                            key={'weather'}
+                            data-grid={getDataGrid(
+                                totalItems - 1,
+                                maxWidthCols,
+                            )}
                         >
                             <WeatherTile />
                         </div>
