@@ -121,6 +121,7 @@ export default function useStopPlacesWithDepartures():
                             )
                     return {
                         ...stop,
+                        id: stopId,
                         departures: mappedAndFilteredDepartures,
                     }
                 },
