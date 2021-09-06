@@ -12,8 +12,8 @@ const resolveEnv = (env) => {
     return 'staging'
 }
 
-module.exports = (env) => ({
-    mode: 'development',
+module.exports = (env, args) => ({
+    mode: args.mode === 'production' ? 'production' : 'development',
     entry: './src/main.tsx',
     devtool: 'inline-source-map',
     output: {
