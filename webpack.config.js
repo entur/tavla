@@ -75,9 +75,9 @@ module.exports = (env) => ({
             },
             {
                 test: /\.(svg|png|jpe?g|gif|eot|webp|woff2?)$/,
-                loader: 'file-loader',
-                options: {
-                    outputPath: 'assets/',
+                type: 'asset',
+                generator: {
+                    filename: 'assets/[hash][ext][query]',
                 },
             },
         ],
