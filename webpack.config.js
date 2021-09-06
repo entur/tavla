@@ -6,6 +6,12 @@ const CopyPlugin = require('copy-webpack-plugin')
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 
+const resolveEnv = (env) => {
+    if (env.development) return 'development'
+    if (env.prod) return 'prod'
+    return 'staging'
+}
+
 module.exports = (env) => ({
     mode: 'development',
     entry: './src/main.tsx',
@@ -89,10 +95,7 @@ module.exports = (env) => ({
             favicon: 'src/assets/images/logo.png',
         }),
         new Dotenv({
-            path: path.join(
-                __dirname,
-                `.env.${typeof env === 'string' ? env : 'staging'}`,
-            ),
+            path: path.join(__dirname, `.env.${resolveEnv(env)}`),
         }),
         new CopyPlugin({
             patterns: [
