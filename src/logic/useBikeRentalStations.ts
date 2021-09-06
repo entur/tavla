@@ -36,7 +36,11 @@ export default function useBikeRentalStations(): BikeRentalStation[] | null {
         [nearestPlaces],
     )
 
-    const allStationIds = [...newStations, ...nearestBikeRentalStations]
+    const allStationIds = (
+        newStations
+            ? [...newStations, ...nearestBikeRentalStations]
+            : nearestBikeRentalStations
+    )
         .filter((id) => !hiddenStations?.includes(id))
         .filter((id, index, ids) => ids.indexOf(id) === index)
 

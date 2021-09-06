@@ -41,7 +41,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 
     const { addToast } = useToast()
 
-    const { documentId } = useParams()
+    const { documentId } = useParams<{ documentId: string }>()
 
     const onSettingsButtonClick = useCallback(
         (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

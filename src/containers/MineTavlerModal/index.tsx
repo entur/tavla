@@ -61,7 +61,9 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
             !settings.owners?.includes(user.uid) &&
             open
         ) {
-            const newOwnersList = [...settings.owners, user.uid]
+            const newOwnersList = settings.owners
+                ? [...settings.owners, user.uid]
+                : [user.uid]
             setSettings({
                 owners: newOwnersList,
             })
