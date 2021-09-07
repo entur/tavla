@@ -15,16 +15,17 @@ import { DataCell, TableBody, TableRow } from '@entur/table'
 import { settings } from 'cluster'
 import { useContext } from 'react'
 import { SettingsContext } from '../../../settings'
+import { PartlyCloudyIconAnimated } from '../../../components/Weather'
 
 function WeatherTile(data: Props): JSX.Element {
     const [settings] = useContext(SettingsContext)
     const weather = useWeather()
-    weather !== null ? console.log(weather[3].data) : null
+    // weather !== null ? console.log(weather[3].data) : null
 
     return (
         <div className="weathertile tile">
             <div className="tilerows__icon">
-                <ValidationCheckIcon />
+                <PartlyCloudyIconAnimated />
             </div>
 
             <div className="tilerows__icon">
