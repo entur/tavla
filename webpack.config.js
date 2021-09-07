@@ -6,8 +6,14 @@ const CopyPlugin = require('copy-webpack-plugin')
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 
-module.exports = (env) => ({
-    mode: 'development',
+const resolveEnv = (env) => {
+    if (env.development) return 'development'
+    if (env.prod) return 'prod'
+    return 'staging'
+}
+
+module.exports = (env, args) => ({
+    mode: args.mode === 'production' ? 'production' : 'development',
     entry: './src/main.tsx',
     devtool: 'inline-source-map',
     output: {
@@ -23,7 +29,7 @@ module.exports = (env) => ({
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules|sdk/,
-                loader: 'awesome-typescript-loader',
+                loader: 'ts-loader',
             },
             {
                 test: /\.jsx?$/,
@@ -44,8 +50,9 @@ module.exports = (env) => ({
                     {
                         loader: 'postcss-loader',
                         options: {
-                            ident: 'postcss',
-                            plugins: () => [postcssPresetEnv()],
+                            postcssOptions: {
+                                plugins: [() => postcssPresetEnv()],
+                            },
                         },
                     },
                 ],
@@ -58,8 +65,9 @@ module.exports = (env) => ({
                     {
                         loader: 'postcss-loader',
                         options: {
-                            ident: 'postcss',
-                            plugins: () => [postcssPresetEnv()],
+                            postcssOptions: {
+                                plugins: [() => postcssPresetEnv()],
+                            },
                         },
                     },
                     'sass-loader',
@@ -67,16 +75,16 @@ module.exports = (env) => ({
             },
             {
                 test: /\.(svg|png|jpe?g|gif|eot|webp|woff2?)$/,
-                loader: 'file-loader',
-                options: {
-                    outputPath: 'assets/',
+                type: 'asset',
+                generator: {
+                    filename: 'assets/[hash][ext][query]',
                 },
             },
         ],
     },
     devServer: {
         open: true,
-        contentBase: OUTPUT_PATH,
+        static: OUTPUT_PATH,
         port: 9090,
         historyApiFallback: true,
     },
@@ -87,10 +95,7 @@ module.exports = (env) => ({
             favicon: 'src/assets/images/logo.png',
         }),
         new Dotenv({
-            path: path.join(
-                __dirname,
-                `.env.${typeof env === 'string' ? env : 'staging'}`,
-            ),
+            path: path.join(__dirname, `.env.${resolveEnv(env)}`),
         }),
         new CopyPlugin({
             patterns: [
@@ -100,7 +105,6 @@ module.exports = (env) => ({
             ],
         }),
     ],
-    watch: typeof env !== 'string',
     optimization: {
         splitChunks: {
             cacheGroups: {

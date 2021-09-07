@@ -123,9 +123,17 @@ function BoardCard({
             </Link>
 
             <div className="board-card__text-container">
-                <div className="board-card__text-container__top-wrapper">
-                    {boardTitleElement}
-                    <BoardOverflowMenu id={id} uid={uid} history={history} />
+                <div className="board-card__text-container__header-container">
+                    <div className="board-card__text-container__top-wrapper">
+                        {boardTitleElement}
+                    </div>
+                    <div>
+                        <BoardOverflowMenu
+                            id={id}
+                            uid={uid}
+                            history={history}
+                        />
+                    </div>
                 </div>
 
                 <div className="board-card__text-container__text">

@@ -101,8 +101,9 @@ const EditTab = (): JSX.Element => {
 
     useEffect(() => {
         let ignoreResponse = false
-
-        const ids = [...newStops, ...nearestStopPlaceIds]
+        const ids = newStops
+            ? [...newStops, ...nearestStopPlaceIds]
+            : nearestStopPlaceIds
 
         getStopPlacesWithLines(
             ids.map((id: string) => id.replace(/-\d+$/, '')),
@@ -129,7 +130,9 @@ const EditTab = (): JSX.Element => {
             .filter(({ type }) => type === 'BikeRentalStation')
             .map(({ id }) => id)
 
-        const ids = [...newStations, ...nearestBikeRentalStationIds]
+        const ids = newStations
+            ? [...newStations, ...nearestBikeRentalStationIds]
+            : nearestBikeRentalStationIds
 
         service.getBikeRentalStations(ids).then((freshStations) => {
             if (ignoreResponse) return
@@ -149,7 +152,11 @@ const EditTab = (): JSX.Element => {
 
     const addNewStop = useCallback(
         (stopId: string) => {
-            const numberOfDuplicates = [...nearestStopPlaceIds, ...newStops]
+            const numberOfDuplicates = (
+                newStops
+                    ? [...nearestStopPlaceIds, ...newStops]
+                    : nearestStopPlaceIds
+            )
                 .map((id) => id.replace(/-\d+$/, ''))
                 .filter((id) => id === stopId).length
 
@@ -158,7 +165,7 @@ const EditTab = (): JSX.Element => {
                 : `${stopId}-${numberOfDuplicates}`
 
             setSettings({
-                newStops: [...newStops, id],
+                newStops: newStops ? [...newStops, id] : [id],
             })
         },
         [nearestStopPlaceIds, newStops, setSettings],
@@ -167,7 +174,9 @@ const EditTab = (): JSX.Element => {
     const addNewStation = useCallback(
         (stationId: string) => {
             setSettings({
-                newStations: [...newStations, stationId],
+                newStations: newStations
+                    ? [...newStations, stationId]
+                    : [stationId],
             })
         },
         [newStations, setSettings],

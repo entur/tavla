@@ -19,6 +19,7 @@ function getWalkInfoBike(
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
+    const walkInfoBike = useWalkInfoBike(stations)
     const hideWalkInfo = settings?.hideWalkInfo
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
@@ -30,7 +31,6 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
         }
     }, [settings])
 
-    const walkInfoBike = useWalkInfoBike(stations)
     return (
         <Tile
             title="Bysykkel"

@@ -16,24 +16,29 @@ export type WalkInfoBike = {
 async function getWalkInfoBike(
     rentalStations: BikeRentalStation[],
     from: Coordinates,
+    signal: AbortSignal,
 ): Promise<WalkInfoBike[]> {
     const travelTimes = await Promise.all(
         rentalStations.map((stopPlace) =>
             service
-                .getTripPatterns({
-                    from: {
-                        name: 'pin',
-                        coordinates: from,
-                    },
-                    to: {
-                        coordinates: {
-                            longitude: stopPlace.longitude,
-                            latitude: stopPlace.latitude,
+                .getTripPatterns(
+                    {
+                        from: {
+                            name: 'pin',
+                            coordinates: from,
                         },
+                        to: {
+                            coordinates: {
+                                longitude: stopPlace.longitude,
+                                latitude: stopPlace.latitude,
+                            },
+                        },
+                        modes: [QueryMode.FOOT],
+                        limit: 1,
                     },
-                    modes: [QueryMode.FOOT],
-                    limit: 1,
-                })
+                    undefined,
+                    { signal },
+                )
                 .then((result) => {
                     if (!result[0].duration || !result[0].walkDistance) {
                         return null
@@ -44,7 +49,9 @@ async function getWalkInfoBike(
                         walkDistance: result[0].walkDistance,
                     }
                 })
-                .catch(() => null),
+                .catch((err) => {
+                    throw err
+                }),
         ),
     )
 
@@ -65,25 +72,35 @@ export default function useTravelTime(
 
     const ids = rentalStations?.map((stopPlace) => stopPlace.id)
     const previousIds = usePrevious(ids)
-    const travelTimeSet = travelTime !== null
 
     useEffect(() => {
-        if (!rentalStations) {
-            return setTravelTime(null)
+        const abortController = new AbortController()
+        if ((!isEqual(ids, previousIds) || !travelTime) && rentalStations) {
+            getWalkInfoBike(
+                rentalStations,
+                {
+                    latitude: fromLatitude,
+                    longitude: fromLongitude,
+                },
+                abortController.signal,
+            )
+                .then(setTravelTime)
+                .catch((err) => {
+                    if (!abortController.signal.aborted) {
+                        throw err
+                    }
+                })
         }
-        if (!isEqual(ids, previousIds) || !travelTimeSet) {
-            getWalkInfoBike(rentalStations, {
-                latitude: fromLatitude,
-                longitude: fromLongitude,
-            }).then(setTravelTime)
+        return () => {
+            abortController.abort()
         }
     }, [
         fromLatitude,
         fromLongitude,
         ids,
         previousIds,
+        travelTime,
         rentalStations,
-        travelTimeSet,
     ])
 
     return travelTime
