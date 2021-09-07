@@ -52,7 +52,7 @@ function getDataGrid(
     maxWidth: number,
     resizable: boolean = true,
     height: number = 4,
-): { [key: string]: number | boolean } {
+): { [key: string]: number | boolean | [] } {
     const dataGrid = {
         w: 1,
         maxW: maxWidth,
@@ -61,7 +61,9 @@ function getDataGrid(
         x: index % maxWidth,
         y: 0,
     }
-    return resizable ? dataGrid : { ...dataGrid, isResizable: false }
+    return resizable
+        ? dataGrid
+        : { ...dataGrid, isResizable: false, resizeHandles: [] }
 }
 
 function getDefaultBreakpoint() {
@@ -92,17 +94,17 @@ const COLS: { [key: string]: number } = {
 const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
     const [settings] = useSettingsContext()
     const dashboardKey = history.location.key
-    const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
-    const isCancelled = useRef<NodeJS.Timeout>()
     const boardId =
         useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
             ?.documentId
+
+    const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
+    const isCancelled = useRef<NodeJS.Timeout>()
 
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey),
     )
-
     const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
     )
@@ -111,38 +113,27 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
     let stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const scooters = useMobility(FormFactor.SCOOTER)
 
-    const hasData = Boolean(
-        bikeRentalStations?.length ||
-            scooters?.length ||
-            stopPlacesWithDepartures?.length,
-    )
-    function clearLongPressTimeout() {
-        setIsLongPressStarted(false)
-        if (isCancelled.current) {
-            clearTimeout(isCancelled.current)
-        }
-    }
-    if (stopPlacesWithDepartures) {
-        stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
-            ({ departures }) => departures.length > 0,
-        )
-    }
-
     const walkInfo = useWalkInfo(stopPlacesWithDepartures)
 
     const numberOfStopPlaces = stopPlacesWithDepartures?.length || 0
     const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
 
-    const bikeCol = anyBikeRentalStations ? 1 : 0
-    const mapCol = hasData ? 1 : 0
-    const weatherCol = TEMP_SETTINGS.showWeather ? 1 : 0
-    const totalItems = numberOfStopPlaces + bikeCol + mapCol + weatherCol
-
     const maxWidthCols = COLS[breakpoint]
 
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
     const [modalVisible, setModalVisible] = useState(false)
+
+    const hasData = Boolean(
+        bikeRentalStations?.length ||
+            scooters?.length ||
+            stopPlacesWithDepartures?.length,
+    )
+
+    const bikeCol = anyBikeRentalStations ? 1 : 0
+    const mapCol = hasData ? 1 : 0
+    const weatherCol = TEMP_SETTINGS.showWeather ? 1 : 0
+    const totalItems = numberOfStopPlaces + bikeCol + mapCol + weatherCol
 
     useEffect(() => {
         let defaultTileOrder: Item[] = []
@@ -222,6 +213,18 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
             cancelOnMovement: true,
         },
     )
+
+    function clearLongPressTimeout() {
+        setIsLongPressStarted(false)
+        if (isCancelled.current) {
+            clearTimeout(isCancelled.current)
+        }
+    }
+    if (stopPlacesWithDepartures) {
+        stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
+            ({ departures }) => departures.length > 0,
+        )
+    }
 
     if (window.innerWidth < BREAKPOINTS.md) {
         let numberOfTileRows = 10
@@ -364,10 +367,21 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                         }
                     }}
                 >
+                    {TEMP_SETTINGS.showWeather && (
+                        <div
+                            key={'weather'}
+                            data-grid={getDataGrid(0, maxWidthCols, false, 1)}
+                        >
+                            <WeatherTile />
+                        </div>
+                    )}
                     {(stopPlacesWithDepartures || []).map((stop, index) => (
                         <div
                             key={stop.id}
-                            data-grid={getDataGrid(index, maxWidthCols)}
+                            data-grid={getDataGrid(
+                                weatherCol + index,
+                                maxWidthCols,
+                            )}
                         >
                             <DepartureTile
                                 key={index}
@@ -383,7 +397,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                         <div
                             key={'bike_stations'}
                             data-grid={getDataGrid(
-                                numberOfStopPlaces,
+                                numberOfStopPlaces + weatherCol,
                                 maxWidthCols,
                             )}
                         >
@@ -397,7 +411,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                             id="chrono-map-tile"
                             key={'map'}
                             data-grid={getDataGrid(
-                                totalItems - 2,
+                                numberOfStopPlaces + bikeCol + weatherCol,
                                 maxWidthCols,
                             )}
                         >
@@ -415,17 +429,6 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                         </div>
                     ) : (
                         []
-                    )}
-                    {TEMP_SETTINGS.showWeather && (
-                        <div
-                            key={'weather'}
-                            data-grid={getDataGrid(
-                                totalItems - 1,
-                                maxWidthCols,
-                            )}
-                        >
-                            <WeatherTile />
-                        </div>
                     )}
                 </ResponsiveReactGridLayout>
             </div>
