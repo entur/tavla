@@ -3,7 +3,7 @@
 
 .chrono .weathertile {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     height: inherit;
     width: inherit;
@@ -36,9 +36,5 @@
         margin-bottom: -0.6rem;
         margin-left: 0.2rem;
         font-size: 1rem;
-    }
-
-    @media (max-width: 1000px) {
-        height: 39.375rem;
     }
 }

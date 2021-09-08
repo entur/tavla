@@ -300,10 +300,12 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                         []
                                     )
                                 } else if (item.id == 'weather') {
-                                    return (
-                                        <div key={'TODO:UnikKey'}>
+                                    return TEMP_SETTINGS.showWeather ? (
+                                        <div key={item.id}>
                                             <WeatherTile />
                                         </div>
+                                    ) : (
+                                        []
                                     )
                                 } else if (stopPlacesWithDepartures) {
                                     const stopIndex =

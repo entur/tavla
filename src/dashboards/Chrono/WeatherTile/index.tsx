@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react'
-
-import { BikeRentalStation } from '@entur/sdk'
-
-import { Vehicle } from '@entur/sdk/lib/mobility/types'
-
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import './styles.scss'
 
-import { StopPlaceWithDepartures } from '../../../types'
 import { useWeather } from '../../../logic'
-import { useContext } from 'react'
-import { SettingsContext } from '../../../settings'
 import { WeatherIconApi } from '../../../components/Weather'
 import { ThermometerIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
 
+const BREAKPOINTS = {
+    fourItems: 570,
+    threeItems: 380,
+    twoItems: 290,
+}
+
 function WeatherTile(data: Props): JSX.Element {
-    const [settings] = useContext(SettingsContext)
     const weather = useWeather()
 
     const [temperatureClassName, setTemperatureClassName] = useState(
@@ -40,44 +37,45 @@ function WeatherTile(data: Props): JSX.Element {
                     />
                 )}
             </div>
+            {window.innerWidth > BREAKPOINTS.twoItems && (
+                <div className="weathertile__weatherData">
+                    <ThermometerIcon />
+                    <span className={temperatureClassName}>
+                        {weather != null
+                            ? weather[3].data.instant.details.air_temperature +
+                              '°'
+                            : '?'}
+                    </span>
+                </div>
+            )}
+            {window.innerWidth > BREAKPOINTS.threeItems && (
+                <div className="weathertile__weatherData">
+                    <UmbrellaIcon />
+                    <span className="weathertile__weatherData--color-blue">
+                        {weather != null
+                            ? weather[3].data.next_6_hours.details
+                                  .precipitation_amount
+                            : '?'}
+                        <span className="weathertile--subscript">mm</span>
+                    </span>
+                </div>
+            )}
 
-            <div className="weathertile__weatherData">
-                <ThermometerIcon />
-                <span className={temperatureClassName}>
+            {window.innerWidth > BREAKPOINTS.fourItems && (
+                <div className="weathertile__weatherData">
+                    <WindIcon />
                     {weather != null
-                        ? weather[3].data.instant.details.air_temperature + '°'
+                        ? weather[3].data.instant.details.wind_speed
                         : '?'}
-                </span>
-            </div>
-            <div className="weathertile__weatherData">
-                <UmbrellaIcon />
-                <span className="weathertile__weatherData--color-blue">
-                    {weather != null
-                        ? weather[3].data.next_6_hours.details
-                              .precipitation_amount
-                        : '?'}
-                    <span className="weathertile--subscript">mm</span>
-                </span>
-            </div>
-            <div className="weathertile__weatherData">
-                <WindIcon />
-                {weather != null
-                    ? weather[3].data.instant.details.wind_speed
-                    : '?'}
-                <span className="weathertile--subscript">m/s</span>
-            </div>
+                    <span className="weathertile--subscript">m/s</span>
+                </div>
+            )}
         </div>
     )
 }
 
 interface Props {
-    stopPlaces?: StopPlaceWithDepartures[] | null
-    bikeRentalStations?: BikeRentalStation[] | null
-    scooters?: Vehicle[] | null
-    walkTimes?: Array<{ stopId: string; walkTime: number }> | null
-    latitude?: number
-    longitude?: number
-    zoom?: number
+    iconSet?: string
 }
 
 export default WeatherTile
