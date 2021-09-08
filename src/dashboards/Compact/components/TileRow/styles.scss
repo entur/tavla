@@ -46,7 +46,8 @@
     &__sublabels {
         display: flex;
         flex-wrap: nowrap;
-        overflow-x: auto;
+        overflow-x: scroll;
+        overflow-y: hidden;
         font-size: $font-sizes-extra-large;
 
         &::-webkit-scrollbar {
