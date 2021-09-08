@@ -3,7 +3,7 @@
 
 .chrono .weathertile {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     height: inherit;
     width: inherit;
@@ -11,6 +11,32 @@
     color: var(--tavla-font-color);
     overflow: auto;
     overflow-x: hidden;
+    padding-top: 2.5rem;
+
+    &__weatherData {
+        align-items: center;
+        display: flex;
+        font-size: $font-sizes-extra-large4;
+
+        svg {
+            margin-bottom: 0.5rem;
+            margin-right: 0.2rem;
+        }
+
+        &--color-red {
+            color: #ff5959;
+        }
+
+        &--color-blue {
+            color: #64b3e7;
+        }
+    }
+
+    &--subscript {
+        margin-bottom: -0.6rem;
+        margin-left: 0.2rem;
+        font-size: 1rem;
+    }
 
     @media (max-width: 1000px) {
         height: 39.375rem;

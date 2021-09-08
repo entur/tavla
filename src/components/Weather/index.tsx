@@ -1,5 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './styles.scss'
+
+interface Props {
+    iconName: string
+}
+
+export const WeatherIconApi = ({ iconName }: Props): JSX.Element => {
+    return (
+        <div className="icon">
+            <img
+                src={
+                    'https://api.met.no/images/weathericons/svg/' +
+                    iconName +
+                    '.svg'
+                }
+            />
+        </div>
+    )
+}
 
 export const SunIconAnimated = (): JSX.Element => (
     <div className="icon">

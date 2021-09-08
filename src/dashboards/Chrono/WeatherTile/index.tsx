@@ -1,5 +1,4 @@
-import React from 'react'
-import 'mapbox-gl/dist/mapbox-gl.css'
+import React, { useEffect, useState } from 'react'
 
 import { BikeRentalStation } from '@entur/sdk'
 
@@ -8,48 +7,64 @@ import { Vehicle } from '@entur/sdk/lib/mobility/types'
 import './styles.scss'
 
 import { StopPlaceWithDepartures } from '../../../types'
-import Tile from '../components/Tile'
-import { CloudDownloadIcon, ValidationCheckIcon } from '@entur/icons'
 import { useWeather } from '../../../logic'
-import { DataCell, TableBody, TableRow } from '@entur/table'
-import { settings } from 'cluster'
 import { useContext } from 'react'
 import { SettingsContext } from '../../../settings'
-import { PartlyCloudyIconAnimated } from '../../../components/Weather'
+import { WeatherIconApi } from '../../../components/Weather'
+import { ThermometerIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
 
 function WeatherTile(data: Props): JSX.Element {
     const [settings] = useContext(SettingsContext)
     const weather = useWeather()
-    // weather !== null ? console.log(weather[3].data) : null
+
+    const [temperatureClassName, setTemperatureClassName] = useState(
+        'weathertile__weatherData--color-red',
+    )
+
+    useEffect(() => {
+        if (weather && weather[3].data.instant.details.air_temperature >= 0) {
+            setTemperatureClassName('weathertile__weatherData--color-red')
+        } else {
+            setTemperatureClassName('weathertile__weatherData--color-blue')
+        }
+    }, [weather])
 
     return (
         <div className="weathertile tile">
-            <div className="tilerows__icon">
-                <PartlyCloudyIconAnimated />
+            <div>
+                {weather && (
+                    <WeatherIconApi
+                        iconName={
+                            weather[3].data.next_6_hours.summary.symbol_code
+                        }
+                    />
+                )}
             </div>
 
-            <div className="tilerows__icon">
-                {/* <ValidationCheckIcon inline /> */}
-                {weather != null
-                    ? weather[3].data.instant.details.air_temperature + '°'
-                    : '?'}
+            <div className="weathertile__weatherData">
+                <ThermometerIcon />
+                <span className={temperatureClassName}>
+                    {weather != null
+                        ? weather[3].data.instant.details.air_temperature + '°'
+                        : '?'}
+                </span>
             </div>
-
-            <div className="tilerows__icon">
-                {weather != null
-                    ? weather[3].data.instant.details.wind_speed +
-                      String.fromCharCode(160) +
-                      'm/s'
-                    : '?'}
+            <div className="weathertile__weatherData">
+                <UmbrellaIcon />
+                <span className="weathertile__weatherData--color-blue">
+                    {weather != null
+                        ? weather[3].data.next_6_hours.details
+                              .precipitation_amount
+                        : '?'}
+                    <span className="weathertile--subscript">mm</span>
+                </span>
             </div>
-
-            <div className="tilerows__icon">
+            <div className="weathertile__weatherData">
+                <WindIcon />
                 {weather != null
-                    ? weather[3].data.next_6_hours.details
-                          .precipitation_amount +
-                      String.fromCharCode(160) +
-                      'mm'
+                    ? weather[3].data.instant.details.wind_speed
                     : '?'}
+                <span className="weathertile--subscript">m/s</span>
             </div>
         </div>
     )
