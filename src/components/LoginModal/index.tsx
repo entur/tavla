@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import firebase from 'firebase/app'
+import firebase from 'firebase/compat/app'
 
 import { useToast } from '@entur/alert'
 import { Modal } from '@entur/modal'

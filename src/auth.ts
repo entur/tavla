@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, createContext } from 'react'
 
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
 
 /**
  * If user is undefined, we don't know yet if user is logged in.

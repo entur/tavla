@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+import firebase from 'firebase/compat/app'
 
 if (!process.env.FIREBASE_CONFIG) {
     // eslint-disable-next-line no-console

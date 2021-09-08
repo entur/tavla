@@ -1,5 +1,5 @@
 import React, { useState, Dispatch, SetStateAction } from 'react'
-import firebase from 'firebase/app'
+import firebase from 'firebase/compat/app'
 
 import { TextField, InputGroup } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'

@@ -1,7 +1,7 @@
-import firebase from 'firebase/app'
-import 'firebase/firestore'
-import 'firebase/functions'
-import 'firebase/storage'
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/firestore'
+import 'firebase/compat/functions'
+import 'firebase/compat/storage'
 
 import { Settings } from '../settings/index'
 import { getDocumentId } from '../utils'

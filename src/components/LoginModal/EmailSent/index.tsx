@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react'
-import firebase from 'firebase/app'
+import firebase from 'firebase/compat/app'
 
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'

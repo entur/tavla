@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import firebase from 'firebase/app'
+import firebase from 'firebase/compat/app'
 
 import { useToast } from '@entur/alert'
 import { TopNavigationItem } from '@entur/menu'
