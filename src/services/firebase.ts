@@ -1,7 +1,30 @@
-import firebase from 'firebase/compat/app'
-import 'firebase/compat/firestore'
-import 'firebase/compat/functions'
-import 'firebase/compat/storage'
+import {
+    collection,
+    getDoc,
+    query,
+    doc,
+    where,
+    onSnapshot,
+    updateDoc,
+    serverTimestamp,
+    arrayRemove,
+    deleteDoc,
+    addDoc,
+    setDoc,
+} from 'firebase/firestore'
+
+import { httpsCallable } from 'firebase/functions'
+
+import type {
+    DocumentReference,
+    QuerySnapshot,
+    GeoPoint,
+} from 'firebase/firestore'
+
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { signInWithCustomToken } from 'firebase/auth'
+
+import { storage, db, auth, functions } from '../firebase-init'
 
 import { Settings } from '../settings/index'
 import { getDocumentId } from '../utils'
@@ -9,11 +32,8 @@ import { FieldTypes } from '../settings/FirestoreStorage'
 
 const SETTINGS_COLLECTION = 'settings'
 
-type DocumentReference = firebase.firestore.DocumentReference
-type QuerySnapshot = firebase.firestore.QuerySnapshot
-
 export const getSettings = (id: string): DocumentReference =>
-    firebase.firestore().collection(SETTINGS_COLLECTION).doc(id)
+    doc(collection(db, SETTINGS_COLLECTION), id)
 
 export const getBoardsOnSnapshot = (
     userId: string,
@@ -22,11 +42,11 @@ export const getBoardsOnSnapshot = (
         error: () => void
     },
 ): (() => void) => {
-    const db = firebase.firestore()
-    return db
-        .collection(SETTINGS_COLLECTION)
-        .where('owners', 'array-contains', userId)
-        .onSnapshot(observer)
+    const q = query(
+        collection(db, SETTINGS_COLLECTION),
+        where('owners', 'array-contains', userId),
+    )
+    return onSnapshot(q, observer)
 }
 
 export const updateSingleSettingsField = async (
@@ -34,27 +54,19 @@ export const updateSingleSettingsField = async (
     fieldId: string,
     fieldValue: FieldTypes,
 ): Promise<void> =>
-    firebase
-        .firestore()
-        .collection(SETTINGS_COLLECTION)
-        .doc(docId)
-        .update({
-            [fieldId]: fieldValue,
-            lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
-        })
+    updateDoc(doc(collection(db, SETTINGS_COLLECTION), docId), {
+        [fieldId]: fieldValue,
+        lastmodified: serverTimestamp(),
+    })
 
 export const updateMultipleSettingsFields = async (
     docId: string,
     settings: Settings,
 ): Promise<void> =>
-    firebase
-        .firestore()
-        .collection(SETTINGS_COLLECTION)
-        .doc(docId)
-        .update({
-            ...settings,
-            lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
-        })
+    updateDoc(doc(collection(db, SETTINGS_COLLECTION), docId), {
+        ...settings,
+        lastmodified: serverTimestamp(),
+    })
 
 export const removeFromArray = async (
     docId: string,
@@ -63,80 +75,77 @@ export const removeFromArray = async (
         | string
         | number
         | string[]
-        | firebase.firestore.GeoPoint
+        | GeoPoint
         | { [key: string]: string[] },
 ): Promise<void> =>
-    firebase
-        .firestore()
-        .collection(SETTINGS_COLLECTION)
-        .doc(docId)
-        .update({
-            [fieldId]: firebase.firestore.FieldValue.arrayRemove(fieldValue),
-            lastmodified: firebase.firestore.FieldValue.serverTimestamp(),
-        })
+    updateDoc(doc(collection(db, SETTINGS_COLLECTION), docId), {
+        [fieldId]: arrayRemove(fieldValue),
+        lastmodified: serverTimestamp(),
+    })
 
 export const deleteDocument = async (docId: string): Promise<void> =>
-    firebase.firestore().collection(SETTINGS_COLLECTION).doc(docId).delete()
+    deleteDoc(doc(collection(db, SETTINGS_COLLECTION), docId))
 
 export const createSettings = async (
     settings: Settings,
 ): Promise<DocumentReference> =>
-    firebase.firestore().collection(SETTINGS_COLLECTION).add(settings)
+    addDoc(collection(db, SETTINGS_COLLECTION), settings)
 
 export const createSettingsWithId = async (
     settings: Settings,
     docId: string,
-): Promise<void> => {
-    firebase
-        .firestore()
-        .collection(SETTINGS_COLLECTION)
-        .doc(docId)
-        .set({ ...settings })
-}
+): Promise<void> =>
+    setDoc(doc(collection(db, SETTINGS_COLLECTION), docId), settings)
+
 export const uploadLogo = async (
     image: File,
     onProgress: (progress: number) => void,
     onFinished: (url: string) => void,
     onError: () => void,
 ): Promise<void> => {
-    const token = await firebase.auth().currentUser?.getIdToken()
+    const token = await auth.currentUser?.getIdToken()
+    interface ResponseData {
+        uploadToken: string | undefined
+    }
 
-    const getImageUploadToken = firebase
-        .functions()
-        .httpsCallable('getImageUploadToken')
+    interface UploadData {
+        imageUid: string | undefined
+        token: string | undefined
+    }
+
+    const getImageUploadToken = httpsCallable<UploadData, ResponseData>(
+        functions,
+        'getImageUploadToken',
+    )
 
     const documentId = getDocumentId()
 
     const response = await getImageUploadToken({ imageUid: documentId, token })
 
-    await firebase.auth().signInWithCustomToken(response.data.uploadToken)
+    if (response.data.uploadToken)
+        await signInWithCustomToken(auth, response.data.uploadToken)
 
-    const uploadTask = firebase
-        .storage()
-        .ref()
-        .child(`images/${documentId}`)
-        .put(image)
+    const uploadTask = uploadBytesResumable(
+        ref(storage, `images/${documentId}`),
+        image,
+    )
 
     uploadTask.on(
-        firebase.storage.TaskEvent.STATE_CHANGED,
+        'state_changed',
         (snapshot) => {
             const progress = Math.round(
                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
             )
-
             onProgress(progress)
         },
         onError,
         async () => {
-            onFinished(await uploadTask.snapshot.ref.getDownloadURL())
-            firebase
-                .firestore()
-                .collection(SETTINGS_COLLECTION)
-                .doc(documentId)
-                .update({
-                    lastmodified:
-                        firebase.firestore.FieldValue.serverTimestamp(),
-                })
+            onFinished(
+                await getDownloadURL(ref(storage, `images/${documentId}`)),
+            )
+            updateDoc(doc(collection(db, SETTINGS_COLLECTION), documentId), {
+                lastmodified: serverTimestamp(),
+            })
         },
     )
 }
@@ -146,10 +155,10 @@ export const copySettingsToNewId = (
     settings: Settings | null,
 ): Promise<boolean> => {
     const newDocRef: DocumentReference = getSettings(newDocId)
-    return newDocRef
-        .get()
+
+    return getDoc(newDocRef)
         .then((document) => {
-            if (document.exists) {
+            if (document.exists()) {
                 return false
             } else {
                 if (settings) {
