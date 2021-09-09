@@ -26,7 +26,7 @@ export default function useBikeRentalStations(): BikeRentalStation[] | null {
         settings?.distance,
     )
 
-    const { newStations, hiddenStations, hiddenModes } = settings || {}
+    const { newStations = [], hiddenStations, hiddenModes } = settings || {}
 
     const nearestBikeRentalStations = useMemo(
         () =>

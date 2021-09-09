@@ -54,7 +54,7 @@ export default function useStopPlacesWithDepartures():
     >(null)
 
     const {
-        newStops,
+        newStops = [],
         hiddenStops,
         hiddenStopModes,
         hiddenRoutes,
@@ -121,6 +121,7 @@ export default function useStopPlacesWithDepartures():
                             )
                     return {
                         ...stop,
+                        id: stopId,
                         departures: mappedAndFilteredDepartures,
                     }
                 },
