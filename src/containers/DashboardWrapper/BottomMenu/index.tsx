@@ -17,8 +17,7 @@ import {
 import { useToast } from '@entur/alert'
 
 import { useSettingsContext } from '../../../settings'
-import { useFirebaseAuthentication } from '../../../auth'
-import { auth } from '../../../firebase-init'
+import { useFirebaseAuthentication, auth } from '../../../auth'
 
 import LockModal from '../../LockModal'
 import LoginModal from '../../../components/LoginModal'

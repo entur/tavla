@@ -6,8 +6,7 @@ import { useToast } from '@entur/alert'
 
 import LoginModal from '../../components/LoginModal'
 
-import { auth } from '../../firebase-init'
-import { useUser } from '../../auth'
+import { useUser, auth } from '../../auth'
 import { getDocumentId } from '../../utils'
 
 import sikkerhetBomLight from '../../assets/images/sikkerhet_bom_light@2x.png'

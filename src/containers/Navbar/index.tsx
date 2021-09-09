@@ -7,11 +7,9 @@ import { useToast } from '@entur/alert'
 import { TopNavigationItem } from '@entur/menu'
 import { UserIcon, LogOutIcon, GithubIcon, PrivacyIcon } from '@entur/icons'
 
-import { auth } from '../../firebase-init'
+import { useUser, auth } from '../../auth'
 import { TavlaLogo } from '../../assets/icons'
 import LoginModal from '../../components/LoginModal'
-
-import { useUser } from '../../auth'
 
 import './styles.scss'
 

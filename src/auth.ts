@@ -36,3 +36,4 @@ export const UserProvider = UserContext.Provider
 export function useUser(): User | null | undefined {
     return useContext(UserContext)
 }
+export { auth }
