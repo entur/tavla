@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import { Tooltip } from '@entur/tooltip'
+import React, { useEffect, useState } from 'react'
+import { getWeatherDescriptionFromApi } from '../../utils'
 import './styles.scss'
 
 interface Props {
@@ -6,16 +8,26 @@ interface Props {
 }
 
 export const WeatherIconApi = ({ iconName }: Props): JSX.Element => {
+    const [description, setDescription] = useState('')
+
+    useEffect(() => {
+        getWeatherDescriptionFromApi(iconName).then((description) =>
+            setDescription(description),
+        )
+    }, [iconName])
+
     return (
-        <div className="icon">
-            <img
-                src={
-                    'https://api.met.no/images/weathericons/svg/' +
-                    iconName +
-                    '.svg'
-                }
-            />
-        </div>
+        <Tooltip content={description} placement="top">
+            <div className="icon">
+                <img
+                    src={
+                        'https://api.met.no/images/weathericons/svg/' +
+                        iconName +
+                        '.svg'
+                    }
+                />
+            </div>
+        </Tooltip>
     )
 }
 

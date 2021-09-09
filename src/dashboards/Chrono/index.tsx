@@ -164,8 +164,8 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         if (TEMP_SETTINGS.showWeather) {
             // TODO find condition for when weather should be shown
             defaultTileOrder = [
-                ...defaultTileOrder,
                 { id: 'weather', name: 'Vær' },
+                ...defaultTileOrder,
             ]
         }
 

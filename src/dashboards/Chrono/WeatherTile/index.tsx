@@ -4,6 +4,7 @@ import './styles.scss'
 import { useWeather } from '../../../logic'
 import { WeatherIconApi } from '../../../components/Weather'
 import { ThermometerIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
+import { Tooltip } from '@entur/tooltip'
 
 const BREAKPOINTS = {
     fourItems: 570,
@@ -39,7 +40,7 @@ function WeatherTile(data: Props): JSX.Element {
             </div>
             {window.innerWidth > BREAKPOINTS.twoItems && (
                 <div className="weathertile__weatherData">
-                    <ThermometerIcon />
+                    <ThermometerIcon size={20} />
                     <span className={temperatureClassName}>
                         {weather != null
                             ? weather[3].data.instant.details.air_temperature +
@@ -49,21 +50,23 @@ function WeatherTile(data: Props): JSX.Element {
                 </div>
             )}
             {window.innerWidth > BREAKPOINTS.threeItems && (
-                <div className="weathertile__weatherData">
-                    <UmbrellaIcon />
-                    <span className="weathertile__weatherData--color-blue">
-                        {weather != null
-                            ? weather[3].data.next_6_hours.details
-                                  .precipitation_amount
-                            : '?'}
-                        <span className="weathertile--subscript">mm</span>
-                    </span>
-                </div>
+                <Tooltip content="De neste seks timene" placement="top">
+                    <div className="weathertile__weatherData">
+                        <UmbrellaIcon size={20} />
+                        <span className="weathertile__weatherData--color-blue">
+                            {weather != null
+                                ? weather[3].data.next_6_hours.details
+                                      .precipitation_amount
+                                : '?'}
+                            <span className="weathertile--subscript">mm</span>
+                        </span>
+                    </div>
+                </Tooltip>
             )}
 
             {window.innerWidth > BREAKPOINTS.fourItems && (
                 <div className="weathertile__weatherData">
-                    <WindIcon />
+                    <WindIcon size={20} />
                     {weather != null
                         ? weather[3].data.instant.details.wind_speed
                         : '?'}
