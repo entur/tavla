@@ -1,5 +1,7 @@
 import React, { useState, Dispatch, SetStateAction } from 'react'
-import firebase from 'firebase/compat/app'
+
+import type { User } from 'firebase/auth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 
 import { TextField, InputGroup } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -7,6 +9,7 @@ import { EmailIcon, ClosedLockIcon, BackArrowIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading2, Link } from '@entur/typography'
 
+import { auth } from '../../../firebase-init'
 import { useFormFields } from '../../../utils'
 import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
@@ -20,7 +23,7 @@ const EMAIL_REGEX =
 
 interface Props {
     setModalType: Dispatch<SetStateAction<ModalType>>
-    onDismiss: (user?: firebase.User) => void
+    onDismiss: (user?: User) => void
 }
 
 interface UserSignUp {
@@ -68,18 +71,15 @@ const Signup = ({ setModalType, onDismiss }: Props): JSX.Element => {
             return
         }
 
-        firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .catch(function (error) {
-                if (error.code === 'auth/email-already-in-use') {
-                    setEmailError('Denne e-posten er allerede registrert.')
-                } else if (error.code === 'auth/invalid-email') {
-                    setEmailError('Dette er ikke en gyldig e-post.')
-                } else {
-                    setEmailError(undefined)
-                }
-            })
+        createUserWithEmailAndPassword(auth, email, password).catch((error) => {
+            if (error.code === 'auth/email-already-in-use') {
+                setEmailError('Denne e-posten er allerede registrert.')
+            } else if (error.code === 'auth/invalid-email') {
+                setEmailError('Dette er ikke en gyldig e-post.')
+            } else {
+                setEmailError(undefined)
+            }
+        })
     }
 
     const handleClose = (): void => {

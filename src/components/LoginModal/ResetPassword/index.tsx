@@ -1,5 +1,7 @@
 import React, { useState, Dispatch, SetStateAction } from 'react'
-import firebase from 'firebase/compat/app'
+
+import type { User } from 'firebase/auth'
+import { sendPasswordResetEmail } from 'firebase/auth'
 
 import { TextField, InputGroup } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -7,6 +9,7 @@ import { EmailIcon, BackArrowIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
 
+import { auth } from '../../../firebase-init'
 import { useFormFields } from '../../../utils'
 import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
@@ -20,7 +23,7 @@ export interface UserResetPassword {
 
 interface Props {
     setModalType: Dispatch<SetStateAction<ModalType>>
-    onDismiss: (user?: firebase.User) => void
+    onDismiss: (user?: User) => void
 }
 
 const ResetPassword = ({ setModalType, onDismiss }: Props): JSX.Element => {
@@ -35,13 +38,11 @@ const ResetPassword = ({ setModalType, onDismiss }: Props): JSX.Element => {
             url: window.location.href,
         }
 
-        firebase
-            .auth()
-            .sendPasswordResetEmail(inputs.email, actionCodeSettings)
-            .then(function () {
+        sendPasswordResetEmail(auth, inputs.email, actionCodeSettings)
+            .then(() => {
                 setModalType('EmailSentModal')
             })
-            .catch(function (error) {
+            .catch((error) => {
                 if (error.code === 'auth/invalid-email') {
                     setEmailError('E-posten er ikke gyldig')
                 } else if (error.code === 'auth/user-not-found') {

@@ -1,7 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
+
+import { signOut } from 'firebase/auth'
+
 import { useParams } from 'react-router-dom'
 import copy from 'copy-to-clipboard'
-import firebase from 'firebase/compat/app'
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { useWindowWidth } from '@react-hook/window-size'
 
@@ -16,6 +18,7 @@ import { useToast } from '@entur/alert'
 
 import { useSettingsContext } from '../../../settings'
 import { useFirebaseAuthentication } from '../../../auth'
+import { auth } from '../../../firebase-init'
 
 import LockModal from '../../LockModal'
 import LoginModal from '../../../components/LoginModal'
@@ -100,7 +103,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
                         content: 'Du er nå logget ut av din konto.',
                         variant: 'success',
                     })
-                    firebase.auth().signOut()
+                    signOut(auth)
                 }}
             />
         ) : null)
