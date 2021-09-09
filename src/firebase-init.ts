@@ -1,4 +1,4 @@
-import firebase from 'firebase/compat/app'
+import { initializeApp } from 'firebase/app'
 import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
 import { getAuth, connectAuthEmulator } from 'firebase/auth'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
@@ -12,7 +12,7 @@ const firebaseConfig = process.env.FIREBASE_CONFIG
     ? JSON.parse(process.env.FIREBASE_CONFIG)
     : {}
 
-export const firebaseApp = firebase.initializeApp(firebaseConfig)
+export const firebaseApp = initializeApp(firebaseConfig)
 export const auth = getAuth(firebaseApp)
 export const functions = getFunctions(firebaseApp)
 export const db = getFirestore(firebaseApp)
