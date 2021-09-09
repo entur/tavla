@@ -54,7 +54,7 @@ export default function useStopPlacesWithDepartures():
     >(null)
 
     const {
-        newStops,
+        newStops = [],
         hiddenStops,
         hiddenStopModes,
         hiddenRoutes,
@@ -71,9 +71,9 @@ export default function useStopPlacesWithDepartures():
 
     const isDisabled = Boolean(hiddenModes?.includes('kollektiv'))
 
-    const allStopPlaceIds = unique(
-        newStops ? [...newStops, ...nearestStopPlaces] : nearestStopPlaces,
-    ).filter((id) => !hiddenStops?.includes(id))
+    const allStopPlaceIds = unique([...newStops, ...nearestStopPlaces]).filter(
+        (id) => !hiddenStops?.includes(id),
+    )
 
     const allStopPlaceIdsWithoutDuplicateNumber = allStopPlaceIds.map((id) =>
         id.replace(/-\d+$/, ''),

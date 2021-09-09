@@ -26,7 +26,7 @@ export default function useBikeRentalStations(): BikeRentalStation[] | null {
         settings?.distance,
     )
 
-    const { newStations, hiddenStations, hiddenModes } = settings || {}
+    const { newStations = [], hiddenStations, hiddenModes } = settings || {}
 
     const nearestBikeRentalStations = useMemo(
         () =>
@@ -36,11 +36,7 @@ export default function useBikeRentalStations(): BikeRentalStation[] | null {
         [nearestPlaces],
     )
 
-    const allStationIds = (
-        newStations
-            ? [...newStations, ...nearestBikeRentalStations]
-            : nearestBikeRentalStations
-    )
+    const allStationIds = [...newStations, ...nearestBikeRentalStations]
         .filter((id) => !hiddenStations?.includes(id))
         .filter((id, index, ids) => ids.indexOf(id) === index)
 
