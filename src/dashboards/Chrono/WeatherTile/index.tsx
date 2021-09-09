@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './styles.scss'
+
+import { ThermometerIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
+import { Tooltip } from '@entur/tooltip'
 
 import { useWeather } from '../../../logic'
 import { WeatherIconApi } from '../../../components/Weather'
-import { ThermometerIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
-import { Tooltip } from '@entur/tooltip'
 
 const BREAKPOINTS = {
     fourItems: 570,
@@ -12,7 +13,7 @@ const BREAKPOINTS = {
     twoItems: 290,
 }
 
-function WeatherTile(data: Props): JSX.Element {
+function WeatherTile(): JSX.Element {
     const weather = useWeather()
 
     const [temperatureClassName, setTemperatureClassName] = useState(
@@ -75,10 +76,6 @@ function WeatherTile(data: Props): JSX.Element {
             )}
         </div>
     )
-}
-
-interface Props {
-    iconSet?: string
 }
 
 export default WeatherTile

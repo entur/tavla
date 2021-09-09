@@ -50,8 +50,8 @@ function getWalkInfoForStopPlace(
 function getDataGrid(
     index: number,
     maxWidth: number,
-    resizable: boolean = true,
-    height: number = 4,
+    resizable = true,
+    height = 4,
 ): { [key: string]: number | boolean | [] } {
     const dataGrid = {
         w: 1,
@@ -131,9 +131,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
     )
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
-    const mapCol = hasData ? 1 : 0
     const weatherCol = TEMP_SETTINGS.showWeather ? 1 : 0
-    const totalItems = numberOfStopPlaces + bikeCol + mapCol + weatherCol
 
     useEffect(() => {
         let defaultTileOrder: Item[] = []
@@ -371,7 +369,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                 >
                     {TEMP_SETTINGS.showWeather && (
                         <div
-                            key={'weather'}
+                            key="weather"
                             data-grid={getDataGrid(0, maxWidthCols, false, 1)}
                         >
                             <WeatherTile />
@@ -397,7 +395,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                     ))}
                     {bikeRentalStations && anyBikeRentalStations ? (
                         <div
-                            key={'bike_stations'}
+                            key="bike_stations"
                             data-grid={getDataGrid(
                                 numberOfStopPlaces + weatherCol,
                                 maxWidthCols,
@@ -411,7 +409,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                     {hasData && settings?.showMap ? (
                         <div
                             id="chrono-map-tile"
-                            key={'map'}
+                            key="map"
                             data-grid={getDataGrid(
                                 numberOfStopPlaces + bikeCol + weatherCol,
                                 maxWidthCols,

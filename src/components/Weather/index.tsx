@@ -1,6 +1,9 @@
-import { Tooltip } from '@entur/tooltip'
 import React, { useEffect, useState } from 'react'
+
+import { Tooltip } from '@entur/tooltip'
+
 import { getWeatherDescriptionFromApi } from '../../utils'
+
 import './styles.scss'
 
 interface Props {
@@ -11,8 +14,8 @@ export const WeatherIconApi = ({ iconName }: Props): JSX.Element => {
     const [description, setDescription] = useState('')
 
     useEffect(() => {
-        getWeatherDescriptionFromApi(iconName).then((description) =>
-            setDescription(description),
+        getWeatherDescriptionFromApi(iconName).then((fetchedDescription) =>
+            setDescription(fetchedDescription),
         )
     }, [iconName])
 

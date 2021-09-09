@@ -26,7 +26,7 @@
         2.0625em 0.9375em 0 -0.5625em #fff;
 }
 
-.cloud:after {
+.cloud::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -42,17 +42,16 @@
     background: #fff;
     box-shadow: -2.1875em 0.6875em 0 -0.6875em #fff,
         2.0625em 0.9375em 0 -0.9375em #fff, 0 0 0 0.375em #fff,
-        -2zzz1875em 0.6875em 0 -0.3125em #fff,
-        2.0625em 0.9375em 0 -0.5625em #fff;
+        -2.1875em 0.6875em 0 -0.3125em #fff, 2.0625em 0.9375em 0 -0.5625em #fff;
     opacity: 0.3;
     transform: scale(0.5) translate(6em, -3em);
     animation: cloud 4s linear infinite;
 }
-.cloud:nth-child(2):after {
+.cloud:nth-child(2)::after {
     background: #fff;
 }
 
-.cloud_sun:after {
+.cloud_sun::after {
     box-shadow: 0 0.4375em 0 -0.0625em currentColor;
 }
 
@@ -81,12 +80,12 @@
     border-radius: 0.25em;
     box-shadow: 0 5.375em #fff;
 }
-.rays:before,
-.rays:after {
+.rays::before,
+.rays::after {
     content: '';
     position: absolute;
-    top: 0em;
-    left: 0em;
+    top: 0;
+    left: 0;
     display: block;
     width: 0.375em;
     height: 1.125em;
@@ -96,7 +95,7 @@
     border-radius: 0.25em;
     box-shadow: 0 5.375em #fff;
 }
-.rays:before {
+.rays::before {
     transform: rotate(120deg);
 }
 .cloud + .sun {
@@ -115,7 +114,7 @@
     margin: 0.375em 0 0 -2em;
 }
 
-.rain:after {
+.rain::after {
     content: '';
     position: absolute;
     z-index: 2;
@@ -150,8 +149,8 @@
     opacity: 0.2;
     animation: lightning 1.5s linear infinite;
 }
-.bolt:before,
-.bolt:after {
+.bolt::before,
+.bolt::after {
     content: '';
     position: absolute;
     z-index: 2;
@@ -164,7 +163,7 @@
     border-left: 0.5em solid transparent;
     transform: skewX(-10deg);
 }
-.bolt:after {
+.bolt::after {
     margin: -0.25em 0 0 -0.25em;
     border-top: 0.75em solid;
     border-right: 0.5em solid transparent;
@@ -172,14 +171,14 @@
     border-left: 0.75em solid;
     transform: skewX(-10deg);
 }
-.bolt:nth-child(2):before {
+.bolt:nth-child(2)::before {
     margin: -0.75em 0 0 -0.5em;
     border-top: 0.625em solid transparent;
     border-right: 0.375em solid;
     border-bottom: 0.375em solid;
     border-left: 0.25em solid transparent;
 }
-.bolt:nth-child(2):after {
+.bolt:nth-child(2)::after {
     margin: -0.125em 0 0 -0.125em;
     border-top: 0.375em solid;
     border-right: 0.25em solid transparent;
@@ -187,31 +186,31 @@
     border-left: 0.375em solid;
 }
 
-.flake:before,
-.flake:after {
+.flake::before,
+.flake::after {
     content: '\2744';
     position: absolute;
     top: 50%;
     left: 50%;
     margin: -1.025em 0 0 -1.0125em;
     color: #fff;
-    list-height: 1em;
+    line-height: 1em; // was list height. Delete this comment if flake works as expected
     opacity: 0.2;
     animation: spin 8s linear infinite reverse;
 }
-.flake:after {
+.flake::after {
     margin: 0.125em 0 0 -1em;
     font-size: 1.5em;
     opacity: 0.4;
     animation: spin 14s linear infinite;
 }
-.flake:nth-child(2):before {
+.flake:nth-child(2)::before {
     margin: -0.5em 0 0 0.25em;
     font-size: 1.25em;
     opacity: 0.2;
     animation: spin 10s linear infinite;
 }
-.flake:nth-child(2):after {
+.flake:nth-child(2)::after {
     margin: 0.375em 0 0 0.125em;
     font-size: 2em;
     opacity: 0.4;
