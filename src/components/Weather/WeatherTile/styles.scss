@@ -1,11 +1,13 @@
 @import '../../../assets/styles/import.scss';
 @import '../../../variables.scss';
 
-.chrono .weathertile {
+.weathertile {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-top: $space-extra-large2;
+    flex-wrap: nowrap;
+    overflow: hidden;
 
     &__weatherData {
         align-items: center;
@@ -31,7 +33,7 @@
         font-size: $font-sizes-large;
     }
 
-    @media (max-width: 996px) {
+    @media (max-width: 1060px) {
         justify-content: space-evenly;
     }
 }

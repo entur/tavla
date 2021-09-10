@@ -28,11 +28,11 @@ import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 import { WalkInfo } from '../../logic/useWalkInfo'
 import { LongPressProvider } from '../../logic/longPressContext'
 
+import WeatherTile from '../../components/Weather/WeatherTile'
+
 import DepartureTile from './DepartureTile'
 import MapTile from './MapTile'
-
 import BikeTile from './BikeTile'
-import WeatherTile from './WeatherTile'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -110,8 +110,15 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
     )
 
     const bikeRentalStations = useBikeRentalStations()
-    let stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const scooters = useMobility(FormFactor.SCOOTER)
+
+    let stopPlacesWithDepartures = useStopPlacesWithDepartures()
+
+    if (stopPlacesWithDepartures) {
+        stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
+            ({ departures }) => departures.length > 0,
+        )
+    }
 
     const walkInfo = useWalkInfo(stopPlacesWithDepartures)
 
@@ -131,6 +138,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
     )
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
+    const mapCol = settings?.showMap ? 1 : 0
     const weatherCol = TEMP_SETTINGS.showWeather ? 1 : 0
 
     useEffect(() => {
@@ -150,15 +158,12 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                 { id: 'city-bike', name: 'Bysykkel' },
             ]
         }
-        if (hasData && settings?.showMap) {
+        if (hasData && mapCol) {
             defaultTileOrder = [
                 ...defaultTileOrder,
                 { id: 'map', name: 'Kart' },
             ]
         }
-        const storedTileOrder: Item[] | undefined = getFromLocalStorage(
-            boardId + '-tile-order',
-        )
         if (TEMP_SETTINGS.showWeather) {
             // TODO find condition for when weather should be shown
             defaultTileOrder = [
@@ -167,6 +172,9 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
             ]
         }
 
+        const storedTileOrder: Item[] | undefined = getFromLocalStorage(
+            boardId + '-tile-order',
+        )
         if (
             storedTileOrder &&
             storedTileOrder.length === defaultTileOrder.length &&
@@ -183,6 +191,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         stopPlacesWithDepartures,
         prevNumberOfStopPlaces,
         anyBikeRentalStations,
+        mapCol,
         hasData,
         settings?.showMap,
         boardId,
@@ -217,11 +226,6 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         if (isCancelled.current) {
             clearTimeout(isCancelled.current)
         }
-    }
-    if (stopPlacesWithDepartures) {
-        stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
-            ({ departures }) => departures.length > 0,
-        )
     }
 
     if (window.innerWidth < BREAKPOINTS.md) {
@@ -395,7 +399,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                     ))}
                     {bikeRentalStations && anyBikeRentalStations ? (
                         <div
-                            key="bike_stations"
+                            key="city-bike"
                             data-grid={getDataGrid(
                                 numberOfStopPlaces + weatherCol,
                                 maxWidthCols,
@@ -406,7 +410,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                     ) : (
                         []
                     )}
-                    {hasData && settings?.showMap ? (
+                    {hasData && mapCol ? (
                         <div
                             id="chrono-map-tile"
                             key="map"
