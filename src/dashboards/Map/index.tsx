@@ -20,8 +20,6 @@ import WeatherTile from '../../components/Weather/WeatherTile'
 
 import DepartureTag from './DepartureTag'
 
-const TEMP_SETTINGS = { showWeather: true }
-
 const MapDashboard = ({ history }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
 
@@ -55,7 +53,7 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
                     longitude={settings?.coordinates?.longitude ?? 0}
                     zoom={settings?.zoom ?? DEFAULT_ZOOM}
                 ></MapView>
-                {TEMP_SETTINGS.showWeather && (
+                {settings?.showWeather && (
                     <div className="weather-display">
                         <WeatherTile Map={true} />
                     </div>

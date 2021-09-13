@@ -47,6 +47,7 @@ export interface Settings {
     logoSize?: string
     description?: string
     showMap?: boolean
+    showWeather?: boolean
     hideSituations?: boolean
     hideTracks?: boolean
     hideWalkInfo?: boolean

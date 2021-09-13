@@ -38,8 +38,6 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 const isMobile = isMobileWeb()
 
-const TEMP_SETTINGS = { showWeather: true }
-
 function getWalkInfoForStopPlace(
     walkInfos: WalkInfo[],
     id: string,
@@ -139,7 +137,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
     const mapCol = settings?.showMap ? 1 : 0
-    const weatherCol = TEMP_SETTINGS.showWeather ? 1 : 0
+    const weatherCol = settings?.showWeather ? 1 : 0
 
     useEffect(() => {
         let defaultTileOrder: Item[] = []
@@ -164,8 +162,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                 { id: 'map', name: 'Kart' },
             ]
         }
-        if (TEMP_SETTINGS.showWeather) {
-            // TODO find condition for when weather should be shown
+        if (settings?.showWeather) {
             defaultTileOrder = [
                 { id: 'weather', name: 'Vær' },
                 ...defaultTileOrder,
@@ -194,6 +191,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         mapCol,
         hasData,
         settings?.showMap,
+        settings?.showWeather,
         boardId,
     ])
 
@@ -302,7 +300,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                         []
                                     )
                                 } else if (item.id == 'weather') {
-                                    return TEMP_SETTINGS.showWeather ? (
+                                    return settings?.showWeather ? (
                                         <div key={item.id}>
                                             <WeatherTile />
                                         </div>
@@ -371,7 +369,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                         }
                     }}
                 >
-                    {TEMP_SETTINGS.showWeather && (
+                    {settings?.showWeather && (
                         <div
                             key="weather"
                             data-grid={getDataGrid(0, maxWidthCols, false, 1)}

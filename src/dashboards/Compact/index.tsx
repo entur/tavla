@@ -44,8 +44,6 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 const isMobile = isMobileWeb()
 
-const TEMP_SETTINGS = { showWeather: true }
-
 function getWalkInfoForStopPlace(
     walkInfos: WalkInfo[],
     id: string,
@@ -137,7 +135,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
     const mapCol = settings?.showMap ? 1 : 0
-    const weatherCol = TEMP_SETTINGS.showWeather ? 1 : 0
+    const weatherCol = settings?.showWeather ? 1 : 0
 
     const hasData = Boolean(
         bikeRentalStations?.length ||
@@ -191,8 +189,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                 { id: 'map', name: 'Kart' },
             ]
         }
-        if (TEMP_SETTINGS.showWeather) {
-            // TODO find condition for when weather should be shown
+        if (settings?.showWeather) {
             defaultTileOrder = [
                 { id: 'weather', name: 'Vær' },
                 ...defaultTileOrder,
@@ -220,6 +217,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         anyBikeRentalStations,
         mapCol,
         settings?.showMap,
+        settings?.showWeather,
         boardId,
         hasData,
     ])
@@ -323,7 +321,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                         []
                                     )
                                 } else if (item.id == 'weather') {
-                                    return TEMP_SETTINGS.showWeather ? (
+                                    return settings?.showWeather ? (
                                         <div key={item.id}>
                                             <WeatherTile Compact={true} />
                                         </div>
@@ -393,7 +391,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                             }
                         }}
                     >
-                        {TEMP_SETTINGS.showWeather && (
+                        {settings?.showWeather && (
                             <div
                                 key="weather"
                                 data-grid={getDataGrid(
