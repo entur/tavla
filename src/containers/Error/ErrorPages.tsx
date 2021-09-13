@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import firebase from 'firebase/app'
+
+import { signOut } from 'firebase/auth'
 
 import { useToast } from '@entur/alert'
 
 import LoginModal from '../../components/LoginModal'
 
-import { useUser } from '../../auth'
+import { useUser, auth } from '../../auth'
 import { getDocumentId } from '../../utils'
 
 import sikkerhetBomLight from '../../assets/images/sikkerhet_bom_light@2x.png'
@@ -33,10 +34,8 @@ export function LockedTavle({ history }: Props): JSX.Element {
                   content: 'Du er nå logget ut av din konto.',
                   variant: 'success',
               })
-              firebase
-                  .auth()
-                  .signOut()
-                  .then(history.push(`/t/${documentId}`))
+
+              signOut(auth).then(history.push(`/t/${documentId}`))
           }
     const callbackMessage = !userLoggedin ? 'Logg inn' : 'Logg ut'
 

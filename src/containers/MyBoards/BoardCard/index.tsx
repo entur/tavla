@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import firebase from 'firebase/app'
+
+import type { Timestamp } from 'firebase/firestore'
 
 import { Heading3 } from '@entur/typography'
 import { LinkIcon, ClockIcon } from '@entur/icons'
@@ -157,8 +158,8 @@ interface Props {
     settings: Settings
     id: string
     uid: string
-    timestamp: firebase.firestore.Timestamp
-    created: firebase.firestore.Timestamp
+    timestamp: Timestamp
+    created: Timestamp
     className?: string
     history: any
 }

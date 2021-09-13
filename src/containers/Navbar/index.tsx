@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import firebase from 'firebase/app'
+
+import { signOut } from 'firebase/auth'
 
 import { useToast } from '@entur/alert'
 import { TopNavigationItem } from '@entur/menu'
 import { UserIcon, LogOutIcon, GithubIcon, PrivacyIcon } from '@entur/icons'
 
+import { useUser, auth } from '../../auth'
 import { TavlaLogo } from '../../assets/icons'
 import LoginModal from '../../components/LoginModal'
-
-import { useUser } from '../../auth'
 
 import './styles.scss'
 
@@ -31,7 +31,7 @@ export default function Navbar(): JSX.Element {
         event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     ): void => {
         event.preventDefault()
-        firebase.auth().signOut()
+        signOut(auth)
         setDisplayLoginModal(false)
         addToast({
             title: 'Logget ut',
