@@ -1,11 +1,11 @@
 @import '../../../assets/styles/import.scss';
 @import '../../../variables.scss';
 
-.weathertile {
+.weather-tile {
     display: flex;
+    padding: 1rem;
     justify-content: space-between;
     align-items: center;
-    padding-top: $space-extra-large2;
     flex-wrap: nowrap;
     overflow: hidden;
 
