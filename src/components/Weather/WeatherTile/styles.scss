@@ -6,10 +6,8 @@
     padding: 1rem;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: nowrap;
-    overflow: hidden;
 
-    &__weatherData {
+    &__weather-data {
         align-items: center;
         display: flex;
         font-size: $font-sizes-extra-large4;

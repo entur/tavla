@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import './styles.scss'
 
 import { ThermometerIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
-import { Tooltip } from '@entur/tooltip'
 
 import { useWeather } from '../../../logic'
 import { WeatherIconApi } from '..'
@@ -27,14 +26,14 @@ function WeatherTile(data: Props): JSX.Element {
     const weather = useWeather()
 
     const [temperatureClassName, setTemperatureClassName] = useState(
-        'weather-tile__weatherData--color-red',
+        'weather-tile__weather-data--color-red',
     )
 
     useEffect(() => {
         if (weather && weather[3].data.instant.details.air_temperature >= 0) {
-            setTemperatureClassName('weather-tile__weatherData--color-red')
+            setTemperatureClassName('weather-tile__weather-data--color-red')
         } else {
-            setTemperatureClassName('weather-tile__weatherData--color-blue')
+            setTemperatureClassName('weather-tile__weather-data--color-blue')
         }
     }, [weather])
 
@@ -43,20 +42,18 @@ function WeatherTile(data: Props): JSX.Element {
             return (
                 <>
                     {window.innerWidth > BREAKPOINTS.threeItems && (
-                        <Tooltip content="De neste seks timene" placement="top">
-                            <div className="weather-tile__weatherData">
-                                <UmbrellaIcon size={20} />
-                                <span className="weather-tile__weatherData--color-blue">
-                                    {weather != null
-                                        ? weather[3].data.next_6_hours.details
-                                              .precipitation_amount
-                                        : '?'}
-                                    <span className="weather-tile--subscript">
-                                        mm
-                                    </span>
+                        <div className="weather-tile__weather-data">
+                            <UmbrellaIcon size={20} />
+                            <span className="weather-tile__weather-data--color-blue">
+                                {weather != null
+                                    ? weather[3].data.next_1_hours.details
+                                          .precipitation_amount
+                                    : '?'}
+                                <span className="weather-tile--subscript">
+                                    mm
                                 </span>
-                            </div>
-                        </Tooltip>
+                            </span>
+                        </div>
                     )}
 
                     {window.innerWidth > BREAKPOINTS.fourItems &&
@@ -66,7 +63,7 @@ function WeatherTile(data: Props): JSX.Element {
                             window.innerWidth <
                                 BREAKPOINTS_COMPACT.fourItemsDesktop
                         ) && (
-                            <div className="weather-tile__weatherData">
+                            <div className="weather-tile__weather-data">
                                 <WindIcon size={20} />
                                 {weather != null
                                     ? weather[3].data.instant.details.wind_speed
@@ -83,23 +80,19 @@ function WeatherTile(data: Props): JSX.Element {
         return (
             <>
                 {window.innerWidth > BREAKPOINTS.threeItems && (
-                    <Tooltip content="De neste seks timene" placement="top">
-                        <div className="weather-tile__weatherData">
-                            <UmbrellaIcon size={20} />
-                            <span className="weather-tile__weatherData--color-blue">
-                                {weather != null
-                                    ? weather[3].data.next_6_hours.details
-                                          .precipitation_amount
-                                    : '?'}
-                                <span className="weather-tile--subscript">
-                                    mm
-                                </span>
-                            </span>
-                        </div>
-                    </Tooltip>
+                    <div className="weather-tile__weather-data">
+                        <UmbrellaIcon size={20} />
+                        <span className="weather-tile__weather-data--color-blue">
+                            {weather != null
+                                ? weather[3].data.next_1_hours.details
+                                      .precipitation_amount
+                                : '?'}
+                            <span className="weather-tile--subscript">mm</span>
+                        </span>
+                    </div>
                 )}
                 {window.innerWidth > BREAKPOINTS.fourItems && (
-                    <div className="weather-tile__weatherData">
+                    <div className="weather-tile__weather-data">
                         <WindIcon size={20} />
                         {weather != null
                             ? weather[3].data.instant.details.wind_speed
@@ -110,25 +103,23 @@ function WeatherTile(data: Props): JSX.Element {
             </>
         )
     }
-
-    // TODO add asterix for weather symbol and percipitation stating it's for the next six hours
     return (
         <div
             className={
                 'weather-tile ' + (data.Map ? 'weather-tile-map' : 'tile')
             }
         >
-            <div>
+            <div className="weather-tile__weather-icon">
                 {weather && (
                     <WeatherIconApi
                         iconName={
-                            weather[3].data.next_6_hours.summary.symbol_code
+                            weather[3].data.next_1_hours.summary.symbol_code
                         }
                     />
                 )}
             </div>
             {window.innerWidth > BREAKPOINTS.twoItems && (
-                <div className="weather-tile__weatherData">
+                <div className="weather-tile__weather-data">
                     <ThermometerIcon size={20} />
                     <span className={temperatureClassName}>
                         {weather != null

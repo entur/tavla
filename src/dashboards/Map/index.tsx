@@ -16,8 +16,11 @@ import './styles.scss'
 import { useSettingsContext } from '../../settings'
 import { DEFAULT_ZOOM } from '../../constants'
 
-import DepartureTag from './DepartureTag'
 import WeatherTile from '../../components/Weather/WeatherTile'
+
+import DepartureTag from './DepartureTag'
+
+const TEMP_SETTINGS = { showWeather: true }
 
 const MapDashboard = ({ history }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
@@ -52,9 +55,11 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
                     longitude={settings?.coordinates?.longitude ?? 0}
                     zoom={settings?.zoom ?? DEFAULT_ZOOM}
                 ></MapView>
-                <div className="weather-display">
-                    <WeatherTile Map={true} />
-                </div>
+                {TEMP_SETTINGS.showWeather && (
+                    <div className="weather-display">
+                        <WeatherTile Map={true} />
+                    </div>
+                )}
                 <div className="departure-display">
                     {stopPlacesWithDepartures?.map((stopPlace) =>
                         stopPlace.departures.length ? (
