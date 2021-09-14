@@ -24,6 +24,7 @@ export const WeatherIconApi = ({ iconName }: Props): JSX.Element => {
             <div className="icon">
                 <img
                     src={require('../../assets/weather/' + iconName + '.svg')}
+                    alt={description}
                 />
             </div>
         </Tooltip>
