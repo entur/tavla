@@ -1,5 +1,5 @@
 import { BikeRentalStation } from '@entur/sdk'
-import React, { useState, memo, useRef } from 'react'
+import React, { useState, memo, useRef, useEffect } from 'react'
 
 import { InteractiveMap, Marker } from 'react-map-gl'
 import type { MapRef } from 'react-map-gl'
@@ -9,13 +9,39 @@ import type { ClusterProperties } from 'supercluster'
 
 import { Vehicle } from '@entur/sdk/lib/mobility/types'
 
+import { BusIcon } from '@entur/icons'
+
 import PositionPin from '../../assets/icons/positionPin'
 
-import { StopPlaceWithDepartures } from '../../types'
+import { StopPlaceWithDepartures, StopPlaceWithLines } from '../../types'
+
+import { SubscriptionOptions } from '../../services/model/subscriptionOptions'
+import { Filter } from '../../services/model/filter'
+import { Options } from '../../services/model/options'
+
+import useVehicleData from '../../logic/useVehicleData'
 
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
+
+const defaultFilter: Filter = {
+    monitored: true,
+}
+
+const defaultSubscriptionOptions: SubscriptionOptions = {
+    enableLiveUpdates: true,
+    bufferSize: 20,
+    bufferTime: 250,
+}
+
+const defaultOptions: Options = {
+    sweepIntervalMs: 1000,
+    removeExpired: true,
+    removeExpiredAfterSeconds: 3600,
+    markInactive: true,
+    markInactiveAfterSeconds: 60,
+}
 
 const Map = ({
     stopPlaces,
@@ -28,6 +54,8 @@ const Map = ({
     longitude,
     zoom,
 }: Props): JSX.Element => {
+    const [filter, setFilter] = useState<Filter>(defaultFilter)
+
     const [viewport, setViewPort] = useState({
         latitude,
         longitude,
@@ -37,6 +65,12 @@ const Map = ({
         maxZoom: 18,
         minZoom: 13.5,
     })
+
+    const vehicles = useVehicleData(
+        filter,
+        defaultSubscriptionOptions,
+        defaultOptions,
+    )
     const mapRef = useRef<MapRef>(null)
     const scooterpoints = scooters?.map((scooter: Vehicle) => ({
         type: 'Feature' as const,
@@ -101,6 +135,52 @@ const Map = ({
         },
     })
 
+    // useEffect(() => {
+    //     const abortController = new AbortController()
+    //     const test = async () => {
+    //         if (stopPlaces) {
+    //             const stopPlacesWithLines: StopPlaceWithLines[] =
+    //                 await getStopPlacesWithLines(
+    //                     stopPlaces.map((sPlace) => sPlace.id),
+    //                     abortController.signal,
+    //                 )
+
+    //             const lineIds: string[] = stopPlacesWithLines.flatMap((el) =>
+    //                 el.lines.map((line) => line.id),
+    //             )
+    //             const uniqueLineIds = new Array(...new Set(lineIds))
+    //             Promise.all(
+    //                 uniqueLineIds.map((lineId) => subscribeToLiveData(lineId)),
+    //             )
+    //                 .then((lines) => {
+    //                     setLiveBusses(lines.flatMap((line) => line.vehicles))
+    //                 })
+    //                 .catch((error) => console.log(error))
+    //         }
+    //     }
+    //     test()
+    //     return () => {
+    //         abortController.abort()
+    //     }
+    // }, [stopPlaces])
+
+    // const [time, setTime] = useState(Date.now())
+    // useEffect(() => {
+    //     const interval = setInterval(() => setTime(Date.now()), 1000)
+    //     return () => {
+    //         clearInterval(interval)
+    //     }
+    // }, [])
+
+    // useEffect(() => {
+    //     const sub = subscribeToLiveData()
+    //     sub.then((data) => {
+    //         console.log('running')
+
+    //         setLiveBusses(data.vehicles.slice(0, 30))
+    //     }).catch((error) => console.log(error))
+    // }, [time])
+
     return (
         <InteractiveMap
             {...viewport}
@@ -130,6 +210,16 @@ const Map = ({
             }
             ref={mapRef}
         >
+            {vehicles.vehicles &&
+                Object.values(vehicles.vehicles).map((vehicle, index) => (
+                    <Marker
+                        key={index}
+                        latitude={vehicle.vehicle.location.latitude}
+                        longitude={vehicle.vehicle.location.longitude}
+                    >
+                        <BusIcon></BusIcon>
+                    </Marker>
+                ))}
             {scooterClusters.map((scooterCluster) => {
                 const [slongitude, slatitude] =
                     scooterCluster.geometry.coordinates

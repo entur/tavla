@@ -105,14 +105,13 @@ const EditTab = (): JSX.Element => {
     const scooters = useMobility(FormFactor.SCOOTER)
 
     useEffect(() => {
-        let ignoreResponse = false
+        const abortController = new AbortController()
         const ids = [...newStops, ...nearestStopPlaceIds]
 
         getStopPlacesWithLines(
             ids.map((id: string) => id.replace(/-\d+$/, '')),
+            abortController.signal,
         ).then((resultingStopPlaces) => {
-            if (ignoreResponse) return
-
             setStopPlaces(
                 resultingStopPlaces.map((s, index) => ({
                     ...s,
@@ -122,7 +121,7 @@ const EditTab = (): JSX.Element => {
         })
 
         return (): void => {
-            ignoreResponse = true
+            abortController.abort()
         }
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
 

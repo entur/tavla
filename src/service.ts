@@ -1,4 +1,7 @@
 import createEnturService, { TransportMode, TransportSubmode } from '@entur/sdk'
+import { request } from 'graphql-request'
+import { ApolloClient, gql, InMemoryCache } from '@apollo/client'
+import { WebSocketLink } from '@apollo/client/link/ws'
 
 import { StopPlaceWithLines, Line } from './types'
 import { unique } from './utils'
@@ -24,6 +27,7 @@ export default createEnturService({
 function journeyplannerPost<T>(
     query: string,
     variables: Record<string, any>,
+    signal: AbortSignal,
 ): Promise<T> {
     return fetch(`${process.env.JOURNEYPLANNER_HOST}/graphql`, {
         method: 'POST',
@@ -31,6 +35,7 @@ function journeyplannerPost<T>(
             'ET-Client-Name': CLIENT_NAME,
             'Content-Type': 'application/json',
         },
+        signal,
         body: JSON.stringify({
             query,
             variables,
@@ -99,6 +104,7 @@ function estimatedCallsComparator(a: EstimatedCall, b: EstimatedCall): number {
 
 export async function getStopPlacesWithLines(
     stopPlaceIds: string[],
+    signal: AbortSignal,
 ): Promise<StopPlaceWithLines[]> {
     try {
         const variables = { ids: stopPlaceIds }
@@ -131,6 +137,7 @@ export async function getStopPlacesWithLines(
             }
             `,
             variables,
+            signal,
         )
 
         const stops: StopPlaceWithLines[] = results.data.stopPlaces.map(
@@ -159,3 +166,63 @@ export async function getStopPlacesWithLines(
         return []
     }
 }
+
+export interface LiveVehicles {
+    delay: number
+    direction: string
+    ling: {
+        lineRef: string
+    }
+    mode: TransportMode
+    lastUpdated: string
+    location: {
+        latitude: number
+        longitude: number
+    }
+    vehicleId: string
+}
+
+interface LiveVehiclesResponse {
+    vehicles: LiveVehicles[]
+}
+
+const wsLink = new WebSocketLink({
+    uri: 'wss://api.dev.entur.io/realtime/v1/vehicles/subscriptions',
+    options: {
+        reconnect: true,
+    },
+})
+
+export const subscribeToLiveData = (
+    lineId: string,
+): Promise<LiveVehiclesResponse> =>
+    request(
+        'https://api.entur.io/realtime/v1/vehicles/graphql',
+        liveDataSubscriptionQuery,
+        { lineId },
+    )
+
+export const liveDataSubscriptionQuery = gql`
+    query getVehicles($lineId: String) {
+        vehicles(lineRef: $lineId) {
+            line {
+                lineRef
+            }
+            lastUpdated
+            location {
+                latitude
+                longitude
+            }
+            speed
+            direction
+            delay
+            mode
+            vehicleId
+        }
+    }
+`
+
+export const apolloClient = new ApolloClient({
+    link: wsLink,
+    cache: new InMemoryCache(),
+})
