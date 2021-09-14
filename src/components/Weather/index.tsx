@@ -23,17 +23,14 @@ export const WeatherIconApi = ({ iconName }: Props): JSX.Element => {
         <Tooltip content={description} placement="top">
             <div className="icon">
                 <img
-                    src={
-                        'https://api.met.no/images/weathericons/svg/' +
-                        iconName +
-                        '.svg'
-                    }
+                    src={require('../../assets/weather/' + iconName + '.svg')}
                 />
             </div>
         </Tooltip>
     )
 }
 
+// The following animated icons are per now not in use but left for later incase animated icons are wanted
 export const SunIconAnimated = (): JSX.Element => (
     <div className="icon">
         <div className="sun">
