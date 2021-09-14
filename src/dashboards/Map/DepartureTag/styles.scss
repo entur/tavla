@@ -67,9 +67,3 @@
     height: 1px;
     background-color: $colors-greys-grey30;
 }
-
-@media (max-width: 480px) {
-    .weather-tile-map {
-        min-width: 5px;
-    }
-}

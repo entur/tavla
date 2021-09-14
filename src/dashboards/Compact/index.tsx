@@ -323,7 +323,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                 } else if (item.id == 'weather') {
                                     return settings?.showWeather ? (
                                         <div key={item.id}>
-                                            <WeatherTile Compact={true} />
+                                            <WeatherTile
+                                                compact
+                                                className="tile"
+                                            />
                                         </div>
                                     ) : (
                                         []
@@ -401,7 +404,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                     1,
                                 )}
                             >
-                                <WeatherTile Compact={true} />
+                                <WeatherTile compact className="tile" />
                             </div>
                         )}
                         {(stopPlacesWithDepartures || []).map((stop, index) => (

@@ -55,7 +55,7 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
                 ></MapView>
                 {settings?.showWeather && (
                     <div className="weather-display">
-                        <WeatherTile Map={true} />
+                        <WeatherTile className="weather-tile-map" />
                     </div>
                 )}
                 <div className="departure-display">

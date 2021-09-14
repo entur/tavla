@@ -9,6 +9,10 @@
     width: 12em;
     height: 10em;
     font-size: 0.25em; /* control icon size here */
+
+    &:active {
+        pointer-events: none;
+    }
 }
 
 .cloud {

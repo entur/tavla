@@ -374,22 +374,28 @@ export const getWeatherDescriptionFromApi = async (
     iconName: string,
 ): Promise<string> => {
     const weatherNameMatch = iconName.match(/.+?(?=_|$)/)
+    if (!weatherNameMatch)
+        return Promise.reject('No REGEX match found for ' + iconName)
     const url = `https://api.met.no/weatherapi/weathericon/2.0/legends`
-    return await fetch(url)
-        .then((response) => {
-            if (!response.ok) {
-                Promise.reject(response.statusText)
-            }
-            return response.json()
-        })
-        .then((json) => {
-            if (weatherNameMatch) {
-                return json[weatherNameMatch.toString()].desc_nb
-            } else {
-                Promise.reject('No REGEX match found for ' + iconName)
-            }
-        })
-        .catch((error) => {
-            throw new error()
-        })
+    try {
+        const response = await fetch(url)
+        if (!response.ok) throw new Error(response.statusText)
+        const weatherData = await response.json()
+        return weatherData[weatherNameMatch.toString()].desc_nb
+    } catch (error) {
+        // eslint-disable-next-line
+        console.error('Error fetching data from url: ' + url, error)
+        return ''
+    }
 }
+
+interface WrapperProps {
+    condition: boolean
+    wrapper: any
+    children: JSX.Element
+}
+export const ConditionalWrapper = ({
+    condition,
+    wrapper,
+    children,
+}: WrapperProps) => (condition ? wrapper(children) : children)

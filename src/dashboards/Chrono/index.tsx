@@ -302,7 +302,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                 } else if (item.id == 'weather') {
                                     return settings?.showWeather ? (
                                         <div key={item.id}>
-                                            <WeatherTile />
+                                            <WeatherTile className="tile" />
                                         </div>
                                     ) : (
                                         []
@@ -374,7 +374,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                             key="weather"
                             data-grid={getDataGrid(0, maxWidthCols, false, 1)}
                         >
-                            <WeatherTile />
+                            <WeatherTile className="tile" />
                         </div>
                     )}
                     {(stopPlacesWithDepartures || []).map((stop, index) => (

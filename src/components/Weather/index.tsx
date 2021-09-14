@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Tooltip } from '@entur/tooltip'
 
-import { getWeatherDescriptionFromApi } from '../../utils'
+import { getWeatherDescriptionFromApi, ConditionalWrapper } from '../../utils'
 
 import './styles.scss'
 
@@ -20,14 +20,21 @@ export const WeatherIconApi = ({ iconName }: Props): JSX.Element => {
     }, [iconName])
 
     return (
-        <Tooltip content={description} placement="top">
+        <ConditionalWrapper
+            condition={description !== ''}
+            wrapper={(children: JSX.Element) => (
+                <Tooltip content={description} placement="top">
+                    {children}
+                </Tooltip>
+            )}
+        >
             <div className="icon">
                 <img
                     src={require('../../assets/weather/' + iconName + '.svg')}
                     alt={description}
                 />
             </div>
-        </Tooltip>
+        </ConditionalWrapper>
     )
 }
 

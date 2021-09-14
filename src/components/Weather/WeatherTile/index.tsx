@@ -18,12 +18,25 @@ const BREAKPOINTS_COMPACT = {
 }
 
 interface Props {
-    Compact?: boolean
-    Map?: boolean
+    compact?: boolean
+    className?: string
 }
 
-function WeatherTile(data: Props): JSX.Element {
+function WeatherTile(props: Props): JSX.Element {
     const weather = useWeather()
+
+    const DISPLAY_FOUR_ITEMS_CHRONO = window.innerWidth > BREAKPOINTS.fourItems
+    const DISPLAY_FOUR_ITEMS_COMPACT =
+        window.innerWidth > BREAKPOINTS.fourItems &&
+        !(
+            BREAKPOINTS_COMPACT.ThreeItemsDesktop < window.innerWidth &&
+            window.innerWidth < BREAKPOINTS_COMPACT.fourItemsDesktop
+        )
+    const DISPLAY_THREE_ITEMS = window.innerWidth > BREAKPOINTS.threeItems
+    const DISPLAY_TWO_ITEMS = window.innerWidth > BREAKPOINTS.threeItems
+    const DISPLAY_FOUR_ITEMS = props.compact
+        ? DISPLAY_FOUR_ITEMS_COMPACT
+        : DISPLAY_FOUR_ITEMS_CHRONO
 
     const [temperatureClassName, setTemperatureClassName] = useState(
         'weather-tile__weather-data--color-red',
@@ -37,99 +50,53 @@ function WeatherTile(data: Props): JSX.Element {
         }
     }, [weather])
 
-    const PercipitationAndWind = (): JSX.Element => {
-        if (data?.Compact) {
-            return (
-                <>
-                    {window.innerWidth > BREAKPOINTS.threeItems && (
-                        <div className="weather-tile__weather-data">
-                            <UmbrellaIcon size={20} />
-                            <span className="weather-tile__weather-data--color-blue">
-                                {weather != null
-                                    ? weather[3].data.next_1_hours.details
-                                          .precipitation_amount
-                                    : '?'}
-                                <span className="weather-tile--subscript">
-                                    mm
-                                </span>
-                            </span>
-                        </div>
-                    )}
-
-                    {window.innerWidth > BREAKPOINTS.fourItems &&
-                        !(
-                            BREAKPOINTS_COMPACT.ThreeItemsDesktop <
-                                window.innerWidth &&
-                            window.innerWidth <
-                                BREAKPOINTS_COMPACT.fourItemsDesktop
-                        ) && (
-                            <div className="weather-tile__weather-data">
-                                <WindIcon size={20} />
-                                {weather != null
-                                    ? weather[3].data.instant.details.wind_speed
-                                    : '?'}
-                                <span className="weather-tile--subscript">
-                                    m/s
-                                </span>
-                            </div>
-                        )}
-                </>
-            )
-        }
-
-        return (
-            <>
-                {window.innerWidth > BREAKPOINTS.threeItems && (
-                    <div className="weather-tile__weather-data">
-                        <UmbrellaIcon size={20} />
-                        <span className="weather-tile__weather-data--color-blue">
-                            {weather != null
-                                ? weather[3].data.next_1_hours.details
-                                      .precipitation_amount
-                                : '?'}
-                            <span className="weather-tile--subscript">mm</span>
-                        </span>
-                    </div>
-                )}
-                {window.innerWidth > BREAKPOINTS.fourItems && (
-                    <div className="weather-tile__weather-data">
-                        <WindIcon size={20} />
-                        {weather != null
-                            ? weather[3].data.instant.details.wind_speed
-                            : '?'}
-                        <span className="weather-tile--subscript">m/s</span>
-                    </div>
-                )}
-            </>
-        )
-    }
-    return (
-        <div
-            className={
-                'weather-tile ' + (data.Map ? 'weather-tile-map' : 'tile')
-            }
-        >
-            <div className="weather-tile__weather-icon">
-                {weather && (
-                    <WeatherIconApi
-                        iconName={
-                            weather[3].data.next_1_hours.summary.symbol_code
-                        }
-                    />
-                )}
-            </div>
-            {window.innerWidth > BREAKPOINTS.twoItems && (
-                <div className="weather-tile__weather-data">
-                    <ThermometerIcon size={20} />
-                    <span className={temperatureClassName}>
-                        {weather != null
-                            ? weather[3].data.instant.details.air_temperature +
-                              '°'
-                            : '?'}
-                    </span>
-                </div>
+    const Icon = (): JSX.Element => (
+        <div className="weather-tile__weather-icon">
+            {weather && (
+                <WeatherIconApi
+                    iconName={weather[3].data.next_1_hours.summary.symbol_code}
+                />
             )}
-            <PercipitationAndWind />
+        </div>
+    )
+
+    const Temperature = (): JSX.Element => (
+        <div className="weather-tile__weather-data">
+            <ThermometerIcon size={20} />
+            <span className={temperatureClassName}>
+                {weather
+                    ? weather[3].data.instant.details.air_temperature + '°'
+                    : '?'}
+            </span>
+        </div>
+    )
+
+    const Precipitation = (): JSX.Element => (
+        <div className="weather-tile__weather-data">
+            <UmbrellaIcon size={20} />
+            <span className="weather-tile__weather-data--color-blue">
+                {weather
+                    ? weather[3].data.next_1_hours.details.precipitation_amount
+                    : '?'}
+                <span className="weather-tile--subscript">mm</span>
+            </span>
+        </div>
+    )
+
+    const Wind = (): JSX.Element => (
+        <div className="weather-tile__weather-data">
+            <WindIcon size={20} />
+            {weather ? weather[3].data.instant.details.wind_speed : '?'}
+            <span className="weather-tile--subscript">m/s</span>
+        </div>
+    )
+
+    return (
+        <div className={'weather-tile ' + props.className}>
+            <Icon />
+            {DISPLAY_TWO_ITEMS && <Temperature />}
+            {DISPLAY_THREE_ITEMS && <Precipitation />}
+            {DISPLAY_FOUR_ITEMS && <Wind />}
         </div>
     )
 }

@@ -450,10 +450,10 @@ const EditTab = (): JSX.Element => {
                         />
                     </div>
                     <Label>
-                        Værmeldingen for neste time (met.no). Fungerer i kart,
-                        kompakt og kronologisk visningstype.
+                        Værmeldingen for neste time (met.no). Tilgjengelig i
+                        kart, kompakt og kronologisk visningstype.
                     </Label>
-                    <WeatherTile Compact />
+                    <WeatherTile compact />
                 </div>
             </ResponsiveReactGridLayout>
         </div>
