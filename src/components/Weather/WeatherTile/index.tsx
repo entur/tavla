@@ -32,8 +32,8 @@ function WeatherTile(props: Props): JSX.Element {
             BREAKPOINTS_COMPACT.ThreeItemsDesktop < window.innerWidth &&
             window.innerWidth < BREAKPOINTS_COMPACT.fourItemsDesktop
         )
+    const DISPLAY_TWO_ITEMS = window.innerWidth > BREAKPOINTS.twoItems
     const DISPLAY_THREE_ITEMS = window.innerWidth > BREAKPOINTS.threeItems
-    const DISPLAY_TWO_ITEMS = window.innerWidth > BREAKPOINTS.threeItems
     const DISPLAY_FOUR_ITEMS = props.compact
         ? DISPLAY_FOUR_ITEMS_COMPACT
         : DISPLAY_FOUR_ITEMS_CHRONO

@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+import type { GeoPoint } from 'firebase/firestore'
 
 import {
     updateSingleSettingsField,
@@ -14,7 +14,7 @@ export type FieldTypes =
     | boolean
     | number
     | string[]
-    | firebase.firestore.GeoPoint
+    | GeoPoint
     | { [key: string]: string[] }
     | null
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import firebase from 'firebase/app'
+
+import type { DocumentData, Timestamp } from 'firebase/firestore'
 
 import { Contrast } from '@entur/layout'
 import { Heading2, Heading3 } from '@entur/typography'
@@ -16,8 +17,6 @@ import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 
 import BoardCard from './BoardCard'
 import './styles.scss'
-
-type DocumentData = firebase.firestore.DocumentData
 
 function sortBoard(boards: BoardProps[]): BoardProps[] {
     return boards.sort((n1: BoardProps, n2: BoardProps) => {
@@ -127,8 +126,8 @@ interface Props {
 interface BoardProps {
     data: Settings
     id: string
-    lastmodified: firebase.firestore.Timestamp
-    created: firebase.firestore.Timestamp
+    lastmodified: Timestamp
+    created: Timestamp
 }
 
 export default MyBoards

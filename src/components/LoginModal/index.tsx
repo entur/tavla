@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import firebase from 'firebase/app'
+import type { User } from 'firebase/auth'
 
 import { useToast } from '@entur/alert'
 import { Modal } from '@entur/modal'
@@ -26,7 +26,7 @@ export type LoginCase =
 
 interface Props {
     open: boolean
-    onDismiss: (user?: firebase.User) => void
+    onDismiss: (user?: User) => void
     loginCase: LoginCase
 }
 

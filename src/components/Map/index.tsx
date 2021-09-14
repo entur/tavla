@@ -1,7 +1,8 @@
 import { BikeRentalStation } from '@entur/sdk'
 import React, { useState, memo, useRef } from 'react'
 
-import ReactMapGL, { InteractiveMap, Marker } from 'react-map-gl'
+import { InteractiveMap, Marker } from 'react-map-gl'
+import type { MapRef } from 'react-map-gl'
 import useSupercluster from 'use-supercluster'
 
 import type { ClusterProperties } from 'supercluster'
@@ -36,7 +37,7 @@ const Map = ({
         maxZoom: 18,
         minZoom: 13.5,
     })
-    const mapRef = useRef<InteractiveMap>(null)
+    const mapRef = useRef<MapRef>(null)
     const scooterpoints = scooters?.map((scooter: Vehicle) => ({
         type: 'Feature' as const,
         properties: {
@@ -101,7 +102,7 @@ const Map = ({
     })
 
     return (
-        <ReactMapGL
+        <InteractiveMap
             {...viewport}
             dragPan={false}
             touchAction="pan-y"
@@ -217,7 +218,7 @@ const Map = ({
             >
                 <PositionPin size={24} />
             </Marker>
-        </ReactMapGL>
+        </InteractiveMap>
     )
 }
 

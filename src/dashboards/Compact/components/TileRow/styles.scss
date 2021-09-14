@@ -5,8 +5,6 @@
     display: flex;
     border-bottom: 2px solid var(--tavla-border-color);
     padding: 1rem 0;
-    overflow-x: hidden;
-    overflow-y: hidden;
 
     &:last-child {
         border-bottom: 0;
@@ -28,7 +26,8 @@
     &__texts {
         flex-direction: column;
         flex-grow: 1;
-        overflow: hidden;
+        overflow-x: scroll;
+        overflow-y: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
@@ -45,17 +44,22 @@
     }
 
     &__sublabels {
-        display: grid;
-        grid-template-columns: repeat(20, 1fr);
-        justify-content: space-between;
-        min-width: 130rem;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        overflow-y: hidden;
         font-size: $font-sizes-extra-large;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 
     &__sublabel {
         align-items: center;
         display: flex;
         font-weight: 400;
+        min-width: 6.5rem;
 
         &__cancellation {
             align-items: center;

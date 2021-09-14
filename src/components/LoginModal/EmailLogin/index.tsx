@@ -1,5 +1,7 @@
 import React, { useState, Dispatch, SetStateAction } from 'react'
-import firebase from 'firebase/app'
+
+import type { User } from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
 import { TextField, InputGroup } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -8,6 +10,7 @@ import { PrimaryButton } from '@entur/button'
 import { Heading3, Link } from '@entur/typography'
 import { SmallExpandableAlertBox } from '@entur/alert'
 
+import { auth } from '../../../auth'
 import { useFormFields } from '../../../utils'
 import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
@@ -22,7 +25,7 @@ export interface UserLogin {
 
 interface Props {
     setModalType: Dispatch<SetStateAction<ModalType>>
-    onDismiss: (user?: firebase.User) => void
+    onDismiss: (user?: User) => void
 }
 
 const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
@@ -40,34 +43,31 @@ const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
         setPasswordError(undefined)
         setUserDeactivatedError(undefined)
 
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password)
-            .catch(function (error) {
-                if (error.code === 'auth/invalid-email') {
-                    setEmailError('E-posten er ikke gyldig')
-                } else if (error.code === 'auth/user-disabled') {
-                    setUserDeactivatedError('Brukerkontoen er deaktivert.')
-                } else if (error.code === 'auth/too-many-requests') {
-                    setUserDeactivatedError(
-                        'Tilgang til denne brukerkontoen har blitt ' +
-                            'midlertidig deaktivert på grunn av mange ' +
-                            'mislykkede påloggingsforsøk. Du kan få ' +
-                            'tilgang igjen ved å tilbakestille passordet ' +
-                            'ditt, (følg «Jeg har glemt passord») ' +
-                            'eller du kan prøve igjen senere.',
-                    )
-                } else if (
-                    error.code === 'auth/user-not-found' ||
-                    error.code === 'auth/wrong-password'
-                ) {
-                    setEmailError('Feil brukernavn eller passord.')
-                    setPasswordError('Feil brukernavn eller passord.')
-                } else {
-                    // eslint-disable-next-line no-console
-                    console.error(error)
-                }
-            })
+        signInWithEmailAndPassword(auth, email, password).catch((error) => {
+            if (error.code === 'auth/invalid-email') {
+                setEmailError('E-posten er ikke gyldig')
+            } else if (error.code === 'auth/user-disabled') {
+                setUserDeactivatedError('Brukerkontoen er deaktivert.')
+            } else if (error.code === 'auth/too-many-requests') {
+                setUserDeactivatedError(
+                    'Tilgang til denne brukerkontoen har blitt ' +
+                        'midlertidig deaktivert på grunn av mange ' +
+                        'mislykkede påloggingsforsøk. Du kan få ' +
+                        'tilgang igjen ved å tilbakestille passordet ' +
+                        'ditt, (følg «Jeg har glemt passord») ' +
+                        'eller du kan prøve igjen senere.',
+                )
+            } else if (
+                error.code === 'auth/user-not-found' ||
+                error.code === 'auth/wrong-password'
+            ) {
+                setEmailError('Feil brukernavn eller passord.')
+                setPasswordError('Feil brukernavn eller passord.')
+            } else {
+                // eslint-disable-next-line no-console
+                console.error(error)
+            }
+        })
     }
 
     const handleSubmit = (event: React.FormEvent): void => {

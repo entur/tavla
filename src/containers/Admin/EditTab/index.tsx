@@ -63,8 +63,13 @@ const COLS: { [key: string]: number } = {
 const EditTab = (): JSX.Element => {
     const [breakpoint, setBreakpoint] = useState<string>('lg')
     const [settings, setSettings] = useSettingsContext()
-    const { newStops, newStations, hiddenModes, showMap, showWeather } =
-        settings || {}
+    const {
+        newStops = [],
+        newStations = [],
+        hiddenModes,
+        showMap,
+        showWeather,
+    } = settings || {}
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
     )
@@ -110,9 +115,7 @@ const EditTab = (): JSX.Element => {
 
     useEffect(() => {
         let ignoreResponse = false
-        const ids = newStops
-            ? [...newStops, ...nearestStopPlaceIds]
-            : nearestStopPlaceIds
+        const ids = [...newStops, ...nearestStopPlaceIds]
 
         getStopPlacesWithLines(
             ids.map((id: string) => id.replace(/-\d+$/, '')),
@@ -139,9 +142,7 @@ const EditTab = (): JSX.Element => {
             .filter(({ type }) => type === 'BikeRentalStation')
             .map(({ id }) => id)
 
-        const ids = newStations
-            ? [...newStations, ...nearestBikeRentalStationIds]
-            : nearestBikeRentalStationIds
+        const ids = [...newStations, ...nearestBikeRentalStationIds]
 
         service.getBikeRentalStations(ids).then((freshStations) => {
             if (ignoreResponse) return
@@ -161,11 +162,7 @@ const EditTab = (): JSX.Element => {
 
     const addNewStop = useCallback(
         (stopId: string) => {
-            const numberOfDuplicates = (
-                newStops
-                    ? [...nearestStopPlaceIds, ...newStops]
-                    : nearestStopPlaceIds
-            )
+            const numberOfDuplicates = [...nearestStopPlaceIds, ...newStops]
                 .map((id) => id.replace(/-\d+$/, ''))
                 .filter((id) => id === stopId).length
 
@@ -174,7 +171,7 @@ const EditTab = (): JSX.Element => {
                 : `${stopId}-${numberOfDuplicates}`
 
             setSettings({
-                newStops: newStops ? [...newStops, id] : [id],
+                newStops: [...newStops, id],
             })
         },
         [nearestStopPlaceIds, newStops, setSettings],
@@ -183,9 +180,7 @@ const EditTab = (): JSX.Element => {
     const addNewStation = useCallback(
         (stationId: string) => {
             setSettings({
-                newStations: newStations
-                    ? [...newStations, stationId]
-                    : [stationId],
+                newStations: [...newStations, stationId],
             })
         },
         [newStations, setSettings],

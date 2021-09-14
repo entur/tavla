@@ -8,6 +8,8 @@ import {
 import { useLocation } from 'react-router-dom'
 import { LegMode, Coordinates } from '@entur/sdk'
 
+import { onSnapshot } from 'firebase/firestore'
+
 import { Theme } from '../types'
 import { getSettings } from '../services/firebase'
 import { getDocumentId } from '../utils'
@@ -92,7 +94,7 @@ export function useSettings(): [Settings | null, Setter] {
         }
 
         if (id) {
-            return getSettings(id).onSnapshot((document: any) => {
+            return onSnapshot(getSettings(id), (document: any) => {
                 if (!document.exists) {
                     window.location.pathname = '/'
                     return
