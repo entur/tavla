@@ -14,7 +14,7 @@ const BREAKPOINTS = {
 
 const BREAKPOINTS_COMPACT = {
     fourItemsDesktop: 1600,
-    ThreeItemsDesktop: 1246,
+    threeItemsDesktop: 1246,
 }
 
 interface Props {
@@ -25,18 +25,18 @@ interface Props {
 function WeatherTile(props: Props): JSX.Element {
     const weather = useWeather()
 
-    const DISPLAY_FOUR_ITEMS_CHRONO = window.innerWidth > BREAKPOINTS.fourItems
-    const DISPLAY_FOUR_ITEMS_COMPACT =
+    const displayFourItemsChrono = window.innerWidth > BREAKPOINTS.fourItems
+    const displayFourItemsCompact =
         window.innerWidth > BREAKPOINTS.fourItems &&
         !(
-            BREAKPOINTS_COMPACT.ThreeItemsDesktop < window.innerWidth &&
+            BREAKPOINTS_COMPACT.threeItemsDesktop < window.innerWidth &&
             window.innerWidth < BREAKPOINTS_COMPACT.fourItemsDesktop
         )
-    const DISPLAY_TWO_ITEMS = window.innerWidth > BREAKPOINTS.twoItems
-    const DISPLAY_THREE_ITEMS = window.innerWidth > BREAKPOINTS.threeItems
-    const DISPLAY_FOUR_ITEMS = props.compact
-        ? DISPLAY_FOUR_ITEMS_COMPACT
-        : DISPLAY_FOUR_ITEMS_CHRONO
+    const displayTwoItems = window.innerWidth > BREAKPOINTS.twoItems
+    const displayThreeItems = window.innerWidth > BREAKPOINTS.threeItems
+    const displayFourItems = props.compact
+        ? displayFourItemsCompact
+        : displayFourItemsChrono
 
     const [temperatureClassName, setTemperatureClassName] = useState(
         'weather-tile__weather-data--color-red',
@@ -94,9 +94,9 @@ function WeatherTile(props: Props): JSX.Element {
     return (
         <div className={'weather-tile ' + props.className}>
             <Icon />
-            {DISPLAY_TWO_ITEMS && <Temperature />}
-            {DISPLAY_THREE_ITEMS && <Precipitation />}
-            {DISPLAY_FOUR_ITEMS && <Wind />}
+            {displayTwoItems && <Temperature />}
+            {displayThreeItems && <Precipitation />}
+            {displayFourItems && <Wind />}
         </div>
     )
 }
