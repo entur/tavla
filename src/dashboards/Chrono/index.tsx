@@ -304,13 +304,13 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                         <div key={item.id}>
                                             <WeatherTile
                                                 className="tile"
-                                                displayTwoItems={
+                                                displayTemperature={
                                                     window.innerWidth > 290
                                                 }
-                                                displayThreeItems={
+                                                displayPrecipitation={
                                                     window.innerWidth > 380
                                                 }
-                                                displayFourItems={
+                                                displayWind={
                                                     window.innerWidth > 570
                                                 }
                                             />
@@ -387,9 +387,9 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                         >
                             <WeatherTile
                                 className="tile"
-                                displayTwoItems={window.innerWidth > 290}
-                                displayThreeItems={window.innerWidth > 380}
-                                displayFourItems={window.innerWidth > 570}
+                                displayTemperature={window.innerWidth > 290}
+                                displayPrecipitation={window.innerWidth > 380}
+                                displayWind={window.innerWidth > 570}
                             />
                         </div>
                     )}

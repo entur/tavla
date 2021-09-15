@@ -449,9 +449,9 @@ const EditTab = (): JSX.Element => {
                         kart, kompakt og kronologisk visningstype.
                     </Label>
                     <WeatherTile
-                        displayTwoItems={window.innerWidth > 290}
-                        displayThreeItems={window.innerWidth > 380}
-                        displayFourItems={
+                        displayTemperature={window.innerWidth > 290}
+                        displayPrecipitation={window.innerWidth > 380}
+                        displayWind={
                             window.innerWidth > 570 &&
                             !(
                                 1246 < window.innerWidth &&

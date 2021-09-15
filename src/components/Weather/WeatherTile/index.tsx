@@ -7,15 +7,15 @@ import { useWeather } from '../../../logic'
 import { WeatherIconApi } from '..'
 interface Props {
     className?: string
-    displayTwoItems?: boolean
-    displayThreeItems?: boolean
-    displayFourItems?: boolean
+    displayTemperature?: boolean
+    displayPrecipitation?: boolean
+    displayWind?: boolean
 }
 
 function WeatherTile({
-    displayTwoItems = true,
-    displayThreeItems = true,
-    displayFourItems = true,
+    displayTemperature: displayTwoItems = true,
+    displayPrecipitation: displayThreeItems = true,
+    displayWind: displayFourItems = true,
     ...props
 }: Props): JSX.Element {
     const weather = useWeather()
