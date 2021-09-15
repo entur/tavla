@@ -372,21 +372,15 @@ export function isEqualUnsorted<T>(array: T[], includes: T[]): boolean {
 
 export const getWeatherDescriptionFromApi = async (
     iconName: string,
+    signal: AbortSignal,
 ): Promise<string> => {
     const weatherNameMatch = iconName.match(/.+?(?=_|$)/)
     if (!weatherNameMatch)
         return Promise.reject('No REGEX match found for ' + iconName)
     const url = `https://api.met.no/weatherapi/weathericon/2.0/legends`
-    try {
-        const response = await fetch(url)
-        if (!response.ok) throw new Error(response.statusText)
-        const weatherData = await response.json()
-        return weatherData[weatherNameMatch.toString()].desc_nb
-    } catch (error) {
-        // eslint-disable-next-line
-        console.error('Error fetching data from url: ' + url, error)
-        return ''
-    }
+    const response = await fetch(url, { signal })
+    const weatherData = await response.json()
+    return weatherData[weatherNameMatch.toString()].desc_nb
 }
 
 interface WrapperProps {

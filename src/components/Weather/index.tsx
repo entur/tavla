@@ -14,9 +14,17 @@ export const WeatherIconApi = ({ iconName }: Props): JSX.Element => {
     const [description, setDescription] = useState('')
 
     useEffect(() => {
-        getWeatherDescriptionFromApi(iconName).then((fetchedDescription) =>
-            setDescription(fetchedDescription),
-        )
+        const abortController = new AbortController()
+        getWeatherDescriptionFromApi(iconName, abortController.signal)
+            .then((fetchedDescription) => setDescription(fetchedDescription))
+            .catch((error) => {
+                if (error.name === 'AbortError') return
+                setDescription('')
+                throw error
+            })
+        return () => {
+            abortController.abort()
+        }
     }, [iconName])
 
     return (
