@@ -7,7 +7,7 @@ import Tile from '../components/Tile'
 import TileRow from '../components/TileRow'
 import { useSettingsContext } from '../../../settings'
 import { IconColorType } from '../../../types'
-import { getIconColorType } from '../../../utils'
+import { getIconColorType, getTranslation } from '../../../utils'
 import useWalkInfoBike, { WalkInfoBike } from '../../../logic/useWalkInfoBike'
 
 function getWalkInfoBike(
@@ -54,7 +54,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                             ? getWalkInfoBike(walkInfoBike || [], station.id)
                             : undefined
                     }
-                    label={station.system.name.translation[0].value}
+                    label={getTranslation(station.name) || ''}
                     subLabels={[
                         {
                             time:
