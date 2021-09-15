@@ -448,7 +448,17 @@ const EditTab = (): JSX.Element => {
                         Værmeldingen for neste time (met.no). Tilgjengelig i
                         kart, kompakt og kronologisk visningstype.
                     </Label>
-                    <WeatherTile compact />
+                    <WeatherTile
+                        displayTwoItems={window.innerWidth > 290}
+                        displayThreeItems={window.innerWidth > 380}
+                        displayFourItems={
+                            window.innerWidth > 570 &&
+                            !(
+                                1246 < window.innerWidth &&
+                                window.innerWidth < 1600
+                            )
+                        }
+                    />
                 </div>
             </ResponsiveReactGridLayout>
         </div>

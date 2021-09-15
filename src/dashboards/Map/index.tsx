@@ -52,7 +52,7 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
                     latitude={settings?.coordinates?.latitude ?? 0}
                     longitude={settings?.coordinates?.longitude ?? 0}
                     zoom={settings?.zoom ?? DEFAULT_ZOOM}
-                ></MapView>
+                />
                 {settings?.showWeather && (
                     <div className="weather-display">
                         <WeatherTile className="weather-tile-map" />

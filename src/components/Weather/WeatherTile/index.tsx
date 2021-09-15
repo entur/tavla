@@ -5,38 +5,20 @@ import { ThermometerIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
 
 import { useWeather } from '../../../logic'
 import { WeatherIconApi } from '..'
-
-const BREAKPOINTS = {
-    fourItems: 570,
-    threeItems: 380,
-    twoItems: 290,
-}
-
-const BREAKPOINTS_COMPACT = {
-    fourItemsDesktop: 1600,
-    threeItemsDesktop: 1246,
-}
-
 interface Props {
-    compact?: boolean
     className?: string
+    displayTwoItems?: boolean
+    displayThreeItems?: boolean
+    displayFourItems?: boolean
 }
 
-function WeatherTile(props: Props): JSX.Element {
+function WeatherTile({
+    displayTwoItems = true,
+    displayThreeItems = true,
+    displayFourItems = true,
+    ...props
+}: Props): JSX.Element {
     const weather = useWeather()
-
-    const displayFourItemsChrono = window.innerWidth > BREAKPOINTS.fourItems
-    const displayFourItemsCompact =
-        window.innerWidth > BREAKPOINTS.fourItems &&
-        !(
-            BREAKPOINTS_COMPACT.threeItemsDesktop < window.innerWidth &&
-            window.innerWidth < BREAKPOINTS_COMPACT.fourItemsDesktop
-        )
-    const displayTwoItems = window.innerWidth > BREAKPOINTS.twoItems
-    const displayThreeItems = window.innerWidth > BREAKPOINTS.threeItems
-    const displayFourItems = props.compact
-        ? displayFourItemsCompact
-        : displayFourItemsChrono
 
     const [temperatureClassName, setTemperatureClassName] = useState(
         'weather-tile__weather-data--color-red',

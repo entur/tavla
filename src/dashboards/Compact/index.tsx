@@ -324,8 +324,21 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                     return settings?.showWeather ? (
                                         <div key={item.id}>
                                             <WeatherTile
-                                                compact
                                                 className="tile"
+                                                displayTwoItems={
+                                                    window.innerWidth > 290
+                                                }
+                                                displayThreeItems={
+                                                    window.innerWidth > 380
+                                                }
+                                                displayFourItems={
+                                                    window.innerWidth > 570 &&
+                                                    !(
+                                                        1246 <
+                                                            window.innerWidth &&
+                                                        window.innerWidth < 1600
+                                                    )
+                                                }
                                             />
                                         </div>
                                     ) : (
@@ -404,7 +417,18 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                     1,
                                 )}
                             >
-                                <WeatherTile compact className="tile" />
+                                <WeatherTile
+                                    className="tile"
+                                    displayTwoItems={window.innerWidth > 290}
+                                    displayThreeItems={window.innerWidth > 380}
+                                    displayFourItems={
+                                        window.innerWidth > 570 &&
+                                        !(
+                                            1246 < window.innerWidth &&
+                                            window.innerWidth < 1600
+                                        )
+                                    }
+                                />
                             </div>
                         )}
                         {(stopPlacesWithDepartures || []).map((stop, index) => (

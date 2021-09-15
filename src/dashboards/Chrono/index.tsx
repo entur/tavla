@@ -302,7 +302,18 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                 } else if (item.id == 'weather') {
                                     return settings?.showWeather ? (
                                         <div key={item.id}>
-                                            <WeatherTile className="tile" />
+                                            <WeatherTile
+                                                className="tile"
+                                                displayTwoItems={
+                                                    window.innerWidth > 290
+                                                }
+                                                displayThreeItems={
+                                                    window.innerWidth > 380
+                                                }
+                                                displayFourItems={
+                                                    window.innerWidth > 570
+                                                }
+                                            />
                                         </div>
                                     ) : (
                                         []
@@ -374,7 +385,12 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                             key="weather"
                             data-grid={getDataGrid(0, maxWidthCols, false, 1)}
                         >
-                            <WeatherTile className="tile" />
+                            <WeatherTile
+                                className="tile"
+                                displayTwoItems={window.innerWidth > 290}
+                                displayThreeItems={window.innerWidth > 380}
+                                displayFourItems={window.innerWidth > 570}
+                            />
                         </div>
                     )}
                     {(stopPlacesWithDepartures || []).map((stop, index) => (
