@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { BikeRentalStation } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
+import { Station } from '@entur/sdk/lib/mobility/types'
 
 import Tile from '../components/Tile'
 import TileRow from '../components/TileRow'
@@ -54,19 +54,19 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                             ? getWalkInfoBike(walkInfoBike || [], station.id)
                             : undefined
                     }
-                    label={station.name}
+                    label={station.system.name.translation[0].value}
                     subLabels={[
                         {
                             time:
-                                station.bikesAvailable === 1
+                                station.numBikesAvailable === 1
                                     ? '1 sykkel'
-                                    : `${station.bikesAvailable} sykler`,
+                                    : `${station.numBikesAvailable} sykler`,
                         },
                         {
                             time:
-                                station.spacesAvailable === 1
+                                station.numDocksAvailable === 1
                                     ? '1 lås'
-                                    : `${station.spacesAvailable} låser`,
+                                    : `${station.numDocksAvailable} låser`,
                         },
                     ]}
                 />
@@ -76,7 +76,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
 }
 
 interface Props {
-    stations: BikeRentalStation[]
+    stations: Station[]
 }
 
 export default BikeTile

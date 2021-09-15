@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { isEqual } from 'lodash'
 
-import { BikeRentalStation, Coordinates, QueryMode } from '@entur/sdk'
+import { Coordinates, QueryMode } from '@entur/sdk'
+import { Station } from '@entur/sdk/lib/mobility/types'
 
 import service from '../service'
 import { useSettingsContext } from '../settings'
@@ -14,7 +15,7 @@ export type WalkInfoBike = {
 }
 
 async function getWalkInfoBike(
-    rentalStations: BikeRentalStation[],
+    rentalStations: Station[],
     from: Coordinates,
     signal: AbortSignal,
 ): Promise<WalkInfoBike[]> {
@@ -29,8 +30,8 @@ async function getWalkInfoBike(
                         },
                         to: {
                             coordinates: {
-                                longitude: stopPlace.longitude,
-                                latitude: stopPlace.latitude,
+                                longitude: stopPlace.lon,
+                                latitude: stopPlace.lat,
                             },
                         },
                         modes: [QueryMode.FOOT],
@@ -59,7 +60,7 @@ async function getWalkInfoBike(
 }
 
 export default function useTravelTime(
-    rentalStations: BikeRentalStation[] | null,
+    rentalStations: Station[] | null,
 ): WalkInfoBike[] | null {
     const [settings] = useSettingsContext()
     const [travelTime, setTravelTime] = useState<WalkInfoBike[] | null>(null)
