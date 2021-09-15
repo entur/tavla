@@ -45,14 +45,16 @@ export default function useBikeRentalStations(): Station[] | null {
     } = settings || {}
 
     const prevNewStations = usePrevious(newStations)
-    const prevArea = usePrevious({ coordinates, distance })
+    const prevCoordinates = usePrevious(coordinates)
+    const prevDistance = usePrevious(distance)
 
     const isDisabled = Boolean(hiddenModes?.includes('bysykkel'))
     useEffect(() => {
         if (!coordinates || !distance || isDisabled) {
             return setBikeRentalStations(null)
         }
-        const isAreaChanged = !isEqual({ coordinates, distance }, prevArea)
+        const isAreaChanged =
+            coordinates !== prevCoordinates || distance !== prevDistance
         const isNewStationsAdded = !isEqual(newStations, prevNewStations)
 
         // 1. Add nearby stations
@@ -83,8 +85,9 @@ export default function useBikeRentalStations(): Station[] | null {
         nearbyStations,
         additionalStations,
         isDisabled,
-        prevArea,
         prevNewStations,
+        prevCoordinates,
+        prevDistance,
     ])
 
     return bikeRentalStations
