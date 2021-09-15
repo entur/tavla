@@ -13,9 +13,9 @@ interface Props {
 }
 
 function WeatherTile({
-    displayTemperature: displayTwoItems = true,
-    displayPrecipitation: displayThreeItems = true,
-    displayWind: displayFourItems = true,
+    displayTemperature = true,
+    displayPrecipitation = true,
+    displayWind = true,
     ...props
 }: Props): JSX.Element {
     const weather = useWeather()
@@ -34,10 +34,12 @@ function WeatherTile({
 
     const Icon = (): JSX.Element => (
         <div className="weather-tile__weather-icon">
-            {weather && (
+            {weather ? (
                 <WeatherIconApi
                     iconName={weather[3].data.next_1_hours.summary.symbol_code}
                 />
+            ) : (
+                '?'
             )}
         </div>
     )
@@ -76,9 +78,9 @@ function WeatherTile({
     return (
         <div className={'weather-tile ' + props.className}>
             <Icon />
-            {displayTwoItems && <Temperature />}
-            {displayThreeItems && <Precipitation />}
-            {displayFourItems && <Wind />}
+            {displayTemperature && <Temperature />}
+            {displayPrecipitation && <Precipitation />}
+            {displayWind && <Wind />}
         </div>
     )
 }
