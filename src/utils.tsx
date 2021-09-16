@@ -369,3 +369,27 @@ export function isEqualUnsorted<T>(array: T[], includes: T[]): boolean {
     if (array.length !== includes.length) return false
     return includes.every((i) => array.includes(i))
 }
+
+export const getWeatherDescriptionFromApi = async (
+    iconName: string,
+    signal: AbortSignal,
+): Promise<string> => {
+    const weatherNameMatch = iconName.match(/.+?(?=_|$)/)
+    if (!weatherNameMatch)
+        return Promise.reject('No REGEX match found for ' + iconName)
+    const url = `https://api.met.no/weatherapi/weathericon/2.0/legends`
+    const response = await fetch(url, { signal })
+    const weatherData = await response.json()
+    return weatherData[weatherNameMatch.toString()].desc_nb
+}
+
+interface WrapperProps {
+    condition: boolean
+    wrapper: any
+    children: JSX.Element
+}
+export const ConditionalWrapper = ({
+    condition,
+    wrapper,
+    children,
+}: WrapperProps) => (condition ? wrapper(children) : children)

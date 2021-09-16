@@ -6,7 +6,13 @@ import React, {
     SyntheticEvent,
 } from 'react'
 import { BikeRentalStation } from '@entur/sdk'
-import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
+import {
+    Heading2,
+    Heading3,
+    Heading4,
+    Label,
+    SubParagraph,
+} from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { WidthProvider, Responsive } from 'react-grid-layout'
@@ -30,6 +36,8 @@ import {
     saveToLocalStorage,
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
+
+import WeatherTile from '../../../components/Weather/WeatherTile'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
@@ -60,6 +68,7 @@ const EditTab = (): JSX.Element => {
         newStations = [],
         hiddenModes,
         showMap,
+        showWeather,
     } = settings || {}
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
@@ -232,8 +241,9 @@ const EditTab = (): JSX.Element => {
                 w: 1.5,
                 h: 1.55 + tileHeight(stations.length, 0.24, 0),
             },
-            { i: 'scooterPanel', x: 3, y: 3.2, w: 1.5, h: 1.4 },
-            { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 3.2 },
+            { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.4 },
+            { i: 'mapPanel', x: 3, y: 5, w: 1.5, h: 3.2 },
+            { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 1.8 },
         ],
         md: [
             {
@@ -251,7 +261,8 @@ const EditTab = (): JSX.Element => {
                 h: 1.55 + tileHeight(stations.length, 0.24, 0),
             },
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
-            { i: 'mapPanel', x: 0, y: 4.5, w: 2, h: 3 },
+            { i: 'mapPanel', x: 0, y: 7, w: 2, h: 3 },
+            { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.8 },
         ],
         sm: [
             {
@@ -269,7 +280,8 @@ const EditTab = (): JSX.Element => {
                 h: 1.4 + tileHeight(stations.length, 0.24, 0),
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
-            { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
+            { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
+            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
         ],
         xs: [
             {
@@ -287,7 +299,8 @@ const EditTab = (): JSX.Element => {
                 h: 1.4 + tileHeight(stations.length, 0.265, 0),
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
-            { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
+            { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
+            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
         ],
     }
 
@@ -414,6 +427,37 @@ const EditTab = (): JSX.Element => {
                         zoom={zoom}
                         onZoomUpdated={setZoom}
                         scooters={scooters}
+                    />
+                </div>
+                <div key="weatherPanel" className="edit-tab__tile">
+                    <div className="edit-tab__header">
+                        <Heading2>Vær</Heading2>
+                        <Switch
+                            onChange={(
+                                event: React.ChangeEvent<HTMLInputElement>,
+                            ): void => {
+                                setSettings({
+                                    showWeather: event.currentTarget.checked,
+                                })
+                            }}
+                            checked={showWeather}
+                            size="large"
+                        />
+                    </div>
+                    <Label>
+                        Værmeldingen for neste time (met.no). Tilgjengelig i
+                        kart, kompakt og kronologisk visningstype.
+                    </Label>
+                    <WeatherTile
+                        displayTemperature={window.innerWidth > 290}
+                        displayPrecipitation={window.innerWidth > 380}
+                        displayWind={
+                            window.innerWidth > 570 &&
+                            !(
+                                1246 < window.innerWidth &&
+                                window.innerWidth < 1600
+                            )
+                        }
                     />
                 </div>
             </ResponsiveReactGridLayout>
