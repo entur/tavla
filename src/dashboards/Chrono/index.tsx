@@ -28,9 +28,10 @@ import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 import { WalkInfo } from '../../logic/useWalkInfo'
 import { LongPressProvider } from '../../logic/longPressContext'
 
+import WeatherTile from '../../components/Weather/WeatherTile'
+
 import DepartureTile from './DepartureTile'
 import MapTile from './MapTile'
-
 import BikeTile from './BikeTile'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -47,15 +48,20 @@ function getWalkInfoForStopPlace(
 function getDataGrid(
     index: number,
     maxWidth: number,
-): { [key: string]: number } {
-    return {
+    resizable = true,
+    height = 4,
+): { [key: string]: number | boolean | [] } {
+    const dataGrid = {
         w: 1,
         maxW: maxWidth,
         minH: 1,
-        h: 4,
+        h: height,
         x: index % maxWidth,
         y: 0,
     }
+    return resizable
+        ? dataGrid
+        : { ...dataGrid, isResizable: false, resizeHandles: [] }
 }
 
 function getDefaultBreakpoint() {
@@ -86,36 +92,26 @@ const COLS: { [key: string]: number } = {
 const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
     const [settings] = useSettingsContext()
     const dashboardKey = history.location.key
-    const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
-    const isCancelled = useRef<NodeJS.Timeout>()
     const boardId =
         useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
             ?.documentId
+
+    const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
+    const isCancelled = useRef<NodeJS.Timeout>()
 
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey),
     )
-
     const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
     )
 
     const bikeRentalStations = useBikeRentalStations()
-    let stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const scooters = useMobility(FormFactor.SCOOTER)
 
-    const hasData = Boolean(
-        bikeRentalStations?.length ||
-            scooters?.length ||
-            stopPlacesWithDepartures?.length,
-    )
-    function clearLongPressTimeout() {
-        setIsLongPressStarted(false)
-        if (isCancelled.current) {
-            clearTimeout(isCancelled.current)
-        }
-    }
+    let stopPlacesWithDepartures = useStopPlacesWithDepartures()
+
     if (stopPlacesWithDepartures) {
         stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
             ({ departures }) => departures.length > 0,
@@ -128,14 +124,20 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
     const anyBikeRentalStations: number | null =
         bikeRentalStations && bikeRentalStations.length
 
-    const bikeCol = anyBikeRentalStations ? 1 : 0
-    const mapCol = hasData ? 1 : 0
-    const totalItems = numberOfStopPlaces + bikeCol + mapCol
-
     const maxWidthCols = COLS[breakpoint]
 
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
     const [modalVisible, setModalVisible] = useState(false)
+
+    const hasData = Boolean(
+        bikeRentalStations?.length ||
+            scooters?.length ||
+            stopPlacesWithDepartures?.length,
+    )
+
+    const bikeCol = anyBikeRentalStations ? 1 : 0
+    const mapCol = settings?.showMap ? 1 : 0
+    const weatherCol = settings?.showWeather ? 1 : 0
 
     useEffect(() => {
         let defaultTileOrder: Item[] = []
@@ -154,12 +156,19 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                 { id: 'city-bike', name: 'Bysykkel' },
             ]
         }
-        if (hasData && settings?.showMap) {
+        if (hasData && mapCol) {
             defaultTileOrder = [
                 ...defaultTileOrder,
                 { id: 'map', name: 'Kart' },
             ]
         }
+        if (settings?.showWeather) {
+            defaultTileOrder = [
+                { id: 'weather', name: 'Vær' },
+                ...defaultTileOrder,
+            ]
+        }
+
         const storedTileOrder: Item[] | undefined = getFromLocalStorage(
             boardId + '-tile-order',
         )
@@ -179,8 +188,10 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         stopPlacesWithDepartures,
         prevNumberOfStopPlaces,
         anyBikeRentalStations,
+        mapCol,
         hasData,
         settings?.showMap,
+        settings?.showWeather,
         boardId,
     ])
 
@@ -207,6 +218,13 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
             cancelOnMovement: true,
         },
     )
+
+    function clearLongPressTimeout() {
+        setIsLongPressStarted(false)
+        if (isCancelled.current) {
+            clearTimeout(isCancelled.current)
+        }
+    }
 
     if (window.innerWidth < BREAKPOINTS.md) {
         let numberOfTileRows = 10
@@ -281,6 +299,25 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                     ) : (
                                         []
                                     )
+                                } else if (item.id == 'weather') {
+                                    return settings?.showWeather ? (
+                                        <div key={item.id}>
+                                            <WeatherTile
+                                                className="tile"
+                                                displayTemperature={
+                                                    window.innerWidth > 290
+                                                }
+                                                displayPrecipitation={
+                                                    window.innerWidth > 380
+                                                }
+                                                displayWind={
+                                                    window.innerWidth > 570
+                                                }
+                                            />
+                                        </div>
+                                    ) : (
+                                        []
+                                    )
                                 } else if (stopPlacesWithDepartures) {
                                     const stopIndex =
                                         stopPlacesWithDepartures.findIndex(
@@ -343,10 +380,26 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                         }
                     }}
                 >
+                    {settings?.showWeather && (
+                        <div
+                            key="weather"
+                            data-grid={getDataGrid(0, maxWidthCols, false, 1)}
+                        >
+                            <WeatherTile
+                                className="tile"
+                                displayTemperature={window.innerWidth > 290}
+                                displayPrecipitation={window.innerWidth > 380}
+                                displayWind={window.innerWidth > 570}
+                            />
+                        </div>
+                    )}
                     {(stopPlacesWithDepartures || []).map((stop, index) => (
                         <div
-                            key={index.toString()}
-                            data-grid={getDataGrid(index, maxWidthCols)}
+                            key={stop.id}
+                            data-grid={getDataGrid(
+                                weatherCol + index,
+                                maxWidthCols,
+                            )}
                         >
                             <DepartureTile
                                 key={index}
@@ -360,9 +413,9 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                     ))}
                     {bikeRentalStations && anyBikeRentalStations ? (
                         <div
-                            key={numberOfStopPlaces.toString()}
+                            key="city-bike"
                             data-grid={getDataGrid(
-                                numberOfStopPlaces,
+                                numberOfStopPlaces + weatherCol,
                                 maxWidthCols,
                             )}
                         >
@@ -371,12 +424,12 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                     ) : (
                         []
                     )}
-                    {hasData && settings?.showMap ? (
+                    {hasData && mapCol ? (
                         <div
                             id="chrono-map-tile"
-                            key={totalItems - 1}
+                            key="map"
                             data-grid={getDataGrid(
-                                totalItems - 1,
+                                numberOfStopPlaces + bikeCol + weatherCol,
                                 maxWidthCols,
                             )}
                         >
