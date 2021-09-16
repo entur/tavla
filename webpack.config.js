@@ -18,7 +18,7 @@ module.exports = (env, args) => ({
     devtool: 'inline-source-map',
     output: {
         path: OUTPUT_PATH,
-        filename: '[name].[hash].js',
+        filename: '[name].[fullhash].js',
         publicPath: '/',
     },
     resolve: {
