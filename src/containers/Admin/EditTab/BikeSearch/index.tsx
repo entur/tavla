@@ -1,32 +1,40 @@
 import React, { useState, useEffect } from 'react'
 
-import { Coordinates, BikeRentalStation } from '@entur/sdk'
+import { Coordinates } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
+import { Station } from '@entur/sdk/lib/mobility/types'
 
 import service from '../../../../service'
 
 import './styles.scss'
+import { getTranslation } from '../../../../utils'
+
+const MAX_SEARCH_RANGE = 100_000
 
 interface Item {
     value: string
     label: string
 }
 
-function mapFeaturesToItems(features: BikeRentalStation[]): Item[] {
+function mapFeaturesToItems(features: Station[]): Item[] {
     return features.map(({ id, name }) => ({
         value: id,
-        label: name,
+        label: getTranslation(name) || id,
     }))
 }
 
 const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
-    const [stations, setStations] = useState<BikeRentalStation[]>([])
+    const [stations, setStations] = useState<Station[]>([])
 
     useEffect(() => {
         let isMounted = true
         if (position) {
-            service
-                .getBikeRentalStationsByPosition(position, 100000)
+            service.mobility
+                .getStations({
+                    lat: position.latitude,
+                    lon: position.longitude,
+                    range: MAX_SEARCH_RANGE,
+                })
                 .then((data) => {
                     if (isMounted) {
                         setStations(data)
@@ -45,7 +53,9 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
 
         return mapFeaturesToItems(
             stations.filter((station) =>
-                station.name.toLowerCase().match(new RegExp(inputValue)),
+                getTranslation(station.name)
+                    ?.toLowerCase()
+                    .match(new RegExp(inputValue)),
             ),
         )
     }
