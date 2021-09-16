@@ -5,13 +5,12 @@ import React, {
     useCallback,
     SyntheticEvent,
 } from 'react'
-import { BikeRentalStation } from '@entur/sdk'
 import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
-import { FormFactor } from '@entur/sdk/lib/mobility/types'
+import { FormFactor, Station } from '@entur/sdk/lib/mobility/types'
 
 import { useSettingsContext, Mode } from '../../../settings'
 
@@ -20,12 +19,17 @@ import {
     toggleValueInList,
     isNotNullOrUndefined,
     isMobileWeb,
+    getTranslation,
 } from '../../../utils'
 
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearestPlaces, useMobility } from '../../../logic'
-import service, { getStopPlacesWithLines } from '../../../service'
+import {
+    useNearestPlaces,
+    useMobility,
+    useBikeRentalStations,
+} from '../../../logic'
+import { getStopPlacesWithLines } from '../../../service'
 import {
     saveToLocalStorage,
     getFromLocalStorage,
@@ -86,7 +90,10 @@ const EditTab = (): JSX.Element => {
     }, [debouncedDistance, setSettings, settings])
 
     const [stopPlaces, setStopPlaces] = useState<StopPlaceWithLines[]>([])
-    const [stations, setStations] = useState<BikeRentalStation[]>([])
+    const bikeRentalStations: Station[] | null = useBikeRentalStations()
+    const [sortedBikeRentalStations, setSortedBikeRentalStations] = useState<
+        Station[]
+    >([])
 
     const nearestPlaces = useNearestPlaces(
         settings?.coordinates,
@@ -129,27 +136,24 @@ const EditTab = (): JSX.Element => {
     useEffect(() => {
         let ignoreResponse = false
 
-        const nearestBikeRentalStationIds = nearestPlaces
-            .filter(({ type }) => type === 'BikeRentalStation')
-            .map(({ id }) => id)
-
-        const ids = [...newStations, ...nearestBikeRentalStationIds]
-
-        service.getBikeRentalStations(ids).then((freshStations) => {
-            if (ignoreResponse) return
-
-            const sortedStations = freshStations
+        if (bikeRentalStations) {
+            const sortedStations = bikeRentalStations
                 .filter(isNotNullOrUndefined)
-                .sort((a: BikeRentalStation, b: BikeRentalStation) =>
-                    a.name.localeCompare(b.name, 'no'),
+                .sort((a: Station, b: Station) =>
+                    (getTranslation(a.name) || a.id).localeCompare(
+                        getTranslation(b.name) || b.id,
+                        'no',
+                    ),
                 )
-            setStations(sortedStations)
-        })
+            if (!ignoreResponse) {
+                setSortedBikeRentalStations(sortedStations)
+            }
+        }
 
         return (): void => {
             ignoreResponse = true
         }
-    }, [nearestPlaces, newStations])
+    }, [bikeRentalStations])
 
     const addNewStop = useCallback(
         (stopId: string) => {
@@ -230,7 +234,7 @@ const EditTab = (): JSX.Element => {
                 x: 1.5,
                 y: 0,
                 w: 1.5,
-                h: 1.55 + tileHeight(stations.length, 0.24, 0),
+                h: 1.55 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
             },
             { i: 'scooterPanel', x: 3, y: 3.2, w: 1.5, h: 1.4 },
             { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 3.2 },
@@ -248,7 +252,7 @@ const EditTab = (): JSX.Element => {
                 x: 2,
                 y: 0,
                 w: 1,
-                h: 1.55 + tileHeight(stations.length, 0.24, 0),
+                h: 1.55 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
             },
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
             { i: 'mapPanel', x: 0, y: 4.5, w: 2, h: 3 },
@@ -266,7 +270,7 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 3,
                 w: 1,
-                h: 1.4 + tileHeight(stations.length, 0.24, 0),
+                h: 1.4 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
             { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
@@ -284,7 +288,7 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 3,
                 w: 1,
-                h: 1.4 + tileHeight(stations.length, 0.265, 0),
+                h: 1.4 + tileHeight(sortedBikeRentalStations.length, 0.265, 0),
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
             { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
@@ -382,7 +386,7 @@ const EditTab = (): JSX.Element => {
                         position={settings?.coordinates}
                         onSelected={addNewStation}
                     />
-                    <BikePanel stations={stations} />
+                    <BikePanel stations={sortedBikeRentalStations} />
                 </div>
                 <div key="scooterPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
