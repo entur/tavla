@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
-import { isEqual } from 'lodash'
 import { Coordinates } from '@entur/sdk'
 import { Station } from '@entur/sdk/lib/mobility/types'
 
-import { usePrevious } from '../utils'
 import service from '../service'
 import { useSettingsContext } from '../settings'
 
@@ -33,7 +31,7 @@ export default function useBikeRentalStations(): Station[] | null {
     const [bikeRentalStations, setBikeRentalStations] = useState<
         Station[] | null
     >(null)
-    const [nearbyStations, setStationsNearby] = useState<Station[]>([])
+    const [nearbyStations, setNearbyStations] = useState<Station[]>([])
     const [additionalStations, setAdditionalStations] = useState<Station[]>([])
 
     const {
@@ -44,32 +42,29 @@ export default function useBikeRentalStations(): Station[] | null {
         hiddenModes,
     } = settings || {}
 
-    const prevNewStations = usePrevious(newStations)
-    const prevCoordinates = usePrevious(coordinates)
-    const prevDistance = usePrevious(distance)
-
     const isDisabled = Boolean(hiddenModes?.includes('bysykkel'))
+
     useEffect(() => {
         if (!coordinates || !distance || isDisabled) {
             return setBikeRentalStations(null)
         }
-        const isAreaChanged =
-            coordinates !== prevCoordinates || distance !== prevDistance
-        const isNewStationsAdded = !isEqual(newStations, prevNewStations)
+        fetchBikeRentalStationsNearby(coordinates, distance).then((stations) =>
+            setNearbyStations(stations || []),
+        )
+    }, [coordinates, distance, isDisabled])
 
-        // 1. Add nearby stations
-        // 2. Add additional stations
-        // 3. Remove hidden stations
-
-        if (isAreaChanged) {
-            fetchBikeRentalStationsNearby(coordinates, distance).then(
-                (stations) => setStationsNearby(stations || []),
-            )
+    useEffect(() => {
+        if (isDisabled) {
+            return setBikeRentalStations(null)
         }
-        if (isNewStationsAdded) {
-            fetchBikeRentalStationsById(newStations).then((stations) =>
-                setAdditionalStations(stations || []),
-            )
+        fetchBikeRentalStationsById(newStations).then((stations) =>
+            setAdditionalStations(stations || []),
+        )
+    }, [newStations, isDisabled])
+
+    useEffect(() => {
+        if (isDisabled) {
+            return setBikeRentalStations(null)
         }
         const allStations = [...nearbyStations, ...additionalStations]
         setBikeRentalStations(
@@ -77,18 +72,7 @@ export default function useBikeRentalStations(): Station[] | null {
                 (station) => !hiddenStations.includes(station.id),
             ),
         )
-    }, [
-        coordinates,
-        distance,
-        newStations,
-        hiddenStations,
-        nearbyStations,
-        additionalStations,
-        isDisabled,
-        prevNewStations,
-        prevCoordinates,
-        prevDistance,
-    ])
+    }, [nearbyStations, additionalStations, hiddenStations, isDisabled])
 
     return bikeRentalStations
 }
