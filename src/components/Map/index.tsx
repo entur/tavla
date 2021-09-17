@@ -24,6 +24,7 @@ import useVehicleData from '../../logic/useVehicleData'
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
+import { getStopPlacesWithLines } from '../../service'
 
 const defaultFilter: Filter = {
     monitored: true,
@@ -54,7 +55,9 @@ const Map = ({
     longitude,
     zoom,
 }: Props): JSX.Element => {
-    const [filter, setFilter] = useState<Filter>(defaultFilter)
+    const [uniqueLineIds, setUniqueLineIds] = useState<string[] | undefined>(
+        undefined,
+    )
 
     const [viewport, setViewPort] = useState({
         latitude,
@@ -67,9 +70,10 @@ const Map = ({
     })
 
     const vehicles = useVehicleData(
-        filter,
+        defaultFilter,
         defaultSubscriptionOptions,
         defaultOptions,
+        uniqueLineIds,
     )
     const mapRef = useRef<MapRef>(null)
     const scooterpoints = scooters?.map((scooter: Vehicle) => ({
@@ -135,34 +139,27 @@ const Map = ({
         },
     })
 
-    // useEffect(() => {
-    //     const abortController = new AbortController()
-    //     const test = async () => {
-    //         if (stopPlaces) {
-    //             const stopPlacesWithLines: StopPlaceWithLines[] =
-    //                 await getStopPlacesWithLines(
-    //                     stopPlaces.map((sPlace) => sPlace.id),
-    //                     abortController.signal,
-    //                 )
+    useEffect(() => {
+        const abortController = new AbortController()
+        const test = async () => {
+            if (stopPlaces) {
+                const stopPlacesWithLines: StopPlaceWithLines[] =
+                    await getStopPlacesWithLines(
+                        stopPlaces.map((sPlace) => sPlace.id),
+                        abortController.signal,
+                    )
 
-    //             const lineIds: string[] = stopPlacesWithLines.flatMap((el) =>
-    //                 el.lines.map((line) => line.id),
-    //             )
-    //             const uniqueLineIds = new Array(...new Set(lineIds))
-    //             Promise.all(
-    //                 uniqueLineIds.map((lineId) => subscribeToLiveData(lineId)),
-    //             )
-    //                 .then((lines) => {
-    //                     setLiveBusses(lines.flatMap((line) => line.vehicles))
-    //                 })
-    //                 .catch((error) => console.log(error))
-    //         }
-    //     }
-    //     test()
-    //     return () => {
-    //         abortController.abort()
-    //     }
-    // }, [stopPlaces])
+                const lineIds: string[] = stopPlacesWithLines.flatMap((el) =>
+                    el.lines.map((line) => line.id),
+                )
+                setUniqueLineIds(new Array(...new Set(lineIds)))
+            }
+        }
+        test()
+        return () => {
+            abortController.abort()
+        }
+    }, [stopPlaces])
 
     // const [time, setTime] = useState(Date.now())
     // useEffect(() => {
@@ -184,7 +181,7 @@ const Map = ({
     return (
         <InteractiveMap
             {...viewport}
-            dragPan={false}
+            dragPan={true}
             touchAction="pan-y"
             mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
             mapStyle={mapStyle || process.env.MAPBOX_STYLE_MAPVIEW}

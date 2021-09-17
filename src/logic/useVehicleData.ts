@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import type { FetchResult } from '@apollo/client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Options } from '../services/model/options'
 
@@ -24,29 +24,38 @@ export default function useVehicleData(
     filter: Filter,
     subscriptionOptions: SubscriptionOptions,
     options: Options,
+    lineRefs: string[] | undefined,
 ): State {
     const [state, dispatch] = useVehicleReducer(options)
     const client = useApolloClient()
 
+    const filterVehiclesByLineRefs = (fetchResult: FetchResult) => {
+        if (lineRefs && fetchResult?.data?.vehicleUpdates.length > 0 && fetchResult && fetchResult.data) {
+            return fetchResult.data.vehicleUpdates.filter((vehicle as Vehicle) =>
+                lineRefs.includes(vehicle.line.lineRef),
+            )
+        }
+    }
+
     /**
      * Query once to hydrate vehicle data
      */
-    useEffect(() => {
-        async function hydrate() {
-            const { data: hydrationData } = await client.query({
-                query: VEHICLES_QUERY,
-                fetchPolicy: DEFAULT_FETCH_POLICY,
-                variables: filter,
-            })
-            if (hydrationData && hydrationData.vehicles) {
-                dispatch({
-                    type: ActionType.HYDRATE,
-                    payload: hydrationData.vehicles,
-                })
-            }
-        }
-        hydrate()
-    }, [client, dispatch, filter])
+    // useEffect(() => {
+    //     async function hydrate() {
+    //         const { data: hydrationData } = await client.query({
+    //             query: VEHICLES_QUERY,
+    //             fetchPolicy: DEFAULT_FETCH_POLICY,
+    //             variables: filter,
+    //         })
+    //         if (hydrationData && hydrationData.vehicles) {
+    //             dispatch({
+    //                 type: ActionType.HYDRATE,
+    //                 payload: hydrationData.vehicles,
+    //             })
+    //         }
+    //     }
+    //     hydrate()
+    // }, [client, dispatch, filter])
 
     /**
      * Set up subscription to receive updates on vehicles
