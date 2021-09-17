@@ -6,6 +6,8 @@ import { useRouteMatch } from 'react-router'
 
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
 
+import { Loader } from '@entur/loader'
+
 import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
@@ -138,6 +140,23 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
     const bikeCol = anyBikeRentalStations ? 1 : 0
     const mapCol = settings?.showMap ? 1 : 0
     const weatherCol = settings?.showWeather ? 1 : 0
+
+    const stopPlacesHasLoaded = Boolean(
+        stopPlacesWithDepartures ||
+            settings?.hiddenModes?.includes('kollektiv'),
+    )
+
+    const bikeHasLoaded = Boolean(
+        bikeRentalStations || settings?.hiddenModes?.includes('bysykkel'),
+    )
+
+    const scooterHasLoaded = Boolean(
+        scooters || settings?.hiddenModes?.includes('sparkesykkel'),
+    )
+
+    const hasFetchedData = Boolean(
+        stopPlacesHasLoaded && bikeHasLoaded && scooterHasLoaded,
+    )
 
     useEffect(() => {
         let defaultTileOrder: Item[] = []
@@ -359,97 +378,112 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
             bikeRentalStations={bikeRentalStations}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
-            <div className="chrono__tiles">
-                <ResponsiveReactGridLayout
-                    key={breakpoint}
-                    breakpoints={BREAKPOINTS}
-                    cols={COLS}
-                    layouts={gridLayouts}
-                    isResizable={!isMobile}
-                    isDraggable={!isMobile}
-                    onBreakpointChange={(newBreakpoint: string) => {
-                        setBreakpoint(newBreakpoint)
-                    }}
-                    onLayoutChange={(
-                        layout: Layout[],
-                        layouts: Layouts,
-                    ): void => {
-                        if (numberOfStopPlaces > 0) {
-                            setGridLayouts(layouts)
-                            saveToLocalStorage(dashboardKey, layouts)
-                        }
-                    }}
-                >
-                    {settings?.showWeather && (
-                        <div
-                            key="weather"
-                            data-grid={getDataGrid(0, maxWidthCols, false, 1)}
-                        >
-                            <WeatherTile
-                                className="tile"
-                                displayTemperature={window.innerWidth > 290}
-                                displayPrecipitation={window.innerWidth > 380}
-                                displayWind={window.innerWidth > 570}
-                            />
-                        </div>
-                    )}
-                    {(stopPlacesWithDepartures || []).map((stop, index) => (
-                        <div
-                            key={stop.id}
-                            data-grid={getDataGrid(
-                                weatherCol + index,
-                                maxWidthCols,
-                            )}
-                        >
-                            <DepartureTile
-                                key={index}
-                                stopPlaceWithDepartures={stop}
-                                walkInfo={getWalkInfoForStopPlace(
-                                    walkInfo || [],
-                                    stop.id,
+            {!hasFetchedData ? (
+                <div className="compact__loading-screen">
+                    <Loader>Laster inn</Loader>
+                </div>
+            ) : (
+                <div className="chrono__tiles">
+                    <ResponsiveReactGridLayout
+                        key={breakpoint}
+                        breakpoints={BREAKPOINTS}
+                        cols={COLS}
+                        layouts={gridLayouts}
+                        isResizable={!isMobile}
+                        isDraggable={!isMobile}
+                        onBreakpointChange={(newBreakpoint: string) => {
+                            setBreakpoint(newBreakpoint)
+                        }}
+                        onLayoutChange={(
+                            layout: Layout[],
+                            layouts: Layouts,
+                        ): void => {
+                            if (numberOfStopPlaces > 0) {
+                                setGridLayouts(layouts)
+                                saveToLocalStorage(dashboardKey, layouts)
+                            }
+                        }}
+                    >
+                        {settings?.showWeather && (
+                            <div
+                                key="weather"
+                                data-grid={getDataGrid(
+                                    0,
+                                    maxWidthCols,
+                                    false,
+                                    1,
                                 )}
-                            />
-                        </div>
-                    ))}
-                    {bikeRentalStations && anyBikeRentalStations ? (
-                        <div
-                            key="city-bike"
-                            data-grid={getDataGrid(
-                                numberOfStopPlaces + weatherCol,
-                                maxWidthCols,
-                            )}
-                        >
-                            <BikeTile stations={bikeRentalStations} />
-                        </div>
-                    ) : (
-                        []
-                    )}
-                    {hasData && mapCol ? (
-                        <div
-                            id="chrono-map-tile"
-                            key="map"
-                            data-grid={getDataGrid(
-                                numberOfStopPlaces + bikeCol + weatherCol,
-                                maxWidthCols,
-                            )}
-                        >
-                            <MapTile
-                                scooters={scooters}
-                                stopPlaces={stopPlacesWithDepartures}
-                                bikeRentalStations={bikeRentalStations}
-                                walkTimes={null}
-                                latitude={settings?.coordinates?.latitude ?? 0}
-                                longitude={
-                                    settings?.coordinates?.longitude ?? 0
-                                }
-                                zoom={settings?.zoom ?? DEFAULT_ZOOM}
-                            />
-                        </div>
-                    ) : (
-                        []
-                    )}
-                </ResponsiveReactGridLayout>
-            </div>
+                            >
+                                <WeatherTile
+                                    className="tile"
+                                    displayTemperature={window.innerWidth > 290}
+                                    displayPrecipitation={
+                                        window.innerWidth > 380
+                                    }
+                                    displayWind={window.innerWidth > 570}
+                                />
+                            </div>
+                        )}
+                        {(stopPlacesWithDepartures || []).map((stop, index) => (
+                            <div
+                                key={stop.id}
+                                data-grid={getDataGrid(
+                                    weatherCol + index,
+                                    maxWidthCols,
+                                )}
+                            >
+                                <DepartureTile
+                                    key={index}
+                                    stopPlaceWithDepartures={stop}
+                                    walkInfo={getWalkInfoForStopPlace(
+                                        walkInfo || [],
+                                        stop.id,
+                                    )}
+                                />
+                            </div>
+                        ))}
+                        {bikeRentalStations && anyBikeRentalStations ? (
+                            <div
+                                key="city-bike"
+                                data-grid={getDataGrid(
+                                    numberOfStopPlaces + weatherCol,
+                                    maxWidthCols,
+                                )}
+                            >
+                                <BikeTile stations={bikeRentalStations} />
+                            </div>
+                        ) : (
+                            []
+                        )}
+                        {hasData && mapCol ? (
+                            <div
+                                id="chrono-map-tile"
+                                key="map"
+                                data-grid={getDataGrid(
+                                    numberOfStopPlaces + bikeCol + weatherCol,
+                                    maxWidthCols,
+                                )}
+                            >
+                                <MapTile
+                                    scooters={scooters}
+                                    stopPlaces={stopPlacesWithDepartures}
+                                    bikeRentalStations={bikeRentalStations}
+                                    walkTimes={null}
+                                    latitude={
+                                        settings?.coordinates?.latitude ?? 0
+                                    }
+                                    longitude={
+                                        settings?.coordinates?.longitude ?? 0
+                                    }
+                                    zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                                />
+                            </div>
+                        ) : (
+                            []
+                        )}
+                    </ResponsiveReactGridLayout>
+                </div>
+            )}
         </DashboardWrapper>
     )
 }
