@@ -57,7 +57,7 @@ export function getIconColorType(theme: Theme | undefined): IconColorType {
 }
 
 export function getIconColor(
-    type: TransportMode | LegMode,
+    type: string,
     iconColorType: IconColorType,
     subType?: TransportSubmode,
 ): string {
@@ -95,7 +95,7 @@ type TransportIconIdentifier =
     | 'plane'
 
 export function getTransportIconIdentifier(
-    legMode: TransportMode | LegMode,
+    legMode: string,
     subMode?: TransportSubmode,
 ): TransportIconIdentifier | null {
     if (isSubModeCarFerry(subMode)) {
@@ -109,6 +109,7 @@ export function getTransportIconIdentifier(
         case 'bicycle':
             return 'bicycle'
         case 'water':
+        case 'ferry':
             return 'ferry'
         case 'metro':
             return 'subway'
@@ -124,13 +125,12 @@ export function getTransportIconIdentifier(
 }
 
 export function getIcon(
-    mode: TransportMode,
+    mode: string,
     iconColorType: IconColorType = IconColorType.CONTRAST,
     subMode?: TransportSubmode,
     color?: string,
 ): JSX.Element | null {
     const colorToUse = color ?? getIconColor(mode, iconColorType, subMode)
-
     const identifier = getTransportIconIdentifier(mode, subMode)
 
     switch (identifier) {
