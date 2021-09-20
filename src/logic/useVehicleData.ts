@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import type { FetchResult } from '@apollo/client'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import { Options } from '../services/model/options'
 
@@ -24,38 +24,51 @@ export default function useVehicleData(
     filter: Filter,
     subscriptionOptions: SubscriptionOptions,
     options: Options,
-    lineRefs: string[] | undefined,
+    lineRefs?: string[],
 ): State {
     const [state, dispatch] = useVehicleReducer(options)
     const client = useApolloClient()
 
-    const filterVehiclesByLineRefs = (fetchResult: FetchResult) => {
-        if (lineRefs && fetchResult?.data?.vehicleUpdates.length > 0 && fetchResult && fetchResult.data) {
-            return fetchResult.data.vehicleUpdates.filter((vehicle as Vehicle) =>
+    const filterVehiclesByLineRefs = useCallback(
+        (vehiclesUpdates: Vehicle[] | undefined) => {
+            if (!(vehiclesUpdates && lineRefs)) {
+                console.log('Triggered', vehiclesUpdates, lineRefs)
+
+                return undefined
+            }
+            const filteredUpdates = vehiclesUpdates.filter((vehicle) =>
                 lineRefs.includes(vehicle.line.lineRef),
             )
-        }
-    }
+            console.log(filteredUpdates, 'fitleredUpdates')
+
+            return filteredUpdates.length > 0 ? filteredUpdates : undefined
+        },
+        [lineRefs],
+    )
 
     /**
      * Query once to hydrate vehicle data
      */
-    // useEffect(() => {
-    //     async function hydrate() {
-    //         const { data: hydrationData } = await client.query({
-    //             query: VEHICLES_QUERY,
-    //             fetchPolicy: DEFAULT_FETCH_POLICY,
-    //             variables: filter,
-    //         })
-    //         if (hydrationData && hydrationData.vehicles) {
-    //             dispatch({
-    //                 type: ActionType.HYDRATE,
-    //                 payload: hydrationData.vehicles,
-    //             })
-    //         }
-    //     }
-    //     hydrate()
-    // }, [client, dispatch, filter])
+    useEffect(() => {
+        async function hydrate() {
+            const fetchResult: FetchResult = await client.query({
+                query: VEHICLES_QUERY,
+                fetchPolicy: DEFAULT_FETCH_POLICY,
+                variables: filter,
+            })
+            if (fetchResult.data && fetchResult.data.vehicles) {
+                const filteredUpdates = filterVehiclesByLineRefs(
+                    fetchResult?.data?.vehicles,
+                )
+                if (filteredUpdates && filteredUpdates?.length > 0)
+                    dispatch({
+                        type: ActionType.HYDRATE,
+                        payload: filteredUpdates,
+                    })
+            }
+        }
+        if (lineRefs) hydrate()
+    }, [client, dispatch, filter, lineRefs, filterVehiclesByLineRefs])
 
     /**
      * Set up subscription to receive updates on vehicles
@@ -65,6 +78,8 @@ export default function useVehicleData(
          * To avoid triggering re-renders too frequently, buffer subscription updates
          * and set a timer to dispatch the update on a given interval.
          */
+        console.log('running')
+
         if (subscriptionOptions?.enableLiveUpdates) {
             const subscription = client
                 .subscribe({
@@ -77,11 +92,19 @@ export default function useVehicleData(
                 })
                 .subscribe((fetchResult: FetchResult) => {
                     if (fetchResult?.data?.vehicleUpdates.length > 0) {
-                        dispatch({
-                            type: ActionType.UPDATE,
-                            payload: fetchResult?.data
-                                ?.vehicleUpdates as Vehicle[],
-                        })
+                        const filteredUpdates = filterVehiclesByLineRefs(
+                            fetchResult?.data?.vehicleUpdates,
+                        )
+                        console.log(
+                            filteredUpdates,
+                            'filteredSubscriptionUpdates',
+                        )
+
+                        if (filteredUpdates)
+                            dispatch({
+                                type: ActionType.UPDATE,
+                                payload: filteredUpdates,
+                            })
                     }
                 })
 
@@ -89,20 +112,26 @@ export default function useVehicleData(
                 subscription.unsubscribe()
             }
         }
-    }, [client, dispatch, filter, subscriptionOptions])
+    }, [
+        client,
+        dispatch,
+        filter,
+        subscriptionOptions,
+        filterVehiclesByLineRefs,
+    ])
 
     /**
      * Set a timer to swipe through vehicles to update their status
      */
-    useEffect(() => {
-        const timer = setInterval(() => {
-            dispatch({ type: ActionType.SWEEP })
-        }, options.sweepIntervalMs)
+    // useEffect(() => {
+    //     const timer = setInterval(() => {
+    //         dispatch({ type: ActionType.SWEEP })
+    //     }, options.sweepIntervalMs)
 
-        return () => {
-            clearInterval(timer)
-        }
-    }, [dispatch, options.sweepIntervalMs])
+    //     return () => {
+    //         clearInterval(timer)
+    //     }
+    // }, [dispatch, options.sweepIntervalMs])
 
     return state
 }

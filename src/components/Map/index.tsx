@@ -1,4 +1,4 @@
-import { BikeRentalStation } from '@entur/sdk'
+import { BikeRentalStation, TransportMode } from '@entur/sdk'
 import React, { useState, memo, useRef, useEffect } from 'react'
 
 import { InteractiveMap, Marker } from 'react-map-gl'
@@ -8,8 +8,6 @@ import useSupercluster from 'use-supercluster'
 import type { ClusterProperties } from 'supercluster'
 
 import { Vehicle } from '@entur/sdk/lib/mobility/types'
-
-import { BusIcon } from '@entur/icons'
 
 import PositionPin from '../../assets/icons/positionPin'
 
@@ -21,10 +19,13 @@ import { Options } from '../../services/model/options'
 
 import useVehicleData from '../../logic/useVehicleData'
 
+import { getStopPlacesWithLines } from '../../service'
+
+import { getIcon } from '../../utils'
+
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
-import { getStopPlacesWithLines } from '../../service'
 
 const defaultFilter: Filter = {
     monitored: true,
@@ -32,8 +33,8 @@ const defaultFilter: Filter = {
 
 const defaultSubscriptionOptions: SubscriptionOptions = {
     enableLiveUpdates: true,
-    bufferSize: 20,
-    bufferTime: 250,
+    bufferSize: 100,
+    bufferTime: 1000,
 }
 
 const defaultOptions: Options = {
@@ -161,23 +162,6 @@ const Map = ({
         }
     }, [stopPlaces])
 
-    // const [time, setTime] = useState(Date.now())
-    // useEffect(() => {
-    //     const interval = setInterval(() => setTime(Date.now()), 1000)
-    //     return () => {
-    //         clearInterval(interval)
-    //     }
-    // }, [])
-
-    // useEffect(() => {
-    //     const sub = subscribeToLiveData()
-    //     sub.then((data) => {
-    //         console.log('running')
-
-    //         setLiveBusses(data.vehicles.slice(0, 30))
-    //     }).catch((error) => console.log(error))
-    // }, [time])
-
     return (
         <InteractiveMap
             {...viewport}
@@ -214,7 +198,9 @@ const Map = ({
                         latitude={vehicle.vehicle.location.latitude}
                         longitude={vehicle.vehicle.location.longitude}
                     >
-                        <BusIcon></BusIcon>
+                        {getIcon(
+                            vehicle.vehicle.mode.toLowerCase() as TransportMode,
+                        )}
                     </Marker>
                 ))}
             {scooterClusters.map((scooterCluster) => {
