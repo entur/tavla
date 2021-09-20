@@ -25,12 +25,12 @@ export default function useWeather(): TimeseriesPoint[] | null {
     const coordinates = settings?.coordinates
     useEffect(() => {
         getWeather(
-            coordinates?.longitude ?? 0,
             coordinates?.latitude ?? 0,
+            coordinates?.longitude ?? 0,
         ).then(setWeather)
 
         const intervalId = setInterval(() => {
-            getWeather(coordinates?.longitude ?? 0, coordinates?.latitude ?? 0)
+            getWeather(coordinates?.latitude ?? 0, coordinates?.longitude ?? 0)
                 .then((res) => res)
                 .then(setWeather)
         }, REFRESH_INTERVAL)

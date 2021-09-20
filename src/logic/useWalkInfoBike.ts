@@ -41,7 +41,7 @@ async function getWalkInfoBike(
                     { signal },
                 )
                 .then((result) => {
-                    if (!result[0].duration || !result[0].walkDistance) {
+                    if (!result[0]?.duration || !result[0]?.walkDistance) {
                         return null
                     }
                     return {
