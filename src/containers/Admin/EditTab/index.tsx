@@ -183,6 +183,7 @@ const EditTab = (): JSX.Element => {
 
     const addNewStation = useCallback(
         (stationId: string) => {
+            if (newStations.includes(stationId)) return
             setSettings({
                 newStations: [...newStations, stationId],
             })
