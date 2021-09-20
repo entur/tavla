@@ -67,8 +67,8 @@ const EditTab = (): JSX.Element => {
         newStops = [],
         newStations = [],
         hiddenModes,
-        showMap,
-        showWeather,
+        showMap = false,
+        showWeather = false,
     } = settings || {}
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
