@@ -90,7 +90,7 @@ const EditTab = (): JSX.Element => {
     }, [debouncedDistance, setSettings, settings])
 
     const [stopPlaces, setStopPlaces] = useState<StopPlaceWithLines[]>([])
-    const bikeRentalStations: Station[] | null = useBikeRentalStations()
+    const bikeRentalStations: Station[] | null = useBikeRentalStations(false)
     const [sortedBikeRentalStations, setSortedBikeRentalStations] = useState<
         Station[]
     >([])
