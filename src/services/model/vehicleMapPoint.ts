@@ -1,6 +1,6 @@
-import { Vehicle } from "./vehicle";
+import { Vehicle } from './vehicle'
 
 export type VehicleMapPoint = {
-  icon: string;
-  vehicle: Vehicle;
-};
+    icon: string
+    vehicle: Vehicle
+}
