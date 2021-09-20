@@ -4,6 +4,7 @@ import { Station } from '@entur/sdk/lib/mobility/types'
 
 import service from '../service'
 import { useSettingsContext } from '../settings'
+import { includesStation } from '../utils'
 
 async function fetchBikeRentalStationsById(
     allStationIds: string[],
@@ -24,13 +25,6 @@ async function fetchBikeRentalStationsNearby(
         range: distance,
     })
     return allStations
-}
-
-function includesStation(stations: Station[], station: Station) {
-    for (let index = 0; index < stations.length; index++) {
-        if (station.id === stations[index].id) return true
-    }
-    return false
 }
 
 export default function useBikeRentalStations(

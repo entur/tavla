@@ -19,7 +19,11 @@ import {
 import { colors } from '@entur/tokens'
 
 import { Departure, LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
-import { TranslatedString, Translation } from '@entur/sdk/lib/mobility/types'
+import {
+    Station,
+    TranslatedString,
+    Translation,
+} from '@entur/sdk/lib/mobility/types'
 
 import { LineData, TileSubLabel, Theme, IconColorType } from './types'
 import { useSettingsContext } from './settings'
@@ -381,4 +385,14 @@ export function getTranslation(
     )
     if (!match) return null
     return match.value
+}
+
+export function includesStation(
+    stations: Station[],
+    searchElement: Station,
+): boolean {
+    for (let index = 0; index < stations.length; index++) {
+        if (searchElement.id === stations[index].id) return true
+    }
+    return false
 }
