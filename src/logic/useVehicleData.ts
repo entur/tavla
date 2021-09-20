@@ -32,14 +32,11 @@ export default function useVehicleData(
     const filterVehiclesByLineRefs = useCallback(
         (vehiclesUpdates: Vehicle[] | undefined) => {
             if (!(vehiclesUpdates && lineRefs)) {
-                console.log('Triggered', vehiclesUpdates, lineRefs)
-
                 return undefined
             }
             const filteredUpdates = vehiclesUpdates.filter((vehicle) =>
                 lineRefs.includes(vehicle.line.lineRef),
             )
-            console.log(filteredUpdates, 'fitleredUpdates')
 
             return filteredUpdates.length > 0 ? filteredUpdates : undefined
         },
@@ -78,7 +75,6 @@ export default function useVehicleData(
          * To avoid triggering re-renders too frequently, buffer subscription updates
          * and set a timer to dispatch the update on a given interval.
          */
-        console.log('running')
 
         if (subscriptionOptions?.enableLiveUpdates) {
             const subscription = client
@@ -95,11 +91,6 @@ export default function useVehicleData(
                         const filteredUpdates = filterVehiclesByLineRefs(
                             fetchResult?.data?.vehicleUpdates,
                         )
-                        console.log(
-                            filteredUpdates,
-                            'filteredSubscriptionUpdates',
-                        )
-
                         if (filteredUpdates)
                             dispatch({
                                 type: ActionType.UPDATE,
