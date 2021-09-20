@@ -1,0 +1,19 @@
+.wrapper_outer {
+    background-color: white;
+    border-radius: 50%;
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper_inner {
+    height: 80%;
+    width: 80%;
+    border-radius: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

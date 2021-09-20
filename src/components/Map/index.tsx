@@ -11,7 +11,11 @@ import { Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import PositionPin from '../../assets/icons/positionPin'
 
-import { StopPlaceWithDepartures, StopPlaceWithLines } from '../../types'
+import {
+    IconColorType,
+    StopPlaceWithDepartures,
+    StopPlaceWithLines,
+} from '../../types'
 
 import { SubscriptionOptions } from '../../services/model/subscriptionOptions'
 import { Filter } from '../../services/model/filter'
@@ -21,11 +25,13 @@ import useVehicleData from '../../logic/useVehicleData'
 
 import { getStopPlacesWithLines } from '../../service'
 
-import { getIcon } from '../../utils'
+import { getIcon, getIconColor, getIconColorType } from '../../utils'
 
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
+import { LiveVehicleMarker } from './LiveVehicleMarker'
+import { useTheme } from '../../containers/ThemeWrapper/ThemeProvider'
 
 const defaultFilter: Filter = {
     monitored: true,
@@ -198,9 +204,14 @@ const Map = ({
                         latitude={vehicle.vehicle.location.latitude}
                         longitude={vehicle.vehicle.location.longitude}
                     >
-                        {getIcon(
-                            vehicle.vehicle.mode.toLowerCase() as TransportMode,
-                        )}
+                        <LiveVehicleMarker
+                            color={getIconColor(
+                                vehicle.vehicle.mode,
+                                IconColorType.DEFAULT,
+                                undefined,
+                            )}
+                            lineNumber={63}
+                        ></LiveVehicleMarker>
                     </Marker>
                 ))}
             {scooterClusters.map((scooterCluster) => {
