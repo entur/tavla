@@ -10,7 +10,7 @@ import { SettingsContext, useSettings } from '../settings'
 import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
 
-import { apolloClient } from '../service'
+import { client } from '../services/apollo'
 
 import Compact from '../dashboards/Compact'
 import Chrono from '../dashboards/Chrono'
@@ -165,7 +165,7 @@ const Content = (): JSX.Element => {
     }, [location.pathname])
 
     return (
-        <ApolloProvider client={apolloClient}>
+        <ApolloProvider client={client}>
             <UserProvider value={user}>
                 {isMobileWeb()
                     ? ProgressiveWebAppPrompt(location.pathname)
