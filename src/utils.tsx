@@ -410,13 +410,3 @@ export function getTranslation(
     if (!match) return null
     return match.value
 }
-
-export function includesStation(
-    stations: Station[],
-    searchElement: Station,
-): boolean {
-    for (let index = 0; index < stations.length; index++) {
-        if (searchElement.id === stations[index].id) return true
-    }
-    return false
-}
