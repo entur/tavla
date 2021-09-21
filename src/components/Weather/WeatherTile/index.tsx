@@ -4,7 +4,7 @@ import './styles.scss'
 import { ThermometerIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
 
 import { useWeather } from '../../../logic'
-import { WeatherIconApi } from '..'
+import { WeatherIcon } from '..'
 interface Props {
     className?: string
     displayTemperature?: boolean
@@ -35,7 +35,7 @@ function WeatherTile({
     const Icon = (): JSX.Element => (
         <div className="weather-tile__weather-icon">
             {weather ? (
-                <WeatherIconApi
+                <WeatherIcon
                     iconName={weather[3].data.next_1_hours.summary.symbol_code}
                 />
             ) : (

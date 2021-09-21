@@ -2,19 +2,43 @@ import React, { useEffect, useState } from 'react'
 
 import { Tooltip } from '@entur/tooltip'
 
-import { getWeatherDescriptionFromApi, ConditionalWrapper } from '../../utils'
+import {
+    getWeatherDescriptionFromApi,
+    ConditionalWrapper,
+    getWeatherIconEnTur,
+} from '../../utils'
 
 import './styles.scss'
-
 interface Props {
     iconName: string
+    type?: string
 }
 
-export const WeatherIconApi = ({ iconName }: Props): JSX.Element => {
+export const WeatherIcon = ({ iconName, type }: Props): JSX.Element => {
     const [description, setDescription] = useState('')
+    const [weatherIcon, setWeatherIcon] = useState(<></>)
 
     useEffect(() => {
         const abortController = new AbortController()
+
+        if (type === 'met')
+            setWeatherIcon(
+                <div className="icon">
+                    <img
+                        src={require('../../assets/weather/' +
+                            iconName +
+                            '.svg')}
+                        alt={description}
+                    />
+                </div>,
+            )
+        else
+            setWeatherIcon(
+                <div className="icon_entur">
+                    {getWeatherIconEnTur(iconName)}
+                </div>,
+            )
+
         getWeatherDescriptionFromApi(iconName, abortController.signal)
             .then((fetchedDescription) => setDescription(fetchedDescription))
             .catch((error) => {
@@ -25,7 +49,7 @@ export const WeatherIconApi = ({ iconName }: Props): JSX.Element => {
         return () => {
             abortController.abort()
         }
-    }, [iconName])
+    }, [iconName, type])
 
     return (
         <ConditionalWrapper
@@ -36,47 +60,7 @@ export const WeatherIconApi = ({ iconName }: Props): JSX.Element => {
                 </Tooltip>
             )}
         >
-            <div className="icon">
-                <img
-                    src={require('../../assets/weather/' + iconName + '.svg')}
-                    alt={description}
-                />
-            </div>
+            {weatherIcon}
         </ConditionalWrapper>
     )
 }
-
-// The following animated icons are per now not in use but left for later incase animated icons are wanted
-export const SunIconAnimated = (): JSX.Element => (
-    <div className="icon">
-        <div className="sun">
-            <div className="rays"></div>
-        </div>
-    </div>
-)
-
-export const RainIconAnimated = (): JSX.Element => (
-    <div className="icon">
-        <div className="cloud"></div>
-        <div className="rain"></div>
-    </div>
-)
-
-export const ThunderIconAnimated = (): JSX.Element => (
-    <div className="icon thunder-storm">
-        <div className="cloud"></div>
-        <div className="lightning">
-            <div className="bolt"></div>
-            <div className="bolt"></div>
-        </div>
-    </div>
-)
-
-export const PartlyCloudyIconAnimated = (): JSX.Element => (
-    <div className="icon">
-        <div className="cloud cloud_sun"></div>
-        <div className="sun">
-            <div className="rays"></div>
-        </div>
-    </div>
-)
