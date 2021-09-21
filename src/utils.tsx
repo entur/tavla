@@ -394,3 +394,11 @@ export const ConditionalWrapper = ({
     wrapper,
     children,
 }: WrapperProps) => (condition ? wrapper(children) : children)
+
+export function getDepartureNumber(departure: LineData): string {
+    return departure.route.split(/[\s]/g)[0]
+}
+
+export function getDepartureDirection(departure: LineData): string[] {
+    return departure.route.split(/([\s])/g).slice(1)
+}
