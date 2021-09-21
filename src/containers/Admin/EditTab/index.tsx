@@ -121,13 +121,13 @@ const EditTab = (): JSX.Element => {
     const scooters = useMobility(FormFactor.SCOOTER)
 
     useEffect(() => {
-        let ignoreResponse = false
+        const controller = new AbortController()
         const ids = [...newStops, ...nearestStopPlaceIds]
 
         getStopPlacesWithLines(
             ids.map((id: string) => id.replace(/-\d+$/, '')),
         ).then((resultingStopPlaces) => {
-            if (ignoreResponse) return
+            if (controller.signal.aborted) return
 
             setStopPlaces(
                 resultingStopPlaces.map((s, index) => ({
@@ -138,12 +138,12 @@ const EditTab = (): JSX.Element => {
         })
 
         return (): void => {
-            ignoreResponse = true
+            controller.abort()
         }
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
 
     useEffect(() => {
-        let ignoreResponse = false
+        const controller = new AbortController()
 
         if (bikeRentalStations) {
             const sortedStations = bikeRentalStations
@@ -154,13 +154,12 @@ const EditTab = (): JSX.Element => {
                         'no',
                     ),
                 )
-            if (!ignoreResponse) {
-                setSortedBikeRentalStations(sortedStations)
-            }
+            if (controller.signal.aborted) return
+            setSortedBikeRentalStations(sortedStations)
         }
 
         return (): void => {
-            ignoreResponse = true
+            controller.abort()
         }
     }, [bikeRentalStations])
 

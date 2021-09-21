@@ -27,22 +27,30 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
     const [stations, setStations] = useState<Station[]>([])
 
     useEffect(() => {
-        let isMounted = true
+        const controller = new AbortController()
         if (position) {
             service.mobility
-                .getStations({
-                    lat: position.latitude,
-                    lon: position.longitude,
-                    range: MAX_SEARCH_RANGE,
-                })
+                .getStations(
+                    {
+                        lat: position.latitude,
+                        lon: position.longitude,
+                        range: MAX_SEARCH_RANGE,
+                    },
+                    {
+                        signal: controller.signal,
+                    },
+                )
                 .then((data) => {
-                    if (isMounted) {
-                        setStations(data)
+                    setStations(data)
+                })
+                .catch((err) => {
+                    if (!controller.signal.aborted) {
+                        throw err
                     }
                 })
         }
         return () => {
-            isMounted = false
+            controller.abort()
         }
     }, [position])
 
