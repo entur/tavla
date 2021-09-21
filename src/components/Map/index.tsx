@@ -1,4 +1,4 @@
-import { BikeRentalStation, TransportMode } from '@entur/sdk'
+import { BikeRentalStation, LegMode, TransportMode } from '@entur/sdk'
 import React, { useState, memo, useRef, useEffect } from 'react'
 
 import { InteractiveMap, Marker } from 'react-map-gl'
@@ -25,13 +25,12 @@ import useVehicleData from '../../logic/useVehicleData'
 
 import { getStopPlacesWithLines } from '../../service'
 
-import { getIcon, getIconColor, getIconColorType } from '../../utils'
+import { getIconColor } from '../../utils'
 
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
 import { LiveVehicleMarker } from './LiveVehicleMarker'
-import { useTheme } from '../../containers/ThemeWrapper/ThemeProvider'
 
 const defaultFilter: Filter = {
     monitored: true,
@@ -206,7 +205,10 @@ const Map = ({
                     >
                         <LiveVehicleMarker
                             color={getIconColor(
-                                vehicle.vehicle.mode,
+                                vehicle.vehicle.mode.toLowerCase() as
+                                    | TransportMode
+                                    | LegMode
+                                    | 'ferry',
                                 IconColorType.DEFAULT,
                                 undefined,
                             )}

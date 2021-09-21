@@ -57,7 +57,7 @@ export function getIconColorType(theme: Theme | undefined): IconColorType {
 }
 
 export function getIconColor(
-    type: string,
+    type: TransportMode | LegMode | 'ferry',
     iconColorType: IconColorType,
     subType?: TransportSubmode,
 ): string {
@@ -70,6 +70,7 @@ export function getIconColor(
         case 'bicycle':
             return colors.transport[iconColorType].mobility
         case 'water':
+        case 'ferry':
             return colors.transport[iconColorType].ferry
         case 'metro':
             return colors.transport[iconColorType].metro
@@ -95,7 +96,7 @@ type TransportIconIdentifier =
     | 'plane'
 
 export function getTransportIconIdentifier(
-    legMode: string,
+    legMode: TransportMode | LegMode,
     subMode?: TransportSubmode,
 ): TransportIconIdentifier | null {
     if (isSubModeCarFerry(subMode)) {
@@ -109,7 +110,6 @@ export function getTransportIconIdentifier(
         case 'bicycle':
             return 'bicycle'
         case 'water':
-        case 'ferry':
             return 'ferry'
         case 'metro':
             return 'subway'
@@ -125,12 +125,13 @@ export function getTransportIconIdentifier(
 }
 
 export function getIcon(
-    mode: string,
+    mode: TransportMode,
     iconColorType: IconColorType = IconColorType.CONTRAST,
     subMode?: TransportSubmode,
     color?: string,
 ): JSX.Element | null {
     const colorToUse = color ?? getIconColor(mode, iconColorType, subMode)
+
     const identifier = getTransportIconIdentifier(mode, subMode)
 
     switch (identifier) {
@@ -369,3 +370,27 @@ export function isEqualUnsorted<T>(array: T[], includes: T[]): boolean {
     if (array.length !== includes.length) return false
     return includes.every((i) => array.includes(i))
 }
+
+export const getWeatherDescriptionFromApi = async (
+    iconName: string,
+    signal: AbortSignal,
+): Promise<string> => {
+    const weatherNameMatch = iconName.match(/.+?(?=_|$)/)
+    if (!weatherNameMatch)
+        return Promise.reject('No REGEX match found for ' + iconName)
+    const url = `https://api.met.no/weatherapi/weathericon/2.0/legends`
+    const response = await fetch(url, { signal })
+    const weatherData = await response.json()
+    return weatherData[weatherNameMatch.toString()].desc_nb
+}
+
+interface WrapperProps {
+    condition: boolean
+    wrapper: any
+    children: JSX.Element
+}
+export const ConditionalWrapper = ({
+    condition,
+    wrapper,
+    children,
+}: WrapperProps) => (condition ? wrapper(children) : children)
