@@ -210,7 +210,7 @@ const Map = ({
                                 IconColorType.DEFAULT,
                                 undefined,
                             )}
-                            lineNumber={63}
+                            lineNumber={69}
                         ></LiveVehicleMarker>
                     </Marker>
                 ))}
