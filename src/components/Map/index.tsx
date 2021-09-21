@@ -27,6 +27,8 @@ import { getStopPlacesWithLines } from '../../service'
 
 import { getIconColor } from '../../utils'
 
+import { IResponse, ITest, testClient, TEST_QUERY } from './test'
+
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
@@ -65,6 +67,10 @@ const Map = ({
         undefined,
     )
 
+    const [lineNumberMapping, setLineNumberMapping] = useState<
+        ITest[] | undefined
+    >(undefined)
+
     const [viewport, setViewPort] = useState({
         latitude,
         longitude,
@@ -81,6 +87,28 @@ const Map = ({
         defaultOptions,
         uniqueLineIds,
     )
+    console.log('====================================')
+    console.log('rendering')
+    console.log('====================================')
+
+    useEffect(() => {
+        const gln = async () => {
+            //get line number short hand
+            const { data } = await testClient.query<IResponse>({
+                query: TEST_QUERY,
+                fetchPolicy: 'no-cache',
+                variables: { ids: uniqueLineIds },
+            })
+            if (data.lines.length > 0) {
+                console.log(data.lines)
+
+                const mapping = data.lines
+                setLineNumberMapping(mapping)
+            }
+        }
+        if (uniqueLineIds) gln()
+    }, [uniqueLineIds])
+
     const mapRef = useRef<MapRef>(null)
     const scooterpoints = scooters?.map((scooter: Vehicle) => ({
         type: 'Feature' as const,
@@ -170,7 +198,7 @@ const Map = ({
     return (
         <InteractiveMap
             {...viewport}
-            dragPan={true}
+            dragPan={{ inertia: 3 }}
             touchAction="pan-y"
             mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
             mapStyle={mapStyle || process.env.MAPBOX_STYLE_MAPVIEW}
@@ -212,7 +240,12 @@ const Map = ({
                                 IconColorType.DEFAULT,
                                 undefined,
                             )}
-                            lineNumber={69}
+                            lineNumber={
+                                lineNumberMapping?.find(
+                                    (el) =>
+                                        el.id === vehicle.vehicle.line.lineRef,
+                                )?.journeyPatterns[0].line?.publicCode ?? '69'
+                            }
                         ></LiveVehicleMarker>
                     </Marker>
                 ))}

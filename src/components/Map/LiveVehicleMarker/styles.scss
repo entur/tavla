@@ -3,20 +3,41 @@
 .wrapper_outer {
     background-color: white;
     border-radius: 50%;
-    height: 2rem;
-    width: 2rem;
+    height: 2.5rem;
+    width: 2.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        transform: scale(1.5);
+    }
 }
 
 .wrapper_inner {
-    height: 80%;
-    width: 80%;
+    height: 90%;
+    width: 90%;
     border-radius: 50%;
     margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: $font-sizes-medium;
+}
+
+.ttc-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.first-line {
+    display: flex;
+    justify-content: center;
+}
+
+.second-line {
+    display: flex;
+    justify-content: center;
 }
