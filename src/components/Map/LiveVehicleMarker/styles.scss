@@ -1,3 +1,5 @@
+@import '../../../assets/styles/import.scss';
+
 .wrapper_outer {
     background-color: white;
     border-radius: 50%;
@@ -16,4 +18,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: $font-sizes-medium;
 }
