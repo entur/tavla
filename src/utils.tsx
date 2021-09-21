@@ -19,11 +19,7 @@ import {
 import { colors } from '@entur/tokens'
 
 import { Departure, LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
-import {
-    Station,
-    TranslatedString,
-    Translation,
-} from '@entur/sdk/lib/mobility/types'
+import { TranslatedString, Translation } from '@entur/sdk/lib/mobility/types'
 
 import { LineData, TileSubLabel, Theme, IconColorType } from './types'
 import { useSettingsContext } from './settings'
