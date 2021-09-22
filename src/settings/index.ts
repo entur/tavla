@@ -95,7 +95,7 @@ export function useSettings(): [Settings | null, Setter] {
 
         if (id) {
             return onSnapshot(getSettings(id), (document: any) => {
-                if (!document.exists) {
+                if (!document.exists()) {
                     window.location.pathname = '/'
                     return
                 }
