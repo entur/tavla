@@ -148,12 +148,13 @@ const EditTab = (): JSX.Element => {
         if (bikeRentalStations) {
             const sortedStations = bikeRentalStations
                 .filter(isNotNullOrUndefined)
-                .sort((a: Station, b: Station) =>
-                    (getTranslation(a.name) || a.id).localeCompare(
-                        getTranslation(b.name) || b.id,
-                        'no',
-                    ),
-                )
+                .sort((a: Station, b: Station) => {
+                    const aName = getTranslation(a.name)
+                    const bName = getTranslation(b.name)
+                    if (!aName) return 1
+                    if (!bName) return -1
+                    return aName.localeCompare(bName, 'no')
+                })
             if (controller.signal.aborted) return
             setSortedBikeRentalStations(sortedStations)
         }

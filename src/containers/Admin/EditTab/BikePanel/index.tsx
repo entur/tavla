@@ -59,12 +59,12 @@ function BikePanel(props: Props): JSX.Element {
                 <Checkbox
                     key={id}
                     id={id}
-                    name={getTranslation(name) || id}
+                    name={getTranslation(name) || ''}
                     checked={!hiddenStations.includes(id)}
                     onChange={onToggleStation}
                 >
                     <span className="bike-panel__eds-paragraph">
-                        {getTranslation(name) || id}
+                        {getTranslation(name) || ''}
                     </span>
                 </Checkbox>
             ))}

@@ -19,7 +19,7 @@ interface Item {
 function mapFeaturesToItems(features: Station[]): Item[] {
     return features.map(({ id, name }) => ({
         value: id,
-        label: getTranslation(name) || id,
+        label: getTranslation(name) || '',
     }))
 }
 
