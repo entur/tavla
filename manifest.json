@@ -9,7 +9,7 @@
     "description": "Lag din egen sanntidstavle.",
     "orientation": "portrait",
     "lang": "no",
-    "icons": [
+    "images": [
         {
             "src": "images/logo/logo-72x72.png",
             "sizes": "72x72",
@@ -57,13 +57,6 @@
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
-        }
-    ],
-    "splash_screen": [
-        {
-            "src": "images/splash/startup-image-1284x2778.png",
-            "sizes": "1284x2778",
-            "type": "image/png"
         }
     ]
 }
