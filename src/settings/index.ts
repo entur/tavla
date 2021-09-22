@@ -52,6 +52,7 @@ export interface Settings {
     hideSituations?: boolean
     hideTracks?: boolean
     hideWalkInfo?: boolean
+    hiddenLiveDataLineRefs?: string[]
 }
 
 type Setter = (settings: Partial<Settings>) => void

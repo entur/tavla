@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './styles.scss'
+import { Label } from '@entur/typography'
 import { Tooltip } from '@entur/tooltip'
 import { colors } from '@entur/tokens'
 import { LegMode, TransportMode } from '@entur/sdk'
@@ -8,27 +9,20 @@ import { differenceInSeconds, parseISO } from 'date-fns'
 import { getIcon, getIconColor } from '../../../utils'
 import DepartureIcon from '../../../dashboards/Map/DepartureTag/DepartureIcon'
 import { IconColorType } from '../../../types'
-import { ITest } from '../test'
-import { Vehicle } from '../../../services/model/vehicle'
-import { Label } from '@entur/typography'
 
-interface IProps {
-    liveVehicle: Vehicle
-    lineData: ITest | undefined
+import { LiveVehicle } from '../../../logic/useVehicleData'
+
+interface Props {
+    liveVehicle: LiveVehicle
 }
 
 const getLastUpdated = (lastUpdated: string): number =>
     differenceInSeconds(new Date(), parseISO(lastUpdated))
 
-export const LiveVehicleMarker = ({
-    liveVehicle,
-    lineData,
-}: IProps): JSX.Element => (
+export const LiveVehicleMarker = ({ liveVehicle }: Props): JSX.Element => (
     <Tooltip
         placement="top"
-        content={
-            <TooltipContent liveVehicle={liveVehicle} lineData={lineData} />
-        }
+        content={<TooltipContent liveVehicle={liveVehicle} />}
     >
         <div className="wrapper_outer">
             <div
@@ -44,26 +38,26 @@ export const LiveVehicleMarker = ({
                     ),
                 }}
             >
-                {lineData?.journeyPatterns[0].line.publicCode}
+                {liveVehicle.lineIdentifier}
             </div>
         </div>
     </Tooltip>
 )
 
-const TooltipContent = ({ liveVehicle, lineData }: IProps) => {
+const TooltipContent = ({ liveVehicle }: Props): JSX.Element => {
     const [lastUpdated, setLastUpdated] = useState(
-        getLastUpdated(liveVehicle.lastUpdated),
+        getLastUpdated(liveVehicle.vehicle.lastUpdated),
     )
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setLastUpdated(getLastUpdated(liveVehicle.lastUpdated))
+            setLastUpdated(getLastUpdated(liveVehicle.vehicle.lastUpdated))
         }, 1000)
 
         return () => {
             clearInterval(interval)
         }
-    }, [liveVehicle.lastUpdated])
+    }, [liveVehicle.vehicle.lastUpdated])
 
     return (
         <div className="ttc-wrapper">
@@ -80,13 +74,9 @@ const TooltipContent = ({ liveVehicle, lineData }: IProps) => {
                         IconColorType.DEFAULT,
                         undefined,
                     )}
-                    routeNumber={
-                        lineData?.journeyPatterns[0].line.publicCode ?? '69'
-                    }
+                    routeNumber={liveVehicle.lineIdentifier ?? '69'}
                 />
-                <div className="front-text">
-                    {liveVehicle.line.lineName.split('=> ').pop()}
-                </div>
+                <div className="front-text">{liveVehicle.destination}</div>
             </div>
             <Label
                 className="second-line"

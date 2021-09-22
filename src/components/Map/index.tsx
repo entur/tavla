@@ -1,5 +1,5 @@
-import { BikeRentalStation, LegMode, TransportMode } from '@entur/sdk'
-import React, { useState, memo, useRef, useEffect } from 'react'
+import { BikeRentalStation } from '@entur/sdk'
+import React, { useState, memo, useRef } from 'react'
 
 import { InteractiveMap, Marker } from 'react-map-gl'
 import type { MapRef } from 'react-map-gl'
@@ -11,23 +11,13 @@ import { Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import PositionPin from '../../assets/icons/positionPin'
 
-import {
-    IconColorType,
-    StopPlaceWithDepartures,
-    StopPlaceWithLines,
-} from '../../types'
+import { StopPlaceWithDepartures } from '../../types'
 
 import { SubscriptionOptions } from '../../services/model/subscriptionOptions'
 import { Filter } from '../../services/model/filter'
 import { Options } from '../../services/model/options'
 
 import useVehicleData from '../../logic/useVehicleData'
-
-import { getStopPlacesWithLines } from '../../service'
-
-import { getIconColor } from '../../utils'
-
-import { IResponse, ITest, testClient, TEST_QUERY } from './test'
 
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
@@ -63,14 +53,6 @@ const Map = ({
     longitude,
     zoom,
 }: Props): JSX.Element => {
-    const [uniqueLineIds, setUniqueLineIds] = useState<string[] | undefined>(
-        undefined,
-    )
-
-    const [lineNumberMapping, setLineNumberMapping] = useState<
-        ITest[] | undefined
-    >(undefined)
-
     const [viewport, setViewPort] = useState({
         latitude,
         longitude,
@@ -85,29 +67,9 @@ const Map = ({
         defaultFilter,
         defaultSubscriptionOptions,
         defaultOptions,
-        uniqueLineIds,
     )
-    console.log('====================================')
-    console.log('rendering')
-    console.log('====================================')
 
-    useEffect(() => {
-        const gln = async () => {
-            //get line number short hand
-            const { data } = await testClient.query<IResponse>({
-                query: TEST_QUERY,
-                fetchPolicy: 'no-cache',
-                variables: { ids: uniqueLineIds },
-            })
-            if (data.lines.length > 0) {
-                console.log(data.lines)
-
-                const mapping = data.lines
-                setLineNumberMapping(mapping)
-            }
-        }
-        if (uniqueLineIds) gln()
-    }, [uniqueLineIds])
+    console.log(vehicles, 'vehicles')
 
     const mapRef = useRef<MapRef>(null)
     const scooterpoints = scooters?.map((scooter: Vehicle) => ({
@@ -173,28 +135,6 @@ const Map = ({
         },
     })
 
-    useEffect(() => {
-        const abortController = new AbortController()
-        const test = async () => {
-            if (stopPlaces) {
-                const stopPlacesWithLines: StopPlaceWithLines[] =
-                    await getStopPlacesWithLines(
-                        stopPlaces.map((sPlace) => sPlace.id),
-                        abortController.signal,
-                    )
-
-                const lineIds: string[] = stopPlacesWithLines.flatMap((el) =>
-                    el.lines.map((line) => line.id),
-                )
-                setUniqueLineIds(new Array(...new Set(lineIds)))
-            }
-        }
-        test()
-        return () => {
-            abortController.abort()
-        }
-    }, [stopPlaces])
-
     return (
         <InteractiveMap
             {...viewport}
@@ -224,19 +164,15 @@ const Map = ({
             }
             ref={mapRef}
         >
-            {vehicles.vehicles &&
-                Object.values(vehicles.vehicles).map((vehicle, index) => (
+            {vehicles &&
+                Object.values(vehicles).map((vehicle, index) => (
                     <Marker
                         key={index}
                         latitude={vehicle.vehicle.location.latitude}
                         longitude={vehicle.vehicle.location.longitude}
                     >
                         <LiveVehicleMarker
-                            liveVehicle={vehicle.vehicle}
-                            lineData={lineNumberMapping?.find(
-                                (line) =>
-                                    line.id === vehicle.vehicle.line.lineRef,
-                            )}
+                            liveVehicle={vehicle}
                         ></LiveVehicleMarker>
                     </Marker>
                 ))}

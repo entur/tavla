@@ -1,6 +1,7 @@
+import { VehicleMapPoint } from './../services/model/vehicleMapPoint'
 import { useApolloClient } from '@apollo/client'
 import type { FetchResult } from '@apollo/client'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Options } from '../services/model/options'
 
@@ -13,9 +14,31 @@ import {
     VEHICLE_UPDATES_SUBSCRIPTION,
 } from '../services/graphql'
 
+import { useSettingsContext } from '../settings'
+
+import {
+    IResponse,
+    ITest,
+    testClient,
+    TEST_QUERY,
+} from '../components/Map/test'
+import { getStopPlacesWithLines } from '../service'
+import { StopPlaceWithLines } from '../types'
+
 import useVehicleReducer, { ActionType, State } from './useVehicleReducer'
 
+import { useStopPlacesWithDepartures } from '.'
+
 const DEFAULT_FETCH_POLICY = 'no-cache'
+
+export interface LiveVehicle {
+    vehicle: Vehicle
+    lineIdentifier: string //e.g. 12 or B21
+    destination: string //e.g Kjelsås or Voksen skog
+    mode: string // bus, tram etc.
+    lineRef: string
+    lineName: string
+}
 
 /**
  * Hook to query and subscribe to remote vehicle data
@@ -24,23 +47,103 @@ export default function useVehicleData(
     filter: Filter,
     subscriptionOptions: SubscriptionOptions,
     options: Options,
-    lineRefs?: string[],
-): State {
+): LiveVehicle[] | undefined {
     const [state, dispatch] = useVehicleReducer(options)
     const client = useApolloClient()
+    const [settings] = useSettingsContext()
+    const stopPlaces = useStopPlacesWithDepartures()
+    console.log(stopPlaces)
+
+    const [uniqueLineIds, setUniqueLineIds] = useState<string[] | undefined>(
+        undefined,
+    )
+
+    const [usableState, setUsableState] = useState<LiveVehicle[] | undefined>(
+        undefined,
+    )
+
+    const [lines, setLineNumberMapping] = useState<ITest[] | undefined>(
+        undefined,
+    )
+
+    useEffect(() => {
+        const nice = (Object.values(state.vehicles) as VehicleMapPoint[]).map(
+            (vmp) => {
+                const v = vmp.vehicle
+                const line = lines?.find((l) => l.id === v.line.lineRef)
+                return {
+                    vehicle: v,
+                    lineIdentifier: line?.journeyPatterns[0].line.publicCode,
+                    destination: v.line.lineName.split('=> ').pop(),
+                    lineRef: v.line.lineRef,
+                    lineName: v.line.lineName,
+                    mode: v.mode,
+                } as LiveVehicle
+            },
+        )
+        setUsableState(nice)
+    }, [state, lines])
+
+    useEffect(() => {
+        const gln = async () => {
+            //get line number short hand
+            const { data } = await testClient.query<IResponse>({
+                query: TEST_QUERY,
+                fetchPolicy: 'no-cache',
+                variables: { ids: uniqueLineIds },
+            })
+            if (data.lines.length > 0) {
+                console.log(data.lines, 'lines')
+
+                const mapping = data.lines
+                setLineNumberMapping(mapping)
+            }
+        }
+        if (uniqueLineIds) gln()
+    }, [uniqueLineIds])
+
+    useEffect(() => {
+        console.log(stopPlaces)
+
+        const abortController = new AbortController()
+        const test = async () => {
+            if (stopPlaces) {
+                const stopPlacesWithLines: StopPlaceWithLines[] =
+                    await getStopPlacesWithLines(
+                        stopPlaces.map((sPlace) => sPlace.id),
+                        abortController.signal,
+                    )
+
+                const lineIds: string[] = stopPlacesWithLines.flatMap((el) =>
+                    el.lines.map((line) => line.id),
+                )
+                setUniqueLineIds(new Array(...new Set(lineIds)))
+            }
+        }
+        test()
+        return () => {
+            abortController.abort()
+        }
+    }, [stopPlaces])
 
     const filterVehiclesByLineRefs = useCallback(
         (vehiclesUpdates: Vehicle[] | undefined) => {
-            if (!(vehiclesUpdates && lineRefs)) {
+            if (!(vehiclesUpdates && uniqueLineIds)) {
                 return undefined
             }
             const filteredUpdates = vehiclesUpdates.filter((vehicle) =>
-                lineRefs.includes(vehicle.line.lineRef),
+                uniqueLineIds.includes(vehicle.line.lineRef),
             )
+
+            //&&
+            // settings?.hiddenLiveDataLineRefs &&
+            // !settings?.hiddenLiveDataLineRefs?.includes(
+            //     vehicle.line.lineRef,
+            // ),
 
             return filteredUpdates.length > 0 ? filteredUpdates : undefined
         },
-        [lineRefs],
+        [uniqueLineIds, settings?.hiddenLiveDataLineRefs],
     )
 
     /**
@@ -64,8 +167,8 @@ export default function useVehicleData(
                     })
             }
         }
-        if (lineRefs) hydrate()
-    }, [client, dispatch, filter, lineRefs, filterVehiclesByLineRefs])
+        if (uniqueLineIds) hydrate()
+    }, [client, dispatch, filter, uniqueLineIds, filterVehiclesByLineRefs])
 
     /**
      * Set up subscription to receive updates on vehicles
@@ -110,19 +213,5 @@ export default function useVehicleData(
         subscriptionOptions,
         filterVehiclesByLineRefs,
     ])
-
-    /**
-     * Set a timer to swipe through vehicles to update their status
-     */
-    // useEffect(() => {
-    //     const timer = setInterval(() => {
-    //         dispatch({ type: ActionType.SWEEP })
-    //     }, options.sweepIntervalMs)
-
-    //     return () => {
-    //         clearInterval(timer)
-    //     }
-    // }, [dispatch, options.sweepIntervalMs])
-
-    return state
+    return usableState
 }
