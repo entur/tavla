@@ -5,7 +5,7 @@ import { Tooltip } from '@entur/tooltip'
 import {
     getWeatherDescriptionFromApi,
     ConditionalWrapper,
-    getWeatherIconEnTur,
+    getWeatherIconEntur,
 } from '../../utils'
 
 import './styles.scss'
@@ -34,33 +34,14 @@ export const WeatherIcon = ({ iconName, type }: Props): JSX.Element => {
             )
         else
             setWeatherIcon(
-                <div className="icon_entur">
-                    {getWeatherIconEnTur(iconName)}
+                <div className="icon-entur">
+                    {getWeatherIconEntur(iconName)}
                 </div>,
             )
-
-        getWeatherDescriptionFromApi(iconName, abortController.signal)
-            .then((fetchedDescription) => setDescription(fetchedDescription))
-            .catch((error) => {
-                if (error.name === 'AbortError') return
-                setDescription('')
-                throw error
-            })
         return () => {
             abortController.abort()
         }
     }, [iconName, type])
 
-    return (
-        <ConditionalWrapper
-            condition={description !== ''}
-            wrapper={(children: JSX.Element) => (
-                <Tooltip content={description} placement="top">
-                    {children}
-                </Tooltip>
-            )}
-        >
-            {weatherIcon}
-        </ConditionalWrapper>
-    )
+    return <>{weatherIcon}</>
 }

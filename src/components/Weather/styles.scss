@@ -14,25 +14,22 @@
     }
 }
 
-.icon_entur {
+.icon-entur {
     position: relative;
     display: inline-block;
-    padding-bottom: 0;
-    font-size: 4rem;
+    font-size: 5.5rem;
 
     &:active {
         pointer-events: none;
     }
+
+    &--sun {
+        animation: spin 30s linear infinite;
+    }
 }
 
-@keyframes pulsate {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
+@keyframes spin {
     100% {
-        transform: scale(1);
+        transform: rotate(360deg);
     }
 }

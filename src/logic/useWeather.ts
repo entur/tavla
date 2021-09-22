@@ -8,7 +8,7 @@ async function getWeather(
     latitude: number | null,
     longitude: number | null,
 ): Promise<TimeseriesPoint[]> {
-    const url = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latitude}&lon=${longitude}`
+    const url = `https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=${latitude}&lon=${longitude}`
     const weather = await fetch(url).then((response) => {
         if (!response.ok) {
             throw new Error(response.statusText)
@@ -39,18 +39,15 @@ export default function useWeather(): TimeseriesPoint[] | null {
     return weather
 }
 
+// See all available datapoint here (https://api.met.no/doc/ForecastJSON)
 interface TimeseriesPoint {
     data: {
         instant: { details: WeatherDetails }
         next_1_hours: {
-            details: { precipitation_amount: number }
-            summary: { symbol_code: string }
-        }
-        next_6_hours: {
-            details: { precipitation_amount: number }
-            summary: { symbol_code: string }
-        }
-        next_12_hours: {
+            details: {
+                precipitation_amount: number
+                probability_of_precipitation: number
+            }
             summary: { symbol_code: string }
         }
     }

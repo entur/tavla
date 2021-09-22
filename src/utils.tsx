@@ -390,7 +390,7 @@ export const getWeatherDescriptionFromApi = async (
     return weatherData[weatherNameMatch.toString()].desc_nb
 }
 
-export const getWeatherIconEnTur = (APIconName: string): JSX.Element => {
+export const getWeatherIconEntur = (APIconName: string): JSX.Element => {
     const stripedAPIIconName = APIconName.replace(
         /heavy|light|showers|_|day|night/g,
         '',
@@ -413,7 +413,8 @@ export const getWeatherIconEnTur = (APIconName: string): JSX.Element => {
     if (arrayContains(weatherConditions, rain)) return <CloudRainIcon />
     if (arrayContains(weatherConditions, sunCloud)) return <SunCloudIcon />
     if (arrayContains(weatherConditions, cloud)) return <CloudIcon />
-    if (arrayContains(weatherConditions, sun)) return <SunIcon />
+    if (arrayContains(weatherConditions, sun))
+        return <SunIcon className="icon-entur--sun" />
     return <div>?</div>
 }
 
