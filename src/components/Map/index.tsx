@@ -232,20 +232,11 @@ const Map = ({
                         longitude={vehicle.vehicle.location.longitude}
                     >
                         <LiveVehicleMarker
-                            color={getIconColor(
-                                vehicle.vehicle.mode.toLowerCase() as
-                                    | TransportMode
-                                    | LegMode
-                                    | 'ferry',
-                                IconColorType.DEFAULT,
-                                undefined,
+                            liveVehicle={vehicle.vehicle}
+                            lineData={lineNumberMapping?.find(
+                                (line) =>
+                                    line.id === vehicle.vehicle.line.lineRef,
                             )}
-                            lineNumber={
-                                lineNumberMapping?.find(
-                                    (el) =>
-                                        el.id === vehicle.vehicle.line.lineRef,
-                                )?.journeyPatterns[0].line?.publicCode ?? '69'
-                            }
                         ></LiveVehicleMarker>
                     </Marker>
                 ))}
