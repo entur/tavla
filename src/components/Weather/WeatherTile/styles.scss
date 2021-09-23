@@ -3,19 +3,19 @@
 
 .weather-tile {
     display: flex;
-    padding: 1rem;
     justify-content: center;
     align-items: flex-end;
-
-    &__weather-icon {
-        margin-right: 15px;
-        margin-bottom: -0.6rem;
-    }
+    min-height: 150px;
 
     &__icon-and-temperature {
         display: flex;
         align-items: flex-end;
         flex-wrap: nowrap;
+
+        &__weather-icon {
+            margin-right: 15px;
+            margin-bottom: -0.6rem;
+        }
     }
 
     &__weather-data {
@@ -23,30 +23,36 @@
         flex-direction: column;
         align-items: center;
         font-size: $font-sizes-large;
-        margin-right: 1.5rem;
+        margin-right: $space-large;
+
+        &:nth-child(2) {
+            margin-left: $space-extra-large3;
+        }
 
         &:last-child {
             margin-right: 0;
         }
 
-        &__temperature {
+        &__temperature-and-description {
             display: flex;
             flex-direction: column;
-            font-size: 3rem;
-            margin-right: 2.5rem;
-        }
+            align-items: flex-start;
 
-        &__description {
-            padding-top: $space-small;
-            font-size: $font-sizes-extra-large;
+            &__temperature {
+                font-size: 3rem;
+            }
+
+            &__description {
+                padding-top: $space-small;
+                font-size: $font-sizes-extra-large;
+                white-space: nowrap;
+            }
         }
 
         &__value {
             padding-top: $space-small;
             font-size: $font-sizes-medium;
-        }
-        svg {
-            margin-right: 0.2rem;
+            white-space: nowrap;
         }
 
         &--color-red {
@@ -56,9 +62,5 @@
         &--color-blue {
             color: $colors-validation-sky-contrast;
         }
-    }
-
-    @media (max-width: 1060px) {
-        justify-content: space-evenly;
     }
 }

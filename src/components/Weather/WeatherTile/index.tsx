@@ -6,6 +6,7 @@ import { CloudRainIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
 import { useWeather } from '../../../logic'
 import { WeatherIcon } from '..'
 import { getWeatherDescriptionFromApi } from '../../../utils'
+
 interface Props {
     className?: string
     displayWeatherIcon?: boolean
@@ -30,6 +31,7 @@ function WeatherTile({
 
     useEffect(() => {
         const abortController = new AbortController()
+
         if (weather && weather[3].data.instant.details.air_temperature >= 0) {
             setTemperatureClassName('weather-tile__weather-data--color-red')
         } else {
@@ -49,13 +51,14 @@ function WeatherTile({
                     setDescription('')
                     throw error
                 })
+
         return () => {
             abortController.abort()
         }
-    }, [weather])
+    }, [weather, window.innerWidth])
 
     const Icon = (): JSX.Element => (
-        <div className="weather-tile__weather-icon">
+        <div className="weather-tile__icon-and-temperature__weather-icon">
             {weather ? (
                 <WeatherIcon
                     iconName={weather[3].data.next_1_hours.summary.symbol_code}
@@ -67,16 +70,20 @@ function WeatherTile({
     )
 
     const Temperature = (): JSX.Element => (
-        <div className="weather-tile__weather-data__temperature">
-            <span className={temperatureClassName}>
+        <div className="weather-tile__weather-data__temperature-and-description">
+            <span
+                className={
+                    'weather-tile__weather-data__temperature-and-description__temperature ' +
+                    temperatureClassName
+                }
+            >
                 {weather
                     ? parseInt(
                           weather[3].data.instant.details.air_temperature.toString(),
                       ) + '°'
                     : '?'}
             </span>
-
-            <span className="weather-tile__weather-data__description">
+            <span className="weather-tile__weather-data__temperature-and-description__description">
                 {description}
             </span>
         </div>
@@ -87,7 +94,7 @@ function WeatherTile({
             <WindIcon size={20} />
             <span className="weather-tile__weather-data__value">
                 {weather
-                    ? weather[3].data.instant.details.wind_speed + ' m/s'
+                    ? weather[3].data.instant.details.wind_speed + ' m/s'
                     : '?'}
             </span>
         </div>
@@ -99,7 +106,7 @@ function WeatherTile({
             <span className="weather-tile__weather-data__value">
                 {weather
                     ? weather[3].data.next_1_hours.details
-                          .precipitation_amount + ' mm'
+                          .precipitation_amount + ' mm'
                     : '?'}
             </span>
         </div>
@@ -110,8 +117,9 @@ function WeatherTile({
             <UmbrellaIcon size={20} />
             <span className="weather-tile__weather-data__value">
                 {weather
-                    ? weather[3].data.next_1_hours.details
-                          .probability_of_precipitation + ' %'
+                    ? parseInt(
+                          weather[3].data.next_1_hours.details.probability_of_precipitation.toString(),
+                      ) + ' %'
                     : '?'}
             </span>
         </div>
