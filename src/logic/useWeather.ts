@@ -7,7 +7,7 @@ import { useSettingsContext } from '../settings'
 async function getWeather(
     latitude: number | null,
     longitude: number | null,
-): Promise<TimeseriesPoint[]> {
+): Promise<Properties> {
     const url = `https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=${latitude}&lon=${longitude}`
     const weather = await fetch(url).then((response) => {
         if (!response.ok) {
@@ -15,12 +15,16 @@ async function getWeather(
         }
         return response.json()
     })
-    return weather.properties.timeseries.map((point: TimeseriesPoint) => point)
+
+    return {
+        meta: weather.properties.meta,
+        timeseries: weather.properties.timeseries,
+    }
 }
 
-export default function useWeather(): TimeseriesPoint[] | null {
+export default function useWeather(): Properties | null {
     const [settings] = useSettingsContext()
-    const [weather, setWeather] = useState<TimeseriesPoint[] | null>(null)
+    const [weather, setWeather] = useState<Properties | null>(null)
 
     const coordinates = settings?.coordinates
     useEffect(() => {
@@ -39,26 +43,86 @@ export default function useWeather(): TimeseriesPoint[] | null {
     return weather
 }
 
-// See all available datapoint here (https://api.met.no/doc/ForecastJSON)
-interface TimeseriesPoint {
-    data: {
-        instant: { details: WeatherDetails }
-        next_1_hours: {
-            details: {
-                precipitation_amount: number
-                probability_of_precipitation: number
-            }
-            summary: { symbol_code: string }
-        }
-    }
-    time: Date
+interface Properties {
+    meta: MetaDetails
+    timeseries: TimeseriesPoint[]
 }
 
-interface WeatherDetails {
+interface MetaDetails {
+    units: {
+        air_pressure_at_sea_level: number
+        air_temperature: number
+        air_temperature_max: number
+        air_temperature_min: number
+        cloud_area_fraction: number
+        cloud_area_fraction_high: number
+        cloud_area_fraction_low: number
+        cloud_area_fraction_medium: number
+        dew_point_temperature: number
+        fog_area_fraction: number
+        precipitation_amount: number
+        precipitation_amount_max: number
+        precipitation_amount_min: number
+        probability_of_precipitation: number
+        probability_of_thunder: number
+        relative_humidity: number
+        ultraviolet_index_clear_sky: number
+        wind_from_direction: number
+        wind_speed: number
+        wind_speed_of_gust: number
+    }
+}
+
+interface TimeseriesPoint {
+    time: Date
+    data: {
+        instant: {
+            details: WeatherDetailsInstant
+        }
+        next_1_hours: {
+            summary: {
+                symbol_code: string
+            }
+            details: WeatherDetailsFuture
+        }
+        next_6_hours: {
+            summary: {
+                symbol_code: string
+            }
+            details: WeatherDetailsFuture
+        }
+        next_12_hours: {
+            summary: {
+                symbol_code: string
+            }
+            details: {
+                probability_of_precipitation: number
+            }
+        }
+    }
+}
+
+interface WeatherDetailsInstant {
     air_pressure_at_sea_level: number
     air_temperature: number
     cloud_area_fraction: number
     relative_humidity: number
     wind_from_direction: number
     wind_speed: number
+    cloud_area_fraction_high: number
+    cloud_area_fraction_low: number
+    cloud_area_fraction_medium: number
+    dew_point_temperature: number
+    fog_area_fraction: number
+    ultraviolet_index_clear_sky: number
+    wind_speed_of_gust: number
+}
+
+interface WeatherDetailsFuture {
+    air_temperature_max: number
+    air_temperature_min: number
+    precipitation_amount: number
+    precipitation_amount_max: number
+    precipitation_amount_min: number
+    probability_of_precipitation: number
 }

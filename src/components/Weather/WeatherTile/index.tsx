@@ -32,7 +32,10 @@ function WeatherTile({
     useEffect(() => {
         const abortController = new AbortController()
 
-        if (weather && weather[3].data.instant.details.air_temperature >= 0) {
+        if (
+            weather &&
+            weather.timeseries[3].data.instant.details.air_temperature >= 0
+        ) {
             setTemperatureClassName('weather-tile__weather-data--color-red')
         } else {
             setTemperatureClassName('weather-tile__weather-data--color-blue')
@@ -40,7 +43,7 @@ function WeatherTile({
 
         if (weather)
             getWeatherDescriptionFromApi(
-                weather[3].data.next_1_hours.summary.symbol_code,
+                weather.timeseries[3].data.next_1_hours.summary.symbol_code,
                 abortController.signal,
             )
                 .then((fetchedDescription) =>
@@ -61,7 +64,10 @@ function WeatherTile({
         <div className="weather-tile__icon-and-temperature__weather-icon">
             {weather ? (
                 <WeatherIcon
-                    iconName={weather[3].data.next_1_hours.summary.symbol_code}
+                    iconName={
+                        weather.timeseries[3].data.next_1_hours.summary
+                            .symbol_code
+                    }
                 />
             ) : (
                 '?'
@@ -79,7 +85,7 @@ function WeatherTile({
             >
                 {weather
                     ? parseInt(
-                          weather[3].data.instant.details.air_temperature.toString(),
+                          weather.timeseries[3].data.instant.details.air_temperature.toString(),
                       ) + '°'
                     : '?'}
             </span>
@@ -94,7 +100,9 @@ function WeatherTile({
             <WindIcon size={20} />
             <span className="weather-tile__weather-data__value">
                 {weather
-                    ? weather[3].data.instant.details.wind_speed + ' m/s'
+                    ? weather.timeseries[3].data.instant.details.wind_speed +
+                      ' ' +
+                      weather.meta.units.wind_speed
                     : '?'}
             </span>
         </div>
@@ -105,8 +113,10 @@ function WeatherTile({
             <CloudRainIcon size={20} />
             <span className="weather-tile__weather-data__value">
                 {weather
-                    ? weather[3].data.next_1_hours.details
-                          .precipitation_amount + ' mm'
+                    ? weather.timeseries[3].data.next_1_hours.details
+                          .precipitation_amount +
+                      ' ' +
+                      weather.meta.units.precipitation_amount
                     : '?'}
             </span>
         </div>
@@ -118,8 +128,10 @@ function WeatherTile({
             <span className="weather-tile__weather-data__value">
                 {weather
                     ? parseInt(
-                          weather[3].data.next_1_hours.details.probability_of_precipitation.toString(),
-                      ) + ' %'
+                          weather.timeseries[3].data.next_1_hours.details.probability_of_precipitation.toString(),
+                      ) +
+                      ' ' +
+                      weather.meta.units.probability_of_precipitation
                     : '?'}
             </span>
         </div>
