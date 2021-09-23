@@ -38,6 +38,7 @@ export interface LiveVehicle {
     mode: string // bus, tram etc.
     lineRef: string
     lineName: string
+    active: boolean
 }
 
 /**
@@ -52,7 +53,6 @@ export default function useVehicleData(
     const client = useApolloClient()
     const [settings] = useSettingsContext()
     const stopPlaces = useStopPlacesWithDepartures()
-    console.log(stopPlaces)
 
     const [uniqueLineIds, setUniqueLineIds] = useState<string[] | undefined>(
         undefined,
@@ -78,6 +78,7 @@ export default function useVehicleData(
                     lineRef: v.line.lineRef,
                     lineName: v.line.lineName,
                     mode: v.mode,
+                    active: vmp.active,
                 } as LiveVehicle
             },
         )
@@ -103,8 +104,6 @@ export default function useVehicleData(
     }, [uniqueLineIds])
 
     useEffect(() => {
-        console.log(stopPlaces)
-
         const abortController = new AbortController()
         const test = async () => {
             if (stopPlaces) {
@@ -120,7 +119,7 @@ export default function useVehicleData(
                 setUniqueLineIds(new Array(...new Set(lineIds)))
             }
         }
-        test()
+        if (stopPlaces) test()
         return () => {
             abortController.abort()
         }
@@ -131,6 +130,7 @@ export default function useVehicleData(
             if (!(vehiclesUpdates && uniqueLineIds)) {
                 return undefined
             }
+
             const filteredUpdates = vehiclesUpdates.filter((vehicle) =>
                 uniqueLineIds.includes(vehicle.line.lineRef),
             )
@@ -143,7 +143,7 @@ export default function useVehicleData(
 
             return filteredUpdates.length > 0 ? filteredUpdates : undefined
         },
-        [uniqueLineIds, settings?.hiddenLiveDataLineRefs],
+        [uniqueLineIds],
     )
 
     /**

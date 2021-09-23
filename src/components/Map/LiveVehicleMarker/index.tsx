@@ -24,19 +24,30 @@ export const LiveVehicleMarker = ({ liveVehicle }: Props): JSX.Element => (
         placement="top"
         content={<TooltipContent liveVehicle={liveVehicle} />}
     >
-        <div className="wrapper_outer">
+        <div
+            className="wrapper_outer"
+            style={
+                liveVehicle.active
+                    ? { backgroundColor: 'white' }
+                    : { backgroundColor: colors.greys.grey30 }
+            }
+        >
             <div
                 className="wrapper_inner"
-                style={{
-                    backgroundColor: getIconColor(
-                        liveVehicle.mode.toLowerCase() as
-                            | TransportMode
-                            | LegMode
-                            | 'ferry',
-                        IconColorType.DEFAULT,
-                        undefined,
-                    ),
-                }}
+                style={
+                    liveVehicle.active
+                        ? {
+                              backgroundColor: getIconColor(
+                                  liveVehicle.mode.toLowerCase() as
+                                      | TransportMode
+                                      | LegMode
+                                      | 'ferry',
+                                  IconColorType.DEFAULT,
+                                  undefined,
+                              ),
+                          }
+                        : { backgroundColor: colors.greys.grey30 }
+                }
             >
                 {liveVehicle.lineIdentifier}
             </div>
@@ -78,10 +89,15 @@ const TooltipContent = ({ liveVehicle }: Props): JSX.Element => {
                 />
                 <div className="front-text">{liveVehicle.destination}</div>
             </div>
-            <Label
-                className="second-line"
-                margin="none"
-            >{`${lastUpdated} seconds ago`}</Label>
+            <Label className="second-line" margin="none">
+                {getFeedbackString(lastUpdated)}
+            </Label>
         </div>
     )
+}
+
+const getFeedbackString = (lastUpdated: number) => {
+    if (lastUpdated < 60) return `${lastUpdated} seconds ago`
+    if (lastUpdated < 120) return '> 1 minute ago'
+    return ` > ${Math.floor(lastUpdated / 60)} minutes ago`
 }

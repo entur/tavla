@@ -62,11 +62,13 @@ const hydrate = (state: State, payload: Vehicle[], options: Options) => {
         }
         const vehicleMapPoint: VehicleMapPoint = {
             icon: vehicle.mode.toLowerCase(),
+            active: true,
             vehicle,
         }
 
         if (options.markInactive && isVehicleInactive(vehicle, options, now)) {
             vehicleMapPoint.icon = vehicleMapPoint.icon + '_inactive'
+            vehicleMapPoint.active = false
         }
 
         acc[vehicle.vehicleRef] = vehicleMapPoint
@@ -103,6 +105,7 @@ const update = (state: State, vehicles: Vehicle[], options: Options) => {
         } else {
             const vehicleMapPoint: VehicleMapPoint = {
                 icon: vehicle.mode.toLowerCase(),
+                active: true,
                 vehicle,
             }
 
@@ -111,6 +114,7 @@ const update = (state: State, vehicles: Vehicle[], options: Options) => {
                 isVehicleInactive(vehicle, options, now)
             ) {
                 vehicleMapPoint.icon = vehicleMapPoint.icon + '_inactive'
+                vehicleMapPoint.active = false
             }
 
             if (updatedVehicles[vehicle.vehicleRef]) {

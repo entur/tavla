@@ -1,5 +1,5 @@
 import { BikeRentalStation } from '@entur/sdk'
-import React, { useState, memo, useRef } from 'react'
+import React, { useState, memo, useRef, useMemo, useEffect } from 'react'
 
 import { InteractiveMap, Marker } from 'react-map-gl'
 import type { MapRef } from 'react-map-gl'
@@ -63,13 +63,7 @@ const Map = ({
         minZoom: 13.5,
     })
 
-    const vehicles = useVehicleData(
-        defaultFilter,
-        defaultSubscriptionOptions,
-        defaultOptions,
-    )
-
-    console.log(vehicles, 'vehicles')
+    const [filter, setFilter] = useState<Filter>(defaultFilter)
 
     const mapRef = useRef<MapRef>(null)
     const scooterpoints = scooters?.map((scooter: Vehicle) => ({
@@ -108,6 +102,36 @@ const Map = ({
         ?.getBounds()
         ?.toArray()
         ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
+
+    useEffect(() => {
+        console.log('running')
+
+        const newBounds = (mapRef.current
+            ?.getMap()
+            ?.getBounds()
+            ?.toArray()
+            ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
+
+        setFilter((prevFilter) =>
+            Object.assign({}, prevFilter, {
+                boundingBox: {
+                    minLat: newBounds[1],
+                    minLon: newBounds[0],
+                    maxLat: newBounds[3],
+                    maxLon: newBounds[2],
+                },
+            }),
+        )
+    }, [mapRef, viewport.zoom])
+
+    const vehicles = useVehicleData(
+        filter,
+        defaultSubscriptionOptions,
+        defaultOptions,
+    )
+    console.log(mapRef)
+
+    console.log(vehicles?.length)
 
     const { clusters: scooterClusters } = useSupercluster({
         points: scooterpoints || [],

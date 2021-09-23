@@ -36,6 +36,7 @@ import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
 import ScooterPanel from './ScooterPanel'
+import LiveDataPanel from './LiveDataPanel'
 import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
 
@@ -43,6 +44,8 @@ import './styles.scss'
 
 const isMobile = isMobileWeb()
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
+
+const uniqueLines = ['RUT:Line:12', 'RUT:Line:13']
 
 const COLS: { [key: string]: number } = {
     lg: 4.5,
@@ -64,6 +67,8 @@ const EditTab = (): JSX.Element => {
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
     )
+
+    console.log(settings?.hiddenLiveDataLineRefs)
 
     const [zoom, setZoom] = useState<number>(settings?.zoom || DEFAULT_ZOOM)
     const debouncedZoom = useDebounce(zoom, 200)
@@ -368,6 +373,18 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ToggleDetailsPanel />
                 </div>
+                <div key="liveDataPanel" className="edit-tab__tile">
+                    <div className="edit-tab__header">
+                        <Heading2>Live data</Heading2>
+                        <Switch
+                            onChange={(): void => toggleMode('live-data')}
+                            checked={!hiddenModes?.includes('live-data')}
+                            size="large"
+                        ></Switch>
+                    </div>
+                    <LiveDataPanel />
+                </div>
+
                 <div key="bikePanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>

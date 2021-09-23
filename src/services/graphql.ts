@@ -41,6 +41,7 @@ export const VEHICLES_QUERY = gql`
         $operatorRef: String
         $mode: VehicleModeEnumeration
         $monitored: Boolean
+        $boundingBox: BoundingBox
     ) {
         vehicles(
             codespaceId: $codespaceId
@@ -49,6 +50,7 @@ export const VEHICLES_QUERY = gql`
             operatorRef: $operatorRef
             mode: $mode
             monitored: $monitored
+            boundingBox: $boundingBox
         ) {
             ...VehicleFragment
         }
@@ -66,6 +68,7 @@ export const VEHICLE_UPDATES_SUBSCRIPTION = gql`
         $monitored: Boolean
         $bufferSize: Int
         $bufferTime: Int
+        $boundingBox: BoundingBox
     ) {
         vehicleUpdates(
             codespaceId: $codespaceId
@@ -76,6 +79,7 @@ export const VEHICLE_UPDATES_SUBSCRIPTION = gql`
             monitored: $monitored
             bufferSize: $bufferSize
             bufferTime: $bufferTime
+            boundingBox: $boundingBox
         ) {
             ...VehicleFragment
         }
