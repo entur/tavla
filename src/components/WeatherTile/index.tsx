@@ -3,9 +3,8 @@ import './styles.scss'
 
 import { CloudRainIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
 
-import { useWeather } from '../../../logic'
-import { WeatherIcon } from '..'
-import { getWeatherDescriptionFromApi } from '../../../utils'
+import { useWeather } from '../../logic'
+import { getWeatherDescriptionFromApi, getWeatherIconEntur } from '../../utils'
 
 interface Props {
     className?: string
@@ -32,16 +31,17 @@ function WeatherTile({
     useEffect(() => {
         const abortController = new AbortController()
 
-        if (
-            weather &&
-            weather.timeseries[3].data.instant.details.air_temperature >= 0
-        ) {
-            setTemperatureClassName('weather-tile__weather-data--color-red')
-        } else {
-            setTemperatureClassName('weather-tile__weather-data--color-blue')
-        }
+        if (weather) {
+            if (
+                weather.timeseries[3].data.instant.details.air_temperature >= 0
+            ) {
+                setTemperatureClassName('weather-tile__weather-data--color-red')
+            } else {
+                setTemperatureClassName(
+                    'weather-tile__weather-data--color-blue',
+                )
+            }
 
-        if (weather)
             getWeatherDescriptionFromApi(
                 weather.timeseries[3].data.next_1_hours.summary.symbol_code,
                 abortController.signal,
@@ -54,21 +54,21 @@ function WeatherTile({
                     setDescription('')
                     throw error
                 })
-
+        }
         return () => {
             abortController.abort()
         }
-    }, [weather, window.innerWidth])
+    }, [weather])
 
     const Icon = (): JSX.Element => (
         <div className="weather-tile__icon-and-temperature__weather-icon">
             {weather ? (
-                <WeatherIcon
-                    iconName={
+                <div className="icon-entur">
+                    {getWeatherIconEntur(
                         weather.timeseries[3].data.next_1_hours.summary
-                            .symbol_code
-                    }
-                />
+                            .symbol_code,
+                    )}
+                </div>
             ) : (
                 '?'
             )}

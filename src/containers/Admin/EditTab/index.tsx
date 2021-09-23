@@ -37,7 +37,7 @@ import {
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
 
-import WeatherTile from '../../../components/Weather/WeatherTile'
+import WeatherTile from '../../../components/WeatherTile'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'

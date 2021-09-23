@@ -30,7 +30,7 @@ import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 import { WalkInfo } from '../../logic/useWalkInfo'
 import { LongPressProvider } from '../../logic/longPressContext'
 
-import WeatherTile from '../../components/Weather/WeatherTile'
+import WeatherTile from '../../components/WeatherTile'
 
 import DepartureTile from './DepartureTile'
 import MapTile from './MapTile'

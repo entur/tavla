@@ -420,14 +420,3 @@ export const getWeatherIconEntur = (APIconName: string): JSX.Element => {
 
 const arrayContains = (original: string[], contains: string[]): boolean =>
     original.some((r) => contains.indexOf(r) >= 0)
-
-interface WrapperProps {
-    condition: boolean
-    wrapper: any
-    children: JSX.Element
-}
-export const ConditionalWrapper = ({
-    condition,
-    wrapper,
-    children,
-}: WrapperProps) => (condition ? wrapper(children) : children)

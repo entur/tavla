@@ -16,7 +16,7 @@ import './styles.scss'
 import { useSettingsContext } from '../../settings'
 import { DEFAULT_ZOOM } from '../../constants'
 
-import WeatherTile from '../../components/Weather/WeatherTile'
+import WeatherTile from '../../components/WeatherTile'
 
 import DepartureTag from './DepartureTag'
 

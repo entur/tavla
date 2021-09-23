@@ -32,7 +32,7 @@ import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 
 import { LongPressProvider } from '../../logic/longPressContext'
 
-import WeatherTile from '../../components/Weather/WeatherTile'
+import WeatherTile from '../../components/WeatherTile'
 
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
