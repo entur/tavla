@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { BikeRentalStation } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
+import { Station } from '@entur/sdk/lib/mobility/types'
 
 import Tile from '../components/Tile'
 
 import './styles.scss'
 import { useSettingsContext } from '../../../settings'
 import { IconColorType } from '../../../types'
-import { getIconColorType } from '../../../utils'
+import { getIconColorType, getTranslation } from '../../../utils'
 import useWalkInfoBike, { WalkInfoBike } from '../../../logic/useWalkInfoBike'
 import TileRow from '../components/TileRow'
 
@@ -57,19 +57,19 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                             ? getWalkInfoBike(walkInfoBike || [], station.id)
                             : undefined
                     }
-                    label={station.name}
+                    label={getTranslation(station.name) || ''}
                     subLabels={[
                         {
                             time:
-                                station.bikesAvailable === 1
+                                station.numBikesAvailable === 1
                                     ? '1 sykkel'
-                                    : `${station.bikesAvailable} sykler`,
+                                    : `${station.numBikesAvailable} sykler`,
                         },
                         {
                             time:
-                                station.spacesAvailable === 1
+                                station.numDocksAvailable === 1
                                     ? '1 lås'
-                                    : `${station.spacesAvailable} låser`,
+                                    : `${station.numBikesAvailable} låser`,
                         },
                     ]}
                 />
@@ -79,7 +79,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
 }
 
 interface Props {
-    stations: BikeRentalStation[]
+    stations: Station[]
 }
 
 export default BikeTile

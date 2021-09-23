@@ -49,6 +49,7 @@ export interface Settings {
     logoSize?: string
     description?: string
     showMap?: boolean
+    showWeather?: boolean
     hideSituations?: boolean
     hideTracks?: boolean
     hideWalkInfo?: boolean
@@ -95,13 +96,13 @@ export function useSettings(): [Settings | null, Setter] {
         }
 
         if (id) {
-            return onSnapshot(getSettings(id), (document: any) => {
-                if (!document.exists) {
+            return onSnapshot(getSettings(id), (documentSnapshot: any) => {
+                if (!documentSnapshot.exists()) {
                     window.location.pathname = '/'
                     return
                 }
 
-                const data = document.data() as Settings
+                const data = documentSnapshot.data() as Settings
 
                 const settingsWithDefaults: Settings = {
                     ...DEFAULT_SETTINGS,

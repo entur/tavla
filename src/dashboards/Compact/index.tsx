@@ -32,6 +32,8 @@ import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 
 import { LongPressProvider } from '../../logic/longPressContext'
 
+import WeatherTile from '../../components/Weather/WeatherTile'
+
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
 import MapTile from './MapTile'
@@ -39,6 +41,7 @@ import MapTile from './MapTile'
 import './styles.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
+
 const isMobile = isMobileWeb()
 
 function getWalkInfoForStopPlace(
@@ -51,15 +54,20 @@ function getWalkInfoForStopPlace(
 function getDataGrid(
     index: number,
     maxWidth: number,
-): { [key: string]: number } {
-    return {
+    resizable = true,
+    height = 4,
+): { [key: string]: number | boolean | [] } {
+    const dataGrid = {
         w: 1,
         maxW: maxWidth,
         minH: 1,
-        h: 4,
+        h: height,
         x: index % maxWidth,
         y: 0,
     }
+    return resizable
+        ? dataGrid
+        : { ...dataGrid, isResizable: false, resizeHandles: [] }
 }
 
 function getDefaultBreakpoint() {
@@ -92,13 +100,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
-
-    function clearLongPressTimeout() {
-        setIsLongPressStarted(false)
-        if (isCancelled.current) {
-            clearTimeout(isCancelled.current)
-        }
-    }
 
     const dashboardKey = history.location.key
     const boardId =
@@ -134,6 +135,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
     const mapCol = settings?.showMap ? 1 : 0
+    const weatherCol = settings?.showWeather ? 1 : 0
 
     const hasData = Boolean(
         bikeRentalStations?.length ||
@@ -181,12 +183,19 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                 { id: 'city-bike', name: 'Bysykkel' },
             ]
         }
-        if (mapCol) {
+        if (hasData && mapCol) {
             defaultTileOrder = [
                 ...defaultTileOrder,
                 { id: 'map', name: 'Kart' },
             ]
         }
+        if (settings?.showWeather) {
+            defaultTileOrder = [
+                { id: 'weather', name: 'Vær' },
+                ...defaultTileOrder,
+            ]
+        }
+
         const storedTileOrder: Item[] | undefined = getFromLocalStorage(
             boardId + '-tile-order',
         )
@@ -208,7 +217,9 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         anyBikeRentalStations,
         mapCol,
         settings?.showMap,
+        settings?.showWeather,
         boardId,
+        hasData,
     ])
 
     const longPress = useLongPress(
@@ -234,6 +245,13 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
             cancelOnMovement: true,
         },
     )
+
+    function clearLongPressTimeout() {
+        setIsLongPressStarted(false)
+        if (isCancelled.current) {
+            clearTimeout(isCancelled.current)
+        }
+    }
 
     if (window.innerWidth < BREAKPOINTS.md) {
         if (!tileOrder) return null
@@ -302,6 +320,30 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                     ) : (
                                         []
                                     )
+                                } else if (item.id == 'weather') {
+                                    return settings?.showWeather ? (
+                                        <div key={item.id}>
+                                            <WeatherTile
+                                                className="tile"
+                                                displayTemperature={
+                                                    window.innerWidth > 290
+                                                }
+                                                displayPrecipitation={
+                                                    window.innerWidth > 380
+                                                }
+                                                displayWind={
+                                                    window.innerWidth > 570 &&
+                                                    !(
+                                                        1246 <
+                                                            window.innerWidth &&
+                                                        window.innerWidth < 1600
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    ) : (
+                                        []
+                                    )
                                 } else if (stopPlacesWithDepartures) {
                                     const stopIndex =
                                         stopPlacesWithDepartures.findIndex(
@@ -365,10 +407,39 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                             }
                         }}
                     >
+                        {settings?.showWeather && (
+                            <div
+                                key="weather"
+                                data-grid={getDataGrid(
+                                    0,
+                                    maxWidthCols,
+                                    false,
+                                    1,
+                                )}
+                            >
+                                <WeatherTile
+                                    className="tile"
+                                    displayTemperature={window.innerWidth > 290}
+                                    displayPrecipitation={
+                                        window.innerWidth > 380
+                                    }
+                                    displayWind={
+                                        window.innerWidth > 570 &&
+                                        !(
+                                            1246 < window.innerWidth &&
+                                            window.innerWidth < 1600
+                                        )
+                                    }
+                                />
+                            </div>
+                        )}
                         {(stopPlacesWithDepartures || []).map((stop, index) => (
                             <div
                                 key={stop.id}
-                                data-grid={getDataGrid(index, maxWidthCols)}
+                                data-grid={getDataGrid(
+                                    weatherCol + index,
+                                    maxWidthCols,
+                                )}
                             >
                                 <ResizeHandle
                                     size="32"
@@ -389,7 +460,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                             <div
                                 key="city-bike"
                                 data-grid={getDataGrid(
-                                    numberOfStopPlaces,
+                                    numberOfStopPlaces + weatherCol,
                                     maxWidthCols,
                                 )}
                             >
@@ -405,12 +476,12 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                         ) : (
                             []
                         )}
-                        {mapCol ? (
+                        {hasData && mapCol ? (
                             <div
                                 id="compact-map-tile"
                                 key="map"
                                 data-grid={getDataGrid(
-                                    numberOfStopPlaces + bikeCol,
+                                    numberOfStopPlaces + bikeCol + weatherCol,
                                     maxWidthCols,
                                 )}
                             >

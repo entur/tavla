@@ -33,7 +33,7 @@ async function getItems(query: string): Promise<Item[]> {
     return mapFeaturesToItems(featuresData)
 }
 
-const SelectionPanelSearch = ({ handleAddNewStop }: Props): JSX.Element => {
+const StopPlaceSearch = ({ handleAddNewStop }: Props): JSX.Element => {
     const onItemSelected = (item: Item | null): void => {
         if (item) {
             handleAddNewStop(item.value)
@@ -59,4 +59,4 @@ interface Props {
     handleAddNewStop: (stopId: string) => void
 }
 
-export default SelectionPanelSearch
+export default StopPlaceSearch

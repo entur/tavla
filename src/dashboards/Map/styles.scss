@@ -21,6 +21,12 @@
     max-width: 100%;
 }
 
+.weather-display {
+    position: absolute;
+    top: 9rem;
+    right: 0;
+}
+
 @media (max-width: 1000px) {
     .content {
         margin-bottom: 6rem;
