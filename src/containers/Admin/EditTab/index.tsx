@@ -126,15 +126,13 @@ const EditTab = (): JSX.Element => {
     const scooters = useMobility(FormFactor.SCOOTER)
 
     useEffect(() => {
-        const controller = new AbortController()
+        const abortController = new AbortController()
         const ids = [...newStops, ...nearestStopPlaceIds]
 
         getStopPlacesWithLines(
             ids.map((id: string) => id.replace(/-\d+$/, '')),
-            controller.signal,
+            abortController.signal,
         ).then((resultingStopPlaces) => {
-            if (controller.signal.aborted) return
-
             setStopPlaces(
                 resultingStopPlaces.map((s, index) => ({
                     ...s,
@@ -144,7 +142,7 @@ const EditTab = (): JSX.Element => {
         })
 
         return (): void => {
-            controller.abort()
+            abortController.abort()
         }
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
 
