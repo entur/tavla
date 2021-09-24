@@ -100,8 +100,6 @@ const Map = ({
         ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
 
     useEffect(() => {
-        console.log('running')
-
         const newBounds = (mapRef.current
             ?.getMap()
             ?.getBounds()
@@ -125,9 +123,6 @@ const Map = ({
         defaultSubscriptionOptions,
         defaultOptions,
     )
-    console.log(mapRef)
-
-    console.log(vehicles?.length)
 
     const { clusters: scooterClusters } = useSupercluster({
         points: scooterpoints || [],

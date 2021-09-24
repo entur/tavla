@@ -25,7 +25,7 @@ import {
 import { getStopPlacesWithLines } from '../service'
 import { StopPlaceWithLines } from '../types'
 
-import useVehicleReducer, { ActionType, State } from './useVehicleReducer'
+import useVehicleReducer, { ActionType } from './useVehicleReducer'
 
 import { useStopPlacesWithDepartures } from '.'
 

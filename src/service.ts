@@ -150,6 +150,7 @@ export async function getStopPlacesWithLines(
                     lines,
                     (a: Line, b: Line) => a.name === b.name,
                 )
+                console.log(uniqueLines, 'lines!!')
 
                 return {
                     ...stopPlace,
