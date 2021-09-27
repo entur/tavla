@@ -13,7 +13,6 @@
         flex-wrap: nowrap;
 
         &__weather-icon {
-            margin-right: 15px;
             margin-bottom: -0.6rem;
         }
     }
@@ -37,6 +36,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            margin-left: 15px;
 
             &__temperature {
                 font-size: 3rem;

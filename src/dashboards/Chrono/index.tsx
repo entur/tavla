@@ -321,18 +321,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                 } else if (item.id == 'weather') {
                                     return settings?.showWeather ? (
                                         <div key={item.id}>
-                                            <WeatherTile
-                                                className="tile"
-                                                displayTemperature={
-                                                    window.innerWidth > 290
-                                                }
-                                                displayPrecipitation={
-                                                    window.innerWidth > 380
-                                                }
-                                                displayWind={
-                                                    window.innerWidth > 570
-                                                }
-                                            />
+                                            <WeatherTile className="tile" />
                                         </div>
                                     ) : (
                                         []
@@ -414,14 +403,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                     1,
                                 )}
                             >
-                                <WeatherTile
-                                    className="tile"
-                                    displayTemperature={window.innerWidth > 290}
-                                    displayPrecipitation={
-                                        window.innerWidth > 380
-                                    }
-                                    displayWind={window.innerWidth > 570}
-                                />
+                                <WeatherTile className="tile" />
                             </div>
                         )}
                         {(stopPlacesWithDepartures || []).map((stop, index) => (

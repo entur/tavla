@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import './styles.scss'
 
 import { CloudRainIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
@@ -8,25 +8,19 @@ import { getWeatherDescriptionFromApi, getWeatherIconEntur } from '../../utils'
 
 interface Props {
     className?: string
-    displayWeatherIcon?: boolean
-    displayTemperature?: boolean
-    displayPrecipitation?: boolean
-    displayWind?: boolean
 }
 
-function WeatherTile({
-    displayWeatherIcon = true,
-    displayTemperature = true,
-    displayPrecipitation = true,
-    displayWind = true,
-    ...props
-}: Props): JSX.Element {
+function WeatherTile(props: Props): JSX.Element {
     const weather = useWeather()
 
     const [temperatureClassName, setTemperatureClassName] = useState(
         'weather-tile__weather-data--color-red',
     )
     const [description, setDescription] = useState('')
+
+    const [displayTemperature, setdisplayTemperature] = useState(true)
+    const [displayWind, setdisplayWind] = useState(true)
+    const [displayPrecipitation, setdisplayPrecipitation] = useState(true)
 
     useEffect(() => {
         const abortController = new AbortController()
@@ -59,6 +53,21 @@ function WeatherTile({
             abortController.abort()
         }
     }, [weather])
+
+    const updateSize = () => {
+        const tileWidth =
+            document?.getElementsByClassName('weather-tile')[0]?.clientWidth
+
+        setdisplayTemperature(tileWidth > 217)
+        setdisplayWind(tileWidth > 318)
+        setdisplayPrecipitation(tileWidth > 428)
+    }
+
+    useEffect(() => {
+        window.addEventListener('resize', updateSize)
+        updateSize()
+        return () => window.removeEventListener('resize', updateSize)
+    }, [updateSize])
 
     const Icon = (): JSX.Element => (
         <div className="weather-tile__icon-and-temperature__weather-icon">
@@ -140,7 +149,7 @@ function WeatherTile({
     return (
         <div className={'weather-tile ' + props.className}>
             <div className="weather-tile__icon-and-temperature">
-                {displayWeatherIcon && <Icon />}
+                <Icon />
                 {displayTemperature && <Temperature />}
             </div>
             {displayWind && <Wind />}

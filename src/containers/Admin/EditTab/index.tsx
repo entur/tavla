@@ -243,7 +243,7 @@ const EditTab = (): JSX.Element => {
             },
             { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.4 },
             { i: 'mapPanel', x: 3, y: 5, w: 1.5, h: 3.2 },
-            { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 1.8 },
+            { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 2.2 },
         ],
         md: [
             {
@@ -262,7 +262,7 @@ const EditTab = (): JSX.Element => {
             },
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
             { i: 'mapPanel', x: 0, y: 7, w: 2, h: 3 },
-            { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.8 },
+            { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 2.2 },
         ],
         sm: [
             {
@@ -281,7 +281,7 @@ const EditTab = (): JSX.Element => {
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
-            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
+            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 2 },
         ],
         xs: [
             {
@@ -300,7 +300,7 @@ const EditTab = (): JSX.Element => {
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
-            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
+            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 2 },
         ],
     }
 
@@ -448,17 +448,7 @@ const EditTab = (): JSX.Element => {
                         Værmeldingen for neste time (met.no). Tilgjengelig i
                         kart, kompakt og kronologisk visningstype.
                     </Label>
-                    <WeatherTile
-                        displayTemperature={window.innerWidth > 290}
-                        displayPrecipitation={window.innerWidth > 380}
-                        displayWind={
-                            window.innerWidth > 570 &&
-                            !(
-                                1246 < window.innerWidth &&
-                                window.innerWidth < 1600
-                            )
-                        }
-                    />
+                    <WeatherTile />
                 </div>
             </ResponsiveReactGridLayout>
         </div>
