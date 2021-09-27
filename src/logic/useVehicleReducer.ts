@@ -164,6 +164,7 @@ const sweep = (state: State, options: Options) => {
             ) {
                 if (vehicleMapPoint.icon.indexOf('_inactive') === -1) {
                     vehicleMapPoint.icon = vehicleMapPoint.icon + '_inactive'
+                    vehicleMapPoint.active = false
                 }
             }
 

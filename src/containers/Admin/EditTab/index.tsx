@@ -103,7 +103,7 @@ const EditTab = (): JSX.Element => {
         settings?.distance || DEFAULT_DISTANCE,
     )
 
-    const { allLiveLines } = useVehicleData(
+    const { allLinesWithLiveData } = useVehicleData(
         defaultFilter,
         defaultSubscriptionOptions,
         defaultOptions,
@@ -112,12 +112,10 @@ const EditTab = (): JSX.Element => {
 
     const liveLines = useMemo(
         () =>
-            new Array(
-                ...new Set<Line>(
-                    uniqueLines?.filter((el) => allLiveLines.includes(el.id)),
-                ),
+            uniqueLines?.filter((line) =>
+                allLinesWithLiveData.includes(line.id),
             ),
-        [uniqueLines, allLiveLines],
+        [uniqueLines, allLinesWithLiveData],
     )
 
     const [zoom, setZoom] = useState<number>(settings?.zoom || DEFAULT_ZOOM)
@@ -453,18 +451,20 @@ const EditTab = (): JSX.Element => {
                 </div>
                 <div key="liveDataPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
-                        <Heading2>Live data</Heading2>
+                        <Heading2>Sanntidsposisjoner</Heading2>
                         <Switch
                             onChange={(): void => toggleMode('live-data')}
                             checked={!hiddenModes?.includes('live-data')}
                             size="large"
                         ></Switch>
                     </div>
-                    <LiveDataPanel
-                        uniqueLines={liveLines}
-                        toggleLiveDataLineIds={toggleLiveDataLineIds}
-                        hiddenLines={hiddenLiveDataLineRefs}
-                    />
+                    {!hiddenModes?.includes('live-data') && (
+                        <LiveDataPanel
+                            uniqueLines={liveLines}
+                            toggleLiveDataLineIds={toggleLiveDataLineIds}
+                            hiddenLines={hiddenLiveDataLineRefs}
+                        />
+                    )}
                 </div>
 
                 <div key="bikePanel" className="edit-tab__tile">

@@ -7,8 +7,6 @@ import { Options } from '../services/model/options'
 import { Filter } from '../services/model/filter'
 import { Vehicle } from '../services/model/vehicle'
 import { SubscriptionOptions } from '../services/model/subscriptionOptions'
-import { useStopPlacesWithLines } from './useStopPlacesWithLines'
-import { VehicleMapPoint } from './../services/model/vehicleMapPoint'
 
 import {
     VEHICLES_QUERY,
@@ -16,6 +14,10 @@ import {
 } from '../services/graphql'
 
 import { useSettingsContext } from '../settings'
+
+import { VehicleMapPoint } from '../services/model/vehicleMapPoint'
+
+import { useStopPlacesWithLines } from './useStopPlacesWithLines'
 
 import useVehicleReducer, { ActionType } from './useVehicleReducer'
 
@@ -33,7 +35,7 @@ export interface LiveVehicle {
 
 interface VehicleData {
     liveVehicles: LiveVehicle[] | undefined
-    allLiveLines: string[]
+    allLinesWithLiveData: string[]
 }
 
 /**
@@ -54,25 +56,27 @@ export default function useVehicleData(
     const [liveVehicles, setLiveVehicles] = useState<LiveVehicle[] | undefined>(
         undefined,
     )
-    const [allLiveLines, setAllLiveLines] = useState<string[]>([])
+    const [allLinesWithLiveData, setAllLinesWithLiveData] = useState<string[]>(
+        [],
+    )
 
     useEffect(() => {
-        const nice = (Object.values(state.vehicles) as VehicleMapPoint[]).map(
-            (vmp) => {
-                const v = vmp.vehicle
-                const line = uniqueLines?.find((l) => l.id === v.line.lineRef)
-                return {
-                    vehicle: v,
-                    lineIdentifier: line?.publicCode,
-                    destination: v.line.lineName.split('=> ').pop(),
-                    lineRef: v.line.lineRef,
-                    lineName: v.line.lineName,
-                    mode: v.mode,
-                    active: vmp.active,
-                } as LiveVehicle
-            },
-        )
-        setLiveVehicles(nice)
+        const mappedDataFromBothAPIs = (
+            Object.values(state.vehicles) as VehicleMapPoint[]
+        ).map((vehicleMapPoint) => {
+            const vehicle = vehicleMapPoint.vehicle
+            const line = uniqueLines?.find((l) => l.id === vehicle.line.lineRef)
+            return {
+                vehicle,
+                lineIdentifier: line?.publicCode,
+                destination: vehicle.line.lineName.split('=>').pop()?.trim(),
+                lineRef: vehicle.line.lineRef,
+                lineName: vehicle.line.lineName,
+                mode: vehicle.mode,
+                active: vehicleMapPoint.active,
+            } as LiveVehicle
+        })
+        setLiveVehicles(mappedDataFromBothAPIs)
     }, [state, uniqueLines])
 
     const filterVehiclesByLineRefs = useCallback(
@@ -106,7 +110,7 @@ export default function useVehicleData(
                 variables: filter,
             })
             if (fetchResult.data && fetchResult.data.vehicles) {
-                setAllLiveLines(
+                setAllLinesWithLiveData(
                     new Array(
                         ...new Set<string>(
                             fetchResult?.data?.vehicles.map(
@@ -171,5 +175,16 @@ export default function useVehicleData(
         subscriptionOptions,
         filterVehiclesByLineRefs,
     ])
-    return { liveVehicles, allLiveLines }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            dispatch({ type: ActionType.SWEEP })
+        }, options.sweepIntervalMs ?? 1000)
+
+        return () => {
+            clearInterval(interval)
+        }
+    }, [dispatch, options.sweepIntervalMs])
+
+    return { liveVehicles, allLinesWithLiveData }
 }
