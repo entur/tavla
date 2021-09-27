@@ -5,6 +5,7 @@ import { CloudRainIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
 
 import { useWeather } from '../../logic'
 import { getWeatherDescriptionFromApi, getWeatherIconEntur } from '../../utils'
+import { useSettingsContext } from '../../settings'
 
 interface Props {
     className?: string
@@ -12,6 +13,14 @@ interface Props {
 
 function WeatherTile(props: Props): JSX.Element {
     const weather = useWeather()
+    const [settings] = useSettingsContext()
+
+    const {
+        showIcon = true,
+        showTemperature = true,
+        showWind = true,
+        showPrecipitation = true,
+    } = settings || {}
 
     const [temperatureClassName, setTemperatureClassName] = useState(
         'weather-tile__weather-data--color-red',
@@ -21,6 +30,11 @@ function WeatherTile(props: Props): JSX.Element {
     const [displayTemperature, setdisplayTemperature] = useState(true)
     const [displayWind, setdisplayWind] = useState(true)
     const [displayPrecipitation, setdisplayPrecipitation] = useState(true)
+
+    interface weatherComponents {
+        display: boolean
+        component: JSX.Element
+    }
 
     useEffect(() => {
         const abortController = new AbortController()
@@ -85,10 +99,10 @@ function WeatherTile(props: Props): JSX.Element {
     )
 
     const Temperature = (): JSX.Element => (
-        <div className="weather-tile__weather-data__temperature-and-description">
-            <span
+        <div className="weather-tile__icon-and-temperature__temperature-and-description">
+            <div
                 className={
-                    'weather-tile__weather-data__temperature-and-description__temperature ' +
+                    'weather-tile__icon-and-temperature__temperature-and-description__temperature ' +
                     temperatureClassName
                 }
             >
@@ -97,10 +111,10 @@ function WeatherTile(props: Props): JSX.Element {
                           weather.timeseries[3].data.instant.details.air_temperature.toString(),
                       ) + '°'
                     : '?'}
-            </span>
-            <span className="weather-tile__weather-data__temperature-and-description__description">
+            </div>
+            <div className="weather-tile__icon-and-temperature__temperature-and-description__description">
                 {description}
-            </span>
+            </div>
         </div>
     )
 
@@ -146,15 +160,23 @@ function WeatherTile(props: Props): JSX.Element {
         </div>
     )
 
+    useEffect(() => {}, [])
+
     return (
         <div className={'weather-tile ' + props.className}>
-            <div className="weather-tile__icon-and-temperature">
-                <Icon />
-                {displayTemperature && <Temperature />}
-            </div>
-            {displayWind && <Wind />}
-            {displayPrecipitation && <Precipitation />}
-            {displayPrecipitation && <ProbabilityOfrecipitation />}
+            {(showIcon || showTemperature) && (
+                <div className="weather-tile__icon-and-temperature">
+                    {showIcon && <Icon />}
+                    {showTemperature && displayTemperature && <Temperature />}
+                </div>
+            )}
+            {showWind && displayWind && <Wind />}
+            {showPrecipitation && displayPrecipitation && (
+                <>
+                    <Precipitation />
+                    <ProbabilityOfrecipitation />
+                </>
+            )}
         </div>
     )
 }
