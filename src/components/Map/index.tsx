@@ -118,7 +118,7 @@ const Map = ({
         )
     }, [mapRef, viewport.zoom])
 
-    const vehicles = useVehicleData(
+    const { liveVehicles } = useVehicleData(
         filter,
         defaultSubscriptionOptions,
         defaultOptions,
@@ -179,8 +179,8 @@ const Map = ({
             }
             ref={mapRef}
         >
-            {vehicles &&
-                Object.values(vehicles).map((vehicle, index) => (
+            {liveVehicles &&
+                liveVehicles.map((vehicle, index) => (
                     <Marker
                         key={index}
                         latitude={vehicle.vehicle.location.latitude}

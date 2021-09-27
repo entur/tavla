@@ -29,7 +29,7 @@ import {
 } from '../../../utils'
 
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
-import { StopPlaceWithLines } from '../../../types'
+import { Line, StopPlaceWithLines } from '../../../types'
 import {
     useNearestPlaces,
     useMobility,
@@ -42,6 +42,7 @@ import {
 } from '../../../settings/LocalStorage'
 
 import WeatherTile from '../../../components/Weather/WeatherTile'
+import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
@@ -53,6 +54,28 @@ import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
 
 import './styles.scss'
+import useVehicleData from '../../../logic/useVehicleData'
+import { SubscriptionOptions } from '../../../services/model/subscriptionOptions'
+import { Filter } from '../../../services/model/filter'
+import { Options } from '../../../services/model/options'
+
+const defaultFilter: Filter = {
+    monitored: true,
+}
+
+const defaultSubscriptionOptions: SubscriptionOptions = {
+    enableLiveUpdates: true,
+    bufferSize: 100,
+    bufferTime: 1000,
+}
+
+const defaultOptions: Options = {
+    sweepIntervalMs: 1000,
+    removeExpired: true,
+    removeExpiredAfterSeconds: 3600,
+    markInactive: true,
+    markInactiveAfterSeconds: 60,
+}
 
 const isMobile = isMobileWeb()
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -74,12 +97,28 @@ const EditTab = (): JSX.Element => {
         hiddenModes,
         showMap = false,
         showWeather = false,
+        hiddenLiveDataLineRefs = [],
     } = settings || {}
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
     )
 
-    console.log(settings?.hiddenLiveDataLineRefs)
+    const { allLiveLines } = useVehicleData(
+        defaultFilter,
+        defaultSubscriptionOptions,
+        defaultOptions,
+    )
+    const { uniqueLines } = useStopPlacesWithLines()
+
+    const liveLines = useMemo(
+        () =>
+            new Array(
+                ...new Set<Line>(
+                    uniqueLines?.filter((el) => allLiveLines.includes(el.id)),
+                ),
+            ),
+        [uniqueLines, allLiveLines],
+    )
 
     const [zoom, setZoom] = useState<number>(settings?.zoom || DEFAULT_ZOOM)
     const debouncedZoom = useDebounce(zoom, 200)
@@ -91,6 +130,25 @@ const EditTab = (): JSX.Element => {
             })
         }
     }, [settings, debouncedZoom, setSettings])
+
+    const toggleLiveDataLineIds = useCallback(
+        (lineId: string) => {
+            if (hiddenLiveDataLineRefs.includes(lineId)) {
+                setSettings({
+                    ...settings,
+                    hiddenLiveDataLineRefs: hiddenLiveDataLineRefs.filter(
+                        (el) => el !== lineId,
+                    ),
+                })
+            } else {
+                setSettings({
+                    ...settings,
+                    hiddenLiveDataLineRefs: [...hiddenLiveDataLineRefs, lineId],
+                })
+            }
+        },
+        [hiddenLiveDataLineRefs, settings, setSettings],
+    )
 
     const debouncedDistance = useDebounce(distance, 800)
     useEffect(() => {
@@ -402,7 +460,11 @@ const EditTab = (): JSX.Element => {
                             size="large"
                         ></Switch>
                     </div>
-                    <LiveDataPanel stopPlacesWitLines={stopPlaces} />
+                    <LiveDataPanel
+                        uniqueLines={liveLines}
+                        toggleLiveDataLineIds={toggleLiveDataLineIds}
+                        hiddenLines={hiddenLiveDataLineRefs}
+                    />
                 </div>
 
                 <div key="bikePanel" className="edit-tab__tile">
