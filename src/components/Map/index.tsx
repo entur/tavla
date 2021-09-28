@@ -1,4 +1,4 @@
-import React, { useState, memo, useRef, useEffect } from 'react'
+import React, { useState, memo, useRef, useEffect, useMemo } from 'react'
 
 import { InteractiveMap, Marker } from 'react-map-gl'
 import type { MapRef } from 'react-map-gl'
@@ -26,6 +26,8 @@ import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
 import { LiveVehicleMarker } from './LiveVehicleMarker'
+
+import './styles.scss'
 
 const Map = ({
     stopPlaces,
@@ -140,6 +142,25 @@ const Map = ({
         },
     })
 
+    const liveVehicleMarkers = useMemo(
+        () =>
+            liveVehicles
+                ? liveVehicles.map((vehicle, index) => (
+                      <Marker
+                          key={index}
+                          latitude={vehicle.vehicle.location.latitude}
+                          longitude={vehicle.vehicle.location.longitude}
+                          className="map__live-vehicle-marker"
+                      >
+                          <LiveVehicleMarker
+                              liveVehicle={vehicle}
+                          ></LiveVehicleMarker>
+                      </Marker>
+                  ))
+                : [],
+        [liveVehicles],
+    )
+
     return (
         <InteractiveMap
             {...viewport}
@@ -167,18 +188,7 @@ const Map = ({
             }
             ref={mapRef}
         >
-            {liveVehicles &&
-                liveVehicles.map((vehicle, index) => (
-                    <Marker
-                        key={index}
-                        latitude={vehicle.vehicle.location.latitude}
-                        longitude={vehicle.vehicle.location.longitude}
-                    >
-                        <LiveVehicleMarker
-                            liveVehicle={vehicle}
-                        ></LiveVehicleMarker>
-                    </Marker>
-                ))}
+            {liveVehicles && liveVehicleMarkers}
             {scooterClusters.map((scooterCluster) => {
                 const [slongitude, slatitude] =
                     scooterCluster.geometry.coordinates
