@@ -4,6 +4,10 @@ import { Statistics } from '../services/model/statistics'
 import { Vehicle } from '../services/model/vehicle'
 import { VehicleMapPoint } from '../services/model/vehicleMapPoint'
 import { Options } from '../services/model/options'
+import {
+    DEFAULT_EXPIRE_VEHICLE_IN_SECONDS,
+    DEFAULT_INACTIVE_VEHICLE_IN_SECONDS,
+} from '../constants'
 
 export type State = {
     vehicles: Record<string, VehicleMapPoint>
@@ -30,9 +34,6 @@ const initialState: State = {
         numberOfUpdatesInSession: 0,
     },
 }
-
-const DEFAULT_INACTIVE_VEHICLE_IN_SECONDS = 60
-const DEFAULT_EXPIRE_VEHICLE_IN_SECONDS = 3600
 
 const getCurrentEpochSeconds = () => Math.floor(Date.now() / 1000)
 

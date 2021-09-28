@@ -9,3 +9,5 @@ export const ALL_ACTIVE_OPERATOR_IDS = {
     BOLT: 'YBO:Operator:bolt',
 }
 export const DEFAULT_ZOOM = 15.5
+export const DEFAULT_INACTIVE_VEHICLE_IN_SECONDS = 60
+export const DEFAULT_EXPIRE_VEHICLE_IN_SECONDS = 3600
