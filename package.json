@@ -59,6 +59,7 @@
         "copy-to-clipboard": "^3.3.1",
         "date-fns": "^2.23.0",
         "firebase": "^9.0.1",
+        "graphql": "^15.6.0",
         "lodash.debounce": "^4.0.8",
         "lz-string": "^1.4.4",
         "mapbox-gl": "^2.4.1",
