@@ -1,0 +1,28 @@
+@import '../../../assets/styles/import.scss';
+
+.map__live-vehicle-tag {
+    &-circle-outer {
+        border-radius: 50%;
+        height: 2.5rem;
+        width: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            transform: scale(1.5);
+        }
+    }
+
+    &-circle-inner {
+        height: 90%;
+        width: 90%;
+        border-radius: 50%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: $font-sizes-medium;
+    }
+}

@@ -25,7 +25,7 @@ import useVehicleData, {
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
-import { LiveVehicleMarker } from './LiveVehicleMarker'
+import LiveVehicleTag from './LiveVehicleTag'
 
 import './styles.scss'
 
@@ -152,9 +152,9 @@ const Map = ({
                           longitude={vehicle.vehicle.location.longitude}
                           className="map__live-vehicle-marker"
                       >
-                          <LiveVehicleMarker
+                          <LiveVehicleTag
                               liveVehicle={vehicle}
-                          ></LiveVehicleMarker>
+                          ></LiveVehicleTag>
                       </Marker>
                   ))
                 : [],
