@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 
 import { Checkbox } from '@entur/form'
 import { Paragraph } from '@entur/typography'
+import { TransportMode } from '@entur/sdk'
 
 import { toggleValueInList, isDarkOrDefaultTheme } from '../../../../utils'
 import { StopPlaceWithLines } from '../../../../types'
@@ -11,7 +12,6 @@ import ThemeContrastWrapper from '../../../ThemeWrapper/ThemeContrastWrapper'
 
 import PanelRow from './PanelRow'
 import './styles.scss'
-import { TransportMode } from '@entur/sdk'
 
 function StopPlacePanel(props: Props): JSX.Element {
     const [settings, setSettings] = useSettingsContext()
