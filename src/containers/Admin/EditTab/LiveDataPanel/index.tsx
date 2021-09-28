@@ -20,7 +20,7 @@ const LiveDataPanel = ({
     hiddenLines,
 }: IProps): JSX.Element =>
     !uniqueLines ? (
-        <Loader>Laster inn...</Loader>
+        <Loader>Laster...</Loader>
     ) : (
         <Fieldset className="toggle-detail-panel">
             <div className="toggle-detail-panel__container">
@@ -41,26 +41,5 @@ const LiveDataPanel = ({
             </div>
         </Fieldset>
     )
-
-// onChange={() => {
-//                     if (settings?.hiddenLiveDataLineRefs?.includes(line)) {
-//                         setSettings({
-//                             hiddenLiveDataLineRefs:
-//                                 settings.hiddenLiveDataLineRefs.filter(
-//                                     (el) => el !== line,
-//                                 ),
-//                         })
-//                     } else if (
-//                         settings?.hiddenLiveDataLineRefs &&
-//                         !settings.hiddenLiveDataLineRefs.includes(line)
-//                     ) {
-//                         setSettings({
-//                             hiddenLiveDataLineRefs: [
-//                                 ...settings.hiddenLiveDataLineRefs,
-//                                 line,
-//                             ],
-//                         })
-//                     }
-//                 }}
 
 export default LiveDataPanel

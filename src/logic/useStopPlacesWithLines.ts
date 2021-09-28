@@ -4,9 +4,18 @@ import { getStopPlacesWithLines } from '../service'
 import { Line, StopPlaceWithLines } from '../types'
 import { unique } from '../utils'
 
+import { useSettingsContext } from '../settings'
+
 import { useStopPlacesWithDepartures } from '.'
 
-export const useStopPlacesWithLines = () => {
+interface IReturn {
+    uniqueLines: Line[] | undefined
+    stopPlacesWithLines: StopPlaceWithLines[] | undefined
+}
+
+export const useStopPlacesWithLines = (): IReturn => {
+    const [settings] = useSettingsContext()
+    const { hiddenStopModes } = settings || {}
     const [uniqueLines, setUniqueLines] = useState<Line[] | undefined>(
         undefined,
     )
@@ -28,7 +37,19 @@ export const useStopPlacesWithLines = () => {
                 setStopPlacesWithLines(result)
 
                 const lines: Line[] = unique(
-                    result.flatMap((el) => el.lines),
+                    result
+                        .map((el) => {
+                            el.lines = el.lines.filter((line) =>
+                                hiddenStopModes
+                                    ? !hiddenStopModes[el.id].includes(
+                                          line.transportMode,
+                                      )
+                                    : line,
+                            )
+
+                            return el
+                        })
+                        .flatMap((el) => el.lines),
                     (a: Line, b: Line) => a.id === b.id,
                 )
                 setUniqueLines(lines)
@@ -38,7 +59,7 @@ export const useStopPlacesWithLines = () => {
         return () => {
             abortController.abort()
         }
-    }, [stopPlaces])
+    }, [stopPlaces, hiddenStopModes])
 
     return { uniqueLines, stopPlacesWithLines }
 }

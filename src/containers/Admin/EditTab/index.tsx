@@ -311,7 +311,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
             { i: 'mapPanel', x: 0, y: 7, w: 2, h: 3 },
             { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.8 },
-            { i: 'liveDataPanel', x: 0, y: 0, w: 1.5, h: 2 },
+            { i: 'liveDataPanel', x: 0, y: 0, w: 2, h: 2 },
         ],
         sm: [
             {
@@ -331,7 +331,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
-            { i: 'liveDataPanel', x: 0, y: 0, w: 1.5, h: 2 },
+            { i: 'liveDataPanel', x: 0, y: 0, w: 1, h: 2 },
         ],
         xs: [
             {
@@ -351,7 +351,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
-            { i: 'liveDataPanel', x: 0, y: 0, w: 1.5, h: 2 },
+            { i: 'liveDataPanel', x: 0, y: 0, w: 1, h: 2 },
         ],
     }
 
