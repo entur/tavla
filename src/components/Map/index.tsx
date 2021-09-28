@@ -15,7 +15,12 @@ import { StopPlaceWithDepartures } from '../../types'
 import { Filter } from '../../services/model/filter'
 
 import { useDebounce } from '../../utils'
-import { LiveVehicle } from '../../logic/useVehicleData'
+
+import useVehicleData, {
+    defaultFilter,
+    defaultOptions,
+    defaultSubscriptionOptions,
+} from '../../logic/useVehicleData'
 
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
@@ -32,8 +37,6 @@ const Map = ({
     latitude,
     longitude,
     zoom,
-    liveVehicles,
-    setFilter,
 }: Props): JSX.Element => {
     const [viewport, setViewPort] = useState({
         latitude,
@@ -74,6 +77,14 @@ const Map = ({
                 coordinates: [bikeRentalStation.lon, bikeRentalStation.lat],
             },
         }),
+    )
+
+    const [filter, setFilter] = useState<Filter>(defaultFilter)
+
+    const { liveVehicles } = useVehicleData(
+        filter,
+        defaultSubscriptionOptions,
+        defaultOptions,
     )
 
     const bounds = (mapRef.current
@@ -270,8 +281,6 @@ interface Props {
     latitude: number
     longitude: number
     zoom: number
-    liveVehicles?: LiveVehicle[]
-    setFilter?: React.Dispatch<React.SetStateAction<Filter>>
 }
 
 export default memo(Map)
