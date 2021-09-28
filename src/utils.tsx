@@ -26,6 +26,7 @@ import {
 import { colors } from '@entur/tokens'
 
 import { Departure, LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
+import { TranslatedString, Translation } from '@entur/sdk/lib/mobility/types'
 
 import { LineData, TileSubLabel, Theme, IconColorType } from './types'
 import { useSettingsContext } from './settings'
@@ -420,3 +421,15 @@ export const getWeatherIconEntur = (APIconName: string): JSX.Element => {
 
 const arrayContains = (original: string[], contains: string[]): boolean =>
     original.some((r) => contains.indexOf(r) >= 0)
+
+export function getTranslation(
+    translationObject: TranslatedString,
+    languageId = 'nb',
+): string | null {
+    const translations: Translation[] = translationObject.translation
+    const match = translations.find(
+        (currentTranslation) => currentTranslation.language === languageId,
+    )
+    if (!match) return null
+    return match.value
+}

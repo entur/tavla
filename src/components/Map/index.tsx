@@ -1,4 +1,3 @@
-import { BikeRentalStation } from '@entur/sdk'
 import React, { useState, memo, useRef } from 'react'
 
 import { InteractiveMap, Marker } from 'react-map-gl'
@@ -7,7 +6,7 @@ import useSupercluster from 'use-supercluster'
 
 import type { ClusterProperties } from 'supercluster'
 
-import { Vehicle } from '@entur/sdk/lib/mobility/types'
+import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import PositionPin from '../../assets/icons/positionPin'
 
@@ -51,20 +50,17 @@ const Map = ({
         },
     }))
     const bikeRentalStationPoints = bikeRentalStations?.map(
-        (bikeRentalStation: BikeRentalStation) => ({
+        (bikeRentalStation: Station) => ({
             type: 'Feature' as const,
             properties: {
                 cluster: false,
                 stationId: bikeRentalStation.id,
-                bikesAvailable: bikeRentalStation.bikesAvailable,
-                spacesAvailable: bikeRentalStation.spacesAvailable,
+                bikesAvailable: bikeRentalStation.numBikesAvailable,
+                spacesAvailable: bikeRentalStation.numDocksAvailable,
             },
             geometry: {
                 type: 'Point' as const,
-                coordinates: [
-                    bikeRentalStation.longitude,
-                    bikeRentalStation.latitude,
-                ],
+                coordinates: [bikeRentalStation.lon, bikeRentalStation.lat],
             },
         }),
     )
@@ -224,7 +220,7 @@ const Map = ({
 
 interface Props {
     stopPlaces?: StopPlaceWithDepartures[] | null
-    bikeRentalStations?: BikeRentalStation[] | null
+    bikeRentalStations?: Station[] | null
     scooters?: Vehicle[] | null
     walkTimes?: Array<{ stopId: string; walkTime: number }> | null
     interactive: boolean

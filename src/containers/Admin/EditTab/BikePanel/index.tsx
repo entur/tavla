@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
 
-import { BikeRentalStation } from '@entur/sdk'
+import { Station } from '@entur/sdk/lib/mobility/types'
 import { Checkbox, Fieldset } from '@entur/form'
 import { Paragraph } from '@entur/typography'
 
-import { toggleValueInList } from '../../../../utils'
+import { getTranslation, toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
@@ -59,11 +59,13 @@ function BikePanel(props: Props): JSX.Element {
                 <Checkbox
                     key={id}
                     id={id}
-                    name={name}
+                    name={getTranslation(name) || ''}
                     checked={!hiddenStations.includes(id)}
                     onChange={onToggleStation}
                 >
-                    <span className="bike-panel__eds-paragraph">{name}</span>
+                    <span className="bike-panel__eds-paragraph">
+                        {getTranslation(name) || ''}
+                    </span>
                 </Checkbox>
             ))}
         </Fieldset>
@@ -71,7 +73,7 @@ function BikePanel(props: Props): JSX.Element {
 }
 
 interface Props {
-    stations: BikeRentalStation[]
+    stations: Station[]
 }
 
 export default BikePanel
