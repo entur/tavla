@@ -23,18 +23,9 @@ function WeatherTile(props: Props): JSX.Element {
     } = settings || {}
 
     const [temperatureClassName, setTemperatureClassName] = useState(
-        'weather-tile__weather-data--color-red',
+        'weather-tile__weather-data-container__weather-data--color-red',
     )
     const [description, setDescription] = useState('')
-
-    const [displayTemperature, setdisplayTemperature] = useState(true)
-    const [displayWind, setdisplayWind] = useState(true)
-    const [displayPrecipitation, setdisplayPrecipitation] = useState(true)
-
-    interface weatherComponents {
-        display: boolean
-        component: JSX.Element
-    }
 
     useEffect(() => {
         const abortController = new AbortController()
@@ -43,10 +34,12 @@ function WeatherTile(props: Props): JSX.Element {
             if (
                 weather.timeseries[3].data.instant.details.air_temperature >= 0
             ) {
-                setTemperatureClassName('weather-tile__weather-data--color-red')
+                setTemperatureClassName(
+                    'weather-tile__weather-data-container__weather-data--color-red',
+                )
             } else {
                 setTemperatureClassName(
-                    'weather-tile__weather-data--color-blue',
+                    'weather-tile__weather-data-container__weather-data--color-blue',
                 )
             }
 
@@ -67,21 +60,6 @@ function WeatherTile(props: Props): JSX.Element {
             abortController.abort()
         }
     }, [weather])
-
-    const updateSize = () => {
-        const tileWidth =
-            document?.getElementsByClassName('weather-tile')[0]?.clientWidth
-
-        setdisplayTemperature(tileWidth > 217)
-        setdisplayWind(tileWidth > 318)
-        setdisplayPrecipitation(tileWidth > 428)
-    }
-
-    useEffect(() => {
-        window.addEventListener('resize', updateSize)
-        updateSize()
-        return () => window.removeEventListener('resize', updateSize)
-    }, [updateSize])
 
     const Icon = (): JSX.Element => (
         <div className="weather-tile__icon-and-temperature__weather-icon">
@@ -119,36 +97,36 @@ function WeatherTile(props: Props): JSX.Element {
     )
 
     const Wind = (): JSX.Element => (
-        <div className="weather-tile__weather-data">
+        <div className="weather-tile__weather-data-container__weather-data">
             <WindIcon size={20} />
-            <span className="weather-tile__weather-data__value">
+            <div className="weather-tile__weather-data-container__weather-data__value">
                 {weather
                     ? weather.timeseries[3].data.instant.details.wind_speed +
                       ' ' +
                       weather.meta.units.wind_speed
                     : '?'}
-            </span>
+            </div>
         </div>
     )
 
     const Precipitation = (): JSX.Element => (
-        <div className="weather-tile__weather-data">
+        <div className="weather-tile__weather-data-container__weather-data">
             <CloudRainIcon size={20} />
-            <span className="weather-tile__weather-data__value">
+            <div className="weather-tile__weather-data-container__weather-data__value">
                 {weather
                     ? weather.timeseries[3].data.next_1_hours.details
                           .precipitation_amount +
                       ' ' +
                       weather.meta.units.precipitation_amount
                     : '?'}
-            </span>
+            </div>
         </div>
     )
 
     const ProbabilityOfrecipitation = (): JSX.Element => (
-        <div className="weather-tile__weather-data">
+        <div className="weather-tile__weather-data-container__weather-data">
             <UmbrellaIcon size={20} />
-            <span className="weather-tile__weather-data__value">
+            <div className="weather-tile__weather-data-container__weather-data__value">
                 {weather
                     ? parseInt(
                           weather.timeseries[3].data.next_1_hours.details.probability_of_precipitation.toString(),
@@ -156,27 +134,56 @@ function WeatherTile(props: Props): JSX.Element {
                       ' ' +
                       weather.meta.units.probability_of_precipitation
                     : '?'}
-            </span>
+            </div>
         </div>
     )
 
-    useEffect(() => {}, [])
+    interface weatherComponent {
+        display: boolean
+        component: JSX.Element
+    }
+
+    const iconTempComponentArray: weatherComponent[] = [
+        {
+            display: showIcon,
+            component: <Icon />,
+        },
+        {
+            display: showTemperature,
+            component: <Temperature />,
+        },
+    ]
+
+    const windPrecipitationComponentArray: weatherComponent[] = [
+        {
+            display: showWind,
+            component: <Wind />,
+        },
+        {
+            display: showPrecipitation,
+            component: (
+                <>
+                    <Precipitation />
+                    <ProbabilityOfrecipitation />
+                </>
+            ),
+        },
+    ]
 
     return (
         <div className={'weather-tile ' + props.className}>
             {(showIcon || showTemperature) && (
                 <div className="weather-tile__icon-and-temperature">
-                    {showIcon && <Icon />}
-                    {showTemperature && displayTemperature && <Temperature />}
+                    {iconTempComponentArray
+                        .filter((object) => object.display)
+                        .map((object) => object.component)}
                 </div>
             )}
-            {showWind && displayWind && <Wind />}
-            {showPrecipitation && displayPrecipitation && (
-                <>
-                    <Precipitation />
-                    <ProbabilityOfrecipitation />
-                </>
-            )}
+            <div className="weather-tile__weather-data-container">
+                {windPrecipitationComponentArray
+                    .filter((object) => object.display)
+                    .map((object) => object.component)}
+            </div>
         </div>
     )
 }

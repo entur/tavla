@@ -3,6 +3,8 @@
 
 .weather-tile {
     display: flex;
+    flex-wrap: wrap;
+    gap: $space-extra-large $space-extra-large3;
     justify-content: center;
     align-items: flex-end;
     min-height: 150px;
@@ -11,7 +13,6 @@
         display: flex;
         align-items: flex-end;
         flex-wrap: nowrap;
-        margin-right: $space-extra-large3;
 
         &__weather-icon {
             margin-bottom: -0.6rem;
@@ -35,29 +36,35 @@
         }
     }
 
-    &__weather-data {
+    &__weather-data-container {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-size: $font-sizes-large;
-        margin-right: $space-large;
+        align-items: flex-end;
+        flex-wrap: nowrap;
 
-        &:last-child {
-            margin-right: 0;
-        }
+        &__weather-data {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: $font-sizes-large;
+            margin-right: $space-large;
 
-        &__value {
-            padding-top: $space-small;
-            font-size: $font-sizes-medium;
-            white-space: nowrap;
-        }
+            &:last-child {
+                margin-right: 0;
+            }
 
-        &--color-red {
-            color: $colors-brand-coral;
-        }
+            &__value {
+                padding-top: $space-small;
+                font-size: $font-sizes-medium;
+                white-space: nowrap;
+            }
 
-        &--color-blue {
-            color: $colors-validation-sky-contrast;
+            &--color-red {
+                color: $colors-brand-coral;
+            }
+
+            &--color-blue {
+                color: $colors-validation-sky-contrast;
+            }
         }
     }
 }
