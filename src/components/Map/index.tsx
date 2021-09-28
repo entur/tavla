@@ -12,34 +12,19 @@ import PositionPin from '../../assets/icons/positionPin'
 
 import { StopPlaceWithDepartures } from '../../types'
 
-import { SubscriptionOptions } from '../../services/model/subscriptionOptions'
 import { Filter } from '../../services/model/filter'
-import { Options } from '../../services/model/options'
 
-import useVehicleData from '../../logic/useVehicleData'
+import useVehicleData, {
+    defaultFilter,
+    defaultOptions,
+    defaultSubscriptionOptions,
+} from '../../logic/useVehicleData'
 
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
 import { LiveVehicleMarker } from './LiveVehicleMarker'
-
-const defaultFilter: Filter = {
-    monitored: true,
-}
-
-const defaultSubscriptionOptions: SubscriptionOptions = {
-    enableLiveUpdates: true,
-    bufferSize: 100,
-    bufferTime: 1000,
-}
-
-const defaultOptions: Options = {
-    sweepIntervalMs: 1000,
-    removeExpired: true,
-    removeExpiredAfterSeconds: 3600,
-    markInactive: true,
-    markInactiveAfterSeconds: 60,
-}
+import { useDebounce } from '../../utils'
 
 const Map = ({
     stopPlaces,
@@ -61,6 +46,8 @@ const Map = ({
         maxZoom: 18,
         minZoom: 13.5,
     })
+
+    const debouncedViewport = useDebounce(viewport, 200)
 
     const [filter, setFilter] = useState<Filter>(defaultFilter)
 
@@ -116,7 +103,7 @@ const Map = ({
                 },
             }),
         )
-    }, [mapRef, viewport.zoom])
+    }, [mapRef, debouncedViewport])
 
     const { liveVehicles } = useVehicleData(
         filter,
@@ -153,8 +140,6 @@ const Map = ({
     return (
         <InteractiveMap
             {...viewport}
-            dragPan={{ inertia: 3 }}
-            touchAction="pan-y"
             mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
             mapStyle={mapStyle || process.env.MAPBOX_STYLE_MAPVIEW}
             onViewportChange={

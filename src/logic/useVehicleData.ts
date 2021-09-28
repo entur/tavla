@@ -38,6 +38,24 @@ interface VehicleData {
     allLinesWithLiveData: string[]
 }
 
+export const defaultFilter: Filter = {
+    monitored: true,
+}
+
+export const defaultSubscriptionOptions: SubscriptionOptions = {
+    enableLiveUpdates: true,
+    bufferSize: 100,
+    bufferTime: 1000,
+}
+
+export const defaultOptions: Options = {
+    sweepIntervalMs: 1000,
+    removeExpired: true,
+    removeExpiredAfterSeconds: 3600,
+    markInactive: true,
+    markInactiveAfterSeconds: 60,
+}
+
 /**
  * Hook to query and subscribe to remote vehicle data
  */

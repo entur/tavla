@@ -29,7 +29,7 @@ import {
 } from '../../../utils'
 
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
-import { Line, StopPlaceWithLines } from '../../../types'
+import { StopPlaceWithLines } from '../../../types'
 import {
     useNearestPlaces,
     useMobility,
@@ -44,6 +44,12 @@ import {
 import WeatherTile from '../../../components/Weather/WeatherTile'
 import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
 
+import useVehicleData, {
+    defaultFilter,
+    defaultOptions,
+    defaultSubscriptionOptions,
+} from '../../../logic/useVehicleData'
+
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
@@ -54,28 +60,6 @@ import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
 
 import './styles.scss'
-import useVehicleData from '../../../logic/useVehicleData'
-import { SubscriptionOptions } from '../../../services/model/subscriptionOptions'
-import { Filter } from '../../../services/model/filter'
-import { Options } from '../../../services/model/options'
-
-const defaultFilter: Filter = {
-    monitored: true,
-}
-
-const defaultSubscriptionOptions: SubscriptionOptions = {
-    enableLiveUpdates: true,
-    bufferSize: 100,
-    bufferTime: 1000,
-}
-
-const defaultOptions: Options = {
-    sweepIntervalMs: 1000,
-    removeExpired: true,
-    removeExpiredAfterSeconds: 3600,
-    markInactive: true,
-    markInactiveAfterSeconds: 60,
-}
 
 const isMobile = isMobileWeb()
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
