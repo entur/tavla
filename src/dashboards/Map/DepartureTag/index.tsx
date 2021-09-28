@@ -3,24 +3,18 @@ import React from 'react'
 import { colors } from '@entur/tokens'
 import { Heading4 } from '@entur/typography'
 
-import {
-    StopPlaceWithDepartures,
-    IconColorType,
-    LineData,
-} from '../../../types'
+import { StopPlaceWithDepartures, IconColorType } from '../../../types'
 
-import { getIcon, getIconColor } from '../../../utils'
+import {
+    getIcon,
+    getIconColor,
+    getDepartureNumber,
+    getDepartureDirection,
+} from '../../../utils'
 
 import DepartureIcon from './DepartureIcon'
 import './styles.scss'
 
-function getDepartureDirection(departure: LineData): string[] {
-    return departure.route.split(/([\s])/g).slice(1)
-}
-
-function getDepartureNumber(departure: LineData): string {
-    return departure.route.split(/[\s]/g)[0]
-}
 const DepartureTag = (props: Props): JSX.Element => (
     <div className="departure-tile">
         <Heading4

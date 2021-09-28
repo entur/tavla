@@ -1,8 +1,7 @@
 import React from 'react'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { BikeRentalStation } from '@entur/sdk'
 
-import { Vehicle } from '@entur/sdk/lib/mobility/types'
+import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import MapView from '../../../components/Map'
 
@@ -21,7 +20,7 @@ function MapTile(data: Props): JSX.Element {
 
 interface Props {
     stopPlaces: StopPlaceWithDepartures[] | null
-    bikeRentalStations: BikeRentalStation[] | null
+    bikeRentalStations: Station[] | null
     scooters: Vehicle[] | null
     walkTimes: Array<{ stopId: string; walkTime: number }> | null
     latitude: number

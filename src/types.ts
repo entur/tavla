@@ -16,6 +16,7 @@ export interface Line {
     name: string
     transportMode: TransportMode
     transportSubmode: TransportSubmode
+    publicCode: string
 }
 
 export type StopPlaceWithDepartures = StopPlace & {

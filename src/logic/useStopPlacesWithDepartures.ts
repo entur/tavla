@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { isEqual } from 'lodash'
 
-import { StopPlaceDetails, DeparturesById, LegMode } from '@entur/sdk'
+import { StopPlaceDetails, DeparturesById, TransportMode } from '@entur/sdk'
 
 import { StopPlaceWithDepartures } from '../types'
 import {
@@ -116,7 +116,7 @@ export default function useStopPlacesWithDepartures():
                                 ({ route, type }) =>
                                     !hiddenRoutes?.[stopId]?.includes(route) &&
                                     !hiddenStopModes?.[stopId]?.includes(
-                                        type as unknown as LegMode,
+                                        type as unknown as TransportMode,
                                     ),
                             )
                     return {
@@ -160,6 +160,7 @@ export default function useStopPlacesWithDepartures():
         formatStopPlacesWithDepartures,
         isDisabled,
         prevStopPlaceIdsWithoutDuplicateNumber,
+        settings,
     ])
 
     return stopPlacesWithDepartures

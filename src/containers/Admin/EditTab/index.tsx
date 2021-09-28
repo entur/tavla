@@ -5,13 +5,18 @@ import React, {
     useCallback,
     SyntheticEvent,
 } from 'react'
-import { BikeRentalStation } from '@entur/sdk'
-import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
+import {
+    Heading2,
+    Heading3,
+    Heading4,
+    Label,
+    SubParagraph,
+} from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
-import { FormFactor } from '@entur/sdk/lib/mobility/types'
+import { FormFactor, Station } from '@entur/sdk/lib/mobility/types'
 
 import { useSettingsContext, Mode } from '../../../settings'
 
@@ -20,22 +25,37 @@ import {
     toggleValueInList,
     isNotNullOrUndefined,
     isMobileWeb,
+    getTranslation,
 } from '../../../utils'
 
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearestPlaces, useMobility } from '../../../logic'
-import service, { getStopPlacesWithLines } from '../../../service'
+import {
+    useNearestPlaces,
+    useMobility,
+    useBikeRentalStations,
+} from '../../../logic'
+import { getStopPlacesWithLines } from '../../../service'
 import {
     saveToLocalStorage,
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
+
+import WeatherTile from '../../../components/Weather/WeatherTile'
+import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
+
+import useVehicleData, {
+    defaultFilter,
+    defaultOptions,
+    defaultSubscriptionOptions,
+} from '../../../logic/useVehicleData'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
 import ScooterPanel from './ScooterPanel'
+import LiveDataPanel from './LiveDataPanel'
 import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
 
@@ -59,10 +79,27 @@ const EditTab = (): JSX.Element => {
         newStops = [],
         newStations = [],
         hiddenModes,
-        showMap,
+        showMap = false,
+        showWeather = false,
+        hiddenLiveDataLineRefs = [],
     } = settings || {}
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
+    )
+
+    const { allLinesWithLiveData } = useVehicleData(
+        defaultFilter,
+        defaultSubscriptionOptions,
+        defaultOptions,
+    )
+    const { uniqueLines } = useStopPlacesWithLines()
+
+    const liveLines = useMemo(
+        () =>
+            uniqueLines?.filter((line) =>
+                allLinesWithLiveData.includes(line.id),
+            ),
+        [uniqueLines, allLinesWithLiveData],
     )
 
     const [zoom, setZoom] = useState<number>(settings?.zoom || DEFAULT_ZOOM)
@@ -76,6 +113,25 @@ const EditTab = (): JSX.Element => {
         }
     }, [settings, debouncedZoom, setSettings])
 
+    const toggleLiveDataLineIds = useCallback(
+        (lineId: string) => {
+            if (hiddenLiveDataLineRefs.includes(lineId)) {
+                setSettings({
+                    ...settings,
+                    hiddenLiveDataLineRefs: hiddenLiveDataLineRefs.filter(
+                        (el) => el !== lineId,
+                    ),
+                })
+            } else {
+                setSettings({
+                    ...settings,
+                    hiddenLiveDataLineRefs: [...hiddenLiveDataLineRefs, lineId],
+                })
+            }
+        },
+        [hiddenLiveDataLineRefs, settings, setSettings],
+    )
+
     const debouncedDistance = useDebounce(distance, 800)
     useEffect(() => {
         if (settings?.distance !== debouncedDistance) {
@@ -86,7 +142,10 @@ const EditTab = (): JSX.Element => {
     }, [debouncedDistance, setSettings, settings])
 
     const [stopPlaces, setStopPlaces] = useState<StopPlaceWithLines[]>([])
-    const [stations, setStations] = useState<BikeRentalStation[]>([])
+    const bikeRentalStations: Station[] | null = useBikeRentalStations(false)
+    const [sortedBikeRentalStations, setSortedBikeRentalStations] = useState<
+        Station[]
+    >([])
 
     const nearestPlaces = useNearestPlaces(
         settings?.coordinates,
@@ -105,14 +164,13 @@ const EditTab = (): JSX.Element => {
     const scooters = useMobility(FormFactor.SCOOTER)
 
     useEffect(() => {
-        let ignoreResponse = false
+        const abortController = new AbortController()
         const ids = [...newStops, ...nearestStopPlaceIds]
 
         getStopPlacesWithLines(
             ids.map((id: string) => id.replace(/-\d+$/, '')),
+            abortController.signal,
         ).then((resultingStopPlaces) => {
-            if (ignoreResponse) return
-
             setStopPlaces(
                 resultingStopPlaces.map((s, index) => ({
                     ...s,
@@ -122,34 +180,31 @@ const EditTab = (): JSX.Element => {
         })
 
         return (): void => {
-            ignoreResponse = true
+            abortController.abort()
         }
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
 
     useEffect(() => {
-        let ignoreResponse = false
+        const controller = new AbortController()
 
-        const nearestBikeRentalStationIds = nearestPlaces
-            .filter(({ type }) => type === 'BikeRentalStation')
-            .map(({ id }) => id)
-
-        const ids = [...newStations, ...nearestBikeRentalStationIds]
-
-        service.getBikeRentalStations(ids).then((freshStations) => {
-            if (ignoreResponse) return
-
-            const sortedStations = freshStations
+        if (bikeRentalStations) {
+            const sortedStations = bikeRentalStations
                 .filter(isNotNullOrUndefined)
-                .sort((a: BikeRentalStation, b: BikeRentalStation) =>
-                    a.name.localeCompare(b.name, 'no'),
-                )
-            setStations(sortedStations)
-        })
+                .sort((a: Station, b: Station) => {
+                    const aName = getTranslation(a.name)
+                    const bName = getTranslation(b.name)
+                    if (!aName) return 1
+                    if (!bName) return -1
+                    return aName.localeCompare(bName, 'no')
+                })
+            if (controller.signal.aborted) return
+            setSortedBikeRentalStations(sortedStations)
+        }
 
         return (): void => {
-            ignoreResponse = true
+            controller.abort()
         }
-    }, [nearestPlaces, newStations])
+    }, [bikeRentalStations])
 
     const addNewStop = useCallback(
         (stopId: string) => {
@@ -170,6 +225,7 @@ const EditTab = (): JSX.Element => {
 
     const addNewStation = useCallback(
         (stationId: string) => {
+            if (newStations.includes(stationId)) return
             setSettings({
                 newStations: [...newStations, stationId],
             })
@@ -230,10 +286,12 @@ const EditTab = (): JSX.Element => {
                 x: 1.5,
                 y: 0,
                 w: 1.5,
-                h: 1.55 + tileHeight(stations.length, 0.24, 0),
+                h: 1.55 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
             },
-            { i: 'scooterPanel', x: 3, y: 3.2, w: 1.5, h: 1.4 },
-            { i: 'mapPanel', x: 3, y: 0, w: 1.5, h: 3.2 },
+            { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.4 },
+            { i: 'mapPanel', x: 3, y: 5, w: 1.5, h: 3.2 },
+            { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 1.8 },
+            { i: 'liveDataPanel', x: 0, y: 0, w: 1.5, h: 2 },
         ],
         md: [
             {
@@ -248,10 +306,12 @@ const EditTab = (): JSX.Element => {
                 x: 2,
                 y: 0,
                 w: 1,
-                h: 1.55 + tileHeight(stations.length, 0.24, 0),
+                h: 1.55 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
             },
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
-            { i: 'mapPanel', x: 0, y: 4.5, w: 2, h: 3 },
+            { i: 'mapPanel', x: 0, y: 7, w: 2, h: 3 },
+            { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.8 },
+            { i: 'liveDataPanel', x: 0, y: 0, w: 2, h: 2 },
         ],
         sm: [
             {
@@ -266,10 +326,12 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 3,
                 w: 1,
-                h: 1.4 + tileHeight(stations.length, 0.24, 0),
+                h: 1.4 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
-            { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
+            { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
+            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
+            { i: 'liveDataPanel', x: 0, y: 0, w: 1, h: 2 },
         ],
         xs: [
             {
@@ -284,10 +346,12 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 3,
                 w: 1,
-                h: 1.4 + tileHeight(stations.length, 0.265, 0),
+                h: 1.4 + tileHeight(sortedBikeRentalStations.length, 0.265, 0),
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
-            { i: 'mapPanel', x: 0, y: 8, w: 1, h: 3 },
+            { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
+            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
+            { i: 'liveDataPanel', x: 0, y: 0, w: 1, h: 2 },
         ],
     }
 
@@ -369,6 +433,24 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ToggleDetailsPanel />
                 </div>
+                <div key="liveDataPanel" className="edit-tab__tile">
+                    <div className="edit-tab__header">
+                        <Heading2>Sanntidsposisjoner</Heading2>
+                        <Switch
+                            onChange={(): void => toggleMode('live-data')}
+                            checked={!hiddenModes?.includes('live-data')}
+                            size="large"
+                        ></Switch>
+                    </div>
+                    {!hiddenModes?.includes('live-data') && (
+                        <LiveDataPanel
+                            uniqueLines={liveLines}
+                            toggleLiveDataLineIds={toggleLiveDataLineIds}
+                            hiddenLines={hiddenLiveDataLineRefs}
+                        />
+                    )}
+                </div>
+
                 <div key="bikePanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>
@@ -382,7 +464,7 @@ const EditTab = (): JSX.Element => {
                         position={settings?.coordinates}
                         onSelected={addNewStation}
                     />
-                    <BikePanel stations={stations} />
+                    <BikePanel stations={sortedBikeRentalStations} />
                 </div>
                 <div key="scooterPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
@@ -414,6 +496,37 @@ const EditTab = (): JSX.Element => {
                         zoom={zoom}
                         onZoomUpdated={setZoom}
                         scooters={scooters}
+                    />
+                </div>
+                <div key="weatherPanel" className="edit-tab__tile">
+                    <div className="edit-tab__header">
+                        <Heading2>Vær</Heading2>
+                        <Switch
+                            onChange={(
+                                event: React.ChangeEvent<HTMLInputElement>,
+                            ): void => {
+                                setSettings({
+                                    showWeather: event.currentTarget.checked,
+                                })
+                            }}
+                            checked={showWeather}
+                            size="large"
+                        />
+                    </div>
+                    <Label>
+                        Værmeldingen for neste time (met.no). Tilgjengelig i
+                        kart, kompakt og kronologisk visningstype.
+                    </Label>
+                    <WeatherTile
+                        displayTemperature={window.innerWidth > 290}
+                        displayPrecipitation={window.innerWidth > 380}
+                        displayWind={
+                            window.innerWidth > 570 &&
+                            !(
+                                1246 < window.innerWidth &&
+                                window.innerWidth < 1600
+                            )
+                        }
                     />
                 </div>
             </ResponsiveReactGridLayout>

@@ -24,6 +24,7 @@ export default createEnturService({
 function journeyplannerPost<T>(
     query: string,
     variables: Record<string, any>,
+    signal: AbortSignal,
 ): Promise<T> {
     return fetch(`${process.env.JOURNEYPLANNER_HOST}/graphql`, {
         method: 'POST',
@@ -31,6 +32,7 @@ function journeyplannerPost<T>(
             'ET-Client-Name': CLIENT_NAME,
             'Content-Type': 'application/json',
         },
+        signal,
         body: JSON.stringify({
             query,
             variables,
@@ -99,6 +101,7 @@ function estimatedCallsComparator(a: EstimatedCall, b: EstimatedCall): number {
 
 export async function getStopPlacesWithLines(
     stopPlaceIds: string[],
+    signal: AbortSignal,
 ): Promise<StopPlaceWithLines[]> {
     try {
         const variables = { ids: stopPlaceIds }
@@ -131,6 +134,7 @@ export async function getStopPlacesWithLines(
             }
             `,
             variables,
+            signal,
         )
 
         const stops: StopPlaceWithLines[] = results.data.stopPlaces.map(

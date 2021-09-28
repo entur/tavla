@@ -19,6 +19,18 @@
     }
 }
 
+.weather-tile-map {
+    position: relative;
+    background-color: white;
+    color: $colors-brand-blue;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius: 1rem;
+    min-width: 450px;
+    height: auto;
+    box-shadow: 0 20px 25px -10px rgba(0, 0, 0, 0.1);
+}
+
 .departure-row {
     display: flex;
     align-items: center;

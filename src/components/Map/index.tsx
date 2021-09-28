@@ -1,5 +1,4 @@
-import { BikeRentalStation } from '@entur/sdk'
-import React, { useState, memo, useRef } from 'react'
+import React, { useState, memo, useRef, useEffect, useMemo } from 'react'
 
 import { InteractiveMap, Marker } from 'react-map-gl'
 import type { MapRef } from 'react-map-gl'
@@ -7,15 +6,28 @@ import useSupercluster from 'use-supercluster'
 
 import type { ClusterProperties } from 'supercluster'
 
-import { Vehicle } from '@entur/sdk/lib/mobility/types'
+import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import PositionPin from '../../assets/icons/positionPin'
 
 import { StopPlaceWithDepartures } from '../../types'
 
+import { Filter } from '../../services/model/filter'
+
+import { useDebounce } from '../../utils'
+
+import useVehicleData, {
+    defaultFilter,
+    defaultOptions,
+    defaultSubscriptionOptions,
+} from '../../logic/useVehicleData'
+
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
+import { LiveVehicleMarker } from './LiveVehicleMarker'
+
+import './styles.scss'
 
 const Map = ({
     stopPlaces,
@@ -37,6 +49,9 @@ const Map = ({
         maxZoom: 18,
         minZoom: 13.5,
     })
+
+    const debouncedViewport = useDebounce(viewport, 200)
+
     const mapRef = useRef<MapRef>(null)
     const scooterpoints = scooters?.map((scooter: Vehicle) => ({
         type: 'Feature' as const,
@@ -51,22 +66,27 @@ const Map = ({
         },
     }))
     const bikeRentalStationPoints = bikeRentalStations?.map(
-        (bikeRentalStation: BikeRentalStation) => ({
+        (bikeRentalStation: Station) => ({
             type: 'Feature' as const,
             properties: {
                 cluster: false,
                 stationId: bikeRentalStation.id,
-                bikesAvailable: bikeRentalStation.bikesAvailable,
-                spacesAvailable: bikeRentalStation.spacesAvailable,
+                bikesAvailable: bikeRentalStation.numBikesAvailable,
+                spacesAvailable: bikeRentalStation.numDocksAvailable,
             },
             geometry: {
                 type: 'Point' as const,
-                coordinates: [
-                    bikeRentalStation.longitude,
-                    bikeRentalStation.latitude,
-                ],
+                coordinates: [bikeRentalStation.lon, bikeRentalStation.lat],
             },
         }),
+    )
+
+    const [filter, setFilter] = useState<Filter>(defaultFilter)
+
+    const { liveVehicles } = useVehicleData(
+        filter,
+        defaultSubscriptionOptions,
+        defaultOptions,
     )
 
     const bounds = (mapRef.current
@@ -74,6 +94,27 @@ const Map = ({
         ?.getBounds()
         ?.toArray()
         ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
+
+    useEffect(() => {
+        if (setFilter) {
+            const newBounds = (mapRef.current
+                ?.getMap()
+                ?.getBounds()
+                ?.toArray()
+                ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
+
+            setFilter((prevFilter: Filter) =>
+                Object.assign({}, prevFilter, {
+                    boundingBox: {
+                        minLat: newBounds[1],
+                        minLon: newBounds[0],
+                        maxLat: newBounds[3],
+                        maxLon: newBounds[2],
+                    },
+                }),
+            )
+        }
+    }, [mapRef, debouncedViewport, setFilter])
 
     const { clusters: scooterClusters } = useSupercluster({
         points: scooterpoints || [],
@@ -101,11 +142,28 @@ const Map = ({
         },
     })
 
+    const liveVehicleMarkers = useMemo(
+        () =>
+            liveVehicles
+                ? liveVehicles.map((vehicle, index) => (
+                      <Marker
+                          key={index}
+                          latitude={vehicle.vehicle.location.latitude}
+                          longitude={vehicle.vehicle.location.longitude}
+                          className="map__live-vehicle-marker"
+                      >
+                          <LiveVehicleMarker
+                              liveVehicle={vehicle}
+                          ></LiveVehicleMarker>
+                      </Marker>
+                  ))
+                : [],
+        [liveVehicles],
+    )
+
     return (
         <InteractiveMap
             {...viewport}
-            dragPan={false}
-            touchAction="pan-y"
             mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
             mapStyle={mapStyle || process.env.MAPBOX_STYLE_MAPVIEW}
             onViewportChange={
@@ -130,6 +188,7 @@ const Map = ({
             }
             ref={mapRef}
         >
+            {liveVehicles && liveVehicleMarkers}
             {scooterClusters.map((scooterCluster) => {
                 const [slongitude, slatitude] =
                     scooterCluster.geometry.coordinates
@@ -224,7 +283,7 @@ const Map = ({
 
 interface Props {
     stopPlaces?: StopPlaceWithDepartures[] | null
-    bikeRentalStations?: BikeRentalStation[] | null
+    bikeRentalStations?: Station[] | null
     scooters?: Vehicle[] | null
     walkTimes?: Array<{ stopId: string; walkTime: number }> | null
     interactive: boolean

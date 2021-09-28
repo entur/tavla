@@ -16,6 +16,8 @@ import './styles.scss'
 import { useSettingsContext } from '../../settings'
 import { DEFAULT_ZOOM } from '../../constants'
 
+import WeatherTile from '../../components/Weather/WeatherTile'
+
 import DepartureTag from './DepartureTag'
 
 const MapDashboard = ({ history }: Props): JSX.Element => {
@@ -25,6 +27,7 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
     const walkTimes = useWalkInfo(stopPlacesWithDepartures)
     const scooters = useMobility(FormFactor.SCOOTER)
+
     const HEADER_MARGIN = 16
     //Used to calculate the height of the viewport for the map
     const headerHeight =
@@ -50,7 +53,12 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
                     latitude={settings?.coordinates?.latitude ?? 0}
                     longitude={settings?.coordinates?.longitude ?? 0}
                     zoom={settings?.zoom ?? DEFAULT_ZOOM}
-                ></MapView>
+                />
+                {settings?.showWeather && (
+                    <div className="weather-display">
+                        <WeatherTile className="weather-tile-map" />
+                    </div>
+                )}
                 <div className="departure-display">
                     {stopPlacesWithDepartures?.map((stopPlace) =>
                         stopPlace.departures.length ? (

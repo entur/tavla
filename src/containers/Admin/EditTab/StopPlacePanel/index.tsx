@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 
 import { Checkbox } from '@entur/form'
-import { LegMode } from '@entur/sdk'
 import { Paragraph } from '@entur/typography'
 
 import { toggleValueInList, isDarkOrDefaultTheme } from '../../../../utils'
@@ -12,6 +11,7 @@ import ThemeContrastWrapper from '../../../ThemeWrapper/ThemeContrastWrapper'
 
 import PanelRow from './PanelRow'
 import './styles.scss'
+import { TransportMode } from '@entur/sdk'
 
 function StopPlacePanel(props: Props): JSX.Element {
     const [settings, setSettings] = useSettingsContext()
@@ -86,7 +86,7 @@ function StopPlacePanel(props: Props): JSX.Element {
     )
 
     const onToggleMode = useCallback(
-        (stopPlaceId: string, mode: LegMode): void => {
+        (stopPlaceId: string, mode: TransportMode): void => {
             const newHiddenModes = {
                 ...hiddenStopModes,
                 [stopPlaceId]: toggleValueInList(

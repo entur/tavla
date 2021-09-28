@@ -18,7 +18,7 @@ module.exports = (env, args) => ({
     devtool: 'inline-source-map',
     output: {
         path: OUTPUT_PATH,
-        filename: '[name].[hash].js',
+        filename: '[name].[fullhash].js',
         publicPath: '/',
     },
     resolve: {
@@ -87,6 +87,10 @@ module.exports = (env, args) => ({
         static: OUTPUT_PATH,
         port: 9090,
         historyApiFallback: true,
+        headers: {
+            'Content-Security-Policy':
+                "child-src 'self' blob:;default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google-analytics.com https://apis.google.com blob:; connect-src 'self' wss://*.entur.io https://api.met.no https://stats.g.doubleclick.net https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com https://*.entur.io https://*.entur.org https://*.cloudfunctions.net https://*.googleapis.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:  https://www.google.no  https://www.google.com https://*.googleapis.com https://www.google-analytics.com; object-src 'none'; frame-ancestors https:; manifest-src 'self' blob:; frame-src https://entur-tavla-staging.firebaseapp.com/ https://entur-tavla-prod.firebaseapp.com/",
+        },
     },
     plugins: [
         new HtmlWebPackPlugin({

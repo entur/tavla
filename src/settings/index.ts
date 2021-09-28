@@ -6,7 +6,7 @@ import {
     useEffect,
 } from 'react'
 import { useLocation } from 'react-router-dom'
-import { LegMode, Coordinates } from '@entur/sdk'
+import { Coordinates, TransportMode } from '@entur/sdk'
 
 import { onSnapshot } from 'firebase/firestore'
 
@@ -25,7 +25,7 @@ import {
     FieldTypes,
 } from './FirestoreStorage'
 
-export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
+export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel' | 'live-data'
 
 export interface Settings {
     boardName?: string
@@ -34,7 +34,7 @@ export interface Settings {
     hiddenStations: string[]
     hiddenStops: string[]
     hiddenModes: Mode[]
-    hiddenStopModes: { [stopPlaceId: string]: LegMode[] }
+    hiddenStopModes: { [stopPlaceId: string]: TransportMode[] }
     hiddenRoutes: {
         [stopPlaceId: string]: string[]
     }
@@ -49,9 +49,11 @@ export interface Settings {
     logoSize?: string
     description?: string
     showMap?: boolean
+    showWeather?: boolean
     hideSituations?: boolean
     hideTracks?: boolean
     hideWalkInfo?: boolean
+    hiddenLiveDataLineRefs: string[]
 }
 
 type Setter = (settings: Partial<Settings>) => void
@@ -71,6 +73,7 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     theme: Theme.DEFAULT,
     owners: [] as string[],
     hiddenStopModes: {},
+    hiddenLiveDataLineRefs: [],
 }
 
 export function useSettings(): [Settings | null, Setter] {
@@ -93,13 +96,13 @@ export function useSettings(): [Settings | null, Setter] {
         }
 
         if (id) {
-            return onSnapshot(getSettings(id), (document: any) => {
-                if (!document.exists) {
+            return onSnapshot(getSettings(id), (documentSnapshot: any) => {
+                if (!documentSnapshot.exists()) {
                     window.location.pathname = '/'
                     return
                 }
 
-                const data = document.data() as Settings
+                const data = documentSnapshot.data() as Settings
 
                 const settingsWithDefaults: Settings = {
                     ...DEFAULT_SETTINGS,

@@ -19,6 +19,7 @@ import {
 import { colors } from '@entur/tokens'
 
 import { Departure, LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
+import { TranslatedString, Translation } from '@entur/sdk/lib/mobility/types'
 
 import { LineData, TileSubLabel, Theme, IconColorType } from './types'
 import { useSettingsContext } from './settings'
@@ -57,7 +58,7 @@ export function getIconColorType(theme: Theme | undefined): IconColorType {
 }
 
 export function getIconColor(
-    type: TransportMode | LegMode,
+    type: TransportMode | LegMode | 'ferry',
     iconColorType: IconColorType,
     subType?: TransportSubmode,
 ): string {
@@ -70,6 +71,7 @@ export function getIconColor(
         case 'bicycle':
             return colors.transport[iconColorType].mobility
         case 'water':
+        case 'ferry':
             return colors.transport[iconColorType].ferry
         case 'metro':
             return colors.transport[iconColorType].metro
@@ -368,4 +370,48 @@ export function isDarkOrDefaultTheme(theme?: Theme): boolean {
 export function isEqualUnsorted<T>(array: T[], includes: T[]): boolean {
     if (array.length !== includes.length) return false
     return includes.every((i) => array.includes(i))
+}
+
+export const getWeatherDescriptionFromApi = async (
+    iconName: string,
+    signal: AbortSignal,
+): Promise<string> => {
+    const weatherNameMatch = iconName.match(/.+?(?=_|$)/)
+    if (!weatherNameMatch)
+        return Promise.reject('No REGEX match found for ' + iconName)
+    const url = `https://api.met.no/weatherapi/weathericon/2.0/legends`
+    const response = await fetch(url, { signal })
+    const weatherData = await response.json()
+    return weatherData[weatherNameMatch.toString()].desc_nb
+}
+
+interface WrapperProps {
+    condition: boolean
+    wrapper: any
+    children: JSX.Element
+}
+export const ConditionalWrapper = ({
+    condition,
+    wrapper,
+    children,
+}: WrapperProps) => (condition ? wrapper(children) : children)
+
+export function getDepartureNumber(departure: LineData): string {
+    return departure.route.split(/[\s]/g)[0]
+}
+
+export function getDepartureDirection(departure: LineData): string[] {
+    return departure.route.split(/([\s])/g).slice(1)
+}
+
+export function getTranslation(
+    translationObject: TranslatedString,
+    languageId = 'nb',
+): string | null {
+    const translations: Translation[] = translationObject.translation
+    const match = translations.find(
+        (currentTranslation) => currentTranslation.language === languageId,
+    )
+    if (!match) return null
+    return match.value
 }
