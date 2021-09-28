@@ -1,3 +1,3 @@
 export type Operator = {
-  operatorRef: string;
-};
+    operatorRef: string
+}

@@ -1,3 +1,3 @@
 export type ServiceJourney = {
-  serviceJourneyId: string;
-};
+    serviceJourneyId: string
+}

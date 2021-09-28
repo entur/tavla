@@ -1,3 +1,3 @@
 export type Codespace = {
-  codespaceId: string;
-};
+    codespaceId: string
+}

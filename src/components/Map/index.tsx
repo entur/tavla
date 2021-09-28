@@ -14,17 +14,13 @@ import { StopPlaceWithDepartures } from '../../types'
 
 import { Filter } from '../../services/model/filter'
 
-import useVehicleData, {
-    defaultFilter,
-    defaultOptions,
-    defaultSubscriptionOptions,
-} from '../../logic/useVehicleData'
+import { useDebounce } from '../../utils'
+import { LiveVehicle } from '../../logic/useVehicleData'
 
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
 import { LiveVehicleMarker } from './LiveVehicleMarker'
-import { useDebounce } from '../../utils'
 
 const Map = ({
     stopPlaces,
@@ -36,6 +32,8 @@ const Map = ({
     latitude,
     longitude,
     zoom,
+    liveVehicles,
+    setFilter,
 }: Props): JSX.Element => {
     const [viewport, setViewPort] = useState({
         latitude,
@@ -48,8 +46,6 @@ const Map = ({
     })
 
     const debouncedViewport = useDebounce(viewport, 200)
-
-    const [filter, setFilter] = useState<Filter>(defaultFilter)
 
     const mapRef = useRef<MapRef>(null)
     const scooterpoints = scooters?.map((scooter: Vehicle) => ({
@@ -87,29 +83,25 @@ const Map = ({
         ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
 
     useEffect(() => {
-        const newBounds = (mapRef.current
-            ?.getMap()
-            ?.getBounds()
-            ?.toArray()
-            ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
+        if (setFilter) {
+            const newBounds = (mapRef.current
+                ?.getMap()
+                ?.getBounds()
+                ?.toArray()
+                ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
 
-        setFilter((prevFilter) =>
-            Object.assign({}, prevFilter, {
-                boundingBox: {
-                    minLat: newBounds[1],
-                    minLon: newBounds[0],
-                    maxLat: newBounds[3],
-                    maxLon: newBounds[2],
-                },
-            }),
-        )
-    }, [mapRef, debouncedViewport])
-
-    const { liveVehicles } = useVehicleData(
-        filter,
-        defaultSubscriptionOptions,
-        defaultOptions,
-    )
+            setFilter((prevFilter: Filter) =>
+                Object.assign({}, prevFilter, {
+                    boundingBox: {
+                        minLat: newBounds[1],
+                        minLon: newBounds[0],
+                        maxLat: newBounds[3],
+                        maxLon: newBounds[2],
+                    },
+                }),
+            )
+        }
+    }, [mapRef, debouncedViewport, setFilter])
 
     const { clusters: scooterClusters } = useSupercluster({
         points: scooterpoints || [],
@@ -278,6 +270,8 @@ interface Props {
     latitude: number
     longitude: number
     zoom: number
+    liveVehicles?: LiveVehicle[]
+    setFilter?: React.Dispatch<React.SetStateAction<Filter>>
 }
 
 export default memo(Map)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
 
@@ -17,6 +17,13 @@ import { useSettingsContext } from '../../settings'
 import { DEFAULT_ZOOM } from '../../constants'
 
 import WeatherTile from '../../components/Weather/WeatherTile'
+import { Filter } from '../../services/model/filter'
+
+import useVehicleData, {
+    defaultFilter,
+    defaultOptions,
+    defaultSubscriptionOptions,
+} from '../../logic/useVehicleData'
 
 import DepartureTag from './DepartureTag'
 
@@ -27,6 +34,15 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
     const walkTimes = useWalkInfo(stopPlacesWithDepartures)
     const scooters = useMobility(FormFactor.SCOOTER)
+
+    const [filter, setFilter] = useState<Filter>(defaultFilter)
+
+    const { liveVehicles } = useVehicleData(
+        filter,
+        defaultSubscriptionOptions,
+        defaultOptions,
+    )
+
     const HEADER_MARGIN = 16
     //Used to calculate the height of the viewport for the map
     const headerHeight =
@@ -52,6 +68,16 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
                     latitude={settings?.coordinates?.latitude ?? 0}
                     longitude={settings?.coordinates?.longitude ?? 0}
                     zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                    liveVehicles={
+                        !settings?.hiddenModes.includes('live-data')
+                            ? liveVehicles
+                            : undefined
+                    }
+                    setFilter={
+                        !settings?.hiddenModes.includes('live-data')
+                            ? setFilter
+                            : undefined
+                    }
                 />
                 {settings?.showWeather && (
                     <div className="weather-display">

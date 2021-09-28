@@ -1,4 +1,4 @@
 export type Line = {
-  lineRef: string;
-  lineName: string;
-};
+    lineRef: string
+    lineName: string
+}

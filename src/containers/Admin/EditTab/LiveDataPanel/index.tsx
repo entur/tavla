@@ -1,5 +1,6 @@
 import { FilterChip } from '@entur/chip'
 import { Fieldset } from '@entur/form'
+import { Loader } from '@entur/loader'
 import React from 'react'
 
 import { Line } from '../../../../types'
@@ -17,26 +18,29 @@ const LiveDataPanel = ({
     uniqueLines,
     toggleLiveDataLineIds: toggleLiveDataLineIds,
     hiddenLines,
-}: IProps): JSX.Element => (
-    <Fieldset className="toggle-detail-panel">
-        <div className="toggle-detail-panel__container">
-            {uniqueLines &&
-                uniqueLines.map(({ id, publicCode, transportMode }) => (
-                    <div className="toggle-detail-panel__buttons" key={id}>
-                        <FilterChip
-                            value={id}
-                            onChange={() => toggleLiveDataLineIds(id)}
-                            checked={!hiddenLines.includes(id)}
-                            className="live"
-                        >
-                            {publicCode}
-                            {getIcon(transportMode)}
-                        </FilterChip>
-                    </div>
-                ))}
-        </div>
-    </Fieldset>
-)
+}: IProps): JSX.Element =>
+    !uniqueLines ? (
+        <Loader>Laster inn...</Loader>
+    ) : (
+        <Fieldset className="toggle-detail-panel">
+            <div className="toggle-detail-panel__container">
+                {uniqueLines &&
+                    uniqueLines.map(({ id, publicCode, transportMode }) => (
+                        <div className="toggle-detail-panel__buttons" key={id}>
+                            <FilterChip
+                                value={id}
+                                onChange={() => toggleLiveDataLineIds(id)}
+                                checked={!hiddenLines.includes(id)}
+                                className="live"
+                            >
+                                {publicCode}
+                                {getIcon(transportMode)}
+                            </FilterChip>
+                        </div>
+                    ))}
+            </div>
+        </Fieldset>
+    )
 
 // onChange={() => {
 //                     if (settings?.hiddenLiveDataLineRefs?.includes(line)) {

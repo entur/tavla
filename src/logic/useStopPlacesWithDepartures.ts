@@ -160,6 +160,7 @@ export default function useStopPlacesWithDepartures():
         formatStopPlacesWithDepartures,
         isDisabled,
         prevStopPlaceIdsWithoutDuplicateNumber,
+        settings,
     ])
 
     return stopPlacesWithDepartures
