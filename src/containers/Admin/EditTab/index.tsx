@@ -14,6 +14,7 @@ import {
 } from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
+import { ValidationInfoIcon } from '@entur/icons'
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
 import { FormFactor, Station } from '@entur/sdk/lib/mobility/types'
@@ -41,8 +42,6 @@ import {
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
 
-import WeatherTile from '../../../components/WeatherTile'
-
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
@@ -52,8 +51,10 @@ import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
 
 import './styles.scss'
+import WeatherPanel from './WeatherPanel'
 
 const isMobile = isMobileWeb()
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 const COLS: { [key: string]: number } = {
@@ -248,7 +249,7 @@ const EditTab = (): JSX.Element => {
             },
             { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.4 },
             { i: 'mapPanel', x: 3, y: 5, w: 1.5, h: 3.2 },
-            { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 2.2 },
+            { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 1.5 },
         ],
         md: [
             {
@@ -267,7 +268,7 @@ const EditTab = (): JSX.Element => {
             },
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
             { i: 'mapPanel', x: 0, y: 7, w: 2, h: 3 },
-            { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 2.2 },
+            { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.3 },
         ],
         sm: [
             {
@@ -286,9 +287,28 @@ const EditTab = (): JSX.Element => {
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
-            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 2 },
+            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.3 },
         ],
         xs: [
+            {
+                i: 'busStopPanel',
+                x: 0,
+                y: 0,
+                w: 1,
+                h: 2.5 + tileHeight(stopPlaces.length, 0.75, 0.25),
+            },
+            {
+                i: 'bikePanel',
+                x: 0,
+                y: 3,
+                w: 1,
+                h: 1.4 + tileHeight(sortedBikeRentalStations.length, 0.265, 0),
+            },
+            { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
+            { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
+            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
+        ],
+        xxs: [
             {
                 i: 'busStopPanel',
                 x: 0,
@@ -434,9 +454,25 @@ const EditTab = (): JSX.Element => {
                         scooters={scooters}
                     />
                 </div>
-                <div key="weatherPanel" className="edit-tab__tile">
+                <div key="weatherPanel" className="edit-tab__tile-weather">
                     <div className="edit-tab__header">
-                        <Heading2>Vær</Heading2>
+                        <Heading2>
+                            {'Vær '}
+                            <Tooltip
+                                content={
+                                    <Label className="weather-tooltip-text">
+                                        Tilgjengelig i visningstyper kompakt,
+                                        kronologisk og kart. Værdata fra YR
+                                        (met.no).
+                                    </Label>
+                                }
+                                placement="top"
+                            >
+                                <span>
+                                    <ValidationInfoIcon size={20} />
+                                </span>
+                            </Tooltip>
+                        </Heading2>
                         <Switch
                             onChange={(
                                 event: React.ChangeEvent<HTMLInputElement>,
@@ -449,11 +485,7 @@ const EditTab = (): JSX.Element => {
                             size="large"
                         />
                     </div>
-                    <Label>
-                        Værmeldingen for neste time (met.no). Tilgjengelig i
-                        kart, kompakt og kronologisk visningstype.
-                    </Label>
-                    <WeatherTile />
+                    <WeatherPanel />
                 </div>
             </ResponsiveReactGridLayout>
         </div>

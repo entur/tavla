@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './styles.scss'
 
 import { CloudRainIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
@@ -139,16 +139,19 @@ function WeatherTile(props: Props): JSX.Element {
     )
 
     interface weatherComponent {
+        key: string
         display: boolean
         component: JSX.Element
     }
 
     const iconTempComponentArray: weatherComponent[] = [
         {
+            key: 'Icon',
             display: showIcon,
             component: <Icon />,
         },
         {
+            key: 'Temperature',
             display: showTemperature,
             component: <Temperature />,
         },
@@ -156,10 +159,12 @@ function WeatherTile(props: Props): JSX.Element {
 
     const windPrecipitationComponentArray: weatherComponent[] = [
         {
+            key: 'Wind',
             display: showWind,
             component: <Wind />,
         },
         {
+            key: 'Precipitation',
             display: showPrecipitation,
             component: (
                 <>
@@ -176,13 +181,21 @@ function WeatherTile(props: Props): JSX.Element {
                 <div className="weather-tile__icon-and-temperature">
                     {iconTempComponentArray
                         .filter((object) => object.display)
-                        .map((object) => object.component)}
+                        .map((object) =>
+                            React.cloneElement(object.component, {
+                                key: object.key,
+                            }),
+                        )}
                 </div>
             )}
             <div className="weather-tile__weather-data-container">
                 {windPrecipitationComponentArray
                     .filter((object) => object.display)
-                    .map((object) => object.component)}
+                    .map((object) =>
+                        React.cloneElement(object.component, {
+                            key: object.key,
+                        }),
+                    )}
             </div>
         </div>
     )
