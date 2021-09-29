@@ -51,8 +51,37 @@ const Map = ({
     })
 
     const debouncedViewport = useDebounce(viewport, 200)
-
     const mapRef = useRef<MapRef>(null)
+    const [filter, setFilter] = useState<Filter>(defaultFilter)
+    const { liveVehicles } = useVehicleData(
+        filter,
+        defaultSubscriptionOptions,
+        defaultOptions,
+    )
+    const [bounds, setBounds] = useState<[number, number, number, number]>(
+        mapRef.current?.getMap()?.getBounds()?.toArray()?.flat() ||
+            ([0, 0, 0, 0] as [number, number, number, number]),
+    )
+
+    useEffect(() => {
+        const newBounds = (mapRef.current
+            ?.getMap()
+            ?.getBounds()
+            ?.toArray()
+            ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
+
+        setBounds(newBounds)
+        setFilter((prevFilter: Filter) => ({
+            ...prevFilter,
+            boundingBox: {
+                minLat: newBounds[1],
+                minLon: newBounds[0],
+                maxLat: newBounds[3],
+                maxLon: newBounds[2],
+            },
+        }))
+    }, [mapRef, debouncedViewport])
+
     const scooterpoints = scooters?.map((scooter: Vehicle) => ({
         type: 'Feature' as const,
         properties: {
@@ -80,41 +109,6 @@ const Map = ({
             },
         }),
     )
-
-    const [filter, setFilter] = useState<Filter>(defaultFilter)
-
-    const { liveVehicles } = useVehicleData(
-        filter,
-        defaultSubscriptionOptions,
-        defaultOptions,
-    )
-
-    const bounds = (mapRef.current
-        ?.getMap()
-        ?.getBounds()
-        ?.toArray()
-        ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
-
-    useEffect(() => {
-        if (setFilter) {
-            const newBounds = (mapRef.current
-                ?.getMap()
-                ?.getBounds()
-                ?.toArray()
-                ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
-
-            setFilter((prevFilter: Filter) =>
-                Object.assign({}, prevFilter, {
-                    boundingBox: {
-                        minLat: newBounds[1],
-                        minLon: newBounds[0],
-                        maxLat: newBounds[3],
-                        maxLon: newBounds[2],
-                    },
-                }),
-            )
-        }
-    }, [mapRef, debouncedViewport, setFilter])
 
     const { clusters: scooterClusters } = useSupercluster({
         points: scooterpoints || [],

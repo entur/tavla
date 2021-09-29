@@ -6,6 +6,11 @@ export type Filter = {
     vehicleRef?: string
     lineRef?: string
     lineName?: string
-    boundingBox?: string
+    boundingBox?: {
+        minLat: number
+        minLon: number
+        maxLat: number
+        maxLon: number
+    }
     monitored?: boolean
 }
