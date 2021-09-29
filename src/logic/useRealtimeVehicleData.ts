@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Options } from '../services/realtimeVehicles/types/options'
 
 import { Filter } from '../services/realtimeVehicles/types/filter'
-import { Vehicle } from '../services/realtimeVehicles/types/vehicle'
+import { RealtimeVehicle } from '../services/realtimeVehicles/types/realtimeVehicle'
 import { SubscriptionOptions } from '../services/realtimeVehicles/types/subscriptionOptions'
 
 import {
@@ -15,26 +15,14 @@ import {
 
 import { useSettingsContext } from '../settings'
 
-import { VehicleMapPoint } from '../services/realtimeVehicles/types/vehicleMapPoint'
-
 import { useStopPlacesWithLines } from './useStopPlacesWithLines'
 
-import useVehicleReducer, { ActionType } from './useVehicleReducer'
+import useVehicleReducer, { ActionType } from './useRealtimeVehicleReducer'
 
 const DEFAULT_FETCH_POLICY = 'no-cache'
 
-export interface LiveVehicle {
-    vehicle: Vehicle
-    lineIdentifier: string //e.g. 12 or B21
-    destination: string //e.g Kjelsås or Voksen skog
-    mode: string // bus, tram etc.
-    lineRef: string
-    lineName: string
-    active: boolean
-}
-
-interface VehicleData {
-    liveVehicles: LiveVehicle[] | undefined
+interface IReturn {
+    realtimeVehicles: RealtimeVehicle[] | undefined
     allLinesWithLiveData: string[]
 }
 
@@ -63,7 +51,7 @@ export default function useVehicleData(
     filter: Filter,
     subscriptionOptions: SubscriptionOptions,
     options: Options,
-): VehicleData {
+): IReturn {
     const [state, dispatch] = useVehicleReducer(options)
     const client = useApolloClient()
 
@@ -71,34 +59,28 @@ export default function useVehicleData(
     const [settings] = useSettingsContext()
     const { hiddenLiveDataLineRefs } = settings || {}
 
-    const [liveVehicles, setLiveVehicles] = useState<LiveVehicle[] | undefined>(
-        undefined,
-    )
+    const [realtimeVehicles, setRealtimeVehicles] = useState<
+        RealtimeVehicle[] | undefined
+    >(undefined)
     const [allLinesWithLiveData, setAllLinesWithLiveData] = useState<string[]>(
         [],
     )
 
     useEffect(() => {
         const mappedDataFromBothAPIs = (
-            Object.values(state.vehicles) as VehicleMapPoint[]
-        ).map((vehicleMapPoint) => {
-            const vehicle = vehicleMapPoint.vehicle
+            Object.values(state.vehicles) as RealtimeVehicle[]
+        ).map((vehicle) => {
             const line = uniqueLines?.find((l) => l.id === vehicle.line.lineRef)
             return {
-                vehicle,
-                lineIdentifier: line?.publicCode,
-                destination: vehicle.line.lineName.split('=>').pop()?.trim(),
-                lineRef: vehicle.line.lineRef,
-                lineName: vehicle.line.lineName,
-                mode: vehicle.mode,
-                active: vehicleMapPoint.active,
-            } as LiveVehicle
+                ...vehicle,
+                line: { ...vehicle.line, publicCode: line?.publicCode },
+            }
         })
-        setLiveVehicles(mappedDataFromBothAPIs)
+        setRealtimeVehicles(mappedDataFromBothAPIs)
     }, [state, uniqueLines])
 
     const filterVehiclesByLineRefs = useCallback(
-        (vehiclesUpdates: Vehicle[] | undefined) => {
+        (vehiclesUpdates: RealtimeVehicle[] | undefined) => {
             if (!(vehiclesUpdates && uniqueLines)) {
                 return undefined
             }
@@ -132,7 +114,7 @@ export default function useVehicleData(
                     new Array(
                         ...new Set<string>(
                             fetchResult?.data?.vehicles.map(
-                                (el: Vehicle) => el.line.lineRef,
+                                (el: RealtimeVehicle) => el.line.lineRef,
                             ),
                         ),
                     ),
@@ -204,5 +186,5 @@ export default function useVehicleData(
         }
     }, [dispatch, options.sweepIntervalMs])
 
-    return { liveVehicles, allLinesWithLiveData }
+    return { realtimeVehicles, allLinesWithLiveData }
 }

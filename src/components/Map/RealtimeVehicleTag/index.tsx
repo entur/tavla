@@ -8,34 +8,34 @@ import { LegMode, TransportMode } from '@entur/sdk'
 import { getIconColor } from '../../../utils'
 import { IconColorType } from '../../../types'
 
-import { LiveVehicle } from '../../../logic/useVehicleData'
+import { RealtimeVehicle } from '../../../services/realtimeVehicles/types/realtimeVehicle'
 
 import TooltipContent from './TooltipContent'
 
 interface IProps {
-    liveVehicle: LiveVehicle
+    realtimeVehicle: RealtimeVehicle
 }
 
-const LiveVehicleTag = ({ liveVehicle }: IProps): JSX.Element => (
+const RealtimeVehicleTag = ({ realtimeVehicle }: IProps): JSX.Element => (
     <Tooltip
         placement="top"
-        content={<TooltipContent liveVehicle={liveVehicle} />}
+        content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
     >
         <div
-            className="map__live-vehicle-tag-circle-outer"
+            className="map__realtime-vehicle-tag-circle-outer"
             style={
-                liveVehicle.active
+                realtimeVehicle.active
                     ? { backgroundColor: 'white' }
                     : { backgroundColor: colors.greys.grey30 }
             }
         >
             <div
-                className="map__live-vehicle-tag-circle-inner"
+                className="map__realtime-vehicle-tag-circle-inner"
                 style={
-                    liveVehicle.active
+                    realtimeVehicle.active
                         ? {
                               backgroundColor: getIconColor(
-                                  liveVehicle.mode.toLowerCase() as
+                                  realtimeVehicle.mode.toLowerCase() as
                                       | TransportMode
                                       | LegMode
                                       | 'ferry',
@@ -46,10 +46,10 @@ const LiveVehicleTag = ({ liveVehicle }: IProps): JSX.Element => (
                         : { backgroundColor: colors.greys.grey30 }
                 }
             >
-                {liveVehicle.lineIdentifier}
+                {realtimeVehicle.line.publicCode}
             </div>
         </div>
     </Tooltip>
 )
 
-export default LiveVehicleTag
+export default RealtimeVehicleTag

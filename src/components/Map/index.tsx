@@ -20,12 +20,12 @@ import useVehicleData, {
     defaultFilter,
     defaultOptions,
     defaultSubscriptionOptions,
-} from '../../logic/useVehicleData'
+} from '../../logic/useRealtimeVehicleData'
 
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
-import LiveVehicleTag from './LiveVehicleTag'
+import RealtimeVehicleTag from './RealtimeVehicleTag'
 
 import './styles.scss'
 
@@ -53,7 +53,7 @@ const Map = ({
     const debouncedViewport = useDebounce(viewport, 200)
     const mapRef = useRef<MapRef>(null)
     const [filter, setFilter] = useState<Filter>(defaultFilter)
-    const { liveVehicles } = useVehicleData(
+    const { realtimeVehicles } = useVehicleData(
         filter,
         defaultSubscriptionOptions,
         defaultOptions,
@@ -138,21 +138,21 @@ const Map = ({
 
     const liveVehicleMarkers = useMemo(
         () =>
-            liveVehicles
-                ? liveVehicles.map((vehicle, index) => (
+            realtimeVehicles
+                ? realtimeVehicles.map((vehicle, index) => (
                       <Marker
                           key={index}
-                          latitude={vehicle.vehicle.location.latitude}
-                          longitude={vehicle.vehicle.location.longitude}
+                          latitude={vehicle.location.latitude}
+                          longitude={vehicle.location.longitude}
                           className="map__live-vehicle-marker"
                       >
-                          <LiveVehicleTag
-                              liveVehicle={vehicle}
-                          ></LiveVehicleTag>
+                          <RealtimeVehicleTag
+                              realtimeVehicle={vehicle}
+                          ></RealtimeVehicleTag>
                       </Marker>
                   ))
                 : [],
-        [liveVehicles],
+        [realtimeVehicles],
     )
 
     return (
@@ -182,7 +182,7 @@ const Map = ({
             }
             ref={mapRef}
         >
-            {liveVehicles && liveVehicleMarkers}
+            {realtimeVehicles && liveVehicleMarkers}
             {scooterClusters.map((scooterCluster) => {
                 const [slongitude, slatitude] =
                     scooterCluster.geometry.coordinates

@@ -48,7 +48,7 @@ import useVehicleData, {
     defaultFilter,
     defaultOptions,
     defaultSubscriptionOptions,
-} from '../../../logic/useVehicleData'
+} from '../../../logic/useRealtimeVehicleData'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'

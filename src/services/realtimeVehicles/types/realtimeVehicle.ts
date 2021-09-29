@@ -3,7 +3,7 @@ import { Line } from './line'
 import { Operator } from './operator'
 import { ServiceJourney } from './serviceJourney'
 
-export type Vehicle = {
+export type RealtimeVehicle = {
     vehicleRef: string
     codespace: Codespace
     operator: Operator
@@ -23,4 +23,5 @@ export type Vehicle = {
         latitude: number
         longitude: number
     }
+    active?: boolean
 }

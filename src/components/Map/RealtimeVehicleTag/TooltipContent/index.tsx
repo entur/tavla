@@ -11,7 +11,7 @@ import DepartureIcon from '../../../../dashboards/Map/DepartureTag/DepartureIcon
 import { getIcon, getIconColor } from '../../../../utils'
 
 import { IconColorType } from '../../../../types'
-import { LiveVehicle } from '../../../../logic/useVehicleData'
+import { RealtimeVehicle } from '../../../../services/realtimeVehicles/types/realtimeVehicle'
 
 const getFeedbackString = (lastUpdated: number) => {
     if (lastUpdated < 60) return `${lastUpdated} seconds ago`
@@ -23,46 +23,46 @@ const getLastUpdated = (lastUpdated: string): number =>
     differenceInSeconds(new Date(), parseISO(lastUpdated))
 
 interface IProps {
-    liveVehicle: LiveVehicle
+    realtimeVehicle: RealtimeVehicle
 }
-const TooltipContent = ({ liveVehicle }: IProps): JSX.Element => {
+const TooltipContent = ({ realtimeVehicle }: IProps): JSX.Element => {
     const [lastUpdated, setLastUpdated] = useState(
-        getLastUpdated(liveVehicle.vehicle.lastUpdated),
+        getLastUpdated(realtimeVehicle.lastUpdated),
     )
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setLastUpdated(getLastUpdated(liveVehicle.vehicle.lastUpdated))
+            setLastUpdated(getLastUpdated(realtimeVehicle.lastUpdated))
         }, 1000)
 
         return () => {
             clearInterval(interval)
         }
-    }, [liveVehicle.vehicle.lastUpdated])
+    }, [realtimeVehicle.lastUpdated])
 
     return (
-        <div className="map__live-vehicle-tag__tooltip-content-wrapper">
-            <div className="map__live-vehicle-tag__tooltip-content-first-row">
+        <div className="map__realtime-vehicle-tag__tooltip-content-wrapper">
+            <div className="map__realtime-vehicle-tag__tooltip-content-first-row">
                 <DepartureIcon
                     icon={getIcon(
-                        liveVehicle.mode.toLowerCase() as TransportMode,
+                        realtimeVehicle.mode.toLowerCase() as TransportMode,
                         undefined,
                         undefined,
                         colors.brand.white,
                     )}
                     color={getIconColor(
-                        liveVehicle.mode.toLowerCase() as TransportMode,
+                        realtimeVehicle.mode.toLowerCase() as TransportMode,
                         IconColorType.DEFAULT,
                         undefined,
                     )}
-                    routeNumber={liveVehicle.lineIdentifier ?? '69'}
+                    routeNumber={realtimeVehicle.line.publicCode ?? ''}
                 />
-                <div className="map__live-vehicle-tag__tooltip-content-front-text">
-                    {liveVehicle.destination}
+                <div className="map__realtime-vehicle-tag__tooltip-content-front-text">
+                    {realtimeVehicle.line.lineName.split('=>').pop()?.trim()}
                 </div>
             </div>
             <Label
-                className="map__live-vehicle-tag__tooltip-content-second-row"
+                className="map__realtime-vehicle-tag__tooltip-content-second-row"
                 margin="none"
             >
                 {getFeedbackString(lastUpdated)}
