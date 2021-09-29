@@ -26,7 +26,7 @@ export const useStopPlacesWithLines = (): IReturn => {
 
     useEffect(() => {
         const abortController = new AbortController()
-        const test = async () => {
+        const fetchDataAndSetStates = async () => {
             if (stopPlaces) {
                 const result: StopPlaceWithLines[] =
                     await getStopPlacesWithLines(
@@ -46,7 +46,6 @@ export const useStopPlacesWithLines = (): IReturn => {
                                       )
                                     : line,
                             )
-
                             return el
                         })
                         .flatMap((el) => el.lines),
@@ -55,7 +54,7 @@ export const useStopPlacesWithLines = (): IReturn => {
                 setUniqueLines(lines)
             }
         }
-        if (stopPlaces) test()
+        fetchDataAndSetStates()
         return () => {
             abortController.abort()
         }
