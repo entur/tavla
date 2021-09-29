@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import './styles.scss'
 
-import { differenceInSeconds, parseISO } from 'date-fns'
-
 import { colors } from '@entur/tokens'
 import { TransportMode } from '@entur/sdk'
 import { Label } from '@entur/typography'
 
 import DepartureIcon from '../../../../dashboards/Map/DepartureTag/DepartureIcon'
-import { getIcon, getIconColor } from '../../../../utils'
+import {
+    getIcon,
+    getIconColor,
+    getLastUpdated,
+    getFeedbackString,
+} from '../../../../utils'
 
 import { IconColorType } from '../../../../types'
 import { RealtimeVehicle } from '../../../../services/realtimeVehicles/types/realtimeVehicle'
-
-const getFeedbackString = (lastUpdated: number) => {
-    if (lastUpdated < 60) return `${lastUpdated} seconds ago`
-    if (lastUpdated < 120) return '> 1 minute ago'
-    return ` > ${Math.floor(lastUpdated / 60)} minutes ago`
-}
-
-const getLastUpdated = (lastUpdated: string): number =>
-    differenceInSeconds(new Date(), parseISO(lastUpdated))
 
 interface IProps {
     realtimeVehicle: RealtimeVehicle

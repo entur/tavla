@@ -415,3 +415,12 @@ export function getTranslation(
     if (!match) return null
     return match.value
 }
+
+export const getFeedbackString = (lastUpdated: number): string => {
+    if (lastUpdated < 60) return `${lastUpdated} seconds ago`
+    if (lastUpdated < 120) return '> 1 minute ago'
+    return ` > ${Math.floor(lastUpdated / 60)} minutes ago`
+}
+
+export const getLastUpdated = (lastUpdated: string): number =>
+    differenceInSeconds(new Date(), parseISO(lastUpdated))
