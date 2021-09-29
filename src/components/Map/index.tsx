@@ -158,6 +158,8 @@ const Map = ({
     return (
         <InteractiveMap
             {...viewport}
+            dragPan={false}
+            touchAction="pan-y"
             mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
             mapStyle={mapStyle || process.env.MAPBOX_STYLE_MAPVIEW}
             onViewportChange={
