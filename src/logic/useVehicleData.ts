@@ -2,11 +2,11 @@ import { useApolloClient } from '@apollo/client'
 import type { FetchResult } from '@apollo/client'
 import { useCallback, useEffect, useState } from 'react'
 
-import { Options } from '../services/realtimeVehicles/model/options'
+import { Options } from '../services/realtimeVehicles/types/options'
 
-import { Filter } from '../services/realtimeVehicles/model/filter'
-import { Vehicle } from '../services/realtimeVehicles/model/vehicle'
-import { SubscriptionOptions } from '../services/realtimeVehicles/model/subscriptionOptions'
+import { Filter } from '../services/realtimeVehicles/types/filter'
+import { Vehicle } from '../services/realtimeVehicles/types/vehicle'
+import { SubscriptionOptions } from '../services/realtimeVehicles/types/subscriptionOptions'
 
 import {
     VEHICLES_QUERY,
@@ -15,7 +15,7 @@ import {
 
 import { useSettingsContext } from '../settings'
 
-import { VehicleMapPoint } from '../services/realtimeVehicles/model/vehicleMapPoint'
+import { VehicleMapPoint } from '../services/realtimeVehicles/types/vehicleMapPoint'
 
 import { useStopPlacesWithLines } from './useStopPlacesWithLines'
 

@@ -1,9 +1,9 @@
 import { useReducer } from 'react'
 
-import { Statistics } from '../services/realtimeVehicles/model/statistics'
-import { Vehicle } from '../services/realtimeVehicles/model/vehicle'
-import { VehicleMapPoint } from '../services/realtimeVehicles/model/vehicleMapPoint'
-import { Options } from '../services/realtimeVehicles/model/options'
+import { Statistics } from '../services/realtimeVehicles/types/statistics'
+import { Vehicle } from '../services/realtimeVehicles/types/vehicle'
+import { VehicleMapPoint } from '../services/realtimeVehicles/types/vehicleMapPoint'
+import { Options } from '../services/realtimeVehicles/types/options'
 import {
     DEFAULT_EXPIRE_VEHICLE_IN_SECONDS,
     DEFAULT_INACTIVE_VEHICLE_IN_SECONDS,

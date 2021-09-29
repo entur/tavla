@@ -12,7 +12,7 @@ import PositionPin from '../../assets/icons/positionPin'
 
 import { StopPlaceWithDepartures } from '../../types'
 
-import { Filter } from '../../services/realtimeVehicles/model/filter'
+import { Filter } from '../../services/realtimeVehicles/types/filter'
 
 import { useDebounce } from '../../utils'
 
