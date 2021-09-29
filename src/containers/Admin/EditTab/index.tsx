@@ -239,6 +239,23 @@ const EditTab = (): JSX.Element => {
         }
     }
 
+    const handleWeatherSettingsChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+    ): void => {
+        !(showIcon || showTemperature || showWind || showPrecipitation) &&
+        !showWeather
+            ? setSettings({
+                  showWeather: event.currentTarget.checked,
+                  showIcon: true,
+                  showTemperature: true,
+                  showWind: true,
+                  showPrecipitation: true,
+              })
+            : setSettings({
+                  showWeather: event.currentTarget.checked,
+              })
+    }
+
     const TooltipText = (props: { title: string; text: string }) => (
         <div className="tooltip-container">
             <Heading4 margin="none">{props.title}</Heading4>
@@ -494,13 +511,7 @@ const EditTab = (): JSX.Element => {
                             </Tooltip>
                         </Heading2>
                         <Switch
-                            onChange={(
-                                event: React.ChangeEvent<HTMLInputElement>,
-                            ): void => {
-                                setSettings({
-                                    showWeather: event.currentTarget.checked,
-                                })
-                            }}
+                            onChange={handleWeatherSettingsChange}
                             checked={showWeather}
                             size="large"
                         />
