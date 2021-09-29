@@ -86,36 +86,3 @@ export const VEHICLE_UPDATES_SUBSCRIPTION = gql`
     }
     ${VEHICLE_FRAGMENT}
 `
-
-export const CODESPACES_QUERY = gql`
-    query CodespacesQuery {
-        codespaces {
-            codespaceId
-        }
-    }
-`
-
-export const OPERATORS_QUERY = gql`
-    query OperatorsQuery($codespaceId: String!) {
-        operators(codespaceId: $codespaceId) {
-            operatorRef
-        }
-    }
-`
-
-export const LINES_QUERY = gql`
-    query LinesQuery($codespaceId: String) {
-        lines(codespaceId: $codespaceId) {
-            lineRef
-            lineName
-        }
-    }
-`
-
-export const SERVICE_JOURNEYS_QUERY = gql`
-    query ServiceJourneysQuery($lineRef: String!) {
-        serviceJourneys(lineRef: $lineRef) {
-            serviceJourneyId
-        }
-    }
-`
