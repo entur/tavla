@@ -103,7 +103,7 @@ export default function useVehicleData(
      * Query once to hydrate vehicle data
      */
     useEffect(() => {
-        async function hydrate() {
+        const hydrate = async () => {
             const fetchResult: FetchResult = await client.query({
                 query: VEHICLES_QUERY,
                 fetchPolicy: DEFAULT_FETCH_POLICY,
