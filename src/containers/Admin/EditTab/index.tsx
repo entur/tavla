@@ -104,9 +104,19 @@ const EditTab = (): JSX.Element => {
     }, [debouncedDistance, setSettings, settings])
 
     useEffect(() => {
-        if (!(showIcon || showTemperature || showWind || showPrecipitation))
+        if (
+            !(showIcon || showTemperature || showWind || showPrecipitation) &&
+            showWeather
+        )
             setSettings({ showWeather: false })
-    }, [showIcon, showTemperature, showWind, showPrecipitation])
+    }, [
+        showIcon,
+        showTemperature,
+        showWind,
+        showPrecipitation,
+        showWeather,
+        setSettings,
+    ])
 
     const [stopPlaces, setStopPlaces] = useState<StopPlaceWithLines[]>([])
     const bikeRentalStations: Station[] | null = useBikeRentalStations(false)
