@@ -71,7 +71,7 @@ function WeatherTile(props: Props): JSX.Element {
                     )}
                 </div>
             ) : (
-                '?'
+                '…'
             )}
         </div>
     )
@@ -88,7 +88,7 @@ function WeatherTile(props: Props): JSX.Element {
                     ? parseInt(
                           weather.timeseries[3].data.instant.details.air_temperature.toString(),
                       ) + '°'
-                    : '?'}
+                    : '…'}
             </div>
             <div className="weather-tile__icon-and-temperature__temperature-and-description__description">
                 {description}
@@ -104,7 +104,7 @@ function WeatherTile(props: Props): JSX.Element {
                     ? weather.timeseries[3].data.instant.details.wind_speed +
                       ' ' +
                       weather.meta.units.wind_speed
-                    : '?'}
+                    : '…'}
             </div>
         </div>
     )
@@ -118,7 +118,7 @@ function WeatherTile(props: Props): JSX.Element {
                           .precipitation_amount +
                       ' ' +
                       weather.meta.units.precipitation_amount
-                    : '?'}
+                    : '…'}
             </div>
         </div>
     )
@@ -133,7 +133,7 @@ function WeatherTile(props: Props): JSX.Element {
                       ) +
                       ' ' +
                       weather.meta.units.probability_of_precipitation
-                    : '?'}
+                    : '…'}
             </div>
         </div>
     )
@@ -188,15 +188,17 @@ function WeatherTile(props: Props): JSX.Element {
                         )}
                 </div>
             )}
-            <div className="weather-tile__weather-data-container">
-                {windPrecipitationComponentArray
-                    .filter((object) => object.display)
-                    .map((object) =>
-                        React.cloneElement(object.component, {
-                            key: object.key,
-                        }),
-                    )}
-            </div>
+            {(showWind || showPrecipitation) && (
+                <div className="weather-tile__weather-data-container">
+                    {windPrecipitationComponentArray
+                        .filter((object) => object.display)
+                        .map((object) =>
+                            React.cloneElement(object.component, {
+                                key: object.key,
+                            }),
+                        )}
+                </div>
+            )}
         </div>
     )
 }

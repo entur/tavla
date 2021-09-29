@@ -70,7 +70,7 @@ function WeatherPanel(): JSX.Element {
     return (
         <Fieldset className="weather-panel">
             <div className="weather-panel__container">
-                <Label>Se været i området for neste timen.</Label>
+                <Label>Se været i området for den neste timen.</Label>
                 <br />
                 {weatherSettings.map((object) => (
                     <div key={object.value} className="scooter-panel__buttons">

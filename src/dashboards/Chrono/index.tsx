@@ -50,9 +50,9 @@ function getWalkInfoForStopPlace(
 function getDataGrid(
     index: number,
     maxWidth: number,
-    resizable = true,
+    maxHeigth = 0,
     height = 4,
-): { [key: string]: number | boolean | [] } {
+): { [key: string]: number } {
     const dataGrid = {
         w: 1,
         maxW: maxWidth,
@@ -61,9 +61,7 @@ function getDataGrid(
         x: index % maxWidth,
         y: 0,
     }
-    return resizable
-        ? dataGrid
-        : { ...dataGrid, isResizable: false, resizeHandles: [] }
+    return !maxHeigth ? dataGrid : { ...dataGrid, maxH: maxHeigth }
 }
 
 function getDefaultBreakpoint() {
@@ -396,12 +394,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                         {settings?.showWeather && (
                             <div
                                 key="weather"
-                                data-grid={getDataGrid(
-                                    0,
-                                    maxWidthCols,
-                                    false,
-                                    1,
-                                )}
+                                data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
                             >
                                 <WeatherTile className="tile" />
                             </div>

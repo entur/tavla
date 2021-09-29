@@ -74,6 +74,10 @@ const EditTab = (): JSX.Element => {
         hiddenModes,
         showMap = false,
         showWeather = false,
+        showIcon = true,
+        showTemperature = true,
+        showWind = true,
+        showPrecipitation = true,
     } = settings || {}
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
@@ -98,6 +102,11 @@ const EditTab = (): JSX.Element => {
             })
         }
     }, [debouncedDistance, setSettings, settings])
+
+    useEffect(() => {
+        if (!(showIcon || showTemperature || showWind || showPrecipitation))
+            setSettings({ showWeather: false })
+    }, [showIcon, showTemperature, showWind, showPrecipitation])
 
     const [stopPlaces, setStopPlaces] = useState<StopPlaceWithLines[]>([])
     const bikeRentalStations: Station[] | null = useBikeRentalStations(false)
@@ -463,7 +472,8 @@ const EditTab = (): JSX.Element => {
                                     <Label className="weather-tooltip-text">
                                         Tilgjengelig i visningstyper kompakt,
                                         kronologisk og kart. Værdata fra YR
-                                        (met.no).
+                                        (met.no). Noe værdata kan bli skjult ved
+                                        liten boksstørrelse.
                                     </Label>
                                 }
                                 placement="top"
