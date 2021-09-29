@@ -22,7 +22,7 @@ const LiveDataPanel = ({
     !uniqueLines ? (
         <Loader>Laster...</Loader>
     ) : (
-        <Fieldset className="toggle-detail-panel">
+        <Fieldset className="toggle-detail-panel realtime">
             <div className="toggle-detail-panel__container">
                 {uniqueLines &&
                     uniqueLines.map(({ id, publicCode, transportMode }) => (
@@ -31,7 +31,6 @@ const LiveDataPanel = ({
                                 value={id}
                                 onChange={() => toggleLiveDataLineIds(id)}
                                 checked={!hiddenLines.includes(id)}
-                                className="live"
                             >
                                 {publicCode}
                                 {getIcon(transportMode)}
