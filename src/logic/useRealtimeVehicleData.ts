@@ -39,7 +39,7 @@ export const defaultSubscriptionOptions: SubscriptionOptions = {
 export const defaultOptions: Options = {
     sweepIntervalMs: 1000,
     removeExpired: true,
-    removeExpiredAfterSeconds: 3600,
+    removeExpiredAfterSeconds: 600,
     markInactive: true,
     markInactiveAfterSeconds: 60,
 }
