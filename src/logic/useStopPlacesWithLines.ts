@@ -40,7 +40,7 @@ export const useStopPlacesWithLines = (): IReturn => {
                     result
                         .map((el) => {
                             el.lines = el.lines.filter((line) =>
-                                hiddenStopModes
+                                hiddenStopModes && hiddenStopModes[el.id]
                                     ? !hiddenStopModes[el.id].includes(
                                           line.transportMode,
                                       )
