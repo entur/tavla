@@ -2,14 +2,16 @@ import { split, HttpLink, ApolloClient, InMemoryCache } from '@apollo/client'
 import { WebSocketLink } from '@apollo/client/link/ws'
 import { getMainDefinition } from '@apollo/client/utilities'
 
-import { getGraphqlEndpoint, getSubscriptionsEndpoint } from './apolloConfig'
-
 const httpLink = new HttpLink({
-    uri: getGraphqlEndpoint(),
+    uri:
+        process.env.VEHICLES_REALTIME_HOST ??
+        'https://api.entur.io/realtime/v1/vehicles/graphql',
 })
 
 const wsLink = new WebSocketLink({
-    uri: getSubscriptionsEndpoint(),
+    uri:
+        process.env.VEHCILES_REALTIME_SUBSCRIPTIONS_HOST ??
+        'wss://api.entur.io/realtime/v1/vehicles/subscriptions',
     options: {
         reconnect: true,
     },
@@ -27,7 +29,7 @@ const splitLink = split(
     httpLink,
 )
 
-export const client = new ApolloClient({
+export const realtimeVehiclesClient = new ApolloClient({
     link: splitLink,
     cache: new InMemoryCache({
         addTypename: false,
