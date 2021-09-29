@@ -96,9 +96,11 @@ const EditTab = (): JSX.Element => {
 
     const liveLines = useMemo(
         () =>
-            uniqueLines?.filter((line) =>
-                allLinesWithLiveData.includes(line.id),
-            ),
+            !uniqueLines || !allLinesWithLiveData
+                ? undefined
+                : uniqueLines?.filter((line) =>
+                      allLinesWithLiveData?.includes(line.id),
+                  ),
         [uniqueLines, allLinesWithLiveData],
     )
 

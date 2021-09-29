@@ -23,7 +23,7 @@ const DEFAULT_FETCH_POLICY = 'no-cache'
 
 interface IReturn {
     realtimeVehicles: RealtimeVehicle[] | undefined
-    allLinesWithLiveData: string[]
+    allLinesWithLiveData: string[] | undefined
 }
 
 export const defaultFilter: Filter = {
@@ -62,9 +62,9 @@ export default function useVehicleData(
     const [realtimeVehicles, setRealtimeVehicles] = useState<
         RealtimeVehicle[] | undefined
     >(undefined)
-    const [allLinesWithLiveData, setAllLinesWithLiveData] = useState<string[]>(
-        [],
-    )
+    const [allLinesWithLiveData, setAllLinesWithLiveData] = useState<
+        string[] | undefined
+    >(undefined)
 
     useEffect(() => {
         const mappedDataFromBothAPIs = (
