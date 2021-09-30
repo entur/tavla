@@ -7,6 +7,12 @@ import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
 
+interface weatherSetting {
+    name: string
+    value: string
+    checked: boolean
+}
+
 function WeatherPanel(): JSX.Element {
     const [settings, setSettings] = useSettingsContext()
 
@@ -16,12 +22,6 @@ function WeatherPanel(): JSX.Element {
         showWind = true,
         showPrecipitation = true,
     } = settings || {}
-
-    interface weatherSetting {
-        name: string
-        value: string
-        checked: boolean
-    }
 
     const weatherSettings: weatherSetting[] = [
         {

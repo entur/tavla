@@ -11,6 +11,12 @@ interface Props {
     className?: string
 }
 
+interface weatherComponent {
+    key: string
+    display: boolean
+    component: JSX.Element
+}
+
 function WeatherTile(props: Props): JSX.Element {
     const weather = useWeather()
     const [settings] = useSettingsContext()
@@ -137,12 +143,6 @@ function WeatherTile(props: Props): JSX.Element {
             </div>
         </div>
     )
-
-    interface weatherComponent {
-        key: string
-        display: boolean
-        component: JSX.Element
-    }
 
     const iconTempComponentArray: weatherComponent[] = [
         {

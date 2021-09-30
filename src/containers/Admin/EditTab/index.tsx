@@ -105,8 +105,11 @@ const EditTab = (): JSX.Element => {
 
     useEffect(() => {
         if (
-            !(showIcon || showTemperature || showWind || showPrecipitation) &&
-            showWeather
+            showWeather &&
+            !showIcon &&
+            !showTemperature &&
+            !showWind &&
+            !showPrecipitation
         )
             setSettings({ showWeather: false })
     }, [
