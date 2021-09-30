@@ -25,7 +25,7 @@ import {
     FieldTypes,
 } from './FirestoreStorage'
 
-export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel' | 'live-data'
+export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel' | 'realtime-data'
 
 export interface Settings {
     boardName?: string
@@ -53,7 +53,7 @@ export interface Settings {
     hideSituations?: boolean
     hideTracks?: boolean
     hideWalkInfo?: boolean
-    hiddenLiveDataLineRefs: string[]
+    hiddenRealtimeDataLineRefs: string[]
 }
 
 type Setter = (settings: Partial<Settings>) => void
@@ -73,7 +73,7 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     theme: Theme.DEFAULT,
     owners: [] as string[],
     hiddenStopModes: {},
-    hiddenLiveDataLineRefs: [],
+    hiddenRealtimeDataLineRefs: [],
 }
 
 export function useSettings(): [Settings | null, Setter] {

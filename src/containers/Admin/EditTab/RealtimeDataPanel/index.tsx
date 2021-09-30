@@ -11,13 +11,13 @@ import './styles.scss'
 
 interface IProps {
     uniqueLines: Line[] | undefined
-    toggleLiveDataLineIds: (lineId: string) => void
+    toggleRealtimeDataLineIds: (lineId: string) => void
     hiddenLines: string[]
 }
 
-const LiveDataPanel = ({
+const RealtimeDataPanel = ({
     uniqueLines,
-    toggleLiveDataLineIds: toggleLiveDataLineIds,
+    toggleRealtimeDataLineIds,
     hiddenLines,
 }: IProps): JSX.Element =>
     !uniqueLines ? (
@@ -30,7 +30,7 @@ const LiveDataPanel = ({
                         <div className="toggle-detail-panel__buttons" key={id}>
                             <FilterChip
                                 value={id}
-                                onChange={() => toggleLiveDataLineIds(id)}
+                                onChange={() => toggleRealtimeDataLineIds(id)}
                                 checked={!hiddenLines.includes(id)}
                             >
                                 {publicCode}
@@ -48,4 +48,4 @@ const LiveDataPanel = ({
         </Fieldset>
     )
 
-export default LiveDataPanel
+export default RealtimeDataPanel

@@ -23,7 +23,7 @@ const DEFAULT_FETCH_POLICY = 'no-cache'
 
 interface IReturn {
     realtimeVehicles: RealtimeVehicle[] | undefined
-    allLinesWithLiveData: string[] | undefined
+    allLinesWithRealtimeData: string[] | undefined
 }
 
 export const defaultFilter: Filter = {
@@ -57,12 +57,12 @@ export default function useVehicleData(
 
     const { uniqueLines } = useStopPlacesWithLines()
     const [settings] = useSettingsContext()
-    const { hiddenLiveDataLineRefs } = settings || {}
+    const { hiddenRealtimeDataLineRefs } = settings || {}
 
     const [realtimeVehicles, setRealtimeVehicles] = useState<
         RealtimeVehicle[] | undefined
     >(undefined)
-    const [allLinesWithLiveData, setAllLinesWithLiveData] = useState<
+    const [allLinesWithRealtimeData, setAllLinesWithRealtimeData] = useState<
         string[] | undefined
     >(undefined)
 
@@ -90,13 +90,13 @@ export default function useVehicleData(
                     uniqueLines
                         .map((line) => line.id)
                         .includes(vehicle.line.lineRef) &&
-                    hiddenLiveDataLineRefs &&
-                    !hiddenLiveDataLineRefs?.includes(vehicle.line.lineRef),
+                    hiddenRealtimeDataLineRefs &&
+                    !hiddenRealtimeDataLineRefs?.includes(vehicle.line.lineRef),
             )
 
             return filteredUpdates.length > 0 ? filteredUpdates : undefined
         },
-        [uniqueLines, hiddenLiveDataLineRefs],
+        [uniqueLines, hiddenRealtimeDataLineRefs],
     )
 
     /**
@@ -110,7 +110,7 @@ export default function useVehicleData(
                 variables: filter,
             })
             if (fetchResult.data && fetchResult.data.vehicles) {
-                setAllLinesWithLiveData(
+                setAllLinesWithRealtimeData(
                     new Array(
                         ...new Set<string>(
                             fetchResult?.data?.vehicles.map(
@@ -186,5 +186,5 @@ export default function useVehicleData(
         }
     }, [dispatch, options.sweepIntervalMs])
 
-    return { realtimeVehicles, allLinesWithLiveData }
+    return { realtimeVehicles, allLinesWithRealtimeData }
 }

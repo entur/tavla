@@ -10,7 +10,7 @@ const httpLink = new HttpLink({
 
 const wsLink = new WebSocketLink({
     uri:
-        process.env.VEHCILES_REALTIME_SUBSCRIPTIONS_HOST ??
+        process.env.VEHICLES_REALTIME_SUBSCRIPTIONS_HOST ??
         'wss://api.entur.io/realtime/v1/vehicles/subscriptions',
     options: {
         reconnect: true,

@@ -55,7 +55,7 @@ import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
 import ScooterPanel from './ScooterPanel'
-import LiveDataPanel from './LiveDataPanel'
+import RealtimeDataPanel from './RealtimeDataPanel'
 import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
 
@@ -81,27 +81,27 @@ const EditTab = (): JSX.Element => {
         hiddenModes,
         showMap = false,
         showWeather = false,
-        hiddenLiveDataLineRefs = [],
+        hiddenRealtimeDataLineRefs = [],
     } = settings || {}
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
     )
 
-    const { allLinesWithLiveData } = useVehicleData(
+    const { allLinesWithRealtimeData } = useVehicleData(
         defaultFilter,
         defaultSubscriptionOptions,
         defaultOptions,
     )
     const { uniqueLines } = useStopPlacesWithLines()
 
-    const liveLines = useMemo(
+    const realtimeLines = useMemo(
         () =>
-            !uniqueLines || !allLinesWithLiveData
+            !uniqueLines || !allLinesWithRealtimeData
                 ? undefined
                 : uniqueLines?.filter((line) =>
-                      allLinesWithLiveData?.includes(line.id),
+                      allLinesWithRealtimeData?.includes(line.id),
                   ),
-        [uniqueLines, allLinesWithLiveData],
+        [uniqueLines, allLinesWithRealtimeData],
     )
 
     const [zoom, setZoom] = useState<number>(settings?.zoom || DEFAULT_ZOOM)
@@ -115,23 +115,27 @@ const EditTab = (): JSX.Element => {
         }
     }, [settings, debouncedZoom, setSettings])
 
-    const toggleLiveDataLineIds = useCallback(
+    const toggleRealtimeDataLineIds = useCallback(
         (lineId: string) => {
-            if (hiddenLiveDataLineRefs.includes(lineId)) {
+            if (hiddenRealtimeDataLineRefs.includes(lineId)) {
                 setSettings({
                     ...settings,
-                    hiddenLiveDataLineRefs: hiddenLiveDataLineRefs.filter(
-                        (el) => el !== lineId,
-                    ),
+                    hiddenRealtimeDataLineRefs:
+                        hiddenRealtimeDataLineRefs.filter(
+                            (el) => el !== lineId,
+                        ),
                 })
             } else {
                 setSettings({
                     ...settings,
-                    hiddenLiveDataLineRefs: [...hiddenLiveDataLineRefs, lineId],
+                    hiddenRealtimeDataLineRefs: [
+                        ...hiddenRealtimeDataLineRefs,
+                        lineId,
+                    ],
                 })
             }
         },
-        [hiddenLiveDataLineRefs, settings, setSettings],
+        [hiddenRealtimeDataLineRefs, settings, setSettings],
     )
 
     const debouncedDistance = useDebounce(distance, 800)
@@ -293,7 +297,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.4 },
             { i: 'mapPanel', x: 3, y: 5, w: 1.5, h: 3.2 },
             { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 1.8 },
-            { i: 'liveDataPanel', x: 0, y: 0, w: 1.5, h: 2 },
+            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1.5, h: 2 },
         ],
         md: [
             {
@@ -313,7 +317,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
             { i: 'mapPanel', x: 0, y: 7, w: 2, h: 3 },
             { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.8 },
-            { i: 'liveDataPanel', x: 0, y: 0, w: 2, h: 2 },
+            { i: 'realtimeDataPanel', x: 0, y: 0, w: 2, h: 2 },
         ],
         sm: [
             {
@@ -333,7 +337,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
-            { i: 'liveDataPanel', x: 0, y: 0, w: 1, h: 2 },
+            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1, h: 2 },
         ],
         xs: [
             {
@@ -353,7 +357,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
-            { i: 'liveDataPanel', x: 0, y: 0, w: 1, h: 2 },
+            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1, h: 2 },
         ],
     }
 
@@ -435,20 +439,22 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ToggleDetailsPanel />
                 </div>
-                <div key="liveDataPanel" className="edit-tab__tile">
+                <div key="realtimeDataPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Sanntidsposisjoner</Heading2>
                         <Switch
-                            onChange={(): void => toggleMode('live-data')}
-                            checked={!hiddenModes?.includes('live-data')}
+                            onChange={(): void => toggleMode('realtime-data')}
+                            checked={!hiddenModes?.includes('realtime-data')}
                             size="large"
                         ></Switch>
                     </div>
-                    {!hiddenModes?.includes('live-data') && (
-                        <LiveDataPanel
-                            uniqueLines={liveLines}
-                            toggleLiveDataLineIds={toggleLiveDataLineIds}
-                            hiddenLines={hiddenLiveDataLineRefs}
+                    {!hiddenModes?.includes('realtime-data') && (
+                        <RealtimeDataPanel
+                            uniqueLines={realtimeLines}
+                            toggleRealtimeDataLineIds={
+                                toggleRealtimeDataLineIds
+                            }
+                            hiddenLines={hiddenRealtimeDataLineRefs}
                         />
                     )}
                 </div>
