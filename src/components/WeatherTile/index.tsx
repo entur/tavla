@@ -62,7 +62,7 @@ function WeatherTile(props: Props): JSX.Element {
     }, [weather])
 
     const Icon = (): JSX.Element => (
-        <div className="weather-tile__icon-and-temperature__weather-icon">
+        <div>
             {weather ? (
                 <div className="icon-entur">
                     {getWeatherIconEntur(

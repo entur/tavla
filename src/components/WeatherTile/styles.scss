@@ -8,7 +8,7 @@
     justify-content: center;
     overflow: auto !important;
     align-items: center;
-    padding: 1rem !important;
+    padding: $space-medium !important;
     min-height: 150px;
 
     &__icon-and-temperature {
@@ -16,15 +16,15 @@
         align-items: flex-end;
         flex-wrap: nowrap;
 
-        &__weather-icon {
-            margin-bottom: -0.6rem;
-        }
-
         &__temperature-and-description {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             margin-left: 15px;
+
+            &:first-child {
+                margin-top: 1.1rem;
+            }
 
             &__temperature {
                 font-size: 3rem;
@@ -42,7 +42,11 @@
         display: flex;
         align-items: flex-end;
         flex-wrap: nowrap;
-        padding-top: 2rem;
+        padding-top: $space-extra-large;
+
+        &:first-child {
+            padding-top: $space-extra-small;
+        }
 
         &__weather-data {
             display: flex;
@@ -74,7 +78,6 @@
 
 .icon-entur {
     position: relative;
-    display: inline-block;
     font-size: 5.5rem;
 
     &:active {
