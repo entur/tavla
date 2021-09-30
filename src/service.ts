@@ -103,12 +103,11 @@ export async function getStopPlacesWithLines(
     stopPlaceIds: string[],
     signal: AbortSignal,
 ): Promise<StopPlaceWithLines[]> {
-    try {
-        const variables = { ids: stopPlaceIds }
-        const results = await journeyplannerPost<{
-            data: { stopPlaces: StopPlaceWithEstimatedCalls[] }
-        }>(
-            `query ($ids: [String]!) {
+    const variables = { ids: stopPlaceIds }
+    const results = await journeyplannerPost<{
+        data: { stopPlaces: StopPlaceWithEstimatedCalls[] }
+    }>(
+        `query ($ids: [String]!) {
                 stopPlaces(ids: $ids) {
                     id,
                     name,
@@ -133,33 +132,30 @@ export async function getStopPlacesWithLines(
                 }
             }
             `,
-            variables,
-            signal,
-        )
+        variables,
+        signal,
+    )
 
-        const stops: StopPlaceWithLines[] = results.data.stopPlaces.map(
-            (stopPlace) => {
-                const lines = stopPlace.estimatedCalls
-                    .sort(estimatedCallsComparator)
-                    .map(({ destinationDisplay, serviceJourney }) => ({
-                        ...serviceJourney.line,
-                        name: `${serviceJourney.line.publicCode} ${destinationDisplay.frontText}`,
-                    }))
+    const stops: StopPlaceWithLines[] = results.data.stopPlaces.map(
+        (stopPlace) => {
+            const lines = stopPlace.estimatedCalls
+                .sort(estimatedCallsComparator)
+                .map(({ destinationDisplay, serviceJourney }) => ({
+                    ...serviceJourney.line,
+                    name: `${serviceJourney.line.publicCode} ${destinationDisplay.frontText}`,
+                }))
 
-                const uniqueLines = unique(
-                    lines,
-                    (a: Line, b: Line) => a.name === b.name,
-                )
+            const uniqueLines = unique(
+                lines,
+                (a: Line, b: Line) => a.name === b.name,
+            )
 
-                return {
-                    ...stopPlace,
-                    lines: uniqueLines,
-                }
-            },
-        )
+            return {
+                ...stopPlace,
+                lines: uniqueLines,
+            }
+        },
+    )
 
-        return stops
-    } catch (error) {
-        return []
-    }
+    return stops
 }

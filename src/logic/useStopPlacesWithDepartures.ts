@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { isEqual } from 'lodash'
 
 import { StopPlaceDetails, DeparturesById, TransportMode } from '@entur/sdk'
 
@@ -8,7 +7,6 @@ import {
     transformDepartureToLineData,
     unique,
     isNotNullOrUndefined,
-    usePrevious,
 } from '../utils'
 import service from '../service'
 import { useSettingsContext } from '../settings'
@@ -18,12 +16,15 @@ import useNearestPlaces from './useNearestPlaces'
 
 async function fetchStopPlaceDepartures(
     allStopPlaceIdsWithoutDuplicateNumber: string[],
+    signal: AbortSignal,
 ): Promise<{
     sortedStops: StopPlaceDetails[]
     departures: Array<DeparturesById | undefined>
 }> {
     const allStopPlaces = await service.getStopPlaces(
         allStopPlaceIdsWithoutDuplicateNumber,
+        undefined,
+        { signal },
     )
     const sortedStops = allStopPlaces
         .filter(isNotNullOrUndefined)
@@ -36,6 +37,7 @@ async function fetchStopPlaceDepartures(
             limit: 200,
             limitPerLine: 20,
         },
+        { signal },
     )
     return { sortedStops, departures }
 }
@@ -69,18 +71,17 @@ export default function useStopPlacesWithDepartures():
         [nearestPlaces],
     )
 
-    const isDisabled = Boolean(hiddenModes?.includes('kollektiv'))
-
-    const allStopPlaceIds = unique([...newStops, ...nearestStopPlaces]).filter(
-        (id) => !hiddenStops?.includes(id),
+    const allStopPlaceIds = useMemo(
+        () =>
+            unique([...newStops, ...nearestStopPlaces]).filter(
+                (id) => !hiddenStops?.includes(id),
+            ),
+        [newStops, hiddenStops, nearestStopPlaces],
     )
 
-    const allStopPlaceIdsWithoutDuplicateNumber = allStopPlaceIds.map((id) =>
-        id.replace(/-\d+$/, ''),
-    )
-
-    const prevStopPlaceIdsWithoutDuplicateNumber = usePrevious(
-        allStopPlaceIdsWithoutDuplicateNumber,
+    const allStopPlaceIdsWithoutDuplicateNumber = useMemo(
+        () => allStopPlaceIds.map((id) => id.replace(/-\d+$/, '')),
+        [allStopPlaceIds],
     )
 
     const formatStopPlacesWithDepartures = useCallback(
@@ -135,31 +136,38 @@ export default function useStopPlacesWithDepartures():
     )
 
     useEffect(() => {
-        const isStopPlacesEqual = isEqual(
-            allStopPlaceIdsWithoutDuplicateNumber,
-            prevStopPlaceIdsWithoutDuplicateNumber,
-        )
+        const isDisabled = hiddenModes?.includes('kollektiv')
+
+        const abortController = new AbortController()
         if (isDisabled) {
             return setStopPlacesWithDepartures(null)
         }
-        if (!isStopPlacesEqual) {
-            fetchStopPlaceDepartures(allStopPlaceIds)
-                .then(formatStopPlacesWithDepartures)
-                .then(setStopPlacesWithDepartures)
-        }
+
+        fetchStopPlaceDepartures(allStopPlaceIds, abortController.signal)
+            .then(formatStopPlacesWithDepartures)
+            .then(setStopPlacesWithDepartures)
+            .catch((error) => {
+                if (!(error instanceof DOMException)) throw error
+            })
+
         const intervalId = setInterval(() => {
-            fetchStopPlaceDepartures(allStopPlaceIds)
+            fetchStopPlaceDepartures(allStopPlaceIds, abortController.signal)
                 .then(formatStopPlacesWithDepartures)
                 .then(setStopPlacesWithDepartures)
+                .catch((error) => {
+                    if (!(error instanceof DOMException)) throw error
+                })
         }, REFRESH_INTERVAL)
 
-        return (): void => clearInterval(intervalId)
+        return (): void => {
+            clearInterval(intervalId)
+            abortController.abort()
+        }
     }, [
         allStopPlaceIds,
         allStopPlaceIdsWithoutDuplicateNumber,
         formatStopPlacesWithDepartures,
-        isDisabled,
-        prevStopPlaceIdsWithoutDuplicateNumber,
+        hiddenModes,
         settings,
     ])
 

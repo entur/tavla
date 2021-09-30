@@ -17,22 +17,27 @@ export type WalkInfo = {
 async function getWalkInfo(
     stopPlaces: StopPlaceWithDepartures[],
     from: Coordinates,
+    signal: AbortSignal,
 ): Promise<WalkInfo[]> {
     const travelTimes = await Promise.all(
         stopPlaces.map((stopPlace) =>
             service
-                .getTripPatterns({
-                    from: {
-                        name: 'pin',
-                        coordinates: from,
+                .getTripPatterns(
+                    {
+                        from: {
+                            name: 'pin',
+                            coordinates: from,
+                        },
+                        to: {
+                            name: stopPlace.name,
+                            place: stopPlace.id,
+                        },
+                        modes: [QueryMode.FOOT],
+                        limit: 1,
                     },
-                    to: {
-                        name: stopPlace.name,
-                        place: stopPlace.id,
-                    },
-                    modes: [QueryMode.FOOT],
-                    limit: 1,
-                })
+                    undefined,
+                    { signal },
+                )
                 .then((result) => {
                     if (!result[0].duration || !result[0].walkDistance) {
                         return null
@@ -43,7 +48,10 @@ async function getWalkInfo(
                         walkDistance: result[0].walkDistance,
                     }
                 })
-                .catch(() => null),
+                .catch((error) => {
+                    if (!(error instanceof DOMException)) throw error
+                    return null
+                }),
         ),
     )
 
@@ -65,14 +73,26 @@ export default function useTravelTime(
     const ids = stopPlaces?.map((stopPlace) => stopPlace.id)
     const previousIds = usePrevious(ids)
     useEffect(() => {
+        const abortController = new AbortController()
         if (!stopPlaces) {
             return setTravelTime(null)
         }
         if (!isEqual(ids, previousIds)) {
-            getWalkInfo(stopPlaces, {
-                latitude: fromLatitude,
-                longitude: fromLongitude,
-            }).then(setTravelTime)
+            getWalkInfo(
+                stopPlaces,
+                {
+                    latitude: fromLatitude,
+                    longitude: fromLongitude,
+                },
+                abortController.signal,
+            )
+                .then(setTravelTime)
+                .catch((error) => {
+                    if (!(error instanceof DOMException)) throw error
+                })
+        }
+        return () => {
+            abortController.abort()
         }
     }, [fromLatitude, fromLongitude, ids, previousIds, stopPlaces])
 

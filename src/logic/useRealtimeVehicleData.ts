@@ -103,33 +103,44 @@ export default function useVehicleData(
      * Query once to hydrate vehicle data
      */
     useEffect(() => {
+        const abortController = new AbortController()
         const hydrate = async () => {
-            const fetchResult: FetchResult = await client.query({
-                query: VEHICLES_QUERY,
-                fetchPolicy: DEFAULT_FETCH_POLICY,
-                variables: filter,
-            })
-            if (fetchResult.data && fetchResult.data.vehicles) {
-                setAllLinesWithRealtimeData(
-                    new Array(
-                        ...new Set<string>(
-                            fetchResult?.data?.vehicles.map(
-                                (el: RealtimeVehicle) => el.line.lineRef,
+            try {
+                const fetchResult: FetchResult = await client.query({
+                    query: VEHICLES_QUERY,
+                    fetchPolicy: DEFAULT_FETCH_POLICY,
+                    variables: filter,
+                    context: {
+                        fetchOptions: { signal: abortController.signal },
+                    },
+                })
+                if (fetchResult.data && fetchResult.data.vehicles) {
+                    setAllLinesWithRealtimeData(
+                        new Array(
+                            ...new Set<string>(
+                                fetchResult?.data?.vehicles.map(
+                                    (el: RealtimeVehicle) => el.line.lineRef,
+                                ),
                             ),
                         ),
-                    ),
-                )
-                const filteredUpdates = filterVehiclesByLineRefs(
-                    fetchResult?.data?.vehicles,
-                )
-                if (filteredUpdates && filteredUpdates?.length > 0)
-                    dispatch({
-                        type: ActionType.HYDRATE,
-                        payload: filteredUpdates,
-                    })
+                    )
+                    const filteredUpdates = filterVehiclesByLineRefs(
+                        fetchResult?.data?.vehicles,
+                    )
+                    if (filteredUpdates && filteredUpdates?.length > 0)
+                        dispatch({
+                            type: ActionType.HYDRATE,
+                            payload: filteredUpdates,
+                        })
+                }
+            } catch (error) {
+                if (!(error instanceof DOMException)) throw error
             }
         }
         if (uniqueLines) hydrate()
+        return () => {
+            abortController.abort()
+        }
     }, [client, dispatch, filter, uniqueLines, filterVehiclesByLineRefs])
 
     /**

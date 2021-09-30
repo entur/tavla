@@ -199,14 +199,18 @@ const EditTab = (): JSX.Element => {
         getStopPlacesWithLines(
             ids.map((id: string) => id.replace(/-\d+$/, '')),
             abortController.signal,
-        ).then((resultingStopPlaces) => {
-            setStopPlaces(
-                resultingStopPlaces.map((s, index) => ({
-                    ...s,
-                    id: ids[index],
-                })),
-            )
-        })
+        )
+            .then((resultingStopPlaces) => {
+                setStopPlaces(
+                    resultingStopPlaces.map((s, index) => ({
+                        ...s,
+                        id: ids[index],
+                    })),
+                )
+            })
+            .catch((error) => {
+                if (!(error instanceof DOMException)) throw error
+            })
 
         return (): void => {
             abortController.abort()
@@ -214,8 +218,6 @@ const EditTab = (): JSX.Element => {
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
 
     useEffect(() => {
-        const controller = new AbortController()
-
         if (bikeRentalStations) {
             const sortedStations = bikeRentalStations
                 .filter(isNotNullOrUndefined)
@@ -226,12 +228,7 @@ const EditTab = (): JSX.Element => {
                     if (!bName) return -1
                     return aName.localeCompare(bName, 'no')
                 })
-            if (controller.signal.aborted) return
             setSortedBikeRentalStations(sortedStations)
-        }
-
-        return (): void => {
-            controller.abort()
         }
     }, [bikeRentalStations])
 

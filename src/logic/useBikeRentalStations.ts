@@ -7,22 +7,30 @@ import { useSettingsContext } from '../settings'
 
 async function fetchBikeRentalStationsById(
     allStationIds: string[],
+    signal: AbortSignal,
 ): Promise<Station[] | null> {
-    const allStations = await service.mobility.getStationsById({
-        stationIds: allStationIds,
-    })
+    const allStations = await service.mobility.getStationsById(
+        {
+            stationIds: allStationIds,
+        },
+        { signal },
+    )
     return allStations
 }
 
 async function fetchBikeRentalStationsNearby(
     coordinates: Coordinates,
     distance: number,
+    signal: AbortSignal,
 ): Promise<Station[] | null> {
-    const allStations = await service.mobility.getStations({
-        lat: coordinates.latitude,
-        lon: coordinates.longitude,
-        range: distance,
-    })
+    const allStations = await service.mobility.getStations(
+        {
+            lat: coordinates.latitude,
+            lon: coordinates.longitude,
+            range: distance,
+        },
+        { signal },
+    )
     return allStations
 }
 
@@ -49,21 +57,38 @@ export default function useBikeRentalStations(
     const isDisabled = Boolean(hiddenModes?.includes('bysykkel'))
 
     useEffect(() => {
+        const abortController = new AbortController()
         if (!coordinates || !distance || isDisabled) {
             return setBikeRentalStations(null)
         }
-        fetchBikeRentalStationsNearby(coordinates, distance).then((stations) =>
-            setNearbyStations(stations || []),
+        fetchBikeRentalStationsNearby(
+            coordinates,
+            distance,
+            abortController.signal,
         )
+            .then((stations) => setNearbyStations(stations || []))
+            .catch((error) => {
+                if (!(error instanceof DOMException)) throw error
+            })
+
+        return () => {
+            abortController.abort()
+        }
     }, [coordinates, distance, isDisabled])
 
     useEffect(() => {
+        const abortController = new AbortController()
         if (isDisabled) {
             return setBikeRentalStations(null)
         }
-        fetchBikeRentalStationsById(newStations).then((stations) =>
-            setUserSelectedStations(stations || []),
-        )
+        fetchBikeRentalStationsById(newStations, abortController.signal)
+            .then((stations) => setUserSelectedStations(stations || []))
+            .catch((error) => {
+                if (!(error instanceof DOMException)) throw error
+            })
+        return () => {
+            abortController.abort()
+        }
     }, [newStations, isDisabled])
 
     useEffect(() => {
