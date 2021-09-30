@@ -142,7 +142,7 @@ export default function useStopPlacesWithDepartures():
         if (isDisabled) {
             return setStopPlacesWithDepartures(null)
         }
-        if (allStopPlaceIds.length !== 0)
+        if (nearestPlaces.length !== 0)
             fetchStopPlaceDepartures(allStopPlaceIds, abortController.signal)
                 .then(formatStopPlacesWithDepartures)
                 .then(setStopPlacesWithDepartures)
@@ -164,6 +164,7 @@ export default function useStopPlacesWithDepartures():
             abortController.abort()
         }
     }, [
+        nearestPlaces,
         allStopPlaceIds,
         allStopPlaceIdsWithoutDuplicateNumber,
         formatStopPlacesWithDepartures,
