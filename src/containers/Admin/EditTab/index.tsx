@@ -506,7 +506,7 @@ const EditTab = (): JSX.Element => {
                     </div>
                     {!hiddenModes?.includes('realtime-data') && (
                         <RealtimeDataPanel
-                            uniqueLines={realtimeLines}
+                            realtimeLines={realtimeLines}
                             toggleRealtimeDataLineIds={
                                 toggleRealtimeDataLineIds
                             }

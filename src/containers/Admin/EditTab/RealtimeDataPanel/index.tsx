@@ -10,23 +10,23 @@ import { getIcon } from '../../../../utils'
 import './styles.scss'
 
 interface IProps {
-    uniqueLines: Line[] | undefined
+    realtimeLines: Line[] | undefined
     toggleRealtimeDataLineIds: (lineId: string) => void
     hiddenLines: string[]
 }
 
 const RealtimeDataPanel = ({
-    uniqueLines,
+    realtimeLines,
     toggleRealtimeDataLineIds,
     hiddenLines,
 }: IProps): JSX.Element =>
-    !uniqueLines ? (
+    !realtimeLines ? (
         <Loader>Laster...</Loader>
     ) : (
         <Fieldset className="toggle-detail-panel realtime">
             <div className="toggle-detail-panel__container">
-                {uniqueLines.length > 0 ? (
-                    uniqueLines.map(({ id, publicCode, transportMode }) => (
+                {realtimeLines.length > 0 ? (
+                    realtimeLines.map(({ id, publicCode, transportMode }) => (
                         <div className="toggle-detail-panel__buttons" key={id}>
                             <FilterChip
                                 value={id}
