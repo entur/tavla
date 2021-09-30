@@ -142,13 +142,13 @@ export default function useStopPlacesWithDepartures():
         if (isDisabled) {
             return setStopPlacesWithDepartures(null)
         }
-
-        fetchStopPlaceDepartures(allStopPlaceIds, abortController.signal)
-            .then(formatStopPlacesWithDepartures)
-            .then(setStopPlacesWithDepartures)
-            .catch((error) => {
-                if (!(error instanceof DOMException)) throw error
-            })
+        if (allStopPlaceIds.length !== 0)
+            fetchStopPlaceDepartures(allStopPlaceIds, abortController.signal)
+                .then(formatStopPlacesWithDepartures)
+                .then(setStopPlacesWithDepartures)
+                .catch((error) => {
+                    if (!(error instanceof DOMException)) throw error
+                })
 
         const intervalId = setInterval(() => {
             fetchStopPlaceDepartures(allStopPlaceIds, abortController.signal)
