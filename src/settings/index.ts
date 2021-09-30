@@ -50,6 +50,10 @@ export interface Settings {
     description?: string
     showMap?: boolean
     showWeather?: boolean
+    showIcon?: boolean
+    showTemperature?: boolean
+    showWind?: boolean
+    showPrecipitation?: boolean
     hideSituations?: boolean
     hideTracks?: boolean
     hideWalkInfo?: boolean

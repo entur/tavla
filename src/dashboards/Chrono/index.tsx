@@ -30,7 +30,7 @@ import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 import { WalkInfo } from '../../logic/useWalkInfo'
 import { LongPressProvider } from '../../logic/longPressContext'
 
-import WeatherTile from '../../components/Weather/WeatherTile'
+import WeatherTile from '../../components/WeatherTile'
 
 import DepartureTile from './DepartureTile'
 import MapTile from './MapTile'
@@ -50,9 +50,9 @@ function getWalkInfoForStopPlace(
 function getDataGrid(
     index: number,
     maxWidth: number,
-    resizable = true,
+    maxHeigth = 0,
     height = 4,
-): { [key: string]: number | boolean | [] } {
+): { [key: string]: number } {
     const dataGrid = {
         w: 1,
         maxW: maxWidth,
@@ -61,9 +61,7 @@ function getDataGrid(
         x: index % maxWidth,
         y: 0,
     }
-    return resizable
-        ? dataGrid
-        : { ...dataGrid, isResizable: false, resizeHandles: [] }
+    return !maxHeigth ? dataGrid : { ...dataGrid, maxH: maxHeigth }
 }
 
 function getDefaultBreakpoint() {
@@ -321,18 +319,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                 } else if (item.id == 'weather') {
                                     return settings?.showWeather ? (
                                         <div key={item.id}>
-                                            <WeatherTile
-                                                className="tile"
-                                                displayTemperature={
-                                                    window.innerWidth > 290
-                                                }
-                                                displayPrecipitation={
-                                                    window.innerWidth > 380
-                                                }
-                                                displayWind={
-                                                    window.innerWidth > 570
-                                                }
-                                            />
+                                            <WeatherTile className="tile" />
                                         </div>
                                     ) : (
                                         []
@@ -407,21 +394,9 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                         {settings?.showWeather && (
                             <div
                                 key="weather"
-                                data-grid={getDataGrid(
-                                    0,
-                                    maxWidthCols,
-                                    false,
-                                    1,
-                                )}
+                                data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
                             >
-                                <WeatherTile
-                                    className="tile"
-                                    displayTemperature={window.innerWidth > 290}
-                                    displayPrecipitation={
-                                        window.innerWidth > 380
-                                    }
-                                    displayWind={window.innerWidth > 570}
-                                />
+                                <WeatherTile className="tile" />
                             </div>
                         )}
                         {(stopPlacesWithDepartures || []).map((stop, index) => (
