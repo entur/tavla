@@ -14,6 +14,13 @@ import {
     TramIcon,
     PlaneIcon,
     CarferryIcon,
+    CloudLightningIcon,
+    SunCloudRainIcon,
+    CloudSnowIcon,
+    CloudRainIcon,
+    SunCloudIcon,
+    CloudIcon,
+    SunIcon,
 } from '@entur/icons'
 
 import { colors } from '@entur/tokens'
@@ -384,16 +391,36 @@ export const getWeatherDescriptionFromApi = async (
     return weatherData[weatherNameMatch.toString()].desc_nb
 }
 
-interface WrapperProps {
-    condition: boolean
-    wrapper: any
-    children: JSX.Element
+export const getWeatherIconEntur = (APIconName: string): JSX.Element => {
+    const stripedAPIIconName = APIconName.replace(
+        /heavy|light|showers|_|day|night/g,
+        '',
+    )
+    const weatherConditions = stripedAPIIconName.split('and')
+
+    const cloud = ['cloudy', 'fog']
+    const sunCloud = ['fair', 'partlycloudy']
+    const rain = ['rain']
+    const lightning = ['thunder']
+    const snow = ['snow', 'sleet']
+    const sunCloudRain = ['rainshowers']
+    const sun = ['clearsky']
+
+    if (arrayContains(weatherConditions, lightning))
+        return <CloudLightningIcon />
+    if (arrayContains(weatherConditions, sunCloudRain))
+        return <SunCloudRainIcon />
+    if (arrayContains(weatherConditions, snow)) return <CloudSnowIcon />
+    if (arrayContains(weatherConditions, rain)) return <CloudRainIcon />
+    if (arrayContains(weatherConditions, sunCloud)) return <SunCloudIcon />
+    if (arrayContains(weatherConditions, cloud)) return <CloudIcon />
+    if (arrayContains(weatherConditions, sun))
+        return <SunIcon className="icon-entur--sun" />
+    return <div>?</div>
 }
-export const ConditionalWrapper = ({
-    condition,
-    wrapper,
-    children,
-}: WrapperProps) => (condition ? wrapper(children) : children)
+
+const arrayContains = (original: string[], contains: string[]): boolean =>
+    original.some((r) => contains.indexOf(r) >= 0)
 
 export function getTranslation(
     translationObject: TranslatedString,
