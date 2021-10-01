@@ -16,10 +16,10 @@ import {
 import { IconColorType } from '../../../../types'
 import { RealtimeVehicle } from '../../../../services/realtimeVehicles/types/realtimeVehicle'
 
-interface IProps {
+interface Props {
     realtimeVehicle: RealtimeVehicle
 }
-const TooltipContent = ({ realtimeVehicle }: IProps): JSX.Element => {
+const TooltipContent = ({ realtimeVehicle }: Props): JSX.Element => {
     const [lastUpdated, setLastUpdated] = useState(
         getLastUpdated(realtimeVehicle.lastUpdated),
     )

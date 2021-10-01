@@ -8,12 +8,12 @@ import { useSettingsContext } from '../settings'
 
 import { useStopPlacesWithDepartures } from '.'
 
-interface IReturn {
+interface Return {
     uniqueLines: Line[] | undefined
     stopPlacesWithLines: StopPlaceWithLines[] | undefined
 }
 
-export const useStopPlacesWithLines = (): IReturn => {
+export const useStopPlacesWithLines = (): Return => {
     const [settings] = useSettingsContext()
     const { hiddenStopModes } = settings || {}
     const [uniqueLines, setUniqueLines] = useState<Line[] | undefined>(

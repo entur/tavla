@@ -20,9 +20,7 @@ import { useStopPlacesWithLines } from './useStopPlacesWithLines'
 
 import useVehicleReducer, { ActionType } from './useRealtimeVehicleReducer'
 
-const DEFAULT_FETCH_POLICY = 'no-cache'
-
-interface IReturn {
+interface Return {
     realtimeVehicles: RealtimeVehicle[] | undefined
     allLinesWithRealtimeData: string[] | undefined
 }
@@ -51,6 +49,8 @@ export const defaultOptions: Options = {
     markInactiveAfterSeconds: 60,
 }
 
+const DEFAULT_FETCH_POLICY = 'no-cache'
+
 /**
  * Hook to query and subscribe to remote vehicle data
  */
@@ -58,7 +58,7 @@ export default function useVehicleData(
     filter: Filter,
     subscriptionOptions: SubscriptionOptions,
     options: Options,
-): IReturn {
+): Return {
     const [state, dispatch] = useVehicleReducer(options)
     const { uniqueLines } = useStopPlacesWithLines()
     const [settings] = useSettingsContext()

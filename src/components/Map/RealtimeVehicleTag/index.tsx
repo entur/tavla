@@ -12,11 +12,11 @@ import { RealtimeVehicle } from '../../../services/realtimeVehicles/types/realti
 
 import TooltipContent from './TooltipContent'
 
-interface IProps {
+interface Props {
     realtimeVehicle: RealtimeVehicle
 }
 
-const RealtimeVehicleTag = ({ realtimeVehicle }: IProps): JSX.Element => (
+const RealtimeVehicleTag = ({ realtimeVehicle }: Props): JSX.Element => (
     <Tooltip
         placement="top"
         content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
