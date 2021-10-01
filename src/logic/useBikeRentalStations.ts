@@ -68,7 +68,7 @@ export default function useBikeRentalStations(
         )
             .then((stations) => setNearbyStations(stations || []))
             .catch((error) => {
-                if (!(error instanceof DOMException)) throw error
+                if (!(error.name === 'AbortError')) throw error
             })
 
         return () => {
@@ -84,7 +84,7 @@ export default function useBikeRentalStations(
         fetchBikeRentalStationsById(newStations, abortController.signal)
             .then((stations) => setUserSelectedStations(stations || []))
             .catch((error) => {
-                if (!(error instanceof DOMException)) throw error
+                if (!(error.name === 'AbortError')) throw error
             })
         return () => {
             abortController.abort()

@@ -70,7 +70,7 @@ export default function useMobility(formFactor?: FormFactor): Vehicle[] | null {
         )
             .then(setVehicles)
             .catch((error) => {
-                if (!(error instanceof DOMException)) throw error
+                if (!(error.name === 'AbortError')) throw error
             })
 
         const intervalId = setInterval(() => {
@@ -83,7 +83,7 @@ export default function useMobility(formFactor?: FormFactor): Vehicle[] | null {
             )
                 .then(setVehicles)
                 .catch((error) => {
-                    if (!(error instanceof DOMException)) throw error
+                    if (!(error.name === 'AbortError')) throw error
                 })
         }, REFRESH_INTERVAL)
 

@@ -207,7 +207,7 @@ const EditTab = (): JSX.Element => {
                 )
             })
             .catch((error) => {
-                if (!(error instanceof DOMException)) throw error
+                if (!(error.name === 'AbortError')) throw error
             })
 
         return (): void => {

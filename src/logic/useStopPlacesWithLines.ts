@@ -53,7 +53,13 @@ export const useStopPlacesWithLines = (): Return => {
                     )
                     setUniqueLines(lines)
                 } catch (error) {
-                    if (!(error instanceof DOMException)) throw error
+                    if (
+                        !(
+                            error instanceof DOMException &&
+                            error.name === 'AbortError'
+                        )
+                    )
+                        throw error
                 }
             }
         }
