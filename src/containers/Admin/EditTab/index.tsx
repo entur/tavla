@@ -124,7 +124,6 @@ const EditTab = (): JSX.Element => {
         (lineId: string) => {
             if (hiddenRealtimeDataLineRefs.includes(lineId)) {
                 setSettings({
-                    ...settings,
                     hiddenRealtimeDataLineRefs:
                         hiddenRealtimeDataLineRefs.filter(
                             (el) => el !== lineId,
@@ -132,7 +131,6 @@ const EditTab = (): JSX.Element => {
                 })
             } else {
                 setSettings({
-                    ...settings,
                     hiddenRealtimeDataLineRefs: [
                         ...hiddenRealtimeDataLineRefs,
                         lineId,
@@ -140,7 +138,7 @@ const EditTab = (): JSX.Element => {
                 })
             }
         },
-        [hiddenRealtimeDataLineRefs, settings, setSettings],
+        [hiddenRealtimeDataLineRefs, setSettings],
     )
 
     const debouncedDistance = useDebounce(distance, 800)
