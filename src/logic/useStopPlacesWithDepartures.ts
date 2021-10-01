@@ -136,7 +136,7 @@ export default function useStopPlacesWithDepartures():
     )
 
     useEffect(() => {
-        const isDisabled = hiddenModes?.includes('kollektiv')
+        const isDisabled = Boolean(hiddenModes?.includes('kollektiv'))
 
         const abortController = new AbortController()
         if (isDisabled) {
