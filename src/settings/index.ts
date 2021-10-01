@@ -25,7 +25,7 @@ import {
     FieldTypes,
 } from './FirestoreStorage'
 
-export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel' | 'realtime-data'
+export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
 
 export interface Settings {
     boardName?: string
@@ -57,6 +57,7 @@ export interface Settings {
     hideSituations?: boolean
     hideTracks?: boolean
     hideWalkInfo?: boolean
+    hideRealtimeData: boolean
     hiddenRealtimeDataLineRefs: string[]
 }
 

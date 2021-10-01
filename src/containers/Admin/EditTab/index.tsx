@@ -80,9 +80,10 @@ const EditTab = (): JSX.Element => {
         newStops = [],
         newStations = [],
         hiddenModes,
+        hideRealtimeData,
+        hiddenRealtimeDataLineRefs = [],
         showMap = false,
         showWeather = false,
-        hiddenRealtimeDataLineRefs = [],
         showIcon = true,
         showTemperature = true,
         showWind = true,
@@ -264,6 +265,11 @@ const EditTab = (): JSX.Element => {
             })
         },
         [setSettings, hiddenModes],
+    )
+
+    const toggleRealtimeData = useCallback(
+        () => setSettings({ hideRealtimeData: !hideRealtimeData }),
+        [setSettings, hideRealtimeData],
     )
     const [showTooltip, setShowTooltip] = useState<boolean>(false)
 
@@ -497,12 +503,12 @@ const EditTab = (): JSX.Element => {
                     <div className="edit-tab__header">
                         <Heading2>Sanntidsposisjoner</Heading2>
                         <Switch
-                            onChange={(): void => toggleMode('realtime-data')}
-                            checked={!hiddenModes?.includes('realtime-data')}
+                            onChange={() => toggleRealtimeData()}
+                            checked={!hideRealtimeData}
                             size="large"
                         ></Switch>
                     </div>
-                    {!hiddenModes?.includes('realtime-data') && (
+                    {!hideRealtimeData && (
                         <RealtimeDataPanel
                             realtimeLines={realtimeLines}
                             toggleRealtimeDataLineIds={
