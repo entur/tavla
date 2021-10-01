@@ -27,40 +27,39 @@ export const useStopPlacesWithLines = (): Return => {
     useEffect(() => {
         const abortController = new AbortController()
         const fetchDataAndSetStates = async () => {
-            if (stopPlaces) {
-                try {
-                    const result: StopPlaceWithLines[] =
-                        await getStopPlacesWithLines(
-                            stopPlaces.map((sPlace) => sPlace.id),
-                            abortController.signal,
-                        )
-                    setStopPlacesWithLines(result)
+            if (!stopPlaces) return
+            try {
+                const result: StopPlaceWithLines[] =
+                    await getStopPlacesWithLines(
+                        stopPlaces.map((sPlace) => sPlace.id),
+                        abortController.signal,
+                    )
+                setStopPlacesWithLines(result)
 
-                    const lines: Line[] = unique(
-                        result
-                            .map((el) => {
-                                el.lines = el.lines.filter((line) =>
-                                    hiddenStopModes && hiddenStopModes[el.id]
-                                        ? !hiddenStopModes[el.id].includes(
-                                              line.transportMode,
-                                          )
-                                        : line,
-                                )
-                                return el
-                            })
-                            .flatMap((el) => el.lines),
-                        (a: Line, b: Line) => a.id === b.id,
+                const lines: Line[] = unique(
+                    result
+                        .map((el) => ({
+                            ...el,
+                            lines: el.lines.filter((line) =>
+                                hiddenStopModes && hiddenStopModes[el.id]
+                                    ? !hiddenStopModes[el.id].includes(
+                                          line.transportMode,
+                                      )
+                                    : line,
+                            ),
+                        }))
+                        .flatMap((el) => el.lines),
+                    (a: Line, b: Line) => a.id === b.id,
+                )
+                setUniqueLines(lines)
+            } catch (error) {
+                if (
+                    !(
+                        error instanceof DOMException &&
+                        error.name === 'AbortError'
                     )
-                    setUniqueLines(lines)
-                } catch (error) {
-                    if (
-                        !(
-                            error instanceof DOMException &&
-                            error.name === 'AbortError'
-                        )
-                    )
-                        throw error
-                }
+                )
+                    throw error
             }
         }
         fetchDataAndSetStates()
