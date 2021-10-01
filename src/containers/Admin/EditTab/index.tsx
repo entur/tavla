@@ -43,11 +43,7 @@ import {
 } from '../../../settings/LocalStorage'
 import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
 
-import useVehicleData, {
-    defaultFilter,
-    defaultOptions,
-    defaultSubscriptionOptions,
-} from '../../../logic/useRealtimeVehicleData'
+import useVehicleData from '../../../logic/useRealtimeVehicleData'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
@@ -93,11 +89,7 @@ const EditTab = (): JSX.Element => {
         settings?.distance || DEFAULT_DISTANCE,
     )
 
-    const { allLinesWithRealtimeData } = useVehicleData(
-        defaultFilter,
-        defaultSubscriptionOptions,
-        defaultOptions,
-    )
+    const { allLinesWithRealtimeData } = useVehicleData()
     const { uniqueLines } = useStopPlacesWithLines()
 
     const realtimeLines = useMemo(

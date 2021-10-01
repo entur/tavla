@@ -16,11 +16,7 @@ import { Filter } from '../../services/realtimeVehicles/types/filter'
 
 import { useDebounce } from '../../utils'
 
-import useVehicleData, {
-    defaultFilter,
-    defaultOptions,
-    defaultSubscriptionOptions,
-} from '../../logic/useRealtimeVehicleData'
+import useVehicleData from '../../logic/useRealtimeVehicleData'
 
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
@@ -52,12 +48,8 @@ const Map = ({
 
     const debouncedViewport = useDebounce(viewport, 200)
     const mapRef = useRef<MapRef>(null)
-    const [filter, setFilter] = useState<Filter>(defaultFilter)
-    const { realtimeVehicles } = useVehicleData(
-        filter,
-        defaultSubscriptionOptions,
-        defaultOptions,
-    )
+    const [filter, setFilter] = useState<Filter>({})
+    const { realtimeVehicles } = useVehicleData(filter)
     const [bounds, setBounds] = useState<[number, number, number, number]>(
         mapRef.current?.getMap()?.getBounds()?.toArray()?.flat() ||
             ([0, 0, 0, 0] as [number, number, number, number]),

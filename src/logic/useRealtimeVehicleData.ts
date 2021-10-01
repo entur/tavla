@@ -3,16 +3,20 @@ import type { OnSubscriptionDataOptions } from '@apollo/client'
 
 import { useCallback, useEffect, useState } from 'react'
 
-import { Options } from '../services/realtimeVehicles/types/options'
-
 import { Filter } from '../services/realtimeVehicles/types/filter'
 import { RealtimeVehicle } from '../services/realtimeVehicles/types/realtimeVehicle'
-import { SubscriptionOptions } from '../services/realtimeVehicles/types/subscriptionOptions'
 
 import {
     VEHICLES_QUERY,
     VEHICLE_UPDATES_SUBSCRIPTION,
 } from '../services/realtimeVehicles/graphql'
+
+import {
+    SWEEP_INTERVAL_MS,
+    DEFAULT_FETCH_POLICY,
+    BUFFER_SIZE,
+    BUFFER_TIME,
+} from '../constants'
 
 import { useSettingsContext } from '../settings'
 
@@ -31,35 +35,11 @@ interface QueryData {
     vehicles: RealtimeVehicle[]
 }
 
-export const defaultFilter: Filter = {
-    monitored: true,
-}
-
-export const defaultSubscriptionOptions: SubscriptionOptions = {
-    enableLiveUpdates: true,
-    bufferSize: 20,
-    bufferTime: 200,
-}
-
-export const defaultOptions: Options = {
-    sweepIntervalMs: 1000,
-    removeExpired: true,
-    removeExpiredAfterSeconds: 600,
-    markInactive: true,
-    markInactiveAfterSeconds: 60,
-}
-
-const DEFAULT_FETCH_POLICY = 'no-cache'
-
 /**
  * Hook to query and subscribe to remote vehicle data
  */
-export default function useVehicleData(
-    filter: Filter,
-    subscriptionOptions: SubscriptionOptions,
-    options: Options,
-): Return {
-    const [state, dispatch] = useVehicleReducer(options)
+export default function useVehicleData(filter?: Filter): Return {
+    const [state, dispatch] = useVehicleReducer()
     const { uniqueLines } = useStopPlacesWithLines()
     const [settings] = useSettingsContext()
     const { hiddenRealtimeDataLineRefs } = settings || {}
@@ -135,7 +115,9 @@ export default function useVehicleData(
         fetchPolicy: DEFAULT_FETCH_POLICY,
         variables: {
             ...filter,
-            ...subscriptionOptions,
+            enableLiveUpdates: true,
+            bufferSize: BUFFER_SIZE,
+            bufferTime: BUFFER_TIME,
         },
         onSubscriptionData: handleSubscriptionData,
     })
@@ -156,12 +138,12 @@ export default function useVehicleData(
     useEffect(() => {
         const interval = setInterval(() => {
             dispatch({ type: ActionType.SWEEP })
-        }, options.sweepIntervalMs ?? 1000)
+        }, SWEEP_INTERVAL_MS)
 
         return () => {
             clearInterval(interval)
         }
-    }, [dispatch, options.sweepIntervalMs])
+    }, [dispatch])
 
     return { realtimeVehicles, allLinesWithRealtimeData }
 }
