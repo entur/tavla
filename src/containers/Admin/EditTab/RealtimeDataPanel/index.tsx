@@ -9,7 +9,7 @@ import { getIcon } from '../../../../utils'
 
 import './styles.scss'
 
-interface IProps {
+interface Props {
     realtimeLines: Line[] | undefined
     toggleRealtimeDataLineIds: (lineId: string) => void
     hiddenLines: string[]
@@ -19,7 +19,7 @@ const RealtimeDataPanel = ({
     realtimeLines,
     toggleRealtimeDataLineIds,
     hiddenLines,
-}: IProps): JSX.Element =>
+}: Props): JSX.Element =>
     !realtimeLines ? (
         <Loader>Laster...</Loader>
     ) : (
