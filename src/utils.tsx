@@ -444,9 +444,9 @@ export function getTranslation(
 }
 
 export const getFeedbackString = (lastUpdated: number): string => {
-    if (lastUpdated < 60) return `${lastUpdated} seconds ago`
-    if (lastUpdated < 120) return '> 1 minute ago'
-    return ` > ${Math.floor(lastUpdated / 60)} minutes ago`
+    if (lastUpdated < 60) return `${lastUpdated} sekunder siden`
+    if (lastUpdated < 120) return '> 1 minutt siden'
+    return ` > ${Math.floor(lastUpdated / 60)} minutter siden`
 }
 
 export const getLastUpdated = (lastUpdated: string): number =>
