@@ -131,9 +131,9 @@ const Map = ({
     const liveVehicleMarkers = useMemo(
         () =>
             realtimeVehicles
-                ? realtimeVehicles.map((vehicle, index) => (
+                ? realtimeVehicles.map((vehicle) => (
                       <Marker
-                          key={index}
+                          key={vehicle.vehicleRef}
                           latitude={vehicle.location.latitude}
                           longitude={vehicle.location.longitude}
                           className="map__live-vehicle-marker"
