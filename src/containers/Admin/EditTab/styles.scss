@@ -16,12 +16,8 @@
         }
     }
     .tooltip-container-weather {
-        p {
-            color: var(--tavla-box-background-color);
-        }
-        &-paragraph {
-            margin: 0;
-        }
+        color: var(--tavla-box-background-color);
+        margin: 0;
     }
 
     .eds-form-control,

@@ -66,8 +66,8 @@ const COLS: { [key: string]: number } = {
 const toolTip = (
     <Tooltip
         content={
-            <div className="tooltip-container-weather">
-                <SubParagraph className="tooltip-container-weather-paragraph">
+            <div>
+                <SubParagraph className="tooltip-container-weather">
                     Tilgjengelig i visningstyper kompakt, kronologisk og kart.
                     Værdata fra YR (met.no). Noe værdata kan bli skjult ved
                     liten boksstørrelse.
