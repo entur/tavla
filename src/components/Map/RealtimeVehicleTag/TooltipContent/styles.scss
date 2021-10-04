@@ -1,0 +1,25 @@
+@import '../../../../assets/styles/import.scss';
+
+.map__realtime-vehicle-tag__tooltip-content {
+    &-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
+        padding-top: 0.2rem;
+    }
+    &-first-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.4rem;
+        width: 100%;
+    }
+    &-second-row {
+        white-space: nowrap;
+    }
+    &-front-text {
+        margin-left: 0.8rem;
+        font-size: $font-sizes-large;
+        white-space: nowrap;
+    }
+}

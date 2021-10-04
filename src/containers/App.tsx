@@ -4,10 +4,13 @@ import analytics from 'universal-ga'
 
 import { ToastProvider } from '@entur/alert'
 import PWAPrompt from 'react-ios-pwa-prompt'
+import { ApolloProvider } from '@apollo/client'
 
 import { SettingsContext, useSettings } from '../settings'
 import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
+
+import { realtimeVehiclesClient } from '../services/realtimeVehicles/realtimeVehiclesService'
 
 import Compact from '../dashboards/Compact'
 import Chrono from '../dashboards/Chrono'
@@ -162,47 +165,66 @@ const Content = (): JSX.Element => {
     }, [location.pathname])
 
     return (
-        <UserProvider value={user}>
-            {isMobileWeb() ? ProgressiveWebAppPrompt(location.pathname) : null}
-            <SettingsContext.Provider
-                value={isOnTavle ? settings : [null, settings[1]]}
-            >
-                <ThemeProvider>
-                    <div className="themeBackground">
-                        <ToastProvider>
-                            <Header />
-                            <Switch>
-                                <Route exact path="/" component={LandingPage} />
-                                <Route
-                                    exact
-                                    path="/t/:documentId"
-                                    component={Dashboard}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path="/admin/:documentId"
-                                    component={settings[0] && Admin}
-                                    errorComponent={LockedTavle}
-                                />
-                                <Route
-                                    path="/dashboard"
-                                    component={Dashboard}
-                                />
-                                <Route path="/tavler" component={MyBoards} />
-                                <Route
-                                    path="/admin"
-                                    component={
-                                        settings[0] ? Admin : (): null => null
-                                    }
-                                />
-                                <Route path="/privacy" component={Privacy} />
-                                <Route path="/" component={PageDoesNotExist} />
-                            </Switch>
-                        </ToastProvider>
-                    </div>
-                </ThemeProvider>
-            </SettingsContext.Provider>
-        </UserProvider>
+        <ApolloProvider client={realtimeVehiclesClient}>
+            <UserProvider value={user}>
+                {isMobileWeb()
+                    ? ProgressiveWebAppPrompt(location.pathname)
+                    : null}
+                <SettingsContext.Provider
+                    value={isOnTavle ? settings : [null, settings[1]]}
+                >
+                    <ThemeProvider>
+                        <div className="themeBackground">
+                            <ToastProvider>
+                                <Header />
+                                <Switch>
+                                    <Route
+                                        exact
+                                        path="/"
+                                        component={LandingPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/t/:documentId"
+                                        component={Dashboard}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path="/admin/:documentId"
+                                        component={settings[0] && Admin}
+                                        errorComponent={LockedTavle}
+                                    />
+                                    <Route
+                                        path="/dashboard"
+                                        component={Dashboard}
+                                    />
+                                    <Route
+                                        path="/tavler"
+                                        component={MyBoards}
+                                    />
+                                    <Route
+                                        path="/admin"
+                                        component={
+                                            settings[0]
+                                                ? Admin
+                                                : (): null => null
+                                        }
+                                    />
+                                    <Route
+                                        path="/privacy"
+                                        component={Privacy}
+                                    />
+                                    <Route
+                                        path="/"
+                                        component={PageDoesNotExist}
+                                    />
+                                </Switch>
+                            </ToastProvider>
+                        </div>
+                    </ThemeProvider>
+                </SettingsContext.Provider>
+            </UserProvider>
+        </ApolloProvider>
     )
 }
 

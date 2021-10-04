@@ -24,6 +24,7 @@ export default createEnturService({
 function journeyplannerPost<T>(
     query: string,
     variables: Record<string, any>,
+    signal: AbortSignal,
 ): Promise<T> {
     return fetch(`${process.env.JOURNEYPLANNER_HOST}/graphql`, {
         method: 'POST',
@@ -31,6 +32,7 @@ function journeyplannerPost<T>(
             'ET-Client-Name': CLIENT_NAME,
             'Content-Type': 'application/json',
         },
+        signal,
         body: JSON.stringify({
             query,
             variables,
@@ -99,13 +101,13 @@ function estimatedCallsComparator(a: EstimatedCall, b: EstimatedCall): number {
 
 export async function getStopPlacesWithLines(
     stopPlaceIds: string[],
+    signal: AbortSignal,
 ): Promise<StopPlaceWithLines[]> {
-    try {
-        const variables = { ids: stopPlaceIds }
-        const results = await journeyplannerPost<{
-            data: { stopPlaces: StopPlaceWithEstimatedCalls[] }
-        }>(
-            `query ($ids: [String]!) {
+    const variables = { ids: stopPlaceIds }
+    const results = await journeyplannerPost<{
+        data: { stopPlaces: StopPlaceWithEstimatedCalls[] }
+    }>(
+        `query ($ids: [String]!) {
                 stopPlaces(ids: $ids) {
                     id,
                     name,
@@ -130,32 +132,30 @@ export async function getStopPlacesWithLines(
                 }
             }
             `,
-            variables,
-        )
+        variables,
+        signal,
+    )
 
-        const stops: StopPlaceWithLines[] = results.data.stopPlaces.map(
-            (stopPlace) => {
-                const lines = stopPlace.estimatedCalls
-                    .sort(estimatedCallsComparator)
-                    .map(({ destinationDisplay, serviceJourney }) => ({
-                        ...serviceJourney.line,
-                        name: `${serviceJourney.line.publicCode} ${destinationDisplay.frontText}`,
-                    }))
+    const stops: StopPlaceWithLines[] = results.data.stopPlaces.map(
+        (stopPlace) => {
+            const lines = stopPlace.estimatedCalls
+                .sort(estimatedCallsComparator)
+                .map(({ destinationDisplay, serviceJourney }) => ({
+                    ...serviceJourney.line,
+                    name: `${serviceJourney.line.publicCode} ${destinationDisplay.frontText}`,
+                }))
 
-                const uniqueLines = unique(
-                    lines,
-                    (a: Line, b: Line) => a.name === b.name,
-                )
+            const uniqueLines = unique(
+                lines,
+                (a: Line, b: Line) => a.name === b.name,
+            )
 
-                return {
-                    ...stopPlace,
-                    lines: uniqueLines,
-                }
-            },
-        )
+            return {
+                ...stopPlace,
+                lines: uniqueLines,
+            }
+        },
+    )
 
-        return stops
-    } catch (error) {
-        return []
-    }
+    return stops
 }

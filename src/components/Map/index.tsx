@@ -1,4 +1,4 @@
-import React, { useState, memo, useRef } from 'react'
+import React, { useState, memo, useRef, useEffect, useMemo } from 'react'
 
 import { InteractiveMap, Marker } from 'react-map-gl'
 import type { MapRef } from 'react-map-gl'
@@ -12,9 +12,18 @@ import PositionPin from '../../assets/icons/positionPin'
 
 import { StopPlaceWithDepartures } from '../../types'
 
+import { Filter } from '../../services/realtimeVehicles/types/filter'
+
+import { useDebounce } from '../../utils'
+
+import useVehicleData from '../../logic/useRealtimeVehicleData'
+
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
+import RealtimeVehicleTag from './RealtimeVehicleTag'
+
+import './styles.scss'
 
 const Map = ({
     stopPlaces,
@@ -36,7 +45,35 @@ const Map = ({
         maxZoom: 18,
         minZoom: 13.5,
     })
+
+    const debouncedViewport = useDebounce(viewport, 200)
     const mapRef = useRef<MapRef>(null)
+    const [filter, setFilter] = useState<Filter>({})
+    const { realtimeVehicles } = useVehicleData(filter)
+    const [bounds, setBounds] = useState<[number, number, number, number]>(
+        mapRef.current?.getMap()?.getBounds()?.toArray()?.flat() ||
+            ([0, 0, 0, 0] as [number, number, number, number]),
+    )
+
+    useEffect(() => {
+        const newBounds = (mapRef.current
+            ?.getMap()
+            ?.getBounds()
+            ?.toArray()
+            ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
+
+        setBounds(newBounds)
+        setFilter((prevFilter: Filter) => ({
+            ...prevFilter,
+            boundingBox: {
+                minLat: newBounds[1],
+                minLon: newBounds[0],
+                maxLat: newBounds[3],
+                maxLon: newBounds[2],
+            },
+        }))
+    }, [mapRef, debouncedViewport])
+
     const scooterpoints = scooters?.map((scooter: Vehicle) => ({
         type: 'Feature' as const,
         properties: {
@@ -65,12 +102,6 @@ const Map = ({
         }),
     )
 
-    const bounds = (mapRef.current
-        ?.getMap()
-        ?.getBounds()
-        ?.toArray()
-        ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
-
     const { clusters: scooterClusters } = useSupercluster({
         points: scooterpoints || [],
         bounds,
@@ -96,6 +127,25 @@ const Map = ({
             },
         },
     })
+
+    const liveVehicleMarkers = useMemo(
+        () =>
+            realtimeVehicles
+                ? realtimeVehicles.map((vehicle) => (
+                      <Marker
+                          key={vehicle.vehicleRef}
+                          latitude={vehicle.location.latitude}
+                          longitude={vehicle.location.longitude}
+                          className="map__live-vehicle-marker"
+                      >
+                          <RealtimeVehicleTag
+                              realtimeVehicle={vehicle}
+                          ></RealtimeVehicleTag>
+                      </Marker>
+                  ))
+                : [],
+        [realtimeVehicles],
+    )
 
     return (
         <InteractiveMap
@@ -126,6 +176,7 @@ const Map = ({
             }
             ref={mapRef}
         >
+            {realtimeVehicles && liveVehicleMarkers}
             {scooterClusters.map((scooterCluster) => {
                 const [slongitude, slatitude] =
                     scooterCluster.geometry.coordinates

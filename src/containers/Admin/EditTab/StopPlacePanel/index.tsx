@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react'
 
 import { Checkbox } from '@entur/form'
-import { LegMode } from '@entur/sdk'
 import { Paragraph } from '@entur/typography'
+import { TransportMode } from '@entur/sdk'
 
 import { toggleValueInList, isDarkOrDefaultTheme } from '../../../../utils'
 import { StopPlaceWithLines } from '../../../../types'
@@ -86,7 +86,7 @@ function StopPlacePanel(props: Props): JSX.Element {
     )
 
     const onToggleMode = useCallback(
-        (stopPlaceId: string, mode: LegMode): void => {
+        (stopPlaceId: string, mode: TransportMode): void => {
             const newHiddenModes = {
                 ...hiddenStopModes,
                 [stopPlaceId]: toggleValueInList(

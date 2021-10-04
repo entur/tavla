@@ -21,6 +21,8 @@ export const DEFAULT_SETTINGS: Settings = {
     theme: Theme.DEFAULT,
     logoSize: '32px',
     description: '',
+    hiddenRealtimeDataLineRefs: [],
+    hideRealtimeData: false,
 }
 
 const VERSION_PREFIX_REGEX = /^v(\d)+::/

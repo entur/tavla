@@ -13,20 +13,24 @@ async function fetchVehicles(
     coordinates: Coordinates,
     distance: number,
     operators: Operator[],
+    signal: AbortSignal,
     formFactor?: FormFactor,
 ): Promise<Vehicle[]> {
     if (!coordinates || !distance || !operators?.length) {
         return []
     }
 
-    const vehicles: Promise<Vehicle[]> = service.mobility.getVehicles({
-        lat: Number(coordinates.latitude),
-        lon: Number(coordinates.longitude),
-        range: distance,
-        count: 50,
-        operators: operators.map((operator) => operator.id),
-        formFactors: formFactor ? [formFactor] : undefined,
-    })
+    const vehicles: Promise<Vehicle[]> = service.mobility.getVehicles(
+        {
+            lat: Number(coordinates.latitude),
+            lon: Number(coordinates.longitude),
+            range: distance,
+            count: 50,
+            operators: operators.map((operator) => operator.id),
+            formFactors: formFactor ? [formFactor] : undefined,
+        },
+        { signal },
+    )
 
     return vehicles
 }
@@ -52,22 +56,41 @@ export default function useMobility(formFactor?: FormFactor): Vehicle[] | null {
     const isDisabled = Boolean(hiddenModes?.includes('sparkesykkel'))
 
     useEffect(() => {
+        const abortController = new AbortController()
         if (!coordinates || !distance || isDisabled) {
             return setVehicles(null)
         }
 
-        fetchVehicles(coordinates, distance, operators, formFactor)
+        fetchVehicles(
+            coordinates,
+            distance,
+            operators,
+            abortController.signal,
+            formFactor,
+        )
             .then(setVehicles)
-            // eslint-disable-next-line no-console
-            .catch((error) => console.error(error))
+            .catch((error) => {
+                if (error.name !== 'AbortError') throw error
+            })
 
         const intervalId = setInterval(() => {
-            fetchVehicles(coordinates, distance, operators, formFactor).then(
-                setVehicles,
+            fetchVehicles(
+                coordinates,
+                distance,
+                operators,
+                abortController.signal,
+                formFactor,
             )
+                .then(setVehicles)
+                .catch((error) => {
+                    if (error.name !== 'AbortError') throw error
+                })
         }, REFRESH_INTERVAL)
 
-        return (): void => clearInterval(intervalId)
+        return (): void => {
+            clearInterval(intervalId)
+            abortController.abort()
+        }
     }, [coordinates, distance, operators, isDisabled, formFactor])
 
     return vehicles

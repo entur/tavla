@@ -65,7 +65,7 @@ export function getIconColorType(theme: Theme | undefined): IconColorType {
 }
 
 export function getIconColor(
-    type: TransportMode | LegMode,
+    type: TransportMode | LegMode | 'ferry',
     iconColorType: IconColorType,
     subType?: TransportSubmode,
 ): string {
@@ -78,6 +78,7 @@ export function getIconColor(
         case 'bicycle':
             return colors.transport[iconColorType].mobility
         case 'water':
+        case 'ferry':
             return colors.transport[iconColorType].ferry
         case 'metro':
             return colors.transport[iconColorType].metro
@@ -422,6 +423,14 @@ export const getWeatherIconEntur = (APIconName: string): JSX.Element => {
 const arrayContains = (original: string[], contains: string[]): boolean =>
     original.some((r) => contains.indexOf(r) >= 0)
 
+export function getDepartureNumber(departure: LineData): string {
+    return departure.route.split(/[\s]/g)[0]
+}
+
+export function getDepartureDirection(departure: LineData): string[] {
+    return departure.route.split(/([\s])/g).slice(1)
+}
+
 export function getTranslation(
     translationObject: TranslatedString,
     languageId = 'nb',
@@ -433,3 +442,12 @@ export function getTranslation(
     if (!match) return null
     return match.value
 }
+
+export const getFeedbackString = (lastUpdated: number): string => {
+    if (lastUpdated < 60) return `${lastUpdated} sekunder siden`
+    if (lastUpdated < 120) return '> 1 minutt siden'
+    return ` > ${Math.floor(lastUpdated / 60)} minutter siden`
+}
+
+export const getLastUpdated = (lastUpdated: string): number =>
+    differenceInSeconds(new Date(), parseISO(lastUpdated))

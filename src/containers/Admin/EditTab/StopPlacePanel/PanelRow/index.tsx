@@ -3,7 +3,7 @@ import React, { ChangeEvent } from 'react'
 import { Checkbox, TravelSwitch } from '@entur/form'
 import type { TravelSwitchProps } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
-import { LegMode } from '@entur/sdk'
+import { TransportMode } from '@entur/sdk'
 
 import { unique } from '../../../../../utils'
 import { Settings } from '../../../../../settings'
@@ -35,7 +35,7 @@ const PanelRow = ({
     const visibleLines = lines.filter(
         (line) =>
             !settings.hiddenStopModes[id]?.includes(
-                line.transportMode as unknown as LegMode,
+                line.transportMode as unknown as TransportMode,
             ),
     )
 
@@ -63,9 +63,9 @@ const PanelRow = ({
                         key: mode,
                         size: 'large',
                         onChange: (): void =>
-                            onToggleMode(id, mode as unknown as LegMode),
+                            onToggleMode(id, mode as unknown as TransportMode),
                         checked: !settings.hiddenStopModes[id]?.includes(
-                            mode as unknown as LegMode,
+                            mode as unknown as TransportMode,
                         ),
                     }
 
@@ -131,7 +131,7 @@ const PanelRow = ({
 }
 
 interface Props {
-    onToggleMode: (id: string, mode: LegMode) => void
+    onToggleMode: (id: string, mode: TransportMode) => void
     onToggleRoute: (id: string, routeName: string) => void
     onToggleStop: (event: ChangeEvent<HTMLInputElement>) => void
     stopPlace: StopPlaceWithLines

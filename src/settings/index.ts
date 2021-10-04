@@ -6,7 +6,7 @@ import {
     useEffect,
 } from 'react'
 import { useLocation } from 'react-router-dom'
-import { LegMode, Coordinates } from '@entur/sdk'
+import { Coordinates, TransportMode } from '@entur/sdk'
 
 import { onSnapshot } from 'firebase/firestore'
 
@@ -34,7 +34,7 @@ export interface Settings {
     hiddenStations: string[]
     hiddenStops: string[]
     hiddenModes: Mode[]
-    hiddenStopModes: { [stopPlaceId: string]: LegMode[] }
+    hiddenStopModes: { [stopPlaceId: string]: TransportMode[] }
     hiddenRoutes: {
         [stopPlaceId: string]: string[]
     }
@@ -57,6 +57,8 @@ export interface Settings {
     hideSituations?: boolean
     hideTracks?: boolean
     hideWalkInfo?: boolean
+    hideRealtimeData: boolean
+    hiddenRealtimeDataLineRefs: string[]
 }
 
 type Setter = (settings: Partial<Settings>) => void
@@ -76,6 +78,7 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     theme: Theme.DEFAULT,
     owners: [] as string[],
     hiddenStopModes: {},
+    hiddenRealtimeDataLineRefs: [],
 }
 
 export function useSettings(): [Settings | null, Setter] {

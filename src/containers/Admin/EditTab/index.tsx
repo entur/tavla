@@ -41,12 +41,16 @@ import {
     saveToLocalStorage,
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
+import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
+
+import useVehicleData from '../../../logic/useRealtimeVehicleData'
 
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
 import ScooterPanel from './ScooterPanel'
+import RealtimeDataPanel from './RealtimeDataPanel'
 import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
 
@@ -65,6 +69,23 @@ const COLS: { [key: string]: number } = {
     xxs: 1,
 }
 
+const toolTip = (
+    <Tooltip
+        content={
+            <Label className="weather-tooltip-text">
+                Tilgjengelig i visningstyper kompakt, kronologisk og kart.
+                Værdata fra YR (met.no). Noe værdata kan bli skjult ved liten
+                boksstørrelse.
+            </Label>
+        }
+        placement="top"
+    >
+        <span>
+            <ValidationInfoIcon size={20} />
+        </span>
+    </Tooltip>
+)
+
 const EditTab = (): JSX.Element => {
     const [breakpoint, setBreakpoint] = useState<string>('lg')
     const [settings, setSettings] = useSettingsContext()
@@ -72,6 +93,8 @@ const EditTab = (): JSX.Element => {
         newStops = [],
         newStations = [],
         hiddenModes,
+        hideRealtimeData,
+        hiddenRealtimeDataLineRefs = [],
         showMap = false,
         showWeather = false,
         showIcon = true,
@@ -81,6 +104,19 @@ const EditTab = (): JSX.Element => {
     } = settings || {}
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
+    )
+
+    const { allLinesWithRealtimeData } = useVehicleData()
+    const { uniqueLines } = useStopPlacesWithLines()
+
+    const realtimeLines = useMemo(
+        () =>
+            !uniqueLines || !allLinesWithRealtimeData
+                ? undefined
+                : uniqueLines?.filter((line) =>
+                      allLinesWithRealtimeData?.includes(line.id),
+                  ),
+        [uniqueLines, allLinesWithRealtimeData],
     )
 
     const [zoom, setZoom] = useState<number>(settings?.zoom || DEFAULT_ZOOM)
@@ -93,6 +129,27 @@ const EditTab = (): JSX.Element => {
             })
         }
     }, [settings, debouncedZoom, setSettings])
+
+    const toggleRealtimeDataLineIds = useCallback(
+        (lineId: string) => {
+            if (hiddenRealtimeDataLineRefs.includes(lineId)) {
+                setSettings({
+                    hiddenRealtimeDataLineRefs:
+                        hiddenRealtimeDataLineRefs.filter(
+                            (el) => el !== lineId,
+                        ),
+                })
+            } else {
+                setSettings({
+                    hiddenRealtimeDataLineRefs: [
+                        ...hiddenRealtimeDataLineRefs,
+                        lineId,
+                    ],
+                })
+            }
+        },
+        [hiddenRealtimeDataLineRefs, setSettings],
+    )
 
     const debouncedDistance = useDebounce(distance, 800)
     useEffect(() => {
@@ -144,30 +201,31 @@ const EditTab = (): JSX.Element => {
     const scooters = useMobility(FormFactor.SCOOTER)
 
     useEffect(() => {
-        const controller = new AbortController()
+        const abortController = new AbortController()
         const ids = [...newStops, ...nearestStopPlaceIds]
 
         getStopPlacesWithLines(
             ids.map((id: string) => id.replace(/-\d+$/, '')),
-        ).then((resultingStopPlaces) => {
-            if (controller.signal.aborted) return
-
-            setStopPlaces(
-                resultingStopPlaces.map((s, index) => ({
-                    ...s,
-                    id: ids[index],
-                })),
-            )
-        })
+            abortController.signal,
+        )
+            .then((resultingStopPlaces) => {
+                setStopPlaces(
+                    resultingStopPlaces.map((s, index) => ({
+                        ...s,
+                        id: ids[index],
+                    })),
+                )
+            })
+            .catch((error) => {
+                if (error.name !== 'AbortError') throw error
+            })
 
         return (): void => {
-            controller.abort()
+            abortController.abort()
         }
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
 
     useEffect(() => {
-        const controller = new AbortController()
-
         if (bikeRentalStations) {
             const sortedStations = bikeRentalStations
                 .filter(isNotNullOrUndefined)
@@ -178,12 +236,7 @@ const EditTab = (): JSX.Element => {
                     if (!bName) return -1
                     return aName.localeCompare(bName, 'no')
                 })
-            if (controller.signal.aborted) return
             setSortedBikeRentalStations(sortedStations)
-        }
-
-        return (): void => {
-            controller.abort()
         }
     }, [bikeRentalStations])
 
@@ -221,6 +274,11 @@ const EditTab = (): JSX.Element => {
             })
         },
         [setSettings, hiddenModes],
+    )
+
+    const toggleRealtimeData = useCallback(
+        () => setSettings({ hideRealtimeData: !hideRealtimeData }),
+        [setSettings, hideRealtimeData],
     )
     const [showTooltip, setShowTooltip] = useState<boolean>(false)
 
@@ -289,6 +347,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.4 },
             { i: 'mapPanel', x: 3, y: 5, w: 1.5, h: 3.2 },
             { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 1.5 },
+            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1.5, h: 2 },
         ],
         md: [
             {
@@ -308,6 +367,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
             { i: 'mapPanel', x: 0, y: 7, w: 2, h: 3 },
             { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.3 },
+            { i: 'realtimeDataPanel', x: 0, y: 0, w: 2, h: 2 },
         ],
         sm: [
             {
@@ -327,6 +387,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.3 },
+            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1, h: 2 },
         ],
         xs: [
             {
@@ -346,6 +407,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
+            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1, h: 2 },
         ],
         xxs: [
             {
@@ -446,6 +508,26 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ToggleDetailsPanel />
                 </div>
+                <div key="realtimeDataPanel" className="edit-tab__tile">
+                    <div className="edit-tab__header">
+                        <Heading2>Sanntidsposisjoner</Heading2>
+                        <Switch
+                            onChange={() => toggleRealtimeData()}
+                            checked={!hideRealtimeData}
+                            size="large"
+                        ></Switch>
+                    </div>
+                    {!hideRealtimeData && (
+                        <RealtimeDataPanel
+                            realtimeLines={realtimeLines}
+                            toggleRealtimeDataLineIds={
+                                toggleRealtimeDataLineIds
+                            }
+                            hiddenLines={hiddenRealtimeDataLineRefs}
+                        />
+                    )}
+                </div>
+
                 <div key="bikePanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>
@@ -497,21 +579,7 @@ const EditTab = (): JSX.Element => {
                     <div className="edit-tab__header">
                         <Heading2>
                             {'Vær '}
-                            <Tooltip
-                                content={
-                                    <Label className="weather-tooltip-text">
-                                        Tilgjengelig i visningstyper kompakt,
-                                        kronologisk og kart. Værdata fra YR
-                                        (met.no). Noe værdata kan bli skjult ved
-                                        liten boksstørrelse.
-                                    </Label>
-                                }
-                                placement="top"
-                            >
-                                <span>
-                                    <ValidationInfoIcon size={20} />
-                                </span>
-                            </Tooltip>
+                            {toolTip}
                         </Heading2>
                         <Switch
                             onChange={handleWeatherSettingsChange}
