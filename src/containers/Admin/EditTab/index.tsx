@@ -69,6 +69,23 @@ const COLS: { [key: string]: number } = {
     xxs: 1,
 }
 
+const toolTip = (
+    <Tooltip
+        content={
+            <Label className="weather-tooltip-text">
+                Tilgjengelig i visningstyper kompakt, kronologisk og kart.
+                Værdata fra YR (met.no). Noe værdata kan bli skjult ved liten
+                boksstørrelse.
+            </Label>
+        }
+        placement="top"
+    >
+        <span>
+            <ValidationInfoIcon size={20} />
+        </span>
+    </Tooltip>
+)
+
 const EditTab = (): JSX.Element => {
     const [breakpoint, setBreakpoint] = useState<string>('lg')
     const [settings, setSettings] = useSettingsContext()
@@ -562,21 +579,7 @@ const EditTab = (): JSX.Element => {
                     <div className="edit-tab__header">
                         <Heading2>
                             {'Vær '}
-                            <Tooltip
-                                content={
-                                    <Label className="weather-tooltip-text">
-                                        Tilgjengelig i visningstyper kompakt,
-                                        kronologisk og kart. Værdata fra YR
-                                        (met.no). Noe værdata kan bli skjult ved
-                                        liten boksstørrelse.
-                                    </Label>
-                                }
-                                placement="top"
-                            >
-                                <span>
-                                    <ValidationInfoIcon size={20} />
-                                </span>
-                            </Tooltip>
+                            {toolTip}
                         </Heading2>
                         <Switch
                             onChange={handleWeatherSettingsChange}
