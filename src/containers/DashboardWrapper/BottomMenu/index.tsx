@@ -22,12 +22,9 @@ import { useFirebaseAuthentication, auth } from '../../../auth'
 import LockModal from '../../LockModal'
 import LoginModal from '../../../components/LoginModal'
 import MineTavlerModal from '../../MineTavlerModal'
-import { isMobileWeb } from '../../../utils'
 
 import MenuButton from './MenuButton'
 import './styles.scss'
-
-const isMobile = isMobileWeb()
 
 function BottomMenu({ className, history }: Props): JSX.Element {
     const URL = document.location.href
@@ -126,47 +123,45 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 
     const menuRef = useRef<HTMLDivElement>(null)
 
-    const [mobileWidth, setMobileWidth] = useState<boolean>(
+    const [isMobileWidth, setIsMobileWidth] = useState<boolean>(
         document.body.clientWidth <= 900,
     )
     const width = useWindowWidth()
     useEffect(() => {
-        if (width > 900 && mobileWidth) {
-            setMobileWidth(false)
+        if (width > 900 && isMobileWidth) {
+            setIsMobileWidth(false)
             if (menuRef.current) {
                 menuRef.current.classList.remove('hidden-menu')
             }
-        } else if (width <= 900 && !mobileWidth) {
-            setMobileWidth(true)
+        } else if (width <= 900 && !isMobileWidth) {
+            setIsMobileWidth(true)
             if (menuRef.current) {
                 menuRef.current.classList.add('hidden-menu')
             }
         }
-    }, [width, mobileWidth, setMobileWidth])
+    }, [width, isMobileWidth, setIsMobileWidth])
 
-    const isWeb = !isMobile
-    const [hideOnScroll, setHideOnScroll] = useState(true)
+    const [menuHiddenByScroll, setMenuHiddenByScroll] = useState(true)
     useScrollPosition(
         ({ prevPos, currPos }) => {
-            if (!mobileWidth) return
-            const isShow = currPos.y < prevPos.y
-            const menu = menuRef.current
-            if (isShow !== hideOnScroll && isWeb) {
-                setHideOnScroll(isShow)
-                if (!menu) return
-                if (isShow) {
-                    menu.classList.add('hidden-menu')
-                } else {
-                    menu.classList.remove('hidden-menu')
-                }
+            if (!isMobileWidth) return
+            if (!menuRef.current) return
+
+            const hasScrolledDown = currPos.y < prevPos.y
+            if (!menuHiddenByScroll && hasScrolledDown) {
+                menuRef.current.classList.add('hidden-menu')
+                setMenuHiddenByScroll(true)
+            } else if (menuHiddenByScroll && !hasScrolledDown) {
+                menuRef.current.classList.remove('hidden-menu')
+                setMenuHiddenByScroll(false)
             }
         },
-        [hideOnScroll, mobileWidth, setHideOnScroll],
+        [menuHiddenByScroll, isMobileWidth, setMenuHiddenByScroll],
     )
 
     const [idle, setIdle] = useState<boolean>(false)
     useEffect(() => {
-        if (mobileWidth) return
+        if (isMobileWidth) return
         const createTimeout = (): number =>
             window.setTimeout(() => {
                 if (
@@ -216,7 +211,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             }
             clearTimeout(timeout)
         }
-    }, [idle, mobileWidth, setIdle])
+    }, [idle, isMobileWidth, setIdle])
 
     return (
         <div
