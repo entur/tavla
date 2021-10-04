@@ -49,7 +49,7 @@ async function getWalkInfo(
                     }
                 })
                 .catch((error) => {
-                    if (!(error.name === 'AbortError')) throw error
+                    if (error.name !== 'AbortError') throw error
                     return null
                 }),
         ),
@@ -88,7 +88,7 @@ export default function useTravelTime(
             )
                 .then(setTravelTime)
                 .catch((error) => {
-                    if (!(error.name === 'AbortError')) throw error
+                    if (error.name !== 'AbortError') throw error
                 })
         }
         return () => {

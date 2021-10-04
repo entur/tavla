@@ -147,7 +147,7 @@ export default function useStopPlacesWithDepartures():
                 .then(formatStopPlacesWithDepartures)
                 .then(setStopPlacesWithDepartures)
                 .catch((error) => {
-                    if (!(error.name === 'AbortError')) throw error
+                    if (error.name !== 'AbortError') throw error
                 })
 
         const intervalId = setInterval(() => {
@@ -155,7 +155,7 @@ export default function useStopPlacesWithDepartures():
                 .then(formatStopPlacesWithDepartures)
                 .then(setStopPlacesWithDepartures)
                 .catch((error) => {
-                    if (!(error.name === 'AbortError')) throw error
+                    if (error.name !== 'AbortError') throw error
                 })
         }, REFRESH_INTERVAL)
 
