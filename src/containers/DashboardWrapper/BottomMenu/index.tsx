@@ -30,8 +30,12 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const URL = document.location.href
 
     const user = useFirebaseAuthentication()
-
+    const width = useWindowWidth()
     const [settings] = useSettingsContext()
+    const [menuHiddenByScroll, setMenuHiddenByScroll] = useState(true)
+    const [isMobileWidth, setIsMobileWidth] = useState<boolean>(
+        document.body.clientWidth <= 900,
+    )
 
     const [lockModalOpen, setLockModalOpen] = useState<boolean>(false)
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
@@ -41,6 +45,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const { addToast } = useToast()
 
     const { documentId } = useParams<{ documentId: string }>()
+
+    const menuRef = useRef<HTMLDivElement>(null)
 
     const onSettingsButtonClick = useCallback(
         (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -121,27 +127,18 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
-    const menuRef = useRef<HTMLDivElement>(null)
-
-    const [isMobileWidth, setIsMobileWidth] = useState<boolean>(
-        document.body.clientWidth <= 900,
-    )
-    const width = useWindowWidth()
     useEffect(() => {
-        if (width > 900 && isMobileWidth) {
-            setIsMobileWidth(false)
-            if (menuRef.current) {
-                menuRef.current.classList.remove('hidden-menu')
-            }
-        } else if (width <= 900 && !isMobileWidth) {
-            setIsMobileWidth(true)
-            if (menuRef.current) {
-                menuRef.current.classList.add('hidden-menu')
-            }
-        }
-    }, [width, isMobileWidth, setIsMobileWidth])
+        setIsMobileWidth(width < 900)
+    }, [width])
 
-    const [menuHiddenByScroll, setMenuHiddenByScroll] = useState(true)
+    useEffect(() => {
+        if (menuRef.current) {
+            isMobileWidth
+                ? menuRef.current.classList.add('hidden-menu')
+                : menuRef.current.classList.remove('hidden-menu')
+        }
+    }, [isMobileWidth])
+
     useScrollPosition(
         ({ prevPos, currPos }) => {
             if (!isMobileWidth) return
