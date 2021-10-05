@@ -22,19 +22,20 @@ import { useFirebaseAuthentication, auth } from '../../../auth'
 import LockModal from '../../LockModal'
 import LoginModal from '../../../components/LoginModal'
 import MineTavlerModal from '../../MineTavlerModal'
-import { isMobileWeb } from '../../../utils'
 
 import MenuButton from './MenuButton'
 import './styles.scss'
-
-const isMobile = isMobileWeb()
 
 function BottomMenu({ className, history }: Props): JSX.Element {
     const URL = document.location.href
 
     const user = useFirebaseAuthentication()
-
+    const width = useWindowWidth()
     const [settings] = useSettingsContext()
+    const [menuHiddenByScroll, setMenuHiddenByScroll] = useState(true)
+    const [isMobileWidth, setIsMobileWidth] = useState<boolean>(
+        document.body.clientWidth <= 900,
+    )
 
     const [lockModalOpen, setLockModalOpen] = useState<boolean>(false)
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
@@ -44,6 +45,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     const { addToast } = useToast()
 
     const { documentId } = useParams<{ documentId: string }>()
+
+    const menuRef = useRef<HTMLDivElement>(null)
 
     const onSettingsButtonClick = useCallback(
         (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -124,49 +127,38 @@ function BottomMenu({ className, history }: Props): JSX.Element {
         />
     )
 
-    const menuRef = useRef<HTMLDivElement>(null)
-
-    const [mobileWidth, setMobileWidth] = useState<boolean>(
-        document.body.clientWidth <= 900,
-    )
-    const width = useWindowWidth()
     useEffect(() => {
-        if (width > 900 && mobileWidth) {
-            setMobileWidth(false)
-            if (menuRef.current) {
-                menuRef.current.classList.remove('hidden-menu')
-            }
-        } else if (width <= 900 && !mobileWidth) {
-            setMobileWidth(true)
-            if (menuRef.current) {
-                menuRef.current.classList.add('hidden-menu')
-            }
-        }
-    }, [width, mobileWidth, setMobileWidth])
+        setIsMobileWidth(width < 900)
+    }, [width])
 
-    const isWeb = !isMobile
-    const [hideOnScroll, setHideOnScroll] = useState(true)
+    useEffect(() => {
+        if (menuRef.current) {
+            isMobileWidth
+                ? menuRef.current.classList.add('hidden-menu')
+                : menuRef.current.classList.remove('hidden-menu')
+        }
+    }, [isMobileWidth])
+
     useScrollPosition(
         ({ prevPos, currPos }) => {
-            if (!mobileWidth) return
-            const isShow = currPos.y < prevPos.y
-            const menu = menuRef.current
-            if (isShow !== hideOnScroll && isWeb) {
-                setHideOnScroll(isShow)
-                if (!menu) return
-                if (isShow) {
-                    menu.classList.add('hidden-menu')
-                } else {
-                    menu.classList.remove('hidden-menu')
-                }
+            if (!isMobileWidth) return
+            if (!menuRef.current) return
+
+            const hasScrolledDown = currPos.y < prevPos.y
+            if (!menuHiddenByScroll && hasScrolledDown) {
+                menuRef.current.classList.add('hidden-menu')
+                setMenuHiddenByScroll(true)
+            } else if (menuHiddenByScroll && !hasScrolledDown) {
+                menuRef.current.classList.remove('hidden-menu')
+                setMenuHiddenByScroll(false)
             }
         },
-        [hideOnScroll, mobileWidth, setHideOnScroll],
+        [menuHiddenByScroll, isMobileWidth, setMenuHiddenByScroll],
     )
 
     const [idle, setIdle] = useState<boolean>(false)
     useEffect(() => {
-        if (mobileWidth) return
+        if (isMobileWidth) return
         const createTimeout = (): number =>
             window.setTimeout(() => {
                 if (
@@ -216,7 +208,7 @@ function BottomMenu({ className, history }: Props): JSX.Element {
             }
             clearTimeout(timeout)
         }
-    }, [idle, mobileWidth, setIdle])
+    }, [idle, isMobileWidth, setIdle])
 
     return (
         <div
