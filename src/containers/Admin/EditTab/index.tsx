@@ -5,13 +5,7 @@ import React, {
     useCallback,
     SyntheticEvent,
 } from 'react'
-import {
-    Heading2,
-    Heading3,
-    Heading4,
-    Label,
-    SubParagraph,
-} from '@entur/typography'
+import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
@@ -72,11 +66,13 @@ const COLS: { [key: string]: number } = {
 const toolTip = (
     <Tooltip
         content={
-            <Label className="weather-tooltip-text">
-                Tilgjengelig i visningstyper kompakt, kronologisk og kart.
-                Værdata fra YR (met.no). Noe værdata kan bli skjult ved liten
-                boksstørrelse.
-            </Label>
+            <div>
+                <SubParagraph className="tooltip-container-weather">
+                    Tilgjengelig i visningstyper kompakt, kronologisk og kart.
+                    Værdata fra YR (met.no). Noe værdata kan bli skjult ved
+                    liten boksstørrelse.
+                </SubParagraph>
+            </div>
         }
         placement="top"
     >

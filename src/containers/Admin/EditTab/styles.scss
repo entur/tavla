@@ -15,6 +15,11 @@
             color: var(--tavla-box-background-color);
         }
     }
+    .tooltip-container-weather {
+        color: var(--tavla-box-background-color);
+        margin: 0;
+    }
+
     .eds-form-control,
     .eds-form-control__append {
         font-size: inherit;
@@ -50,10 +55,6 @@
         display: block;
         border-radius: 1rem;
         overflow-x: visible;
-    }
-
-    .weather-tooltip-text {
-        color: var(--tavla-input-font-color);
     }
 
     .eds-checkbox-icon {
