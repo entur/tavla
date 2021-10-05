@@ -60,7 +60,6 @@ const PanelRow = ({
             >
                 {uniqueModes.map((mode) => {
                     const props: Partial<TravelSwitchProps> = {
-                        key: mode,
                         size: 'large',
                         onChange: (): void =>
                             onToggleMode(id, mode as unknown as TransportMode),

@@ -37,6 +37,7 @@ const Description = (): JSX.Element => {
             </Paragraph>
             <Label>Beskrivelse av avgangstavla</Label>
             <TextField
+                label="Beskrivelse av avgangstavla"
                 value={value}
                 onChange={(event: FormEvent<HTMLInputElement>): void =>
                     setValue(event.currentTarget.value)

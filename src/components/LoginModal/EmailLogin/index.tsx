@@ -3,7 +3,7 @@ import React, { useState, Dispatch, SetStateAction } from 'react'
 import type { User } from 'firebase/auth'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 
-import { TextField, InputGroup } from '@entur/form'
+import { TextField } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
 import { EmailIcon, ClosedLockIcon, BackArrowIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
@@ -107,36 +107,30 @@ const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
                         </GridItem>
                     )}
                     <GridItem small={12}>
-                        <InputGroup
+                        <TextField
                             label="E-post"
                             variant={emailError ? 'error' : undefined}
                             feedback={emailError}
-                        >
-                            <TextField
-                                type="text"
-                                value={inputs.email}
-                                onChange={handleInputsChange}
-                                id="email"
-                                prepend={<EmailIcon inline />}
-                                placeholder="F.eks. ola.nordmann@entur.no"
-                            />
-                        </InputGroup>
+                            type="text"
+                            value={inputs.email}
+                            onChange={handleInputsChange}
+                            id="email"
+                            prepend={<EmailIcon inline />}
+                            placeholder="F.eks. ola.nordmann@entur.no"
+                        />
                     </GridItem>
                     <GridItem small={12}>
-                        <InputGroup
+                        <TextField
                             label="Passord"
                             variant={passwordError ? 'error' : undefined}
                             feedback={passwordError}
-                        >
-                            <TextField
-                                type="password"
-                                value={inputs.password}
-                                onChange={handleInputsChange}
-                                id="password"
-                                prepend={<ClosedLockIcon inline />}
-                                placeholder="Minst 8 tegn"
-                            />
-                        </InputGroup>
+                            type="password"
+                            value={inputs.password}
+                            onChange={handleInputsChange}
+                            id="password"
+                            prepend={<ClosedLockIcon inline />}
+                            placeholder="Minst 8 tegn"
+                        />
                     </GridItem>
                     <GridItem small={12}>
                         <PrimaryButton

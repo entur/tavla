@@ -154,6 +154,7 @@ const CustomURL = (): JSX.Element => {
                 <Paragraph className="prepend">tavla.entur.no/t/</Paragraph>
                 <div className="input-field">
                     <TextField
+                        label="Ønsket lenkeadresse"
                         value={customUrlInput}
                         onChange={handleCustomUrlChange}
                         maxLength={80}

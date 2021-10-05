@@ -3,7 +3,7 @@ import React, { useState, Dispatch, SetStateAction } from 'react'
 import type { User } from 'firebase/auth'
 import { sendPasswordResetEmail } from 'firebase/auth'
 
-import { TextField, InputGroup } from '@entur/form'
+import { TextField } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
 import { EmailIcon, BackArrowIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
@@ -78,20 +78,17 @@ const ResetPassword = ({ setModalType, onDismiss }: Props): JSX.Element => {
             </Paragraph>
             <GridContainer spacing="medium">
                 <GridItem small={12}>
-                    <InputGroup
+                    <TextField
                         label="E-post"
                         variant={emailError ? 'error' : undefined}
                         feedback={emailError}
-                    >
-                        <TextField
-                            type="text"
-                            value={inputs.email}
-                            onChange={handleInputsChange}
-                            id="email"
-                            prepend={<EmailIcon inline />}
-                            placeholder="F.eks. ola.nordmann@entur.no"
-                        />
-                    </InputGroup>
+                        type="text"
+                        value={inputs.email}
+                        onChange={handleInputsChange}
+                        id="email"
+                        prepend={<EmailIcon inline />}
+                        placeholder="F.eks. ola.nordmann@entur.no"
+                    />
                 </GridItem>
                 <GridItem small={12}>
                     <PrimaryButton
