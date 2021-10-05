@@ -1,7 +1,7 @@
+import { useCallback, useEffect, useState } from 'react'
+
 import { useQuery, useSubscription } from '@apollo/client'
 import type { OnSubscriptionDataOptions } from '@apollo/client'
-
-import { useCallback, useEffect, useState } from 'react'
 
 import { Filter } from '../services/realtimeVehicles/types/filter'
 import { RealtimeVehicle } from '../services/realtimeVehicles/types/realtimeVehicle'

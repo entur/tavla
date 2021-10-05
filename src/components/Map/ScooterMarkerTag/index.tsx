@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { ScooterIcon } from '@entur/icons'
 
 import { Operator } from '@entur/sdk/lib/mobility/types'

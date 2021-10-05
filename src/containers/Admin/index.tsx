@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
+
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
 
-import './styles.scss'
 import { useFirebaseAuthentication } from '../../auth'
 
 import { useSettingsContext } from '../../settings'
@@ -17,6 +17,7 @@ import ThemeTab from './ThemeTab'
 import VisningTab from './DashboardPickerTab'
 import NameTab from './NameTab'
 import FloatingButtons from './FloatingButtons'
+import './styles.scss'
 
 const AdminPage = (): JSX.Element => {
     const user = useFirebaseAuthentication()

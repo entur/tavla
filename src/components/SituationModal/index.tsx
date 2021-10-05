@@ -1,11 +1,13 @@
 import React from 'react'
+
 import { Modal } from '@entur/modal'
 import { PrimaryButton } from '@entur/button'
 
 import { Paragraph } from '@entur/typography'
 
-import './styles.scss'
 import ValidationExclamation from '../../assets/icons/ValidationExclamation'
+
+import './styles.scss'
 
 interface Props {
     situationMessage: string

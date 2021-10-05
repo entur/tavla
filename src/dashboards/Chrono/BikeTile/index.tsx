@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
+
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
 import { Station } from '@entur/sdk/lib/mobility/types'
 
 import Tile from '../components/Tile'
 
-import './styles.scss'
 import { useSettingsContext } from '../../../settings'
 import { IconColorType } from '../../../types'
 import { getIconColorType, getTranslation } from '../../../utils'
 import useWalkInfoBike, { WalkInfoBike } from '../../../logic/useWalkInfoBike'
 import TileRow from '../components/TileRow'
+
+import './styles.scss'
 
 function getWalkInfoBike(
     walkInfos: WalkInfoBike[],

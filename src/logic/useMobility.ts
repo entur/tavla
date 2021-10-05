@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+
 import { Coordinates } from '@entur/sdk'
 
 import { Vehicle, FormFactor, Operator } from '@entur/sdk/lib/mobility/types'

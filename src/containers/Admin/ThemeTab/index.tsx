@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+
 import { Heading2, Paragraph } from '@entur/typography'
 
 import { useSettingsContext } from '../../../settings'
@@ -9,8 +10,9 @@ import Dark from '../../../assets/previews/Dark-theme.svg'
 import Light from '../../../assets/previews/Light-theme.svg'
 import Entur from '../../../assets/previews/Entur-theme.svg'
 
-import './styles.scss'
 import { getDocumentId } from '../../../utils'
+
+import './styles.scss'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)

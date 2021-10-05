@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 
+import { useParams } from 'react-router-dom'
+
 import { signOut } from 'firebase/auth'
 
-import { useParams } from 'react-router-dom'
 import copy from 'copy-to-clipboard'
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { useWindowWidth } from '@react-hook/window-size'

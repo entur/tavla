@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import './styles.scss'
 
 import { colors } from '@entur/tokens'
 import { TransportMode } from '@entur/sdk'
@@ -15,6 +14,8 @@ import {
 
 import { IconColorType } from '../../../../types'
 import { RealtimeVehicle } from '../../../../services/realtimeVehicles/types/realtimeVehicle'
+
+import './styles.scss'
 
 interface Props {
     realtimeVehicle: RealtimeVehicle

@@ -1,8 +1,9 @@
+import React from 'react'
+
 import { FilterChip } from '@entur/chip'
 import { Fieldset } from '@entur/form'
 import { Loader } from '@entur/loader'
 import { Paragraph } from '@entur/typography'
-import React from 'react'
 
 import { Line } from '../../../../types'
 import { getIcon } from '../../../../utils'

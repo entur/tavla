@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
     Heading1,
     Heading2,
@@ -7,8 +8,9 @@ import {
     Link,
 } from '@entur/typography'
 
-import './styles.scss'
 import { Contrast } from '@entur/layout'
+
+import './styles.scss'
 
 const Privacy = (): JSX.Element => (
     <article className="privacy">

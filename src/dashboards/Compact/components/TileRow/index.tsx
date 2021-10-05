@@ -1,10 +1,10 @@
 import React from 'react'
+
 import { Heading3 } from '@entur/typography'
 
 import { TileSubLabel } from '../../../../types'
 import ValidationExclamation from '../../../../assets/icons/ValidationExclamation'
 import ValidationError from '../../../../assets/icons/ValidationError'
-import './styles.scss'
 
 import SituationModal from '../../../../components/SituationModal'
 
@@ -12,6 +12,7 @@ import { isMobileWeb } from '../../../../utils'
 import { WalkInfoBike } from '../../../../logic/useWalkInfoBike'
 
 import PlatformInfo from './PlatformInfo'
+import './styles.scss'
 
 const isMobile = isMobileWeb()
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+
 import { Operator } from '@entur/sdk/lib/mobility/types'
 
 import service from '../service'

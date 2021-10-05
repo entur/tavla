@@ -8,10 +8,10 @@ import ValidationExclamation from '../../../../assets/icons/ValidationExclamatio
 import ValidationError from '../../../../assets/icons/ValidationError'
 import { IconColorType, LineData, TileSubLabel } from '../../../../types'
 
-import './styles.scss'
-
 import SituationModal from '../../../../components/SituationModal'
 import { createTileSubLabel, getIcon, isMobileWeb } from '../../../../utils'
+
+import './styles.scss'
 
 const isMobile = isMobileWeb()
 

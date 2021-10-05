@@ -1,13 +1,14 @@
 import React from 'react'
+
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import MapView from '../../../components/Map'
 
-import './styles.scss'
-
 import { StopPlaceWithDepartures } from '../../../types'
+
+import './styles.scss'
 
 function MapTile(data: Props): JSX.Element {
     return (

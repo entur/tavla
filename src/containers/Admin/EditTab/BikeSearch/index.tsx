@@ -6,8 +6,9 @@ import { Station } from '@entur/sdk/lib/mobility/types'
 
 import service from '../../../../service'
 
-import './styles.scss'
 import { getTranslation } from '../../../../utils'
+
+import './styles.scss'
 
 const MAX_SEARCH_RANGE = 100_000
 

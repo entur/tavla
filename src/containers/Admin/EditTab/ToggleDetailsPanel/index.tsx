@@ -1,10 +1,12 @@
 import React from 'react'
+
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
-import './styles.scss'
 
 import { useSettingsContext } from '../../../../settings'
+
+import './styles.scss'
 
 function ToggleDetailsPanel(): JSX.Element {
     const [settings, setSettings] = useSettingsContext()

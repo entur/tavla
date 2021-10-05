@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
-import { useLongPress } from 'use-long-press'
 import { useRouteMatch } from 'react-router'
+
+import { useLongPress } from 'use-long-press'
+
 import { Loader } from '@entur/loader'
 
 import { FormFactor } from '@entur/sdk/lib/mobility/types'

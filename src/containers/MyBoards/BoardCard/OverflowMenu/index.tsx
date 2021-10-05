@@ -1,5 +1,7 @@
 import React, { useCallback, useState } from 'react'
 
+import copy from 'copy-to-clipboard'
+
 import {
     ConfigurationIcon,
     ShareIcon,
@@ -9,12 +11,10 @@ import {
 import { OverflowMenu, OverflowMenuItem, OverflowMenuLink } from '@entur/menu'
 import { useToast } from '@entur/alert'
 
-import copy from 'copy-to-clipboard'
+import '../styles.scss'
 
 import RemoveLockModal from './Modals/RemoveLockModal'
 import DeleteTavleModal from './Modals/DeleteTavleModal'
-
-import '../styles.scss'
 
 function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
     const [removeLockModalOpen, setRemoveLockModalOpen] =

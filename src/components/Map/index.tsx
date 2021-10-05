@@ -2,6 +2,7 @@ import React, { useState, memo, useRef, useEffect, useMemo } from 'react'
 
 import { InteractiveMap, Marker } from 'react-map-gl'
 import type { MapRef } from 'react-map-gl'
+
 import useSupercluster from 'use-supercluster'
 
 import type { ClusterProperties } from 'supercluster'

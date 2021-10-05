@@ -1,6 +1,8 @@
 import React from 'react'
-import '../../variables.scss'
+
 import { colors } from '@entur/tokens'
+
+import '../../variables.scss'
 
 function ResizeHandle({ className, size, variant }: Props): JSX.Element | null {
     const color =

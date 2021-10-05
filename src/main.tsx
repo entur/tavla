@@ -1,6 +1,8 @@
-import 'react-app-polyfill/stable'
 import React from 'react'
 import ReactDOM from 'react-dom'
+
+import 'react-app-polyfill/stable'
+
 import analytics from 'universal-ga'
 import { createBrowserHistory } from 'history'
 

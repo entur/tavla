@@ -6,9 +6,10 @@ import {
     useEffect,
 } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Coordinates, TransportMode } from '@entur/sdk'
 
 import { onSnapshot } from 'firebase/firestore'
+
+import { Coordinates, TransportMode } from '@entur/sdk'
 
 import { Theme } from '../types'
 import { getSettings } from '../services/firebase'
