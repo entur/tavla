@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { BackArrowIcon } from '@entur/icons'
 
 import './styles.scss'

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
 import { Station } from '@entur/sdk/lib/mobility/types'

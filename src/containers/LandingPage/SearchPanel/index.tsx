@@ -1,10 +1,12 @@
 import React, { memo, useState, useEffect } from 'react'
+
 import { Button } from '@entur/button'
 import { Coordinates, Feature, convertFeatureToLocation } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
 
 import service from '../../../service'
 import { useLocationPermission } from '../../../hooks'
+
 import './styles.scss'
 
 const YOUR_POSITION = 'Posisjonen din'

@@ -6,11 +6,11 @@ import { DataCell, TableBody, TableRow } from '@entur/table'
 
 import { IconColorType, LineData } from '../../../../types'
 
-import './styles.scss'
-
 import SituationModal from '../../../../components/SituationModal'
 import { createTileSubLabel, getIcon, isMobileWeb } from '../../../../utils'
 import SubLabelIcon from '../SubLabelIcon'
+
+import './styles.scss'
 
 const isMobile = isMobileWeb()
 

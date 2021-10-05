@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 
-import { FileUpload } from '@entur/fileupload'
 import type { FileRejection } from 'react-dropzone'
+
+import { FileUpload } from '@entur/fileupload'
 import { Label, Link } from '@entur/typography'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'

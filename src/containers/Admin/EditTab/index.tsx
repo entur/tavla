@@ -5,11 +5,13 @@ import React, {
     useCallback,
     SyntheticEvent,
 } from 'react'
+
+import { WidthProvider, Responsive } from 'react-grid-layout'
+
 import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
-import { WidthProvider, Responsive } from 'react-grid-layout'
 
 import { FormFactor, Station } from '@entur/sdk/lib/mobility/types'
 

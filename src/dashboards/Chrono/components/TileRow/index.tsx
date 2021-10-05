@@ -1,10 +1,11 @@
 import React from 'react'
+
 import { Heading3 } from '@entur/typography'
 
 import { TileSubLabel } from '../../../../types'
-import './styles.scss'
-
 import { WalkInfoBike } from '../../../../logic/useWalkInfoBike'
+
+import './styles.scss'
 
 function formatWalkInfo(walkInfoBike: WalkInfoBike) {
     if (walkInfoBike.walkTime / 60 < 1) {

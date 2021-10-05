@@ -1,8 +1,8 @@
 import React from 'react'
 
-import './styles.scss'
-
 import { Tooltip } from '@entur/tooltip'
+
+import './styles.scss'
 
 function MenuButton({ title, icon, callback, tooltip }: Props): JSX.Element {
     const button = (

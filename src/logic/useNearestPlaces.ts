@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+
 import { NearestPlace, Coordinates, TypeName } from '@entur/sdk'
 
 import service from '../service'

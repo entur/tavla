@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
-import { useLongPress } from 'use-long-press'
 import { useRouteMatch } from 'react-router'
+
+import { useLongPress } from 'use-long-press'
 
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
 
@@ -22,7 +23,7 @@ import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
-import './styles.scss'
+
 import { useSettingsContext } from '../../settings'
 
 import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
@@ -35,6 +36,8 @@ import WeatherTile from '../../components/WeatherTile'
 import DepartureTile from './DepartureTile'
 import MapTile from './MapTile'
 import BikeTile from './BikeTile'
+
+import './styles.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 

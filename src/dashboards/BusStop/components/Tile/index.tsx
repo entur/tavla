@@ -1,9 +1,11 @@
 import React from 'react'
+
 import { Heading2 } from '@entur/typography'
 
-import './styles.scss'
 import { WalkInfo } from '../../../../logic/useWalkInfo'
 import { useIsLongPressed } from '../../../../logic/longPressContext'
+
+import './styles.scss'
 
 function formatWalkInfo(walkInfo: WalkInfo) {
     if (walkInfo.walkTime / 60 < 1) {

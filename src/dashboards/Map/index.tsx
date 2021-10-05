@@ -12,13 +12,13 @@ import {
 
 import MapView from '../../components/Map'
 
-import './styles.scss'
 import { useSettingsContext } from '../../settings'
 import { DEFAULT_ZOOM } from '../../constants'
 
 import WeatherTile from '../../components/WeatherTile'
 
 import DepartureTag from './DepartureTag'
+import './styles.scss'
 
 const MapDashboard = ({ history }: Props): JSX.Element => {
     const [settings] = useSettingsContext()

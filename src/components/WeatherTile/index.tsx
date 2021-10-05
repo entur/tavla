@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import './styles.scss'
 
 import { CloudRainIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
 
 import { useWeather } from '../../logic'
 import { getWeatherDescriptionFromApi, getWeatherIconEntur } from '../../utils'
 import { useSettingsContext } from '../../settings'
+
+import './styles.scss'
 
 interface Props {
     className?: string

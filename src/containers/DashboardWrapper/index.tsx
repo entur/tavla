@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Loader } from '@entur/loader'
 
 import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+
 import type { User } from 'firebase/auth'
 
 import { useToast } from '@entur/alert'

@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react'
 import { Route, Switch, Router, useLocation } from 'react-router-dom'
+
+import PWAPrompt from 'react-ios-pwa-prompt'
+
 import analytics from 'universal-ga'
 
-import { ToastProvider } from '@entur/alert'
-import PWAPrompt from 'react-ios-pwa-prompt'
 import { ApolloProvider } from '@apollo/client'
+
+import { ToastProvider } from '@entur/alert'
 
 import { SettingsContext, useSettings } from '../settings'
 import { useFirebaseAuthentication, UserProvider } from '../auth'

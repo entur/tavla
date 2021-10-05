@@ -1,5 +1,4 @@
 import React from 'react'
-import './styles.scss'
 
 import { Tooltip } from '@entur/tooltip'
 import { colors } from '@entur/tokens'
@@ -11,6 +10,7 @@ import { IconColorType } from '../../../types'
 import { RealtimeVehicle } from '../../../services/realtimeVehicles/types/realtimeVehicle'
 
 import TooltipContent from './TooltipContent'
+import './styles.scss'
 
 interface Props {
     realtimeVehicle: RealtimeVehicle

@@ -56,7 +56,21 @@
                     "sibling",
                     "index"
                 ],
-                "newlines-between": "always-and-inside-groups"
+                "newlines-between": "always-and-inside-groups",
+                "pathGroups": [
+                    {
+                        "pattern": "react+(|-**)",
+                        "group": "external",
+                        "position": "before"
+                    },
+                    {
+                        "pattern": "@entur/**",
+                        "group": "external",
+                        "position": "after"
+                    }
+                ],
+                "warnOnUnassignedImports": true,
+                "pathGroupsExcludedImportTypes": []
             }
         ],
         "no-console": "error",

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+
 import { isEqual } from 'lodash'
 
 import { Coordinates, QueryMode } from '@entur/sdk'
