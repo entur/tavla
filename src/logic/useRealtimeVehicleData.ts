@@ -52,7 +52,11 @@ export default function useVehicleData(filter?: Filter): Return {
 
     const filterVehiclesByLineRefs = useCallback(
         (vehiclesUpdates: RealtimeVehicle[] | undefined) => {
-            if (!vehiclesUpdates || !uniqueLines) {
+            if (
+                !vehiclesUpdates ||
+                !uniqueLines ||
+                settings?.hideRealtimeData
+            ) {
                 return undefined
             }
 
@@ -67,7 +71,7 @@ export default function useVehicleData(filter?: Filter): Return {
 
             return filteredUpdates.length > 0 ? filteredUpdates : undefined
         },
-        [uniqueLines, hiddenRealtimeDataLineRefs],
+        [uniqueLines, hiddenRealtimeDataLineRefs, settings?.hideRealtimeData],
     )
 
     const handleQueryData = useCallback(
