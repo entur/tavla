@@ -65,14 +65,14 @@ function getDashboardComponent(
     }
 }
 
-function updateManifest(origin: string): void {
+function updateManifest(href: string, origin: string): void {
     const manifest = window.document.getElementById('manifest-placeholder')
     if (manifest) {
         const dynamicManifest = {
             name: 'Tavla - Enturs avgangstavle',
             short_name: 'Tavla',
-            start_url: `${origin}`,
-            scope: `${origin}`,
+            start_url: `${href}`,
+            scope: `${href}`,
             display: 'standalone',
             background_color: '#181C56',
             theme_color: '#181C56',
@@ -200,8 +200,8 @@ const Content = (): JSX.Element => {
         : (): null => null
 
     useEffect(() => {
-        updateManifest(window.location.origin)
-    }, [])
+        updateManifest(window.location.href, window.location.origin)
+    }, [location.pathname])
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
