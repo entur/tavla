@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 
-import { Label, Heading3, Paragraph } from '@entur/typography'
+import { Heading3, Paragraph } from '@entur/typography'
 import { TextField } from '@entur/form'
 
 import { useDebounce } from '../../../../utils'
@@ -35,7 +35,6 @@ const Description = (): JSX.Element => {
                 ligger i nærheten av eller henvise til andre kanaler. Maks 80
                 tegn.
             </Paragraph>
-            <Label>Beskrivelse av avgangstavla</Label>
             <TextField
                 label="Beskrivelse av avgangstavla"
                 value={value}
