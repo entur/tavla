@@ -13,7 +13,7 @@ const YOUR_POSITION = 'Posisjonen din'
 interface Item {
     value: string
     label: string
-    icons?: React.ComponentType<any>[]
+    icons?: Array<React.ComponentType<any>>
     coordinates?: Coordinates
 }
 
