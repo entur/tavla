@@ -46,7 +46,7 @@ const StopPlaceSearch = ({ handleAddNewStop }: Props): JSX.Element => {
                 searchable
                 openOnFocus
                 debounceTimeout={500}
-                placeholder="Søk på stoppested for å legge til"
+                label="Nytt stoppested"
                 items={getItems}
                 onChange={onItemSelected}
                 highlightFirstItemOnOpen

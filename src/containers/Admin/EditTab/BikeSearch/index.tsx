@@ -79,7 +79,7 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
             <Dropdown
                 searchable
                 openOnFocus
-                placeholder="Søk på bysykkelstativ for å legge til"
+                label="Ny bysykkelstasjon"
                 items={getItems}
                 onChange={onItemSelected}
                 highlightFirstItemOnOpen

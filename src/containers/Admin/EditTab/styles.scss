@@ -20,14 +20,6 @@
         margin: 0;
     }
 
-    .eds-form-control,
-    .eds-form-control__append {
-        font-size: inherit;
-        white-space: nowrap;
-        text-align: center;
-        padding: 0;
-    }
-
     /* Chrome, Safari, Edge, Opera */
     .eds-form-control::-webkit-outer-spin-button,
     .eds-form-control::-webkit-inner-spin-button {
@@ -83,6 +75,10 @@
         --border-color-hover: var(--tavla-input-border-hover-color);
 
         background-color: var(--tavla-input-background-color);
+
+        &:hover {
+            background-color: var(--tavla-input-background-color);
+        }
 
         input::placeholder {
             color: var(--tavla-input-placeholder-color);
@@ -148,6 +144,14 @@
 
         &:hover {
             background-color: transparent;
+        }
+
+        .eds-form-control,
+        .eds-form-control__append {
+            font-size: inherit;
+            white-space: nowrap;
+            text-align: center;
+            padding: 0;
         }
     }
 
