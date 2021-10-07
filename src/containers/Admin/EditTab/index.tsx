@@ -455,9 +455,9 @@ const EditTab = (): JSX.Element => {
                             ]}
                         >
                             <TextField
-                                label="Radius å vise stoppesteder innenfor"
+                                label=""
                                 className="edit-tab__expanding-text-field heading"
-                                size="large"
+                                size="medium"
                                 defaultValue={distance}
                                 onChange={validateInput}
                                 append="m"
