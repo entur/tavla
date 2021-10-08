@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router'
 
+import { logEvent } from '@firebase/analytics'
+
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 
+import { analytics } from '../../firebase-init'
 import { useFirebaseAuthentication } from '../../auth'
 import { useSettingsContext } from '../../settings'
 
@@ -67,6 +70,7 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
             setSettings({
                 owners: newOwnersList,
             })
+            logEvent(analytics, 'lock_board_to_account')
         }
 
         history.push('/tavler')
