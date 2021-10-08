@@ -75,32 +75,39 @@ const Map = ({
         }))
     }, [mapRef, debouncedViewport])
 
-    const scooterpoints = scooters?.map((scooter: Vehicle) => ({
-        type: 'Feature' as const,
-        properties: {
-            cluster: false,
-            scooterId: scooter.id,
-            scooterOperator: scooter.system.operator,
-        },
-        geometry: {
-            type: 'Point' as const,
-            coordinates: [scooter.lon, scooter.lat],
-        },
-    }))
-    const bikeRentalStationPoints = bikeRentalStations?.map(
-        (bikeRentalStation: Station) => ({
-            type: 'Feature' as const,
-            properties: {
-                cluster: false,
-                stationId: bikeRentalStation.id,
-                bikesAvailable: bikeRentalStation.numBikesAvailable,
-                spacesAvailable: bikeRentalStation.numDocksAvailable,
-            },
-            geometry: {
-                type: 'Point' as const,
-                coordinates: [bikeRentalStation.lon, bikeRentalStation.lat],
-            },
-        }),
+    const scooterpoints = useMemo(
+        () =>
+            scooters?.map((scooter: Vehicle) => ({
+                type: 'Feature' as const,
+                properties: {
+                    cluster: false,
+                    scooterId: scooter.id,
+                    scooterOperator: scooter.system.operator,
+                },
+                geometry: {
+                    type: 'Point' as const,
+                    coordinates: [scooter.lon, scooter.lat],
+                },
+            })),
+        [scooters],
+    )
+
+    const bikeRentalStationPoints = useMemo(
+        () =>
+            bikeRentalStations?.map((bikeRentalStation: Station) => ({
+                type: 'Feature' as const,
+                properties: {
+                    cluster: false,
+                    stationId: bikeRentalStation.id,
+                    bikesAvailable: bikeRentalStation.numBikesAvailable,
+                    spacesAvailable: bikeRentalStation.numDocksAvailable,
+                },
+                geometry: {
+                    type: 'Point' as const,
+                    coordinates: [bikeRentalStation.lon, bikeRentalStation.lat],
+                },
+            })),
+        [bikeRentalStations],
     )
 
     const { clusters: scooterClusters } = useSupercluster({
@@ -128,8 +135,7 @@ const Map = ({
             },
         },
     })
-
-    const liveVehicleMarkers = useMemo(
+    const realtimeVehicleMarkers = useMemo(
         () =>
             realtimeVehicles
                 ? realtimeVehicles.map((vehicle) => (
@@ -146,6 +152,99 @@ const Map = ({
                   ))
                 : [],
         [realtimeVehicles],
+    )
+
+    const scooterClusterMarkers = useMemo(() => {
+        scooterClusters.map((scooterCluster) => {
+            const [slongitude, slatitude] = scooterCluster.geometry.coordinates
+
+            const { cluster: isCluster } = scooterCluster.properties
+            let pointCount = 0
+
+            if (isCluster) {
+                pointCount = (scooterCluster.properties as ClusterProperties)
+                    .point_count
+            }
+
+            return (
+                <Marker
+                    key={
+                        pointCount
+                            ? `cluster-${scooterCluster.id}`
+                            : scooterCluster.properties.scooterId
+                    }
+                    latitude={slatitude}
+                    longitude={slongitude}
+                >
+                    <ScooterMarkerTag
+                        pointCount={pointCount}
+                        operator={
+                            pointCount
+                                ? null
+                                : scooterCluster.properties.scooterOperator
+                        }
+                    ></ScooterMarkerTag>
+                </Marker>
+            )
+        })
+    }, [scooterClusters])
+
+    const stopPlaceMarkers = useMemo(
+        () =>
+            stopPlaces?.map((stopPlace) =>
+                stopPlace.departures.length > 0 ? (
+                    <Marker
+                        key={stopPlace.id}
+                        latitude={stopPlace.latitude ?? 0}
+                        longitude={stopPlace.longitude ?? 0}
+                        offsetLeft={-50}
+                        offsetTop={-10}
+                    >
+                        <StopPlaceTag
+                            stopPlace={stopPlace}
+                            walkTime={
+                                walkTimes?.find(
+                                    (walkTime) =>
+                                        walkTime.stopId === stopPlace.id &&
+                                        walkTime.walkTime !== undefined,
+                                )?.walkTime ?? null
+                            }
+                        />
+                    </Marker>
+                ) : (
+                    []
+                ),
+            ),
+        [stopPlaces, walkTimes],
+    )
+
+    const stationClusterMarkers = useMemo(
+        () =>
+            stationClusters.map((stationCluster) => {
+                const [slongitude, slatitude] =
+                    stationCluster.geometry.coordinates
+
+                const { cluster: isCluster } = stationCluster.properties
+
+                return (
+                    <Marker
+                        key={
+                            isCluster
+                                ? stationCluster.id
+                                : stationCluster.properties.stationId
+                        }
+                        latitude={slatitude}
+                        longitude={slongitude}
+                        marker-size="large"
+                    >
+                        <BikeRentalStationTag
+                            bikes={stationCluster.properties.bikesAvailable}
+                            spaces={stationCluster.properties.spacesAvailable}
+                        ></BikeRentalStationTag>
+                    </Marker>
+                )
+            }),
+        [stationClusters],
     )
 
     return (
@@ -177,89 +276,10 @@ const Map = ({
             }
             ref={mapRef}
         >
-            {realtimeVehicles && liveVehicleMarkers}
-            {scooterClusters.map((scooterCluster) => {
-                const [slongitude, slatitude] =
-                    scooterCluster.geometry.coordinates
-
-                const { cluster: isCluster } = scooterCluster.properties
-                let pointCount = 0
-
-                if (isCluster) {
-                    pointCount = (
-                        scooterCluster.properties as ClusterProperties
-                    ).point_count
-                }
-
-                return (
-                    <Marker
-                        key={
-                            pointCount
-                                ? `cluster-${scooterCluster.id}`
-                                : scooterCluster.properties.scooterId
-                        }
-                        latitude={slatitude}
-                        longitude={slongitude}
-                    >
-                        <ScooterMarkerTag
-                            pointCount={pointCount}
-                            operator={
-                                pointCount
-                                    ? null
-                                    : scooterCluster.properties.scooterOperator
-                            }
-                        ></ScooterMarkerTag>
-                    </Marker>
-                )
-            })}
-            {stopPlaces?.map((stopPlace) =>
-                stopPlace.departures.length > 0 ? (
-                    <Marker
-                        key={stopPlace.id}
-                        latitude={stopPlace.latitude ?? 0}
-                        longitude={stopPlace.longitude ?? 0}
-                        offsetLeft={-50}
-                        offsetTop={-10}
-                    >
-                        <StopPlaceTag
-                            stopPlace={stopPlace}
-                            walkTime={
-                                walkTimes?.find(
-                                    (walkTime) =>
-                                        walkTime.stopId === stopPlace.id &&
-                                        walkTime.walkTime !== undefined,
-                                )?.walkTime ?? null
-                            }
-                        />
-                    </Marker>
-                ) : (
-                    []
-                ),
-            )}
-            {stationClusters.map((stationCluster) => {
-                const [slongitude, slatitude] =
-                    stationCluster.geometry.coordinates
-
-                const { cluster: isCluster } = stationCluster.properties
-
-                return (
-                    <Marker
-                        key={
-                            isCluster
-                                ? stationCluster.id
-                                : stationCluster.properties.stationId
-                        }
-                        latitude={slatitude}
-                        longitude={slongitude}
-                        marker-size="large"
-                    >
-                        <BikeRentalStationTag
-                            bikes={stationCluster.properties.bikesAvailable}
-                            spaces={stationCluster.properties.spacesAvailable}
-                        ></BikeRentalStationTag>
-                    </Marker>
-                )
-            })}
+            {realtimeVehicles && realtimeVehicleMarkers}
+            {scooterClusters && scooterClusterMarkers}
+            {stopPlaces && stopPlaceMarkers}
+            {stationClusters && stationClusterMarkers}
             <Marker
                 latitude={viewport.latitude ?? 0}
                 longitude={viewport.longitude ?? 0}
