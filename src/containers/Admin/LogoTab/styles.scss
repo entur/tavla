@@ -84,12 +84,16 @@
     }
 
     .eds-form-control-wrapper {
-        --border-color: var(--tavla-input-border-color);
-        --border-color-hover: var(--tavla-input-border-hover-color);
+        border-color: transparent;
 
         background-color: var(--tavla-input-background-color);
 
-        input::placeholder {
+        &:hover {
+            background-color: var(--tavla-input-background-color);
+            border-color: var(--tavla-input-border-hover-color);
+        }
+
+        .eds-input-group__label {
             color: var(--tavla-input-placeholder-color);
         }
     }
