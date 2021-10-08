@@ -113,6 +113,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
             navigator.geolocation.getCurrentPosition(
                 handleSuccessLocation,
                 handleDeniedLocation,
+                { maximumAge: 60000, timeout: 7500 },
             )
         } else {
             setChosenCoord(item.coordinates || null)
@@ -181,6 +182,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                     className="search-panel__submit-button"
                     type="submit"
                     loading={isLoadingYourLocation}
+                    disabled={isLoadingYourLocation}
                 >
                     Opprett tavle
                 </Button>
