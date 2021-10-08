@@ -16,40 +16,73 @@ interface Props {
     realtimeVehicle: RealtimeVehicle
 }
 
-const RealtimeVehicleTag = ({ realtimeVehicle }: Props): JSX.Element => (
-    <Tooltip
-        placement="top"
-        content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
-    >
-        <div
-            className="map__realtime-vehicle-tag-circle-outer"
-            style={
-                realtimeVehicle.active
-                    ? { backgroundColor: 'white' }
-                    : { backgroundColor: colors.greys.grey30 }
-            }
+const RealtimeVehicleTag = ({ realtimeVehicle }: Props): JSX.Element => {
+    const handleMouseOver = () => {
+        if (
+            document.getElementById(realtimeVehicle.vehicleRef)?.classList &&
+            !document
+                .getElementById(realtimeVehicle.vehicleRef)
+                ?.classList.contains('visible')
+        )
+            document
+                .getElementById(realtimeVehicle.vehicleRef)
+                ?.classList.add('visible')
+    }
+
+    const handleMouseOut = () => {
+        if (
+            document.getElementById(realtimeVehicle.vehicleRef)?.classList &&
+            document
+                .getElementById(realtimeVehicle.vehicleRef)
+                ?.classList.contains('visible')
+        )
+            document
+                .getElementById(realtimeVehicle.vehicleRef)
+                ?.classList.remove('visible')
+    }
+
+    return (
+        <Tooltip
+            id={realtimeVehicle.vehicleRef}
+            placement="top"
+            content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
+            className="map__realtime-vehicle-tag-tooltip"
+            disableHoverListener={true}
+            isOpen={true}
+            showCloseButton={false}
         >
             <div
-                className="map__realtime-vehicle-tag-circle-inner"
+                className="map__realtime-vehicle-tag-circle-outer"
                 style={
                     realtimeVehicle.active
-                        ? {
-                              backgroundColor: getIconColor(
-                                  realtimeVehicle.mode.toLowerCase() as
-                                      | TransportMode
-                                      | LegMode
-                                      | 'ferry',
-                                  IconColorType.DEFAULT,
-                                  undefined,
-                              ),
-                          }
+                        ? { backgroundColor: 'white' }
                         : { backgroundColor: colors.greys.grey30 }
                 }
             >
-                {realtimeVehicle.line.publicCode}
+                <div
+                    className="map__realtime-vehicle-tag-circle-inner"
+                    style={
+                        realtimeVehicle.active
+                            ? {
+                                  backgroundColor: getIconColor(
+                                      realtimeVehicle.mode.toLowerCase() as
+                                          | TransportMode
+                                          | LegMode
+                                          | 'ferry',
+                                      IconColorType.DEFAULT,
+                                      undefined,
+                                  ),
+                              }
+                            : { backgroundColor: colors.greys.grey30 }
+                    }
+                    onMouseOver={handleMouseOver}
+                    onMouseOut={handleMouseOut}
+                >
+                    {realtimeVehicle.line.publicCode}
+                </div>
             </div>
-        </div>
-    </Tooltip>
-)
+        </Tooltip>
+    )
+}
 
 export default RealtimeVehicleTag
