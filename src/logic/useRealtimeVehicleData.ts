@@ -124,7 +124,7 @@ export default function useVehicleData(filter?: Filter): Return {
         return () => {
             subscription.unsubscribe()
         }
-    })
+    }, [client, filter, filterVehiclesByLineRefs, dispatch])
 
     useEffect(() => {
         const mappedDataFromBothAPIs = (
