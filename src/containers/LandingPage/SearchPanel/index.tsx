@@ -3,6 +3,7 @@ import React, { memo, useState, useEffect } from 'react'
 import { Button } from '@entur/button'
 import { Coordinates, Feature, convertFeatureToLocation } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
+import { PositionIcon } from '@entur/icons'
 
 import service from '../../../service'
 import { useLocationPermission } from '../../../hooks'
@@ -14,6 +15,7 @@ const YOUR_POSITION = 'Posisjonen din'
 interface Item {
     value: string
     label: string
+    icons?: Array<React.ComponentType<any>>
     coordinates?: Coordinates
 }
 
@@ -55,7 +57,7 @@ interface Location {
 
 const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
     const [{ denied }, refreshLocationPermission] = useLocationPermission()
-
+    const [isLoadingYourLocation, setIsLoadingYourLocation] = useState(false)
     const [showPositionInList, setShowPositionInList] = useState(true)
 
     useEffect(() => {
@@ -82,6 +84,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                     selectedLocationName: locationName,
                 })
             }
+            setIsLoadingYourLocation(false)
         })
     }
 
@@ -101,20 +104,18 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
             hasLocation: false,
             selectedLocationName: null,
         })
+        setIsLoadingYourLocation(false)
     }
 
     const onItemSelected = (item: Item | null): void => {
         if (!item) return
         setErrorMessage(null)
         if (item.value === YOUR_POSITION) {
-            setLocation((previousLocation) => ({
-                ...previousLocation,
-                selectedLocationName: YOUR_POSITION,
-            }))
-
+            setIsLoadingYourLocation(true)
             navigator.geolocation.getCurrentPosition(
                 handleSuccessLocation,
                 handleDeniedLocation,
+                { maximumAge: 60000, timeout: 7500 },
             )
         } else {
             setChosenCoord(item.coordinates || null)
@@ -140,7 +141,13 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
 
     const getItems = async (query: string): Promise<Item[]> => {
         const defaultSuggestions = showPositionInList
-            ? [{ value: YOUR_POSITION, label: YOUR_POSITION }]
+            ? [
+                  {
+                      value: YOUR_POSITION,
+                      label: YOUR_POSITION,
+                      icons: [PositionIcon],
+                  },
+              ]
             : []
 
         if (!query) {
@@ -159,9 +166,10 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                     <div className="input-spinner-container">
                         <Dropdown
                             searchable
+                            clearable
                             openOnFocus
                             debounceTimeout={500}
-                            placeholder="Skriv inn stoppested eller adresse"
+                            label="Avreisested"
                             items={getItems}
                             onChange={onItemSelected}
                             variant={errorMessage ? 'error' : undefined}
@@ -175,6 +183,8 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                     size="medium"
                     className="search-panel__submit-button"
                     type="submit"
+                    loading={isLoadingYourLocation}
+                    disabled={isLoadingYourLocation}
                 >
                     Opprett tavle
                 </Button>

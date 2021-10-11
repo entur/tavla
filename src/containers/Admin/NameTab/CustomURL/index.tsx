@@ -9,11 +9,7 @@ import {
 } from '@entur/typography'
 import { TextField } from '@entur/form'
 import { SecondarySquareButton } from '@entur/button'
-import {
-    CheckIcon,
-    ValidationCheckIcon,
-    ValidationErrorIcon,
-} from '@entur/icons'
+import { CheckIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 
 import {
@@ -37,6 +33,7 @@ enum inputFeedback {
 enum inputFeedbackType {
     SUCCESS = 'success',
     FAILURE = 'error',
+    CLEAR = 'info',
 }
 
 const CustomURL = (): JSX.Element => {
@@ -47,7 +44,7 @@ const CustomURL = (): JSX.Element => {
         inputFeedback.NOTHING,
     )
     const [feedbackMessageType, setFeedbackMessageType] = useState(
-        inputFeedbackType.FAILURE,
+        inputFeedbackType.CLEAR,
     )
     const [currentDoc, setCurrentDoc] = useState(getDocumentId() as string)
 
@@ -63,6 +60,7 @@ const CustomURL = (): JSX.Element => {
         setCustomUrlInput(event.target.value)
         if (feedbackMessage) {
             setFeedbackMessage(inputFeedback.NOTHING)
+            setFeedbackMessageType(inputFeedbackType.CLEAR)
         }
     }
 
@@ -104,7 +102,7 @@ const CustomURL = (): JSX.Element => {
                 <ListItem>Tavla-lenken må bestå av minst seks tegn.</ListItem>
                 <ListItem>
                     Tavla-lenken kan kun bestå av bokstaver, tall, understrek
-                    «_» og bindestrek «-».
+                    «_» og bindestrek&nbsp;«-».
                 </ListItem>
                 <ListItem>
                     Tavla-lenken kan ikke inneholde æ, ø eller å.
@@ -113,37 +111,13 @@ const CustomURL = (): JSX.Element => {
         </>
     )
 
-    const FeedbackMessage = (): JSX.Element => (
-        <>
-            {feedbackMessage && (
-                <Label className="feedback">
-                    {feedbackMessageType === inputFeedbackType.SUCCESS && (
-                        <ValidationCheckIcon
-                            size={16}
-                            inline
-                            className={feedbackMessageType}
-                        />
-                    )}
-                    {feedbackMessageType === inputFeedbackType.FAILURE && (
-                        <ValidationErrorIcon
-                            size={16}
-                            inline
-                            className={feedbackMessageType}
-                        />
-                    )}{' '}
-                    {feedbackMessage}
-                </Label>
-            )}
-        </>
-    )
-
     return (
         <div className="custom-url">
-            <Paragraph className="logo-page__paragraph">
+            <Paragraph className="name-page__paragraph">
                 Her kan du lage en selvbestemt lenke til tavla di. Dette gjør
                 det både lettere for deg óg andre å ha tilgang til tavla di.
             </Paragraph>
-            <Paragraph>
+            <Paragraph className="name-page__paragraph">
                 <EmphasizedText>
                     Obs, den gamle Tavla-lenken din vil slettes hvis du setter
                     en ny.
@@ -154,10 +128,15 @@ const CustomURL = (): JSX.Element => {
                 <Paragraph className="prepend">tavla.entur.no/t/</Paragraph>
                 <div className="input-field">
                     <TextField
+                        label="Ønsket lenkeadresse"
                         value={customUrlInput}
                         onChange={handleCustomUrlChange}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') tryAddCustomUrl()
+                        }}
                         maxLength={80}
-                        placeholder="Lenkeaddresse"
+                        variant={feedbackMessageType}
+                        feedback={feedbackMessage}
                     />
                 </div>
                 <div className="submit-button">
@@ -171,7 +150,6 @@ const CustomURL = (): JSX.Element => {
                     </Tooltip>
                 </div>
             </div>
-            <FeedbackMessage />
         </div>
     )
 }

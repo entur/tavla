@@ -457,8 +457,9 @@ const EditTab = (): JSX.Element => {
                             ]}
                         >
                             <TextField
+                                label=""
                                 className="edit-tab__expanding-text-field heading"
-                                size="large"
+                                size="medium"
                                 defaultValue={distance}
                                 onChange={validateInput}
                                 append="m"

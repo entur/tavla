@@ -36,7 +36,7 @@
         "@entur/dropdown": "^2.0.6",
         "@entur/expand": "^3.3.2",
         "@entur/fileupload": "^0.3.28",
-        "@entur/form": "^3.4.7",
+        "@entur/form": "^5.1.1",
         "@entur/grid": "^0.3.6",
         "@entur/icons": "^3.1.0",
         "@entur/layout": "^2.1.0",

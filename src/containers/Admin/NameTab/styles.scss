@@ -16,18 +16,6 @@
     .eds-form-control-wrapper--disabled {
         background-color: #e9e9e9;
     }
-    .eds-file-upload__wrapper {
-        width: 100%;
-        margin-top: 5px;
-        margin-bottom: 1rem;
-
-        .eds-file-upload__dropzone {
-            height: 8rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    }
 
     .eds-form-control {
         color: var(--tavla-input-font-color);
@@ -43,24 +31,16 @@
         padding-top: $space-extra-large;
         padding-bottom: $space-extra-large;
 
-        .error {
-            color: var(--tavla-failure-font-color);
-            margin-right: $space-extra-small;
-        }
-
-        .success {
-            color: var(--tavla-success-font-color);
-            margin-right: $space-extra-small;
-        }
-
         .input-area {
             display: flex;
-            align-items: flex-end;
+            align-items: baseline;
         }
 
         .prepend {
+            position: relative;
             padding-right: $space-extra-small;
-            margin-bottom: 11px;
+            top: 0.2rem;
+            color: var(--tavla-font-color);
         }
 
         .input-field {
@@ -68,57 +48,10 @@
         }
 
         .submit-button {
+            align-self: flex-start;
             float: right;
             padding-left: $space-small;
         }
-
-        .feedback {
-            padding-left: 127px;
-        }
-    }
-
-    .eds-form-component--radio__container {
-        display: inline-flex;
-        vertical-align: top;
-
-        &:not(:first-of-type) {
-            margin-left: 1rem;
-        }
-    }
-
-    .eds-loader {
-        max-width: 100%;
-    }
-
-    .name-preview {
-        img {
-            max-width: 100%;
-            display: block;
-            border: 0.125rem #d1d3d3 dashed;
-        }
-
-        .name-preview-toolbar {
-            display: flex;
-            margin-top: 0.4rem;
-            margin-bottom: 1rem;
-            align-items: center;
-
-            a {
-                cursor: pointer;
-
-                &:first-of-type {
-                    margin-right: 2rem;
-                }
-            }
-
-            svg {
-                cursor: pointer;
-            }
-        }
-    }
-
-    @media (min-width: 1600px) {
-        gap: 8rem;
     }
 }
 
@@ -128,52 +61,16 @@
     }
 
     .eds-form-control-wrapper {
-        --border-color: var(--tavla-input-border-color);
-        --border-color-hover: var(--tavla-input-border-hover-color);
-
+        border-color: transparent;
         background-color: var(--tavla-input-background-color);
 
-        input::placeholder {
+        &:hover {
+            background-color: var(--tavla-input-background-color);
+            border-color: var(--tavla-input-border-hover-color);
+        }
+
+        .eds-input-group__label {
             color: var(--tavla-input-placeholder-color);
         }
-    }
-
-    .eds-form-component--radio__container
-        .eds-form-component--radio__radio
-        .eds-form-component--radio__circle {
-        background-color: var(--tavla-checkbox-color);
-    }
-
-    .eds-form-component--radio__container .eds-form-component--radio__radio {
-        border-color: var(--tavla-checkbox-color);
-        background-color: transparent;
-    }
-
-    .eds-form-component--radio__container
-        :hover
-        ~ .eds-form-component--radio__radio {
-        border-color: var(--tavla-checkbox-hover-color);
-    }
-
-    .eds-form-component--radio__container
-        :hover
-        ~ .eds-form-component--radio__radio
-        .eds-form-component--radio__circle {
-        background-color: var(--tavla-checkbox-hover-color);
-    }
-
-    .eds-form-control::placeholder {
-        color: var(--tavla-input-disabled-font-color);
-    }
-
-    .eds-link,
-    .eds-link:link,
-    .eds-link:visited {
-        color: var(--tavla-font-color);
-        background-image: linear-gradient(
-            120deg,
-            var(--tavla-font-color) 0%,
-            var(--tavla-font-color) 100%
-        );
     }
 }

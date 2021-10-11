@@ -3,7 +3,7 @@ import React, { useState, Dispatch, SetStateAction } from 'react'
 import type { User } from 'firebase/auth'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 
-import { TextField, InputGroup } from '@entur/form'
+import { TextField } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
 import { EmailIcon, ClosedLockIcon, BackArrowIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
@@ -104,24 +104,21 @@ const Signup = ({ setModalType, onDismiss }: Props): JSX.Element => {
 
             <GridContainer spacing="medium">
                 <GridItem small={12}>
-                    <InputGroup
+                    <TextField
                         label="E-post"
                         variant={emailError ? 'error' : undefined}
                         feedback={emailError}
-                    >
-                        <TextField
-                            type="text"
-                            value={inputs.email}
-                            onChange={handleInputsChange}
-                            id="email"
-                            prepend={<EmailIcon inline />}
-                            placeholder="F.eks. ola.nordmann@entur.no"
-                        />
-                    </InputGroup>
+                        type="text"
+                        value={inputs.email}
+                        onChange={handleInputsChange}
+                        id="email"
+                        prepend={<EmailIcon inline />}
+                        placeholder="F.eks. ola.nordmann@entur.no"
+                    />
                 </GridItem>
 
                 <GridItem small={12}>
-                    <InputGroup
+                    <TextField
                         label="Passord"
                         variant={isPasswordLongEnough ? undefined : 'error'}
                         feedback={
@@ -129,20 +126,17 @@ const Signup = ({ setModalType, onDismiss }: Props): JSX.Element => {
                                 ? 'Passord må ha minst 8 tegn.'
                                 : undefined
                         }
-                    >
-                        <TextField
-                            type="password"
-                            value={inputs.password}
-                            onChange={handleInputsChange}
-                            id="password"
-                            prepend={<ClosedLockIcon inline />}
-                            placeholder="Minst 8 tegn"
-                        />
-                    </InputGroup>
+                        type="password"
+                        value={inputs.password}
+                        onChange={handleInputsChange}
+                        id="password"
+                        prepend={<ClosedLockIcon inline />}
+                        placeholder="Minst 8 tegn"
+                    />
                 </GridItem>
 
                 <GridItem small={12}>
-                    <InputGroup
+                    <TextField
                         label="Gjenta passord"
                         feedback={
                             !isPasswordMatch
@@ -150,15 +144,12 @@ const Signup = ({ setModalType, onDismiss }: Props): JSX.Element => {
                                 : undefined
                         }
                         variant={isPasswordMatch ? undefined : 'error'}
-                    >
-                        <TextField
-                            type="password"
-                            value={inputs.repeatPassword}
-                            onChange={handleInputsChange}
-                            id="repeatPassword"
-                            prepend={<ClosedLockIcon inline />}
-                        />
-                    </InputGroup>
+                        type="password"
+                        value={inputs.repeatPassword}
+                        onChange={handleInputsChange}
+                        id="repeatPassword"
+                        prepend={<ClosedLockIcon inline />}
+                    />
                 </GridItem>
 
                 <GridItem small={12}>
