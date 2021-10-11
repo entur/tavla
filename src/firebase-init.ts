@@ -3,6 +3,7 @@ import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
 import { getAuth, connectAuthEmulator } from 'firebase/auth'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 import { getStorage, connectStorageEmulator } from 'firebase/storage'
+import { getAnalytics } from 'firebase/analytics'
 
 if (!process.env.FIREBASE_CONFIG)
     // eslint-disable-next-line no-console
@@ -17,6 +18,7 @@ export const auth = getAuth(firebaseApp)
 export const functions = getFunctions(firebaseApp)
 export const db = getFirestore(firebaseApp)
 export const storage = getStorage(firebaseApp)
+export const analytics = getAnalytics(firebaseApp)
 if (process.env.FIREBASE_ENV === 'local') {
     connectAuthEmulator(auth, 'http://localhost:9099')
     connectFunctionsEmulator(functions, 'localhost', 5001)

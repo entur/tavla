@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import { logEvent } from '@firebase/analytics'
+
 import {
     Label,
     Paragraph,
@@ -19,6 +21,7 @@ import {
 
 import { useSettingsContext } from '../../../../settings'
 import { getDocumentId } from '../../../../utils'
+import { analytics } from '../../../../firebase-init'
 
 import '../styles.scss'
 
@@ -76,6 +79,7 @@ const CustomURL = (): JSX.Element => {
             if (success) {
                 setIdToBeDeleted(currentDoc)
                 handleNewIdVisuals()
+                logEvent(analytics, 'create_custom_url')
             } else {
                 handleFailedInputVisuals(inputFeedback.ID_UNAVAILABLE)
             }
