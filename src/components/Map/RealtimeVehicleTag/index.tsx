@@ -35,13 +35,9 @@ const RealtimeVehicleTag = ({
         >
             <div
                 onMouseOver={() => {
-                    console.log('entering')
-
                     setHoveredVehicle(realtimeVehicle)
                 }}
                 onMouseLeave={() => {
-                    console.log('leaving')
-
                     setHoveredVehicle(null)
                 }}
                 className="map__realtime-vehicle-tag-circle-inner"
