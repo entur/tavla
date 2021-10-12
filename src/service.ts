@@ -51,6 +51,9 @@ interface EstimatedCall {
             transportSubmode: TransportSubmode
             publicCode: string
         }
+        pointsOnLink: {
+            points: string
+        }
     }
 }
 
@@ -127,6 +130,9 @@ export async function getStopPlacesWithLines(
                                 transportSubmode,
                                 publicCode
                             }
+                            pointsOnLink {
+                                points
+                            }
                         }
                     }
                 }
@@ -143,6 +149,7 @@ export async function getStopPlacesWithLines(
                 .map(({ destinationDisplay, serviceJourney }) => ({
                     ...serviceJourney.line,
                     name: `${serviceJourney.line.publicCode} ${destinationDisplay.frontText}`,
+                    pointsOnLink: serviceJourney.pointsOnLink.points,
                 }))
 
             const uniqueLines = unique(
