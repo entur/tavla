@@ -131,7 +131,7 @@ const CustomURL = (): JSX.Element => {
                         label="Ønsket lenkeadresse"
                         value={customUrlInput}
                         onChange={handleCustomUrlChange}
-                        onKeyDown={(e) => {
+                        onKeyDown={(e: KeyboardEvent) => {
                             if (e.key === 'Enter') tryAddCustomUrl()
                         }}
                         maxLength={80}
