@@ -3,22 +3,26 @@ import React, { useState, memo, useRef, useEffect, useMemo } from 'react'
 import { InteractiveMap, Marker } from 'react-map-gl'
 import type { MapRef } from 'react-map-gl'
 
-import useSupercluster from 'use-supercluster'
-
 import type { ClusterProperties } from 'supercluster'
+import useSupercluster from 'use-supercluster'
+import polyline from 'google-polyline'
+
+import { TransportMode } from '@entur/sdk'
 
 import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import PositionPin from '../../assets/icons/positionPin'
 
-import { StopPlaceWithDepartures } from '../../types'
+import { IconColorType, StopPlaceWithDepartures } from '../../types'
 
 import { Filter } from '../../services/realtimeVehicles/types/filter'
 
-import { useDebounce } from '../../utils'
+import { getIconColor, useDebounce } from '../../utils'
 
 import useRealtimeVehicleData from '../../logic/useRealtimeVehicleData'
+import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
 
+import { PolylineOverlay } from './polyLineoverlay'
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
@@ -55,6 +59,25 @@ const Map = ({
         mapRef.current?.getMap()?.getBounds()?.toArray()?.flat() ||
             ([0, 0, 0, 0] as [number, number, number, number]),
     )
+
+    const [hoveredVehicle, setHoveredVehicle] =
+        useState<RealtimeVehicle | null>(null)
+
+    const displayedLine = useMemo(() => {
+        if (!hoveredVehicle || !hoveredVehicle.line.pointsOnLink) return null
+
+        const cords = polyline.decode(hoveredVehicle.line.pointsOnLink)
+
+        return (
+            <PolylineOverlay
+                points={cords}
+                color={getIconColor(
+                    hoveredVehicle.mode.toLowerCase() as TransportMode,
+                    IconColorType.DEFAULT,
+                )}
+            ></PolylineOverlay>
+        )
+    }, [hoveredVehicle])
 
     useEffect(() => {
         const newBounds = (mapRef.current
@@ -141,6 +164,7 @@ const Map = ({
                       >
                           <RealtimeVehicleTag
                               realtimeVehicle={vehicle}
+                              setHoveredVehicle={setHoveredVehicle}
                           ></RealtimeVehicleTag>
                       </Marker>
                   ))
@@ -178,6 +202,7 @@ const Map = ({
             ref={mapRef}
         >
             {realtimeVehicles && liveVehicleMarkers}
+            {displayedLine}
             {scooterClusters.map((scooterCluster) => {
                 const [slongitude, slatitude] =
                     scooterCluster.geometry.coordinates
@@ -200,6 +225,7 @@ const Map = ({
                         }
                         latitude={slatitude}
                         longitude={slongitude}
+                        className="map__scooter-marker"
                     >
                         <ScooterMarkerTag
                             pointCount={pointCount}
@@ -220,6 +246,7 @@ const Map = ({
                         longitude={stopPlace.longitude ?? 0}
                         offsetLeft={-50}
                         offsetTop={-10}
+                        className="map__stop-place-marker"
                     >
                         <StopPlaceTag
                             stopPlace={stopPlace}
@@ -252,6 +279,7 @@ const Map = ({
                         latitude={slatitude}
                         longitude={slongitude}
                         marker-size="large"
+                        className="map__bike-rental-station-marker"
                     >
                         <BikeRentalStationTag
                             bikes={stationCluster.properties.bikesAvailable}

@@ -134,7 +134,7 @@ export default function useRealtimeVehicleData(filter?: Filter): Return {
                 line: {
                     ...vehicle.line,
                     publicCode: line?.publicCode,
-                    points: line?.pointsOnLink,
+                    pointsOnLink: line?.pointsOnLink,
                 },
             }
         })

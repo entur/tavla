@@ -14,9 +14,13 @@ import './styles.scss'
 
 interface Props {
     realtimeVehicle: RealtimeVehicle
+    setHoveredVehicle: (realtimeVehicle: RealtimeVehicle | null) => void
 }
 
-const RealtimeVehicleTag = ({ realtimeVehicle }: Props): JSX.Element => (
+const RealtimeVehicleTag = ({
+    realtimeVehicle,
+    setHoveredVehicle,
+}: Props): JSX.Element => (
     <Tooltip
         placement="top"
         content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
@@ -30,6 +34,16 @@ const RealtimeVehicleTag = ({ realtimeVehicle }: Props): JSX.Element => (
             }
         >
             <div
+                onMouseOver={() => {
+                    console.log('entering')
+
+                    setHoveredVehicle(realtimeVehicle)
+                }}
+                onMouseLeave={() => {
+                    console.log('leaving')
+
+                    setHoveredVehicle(null)
+                }}
                 className="map__realtime-vehicle-tag-circle-inner"
                 style={
                     realtimeVehicle.active
