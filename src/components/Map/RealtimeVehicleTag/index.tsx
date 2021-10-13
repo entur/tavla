@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Tooltip } from '@entur/tooltip'
 import { colors } from '@entur/tokens'
@@ -16,40 +16,52 @@ interface Props {
     realtimeVehicle: RealtimeVehicle
 }
 
-const RealtimeVehicleTag = ({ realtimeVehicle }: Props): JSX.Element => (
-    <Tooltip
-        placement="top"
-        content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
-    >
-        <div
-            className="map__realtime-vehicle-tag-circle-outer"
-            style={
-                realtimeVehicle.active
-                    ? { backgroundColor: 'white' }
-                    : { backgroundColor: colors.greys.grey30 }
-            }
+const RealtimeVehicleTag = ({ realtimeVehicle }: Props): JSX.Element => {
+    const [isHovered, setIsHovered] = useState<boolean>(false)
+
+    return (
+        <Tooltip
+            placement="top"
+            content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
+            className={`map__realtime-vehicle-tag-tooltip ${
+                isHovered ? 'visible' : ''
+            }`}
+            disableHoverListener={true}
+            isOpen={true}
+            showCloseButton={false}
         >
             <div
-                className="map__realtime-vehicle-tag-circle-inner"
+                className="map__realtime-vehicle-tag-circle-outer"
+                onMouseOver={() => setIsHovered(true)}
+                onMouseOut={() => setIsHovered(false)}
                 style={
                     realtimeVehicle.active
-                        ? {
-                              backgroundColor: getIconColor(
-                                  realtimeVehicle.mode.toLowerCase() as
-                                      | TransportMode
-                                      | LegMode
-                                      | 'ferry',
-                                  IconColorType.DEFAULT,
-                                  undefined,
-                              ),
-                          }
+                        ? { backgroundColor: 'white' }
                         : { backgroundColor: colors.greys.grey30 }
                 }
             >
-                {realtimeVehicle.line.publicCode}
+                <div
+                    className="map__realtime-vehicle-tag-circle-inner"
+                    style={
+                        realtimeVehicle.active
+                            ? {
+                                  backgroundColor: getIconColor(
+                                      realtimeVehicle.mode.toLowerCase() as
+                                          | TransportMode
+                                          | LegMode
+                                          | 'ferry',
+                                      IconColorType.DEFAULT,
+                                      undefined,
+                                  ),
+                              }
+                            : { backgroundColor: colors.greys.grey30 }
+                    }
+                >
+                    {realtimeVehicle.line.publicCode}
+                </div>
             </div>
-        </div>
-    </Tooltip>
-)
+        </Tooltip>
+    )
+}
 
 export default RealtimeVehicleTag
