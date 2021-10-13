@@ -160,7 +160,9 @@ const Map = ({
                           key={vehicle.vehicleRef}
                           latitude={vehicle.location.latitude}
                           longitude={vehicle.location.longitude}
-                          className="map__live-vehicle-marker"
+                          className="map__realtime-vehicle-marker"
+                          offsetTop={-25}
+                          offsetLeft={-10}
                       >
                           <RealtimeVehicleTag
                               realtimeVehicle={vehicle}
