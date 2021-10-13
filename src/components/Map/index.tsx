@@ -22,7 +22,7 @@ import { getIconColor, useDebounce } from '../../utils'
 import useRealtimeVehicleData from '../../logic/useRealtimeVehicleData'
 import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
 
-import { PolylineOverlay } from './polyLineoverlay'
+import LineOverlay from './RealtimeVehicleTag/LineOverlay'
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
@@ -69,13 +69,13 @@ const Map = ({
         const cords = polyline.decode(hoveredVehicle.line.pointsOnLink)
 
         return (
-            <PolylineOverlay
+            <LineOverlay
                 points={cords}
                 color={getIconColor(
                     hoveredVehicle.mode.toLowerCase() as TransportMode,
                     IconColorType.DEFAULT,
                 )}
-            ></PolylineOverlay>
+            ></LineOverlay>
         )
     }, [hoveredVehicle])
 
