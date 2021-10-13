@@ -16,7 +16,7 @@ interface RedrawArgs {
 const LineOverlay = ({ points, color }: Props): JSX.Element | null => {
     const redraw = ({ width, height, ctx, project }: RedrawArgs): void => {
         ctx.clearRect(0, 0, width, height)
-        ctx.lineWidth = 3
+        ctx.lineWidth = 4
         ctx.strokeStyle = color
         ctx.globalAlpha = 0.4
         ctx.beginPath()
