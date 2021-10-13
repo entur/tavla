@@ -35,8 +35,8 @@ const RealtimeVehicleTag = ({
     >
         <div
             className="map__realtime-vehicle-tag-circle-outer"
-            onMouseOver={() => setHoveredVehicle(realtimeVehicle)}
-            onMouseOut={() => setHoveredVehicle(null)}
+            onMouseEnter={() => setHoveredVehicle(realtimeVehicle)}
+            onMouseLeave={() => setHoveredVehicle(null)}
             style={
                 realtimeVehicle.active
                     ? { backgroundColor: 'white' }
