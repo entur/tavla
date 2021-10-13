@@ -33,7 +33,7 @@ module.exports = (env, args) => ({
             },
             {
                 test: /\.jsx?$/,
-                exclude: /entur\/sdk/,
+                exclude: /node_modules|entur\/sdk/,
                 use: {
                     loader: 'babel-loader',
                     options: {
