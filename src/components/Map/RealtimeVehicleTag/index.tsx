@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Tooltip } from '@entur/tooltip'
 import { colors } from '@entur/tokens'
@@ -17,42 +17,23 @@ interface Props {
 }
 
 const RealtimeVehicleTag = ({ realtimeVehicle }: Props): JSX.Element => {
-    const handleMouseOver = () => {
-        if (
-            document.getElementById(realtimeVehicle.vehicleRef)?.classList &&
-            !document
-                .getElementById(realtimeVehicle.vehicleRef)
-                ?.classList.contains('visible')
-        )
-            document
-                .getElementById(realtimeVehicle.vehicleRef)
-                ?.classList.add('visible')
-    }
-
-    const handleMouseOut = () => {
-        if (
-            document.getElementById(realtimeVehicle.vehicleRef)?.classList &&
-            document
-                .getElementById(realtimeVehicle.vehicleRef)
-                ?.classList.contains('visible')
-        )
-            document
-                .getElementById(realtimeVehicle.vehicleRef)
-                ?.classList.remove('visible')
-    }
+    const [isHovered, setIsHovered] = useState<boolean>(false)
 
     return (
         <Tooltip
-            id={realtimeVehicle.vehicleRef}
             placement="top"
             content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
-            className="map__realtime-vehicle-tag-tooltip"
+            className={`map__realtime-vehicle-tag-tooltip ${
+                isHovered ? 'visible' : ''
+            }`}
             disableHoverListener={true}
             isOpen={true}
             showCloseButton={false}
         >
             <div
                 className="map__realtime-vehicle-tag-circle-outer"
+                onMouseOver={() => setIsHovered(true)}
+                onMouseOut={() => setIsHovered(false)}
                 style={
                     realtimeVehicle.active
                         ? { backgroundColor: 'white' }
@@ -75,8 +56,6 @@ const RealtimeVehicleTag = ({ realtimeVehicle }: Props): JSX.Element => {
                               }
                             : { backgroundColor: colors.greys.grey30 }
                     }
-                    onMouseOver={handleMouseOver}
-                    onMouseOut={handleMouseOut}
                 >
                     {realtimeVehicle.line.publicCode}
                 </div>
