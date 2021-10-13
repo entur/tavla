@@ -66,11 +66,11 @@ const Map = ({
     const displayedLine = useMemo(() => {
         if (!hoveredVehicle || !hoveredVehicle.line.pointsOnLink) return null
 
-        const cords = polyline.decode(hoveredVehicle.line.pointsOnLink)
+        const coords = polyline.decode(hoveredVehicle.line.pointsOnLink)
 
         return (
             <LineOverlay
-                points={cords}
+                points={coords}
                 color={getIconColor(
                     hoveredVehicle.mode.toLowerCase() as TransportMode,
                     IconColorType.DEFAULT,
