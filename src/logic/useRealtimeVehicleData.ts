@@ -35,7 +35,7 @@ interface QueryData {
 /**
  * Hook to query and subscribe to remote vehicle data
  */
-export default function useVehicleData(filter?: Filter): Return {
+export default function useRealtimeVehicleData(filter?: Filter): Return {
     const client = useApolloClient()
     const [state, dispatch] = useVehicleReducer()
     const { uniqueLines } = useStopPlacesWithLines()
@@ -133,7 +133,11 @@ export default function useVehicleData(filter?: Filter): Return {
             const line = uniqueLines?.find((l) => l.id === vehicle.line.lineRef)
             return {
                 ...vehicle,
-                line: { ...vehicle.line, publicCode: line?.publicCode },
+                line: {
+                    ...vehicle.line,
+                    publicCode: line?.publicCode,
+                    pointsOnLink: line?.pointsOnLink,
+                },
             }
         })
         setRealtimeVehicles(mappedDataFromBothAPIs)

@@ -58,7 +58,7 @@ export interface Settings {
     hideSituations?: boolean
     hideTracks?: boolean
     hideWalkInfo?: boolean
-    hideRealtimeData: boolean
+    hideRealtimeData?: boolean
     hiddenRealtimeDataLineRefs: string[]
 }
 
@@ -80,6 +80,7 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     owners: [] as string[],
     hiddenStopModes: {},
     hiddenRealtimeDataLineRefs: [],
+    hideRealtimeData: true,
 }
 
 export function useSettings(): [Settings | null, Setter] {
