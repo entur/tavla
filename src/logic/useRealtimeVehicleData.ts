@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { useQuery, useSubscription } from '@apollo/client'
-import type { OnSubscriptionDataOptions } from '@apollo/client'
+import { useApolloClient, useQuery } from '@apollo/client'
+import type { FetchResult } from '@apollo/client'
 
 import { Filter } from '../services/realtimeVehicles/types/filter'
 import { RealtimeVehicle } from '../services/realtimeVehicles/types/realtimeVehicle'
@@ -28,9 +28,6 @@ interface Return {
     realtimeVehicles: RealtimeVehicle[] | undefined
     allLinesWithRealtimeData: string[] | undefined
 }
-interface SubscriptionData {
-    vehicleUpdates: RealtimeVehicle[]
-}
 interface QueryData {
     vehicles: RealtimeVehicle[]
 }
@@ -39,6 +36,7 @@ interface QueryData {
  * Hook to query and subscribe to remote vehicle data
  */
 export default function useRealtimeVehicleData(filter?: Filter): Return {
+    const client = useApolloClient()
     const [state, dispatch] = useVehicleReducer()
     const { uniqueLines } = useStopPlacesWithLines()
     const [settings] = useSettingsContext()
@@ -91,21 +89,6 @@ export default function useRealtimeVehicleData(filter?: Filter): Return {
         [dispatch, filterVehiclesByLineRefs],
     )
 
-    const handleSubscriptionData = useCallback(
-        ({ subscriptionData: { data } }: OnSubscriptionDataOptions) => {
-            const { vehicleUpdates } = data
-            if (vehicleUpdates.length > 0) {
-                const filteredUpdates = filterVehiclesByLineRefs(vehicleUpdates)
-                if (filteredUpdates)
-                    dispatch({
-                        type: ActionType.UPDATE,
-                        payload: filteredUpdates,
-                    })
-            }
-        },
-        [dispatch, filterVehiclesByLineRefs],
-    )
-
     useQuery<QueryData>(VEHICLES_QUERY, {
         fetchPolicy: DEFAULT_FETCH_POLICY,
         variables: filter,
@@ -113,16 +96,35 @@ export default function useRealtimeVehicleData(filter?: Filter): Return {
         onCompleted: handleQueryData,
     })
 
-    useSubscription<SubscriptionData>(VEHICLE_UPDATES_SUBSCRIPTION, {
-        fetchPolicy: DEFAULT_FETCH_POLICY,
-        variables: {
-            ...filter,
-            enableLiveUpdates: true,
-            bufferSize: BUFFER_SIZE,
-            bufferTime: BUFFER_TIME,
-        },
-        onSubscriptionData: handleSubscriptionData,
-    })
+    useEffect(() => {
+        const subscription = client
+            .subscribe({
+                query: VEHICLE_UPDATES_SUBSCRIPTION,
+                fetchPolicy: DEFAULT_FETCH_POLICY,
+                variables: {
+                    ...filter,
+                    enableLiveUpdates: true,
+                    bufferSize: BUFFER_SIZE,
+                    bufferTime: BUFFER_TIME,
+                },
+            })
+            .subscribe((fetchResult: FetchResult) => {
+                if (fetchResult?.data?.vehicleUpdates.length > 0) {
+                    const filteredUpdates = filterVehiclesByLineRefs(
+                        fetchResult?.data?.vehicleUpdates,
+                    )
+                    if (filteredUpdates)
+                        dispatch({
+                            type: ActionType.UPDATE,
+                            payload: filteredUpdates,
+                        })
+                }
+            })
+
+        return () => {
+            subscription.unsubscribe()
+        }
+    }, [client, filter, filterVehiclesByLineRefs, dispatch])
 
     useEffect(() => {
         const mappedDataFromBothAPIs = (

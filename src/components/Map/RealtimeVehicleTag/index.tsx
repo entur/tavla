@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Tooltip } from '@entur/tooltip'
 import { colors } from '@entur/tokens'
@@ -15,18 +15,28 @@ import './styles.scss'
 interface Props {
     realtimeVehicle: RealtimeVehicle
     setHoveredVehicle: (realtimeVehicle: RealtimeVehicle | null) => void
+    isHovered: boolean
 }
 
 const RealtimeVehicleTag = ({
     realtimeVehicle,
     setHoveredVehicle,
+    isHovered,
 }: Props): JSX.Element => (
     <Tooltip
         placement="top"
         content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
+        className={`map__realtime-vehicle-tag-tooltip ${
+            isHovered ? 'visible' : ''
+        }`}
+        disableHoverListener={true}
+        isOpen={true}
+        showCloseButton={false}
     >
         <div
             className="map__realtime-vehicle-tag-circle-outer"
+            onMouseOver={() => setHoveredVehicle(realtimeVehicle)}
+            onMouseOut={() => setHoveredVehicle(null)}
             style={
                 realtimeVehicle.active
                     ? { backgroundColor: 'white' }
@@ -34,12 +44,6 @@ const RealtimeVehicleTag = ({
             }
         >
             <div
-                onMouseOver={() => {
-                    setHoveredVehicle(realtimeVehicle)
-                }}
-                onMouseLeave={() => {
-                    setHoveredVehicle(null)
-                }}
                 className="map__realtime-vehicle-tag-circle-inner"
                 style={
                     realtimeVehicle.active
