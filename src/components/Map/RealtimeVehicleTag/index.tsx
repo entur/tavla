@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Tooltip } from '@entur/tooltip'
 import { colors } from '@entur/tokens'
