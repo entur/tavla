@@ -11,8 +11,11 @@ const resolveEnv = (env) => {
     if (env.prod) return 'prod'
     return 'staging'
 }
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
 
-module.exports = (env, args) => ({
+const smp = new SpeedMeasurePlugin()
+
+module.exports = smp.wrap((env, args) => ({
     mode: args.mode === 'production' ? 'production' : 'development',
     entry: './src/main.tsx',
     devtool: 'inline-source-map',
@@ -28,7 +31,7 @@ module.exports = (env, args) => ({
         rules: [
             {
                 test: /\.tsx?$/,
-                exclude: /node_modules|sdk/,
+                exclude: /node_modules|entur\/sdk/,
                 loader: 'ts-loader',
             },
             {
@@ -43,22 +46,7 @@ module.exports = (env, args) => ({
                 },
             },
             {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                plugins: [() => postcssPresetEnv()],
-                            },
-                        },
-                    },
-                ],
-            },
-            {
-                test: /\.scss$/,
+                test: /\.(sc|c)ss$/,
                 use: [
                     'style-loader',
                     'css-loader',
@@ -120,4 +108,4 @@ module.exports = (env, args) => ({
             },
         },
     },
-})
+}))
