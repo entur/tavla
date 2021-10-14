@@ -14,15 +14,29 @@ import './styles.scss'
 
 interface Props {
     realtimeVehicle: RealtimeVehicle
+    setHoveredVehicle: (realtimeVehicle: RealtimeVehicle | null) => void
+    isHovered: boolean
 }
 
-const RealtimeVehicleTag = ({ realtimeVehicle }: Props): JSX.Element => (
+const RealtimeVehicleTag = ({
+    realtimeVehicle,
+    setHoveredVehicle,
+    isHovered,
+}: Props): JSX.Element => (
     <Tooltip
         placement="top"
         content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
+        className={`map__realtime-vehicle-tag-tooltip ${
+            isHovered ? 'visible' : ''
+        }`}
+        disableHoverListener={true}
+        isOpen={true}
+        showCloseButton={false}
     >
         <div
             className="map__realtime-vehicle-tag-circle-outer"
+            onMouseEnter={() => setHoveredVehicle(realtimeVehicle)}
+            onMouseLeave={() => setHoveredVehicle(null)}
             style={
                 realtimeVehicle.active
                     ? { backgroundColor: 'white' }
