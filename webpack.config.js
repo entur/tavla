@@ -31,12 +31,14 @@ module.exports = smp.wrap((env, args) => ({
         rules: [
             {
                 test: /\.tsx?$/,
-                exclude: /node_modules|entur\/sdk/,
+                exclude:
+                    args.mode === 'production' ? /entur\/sdk/ : /node_modules/,
                 loader: 'ts-loader',
             },
             {
                 test: /\.jsx?$/,
-                exclude: /node_modules|entur\/sdk/,
+                exclude:
+                    args.mode === 'production' ? /entur\/sdk/ : /node_modules/,
                 use: {
                     loader: 'babel-loader',
                     options: {
