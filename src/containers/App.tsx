@@ -3,8 +3,6 @@ import { Route, Switch, Router, useLocation } from 'react-router-dom'
 
 import PWAPrompt from 'react-ios-pwa-prompt'
 
-import analytics from 'universal-ga'
-
 import { ApolloProvider } from '@apollo/client'
 
 import { ToastProvider } from '@entur/alert'
@@ -39,12 +37,6 @@ import ThemeProvider from './ThemeWrapper/ThemeProvider'
 import MyBoards from './MyBoards'
 
 import './styles.scss'
-
-analytics.initialize('UA-108877193-6')
-analytics.set('anonymizeIp', true)
-
-analytics.set('page', window.location.pathname)
-analytics.pageview(window.location.pathname)
 
 const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1
 

@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 
+import { logEvent } from '@firebase/analytics'
+
 import { Heading3, Paragraph } from '@entur/typography'
 import { Modal } from '@entur/modal'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -8,6 +10,7 @@ import { PrimaryButton } from '@entur/button'
 import Check from '../../assets/images/check.png'
 import retinaCheck from '../../assets/images/check@2x.png'
 
+import { analytics } from '../../firebase-init'
 import { useFirebaseAuthentication } from '../../auth'
 import { useSettingsContext } from '../../settings'
 
@@ -38,6 +41,7 @@ const LockModal = ({ open, onDismiss }: Props): JSX.Element | null => {
             setSettings({
                 owners: newOwnersList,
             })
+            logEvent(analytics, 'lock_board_to_account')
         }
     }, [settings, user, open, setSettings])
 
