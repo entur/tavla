@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 
 import { FilterChip } from '@entur/chip'
 import { Switch, TravelSwitch } from '@entur/form'
 import { Loader } from '@entur/loader'
 import { Heading3, Label, Paragraph } from '@entur/typography'
 import { ExpandablePanel } from '@entur/expand'
+import { ClosedLockIcon } from '@entur/icons'
 
 import { Line } from '../../../../types'
 import {
@@ -13,9 +14,9 @@ import {
     transportModeNameMapper,
 } from '../../../../utils'
 
+import { useSettingsContext } from '../../../../settings'
+
 import './styles.scss'
-import { ClosedLockIcon } from '@entur/icons'
-import { divide } from 'lodash'
 
 interface Props {
     realtimeLines: Line[] | undefined
@@ -28,7 +29,9 @@ const RealtimeDataPanel = ({
     toggleRealtimeDataLineIds,
     hiddenLines,
 }: Props): JSX.Element => {
-    const [showRoutesInMap, setShowRoutesInMap] = useState(false)
+    const [settings, setSettings] = useSettingsContext()
+
+    const { showRoutesInMap, permanentlyVisibleRoutesInMap } = settings || {}
 
     const modes = useMemo(
         () =>
@@ -112,7 +115,9 @@ const RealtimeDataPanel = ({
                     </span>
                     <Switch
                         checked={showRoutesInMap}
-                        onChange={() => setShowRoutesInMap((prev) => !prev)}
+                        onChange={() =>
+                            setSettings({ showRoutesInMap: !showRoutesInMap })
+                        }
                     ></Switch>
                 </div>
                 {showRoutesInMap && (
@@ -128,7 +133,30 @@ const RealtimeDataPanel = ({
                             }
                             defaultOpen={true}
                         >
-                            something
+                            <div className="realtime-detail-panel__container">
+                                {realtimeLines
+                                    .sort((a, b) =>
+                                        transportModeNameMapper(
+                                            a.transportMode,
+                                        ) >
+                                        transportModeNameMapper(b.transportMode)
+                                            ? 1
+                                            : -1,
+                                    )
+                                    .map(
+                                        ({ id, publicCode, transportMode }) => (
+                                            <div
+                                                className="realtime-detail-panel__buttons"
+                                                key={id}
+                                            >
+                                                <FilterChip value={id}>
+                                                    {publicCode}
+                                                    {getIcon(transportMode)}
+                                                </FilterChip>
+                                            </div>
+                                        ),
+                                    )}
+                            </div>
                         </ExpandablePanel>
                     </div>
                 )}

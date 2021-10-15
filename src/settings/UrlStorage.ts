@@ -22,6 +22,8 @@ export const DEFAULT_SETTINGS: Settings = {
     logoSize: '32px',
     description: '',
     hiddenRealtimeDataLineRefs: [],
+    permanentlyVisibleRoutesInMap: [],
+    showRoutesInMap: false,
 }
 
 const VERSION_PREFIX_REGEX = /^v(\d)+::/

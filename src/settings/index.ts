@@ -55,6 +55,8 @@ export interface Settings {
     showTemperature?: boolean
     showWind?: boolean
     showPrecipitation?: boolean
+    showRoutesInMap: boolean
+    permanentlyVisibleRoutesInMap: string[]
     hideSituations?: boolean
     hideTracks?: boolean
     hideWalkInfo?: boolean
@@ -81,6 +83,8 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     hiddenStopModes: {},
     hiddenRealtimeDataLineRefs: [],
     hideRealtimeData: true,
+    showRoutesInMap: false,
+    permanentlyVisibleRoutesInMap: [],
 }
 
 export function useSettings(): [Settings | null, Setter] {
