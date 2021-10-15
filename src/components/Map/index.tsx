@@ -18,6 +18,7 @@ import { IconColorType, StopPlaceWithDepartures } from '../../types'
 import { Filter } from '../../services/realtimeVehicles/types/filter'
 
 import { getIconColor, useDebounce } from '../../utils'
+import { useSettingsContext } from '../../settings'
 
 import useRealtimeVehicleData from '../../logic/useRealtimeVehicleData'
 import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
@@ -51,6 +52,9 @@ const Map = ({
         minZoom: 13.5,
     })
 
+    const [settings] = useSettingsContext()
+    const { permanentlyVisibleRoutesInMap } = settings || {}
+
     const debouncedViewport = useDebounce(viewport, 200)
     const mapRef = useRef<MapRef>(null)
     const [filter, setFilter] = useState<Filter>({})
@@ -63,21 +67,37 @@ const Map = ({
     const [hoveredVehicle, setHoveredVehicle] =
         useState<RealtimeVehicle | null>(null)
 
-    const displayedLine = useMemo(() => {
+    const hoveredLine = useMemo(() => {
         if (!hoveredVehicle || !hoveredVehicle.line.pointsOnLink) return null
 
         const coords = polyline.decode(hoveredVehicle.line.pointsOnLink)
 
         return (
             <LineOverlay
-                points={coords}
-                color={getIconColor(
-                    hoveredVehicle.mode.toLowerCase() as TransportMode,
-                    IconColorType.DEFAULT,
-                )}
+                routes={[
+                    {
+                        points: coords,
+                        color: getIconColor(
+                            hoveredVehicle.mode.toLowerCase() as TransportMode,
+                            IconColorType.DEFAULT,
+                        ),
+                    },
+                ]}
             ></LineOverlay>
         )
     }, [hoveredVehicle])
+
+    const permanentLines = useMemo(() => {
+        if (!permanentlyVisibleRoutesInMap) return null
+        const routes = permanentlyVisibleRoutesInMap.map((drawableRoute) => ({
+            points: polyline.decode(drawableRoute.pointsOnLink),
+            color: getIconColor(
+                drawableRoute.mode.toLowerCase() as TransportMode,
+                IconColorType.DEFAULT,
+            ),
+        }))
+        return <LineOverlay routes={routes}></LineOverlay>
+    }, [permanentlyVisibleRoutesInMap])
 
     useEffect(() => {
         const newBounds = (mapRef.current
@@ -312,7 +332,8 @@ const Map = ({
             ref={mapRef}
         >
             {realtimeVehicles && realtimeVehicleMarkers}
-            {displayedLine}
+            {permanentLines}
+            {hoveredLine}
             {scooterClusters && scooterClusterMarkers}
             {stopPlaces && stopPlaceMarkers}
             {stationClusters && stationClusterMarkers}
