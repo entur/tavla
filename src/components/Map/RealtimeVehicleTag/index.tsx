@@ -8,6 +8,7 @@ import { getIconColor } from '../../../utils'
 import { IconColorType } from '../../../types'
 
 import { RealtimeVehicle } from '../../../services/realtimeVehicles/types/realtimeVehicle'
+import { useSettingsContext } from '../../../settings'
 
 import TooltipContent from './TooltipContent'
 import './styles.scss'
@@ -22,48 +23,77 @@ const RealtimeVehicleTag = ({
     realtimeVehicle,
     setHoveredVehicle,
     isHovered,
-}: Props): JSX.Element => (
-    <Tooltip
-        placement="top"
-        content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
-        className={`map__realtime-vehicle-tag-tooltip ${
-            isHovered ? 'visible' : ''
-        }`}
-        disableHoverListener={true}
-        isOpen={true}
-        showCloseButton={false}
-    >
-        <div
-            className="map__realtime-vehicle-tag-circle-outer"
-            onMouseEnter={() => setHoveredVehicle(realtimeVehicle)}
-            onMouseLeave={() => setHoveredVehicle(null)}
-            style={
-                realtimeVehicle.active
-                    ? { backgroundColor: 'white' }
-                    : { backgroundColor: colors.greys.grey30 }
-            }
+}: Props): JSX.Element => {
+    const [settings, setSettings] = useSettingsContext()
+
+    const { permanentlyVisibleRoutesInMap = [] } = settings || {}
+
+    return (
+        <Tooltip
+            placement="top"
+            content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
+            className={`map__realtime-vehicle-tag-tooltip ${
+                isHovered ? 'visible' : ''
+            }`}
+            disableHoverListener={true}
+            isOpen={true}
+            showCloseButton={false}
         >
             <div
-                className="map__realtime-vehicle-tag-circle-inner"
+                className="map__realtime-vehicle-tag-circle-outer"
+                onMouseEnter={() => setHoveredVehicle(realtimeVehicle)}
+                onMouseLeave={() => setHoveredVehicle(null)}
                 style={
                     realtimeVehicle.active
-                        ? {
-                              backgroundColor: getIconColor(
-                                  realtimeVehicle.mode.toLowerCase() as
-                                      | TransportMode
-                                      | LegMode
-                                      | 'ferry',
-                                  IconColorType.DEFAULT,
-                                  undefined,
-                              ),
-                          }
+                        ? { backgroundColor: 'white' }
                         : { backgroundColor: colors.greys.grey30 }
                 }
+                onClick={() => {
+                    if (
+                        permanentlyVisibleRoutesInMap.includes(
+                            realtimeVehicle.line.lineRef,
+                        )
+                    ) {
+                        setSettings({
+                            permanentlyVisibleRoutesInMap:
+                                permanentlyVisibleRoutesInMap.filter(
+                                    (lineRef) =>
+                                        lineRef !==
+                                        realtimeVehicle.line.lineRef,
+                                ),
+                        })
+                    } else {
+                        setSettings({
+                            permanentlyVisibleRoutesInMap: [
+                                ...permanentlyVisibleRoutesInMap,
+                                realtimeVehicle.line.lineRef,
+                            ],
+                        })
+                    }
+                }}
             >
-                {realtimeVehicle.line.publicCode}
+                <div
+                    className="map__realtime-vehicle-tag-circle-inner"
+                    style={
+                        realtimeVehicle.active
+                            ? {
+                                  backgroundColor: getIconColor(
+                                      realtimeVehicle.mode.toLowerCase() as
+                                          | TransportMode
+                                          | LegMode
+                                          | 'ferry',
+                                      IconColorType.DEFAULT,
+                                      undefined,
+                                  ),
+                              }
+                            : { backgroundColor: colors.greys.grey30 }
+                    }
+                >
+                    {realtimeVehicle.line.publicCode}
+                </div>
             </div>
-        </div>
-    </Tooltip>
-)
+        </Tooltip>
+    )
+}
 
 export default RealtimeVehicleTag
