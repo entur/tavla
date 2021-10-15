@@ -31,7 +31,11 @@ const RealtimeDataPanel = ({
 }: Props): JSX.Element => {
     const [settings, setSettings] = useSettingsContext()
 
-    const { showRoutesInMap, permanentlyVisibleRoutesInMap } = settings || {}
+    const {
+        showRoutesInMap,
+        permanentlyVisibleRoutesInMap = [],
+        hiddenRealtimeDataLineRefs = [],
+    } = settings || {}
 
     const modes = useMemo(
         () =>
@@ -135,6 +139,12 @@ const RealtimeDataPanel = ({
                         >
                             <div className="realtime-detail-panel__container">
                                 {realtimeLines
+                                    .filter(
+                                        (line) =>
+                                            !hiddenRealtimeDataLineRefs.includes(
+                                                line.id,
+                                            ),
+                                    )
                                     .sort((a, b) =>
                                         transportModeNameMapper(
                                             a.transportMode,
@@ -144,12 +154,57 @@ const RealtimeDataPanel = ({
                                             : -1,
                                     )
                                     .map(
-                                        ({ id, publicCode, transportMode }) => (
+                                        ({
+                                            id,
+                                            publicCode,
+                                            transportMode,
+                                            pointsOnLink,
+                                        }) => (
                                             <div
                                                 className="realtime-detail-panel__buttons"
                                                 key={id}
                                             >
-                                                <FilterChip value={id}>
+                                                <FilterChip
+                                                    value={id}
+                                                    checked={permanentlyVisibleRoutesInMap
+                                                        ?.map(
+                                                            (drawableRoute) =>
+                                                                drawableRoute.lineRef,
+                                                        )
+                                                        .includes(id)}
+                                                    onChange={() =>
+                                                        permanentlyVisibleRoutesInMap
+                                                            ?.map(
+                                                                (
+                                                                    drawableRoute,
+                                                                ) =>
+                                                                    drawableRoute.lineRef,
+                                                            )
+                                                            .includes(id)
+                                                            ? setSettings({
+                                                                  permanentlyVisibleRoutesInMap:
+                                                                      permanentlyVisibleRoutesInMap.filter(
+                                                                          (
+                                                                              route,
+                                                                          ) =>
+                                                                              route.lineRef !==
+                                                                              id,
+                                                                      ),
+                                                              })
+                                                            : setSettings({
+                                                                  permanentlyVisibleRoutesInMap:
+                                                                      [
+                                                                          ...permanentlyVisibleRoutesInMap,
+                                                                          {
+                                                                              lineRef:
+                                                                                  id,
+                                                                              pointsOnLink,
+                                                                              mode: transportMode,
+                                                                          },
+                                                                      ],
+                                                              })
+                                                    }
+                                                >
                                                     {publicCode}
                                                     {getIcon(transportMode)}
                                                 </FilterChip>
