@@ -5,6 +5,9 @@
     &__container {
         width: 100%;
         height: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: -1rem;
         .eds-icon {
             transform: scale(1.5) translateY(-0.05rem);
             display: flex;
@@ -12,6 +15,11 @@
             margin-left: 0.75rem;
         }
     }
+    .eds-filter-chip {
+        margin-right: 1rem;
+        margin-top: 1rem;
+    }
+
     .eds-chip {
         background-color: var(--tavla-border-color);
     }
@@ -19,19 +27,9 @@
         background-color: var(--tavla-background-color);
     }
 
-    @media (max-width: 1000px) {
-        display: flex;
-        direction: column;
-
-        .eds-filter-chip:not(:first-child) {
-            margin-left: 0;
-            margin-top: 0.75rem;
-            margin-bottom: 0;
-        }
-    }
-
     .expandable-panel__title {
         &-wrapper {
+            width: 100%;
             display: flex;
             align-items: center;
         }
@@ -40,9 +38,34 @@
         }
     }
 
+    .eds-expandable-panel__content,
     .eds-expandable-panel__trigger,
     .eds-expandable-panel__trigger:hover {
-        background-color: black;
+        background: none;
         box-shadow: none;
+    }
+    &__realtime-selection-panel {
+        .expandable-panel__wrapper:not(:last-child) {
+            border-bottom: 0.125rem solid var(--tavla-border-color);
+        }
+    }
+
+    .expandable-panel__wrapper {
+        border-bottom: 0.125rem solid var(--tavla-border-color);
+    }
+
+    .show-rutelinje {
+        display: flex;
+        align-items: center;
+        &-info-text {
+            margin-right: 1rem;
+        }
+    }
+
+    .rutelinje-wrapper {
+        .eds-expandable-panel__trigger {
+            padding: 0;
+            margin-top: 0.5rem;
+        }
     }
 }

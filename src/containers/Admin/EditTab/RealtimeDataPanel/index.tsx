@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { FilterChip } from '@entur/chip'
-import { Fieldset, TravelSwitch } from '@entur/form'
+import { Switch, TravelSwitch } from '@entur/form'
 import { Loader } from '@entur/loader'
-import { Paragraph } from '@entur/typography'
+import { Heading3, Label, Paragraph } from '@entur/typography'
 import { ExpandablePanel } from '@entur/expand'
 
 import { Line } from '../../../../types'
@@ -26,6 +26,8 @@ const RealtimeDataPanel = ({
     toggleRealtimeDataLineIds,
     hiddenLines,
 }: Props): JSX.Element => {
+    const [showRoutesInMap, setShowRoutesInMap] = useState(false)
+
     const modes = useMemo(
         () =>
             [...new Set(realtimeLines?.map((line) => line.transportMode))].sort(
@@ -40,45 +42,86 @@ const RealtimeDataPanel = ({
     return !realtimeLines ? (
         <Loader>Laster...</Loader>
     ) : realtimeLines.length > 0 ? (
-        <div className="realtime-detail-panel ">
-            {modes.map((mode) => (
-                <ExpandablePanel
-                    key={mode}
-                    title={
-                        <div className="expandable-panel__title-wrapper">
-                            <span className="expandable-panel__title-name">
-                                {transportModeNameMapper(mode)}
-                            </span>
-                            <TravelSwitch
-                                transport={isTransport(mode) ? mode : 'bus'}
-                                size="large"
-                            />
-                        </div>
-                    }
-                >
-                    <div className="realtime-detail-panel__container">
-                        {realtimeLines
-                            .filter((line) => line.transportMode === mode)
-                            .map(({ id, publicCode, transportMode }) => (
-                                <div
-                                    className="realtime-detail-panel__buttons"
-                                    key={id}
-                                >
-                                    <FilterChip
-                                        value={id}
-                                        onChange={() =>
-                                            toggleRealtimeDataLineIds(id)
+        <div className="realtime-detail-panel">
+            <div className="realtime-detail-panel__realtime-selection-panel">
+                {modes.map((mode) => (
+                    <div className="expandable-panel__wrapper" key={mode}>
+                        <ExpandablePanel
+                            title={
+                                <div className="expandable-panel__title-wrapper">
+                                    <span className="expandable-panel__title-name">
+                                        {transportModeNameMapper(mode)}
+                                    </span>
+                                    <TravelSwitch
+                                        transport={
+                                            isTransport(mode) ? mode : 'bus'
                                         }
-                                        checked={!hiddenLines.includes(id)}
-                                    >
-                                        {publicCode}
-                                        {getIcon(transportMode)}
-                                    </FilterChip>
+                                        size="large"
+                                    />
                                 </div>
-                            ))}
+                            }
+                        >
+                            <div className="realtime-detail-panel__container">
+                                {realtimeLines
+                                    .filter(
+                                        (line) => line.transportMode === mode,
+                                    )
+                                    .map(
+                                        ({ id, publicCode, transportMode }) => (
+                                            <div
+                                                className="realtime-detail-panel__buttons"
+                                                key={id}
+                                            >
+                                                <FilterChip
+                                                    value={id}
+                                                    onChange={() =>
+                                                        toggleRealtimeDataLineIds(
+                                                            id,
+                                                        )
+                                                    }
+                                                    checked={
+                                                        !hiddenLines.includes(
+                                                            id,
+                                                        )
+                                                    }
+                                                >
+                                                    {publicCode}
+                                                    {getIcon(transportMode)}
+                                                </FilterChip>
+                                            </div>
+                                        ),
+                                    )}
+                            </div>
+                        </ExpandablePanel>
                     </div>
-                </ExpandablePanel>
-            ))}
+                ))}
+            </div>
+            <div className="rutelinje-wrapper">
+                <Heading3>Rutelinje</Heading3>
+                <Label>
+                    Pek på et posisjonsikon for å se ruten i kartet. Trykk på
+                    posisjonsikonet for å vise ruten permanent
+                </Label>
+                <div className="show-rutelinje">
+                    <span className="show-rutelinje-info-text">
+                        Vis rutelinjer i kartet
+                    </span>
+                    <Switch
+                        checked={showRoutesInMap}
+                        onChange={() => setShowRoutesInMap((prev) => !prev)}
+                    ></Switch>
+                </div>
+                {showRoutesInMap && (
+                    <div className="expandable-panel__wrapper">
+                        <ExpandablePanel
+                            title={<span>Permanente rutelinjer</span>}
+                            defaultOpen={true}
+                        >
+                            something
+                        </ExpandablePanel>
+                    </div>
+                )}
+            </div>
         </div>
     ) : (
         <Paragraph>
