@@ -22,6 +22,7 @@ import { useSettingsContext } from '../../settings'
 
 import useRealtimeVehicleData from '../../logic/useRealtimeVehicleData'
 import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
+import { useStopPlacesWithLines } from '../../logic/useStopPlacesWithLines'
 
 import LineOverlay from './RealtimeVehicleTag/LineOverlay'
 import BikeRentalStationTag from './BikeRentalStationTag'
@@ -54,6 +55,7 @@ const Map = ({
 
     const [settings] = useSettingsContext()
     const { permanentlyVisibleRoutesInMap } = settings || {}
+    const { uniqueLines } = useStopPlacesWithLines()
 
     const debouncedViewport = useDebounce(viewport, 200)
     const mapRef = useRef<MapRef>(null)
@@ -89,15 +91,22 @@ const Map = ({
 
     const permanentLines = useMemo(() => {
         if (!permanentlyVisibleRoutesInMap) return null
-        const routes = permanentlyVisibleRoutesInMap.map((drawableRoute) => ({
-            points: polyline.decode(drawableRoute.pointsOnLink),
-            color: getIconColor(
-                drawableRoute.mode.toLowerCase() as TransportMode,
-                IconColorType.DEFAULT,
-            ),
-        }))
+        const routes = permanentlyVisibleRoutesInMap
+            .filter(
+                (route) =>
+                    !uniqueLines
+                        ?.map((line) => line.id)
+                        .includes(route.lineRef),
+            )
+            .map((drawableRoute) => ({
+                points: polyline.decode(drawableRoute.pointsOnLink),
+                color: getIconColor(
+                    drawableRoute.mode.toLowerCase() as TransportMode,
+                    IconColorType.DEFAULT,
+                ),
+            }))
         return <LineOverlay routes={routes}></LineOverlay>
-    }, [permanentlyVisibleRoutesInMap])
+    }, [permanentlyVisibleRoutesInMap, uniqueLines])
 
     useEffect(() => {
         const newBounds = (mapRef.current
