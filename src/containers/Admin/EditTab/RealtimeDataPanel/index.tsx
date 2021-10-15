@@ -14,6 +14,8 @@ import {
 } from '../../../../utils'
 
 import './styles.scss'
+import { ClosedLockIcon } from '@entur/icons'
+import { divide } from 'lodash'
 
 interface Props {
     realtimeLines: Line[] | undefined
@@ -116,7 +118,14 @@ const RealtimeDataPanel = ({
                 {showRoutesInMap && (
                     <div className="expandable-panel__wrapper">
                         <ExpandablePanel
-                            title={<span>Permanente rutelinjer</span>}
+                            title={
+                                <div className="expandable-panel__title-wrapper">
+                                    <span className="icon-wrapper">
+                                        <ClosedLockIcon></ClosedLockIcon>
+                                    </span>
+                                    <span>Permanente rutelinjer</span>
+                                </div>
+                            }
                             defaultOpen={true}
                         >
                             something
