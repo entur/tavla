@@ -52,12 +52,14 @@ const RealtimeDataPanel = ({
                                     <span className="expandable-panel__title-name">
                                         {transportModeNameMapper(mode)}
                                     </span>
-                                    <TravelSwitch
-                                        transport={
-                                            isTransport(mode) ? mode : 'bus'
-                                        }
-                                        size="large"
-                                    />
+                                    <span onClick={(e) => e.stopPropagation()}>
+                                        <TravelSwitch
+                                            transport={
+                                                isTransport(mode) ? mode : 'bus'
+                                            }
+                                            size="large"
+                                        />
+                                    </span>
                                 </div>
                             }
                         >
