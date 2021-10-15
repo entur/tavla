@@ -11,7 +11,7 @@ import { onSnapshot } from 'firebase/firestore'
 
 import { Coordinates, TransportMode } from '@entur/sdk'
 
-import { Theme } from '../types'
+import { Theme, DrawableRoute } from '../types'
 import { getSettings } from '../services/firebase'
 import { getDocumentId } from '../utils'
 import { useFirebaseAuthentication } from '../auth'
@@ -56,7 +56,7 @@ export interface Settings {
     showWind?: boolean
     showPrecipitation?: boolean
     showRoutesInMap: boolean
-    permanentlyVisibleRoutesInMap: string[]
+    permanentlyVisibleRoutesInMap: DrawableRoute[]
     hideSituations?: boolean
     hideTracks?: boolean
     hideWalkInfo?: boolean

@@ -50,25 +50,31 @@ const RealtimeVehicleTag = ({
                 }
                 onClick={() => {
                     if (
-                        permanentlyVisibleRoutesInMap.includes(
-                            realtimeVehicle.line.lineRef,
-                        )
+                        permanentlyVisibleRoutesInMap
+                            .map((drawableRoute) => drawableRoute.lineRef)
+                            .includes(realtimeVehicle.line.lineRef)
                     ) {
                         setSettings({
                             permanentlyVisibleRoutesInMap:
                                 permanentlyVisibleRoutesInMap.filter(
-                                    (lineRef) =>
+                                    ({ lineRef }) =>
                                         lineRef !==
                                         realtimeVehicle.line.lineRef,
                                 ),
                         })
                     } else {
-                        setSettings({
-                            permanentlyVisibleRoutesInMap: [
-                                ...permanentlyVisibleRoutesInMap,
-                                realtimeVehicle.line.lineRef,
-                            ],
-                        })
+                        if (realtimeVehicle.line.pointsOnLink)
+                            setSettings({
+                                permanentlyVisibleRoutesInMap: [
+                                    ...permanentlyVisibleRoutesInMap,
+                                    {
+                                        pointsOnLink:
+                                            realtimeVehicle.line.pointsOnLink,
+                                        mode: realtimeVehicle.mode,
+                                        lineRef: realtimeVehicle.line.lineRef,
+                                    },
+                                ],
+                            })
                     }
                 }}
             >
