@@ -203,7 +203,14 @@ const RealtimeDataPanel = ({
                                     <span>Permanente rutelinjer</span>
                                 </div>
                             }
-                            defaultOpen={true}
+                            defaultOpen={
+                                realtimeLines.filter(
+                                    (line) =>
+                                        !hiddenRealtimeDataLineRefs.includes(
+                                            line.id,
+                                        ),
+                                ).length > 0
+                            }
                         >
                             <div className="realtime-detail-panel__container">
                                 {realtimeLines
