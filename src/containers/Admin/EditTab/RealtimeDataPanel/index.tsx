@@ -298,7 +298,7 @@ const RealtimeDataPanel = ({
         </div>
     ) : (
         <Paragraph>
-            Ingen sanntidsdata å vise for stasjoenene og modusene som er valgt.
+            Ingen sanntidsdata å vise for stasjonene og modusene som er valgt.
         </Paragraph>
     )
 }
