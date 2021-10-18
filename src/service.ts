@@ -144,6 +144,11 @@ export async function getStopPlacesWithLines(
 
     const stops: StopPlaceWithLines[] = results.data.stopPlaces.map(
         (stopPlace) => {
+            try {
+                stopPlace.estimatedCalls
+            } catch {
+                return { ...stopPlace, lines: [] }
+            }
             const lines = stopPlace.estimatedCalls
                 .sort(estimatedCallsComparator)
                 .map(({ destinationDisplay, serviceJourney }) => ({
