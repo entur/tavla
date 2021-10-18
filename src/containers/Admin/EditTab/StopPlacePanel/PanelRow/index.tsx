@@ -55,10 +55,16 @@ const PanelRow = ({
                     }
 
                     if (isTransport(mode)) {
-                        return <TravelSwitch {...props} transport={mode} />
+                        return (
+                            <TravelSwitch
+                                {...props}
+                                transport={mode}
+                                key={mode}
+                            />
+                        )
                     } else if (mode === 'coach') {
                         return (
-                            <TravelSwitch {...props} transport="bus">
+                            <TravelSwitch {...props} transport="bus" key={mode}>
                                 Coach
                             </TravelSwitch>
                         )
