@@ -75,7 +75,12 @@ const Map = ({
         useState<RealtimeVehicle | null>(null)
 
     const hoveredLine = useMemo(() => {
-        if (!hoveredVehicle || !hoveredVehicle.line.pointsOnLink) return null
+        if (
+            !hoveredVehicle ||
+            !hoveredVehicle.line.pointsOnLink ||
+            !showRoutesInMap
+        )
+            return null
 
         const coords = polyline.decode(hoveredVehicle.line.pointsOnLink)
 
@@ -92,7 +97,7 @@ const Map = ({
                 ]}
             ></LineOverlay>
         )
-    }, [hoveredVehicle])
+    }, [hoveredVehicle, showRoutesInMap])
 
     const permanentLines = useMemo(() => {
         if (
