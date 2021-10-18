@@ -8,13 +8,7 @@ import React, {
 
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
-import {
-    Heading2,
-    Heading3,
-    Heading4,
-    Paragraph,
-    SubParagraph,
-} from '@entur/typography'
+import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
@@ -55,9 +49,9 @@ import ScooterPanel from './ScooterPanel'
 import RealtimeDataPanel from './RealtimeDataPanel'
 import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
+import WeatherPanel from './WeatherPanel'
 
 import './styles.scss'
-import WeatherPanel from './WeatherPanel'
 
 const isMobile = isMobileWeb()
 
@@ -339,7 +333,7 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 0,
                 w: 1.5,
-                h: 2.1 + tileHeight(stopPlaces.length, 0.4, 0.35),
+                h: 2.35 + tileHeight(stopPlaces.length, 0.4, 0.35),
             },
             {
                 i: 'bikePanel',
@@ -348,12 +342,12 @@ const EditTab = (): JSX.Element => {
                 w: 1.5,
                 h: 1.55 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
             },
-            { i: 'scooterPanel', x: 0, y: 3.2, w: 1.5, h: 1.4 },
+            { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.4 },
             { i: 'mapPanel', x: 3, y: 5, w: 1.5, h: 3.2 },
             { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 1.5 },
             {
                 i: 'realtimeDataPanel',
-                x: 1.5,
+                x: 0,
                 y: 0,
                 w: 1.5,
                 h: 4,
@@ -520,21 +514,16 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ToggleDetailsPanel />
                 </div>
-                <div key="realtimeDataPanel" className="edit-tab__tile">
-                    <div className="edit-tab__header">
-                        <Heading2>Sanntidsposisjoner</Heading2>
-                        <Switch
-                            onChange={() => toggleRealtimeData()}
-                            checked={!hideRealtimeData}
-                            size="large"
-                        ></Switch>
-                    </div>
-                    {hideRealtimeData ? (
-                        <Paragraph>
-                            Sanntidsposisjoner er nå skjult. Skru det på ved å
-                            trykke på knappen øverst til høyre i denne ruten.
-                        </Paragraph>
-                    ) : (
+                {!hiddenModes?.includes('kollektiv') && (
+                    <div key="realtimeDataPanel" className="edit-tab__tile">
+                        <div className="edit-tab__header">
+                            <Heading2>Sanntidsposisjoner</Heading2>
+                            <Switch
+                                onChange={() => toggleRealtimeData()}
+                                checked={!hideRealtimeData}
+                                size="large"
+                            ></Switch>
+                        </div>
                         <RealtimeDataPanel
                             realtimeLines={realtimeLines}
                             toggleRealtimeDataLineIds={
@@ -542,9 +531,8 @@ const EditTab = (): JSX.Element => {
                             }
                             hiddenLines={hiddenRealtimeDataLineRefs}
                         />
-                    )}
-                </div>
-
+                    </div>
+                )}
                 <div key="bikePanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>
