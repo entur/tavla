@@ -54,7 +54,12 @@ const Map = ({
     })
 
     const [settings] = useSettingsContext()
-    const { permanentlyVisibleRoutesInMap } = settings || {}
+    const {
+        permanentlyVisibleRoutesInMap,
+        hiddenRealtimeDataLineRefs,
+        showRoutesInMap,
+        hideRealtimeData,
+    } = settings || {}
     const { uniqueLines } = useStopPlacesWithLines()
 
     const debouncedViewport = useDebounce(viewport, 200)
@@ -90,13 +95,19 @@ const Map = ({
     }, [hoveredVehicle])
 
     const permanentLines = useMemo(() => {
-        if (!permanentlyVisibleRoutesInMap) return null
+        if (
+            !permanentlyVisibleRoutesInMap ||
+            !showRoutesInMap ||
+            hideRealtimeData
+        )
+            return null
         const routes = permanentlyVisibleRoutesInMap
             .filter(
                 (route) =>
-                    !uniqueLines
+                    uniqueLines
                         ?.map((line) => line.id)
-                        .includes(route.lineRef),
+                        .includes(route.lineRef) &&
+                    !hiddenRealtimeDataLineRefs?.includes(route.lineRef),
             )
             .map((drawableRoute) => ({
                 points: polyline.decode(drawableRoute.pointsOnLink),
@@ -106,7 +117,13 @@ const Map = ({
                 ),
             }))
         return <LineOverlay routes={routes}></LineOverlay>
-    }, [permanentlyVisibleRoutesInMap, uniqueLines])
+    }, [
+        permanentlyVisibleRoutesInMap,
+        uniqueLines,
+        hiddenRealtimeDataLineRefs,
+        showRoutesInMap,
+        hideRealtimeData,
+    ])
 
     useEffect(() => {
         const newBounds = (mapRef.current
