@@ -8,7 +8,13 @@ import React, {
 
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
-import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
+import {
+    Heading2,
+    Heading3,
+    Heading4,
+    Paragraph,
+    SubParagraph,
+} from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
@@ -575,16 +581,17 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ToggleDetailsPanel />
                 </div>
-                {!hiddenModes?.includes('kollektiv') && (
-                    <div key="realtimeDataPanel" className="edit-tab__tile">
-                        <div className="edit-tab__header">
-                            <Heading2>Sanntidsposisjoner</Heading2>
-                            <Switch
-                                onChange={() => toggleRealtimeData()}
-                                checked={!hideRealtimeData}
-                                size="large"
-                            ></Switch>
-                        </div>
+
+                <div key="realtimeDataPanel" className="edit-tab__tile">
+                    <div className="edit-tab__header">
+                        <Heading2>Sanntidsposisjoner</Heading2>
+                        <Switch
+                            onChange={() => toggleRealtimeData()}
+                            checked={!hideRealtimeData}
+                            size="large"
+                        ></Switch>
+                    </div>
+                    {!hiddenModes?.includes('kollektiv') ? (
                         <RealtimeDataPanel
                             realtimeLines={realtimeLines}
                             toggleRealtimeDataLineIds={
@@ -592,8 +599,14 @@ const EditTab = (): JSX.Element => {
                             }
                             hiddenLines={hiddenRealtimeDataLineRefs}
                         />
-                    </div>
-                )}
+                    ) : (
+                        <Paragraph>
+                            Kollektivdata er skrudd av. Skru det på ved å trykke
+                            på knappen øverst til høyre i kollektiv-ruten.
+                        </Paragraph>
+                    )}
+                </div>
+
                 <div key="bikePanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>
