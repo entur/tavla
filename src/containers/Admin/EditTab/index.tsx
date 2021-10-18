@@ -26,7 +26,7 @@ import {
 } from '../../../utils'
 
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
-import { StopPlaceWithLines } from '../../../types'
+import { Line, StopPlaceWithLines } from '../../../types'
 import {
     useNearestPlaces,
     useMobility,
@@ -83,6 +83,24 @@ const toolTip = (
         </span>
     </Tooltip>
 )
+
+const TooltipText = (props: { title: string; text: string }) => (
+    <div className="tooltip-container">
+        <Heading4 margin="none">{props.title}</Heading4>
+        <SubParagraph margin="none">{props.text}</SubParagraph>
+    </div>
+)
+
+// height of tile is set to default value + a value times number of rows
+const tileHeight = (items: number, rowHeight: number, padding: number) =>
+    items > 0 ? items * rowHeight + padding : 0
+
+const getNumberOfRealtimeModes = (
+    realtimeLines: Line[] | undefined,
+): number => {
+    if (!realtimeLines) return 0
+    return new Set(realtimeLines.map(({ transportMode }) => transportMode)).size
+}
 
 const EditTab = (): JSX.Element => {
     const [breakpoint, setBreakpoint] = useState<string>('lg')
@@ -315,17 +333,6 @@ const EditTab = (): JSX.Element => {
               })
     }
 
-    const TooltipText = (props: { title: string; text: string }) => (
-        <div className="tooltip-container">
-            <Heading4 margin="none">{props.title}</Heading4>
-            <SubParagraph margin="none">{props.text}</SubParagraph>
-        </div>
-    )
-
-    // height of tile is set to default value + a value times number of rows
-    const tileHeight = (items: number, rowHeight: number, padding: number) =>
-        items > 0 ? items * rowHeight + padding : 0
-
     const LAYOUT = {
         lg: [
             {
@@ -350,7 +357,13 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 0,
                 w: 1.5,
-                h: 4,
+                h:
+                    2 +
+                    tileHeight(
+                        getNumberOfRealtimeModes(realtimeLines),
+                        0.75,
+                        0,
+                    ),
             },
         ],
         md: [
@@ -371,7 +384,19 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
             { i: 'mapPanel', x: 0, y: 7, w: 2, h: 3 },
             { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.3 },
-            { i: 'realtimeDataPanel', x: 0, y: 0, w: 2, h: 4 },
+            {
+                i: 'realtimeDataPanel',
+                x: 0,
+                y: 0,
+                w: 2,
+                h:
+                    2 +
+                    tileHeight(
+                        getNumberOfRealtimeModes(realtimeLines),
+                        0.75,
+                        0,
+                    ),
+            },
         ],
         sm: [
             {
@@ -391,7 +416,19 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.3 },
-            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1, h: 4 },
+            {
+                i: 'realtimeDataPanel',
+                x: 0,
+                y: 0,
+                w: 1,
+                h:
+                    2 +
+                    tileHeight(
+                        getNumberOfRealtimeModes(realtimeLines),
+                        0.75,
+                        0,
+                    ),
+            },
         ],
         xs: [
             {
@@ -411,7 +448,19 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
-            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1, h: 3 },
+            {
+                i: 'realtimeDataPanel',
+                x: 0,
+                y: 0,
+                w: 1,
+                h:
+                    2 +
+                    tileHeight(
+                        getNumberOfRealtimeModes(realtimeLines),
+                        0.75,
+                        0,
+                    ),
+            },
         ],
         xxs: [
             {
@@ -431,7 +480,19 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 3 },
-            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1, h: 4 },
+            {
+                i: 'realtimeDataPanel',
+                x: 0,
+                y: 0,
+                w: 1,
+                h:
+                    2 +
+                    tileHeight(
+                        getNumberOfRealtimeModes(realtimeLines),
+                        0.75,
+                        0,
+                    ),
+            },
         ],
     }
 
