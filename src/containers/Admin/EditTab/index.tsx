@@ -333,7 +333,7 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 0,
                 w: 1.5,
-                h: 2.35 + tileHeight(stopPlaces.length, 0.45, 0.35),
+                h: 2.1 + tileHeight(stopPlaces.length, 0.4, 0),
             },
             {
                 i: 'bikePanel',
@@ -345,7 +345,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.4 },
             { i: 'mapPanel', x: 3, y: 5, w: 1.5, h: 3.2 },
             { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 1.5 },
-            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1.5, h: 2 },
+            { i: 'realtimeDataPanel', x: 1.5, y: 0, w: 1.5, h: 3 },
         ],
         md: [
             {
@@ -365,7 +365,7 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
             { i: 'mapPanel', x: 0, y: 7, w: 2, h: 3 },
             { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.3 },
-            { i: 'realtimeDataPanel', x: 0, y: 0, w: 2, h: 2 },
+            { i: 'realtimeDataPanel', x: 2, y: 0, w: 2, h: 3 },
         ],
         sm: [
             {
@@ -424,7 +424,8 @@ const EditTab = (): JSX.Element => {
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
-            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 2 },
+            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 3 },
+            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1, h: 3 },
         ],
     }
 
