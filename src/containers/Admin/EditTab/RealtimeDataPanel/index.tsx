@@ -78,7 +78,7 @@ const RealtimeDataPanel = ({
                                                             id,
                                                         ),
                                                 )}
-                                            onChange={
+                                            onChange={() =>
                                                 realtimeLines
                                                     .filter(
                                                         ({ transportMode }) =>
@@ -91,12 +91,31 @@ const RealtimeDataPanel = ({
                                                                 id,
                                                             ),
                                                     )
-                                                    ? () =>
-                                                          setSettings({
-                                                              hiddenRealtimeDataLineRefs:
-                                                                  [
-                                                                      ...hiddenRealtimeDataLineRefs,
-                                                                      ...realtimeLines
+                                                    ? setSettings({
+                                                          hiddenRealtimeDataLineRefs:
+                                                              [
+                                                                  ...hiddenRealtimeDataLineRefs,
+                                                                  ...realtimeLines
+                                                                      .filter(
+                                                                          ({
+                                                                              transportMode,
+                                                                          }) =>
+                                                                              transportMode ===
+                                                                              mode,
+                                                                      )
+                                                                      .map(
+                                                                          ({
+                                                                              id,
+                                                                          }) =>
+                                                                              id,
+                                                                      ),
+                                                              ],
+                                                      })
+                                                    : setSettings({
+                                                          hiddenRealtimeDataLineRefs:
+                                                              hiddenRealtimeDataLineRefs.filter(
+                                                                  (ref) =>
+                                                                      !realtimeLines
                                                                           .filter(
                                                                               ({
                                                                                   transportMode,
@@ -109,33 +128,12 @@ const RealtimeDataPanel = ({
                                                                                   id,
                                                                               }) =>
                                                                                   id,
+                                                                          )
+                                                                          .includes(
+                                                                              ref,
                                                                           ),
-                                                                  ],
-                                                          })
-                                                    : () =>
-                                                          setSettings({
-                                                              hiddenRealtimeDataLineRefs:
-                                                                  hiddenRealtimeDataLineRefs.filter(
-                                                                      (ref) =>
-                                                                          !realtimeLines
-                                                                              .filter(
-                                                                                  ({
-                                                                                      transportMode,
-                                                                                  }) =>
-                                                                                      transportMode ===
-                                                                                      mode,
-                                                                              )
-                                                                              .map(
-                                                                                  ({
-                                                                                      id,
-                                                                                  }) =>
-                                                                                      id,
-                                                                              )
-                                                                              .includes(
-                                                                                  ref,
-                                                                              ),
-                                                                  ),
-                                                          })
+                                                              ),
+                                                      })
                                             }
                                         />
                                     </span>
