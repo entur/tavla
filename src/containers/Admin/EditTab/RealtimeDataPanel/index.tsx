@@ -218,8 +218,12 @@ const RealtimeDataPanel = ({
                                     .sort((a, b) =>
                                         transportModeNameMapper(
                                             a.transportMode,
-                                        ) >
-                                        transportModeNameMapper(b.transportMode)
+                                        ) +
+                                            a.publicCode >
+                                        transportModeNameMapper(
+                                            b.transportMode,
+                                        ) +
+                                            b.publicCode
                                             ? 1
                                             : -1,
                                     )
