@@ -67,6 +67,76 @@ const RealtimeDataPanel = ({
                                                 isTransport(mode) ? mode : 'bus'
                                             }
                                             size="large"
+                                            checked={realtimeLines
+                                                .filter(
+                                                    ({ transportMode }) =>
+                                                        transportMode === mode,
+                                                )
+                                                .some(
+                                                    ({ id }) =>
+                                                        !hiddenLines.includes(
+                                                            id,
+                                                        ),
+                                                )}
+                                            onChange={
+                                                realtimeLines
+                                                    .filter(
+                                                        ({ transportMode }) =>
+                                                            transportMode ===
+                                                            mode,
+                                                    )
+                                                    .some(
+                                                        ({ id }) =>
+                                                            !hiddenLines.includes(
+                                                                id,
+                                                            ),
+                                                    )
+                                                    ? () =>
+                                                          setSettings({
+                                                              hiddenRealtimeDataLineRefs:
+                                                                  [
+                                                                      ...hiddenRealtimeDataLineRefs,
+                                                                      ...realtimeLines
+                                                                          .filter(
+                                                                              ({
+                                                                                  transportMode,
+                                                                              }) =>
+                                                                                  transportMode ===
+                                                                                  mode,
+                                                                          )
+                                                                          .map(
+                                                                              ({
+                                                                                  id,
+                                                                              }) =>
+                                                                                  id,
+                                                                          ),
+                                                                  ],
+                                                          })
+                                                    : () =>
+                                                          setSettings({
+                                                              hiddenRealtimeDataLineRefs:
+                                                                  hiddenRealtimeDataLineRefs.filter(
+                                                                      (ref) =>
+                                                                          !realtimeLines
+                                                                              .filter(
+                                                                                  ({
+                                                                                      transportMode,
+                                                                                  }) =>
+                                                                                      transportMode ===
+                                                                                      mode,
+                                                                              )
+                                                                              .map(
+                                                                                  ({
+                                                                                      id,
+                                                                                  }) =>
+                                                                                      id,
+                                                                              )
+                                                                              .includes(
+                                                                                  ref,
+                                                                              ),
+                                                                  ),
+                                                          })
+                                            }
                                         />
                                     </span>
                                 </div>
