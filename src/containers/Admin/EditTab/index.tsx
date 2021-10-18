@@ -8,7 +8,13 @@ import React, {
 
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
-import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
+import {
+    Heading2,
+    Heading3,
+    Heading4,
+    Paragraph,
+    SubParagraph,
+} from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
@@ -523,7 +529,12 @@ const EditTab = (): JSX.Element => {
                             size="large"
                         ></Switch>
                     </div>
-                    {!hideRealtimeData && (
+                    {hideRealtimeData ? (
+                        <Paragraph>
+                            Sanntidsposisjoner er nå skjult. Skru det på ved å
+                            trykke på knappen øverst til høyre i denne ruten.
+                        </Paragraph>
+                    ) : (
                         <RealtimeDataPanel
                             realtimeLines={realtimeLines}
                             toggleRealtimeDataLineIds={
