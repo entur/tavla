@@ -24,6 +24,7 @@ import {
 } from '@entur/icons'
 
 import { colors } from '@entur/tokens'
+import type { TravelSwitchProps } from '@entur/form'
 
 import { Departure, LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 import { TranslatedString, Translation } from '@entur/sdk/lib/mobility/types'
@@ -303,6 +304,39 @@ export function isLegMode(mode: string): mode is LegMode {
         'bicycle',
         'foot',
     ].includes(mode)
+}
+
+export const isTransport = (
+    mode: string,
+): mode is TravelSwitchProps['transport'] =>
+    [
+        'bus',
+        'rail',
+        'water',
+        'air',
+        'tram',
+        'bike',
+        'metro',
+        'scooter',
+        'airportLinkRail',
+        'airportLinkBus',
+    ].includes(mode)
+
+export const transportModeNameMapper = (mode: TransportMode): string => {
+    switch (mode) {
+        case 'bus':
+            return 'Buss'
+        case 'water':
+            return 'Båt'
+        case 'tram':
+            return 'Trikk'
+        case 'rail':
+            return 'Tog'
+        case 'metro':
+            return 'T-bane'
+        default:
+            return 'Buss'
+    }
 }
 
 export interface Suggestion {

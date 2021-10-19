@@ -5,23 +5,9 @@ import type { TravelSwitchProps } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
 import { TransportMode } from '@entur/sdk'
 
-import { unique } from '../../../../../utils'
+import { unique, isTransport } from '../../../../../utils'
 import { Settings } from '../../../../../settings'
 import { StopPlaceWithLines } from '../../../../../types'
-
-const isTransport = (mode: string): mode is TravelSwitchProps['transport'] =>
-    [
-        'bus',
-        'rail',
-        'water',
-        'air',
-        'tram',
-        'bike',
-        'metro',
-        'scooter',
-        'airportLinkRail',
-        'airportLinkBus',
-    ].includes(mode)
 
 const PanelRow = ({
     onToggleStop,
@@ -69,10 +55,16 @@ const PanelRow = ({
                     }
 
                     if (isTransport(mode)) {
-                        return <TravelSwitch {...props} transport={mode} />
+                        return (
+                            <TravelSwitch
+                                {...props}
+                                transport={mode}
+                                key={mode}
+                            />
+                        )
                     } else if (mode === 'coach') {
                         return (
-                            <TravelSwitch {...props} transport="bus">
+                            <TravelSwitch {...props} transport="bus" key={mode}>
                                 Coach
                             </TravelSwitch>
                         )

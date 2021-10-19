@@ -13,14 +13,21 @@ import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import PositionPin from '../../assets/icons/positionPin'
 
-import { IconColorType, StopPlaceWithDepartures } from '../../types'
+import {
+    DrawableRoute,
+    IconColorType,
+    Line,
+    StopPlaceWithDepartures,
+} from '../../types'
 
 import { Filter } from '../../services/realtimeVehicles/types/filter'
 
 import { getIconColor, useDebounce } from '../../utils'
+import { useSettingsContext } from '../../settings'
 
 import useRealtimeVehicleData from '../../logic/useRealtimeVehicleData'
 import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
+import { useStopPlacesWithLines } from '../../logic/useStopPlacesWithLines'
 
 import LineOverlay from './RealtimeVehicleTag/LineOverlay'
 import BikeRentalStationTag from './BikeRentalStationTag'
@@ -51,6 +58,15 @@ const Map = ({
         minZoom: 13.5,
     })
 
+    const [settings] = useSettingsContext()
+    const {
+        permanentlyVisibleRoutesInMap,
+        hiddenRealtimeDataLineRefs,
+        showRoutesInMap,
+        hideRealtimeData,
+    } = settings || {}
+    const { uniqueLines } = useStopPlacesWithLines()
+
     const debouncedViewport = useDebounce(viewport, 200)
     const mapRef = useRef<MapRef>(null)
     const [filter, setFilter] = useState<Filter>({})
@@ -63,21 +79,60 @@ const Map = ({
     const [hoveredVehicle, setHoveredVehicle] =
         useState<RealtimeVehicle | null>(null)
 
-    const displayedLine = useMemo(() => {
-        if (!hoveredVehicle || !hoveredVehicle.line.pointsOnLink) return null
+    const hoveredRoute = useMemo(() => {
+        if (
+            !hoveredVehicle ||
+            !hoveredVehicle.line.pointsOnLink ||
+            !showRoutesInMap
+        )
+            return null
 
         const coords = polyline.decode(hoveredVehicle.line.pointsOnLink)
 
         return (
             <LineOverlay
-                points={coords}
-                color={getIconColor(
-                    hoveredVehicle.mode.toLowerCase() as TransportMode,
-                    IconColorType.DEFAULT,
-                )}
+                routes={[
+                    {
+                        points: coords,
+                        color: getIconColor(
+                            hoveredVehicle.mode.toLowerCase() as TransportMode,
+                            IconColorType.DEFAULT,
+                        ),
+                    },
+                ]}
             ></LineOverlay>
         )
-    }, [hoveredVehicle])
+    }, [hoveredVehicle, showRoutesInMap])
+
+    const permanentlyDrawnRoutes = useMemo(() => {
+        if (
+            !permanentlyVisibleRoutesInMap ||
+            !showRoutesInMap ||
+            hideRealtimeData
+        )
+            return null
+
+        const routesToDraw = permanentlyVisibleRoutesInMap
+            .filter(
+                ({ lineRef }: DrawableRoute) =>
+                    uniqueLines?.map(({ id }: Line) => id).includes(lineRef) &&
+                    !hiddenRealtimeDataLineRefs?.includes(lineRef),
+            )
+            .map(({ pointsOnLink, mode }: DrawableRoute) => ({
+                points: polyline.decode(pointsOnLink),
+                color: getIconColor(
+                    mode.toLowerCase() as TransportMode,
+                    IconColorType.DEFAULT,
+                ),
+            }))
+        return <LineOverlay routes={routesToDraw}></LineOverlay>
+    }, [
+        permanentlyVisibleRoutesInMap,
+        uniqueLines,
+        hiddenRealtimeDataLineRefs,
+        showRoutesInMap,
+        hideRealtimeData,
+    ])
 
     useEffect(() => {
         const newBounds = (mapRef.current
@@ -312,7 +367,8 @@ const Map = ({
             ref={mapRef}
         >
             {realtimeVehicles && realtimeVehicleMarkers}
-            {displayedLine}
+            {permanentlyDrawnRoutes}
+            {hoveredRoute}
             {scooterClusters && scooterClusterMarkers}
             {stopPlaces && stopPlaceMarkers}
             {stationClusters && stationClusterMarkers}

@@ -8,7 +8,13 @@ import React, {
 
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
-import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
+import {
+    Heading2,
+    Heading3,
+    Heading4,
+    Paragraph,
+    SubParagraph,
+} from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
@@ -26,7 +32,7 @@ import {
 } from '../../../utils'
 
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
-import { StopPlaceWithLines } from '../../../types'
+import { Line, StopPlaceWithLines } from '../../../types'
 import {
     useNearestPlaces,
     useMobility,
@@ -49,9 +55,9 @@ import ScooterPanel from './ScooterPanel'
 import RealtimeDataPanel from './RealtimeDataPanel'
 import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
+import WeatherPanel from './WeatherPanel'
 
 import './styles.scss'
-import WeatherPanel from './WeatherPanel'
 
 const isMobile = isMobileWeb()
 
@@ -84,6 +90,24 @@ const toolTip = (
     </Tooltip>
 )
 
+const TooltipText = (props: { title: string; text: string }) => (
+    <div className="tooltip-container">
+        <Heading4 margin="none">{props.title}</Heading4>
+        <SubParagraph margin="none">{props.text}</SubParagraph>
+    </div>
+)
+
+// height of tile is set to default value + a value times number of rows
+const tileHeight = (items: number, rowHeight: number, padding: number) =>
+    items > 0 ? items * rowHeight + padding : 0
+
+const getNumberOfRealtimeModes = (
+    realtimeLines: Line[] | undefined,
+): number => {
+    if (!realtimeLines) return 0
+    return new Set(realtimeLines.map(({ transportMode }) => transportMode)).size
+}
+
 const EditTab = (): JSX.Element => {
     const [breakpoint, setBreakpoint] = useState<string>('lg')
     const [settings, setSettings] = useSettingsContext()
@@ -100,6 +124,7 @@ const EditTab = (): JSX.Element => {
         showWind = true,
         showPrecipitation = true,
     } = settings || {}
+
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
     )
@@ -127,27 +152,6 @@ const EditTab = (): JSX.Element => {
             })
         }
     }, [settings, debouncedZoom, setSettings])
-
-    const toggleRealtimeDataLineIds = useCallback(
-        (lineId: string) => {
-            if (hiddenRealtimeDataLineRefs.includes(lineId)) {
-                setSettings({
-                    hiddenRealtimeDataLineRefs:
-                        hiddenRealtimeDataLineRefs.filter(
-                            (el) => el !== lineId,
-                        ),
-                })
-            } else {
-                setSettings({
-                    hiddenRealtimeDataLineRefs: [
-                        ...hiddenRealtimeDataLineRefs,
-                        lineId,
-                    ],
-                })
-            }
-        },
-        [hiddenRealtimeDataLineRefs, setSettings],
-    )
 
     const debouncedDistance = useDebounce(distance, 800)
     useEffect(() => {
@@ -315,17 +319,6 @@ const EditTab = (): JSX.Element => {
               })
     }
 
-    const TooltipText = (props: { title: string; text: string }) => (
-        <div className="tooltip-container">
-            <Heading4 margin="none">{props.title}</Heading4>
-            <SubParagraph margin="none">{props.text}</SubParagraph>
-        </div>
-    )
-
-    // height of tile is set to default value + a value times number of rows
-    const tileHeight = (items: number, rowHeight: number, padding: number) =>
-        items > 0 ? items * rowHeight + padding : 0
-
     const LAYOUT = {
         lg: [
             {
@@ -333,7 +326,7 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 0,
                 w: 1.5,
-                h: 2.35 + tileHeight(stopPlaces.length, 0.45, 0.35),
+                h: 2.35 + tileHeight(stopPlaces.length, 0.4, 0.35),
             },
             {
                 i: 'bikePanel',
@@ -345,7 +338,19 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.4 },
             { i: 'mapPanel', x: 3, y: 5, w: 1.5, h: 3.2 },
             { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 1.5 },
-            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1.5, h: 2 },
+            {
+                i: 'realtimeDataPanel',
+                x: 0,
+                y: 0,
+                w: 1.5,
+                h:
+                    2 +
+                    tileHeight(
+                        getNumberOfRealtimeModes(realtimeLines),
+                        0.75,
+                        0,
+                    ),
+            },
         ],
         md: [
             {
@@ -365,7 +370,19 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
             { i: 'mapPanel', x: 0, y: 7, w: 2, h: 3 },
             { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.3 },
-            { i: 'realtimeDataPanel', x: 0, y: 0, w: 2, h: 2 },
+            {
+                i: 'realtimeDataPanel',
+                x: 0,
+                y: 0,
+                w: 2,
+                h:
+                    2 +
+                    tileHeight(
+                        getNumberOfRealtimeModes(realtimeLines),
+                        0.75,
+                        0,
+                    ),
+            },
         ],
         sm: [
             {
@@ -385,7 +402,19 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.3 },
-            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1, h: 2 },
+            {
+                i: 'realtimeDataPanel',
+                x: 0,
+                y: 0,
+                w: 1,
+                h:
+                    2 +
+                    tileHeight(
+                        getNumberOfRealtimeModes(realtimeLines),
+                        0.75,
+                        0,
+                    ),
+            },
         ],
         xs: [
             {
@@ -405,7 +434,19 @@ const EditTab = (): JSX.Element => {
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
-            { i: 'realtimeDataPanel', x: 0, y: 0, w: 1, h: 2 },
+            {
+                i: 'realtimeDataPanel',
+                x: 0,
+                y: 0,
+                w: 1,
+                h:
+                    2 +
+                    tileHeight(
+                        getNumberOfRealtimeModes(realtimeLines),
+                        0.75,
+                        0,
+                    ),
+            },
         ],
         xxs: [
             {
@@ -424,7 +465,20 @@ const EditTab = (): JSX.Element => {
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
-            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 2 },
+            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 3 },
+            {
+                i: 'realtimeDataPanel',
+                x: 0,
+                y: 0,
+                w: 1,
+                h:
+                    2 +
+                    tileHeight(
+                        getNumberOfRealtimeModes(realtimeLines),
+                        0.75,
+                        0,
+                    ),
+            },
         ],
     }
 
@@ -507,6 +561,7 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ToggleDetailsPanel />
                 </div>
+
                 <div key="realtimeDataPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Sanntidsposisjoner</Heading2>
@@ -516,14 +571,16 @@ const EditTab = (): JSX.Element => {
                             size="large"
                         ></Switch>
                     </div>
-                    {!hideRealtimeData && (
+                    {!hiddenModes?.includes('kollektiv') ? (
                         <RealtimeDataPanel
                             realtimeLines={realtimeLines}
-                            toggleRealtimeDataLineIds={
-                                toggleRealtimeDataLineIds
-                            }
                             hiddenLines={hiddenRealtimeDataLineRefs}
                         />
+                    ) : (
+                        <Paragraph>
+                            Kollektivdata er skrudd av. Skru det på ved å trykke
+                            på knappen øverst til høyre i kollektiv-ruten.
+                        </Paragraph>
                     )}
                 </div>
 

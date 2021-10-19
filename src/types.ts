@@ -20,6 +20,12 @@ export interface Line {
     pointsOnLink: string
 }
 
+export interface DrawableRoute {
+    pointsOnLink: string
+    mode: string
+    lineRef: string
+}
+
 export type StopPlaceWithDepartures = StopPlace & {
     departures: LineData[]
 }
