@@ -179,7 +179,7 @@ const RealtimeDataPanel = ({
                 <Heading3>Rutelinje</Heading3>
                 <Label>
                     Pek på et posisjonsikon for å se ruten i kartet. Trykk på
-                    posisjonsikonet for å vise ruten permanent
+                    posisjonsikonet for å vise ruten permanent.
                 </Label>
                 <div className="realtime-detail-panel__route-display-selection">
                     <span className="realtime-detail-panel__route-display-selection-info-text">
