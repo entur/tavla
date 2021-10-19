@@ -13,11 +13,13 @@ export function DashboardHeader(): JSX.Element | null {
     if (!settings) return null
     const { logo, logoSize, description } = settings
 
-    const headerLogo = logo ? (
-        <img src={logo} height={logoSize} />
-    ) : (
+    const headerLogo = (
         <Link to="/">
-            <TavlaLogo className="header__logo-wrapper__logo" />
+            {logo ? (
+                <img src={logo} height={logoSize} />
+            ) : (
+                <TavlaLogo className="header__logo-wrapper__logo" />
+            )}
         </Link>
     )
 
