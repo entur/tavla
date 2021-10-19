@@ -79,7 +79,7 @@ const Map = ({
     const [hoveredVehicle, setHoveredVehicle] =
         useState<RealtimeVehicle | null>(null)
 
-    const hoveredLine = useMemo(() => {
+    const hoveredRoute = useMemo(() => {
         if (
             !hoveredVehicle ||
             !hoveredVehicle.line.pointsOnLink ||
@@ -368,7 +368,7 @@ const Map = ({
         >
             {realtimeVehicles && realtimeVehicleMarkers}
             {permanentlyDrawnRoutes}
-            {hoveredLine}
+            {hoveredRoute}
             {scooterClusters && scooterClusterMarkers}
             {stopPlaces && stopPlaceMarkers}
             {stationClusters && stationClusterMarkers}
