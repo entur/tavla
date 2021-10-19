@@ -1,15 +1,10 @@
 import React from 'react'
 import { CanvasOverlay } from 'react-map-gl'
 
-interface DrawableRoute {
+interface RouteToDraw {
     points: Array<[number, number]>
     color: string
 }
-
-interface Props {
-    routes: DrawableRoute[]
-}
-
 interface RedrawArgs {
     width: number
     height: number
@@ -17,11 +12,15 @@ interface RedrawArgs {
     project: (point: [number, number]) => [number, number]
 }
 
+interface Props {
+    routes: RouteToDraw[]
+}
+
 const LineOverlay = ({ routes }: Props): JSX.Element | null => {
     const redraw = ({ width, height, ctx, project }: RedrawArgs): void => {
         ctx.clearRect(0, 0, width, height)
         ctx.lineWidth = 4
-        routes.forEach(({ points, color }: DrawableRoute) => {
+        routes.forEach(({ points, color }: RouteToDraw) => {
             ctx.strokeStyle = color
             ctx.globalAlpha = 0.4
             ctx.beginPath()

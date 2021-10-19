@@ -13,7 +13,12 @@ import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import PositionPin from '../../assets/icons/positionPin'
 
-import { IconColorType, StopPlaceWithDepartures } from '../../types'
+import {
+    DrawableRoute,
+    IconColorType,
+    Line,
+    StopPlaceWithDepartures,
+} from '../../types'
 
 import { Filter } from '../../services/realtimeVehicles/types/filter'
 
@@ -99,29 +104,28 @@ const Map = ({
         )
     }, [hoveredVehicle, showRoutesInMap])
 
-    const permanentLines = useMemo(() => {
+    const permanentlyDrawnRoutes = useMemo(() => {
         if (
             !permanentlyVisibleRoutesInMap ||
             !showRoutesInMap ||
             hideRealtimeData
         )
             return null
-        const routes = permanentlyVisibleRoutesInMap
+
+        const routesToDraw = permanentlyVisibleRoutesInMap
             .filter(
-                (route) =>
-                    uniqueLines
-                        ?.map((line) => line.id)
-                        .includes(route.lineRef) &&
-                    !hiddenRealtimeDataLineRefs?.includes(route.lineRef),
+                ({ lineRef }: DrawableRoute) =>
+                    uniqueLines?.map(({ id }: Line) => id).includes(lineRef) &&
+                    !hiddenRealtimeDataLineRefs?.includes(lineRef),
             )
-            .map((drawableRoute) => ({
-                points: polyline.decode(drawableRoute.pointsOnLink),
+            .map(({ pointsOnLink, mode }: DrawableRoute) => ({
+                points: polyline.decode(pointsOnLink),
                 color: getIconColor(
-                    drawableRoute.mode.toLowerCase() as TransportMode,
+                    mode.toLowerCase() as TransportMode,
                     IconColorType.DEFAULT,
                 ),
             }))
-        return <LineOverlay routes={routes}></LineOverlay>
+        return <LineOverlay routes={routesToDraw}></LineOverlay>
     }, [
         permanentlyVisibleRoutesInMap,
         uniqueLines,
@@ -363,7 +367,7 @@ const Map = ({
             ref={mapRef}
         >
             {realtimeVehicles && realtimeVehicleMarkers}
-            {permanentLines}
+            {permanentlyDrawnRoutes}
             {hoveredLine}
             {scooterClusters && scooterClusterMarkers}
             {stopPlaces && stopPlaceMarkers}
