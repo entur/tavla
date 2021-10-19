@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import { FilterChip } from '@entur/chip'
 import { Switch, TravelSwitch } from '@entur/form'
@@ -20,13 +20,11 @@ import './styles.scss'
 
 interface Props {
     realtimeLines: Line[] | undefined
-    toggleRealtimeDataLineIds: (lineId: string) => void
     hiddenLines: string[]
 }
 
 const RealtimeDataPanel = ({
     realtimeLines,
-    toggleRealtimeDataLineIds,
     hiddenLines,
 }: Props): JSX.Element => {
     const [settings, setSettings] = useSettingsContext()
@@ -46,6 +44,29 @@ const RealtimeDataPanel = ({
                         : -1,
             ),
         [realtimeLines],
+    )
+
+    const toggleRealtimeDataLineIds = useCallback(
+        (lineId: string) => {
+            if (hiddenRealtimeDataLineRefs.includes(lineId)) {
+                setSettings({
+                    hiddenRealtimeDataLineRefs:
+                        hiddenRealtimeDataLineRefs.filter(
+                            (el) => el !== lineId,
+                        ),
+                    hideRealtimeData: false,
+                })
+            } else {
+                setSettings({
+                    hiddenRealtimeDataLineRefs: [
+                        ...hiddenRealtimeDataLineRefs,
+                        lineId,
+                    ],
+                    hideRealtimeData: false,
+                })
+            }
+        },
+        [hiddenRealtimeDataLineRefs, setSettings],
     )
 
     return !realtimeLines ? (
@@ -110,6 +131,8 @@ const RealtimeDataPanel = ({
                                                                               id,
                                                                       ),
                                                               ],
+                                                          hideRealtimeData:
+                                                              false,
                                                       })
                                                     : setSettings({
                                                           hiddenRealtimeDataLineRefs:
@@ -133,6 +156,8 @@ const RealtimeDataPanel = ({
                                                                               ref,
                                                                           ),
                                                               ),
+                                                          hideRealtimeData:
+                                                              false,
                                                       })
                                             }
                                         />
@@ -187,9 +212,12 @@ const RealtimeDataPanel = ({
                     </span>
                     <Switch
                         checked={showRoutesInMap}
-                        onChange={() =>
-                            setSettings({ showRoutesInMap: !showRoutesInMap })
-                        }
+                        onChange={() => {
+                            setSettings({
+                                showRoutesInMap: !showRoutesInMap,
+                                hideRealtimeData: false,
+                            })
+                        }}
                     ></Switch>
                 </div>
                 {showRoutesInMap && (
@@ -269,6 +297,8 @@ const RealtimeDataPanel = ({
                                                                               route.lineRef !==
                                                                               id,
                                                                       ),
+                                                                  hideRealtimeData:
+                                                                      false,
                                                               })
                                                             : setSettings({
                                                                   permanentlyVisibleRoutesInMap:
@@ -281,6 +311,8 @@ const RealtimeDataPanel = ({
                                                                               mode: transportMode,
                                                                           },
                                                                       ],
+                                                                  hideRealtimeData:
+                                                                      false,
                                                               })
                                                     }
                                                 >

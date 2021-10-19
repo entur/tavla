@@ -124,6 +124,7 @@ const EditTab = (): JSX.Element => {
         showWind = true,
         showPrecipitation = true,
     } = settings || {}
+
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
     )
@@ -151,27 +152,6 @@ const EditTab = (): JSX.Element => {
             })
         }
     }, [settings, debouncedZoom, setSettings])
-
-    const toggleRealtimeDataLineIds = useCallback(
-        (lineId: string) => {
-            if (hiddenRealtimeDataLineRefs.includes(lineId)) {
-                setSettings({
-                    hiddenRealtimeDataLineRefs:
-                        hiddenRealtimeDataLineRefs.filter(
-                            (el) => el !== lineId,
-                        ),
-                })
-            } else {
-                setSettings({
-                    hiddenRealtimeDataLineRefs: [
-                        ...hiddenRealtimeDataLineRefs,
-                        lineId,
-                    ],
-                })
-            }
-        },
-        [hiddenRealtimeDataLineRefs, setSettings],
-    )
 
     const debouncedDistance = useDebounce(distance, 800)
     useEffect(() => {
@@ -594,9 +574,6 @@ const EditTab = (): JSX.Element => {
                     {!hiddenModes?.includes('kollektiv') ? (
                         <RealtimeDataPanel
                             realtimeLines={realtimeLines}
-                            toggleRealtimeDataLineIds={
-                                toggleRealtimeDataLineIds
-                            }
                             hiddenLines={hiddenRealtimeDataLineRefs}
                         />
                     ) : (
