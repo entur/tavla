@@ -60,7 +60,11 @@ export const deleteImagefromStorage = firestoreDB
     .onUpdate(async (change, context) => {
         if (change.before.data().logo && !change.after.data().logo) {
             try {
-                const path = `images/${context.params.settingsID}`
+                const imageUrl: string = change.before.data().logo
+                const imageIdMatch = imageUrl.match(/(?<=\%2F)(.*?)(?=\?)/)
+                const path = `images/${
+                    imageIdMatch ? imageIdMatch[0] : context.params.settingsID
+                }`
                 await storage().bucket().file(path).delete()
             } catch (error) {
                 console.error(error)
