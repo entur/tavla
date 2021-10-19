@@ -16,6 +16,55 @@
             margin-left: 0.75rem;
         }
     }
+
+    &__realtime-selection-panel {
+        .expandable-panel__wrapper:not(:last-child) {
+            border-bottom: 0.125rem solid var(--tavla-border-color);
+        }
+    }
+
+    &__route-display-selection {
+        display: flex;
+        align-items: center;
+        &-info-text {
+            margin-right: 1rem;
+        }
+    }
+
+    &__route-selection-wrapper {
+        .eds-expandable-panel__trigger {
+            padding-left: 0;
+            margin-top: 0.5rem;
+        }
+    }
+
+    .expandable-panel {
+        &__wrapper {
+            border-bottom: 0.125rem solid var(--tavla-border-color);
+        }
+        &__title {
+            &-wrapper {
+                width: 100%;
+                display: flex;
+                align-items: center;
+            }
+            &-name {
+                margin-right: 1rem;
+            }
+            &-icon {
+                margin-bottom: -0.1rem;
+                margin-right: 0.5rem;
+            }
+        }
+    }
+
+    .eds-expandable-panel__content,
+    .eds-expandable-panel__trigger,
+    .eds-expandable-panel__trigger:hover {
+        background: none;
+        box-shadow: none;
+    }
+
     .eds-filter-chip {
         margin-right: 1rem;
         margin-top: 1rem;
@@ -26,52 +75,5 @@
     }
     .eds-filter-chip__icon {
         background-color: var(--tavla-background-color);
-    }
-
-    .expandable-panel__title {
-        &-wrapper {
-            width: 100%;
-            display: flex;
-            align-items: center;
-        }
-        &-name {
-            margin-right: 1rem;
-        }
-    }
-
-    .eds-expandable-panel__content,
-    .eds-expandable-panel__trigger,
-    .eds-expandable-panel__trigger:hover {
-        background: none;
-        box-shadow: none;
-    }
-    &__realtime-selection-panel {
-        .expandable-panel__wrapper:not(:last-child) {
-            border-bottom: 0.125rem solid var(--tavla-border-color);
-        }
-    }
-
-    .expandable-panel__wrapper {
-        border-bottom: 0.125rem solid var(--tavla-border-color);
-    }
-
-    .show-rutelinje {
-        display: flex;
-        align-items: center;
-        &-info-text {
-            margin-right: 1rem;
-        }
-    }
-
-    .rutelinje-wrapper {
-        .eds-expandable-panel__trigger {
-            padding-left: 0;
-            margin-top: 0.5rem;
-        }
-    }
-
-    .icon-wrapper {
-        margin-bottom: -0.1rem;
-        margin-right: 0.5rem;
     }
 }

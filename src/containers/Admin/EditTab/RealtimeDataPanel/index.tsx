@@ -175,14 +175,14 @@ const RealtimeDataPanel = ({
                     </div>
                 ))}
             </div>
-            <div className="rutelinje-wrapper">
+            <div className="realtime-detail-panel__route-selection-wrapper">
                 <Heading3>Rutelinje</Heading3>
                 <Label>
                     Pek på et posisjonsikon for å se ruten i kartet. Trykk på
                     posisjonsikonet for å vise ruten permanent
                 </Label>
-                <div className="show-rutelinje">
-                    <span className="show-rutelinje-info-text">
+                <div className="realtime-detail-panel__route-display-selection">
+                    <span className="realtime-detail-panel__route-display-selection-info-text">
                         Vis rutelinjer i kartet
                     </span>
                     <Switch
@@ -197,7 +197,7 @@ const RealtimeDataPanel = ({
                         <ExpandablePanel
                             title={
                                 <div className="expandable-panel__title-wrapper">
-                                    <span className="icon-wrapper">
+                                    <span className="expandable-panel__title-icon">
                                         <ClosedLockIcon></ClosedLockIcon>
                                     </span>
                                     <span>Permanente rutelinjer</span>
