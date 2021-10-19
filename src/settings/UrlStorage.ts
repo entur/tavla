@@ -23,7 +23,7 @@ export const DEFAULT_SETTINGS: Settings = {
     description: '',
     hiddenRealtimeDataLineRefs: [],
     permanentlyVisibleRoutesInMap: [],
-    showRoutesInMap: false,
+    showRoutesInMap: true,
 }
 
 const VERSION_PREFIX_REGEX = /^v(\d)+::/

@@ -83,7 +83,7 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     hiddenStopModes: {},
     hiddenRealtimeDataLineRefs: [],
     hideRealtimeData: true,
-    showRoutesInMap: false,
+    showRoutesInMap: true,
     permanentlyVisibleRoutesInMap: [],
 }
 
