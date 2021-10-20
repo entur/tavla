@@ -12,7 +12,7 @@ import {
 } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
 
-import { useFirebaseAuthentication } from '../../../auth'
+import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
 import LoginModal from '../../../components/LoginModal'
 
@@ -56,7 +56,7 @@ const Requirements = (): JSX.Element => (
 
 const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false)
-    const user = useFirebaseAuthentication()
+    const user = useUser()
 
     const documentId = getDocumentId()
 

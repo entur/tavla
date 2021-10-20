@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
 
-import { useFirebaseAuthentication } from '../../auth'
+import { useUser } from '../../auth'
 
 import { useSettingsContext } from '../../settings'
 
@@ -20,7 +20,7 @@ import FloatingButtons from './FloatingButtons'
 import './styles.scss'
 
 const AdminPage = (): JSX.Element => {
-    const user = useFirebaseAuthentication()
+    const user = useUser()
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
 

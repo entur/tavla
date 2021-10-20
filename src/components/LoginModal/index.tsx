@@ -5,7 +5,7 @@ import type { User } from 'firebase/auth'
 import { useToast } from '@entur/alert'
 import { Modal } from '@entur/modal'
 
-import { useFirebaseAuthentication } from '../../auth'
+import { useUser } from '../../auth'
 import { usePrevious } from '../../utils'
 
 import EmailLogin from './EmailLogin'
@@ -39,7 +39,7 @@ export type ModalType =
     | 'EmailSentModal'
 
 const LoginModal = ({ open, onDismiss, loginCase }: Props): JSX.Element => {
-    const user = useFirebaseAuthentication()
+    const user = useUser()
 
     const isLoggedIn = user && !user.isAnonymous
 

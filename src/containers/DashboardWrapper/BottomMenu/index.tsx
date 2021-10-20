@@ -18,7 +18,7 @@ import {
 import { useToast } from '@entur/alert'
 
 import { useSettingsContext } from '../../../settings'
-import { useFirebaseAuthentication, auth } from '../../../auth'
+import { auth, useUser } from '../../../auth'
 
 import LockModal from '../../LockModal'
 import LoginModal from '../../../components/LoginModal'
@@ -30,7 +30,7 @@ import './styles.scss'
 function BottomMenu({ className, history }: Props): JSX.Element {
     const URL = document.location.href
 
-    const user = useFirebaseAuthentication()
+    const user = useUser()
     const width = useWindowWidth()
     const [settings] = useSettingsContext()
     const [menuHiddenByScroll, setMenuHiddenByScroll] = useState(true)

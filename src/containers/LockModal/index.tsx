@@ -11,7 +11,7 @@ import Check from '../../assets/images/check.png'
 import retinaCheck from '../../assets/images/check@2x.png'
 
 import { analytics } from '../../firebase-init'
-import { useFirebaseAuthentication } from '../../auth'
+import { useUser } from '../../auth'
 import { useSettingsContext } from '../../settings'
 
 import CloseButton from '../../components/LoginModal/CloseButton/CloseButton'
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const LockModal = ({ open, onDismiss }: Props): JSX.Element | null => {
-    const user = useFirebaseAuthentication()
+    const user = useUser()
 
     const [settings, setSettings] = useSettingsContext()
 

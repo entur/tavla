@@ -14,7 +14,7 @@ import { Coordinates, TransportMode } from '@entur/sdk'
 import { Theme, DrawableRoute } from '../types'
 import { getSettings } from '../services/firebase'
 import { getDocumentId } from '../utils'
-import { useFirebaseAuthentication } from '../auth'
+import { useUser } from '../auth'
 
 import {
     persist as persistToUrl,
@@ -91,7 +91,7 @@ export function useSettings(): [Settings | null, Setter] {
     const [settings, setLocalSettings] = useState<Settings | null>(null)
 
     const location = useLocation()
-    const user = useFirebaseAuthentication()
+    const user = useUser()
     const id = getDocumentId()
 
     useEffect(() => {
