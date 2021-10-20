@@ -9,7 +9,7 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 
 import { analytics } from '../../firebase-init'
-import { useFirebaseAuthentication } from '../../auth'
+import { useUser } from '../../auth'
 import { useSettingsContext } from '../../settings'
 
 import LoginModal from '../../components/LoginModal'
@@ -24,7 +24,7 @@ import './styles.scss'
 
 const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const history = useHistory()
-    const user = useFirebaseAuthentication()
+    const user = useUser()
     const [settings, setSettings] = useSettingsContext()
 
     const isLocked =

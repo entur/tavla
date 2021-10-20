@@ -5,7 +5,7 @@ import type { User } from 'firebase/auth'
 import { Heading2, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
 
-import { useFirebaseAuthentication } from '../../../auth'
+import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
 import LoginModal from '../../../components/LoginModal'
 
@@ -14,7 +14,7 @@ import CustomURL from './CustomURL'
 
 const NameTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false)
-    const user = useFirebaseAuthentication()
+    const user = useUser()
 
     const documentId = getDocumentId()
 
