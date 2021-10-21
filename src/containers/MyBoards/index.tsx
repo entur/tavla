@@ -28,6 +28,9 @@ function sortBoard(boards: BoardProps[]): BoardProps[] {
     })
 }
 
+const filterBoards = (boards: BoardProps[]): BoardProps[] =>
+    boards.filter((board) => !(board.data.delete == true))
+
 const MyBoards = ({ history }: Props): JSX.Element | null => {
     const [boards, setBoards] = useState<DocumentData>()
     const user = useUser()
@@ -51,7 +54,11 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                             id: docSnapshot.id,
                         } as BoardProps),
                 )
-                setBoards(updatedBoards.length ? sortBoard(updatedBoards) : [])
+                setBoards(
+                    updatedBoards.length
+                        ? sortBoard(filterBoards(updatedBoards))
+                        : [],
+                )
             },
             error: () => setBoards([]),
         })
