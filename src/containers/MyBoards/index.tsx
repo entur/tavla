@@ -21,6 +21,7 @@ import { isDarkOrDefaultTheme } from '../../utils'
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 
+import SharedBoardCard from './SharedBoardCard'
 import BoardCard from './BoardCard'
 import './styles.scss'
 
@@ -67,7 +68,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
             error: () => setBoards([]),
         })
         const unsubscribeFromSharedBoards = getSharedBoardsOnSnapshot(
-            user.uid,
+            user.email,
             {
                 next: (querySnapshot) => {
                     if (querySnapshot.metadata.hasPendingWrites) return
@@ -93,6 +94,8 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
         }
     }, [user])
 
+    console.log(user)
+
     if (
         boards === undefined ||
         user === undefined ||
@@ -112,8 +115,8 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
             <div className="my-boards">
                 <Tabs index={currentIndex} onChange={setCurrentIndex}>
                     <TabList>
-                        <Tab>Mine Tavler</Tab>
-                        <Tab>Delte tavler</Tab>
+                        <Tab>Mine tavler</Tab>
+                        <Tab>Delt med meg</Tab>
                     </TabList>
                     <TabPanels>
                         <TabPanel>
@@ -167,14 +170,10 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                                 <div className="my-boards__board-list">
                                     {requestedBoards.map(
                                         (board: BoardProps) => (
-                                            <BoardCard
+                                            <SharedBoardCard
                                                 key={board.id}
                                                 id={board.id}
-                                                uid={user.uid}
-                                                timestamp={board.lastmodified}
-                                                created={board.created}
                                                 settings={board.data}
-                                                history={history}
                                             />
                                         ),
                                     )}

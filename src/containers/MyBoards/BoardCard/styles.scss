@@ -75,6 +75,20 @@
             }
         }
     }
+
+    .button-container {
+        margin-top: 1rem;
+        display: flex;
+    }
+
+    .button__primary {
+        margin-right: 1rem;
+    }
+
+    .button__primary,
+    .button__secondary {
+        min-width: 5rem;
+    }
 }
 @media (max-width: 450px) {
     .board-card {

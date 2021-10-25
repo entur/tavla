@@ -50,7 +50,7 @@ export const getBoardsOnSnapshot = (
 }
 
 export const getSharedBoardsOnSnapshot = (
-    userId: string,
+    userEmail: string | null,
     observer: {
         next: (querySnapshot: QuerySnapshot) => void
         error: () => void
@@ -58,7 +58,7 @@ export const getSharedBoardsOnSnapshot = (
 ): (() => void) => {
     const q = query(
         collection(db, SETTINGS_COLLECTION),
-        where('ownerRequestRecipients', 'array-contains', userId),
+        where('ownerRequestRecipients', 'array-contains', userEmail),
     )
     return onSnapshot(q, observer)
 }

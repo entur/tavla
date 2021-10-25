@@ -67,8 +67,8 @@ export interface Settings {
 }
 
 interface OwnerRequest {
-    requestIssuerUserId: string
-    recipientUserId: string
+    requestIssuerEmail: string
+    recipientEmail: string
 }
 
 type Setter = (settings: Partial<Settings>) => void
