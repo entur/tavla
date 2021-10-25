@@ -49,7 +49,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
             next: (querySnapshot) => {
                 if (querySnapshot.metadata.hasPendingWrites) return
                 const updatedBoards = querySnapshot.docs.map(
-                    (docSnapshot: any) =>
+                    (docSnapshot: DocumentData) =>
                         ({
                             data: docSnapshot.data(),
                             lastmodified: docSnapshot.data().lastmodified,
