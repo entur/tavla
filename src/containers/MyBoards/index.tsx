@@ -4,16 +4,19 @@ import { Link } from 'react-router-dom'
 import type { DocumentData, Timestamp } from 'firebase/firestore'
 
 import { Contrast } from '@entur/layout'
-import { Heading2, Heading3 } from '@entur/typography'
+import { Heading3 } from '@entur/typography'
 import { AddIcon } from '@entur/icons'
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 
 import { ThemeDashboardPreview } from '../../assets/icons/ThemeDashboardPreview'
-import { Settings } from '../../settings'
+import { Settings, useSettingsContext } from '../../settings'
 import { getBoardsOnSnapshot } from '../../services/firebase'
 import { useUser } from '../../auth'
 import { Theme } from '../../types'
+import { isDarkOrDefaultTheme } from '../../utils'
 
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
+import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 
 import BoardCard from './BoardCard'
 import './styles.scss'
@@ -32,6 +35,9 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
     const [boards, setBoards] = useState<DocumentData>()
     const user = useUser()
     const preview = ThemeDashboardPreview(Theme.DEFAULT)
+    const [currentIndex, setCurrentIndex] = useState<number>(0)
+    const [settings] = useSettingsContext()
+    const { theme } = settings || {}
 
     useEffect(() => {
         if (user === null) {
@@ -69,53 +75,64 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
     }
 
     return (
-        <Contrast>
+        <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
             <div className="my-boards">
-                <Heading2 className="my-boards__title" margin="bottom">
-                    Mine tavler ({boards.length})
-                </Heading2>
-                <div className="my-boards__board-list">
-                    {boards.map((board: BoardProps) => (
-                        <BoardCard
-                            key={board.id}
-                            id={board.id}
-                            uid={user.uid}
-                            timestamp={board.lastmodified}
-                            created={board.created}
-                            settings={board.data}
-                            history={history}
-                        />
-                    ))}
-                    <Link to="/">
-                        <div className="board-card">
-                            <div
-                                className="board-card__preview"
-                                style={{ position: 'relative' }}
-                            >
-                                <img
-                                    src={preview['Chrono']}
-                                    style={{ visibility: 'hidden' }}
-                                />
-                                <AddIcon
-                                    size="3rem"
-                                    className="board-card__preview__icon"
-                                />
-                            </div>
-                            <div className="board-card__text-container">
-                                <span>
-                                    <Heading3
-                                        className="board-card__text-container__title"
-                                        margin="none"
-                                    >
-                                        Lag ny tavle
-                                    </Heading3>
-                                </span>
-                            </div>
-                        </div>
-                    </Link>
-                </div>
+                <Tabs index={currentIndex} onChange={setCurrentIndex}>
+                    <TabList>
+                        <Tab>Mine Tavler</Tab>
+                        <Tab>Delte tavler</Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>
+                            <Contrast>
+                                <div className="my-boards__board-list">
+                                    {boards.map((board: BoardProps) => (
+                                        <BoardCard
+                                            key={board.id}
+                                            id={board.id}
+                                            uid={user.uid}
+                                            timestamp={board.lastmodified}
+                                            created={board.created}
+                                            settings={board.data}
+                                            history={history}
+                                        />
+                                    ))}
+                                    <Link to="/">
+                                        <div className="board-card">
+                                            <div
+                                                className="board-card__preview"
+                                                style={{ position: 'relative' }}
+                                            >
+                                                <img
+                                                    src={preview['Chrono']}
+                                                    style={{
+                                                        visibility: 'hidden',
+                                                    }}
+                                                />
+                                                <AddIcon
+                                                    size="3rem"
+                                                    className="board-card__preview__icon"
+                                                />
+                                            </div>
+                                            <div className="board-card__text-container">
+                                                <span>
+                                                    <Heading3
+                                                        className="board-card__text-container__title"
+                                                        margin="none"
+                                                    >
+                                                        Lag ny tavle
+                                                    </Heading3>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </Contrast>
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
             </div>
-        </Contrast>
+        </ThemeContrastWrapper>
     )
 }
 
