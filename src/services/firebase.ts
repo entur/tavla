@@ -49,6 +49,20 @@ export const getBoardsOnSnapshot = (
     return onSnapshot(q, observer)
 }
 
+export const getSharedBoardsOnSnapshot = (
+    userId: string,
+    observer: {
+        next: (querySnapshot: QuerySnapshot) => void
+        error: () => void
+    },
+): (() => void) => {
+    const q = query(
+        collection(db, SETTINGS_COLLECTION),
+        where('ownerRequestRecipients', 'array-contains', userId),
+    )
+    return onSnapshot(q, observer)
+}
+
 export const updateSingleSettingsField = async (
     docId: string,
     fieldId: string,

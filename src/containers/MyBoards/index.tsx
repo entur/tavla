@@ -10,7 +10,10 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 
 import { ThemeDashboardPreview } from '../../assets/icons/ThemeDashboardPreview'
 import { Settings, useSettingsContext } from '../../settings'
-import { getBoardsOnSnapshot } from '../../services/firebase'
+import {
+    getBoardsOnSnapshot,
+    getSharedBoardsOnSnapshot,
+} from '../../services/firebase'
 import { useUser } from '../../auth'
 import { Theme } from '../../types'
 import { isDarkOrDefaultTheme } from '../../utils'
@@ -33,6 +36,7 @@ function sortBoard(boards: BoardProps[]): BoardProps[] {
 
 const MyBoards = ({ history }: Props): JSX.Element | null => {
     const [boards, setBoards] = useState<DocumentData>()
+    const [requestedBoards, setRequestedBoards] = useState<DocumentData>()
     const user = useUser()
     const preview = ThemeDashboardPreview(Theme.DEFAULT)
     const [currentIndex, setCurrentIndex] = useState<number>(0)
@@ -45,6 +49,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
             return
         }
         if (user === undefined) return
+
         const unsubscribe = getBoardsOnSnapshot(user.uid, {
             next: (querySnapshot) => {
                 if (querySnapshot.metadata.hasPendingWrites) return
@@ -61,10 +66,38 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
             },
             error: () => setBoards([]),
         })
-        return unsubscribe
+        const unsubscribeFromSharedBoards = getSharedBoardsOnSnapshot(
+            user.uid,
+            {
+                next: (querySnapshot) => {
+                    if (querySnapshot.metadata.hasPendingWrites) return
+                    const updatedBoards = querySnapshot.docs.map(
+                        (docSnapshot: DocumentData) =>
+                            ({
+                                data: docSnapshot.data(),
+                                lastmodified: docSnapshot.data().lastmodified,
+                                created: docSnapshot.data().created,
+                                id: docSnapshot.id,
+                            } as BoardProps),
+                    )
+                    setRequestedBoards(
+                        updatedBoards.length ? sortBoard(updatedBoards) : [],
+                    )
+                },
+                error: () => setRequestedBoards([]),
+            },
+        )
+        return () => {
+            unsubscribe()
+            unsubscribeFromSharedBoards()
+        }
     }, [user])
 
-    if (boards === undefined || user === undefined) {
+    if (
+        boards === undefined ||
+        user === undefined ||
+        requestedBoards === undefined
+    ) {
         return null
     }
     if (!user || user.isAnonymous) {
@@ -126,6 +159,25 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                                             </div>
                                         </div>
                                     </Link>
+                                </div>
+                            </Contrast>
+                        </TabPanel>
+                        <TabPanel>
+                            <Contrast>
+                                <div className="my-boards__board-list">
+                                    {requestedBoards.map(
+                                        (board: BoardProps) => (
+                                            <BoardCard
+                                                key={board.id}
+                                                id={board.id}
+                                                uid={user.uid}
+                                                timestamp={board.lastmodified}
+                                                created={board.created}
+                                                settings={board.data}
+                                                history={history}
+                                            />
+                                        ),
+                                    )}
                                 </div>
                             </Contrast>
                         </TabPanel>

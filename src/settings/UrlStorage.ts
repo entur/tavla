@@ -24,6 +24,8 @@ export const DEFAULT_SETTINGS: Settings = {
     hiddenRealtimeDataLineRefs: [],
     permanentlyVisibleRoutesInMap: [],
     showRoutesInMap: true,
+    ownerRequestRecipients: [],
+    ownerRequests: [],
 }
 
 const VERSION_PREFIX_REGEX = /^v(\d)+::/
