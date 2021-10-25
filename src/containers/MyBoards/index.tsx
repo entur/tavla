@@ -29,7 +29,7 @@ function sortBoard(boards: BoardProps[]): BoardProps[] {
 }
 
 const filterBoards = (boards: BoardProps[]): BoardProps[] =>
-    boards.filter((board) => !(board.data.delete == true))
+    boards.filter((board) => !board.data.isScheduledForDelete)
 
 const MyBoards = ({ history }: Props): JSX.Element | null => {
     const [boards, setBoards] = useState<DocumentData>()

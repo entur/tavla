@@ -62,7 +62,7 @@ export interface Settings {
     hideWalkInfo?: boolean
     hideRealtimeData?: boolean
     hiddenRealtimeDataLineRefs: string[]
-    delete?: boolean
+    isScheduledForDelete?: boolean
 }
 
 type Setter = (settings: Partial<Settings>) => void

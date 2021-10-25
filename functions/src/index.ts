@@ -81,7 +81,7 @@ export const scheduledDeleteOfDocumentsSetToBeDeleted = region('us-central1')
             const batch = firestore().batch()
             firestore()
                 .collection('settings')
-                .where('delete', '==', true)
+                .where('isScheduledForDelete', '==', true)
                 .get()
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {

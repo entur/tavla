@@ -161,7 +161,7 @@ export const copySettingsToNewId = async (
     try {
         const document = await getDoc(newDocRef)
         if (document.exists()) {
-            if (document.data().delete == true) {
+            if (document.data().isScheduledForDelete) {
                 await deleteDoc(newDocRef)
                 await createSettingsWithId(settings, newDocId)
                 return true
@@ -177,4 +177,4 @@ export const copySettingsToNewId = async (
 }
 
 export const setIdToBeDeleted = (docId: string): Promise<void> =>
-    updateSingleSettingsField(docId, 'delete', true)
+    updateSingleSettingsField(docId, 'isScheduledForDelete', true)
