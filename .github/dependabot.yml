@@ -3,21 +3,21 @@
 
 version: 2
 updates:
-  # For dependencies used in application excluding functions
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
-      
-  # For dependencies in functions directory
-  - package-ecosystem: "npm" 
-      directory: "/functions"
+    # For dependencies used in application excluding functions
+    - package-ecosystem: 'npm'
+      directory: '/'
       schedule:
-        interval: "weekly"
-        time: "10:00"
+          interval: 'weekly'
       ignore:
-        - dependency-name: "*"
-          update-types: ["version-update:semver-patch"]
+          - dependency-name: '*'
+            update-types: ['version-update:semver-patch']
+
+    # For dependencies in functions directory
+    - package-ecosystem: 'npm'
+      directory: '/functions'
+      schedule:
+          interval: 'weekly'
+          time: '10:00'
+      ignore:
+          - dependency-name: '*'
+            update-types: ['version-update:semver-patch']
