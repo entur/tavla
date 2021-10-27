@@ -116,7 +116,14 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                 <Tabs index={currentIndex} onChange={setCurrentIndex}>
                     <TabList>
                         <Tab>Mine tavler</Tab>
-                        <Tab>Delt med meg</Tab>
+                        <Tab>
+                            Delt med meg
+                            {requestedBoards.length > 0 ? (
+                                <span className="tab-header__notification-container">
+                                    {requestedBoards.length}
+                                </span>
+                            ) : null}
+                        </Tab>
                     </TabList>
                     <TabPanels>
                         <TabPanel>
