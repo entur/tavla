@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import type { DocumentData, Timestamp } from 'firebase/firestore'
 
-import { Contrast } from '@entur/layout'
+import { Contrast, NotificationBadge } from '@entur/layout'
 import { Heading3 } from '@entur/typography'
 import { AddIcon } from '@entur/icons'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
@@ -119,9 +119,12 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                         <Tab>
                             Delt med meg
                             {requestedBoards.length > 0 ? (
-                                <span className="tab-header__notification-container">
+                                <NotificationBadge
+                                    variant="info"
+                                    style={{ position: 'absolute', top: -10 }}
+                                >
                                     {requestedBoards.length}
-                                </span>
+                                </NotificationBadge>
                             ) : null}
                         </Tab>
                     </TabList>

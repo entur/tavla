@@ -18,19 +18,6 @@
         grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
         grid-auto-rows: 1fr;
     }
-    .tab-header {
-        &__notification-container {
-            width: 1.5rem;
-            height: 1.5rem;
-            margin-left: 0.5rem;
-            border-radius: 50%;
-            background-color: $colors-validation-lava;
-            position: absolute;
-            top: -0.75rem;
-            font-weight: 400;
-            padding: 0.075rem;
-        }
-    }
 
     .eds-tab {
         background-color: var(--tavla-button-background-color);
