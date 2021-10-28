@@ -1,16 +1,9 @@
-import React, { useState, useEffect, Dispatch, useCallback } from 'react'
+import React, { useState, useEffect, Dispatch } from 'react'
 
 import type { User } from 'firebase/auth'
 
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
-
-import { useUser } from '../../../auth'
-import { getDocumentId } from '../../../utils'
-import LoginModal from '../../../components/LoginModal'
-
-import './styles.scss'
-import { useSettingsContext } from '../../../settings'
 import { CheckIcon, CloseIcon, EditIcon, LinkIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { IconButton } from '@entur/button'
@@ -22,8 +15,15 @@ import {
     TableHead,
     TableRow,
 } from '@entur/table'
+
+import { useUser } from '../../../auth'
+import { getDocumentId } from '../../../utils'
+import LoginModal from '../../../components/LoginModal'
+import { useSettingsContext } from '../../../settings'
 import { getOwnerEmails } from '../../../services/firebase'
 import { BoardOwnersData } from '../../../types'
+
+import './styles.scss'
 
 const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const user = useUser()
@@ -122,6 +122,23 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         </Heading3>
     )
 
+    const OwnersWithAccessRows: JSX.Element[] = ownersData.map((owner) => (
+        <TableRow key={owner.uid}>
+            <DataCell>{owner.email}</DataCell>
+            <DataCell>Har tilgang</DataCell>
+            <DataCell>
+                <Tooltip placement="bottom" content="Fjern tilgang">
+                    <IconButton
+                        onClick={() => onRemoveOwnerFromBoard(owner.uid)}
+                        className="share-page__title__button"
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </Tooltip>
+            </DataCell>
+        </TableRow>
+    ))
+
     if (!documentId) {
         return (
             <div className="share-page">
@@ -167,33 +184,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                                 <HeaderCell>Fjern</HeaderCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>
-                            {ownersData.map((owner) => {
-                                return (
-                                    <TableRow>
-                                        <DataCell>{owner.email}</DataCell>
-                                        <DataCell>Har tilgang</DataCell>
-                                        <DataCell>
-                                            <Tooltip
-                                                placement="bottom"
-                                                content="Fjern tilgang"
-                                            >
-                                                <IconButton
-                                                    onClick={() =>
-                                                        onRemoveOwnerFromBoard(
-                                                            owner.uid,
-                                                        )
-                                                    }
-                                                    className="share-page__title__button"
-                                                >
-                                                    <CloseIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                        </DataCell>
-                                    </TableRow>
-                                )
-                            })}
-                        </TableBody>
+                        <TableBody>{OwnersWithAccessRows}</TableBody>
                     </Table>
                 </GridItem>
             </GridContainer>

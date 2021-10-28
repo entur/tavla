@@ -99,3 +99,65 @@ export const scheduledDeleteOfDocumentsSetToBeDeleted = region('us-central1')
         }
         return null
     })
+
+export const getEmailsByUIDs = https.onCall(async (data, context) => {
+    const ownerUIDs = data.ownersList.map((id: string) => ({ uid: id }))
+
+    const ownerData = await auth()
+        .getUsers(ownerUIDs)
+        .then((getUsersResult) =>
+            getUsersResult.users.map((user) => ({
+                uid: user.uid,
+                email: user.email,
+            })),
+        )
+        .catch((error) => {
+            throw new https.HttpsError(
+                'invalid-argument',
+                'Could not get requested owners of board.',
+            )
+        })
+
+    if (ownerData.some((owner) => owner.uid === context.auth?.uid))
+        return ownerData
+
+    throw new https.HttpsError(
+        'permission-denied',
+        'You can not see owner of boards you are not a part of.',
+    )
+})
+
+// export const getOwnersOfDocument = https.onCall(async (data, context) => {
+//     const doc = await firestore().collection('settings').doc(data.boardID).get()
+//     if (!doc.exists) {
+//         throw new https.HttpsError(
+//             'invalid-argument',
+//             'UID must refer to an existing settings document.',
+//         )
+//     }
+//     const docData = doc.data() ?? []
+//     const ownerUIDs = docData.owners.map((id: string) => ({ uid: id }))
+
+//     const ownerData = await auth()
+//         .getUsers(ownerUIDs)
+//         .then((getUsersResult) =>
+//             getUsersResult.users.map((user) => ({
+//                 uid: user.uid,
+//                 email: user.email,
+//             })),
+//         )
+//         .catch((error) => {
+//             throw new https.HttpsError(
+//                 'invalid-argument',
+//                 'Could not get requested owners of board.',
+//             )
+//         })
+
+//     if (ownerData.some((owner) => owner.uid === context.auth?.uid))
+//         return ownerData
+
+//     throw new https.HttpsError(
+//         'permission-denied',
+//         'You can not see owner of boards you are not a part of.',
+//     )
+// })

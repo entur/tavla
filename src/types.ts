@@ -55,3 +55,8 @@ export enum IconColorType {
     DEFAULT = 'default',
     CONTRAST = 'contrast',
 }
+
+export interface BoardOwnersData {
+    uid: string
+    email: string
+}

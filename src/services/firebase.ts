@@ -29,6 +29,7 @@ import { storage, db, auth, functions } from '../firebase-init'
 import { Settings } from '../settings/index'
 import { getDocumentId } from '../utils'
 import { FieldTypes } from '../settings/FirestoreStorage'
+import { BoardOwnersData } from '../types'
 
 const SETTINGS_COLLECTION = 'settings'
 
@@ -188,3 +189,43 @@ export const copySettingsToNewId = (
 
 export const setIdToBeDeleted = (docId: string): Promise<void> =>
     updateSingleSettingsField(docId, 'delete', true)
+
+export const getOwnerEmails = async (ownersList: string[]): Promise<any> => {
+    interface UploadData {
+        ownersList: string[]
+    }
+
+    interface ResponseData {
+        owners: BoardOwnersData[] | undefined
+    }
+
+    const getEmailsByUIDs = httpsCallable<UploadData, ResponseData>(
+        functions,
+        'getEmailsByUIDs',
+    )
+
+    const response = await getEmailsByUIDs({ ownersList } as UploadData)
+    const ownerData: ResponseData = response.data
+
+    return ownerData
+}
+
+// export const getOwners = async (boardID: string): Promise<any> => {
+//     interface UploadData {
+//         boardID: string
+//     }
+//     interface ResponseData {
+//         owners: BoardOwnersData[] | undefined
+//     }
+
+//     const getOwnersOfDocument = httpsCallable<UploadData, ResponseData>(
+//         functions,
+//         'getOwnersOfDocument',
+//     )
+
+//     const response = await getOwnersOfDocument({ boardID } as UploadData)
+
+//     const ownerData = response.data
+
+//     return ownerData
+// }
