@@ -18,13 +18,14 @@ import VisningTab from './DashboardPickerTab'
 import NameTab from './NameTab'
 import FloatingButtons from './FloatingButtons'
 import './styles.scss'
+import ShareTab from './ShareTab'
 
 const AdminPage = (): JSX.Element => {
     const user = useUser()
 
-    const [currentIndex, setCurrentIndex] = useState<number>(0)
+    const [currentIndex, setCurrentIndex] = useState<number>(5) //TODO: sett til 0
 
-    const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon />
+    const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon inline />
 
     const [settings] = useSettingsContext()
 
@@ -44,6 +45,7 @@ const AdminPage = (): JSX.Element => {
                         <Tab>Velg farger</Tab>
                         <Tab>Last opp logo {lockIcon}</Tab>
                         <Tab>Endre lenke {lockIcon}</Tab>
+                        <Tab>Deling {lockIcon}</Tab>
                     </TabList>
                     <TabPanels className="admin__tabs__tab-panels">
                         <TabPanel>
@@ -63,6 +65,12 @@ const AdminPage = (): JSX.Element => {
                         </TabPanel>
                         <TabPanel>
                             <NameTab
+                                tabIndex={currentIndex}
+                                setTabIndex={setCurrentIndex}
+                            />
+                        </TabPanel>
+                        <TabPanel>
+                            <ShareTab
                                 tabIndex={currentIndex}
                                 setTabIndex={setCurrentIndex}
                             />

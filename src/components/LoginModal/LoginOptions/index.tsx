@@ -26,6 +26,8 @@ const description = (loginCase: LoginCase): string => {
             return 'For å sette en personlig Tavla-lenke til avgangstavla, må du ha en konto.'
         case 'error':
             return 'For å redigere denne tavla, må du først logge inn på kontoen den tilhører.'
+        case 'share':
+            return 'For å dele en tavle med andre, må du eie den og være logget inn.'
         default:
             return 'Logg inn for å få tilgang på ekstra funksjonalitet, som å se dine tavler eller last opp logo.'
     }

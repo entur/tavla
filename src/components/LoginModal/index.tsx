@@ -22,6 +22,7 @@ export type LoginCase =
     | 'mytables'
     | 'logo'
     | 'link'
+    | 'share'
     | 'error'
     | 'default'
 

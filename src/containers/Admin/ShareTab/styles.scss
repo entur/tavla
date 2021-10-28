@@ -1,0 +1,93 @@
+@import '../../../assets/styles/import.scss';
+@import '../../../variables.scss';
+
+.label {
+    color: var(--tavla-label-font-color);
+}
+
+.eds-contrast {
+    .feedback {
+        color: var(--tavla-font-color);
+    }
+}
+.share-grid {
+    padding-bottom: 5rem;
+    // The design system overrides this when using contrast, but we still want it.
+    .eds-form-control-wrapper--disabled {
+        background-color: #e9e9e9;
+    }
+
+    .eds-form-control {
+        color: var(--tavla-input-font-color);
+    }
+
+    h3 {
+        margin-top: 0;
+        line-height: 1;
+        margin-bottom: 1.5rem;
+    }
+}
+
+.share-page {
+    &__paragraph {
+        color: var(--tavla-font-color);
+    }
+
+    .eds-form-control-wrapper {
+        border-color: transparent;
+        background-color: var(--tavla-input-background-color);
+
+        &:hover {
+            background-color: var(--tavla-input-background-color);
+            border-color: var(--tavla-input-border-hover-color);
+        }
+
+        .eds-input-group__label {
+            color: var(--tavla-input-placeholder-color);
+        }
+    }
+
+    margin: 0 1.5rem 1.5rem 0;
+    background-color: var(--tavla-background-color);
+
+    &__title {
+        display: flex;
+        color: var(--tavla-font-color);
+        width: fit-content;
+        max-width: 80%;
+        word-break: break-word;
+
+        &--input {
+            background-color: var(--tavla-button-background-color);
+            color: inherit;
+            font-family: var(--eds-font-family);
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 2.25rem;
+            border-style: none;
+            border-radius: 0.3rem;
+            outline: none;
+        }
+
+        &__button {
+            margin-left: 0.5rem;
+        }
+    }
+
+    &__text {
+        color: var(--tavla-font-color);
+        margin-top: 0.5rem;
+
+        &__icon {
+            size: 1rem;
+            margin-right: 0.75rem;
+            color: var(--tavla-icon-color);
+            vertical-align: middle;
+        }
+
+        &__description {
+            vertical-align: text-top;
+            word-break: break-word;
+        }
+    }
+}
