@@ -50,6 +50,10 @@
         z-index: -1;
     }
 
+    .eds-tab-list {
+        overflow: visible;
+    }
+
     .eds-tab[aria-selected='true']::after {
         background-color: var(--tavla-background-color);
     }
