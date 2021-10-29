@@ -646,23 +646,6 @@ const EditTab = (): JSX.Element => {
                     <WeatherPanel />
                 </div>
             </ResponsiveReactGridLayout>
-            <button
-                onClick={() => {
-                    console.log('trigger')
-
-                    setSettings({
-                        ownerRequestRecipients: ['hakoncb@gmail.com'],
-                        ownerRequests: [
-                            {
-                                recipientEmail: 'hakoncb@gmail.com',
-                                requestIssuerEmail: 'hakoncb@gmail.com',
-                            },
-                        ],
-                    })
-                }}
-            >
-                Add me
-            </button>
         </div>
     )
 }

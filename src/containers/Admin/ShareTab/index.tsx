@@ -7,6 +7,7 @@ import { GridItem, GridContainer } from '@entur/grid'
 import { CheckIcon, CloseIcon, EditIcon, LinkIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { IconButton, SecondarySquareButton } from '@entur/button'
+import { TextField } from '@entur/form'
 import {
     DataCell,
     HeaderCell,
@@ -27,7 +28,6 @@ import {
 import { BoardOwnersData } from '../../../types'
 
 import './styles.scss'
-import { TextField } from '@entur/form'
 
 enum inputFeedback {
     EMAIL_UNAVAILABLE = 'Ikke funnet: Ingen bruker med denne e-postadressen ble funnet.',
@@ -91,7 +91,6 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         if (ownerRequestRecipients)
             getOwnerEmailsByUID(ownerRequestRecipients).then((data) => {
                 setRequestedOwnersData(data)
-                console.log(data)
             })
     }, [ownerRequestRecipients])
 
@@ -240,12 +239,11 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 <DataCell>
                     <Tooltip placement="bottom" content="Fjern forespørsel">
                         <IconButton
-                            onClick={() => {
+                            onClick={() =>
                                 onRemoveOwnerRequestFromBoard(
                                     requestedOwner.uid,
                                 )
-                                console.log('req:', requestedOwner)
-                            }}
+                            }
                             className="share-page__title__button"
                         >
                             <CloseIcon />

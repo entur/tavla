@@ -94,8 +94,6 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
         }
     }, [user])
 
-    console.log(user)
-
     if (
         boards === undefined ||
         user === undefined ||
