@@ -17,6 +17,27 @@
         }
     }
 
+    .expandable-panel {
+        &__wrapper {
+            border-bottom: 0.125rem solid var(--tavla-border-color);
+        }
+
+        &__title {
+            &-wrapper {
+                width: 100%;
+                display: flex;
+                align-items: center;
+            }
+            &-name {
+                margin-right: 1rem;
+            }
+            &-icon {
+                margin-bottom: -0.1rem;
+                margin-right: 0.5rem;
+            }
+        }
+    }
+
     &__realtime-selection-panel {
         .expandable-panel__wrapper:not(:last-child) {
             border-bottom: 0.125rem solid var(--tavla-border-color);
@@ -35,26 +56,6 @@
         .eds-expandable-panel__trigger {
             padding-left: 0;
             margin-top: 0.5rem;
-        }
-    }
-
-    .expandable-panel {
-        &__wrapper {
-            border-bottom: 0.125rem solid var(--tavla-border-color);
-        }
-        &__title {
-            &-wrapper {
-                width: 100%;
-                display: flex;
-                align-items: center;
-            }
-            &-name {
-                margin-right: 1rem;
-            }
-            &-icon {
-                margin-bottom: -0.1rem;
-                margin-right: 0.5rem;
-            }
         }
     }
 
