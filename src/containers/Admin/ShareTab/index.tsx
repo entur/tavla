@@ -6,7 +6,7 @@ import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
 import { CheckIcon, CloseIcon, EditIcon, LinkIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { IconButton } from '@entur/button'
+import { IconButton, SecondarySquareButton } from '@entur/button'
 import {
     DataCell,
     HeaderCell,
@@ -20,10 +20,26 @@ import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
 import LoginModal from '../../../components/LoginModal'
 import { useSettingsContext } from '../../../settings'
-import { getOwnerEmails } from '../../../services/firebase'
+import {
+    getOwnerEmailsByUID,
+    getOwnerUIDByEmail,
+} from '../../../services/firebase'
 import { BoardOwnersData } from '../../../types'
 
 import './styles.scss'
+import { TextField } from '@entur/form'
+
+enum inputFeedback {
+    EMAIL_UNAVAILABLE = 'Ikke funnet: Ingen bruker med denne e-postadressen ble funnet.',
+    REQUEST_SENT = 'Forespørel om eierskap i tavla ble sendt!',
+    NOTHING = '',
+}
+
+enum inputFeedbackType {
+    SUCCESS = 'success',
+    FAILURE = 'error',
+    CLEAR = 'info',
+}
 
 const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const user = useUser()
@@ -31,7 +47,17 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [settings, setSettings] = useSettingsContext()
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
     const [newBoardName, setNewBoardName] = useState<string>('Uten tittel')
+    const [newOwnerInput, setNewOwnerInput] = useState<string>('')
+    const [inputFeedbackMessage, setInputFeedbackMessage] = useState(
+        inputFeedback.NOTHING,
+    )
+    const [inputFeedbackMessageType, setInputFeedbackMessageType] = useState(
+        inputFeedbackType.CLEAR,
+    )
     const [ownersData, setOwnersData] = useState<BoardOwnersData[]>([])
+    const [requestedOwnersData, setRequestedOwnersData] = useState<
+        BoardOwnersData[]
+    >([])
 
     const documentId = getDocumentId()
     const { boardName, ownerRequestRecipients, ownerRequests, owners } =
@@ -43,6 +69,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         }
 
         if (user && !user.isAnonymous) {
+            // TODO sjekk om tavle er låst til bruker
             setOpen(false)
         }
     }, [user, tabIndex, setTabIndex])
@@ -61,23 +88,57 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     }
 
     useEffect(() => {
-        if (owners)
-            getOwnerEmails(owners)
-                .then((data) => setOwnersData(data))
-                .catch(() =>
-                    setOwnersData([
+        if (ownerRequestRecipients)
+            getOwnerEmailsByUID(ownerRequestRecipients).then((data) => {
+                setRequestedOwnersData(data)
+                console.log(data)
+            })
+    }, [ownerRequestRecipients])
+
+    const onAddOwnerRequestToBoard = async () => {
+        const uidResponse = await getOwnerUIDByEmail(newOwnerInput)
+        if (typeof uidResponse === 'string') {
+            setInputFeedbackMessageType(inputFeedbackType.FAILURE)
+            setInputFeedbackMessage(inputFeedback.EMAIL_UNAVAILABLE)
+        } else {
+            if (user) {
+                setSettings({
+                    ownerRequestRecipients: [uidResponse.uid],
+                    ownerRequests: [
                         {
-                            uid: 'Could not fetch',
-                            email: 'could not fetch',
+                            recipientUID: uidResponse.uid,
+                            requestIssuerUID: user.uid,
                         },
-                    ]),
-                )
+                    ],
+                })
+                setInputFeedbackMessageType(inputFeedbackType.SUCCESS)
+                setInputFeedbackMessage(inputFeedback.REQUEST_SENT)
+                setNewOwnerInput('')
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (owners)
+            getOwnerEmailsByUID(owners).then((data) => setOwnersData(data))
     }, [owners])
 
     const onRemoveOwnerFromBoard = (uid: string): void => {
         setSettings({
             owners: owners?.filter((ownerEntry) => ownerEntry !== uid),
         })
+    }
+
+    const onRemoveOwnerRequestFromBoard = (uid: string): void => {
+        if (ownerRequestRecipients && ownerRequests)
+            setSettings({
+                ownerRequestRecipients: ownerRequestRecipients.filter(
+                    (recipient) => recipient !== uid,
+                ),
+                ownerRequests: ownerRequests.filter(
+                    (req) => req.recipientUID !== uid,
+                ),
+            })
     }
 
     const boardTitleElement = titleEditMode ? (
@@ -122,6 +183,38 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         </Heading3>
     )
 
+    const AddNewOwnersInput: JSX.Element = (
+        <div className="share-page__input-area">
+            <div className="share-page__input-area__input-field">
+                <TextField
+                    label="E-post til bruker"
+                    value={newOwnerInput}
+                    onChange={(e) => {
+                        setNewOwnerInput(e.currentTarget.value)
+                        setInputFeedbackMessageType(inputFeedbackType.CLEAR)
+                        setInputFeedbackMessage(inputFeedback.NOTHING)
+                    }}
+                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                        if (e.key === 'Enter') onAddOwnerRequestToBoard()
+                    }}
+                    maxLength={80}
+                    variant={inputFeedbackMessageType}
+                    feedback={inputFeedbackMessage}
+                />
+            </div>
+            <div className="share-page__input-area__submit-button">
+                <Tooltip content="Legg til eier" placement="top">
+                    <SecondarySquareButton
+                        onClick={onAddOwnerRequestToBoard}
+                        aria-label="Legg til eier av tavla"
+                    >
+                        <CheckIcon />
+                    </SecondarySquareButton>
+                </Tooltip>
+            </div>
+        </div>
+    )
+
     const OwnersWithAccessRows: JSX.Element[] = ownersData.map((owner) => (
         <TableRow key={owner.uid}>
             <DataCell>{owner.email}</DataCell>
@@ -138,6 +231,30 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             </DataCell>
         </TableRow>
     ))
+
+    const OwnersRequestedForAccessRows: JSX.Element[] = requestedOwnersData.map(
+        (requestedOwner) => (
+            <TableRow key={requestedOwner.uid}>
+                <DataCell>{requestedOwner.email}</DataCell>
+                <DataCell>Venter på svar</DataCell>
+                <DataCell>
+                    <Tooltip placement="bottom" content="Fjern forespørsel">
+                        <IconButton
+                            onClick={() => {
+                                onRemoveOwnerRequestFromBoard(
+                                    requestedOwner.uid,
+                                )
+                                console.log('req:', requestedOwner)
+                            }}
+                            className="share-page__title__button"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </Tooltip>
+                </DataCell>
+            </TableRow>
+        ),
+    )
 
     if (!documentId) {
         return (
@@ -175,6 +292,8 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                     </div>
                 </GridItem>
                 <GridItem small={12} medium={12} large={6}>
+                    <Heading3>Legg til eier av tavlen</Heading3>
+                    {AddNewOwnersInput}
                     <Heading3>Personer med tilgang</Heading3>
                     <Table>
                         <TableHead>
@@ -185,6 +304,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                             </TableRow>
                         </TableHead>
                         <TableBody>{OwnersWithAccessRows}</TableBody>
+                        <TableBody>{OwnersRequestedForAccessRows}</TableBody>
                     </Table>
                 </GridItem>
             </GridContainer>

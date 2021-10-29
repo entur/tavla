@@ -68,7 +68,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
             error: () => setBoards([]),
         })
         const unsubscribeFromSharedBoards = getSharedBoardsOnSnapshot(
-            user.email,
+            user.uid,
             {
                 next: (querySnapshot) => {
                     if (querySnapshot.metadata.hasPendingWrites) return

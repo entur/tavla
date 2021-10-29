@@ -101,12 +101,19 @@ export const scheduledDeleteOfDocumentsSetToBeDeleted = region('us-central1')
     })
 
 export const getEmailsByUIDs = https.onCall(async (data, context) => {
+    if (!context.auth) {
+        throw new https.HttpsError(
+            'failed-precondition',
+            'The function must be called while authenticated.',
+        )
+    }
+
     const ownerUIDs = data.ownersList.map((id: string) => ({ uid: id }))
 
-    const ownerData = await auth()
+    const ownersData = await auth()
         .getUsers(ownerUIDs)
-        .then((getUsersResult) =>
-            getUsersResult.users.map((user) => ({
+        .then((usersResult) =>
+            usersResult.users.map((user) => ({
                 uid: user.uid,
                 email: user.email,
             })),
@@ -118,46 +125,26 @@ export const getEmailsByUIDs = https.onCall(async (data, context) => {
             )
         })
 
-    if (ownerData.some((owner) => owner.uid === context.auth?.uid))
-        return ownerData
-
-    throw new https.HttpsError(
-        'permission-denied',
-        'You can not see owner of boards you are not a part of.',
-    )
+    return ownersData
 })
 
-// export const getOwnersOfDocument = https.onCall(async (data, context) => {
-//     const doc = await firestore().collection('settings').doc(data.boardID).get()
-//     if (!doc.exists) {
-//         throw new https.HttpsError(
-//             'invalid-argument',
-//             'UID must refer to an existing settings document.',
-//         )
-//     }
-//     const docData = doc.data() ?? []
-//     const ownerUIDs = docData.owners.map((id: string) => ({ uid: id }))
+export const getUIDByEmauil = https.onCall(async (data, context) => {
+    if (!context.auth) {
+        throw new https.HttpsError(
+            'failed-precondition',
+            'The function must be called while authenticated.',
+        )
+    }
 
-//     const ownerData = await auth()
-//         .getUsers(ownerUIDs)
-//         .then((getUsersResult) =>
-//             getUsersResult.users.map((user) => ({
-//                 uid: user.uid,
-//                 email: user.email,
-//             })),
-//         )
-//         .catch((error) => {
-//             throw new https.HttpsError(
-//                 'invalid-argument',
-//                 'Could not get requested owners of board.',
-//             )
-//         })
+    const ownerEmail = data.email
 
-//     if (ownerData.some((owner) => owner.uid === context.auth?.uid))
-//         return ownerData
+    const ownerData = await auth()
+        .getUserByEmail(ownerEmail)
+        .then((userResult) => ({
+            uid: userResult.uid,
+            email: userResult.email,
+        }))
+        .catch(() => 'Failed')
 
-//     throw new https.HttpsError(
-//         'permission-denied',
-//         'You can not see owner of boards you are not a part of.',
-//     )
-// })
+    return ownerData
+})

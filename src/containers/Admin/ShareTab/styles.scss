@@ -90,4 +90,19 @@
             word-break: break-word;
         }
     }
+
+    &__input-area {
+        display: flex;
+        align-items: baseline;
+
+        &__input-field {
+            flex: 1;
+        }
+
+        &__submit-button {
+            align-self: flex-start;
+            float: right;
+            padding-left: $space-small;
+        }
+    }
 }

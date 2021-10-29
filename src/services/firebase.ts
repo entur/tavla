@@ -51,7 +51,7 @@ export const getBoardsOnSnapshot = (
 }
 
 export const getSharedBoardsOnSnapshot = (
-    userEmail: string | null,
+    userUID: string | null,
     observer: {
         next: (querySnapshot: QuerySnapshot) => void
         error: () => void
@@ -59,7 +59,7 @@ export const getSharedBoardsOnSnapshot = (
 ): (() => void) => {
     const q = query(
         collection(db, SETTINGS_COLLECTION),
-        where('ownerRequestRecipients', 'array-contains', userEmail),
+        where('ownerRequestRecipients', 'array-contains', userUID),
     )
     return onSnapshot(q, observer)
 }
@@ -190,42 +190,34 @@ export const copySettingsToNewId = (
 export const setIdToBeDeleted = (docId: string): Promise<void> =>
     updateSingleSettingsField(docId, 'delete', true)
 
-export const getOwnerEmails = async (ownersList: string[]): Promise<any> => {
+export const getOwnerEmailsByUID = async (ownersList: string[]) => {
     interface UploadData {
         ownersList: string[]
     }
 
-    interface ResponseData {
-        owners: BoardOwnersData[] | undefined
-    }
-
-    const getEmailsByUIDs = httpsCallable<UploadData, ResponseData>(
+    const getEmailsByUIDs = httpsCallable<UploadData, BoardOwnersData[]>(
         functions,
         'getEmailsByUIDs',
     )
 
     const response = await getEmailsByUIDs({ ownersList } as UploadData)
-    const ownerData: ResponseData = response.data
+    const ownerData: BoardOwnersData[] = response.data
 
     return ownerData
 }
 
-// export const getOwners = async (boardID: string): Promise<any> => {
-//     interface UploadData {
-//         boardID: string
-//     }
-//     interface ResponseData {
-//         owners: BoardOwnersData[] | undefined
-//     }
+export const getOwnerUIDByEmail = async (email: string) => {
+    interface UploadData {
+        email: string
+    }
 
-//     const getOwnersOfDocument = httpsCallable<UploadData, ResponseData>(
-//         functions,
-//         'getOwnersOfDocument',
-//     )
+    const getUIDsByEmail = httpsCallable<UploadData, BoardOwnersData | string>(
+        functions,
+        'getUIDByEmauil',
+    )
 
-//     const response = await getOwnersOfDocument({ boardID } as UploadData)
+    const response = await getUIDsByEmail({ email } as UploadData)
+    const ownerData: BoardOwnersData | string = response.data
 
-//     const ownerData = response.data
-
-//     return ownerData
-// }
+    return ownerData
+}
