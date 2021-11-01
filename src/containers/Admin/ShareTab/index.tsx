@@ -4,9 +4,13 @@ import type { User } from 'firebase/auth'
 
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
-import { CheckIcon, CloseIcon, EditIcon, LinkIcon } from '@entur/icons'
+import { AddIcon, CheckIcon, CloseIcon, EditIcon, LinkIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { IconButton, SecondarySquareButton } from '@entur/button'
+import {
+    IconButton,
+    NegativeButton,
+    SecondarySquareButton,
+} from '@entur/button'
 import { TextField } from '@entur/form'
 import {
     DataCell,
@@ -19,12 +23,14 @@ import {
 
 import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
-import LoginModal from '../../../components/LoginModal'
 import { useSettingsContext } from '../../../settings'
+import LoginModal from '../../../components/LoginModal'
+import RemoveSelfFromTavleModal from '../../MyBoards/BoardCard/OverflowMenu/Modals/RemoveSelfFromTavleModal'
 import {
     getOwnerEmailsByUID,
     getOwnerUIDByEmail,
 } from '../../../services/firebase'
+
 import { BoardOwnersData } from '../../../types'
 
 import './styles.scss'
@@ -58,6 +64,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [requestedOwnersData, setRequestedOwnersData] = useState<
         BoardOwnersData[]
     >([])
+    const [removeSelfModalOpen, setRemoveSelfModalOpen] = useState(false)
 
     const documentId = getDocumentId()
     const { boardName, ownerRequestRecipients, ownerRequests, owners } =
@@ -169,24 +176,33 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             </Tooltip>
         </span>
     ) : (
-        <Heading3 className="share-page__title" margin="none" as="span">
+        <Heading2 className="share-page__title" margin="none" as="span">
             {boardName}
             <Tooltip placement="bottom" content="Endre navn">
                 <IconButton
                     onClick={() => setTitleEditMode(true)}
                     className="share-page__title__button"
                 >
-                    <EditIcon />
+                    <EditIcon size={20} />
                 </IconButton>
             </Tooltip>
-        </Heading3>
+        </Heading2>
+    )
+
+    const BoardLink: JSX.Element = (
+        <div className="share-page__link">
+            <LinkIcon className="share-page__link__icon" />
+            <span className="share-page__link__description">
+                {`${window.location.host}/t/${getDocumentId()}`}
+            </span>
+        </div>
     )
 
     const AddNewOwnersInput: JSX.Element = (
         <div className="share-page__input-area">
             <div className="share-page__input-area__input-field">
                 <TextField
-                    label="E-post til bruker"
+                    label="E-postadressen til brukeren"
                     value={newOwnerInput}
                     onChange={(e) => {
                         setNewOwnerInput(e.currentTarget.value)
@@ -195,6 +211,10 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                     }}
                     onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                         if (e.key === 'Enter') onAddOwnerRequestToBoard()
+                    }}
+                    onBlur={() => {
+                        setInputFeedbackMessageType(inputFeedbackType.CLEAR)
+                        setInputFeedbackMessage(inputFeedback.NOTHING)
                     }}
                     maxLength={80}
                     variant={inputFeedbackMessageType}
@@ -207,29 +227,31 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                         onClick={onAddOwnerRequestToBoard}
                         aria-label="Legg til eier av tavla"
                     >
-                        <CheckIcon />
+                        <AddIcon />
                     </SecondarySquareButton>
                 </Tooltip>
             </div>
         </div>
     )
 
-    const OwnersWithAccessRows: JSX.Element[] = ownersData.map((owner) => (
-        <TableRow key={owner.uid}>
-            <DataCell>{owner.email}</DataCell>
-            <DataCell>Har tilgang</DataCell>
-            <DataCell>
-                <Tooltip placement="bottom" content="Fjern tilgang">
-                    <IconButton
-                        onClick={() => onRemoveOwnerFromBoard(owner.uid)}
-                        className="share-page__title__button"
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                </Tooltip>
-            </DataCell>
-        </TableRow>
-    ))
+    const OwnersWithAccessRows: JSX.Element[] = ownersData
+        .filter((owner) => owner.uid != user?.uid)
+        .map((owner) => (
+            <TableRow key={owner.uid}>
+                <DataCell>{owner.email}</DataCell>
+                <DataCell>Har tilgang</DataCell>
+                <DataCell>
+                    <Tooltip placement="bottom" content="Fjern tilgang">
+                        <IconButton
+                            onClick={() => onRemoveOwnerFromBoard(owner.uid)}
+                            className="share-page__title__button"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </Tooltip>
+                </DataCell>
+            </TableRow>
+        ))
 
     const OwnersRequestedForAccessRows: JSX.Element[] = requestedOwnersData.map(
         (requestedOwner) => (
@@ -273,26 +295,31 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 open={open}
                 loginCase="share"
             />
-            <Heading2>Del din tavle med andre</Heading2>
+            <Heading2 className="heading">Del din tavle med andre</Heading2>
+            <Paragraph>
+                Denne siden lar deg dele den låste tavlen din med andre slik at
+                dere kan samarbeide på
+                {String.fromCharCode(160)}den.
+            </Paragraph>
             <GridContainer spacing="extraLarge" className="share-grid">
                 <GridItem small={12} medium={12} large={6}>
-                    <Paragraph>
-                        Denne siden lar deg dele den låste tavlen din med andre
-                        slik at de også kan redigere og endre på
-                        {String.fromCharCode(160)}den.
-                    </Paragraph>
                     {boardTitleElement}
-                    <div className="share-page__text">
-                        <LinkIcon className="share-page__text__icon" />
-                        <span className="share-page__text__description">
-                            {`${window.location.host}/t/${getDocumentId()}`}
-                        </span>
-                    </div>
+                    {BoardLink}
+                    <NegativeButton
+                        onClick={() => {
+                            setRemoveSelfModalOpen(true)
+                        }}
+                        width="auto"
+                        size="medium"
+                    >
+                        Fjern meg fra tavlen
+                    </NegativeButton>
                 </GridItem>
                 <GridItem small={12} medium={12} large={6}>
                     <Heading3>Legg til eier av tavlen</Heading3>
                     {AddNewOwnersInput}
                     <Heading3>Personer med tilgang</Heading3>
+
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -306,6 +333,11 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                     </Table>
                 </GridItem>
             </GridContainer>
+
+            <RemoveSelfFromTavleModal
+                open={removeSelfModalOpen}
+                onDismiss={() => setRemoveSelfModalOpen(false)}
+            />
         </div>
     )
 }
