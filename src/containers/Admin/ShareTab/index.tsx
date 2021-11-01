@@ -27,7 +27,7 @@ import { useSettingsContext } from '../../../settings'
 import LoginModal from '../../../components/LoginModal'
 import RemoveSelfFromTavleModal from '../../MyBoards/BoardCard/OverflowMenu/Modals/RemoveSelfFromTavleModal'
 import {
-    getOwnerEmailsByUID,
+    getOwnerEmailsByUIDs,
     getOwnerUIDByEmail,
 } from '../../../services/firebase'
 
@@ -96,7 +96,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
 
     useEffect(() => {
         if (ownerRequestRecipients)
-            getOwnerEmailsByUID(ownerRequestRecipients).then((data) => {
+            getOwnerEmailsByUIDs(ownerRequestRecipients).then((data) => {
                 setRequestedOwnersData(data)
             })
     }, [ownerRequestRecipients])
@@ -126,7 +126,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
 
     useEffect(() => {
         if (owners)
-            getOwnerEmailsByUID(owners).then((data) => setOwnersData(data))
+            getOwnerEmailsByUIDs(owners).then((data) => setOwnersData(data))
     }, [owners])
 
     const onRemoveOwnerFromBoard = (uid: string): void => {

@@ -21,9 +21,9 @@ import { isDarkOrDefaultTheme } from '../../utils'
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 
-import SharedBoardCard from './SharedBoardCard'
 import BoardCard from './BoardCard'
 import './styles.scss'
+import SharedBoards from './SharedBoards'
 
 function sortBoard(boards: BoardProps[]): BoardProps[] {
     return boards.sort((n1: BoardProps, n2: BoardProps) => {
@@ -174,19 +174,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                             </Contrast>
                         </TabPanel>
                         <TabPanel>
-                            <Contrast>
-                                <div className="my-boards__board-list">
-                                    {requestedBoards.map(
-                                        (board: BoardProps) => (
-                                            <SharedBoardCard
-                                                key={board.id}
-                                                id={board.id}
-                                                settings={board.data}
-                                            />
-                                        ),
-                                    )}
-                                </div>
-                            </Contrast>
+                            <SharedBoards requestedBoards={requestedBoards} />
                         </TabPanel>
                     </TabPanels>
                 </Tabs>

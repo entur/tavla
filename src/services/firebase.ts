@@ -190,7 +190,7 @@ export const copySettingsToNewId = (
 export const setIdToBeDeleted = (docId: string): Promise<void> =>
     updateSingleSettingsField(docId, 'delete', true)
 
-export const getOwnerEmailsByUID = async (ownersList: string[]) => {
+export const getOwnerEmailsByUIDs = async (ownersList: string[]) => {
     interface UploadData {
         ownersList: string[]
     }
@@ -206,6 +206,22 @@ export const getOwnerEmailsByUID = async (ownersList: string[]) => {
     return ownerData
 }
 
+export const getEmailByUID = async (uid: string) => {
+    interface UploadData {
+        ownersList: string[]
+    }
+
+    const getEmailsByUIDs = httpsCallable<UploadData, BoardOwnersData[]>(
+        functions,
+        'getEmailsByUIDs',
+    )
+
+    const response = await getEmailsByUIDs({ ownersList: [uid] } as UploadData)
+    const ownerData: BoardOwnersData = response.data[0]
+
+    return ownerData
+}
+
 export const getOwnerUIDByEmail = async (email: string) => {
     interface UploadData {
         email: string
@@ -213,7 +229,7 @@ export const getOwnerUIDByEmail = async (email: string) => {
 
     const getUIDsByEmail = httpsCallable<UploadData, BoardOwnersData | string>(
         functions,
-        'getUIDByEmauil',
+        'getUIDByEmail',
     )
 
     const response = await getUIDsByEmail({ email } as UploadData)

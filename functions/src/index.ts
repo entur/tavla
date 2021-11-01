@@ -128,7 +128,7 @@ export const getEmailsByUIDs = https.onCall(async (data, context) => {
     return ownersData
 })
 
-export const getUIDByEmauil = https.onCall(async (data, context) => {
+export const getUIDByEmail = https.onCall(async (data, context) => {
     if (!context.auth) {
         throw new https.HttpsError(
             'failed-precondition',
