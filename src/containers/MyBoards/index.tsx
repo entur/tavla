@@ -22,9 +22,9 @@ import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 
 import BoardCard from './BoardCard'
-import './styles.scss'
 import SharedBoards from './SharedBoards'
-import { persistSingleField } from '../../settings/FirestoreStorage'
+
+import './styles.scss'
 
 function sortBoard(boards: BoardProps[]): BoardProps[] {
     return boards.sort((n1: BoardProps, n2: BoardProps) => {
@@ -109,15 +109,6 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
         return <NoTavlerAvailable history={history} />
     }
 
-    const acceptRequest = (boardId: string) => {
-        const requestedBoard = requestedBoards.find(
-            (board: BoardProps) => board.id === boardId,
-        )
-        const requestedBoardSettings: Settings = requestedBoard.data
-        console.log('ownes', requestedBoardSettings)
-        persistSingleField(requestedBoard.id, 'boardName', 'dritt')
-    }
-
     return (
         <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
             <div className="my-boards">
@@ -184,10 +175,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                             </Contrast>
                         </TabPanel>
                         <TabPanel>
-                            <SharedBoards
-                                requestedBoards={requestedBoards}
-                                accept={acceptRequest}
-                            />
+                            <SharedBoards requestedBoards={requestedBoards} />
                         </TabPanel>
                     </TabPanels>
                 </Tabs>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { Button } from '@entur/button'
@@ -6,13 +6,9 @@ import { UserIcon } from '@entur/icons'
 import { Heading3 } from '@entur/typography'
 
 import { ThemeDashboardPreview } from '../../../../assets/icons/ThemeDashboardPreview'
-import { Theme } from '../../../../types'
-import {
-    // acceptOwnerRequestForBoard,
-    persistMultipleFields,
-} from '../../../../settings/FirestoreStorage'
+import type { Theme } from '../../../../types'
 import { useUser } from '../../../../auth'
-import { addToArray } from '../../../../services/firebase'
+import { acceptBoardInvitation } from '../../../../services/firebase'
 
 const SharedBoardCard = ({
     id,
@@ -20,7 +16,6 @@ const SharedBoardCard = ({
     boardName,
     theme,
     dashboard,
-    accept,
 }: Props) => {
     const user = useUser()
     const preview = ThemeDashboardPreview(theme)
@@ -60,57 +55,17 @@ const SharedBoardCard = ({
                 <Button
                     variant="primary"
                     className="button__primary"
-                    onClick={
-                        () => {
-                            accept(id)
-                        }
-                        // persistMultipleFields(id, {
-                        //     ...settings,
-                        //     owners: user ? [...owners, user?.uid] : owners,
-                        //     ownerRequestRecipients: user?.uid
-                        //         ? [
-                        //               ...ownerRequestRecipients.filter(
-                        //                   (recipient) => recipient !== user.uid,
-                        //               ),
-                        //           ]
-                        //         : ownerRequestRecipients,
-                        //     ownerRequests: user?.uid
-                        //         ? [
-                        //               ...ownerRequests.filter(
-                        //                   (req) =>
-                        //                       req.recipientUID !== user.uid,
-                        //               ),
-                        //           ]
-                        //         : ownerRequests,
-                        // })
-                    }
+                    onClick={() => {
+                        console.log('accept')
+                        acceptBoardInvitation(id, user?.uid ?? '')
+                    }}
                 >
                     Legg til i Mine tavler
                 </Button>
                 <Button
                     variant="secondary"
                     className="button-secondary"
-                    onClick={
-                        () => {}
-                        // persistMultipleFields(id, {
-                        //     ...settings,
-                        //     ownerRequestRecipients: user?.uid
-                        //         ? [
-                        //               ...ownerRequestRecipients.filter(
-                        //                   (recipient) => recipient !== user.uid,
-                        //               ),
-                        //           ]
-                        //         : ownerRequestRecipients,
-                        //     ownerRequests: user?.uid
-                        //         ? [
-                        //               ...ownerRequests.filter(
-                        //                   (req) =>
-                        //                       req.recipientUID !== user.uid,
-                        //               ),
-                        //           ]
-                        //         : ownerRequests,
-                        // })
-                    }
+                    onClick={() => console.log('deny')}
                 >
                     Fjern
                 </Button>
@@ -125,7 +80,6 @@ interface Props {
     sharedBy: string
     theme: Theme | undefined
     dashboard: string | undefined | void
-    accept: CallableFunction
 }
 
 export default SharedBoardCard

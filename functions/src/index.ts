@@ -148,3 +148,51 @@ export const getUIDByEmail = https.onCall(async (data, context) => {
 
     return ownerData
 })
+
+interface OwnerRequest {
+    recipientUID: string
+    requestIssuerUID: string
+}
+
+export const acceptBoardInvitation = https.onCall(async (data, context) => {
+    if (!context.auth) {
+        throw new https.HttpsError(
+            'failed-precondition',
+            'The function must be called while authenticated.',
+        )
+    }
+
+    const docRef = firestore().collection('settings').doc(data.boardID)
+    const doc = await docRef.get()
+
+    if (!doc.exists) {
+        throw new https.HttpsError(
+            'invalid-argument',
+            'Image UID must refer to an existing settings document.',
+        )
+    }
+
+    const settings = doc.data()
+
+    if (!settings) {
+        throw new https.HttpsError(
+            'invalid-argument',
+            'No data found in document.',
+        )
+    }
+
+    const ownersUpdated: string[] = [...settings.owners, context.auth.uid]
+    const ownerRequestRecipientsUpdated: string[] =
+        settings.ownerRequestRecipients.filter(
+            (owner: string) => owner !== context.auth?.uid,
+        )
+    const ownerRequestsUpdated: OwnerRequest[] = settings.ownerRequests.filter(
+        (request: OwnerRequest) => request.recipientUID !== context.auth?.uid,
+    )
+
+    docRef.update({
+        owners: ownersUpdated,
+        ownerRequestRecipients: ownerRequestRecipientsUpdated,
+        ownerRequests: ownerRequestsUpdated,
+    })
+})

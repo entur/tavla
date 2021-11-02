@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import type { DocumentData, Timestamp } from 'firebase/firestore'
 
@@ -7,16 +7,11 @@ import { Contrast } from '@entur/layout'
 import { useUser } from '../../../auth'
 import { getEmailByUID } from '../../../services/firebase'
 import type { Settings } from '../../../settings'
-import { OwnerRequest, Theme } from '../../../types'
+import type { Theme } from '../../../types'
 
 import SharedBoardCard from './SharedBoardCard'
-import {
-    persistMultipleFields,
-    persistSingleField,
-    removeOwners,
-} from '../../../settings/FirestoreStorage'
 
-const SharedBoards = ({ requestedBoards, accept }: Props): JSX.Element => {
+const SharedBoards = ({ requestedBoards }: Props): JSX.Element => {
     const user = useUser()
     const [requestedBoardsFormated, setRequestedBoardsFormated] =
         useState<SharedBoardProps[]>()
@@ -51,36 +46,6 @@ const SharedBoards = ({ requestedBoards, accept }: Props): JSX.Element => {
         restructureRequestedBoardsData()
     }, [requestedBoards, user?.uid])
 
-    // const acceptRequest = (boardId: string) => {
-    //     const requestedBoard = requestedBoards.find(
-    //         (board: BoardProps) => board.id === boardId,
-    //     )
-    //     const requestedBoardSettings: Settings = requestedBoard.data
-    //     console.log('ownes', requestedBoardSettings)
-    //     persistSingleField(requestedBoard.id, 'boardName', 'dritt')
-    //     // removeOwners(requestedBoard.id)
-    //     // persistMultipleFields(boardId, {
-    //     //     ...requestedBoard,
-    //     //     owners: user
-    //     //         ? [...requestedBoard.owners, user?.uid]
-    //     //         : requestedBoard.owners,
-    //     //     ownerRequestRecipients: user?.uid
-    //     //         ? [
-    //     //               ...requestedBoard.ownerRequestRecipients.filter(
-    //     //                   (recipient: string) => recipient !== user.uid,
-    //     //               ),
-    //     //           ]
-    //     //         : requestedBoard.ownerRequestRecipients,
-    //     //     ownerRequests: user?.uid
-    //     //         ? [
-    //     //               ...requestedBoard.ownerRequests.filter(
-    //     //                   (req: OwnerRequest) => req.recipientUID !== user.uid,
-    //     //               ),
-    //     //           ]
-    //     //         : requestedBoard.ownerRequests,
-    //     // })
-    // }
-
     return (
         <Contrast>
             <div className="my-boards__board-list">
@@ -93,7 +58,6 @@ const SharedBoards = ({ requestedBoards, accept }: Props): JSX.Element => {
                             sharedBy={board.sharedBy}
                             theme={board.theme}
                             dashboard={board.dashboard}
-                            accept={accept}
                         />
                     ))}
             </div>
@@ -103,7 +67,6 @@ const SharedBoards = ({ requestedBoards, accept }: Props): JSX.Element => {
 
 interface Props {
     requestedBoards: DocumentData
-    accept: CallableFunction
 }
 
 interface BoardProps {
