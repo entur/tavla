@@ -11,6 +11,7 @@ import {
     deleteDoc,
     addDoc,
     setDoc,
+    arrayUnion,
 } from 'firebase/firestore'
 
 import { httpsCallable } from 'firebase/functions'
@@ -33,7 +34,7 @@ import { BoardOwnersData } from '../types'
 
 const SETTINGS_COLLECTION = 'settings'
 
-export const getSettings = (id: string): DocumentReference =>
+export const getSettingsReference = (id: string): DocumentReference =>
     doc(collection(db, SETTINGS_COLLECTION), id)
 
 export const getBoardsOnSnapshot = (
@@ -97,6 +98,39 @@ export const removeFromArray = async (
         [fieldId]: arrayRemove(fieldValue),
         lastmodified: serverTimestamp(),
     })
+
+export const addToArray = async (
+    docId: string,
+    // fieldId: string,
+    recipientUid: string,
+    //     | string
+    //     | number
+    //     | string[]
+    //     | GeoPoint
+    //     | { [key: string]: string[] },
+    // fieldValue:
+    //     | string
+    //     | number
+    //     | string[]
+    //     | GeoPoint
+    //     | { [key: string]: string[] },
+): Promise<void> => {
+    const docSnap = await getDoc(getSettingsReference(docId))
+    if (docSnap.exists()) {
+        const docData = docSnap.data()
+        const ownerRequests = docData.ownerRequests
+        console.log('r3eq', ownerRequests)
+        removeFromArray(docId, 'ownerRequestRecipients', recipientUid)
+        // updateDoc(doc(collection(db, SETTINGS_COLLECTION), docId), {
+        //     ownerRequests: ,
+        //     lastmodified: serverTimestamp(),
+        // })
+    }
+    // updateDoc(doc(collection(db, SETTINGS_COLLECTION), docId), {
+    //     [fieldId]: arrayUnion(fieldValue),
+    //     lastmodified: serverTimestamp(),
+    // })
+}
 
 export const deleteDocument = async (docId: string): Promise<void> =>
     deleteDoc(doc(collection(db, SETTINGS_COLLECTION), docId))
@@ -169,7 +203,7 @@ export const copySettingsToNewId = (
     newDocId: string,
     settings: Settings | null,
 ): Promise<boolean> => {
-    const newDocRef: DocumentReference = getSettings(newDocId)
+    const newDocRef: DocumentReference = getSettingsReference(newDocId)
 
     return getDoc(newDocRef)
         .then((document) => {

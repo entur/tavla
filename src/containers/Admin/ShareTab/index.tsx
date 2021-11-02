@@ -37,6 +37,7 @@ import './styles.scss'
 
 enum inputFeedback {
     EMAIL_UNAVAILABLE = 'Ikke funnet: Ingen bruker med denne e-postadressen ble funnet.',
+    AlREADY_ADDED = 'Denne brukeren er allerede lagt til.',
     REQUEST_SENT = 'Forespørel om eierskap i tavla ble sendt!',
     NOTHING = '',
 }
@@ -107,9 +108,18 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             setInputFeedbackMessageType(inputFeedbackType.FAILURE)
             setInputFeedbackMessage(inputFeedback.EMAIL_UNAVAILABLE)
         } else {
-            if (user) {
+            if (
+                settings?.ownerRequestRecipients.includes(uidResponse.uid) ||
+                settings?.owners?.includes(uidResponse.uid)
+            ) {
+                setInputFeedbackMessageType(inputFeedbackType.FAILURE)
+                setInputFeedbackMessage(inputFeedback.AlREADY_ADDED)
+            } else if (user && settings) {
                 setSettings({
-                    ownerRequestRecipients: [uidResponse.uid],
+                    ownerRequestRecipients: [
+                        ...settings?.ownerRequestRecipients,
+                        uidResponse.uid,
+                    ],
                     ownerRequests: [
                         {
                             recipientUID: uidResponse.uid,

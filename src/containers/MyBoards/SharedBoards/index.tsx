@@ -1,20 +1,29 @@
+import React, { useCallback, useEffect, useState } from 'react'
+
+import type { DocumentData, Timestamp } from 'firebase/firestore'
+
 import { Contrast } from '@entur/layout'
-import { DocumentData, Timestamp } from '@firebase/firestore'
-import React, { useEffect, useState } from 'react'
+
 import { useUser } from '../../../auth'
 import { getEmailByUID } from '../../../services/firebase'
-import { Settings } from '../../../settings'
-import { Theme } from '../../../types'
-import SharedBoardCard from './SharedBoardCard'
+import type { Settings } from '../../../settings'
+import { OwnerRequest, Theme } from '../../../types'
 
-const SharedBoards = ({ requestedBoards }: Props) => {
+import SharedBoardCard from './SharedBoardCard'
+import {
+    persistMultipleFields,
+    persistSingleField,
+    removeOwners,
+} from '../../../settings/FirestoreStorage'
+
+const SharedBoards = ({ requestedBoards, accept }: Props): JSX.Element => {
     const user = useUser()
     const [requestedBoardsFormated, setRequestedBoardsFormated] =
         useState<SharedBoardProps[]>()
 
     useEffect(() => {
-        ;(async () => {
-            const res: SharedBoardProps[] = requestedBoards.map(
+        const restructureRequestedBoardsData = async () => {
+            const filterData: SharedBoardProps[] = requestedBoards.map(
                 (board: BoardProps) => ({
                     id: board.id,
                     boardName: board.data.boardName,
@@ -26,8 +35,8 @@ const SharedBoards = ({ requestedBoards }: Props) => {
                 }),
             )
 
-            const res2 = await Promise.all(
-                res.map(async (request: SharedBoardProps) => {
+            const replaceUIDWithEmail = await Promise.all(
+                filterData.map(async (request: SharedBoardProps) => {
                     const sharedByEmail = await (
                         await getEmailByUID(request.sharedBy)
                     ).email
@@ -37,11 +46,40 @@ const SharedBoards = ({ requestedBoards }: Props) => {
                     }
                 }),
             )
-            console.log('res:', res2)
+            setRequestedBoardsFormated(replaceUIDWithEmail)
+        }
+        restructureRequestedBoardsData()
+    }, [requestedBoards, user?.uid])
 
-            setRequestedBoardsFormated(res2)
-        })()
-    }, [requestedBoards])
+    // const acceptRequest = (boardId: string) => {
+    //     const requestedBoard = requestedBoards.find(
+    //         (board: BoardProps) => board.id === boardId,
+    //     )
+    //     const requestedBoardSettings: Settings = requestedBoard.data
+    //     console.log('ownes', requestedBoardSettings)
+    //     persistSingleField(requestedBoard.id, 'boardName', 'dritt')
+    //     // removeOwners(requestedBoard.id)
+    //     // persistMultipleFields(boardId, {
+    //     //     ...requestedBoard,
+    //     //     owners: user
+    //     //         ? [...requestedBoard.owners, user?.uid]
+    //     //         : requestedBoard.owners,
+    //     //     ownerRequestRecipients: user?.uid
+    //     //         ? [
+    //     //               ...requestedBoard.ownerRequestRecipients.filter(
+    //     //                   (recipient: string) => recipient !== user.uid,
+    //     //               ),
+    //     //           ]
+    //     //         : requestedBoard.ownerRequestRecipients,
+    //     //     ownerRequests: user?.uid
+    //     //         ? [
+    //     //               ...requestedBoard.ownerRequests.filter(
+    //     //                   (req: OwnerRequest) => req.recipientUID !== user.uid,
+    //     //               ),
+    //     //           ]
+    //     //         : requestedBoard.ownerRequests,
+    //     // })
+    // }
 
     return (
         <Contrast>
@@ -55,6 +93,7 @@ const SharedBoards = ({ requestedBoards }: Props) => {
                             sharedBy={board.sharedBy}
                             theme={board.theme}
                             dashboard={board.dashboard}
+                            accept={accept}
                         />
                     ))}
             </div>
@@ -64,6 +103,7 @@ const SharedBoards = ({ requestedBoards }: Props) => {
 
 interface Props {
     requestedBoards: DocumentData
+    accept: CallableFunction
 }
 
 interface BoardProps {

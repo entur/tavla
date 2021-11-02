@@ -7,6 +7,12 @@ import { Heading3 } from '@entur/typography'
 
 import { ThemeDashboardPreview } from '../../../../assets/icons/ThemeDashboardPreview'
 import { Theme } from '../../../../types'
+import {
+    // acceptOwnerRequestForBoard,
+    persistMultipleFields,
+} from '../../../../settings/FirestoreStorage'
+import { useUser } from '../../../../auth'
+import { addToArray } from '../../../../services/firebase'
 
 const SharedBoardCard = ({
     id,
@@ -14,7 +20,9 @@ const SharedBoardCard = ({
     boardName,
     theme,
     dashboard,
+    accept,
 }: Props) => {
+    const user = useUser()
     const preview = ThemeDashboardPreview(theme)
     const dashboardType = dashboard || 'Chrono'
 
@@ -53,7 +61,9 @@ const SharedBoardCard = ({
                     variant="primary"
                     className="button__primary"
                     onClick={
-                        () => {}
+                        () => {
+                            accept(id)
+                        }
                         // persistMultipleFields(id, {
                         //     ...settings,
                         //     owners: user ? [...owners, user?.uid] : owners,
@@ -115,6 +125,7 @@ interface Props {
     sharedBy: string
     theme: Theme | undefined
     dashboard: string | undefined | void
+    accept: CallableFunction
 }
 
 export default SharedBoardCard

@@ -56,6 +56,11 @@ export enum IconColorType {
     CONTRAST = 'contrast',
 }
 
+export interface OwnerRequest {
+    recipientUID: string
+    requestIssuerUID: string
+}
+
 export interface BoardOwnersData {
     uid: string
     email: string
