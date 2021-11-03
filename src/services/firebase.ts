@@ -238,19 +238,25 @@ export const getOwnerUIDByEmail = async (email: string) => {
     return ownerData
 }
 
-export const acceptBoardInvitation = async (
+export const answerBoardInvitation = async (
     boardID: string,
     recipientUID: string,
+    accept: boolean,
 ) => {
     interface UploadData {
         boardID: string
         recipientUID: string
+        accept: boolean
     }
 
-    const acceptBoardInvitationFunction = httpsCallable<UploadData, void>(
+    const answerBoardInvitationFunction = httpsCallable<UploadData, void>(
         functions,
-        'acceptBoardInvitation',
+        'answerBoardInvitation',
     )
 
-    await acceptBoardInvitationFunction({ boardID, recipientUID } as UploadData)
+    await answerBoardInvitationFunction({
+        boardID,
+        recipientUID,
+        accept,
+    } as UploadData)
 }

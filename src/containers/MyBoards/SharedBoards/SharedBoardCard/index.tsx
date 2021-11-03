@@ -8,7 +8,7 @@ import { Heading3 } from '@entur/typography'
 import { ThemeDashboardPreview } from '../../../../assets/icons/ThemeDashboardPreview'
 import type { Theme } from '../../../../types'
 import { useUser } from '../../../../auth'
-import { acceptBoardInvitation } from '../../../../services/firebase'
+import { answerBoardInvitation } from '../../../../services/firebase'
 
 const SharedBoardCard = ({
     id,
@@ -56,8 +56,8 @@ const SharedBoardCard = ({
                     variant="primary"
                     className="button__primary"
                     onClick={() => {
-                        console.log('accept')
-                        acceptBoardInvitation(id, user?.uid ?? '')
+                        // console.log('accept')
+                        answerBoardInvitation(id, user?.uid ?? '', true)
                     }}
                 >
                     Legg til i Mine tavler
@@ -65,7 +65,10 @@ const SharedBoardCard = ({
                 <Button
                     variant="secondary"
                     className="button-secondary"
-                    onClick={() => console.log('deny')}
+                    onClick={() => {
+                        // console.log('deny')
+                        answerBoardInvitation(id, user?.uid ?? '', false)
+                    }}
                 >
                     Fjern
                 </Button>

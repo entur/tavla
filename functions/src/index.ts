@@ -154,7 +154,7 @@ interface OwnerRequest {
     requestIssuerUID: string
 }
 
-export const acceptBoardInvitation = https.onCall(async (data, context) => {
+export const answerBoardInvitation = https.onCall(async (data, context) => {
     if (!context.auth) {
         throw new https.HttpsError(
             'failed-precondition',
@@ -191,8 +191,12 @@ export const acceptBoardInvitation = https.onCall(async (data, context) => {
     )
 
     docRef.update({
-        owners: ownersUpdated,
         ownerRequestRecipients: ownerRequestRecipientsUpdated,
         ownerRequests: ownerRequestsUpdated,
     })
+
+    if (data.accept)
+        docRef.update({
+            owners: ownersUpdated,
+        })
 })
