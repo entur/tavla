@@ -50,7 +50,6 @@
         "@entur/tooltip": "^2.4.23",
         "@entur/travel": "^4.2.9",
         "@entur/typography": "^1.6.7",
-        "@firebase/util": "^1.1.0",
         "@n8tb1t/use-scroll-position": "^2.0.3",
         "@react-hook/window-size": "^3.0.7",
         "@types/react-beautiful-dnd": "^13.1.0",
