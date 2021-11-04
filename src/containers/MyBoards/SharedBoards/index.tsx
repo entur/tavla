@@ -49,7 +49,7 @@ const SharedBoards = ({ requestedBoards }: Props): JSX.Element => {
     }, [requestedBoards, user?.uid])
 
     if (!requestedBoards.length) {
-        return <NoSharedTavlerAvailable history={history} />
+        return <NoSharedTavlerAvailable />
     }
 
     return (
