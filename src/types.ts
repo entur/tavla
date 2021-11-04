@@ -1,4 +1,8 @@
+import { Timestamp } from 'firebase/firestore'
+
 import { TransportMode, TransportSubmode, StopPlace, Quay } from '@entur/sdk'
+
+import { Settings } from './settings'
 
 export interface LineData {
     id: string
@@ -64,4 +68,11 @@ export interface OwnerRequest {
 export interface BoardOwnersData {
     uid: string
     email: string
+}
+
+export interface Board {
+    data: Settings
+    id: string
+    lastmodified: Timestamp
+    created: Timestamp
 }

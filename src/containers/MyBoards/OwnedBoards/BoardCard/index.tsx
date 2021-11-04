@@ -6,9 +6,9 @@ import type { Timestamp } from 'firebase/firestore'
 import { Heading3 } from '@entur/typography'
 import { LinkIcon, ClockIcon } from '@entur/icons'
 
-import { ThemeDashboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
-import { persistSingleField } from '../../../settings/FirestoreStorage'
-import { Settings } from '../../../settings'
+import { ThemeDashboardPreview } from '../../../../assets/icons/ThemeDashboardPreview'
+import { persistSingleField } from '../../../../settings/FirestoreStorage'
+import { Settings } from '../../../../settings'
 
 import BoardOverflowMenu from './OverflowMenu'
 import './styles.scss'

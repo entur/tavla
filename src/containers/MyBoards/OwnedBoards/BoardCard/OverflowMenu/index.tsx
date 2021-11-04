@@ -12,9 +12,9 @@ import {
 import { OverflowMenu, OverflowMenuItem, OverflowMenuLink } from '@entur/menu'
 import { useToast } from '@entur/alert'
 
-import RemoveLockModal from '../../../../components/Modals/RemoveLockModal'
-import DeleteTavleModal from '../../../../components/Modals/DeleteTavleModal'
-import RemoveSelfFromTavleModal from '../../../../components/Modals/RemoveSelfFromTavleModal'
+import RemoveLockModal from '../../../../../components/Modals/RemoveLockModal'
+import DeleteTavleModal from '../../../../../components/Modals/DeleteTavleModal'
+import RemoveSelfFromTavleModal from '../../../../../components/Modals/RemoveSelfFromTavleModal'
 
 import '../styles.scss'
 

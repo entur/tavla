@@ -1,32 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 
-import type { DocumentData, Timestamp } from 'firebase/firestore'
+import type { DocumentData } from 'firebase/firestore'
 
-import { Contrast, NotificationBadge } from '@entur/layout'
-import { Heading3 } from '@entur/typography'
-import { AddIcon } from '@entur/icons'
+import { NotificationBadge } from '@entur/layout'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 
 import { ThemeDashboardPreview } from '../../assets/icons/ThemeDashboardPreview'
-import { Settings } from '../../settings'
 import {
     getBoardsOnSnapshot,
     getSharedBoardsOnSnapshot,
 } from '../../services/firebase'
 import { useUser } from '../../auth'
-import { Theme } from '../../types'
+import { Board, Theme } from '../../types'
 
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 
-import BoardCard from './BoardCard'
 import SharedBoards from './SharedBoards'
+import OwnedBoards from './OwnedBoards'
 
 import './styles.scss'
 
-function sortBoard(boards: BoardProps[]): BoardProps[] {
-    return boards.sort((n1: BoardProps, n2: BoardProps) => {
+function sortBoard(boards: Board[]): Board[] {
+    return boards.sort((n1: Board, n2: Board) => {
         const n1Date = n1.lastmodified ? n1.lastmodified : n1.created
         const n2Date = n2.lastmodified ? n2.lastmodified : n2.created
         if (n1Date && n2Date) return n2Date.toMillis() - n1Date.toMillis()
@@ -59,7 +55,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                             lastmodified: docSnapshot.data().lastmodified,
                             created: docSnapshot.data().created,
                             id: docSnapshot.id,
-                        } as BoardProps),
+                        } as Board),
                 )
                 setBoards(updatedBoards.length ? sortBoard(updatedBoards) : [])
             },
@@ -77,7 +73,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                                 lastmodified: docSnapshot.data().lastmodified,
                                 created: docSnapshot.data().created,
                                 id: docSnapshot.id,
-                            } as BoardProps),
+                            } as Board),
                     )
                     setRequestedBoards(
                         updatedBoards.length ? sortBoard(updatedBoards) : [],
@@ -126,50 +122,12 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                     </TabList>
                     <TabPanels>
                         <TabPanel>
-                            <Contrast>
-                                <div className="my-boards__board-list">
-                                    {boards.map((board: BoardProps) => (
-                                        <BoardCard
-                                            key={board.id}
-                                            id={board.id}
-                                            uid={user.uid}
-                                            timestamp={board.lastmodified}
-                                            created={board.created}
-                                            settings={board.data}
-                                            history={history}
-                                        />
-                                    ))}
-                                    <Link to="/">
-                                        <div className="board-card">
-                                            <div
-                                                className="board-card__preview"
-                                                style={{ position: 'relative' }}
-                                            >
-                                                <img
-                                                    src={preview['Chrono']}
-                                                    style={{
-                                                        visibility: 'hidden',
-                                                    }}
-                                                />
-                                                <AddIcon
-                                                    size="3rem"
-                                                    className="board-card__preview__icon"
-                                                />
-                                            </div>
-                                            <div className="board-card__text-container">
-                                                <span>
-                                                    <Heading3
-                                                        className="board-card__text-container__title"
-                                                        margin="none"
-                                                    >
-                                                        Lag ny tavle
-                                                    </Heading3>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                </div>
-                            </Contrast>
+                            <OwnedBoards
+                                boards={boards}
+                                user={user}
+                                preview={preview}
+                                history={history}
+                            />
                         </TabPanel>
                         <TabPanel>
                             <SharedBoards requestedBoards={requestedBoards} />
@@ -183,13 +141,6 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
 
 interface Props {
     history: any
-}
-
-interface BoardProps {
-    data: Settings
-    id: string
-    lastmodified: Timestamp
-    created: Timestamp
 }
 
 export default MyBoards
