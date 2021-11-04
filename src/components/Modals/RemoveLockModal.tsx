@@ -6,12 +6,12 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { useToast } from '@entur/alert'
 
-import CloseButton from '../../../../../components/LoginModal/CloseButton/CloseButton'
+import CloseButton from './LoginModal/CloseButton/CloseButton'
 
-import sikkerhetBom from '../../../../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../../../../assets/images/sikkerhet_bom@2x.png'
+import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 
-import { removeFromOwners } from '../../../../../settings/FirestoreStorage'
+import { removeFromOwners } from '../../settings/FirestoreStorage'
 
 import './styles.scss'
 

@@ -9,8 +9,8 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { ModalType } from '..'
 import CloseButton from '../CloseButton/CloseButton'
 
-import Check from '../../../assets/images/check.png'
-import retinaCheck from '../../../assets/images/check@2x.png'
+import Check from '../../../../assets/images/check.png'
+import retinaCheck from '../../../../assets/images/check@2x.png'
 
 export interface UserResetPassword {
     email: string

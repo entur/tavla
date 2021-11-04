@@ -13,8 +13,8 @@ import { useToast } from '@entur/alert'
 
 import '../styles.scss'
 
-import RemoveLockModal from './Modals/RemoveLockModal'
-import DeleteTavleModal from './Modals/DeleteTavleModal'
+import RemoveLockModal from '../../../../components/Modals/RemoveLockModal'
+import DeleteTavleModal from '../../../../components/Modals/DeleteTavleModal'
 
 function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
     const [removeLockModalOpen, setRemoveLockModalOpen] =

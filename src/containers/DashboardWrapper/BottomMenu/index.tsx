@@ -20,9 +20,9 @@ import { useToast } from '@entur/alert'
 import { useSettingsContext } from '../../../settings'
 import { auth, useUser } from '../../../auth'
 
-import LockModal from '../../LockModal'
-import LoginModal from '../../../components/LoginModal'
-import MineTavlerModal from '../../MineTavlerModal'
+import LockModal from '../../../components/Modals/LockModal'
+import LoginModal from '../../../components/Modals/LoginModal'
+import MineTavlerModal from '../../../components/Modals/MineTavlerModal'
 
 import MenuButton from './MenuButton'
 import './styles.scss'

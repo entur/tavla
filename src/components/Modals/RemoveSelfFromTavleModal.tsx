@@ -6,31 +6,37 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { useToast } from '@entur/alert'
 
-import CloseButton from '../../../../../components/LoginModal/CloseButton/CloseButton'
+import CloseButton from './LoginModal/CloseButton/CloseButton'
 
-import sikkerhetBom from '../../../../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../../../../assets/images/sikkerhet_bom@2x.png'
+import { useSettingsContext } from '../../settings'
+import { useUser } from '../../auth'
 
-import { deleteTavle } from '../../../../../settings/FirestoreStorage'
+import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 
 import './styles.scss'
 
-const DeleteTavleModal = ({ open, onDismiss, id }: Props): JSX.Element => {
+const RemoveSelfFromTavleModal = ({ open, onDismiss }: Props): JSX.Element => {
+    const [settings, setSettings] = useSettingsContext()
+    const { owners } = settings || {}
+    const user = useUser()
     const { addToast } = useToast()
-    const overflowDeleteTavle = useCallback(
+    const removeUserFromTavle = useCallback(
         (remove: boolean) => {
             if (remove) {
-                deleteTavle(id)
+                setSettings({
+                    owners: owners?.filter((ownerUID) => ownerUID != user?.uid),
+                })
                 addToast({
-                    title: 'Avgangstavla ble slettet.',
+                    title: 'Din ble fjernet fra tavla.',
                     content:
-                        'Tavla ble slettet permanent og er dermed ikke lenger tilgjengelig.',
+                        'Du er ikke lenger en eier av denne tavla og vil ikke ha mulighet til å gjøre endringer i den.',
                     variant: 'success',
                 })
             }
             onDismiss()
         },
-        [id, onDismiss, addToast],
+        [owners, user?.uid, setSettings, onDismiss, addToast],
     )
 
     return (
@@ -45,27 +51,28 @@ const DeleteTavleModal = ({ open, onDismiss, id }: Props): JSX.Element => {
             <div className="centered">
                 <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>
-            <Heading3 margin="none">Slette avgangstavle?</Heading3>
+            <Heading3 margin="none">Forlate avgangstavle?</Heading3>
             <Paragraph>
-                Er du sikker på at du vil slette denne tavla? Tavla vil være
-                borte for godt og ikke mulig å finne tilbake til.
+                Er du sikker på at du vil forlate denne tavla? Tilgangen for
+                andre tavla eventuelt er delt med vil ikke endres, men du selv
+                vil ikke lenger ha mulighet til å gjøre endringer i den.
             </Paragraph>
             <GridContainer spacing="medium">
                 <GridItem small={12}>
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={(): void => overflowDeleteTavle(true)}
+                        onClick={(): void => removeUserFromTavle(true)}
                         className="modal-submit"
                     >
-                        Ja, slett tavle for godt
+                        Ja, fjern meg fra tavlen
                     </PrimaryButton>
                 </GridItem>
                 <GridItem small={12}>
                     <SecondaryButton
                         width="fluid"
                         type="submit"
-                        onClick={(): void => overflowDeleteTavle(false)}
+                        onClick={(): void => removeUserFromTavle(false)}
                     >
                         Avbryt
                     </SecondaryButton>
@@ -75,10 +82,9 @@ const DeleteTavleModal = ({ open, onDismiss, id }: Props): JSX.Element => {
     )
 }
 
-export default DeleteTavleModal
+export default RemoveSelfFromTavleModal
 
 interface Props {
     open: boolean
     onDismiss: () => void
-    id: string
 }

@@ -24,8 +24,8 @@ import {
 import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
 import { useSettingsContext } from '../../../settings'
-import LoginModal from '../../../components/LoginModal'
-import RemoveSelfFromTavleModal from '../../MyBoards/BoardCard/OverflowMenu/Modals/RemoveSelfFromTavleModal'
+import LoginModal from '../../../components/Modals/LoginModal'
+import RemoveSelfFromTavleModal from '../../../components/Modals/RemoveSelfFromTavleModal'
 import {
     getOwnerEmailsByUIDs,
     getOwnerUIDByEmail,
@@ -36,6 +36,7 @@ import { BoardOwnersData } from '../../../types'
 import './styles.scss'
 
 enum inputFeedback {
+    NOT_VALID_EMAIL = 'Ugyldig: Du har ikke skrevet en gylig e-postadresse.',
     EMAIL_UNAVAILABLE = 'Ikke funnet: Ingen bruker med denne e-postadressen ble funnet.',
     AlREADY_ADDED = 'Denne brukeren er allerede lagt til.',
     REQUEST_SENT = 'Forespørel om eierskap i tavla ble sendt!',
@@ -102,7 +103,15 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             })
     }, [ownerRequestRecipients])
 
+    const EMAIL_REGEX =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
     const onAddOwnerRequestToBoard = async () => {
+        if (!newOwnerInput.match(EMAIL_REGEX)) {
+            setInputFeedbackMessageType(inputFeedbackType.FAILURE)
+            setInputFeedbackMessage(inputFeedback.NOT_VALID_EMAIL)
+            return
+        }
         const uidResponse = await getOwnerUIDByEmail(newOwnerInput)
         if (typeof uidResponse === 'string') {
             setInputFeedbackMessageType(inputFeedbackType.FAILURE)

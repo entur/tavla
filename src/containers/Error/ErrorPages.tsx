@@ -4,7 +4,7 @@ import { signOut } from 'firebase/auth'
 
 import { useToast } from '@entur/alert'
 
-import LoginModal from '../../components/LoginModal'
+import LoginModal from '../../components/Modals/LoginModal'
 
 import { useUser, auth } from '../../auth'
 import { getDocumentId } from '../../utils'

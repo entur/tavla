@@ -8,17 +8,17 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 
-import { analytics } from '../../firebase-init'
-import { useUser } from '../../auth'
-import { useSettingsContext } from '../../settings'
+import { analytics } from '../../../firebase-init'
+import { useUser } from '../../../auth'
+import { useSettingsContext } from '../../../settings'
 
-import LoginModal from '../../components/LoginModal'
-import CloseButton from '../../components/LoginModal/CloseButton/CloseButton'
+import LoginModal from '../LoginModal'
+import CloseButton from '../LoginModal/CloseButton/CloseButton'
 
-import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
+import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
 
-import { getDocumentId } from '../../utils'
+import { getDocumentId } from '../../../utils'
 
 import './styles.scss'
 

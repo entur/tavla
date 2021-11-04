@@ -1,13 +1,10 @@
 @import '../../assets/styles/import.scss';
 
-.lock-modal.eds-modal__content {
-    padding-top: 0.8rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    padding-bottom: 1.5rem;
+.overflow-modal.eds-modal__content {
+    padding: 0.8rem 1.5rem 1.5rem;
 
     p {
-        padding: 0 1rem;
+        padding: 1rem 1rem 0;
         color: $colors-brand-blue;
         text-align: center;
         margin: 0;
@@ -32,18 +29,13 @@
         margin-bottom: 3rem;
     }
 
-    .modal-submit {
-        margin-top: 1rem;
-    }
-
     .centered {
         display: flex;
         justify-content: center;
     }
 }
-
 @media (max-width: 1000px) {
-    .lock-modal {
+    .overflow-modal {
         margin: 1rem;
         height: fit-content;
     }

@@ -5,8 +5,8 @@ import type { User } from 'firebase/auth'
 import { useToast } from '@entur/alert'
 import { Modal } from '@entur/modal'
 
-import { useUser } from '../../auth'
-import { usePrevious } from '../../utils'
+import { useUser } from '../../../auth'
+import { usePrevious } from '../../../utils'
 
 import EmailLogin from './EmailLogin'
 import LoginOptions from './LoginOptions'

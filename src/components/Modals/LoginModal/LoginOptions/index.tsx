@@ -6,8 +6,8 @@ import { PrimaryButton, SecondaryButton } from '@entur/button'
 
 import { ModalType, LoginCase } from '..'
 
-import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
+import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
 
 interface Props {
     setModalType: Dispatch<SetStateAction<ModalType>>

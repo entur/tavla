@@ -5,7 +5,7 @@ import { Button } from '@entur/button'
 
 import { useSettingsContext } from '../../../settings'
 import { getDocumentId } from '../../../utils'
-import LockModal from '../../LockModal'
+import LockModal from '../../../components/Modals/LockModal'
 
 import './styles.scss'
 
