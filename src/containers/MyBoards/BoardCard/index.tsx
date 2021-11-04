@@ -133,6 +133,11 @@ function BoardCard({
                             id={id}
                             uid={uid}
                             history={history}
+                            sharedBoard={
+                                settings.owners
+                                    ? settings.owners?.length > 1
+                                    : false
+                            }
                         />
                     </div>
                 </div>

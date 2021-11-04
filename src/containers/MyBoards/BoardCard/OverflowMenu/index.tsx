@@ -7,19 +7,28 @@ import {
     ShareIcon,
     OpenedLockIcon,
     DeleteIcon,
+    CloseIcon,
 } from '@entur/icons'
 import { OverflowMenu, OverflowMenuItem, OverflowMenuLink } from '@entur/menu'
 import { useToast } from '@entur/alert'
 
-import '../styles.scss'
-
 import RemoveLockModal from '../../../../components/Modals/RemoveLockModal'
 import DeleteTavleModal from '../../../../components/Modals/DeleteTavleModal'
+import RemoveSelfFromTavleModal from '../../../../components/Modals/RemoveSelfFromTavleModal'
 
-function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
+import '../styles.scss'
+
+function BoardOverflowMenu({
+    id,
+    uid,
+    history,
+    sharedBoard = false,
+}: Props): JSX.Element {
     const [removeLockModalOpen, setRemoveLockModalOpen] =
         useState<boolean>(false)
     const [deleteTavleModalOpen, setDeleteTavleModalOpen] =
+        useState<boolean>(false)
+    const [removeSelfFromTavleModalOpen, setRemoveSelfFromTavleModalOpen] =
         useState<boolean>(false)
     const overflowRedigerTavle = useCallback(() => {
         history.push(`/admin/${id}`)
@@ -50,14 +59,28 @@ function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
                     </span>
                     Del tavle
                 </OverflowMenuItem>
-                <OverflowMenuItem
-                    onSelect={(): void => setRemoveLockModalOpen(true)}
-                >
-                    <span aria-hidden>
-                        <OpenedLockIcon inline />
-                    </span>
-                    Lås opp
-                </OverflowMenuItem>
+
+                {sharedBoard ? (
+                    <OverflowMenuItem
+                        onSelect={(): void =>
+                            setRemoveSelfFromTavleModalOpen(true)
+                        }
+                    >
+                        <span aria-hidden>
+                            <CloseIcon inline />
+                        </span>
+                        Forlat tavle
+                    </OverflowMenuItem>
+                ) : (
+                    <OverflowMenuItem
+                        onSelect={(): void => setRemoveLockModalOpen(true)}
+                    >
+                        <span aria-hidden>
+                            <OpenedLockIcon inline />
+                        </span>
+                        Lås opp
+                    </OverflowMenuItem>
+                )}
                 <OverflowMenuItem
                     onSelect={(): void => setDeleteTavleModalOpen(true)}
                 >
@@ -67,7 +90,6 @@ function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
                     Slett tavle
                 </OverflowMenuItem>
             </OverflowMenu>
-
             <RemoveLockModal
                 open={removeLockModalOpen}
                 onDismiss={(): void => setRemoveLockModalOpen(false)}
@@ -79,6 +101,12 @@ function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
                 onDismiss={(): void => setDeleteTavleModalOpen(false)}
                 id={id}
             />
+            <RemoveSelfFromTavleModal
+                open={removeSelfFromTavleModalOpen}
+                onDismiss={() => {}}
+                id={id}
+                uid={uid}
+            />
         </>
     )
 }
@@ -87,6 +115,7 @@ interface Props {
     id: string
     uid: string
     history: any
+    sharedBoard?: boolean
 }
 
 export default BoardOverflowMenu

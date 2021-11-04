@@ -69,8 +69,12 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [removeSelfModalOpen, setRemoveSelfModalOpen] = useState(false)
 
     const documentId = getDocumentId()
-    const { boardName, ownerRequestRecipients, ownerRequests, owners } =
-        settings || {}
+    const {
+        boardName,
+        ownerRequestRecipients,
+        ownerRequests,
+        owners = [],
+    } = settings || {}
 
     useEffect((): void => {
         if (tabIndex === 5 && user && user.isAnonymous) {
@@ -324,15 +328,17 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 <GridItem small={12} medium={12} large={6}>
                     {boardTitleElement}
                     {BoardLink}
-                    <NegativeButton
-                        onClick={() => {
-                            setRemoveSelfModalOpen(true)
-                        }}
-                        width="auto"
-                        size="medium"
-                    >
-                        Fjern meg fra tavlen
-                    </NegativeButton>
+                    {owners?.length > 1 && (
+                        <NegativeButton
+                            onClick={() => {
+                                setRemoveSelfModalOpen(true)
+                            }}
+                            width="auto"
+                            size="medium"
+                        >
+                            Fjern meg fra tavlen
+                        </NegativeButton>
+                    )}
                 </GridItem>
                 <GridItem small={12} medium={12} large={6}>
                     <Heading3>Legg til eier av tavlen</Heading3>
@@ -356,6 +362,9 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             <RemoveSelfFromTavleModal
                 open={removeSelfModalOpen}
                 onDismiss={() => setRemoveSelfModalOpen(false)}
+                id={documentId}
+                uid={user?.uid ?? ''}
+                onMyBoards={false}
             />
         </div>
     )

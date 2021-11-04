@@ -9,6 +9,7 @@ import { useToast } from '@entur/alert'
 import CloseButton from './LoginModal/CloseButton/CloseButton'
 
 import { useSettingsContext } from '../../settings'
+import { removeFromOwners } from '../../settings/FirestoreStorage'
 import { useUser } from '../../auth'
 
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
@@ -16,7 +17,13 @@ import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 
 import './styles.scss'
 
-const RemoveSelfFromTavleModal = ({ open, onDismiss }: Props): JSX.Element => {
+const RemoveSelfFromTavleModal = ({
+    open,
+    onDismiss,
+    id,
+    uid,
+    onMyBoards = false,
+}: Props): JSX.Element => {
     const [settings, setSettings] = useSettingsContext()
     const { owners } = settings || {}
     const user = useUser()
@@ -24,11 +31,15 @@ const RemoveSelfFromTavleModal = ({ open, onDismiss }: Props): JSX.Element => {
     const removeUserFromTavle = useCallback(
         (remove: boolean) => {
             if (remove) {
-                setSettings({
-                    owners: owners?.filter((ownerUID) => ownerUID != user?.uid),
-                })
+                if (onMyBoards) removeFromOwners(id, uid)
+                else
+                    setSettings({
+                        owners: owners?.filter(
+                            (ownerUID) => ownerUID != user?.uid,
+                        ),
+                    })
                 addToast({
-                    title: 'Din ble fjernet fra tavla.',
+                    title: 'Du ble fjernet fra tavla.',
                     content:
                         'Du er ikke lenger en eier av denne tavla og vil ikke ha mulighet til å gjøre endringer i den.',
                     variant: 'success',
@@ -87,4 +98,7 @@ export default RemoveSelfFromTavleModal
 interface Props {
     open: boolean
     onDismiss: () => void
+    id: string
+    uid: string
+    onMyBoards?: boolean
 }
