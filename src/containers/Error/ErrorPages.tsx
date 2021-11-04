@@ -113,6 +113,18 @@ export function NoTavlerAvailable({ history }: Props): JSX.Element {
     )
 }
 
+export function NoSharedTavlerAvailable(): JSX.Element {
+    return (
+        <div>
+            <ErrorWrapper
+                title="Her var det tomt!"
+                message="Du har ingen tavleforespørsler for øyeblikket."
+                image={duerLight}
+            />
+        </div>
+    )
+}
+
 export function NoAccessToTavler(): JSX.Element {
     const [displayLogin, setDisplayLogin] = useState<boolean>(false)
     const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {

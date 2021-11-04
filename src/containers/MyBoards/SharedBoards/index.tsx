@@ -9,6 +9,8 @@ import { getEmailByUID } from '../../../services/firebase'
 import type { Settings } from '../../../settings'
 import type { Theme } from '../../../types'
 
+import { NoSharedTavlerAvailable } from '../../Error/ErrorPages'
+
 import SharedBoardCard from './SharedBoardCard'
 
 const SharedBoards = ({ requestedBoards }: Props): JSX.Element => {
@@ -45,6 +47,10 @@ const SharedBoards = ({ requestedBoards }: Props): JSX.Element => {
         }
         restructureRequestedBoardsData()
     }, [requestedBoards, user?.uid])
+
+    if (!requestedBoards.length) {
+        return <NoSharedTavlerAvailable history={history} />
+    }
 
     return (
         <Contrast>
