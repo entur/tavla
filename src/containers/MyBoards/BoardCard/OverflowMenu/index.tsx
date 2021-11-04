@@ -103,7 +103,7 @@ function BoardOverflowMenu({
             />
             <RemoveSelfFromTavleModal
                 open={removeSelfFromTavleModalOpen}
-                onDismiss={() => {}}
+                onDismiss={(): void => setRemoveSelfFromTavleModalOpen(false)}
                 id={id}
                 uid={uid}
             />

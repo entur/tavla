@@ -6,14 +6,13 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { useToast } from '@entur/alert'
 
-import CloseButton from './LoginModal/CloseButton/CloseButton'
-
-import { useSettingsContext } from '../../settings'
-import { removeFromOwners } from '../../settings/FirestoreStorage'
-import { useUser } from '../../auth'
-
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
+
+import { removeFromOwners } from '../../settings/FirestoreStorage'
+import { useSettingsContext } from '../../settings'
+
+import CloseButton from './LoginModal/CloseButton/CloseButton'
 
 import './styles.scss'
 
@@ -22,22 +21,22 @@ const RemoveSelfFromTavleModal = ({
     onDismiss,
     id,
     uid,
-    onMyBoards = false,
+    settingsContextAvailable = false,
 }: Props): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
-    const { owners } = settings || {}
-    const user = useUser()
     const { addToast } = useToast()
-    const removeUserFromTavle = useCallback(
+    const [settings, setSettings] = useSettingsContext()
+    const onRemoveSelfFromTavle = useCallback(
         (remove: boolean) => {
             if (remove) {
-                if (onMyBoards) removeFromOwners(id, uid)
-                else
+                if (settingsContextAvailable) {
                     setSettings({
-                        owners: owners?.filter(
-                            (ownerUID) => ownerUID != user?.uid,
+                        owners: settings?.owners?.filter(
+                            (ownerUID) => ownerUID != uid,
                         ),
                     })
+                } else {
+                    removeFromOwners(id, uid)
+                }
                 addToast({
                     title: 'Du ble fjernet fra tavla.',
                     content:
@@ -47,7 +46,15 @@ const RemoveSelfFromTavleModal = ({
             }
             onDismiss()
         },
-        [owners, user?.uid, setSettings, onDismiss, addToast],
+        [
+            id,
+            uid,
+            onDismiss,
+            addToast,
+            settingsContextAvailable,
+            settings?.owners,
+            setSettings,
+        ],
     )
 
     return (
@@ -73,17 +80,17 @@ const RemoveSelfFromTavleModal = ({
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={(): void => removeUserFromTavle(true)}
+                        onClick={(): void => onRemoveSelfFromTavle(true)}
                         className="modal-submit"
                     >
-                        Ja, fjern meg fra tavlen
+                        Ja, fjern meg fra tavla
                     </PrimaryButton>
                 </GridItem>
                 <GridItem small={12}>
                     <SecondaryButton
                         width="fluid"
                         type="submit"
-                        onClick={(): void => removeUserFromTavle(false)}
+                        onClick={(): void => onRemoveSelfFromTavle(false)}
                     >
                         Avbryt
                     </SecondaryButton>
@@ -100,5 +107,5 @@ interface Props {
     onDismiss: () => void
     id: string
     uid: string
-    onMyBoards?: boolean
+    settingsContextAvailable?: boolean
 }

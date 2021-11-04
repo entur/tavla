@@ -9,14 +9,13 @@ import { AddIcon } from '@entur/icons'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 
 import { ThemeDashboardPreview } from '../../assets/icons/ThemeDashboardPreview'
-import { Settings, useSettingsContext } from '../../settings'
+import { Settings } from '../../settings'
 import {
     getBoardsOnSnapshot,
     getSharedBoardsOnSnapshot,
 } from '../../services/firebase'
 import { useUser } from '../../auth'
 import { Theme } from '../../types'
-import { isDarkOrDefaultTheme } from '../../utils'
 
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
@@ -42,8 +41,6 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
     const user = useUser()
     const preview = ThemeDashboardPreview(Theme.DEFAULT)
     const [currentIndex, setCurrentIndex] = useState<number>(0)
-    const [settings] = useSettingsContext()
-    const { theme } = settings || {}
 
     useEffect(() => {
         if (user === null) {
@@ -105,12 +102,12 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
     if (!user || user.isAnonymous) {
         return <NoAccessToTavler />
     }
-    if (!boards.length) {
+    if (!boards.length && !requestedBoards.length) {
         return <NoTavlerAvailable history={history} />
     }
 
     return (
-        <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
+        <ThemeContrastWrapper>
             <div className="my-boards">
                 <Tabs index={currentIndex} onChange={setCurrentIndex}>
                     <TabList>
