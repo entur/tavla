@@ -118,7 +118,7 @@ export function NoSharedTavlerAvailable(): JSX.Element {
         <div>
             <ErrorWrapper
                 title="Her var det tomt!"
-                message="Du har ingen tavleforespørsler for øyeblikket."
+                message="Du har ingen tavleforespørsler for øyeblikket. Andre kan dele sine tavler med deg under «Deling»-fanen på instillingene til tavlen."
                 image={duerLight}
             />
         </div>
