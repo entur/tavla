@@ -34,6 +34,8 @@ import {
 import { BoardOwnersData } from '../../../types'
 
 import './styles.scss'
+import copy from 'copy-to-clipboard'
+import { useToast } from '@entur/alert'
 
 enum inputFeedback {
     NOT_VALID_EMAIL = 'Ugyldig: Du har ikke skrevet en gylig e-postadresse.',
@@ -67,6 +69,8 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         BoardOwnersData[]
     >([])
     const [removeSelfModalOpen, setRemoveSelfModalOpen] = useState(false)
+
+    const { addToast } = useToast()
 
     const documentId = getDocumentId()
     const {
@@ -214,10 +218,25 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
 
     const BoardLink: JSX.Element = (
         <div className="share-page__link">
-            <LinkIcon className="share-page__link__icon" />
-            <span className="share-page__link__description">
-                {`${window.location.host}/t/${getDocumentId()}`}
-            </span>
+            <Tooltip placement="bottom-right" content="Kopier lenke">
+                <IconButton
+                    onClick={() => {
+                        copy(`${window.location.host}/t/${documentId}`)
+                        addToast({
+                            title: 'Kopiert',
+                            content:
+                                'Linken har nå blitt kopiert til din utklippstavle.',
+                            variant: 'success',
+                        })
+                    }}
+                    style={{ marginLeft: '-8px' }}
+                >
+                    <LinkIcon className="share-page__link__icon" />
+                    <span className="share-page__link__description">
+                        {`${window.location.host}/t/${documentId}`}
+                    </span>
+                </IconButton>
+            </Tooltip>
         </div>
     )
 
