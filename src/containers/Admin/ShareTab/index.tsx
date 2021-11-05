@@ -1,6 +1,9 @@
 import React, { useState, useEffect, Dispatch } from 'react'
 
+import type { DocumentSnapshot } from 'firebase/firestore'
 import type { User } from 'firebase/auth'
+
+import copy from 'copy-to-clipboard'
 
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
@@ -20,6 +23,7 @@ import {
     TableHead,
     TableRow,
 } from '@entur/table'
+import { useToast } from '@entur/alert'
 
 import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
@@ -27,15 +31,14 @@ import { useSettingsContext } from '../../../settings'
 import LoginModal from '../../../components/Modals/LoginModal'
 import RemoveSelfFromTavleModal from '../../../components/Modals/RemoveSelfFromTavleModal'
 import {
+    getBoardOnSnapshot,
     getOwnerEmailsByUIDs,
     getOwnerUIDByEmail,
 } from '../../../services/firebase'
 
-import { BoardOwnersData } from '../../../types'
+import type { BoardOwnersData } from '../../../types'
 
 import './styles.scss'
-import copy from 'copy-to-clipboard'
-import { useToast } from '@entur/alert'
 
 enum inputFeedback {
     NOT_VALID_EMAIL = 'Ugyldig: Du har ikke skrevet en gylig e-postadresse.',
@@ -53,7 +56,7 @@ enum inputFeedbackType {
 
 const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const user = useUser()
-    const [open, setOpen] = useState<boolean>(false)
+    const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
     const [settings, setSettings] = useSettingsContext()
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
     const [newBoardName, setNewBoardName] = useState<string>('Uten tittel')
@@ -80,36 +83,58 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         owners = [],
     } = settings || {}
 
+    const handleDismiss = (newUser: User | undefined): void => {
+        if (!newUser || newUser.isAnonymous) {
+            setLoginModalOpen(false)
+            setTabIndex(0)
+        }
+    }
+
     useEffect((): void => {
         if (tabIndex === 5 && user && user.isAnonymous) {
-            setOpen(true)
+            setLoginModalOpen(true)
         }
 
         if (user && !user.isAnonymous) {
             // TODO sjekk om tavle er låst til bruker
-            setOpen(false)
+            setLoginModalOpen(false)
         }
     }, [user, tabIndex, setTabIndex])
 
-    const handleDismiss = (newUser: User | undefined): void => {
-        if (!newUser || newUser.isAnonymous) {
-            setOpen(false)
-            setTabIndex(0)
+    useEffect(() => {
+        const unsubscribeOwners = getBoardOnSnapshot(documentId, {
+            next: (documentSnapshot: DocumentSnapshot) => {
+                if (!documentSnapshot.exists) return
+                if (documentSnapshot.metadata.hasPendingWrites) return
+                getOwnerEmailsByUIDs(documentSnapshot.data()?.owners).then(
+                    (data) => setOwnersData(data),
+                )
+            },
+            error: () => setOwnersData([{ uid: '', email: '' }]),
+        })
+
+        const unsubscribeRequests = getBoardOnSnapshot(documentId, {
+            next: (documentSnapshot: DocumentSnapshot) => {
+                if (!documentSnapshot.exists) return
+                if (documentSnapshot.metadata.hasPendingWrites) return
+                getOwnerEmailsByUIDs(
+                    documentSnapshot.data()?.ownerRequestRecipients,
+                ).then((data) => setRequestedOwnersData(data))
+            },
+            error: () => setRequestedOwnersData([{ uid: '', email: '' }]),
+        })
+
+        return () => {
+            unsubscribeOwners()
+            unsubscribeRequests()
         }
-    }
+    }, [documentId])
 
     const onChangeTitle = () => {
         setTitleEditMode(false)
         if (newBoardName === boardName) return
         setSettings({ boardName: newBoardName })
     }
-
-    useEffect(() => {
-        if (ownerRequestRecipients)
-            getOwnerEmailsByUIDs(ownerRequestRecipients).then((data) => {
-                setRequestedOwnersData(data)
-            })
-    }, [ownerRequestRecipients])
 
     const EMAIL_REGEX =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -150,11 +175,6 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             }
         }
     }
-
-    useEffect(() => {
-        if (owners)
-            getOwnerEmailsByUIDs(owners).then((data) => setOwnersData(data))
-    }, [owners])
 
     const onRemoveOwnerFromBoard = (uid: string): void => {
         setSettings({
@@ -334,7 +354,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         <div className="share-page">
             <LoginModal
                 onDismiss={handleDismiss}
-                open={open}
+                open={loginModalOpen}
                 loginCase="share"
             />
             <Heading2 className="heading">Del din tavle med andre</Heading2>

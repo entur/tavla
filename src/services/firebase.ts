@@ -11,6 +11,7 @@ import {
     deleteDoc,
     addDoc,
     setDoc,
+    DocumentSnapshot,
 } from 'firebase/firestore'
 
 import { httpsCallable } from 'firebase/functions'
@@ -61,6 +62,18 @@ export const getSharedBoardsOnSnapshot = (
         collection(db, SETTINGS_COLLECTION),
         where('ownerRequestRecipients', 'array-contains', userUID),
     )
+    return onSnapshot(q, observer)
+}
+
+export const getBoardOnSnapshot = (
+    boardID: string | undefined,
+    observer: {
+        next: (documentSnapshot: DocumentSnapshot) => void
+        error: () => void
+    },
+): (() => void) => {
+    const q = getSettingsReference(boardID ?? '')
+
     return onSnapshot(q, observer)
 }
 
