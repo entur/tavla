@@ -30,6 +30,7 @@ import { getDocumentId } from '../../../utils'
 import { useSettingsContext } from '../../../settings'
 import LoginModal from '../../../components/Modals/LoginModal'
 import RemoveSelfFromTavleModal from '../../../components/Modals/RemoveSelfFromTavleModal'
+import NeedToBeOwnerModal from '../../../components/Modals/NeedToBeOwnerModal'
 import {
     getBoardOnSnapshot,
     getOwnerEmailsByUIDs,
@@ -57,6 +58,8 @@ enum inputFeedbackType {
 const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const user = useUser()
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
+    const [needToBeOwnerModalOpen, setNeedToBeOwnerModalOpen] =
+        useState<boolean>(false)
     const [settings, setSettings] = useSettingsContext()
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
     const [newBoardName, setNewBoardName] = useState<string>('Uten tittel')
@@ -83,11 +86,16 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         owners = [],
     } = settings || {}
 
-    const handleDismiss = (newUser: User | undefined): void => {
+    const handleDismissLoginModal = (newUser: User | undefined): void => {
         if (!newUser || newUser.isAnonymous) {
             setLoginModalOpen(false)
             setTabIndex(0)
         }
+    }
+
+    const handleDismissNeedToBeOwnerModal = (goToFirstTab = false): void => {
+        setNeedToBeOwnerModalOpen(false)
+        if (goToFirstTab) setTabIndex(0)
     }
 
     useEffect((): void => {
@@ -96,10 +104,14 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         }
 
         if (user && !user.isAnonymous) {
-            // TODO sjekk om tavle er låst til bruker
-            setLoginModalOpen(false)
+            if (tabIndex === 5 && !owners.includes(user.uid)) {
+                setNeedToBeOwnerModalOpen(true)
+            } else {
+                setLoginModalOpen(false)
+                setNeedToBeOwnerModalOpen(false)
+            }
         }
-    }, [user, tabIndex, setTabIndex])
+    }, [user, owners, tabIndex, setTabIndex])
 
     useEffect(() => {
         const unsubscribeOwners = getBoardOnSnapshot(documentId, {
@@ -176,9 +188,9 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         }
     }
 
-    const onRemoveOwnerFromBoard = (uid: string): void => {
+    const onRemoveOwnerFromBoard = (UIDToRemove: string): void => {
         setSettings({
-            owners: owners?.filter((ownerEntry) => ownerEntry !== uid),
+            owners: owners?.filter((ownerUID) => ownerUID !== UIDToRemove),
         })
     }
 
@@ -352,11 +364,6 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
 
     return (
         <div className="share-page">
-            <LoginModal
-                onDismiss={handleDismiss}
-                open={loginModalOpen}
-                loginCase="share"
-            />
             <Heading2 className="heading">Del din tavle med andre</Heading2>
             <Paragraph>
                 Denne siden lar deg dele den låste tavlen din med andre slik at
@@ -397,13 +404,22 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                     </Table>
                 </GridItem>
             </GridContainer>
-
             <RemoveSelfFromTavleModal
                 open={removeSelfModalOpen}
                 onDismiss={() => setRemoveSelfModalOpen(false)}
                 id={documentId}
                 uid={user?.uid ?? ''}
                 settingsContextAvailable={true}
+            />
+            <LoginModal
+                onDismiss={handleDismissLoginModal}
+                open={loginModalOpen}
+                loginCase="share"
+            />
+            <NeedToBeOwnerModal
+                open={needToBeOwnerModalOpen}
+                onDismiss={handleDismissNeedToBeOwnerModal}
+                uid={user?.uid}
             />
         </div>
     )

@@ -23,11 +23,15 @@ import ShareTab from './ShareTab'
 const AdminPage = (): JSX.Element => {
     const user = useUser()
 
-    const [currentIndex, setCurrentIndex] = useState<number>(5) //TODO: sett til 0
-
-    const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon inline />
+    const [currentIndex, setCurrentIndex] = useState<number>(0)
 
     const [settings] = useSettingsContext()
+
+    const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon inline />
+    const lockIconShareTab = (user?.isAnonymous ||
+        !settings?.owners?.includes(user?.uid ?? '')) && (
+        <ClosedLockIcon inline />
+    )
 
     const { theme } = settings || {}
 
@@ -45,7 +49,7 @@ const AdminPage = (): JSX.Element => {
                         <Tab>Velg farger</Tab>
                         <Tab>Last opp logo {lockIcon}</Tab>
                         <Tab>Endre lenke {lockIcon}</Tab>
-                        <Tab>Deling {lockIcon}</Tab>
+                        <Tab>Deling {lockIconShareTab}</Tab>
                     </TabList>
                     <TabPanels className="admin__tabs__tab-panels">
                         <TabPanel>

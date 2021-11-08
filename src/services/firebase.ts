@@ -51,6 +51,18 @@ export const getBoardsOnSnapshot = (
     return onSnapshot(q, observer)
 }
 
+export const getBoardOnSnapshot = (
+    boardID: string | undefined,
+    observer: {
+        next: (documentSnapshot: DocumentSnapshot) => void
+        error: () => void
+    },
+): (() => void) => {
+    const q = getSettingsReference(boardID ?? '')
+
+    return onSnapshot(q, observer)
+}
+
 export const getSharedBoardsOnSnapshot = (
     userUID: string | null,
     observer: {
@@ -62,18 +74,6 @@ export const getSharedBoardsOnSnapshot = (
         collection(db, SETTINGS_COLLECTION),
         where('ownerRequestRecipients', 'array-contains', userUID),
     )
-    return onSnapshot(q, observer)
-}
-
-export const getBoardOnSnapshot = (
-    boardID: string | undefined,
-    observer: {
-        next: (documentSnapshot: DocumentSnapshot) => void
-        error: () => void
-    },
-): (() => void) => {
-    const q = getSettingsReference(boardID ?? '')
-
     return onSnapshot(q, observer)
 }
 
@@ -203,7 +203,9 @@ export const copySettingsToNewId = (
 export const setIdToBeDeleted = (docId: string): Promise<void> =>
     updateSingleSettingsField(docId, 'delete', true)
 
-export const getOwnerEmailsByUIDs = async (ownersList: string[]) => {
+export const getOwnerEmailsByUIDs = async (
+    ownersList: string[],
+): Promise<BoardOwnersData[]> => {
     interface UploadData {
         ownersList: string[]
     }
@@ -219,7 +221,7 @@ export const getOwnerEmailsByUIDs = async (ownersList: string[]) => {
     return ownerData
 }
 
-export const getEmailByUID = async (uid: string) => {
+export const getEmailByUID = async (uid: string): Promise<BoardOwnersData> => {
     interface UploadData {
         ownersList: string[]
     }
@@ -235,7 +237,9 @@ export const getEmailByUID = async (uid: string) => {
     return ownerData
 }
 
-export const getOwnerUIDByEmail = async (email: string) => {
+export const getOwnerUIDByEmail = async (
+    email: string,
+): Promise<string | BoardOwnersData> => {
     interface UploadData {
         email: string
     }
@@ -255,7 +259,7 @@ export const answerBoardInvitation = async (
     boardID: string,
     recipientUID: string,
     accept: boolean,
-) => {
+): Promise<void> => {
     interface UploadData {
         boardID: string
         recipientUID: string
