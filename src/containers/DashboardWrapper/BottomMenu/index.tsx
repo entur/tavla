@@ -13,7 +13,7 @@ import {
     OpenedLockIcon,
     LogOutIcon,
     UserIcon,
-    ShareIcon,
+    CopyIcon,
 } from '@entur/icons'
 import { useToast } from '@entur/alert'
 
@@ -80,8 +80,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 
     const shareButton = (
         <MenuButton
-            title="Del tavle"
-            icon={<ShareIcon size={21} />}
+            title="Kopier lenke"
+            icon={<CopyIcon size={21} />}
             callback={(): void => {
                 copy(URL)
                 addToast({

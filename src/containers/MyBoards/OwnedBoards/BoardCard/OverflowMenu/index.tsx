@@ -4,10 +4,10 @@ import copy from 'copy-to-clipboard'
 
 import {
     ConfigurationIcon,
-    ShareIcon,
     OpenedLockIcon,
     DeleteIcon,
     CloseIcon,
+    CopyIcon,
 } from '@entur/icons'
 import { OverflowMenu, OverflowMenuItem, OverflowMenuLink } from '@entur/menu'
 import { useToast } from '@entur/alert'
@@ -55,9 +55,9 @@ function BoardOverflowMenu({
                 </OverflowMenuLink>
                 <OverflowMenuItem onSelect={overflowShareTavle}>
                     <span aria-hidden>
-                        <ShareIcon inline />
+                        <CopyIcon inline />
                     </span>
-                    Del tavle
+                    Kopier lenke
                 </OverflowMenuItem>
 
                 {sharedBoard ? (
