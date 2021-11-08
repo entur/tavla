@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { Table, TableHead, TableRow, HeaderCell, TableBody } from '@entur/table'
 
 import { useUser } from '../../../../auth'
 
-import { useSettingsContext } from '../../../../settings'
 import type { BoardOwnersData, OwnerRequest } from '../../../../types'
 
-import { SharedWithRows } from './SharedWithRows'
 import { updateSingleSettingsField } from '../../../../services/firebase'
+
+import { SharedWithRows } from './SharedWithRows'
 
 export const BoardOwnersList = ({
     documentId,
@@ -16,7 +16,6 @@ export const BoardOwnersList = ({
     requestedOwnersData,
     ownerRequests,
 }: Props): JSX.Element => {
-    const setSettings = useSettingsContext()[1]
     const user = useUser()
 
     const owners: string[] = ownersData.map(

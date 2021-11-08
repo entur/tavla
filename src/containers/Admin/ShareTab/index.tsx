@@ -2,6 +2,8 @@ import React, { useState, useEffect, Dispatch } from 'react'
 
 import type { User } from 'firebase/auth'
 
+import { DocumentSnapshot } from 'firebase/firestore'
+
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
 import { NegativeButton } from '@entur/button'
@@ -9,6 +11,12 @@ import { NegativeButton } from '@entur/button'
 import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
 import { useSettingsContext } from '../../../settings'
+import {
+    getBoardOnSnapshot,
+    getOwnerEmailsByUIDs,
+} from '../../../services/firebase'
+import { BoardOwnersData, OwnerRequest } from '../../../types'
+
 import LoginModal from '../../../components/Modals/LoginModal'
 import RemoveSelfFromTavleModal from '../../../components/Modals/RemoveSelfFromTavleModal'
 import NeedToBeOwnerModal from '../../../components/Modals/NeedToBeOwnerModal'
@@ -19,12 +27,6 @@ import AddNewOwnersInput from './components/AddNewOwnersInput'
 import BoardOwnersList from './components/BoardOwnersList'
 
 import './styles.scss'
-import {
-    getBoardOnSnapshot,
-    getOwnerEmailsByUIDs,
-} from '../../../services/firebase'
-import { DocumentSnapshot } from 'firebase/firestore'
-import { BoardOwnersData, OwnerRequest } from '../../../types'
 
 const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
@@ -72,33 +74,25 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     }, [user, owners, tabIndex, setTabIndex])
 
     useEffect(() => {
-        const unsubscribeOwners = getBoardOnSnapshot(documentId, {
+        const unsubscribeBoard = getBoardOnSnapshot(documentId, {
             next: (documentSnapshot: DocumentSnapshot) => {
                 if (!documentSnapshot.exists) return
                 if (documentSnapshot.metadata.hasPendingWrites) return
                 getOwnerEmailsByUIDs(documentSnapshot.data()?.owners).then(
                     (data) => setOwnersData(data),
                 )
-            },
-            error: () => setOwnersData([{ uid: '', email: '' }]),
-        })
-
-        const unsubscribeRequests = getBoardOnSnapshot(documentId, {
-            next: (documentSnapshot: DocumentSnapshot) => {
-                if (!documentSnapshot.exists) return
-                if (documentSnapshot.metadata.hasPendingWrites) return
                 getOwnerEmailsByUIDs(
                     documentSnapshot.data()?.ownerRequestRecipients,
                 ).then((data) => setRequestedOwnersData(data))
                 setOwnerRequests(documentSnapshot.data()?.ownerRequests)
             },
-            error: () => setRequestedOwnersData([{ uid: '', email: '' }]),
+            error: () => {
+                setOwnersData([])
+                setRequestedOwnersData([])
+            },
         })
 
-        return () => {
-            unsubscribeOwners()
-            unsubscribeRequests()
-        }
+        return () => unsubscribeBoard()
     }, [documentId])
 
     if (!documentId) {

@@ -6,7 +6,7 @@ import {
     deleteDocument,
     updateMultipleSettingsFields,
 } from '../services/firebase'
-import { BoardOwnersData, OwnerRequest } from '../types'
+import { OwnerRequest } from '../types'
 
 import { Settings } from './index'
 
