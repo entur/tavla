@@ -121,7 +121,7 @@ export const getEmailsByUIDs = https.onCall(async (data, context) => {
         .catch((error) => {
             throw new https.HttpsError(
                 'invalid-argument',
-                'Could not get requested owners of board.',
+                'Could not get requested email addresses.',
             )
         })
 
@@ -136,10 +136,8 @@ export const getUIDByEmail = https.onCall(async (data, context) => {
         )
     }
 
-    const ownerEmail = data.email
-
     const ownerData = await auth()
-        .getUserByEmail(ownerEmail)
+        .getUserByEmail(data.email)
         .then((userResult) => ({
             uid: userResult.uid,
             email: userResult.email,
@@ -168,7 +166,7 @@ export const answerBoardInvitation = https.onCall(async (data, context) => {
     if (!doc.exists) {
         throw new https.HttpsError(
             'invalid-argument',
-            'Image UID must refer to an existing settings document.',
+            'BoardID must refer to an existing settings document.',
         )
     }
 

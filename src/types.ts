@@ -76,3 +76,11 @@ export interface Board {
     lastmodified: Timestamp
     created: Timestamp
 }
+
+export interface SharedBoardProps {
+    id: string
+    boardName: string
+    sharedBy: string
+    theme: Theme
+    dashboard: string
+}

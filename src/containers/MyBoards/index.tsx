@@ -32,10 +32,11 @@ function sortBoard(boards: Board[]): Board[] {
 }
 
 const MyBoards = ({ history }: Props): JSX.Element | null => {
-    const [boards, setBoards] = useState<DocumentData>()
-    const [requestedBoards, setRequestedBoards] = useState<DocumentData>()
     const user = useUser()
     const preview = ThemeDashboardPreview(Theme.DEFAULT)
+
+    const [boards, setBoards] = useState<DocumentData>()
+    const [requestedBoards, setRequestedBoards] = useState<DocumentData>()
     const [currentIndex, setCurrentIndex] = useState<number>(0)
 
     useEffect(() => {

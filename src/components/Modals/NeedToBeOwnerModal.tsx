@@ -21,6 +21,7 @@ import './styles.scss'
 const NeedToBeOwnerModal = ({ open, onDismiss, uid }: Props): JSX.Element => {
     const { addToast } = useToast()
     const [settings, setSettings] = useSettingsContext()
+
     const addOwnerToTavle = useCallback(
         (lock: boolean) => {
             if (lock && settings && settings.owners && uid) {

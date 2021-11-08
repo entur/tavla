@@ -23,8 +23,9 @@ const RemoveSelfFromTavleModal = ({
     uid,
     settingsContextAvailable = false,
 }: Props): JSX.Element => {
-    const { addToast } = useToast()
     const [settings, setSettings] = useSettingsContext()
+    const { addToast } = useToast()
+
     const onRemoveSelfFromTavle = useCallback(
         (remove: boolean) => {
             if (remove) {

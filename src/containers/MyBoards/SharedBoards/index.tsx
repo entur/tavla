@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
-import type { DocumentData, Timestamp } from 'firebase/firestore'
+import type { DocumentData } from 'firebase/firestore'
 
 import { Contrast } from '@entur/layout'
 
 import { useUser } from '../../../auth'
 import { getEmailByUID } from '../../../services/firebase'
-import type { Settings } from '../../../settings'
-import type { Theme } from '../../../types'
+import type { Board, SharedBoardProps } from '../../../types'
 
 import { NoSharedTavlerAvailable } from '../../Error/ErrorPages'
 
@@ -21,7 +20,7 @@ const SharedBoards = ({ requestedBoards }: Props): JSX.Element => {
     useEffect(() => {
         const restructureRequestedBoardsData = async () => {
             const filterData: SharedBoardProps[] = requestedBoards.map(
-                (board: BoardProps) => ({
+                (board: Board) => ({
                     id: board.id,
                     boardName: board.data.boardName,
                     sharedBy: board.data.ownerRequests
@@ -73,21 +72,6 @@ const SharedBoards = ({ requestedBoards }: Props): JSX.Element => {
 
 interface Props {
     requestedBoards: DocumentData
-}
-
-interface BoardProps {
-    data: Settings
-    id: string
-    lastmodified: Timestamp
-    created: Timestamp
-}
-
-interface SharedBoardProps {
-    id: string
-    boardName: string
-    sharedBy: string
-    theme: Theme
-    dashboard: string
 }
 
 export default SharedBoards

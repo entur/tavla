@@ -26,6 +26,7 @@ enum inputFeedbackType {
 export const AddNewOwnersInput = (): JSX.Element => {
     const [settings, setSettings] = useSettingsContext()
     const user = useUser()
+
     const [newOwnerInput, setNewOwnerInput] = useState<string>('')
     const [inputFeedbackMessage, setInputFeedbackMessage] = useState(
         inputFeedback.NOTHING,
