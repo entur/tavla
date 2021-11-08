@@ -11,7 +11,7 @@ import { onSnapshot } from 'firebase/firestore'
 
 import { Coordinates, TransportMode } from '@entur/sdk'
 
-import { Theme, DrawableRoute } from '../types'
+import { Theme, DrawableRoute, OwnerRequest } from '../types'
 import { getSettingsReference } from '../services/firebase'
 import { getDocumentId } from '../utils'
 import { useUser } from '../auth'
@@ -64,11 +64,7 @@ export interface Settings {
     hiddenRealtimeDataLineRefs: string[]
     ownerRequests: OwnerRequest[]
     ownerRequestRecipients: string[]
-}
-
-interface OwnerRequest {
-    requestIssuerUID: string
-    recipientUID: string
+    isScheduledForDelete?: boolean
 }
 
 type Setter = (settings: Partial<Settings>) => void

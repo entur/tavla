@@ -31,6 +31,9 @@ function sortBoard(boards: Board[]): Board[] {
     })
 }
 
+const filterBoards = (boards: Board[]): Board[] =>
+    boards.filter((board) => !board.data.isScheduledForDelete)
+
 const MyBoards = ({ history }: Props): JSX.Element | null => {
     const user = useUser()
     const preview = ThemeDashboardPreview(Theme.DEFAULT)
@@ -58,7 +61,11 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                             id: docSnapshot.id,
                         } as Board),
                 )
-                setBoards(updatedBoards.length ? sortBoard(updatedBoards) : [])
+                setBoards(
+                    updatedBoards.length
+                        ? sortBoard(filterBoards(updatedBoards))
+                        : [],
+                )
             },
             error: () => setBoards([]),
         })

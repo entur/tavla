@@ -178,30 +178,34 @@ export const uploadLogo = async (
     )
 }
 
-export const copySettingsToNewId = (
+export const copySettingsToNewId = async (
     newDocId: string,
     settings: Settings | null,
 ): Promise<boolean> => {
+    if (!settings) return false
+
     const newDocRef: DocumentReference = getSettingsReference(newDocId)
 
-    return getDoc(newDocRef)
-        .then((document) => {
-            if (document.exists()) {
-                return false
-            } else {
-                if (settings) {
-                    createSettingsWithId(settings, newDocId)
-                    return true
-                } else {
-                    return false
-                }
+    try {
+        const document = await getDoc(newDocRef)
+        if (document.exists()) {
+            if (document.data().isScheduledForDelete) {
+                await deleteDoc(newDocRef)
+                await createSettingsWithId(settings, newDocId)
+                return true
             }
-        })
-        .catch(() => false)
+            return false
+        } else {
+            await createSettingsWithId(settings, newDocId)
+            return true
+        }
+    } catch {
+        return false
+    }
 }
 
 export const setIdToBeDeleted = (docId: string): Promise<void> =>
-    updateSingleSettingsField(docId, 'delete', true)
+    updateSingleSettingsField(docId, 'isScheduledForDelete', true)
 
 export const getOwnerEmailsByUIDs = async (
     ownersList: string[],
