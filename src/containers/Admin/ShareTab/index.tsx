@@ -366,7 +366,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         <div className="share-page">
             <Heading2 className="heading">Del din tavle med andre</Heading2>
             <Paragraph>
-                Denne siden lar deg dele den låste tavlen din med andre slik at
+                Denne siden lar deg dele den låste tavlen din med andre, slik at
                 dere kan samarbeide på
                 {String.fromCharCode(160)}den.
             </Paragraph>
