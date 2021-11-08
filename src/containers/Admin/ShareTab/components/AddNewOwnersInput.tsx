@@ -8,6 +8,7 @@ import { Tooltip } from '@entur/tooltip'
 import { useSettingsContext } from '../../../../settings'
 import { getOwnerUIDByEmail } from '../../../../services/firebase'
 import { useUser } from '../../../../auth'
+import { BoardOwnersData } from '../../../../types'
 
 enum inputFeedback {
     NOT_VALID_EMAIL = 'Ugyldig: Du har ikke skrevet en gylig e-postadresse.',
@@ -23,8 +24,11 @@ enum inputFeedbackType {
     CLEAR = 'info',
 }
 
-export const AddNewOwnersInput = (): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
+export const AddNewOwnersInput = ({
+    ownersData,
+    requestedOwnersData,
+}: Props): JSX.Element => {
+    const setSettings = useSettingsContext()[1]
     const user = useUser()
 
     const [newOwnerInput, setNewOwnerInput] = useState<string>('')
@@ -49,16 +53,22 @@ export const AddNewOwnersInput = (): JSX.Element => {
             setInputFeedbackMessageType(inputFeedbackType.FAILURE)
             setInputFeedbackMessage(inputFeedback.EMAIL_UNAVAILABLE)
         } else {
+            const owners: string[] = ownersData.map(
+                (owner: BoardOwnersData) => owner.uid,
+            )
+            const ownerRequestRecipients: string[] = requestedOwnersData.map(
+                (reqestedOwner: BoardOwnersData) => reqestedOwner.uid,
+            )
             if (
-                settings?.ownerRequestRecipients.includes(uidResponse.uid) ||
-                settings?.owners?.includes(uidResponse.uid)
+                ownerRequestRecipients.includes(uidResponse.uid) ||
+                owners.includes(uidResponse.uid)
             ) {
                 setInputFeedbackMessageType(inputFeedbackType.FAILURE)
                 setInputFeedbackMessage(inputFeedback.AlREADY_ADDED)
-            } else if (user && settings) {
+            } else if (user) {
                 setSettings({
                     ownerRequestRecipients: [
-                        ...settings?.ownerRequestRecipients,
+                        ...ownerRequestRecipients,
                         uidResponse.uid,
                     ],
                     ownerRequests: [
@@ -110,6 +120,11 @@ export const AddNewOwnersInput = (): JSX.Element => {
             </div>
         </div>
     )
+}
+
+interface Props {
+    ownersData: BoardOwnersData[]
+    requestedOwnersData: BoardOwnersData[]
 }
 
 export default AddNewOwnersInput

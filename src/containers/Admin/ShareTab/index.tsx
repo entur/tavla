@@ -19,6 +19,12 @@ import AddNewOwnersInput from './components/AddNewOwnersInput'
 import BoardOwnersList from './components/BoardOwnersList'
 
 import './styles.scss'
+import {
+    getBoardOnSnapshot,
+    getOwnerEmailsByUIDs,
+} from '../../../services/firebase'
+import { DocumentSnapshot } from 'firebase/firestore'
+import { BoardOwnersData, OwnerRequest } from '../../../types'
 
 const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
@@ -29,6 +35,12 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [needToBeOwnerModalOpen, setNeedToBeOwnerModalOpen] =
         useState<boolean>(false)
     const [removeSelfModalOpen, setRemoveSelfModalOpen] = useState(false)
+
+    const [ownersData, setOwnersData] = useState<BoardOwnersData[]>([])
+    const [requestedOwnersData, setRequestedOwnersData] = useState<
+        BoardOwnersData[]
+    >([])
+    const [ownerRequests, setOwnerRequests] = useState<OwnerRequest[]>([])
 
     const documentId = getDocumentId()
 
@@ -58,6 +70,36 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             }
         }
     }, [user, owners, tabIndex, setTabIndex])
+
+    useEffect(() => {
+        const unsubscribeOwners = getBoardOnSnapshot(documentId, {
+            next: (documentSnapshot: DocumentSnapshot) => {
+                if (!documentSnapshot.exists) return
+                if (documentSnapshot.metadata.hasPendingWrites) return
+                getOwnerEmailsByUIDs(documentSnapshot.data()?.owners).then(
+                    (data) => setOwnersData(data),
+                )
+            },
+            error: () => setOwnersData([{ uid: '', email: '' }]),
+        })
+
+        const unsubscribeRequests = getBoardOnSnapshot(documentId, {
+            next: (documentSnapshot: DocumentSnapshot) => {
+                if (!documentSnapshot.exists) return
+                if (documentSnapshot.metadata.hasPendingWrites) return
+                getOwnerEmailsByUIDs(
+                    documentSnapshot.data()?.ownerRequestRecipients,
+                ).then((data) => setRequestedOwnersData(data))
+                setOwnerRequests(documentSnapshot.data()?.ownerRequests)
+            },
+            error: () => setRequestedOwnersData([{ uid: '', email: '' }]),
+        })
+
+        return () => {
+            unsubscribeOwners()
+            unsubscribeRequests()
+        }
+    }, [documentId])
 
     if (!documentId) {
         return (
@@ -102,9 +144,17 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 </GridItem>
                 <GridItem small={12} medium={12} large={6}>
                     <Heading3>Legg til eier av tavlen</Heading3>
-                    <AddNewOwnersInput />
+                    <AddNewOwnersInput
+                        ownersData={ownersData}
+                        requestedOwnersData={requestedOwnersData}
+                    />
                     <Heading3>Personer med tilgang</Heading3>
-                    <BoardOwnersList />
+                    <BoardOwnersList
+                        documentId={documentId}
+                        ownersData={ownersData}
+                        requestedOwnersData={requestedOwnersData}
+                        ownerRequests={ownerRequests}
+                    />
                 </GridItem>
             </GridContainer>
 

@@ -6,6 +6,7 @@ import {
     deleteDocument,
     updateMultipleSettingsFields,
 } from '../services/firebase'
+import { BoardOwnersData, OwnerRequest } from '../types'
 
 import { Settings } from './index'
 
@@ -16,6 +17,7 @@ export type FieldTypes =
     | string[]
     | GeoPoint
     | { [key: string]: string[] }
+    | OwnerRequest[]
     | null
 
 export function persistSingleField(

@@ -1,80 +1,50 @@
 import React, { useEffect, useState } from 'react'
 
-import { DocumentSnapshot } from '@firebase/firestore'
-
 import { Table, TableHead, TableRow, HeaderCell, TableBody } from '@entur/table'
 
 import { useUser } from '../../../../auth'
-import {
-    getBoardOnSnapshot,
-    getOwnerEmailsByUIDs,
-} from '../../../../services/firebase'
+
 import { useSettingsContext } from '../../../../settings'
-import type { BoardOwnersData } from '../../../../types'
-import { getDocumentId } from '../../../../utils'
+import type { BoardOwnersData, OwnerRequest } from '../../../../types'
 
 import { SharedWithRows } from './SharedWithRows'
+import { updateSingleSettingsField } from '../../../../services/firebase'
 
-export const BoardOwnersList = (): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
-    const {
-        ownerRequestRecipients,
-        ownerRequests,
-        owners = [],
-    } = settings || {}
+export const BoardOwnersList = ({
+    documentId,
+    ownersData,
+    requestedOwnersData,
+    ownerRequests,
+}: Props): JSX.Element => {
+    const setSettings = useSettingsContext()[1]
     const user = useUser()
 
-    const [ownersData, setOwnersData] = useState<BoardOwnersData[]>([])
-    const [requestedOwnersData, setRequestedOwnersData] = useState<
-        BoardOwnersData[]
-    >([])
-
-    const documentId = getDocumentId()
-
-    useEffect(() => {
-        const unsubscribeOwners = getBoardOnSnapshot(documentId, {
-            next: (documentSnapshot: DocumentSnapshot) => {
-                if (!documentSnapshot.exists) return
-                if (documentSnapshot.metadata.hasPendingWrites) return
-                getOwnerEmailsByUIDs(documentSnapshot.data()?.owners).then(
-                    (data) => setOwnersData(data),
-                )
-            },
-            error: () => setOwnersData([{ uid: '', email: '' }]),
-        })
-
-        const unsubscribeRequests = getBoardOnSnapshot(documentId, {
-            next: (documentSnapshot: DocumentSnapshot) => {
-                if (!documentSnapshot.exists) return
-                if (documentSnapshot.metadata.hasPendingWrites) return
-                getOwnerEmailsByUIDs(
-                    documentSnapshot.data()?.ownerRequestRecipients,
-                ).then((data) => setRequestedOwnersData(data))
-            },
-            error: () => setRequestedOwnersData([{ uid: '', email: '' }]),
-        })
-
-        return () => {
-            unsubscribeOwners()
-            unsubscribeRequests()
-        }
-    }, [documentId])
+    const owners: string[] = ownersData.map(
+        (owner: BoardOwnersData) => owner.uid,
+    )
+    const ownerRequestRecipients: string[] = requestedOwnersData.map(
+        (reqestedOwner: BoardOwnersData) => reqestedOwner.uid,
+    )
 
     const onRemoveOwnerFromBoard = (UIDToRemove: string): void => {
-        setSettings({
-            owners: owners?.filter((ownerUID) => ownerUID !== UIDToRemove),
-        })
+        updateSingleSettingsField(
+            documentId,
+            'owners',
+            owners.filter((ownerUID) => ownerUID !== UIDToRemove),
+        )
     }
 
     const onRemoveOwnerRequestFromBoard = (uid: string): void => {
-        setSettings({
-            ownerRequestRecipients: ownerRequestRecipients?.filter(
-                (recipient) => recipient !== uid,
-            ),
-            ownerRequests: ownerRequests?.filter(
-                (req) => req.recipientUID !== uid,
-            ),
-        })
+        updateSingleSettingsField(
+            documentId,
+            'ownerRequestRecipients',
+            ownerRequestRecipients.filter((recipient) => recipient !== uid),
+        )
+        updateSingleSettingsField(
+            documentId,
+            'ownerRequests',
+            ownerRequests.filter((req) => req.recipientUID !== uid),
+        )
     }
 
     return (
@@ -104,6 +74,13 @@ export const BoardOwnersList = (): JSX.Element => {
             </TableBody>
         </Table>
     )
+}
+
+interface Props {
+    documentId: string
+    ownersData: BoardOwnersData[]
+    requestedOwnersData: BoardOwnersData[]
+    ownerRequests: OwnerRequest[]
 }
 
 export default BoardOwnersList
