@@ -82,11 +82,11 @@ const CustomURL = (): JSX.Element => {
             const isOwner = await userIsOwner(currentDoc, user?.uid)
             if (!isOwner) throw new Error()
 
-            const sucessfullCopy = await copySettingsToNewId(
+            const successfullCopy = await copySettingsToNewId(
                 customUrlInput,
                 getDocumentId() ?? '',
             )
-            if (sucessfullCopy) {
+            if (successfullCopy) {
                 setIdToBeDeleted(currentDoc)
                 handleNewIdVisuals()
                 logEvent(analytics, 'create_custom_url')

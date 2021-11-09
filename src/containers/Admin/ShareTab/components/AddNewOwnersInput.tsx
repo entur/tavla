@@ -58,7 +58,9 @@ export const AddNewOwnersInput = ({
             setInputFeedbackMessage(inputFeedback.NOT_VALID_EMAIL)
             return
         }
+
         const uidResponse = await getOwnerUIDByEmail(newOwnerInput)
+
         if (typeof uidResponse === 'string') {
             setInputFeedbackMessageType(inputFeedbackType.FAILURE)
             setInputFeedbackMessage(inputFeedback.EMAIL_UNAVAILABLE)

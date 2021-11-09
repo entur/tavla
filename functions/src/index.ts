@@ -110,22 +110,19 @@ export const getEmailsByUIDs = https.onCall(async (data, context) => {
 
     const ownerUIDs = data.ownersList.map((id: string) => ({ uid: id }))
 
-    const ownersData = await auth()
-        .getUsers(ownerUIDs)
-        .then((usersResult) =>
-            usersResult.users.map((user) => ({
-                uid: user.uid,
-                email: user.email,
-            })),
+    try {
+        const usersResult = await auth().getUsers(ownerUIDs)
+        const ownersData = usersResult.users.map((user) => ({
+            uid: user.uid,
+            email: user.email,
+        }))
+        return ownersData
+    } catch {
+        throw new https.HttpsError(
+            'invalid-argument',
+            'Could not get requested email addresses.',
         )
-        .catch((error) => {
-            throw new https.HttpsError(
-                'invalid-argument',
-                'Could not get requested email addresses.',
-            )
-        })
-
-    return ownersData
+    }
 })
 
 export const getUIDByEmail = https.onCall(async (data, context) => {
@@ -136,15 +133,17 @@ export const getUIDByEmail = https.onCall(async (data, context) => {
         )
     }
 
-    const ownerData = await auth()
-        .getUserByEmail(data.email)
-        .then((userResult) => ({
+    try {
+        const userResult = await auth().getUserByEmail(data.email)
+        const ownerData = {
             uid: userResult.uid,
             email: userResult.email,
-        }))
-        .catch(() => 'Failed')
+        }
 
-    return ownerData
+        return ownerData
+    } catch {
+        return 'Failed'
+    }
 })
 
 interface OwnerRequest {
