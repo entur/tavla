@@ -139,8 +139,10 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 <GridItem small={12} medium={12} large={6}>
                     <Heading3>Legg til eier av tavlen</Heading3>
                     <AddNewOwnersInput
+                        documentId={documentId}
                         ownersData={ownersData}
                         requestedOwnersData={requestedOwnersData}
+                        ownerRequests={ownerRequests}
                     />
                     <Heading3>Personer med tilgang</Heading3>
                     <BoardOwnersList

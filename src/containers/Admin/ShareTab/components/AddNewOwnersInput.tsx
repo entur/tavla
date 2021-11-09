@@ -5,10 +5,12 @@ import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 
-import { useSettingsContext } from '../../../../settings'
-import { getOwnerUIDByEmail } from '../../../../services/firebase'
+import {
+    getOwnerUIDByEmail,
+    updateSingleSettingsField,
+} from '../../../../services/firebase'
 import { useUser } from '../../../../auth'
-import { BoardOwnersData } from '../../../../types'
+import { BoardOwnersData, OwnerRequest } from '../../../../types'
 
 enum inputFeedback {
     NOT_VALID_EMAIL = 'Ugyldig: Du har ikke skrevet en gylig e-postadresse.',
@@ -25,10 +27,11 @@ enum inputFeedbackType {
 }
 
 export const AddNewOwnersInput = ({
+    documentId,
     ownersData,
     requestedOwnersData,
+    ownerRequests,
 }: Props): JSX.Element => {
-    const setSettings = useSettingsContext()[1]
     const user = useUser()
 
     const [newOwnerInput, setNewOwnerInput] = useState<string>('')
@@ -37,6 +40,13 @@ export const AddNewOwnersInput = ({
     )
     const [inputFeedbackMessageType, setInputFeedbackMessageType] = useState(
         inputFeedbackType.CLEAR,
+    )
+
+    const owners: string[] = ownersData.map(
+        (owner: BoardOwnersData) => owner.uid,
+    )
+    const ownerRequestRecipients: string[] = requestedOwnersData.map(
+        (reqestedOwner: BoardOwnersData) => reqestedOwner.uid,
     )
 
     const EMAIL_REGEX =
@@ -53,12 +63,6 @@ export const AddNewOwnersInput = ({
             setInputFeedbackMessageType(inputFeedbackType.FAILURE)
             setInputFeedbackMessage(inputFeedback.EMAIL_UNAVAILABLE)
         } else {
-            const owners: string[] = ownersData.map(
-                (owner: BoardOwnersData) => owner.uid,
-            )
-            const ownerRequestRecipients: string[] = requestedOwnersData.map(
-                (reqestedOwner: BoardOwnersData) => reqestedOwner.uid,
-            )
             if (
                 ownerRequestRecipients.includes(uidResponse.uid) ||
                 owners.includes(uidResponse.uid)
@@ -66,18 +70,28 @@ export const AddNewOwnersInput = ({
                 setInputFeedbackMessageType(inputFeedbackType.FAILURE)
                 setInputFeedbackMessage(inputFeedback.AlREADY_ADDED)
             } else if (user) {
-                setSettings({
-                    ownerRequestRecipients: [
-                        ...ownerRequestRecipients,
-                        uidResponse.uid,
-                    ],
-                    ownerRequests: [
-                        {
-                            recipientUID: uidResponse.uid,
-                            requestIssuerUID: user.uid,
-                        },
-                    ],
-                })
+                try {
+                    await updateSingleSettingsField(
+                        documentId,
+                        'ownerRequestRecipients',
+                        [...ownerRequestRecipients, uidResponse.uid],
+                    )
+                    await updateSingleSettingsField(
+                        documentId,
+                        'ownerRequests',
+                        [
+                            ...ownerRequests,
+                            {
+                                recipientUID: uidResponse.uid,
+                                requestIssuerUID: user.uid,
+                            },
+                        ],
+                    )
+                } catch {
+                    throw new Error(
+                        'Write error: could not add new owner request to board.',
+                    )
+                }
                 setInputFeedbackMessageType(inputFeedbackType.SUCCESS)
                 setInputFeedbackMessage(inputFeedback.REQUEST_SENT)
                 setNewOwnerInput('')
@@ -123,8 +137,10 @@ export const AddNewOwnersInput = ({
 }
 
 interface Props {
+    documentId: string
     ownersData: BoardOwnersData[]
     requestedOwnersData: BoardOwnersData[]
+    ownerRequests: OwnerRequest[]
 }
 
 export default AddNewOwnersInput

@@ -25,25 +25,39 @@ export const BoardOwnersList = ({
         (reqestedOwner: BoardOwnersData) => reqestedOwner.uid,
     )
 
-    const onRemoveOwnerFromBoard = (UIDToRemove: string): void => {
-        updateSingleSettingsField(
-            documentId,
-            'owners',
-            owners.filter((ownerUID) => ownerUID !== UIDToRemove),
-        )
+    const onRemoveOwnerFromBoard = async (
+        UIDToRemove: string,
+    ): Promise<void> => {
+        try {
+            await updateSingleSettingsField(
+                documentId,
+                'owners',
+                owners.filter((ownerUID) => ownerUID !== UIDToRemove),
+            )
+        } catch {
+            throw new Error('Write error: could not remove owner from board.')
+        }
     }
 
-    const onRemoveOwnerRequestFromBoard = (uid: string): void => {
-        updateSingleSettingsField(
-            documentId,
-            'ownerRequestRecipients',
-            ownerRequestRecipients.filter((recipient) => recipient !== uid),
-        )
-        updateSingleSettingsField(
-            documentId,
-            'ownerRequests',
-            ownerRequests.filter((req) => req.recipientUID !== uid),
-        )
+    const onRemoveOwnerRequestFromBoard = async (
+        UIDToRemove: string,
+    ): Promise<void> => {
+        try {
+            await updateSingleSettingsField(
+                documentId,
+                'ownerRequestRecipients',
+                ownerRequestRecipients.filter(
+                    (recipient) => recipient !== UIDToRemove,
+                ),
+            )
+            await updateSingleSettingsField(
+                documentId,
+                'ownerRequests',
+                ownerRequests.filter((req) => req.recipientUID !== UIDToRemove),
+            )
+        } catch {
+            throw new Error('Write error: could not remove request from board.')
+        }
     }
 
     return (
