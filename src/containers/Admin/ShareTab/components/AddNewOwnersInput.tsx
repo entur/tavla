@@ -13,11 +13,11 @@ import { useUser } from '../../../../auth'
 import { BoardOwnersData, OwnerRequest } from '../../../../types'
 
 enum inputFeedback {
-    NOT_VALID_EMAIL = 'Ugyldig: Du har ikke skrevet en gylig e-postadresse.',
+    NOT_VALID_EMAIL = 'Ugyldig: Du har ikke skrevet en gyldig e-postadresse.',
     EMAIL_UNAVAILABLE = 'Ikke funnet: Ingen bruker med denne e-postadressen ble funnet.',
-    OWN_EMAIL_ADDED = 'Du er allerede medlem av denne tavlen.',
+    OWN_EMAIL_ADDED = 'Du er allerede en eier av denne tavlen.',
     AlREADY_ADDED = 'Denne brukeren er allerede lagt til.',
-    REQUEST_SENT = 'Forespørel om eierskap i tavla ble sendt!',
+    REQUEST_SENT = 'Forespørsel om eierskap i tavla ble sendt!',
     NOTHING = '',
 }
 
