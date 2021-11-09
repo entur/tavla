@@ -20,6 +20,7 @@ import type {
     DocumentReference,
     QuerySnapshot,
     GeoPoint,
+    DocumentData,
 } from 'firebase/firestore'
 
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
@@ -180,16 +181,20 @@ export const uploadLogo = async (
 
 export const copySettingsToNewId = async (
     newDocId: string,
-    settings: Settings | null,
+    currentDocId: string,
 ): Promise<boolean> => {
-    if (!settings) return false
-
+    const currentDocRef: DocumentReference = getSettingsReference(currentDocId)
     const newDocRef: DocumentReference = getSettingsReference(newDocId)
 
     try {
-        const document = await getDoc(newDocRef)
-        if (document.exists()) {
-            if (document.data().isScheduledForDelete) {
+        const copyFromDocument = await getDoc(currentDocRef)
+        if (!copyFromDocument.exists()) return false
+        const settings = copyFromDocument.data() as Settings
+
+        const copyToDocument = await getDoc(newDocRef)
+
+        if (copyToDocument.exists()) {
+            if (copyToDocument.data().isScheduledForDelete) {
                 await deleteDoc(newDocRef)
                 await createSettingsWithId(settings, newDocId)
                 return true
@@ -280,4 +285,18 @@ export const answerBoardInvitation = async (
         recipientUID,
         accept,
     } as UploadData)
+}
+
+export const userIsOwner = async (
+    documentId: string,
+    userUID: string | undefined,
+): Promise<boolean> => {
+    try {
+        const documentRef: DocumentReference = getSettingsReference(documentId)
+        const document = await getDoc(documentRef)
+        const settings: DocumentData | undefined = document.data()
+        return settings?.owners?.includes(userUID) as boolean
+    } catch {
+        return false
+    }
 }
