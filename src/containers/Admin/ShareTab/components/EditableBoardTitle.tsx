@@ -6,8 +6,12 @@ import { Tooltip } from '@entur/tooltip'
 import { Heading2 } from '@entur/typography'
 
 import { useSettingsContext } from '../../../../settings'
+import { updateSingleSettingsField } from '../../../../services/firebase'
 
-export const EditableBoardTitle = (): JSX.Element => {
+export const EditableBoardTitle = ({
+    boardName,
+    documentId,
+}: Props): JSX.Element => {
     const [settings, setSettings] = useSettingsContext()
 
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
@@ -15,10 +19,18 @@ export const EditableBoardTitle = (): JSX.Element => {
         settings?.boardName as string,
     )
 
-    const onChangeTitle = () => {
+    const onChangeTitle = async () => {
         setTitleEditMode(false)
-        if (newBoardName === settings?.boardName) return
-        setSettings({ boardName: newBoardName })
+        if (newBoardName === boardName) return
+        try {
+            await updateSingleSettingsField(
+                documentId,
+                'boardName',
+                newBoardName,
+            )
+        } catch {
+            throw new Error('Could not change board name.')
+        }
     }
 
     if (titleEditMode) {
@@ -26,7 +38,7 @@ export const EditableBoardTitle = (): JSX.Element => {
             <span className="share-page__title">
                 <input
                     className="share-page__title--input"
-                    defaultValue={settings?.boardName}
+                    defaultValue={boardName}
                     autoFocus={true}
                     onChange={(e) => setNewBoardName(e.currentTarget.value)}
                     onKeyUp={(e): void => {
@@ -54,7 +66,7 @@ export const EditableBoardTitle = (): JSX.Element => {
     } else
         return (
             <Heading2 className="share-page__title" margin="none" as="span">
-                {settings?.boardName}
+                {boardName}
                 <Tooltip placement="bottom" content="Endre navn">
                     <IconButton
                         onClick={() => setTitleEditMode(true)}
@@ -65,6 +77,11 @@ export const EditableBoardTitle = (): JSX.Element => {
                 </Tooltip>
             </Heading2>
         )
+}
+
+interface Props {
+    documentId: string
+    boardName: string
 }
 
 export default EditableBoardTitle

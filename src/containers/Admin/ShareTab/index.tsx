@@ -43,6 +43,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         BoardOwnersData[]
     >([])
     const [ownerRequests, setOwnerRequests] = useState<OwnerRequest[]>([])
+    const [boardName, setboardName] = useState<string>('')
 
     const documentId = getDocumentId()
 
@@ -85,6 +86,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                     documentSnapshot.data()?.ownerRequestRecipients,
                 ).then((data) => setRequestedOwnersData(data))
                 setOwnerRequests(documentSnapshot.data()?.ownerRequests)
+                setboardName(documentSnapshot.data()?.boardName)
             },
             error: () => {
                 setOwnersData([])
@@ -122,9 +124,12 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                     large={6}
                     style={{ marginBottom: '1rem' }}
                 >
-                    <EditableBoardTitle />
+                    <EditableBoardTitle
+                        documentId={documentId}
+                        boardName={boardName}
+                    />
                     <BoardLink boardID={documentId} />
-                    {owners?.length > 1 && (
+                    {ownersData.length > 1 && (
                         <NegativeButton
                             onClick={() => {
                                 setRemoveSelfModalOpen(true)
