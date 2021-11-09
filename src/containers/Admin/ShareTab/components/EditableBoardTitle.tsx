@@ -1,23 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { IconButton } from '@entur/button'
 import { CheckIcon, CloseIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading2 } from '@entur/typography'
 
-import { useSettingsContext } from '../../../../settings'
 import { updateSingleSettingsField } from '../../../../services/firebase'
 
 export const EditableBoardTitle = ({
     boardName,
     documentId,
 }: Props): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
-
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
-    const [newBoardName, setNewBoardName] = useState<string>(
-        settings?.boardName as string,
-    )
+    const [newBoardName, setNewBoardName] = useState<string>(boardName)
+
+    useEffect(() => {
+        setNewBoardName(boardName)
+    }, [boardName])
 
     const onChangeTitle = async () => {
         setTitleEditMode(false)
