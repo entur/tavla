@@ -15,6 +15,7 @@ import { BoardOwnersData, OwnerRequest } from '../../../../types'
 enum inputFeedback {
     NOT_VALID_EMAIL = 'Ugyldig: Du har ikke skrevet en gylig e-postadresse.',
     EMAIL_UNAVAILABLE = 'Ikke funnet: Ingen bruker med denne e-postadressen ble funnet.',
+    OWN_EMAIL_ADDED = 'Du er allerede medlem av denne tavlen.',
     AlREADY_ADDED = 'Denne brukeren er allerede lagt til.',
     REQUEST_SENT = 'Forespørel om eierskap i tavla ble sendt!',
     NOTHING = '',
@@ -70,7 +71,11 @@ export const AddNewOwnersInput = ({
                 owners.includes(uidResponse.uid)
             ) {
                 setInputFeedbackMessageType(inputFeedbackType.FAILURE)
-                setInputFeedbackMessage(inputFeedback.AlREADY_ADDED)
+                if (uidResponse.uid === user?.uid) {
+                    setInputFeedbackMessage(inputFeedback.OWN_EMAIL_ADDED)
+                } else {
+                    setInputFeedbackMessage(inputFeedback.AlREADY_ADDED)
+                }
             } else if (user) {
                 try {
                     await updateSingleSettingsField(

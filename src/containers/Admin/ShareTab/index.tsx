@@ -144,7 +144,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                         requestedOwnersData={requestedOwnersData}
                         ownerRequests={ownerRequests}
                     />
-                    <Heading3>Personer med tilgang</Heading3>
+                    <Heading3>Andre personer med tilgang</Heading3>
                     <BoardOwnersList
                         documentId={documentId}
                         ownersData={ownersData}
