@@ -10,7 +10,6 @@ import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 
 import { removeFromOwners } from '../../settings/FirestoreStorage'
-import { useSettingsContext } from '../../settings'
 
 import CloseButton from './LoginModal/CloseButton/CloseButton'
 
@@ -21,41 +20,24 @@ const RemoveSelfFromTavleModal = ({
     onDismiss,
     id,
     uid,
-    settingsContextAvailable = false,
 }: Props): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
     const { addToast } = useToast()
 
     const onRemoveSelfFromTavle = useCallback(
         (remove: boolean) => {
             if (remove) {
-                if (settingsContextAvailable) {
-                    setSettings({
-                        owners: settings?.owners?.filter(
-                            (ownerUID) => ownerUID != uid,
-                        ),
-                    })
-                } else {
-                    removeFromOwners(id, uid)
-                }
+                removeFromOwners(id, uid)
                 addToast({
                     title: 'Du ble fjernet fra tavla.',
                     content:
                         'Du er ikke lenger en eier av denne tavla og vil ikke ha mulighet til å gjøre endringer i den.',
                     variant: 'success',
                 })
+                window.location.reload()
             }
             onDismiss()
         },
-        [
-            id,
-            uid,
-            onDismiss,
-            addToast,
-            settingsContextAvailable,
-            settings?.owners,
-            setSettings,
-        ],
+        [id, uid, onDismiss, addToast],
     )
 
     return (
@@ -108,5 +90,4 @@ interface Props {
     onDismiss: () => void
     id: string
     uid: string
-    settingsContextAvailable?: boolean
 }

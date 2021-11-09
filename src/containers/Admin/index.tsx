@@ -28,10 +28,10 @@ const AdminPage = (): JSX.Element => {
     const [settings] = useSettingsContext()
 
     const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon inline />
-    const lockIconShareTab = (user?.isAnonymous ||
-        !settings?.owners?.includes(user?.uid ?? '')) && (
-        <ClosedLockIcon inline />
-    )
+    const lockIconShareTab = user &&
+        (user.isAnonymous || !settings?.owners?.includes(user.uid)) && (
+            <ClosedLockIcon inline />
+        )
 
     const { theme } = settings || {}
 

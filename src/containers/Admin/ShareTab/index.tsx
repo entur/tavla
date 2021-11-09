@@ -164,7 +164,6 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 onDismiss={() => setRemoveSelfModalOpen(false)}
                 id={documentId}
                 uid={user?.uid ?? ''}
-                settingsContextAvailable={true}
             />
             <LoginModal
                 onDismiss={handleDismissLoginModal}
