@@ -1,4 +1,4 @@
-import { GeoPoint } from 'firebase/firestore'
+import type { GeoPoint } from 'firebase/firestore'
 
 import {
     updateSingleSettingsField,
