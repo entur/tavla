@@ -53,7 +53,7 @@ const NeedToBeOwnerModal = ({ open, onDismiss, uid }: Props): JSX.Element => {
             <div className="centered">
                 <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>
-            <Heading3 margin="none">Kun eiere kan dele en tavle.</Heading3>
+            <Heading3 margin="none">Kun eiere kan dele en tavle</Heading3>
             <Paragraph>
                 For å dele tavla må du være en eier av den. Lås tavla til din
                 konto for å bli eier.
