@@ -55,7 +55,7 @@ const NeedToBeOwnerModal = ({ open, onDismiss, uid }: Props): JSX.Element => {
             </div>
             <Heading3 margin="none">Kun eiere kan dele en tavle.</Heading3>
             <Paragraph>
-                For å dele tavlen må du være en eier av den. Lås tavlen til din
+                For å dele tavla må du være en eier av den. Lås tavla til din
                 konto for å bli eier.
             </Paragraph>
 
@@ -67,7 +67,7 @@ const NeedToBeOwnerModal = ({ open, onDismiss, uid }: Props): JSX.Element => {
                         onClick={(): void => addOwnerToTavle(true)}
                         className="modal-submit"
                     >
-                        Lås tavlen til min konto
+                        Lås tavla til min konto
                     </PrimaryButton>
                 </GridItem>
             </GridContainer>

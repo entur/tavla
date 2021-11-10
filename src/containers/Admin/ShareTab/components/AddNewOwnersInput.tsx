@@ -15,7 +15,7 @@ import { BoardOwnersData, OwnerRequest } from '../../../../types'
 enum inputFeedback {
     NOT_VALID_EMAIL = 'Ugyldig: Du har ikke skrevet en gyldig e-postadresse.',
     EMAIL_UNAVAILABLE = 'Ikke funnet: Ingen bruker med denne e-postadressen ble funnet.',
-    OWN_EMAIL_ADDED = 'Du er allerede en eier av denne tavlen.',
+    OWN_EMAIL_ADDED = 'Du er allerede en eier av denne tavla.',
     AlREADY_ADDED = 'Denne brukeren er allerede lagt til.',
     REQUEST_SENT = 'Forespørsel om eierskap i tavla ble sendt!',
     NOTHING = '',

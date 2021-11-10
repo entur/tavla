@@ -129,7 +129,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         <div className="share-page">
             <Heading2 className="heading">Del din tavle med andre</Heading2>
             <Paragraph>
-                Denne siden lar deg dele den låste tavlen din med andre, slik at
+                Denne siden lar deg dele den låste tavla di med andre, slik at
                 dere kan samarbeide på
                 {String.fromCharCode(160)}den.
             </Paragraph>
@@ -153,12 +153,12 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                             width="auto"
                             size="medium"
                         >
-                            Fjern meg fra tavlen
+                            Fjern meg fra tavla
                         </NegativeButton>
                     )}
                 </GridItem>
                 <GridItem small={12} medium={12} large={6}>
-                    <Heading3>Legg til eier av tavlen</Heading3>
+                    <Heading3>Legg til eier av tavla</Heading3>
                     <AddNewOwnersInput
                         documentId={documentId}
                         ownersData={ownersData}
