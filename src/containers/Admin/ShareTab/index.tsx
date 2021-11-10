@@ -10,7 +10,6 @@ import { NegativeButton } from '@entur/button'
 
 import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
-import { useSettingsContext } from '../../../settings'
 import {
     getBoardOnSnapshot,
     getOwnerEmailsByUIDs,
@@ -29,8 +28,6 @@ import BoardOwnersList from './components/BoardOwnersList'
 import './styles.scss'
 
 const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
-    const [settings] = useSettingsContext()
-    const { owners = [] } = settings || {}
     const user = useUser()
 
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
@@ -65,14 +62,17 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         }
 
         if (user && !user.isAnonymous) {
-            if (tabIndex === 5 && !owners.includes(user.uid)) {
+            if (
+                tabIndex === 5 &&
+                !ownersData.some((owner) => owner.uid === user.uid)
+            ) {
                 setNeedToBeOwnerModalOpen(true)
             } else {
                 setLoginModalOpen(false)
                 setNeedToBeOwnerModalOpen(false)
             }
         }
-    }, [user, owners, tabIndex, setTabIndex])
+    }, [user, ownersData, tabIndex, setTabIndex])
 
     useEffect(() => {
         const unsubscribeBoard = getBoardOnSnapshot(documentId, {
