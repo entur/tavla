@@ -100,7 +100,7 @@ export const scheduledDeleteOfDocumentsSetToBeDeleted = region('us-central1')
         return null
     })
 
-export const getEmailsByUIDs = https.onCall(async (data, context) => {
+export const getOwnersDataByUIDs = https.onCall(async (data, context) => {
     if (!context.auth) {
         throw new https.HttpsError(
             'failed-precondition',
@@ -125,7 +125,7 @@ export const getEmailsByUIDs = https.onCall(async (data, context) => {
     }
 })
 
-export const getUIDByEmail = https.onCall(async (data, context) => {
+export const getOwnerDataByEmail = https.onCall(async (data, context) => {
     if (!context.auth) {
         throw new https.HttpsError(
             'failed-precondition',

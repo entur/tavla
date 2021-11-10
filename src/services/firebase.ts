@@ -212,53 +212,59 @@ export const copySettingsToNewId = async (
 export const setIdToBeDeleted = (docId: string): Promise<void> =>
     updateSingleSettingsField(docId, 'isScheduledForDelete', true)
 
-export const getOwnerEmailsByUIDs = async (
+export const getOwnersDataByUIDs = async (
     ownersList: string[],
 ): Promise<BoardOwnersData[]> => {
     interface UploadData {
         ownersList: string[]
     }
 
-    const getEmailsByUIDs = httpsCallable<UploadData, BoardOwnersData[]>(
-        functions,
-        'getEmailsByUIDs',
-    )
+    const getOwnersDataByUIDsFunction = httpsCallable<
+        UploadData,
+        BoardOwnersData[]
+    >(functions, 'getOwnersDataByUIDs')
 
-    const response = await getEmailsByUIDs({ ownersList } as UploadData)
+    const response = await getOwnersDataByUIDsFunction({
+        ownersList,
+    } as UploadData)
     const ownerData: BoardOwnersData[] = response.data
 
     return ownerData
 }
 
-export const getEmailByUID = async (uid: string): Promise<BoardOwnersData> => {
+export const getOwnerDataByUID = async (
+    uid: string,
+): Promise<BoardOwnersData> => {
     interface UploadData {
         ownersList: string[]
     }
 
-    const getEmailsByUIDs = httpsCallable<UploadData, BoardOwnersData[]>(
-        functions,
-        'getEmailsByUIDs',
-    )
+    const getOwnersDataByUIDsFunction = httpsCallable<
+        UploadData,
+        BoardOwnersData[]
+    >(functions, 'getOwnersDataByUIDs')
 
-    const response = await getEmailsByUIDs({ ownersList: [uid] } as UploadData)
+    const response = await getOwnersDataByUIDsFunction({
+        ownersList: [uid],
+    } as UploadData)
     const ownerData: BoardOwnersData = response.data[0]
 
     return ownerData
 }
 
-export const getOwnerUIDByEmail = async (
+export const getOwnerDataByEmail = async (
     email: string,
 ): Promise<string | BoardOwnersData> => {
     interface UploadData {
         email: string
     }
 
-    const getUIDsByEmail = httpsCallable<UploadData, BoardOwnersData | string>(
-        functions,
-        'getUIDByEmail',
-    )
+    const getOwnerDataByEmailFunction = httpsCallable<
+        UploadData,
+        BoardOwnersData | string
+    >(functions, 'getOwnerDataByEmail')
 
-    const response = await getUIDsByEmail({ email } as UploadData)
+    const response = await getOwnerDataByEmailFunction({ email } as UploadData)
     const ownerData: BoardOwnersData | string = response.data
 
     return ownerData

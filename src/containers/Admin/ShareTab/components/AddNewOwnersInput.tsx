@@ -6,7 +6,7 @@ import { AddIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 
 import {
-    getOwnerUIDByEmail,
+    getOwnerDataByEmail,
     updateSingleSettingsField,
 } from '../../../../services/firebase'
 import { useUser } from '../../../../auth'
@@ -60,7 +60,7 @@ export const AddNewOwnersInput = ({
             return
         }
 
-        const uidResponse = await getOwnerUIDByEmail(newOwnerInput)
+        const uidResponse = await getOwnerDataByEmail(newOwnerInput)
 
         if (typeof uidResponse === 'string') {
             setInputFeedbackMessageType(inputFeedbackType.FAILURE)

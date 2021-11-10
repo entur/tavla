@@ -12,7 +12,7 @@ import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
 import {
     getBoardOnSnapshot,
-    getOwnerEmailsByUIDs,
+    getOwnersDataByUIDs,
 } from '../../../services/firebase'
 import { BoardOwnersData, OwnerRequest } from '../../../types'
 
@@ -79,12 +79,28 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             next: (documentSnapshot: DocumentSnapshot) => {
                 if (!documentSnapshot.exists) return
                 if (documentSnapshot.metadata.hasPendingWrites) return
-                getOwnerEmailsByUIDs(documentSnapshot.data()?.owners).then(
-                    (data) => setOwnersData(data),
-                )
-                getOwnerEmailsByUIDs(
-                    documentSnapshot.data()?.ownerRequestRecipients,
-                ).then((data) => setRequestedOwnersData(data))
+
+                const owners: string[] = documentSnapshot.data()?.owners || []
+                const ownerRequestRecipients: string[] =
+                    documentSnapshot.data()?.ownerRequestRecipients || []
+
+                getOwnersDataByUIDs([
+                    ...owners,
+                    ...ownerRequestRecipients,
+                ]).then((ownersAndRequestsList: BoardOwnersData[]) => {
+                    const newOwnersData = ownersAndRequestsList.filter(
+                        (owner: BoardOwnersData) => owners.includes(owner.uid),
+                    )
+                    const newRequestedOwnersData = ownersAndRequestsList.filter(
+                        (requestRecipient: BoardOwnersData) =>
+                            ownerRequestRecipients.includes(
+                                requestRecipient.uid,
+                            ),
+                    )
+
+                    setOwnersData(newOwnersData)
+                    setRequestedOwnersData(newRequestedOwnersData)
+                })
                 setOwnerRequests(documentSnapshot.data()?.ownerRequests)
                 setboardName(documentSnapshot.data()?.boardName)
             },

@@ -5,7 +5,7 @@ import type { DocumentData } from 'firebase/firestore'
 import { Contrast } from '@entur/layout'
 
 import { useUser } from '../../../auth'
-import { getEmailByUID } from '../../../services/firebase'
+import { getOwnerDataByUID } from '../../../services/firebase'
 import type { Board, SharedBoardProps } from '../../../types'
 
 import { NoSharedTavlerAvailable } from '../../Error/ErrorPages'
@@ -34,7 +34,7 @@ const SharedBoards = ({ requestedBoards }: Props): JSX.Element => {
             const replaceUIDWithEmail = await Promise.all(
                 filterData.map(async (request: SharedBoardProps) => {
                     const sharedByEmail = await (
-                        await getEmailByUID(request.sharedBy)
+                        await getOwnerDataByUID(request.sharedBy)
                     ).email
                     return {
                         ...request,
