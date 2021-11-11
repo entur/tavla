@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import type { DocumentData, Timestamp } from 'firebase/firestore'
+import type {
+    DocumentData,
+    DocumentSnapshot,
+    Timestamp,
+} from 'firebase/firestore'
 
 import { Contrast } from '@entur/layout'
 import { Heading2, Heading3 } from '@entur/typography'
@@ -31,7 +35,7 @@ function sortBoard(boards: BoardProps[]): BoardProps[] {
 const filterBoards = (boards: BoardProps[]): BoardProps[] =>
     boards.filter((board) => !board.data.isScheduledForDelete)
 
-const MyBoards = ({ history }: Props): JSX.Element | null => {
+const MyBoards = (): JSX.Element | null => {
     const [boards, setBoards] = useState<DocumentData>()
     const user = useUser()
     const preview = ThemeDashboardPreview(Theme.DEFAULT)
@@ -46,11 +50,11 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
             next: (querySnapshot) => {
                 if (querySnapshot.metadata.hasPendingWrites) return
                 const updatedBoards = querySnapshot.docs.map(
-                    (docSnapshot: any) =>
+                    (docSnapshot: DocumentSnapshot) =>
                         ({
                             data: docSnapshot.data(),
-                            lastmodified: docSnapshot.data().lastmodified,
-                            created: docSnapshot.data().created,
+                            lastmodified: docSnapshot.data()?.lastmodified,
+                            created: docSnapshot.data()?.created,
                             id: docSnapshot.id,
                         } as BoardProps),
                 )
@@ -72,7 +76,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
         return <NoAccessToTavler />
     }
     if (!boards.length) {
-        return <NoTavlerAvailable history={history} />
+        return <NoTavlerAvailable />
     }
 
     return (
@@ -90,7 +94,6 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                             timestamp={board.lastmodified}
                             created={board.created}
                             settings={board.data}
-                            history={history}
                         />
                     ))}
                     <Link to="/">
@@ -124,10 +127,6 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
             </div>
         </Contrast>
     )
-}
-
-interface Props {
-    history: any
 }
 
 interface BoardProps {

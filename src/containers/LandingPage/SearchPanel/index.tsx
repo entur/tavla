@@ -15,6 +15,7 @@ const YOUR_POSITION = 'Posisjonen din'
 interface Item {
     value: string
     label: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     icons?: Array<React.ComponentType<any>>
     coordinates?: Coordinates
 }

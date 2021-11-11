@@ -19,11 +19,11 @@ import TimelineGrey from '../previews/previewGrey/Tidslinje-grey.svg'
 import MapGrey from '../previews/previewGrey/Kart-grey.svg'
 import BusStopGrey from '../previews/previewGrey/Holdeplass-gray.svg'
 
-import { Theme } from '../../types'
+import { GenericKeyValueObject, Theme } from '../../types'
 
-export function ThemeDashboardPreview(theme: Theme | undefined): {
-    [key: string]: any
-} {
+export function ThemeDashboardPreview(
+    theme: Theme | undefined,
+): GenericKeyValueObject {
     switch (theme) {
         case Theme.DARK:
             return {

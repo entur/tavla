@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react'
-import { Route, Switch, Router, useLocation } from 'react-router-dom'
+import {
+    Route,
+    Switch,
+    BrowserRouter as Router,
+    useLocation,
+} from 'react-router-dom'
 
 import PWAPrompt from 'react-ios-pwa-prompt'
 
@@ -260,11 +265,11 @@ const Content = (): JSX.Element => {
 }
 
 interface Props {
-    history: any
+    history: History
 }
 
-const App = ({ history }: Props): JSX.Element => (
-    <Router history={history}>
+const App = (): JSX.Element => (
+    <Router>
         <Content />
     </Router>
 )

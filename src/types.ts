@@ -1,5 +1,9 @@
 import { TransportMode, TransportSubmode, StopPlace, Quay } from '@entur/sdk'
 
+export interface GenericKeyValueObject {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any
+}
 export interface LineData {
     id: string
     type: TransportMode
@@ -54,4 +58,14 @@ export enum Theme {
 export enum IconColorType {
     DEFAULT = 'default',
     CONTRAST = 'contrast',
+}
+
+export interface Viewport {
+    latitude: number
+    longitude: number
+    width: string
+    height: string
+    zoom: number
+    maxZoom: number
+    minZoom: number
 }
