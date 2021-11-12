@@ -5,18 +5,16 @@ import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 
-import {
-    getOwnerDataByEmail,
-    updateSingleSettingsField,
-} from '../../../../services/firebase'
+import { addNewBoardInvite } from '../../../../services/firebase'
 import { useUser } from '../../../../auth'
-import { BoardOwnersData, OwnerRequest } from '../../../../types'
+import { BoardOwnersData, Invite } from '../../../../types'
 
 enum inputFeedback {
     NOT_VALID_EMAIL = 'Ugyldig: Du har ikke skrevet en gyldig e-postadresse.',
     EMAIL_UNAVAILABLE = 'Ikke funnet: Ingen bruker med denne e-postadressen ble funnet.',
     OWN_EMAIL_ADDED = 'Du er allerede en eier av denne tavla.',
     AlREADY_ADDED = 'Denne brukeren er allerede lagt til.',
+    UNKNOWN = 'En ukjent feil oppstod, venligst prøv igjen.',
     REQUEST_SENT = 'Forespørsel om eierskap i tavla ble sendt!',
     NOTHING = '',
 }
@@ -30,8 +28,7 @@ enum inputFeedbackType {
 export const AddNewOwnersInput = ({
     documentId,
     ownersData,
-    requestedOwnersData,
-    ownerRequests,
+    invites,
 }: Props): JSX.Element => {
     const user = useUser()
 
@@ -44,10 +41,7 @@ export const AddNewOwnersInput = ({
     )
 
     const owners: string[] = ownersData.map(
-        (owner: BoardOwnersData) => owner.uid,
-    )
-    const ownerRequestRecipients: string[] = requestedOwnersData.map(
-        (reqestedOwner: BoardOwnersData) => reqestedOwner.uid,
+        (owner: BoardOwnersData) => owner.email,
     )
 
     const EMAIL_REGEX =
@@ -60,48 +54,36 @@ export const AddNewOwnersInput = ({
             return
         }
 
-        const uidResponse = await getOwnerDataByEmail(newOwnerInput)
-
-        if (typeof uidResponse === 'string') {
+        if (
+            owners.includes(newOwnerInput) ||
+            invites.some((invite) => invite.reciever === newOwnerInput)
+        ) {
             setInputFeedbackMessageType(inputFeedbackType.FAILURE)
-            setInputFeedbackMessage(inputFeedback.EMAIL_UNAVAILABLE)
-        } else {
-            if (
-                ownerRequestRecipients.includes(uidResponse.uid) ||
-                owners.includes(uidResponse.uid)
-            ) {
-                setInputFeedbackMessageType(inputFeedbackType.FAILURE)
-                if (uidResponse.uid === user?.uid) {
-                    setInputFeedbackMessage(inputFeedback.OWN_EMAIL_ADDED)
+            newOwnerInput === user?.email
+                ? setInputFeedbackMessage(inputFeedback.OWN_EMAIL_ADDED)
+                : setInputFeedbackMessage(inputFeedback.AlREADY_ADDED)
+            return
+        }
+
+        if (user) {
+            try {
+                const success = await addNewBoardInvite(
+                    documentId,
+                    newOwnerInput,
+                    user.email ?? 'Ukjent',
+                )
+                if (success) {
+                    setInputFeedbackMessageType(inputFeedbackType.SUCCESS)
+                    setInputFeedbackMessage(inputFeedback.REQUEST_SENT)
+                    setNewOwnerInput('')
                 } else {
-                    setInputFeedbackMessage(inputFeedback.AlREADY_ADDED)
+                    setInputFeedbackMessageType(inputFeedbackType.FAILURE)
+                    setInputFeedbackMessage(inputFeedback.UNKNOWN)
                 }
-            } else if (user) {
-                try {
-                    await updateSingleSettingsField(
-                        documentId,
-                        'ownerRequestRecipients',
-                        [...ownerRequestRecipients, uidResponse.uid],
-                    )
-                    await updateSingleSettingsField(
-                        documentId,
-                        'ownerRequests',
-                        [
-                            ...ownerRequests,
-                            {
-                                recipientUID: uidResponse.uid,
-                                requestIssuerUID: user.uid,
-                            },
-                        ],
-                    )
-                } catch {
-                    throw new Error(
-                        'Write error: could not add new owner request to board.',
-                    )
-                }
-                setInputFeedbackMessageType(inputFeedbackType.SUCCESS)
-                setInputFeedbackMessage(inputFeedback.REQUEST_SENT)
-                setNewOwnerInput('')
+            } catch {
+                throw new Error(
+                    'Write error: could not add new owner request to board.',
+                )
             }
         }
     }
@@ -146,8 +128,7 @@ export const AddNewOwnersInput = ({
 interface Props {
     documentId: string
     ownersData: BoardOwnersData[]
-    requestedOwnersData: BoardOwnersData[]
-    ownerRequests: OwnerRequest[]
+    invites: Invite[]
 }
 
 export default AddNewOwnersInput

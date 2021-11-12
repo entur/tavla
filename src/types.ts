@@ -1,4 +1,4 @@
-import { Timestamp } from 'firebase/firestore'
+import { FieldValue, Timestamp } from 'firebase/firestore'
 
 import { TransportMode, TransportSubmode, StopPlace, Quay } from '@entur/sdk'
 
@@ -83,4 +83,11 @@ export interface SharedBoardProps {
     sharedBy: string
     theme: Theme
     dashboard: string
+}
+
+export interface Invite {
+    reciever: string
+    sender: string
+    timeIssued: FieldValue
+    boardId?: string
 }

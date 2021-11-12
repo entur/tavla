@@ -78,6 +78,42 @@ export const getSharedBoardsOnSnapshot = (
     return onSnapshot(q, observer)
 }
 
+export const getInvitesForBoardOnSnapshot = (
+    parentDocId: string,
+    observer: {
+        next: (querySnapshot: QuerySnapshot) => void
+        error: () => void
+    },
+): (() => void) => {
+    const q = query(
+        collection(db, SETTINGS_COLLECTION + '/' + parentDocId + '/invites'),
+    )
+    return onSnapshot(q, observer)
+}
+
+export const addNewBoardInvite = async (
+    parentDocId: string,
+    reciever: string,
+    sender: string | undefined,
+): Promise<boolean> => {
+    try {
+        await addDoc(
+            collection(
+                db,
+                SETTINGS_COLLECTION + '/' + parentDocId + '/' + 'invites',
+            ),
+            {
+                reciever,
+                sender: sender ?? 'Ukjent',
+                timeIssued: serverTimestamp(),
+            },
+        )
+        return true
+    } catch {
+        return false
+    }
+}
+
 export const updateSingleSettingsField = async (
     docId: string,
     fieldId: string,
@@ -252,6 +288,7 @@ export const getOwnerDataByUID = async (
     return ownerData
 }
 
+// Probably not needed
 export const getOwnerDataByEmail = async (
     email: string,
 ): Promise<string | BoardOwnersData> => {

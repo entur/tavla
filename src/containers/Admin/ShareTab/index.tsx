@@ -1,8 +1,7 @@
 import React, { useState, useEffect, Dispatch } from 'react'
 
 import type { User } from 'firebase/auth'
-
-import { DocumentSnapshot } from 'firebase/firestore'
+import type { DocumentData, DocumentSnapshot } from 'firebase/firestore'
 
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
@@ -12,9 +11,10 @@ import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
 import {
     getBoardOnSnapshot,
+    getInvitesForBoardOnSnapshot,
     getOwnersDataByUIDs,
 } from '../../../services/firebase'
-import { BoardOwnersData, OwnerRequest } from '../../../types'
+import { BoardOwnersData, Invite, OwnerRequest } from '../../../types'
 
 import LoginModal from '../../../components/Modals/LoginModal'
 import RemoveSelfFromTavleModal from '../../../components/Modals/RemoveSelfFromTavleModal'
@@ -41,6 +41,8 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     >([])
     const [ownerRequests, setOwnerRequests] = useState<OwnerRequest[]>([])
     const [boardName, setboardName] = useState<string>('')
+
+    const [invites, setInvites] = useState<Invite[]>([])
 
     const documentId = getDocumentId()
 
@@ -110,7 +112,29 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             },
         })
 
-        return () => unsubscribeBoard()
+        const unsubscribeInvites = getInvitesForBoardOnSnapshot(
+            documentId as string,
+            {
+                next: (querySnapshot) => {
+                    if (querySnapshot.metadata.hasPendingWrites) return
+                    const updatedInvites = querySnapshot.docs.map(
+                        (docSnapshot: DocumentData) =>
+                            ({
+                                reciever: docSnapshot.data().reciever,
+                                sender: docSnapshot.data().sender,
+                                timeIssued: docSnapshot.data().timeIssued,
+                            } as Invite),
+                    )
+                    setInvites(updatedInvites)
+                },
+                error: () => setInvites([]),
+            },
+        )
+
+        return () => {
+            unsubscribeBoard()
+            unsubscribeInvites()
+        }
     }, [documentId])
 
     if (!documentId) {
@@ -162,8 +186,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                     <AddNewOwnersInput
                         documentId={documentId}
                         ownersData={ownersData}
-                        requestedOwnersData={requestedOwnersData}
-                        ownerRequests={ownerRequests}
+                        invites={invites}
                     />
                     <Heading3>Andre personer med tilgang</Heading3>
                     <BoardOwnersList
