@@ -192,8 +192,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                     <BoardOwnersList
                         documentId={documentId}
                         ownersData={ownersData}
-                        requestedOwnersData={requestedOwnersData}
-                        ownerRequests={ownerRequests}
+                        invites={invites}
                     />
                 </GridItem>
             </GridContainer>

@@ -4,28 +4,29 @@ import { IconButton } from '@entur/button'
 import { CloseIcon } from '@entur/icons'
 import { TableRow, DataCell } from '@entur/table'
 import { Tooltip } from '@entur/tooltip'
-
 import { BoardOwnersData } from '../../../../types'
 
 export const SharedWithRows = ({
-    users: owners,
-    currentUserUID: userUID,
+    users,
+    currentUserEmail,
     onRemove,
     statusText,
     tooltipTextRemove,
 }: Props): JSX.Element => {
-    const ownersFiltered = owners.filter((owner) => owner.uid != userUID)
+    const ownersFiltered = users.filter(
+        (user) => user.email !== currentUserEmail,
+    )
 
     return (
         <>
-            {ownersFiltered.map((owner) => (
-                <TableRow key={owner.uid}>
-                    <DataCell>{owner.email}</DataCell>
+            {ownersFiltered.map((user) => (
+                <TableRow key={user.email}>
+                    <DataCell>{user.email}</DataCell>
                     <DataCell>{statusText}</DataCell>
                     <DataCell>
                         <Tooltip placement="bottom" content={tooltipTextRemove}>
                             <IconButton
-                                onClick={() => onRemove(owner.uid)}
+                                onClick={() => onRemove(user)}
                                 className="share-page__title__button"
                             >
                                 <CloseIcon />
@@ -40,10 +41,10 @@ export const SharedWithRows = ({
 
 interface Props {
     users: BoardOwnersData[]
-    currentUserUID: string
+    currentUserEmail: string
     statusText: string
     tooltipTextRemove: string
-    onRemove: (UID: string) => void
+    onRemove: (user: BoardOwnersData) => void
 }
 
 export default SharedWithRows

@@ -12,6 +12,7 @@ import {
     addDoc,
     setDoc,
     DocumentSnapshot,
+    getDocs,
 } from 'firebase/firestore'
 
 import { httpsCallable } from 'firebase/functions'
@@ -112,6 +113,23 @@ export const addNewBoardInvite = async (
     } catch {
         return false
     }
+}
+
+export const removeBoardInvite = async (
+    parentDocId: string,
+    reciever: string,
+): Promise<void> => {
+    const q = query(
+        collection(
+            db,
+            SETTINGS_COLLECTION + '/' + parentDocId + '/' + 'invites',
+        ),
+        where('reciever', '==', reciever),
+    )
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref)
+    })
 }
 
 export const updateSingleSettingsField = async (

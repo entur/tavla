@@ -4,59 +4,54 @@ import { Table, TableHead, TableRow, HeaderCell, TableBody } from '@entur/table'
 
 import { useUser } from '../../../../auth'
 
-import type { BoardOwnersData, OwnerRequest } from '../../../../types'
+import type { BoardOwnersData, Invite } from '../../../../types'
 
-import { updateSingleSettingsField } from '../../../../services/firebase'
+import {
+    removeBoardInvite,
+    updateSingleSettingsField,
+} from '../../../../services/firebase'
 
 import { SharedWithRows } from './SharedWithRows'
 
 export const BoardOwnersList = ({
     documentId,
     ownersData,
-    requestedOwnersData,
-    ownerRequests,
+    invites,
 }: Props): JSX.Element => {
     const user = useUser()
 
-    const owners: string[] = ownersData.map(
-        (owner: BoardOwnersData) => owner.uid,
+    const ownersDataFiltered = ownersData.filter(
+        (owner) => owner.uid !== user?.uid,
     )
-    const ownerRequestRecipients: string[] = requestedOwnersData.map(
-        (reqestedOwner: BoardOwnersData) => reqestedOwner.uid,
-    )
+    const invitesMapped = invites.map((invite) => ({
+        uid: '',
+        email: invite.reciever,
+    }))
 
     const onRemoveOwnerFromBoard = async (
-        UIDToRemove: string,
+        userToRemove: BoardOwnersData,
     ): Promise<void> => {
         try {
+            const owners: string[] = ownersData.map(
+                (owner: BoardOwnersData) => owner.email,
+            )
             await updateSingleSettingsField(
                 documentId,
                 'owners',
-                owners.filter((ownerUID) => ownerUID !== UIDToRemove),
+                owners.filter((ownerUID) => ownerUID !== userToRemove.uid),
             )
         } catch {
             throw new Error('Write error: could not remove owner from board.')
         }
     }
 
-    const onRemoveOwnerRequestFromBoard = async (
-        UIDToRemove: string,
+    const onRemoveInviteFromBoard = async (
+        userToRemove: BoardOwnersData,
     ): Promise<void> => {
         try {
-            await updateSingleSettingsField(
-                documentId,
-                'ownerRequestRecipients',
-                ownerRequestRecipients.filter(
-                    (recipient) => recipient !== UIDToRemove,
-                ),
-            )
-            await updateSingleSettingsField(
-                documentId,
-                'ownerRequests',
-                ownerRequests.filter((req) => req.recipientUID !== UIDToRemove),
-            )
+            await removeBoardInvite(documentId, userToRemove.email)
         } catch {
-            throw new Error('Write error: could not remove request from board.')
+            throw new Error('Write error: could not remove invite from board.')
         }
     }
 
@@ -71,18 +66,18 @@ export const BoardOwnersList = ({
             </TableHead>
             <TableBody>
                 <SharedWithRows
-                    users={ownersData}
-                    currentUserUID={user?.uid ?? ''}
+                    users={ownersDataFiltered}
+                    currentUserEmail={user?.uid ?? ''}
                     statusText="Har tilgang"
                     tooltipTextRemove="Fjern tilgang"
                     onRemove={onRemoveOwnerFromBoard}
                 />
                 <SharedWithRows
-                    users={requestedOwnersData}
-                    currentUserUID={user?.uid ?? ''}
+                    users={invitesMapped}
+                    currentUserEmail={user?.uid ?? ''}
                     statusText="Venter på svar"
                     tooltipTextRemove="Fjern forespørsel"
-                    onRemove={onRemoveOwnerRequestFromBoard}
+                    onRemove={onRemoveInviteFromBoard}
                 />
             </TableBody>
         </Table>
@@ -92,8 +87,7 @@ export const BoardOwnersList = ({
 interface Props {
     documentId: string
     ownersData: BoardOwnersData[]
-    requestedOwnersData: BoardOwnersData[]
-    ownerRequests: OwnerRequest[]
+    invites: Invite[]
 }
 
 export default BoardOwnersList
