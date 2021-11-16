@@ -4,7 +4,8 @@ import { IconButton } from '@entur/button'
 import { CloseIcon } from '@entur/icons'
 import { TableRow, DataCell } from '@entur/table'
 import { Tooltip } from '@entur/tooltip'
-import { BoardOwnersData } from '../../../../types'
+
+import type { BoardOwnersData } from '../../../../types'
 
 export const SharedWithRows = ({
     users,

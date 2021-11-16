@@ -13,6 +13,8 @@ import {
     setDoc,
     DocumentSnapshot,
     getDocs,
+    collectionGroup,
+    documentId,
 } from 'firebase/firestore'
 
 import { httpsCallable } from 'firebase/functions'
@@ -35,6 +37,8 @@ import { FieldTypes } from '../settings/FirestoreStorage'
 import { BoardOwnersData } from '../types'
 
 const SETTINGS_COLLECTION = 'settings'
+
+const currentDocumentId = getDocumentId()
 
 export const getSettingsReference = (id: string): DocumentReference =>
     doc(collection(db, SETTINGS_COLLECTION), id)
@@ -65,8 +69,9 @@ export const getBoardOnSnapshot = (
     return onSnapshot(q, observer)
 }
 
-export const getSharedBoardsOnSnapshot = (
-    userUID: string | null,
+// The IN query does not support more than 10 documents
+export const getBoardsByIdsOnSnapshot = (
+    boardIds: string[],
     observer: {
         next: (querySnapshot: QuerySnapshot) => void
         error: () => void
@@ -74,7 +79,21 @@ export const getSharedBoardsOnSnapshot = (
 ): (() => void) => {
     const q = query(
         collection(db, SETTINGS_COLLECTION),
-        where('ownerRequestRecipients', 'array-contains', userUID),
+        where(documentId(), 'in', boardIds),
+    )
+    return onSnapshot(q, observer)
+}
+
+export const getInvitesForUserOnSnapshot = (
+    userEmail: string | null,
+    observer: {
+        next: (querySnapshot: QuerySnapshot) => void
+        error: () => void
+    },
+): (() => void) => {
+    const q = query(
+        collectionGroup(db, 'invites'),
+        where('reciever', '==', userEmail),
     )
     return onSnapshot(q, observer)
 }
@@ -127,8 +146,8 @@ export const removeBoardInvite = async (
         where('reciever', '==', reciever),
     )
     const querySnapshot = await getDocs(q)
-    querySnapshot.forEach(async (doc) => {
-        await deleteDoc(doc.ref)
+    querySnapshot.forEach(async (invite) => {
+        await deleteDoc(invite.ref)
     })
 }
 
@@ -201,15 +220,16 @@ export const uploadLogo = async (
         'getImageUploadToken',
     )
 
-    const documentId = getDocumentId()
-
-    const response = await getImageUploadToken({ imageUid: documentId, token })
+    const response = await getImageUploadToken({
+        imageUid: currentDocumentId,
+        token,
+    })
 
     if (response.data.uploadToken)
         await signInWithCustomToken(auth, response.data.uploadToken)
 
     const uploadTask = uploadBytesResumable(
-        ref(storage, `images/${documentId}`),
+        ref(storage, `images/${currentDocumentId}`),
         image,
     )
 
@@ -224,11 +244,16 @@ export const uploadLogo = async (
         onError,
         async () => {
             onFinished(
-                await getDownloadURL(ref(storage, `images/${documentId}`)),
+                await getDownloadURL(
+                    ref(storage, `images/${currentDocumentId}`),
+                ),
             )
-            updateDoc(doc(collection(db, SETTINGS_COLLECTION), documentId), {
-                lastmodified: serverTimestamp(),
-            })
+            updateDoc(
+                doc(collection(db, SETTINGS_COLLECTION), currentDocumentId),
+                {
+                    lastmodified: serverTimestamp(),
+                },
+            )
         },
     )
 }
@@ -349,11 +374,11 @@ export const answerBoardInvitation = async (
 }
 
 export const userIsOwner = async (
-    documentId: string,
+    boardId: string,
     userUID: string | undefined,
 ): Promise<boolean> => {
     try {
-        const documentRef: DocumentReference = getSettingsReference(documentId)
+        const documentRef: DocumentReference = getSettingsReference(boardId)
         const document = await getDoc(documentRef)
         const settings: DocumentData | undefined = document.data()
         return settings?.owners?.includes(userUID) as boolean

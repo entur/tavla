@@ -14,7 +14,7 @@ import {
     getInvitesForBoardOnSnapshot,
     getOwnersDataByUIDs,
 } from '../../../services/firebase'
-import { BoardOwnersData, Invite, OwnerRequest } from '../../../types'
+import { BoardOwnersData, Invite } from '../../../types'
 
 import LoginModal from '../../../components/Modals/LoginModal'
 import RemoveSelfFromTavleModal from '../../../components/Modals/RemoveSelfFromTavleModal'
@@ -36,10 +36,6 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [removeSelfModalOpen, setRemoveSelfModalOpen] = useState(false)
 
     const [ownersData, setOwnersData] = useState<BoardOwnersData[]>([])
-    const [requestedOwnersData, setRequestedOwnersData] = useState<
-        BoardOwnersData[]
-    >([])
-    const [ownerRequests, setOwnerRequests] = useState<OwnerRequest[]>([])
     const [boardName, setboardName] = useState<string>('')
 
     const [invites, setInvites] = useState<Invite[]>([])
@@ -83,32 +79,21 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 if (documentSnapshot.metadata.hasPendingWrites) return
 
                 const owners: string[] = documentSnapshot.data()?.owners || []
-                const ownerRequestRecipients: string[] =
-                    documentSnapshot.data()?.ownerRequestRecipients || []
 
-                getOwnersDataByUIDs([
-                    ...owners,
-                    ...ownerRequestRecipients,
-                ]).then((ownersAndRequestsList: BoardOwnersData[]) => {
-                    const newOwnersData = ownersAndRequestsList.filter(
-                        (owner: BoardOwnersData) => owners.includes(owner.uid),
-                    )
-                    const newRequestedOwnersData = ownersAndRequestsList.filter(
-                        (requestRecipient: BoardOwnersData) =>
-                            ownerRequestRecipients.includes(
-                                requestRecipient.uid,
-                            ),
-                    )
+                getOwnersDataByUIDs(owners).then(
+                    (ownersAndRequestsList: BoardOwnersData[]) => {
+                        const newOwnersData = ownersAndRequestsList.filter(
+                            (owner: BoardOwnersData) =>
+                                owners.includes(owner.uid),
+                        )
 
-                    setOwnersData(newOwnersData)
-                    setRequestedOwnersData(newRequestedOwnersData)
-                })
-                setOwnerRequests(documentSnapshot.data()?.ownerRequests)
+                        setOwnersData(newOwnersData)
+                    },
+                )
                 setboardName(documentSnapshot.data()?.boardName)
             },
             error: () => {
                 setOwnersData([])
-                setRequestedOwnersData([])
             },
         })
 

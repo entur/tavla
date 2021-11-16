@@ -8,10 +8,11 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 import { ThemeDashboardPreview } from '../../assets/icons/ThemeDashboardPreview'
 import {
     getBoardsOnSnapshot,
-    getSharedBoardsOnSnapshot,
+    getInvitesForUserOnSnapshot,
+    getBoardsByIdsOnSnapshot,
 } from '../../services/firebase'
 import { useUser } from '../../auth'
-import { Board, Theme } from '../../types'
+import { Board, SharedBoardProps, Theme } from '../../types'
 
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
@@ -35,12 +36,16 @@ const filterBoards = (boards: Board[]): Board[] =>
     boards.filter((board) => !board.data.isScheduledForDelete)
 
 const MyBoards = ({ history }: Props): JSX.Element | null => {
+    const [currentIndex, setCurrentIndex] = useState<number>(0)
+
     const user = useUser()
     const preview = ThemeDashboardPreview(Theme.DEFAULT)
 
     const [boards, setBoards] = useState<DocumentData>()
-    const [requestedBoards, setRequestedBoards] = useState<DocumentData>()
-    const [currentIndex, setCurrentIndex] = useState<number>(0)
+    const [sharedBoards, setSharedBoards] = useState<SharedBoardProps[]>([])
+    const [invites, setInvites] = useState<
+        Array<{ id: string; sharedBy: string }>
+    >([])
 
     useEffect(() => {
         if (user === null) {
@@ -69,44 +74,75 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
             },
             error: () => setBoards([]),
         })
-        const unsubscribeFromSharedBoards = getSharedBoardsOnSnapshot(
-            user.uid,
-            {
-                next: (querySnapshot) => {
-                    if (querySnapshot.metadata.hasPendingWrites) return
-                    const updatedBoards = querySnapshot.docs.map(
-                        (docSnapshot: DocumentData) =>
-                            ({
-                                data: docSnapshot.data(),
-                                lastmodified: docSnapshot.data().lastmodified,
-                                created: docSnapshot.data().created,
-                                id: docSnapshot.id,
-                            } as Board),
-                    )
-                    setRequestedBoards(
-                        updatedBoards.length ? sortBoard(updatedBoards) : [],
-                    )
-                },
-                error: () => setRequestedBoards([]),
+
+        const unsubscribeFromInvites = getInvitesForUserOnSnapshot(user.email, {
+            next: (querySnapshot) => {
+                if (querySnapshot.metadata.hasPendingWrites) return
+
+                const inviteData = querySnapshot.docs.map((invite) => ({
+                    id: invite.ref.parent.parent?.id ?? '',
+                    sharedBy: invite.data().sender,
+                }))
+
+                setInvites(inviteData)
             },
-        )
+            error: () => setInvites([]),
+        })
         return () => {
             unsubscribe()
-            unsubscribeFromSharedBoards()
+            unsubscribeFromInvites()
         }
     }, [user])
 
-    if (
-        boards === undefined ||
-        user === undefined ||
-        requestedBoards === undefined
-    ) {
+    useEffect(() => {
+        if (!invites.length) return
+        const boardInviteIds = invites.map((invite) => invite.id)
+
+        const unsubscribeBoardsFromId = getBoardsByIdsOnSnapshot(
+            boardInviteIds,
+            {
+                next: (querySnapshot) => {
+                    if (querySnapshot.metadata.hasPendingWrites) return
+                    const boardData = querySnapshot.docs.map(
+                        (board) =>
+                            ({
+                                id: board.id,
+                                boardName: board.data().boardName,
+                                sharedBy: '',
+                                theme: board.data().theme,
+                                dashboard: board.data().dashboard,
+                            } as SharedBoardProps),
+                    )
+                    const updatedSharedBoards: SharedBoardProps[] =
+                        boardData.map((board) => {
+                            const matchingInviteData = invites.find(
+                                (invite) => invite.id === board.id,
+                            )
+                            return matchingInviteData
+                                ? {
+                                      ...board,
+                                      sharedBy: matchingInviteData.sharedBy,
+                                  }
+                                : { ...board, sharedBy: 'En ukjent' }
+                        })
+                    setSharedBoards(updatedSharedBoards)
+                },
+                error: () => setSharedBoards([]),
+            },
+        )
+
+        return () => {
+            unsubscribeBoardsFromId()
+        }
+    }, [invites])
+
+    if (boards === undefined || user === undefined || invites === undefined) {
         return null
     }
     if (!user || user.isAnonymous) {
         return <NoAccessToTavler />
     }
-    if (!boards.length && !requestedBoards.length) {
+    if (!boards.length && !invites.length) {
         return <NoTavlerAvailable history={history} />
     }
 
@@ -118,12 +154,12 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                         <Tab>Mine tavler</Tab>
                         <Tab>
                             Delt med meg
-                            {requestedBoards.length > 0 ? (
+                            {invites.length > 0 ? (
                                 <NotificationBadge
                                     variant="info"
                                     style={{ position: 'absolute', top: -10 }}
                                 >
-                                    {requestedBoards.length}
+                                    {invites.length}
                                 </NotificationBadge>
                             ) : null}
                         </Tab>
@@ -138,7 +174,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                             />
                         </TabPanel>
                         <TabPanel>
-                            <SharedBoards requestedBoards={requestedBoards} />
+                            <SharedBoards sharedBoards={sharedBoards} />
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
