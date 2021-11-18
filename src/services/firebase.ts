@@ -99,7 +99,75 @@ export const createSettingsWithId = async (
     settings: Settings,
     docId: string,
 ): Promise<void> =>
-    setDoc(doc(collection(db, SETTINGS_COLLECTION), docId), settings)
+    await setDoc(doc(collection(db, SETTINGS_COLLECTION), docId), settings)
+
+export const createDocumentWithId = async (
+    collectionPath: string,
+    docId: string,
+    docData: DocumentData,
+): Promise<void> => {
+    await setDoc(doc(collection(db, collectionPath), docId), docData)
+}
+
+export const copySettingsToNewId = async (
+    newDocId: string,
+    currentDocId: string,
+): Promise<boolean> => {
+    const currentDocRef: DocumentReference = getSettingsReference(currentDocId)
+    const newDocRef: DocumentReference = getSettingsReference(newDocId)
+
+    try {
+        const copyFromDocument = await getDoc(currentDocRef)
+        if (!copyFromDocument.exists()) return false
+        const settings = copyFromDocument.data() as Settings
+
+        const copyToDocument = await getDoc(newDocRef)
+
+        if (copyToDocument.exists()) {
+            if (copyToDocument.data().isScheduledForDelete) {
+                await deleteDoc(newDocRef)
+                await createSettingsWithId(settings, newDocId)
+                await copySubCollectionToId('invites', currentDocId, newDocId)
+                return true
+            }
+            return false
+        } else {
+            await createSettingsWithId(settings, newDocId)
+            await copySubCollectionToId('invites', currentDocId, newDocId)
+            return true
+        }
+    } catch {
+        return false
+    }
+}
+
+export const copySubCollectionToId = async (
+    subCollectionId: string,
+    fromParentDocId: string,
+    toParentDocId: string,
+): Promise<void> => {
+    const fromSubCollectionRef = collection(
+        db,
+        SETTINGS_COLLECTION,
+        fromParentDocId,
+        subCollectionId,
+    )
+    const toSubCollectionRef = collection(
+        db,
+        SETTINGS_COLLECTION,
+        toParentDocId,
+        subCollectionId,
+    )
+
+    const fromSubcollectionDocs = await getDocs(fromSubCollectionRef)
+
+    fromSubcollectionDocs.docs.forEach((inviteDoc) => {
+        setDoc(doc(toSubCollectionRef, inviteDoc.id), inviteDoc.data())
+    })
+}
+
+export const setIdToBeDeleted = (docId: string): Promise<void> =>
+    updateSingleSettingsField(docId, 'isScheduledForDelete', true)
 
 export const deleteDocument = async (docId: string): Promise<void> =>
     deleteDoc(doc(collection(db, SETTINGS_COLLECTION), docId))
@@ -162,39 +230,6 @@ export const uploadLogo = async (
         },
     )
 }
-
-export const copySettingsToNewId = async (
-    newDocId: string,
-    currentDocId: string,
-): Promise<boolean> => {
-    const currentDocRef: DocumentReference = getSettingsReference(currentDocId)
-    const newDocRef: DocumentReference = getSettingsReference(newDocId)
-
-    try {
-        const copyFromDocument = await getDoc(currentDocRef)
-        if (!copyFromDocument.exists()) return false
-        const settings = copyFromDocument.data() as Settings
-
-        const copyToDocument = await getDoc(newDocRef)
-
-        if (copyToDocument.exists()) {
-            if (copyToDocument.data().isScheduledForDelete) {
-                await deleteDoc(newDocRef)
-                await createSettingsWithId(settings, newDocId)
-                return true
-            }
-            return false
-        } else {
-            await createSettingsWithId(settings, newDocId)
-            return true
-        }
-    } catch {
-        return false
-    }
-}
-
-export const setIdToBeDeleted = (docId: string): Promise<void> =>
-    updateSingleSettingsField(docId, 'isScheduledForDelete', true)
 
 export const getBoardOnSnapshot = (
     boardID: string | undefined,

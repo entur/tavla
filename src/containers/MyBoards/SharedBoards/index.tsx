@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Contrast } from '@entur/layout'
 
-import type { SharedBoardProps } from '../../../types'
+import type { SharedBoard } from '../../../types'
 
 import { NoSharedTavlerAvailable } from '../../Error/ErrorPages'
 
@@ -16,7 +16,7 @@ const SharedBoards = ({ sharedBoards }: Props): JSX.Element => {
     return (
         <Contrast>
             <div className="my-boards__board-list">
-                {sharedBoards.map((board: SharedBoardProps) => (
+                {sharedBoards.map((board: SharedBoard) => (
                     <SharedBoardCard
                         key={board.id}
                         id={board.id}
@@ -32,7 +32,7 @@ const SharedBoards = ({ sharedBoards }: Props): JSX.Element => {
 }
 
 interface Props {
-    sharedBoards: SharedBoardProps[]
+    sharedBoards: SharedBoard[]
 }
 
 export default SharedBoards

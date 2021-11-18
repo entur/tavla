@@ -12,7 +12,7 @@ import {
     getBoardsByIdsOnSnapshot,
 } from '../../services/firebase'
 import { useUser } from '../../auth'
-import { Board, SharedBoardProps, Theme } from '../../types'
+import { Board, SharedBoard, Theme } from '../../types'
 
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
@@ -35,6 +35,9 @@ function sortBoard(boards: Board[]): Board[] {
 const filterBoards = (boards: Board[]): Board[] =>
     boards.filter((board) => !board.data.isScheduledForDelete)
 
+const filterSharedBoards = (boards: SharedBoard[]): SharedBoard[] =>
+    boards.filter((board) => !board.isScheduledForDelete)
+
 const MyBoards = ({ history }: Props): JSX.Element | null => {
     const [currentIndex, setCurrentIndex] = useState<number>(0)
 
@@ -42,7 +45,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
     const preview = ThemeDashboardPreview(Theme.DEFAULT)
 
     const [boards, setBoards] = useState<DocumentData>()
-    const [sharedBoards, setSharedBoards] = useState<SharedBoardProps[]>([])
+    const [sharedBoards, setSharedBoards] = useState<SharedBoard[]>([])
     const [invites, setInvites] = useState<
         Array<{ id: string; sharedBy: string }>
     >([])
@@ -114,10 +117,12 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                                 sharedBy: '',
                                 theme: board.data().theme,
                                 dashboard: board.data().dashboard,
-                            } as SharedBoardProps),
+                                isScheduledForDelete:
+                                    board.data().isScheduledForDelete,
+                            } as SharedBoard),
                     )
-                    const updatedSharedBoards: SharedBoardProps[] =
-                        boardData.map((board) => {
+                    const updatedSharedBoards: SharedBoard[] = boardData.map(
+                        (board) => {
                             const matchingInviteData = invites.find(
                                 (invite) => invite.id === board.id,
                             )
@@ -127,8 +132,9 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                                       sharedBy: matchingInviteData.sharedBy,
                                   }
                                 : { ...board, sharedBy: 'En ukjent' }
-                        })
-                    setSharedBoards(updatedSharedBoards)
+                        },
+                    )
+                    setSharedBoards(filterSharedBoards(updatedSharedBoards))
                 },
                 error: () => setSharedBoards([]),
             },
@@ -157,12 +163,12 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                         <Tab>Mine tavler</Tab>
                         <Tab>
                             Delt med meg
-                            {invites.length > 0 ? (
+                            {sharedBoards.length > 0 ? (
                                 <NotificationBadge
                                     variant="info"
                                     style={{ position: 'absolute', top: -10 }}
                                 >
-                                    {invites.length}
+                                    {sharedBoards.length}
                                 </NotificationBadge>
                             ) : null}
                         </Tab>

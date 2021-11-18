@@ -77,12 +77,13 @@ export interface Board {
     created: Timestamp
 }
 
-export interface SharedBoardProps {
+export interface SharedBoard {
     id: string
     boardName: string
     sharedBy: string
     theme: Theme
     dashboard: string
+    isScheduledForDelete: boolean
 }
 
 export interface Invite {

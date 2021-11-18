@@ -6,13 +6,11 @@ import { useUser } from '../../../../auth'
 
 import type { BoardOwnersData, Invite } from '../../../../types'
 
-import {
-    removeSentBoardInviteAsOwner,
-    updateSingleSettingsField,
-} from '../../../../services/firebase'
+import { removeSentBoardInviteAsOwner } from '../../../../services/firebase'
+
+import { removeFromOwners } from '../../../../settings/FirestoreStorage'
 
 import { SharedWithRows } from './SharedWithRows'
-import { removeFromOwners } from '../../../../settings/FirestoreStorage'
 
 export const BoardOwnersList = ({
     documentId,
