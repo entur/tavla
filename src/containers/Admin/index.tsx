@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
@@ -21,18 +21,25 @@ import './styles.scss'
 import ShareTab from './ShareTab'
 
 const AdminPage = (): JSX.Element => {
+    const [settings] = useSettingsContext()
     const user = useUser()
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
 
-    const [settings] = useSettingsContext()
+    const [lockShareTab, setLockShareTab] = useState<boolean>(
+        !user || user.isAnonymous || !settings?.owners?.includes(user.uid),
+    )
 
     const lockIcon = (!user || user.isAnonymous) && <ClosedLockIcon inline />
-    const lockIconShareTab = (!user ||
-        user.isAnonymous ||
-        !settings?.owners?.includes(user.uid)) && <ClosedLockIcon inline />
+    const lockIconShareTab = lockShareTab && <ClosedLockIcon inline />
 
     const { theme } = settings || {}
+
+    useEffect(() => {
+        setLockShareTab(
+            !user || user.isAnonymous || !settings?.owners?.includes(user.uid),
+        )
+    }, [user, settings?.owners])
 
     return (
         <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
@@ -76,6 +83,7 @@ const AdminPage = (): JSX.Element => {
                             <ShareTab
                                 tabIndex={currentIndex}
                                 setTabIndex={setCurrentIndex}
+                                locked={lockShareTab}
                             />
                         </TabPanel>
                     </TabPanels>

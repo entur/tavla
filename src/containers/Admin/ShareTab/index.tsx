@@ -27,7 +27,7 @@ import BoardOwnersList from './components/BoardOwnersList'
 
 import './styles.scss'
 
-const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
+const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
     const user = useUser()
 
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
@@ -73,6 +73,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     }, [user, ownersData, tabIndex, setTabIndex])
 
     useEffect(() => {
+        if (locked) return
         const unsubscribeBoard = getBoardOnSnapshot(documentId, {
             next: (documentSnapshot: DocumentSnapshot) => {
                 if (!documentSnapshot.exists) return
@@ -109,7 +110,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             unsubscribeBoard()
             unsubscribeInvites()
         }
-    }, [documentId])
+    }, [documentId, locked])
 
     if (!documentId) {
         return (
@@ -195,6 +196,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
 interface Props {
     tabIndex: number
     setTabIndex: Dispatch<number>
+    locked: boolean
 }
 
 export default ShareTab

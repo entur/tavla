@@ -11,7 +11,7 @@ import { onSnapshot } from 'firebase/firestore'
 
 import { Coordinates, TransportMode } from '@entur/sdk'
 
-import { Theme, DrawableRoute, OwnerRequest } from '../types'
+import { Theme, DrawableRoute } from '../types'
 import { getSettingsReference } from '../services/firebase'
 import { getDocumentId } from '../utils'
 import { useUser } from '../auth'
