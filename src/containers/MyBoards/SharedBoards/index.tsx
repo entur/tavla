@@ -24,6 +24,7 @@ const SharedBoards = ({ sharedBoards }: Props): JSX.Element => {
                         sharedBy={board.sharedBy}
                         theme={board.theme}
                         dashboard={board.dashboard}
+                        timeIssued={board.timeIssued}
                     />
                 ))}
             </div>

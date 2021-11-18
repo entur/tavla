@@ -485,3 +485,34 @@ export const getFeedbackString = (lastUpdated: number): string => {
 
 export const getLastUpdated = (lastUpdated: string): number =>
     differenceInSeconds(new Date(), parseISO(lastUpdated))
+
+const DAYS = ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør']
+
+const MONTHS = [
+    'januar',
+    'februar',
+    'mars',
+    'april',
+    'mai',
+    'juni',
+    'juli',
+    'august',
+    'september',
+    'oktober',
+    'november',
+    'desember',
+]
+
+export function createTimeString(date: Date): string {
+    const currentYear = new Date().getFullYear()
+
+    const dateString = `${DAYS[date.getDay()]} ${date.getDate()}. ${
+        MONTHS[date.getMonth()]
+    }`
+    const hours = `${date.getHours()}`.padStart(2, '0')
+    const minutes = `${date.getMinutes()}`.padStart(2, '0')
+    const timeString = `${hours}:${minutes}`
+    const yearString =
+        currentYear == date.getFullYear() ? '' : `${date.getFullYear()}`
+    return `${dateString} ${yearString} ${timeString}`
+}

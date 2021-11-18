@@ -84,6 +84,7 @@ export interface SharedBoard {
     theme: Theme
     dashboard: string
     isScheduledForDelete: boolean
+    timeIssued: Timestamp
 }
 
 export interface Invite {

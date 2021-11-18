@@ -9,41 +9,10 @@ import { LinkIcon, ClockIcon } from '@entur/icons'
 import { ThemeDashboardPreview } from '../../../../assets/icons/ThemeDashboardPreview'
 import { persistSingleField } from '../../../../settings/FirestoreStorage'
 import { Settings } from '../../../../settings'
+import { createTimeString } from '../../../../utils'
 
 import BoardOverflowMenu from './OverflowMenu'
 import './styles.scss'
-
-const DAYS = ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør']
-
-const MONTHS = [
-    'januar',
-    'februar',
-    'mars',
-    'april',
-    'mai',
-    'juni',
-    'juli',
-    'august',
-    'september',
-    'oktober',
-    'november',
-    'desember',
-]
-
-function createTimeString(date: Date, modified: boolean): string {
-    const currentYear = new Date().getFullYear()
-
-    const dateString = `${DAYS[date.getDay()]} ${date.getDate()}. ${
-        MONTHS[date.getMonth()]
-    }`
-    const hours = `${date.getHours()}`.padStart(2, '0')
-    const minutes = `${date.getMinutes()}`.padStart(2, '0')
-    const timeString = `${hours}:${minutes}`
-    const yearString =
-        currentYear == date.getFullYear() ? '' : `${date.getFullYear()}`
-    const prependWords = modified ? 'Sist endret' : 'Ble laget'
-    return `${prependWords} ${dateString} ${yearString} ${timeString}`
-}
 
 function BoardCard({
     settings,
@@ -88,10 +57,8 @@ function BoardCard({
     const preferredDate = timestamp ? timestamp : created
     const timeString =
         preferredDate != undefined
-            ? createTimeString(
-                  preferredDate.toDate(),
-                  preferredDate == timestamp,
-              )
+            ? (preferredDate === timestamp ? 'Sist endret ' : 'Ble laget ') +
+              createTimeString(preferredDate.toDate())
             : 'Ikke endret'
     const boardTitleElement = titleEditMode ? (
         <input

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import type { DocumentData } from 'firebase/firestore'
+import type { DocumentData, Timestamp } from 'firebase/firestore'
 
 import { NotificationBadge } from '@entur/layout'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
@@ -47,7 +47,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
     const [boards, setBoards] = useState<DocumentData>()
     const [sharedBoards, setSharedBoards] = useState<SharedBoard[]>([])
     const [invites, setInvites] = useState<
-        Array<{ id: string; sharedBy: string }>
+        Array<{ id: string; sharedBy: string; timeIssued: Timestamp }>
     >([])
 
     useEffect(() => {
@@ -85,6 +85,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                 const inviteData = querySnapshot.docs.map((invite) => ({
                     id: invite.ref.parent.parent?.id ?? '',
                     sharedBy: invite.data().sender,
+                    timeIssued: invite.data().timeIssued,
                 }))
 
                 setInvites(inviteData)
@@ -130,6 +131,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                                 ? {
                                       ...board,
                                       sharedBy: matchingInviteData.sharedBy,
+                                      timeIssued: matchingInviteData.timeIssued,
                                   }
                                 : { ...board, sharedBy: 'En ukjent' }
                         },

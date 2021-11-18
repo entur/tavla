@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import type { Timestamp } from '@firebase/firestore'
+
 import { Button } from '@entur/button'
-import { UserIcon } from '@entur/icons'
+import { ClockIcon, UserIcon } from '@entur/icons'
 import { Heading3 } from '@entur/typography'
 
 import { ThemeDashboardPreview } from '../../../../assets/icons/ThemeDashboardPreview'
 import type { Theme } from '../../../../types'
 import { useUser } from '../../../../auth'
+import { createTimeString } from '../../../../utils'
+
 import { answerBoardInvitation } from '../../../../services/firebase'
 
 const SharedBoardCard = ({
@@ -16,6 +20,7 @@ const SharedBoardCard = ({
     boardName,
     theme,
     dashboard,
+    timeIssued,
 }: Props) => {
     const user = useUser()
     const preview = ThemeDashboardPreview(theme)
@@ -46,7 +51,13 @@ const SharedBoardCard = ({
                 <div className="board-card__text-container__text">
                     <UserIcon className="board-card__text-container__text__icon" />
                     <span className="board-card__text-container__text__description">
-                        {sharedBy} delte denne tavla med deg
+                        {sharedBy} delte tavla med deg
+                    </span>
+                </div>
+                <div className="board-card__text-container__text">
+                    <ClockIcon className="board-card__text-container__text__icon" />
+                    <span className="board-card__text-container__text__description">
+                        Delt {createTimeString(timeIssued.toDate())}
                     </span>
                 </div>
             </div>
@@ -85,6 +96,7 @@ interface Props {
     sharedBy: string
     theme: Theme | undefined
     dashboard: string | undefined | void
+    timeIssued: Timestamp
 }
 
 export default SharedBoardCard
