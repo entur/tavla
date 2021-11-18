@@ -24,6 +24,8 @@ export const DEFAULT_SETTINGS: Settings = {
     hiddenRealtimeDataLineRefs: [],
     permanentlyVisibleRoutesInMap: [],
     showRoutesInMap: true,
+    customImageTiles: [],
+    customQrTiles: [],
 }
 
 const VERSION_PREFIX_REGEX = /^v(\d)+::/

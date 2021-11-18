@@ -11,7 +11,7 @@ import { onSnapshot } from 'firebase/firestore'
 
 import { Coordinates, TransportMode } from '@entur/sdk'
 
-import { Theme, DrawableRoute } from '../types'
+import { Theme, DrawableRoute, CustomImageTile, CustomQRTile } from '../types'
 import { getSettings } from '../services/firebase'
 import { getDocumentId } from '../utils'
 import { useUser } from '../auth'
@@ -63,6 +63,8 @@ export interface Settings {
     hideRealtimeData?: boolean
     hiddenRealtimeDataLineRefs: string[]
     isScheduledForDelete?: boolean
+    customImageTiles: CustomImageTile[]
+    customQrTiles: CustomQRTile[]
 }
 
 type Setter = (settings: Partial<Settings>) => void
@@ -86,6 +88,8 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     hideRealtimeData: true,
     showRoutesInMap: true,
     permanentlyVisibleRoutesInMap: [],
+    customImageTiles: [],
+    customQrTiles: [],
 }
 
 export function useSettings(): [Settings | null, Setter] {

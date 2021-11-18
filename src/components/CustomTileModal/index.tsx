@@ -4,23 +4,53 @@ import { Modal } from '@entur/modal'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
 
+import { useSettingsContext } from '../../settings'
+
 import './styles.scss'
 
 type TileType = 'qr' | 'image'
 
 const CustomTileModal = (): JSX.Element => {
+    const [settings, setSettings] = useSettingsContext()
+    const { customQrTiles = [], customImageTiles = [] } = settings || {}
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [tileType, setTileType] = useState<TileType>('image')
-    const [name, setName] = useState('')
-    const [link, setLink] = useState('')
+    const [displayName, setDisplayName] = useState('')
+    const [linkAddress, setLinkAddress] = useState('')
     const [description, setDescription] = useState('')
-    const [imageHeader, setImageHeader] = useState('')
+    const [displayHeader, setDisplayHeader] = useState('')
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
     const handleSubmit = () => {
         setIsSubmitAttempted(true)
-        if (!name || !link) return
-        //TODO
+        if (!displayName || !linkAddress) return
+        if (tileType === 'qr') {
+            setSettings({
+                customQrTiles: [
+                    ...customQrTiles,
+                    {
+                        id: String(Date.now()),
+                        displayName,
+                        linkAddress,
+                        description,
+                    },
+                ],
+            })
+        }
+        if (tileType === 'image') {
+            setSettings({
+                customImageTiles: [
+                    ...customImageTiles,
+                    {
+                        id: String(Date.now()),
+                        displayName,
+                        linkAddress,
+                        description,
+                        displayHeader,
+                    },
+                ],
+            })
+        }
         setIsOpen(false)
     }
 
@@ -35,8 +65,11 @@ const CustomTileModal = (): JSX.Element => {
             >
                 <TextField
                     label="Navn på boks"
-                    onChange={(e) => setName(e.target.value)}
-                    variant={isSubmitAttempted && !name ? 'error' : undefined}
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    variant={
+                        isSubmitAttempted && !displayName ? 'error' : undefined
+                    }
                     feedback="Vennligst fyll ut dette feltet"
                 ></TextField>
                 <RadioGroup
@@ -45,6 +78,8 @@ const CustomTileModal = (): JSX.Element => {
                     onChange={(e) => {
                         setTileType(e.target.value as TileType)
                         setIsSubmitAttempted(false)
+                        setLinkAddress('')
+                        setDescription('')
                     }}
                     value={tileType}
                 >
@@ -56,18 +91,23 @@ const CustomTileModal = (): JSX.Element => {
                     <>
                         <TextField
                             label="Lenkeadresse til bildet"
-                            onChange={(e) => setLink(e.target.value)}
+                            value={linkAddress}
+                            onChange={(e) => setLinkAddress(e.target.value)}
                             variant={
-                                isSubmitAttempted && !link ? 'error' : undefined
+                                isSubmitAttempted && !linkAddress
+                                    ? 'error'
+                                    : undefined
                             }
                             feedback="Vennligst fyll ut dette feltet"
                         ></TextField>
                         <TextField
                             label="Overskrift til bildet (valgfri)"
-                            onChange={(e) => setImageHeader(e.target.value)}
+                            value={displayHeader}
+                            onChange={(e) => setDisplayHeader(e.target.value)}
                         ></TextField>
                         <TextArea
                             label="Tekst til bildet (valgfri)"
+                            value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         ></TextArea>
                     </>
@@ -76,14 +116,18 @@ const CustomTileModal = (): JSX.Element => {
                     <>
                         <TextField
                             label="Lenkeadresse QR-koden skal åpne"
-                            onChange={(e) => setLink(e.target.value)}
+                            value={linkAddress}
+                            onChange={(e) => setLinkAddress(e.target.value)}
                             variant={
-                                isSubmitAttempted && !link ? 'error' : undefined
+                                isSubmitAttempted && !linkAddress
+                                    ? 'error'
+                                    : undefined
                             }
                             feedback="Vennligst fyll ut dette feltet"
                         ></TextField>
                         <TextArea
                             label="Beskrivelse til QR-koden (valgfri)"
+                            value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         ></TextArea>
                     </>

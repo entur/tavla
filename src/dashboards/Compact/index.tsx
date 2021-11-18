@@ -35,6 +35,8 @@ import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 import { LongPressProvider } from '../../logic/longPressContext'
 
 import WeatherTile from '../../components/WeatherTile'
+import LinkTile from '../../components/LinkTile'
+import ImageTile from '../../components/ImageTile'
 
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
@@ -195,6 +197,22 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                 ...defaultTileOrder,
             ]
         }
+        if (settings?.customImageTiles)
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                ...settings.customImageTiles.map((imgTile) => ({
+                    id: imgTile.id,
+                    name: imgTile.displayName,
+                })),
+            ]
+        if (settings?.customQrTiles)
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                ...settings.customQrTiles.map((qrTile) => ({
+                    id: qrTile.id,
+                    name: qrTile.displayName,
+                })),
+            ]
 
         const storedTileOrder: Item[] | undefined = getFromLocalStorage(
             boardId + '-tile-order',
@@ -220,6 +238,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         settings?.showWeather,
         boardId,
         hasData,
+        settings?.customImageTiles,
+        settings?.customQrTiles,
     ])
 
     const longPress = useLongPress(
@@ -348,6 +368,32 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                             />
                                         </div>
                                     )
+                                } else if (settings?.customImageTiles) {
+                                    return (
+                                        <div key={item.id}>
+                                            <ImageTile
+                                                url={
+                                                    settings.customImageTiles.find(
+                                                        (img) =>
+                                                            img.id === item.id,
+                                                    )?.linkAddress || ''
+                                                }
+                                            ></ImageTile>
+                                        </div>
+                                    )
+                                } else if (settings?.customQrTiles) {
+                                    return (
+                                        <div key={item.id}>
+                                            <LinkTile
+                                                url={
+                                                    settings.customQrTiles.find(
+                                                        (qr) =>
+                                                            qr.id === item.id,
+                                                    )?.linkAddress || ''
+                                                }
+                                            ></LinkTile>
+                                        </div>
+                                    )
                                 }
                             })}
                         </div>
@@ -427,6 +473,22 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                 />
                             </div>
                         ))}
+                        {settings?.customImageTiles &&
+                            settings.customImageTiles.map((imageTile) => (
+                                <div key={imageTile.id}>
+                                    <ImageTile
+                                        url={imageTile.linkAddress}
+                                    ></ImageTile>
+                                </div>
+                            ))}
+                        {settings?.customQrTiles &&
+                            settings.customQrTiles.map((qrTile) => (
+                                <div key={qrTile.id}>
+                                    <LinkTile
+                                        url={qrTile.linkAddress}
+                                    ></LinkTile>
+                                </div>
+                            ))}
                         {bikeRentalStations && anyBikeRentalStations ? (
                             <div
                                 key="city-bike"

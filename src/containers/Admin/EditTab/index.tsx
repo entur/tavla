@@ -47,6 +47,8 @@ import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
 
 import useRealtimeVehicleData from '../../../logic/useRealtimeVehicleData'
 
+import CustomTileModal from '../../../components/CustomTileModal'
+
 import StopPlacePanel from './StopPlacePanel'
 import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
@@ -351,6 +353,7 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
+            { i: 'customTilePanel', x: 0, y: 10, w: 1.5, h: 1.5 },
         ],
         md: [
             {
@@ -383,6 +386,7 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
+            { i: 'customTilePanel', x: 0, y: 10, w: 1.5, h: 1.5 },
         ],
         sm: [
             {
@@ -415,6 +419,7 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
+            { i: 'customTilePanel', x: 0, y: 10, w: 1.5, h: 1.5 },
         ],
         xs: [
             {
@@ -447,6 +452,7 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
+            { i: 'customTilePanel', x: 0, y: 10, w: 1.5, h: 1.5 },
         ],
         xxs: [
             {
@@ -479,6 +485,7 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
+            { i: 'customTilePanel', x: 0, y: 10, w: 1.5, h: 1.5 },
         ],
     }
 
@@ -644,6 +651,9 @@ const EditTab = (): JSX.Element => {
                         />
                     </div>
                     <WeatherPanel />
+                </div>
+                <div key="customTilePanel">
+                    <CustomTileModal></CustomTileModal>
                 </div>
             </ResponsiveReactGridLayout>
         </div>

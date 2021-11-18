@@ -55,3 +55,16 @@ export enum IconColorType {
     DEFAULT = 'default',
     CONTRAST = 'contrast',
 }
+
+interface CustomTile {
+    id: string
+    displayName: string
+    linkAddress: string
+    description: string
+}
+
+export interface CustomImageTile extends CustomTile {
+    displayHeader: string
+}
+
+export type CustomQRTile = CustomTile
