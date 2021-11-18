@@ -7,11 +7,12 @@ import { useUser } from '../../../../auth'
 import type { BoardOwnersData, Invite } from '../../../../types'
 
 import {
-    removeBoardInvite,
+    removeSentBoardInviteAsOwner,
     updateSingleSettingsField,
 } from '../../../../services/firebase'
 
 import { SharedWithRows } from './SharedWithRows'
+import { removeFromOwners } from '../../../../settings/FirestoreStorage'
 
 export const BoardOwnersList = ({
     documentId,
@@ -32,16 +33,16 @@ export const BoardOwnersList = ({
         userToRemove: BoardOwnersData,
     ): Promise<void> => {
         try {
-            const owners: string[] = ownersData.map(
-                (owner: BoardOwnersData) => owner.email,
+            const ownersUids: string[] = ownersData.map(
+                (owner: BoardOwnersData) => owner.uid,
             )
-            await updateSingleSettingsField(
-                documentId,
-                'owners',
-                owners.filter((ownerUID) => ownerUID !== userToRemove.uid),
+            if (!ownersUids.includes(user?.uid ?? ''))
+                throw new Error('You are not an owner of this board.')
+            await removeFromOwners(documentId, userToRemove.uid)
+        } catch (error) {
+            throw new Error(
+                'Write error: could not remove owner from board. ' + error,
             )
-        } catch {
-            throw new Error('Write error: could not remove owner from board.')
         }
     }
 
@@ -49,9 +50,15 @@ export const BoardOwnersList = ({
         userToRemove: BoardOwnersData,
     ): Promise<void> => {
         try {
-            await removeBoardInvite(documentId, userToRemove.email)
-        } catch {
-            throw new Error('Write error: could not remove invite from board.')
+            await removeSentBoardInviteAsOwner(
+                documentId,
+                user,
+                userToRemove.email,
+            )
+        } catch (error) {
+            throw new Error(
+                'Write error: could not remove invite from board. ' + error,
+            )
         }
     }
 

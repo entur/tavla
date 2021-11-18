@@ -16,8 +16,9 @@ import {
     collectionGroup,
     documentId,
 } from 'firebase/firestore'
-
 import { httpsCallable } from 'firebase/functions'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { signInWithCustomToken } from 'firebase/auth'
 
 import type {
     DocumentReference,
@@ -25,9 +26,7 @@ import type {
     GeoPoint,
     DocumentData,
 } from 'firebase/firestore'
-
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-import { signInWithCustomToken } from 'firebase/auth'
+import type { User } from 'firebase/auth'
 
 import { storage, db, auth, functions } from '../firebase-init'
 
@@ -43,112 +42,18 @@ const currentDocumentId = getDocumentId()
 export const getSettingsReference = (id: string): DocumentReference =>
     doc(collection(db, SETTINGS_COLLECTION), id)
 
-export const getBoardsOnSnapshot = (
-    userId: string,
-    observer: {
-        next: (querySnapshot: QuerySnapshot) => void
-        error: () => void
-    },
-): (() => void) => {
-    const q = query(
-        collection(db, SETTINGS_COLLECTION),
-        where('owners', 'array-contains', userId),
-    )
-    return onSnapshot(q, observer)
-}
-
-export const getBoardOnSnapshot = (
-    boardID: string | undefined,
-    observer: {
-        next: (documentSnapshot: DocumentSnapshot) => void
-        error: () => void
-    },
-): (() => void) => {
-    const q = getSettingsReference(boardID ?? '')
-
-    return onSnapshot(q, observer)
-}
-
-// The IN query does not support more than 10 documents
-export const getBoardsByIdsOnSnapshot = (
-    boardIds: string[],
-    observer: {
-        next: (querySnapshot: QuerySnapshot) => void
-        error: () => void
-    },
-): (() => void) => {
-    const q = query(
-        collection(db, SETTINGS_COLLECTION),
-        where(documentId(), 'in', boardIds),
-    )
-    return onSnapshot(q, observer)
-}
-
-export const getInvitesForUserOnSnapshot = (
-    userEmail: string | null,
-    observer: {
-        next: (querySnapshot: QuerySnapshot) => void
-        error: () => void
-    },
-): (() => void) => {
-    const q = query(
-        collectionGroup(db, 'invites'),
-        where('reciever', '==', userEmail),
-    )
-    return onSnapshot(q, observer)
-}
-
-export const getInvitesForBoardOnSnapshot = (
-    parentDocId: string,
-    observer: {
-        next: (querySnapshot: QuerySnapshot) => void
-        error: () => void
-    },
-): (() => void) => {
-    const q = query(
-        collection(db, SETTINGS_COLLECTION + '/' + parentDocId + '/invites'),
-    )
-    return onSnapshot(q, observer)
-}
-
-export const addNewBoardInvite = async (
-    parentDocId: string,
-    reciever: string,
-    sender: string | undefined,
+export const userIsOwner = async (
+    boardId: string,
+    userUID: string | undefined,
 ): Promise<boolean> => {
     try {
-        await addDoc(
-            collection(
-                db,
-                SETTINGS_COLLECTION + '/' + parentDocId + '/' + 'invites',
-            ),
-            {
-                reciever,
-                sender: sender ?? 'Ukjent',
-                timeIssued: serverTimestamp(),
-            },
-        )
-        return true
+        const documentRef: DocumentReference = getSettingsReference(boardId)
+        const document = await getDoc(documentRef)
+        const settings: DocumentData | undefined = document.data()
+        return settings?.owners?.includes(userUID) as boolean
     } catch {
         return false
     }
-}
-
-export const removeBoardInvite = async (
-    parentDocId: string,
-    reciever: string,
-): Promise<void> => {
-    const q = query(
-        collection(
-            db,
-            SETTINGS_COLLECTION + '/' + parentDocId + '/' + 'invites',
-        ),
-        where('reciever', '==', reciever),
-    )
-    const querySnapshot = await getDocs(q)
-    querySnapshot.forEach(async (invite) => {
-        await deleteDoc(invite.ref)
-    })
 }
 
 export const updateSingleSettingsField = async (
@@ -185,9 +90,6 @@ export const removeFromArray = async (
         lastmodified: serverTimestamp(),
     })
 
-export const deleteDocument = async (docId: string): Promise<void> =>
-    deleteDoc(doc(collection(db, SETTINGS_COLLECTION), docId))
-
 export const createSettings = async (
     settings: Settings,
 ): Promise<DocumentReference> =>
@@ -198,6 +100,9 @@ export const createSettingsWithId = async (
     docId: string,
 ): Promise<void> =>
     setDoc(doc(collection(db, SETTINGS_COLLECTION), docId), settings)
+
+export const deleteDocument = async (docId: string): Promise<void> =>
+    deleteDoc(doc(collection(db, SETTINGS_COLLECTION), docId))
 
 export const uploadLogo = async (
     image: File,
@@ -291,98 +196,193 @@ export const copySettingsToNewId = async (
 export const setIdToBeDeleted = (docId: string): Promise<void> =>
     updateSingleSettingsField(docId, 'isScheduledForDelete', true)
 
-export const getOwnersDataByUIDs = async (
-    ownersList: string[],
-): Promise<BoardOwnersData[]> => {
+export const getBoardOnSnapshot = (
+    boardID: string | undefined,
+    observer: {
+        next: (documentSnapshot: DocumentSnapshot) => void
+        error: () => void
+    },
+): (() => void) => {
+    const q = getSettingsReference(boardID ?? '')
+
+    return onSnapshot(q, observer)
+}
+
+export const getBoardsOnSnapshot = (
+    userId: string,
+    observer: {
+        next: (querySnapshot: QuerySnapshot) => void
+        error: () => void
+    },
+): (() => void) => {
+    const q = query(
+        collection(db, SETTINGS_COLLECTION),
+        where('owners', 'array-contains', userId),
+    )
+    return onSnapshot(q, observer)
+}
+
+// The IN query does not support more than 10 documents
+export const getBoardsByIdsOnSnapshot = (
+    boardIds: string[],
+    observer: {
+        next: (querySnapshot: QuerySnapshot) => void
+        error: () => void
+    },
+): (() => void) => {
+    const q = query(
+        collection(db, SETTINGS_COLLECTION),
+        where(documentId(), 'in', boardIds),
+    )
+    return onSnapshot(q, observer)
+}
+
+export const getInvitesForUserOnSnapshot = (
+    userEmail: string | null,
+    observer: {
+        next: (querySnapshot: QuerySnapshot) => void
+        error: () => void
+    },
+): (() => void) => {
+    const q = query(
+        collectionGroup(db, 'invites'),
+        where('reciever', '==', userEmail),
+    )
+    return onSnapshot(q, observer)
+}
+
+export const getInvitesForBoardOnSnapshot = (
+    parentDocId: string | undefined,
+    observer: {
+        next: (querySnapshot: QuerySnapshot) => void
+        error: () => void
+    },
+): (() => void) => {
+    const q = query(
+        collection(db, SETTINGS_COLLECTION + '/' + parentDocId + '/invites'),
+    )
+    return onSnapshot(q, observer)
+}
+
+export const addNewInviteToBoard = async (
+    parentDocId: string,
+    reciever: string,
+    sender: string | undefined,
+): Promise<boolean> => {
+    try {
+        await addDoc(
+            collection(
+                db,
+                SETTINGS_COLLECTION + '/' + parentDocId + '/' + 'invites',
+            ),
+            {
+                reciever,
+                sender: sender ?? 'Ukjent',
+                timeIssued: serverTimestamp(),
+            },
+        )
+        return true
+    } catch {
+        return false
+    }
+}
+
+export const removeRecievedBoardInvite = async (
+    parentDocId: string,
+    user: User | null | undefined,
+): Promise<void> => {
+    if (!user) return Promise.reject(new Error('Not logged in.'))
+    const userInviteQuery = query(
+        collection(
+            db,
+            SETTINGS_COLLECTION + '/' + parentDocId + '/' + 'invites',
+        ),
+        where('reciever', '==', user.email),
+    )
+    const querySnapshot = await getDocs(userInviteQuery)
+    querySnapshot.forEach(async (invite) => {
+        await deleteDoc(invite.ref)
+    })
+}
+
+export const removeSentBoardInviteAsOwner = async (
+    parentDocId: string,
+    currentUser: User | null | undefined,
+    emailToRemove: string,
+) => {
+    if (!currentUser) return Promise.reject(new Error('Not logged in.'))
+
+    const settingsDoc = await getDoc(
+        doc(collection(db, SETTINGS_COLLECTION), parentDocId),
+    )
+    if (!settingsDoc.exists())
+        return Promise.reject(new Error('Document not found'))
+    const owners: string[] = settingsDoc.data().owners
+    if (!owners.includes(currentUser.uid))
+        return Promise.reject(
+            new Error(
+                'Current user in not an owner of board with id: ' + parentDocId,
+            ),
+        )
+
+    const userInviteQuery = query(
+        collection(
+            db,
+            SETTINGS_COLLECTION + '/' + parentDocId + '/' + 'invites',
+        ),
+        where('reciever', '==', emailToRemove),
+    )
+    const querySnapshot = await getDocs(userInviteQuery)
+    querySnapshot.forEach(async (invite) => {
+        await deleteDoc(invite.ref)
+    })
+}
+
+export const answerBoardInvitation = async (
+    boardId: string,
+    user: User | null | undefined,
+    accept: boolean,
+): Promise<void> => {
+    if (!user) return Promise.reject(new Error('Not logged in.'))
+
     interface UploadData {
-        ownersList: string[]
+        boardId: string
     }
 
-    const getOwnersDataByUIDsFunction = httpsCallable<
+    const addInvitedUserToBoardOwnersFunction = httpsCallable<
+        UploadData,
+        boolean
+    >(functions, 'addInvitedUserToBoardOwners')
+
+    try {
+        if (accept)
+            await addInvitedUserToBoardOwnersFunction({
+                boardId,
+            } as UploadData)
+        await removeRecievedBoardInvite(boardId, user)
+    } catch {
+        throw new Error(
+            'Could not accept board invite. Additional info might be available above.',
+        )
+    }
+}
+
+export const getOwnersDataByBoardIdAsOwner = async (
+    boardId: string,
+): Promise<BoardOwnersData[]> => {
+    interface UploadData {
+        boardId: string
+    }
+
+    const getOwnersDataByBoardIdAsOwnerFunction = httpsCallable<
         UploadData,
         BoardOwnersData[]
-    >(functions, 'getOwnersDataByUIDs')
+    >(functions, 'getOwnersDataByBoardIdAsOwner')
 
-    const response = await getOwnersDataByUIDsFunction({
-        ownersList,
+    const response = await getOwnersDataByBoardIdAsOwnerFunction({
+        boardId,
     } as UploadData)
     const ownerData: BoardOwnersData[] = response.data
 
     return ownerData
-}
-
-export const getOwnerDataByUID = async (
-    uid: string,
-): Promise<BoardOwnersData> => {
-    interface UploadData {
-        ownersList: string[]
-    }
-
-    const getOwnersDataByUIDsFunction = httpsCallable<
-        UploadData,
-        BoardOwnersData[]
-    >(functions, 'getOwnersDataByUIDs')
-
-    const response = await getOwnersDataByUIDsFunction({
-        ownersList: [uid],
-    } as UploadData)
-    const ownerData: BoardOwnersData = response.data[0]
-
-    return ownerData
-}
-
-// Probably not needed
-export const getOwnerDataByEmail = async (
-    email: string,
-): Promise<string | BoardOwnersData> => {
-    interface UploadData {
-        email: string
-    }
-
-    const getOwnerDataByEmailFunction = httpsCallable<
-        UploadData,
-        BoardOwnersData | string
-    >(functions, 'getOwnerDataByEmail')
-
-    const response = await getOwnerDataByEmailFunction({ email } as UploadData)
-    const ownerData: BoardOwnersData | string = response.data
-
-    return ownerData
-}
-
-export const answerBoardInvitation = async (
-    boardID: string,
-    recipientUID: string,
-    accept: boolean,
-): Promise<void> => {
-    interface UploadData {
-        boardID: string
-        recipientUID: string
-        accept: boolean
-    }
-
-    const answerBoardInvitationFunction = httpsCallable<UploadData, void>(
-        functions,
-        'answerBoardInvitation',
-    )
-
-    await answerBoardInvitationFunction({
-        boardID,
-        recipientUID,
-        accept,
-    } as UploadData)
-}
-
-export const userIsOwner = async (
-    boardId: string,
-    userUID: string | undefined,
-): Promise<boolean> => {
-    try {
-        const documentRef: DocumentReference = getSettingsReference(boardId)
-        const document = await getDoc(documentRef)
-        const settings: DocumentData | undefined = document.data()
-        return settings?.owners?.includes(userUID) as boolean
-    } catch {
-        return false
-    }
 }

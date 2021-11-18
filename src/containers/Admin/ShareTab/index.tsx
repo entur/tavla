@@ -12,7 +12,7 @@ import { getDocumentId } from '../../../utils'
 import {
     getBoardOnSnapshot,
     getInvitesForBoardOnSnapshot,
-    getOwnersDataByUIDs,
+    getOwnersDataByBoardIdAsOwner,
 } from '../../../services/firebase'
 import { BoardOwnersData, Invite } from '../../../types'
 
@@ -54,7 +54,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
         if (goToFirstTab) setTabIndex(0)
     }
 
-    useEffect((): void => {
+    useEffect(() => {
         if (tabIndex === 5 && user && user.isAnonymous) {
             setLoginModalOpen(true)
         }
@@ -78,17 +78,9 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 if (!documentSnapshot.exists) return
                 if (documentSnapshot.metadata.hasPendingWrites) return
 
-                const owners: string[] = documentSnapshot.data()?.owners || []
-
-                getOwnersDataByUIDs(owners).then(
-                    (ownersAndRequestsList: BoardOwnersData[]) => {
-                        const newOwnersData = ownersAndRequestsList.filter(
-                            (owner: BoardOwnersData) =>
-                                owners.includes(owner.uid),
-                        )
-
-                        setOwnersData(newOwnersData)
-                    },
+                getOwnersDataByBoardIdAsOwner(documentSnapshot.id).then(
+                    (ownersDataResponse: BoardOwnersData[]) =>
+                        setOwnersData(ownersDataResponse),
                 )
                 setboardName(documentSnapshot.data()?.boardName)
             },
@@ -97,24 +89,21 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             },
         })
 
-        const unsubscribeInvites = getInvitesForBoardOnSnapshot(
-            documentId as string,
-            {
-                next: (querySnapshot) => {
-                    if (querySnapshot.metadata.hasPendingWrites) return
-                    const updatedInvites = querySnapshot.docs.map(
-                        (docSnapshot: DocumentData) =>
-                            ({
-                                reciever: docSnapshot.data().reciever,
-                                sender: docSnapshot.data().sender,
-                                timeIssued: docSnapshot.data().timeIssued,
-                            } as Invite),
-                    )
-                    setInvites(updatedInvites)
-                },
-                error: () => setInvites([]),
+        const unsubscribeInvites = getInvitesForBoardOnSnapshot(documentId, {
+            next: (querySnapshot) => {
+                if (querySnapshot.metadata.hasPendingWrites) return
+                const updatedInvites = querySnapshot.docs.map(
+                    (docSnapshot: DocumentData) =>
+                        ({
+                            reciever: docSnapshot.data().reciever,
+                            sender: docSnapshot.data().sender,
+                            timeIssued: docSnapshot.data().timeIssued,
+                        } as Invite),
+                )
+                setInvites(updatedInvites)
             },
-        )
+            error: () => setInvites([]),
+        })
 
         return () => {
             unsubscribeBoard()
@@ -187,6 +176,7 @@ const ShareTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
                 onDismiss={() => setRemoveSelfModalOpen(false)}
                 id={documentId}
                 uid={user?.uid ?? ''}
+                forceRefresh={true}
             />
             <LoginModal
                 onDismiss={handleDismissLoginModal}

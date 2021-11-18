@@ -95,7 +95,10 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
     }, [user])
 
     useEffect(() => {
-        if (!invites.length) return
+        if (!invites.length) {
+            setSharedBoards([])
+            return
+        }
         const boardInviteIds = invites.map((invite) => invite.id)
 
         const unsubscribeBoardsFromId = getBoardsByIdsOnSnapshot(

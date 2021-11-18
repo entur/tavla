@@ -1,5 +1,10 @@
 import { https, firestore as firestoreDB, region } from 'firebase-functions'
-import { firestore, auth, initializeApp, storage } from 'firebase-admin'
+import {
+    firestore as firestoreAdmin,
+    auth,
+    initializeApp,
+    storage,
+} from 'firebase-admin'
 
 initializeApp()
 
@@ -18,7 +23,7 @@ export const getImageUploadToken = https.onCall(async (data, context) => {
         )
     }
 
-    const doc = await firestore()
+    const doc = await firestoreAdmin()
         .collection('settings')
         .doc(data.imageUid)
         .get()
@@ -78,8 +83,8 @@ export const scheduledDeleteOfDocumentsSetToBeDeleted = region('us-central1')
     .timeZone('Europe/Oslo')
     .onRun(() => {
         try {
-            const batch = firestore().batch()
-            firestore()
+            const batch = firestoreAdmin().batch()
+            firestoreAdmin()
                 .collection('settings')
                 .where('isScheduledForDelete', '==', true)
                 .get()
@@ -100,100 +105,93 @@ export const scheduledDeleteOfDocumentsSetToBeDeleted = region('us-central1')
         return null
     })
 
-export const getOwnersDataByUIDs = https.onCall(async (data, context) => {
-    if (!context.auth) {
-        throw new https.HttpsError(
-            'failed-precondition',
-            'The function must be called while authenticated.',
-        )
-    }
-
-    const ownerUIDs = data.ownersList.map((id: string) => ({ uid: id }))
-
-    try {
-        const usersResult = await auth().getUsers(ownerUIDs)
-        const ownersData = usersResult.users.map((user) => ({
-            uid: user.uid,
-            email: user.email,
-        }))
-        return ownersData
-    } catch {
-        throw new https.HttpsError(
-            'invalid-argument',
-            'Could not get requested email addresses.',
-        )
-    }
-})
-
-export const getOwnerDataByEmail = https.onCall(async (data, context) => {
-    if (!context.auth) {
-        throw new https.HttpsError(
-            'failed-precondition',
-            'The function must be called while authenticated.',
-        )
-    }
-
-    try {
-        const userResult = await auth().getUserByEmail(data.email)
-        const ownerData = {
-            uid: userResult.uid,
-            email: userResult.email,
+export const getOwnersDataByBoardIdAsOwner = https.onCall(
+    async (data, context) => {
+        if (!context.auth) {
+            throw new https.HttpsError(
+                'failed-precondition',
+                'The function must be called while authenticated.',
+            )
         }
 
-        return ownerData
-    } catch {
-        return 'Failed'
-    }
-})
+        const boardRef = firestoreAdmin()
+            .collection('settings')
+            .doc(data.boardId)
+        const boardSnapshot = await boardRef.get()
+        if (!boardSnapshot.exists) {
+            throw new https.HttpsError(
+                'invalid-argument',
+                'Requested board was not found.',
+            )
+        }
+        const boardOwners = boardSnapshot.data()?.owners
+        if (!boardOwners.includes(context.auth?.uid)) {
+            throw new https.HttpsError(
+                'permission-denied',
+                'You need to be an owner of this board to get data about other owners.',
+            )
+        }
 
-interface OwnerRequest {
-    recipientUID: string
-    requestIssuerUID: string
-}
+        const boardOwnersMapped = boardOwners.map((id: string) => ({ uid: id }))
 
-export const answerBoardInvitation = https.onCall(async (data, context) => {
-    if (!context.auth) {
-        throw new https.HttpsError(
-            'failed-precondition',
-            'The function must be called while authenticated.',
-        )
-    }
+        try {
+            const usersResult = await auth().getUsers(boardOwnersMapped)
+            const ownersData = usersResult.users.map((user) => ({
+                uid: user.uid,
+                email: user.email,
+            }))
+            return ownersData
+        } catch {
+            throw new https.HttpsError(
+                'invalid-argument',
+                'Could not get requested data about owners.',
+            )
+        }
+    },
+)
 
-    const docRef = firestore().collection('settings').doc(data.boardID)
-    const doc = await docRef.get()
+export const addInvitedUserToBoardOwners = https.onCall(
+    async (data, context) => {
+        if (!context.auth) {
+            throw new https.HttpsError(
+                'failed-precondition',
+                'The function must be called while authenticated.',
+            )
+        }
 
-    if (!doc.exists) {
-        throw new https.HttpsError(
-            'invalid-argument',
-            'BoardID must refer to an existing settings document.',
-        )
-    }
+        const boardRef = firestoreAdmin()
+            .collection('settings')
+            .doc(data.boardId)
+        const boardSnapshot = await boardRef.get()
+        if (!boardSnapshot.exists) {
+            throw new https.HttpsError(
+                'invalid-argument',
+                'Requested board was not found.',
+            )
+        }
+        const boardOwners = boardSnapshot.data()?.owners
 
-    const settings = doc.data()
+        await firestoreAdmin()
+            .collection('settings/' + data.boardId + '/invites')
+            .where('reciever', '==', context.auth?.token.email)
+            .limit(1)
+            .get()
+            .then((inviteDoc) => inviteDoc.docs[0].id)
+            .catch(() => {
+                throw new https.HttpsError(
+                    'permission-denied',
+                    'Requested user does not have an invite for this board',
+                )
+            })
 
-    if (!settings) {
-        throw new https.HttpsError(
-            'invalid-argument',
-            'No data found in document.',
-        )
-    }
+        if (!boardOwners.includes(context.auth?.uid)) {
+            const ownersUpdated: string[] = [...boardOwners, context.auth?.uid]
+            boardRef.update({
+                owners: ownersUpdated,
+            })
+        }
 
-    const ownersUpdated: string[] = [...settings.owners, context.auth.uid]
-    const ownerRequestRecipientsUpdated: string[] =
-        settings.ownerRequestRecipients.filter(
-            (owner: string) => owner !== context.auth?.uid,
-        )
-    const ownerRequestsUpdated: OwnerRequest[] = settings.ownerRequests.filter(
-        (request: OwnerRequest) => request.recipientUID !== context.auth?.uid,
-    )
-
-    docRef.update({
-        ownerRequestRecipients: ownerRequestRecipientsUpdated,
-        ownerRequests: ownerRequestsUpdated,
-    })
-
-    if (data.accept)
-        docRef.update({
-            owners: ownersUpdated,
-        })
-})
+        if (data.accept) {
+        }
+    },
+)

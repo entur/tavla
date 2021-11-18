@@ -36,8 +36,11 @@ export function removeOwners(docId: string): void {
     persistSingleField(docId, 'owners', [])
 }
 
-export function removeFromOwners(docId: string, uid: string): void {
-    removeFromArray(docId, 'owners', uid)
+export const removeFromOwners = async (
+    docId: string,
+    uid: string,
+): Promise<void> => {
+    await removeFromArray(docId, 'owners', uid)
 }
 
 export function deleteTavle(docId: string): void {

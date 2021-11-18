@@ -5,7 +5,7 @@ import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 
-import { addNewBoardInvite } from '../../../../services/firebase'
+import { addNewInviteToBoard } from '../../../../services/firebase'
 import { useUser } from '../../../../auth'
 import { BoardOwnersData, Invite } from '../../../../types'
 
@@ -67,7 +67,7 @@ export const AddNewOwnersInput = ({
 
         if (user) {
             try {
-                const success = await addNewBoardInvite(
+                const success = await addNewInviteToBoard(
                     documentId,
                     newOwnerInput,
                     user.email ?? 'Ukjent',

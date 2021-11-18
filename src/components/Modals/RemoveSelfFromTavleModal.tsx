@@ -20,6 +20,7 @@ const RemoveSelfFromTavleModal = ({
     onDismiss,
     id,
     uid,
+    forceRefresh = false,
 }: Props): JSX.Element => {
     const { addToast } = useToast()
 
@@ -33,11 +34,11 @@ const RemoveSelfFromTavleModal = ({
                         'Du er ikke lenger en eier av denne tavla og vil ikke ha mulighet til å gjøre endringer i den.',
                     variant: 'success',
                 })
-                window.location.reload()
+                if (forceRefresh) window.location.reload()
             }
             onDismiss()
         },
-        [id, uid, onDismiss, addToast],
+        [id, uid, forceRefresh, onDismiss, addToast],
     )
 
     return (
@@ -90,4 +91,5 @@ interface Props {
     onDismiss: () => void
     id: string
     uid: string
+    forceRefresh?: boolean
 }

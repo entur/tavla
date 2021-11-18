@@ -56,8 +56,8 @@ const SharedBoardCard = ({
                     className="button__primary"
                     onClick={() => {
                         setProcessingFunction(true)
-                        answerBoardInvitation(id, user?.uid ?? '', true).catch(
-                            () => setProcessingFunction(false),
+                        answerBoardInvitation(id, user, true).catch(() =>
+                            setProcessingFunction(false),
                         )
                     }}
                     loading={processingFunction}
@@ -68,7 +68,7 @@ const SharedBoardCard = ({
                     variant="secondary"
                     className="button-secondary"
                     onClick={() => {
-                        answerBoardInvitation(id, user?.uid ?? '', false)
+                        answerBoardInvitation(id, user, false)
                     }}
                     disabled={processingFunction}
                 >
