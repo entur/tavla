@@ -62,20 +62,21 @@ export const EditableBoardTitle = ({
                 </Tooltip>
             </span>
         )
-    } else
-        return (
-            <Heading2 className="share-page__title" margin="none" as="span">
-                {boardName}
-                <Tooltip placement="bottom" content="Endre navn">
-                    <IconButton
-                        onClick={() => setTitleEditMode(true)}
-                        className="share-page__title__button"
-                    >
-                        <EditIcon size={20} />
-                    </IconButton>
-                </Tooltip>
-            </Heading2>
-        )
+    }
+
+    return (
+        <Heading2 className="share-page__title" margin="none" as="span">
+            {boardName}
+            <Tooltip placement="bottom" content="Endre navn">
+                <IconButton
+                    onClick={() => setTitleEditMode(true)}
+                    className="share-page__title__button"
+                >
+                    <EditIcon size={20} />
+                </IconButton>
+            </Tooltip>
+        </Heading2>
+    )
 }
 
 interface Props {

@@ -129,8 +129,7 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
             <Heading2 className="heading">Del din tavle med andre</Heading2>
             <Paragraph>
                 Denne siden lar deg dele den låste tavla di med andre, slik at
-                dere kan samarbeide på
-                {String.fromCharCode(160)}den.
+                dere kan samarbeide på&nbsp;den.
             </Paragraph>
             <GridContainer spacing="extraLarge" className="share-grid">
                 <GridItem

@@ -64,6 +64,38 @@
     }
 }
 
+.add-board-card {
+    margin: 0 1.5rem 1.5rem 0;
+    background-color: var(--tavla-background-color);
+
+    &__preview {
+        position: relative;
+        width: 100%;
+        padding: 1rem;
+        margin: 1.5rem 1.5rem 1.25rem 0;
+        border: 2px solid var(--tavla-border-color);
+        border-radius: 0.3rem;
+        color: var(--tavla-font-color);
+
+        &:hover {
+            background-color: var(--tavla-selected-color);
+            border-color: var(--tavla-input-border-hover-color);
+            cursor: pointer;
+        }
+
+        img {
+            width: 100%;
+            visibility: hidden;
+        }
+
+        &__icon {
+            position: absolute;
+            top: calc(50% - 1.5rem);
+            left: calc(50% - 1.5rem);
+        }
+    }
+}
+
 @media (max-width: 500px) {
     .my-boards {
         padding: 1rem;

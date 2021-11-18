@@ -61,13 +61,12 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
             next: (querySnapshot) => {
                 if (querySnapshot.metadata.hasPendingWrites) return
                 const updatedBoards = querySnapshot.docs.map(
-                    (docSnapshot: DocumentData) =>
-                        ({
-                            data: docSnapshot.data(),
-                            lastmodified: docSnapshot.data().lastmodified,
-                            created: docSnapshot.data().created,
-                            id: docSnapshot.id,
-                        } as Board),
+                    (docSnapshot: DocumentData): Board => ({
+                        data: docSnapshot.data(),
+                        lastmodified: docSnapshot.data().lastmodified,
+                        created: docSnapshot.data().created,
+                        id: docSnapshot.id,
+                    }),
                 )
                 setBoards(
                     updatedBoards.length

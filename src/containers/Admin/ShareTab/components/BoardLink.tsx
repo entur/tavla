@@ -14,6 +14,7 @@ export const BoardLink = ({ boardID }: Props): JSX.Element => {
         <div className="share-page__link">
             <Tooltip placement="bottom-right" content="Kopier lenke">
                 <IconButton
+                    className="share-page__link__button"
                     onClick={() => {
                         copy(`${window.location.host}/t/${boardID}`)
                         addToast({
@@ -23,7 +24,6 @@ export const BoardLink = ({ boardID }: Props): JSX.Element => {
                             variant: 'success',
                         })
                     }}
-                    style={{ marginLeft: '-8px' }}
                 >
                     <LinkIcon className="share-page__link__icon" />
                     <span className="share-page__link__description">

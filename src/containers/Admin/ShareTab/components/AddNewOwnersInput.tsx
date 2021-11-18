@@ -8,6 +8,7 @@ import { Tooltip } from '@entur/tooltip'
 import { addNewInviteToBoard } from '../../../../services/firebase'
 import { useUser } from '../../../../auth'
 import { BoardOwnersData, Invite } from '../../../../types'
+import { EMAIL_REGEX } from '../../../../utils'
 
 enum inputFeedback {
     NOT_VALID_EMAIL = 'Ugyldig: Du har ikke skrevet en gyldig e-postadresse.',
@@ -43,9 +44,6 @@ export const AddNewOwnersInput = ({
     const owners: string[] = ownersData.map(
         (owner: BoardOwnersData) => owner.email,
     )
-
-    const EMAIL_REGEX =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
     const onAddOwnerRequestToBoard = async () => {
         if (!newOwnerInput.match(EMAIL_REGEX)) {

@@ -32,6 +32,9 @@ import { TranslatedString, Translation } from '@entur/sdk/lib/mobility/types'
 import { LineData, TileSubLabel, Theme, IconColorType } from './types'
 import { useSettingsContext } from './settings'
 
+export const EMAIL_REGEX =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
 export function isNotNullOrUndefined<T>(
     thing: T | undefined | null,
 ): thing is T {

@@ -33,35 +33,24 @@ const OwnedBoards = ({
                     history={history}
                 />
             ))}
-            <Link to="/">
-                <div className="board-card">
-                    <div
-                        className="board-card__preview"
-                        style={{ position: 'relative' }}
-                    >
-                        <img
-                            src={preview['Chrono']}
-                            style={{
-                                visibility: 'hidden',
-                            }}
-                        />
+            <div className="add-board-card">
+                <Link to="/">
+                    <div className="add-board-card__preview">
+                        <img src={preview['Chrono']} />
                         <AddIcon
                             size="3rem"
-                            className="board-card__preview__icon"
+                            className="add-board-card__preview__icon"
                         />
                     </div>
-                    <div className="board-card__text-container">
-                        <span>
-                            <Heading3
-                                className="board-card__text-container__title"
-                                margin="none"
-                            >
-                                Lag ny tavle
-                            </Heading3>
-                        </span>
-                    </div>
+                </Link>
+                <div className="add-board-card__text-container">
+                    <span>
+                        <Link to="/">
+                            <Heading3>Lag ny tavle</Heading3>
+                        </Link>
+                    </span>
                 </div>
-            </Link>
+            </div>
         </div>
     </Contrast>
 )
