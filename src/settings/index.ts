@@ -62,8 +62,6 @@ export interface Settings {
     hideWalkInfo?: boolean
     hideRealtimeData?: boolean
     hiddenRealtimeDataLineRefs: string[]
-    ownerRequests: OwnerRequest[]
-    ownerRequestRecipients: string[]
     isScheduledForDelete?: boolean
 }
 
@@ -88,8 +86,6 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     hideRealtimeData: true,
     showRoutesInMap: true,
     permanentlyVisibleRoutesInMap: [],
-    ownerRequests: [],
-    ownerRequestRecipients: [],
 }
 
 export function useSettings(): [Settings | null, Setter] {
