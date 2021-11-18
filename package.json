@@ -71,6 +71,7 @@
         "react-grid-layout": "^1.2.5",
         "react-ios-pwa-prompt": "chrisdancee/react-ios-pwa-prompt#pull/71/head",
         "react-map-gl": "^6.1.16",
+        "react-qr-code": "^2.0.2",
         "react-router": "^5.2.0",
         "react-router-dom": "^5.3.0",
         "subscriptions-transport-ws": "^0.9.19",
