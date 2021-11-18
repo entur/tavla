@@ -65,6 +65,8 @@ export interface Settings {
     isScheduledForDelete?: boolean
     customImageTiles: CustomImageTile[]
     customQrTiles: CustomQRTile[]
+    showCustomTiles: boolean
+    hiddenCustomTileIds: string[]
 }
 
 type Setter = (settings: Partial<Settings>) => void
@@ -90,6 +92,8 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     permanentlyVisibleRoutesInMap: [],
     customImageTiles: [],
     customQrTiles: [],
+    showCustomTiles: false,
+    hiddenCustomTileIds: [],
 }
 
 export function useSettings(): [Settings | null, Setter] {

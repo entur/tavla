@@ -8,17 +8,37 @@ import { useSettingsContext } from '../../settings'
 
 import './styles.scss'
 
+interface Props {
+    setIsOpen: (isOpen: boolean) => void
+    selectedTileId?: string
+}
+
 type TileType = 'qr' | 'image'
 
-const CustomTileModal = (): JSX.Element => {
+const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
     const [settings, setSettings] = useSettingsContext()
     const { customQrTiles = [], customImageTiles = [] } = settings || {}
-    const [isOpen, setIsOpen] = useState<boolean>(false)
-    const [tileType, setTileType] = useState<TileType>('image')
-    const [displayName, setDisplayName] = useState('')
-    const [linkAddress, setLinkAddress] = useState('')
-    const [description, setDescription] = useState('')
-    const [displayHeader, setDisplayHeader] = useState('')
+    const selectedItem = [...customQrTiles, ...customImageTiles].find(
+        (tile) => tile.id === selectedTileId,
+    )
+    const [tileType, setTileType] = useState<TileType>(
+        selectedItem && 'displayHeader' in selectedItem ? 'image' : 'qr',
+    )
+    const [displayName, setDisplayName] = useState(
+        selectedItem ? selectedItem.displayName : '',
+    )
+    const [linkAddress, setLinkAddress] = useState(
+        selectedItem ? selectedItem.linkAddress : '',
+    )
+    const [description, setDescription] = useState(
+        selectedItem ? selectedItem.description : '',
+    )
+    const [displayHeader, setDisplayHeader] = useState(
+        selectedItem && 'displayHeader' in selectedItem
+            ? selectedItem['displayHeader']
+            : '',
+    )
+
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
     const handleSubmit = () => {
@@ -57,9 +77,16 @@ const CustomTileModal = (): JSX.Element => {
     return (
         <>
             <Modal
-                open={isOpen}
                 size="medium"
-                title="Legg til bilde- eller QR-boks"
+                title={`${
+                    selectedItem
+                        ? `Endre ${
+                              'displayHeader' in selectedItem
+                                  ? 'bildeboks'
+                                  : 'QR-boks'
+                          }`
+                        : 'Legg til bilde- eller QR-boks'
+                } `}
                 onDismiss={() => setIsOpen(false)}
                 className="custom-tile-modal"
             >
@@ -72,78 +99,60 @@ const CustomTileModal = (): JSX.Element => {
                     }
                     feedback="Vennligst fyll ut dette feltet"
                 ></TextField>
-                <RadioGroup
-                    name="tile-type"
-                    label="Type innhold"
-                    onChange={(e) => {
-                        setTileType(e.target.value as TileType)
-                        setIsSubmitAttempted(false)
-                        setLinkAddress('')
-                        setDescription('')
-                    }}
-                    value={tileType}
-                >
-                    <Radio value="image">Bilde</Radio>
-                    <Radio value="qr">QR-kode</Radio>
-                </RadioGroup>
-
+                {!selectedTileId && (
+                    <RadioGroup
+                        name="tile-type"
+                        label="Type innhold"
+                        onChange={(e) => {
+                            setTileType(e.target.value as TileType)
+                            setIsSubmitAttempted(false)
+                            setLinkAddress('')
+                            setDescription('')
+                        }}
+                        value={tileType}
+                    >
+                        <Radio value="image">Bilde</Radio>
+                        <Radio value="qr">QR-kode</Radio>
+                    </RadioGroup>
+                )}
+                <TextField
+                    label={`Lenkeadresse til ${
+                        tileType === 'image' ? 'bildet' : 'QR-koden'
+                    }`}
+                    value={linkAddress}
+                    onChange={(e) => setLinkAddress(e.target.value)}
+                    variant={
+                        isSubmitAttempted && !linkAddress ? 'error' : undefined
+                    }
+                    placeholder="F. eks. tavla.entur.no"
+                    feedback="Vennligst fyll ut dette feltet"
+                ></TextField>
                 {tileType === 'image' && (
-                    <>
-                        <TextField
-                            label="Lenkeadresse til bildet"
-                            value={linkAddress}
-                            onChange={(e) => setLinkAddress(e.target.value)}
-                            variant={
-                                isSubmitAttempted && !linkAddress
-                                    ? 'error'
-                                    : undefined
-                            }
-                            feedback="Vennligst fyll ut dette feltet"
-                        ></TextField>
-                        <TextField
-                            label="Overskrift til bildet (valgfri)"
-                            value={displayHeader}
-                            onChange={(e) => setDisplayHeader(e.target.value)}
-                        ></TextField>
-                        <TextArea
-                            label="Tekst til bildet (valgfri)"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        ></TextArea>
-                    </>
+                    <TextField
+                        label="Overskrift til bildet (valgfri)"
+                        value={displayHeader}
+                        onChange={(e) => setDisplayHeader(e.target.value)}
+                    ></TextField>
                 )}
-                {tileType === 'qr' && (
-                    <>
-                        <TextField
-                            label="Lenkeadresse QR-koden skal åpne"
-                            value={linkAddress}
-                            onChange={(e) => setLinkAddress(e.target.value)}
-                            variant={
-                                isSubmitAttempted && !linkAddress
-                                    ? 'error'
-                                    : undefined
-                            }
-                            feedback="Vennligst fyll ut dette feltet"
-                        ></TextField>
-                        <TextArea
-                            label="Beskrivelse til QR-koden (valgfri)"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        ></TextArea>
-                    </>
-                )}
+                <TextArea
+                    label={`${
+                        tileType === 'image'
+                            ? 'Tekst til bildet'
+                            : 'Beskrivelse til QR-koden'
+                    } (valgfri)`}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                ></TextArea>
+
                 <div className="custom-tile-modal__buttons">
                     <SecondaryButton onClick={() => setIsOpen(false)}>
                         Avbryt
                     </SecondaryButton>
                     <PrimaryButton onClick={handleSubmit} type="button">
-                        Legg til
+                        {selectedTileId ? 'Oppdater' : 'Legg til'}
                     </PrimaryButton>
                 </div>
             </Modal>
-            <PrimaryButton onClick={() => setIsOpen(true)} type="button">
-                test
-            </PrimaryButton>
         </>
     )
 }

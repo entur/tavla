@@ -26,6 +26,8 @@ export const DEFAULT_SETTINGS: Settings = {
     showRoutesInMap: true,
     customImageTiles: [],
     customQrTiles: [],
+    showCustomTiles: false,
+    hiddenCustomTileIds: [],
 }
 
 const VERSION_PREFIX_REGEX = /^v(\d)+::/

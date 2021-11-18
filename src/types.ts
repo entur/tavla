@@ -56,7 +56,7 @@ export enum IconColorType {
     CONTRAST = 'contrast',
 }
 
-interface CustomTile {
+export interface CustomTile {
     id: string
     displayName: string
     linkAddress: string

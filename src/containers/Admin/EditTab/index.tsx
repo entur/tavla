@@ -60,6 +60,7 @@ import ToggleDetailsPanel from './ToggleDetailsPanel'
 import WeatherPanel from './WeatherPanel'
 
 import './styles.scss'
+import CustomTilePanel from './CustomTilePanel'
 
 const isMobile = isMobileWeb()
 
@@ -353,7 +354,7 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
-            { i: 'customTilePanel', x: 0, y: 10, w: 1.5, h: 1.5 },
+            { i: 'customTilePanel', x: 1.5, y: 10, w: 1.5, h: 1.5 },
         ],
         md: [
             {
@@ -386,7 +387,7 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
-            { i: 'customTilePanel', x: 0, y: 10, w: 1.5, h: 1.5 },
+            { i: 'customTilePanel', x: 2, y: 10, w: 1, h: 1.5 },
         ],
         sm: [
             {
@@ -419,7 +420,7 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
-            { i: 'customTilePanel', x: 0, y: 10, w: 1.5, h: 1.5 },
+            { i: 'customTilePanel', x: 0, y: 10, w: 1, h: 1.5 },
         ],
         xs: [
             {
@@ -452,7 +453,7 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
-            { i: 'customTilePanel', x: 0, y: 10, w: 1.5, h: 1.5 },
+            { i: 'customTilePanel', x: 0, y: 10, w: 1, h: 1.5 },
         ],
         xxs: [
             {
@@ -485,7 +486,7 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
-            { i: 'customTilePanel', x: 0, y: 10, w: 1.5, h: 1.5 },
+            { i: 'customTilePanel', x: 0, y: 10, w: 1, h: 1.5 },
         ],
     }
 
@@ -652,8 +653,20 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <WeatherPanel />
                 </div>
-                <div key="customTilePanel">
-                    <CustomTileModal></CustomTileModal>
+                <div key="customTilePanel" className="edit-tab__tile">
+                    <div className="edit-tab__header">
+                        <Heading2>Bilde og QR</Heading2>
+                        <Switch
+                            onChange={(e) =>
+                                setSettings({
+                                    showCustomTiles: e.currentTarget.checked,
+                                })
+                            }
+                            checked={showWeather}
+                            size="large"
+                        />
+                    </div>
+                    <CustomTilePanel></CustomTilePanel>
                 </div>
             </ResponsiveReactGridLayout>
         </div>
