@@ -10,6 +10,7 @@
     align-items: center;
     padding: $space-medium !important;
     min-height: 150px;
+    z-index: 3;
 
     &__icon-and-temperature {
         display: flex;

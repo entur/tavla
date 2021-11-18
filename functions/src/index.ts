@@ -1,5 +1,8 @@
 import { https, firestore as firestoreDB, region } from 'firebase-functions'
-import { firestore, auth, initializeApp, storage } from 'firebase-admin'
+import { initializeApp } from 'firebase-admin/app'
+import { getAuth } from 'firebase-admin/auth'
+import { getFirestore } from 'firebase-admin/firestore'
+import { getStorage } from 'firebase-admin/storage'
 
 initializeApp()
 
@@ -18,7 +21,7 @@ export const getImageUploadToken = https.onCall(async (data, context) => {
         )
     }
 
-    const doc = await firestore()
+    const doc = await getFirestore()
         .collection('settings')
         .doc(data.imageUid)
         .get()
@@ -47,7 +50,7 @@ export const getImageUploadToken = https.onCall(async (data, context) => {
         uploadUid: doc.exists && data.imageUid,
     }
 
-    const uploadToken = await auth().createCustomToken(
+    const uploadToken = await getAuth().createCustomToken(
         context.auth.uid,
         metadata,
     )
@@ -65,7 +68,7 @@ export const deleteImagefromStorage = firestoreDB
                 const path = `images/${
                     imageIdMatch ? imageIdMatch[0] : context.params.settingsID
                 }`
-                await storage().bucket().file(path).delete()
+                await getStorage().bucket().file(path).delete()
             } catch (error) {
                 console.error(error)
                 throw error
@@ -78,10 +81,10 @@ export const scheduledDeleteOfDocumentsSetToBeDeleted = region('us-central1')
     .timeZone('Europe/Oslo')
     .onRun(() => {
         try {
-            const batch = firestore().batch()
-            firestore()
+            const batch = getFirestore().batch()
+            getFirestore()
                 .collection('settings')
-                .where('delete', '==', true)
+                .where('isScheduledForDelete', '==', true)
                 .get()
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
