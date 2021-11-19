@@ -32,14 +32,10 @@ function PrivateRoute({
 }
 
 interface Props {
-    component: (({ history }: HistoryProps) => JSX.Element) | null
-    errorComponent: ({ history }: HistoryProps) => JSX.Element
+    component: (() => JSX.Element) | null
+    errorComponent: () => JSX.Element
     path: string
     exact: boolean
-}
-
-interface HistoryProps {
-    history: any
 }
 
 export default PrivateRoute

@@ -23,6 +23,7 @@ export default createEnturService({
 
 function journeyplannerPost<T>(
     query: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     variables: Record<string, any>,
     signal: AbortSignal,
 ): Promise<T> {
