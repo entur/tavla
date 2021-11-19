@@ -1,19 +1,38 @@
 rules_version = '2';
 
 service cloud.firestore {
-  match /databases/{database}/documents/settings/{document} {
-    function hasValidDescription() {
-      return !('description' in request.resource.data) || request.resource.data.description.size() <= 50;
+
+  match /databases/{database}/documents {
+    match /settings/{document} {
+      function hasValidDescription() {
+        return !('description' in request.resource.data) || request.resource.data.description.size() <= 50;
+      }
+
+      function hasEditAccess() {
+        return request.auth != null && (resource.data.owners.size() == 0 || !('owners' in resource.data)
+          || resource.data.owners.hasAny([request.auth.uid]));
+      }
+
+      allow read;
+      allow create: if request.auth != null && hasValidDescription();
+      allow update: if request.auth != null && hasEditAccess() && hasValidDescription();
+      allow delete: if request.auth != null && hasEditAccess();
+
+      // This match applies to invites fetched for a spesific board
+      match /invites/{invite} {
+        function settingsData() {
+          return get(/databases/$(database)/documents/settings/$(document)).data
+        }
+
+        allow read, create, delete: if settingsData().owners.hasAny([request.auth.uid]);
+        allow delete: if resource.data.reciever == request.auth.token.email;
+      }
     }
 
-    function hasEditAccess() {
-      return request.auth != null && (resource.data.owners.size() == 0 || !('owners' in resource.data)
-        || resource.data.owners.hasAny([request.auth.uid]));
+    // This match applies to invites fetched through a collection group query
+    match /{somePath=**}/invites/{invite} {
+      allow read: if resource.data.reciever == request.auth.token.email;
     }
-
-    allow read;
-    allow create: if request.auth != null && hasValidDescription();
-    allow update: if request.auth != null && hasEditAccess() && hasValidDescription();
-    allow delete: if request.auth != null && hasEditAccess();
+    
   }
 }
