@@ -79,11 +79,11 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
                 if (!documentSnapshot.exists) return
                 if (documentSnapshot.metadata.hasPendingWrites) return
 
+                setboardName(documentSnapshot.data()?.boardName)
                 getOwnersDataByBoardIdAsOwner(documentSnapshot.id).then(
                     (ownersDataResponse: BoardOwnersData[]) =>
                         setOwnersData(ownersDataResponse),
                 )
-                setboardName(documentSnapshot.data()?.boardName)
             },
             error: () => {
                 setOwnersData([])
