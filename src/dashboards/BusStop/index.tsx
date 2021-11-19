@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Layouts, Layout, WidthProvider, Responsive } from 'react-grid-layout'
-import { useRouteMatch } from 'react-router'
+import { useHistory, useRouteMatch } from 'react-router'
 
 import { useLongPress } from 'use-long-press'
 
@@ -91,8 +91,9 @@ function removeStopPlacesWithNoDepartures(
     )
 }
 
-const BusStop = ({ history }: Props): JSX.Element | null => {
+const BusStop = (): JSX.Element | null => {
     const [settings] = useSettingsContext()
+    const history = useHistory()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
@@ -107,7 +108,7 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
             ?.documentId
 
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
-        getFromLocalStorage(dashboardKey),
+        getFromLocalStorage(dashboardKey as string),
     )
     const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
@@ -215,7 +216,6 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
         return (
             <DashboardWrapper
                 className="busStop"
-                history={history}
                 bikeRentalStations={bikeRentalStations}
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
                 scooters={scooters}
@@ -295,7 +295,6 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
     return (
         <DashboardWrapper
             className="busStop"
-            history={history}
             bikeRentalStations={bikeRentalStations}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
             scooters={scooters}
@@ -322,7 +321,10 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
                         ): void => {
                             if (numberOfStopPlaces > 0) {
                                 setGridLayouts(layouts)
-                                saveToLocalStorage(dashboardKey, layouts)
+                                saveToLocalStorage(
+                                    dashboardKey as string,
+                                    layouts,
+                                )
                             }
                         }}
                     >
@@ -371,10 +373,6 @@ const BusStop = ({ history }: Props): JSX.Element | null => {
             )}
         </DashboardWrapper>
     )
-}
-
-interface Props {
-    history: any
 }
 
 export default BusStop

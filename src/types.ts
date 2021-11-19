@@ -55,3 +55,13 @@ export enum IconColorType {
     DEFAULT = 'default',
     CONTRAST = 'contrast',
 }
+
+export interface Viewport {
+    latitude: number
+    longitude: number
+    width: string
+    height: string
+    zoom: number
+    maxZoom: number
+    minZoom: number
+}

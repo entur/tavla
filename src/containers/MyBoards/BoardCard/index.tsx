@@ -52,7 +52,6 @@ function BoardCard({
     timestamp,
     created,
     className,
-    history,
 }: Props): JSX.Element {
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
     const [boardTitle, setBoardTitle] = useState<string>('Uten tittel')
@@ -129,11 +128,7 @@ function BoardCard({
                         {boardTitleElement}
                     </div>
                     <div>
-                        <BoardOverflowMenu
-                            id={id}
-                            uid={uid}
-                            history={history}
-                        />
+                        <BoardOverflowMenu id={id} uid={uid} />
                     </div>
                 </div>
 
@@ -161,7 +156,6 @@ interface Props {
     timestamp: Timestamp
     created: Timestamp
     className?: string
-    history: any
 }
 
 export default BoardCard

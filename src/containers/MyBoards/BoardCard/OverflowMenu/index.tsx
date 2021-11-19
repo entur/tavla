@@ -1,5 +1,7 @@
 import React, { useCallback, useState } from 'react'
 
+import { useHistory } from 'react-router'
+
 import copy from 'copy-to-clipboard'
 
 import {
@@ -16,7 +18,8 @@ import '../styles.scss'
 import RemoveLockModal from './Modals/RemoveLockModal'
 import DeleteTavleModal from './Modals/DeleteTavleModal'
 
-function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
+function BoardOverflowMenu({ id, uid }: Props): JSX.Element {
+    const history = useHistory()
     const [removeLockModalOpen, setRemoveLockModalOpen] =
         useState<boolean>(false)
     const [deleteTavleModalOpen, setDeleteTavleModalOpen] =
@@ -86,7 +89,6 @@ function BoardOverflowMenu({ id, uid, history }: Props): JSX.Element {
 interface Props {
     id: string
     uid: string
-    history: any
 }
 
 export default BoardOverflowMenu

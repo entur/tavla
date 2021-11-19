@@ -22,7 +22,6 @@ function DashboardWrapper(props: Props): JSX.Element {
     const {
         className,
         children,
-        history,
         bikeRentalStations,
         stopPlacesWithDepartures,
         scooters,
@@ -68,10 +67,7 @@ function DashboardWrapper(props: Props): JSX.Element {
                     </div>
                 )}
                 <ThemeContrastWrapper useContrast={true}>
-                    <BottomMenu
-                        className="dashboard-wrapper__bottom-menu"
-                        history={history}
-                    />
+                    <BottomMenu className="dashboard-wrapper__bottom-menu" />
                 </ThemeContrastWrapper>
             </div>
         </ThemeContrastWrapper>
@@ -84,7 +80,6 @@ interface Props {
     scooters?: Vehicle[] | null
     className: string
     children: JSX.Element | JSX.Element[]
-    history: any
 }
 
 export default DashboardWrapper
