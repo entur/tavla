@@ -489,7 +489,15 @@ export const getFeedbackString = (lastUpdated: number): string => {
 export const getLastUpdated = (lastUpdated: string): number =>
     differenceInSeconds(new Date(), parseISO(lastUpdated))
 
-const DAYS = ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør']
+const DAYS = [
+    'søndag',
+    'mandag',
+    'tirsdag',
+    'onsdag',
+    'torsdag',
+    'fredag',
+    'lørdag',
+]
 
 const MONTHS = [
     'januar',
