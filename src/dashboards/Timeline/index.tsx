@@ -89,9 +89,9 @@ function walkMarkerPosition(walkTime: number): number {
     return competitorPosition(roundedWalkTime) + offset
 }
 
-function groupDeparturesByMode(
-    departures: LineData[],
-): { [mode in LegMode]?: LineData[] } {
+function groupDeparturesByMode(departures: LineData[]): {
+    [mode in LegMode]?: LineData[]
+} {
     return departures.reduce(
         (map, departure) => ({
             ...map,
