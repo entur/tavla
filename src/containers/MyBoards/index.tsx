@@ -7,7 +7,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 
 import { ThemeDashboardPreview } from '../../assets/icons/ThemeDashboardPreview'
 import {
-    getBoardsOnSnapshot,
+    getBoardsForUserOnSnapshot,
     getInvitesForUserOnSnapshot,
     getBoardsByIdsOnSnapshot,
 } from '../../services/firebase'
@@ -57,7 +57,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
         }
         if (user === undefined) return
 
-        const unsubscribe = getBoardsOnSnapshot(user.uid, {
+        const unsubscribe = getBoardsForUserOnSnapshot(user, {
             next: (querySnapshot) => {
                 if (querySnapshot.metadata.hasPendingWrites) return
                 const updatedBoards = querySnapshot.docs.map(

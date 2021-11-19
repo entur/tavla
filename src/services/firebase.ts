@@ -238,23 +238,23 @@ export const getBoardOnSnapshot = (
         error: () => void
     },
 ): (() => void) => {
-    const q = getSettingsReference(boardID ?? '')
+    const documentReference = getSettingsReference(boardID ?? '')
 
-    return onSnapshot(q, observer)
+    return onSnapshot(documentReference, observer)
 }
 
-export const getBoardsOnSnapshot = (
-    userId: string,
+export const getBoardsForUserOnSnapshot = (
+    user: User | null | undefined,
     observer: {
         next: (querySnapshot: QuerySnapshot) => void
         error: () => void
     },
 ): (() => void) => {
-    const q = query(
+    const boardsQuery = query(
         collection(db, SETTINGS_COLLECTION),
-        where('owners', 'array-contains', userId),
+        where('owners', 'array-contains', user?.uid ?? ''),
     )
-    return onSnapshot(q, observer)
+    return onSnapshot(boardsQuery, observer)
 }
 
 // The IN query does not support more than 10 documents
@@ -265,11 +265,11 @@ export const getBoardsByIdsOnSnapshot = (
         error: () => void
     },
 ): (() => void) => {
-    const q = query(
+    const boardsQuery = query(
         collection(db, SETTINGS_COLLECTION),
         where(documentId(), 'in', boardIds),
     )
-    return onSnapshot(q, observer)
+    return onSnapshot(boardsQuery, observer)
 }
 
 export const getInvitesForUserOnSnapshot = (
@@ -279,11 +279,11 @@ export const getInvitesForUserOnSnapshot = (
         error: () => void
     },
 ): (() => void) => {
-    const q = query(
+    const invitesQuery = query(
         collectionGroup(db, 'invites'),
         where('reciever', '==', userEmail),
     )
-    return onSnapshot(q, observer)
+    return onSnapshot(invitesQuery, observer)
 }
 
 export const getInvitesForBoardOnSnapshot = (
@@ -293,10 +293,10 @@ export const getInvitesForBoardOnSnapshot = (
         error: () => void
     },
 ): (() => void) => {
-    const q = query(
+    const invitesQuery = query(
         collection(db, SETTINGS_COLLECTION + '/' + parentDocId + '/invites'),
     )
-    return onSnapshot(q, observer)
+    return onSnapshot(invitesQuery, observer)
 }
 
 export const addNewInviteToBoard = async (
