@@ -1,10 +1,5 @@
 import React, { useEffect } from 'react'
-import {
-    Route,
-    Switch,
-    BrowserRouter as Router,
-    useLocation,
-} from 'react-router-dom'
+import { Route, Switch, BrowserRouter, useLocation } from 'react-router-dom'
 
 import PWAPrompt from 'react-ios-pwa-prompt'
 
@@ -47,7 +42,7 @@ const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1
 
 function getDashboardComponent(
     dashboardKey?: string | void,
-): (props: Props) => JSX.Element | null {
+): () => JSX.Element | null {
     switch (dashboardKey) {
         case 'Timeline':
             return Timeline
@@ -264,14 +259,10 @@ const Content = (): JSX.Element => {
     )
 }
 
-interface Props {
-    history: History
-}
-
 const App = (): JSX.Element => (
-    <Router>
+    <BrowserRouter>
         <Content />
-    </Router>
+    </BrowserRouter>
 )
 
 export default App

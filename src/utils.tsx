@@ -29,13 +29,7 @@ import type { TravelSwitchProps } from '@entur/form'
 import { Departure, LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 import { TranslatedString, Translation } from '@entur/sdk/lib/mobility/types'
 
-import {
-    LineData,
-    TileSubLabel,
-    Theme,
-    IconColorType,
-    GenericKeyValueObject,
-} from './types'
+import { LineData, TileSubLabel, Theme, IconColorType } from './types'
 import { useSettingsContext } from './settings'
 
 export function isNotNullOrUndefined<T>(
@@ -171,7 +165,8 @@ export function getIcon(
     }
 }
 
-export function groupBy<T extends GenericKeyValueObject>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function groupBy<T extends Record<string, any>>(
     objectArray: T[],
     property: keyof T,
 ): { [key: string]: T[] } {
@@ -182,7 +177,8 @@ export function groupBy<T extends GenericKeyValueObject>(
         }
         acc[key].push(obj)
         return acc
-    }, {} as GenericKeyValueObject)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }, {} as Record<string, any>)
 }
 
 function formatDeparture(minDiff: number, departureTime: Date): string {

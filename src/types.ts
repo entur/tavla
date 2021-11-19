@@ -1,9 +1,5 @@
 import { TransportMode, TransportSubmode, StopPlace, Quay } from '@entur/sdk'
 
-export interface GenericKeyValueObject {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any
-}
 export interface LineData {
     id: string
     type: TransportMode

@@ -19,11 +19,12 @@ import TimelineGrey from '../previews/previewGrey/Tidslinje-grey.svg'
 import MapGrey from '../previews/previewGrey/Kart-grey.svg'
 import BusStopGrey from '../previews/previewGrey/Holdeplass-gray.svg'
 
-import { GenericKeyValueObject, Theme } from '../../types'
+import { Theme } from '../../types'
 
 export function ThemeDashboardPreview(
     theme: Theme | undefined,
-): GenericKeyValueObject {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Record<string, any> {
     switch (theme) {
         case Theme.DARK:
             return {

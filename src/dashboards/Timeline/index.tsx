@@ -178,7 +178,7 @@ interface TimelineData {
     groupedDepartures: Array<[LegMode, LineData[]]>
 }
 
-const TimelineDashboard = (): JSX.Element => {
+const TimelineDashboard = (): JSX.Element | null => {
     useCounter()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const [settings] = useSettingsContext()
@@ -369,7 +369,7 @@ const TimelineDashboard = (): JSX.Element => {
         )
     }
     if (window.innerWidth < BREAKPOINTS.md) {
-        if (!tileOrder) return <></>
+        if (!tileOrder) return null
 
         return (
             <DashboardWrapper
