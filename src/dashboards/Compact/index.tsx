@@ -99,6 +99,7 @@ const COLS: { [key: string]: number } = {
 
 const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     const [settings] = useSettingsContext()
+    const { customImageTiles = [], customQrTiles = [] } = settings || {}
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
@@ -197,18 +198,18 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                 ...defaultTileOrder,
             ]
         }
-        if (settings?.customImageTiles)
+        if (customImageTiles)
             defaultTileOrder = [
                 ...defaultTileOrder,
-                ...settings.customImageTiles.map((imgTile) => ({
+                ...customImageTiles.map((imgTile) => ({
                     id: imgTile.id,
                     name: imgTile.displayName,
                 })),
             ]
-        if (settings?.customQrTiles)
+        if (customQrTiles)
             defaultTileOrder = [
                 ...defaultTileOrder,
-                ...settings.customQrTiles.map((qrTile) => ({
+                ...customQrTiles.map((qrTile) => ({
                     id: qrTile.id,
                     name: qrTile.displayName,
                 })),
@@ -238,8 +239,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         settings?.showWeather,
         boardId,
         hasData,
-        settings?.customImageTiles,
-        settings?.customQrTiles,
+        customImageTiles,
+        customQrTiles,
     ])
 
     const longPress = useLongPress(
@@ -299,6 +300,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                 modalVisible={modalVisible}
                                 onDismiss={() => setModalVisible(false)}
                             />
+
                             {tileOrder.map((item) => {
                                 if (item.id == 'map') {
                                     return hasData && mapCol ? (
@@ -348,12 +350,40 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                     ) : (
                                         []
                                     )
+                                }
+                                if (customImageTiles) {
+                                    const url =
+                                        customImageTiles.find(
+                                            (img) => img.id === item.id,
+                                        )?.linkAddress || ''
+                                    if (url)
+                                        return (
+                                            <div key={item.id}>
+                                                <ImageTile
+                                                    url={url}
+                                                ></ImageTile>
+                                            </div>
+                                        )
+                                }
+
+                                if (customQrTiles) {
+                                    const tile = customQrTiles.find(
+                                        (qr) => qr.id === item.id,
+                                    )
+
+                                    if (tile)
+                                        return (
+                                            <div key={item.id} className="tile">
+                                                <QRTile {...tile}></QRTile>
+                                            </div>
+                                        )
                                 } else if (stopPlacesWithDepartures) {
                                     const stopIndex =
                                         stopPlacesWithDepartures.findIndex(
                                             (p) => p.id == item.id,
                                         )
-                                    return (
+
+                                    return stopIndex >= 0 ? (
                                         <div key={item.id}>
                                             <DepartureTile
                                                 walkInfo={getWalkInfoForStopPlace(
@@ -367,29 +397,9 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                                 }
                                             />
                                         </div>
+                                    ) : (
+                                        []
                                     )
-                                } else if (settings?.customImageTiles) {
-                                    return (
-                                        <div key={item.id}>
-                                            <ImageTile
-                                                url={
-                                                    settings.customImageTiles.find(
-                                                        (img) =>
-                                                            img.id === item.id,
-                                                    )?.linkAddress || ''
-                                                }
-                                            ></ImageTile>
-                                        </div>
-                                    )
-                                } else if (settings?.customQrTiles) {
-                                    const tile = settings.customQrTiles.find(
-                                        (qr) => qr.id === item.id,
-                                    )
-                                    tile ? (
-                                        <div key={item.id} className="tile">
-                                            <QRTile {...tile}></QRTile>
-                                        </div>
-                                    ) : null
                                 }
                             })}
                         </div>
@@ -469,16 +479,23 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                 />
                             </div>
                         ))}
-                        {settings?.customImageTiles &&
-                            settings.customImageTiles.map((imageTile) => (
+                        {customImageTiles &&
+                            customImageTiles.map((imageTile) => (
                                 <div key={imageTile.id}>
+                                    {!isMobile ? (
+                                        <ResizeHandle
+                                            size="32"
+                                            className="resizeHandle"
+                                            variant="light"
+                                        />
+                                    ) : null}
                                     <ImageTile
                                         url={imageTile.linkAddress}
                                     ></ImageTile>
                                 </div>
                             ))}
-                        {settings?.customQrTiles &&
-                            settings.customQrTiles.map((qrTile) => (
+                        {customQrTiles &&
+                            customQrTiles.map((qrTile) => (
                                 <div key={qrTile.id}>
                                     {!isMobile ? (
                                         <ResizeHandle

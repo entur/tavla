@@ -44,6 +44,7 @@ const DepartureTile = ({
     walkInfo,
 }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
+
     const groupedDepartures = groupBy<LineData>(departures, 'route')
     const routes = Object.keys(groupedDepartures)
     const [settings] = useSettingsContext()

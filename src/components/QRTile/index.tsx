@@ -6,7 +6,7 @@ import { Link, Paragraph } from '@entur/typography'
 
 import { CustomQRTile } from '../../types'
 
-import './style.scss'
+import './styles.scss'
 
 const QRTile = ({ linkAddress, description }: CustomQRTile): JSX.Element => (
     <div className="qr-tile__wrapper">
