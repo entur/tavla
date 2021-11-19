@@ -35,7 +35,7 @@ import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 import { LongPressProvider } from '../../logic/longPressContext'
 
 import WeatherTile from '../../components/WeatherTile'
-import LinkTile from '../../components/LinkTile'
+import QRTile from '../../components/QRTile'
 import ImageTile from '../../components/ImageTile'
 
 import DepartureTile from './DepartureTile'
@@ -382,18 +382,14 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                         </div>
                                     )
                                 } else if (settings?.customQrTiles) {
-                                    return (
-                                        <div key={item.id}>
-                                            <LinkTile
-                                                url={
-                                                    settings.customQrTiles.find(
-                                                        (qr) =>
-                                                            qr.id === item.id,
-                                                    )?.linkAddress || ''
-                                                }
-                                            ></LinkTile>
-                                        </div>
+                                    const tile = settings.customQrTiles.find(
+                                        (qr) => qr.id === item.id,
                                     )
+                                    tile ? (
+                                        <div key={item.id} className="tile">
+                                            <QRTile {...tile}></QRTile>
+                                        </div>
+                                    ) : null
                                 }
                             })}
                         </div>
@@ -484,9 +480,16 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                         {settings?.customQrTiles &&
                             settings.customQrTiles.map((qrTile) => (
                                 <div key={qrTile.id}>
-                                    <LinkTile
-                                        url={qrTile.linkAddress}
-                                    ></LinkTile>
+                                    {!isMobile ? (
+                                        <ResizeHandle
+                                            size="32"
+                                            className="resizeHandle"
+                                            variant="light"
+                                        />
+                                    ) : null}
+                                    <div className="tile">
+                                        <QRTile {...qrTile}></QRTile>
+                                    </div>
                                 </div>
                             ))}
                         {bikeRentalStations && anyBikeRentalStations ? (
