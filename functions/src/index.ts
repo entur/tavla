@@ -1,10 +1,8 @@
 import { https, firestore as firestoreDB, region } from 'firebase-functions'
-import {
-    firestore as firestoreAdmin,
-    auth,
-    initializeApp,
-    storage,
-} from 'firebase-admin'
+import { initializeApp } from 'firebase-admin/app'
+import { getAuth } from 'firebase-admin/auth'
+import { getFirestore } from 'firebase-admin/firestore'
+import { getStorage } from 'firebase-admin/storage'
 
 initializeApp()
 
@@ -23,7 +21,7 @@ export const getImageUploadToken = https.onCall(async (data, context) => {
         )
     }
 
-    const doc = await firestoreAdmin()
+    const doc = await getFirestore()
         .collection('settings')
         .doc(data.imageUid)
         .get()
@@ -52,7 +50,7 @@ export const getImageUploadToken = https.onCall(async (data, context) => {
         uploadUid: doc.exists && data.imageUid,
     }
 
-    const uploadToken = await auth().createCustomToken(
+    const uploadToken = await getAuth().createCustomToken(
         context.auth.uid,
         metadata,
     )
@@ -70,7 +68,7 @@ export const deleteImagefromStorage = firestoreDB
                 const path = `images/${
                     imageIdMatch ? imageIdMatch[0] : context.params.settingsID
                 }`
-                await storage().bucket().file(path).delete()
+                await getStorage().bucket().file(path).delete()
             } catch (error) {
                 console.error(error)
                 throw error
@@ -83,8 +81,8 @@ export const scheduledDeleteOfDocumentsSetToBeDeleted = region('us-central1')
     .timeZone('Europe/Oslo')
     .onRun(() => {
         try {
-            const batch = firestoreAdmin().batch()
-            firestoreAdmin()
+            const batch = getFirestore().batch()
+            getFirestore()
                 .collection('settings')
                 .where('isScheduledForDelete', '==', true)
                 .get()
@@ -114,9 +112,7 @@ export const getOwnersDataByBoardIdAsOwner = https.onCall(
             )
         }
 
-        const boardRef = firestoreAdmin()
-            .collection('settings')
-            .doc(data.boardId)
+        const boardRef = getFirestore().collection('settings').doc(data.boardId)
         const boardSnapshot = await boardRef.get()
         if (!boardSnapshot.exists) {
             throw new https.HttpsError(
@@ -135,7 +131,7 @@ export const getOwnersDataByBoardIdAsOwner = https.onCall(
         const boardOwnersMapped = boardOwners.map((id: string) => ({ uid: id }))
 
         try {
-            const usersResult = await auth().getUsers(boardOwnersMapped)
+            const usersResult = await getAuth().getUsers(boardOwnersMapped)
             const ownersData = usersResult.users.map((user) => ({
                 uid: user.uid,
                 email: user.email,
@@ -159,9 +155,7 @@ export const addInvitedUserToBoardOwners = https.onCall(
             )
         }
 
-        const boardRef = firestoreAdmin()
-            .collection('settings')
-            .doc(data.boardId)
+        const boardRef = getFirestore().collection('settings').doc(data.boardId)
         const boardSnapshot = await boardRef.get()
         if (!boardSnapshot.exists) {
             throw new https.HttpsError(
@@ -171,7 +165,7 @@ export const addInvitedUserToBoardOwners = https.onCall(
         }
         const boardOwners = boardSnapshot.data()?.owners
 
-        await firestoreAdmin()
+        await getFirestore()
             .collection('settings/' + data.boardId + '/invites')
             .where('reciever', '==', context.auth?.token.email)
             .limit(1)
