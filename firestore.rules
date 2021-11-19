@@ -18,7 +18,7 @@ service cloud.firestore {
       allow update: if request.auth != null && hasEditAccess() && hasValidDescription();
       allow delete: if request.auth != null && hasEditAccess();
 
-      // This match applies to invites fetched for a spesific board
+      // This match applies to invites fetched for a specific board
       match /invites/{invite} {
         function settingsData() {
           return get(/databases/$(database)/documents/settings/$(document)).data
