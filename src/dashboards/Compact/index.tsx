@@ -385,7 +385,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                                 <QRTile {...tile}></QRTile>
                                             </div>
                                         )
-                                } else if (stopPlacesWithDepartures) {
+                                }
+                                if (stopPlacesWithDepartures) {
                                     const stopIndex =
                                         stopPlacesWithDepartures.findIndex(
                                             (p) => p.id == item.id,
