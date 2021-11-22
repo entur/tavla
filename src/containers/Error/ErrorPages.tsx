@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import { useHistory } from 'react-router'
+
 import { signOut } from 'firebase/auth'
 
 import { useToast } from '@entur/alert'
@@ -15,9 +17,10 @@ import sauerLight from '../../assets/images/sauer_lag@2x.png'
 
 import ErrorWrapper from '.'
 
-export function LockedTavle({ history }: Props): JSX.Element {
+export function LockedTavle(): JSX.Element {
     const user = useUser()
     const userLoggedin = Boolean(user && !user.isAnonymous)
+    const history = useHistory()
     const documentId = getDocumentId()
     const { addToast } = useToast()
 
@@ -35,7 +38,7 @@ export function LockedTavle({ history }: Props): JSX.Element {
                   variant: 'success',
               })
 
-              signOut(auth).then(history.push(`/t/${documentId}`))
+              signOut(auth).then(() => history.push(`/t/${documentId}`))
           }
     const callbackMessage = !userLoggedin ? 'Logg inn' : 'Logg ut'
 
@@ -65,7 +68,8 @@ export function LockedTavle({ history }: Props): JSX.Element {
     )
 }
 
-export function PageDoesNotExist({ history }: Props): JSX.Element {
+export function PageDoesNotExist(): JSX.Element {
+    const history = useHistory()
     const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
         event.preventDefault()
         history.push(`/`)
@@ -95,7 +99,8 @@ export function NoStopsOnTavle(): JSX.Element {
     )
 }
 
-export function NoTavlerAvailable({ history }: Props): JSX.Element {
+export function NoTavlerAvailable(): JSX.Element {
+    const history = useHistory()
     const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
         event.preventDefault()
         history.push(`/`)
@@ -139,8 +144,4 @@ export function NoAccessToTavler(): JSX.Element {
             />
         </div>
     )
-}
-
-interface Props {
-    history: any
 }

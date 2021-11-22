@@ -7,7 +7,7 @@ import {
 } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { onSnapshot } from 'firebase/firestore'
+import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 
 import { Coordinates, TransportMode } from '@entur/sdk'
 
@@ -116,46 +116,52 @@ export function useSettings(): [Settings | null, Setter] {
         }
 
         if (id) {
-            return onSnapshot(getSettings(id), (documentSnapshot: any) => {
-                if (!documentSnapshot.exists()) {
-                    window.location.pathname = '/'
-                    return
-                }
+            return onSnapshot(
+                getSettings(id),
+                (documentSnapshot: DocumentSnapshot) => {
+                    if (!documentSnapshot.exists()) {
+                        window.location.pathname = '/'
+                        return
+                    }
 
-                const data = documentSnapshot.data() as Settings
+                    const data = documentSnapshot.data() as Settings
 
-                const settingsWithDefaults: Settings = {
-                    ...DEFAULT_SETTINGS,
-                    ...data,
-                }
+                    const settingsWithDefaults: Settings = {
+                        ...DEFAULT_SETTINGS,
+                        ...data,
+                    }
 
-                // The fields under are added if missing, and if the tavle is not locked.
-                // If a tavle is locked by a user, you are not allowed to write to
-                // tavle unless you are logged in as the user who locked tavla, so we need
-                // to check if you have edit access.
-                const editAccess =
-                    user &&
-                    (!data.owners?.length || data.owners.includes(user.uid))
+                    // The fields under are added if missing, and if the tavle is not locked.
+                    // If a tavle is locked by a user, you are not allowed to write to
+                    // tavle unless you are logged in as the user who locked tavla, so we need
+                    // to check if you have edit access.
+                    const editAccess =
+                        user &&
+                        (!data.owners?.length || data.owners.includes(user.uid))
 
-                if (editAccess) {
-                    Object.entries(DEFAULT_SETTINGS).forEach(([key, value]) => {
-                        if (data[key as keyof Settings] === undefined) {
-                            persistSingleFieldToFirebase(
-                                id,
-                                key,
-                                value as FieldTypes,
-                            )
-                        }
+                    if (editAccess) {
+                        Object.entries(DEFAULT_SETTINGS).forEach(
+                            ([key, value]) => {
+                                if (data[key as keyof Settings] === undefined) {
+                                    persistSingleFieldToFirebase(
+                                        id,
+                                        key,
+                                        value as FieldTypes,
+                                    )
+                                }
+                            },
+                        )
+                    }
+
+                    setLocalSettings((prevSettings) => {
+                        const onAdmin =
+                            location.pathname.split('/')[1] === 'admin'
+                        return prevSettings && onAdmin
+                            ? prevSettings
+                            : settingsWithDefaults
                     })
-                }
-
-                setLocalSettings((prevSettings) => {
-                    const onAdmin = location.pathname.split('/')[1] === 'admin'
-                    return prevSettings && onAdmin
-                        ? prevSettings
-                        : settingsWithDefaults
-                })
-            })
+                },
+            )
         }
 
         let positionArray: string[] = []

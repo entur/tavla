@@ -18,6 +18,7 @@ import {
     IconColorType,
     Line,
     StopPlaceWithDepartures,
+    Viewport,
 } from '../../types'
 
 import { Filter } from '../../services/realtimeVehicles/types/filter'
@@ -48,7 +49,7 @@ const Map = ({
     longitude,
     zoom,
 }: Props): JSX.Element => {
-    const [viewport, setViewPort] = useState({
+    const [viewport, setViewPort] = useState<Viewport>({
         latitude,
         longitude,
         width: 'auto',
@@ -346,7 +347,7 @@ const Map = ({
             mapStyle={mapStyle || process.env.MAPBOX_STYLE_MAPVIEW}
             onViewportChange={
                 interactive
-                    ? (newViewPort: any): void => {
+                    ? (newViewPort: Viewport): void => {
                           const {
                               zoom: newZoom,
                               maxZoom,

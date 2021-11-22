@@ -45,7 +45,7 @@ function ErrorWrapper({
 interface Props {
     title: string
     message: string
-    image: any
+    image: string
     callbackMessage?: string
     callback?: (event: React.SyntheticEvent<HTMLButtonElement>) => void
 }

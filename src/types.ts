@@ -68,3 +68,12 @@ export interface CustomImageTile extends CustomTile {
 }
 
 export type CustomQRTile = CustomTile
+export interface Viewport {
+    latitude: number
+    longitude: number
+    width: string
+    height: string
+    zoom: number
+    maxZoom: number
+    minZoom: number
+}

@@ -521,7 +521,7 @@ const EditTab = (): JSX.Element => {
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
             { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
-            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 3 },
+            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 2 },
             {
                 i: 'realtimeDataPanel',
                 x: 0,

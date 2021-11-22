@@ -89,9 +89,9 @@ function walkMarkerPosition(walkTime: number): number {
     return competitorPosition(roundedWalkTime) + offset
 }
 
-function groupDeparturesByMode(
-    departures: LineData[],
-): { [mode in LegMode]?: LineData[] } {
+function groupDeparturesByMode(departures: LineData[]): {
+    [mode in LegMode]?: LineData[]
+} {
     return departures.reduce(
         (map, departure) => ({
             ...map,
@@ -178,7 +178,7 @@ interface TimelineData {
     groupedDepartures: Array<[LegMode, LineData[]]>
 }
 
-const TimelineDashboard = ({ history }: Props): JSX.Element => {
+const TimelineDashboard = (): JSX.Element | null => {
     useCounter()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const [settings] = useSettingsContext()
@@ -369,12 +369,11 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
         )
     }
     if (window.innerWidth < BREAKPOINTS.md) {
-        if (!tileOrder) return null as any
+        if (!tileOrder) return null
 
         return (
             <DashboardWrapper
                 className="timeline"
-                history={history}
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
             >
                 <LongPressProvider value={isLongPressStarted}>
@@ -413,7 +412,6 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
     return (
         <DashboardWrapper
             className="timeline"
-            history={history}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
             <div className="timeline__body">
@@ -506,10 +504,6 @@ const TimelineDashboard = ({ history }: Props): JSX.Element => {
             </div>
         </DashboardWrapper>
     )
-}
-
-interface Props {
-    history: any
 }
 
 export default TimelineDashboard

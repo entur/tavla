@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 import { signOut } from 'firebase/auth'
 
@@ -27,13 +27,14 @@ import MineTavlerModal from '../../MineTavlerModal'
 import MenuButton from './MenuButton'
 import './styles.scss'
 
-function BottomMenu({ className, history }: Props): JSX.Element {
+function BottomMenu({ className }: Props): JSX.Element {
     const URL = document.location.href
+    const history = useHistory()
 
     const user = useUser()
     const width = useWindowWidth()
     const [settings] = useSettingsContext()
-    const [menuHiddenByScroll, setMenuHiddenByScroll] = useState(true)
+    const [menuHiddenByScroll, setMenuHiddenByScroll] = useState(false)
     const [isMobileWidth, setIsMobileWidth] = useState<boolean>(
         document.body.clientWidth <= 900,
     )
@@ -133,10 +134,8 @@ function BottomMenu({ className, history }: Props): JSX.Element {
     }, [width])
 
     useEffect(() => {
-        if (menuRef.current) {
-            isMobileWidth
-                ? menuRef.current.classList.add('hidden-menu')
-                : menuRef.current.classList.remove('hidden-menu')
+        if (menuRef.current && !isMobileWidth) {
+            menuRef.current.classList.remove('hidden-menu')
         }
     }, [isMobileWidth])
 
@@ -246,7 +245,6 @@ function BottomMenu({ className, history }: Props): JSX.Element {
 
 interface Props {
     className?: string
-    history: any
 }
 
 export default BottomMenu

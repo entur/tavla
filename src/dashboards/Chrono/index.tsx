@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
-import { useRouteMatch } from 'react-router'
+import { useHistory, useRouteMatch } from 'react-router'
 
 import { useLongPress } from 'use-long-press'
 
@@ -94,7 +94,7 @@ const COLS: { [key: string]: number } = {
     xxs: 1,
 }
 
-const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
+const ChronoDashboard = (): JSX.Element | null => {
     const [settings] = useSettingsContext()
     const {
         customImageTiles = [],
@@ -102,6 +102,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         hiddenCustomTileIds = [],
         showCustomTiles,
     } = settings || {}
+    const history = useHistory()
     const dashboardKey = history.location.key
     const boardId =
         useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
@@ -112,7 +113,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
 
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
-        getFromLocalStorage(dashboardKey),
+        getFromLocalStorage(dashboardKey as string),
     )
     const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
@@ -309,7 +310,6 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         return (
             <DashboardWrapper
                 className="chrono"
-                history={history}
                 bikeRentalStations={bikeRentalStations}
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
                 scooters={scooters}
@@ -443,7 +443,6 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
     return (
         <DashboardWrapper
             className="chrono"
-            history={history}
             bikeRentalStations={bikeRentalStations}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
@@ -469,7 +468,10 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                         ): void => {
                             if (numberOfStopPlaces > 0) {
                                 setGridLayouts(layouts)
-                                saveToLocalStorage(dashboardKey, layouts)
+                                saveToLocalStorage(
+                                    dashboardKey as string,
+                                    layouts,
+                                )
                             }
                         }}
                     >
@@ -582,10 +584,6 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
             )}
         </DashboardWrapper>
     )
-}
-
-interface Props {
-    history: any
 }
 
 export default ChronoDashboard
