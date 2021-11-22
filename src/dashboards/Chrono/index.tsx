@@ -23,6 +23,8 @@ import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
+import QRTile from '../../components/QRTile'
+import ImageTile from '../../components/ImageTile'
 
 import { useSettingsContext } from '../../settings'
 
@@ -94,6 +96,11 @@ const COLS: { [key: string]: number } = {
 
 const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
     const [settings] = useSettingsContext()
+    const {
+        customImageTiles = [],
+        customQrTiles = [],
+        hiddenCustomTileIds = [],
+    } = settings || {}
     const dashboardKey = history.location.key
     const boardId =
         useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
@@ -120,6 +127,10 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
             ({ departures }) => departures.length > 0,
         )
     }
+
+    const numberOfCustomImages = customImageTiles.filter(
+        ({ id }) => !hiddenCustomTileIds.includes(id),
+    ).length
 
     const walkInfo = useWalkInfo(stopPlacesWithDepartures)
 
@@ -189,6 +200,23 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
             ]
         }
 
+        if (customImageTiles)
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                ...customImageTiles.map((imgTile) => ({
+                    id: imgTile.id,
+                    name: imgTile.displayName,
+                })),
+            ]
+        if (customQrTiles)
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                ...customQrTiles.map((qrTile) => ({
+                    id: qrTile.id,
+                    name: qrTile.displayName,
+                })),
+            ]
+
         const storedTileOrder: Item[] | undefined = getFromLocalStorage(
             boardId + '-tile-order',
         )
@@ -213,6 +241,8 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         settings?.showMap,
         settings?.showWeather,
         boardId,
+        customImageTiles,
+        customQrTiles,
     ])
 
     const longPress = useLongPress(
@@ -327,12 +357,51 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                     ) : (
                                         []
                                     )
-                                } else if (stopPlacesWithDepartures) {
+                                }
+                                if (customImageTiles) {
+                                    const url =
+                                        customImageTiles
+                                            .filter(
+                                                ({ id }) =>
+                                                    !hiddenCustomTileIds.includes(
+                                                        id,
+                                                    ),
+                                            )
+                                            .find((img) => img.id === item.id)
+                                            ?.linkAddress || ''
+                                    if (url)
+                                        return (
+                                            <div key={item.id}>
+                                                <ImageTile
+                                                    url={url}
+                                                ></ImageTile>
+                                            </div>
+                                        )
+                                }
+
+                                if (customQrTiles) {
+                                    const tile = customQrTiles
+                                        .filter(
+                                            ({ id }) =>
+                                                !hiddenCustomTileIds.includes(
+                                                    id,
+                                                ),
+                                        )
+                                        .find((qr) => qr.id === item.id)
+
+                                    if (tile)
+                                        return (
+                                            <div key={item.id} className="tile">
+                                                <QRTile {...tile}></QRTile>
+                                            </div>
+                                        )
+                                }
+                                if (stopPlacesWithDepartures) {
                                     const stopIndex =
                                         stopPlacesWithDepartures.findIndex(
                                             (p) => p.id == item.id,
                                         )
-                                    return (
+                                    return stopIndex >= 0 ? (
                                         <div key={item.id}>
                                             <DepartureTile
                                                 key={item.id}
@@ -351,7 +420,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                                 }
                                             />
                                         </div>
-                                    )
+                                    ) : null
                                 }
                             })}
                         </div>
@@ -459,6 +528,47 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                         ) : (
                             []
                         )}
+                        {customImageTiles &&
+                            customImageTiles.map((imageTile, index) => (
+                                <div
+                                    key={imageTile.id}
+                                    data-grid={getDataGrid(
+                                        numberOfStopPlaces +
+                                            weatherCol +
+                                            bikeCol +
+                                            mapCol +
+                                            index,
+                                        maxWidthCols,
+                                        10,
+                                        2,
+                                    )}
+                                >
+                                    <ImageTile
+                                        url={imageTile.linkAddress}
+                                    ></ImageTile>
+                                </div>
+                            ))}
+                        {customQrTiles &&
+                            customQrTiles.map((qrTile, index) => (
+                                <div
+                                    key={qrTile.id}
+                                    data-grid={getDataGrid(
+                                        numberOfStopPlaces +
+                                            weatherCol +
+                                            bikeCol +
+                                            mapCol +
+                                            numberOfCustomImages +
+                                            index,
+                                        maxWidthCols,
+                                        10,
+                                        3,
+                                    )}
+                                >
+                                    <div className="tile">
+                                        <QRTile {...qrTile}></QRTile>
+                                    </div>
+                                </div>
+                            ))}
                     </ResponsiveReactGridLayout>
                 </div>
             )}
