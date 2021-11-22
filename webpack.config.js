@@ -18,7 +18,7 @@ const smp = new SpeedMeasurePlugin()
 module.exports = smp.wrap((env, args) => ({
     mode: args.mode === 'production' ? 'production' : 'development',
     entry: './src/main.tsx',
-    devtool: 'inline-source-map',
+    devtool: args.mode === 'production' ? false : 'inline-source-map',
     output: {
         path: OUTPUT_PATH,
         filename: '[name].[fullhash].js',

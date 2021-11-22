@@ -14,12 +14,7 @@ import { Board } from '../../../types'
 
 import BoardCard from './BoardCard'
 
-const OwnedBoards = ({
-    boards,
-    user,
-    preview,
-    history,
-}: Props): JSX.Element => (
+const OwnedBoards = ({ boards, user, preview }: Props): JSX.Element => (
     <Contrast>
         <div className="my-boards__board-list">
             {boards.map((board: Board) => (
@@ -30,7 +25,6 @@ const OwnedBoards = ({
                     timestamp={board.lastmodified}
                     created={board.created}
                     settings={board.data}
-                    history={history}
                 />
             ))}
             <div className="add-board-card">
@@ -58,10 +52,8 @@ const OwnedBoards = ({
 interface Props {
     boards: DocumentData
     user: User
-    preview: {
-        [key: string]: any
-    }
-    history: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    preview: Record<string, any>
 }
 
 export default OwnedBoards

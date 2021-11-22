@@ -344,7 +344,7 @@ export const removeSentBoardInviteAsOwner = async (
     parentDocId: string,
     currentUser: User | null | undefined,
     emailToRemove: string,
-) => {
+): Promise<void> => {
     if (!currentUser) return Promise.reject(new Error('Not logged in.'))
 
     const settingsDoc = await getDoc(

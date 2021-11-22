@@ -20,7 +20,7 @@ import WeatherTile from '../../components/WeatherTile'
 import DepartureTag from './DepartureTag'
 import './styles.scss'
 
-const MapDashboard = ({ history }: Props): JSX.Element => {
+const MapDashboard = (): JSX.Element => {
     const [settings] = useSettingsContext()
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
@@ -35,7 +35,6 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
     return (
         <DashboardWrapper
             className="map-view"
-            history={history}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
             bikeRentalStations={bikeRentalStations}
         >
@@ -73,10 +72,6 @@ const MapDashboard = ({ history }: Props): JSX.Element => {
             </div>
         </DashboardWrapper>
     )
-}
-
-interface Props {
-    history: any
 }
 
 export default MapDashboard

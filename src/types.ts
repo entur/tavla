@@ -88,3 +88,12 @@ export interface Invite {
     timeIssued: FieldValue
     boardId?: string
 }
+export interface Viewport {
+    latitude: number
+    longitude: number
+    width: string
+    height: string
+    zoom: number
+    maxZoom: number
+    minZoom: number
+}

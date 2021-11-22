@@ -168,7 +168,8 @@ export function getIcon(
     }
 }
 
-export function groupBy<T extends { [key: string]: any }>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function groupBy<T extends Record<string, any>>(
     objectArray: T[],
     property: keyof T,
 ): { [key: string]: T[] } {
@@ -179,7 +180,8 @@ export function groupBy<T extends { [key: string]: any }>(
         }
         acc[key].push(obj)
         return acc
-    }, {} as { [key: string]: any })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }, {} as Record<string, any>)
 }
 
 function formatDeparture(minDiff: number, departureTime: Date): string {

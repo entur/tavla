@@ -21,9 +21,10 @@ import BusStopGrey from '../previews/previewGrey/Holdeplass-gray.svg'
 
 import { Theme } from '../../types'
 
-export function ThemeDashboardPreview(theme: Theme | undefined): {
-    [key: string]: any
-} {
+export function ThemeDashboardPreview(
+    theme: Theme | undefined,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Record<string, any> {
     switch (theme) {
         case Theme.DARK:
             return {

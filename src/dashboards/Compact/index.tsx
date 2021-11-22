@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
-import { useRouteMatch } from 'react-router'
+import { useHistory, useRouteMatch } from 'react-router'
 
 import { useLongPress } from 'use-long-press'
 
@@ -95,8 +95,9 @@ const COLS: { [key: string]: number } = {
     xxs: 1,
 }
 
-const EnturDashboard = ({ history }: Props): JSX.Element | null => {
+const EnturDashboard = (): JSX.Element | null => {
     const [settings] = useSettingsContext()
+    const history = useHistory()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
@@ -107,7 +108,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
             ?.documentId
 
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
-        getFromLocalStorage(dashboardKey),
+        getFromLocalStorage(dashboardKey as string),
     )
 
     const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
@@ -259,7 +260,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         return (
             <DashboardWrapper
                 className="compact"
-                history={history}
                 bikeRentalStations={bikeRentalStations}
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
                 scooters={scooters}
@@ -359,7 +359,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     return (
         <DashboardWrapper
             className="compact"
-            history={history}
             bikeRentalStations={bikeRentalStations}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
             scooters={scooters}
@@ -387,7 +386,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                         ): void => {
                             if (numberOfStopPlaces > 0) {
                                 setGridLayouts(layouts)
-                                saveToLocalStorage(dashboardKey, layouts)
+                                saveToLocalStorage(
+                                    dashboardKey as string,
+                                    layouts,
+                                )
                             }
                         }}
                     >
@@ -486,10 +488,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
             )}
         </DashboardWrapper>
     )
-}
-
-interface Props {
-    history: any
 }
 
 export default EnturDashboard

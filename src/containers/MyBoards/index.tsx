@@ -38,7 +38,7 @@ const filterBoards = (boards: Board[]): Board[] =>
 const filterSharedBoards = (boards: SharedBoard[]): SharedBoard[] =>
     boards.filter((board) => !board.isScheduledForDelete)
 
-const MyBoards = ({ history }: Props): JSX.Element | null => {
+const MyBoards = (): JSX.Element | null => {
     const [currentIndex, setCurrentIndex] = useState<number>(0)
 
     const user = useUser()
@@ -153,7 +153,7 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
         return <NoAccessToTavler />
     }
     if (!boards.length && !invites.length) {
-        return <NoTavlerAvailable history={history} />
+        return <NoTavlerAvailable />
     }
 
     return (
@@ -180,7 +180,6 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
                                 boards={boards}
                                 user={user}
                                 preview={preview}
-                                history={history}
                             />
                         </TabPanel>
                         <TabPanel>
@@ -191,10 +190,6 @@ const MyBoards = ({ history }: Props): JSX.Element | null => {
             </div>
         </ThemeContrastWrapper>
     )
-}
-
-interface Props {
-    history: any
 }
 
 export default MyBoards

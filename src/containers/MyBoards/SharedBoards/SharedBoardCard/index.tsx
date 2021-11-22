@@ -21,7 +21,7 @@ const SharedBoardCard = ({
     theme,
     dashboard,
     timeIssued,
-}: Props) => {
+}: Props): JSX.Element => {
     const user = useUser()
     const preview = ThemeDashboardPreview(theme)
     const dashboardType = dashboard || 'Chrono'

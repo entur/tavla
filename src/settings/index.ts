@@ -7,7 +7,7 @@ import {
 } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { onSnapshot } from 'firebase/firestore'
+import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 
 import { Coordinates, TransportMode } from '@entur/sdk'
 
@@ -110,7 +110,7 @@ export function useSettings(): [Settings | null, Setter] {
         if (id) {
             return onSnapshot(
                 getSettingsReference(id),
-                (documentSnapshot: any) => {
+                (documentSnapshot: DocumentSnapshot) => {
                     if (!documentSnapshot.exists()) {
                         window.location.pathname = '/'
                         return

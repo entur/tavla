@@ -21,7 +21,6 @@ function BoardCard({
     timestamp,
     created,
     className,
-    history,
 }: Props): JSX.Element {
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
     const [boardTitle, setBoardTitle] = useState<string>('Uten tittel')
@@ -99,7 +98,6 @@ function BoardCard({
                         <BoardOverflowMenu
                             id={id}
                             uid={uid}
-                            history={history}
                             sharedBoard={
                                 settings.owners
                                     ? settings.owners?.length > 1
@@ -133,7 +131,6 @@ interface Props {
     timestamp: Timestamp
     created: Timestamp
     className?: string
-    history: any
 }
 
 export default BoardCard
