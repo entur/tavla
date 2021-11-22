@@ -325,7 +325,6 @@ const EnturDashboard = (): JSX.Element | null => {
                                 modalVisible={modalVisible}
                                 onDismiss={() => setModalVisible(false)}
                             />
-
                             {tileOrder.map((item) => {
                                 if (item.id == 'map') {
                                     return hasData && mapCol ? (
