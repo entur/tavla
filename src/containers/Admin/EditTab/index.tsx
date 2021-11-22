@@ -715,7 +715,24 @@ const EditTab = (): JSX.Element => {
                 </div>
                 <div key="customTilePanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
-                        <Heading2>Bilde og QR</Heading2>
+                        <Heading2>
+                            {'Bilde og QR '}
+                            <Tooltip
+                                content={
+                                    <div>
+                                        <SubParagraph className="tooltip-container-weather">
+                                            Tilgjengelig i visningstyper kompakt
+                                            og kronologisk.
+                                        </SubParagraph>
+                                    </div>
+                                }
+                                placement="top"
+                            >
+                                <span>
+                                    <ValidationInfoIcon size={20} />
+                                </span>
+                            </Tooltip>
+                        </Heading2>
                         <Switch
                             onChange={(e) =>
                                 setSettings({
