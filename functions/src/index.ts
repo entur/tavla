@@ -165,27 +165,26 @@ export const addInvitedUserToBoardOwners = https.onCall(
         }
         const boardOwners = boardSnapshot.data()?.owners
 
-        await getFirestore()
-            .collection('settings/' + data.boardId + '/invites')
-            .where('reciever', '==', context.auth?.token.email)
-            .limit(1)
-            .get()
-            .then((inviteDoc) => inviteDoc.docs[0].id)
-            .catch(() => {
-                throw new https.HttpsError(
-                    'permission-denied',
-                    'Requested user does not have an invite for this board',
-                )
-            })
+        try {
+            await getFirestore()
+                .collection('settings')
+                .doc(data.boardId)
+                .collection('invites')
+                .where('receiver', '==', context.auth.token.email)
+                .limit(1)
+                .get()
+        } catch {
+            throw new https.HttpsError(
+                'permission-denied',
+                'Requested user does not have an invite for this board',
+            )
+        }
 
-        if (!boardOwners.includes(context.auth?.uid)) {
-            const ownersUpdated: string[] = [...boardOwners, context.auth?.uid]
+        if (!boardOwners.includes(context.auth.uid)) {
+            const ownersUpdated: string[] = [...boardOwners, context.auth.uid]
             boardRef.update({
                 owners: ownersUpdated,
             })
-        }
-
-        if (data.accept) {
         }
     },
 )

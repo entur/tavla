@@ -24,7 +24,7 @@ export const BoardOwnersList = ({
     )
     const invitesMapped = invites.map((invite) => ({
         uid: '',
-        email: invite.reciever,
+        email: invite.receiver,
     }))
 
     const onRemoveOwnerFromBoard = async (

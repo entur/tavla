@@ -96,7 +96,7 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
                 const updatedInvites = querySnapshot.docs.map(
                     (docSnapshot: DocumentData) =>
                         ({
-                            reciever: docSnapshot.data().reciever,
+                            receiver: docSnapshot.data().receiver,
                             sender: docSnapshot.data().sender,
                             timeIssued: docSnapshot.data().timeIssued,
                         } as Invite),

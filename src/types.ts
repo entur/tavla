@@ -83,7 +83,7 @@ export interface SharedBoard {
 }
 
 export interface Invite {
-    reciever: string
+    receiver: string
     sender: string
     timeIssued: FieldValue
     boardId?: string

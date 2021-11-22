@@ -25,13 +25,13 @@ service cloud.firestore {
         }
 
         allow read, create, delete: if settingsData().owners.hasAny([request.auth.uid]);
-        allow delete: if resource.data.reciever == request.auth.token.email;
+        allow delete: if resource.data.receiver == request.auth.token.email;
       }
     }
 
     // This match applies to invites fetched through a collection group query
     match /{somePath=**}/invites/{invite} {
-      allow read: if resource.data.reciever == request.auth.token.email;
+      allow read: if resource.data.receiver == request.auth.token.email;
     }
     
   }

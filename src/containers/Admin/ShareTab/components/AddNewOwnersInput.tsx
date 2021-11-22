@@ -54,7 +54,7 @@ export const AddNewOwnersInput = ({
 
         if (
             owners.includes(newOwnerInput) ||
-            invites.some((invite) => invite.reciever === newOwnerInput)
+            invites.some((invite) => invite.receiver === newOwnerInput)
         ) {
             setInputFeedbackMessageType(inputFeedbackType.FAILURE)
             newOwnerInput === user?.email

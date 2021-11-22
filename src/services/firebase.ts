@@ -281,7 +281,7 @@ export const getInvitesForUserOnSnapshot = (
 ): (() => void) => {
     const invitesQuery = query(
         collectionGroup(db, 'invites'),
-        where('reciever', '==', userEmail),
+        where('receiver', '==', userEmail),
     )
     return onSnapshot(invitesQuery, observer)
 }
@@ -301,7 +301,7 @@ export const getInvitesForBoardOnSnapshot = (
 
 export const addNewInviteToBoard = async (
     parentDocId: string,
-    reciever: string,
+    receiver: string,
     sender: string | undefined,
 ): Promise<boolean> => {
     try {
@@ -311,7 +311,7 @@ export const addNewInviteToBoard = async (
                 SETTINGS_COLLECTION + '/' + parentDocId + '/' + 'invites',
             ),
             {
-                reciever,
+                receiver,
                 sender: sender ?? 'Ukjent',
                 timeIssued: serverTimestamp(),
             },
@@ -332,7 +332,7 @@ export const removeRecievedBoardInvite = async (
             db,
             SETTINGS_COLLECTION + '/' + parentDocId + '/' + 'invites',
         ),
-        where('reciever', '==', user.email),
+        where('receiver', '==', user.email),
     )
     const querySnapshot = await getDocs(userInviteQuery)
     querySnapshot.forEach(async (invite) => {
@@ -365,7 +365,7 @@ export const removeSentBoardInviteAsOwner = async (
             db,
             SETTINGS_COLLECTION + '/' + parentDocId + '/' + 'invites',
         ),
-        where('reciever', '==', emailToRemove),
+        where('receiver', '==', emailToRemove),
     )
     const querySnapshot = await getDocs(userInviteQuery)
     querySnapshot.forEach(async (invite) => {
