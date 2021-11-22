@@ -361,9 +361,15 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                 }
                                 if (customImageTiles) {
                                     const url =
-                                        customImageTiles.find(
-                                            (img) => img.id === item.id,
-                                        )?.linkAddress || ''
+                                        customImageTiles
+                                            .filter(
+                                                ({ id }) =>
+                                                    !hiddenCustomTileIds.includes(
+                                                        id,
+                                                    ),
+                                            )
+                                            .find((img) => img.id === item.id)
+                                            ?.linkAddress || ''
                                     if (url)
                                         return (
                                             <div key={item.id}>
@@ -375,9 +381,14 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                 }
 
                                 if (customQrTiles) {
-                                    const tile = customQrTiles.find(
-                                        (qr) => qr.id === item.id,
-                                    )
+                                    const tile = customQrTiles
+                                        .filter(
+                                            ({ id }) =>
+                                                !hiddenCustomTileIds.includes(
+                                                    id,
+                                                ),
+                                        )
+                                        .find((qr) => qr.id === item.id)
 
                                     if (tile)
                                         return (
