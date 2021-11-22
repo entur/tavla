@@ -126,6 +126,7 @@ const EditTab = (): JSX.Element => {
         showPrecipitation = true,
         customImageTiles = [],
         customQrTiles = [],
+        showCustomTiles,
     } = settings || {}
 
     const [distance, setDistance] = useState<number>(
@@ -739,7 +740,7 @@ const EditTab = (): JSX.Element => {
                                     showCustomTiles: e.currentTarget.checked,
                                 })
                             }
-                            checked={showWeather}
+                            checked={showCustomTiles}
                             size="large"
                         />
                     </div>

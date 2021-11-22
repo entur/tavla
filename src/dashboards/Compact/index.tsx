@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import { useRouteMatch } from 'react-router'
@@ -103,6 +103,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         customImageTiles = [],
         customQrTiles = [],
         hiddenCustomTileIds = [],
+        showCustomTiles,
     } = settings || {}
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
@@ -173,12 +174,24 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         stopPlacesHasLoaded && bikeHasLoaded && scooterHasLoaded,
     )
 
-    const imageTilesToDisplay = customImageTiles.filter(
-        ({ id }) => !hiddenCustomTileIds.includes(id),
+    const imageTilesToDisplay = useMemo(
+        () =>
+            showCustomTiles
+                ? customImageTiles.filter(
+                      ({ id }) => !hiddenCustomTileIds.includes(id),
+                  )
+                : [],
+        [customImageTiles, showCustomTiles, hiddenCustomTileIds],
     )
 
-    const qrTilesToDisplay = customQrTiles.filter(
-        ({ id }) => !hiddenCustomTileIds.includes(id),
+    const qrTilesToDisplay = useMemo(
+        () =>
+            showCustomTiles
+                ? customQrTiles.filter(
+                      ({ id }) => !hiddenCustomTileIds.includes(id),
+                  )
+                : [],
+        [showCustomTiles, customQrTiles, hiddenCustomTileIds],
     )
 
     useEffect(() => {

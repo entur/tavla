@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import { useRouteMatch } from 'react-router'
@@ -100,6 +100,7 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         customImageTiles = [],
         customQrTiles = [],
         hiddenCustomTileIds = [],
+        showCustomTiles,
     } = settings || {}
     const dashboardKey = history.location.key
     const boardId =
@@ -170,12 +171,24 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         stopPlacesHasLoaded && bikeHasLoaded && scooterHasLoaded,
     )
 
-    const displayImages = customImageTiles.filter(
-        ({ id }) => !hiddenCustomTileIds.includes(id),
+    const imageTilesToDisplay = useMemo(
+        () =>
+            showCustomTiles
+                ? customImageTiles.filter(
+                      ({ id }) => !hiddenCustomTileIds.includes(id),
+                  )
+                : [],
+        [customImageTiles, showCustomTiles, hiddenCustomTileIds],
     )
 
-    const displayQRTiles = customQrTiles.filter(
-        ({ id }) => !hiddenCustomTileIds.includes(id),
+    const qrTilesToDisplay = useMemo(
+        () =>
+            showCustomTiles
+                ? customQrTiles.filter(
+                      ({ id }) => !hiddenCustomTileIds.includes(id),
+                  )
+                : [],
+        [showCustomTiles, customQrTiles, hiddenCustomTileIds],
     )
 
     useEffect(() => {
@@ -208,18 +221,18 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
             ]
         }
 
-        if (displayImages)
+        if (imageTilesToDisplay)
             defaultTileOrder = [
                 ...defaultTileOrder,
-                ...displayImages.map((imgTile) => ({
+                ...imageTilesToDisplay.map((imgTile) => ({
                     id: imgTile.id,
                     name: imgTile.displayName,
                 })),
             ]
-        if (displayQRTiles)
+        if (qrTilesToDisplay)
             defaultTileOrder = [
                 ...defaultTileOrder,
-                ...displayQRTiles.map((qrTile) => ({
+                ...qrTilesToDisplay.map((qrTile) => ({
                     id: qrTile.id,
                     name: qrTile.displayName,
                 })),
@@ -249,8 +262,8 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
         settings?.showMap,
         settings?.showWeather,
         boardId,
-        displayImages,
-        displayQRTiles,
+        imageTilesToDisplay,
+        qrTilesToDisplay,
     ])
 
     const longPress = useLongPress(
@@ -366,8 +379,8 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                         []
                                     )
                                 }
-                                if (displayImages.length > 0) {
-                                    const tile = displayImages.find(
+                                if (imageTilesToDisplay.length > 0) {
+                                    const tile = imageTilesToDisplay.find(
                                         (img) => img.id === item.id,
                                     )
 
@@ -381,8 +394,8 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                         )
                                 }
 
-                                if (displayQRTiles.length > 0) {
-                                    const tile = displayQRTiles.find(
+                                if (qrTilesToDisplay.length > 0) {
+                                    const tile = qrTilesToDisplay.find(
                                         (qr) => qr.id === item.id,
                                     )
 
@@ -525,8 +538,8 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                         ) : (
                             []
                         )}
-                        {displayImages.length > 0 &&
-                            displayImages.map((imageTile, index) => (
+                        {imageTilesToDisplay.length > 0 &&
+                            imageTilesToDisplay.map((imageTile, index) => (
                                 <div
                                     key={imageTile.id}
                                     data-grid={getDataGrid(
@@ -543,8 +556,8 @@ const ChronoDashboard = ({ history }: Props): JSX.Element | null => {
                                     <ImageTile {...imageTile}></ImageTile>
                                 </div>
                             ))}
-                        {displayQRTiles.length > 0 &&
-                            displayQRTiles.map((qrTile, index) => (
+                        {qrTilesToDisplay.length > 0 &&
+                            qrTilesToDisplay.map((qrTile, index) => (
                                 <div
                                     key={qrTile.id}
                                     data-grid={getDataGrid(
