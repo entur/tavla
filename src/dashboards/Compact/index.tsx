@@ -150,10 +150,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
             stopPlacesWithDepartures?.length,
     )
 
-    const numberOfCustomImages = customImageTiles.filter(
-        ({ id }) => !hiddenCustomTileIds.includes(id),
-    ).length
-
     const maxWidthCols = COLS[breakpoint]
 
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
@@ -175,6 +171,14 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
 
     const hasFetchedData = Boolean(
         stopPlacesHasLoaded && bikeHasLoaded && scooterHasLoaded,
+    )
+
+    const imageTilesToDisplay = customImageTiles.filter(
+        ({ id }) => !hiddenCustomTileIds.includes(id),
+    )
+
+    const qrTilesToDisplay = customQrTiles.filter(
+        ({ id }) => !hiddenCustomTileIds.includes(id),
     )
 
     useEffect(() => {
@@ -206,18 +210,18 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                 ...defaultTileOrder,
             ]
         }
-        if (customImageTiles)
+        if (imageTilesToDisplay)
             defaultTileOrder = [
                 ...defaultTileOrder,
-                ...customImageTiles.map((imgTile) => ({
+                ...imageTilesToDisplay.map((imgTile) => ({
                     id: imgTile.id,
                     name: imgTile.displayName,
                 })),
             ]
-        if (customQrTiles)
+        if (qrTilesToDisplay)
             defaultTileOrder = [
                 ...defaultTileOrder,
-                ...customQrTiles.map((qrTile) => ({
+                ...qrTilesToDisplay.map((qrTile) => ({
                     id: qrTile.id,
                     name: qrTile.displayName,
                 })),
@@ -247,8 +251,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
         settings?.showWeather,
         boardId,
         hasData,
-        customImageTiles,
-        customQrTiles,
+        imageTilesToDisplay,
+        qrTilesToDisplay,
     ])
 
     const longPress = useLongPress(
@@ -359,15 +363,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                         []
                                     )
                                 }
-                                if (customImageTiles) {
-                                    const tile = customImageTiles
-                                        .filter(
-                                            ({ id }) =>
-                                                !hiddenCustomTileIds.includes(
-                                                    id,
-                                                ),
-                                        )
-                                        .find((img) => img.id === item.id)
+                                if (imageTilesToDisplay.length > 0) {
+                                    const tile = imageTilesToDisplay.find(
+                                        (img) => img.id === item.id,
+                                    )
 
                                     if (tile)
                                         return (
@@ -379,15 +378,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                         )
                                 }
 
-                                if (customQrTiles) {
-                                    const tile = customQrTiles
-                                        .filter(
-                                            ({ id }) =>
-                                                !hiddenCustomTileIds.includes(
-                                                    id,
-                                                ),
-                                        )
-                                        .find((qr) => qr.id === item.id)
+                                if (qrTilesToDisplay.length > 0) {
+                                    const tile = qrTilesToDisplay.find(
+                                        (qr) => qr.id === item.id,
+                                    )
 
                                     if (tile)
                                         return (
@@ -552,8 +546,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                         ) : (
                             []
                         )}
-                        {customImageTiles &&
-                            customImageTiles.map((imageTile, index) => (
+                        {imageTilesToDisplay.length > 0 &&
+                            imageTilesToDisplay.map((imageTile, index) => (
                                 <div
                                     key={imageTile.id}
                                     data-grid={getDataGrid(
@@ -577,8 +571,8 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                     <ImageTile {...imageTile}></ImageTile>
                                 </div>
                             ))}
-                        {customQrTiles &&
-                            customQrTiles.map((qrTile, index) => (
+                        {qrTilesToDisplay.length > 0 &&
+                            qrTilesToDisplay.map((qrTile, index) => (
                                 <div
                                     key={qrTile.id}
                                     data-grid={getDataGrid(
@@ -586,7 +580,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                             weatherCol +
                                             bikeCol +
                                             mapCol +
-                                            numberOfCustomImages +
+                                            imageTilesToDisplay.length +
                                             index,
                                         maxWidthCols,
                                         10,
