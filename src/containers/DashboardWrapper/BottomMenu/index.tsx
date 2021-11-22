@@ -34,7 +34,7 @@ function BottomMenu({ className }: Props): JSX.Element {
     const user = useUser()
     const width = useWindowWidth()
     const [settings] = useSettingsContext()
-    const [menuHiddenByScroll, setMenuHiddenByScroll] = useState(true)
+    const [menuHiddenByScroll, setMenuHiddenByScroll] = useState(false)
     const [isMobileWidth, setIsMobileWidth] = useState<boolean>(
         document.body.clientWidth <= 900,
     )
@@ -134,10 +134,8 @@ function BottomMenu({ className }: Props): JSX.Element {
     }, [width])
 
     useEffect(() => {
-        if (menuRef.current) {
-            isMobileWidth
-                ? menuRef.current.classList.add('hidden-menu')
-                : menuRef.current.classList.remove('hidden-menu')
+        if (menuRef.current && !isMobileWidth) {
+            menuRef.current.classList.remove('hidden-menu')
         }
     }, [isMobileWidth])
 
