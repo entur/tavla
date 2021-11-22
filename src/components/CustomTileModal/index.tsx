@@ -15,6 +15,8 @@ interface Props {
 
 type TileType = 'qr' | 'image'
 
+type ActionType = 'update' | 'addNew'
+
 const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
     const [settings, setSettings] = useSettingsContext()
     const { customQrTiles = [], customImageTiles = [] } = settings || {}
@@ -41,13 +43,17 @@ const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
 
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
-    const handleSubmit = () => {
+    const handleSubmit = (actionType: ActionType) => {
         setIsSubmitAttempted(true)
         if (!displayName || !linkAddress) return
         if (tileType === 'qr') {
             setSettings({
                 customQrTiles: [
-                    ...customQrTiles,
+                    ...(actionType === 'update'
+                        ? customQrTiles.filter(
+                              ({ id }) => id !== selectedTileId,
+                          )
+                        : customQrTiles),
                     {
                         id: String(Date.now()),
                         displayName,
@@ -60,7 +66,11 @@ const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
         if (tileType === 'image') {
             setSettings({
                 customImageTiles: [
-                    ...customImageTiles,
+                    ...(actionType === 'update'
+                        ? customImageTiles.filter(
+                              ({ id }) => id !== selectedTileId,
+                          )
+                        : customImageTiles),
                     {
                         id: String(Date.now()),
                         displayName,
@@ -148,7 +158,12 @@ const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
                     <SecondaryButton onClick={() => setIsOpen(false)}>
                         Avbryt
                     </SecondaryButton>
-                    <PrimaryButton onClick={handleSubmit} type="button">
+                    <PrimaryButton
+                        onClick={() =>
+                            handleSubmit(selectedTileId ? 'update' : 'addNew')
+                        }
+                        type="button"
+                    >
                         {selectedTileId ? 'Oppdater' : 'Legg til'}
                     </PrimaryButton>
                 </div>
