@@ -99,7 +99,11 @@ const COLS: { [key: string]: number } = {
 
 const EnturDashboard = ({ history }: Props): JSX.Element | null => {
     const [settings] = useSettingsContext()
-    const { customImageTiles = [], customQrTiles = [] } = settings || {}
+    const {
+        customImageTiles = [],
+        customQrTiles = [],
+        hiddenCustomTileIds = [],
+    } = settings || {}
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
@@ -145,6 +149,10 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
             scooters?.length ||
             stopPlacesWithDepartures?.length,
     )
+
+    const numberOfCustomImages = customImageTiles.filter(
+        ({ id }) => !hiddenCustomTileIds.includes(id),
+    ).length
 
     const maxWidthCols = COLS[breakpoint]
 
@@ -479,36 +487,6 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                 />
                             </div>
                         ))}
-                        {customImageTiles &&
-                            customImageTiles.map((imageTile) => (
-                                <div key={imageTile.id}>
-                                    {!isMobile ? (
-                                        <ResizeHandle
-                                            size="32"
-                                            className="resizeHandle"
-                                            variant="light"
-                                        />
-                                    ) : null}
-                                    <ImageTile
-                                        url={imageTile.linkAddress}
-                                    ></ImageTile>
-                                </div>
-                            ))}
-                        {customQrTiles &&
-                            customQrTiles.map((qrTile) => (
-                                <div key={qrTile.id}>
-                                    {!isMobile ? (
-                                        <ResizeHandle
-                                            size="32"
-                                            className="resizeHandle"
-                                            variant="light"
-                                        />
-                                    ) : null}
-                                    <div className="tile">
-                                        <QRTile {...qrTile}></QRTile>
-                                    </div>
-                                </div>
-                            ))}
                         {bikeRentalStations && anyBikeRentalStations ? (
                             <div
                                 key="city-bike"
@@ -563,6 +541,61 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                         ) : (
                             []
                         )}
+                        {customImageTiles &&
+                            customImageTiles.map((imageTile, index) => (
+                                <div
+                                    key={imageTile.id}
+                                    data-grid={getDataGrid(
+                                        numberOfStopPlaces +
+                                            weatherCol +
+                                            bikeCol +
+                                            mapCol +
+                                            index,
+                                        maxWidthCols,
+                                        10,
+                                        2,
+                                    )}
+                                >
+                                    {!isMobile ? (
+                                        <ResizeHandle
+                                            size="32"
+                                            className="resizeHandle"
+                                            variant="light"
+                                        />
+                                    ) : null}
+                                    <ImageTile
+                                        url={imageTile.linkAddress}
+                                    ></ImageTile>
+                                </div>
+                            ))}
+                        {customQrTiles &&
+                            customQrTiles.map((qrTile, index) => (
+                                <div
+                                    key={qrTile.id}
+                                    data-grid={getDataGrid(
+                                        numberOfStopPlaces +
+                                            weatherCol +
+                                            bikeCol +
+                                            mapCol +
+                                            numberOfCustomImages +
+                                            index,
+                                        maxWidthCols,
+                                        10,
+                                        3,
+                                    )}
+                                >
+                                    {!isMobile ? (
+                                        <ResizeHandle
+                                            size="32"
+                                            className="resizeHandle"
+                                            variant="light"
+                                        />
+                                    ) : null}
+                                    <div className="tile">
+                                        <QRTile {...qrTile}></QRTile>
+                                    </div>
+                                </div>
+                            ))}
                     </ResponsiveReactGridLayout>
                 </div>
             )}
