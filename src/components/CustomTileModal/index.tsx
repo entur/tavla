@@ -91,9 +91,7 @@ const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
                 title={`${
                     selectedItem
                         ? `Endre ${
-                              'displayHeader' in selectedItem
-                                  ? 'bildeboks'
-                                  : 'QR-boks'
+                              tileType === 'image' ? 'bildeboks' : 'QR-boks'
                           }`
                         : 'Legg til bilde- eller QR-boks'
                 } `}
