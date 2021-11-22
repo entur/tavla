@@ -360,21 +360,20 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                     )
                                 }
                                 if (customImageTiles) {
-                                    const url =
-                                        customImageTiles
-                                            .filter(
-                                                ({ id }) =>
-                                                    !hiddenCustomTileIds.includes(
-                                                        id,
-                                                    ),
-                                            )
-                                            .find((img) => img.id === item.id)
-                                            ?.linkAddress || ''
-                                    if (url)
+                                    const tile = customImageTiles
+                                        .filter(
+                                            ({ id }) =>
+                                                !hiddenCustomTileIds.includes(
+                                                    id,
+                                                ),
+                                        )
+                                        .find((img) => img.id === item.id)
+
+                                    if (tile)
                                         return (
                                             <div key={item.id}>
                                                 <ImageTile
-                                                    url={url}
+                                                    {...tile}
                                                 ></ImageTile>
                                             </div>
                                         )
@@ -575,9 +574,7 @@ const EnturDashboard = ({ history }: Props): JSX.Element | null => {
                                             variant="light"
                                         />
                                     ) : null}
-                                    <ImageTile
-                                        url={imageTile.linkAddress}
-                                    ></ImageTile>
+                                    <ImageTile {...imageTile}></ImageTile>
                                 </div>
                             ))}
                         {customQrTiles &&

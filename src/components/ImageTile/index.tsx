@@ -1,13 +1,19 @@
 import React from 'react'
+import { CustomImageTile } from '../../types'
 
 import './style.scss'
 
-interface Props {
-    url: string
-}
-
-const ImageTile = ({ url }: Props): JSX.Element => (
-    <img className="image-tile__image" src={url} alt="Random image" />
+const ImageTile = ({
+    linkAddress,
+    description,
+    displayHeader,
+}: CustomImageTile): JSX.Element => (
+    <img
+        className="image-tile__image"
+        src={linkAddress}
+        alt="Random image"
+        draggable={false}
+    />
 )
 
 export default ImageTile
