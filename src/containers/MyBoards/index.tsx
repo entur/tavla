@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 
-import type {
-    DocumentData,
-    DocumentSnapshot,
-    Timestamp,
-} from 'firebase/firestore'
+import type { DocumentData, Timestamp } from 'firebase/firestore'
 
-import { Contrast } from '@entur/layout'
-import { Heading2, Heading3 } from '@entur/typography'
-import { AddIcon } from '@entur/icons'
+import { NotificationBadge } from '@entur/layout'
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 
 import { ThemeDashboardPreview } from '../../assets/icons/ThemeDashboardPreview'
-import { Settings } from '../../settings'
-import { getBoardsOnSnapshot } from '../../services/firebase'
+import {
+    getBoardsForUserOnSnapshot,
+    getInvitesForUserOnSnapshot,
+    getBoardsByIdsOnSnapshot,
+} from '../../services/firebase'
 import { useUser } from '../../auth'
-import { Theme } from '../../types'
+import { Board, SharedBoard, Theme } from '../../types'
 
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
+import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
 
-import BoardCard from './BoardCard'
+import SharedBoards from './SharedBoards'
+import OwnedBoards from './OwnedBoards'
+
 import './styles.scss'
 
-function sortBoard(boards: BoardProps[]): BoardProps[] {
-    return boards.sort((n1: BoardProps, n2: BoardProps) => {
+function sortBoard(boards: Board[]): Board[] {
+    return boards.sort((n1: Board, n2: Board) => {
         const n1Date = n1.lastmodified ? n1.lastmodified : n1.created
         const n2Date = n2.lastmodified ? n2.lastmodified : n2.created
         if (n1Date && n2Date) return n2Date.toMillis() - n1Date.toMillis()
@@ -32,13 +32,23 @@ function sortBoard(boards: BoardProps[]): BoardProps[] {
     })
 }
 
-const filterBoards = (boards: BoardProps[]): BoardProps[] =>
+const filterBoards = (boards: Board[]): Board[] =>
     boards.filter((board) => !board.data.isScheduledForDelete)
 
+const filterSharedBoards = (boards: SharedBoard[]): SharedBoard[] =>
+    boards.filter((board) => !board.isScheduledForDelete)
+
 const MyBoards = (): JSX.Element | null => {
-    const [boards, setBoards] = useState<DocumentData>()
+    const [currentIndex, setCurrentIndex] = useState<number>(0)
+
     const user = useUser()
     const preview = ThemeDashboardPreview(Theme.DEFAULT)
+
+    const [boards, setBoards] = useState<DocumentData>()
+    const [sharedBoards, setSharedBoards] = useState<SharedBoard[]>([])
+    const [invites, setInvites] = useState<
+        Array<{ id: string; sharedBy: string; timeIssued: Timestamp }>
+    >([])
 
     useEffect(() => {
         if (user === null) {
@@ -46,17 +56,17 @@ const MyBoards = (): JSX.Element | null => {
             return
         }
         if (user === undefined) return
-        const unsubscribe = getBoardsOnSnapshot(user.uid, {
+
+        const unsubscribe = getBoardsForUserOnSnapshot(user, {
             next: (querySnapshot) => {
                 if (querySnapshot.metadata.hasPendingWrites) return
                 const updatedBoards = querySnapshot.docs.map(
-                    (docSnapshot: DocumentSnapshot) =>
-                        ({
-                            data: docSnapshot.data(),
-                            lastmodified: docSnapshot.data()?.lastmodified,
-                            created: docSnapshot.data()?.created,
-                            id: docSnapshot.id,
-                        } as BoardProps),
+                    (docSnapshot: DocumentData): Board => ({
+                        data: docSnapshot.data(),
+                        lastmodified: docSnapshot.data().lastmodified,
+                        created: docSnapshot.data().created,
+                        id: docSnapshot.id,
+                    }),
                 )
                 setBoards(
                     updatedBoards.length
@@ -66,74 +76,120 @@ const MyBoards = (): JSX.Element | null => {
             },
             error: () => setBoards([]),
         })
-        return unsubscribe
+
+        const unsubscribeFromInvites = getInvitesForUserOnSnapshot(user.email, {
+            next: (querySnapshot) => {
+                if (querySnapshot.metadata.hasPendingWrites) return
+
+                const inviteData = querySnapshot.docs.map((invite) => ({
+                    id: invite.ref.parent.parent?.id ?? '',
+                    sharedBy: invite.data().sender,
+                    timeIssued: invite.data().timeIssued,
+                }))
+
+                setInvites(inviteData)
+            },
+            error: () => setInvites([]),
+        })
+        return () => {
+            unsubscribe()
+            unsubscribeFromInvites()
+        }
     }, [user])
 
-    if (boards === undefined || user === undefined) {
+    useEffect(() => {
+        if (!invites.length) {
+            setSharedBoards([])
+            return
+        }
+        const boardInviteIds = invites.map((invite) => invite.id)
+
+        const unsubscribeBoardsFromId = getBoardsByIdsOnSnapshot(
+            boardInviteIds,
+            {
+                next: (querySnapshot) => {
+                    if (querySnapshot.metadata.hasPendingWrites) return
+                    const boardData = querySnapshot.docs.map(
+                        (board) =>
+                            ({
+                                id: board.id,
+                                boardName: board.data().boardName,
+                                sharedBy: '',
+                                theme: board.data().theme,
+                                dashboard: board.data().dashboard,
+                                isScheduledForDelete:
+                                    board.data().isScheduledForDelete,
+                            } as SharedBoard),
+                    )
+                    const updatedSharedBoards: SharedBoard[] = boardData.map(
+                        (board) => {
+                            const matchingInviteData = invites.find(
+                                (invite) => invite.id === board.id,
+                            )
+                            return matchingInviteData
+                                ? {
+                                      ...board,
+                                      sharedBy: matchingInviteData.sharedBy,
+                                      timeIssued: matchingInviteData.timeIssued,
+                                  }
+                                : { ...board, sharedBy: 'En ukjent' }
+                        },
+                    )
+                    setSharedBoards(filterSharedBoards(updatedSharedBoards))
+                },
+                error: () => setSharedBoards([]),
+            },
+        )
+
+        return () => {
+            unsubscribeBoardsFromId()
+        }
+    }, [invites])
+
+    if (boards === undefined || user === undefined || invites === undefined) {
         return null
     }
     if (!user || user.isAnonymous) {
         return <NoAccessToTavler />
     }
-    if (!boards.length) {
+    if (!boards.length && !invites.length) {
         return <NoTavlerAvailable />
     }
 
     return (
-        <Contrast>
+        <ThemeContrastWrapper>
             <div className="my-boards">
-                <Heading2 className="my-boards__title" margin="bottom">
-                    Mine tavler ({boards.length})
-                </Heading2>
-                <div className="my-boards__board-list">
-                    {boards.map((board: BoardProps) => (
-                        <BoardCard
-                            key={board.id}
-                            id={board.id}
-                            uid={user.uid}
-                            timestamp={board.lastmodified}
-                            created={board.created}
-                            settings={board.data}
-                        />
-                    ))}
-                    <Link to="/">
-                        <div className="board-card">
-                            <div
-                                className="board-card__preview"
-                                style={{ position: 'relative' }}
-                            >
-                                <img
-                                    src={preview['Chrono']}
-                                    style={{ visibility: 'hidden' }}
-                                />
-                                <AddIcon
-                                    size="3rem"
-                                    className="board-card__preview__icon"
-                                />
-                            </div>
-                            <div className="board-card__text-container">
-                                <span>
-                                    <Heading3
-                                        className="board-card__text-container__title"
-                                        margin="none"
-                                    >
-                                        Lag ny tavle
-                                    </Heading3>
-                                </span>
-                            </div>
-                        </div>
-                    </Link>
-                </div>
+                <Tabs index={currentIndex} onChange={setCurrentIndex}>
+                    <TabList>
+                        <Tab>Mine tavler</Tab>
+                        <Tab>
+                            Delt med meg
+                            {sharedBoards.length > 0 ? (
+                                <NotificationBadge
+                                    variant="info"
+                                    style={{ position: 'absolute', top: -10 }}
+                                >
+                                    {sharedBoards.length}
+                                </NotificationBadge>
+                            ) : null}
+                        </Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>
+                            <OwnedBoards
+                                boards={boards}
+                                user={user}
+                                preview={preview}
+                            />
+                        </TabPanel>
+                        <TabPanel>
+                            <SharedBoards sharedBoards={sharedBoards} />
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
             </div>
-        </Contrast>
+        </ThemeContrastWrapper>
     )
-}
-
-interface BoardProps {
-    data: Settings
-    id: string
-    lastmodified: Timestamp
-    created: Timestamp
 }
 
 export default MyBoards

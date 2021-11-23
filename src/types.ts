@@ -1,4 +1,8 @@
+import { FieldValue, Timestamp } from 'firebase/firestore'
+
 import { TransportMode, TransportSubmode, StopPlace, Quay } from '@entur/sdk'
+
+import { Settings } from './settings'
 
 export interface LineData {
     id: string
@@ -56,6 +60,34 @@ export enum IconColorType {
     CONTRAST = 'contrast',
 }
 
+export interface BoardOwnersData {
+    uid: string
+    email: string
+}
+
+export interface Board {
+    data: Settings
+    id: string
+    lastmodified: Timestamp
+    created: Timestamp
+}
+
+export interface SharedBoard {
+    id: string
+    boardName: string
+    sharedBy: string
+    theme: Theme
+    dashboard: string
+    isScheduledForDelete: boolean
+    timeIssued: Timestamp
+}
+
+export interface Invite {
+    receiver: string
+    sender: string
+    timeIssued: FieldValue
+    boardId?: string
+}
 export interface Viewport {
     latitude: number
     longitude: number

@@ -9,7 +9,7 @@ import { UserIcon, LogOutIcon, GithubIcon, PrivacyIcon } from '@entur/icons'
 
 import { useUser, auth } from '../../auth'
 import { TavlaLogo } from '../../assets/icons'
-import LoginModal from '../../components/LoginModal'
+import LoginModal from '../../components/Modals/LoginModal'
 
 import './styles.scss'
 

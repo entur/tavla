@@ -6,7 +6,7 @@ import { signOut } from 'firebase/auth'
 
 import { useToast } from '@entur/alert'
 
-import LoginModal from '../../components/LoginModal'
+import LoginModal from '../../components/Modals/LoginModal'
 
 import { useUser, auth } from '../../auth'
 import { getDocumentId } from '../../utils'
@@ -113,6 +113,18 @@ export function NoTavlerAvailable(): JSX.Element {
                 image={duerLight}
                 callbackMessage="Lag en ny tavle"
                 callback={callback}
+            />
+        </div>
+    )
+}
+
+export function NoSharedTavlerAvailable(): JSX.Element {
+    return (
+        <div>
+            <ErrorWrapper
+                title="Her var det tomt!"
+                message="Du har ingen tavleforespørsler for øyeblikket. Andre kan dele sine tavler med deg under «Deling»-fanen på innstillingene til tavla."
+                image={duerLight}
             />
         </div>
     )
