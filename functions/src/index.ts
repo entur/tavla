@@ -166,13 +166,20 @@ export const addInvitedUserToBoardOwners = https.onCall(
         const boardOwners = boardSnapshot.data()?.owners
 
         try {
-            await getFirestore()
+            const inviteForUserIfInvited = await getFirestore()
                 .collection('settings')
                 .doc(data.boardId)
                 .collection('invites')
                 .where('receiver', '==', context.auth.token.email)
                 .limit(1)
                 .get()
+
+            if (!inviteForUserIfInvited.docs.length) {
+                throw new https.HttpsError(
+                    'permission-denied',
+                    'Requested user does not have an invite for this board',
+                )
+            }
         } catch {
             throw new https.HttpsError(
                 'permission-denied',
