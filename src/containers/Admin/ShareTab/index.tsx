@@ -7,6 +7,7 @@ import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
 import { NegativeButton } from '@entur/button'
 
+import { useSettingsContext } from '../../../settings'
 import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
 import {
@@ -29,6 +30,7 @@ import './styles.scss'
 
 const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
     const user = useUser()
+    const [settings] = useSettingsContext()
 
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
     const [needToBeOwnerModalOpen, setNeedToBeOwnerModalOpen] =
@@ -62,7 +64,7 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
         if (user && !user.isAnonymous) {
             if (
                 tabIndex === 5 &&
-                !ownersData.some((owner) => owner.uid === user.uid)
+                !settings?.owners?.some((ownerUID) => ownerUID === user.uid)
             ) {
                 setNeedToBeOwnerModalOpen(true)
             } else {
@@ -70,7 +72,7 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
                 setNeedToBeOwnerModalOpen(false)
             }
         }
-    }, [user, ownersData, tabIndex, setTabIndex])
+    }, [user, settings?.owners, tabIndex, setTabIndex])
 
     useEffect(() => {
         if (locked) return
@@ -126,7 +128,7 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
 
     return (
         <div className="share-page">
-            <Heading2 className="heading">Del din tavle med andre</Heading2>
+            <Heading2 className="heading">Del tavla med andre</Heading2>
             <Paragraph>
                 Denne siden lar deg dele den låste tavla di med andre, slik at
                 dere kan samarbeide på&nbsp;den.

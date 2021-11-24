@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Table, TableHead, TableRow, HeaderCell, TableBody } from '@entur/table'
 
@@ -26,11 +26,18 @@ export const BoardOwnersList = ({
         uid: '',
         email: invite.receiver,
     }))
+    const [userEmailsBeingRemoved, setUserEmailsBeingRemoved] = useState<
+        string[]
+    >([])
 
     const onRemoveOwnerFromBoard = async (
         userToRemove: BoardOwnersData,
     ): Promise<void> => {
         try {
+            setUserEmailsBeingRemoved([
+                ...userEmailsBeingRemoved,
+                userToRemove.email,
+            ])
             const ownersUids: string[] = ownersData.map(
                 (owner: BoardOwnersData) => owner.uid,
             )
@@ -41,6 +48,12 @@ export const BoardOwnersList = ({
             throw new Error(
                 'Write error: could not remove owner from board. ' + error,
             )
+        } finally {
+            setUserEmailsBeingRemoved(
+                userEmailsBeingRemoved.filter(
+                    (email) => email !== userToRemove.email,
+                ),
+            )
         }
     }
 
@@ -48,6 +61,10 @@ export const BoardOwnersList = ({
         userToRemove: BoardOwnersData,
     ): Promise<void> => {
         try {
+            setUserEmailsBeingRemoved([
+                ...userEmailsBeingRemoved,
+                userToRemove.email,
+            ])
             await removeSentBoardInviteAsOwner(
                 documentId,
                 user,
@@ -56,6 +73,12 @@ export const BoardOwnersList = ({
         } catch (error) {
             throw new Error(
                 'Write error: could not remove invite from board. ' + error,
+            )
+        } finally {
+            setUserEmailsBeingRemoved(
+                userEmailsBeingRemoved.filter(
+                    (email) => email !== userToRemove.email,
+                ),
             )
         }
     }
@@ -76,13 +99,15 @@ export const BoardOwnersList = ({
                     statusText="Har tilgang"
                     tooltipTextRemove="Fjern tilgang"
                     onRemove={onRemoveOwnerFromBoard}
+                    userEmailsBeingRemoved={userEmailsBeingRemoved}
                 />
                 <SharedWithRows
                     users={invitesMapped}
                     currentUserEmail={user?.uid ?? ''}
                     statusText="Venter på svar"
-                    tooltipTextRemove="Fjern forespørsel"
+                    tooltipTextRemove="Fjern invitasjon"
                     onRemove={onRemoveInviteFromBoard}
+                    userEmailsBeingRemoved={userEmailsBeingRemoved}
                 />
             </TableBody>
         </Table>
