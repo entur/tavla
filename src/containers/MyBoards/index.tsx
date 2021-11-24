@@ -163,7 +163,7 @@ const MyBoards = (): JSX.Element | null => {
                     <TabList>
                         <Tab>Mine tavler</Tab>
                         <Tab>
-                            Delt med meg
+                            Invitasjoner
                             {sharedBoards.length > 0 ? (
                                 <NotificationBadge
                                     variant="info"

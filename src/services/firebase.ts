@@ -417,6 +417,7 @@ export const getOwnersDataByBoardIdAsOwner = async (
     const response = await getOwnersDataByBoardIdAsOwnerFunction({
         boardId,
     } as UploadData)
+
     const ownerData: BoardOwnersData[] = response.data
 
     return ownerData
