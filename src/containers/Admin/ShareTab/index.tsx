@@ -2,6 +2,7 @@ import React, { useState, useEffect, Dispatch } from 'react'
 
 import type { User } from 'firebase/auth'
 import type { DocumentData, DocumentSnapshot } from 'firebase/firestore'
+import type { FirebaseError } from 'firebase/app'
 
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
@@ -42,6 +43,8 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
 
     const [invites, setInvites] = useState<Invite[]>([])
 
+    const [shouldRefresh, setShouldRefresh] = useState<boolean>(false)
+
     const documentId = getDocumentId()
 
     const handleDismissLoginModal = (newUser: User | undefined): void => {
@@ -75,6 +78,11 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
     }, [user, settings?.owners, tabIndex, setTabIndex])
 
     useEffect(() => {
+        if (shouldRefresh) window.location.reload()
+        setShouldRefresh(false)
+    }, [shouldRefresh])
+
+    useEffect(() => {
         if (locked) return
         const unsubscribeBoard = getBoardOnSnapshot(documentId, {
             next: (documentSnapshot: DocumentSnapshot) => {
@@ -82,10 +90,18 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
                 if (documentSnapshot.metadata.hasPendingWrites) return
 
                 setboardName(documentSnapshot.data()?.boardName)
-                getOwnersDataByBoardIdAsOwner(documentSnapshot.id).then(
-                    (ownersDataResponse: BoardOwnersData[]) =>
+                getOwnersDataByBoardIdAsOwner(documentSnapshot.id)
+                    .then((ownersDataResponse: BoardOwnersData[]) =>
                         setOwnersData(ownersDataResponse),
-                )
+                    )
+                    .catch((error: Error) => {
+                        if (
+                            error.name === 'FirebaseError' &&
+                            (error as FirebaseError).code ===
+                                'functions/permission-denied'
+                        )
+                            setShouldRefresh(true)
+                    })
             },
             error: () => {
                 setOwnersData([])
