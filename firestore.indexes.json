@@ -1,4 +1,15 @@
 {
     "indexes": [],
-    "fieldOverrides": []
+    "fieldOverrides": [
+        {
+            "collectionGroup": "invites",
+            "fieldPath": "receiver",
+            "indexes": [
+                {
+                    "queryScope": "COLLECTION_GROUP",
+                    "order": "ASCENDING"
+                }
+            ]
+        }
+    ]
 }
