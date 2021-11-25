@@ -106,7 +106,7 @@ const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
                         isSubmitAttempted && !displayName ? 'error' : undefined
                     }
                     feedback="Vennligst fyll ut dette feltet"
-                ></TextField>
+                />
                 {!selectedTileId && (
                     <RadioGroup
                         name="tile-type"
@@ -132,15 +132,15 @@ const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
                     variant={
                         isSubmitAttempted && !linkAddress ? 'error' : undefined
                     }
-                    placeholder="F. eks. tavla.entur.no"
+                    placeholder="F.eks. tavla.entur.no"
                     feedback="Vennligst fyll ut dette feltet"
-                ></TextField>
+                />
                 {tileType === 'image' && (
                     <TextField
                         label="Overskrift til bildet (valgfri)"
                         value={displayHeader}
                         onChange={(e) => setDisplayHeader(e.target.value)}
-                    ></TextField>
+                    />
                 )}
                 <TextArea
                     label={`${
@@ -150,7 +150,7 @@ const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
                     } (valgfri)`}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                ></TextArea>
+                />
 
                 <div className="custom-tile-modal__buttons">
                     <SecondaryButton onClick={() => setIsOpen(false)}>
