@@ -56,18 +56,15 @@ export enum IconColorType {
     CONTRAST = 'contrast',
 }
 
+export type CustomTileType = 'qr' | 'image'
 export interface CustomTile {
     id: string
+    type: CustomTileType
     displayName: string
-    linkAddress: string
-    description: string
+    sourceUrl: string
+    description?: string
+    displayHeader?: string
 }
-
-export interface CustomImageTile extends CustomTile {
-    displayHeader: string
-}
-
-export type CustomQRTile = CustomTile
 export interface Viewport {
     latitude: number
     longitude: number

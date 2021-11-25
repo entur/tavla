@@ -11,7 +11,7 @@ import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 
 import { Coordinates, TransportMode } from '@entur/sdk'
 
-import { Theme, DrawableRoute, CustomImageTile, CustomQRTile } from '../types'
+import { Theme, DrawableRoute, CustomTile } from '../types'
 import { getSettings } from '../services/firebase'
 import { getDocumentId } from '../utils'
 import { useUser } from '../auth'
@@ -63,8 +63,8 @@ export interface Settings {
     hideRealtimeData?: boolean
     hiddenRealtimeDataLineRefs: string[]
     isScheduledForDelete?: boolean
-    customImageTiles: CustomImageTile[]
-    customQrTiles: CustomQRTile[]
+    customImageTiles: CustomTile[]
+    customQrTiles: CustomTile[]
     showCustomTiles: boolean
     hiddenCustomTileIds: string[]
 }

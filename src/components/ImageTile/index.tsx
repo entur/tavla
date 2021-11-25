@@ -2,23 +2,27 @@ import React from 'react'
 
 import { Heading3, Paragraph } from '@entur/typography'
 
-import { CustomImageTile } from '../../types'
+import { CustomTile } from '../../types'
 
 import './styles.scss'
 
 const ImageTile = ({
-    linkAddress,
+    sourceUrl,
     description,
     displayHeader,
-}: CustomImageTile): JSX.Element => (
+}: CustomTile): JSX.Element => (
     <div
         className="image-tile"
-        style={{ backgroundImage: `url("${linkAddress}")` }}
+        style={{ backgroundImage: `url("${sourceUrl}")` }}
     >
-        <div className="image-tile__info-box">
-            <Heading3>{displayHeader.toUpperCase()}</Heading3>
-            {description && <Paragraph>{description}</Paragraph>}
-        </div>
+        {(displayHeader || description) && (
+            <div className="image-tile__info-box">
+                {displayHeader && (
+                    <Heading3>{displayHeader.toUpperCase()}</Heading3>
+                )}
+                {description && <Paragraph>{description}</Paragraph>}
+            </div>
+        )}
     </div>
 )
 

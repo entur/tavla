@@ -6,14 +6,14 @@ import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
 
 import { useSettingsContext } from '../../settings'
 
+import type { CustomTileType } from '../../types'
+
 import './styles.scss'
 
 interface Props {
     setIsOpen: (isOpen: boolean) => void
     selectedTileId?: string
 }
-
-type TileType = 'qr' | 'image'
 
 type ActionType = 'update' | 'addNew'
 
@@ -23,29 +23,27 @@ const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
     const selectedItem = [...customQrTiles, ...customImageTiles].find(
         (tile) => tile.id === selectedTileId,
     )
-    const [tileType, setTileType] = useState<TileType>(
-        selectedItem && 'displayHeader' in selectedItem ? 'image' : 'qr',
+    const [tileType, setTileType] = useState<CustomTileType>(
+        selectedItem ? selectedItem.type : 'image',
     )
     const [displayName, setDisplayName] = useState(
         selectedItem ? selectedItem.displayName : '',
     )
-    const [linkAddress, setLinkAddress] = useState(
-        selectedItem ? selectedItem.linkAddress : '',
+    const [sourceUrl, setSourceUrl] = useState(
+        selectedItem ? selectedItem.sourceUrl : '',
     )
     const [description, setDescription] = useState(
-        selectedItem ? selectedItem.description : '',
+        selectedItem?.description ?? '',
     )
     const [displayHeader, setDisplayHeader] = useState(
-        selectedItem && 'displayHeader' in selectedItem
-            ? selectedItem['displayHeader']
-            : '',
+        selectedItem?.displayHeader ?? '',
     )
 
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
     const handleSubmit = (actionType: ActionType) => {
         setIsSubmitAttempted(true)
-        if (!displayName || !linkAddress) return
+        if (!displayName || !sourceUrl) return
         if (tileType === 'qr') {
             setSettings({
                 customQrTiles: [
@@ -57,8 +55,9 @@ const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
                     {
                         id: String(Date.now()),
                         displayName,
-                        linkAddress,
+                        sourceUrl,
                         description,
+                        type: tileType,
                     },
                 ],
             })
@@ -74,9 +73,10 @@ const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
                     {
                         id: String(Date.now()),
                         displayName,
-                        linkAddress,
+                        sourceUrl,
                         description,
                         displayHeader,
+                        type: tileType,
                     },
                 ],
             })
@@ -112,9 +112,9 @@ const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
                         name="tile-type"
                         label="Type innhold"
                         onChange={(e) => {
-                            setTileType(e.target.value as TileType)
+                            setTileType(e.target.value as CustomTileType)
                             setIsSubmitAttempted(false)
-                            setLinkAddress('')
+                            setSourceUrl('')
                             setDescription('')
                         }}
                         value={tileType}
@@ -127,10 +127,10 @@ const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
                     label={`Lenkeadresse til ${
                         tileType === 'image' ? 'bildet' : 'QR-koden'
                     }`}
-                    value={linkAddress}
-                    onChange={(e) => setLinkAddress(e.target.value)}
+                    value={sourceUrl}
+                    onChange={(e) => setSourceUrl(e.target.value)}
                     variant={
-                        isSubmitAttempted && !linkAddress ? 'error' : undefined
+                        isSubmitAttempted && !sourceUrl ? 'error' : undefined
                     }
                     placeholder="F.eks. tavla.entur.no"
                     feedback="Vennligst fyll ut dette feltet"
