@@ -6,8 +6,12 @@
             "fieldPath": "receiver",
             "indexes": [
                 {
-                    "queryScope": "COLLECTION_GROUP",
-                    "order": "ASCENDING"
+                    "order": "ASCENDING",
+                    "queryScope": "COLLECTION"
+                },
+                {
+                    "order": "ASCENDING",
+                    "queryScope": "COLLECTION_GROUP"
                 }
             ]
         }
