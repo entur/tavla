@@ -3,6 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import { Checkbox } from '@entur/form'
 import { Paragraph } from '@entur/typography'
 import { TransportMode } from '@entur/sdk'
+import { Loader } from '@entur/loader'
 
 import { toggleValueInList, isDarkOrDefaultTheme } from '../../../../utils'
 import { StopPlaceWithLines } from '../../../../types'
@@ -25,7 +26,7 @@ function StopPlacePanel(props: Props): JSX.Element {
     const { stops } = props
 
     const filteredStopPlaces = useMemo(
-        () => stops.filter(({ lines }) => lines.length),
+        () => stops?.filter(({ lines }) => lines.length) || [],
         [stops],
     )
 
@@ -39,7 +40,7 @@ function StopPlacePanel(props: Props): JSX.Element {
             })
         } else {
             setSettings({
-                hiddenStops: stops.map(({ id }) => id),
+                hiddenStops: stops?.map(({ id }) => id) || [],
             })
         }
     }, [hiddenStopModes, hiddenStops.length, setSettings, stops])
@@ -127,7 +128,11 @@ function StopPlacePanel(props: Props): JSX.Element {
     if (!filteredStopPlaces.length) {
         return (
             <div className="stop-place-panel">
-                <Paragraph>Det er ingen stoppesteder i nærheten.</Paragraph>
+                {stops ? (
+                    <Paragraph>Det er ingen stoppesteder i nærheten.</Paragraph>
+                ) : (
+                    <Loader>Laster...</Loader>
+                )}
             </div>
         )
     }
@@ -170,7 +175,7 @@ function StopPlacePanel(props: Props): JSX.Element {
 }
 
 interface Props {
-    stops: StopPlaceWithLines[]
+    stops: StopPlaceWithLines[] | undefined
 }
 
 export default StopPlacePanel

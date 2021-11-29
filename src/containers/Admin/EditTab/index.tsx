@@ -180,7 +180,9 @@ const EditTab = (): JSX.Element => {
         setSettings,
     ])
 
-    const [stopPlaces, setStopPlaces] = useState<StopPlaceWithLines[]>([])
+    const [stopPlaces, setStopPlaces] = useState<
+        StopPlaceWithLines[] | undefined
+    >(undefined)
     const bikeRentalStations: Station[] | null = useBikeRentalStations(false)
     const [sortedBikeRentalStations, setSortedBikeRentalStations] = useState<
         Station[]
@@ -326,7 +328,7 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 0,
                 w: 1.5,
-                h: 2.35 + tileHeight(stopPlaces.length, 0.4, 0.35),
+                h: 2.35 + tileHeight(stopPlaces?.length || 0, 0.4, 0.35),
             },
             {
                 i: 'bikePanel',
@@ -358,7 +360,7 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 0,
                 w: 2,
-                h: 2.35 + tileHeight(stopPlaces.length, 0.44, 0.32),
+                h: 2.35 + tileHeight(stopPlaces?.length || 0, 0.44, 0.32),
             },
             {
                 i: 'bikePanel',
@@ -390,7 +392,7 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 0,
                 w: 1,
-                h: 2.25 + tileHeight(stopPlaces.length, 0.6, 0.32),
+                h: 2.25 + tileHeight(stopPlaces?.length || 0, 0.6, 0.32),
             },
             {
                 i: 'bikePanel',
@@ -422,7 +424,7 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 0,
                 w: 1,
-                h: 2.5 + tileHeight(stopPlaces.length, 0.75, 0.25),
+                h: 2.5 + tileHeight(stopPlaces?.length || 0, 0.75, 0.25),
             },
             {
                 i: 'bikePanel',
@@ -454,7 +456,7 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 0,
                 w: 1,
-                h: 2.5 + tileHeight(stopPlaces.length, 0.75, 0.25),
+                h: 2.5 + tileHeight(stopPlaces?.length || 0, 0.75, 0.25),
             },
             {
                 i: 'bikePanel',
