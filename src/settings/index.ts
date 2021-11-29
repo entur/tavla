@@ -12,7 +12,7 @@ import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 import { Coordinates, TransportMode } from '@entur/sdk'
 
 import { Theme, DrawableRoute, CustomTile } from '../types'
-import { getSettings } from '../services/firebase'
+import { getSettingsReference } from '../services/firebase'
 import { getDocumentId } from '../utils'
 import { useUser } from '../auth'
 
@@ -117,7 +117,7 @@ export function useSettings(): [Settings | null, Setter] {
 
         if (id) {
             return onSnapshot(
-                getSettings(id),
+                getSettingsReference(id),
                 (documentSnapshot: DocumentSnapshot) => {
                     if (!documentSnapshot.exists()) {
                         window.location.pathname = '/'

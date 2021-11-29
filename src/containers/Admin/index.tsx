@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
@@ -18,17 +18,28 @@ import VisningTab from './DashboardPickerTab'
 import NameTab from './NameTab'
 import FloatingButtons from './FloatingButtons'
 import './styles.scss'
+import ShareTab from './ShareTab'
 
 const AdminPage = (): JSX.Element => {
+    const [settings] = useSettingsContext()
     const user = useUser()
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
 
-    const lockIcon = !(user && !user.isAnonymous) && <ClosedLockIcon />
+    const [lockShareTab, setLockShareTab] = useState<boolean>(
+        !user || user.isAnonymous || !settings?.owners?.includes(user.uid),
+    )
 
-    const [settings] = useSettingsContext()
+    const lockIcon = (!user || user.isAnonymous) && <ClosedLockIcon inline />
+    const lockIconShareTab = lockShareTab && <ClosedLockIcon inline />
 
     const { theme } = settings || {}
+
+    useEffect(() => {
+        setLockShareTab(
+            !user || user.isAnonymous || !settings?.owners?.includes(user.uid),
+        )
+    }, [user, settings?.owners])
 
     return (
         <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
@@ -44,6 +55,7 @@ const AdminPage = (): JSX.Element => {
                         <Tab>Velg farger</Tab>
                         <Tab>Last opp logo {lockIcon}</Tab>
                         <Tab>Endre lenke {lockIcon}</Tab>
+                        <Tab>Deling {lockIconShareTab}</Tab>
                     </TabList>
                     <TabPanels className="admin__tabs__tab-panels">
                         <TabPanel>
@@ -65,6 +77,13 @@ const AdminPage = (): JSX.Element => {
                             <NameTab
                                 tabIndex={currentIndex}
                                 setTabIndex={setCurrentIndex}
+                            />
+                        </TabPanel>
+                        <TabPanel>
+                            <ShareTab
+                                tabIndex={currentIndex}
+                                setTabIndex={setCurrentIndex}
+                                locked={lockShareTab}
                             />
                         </TabPanel>
                     </TabPanels>

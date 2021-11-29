@@ -102,3 +102,96 @@ export const scheduledDeleteOfDocumentsSetToBeDeleted = region('us-central1')
         }
         return null
     })
+
+export const getOwnersDataByBoardIdAsOwner = https.onCall(
+    async (data, context) => {
+        if (!context.auth) {
+            throw new https.HttpsError(
+                'failed-precondition',
+                'The function must be called while authenticated.',
+            )
+        }
+
+        const boardRef = getFirestore().collection('settings').doc(data.boardId)
+        const boardSnapshot = await boardRef.get()
+        if (!boardSnapshot.exists) {
+            throw new https.HttpsError(
+                'invalid-argument',
+                'Requested board was not found.',
+            )
+        }
+        const boardOwners = boardSnapshot.data()?.owners
+        if (!boardOwners.includes(context.auth?.uid)) {
+            throw new https.HttpsError(
+                'permission-denied',
+                'You need to be an owner of this board to get data about other owners.',
+            )
+        }
+
+        const boardOwnersMapped = boardOwners.map((id: string) => ({ uid: id }))
+
+        try {
+            const usersResult = await getAuth().getUsers(boardOwnersMapped)
+            const ownersData = usersResult.users.map((user) => ({
+                uid: user.uid,
+                email: user.email,
+            }))
+            return ownersData
+        } catch {
+            throw new https.HttpsError(
+                'invalid-argument',
+                'Could not get requested data about owners.',
+            )
+        }
+    },
+)
+
+export const addInvitedUserToBoardOwners = https.onCall(
+    async (data, context) => {
+        if (!context.auth) {
+            throw new https.HttpsError(
+                'failed-precondition',
+                'The function must be called while authenticated.',
+            )
+        }
+
+        const boardRef = getFirestore().collection('settings').doc(data.boardId)
+        const boardSnapshot = await boardRef.get()
+        if (!boardSnapshot.exists) {
+            throw new https.HttpsError(
+                'invalid-argument',
+                'Requested board was not found.',
+            )
+        }
+        const boardOwners = boardSnapshot.data()?.owners
+
+        try {
+            const inviteForUserIfInvited = await getFirestore()
+                .collection('settings')
+                .doc(data.boardId)
+                .collection('invites')
+                .where('receiver', '==', context.auth.token.email)
+                .limit(1)
+                .get()
+
+            if (!inviteForUserIfInvited.docs.length) {
+                throw new https.HttpsError(
+                    'permission-denied',
+                    'Requested user does not have an invite for this board',
+                )
+            }
+        } catch {
+            throw new https.HttpsError(
+                'permission-denied',
+                'Requested user does not have an invite for this board',
+            )
+        }
+
+        if (!boardOwners.includes(context.auth.uid)) {
+            const ownersUpdated: string[] = [...boardOwners, context.auth.uid]
+            boardRef.update({
+                owners: ownersUpdated,
+            })
+        }
+    },
+)

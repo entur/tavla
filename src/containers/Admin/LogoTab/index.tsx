@@ -14,7 +14,7 @@ import { GridItem, GridContainer } from '@entur/grid'
 
 import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
-import LoginModal from '../../../components/LoginModal'
+import LoginModal from '../../../components/Modals/LoginModal'
 
 import LogoUpload from './LogoUpload'
 import SizePicker from './SizePicker'

@@ -17,11 +17,12 @@ import { Tooltip } from '@entur/tooltip'
 import {
     copySettingsToNewId,
     setIdToBeDeleted,
+    userIsOwner,
 } from '../../../../services/firebase'
 
-import { useSettingsContext } from '../../../../settings'
 import { getDocumentId } from '../../../../utils'
 import { analytics } from '../../../../firebase-init'
+import { useUser } from '../../../../auth'
 
 import '../styles.scss'
 
@@ -30,6 +31,7 @@ enum inputFeedback {
     ID_SET = 'Din nye Tavla-lenke er nå opprettet!',
     EMPTY_STRING = 'Tomt felt: Tavle-lenken kan ikke være tom.',
     TOO_SHORT = 'For kort: Tavle-lenken må være på minst seks tegn.',
+    NOT_OWNER = 'Du har ikke rettigheter til å endre tavlelenken.',
     NOTHING = '',
 }
 
@@ -40,7 +42,7 @@ enum inputFeedbackType {
 }
 
 const CustomURL = (): JSX.Element => {
-    const [settings] = useSettingsContext()
+    const user = useUser()
 
     const [customUrlInput, setCustomUrlInput] = useState('')
     const [feedbackMessage, setFeedbackMessage] = useState(
@@ -67,7 +69,7 @@ const CustomURL = (): JSX.Element => {
         }
     }
 
-    const tryAddCustomUrl = () => {
+    const tryAddCustomUrl = async () => {
         if (!customUrlInput) {
             handleFailedInputVisuals(inputFeedback.EMPTY_STRING)
             return
@@ -75,15 +77,25 @@ const CustomURL = (): JSX.Element => {
             handleFailedInputVisuals(inputFeedback.TOO_SHORT)
             return
         }
-        copySettingsToNewId(customUrlInput, settings).then((success) => {
-            if (success) {
+
+        try {
+            const isOwner = await userIsOwner(currentDoc, user?.uid)
+            if (!isOwner) throw new Error()
+
+            const successfulCopy = await copySettingsToNewId(
+                customUrlInput,
+                getDocumentId() ?? '',
+            )
+            if (successfulCopy) {
                 setIdToBeDeleted(currentDoc)
                 handleNewIdVisuals()
                 logEvent(analytics, 'create_custom_url')
             } else {
                 handleFailedInputVisuals(inputFeedback.ID_UNAVAILABLE)
             }
-        })
+        } catch {
+            handleFailedInputVisuals(inputFeedback.NOT_OWNER)
+        }
     }
 
     const handleNewIdVisuals = () => {
