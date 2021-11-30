@@ -26,17 +26,20 @@ const RemoveSelfFromTavleModal = ({
 
     const onRemoveSelfFromTavle = useCallback(
         (remove: boolean) => {
-            if (remove) {
-                removeFromOwners(id, uid)
-                addToast({
-                    title: 'Du ble fjernet fra tavla.',
-                    content:
-                        'Du er ikke lenger en eier av denne tavla og vil ikke ha mulighet til å gjøre endringer i den.',
-                    variant: 'success',
-                })
-                if (forceRefresh) window.location.reload()
+            const asyncRemove = async () => {
+                if (remove) {
+                    await removeFromOwners(id, uid)
+                    addToast({
+                        title: 'Du ble fjernet fra tavla.',
+                        content:
+                            'Du er ikke lenger en eier av denne tavla og vil ikke ha mulighet til å gjøre endringer i den.',
+                        variant: 'success',
+                    })
+                    if (forceRefresh) window.location.reload()
+                }
+                onDismiss()
             }
-            onDismiss()
+            asyncRemove()
         },
         [id, uid, forceRefresh, onDismiss, addToast],
     )
