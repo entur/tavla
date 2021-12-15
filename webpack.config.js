@@ -1,4 +1,5 @@
 const path = require('path')
+
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const postcssPresetEnv = require('postcss-preset-env')
@@ -82,7 +83,7 @@ module.exports = smp.wrap((env, args) => ({
                 ? {}
                 : {
                       'Content-Security-Policy':
-                          "child-src 'self' blob:;default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google-analytics.com https://apis.google.com https://*.googleapis.com https://www.googletagmanager.com blob:; connect-src 'self' wss://*.entur.io https://api.met.no https://stats.g.doubleclick.net https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com https://*.entur.io https://*.entur.org https://*.cloudfunctions.net https://*.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src https: 'self' blob: data:  https://www.google.no  https://www.google.com https://*.googleapis.com https://www.google-analytics.com; object-src 'none'; frame-ancestors https:; manifest-src 'self' blob:; frame-src https://entur-tavla-staging.firebaseapp.com/ https://entur-tavla-prod.firebaseapp.com/",
+                          "child-src 'self' blob:;default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google-analytics.com https://apis.google.com https://*.googleapis.com https://www.googletagmanager.com blob:; connect-src 'self' ws://localhost:9090/ws wss://*.entur.io https://api.met.no https://stats.g.doubleclick.net https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com https://*.entur.io https://*.entur.org https://*.cloudfunctions.net https://*.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src https: 'self' blob: data: https://www.google.no https://www.google.com https://*.googleapis.com https://www.google-analytics.com; object-src 'none'; frame-ancestors https:; manifest-src 'self' blob:; frame-src https://entur-tavla-staging.firebaseapp.com/ https://entur-tavla-prod.firebaseapp.com/",
                       'Permissions-Policy': 'geolocation=(self)',
                   },
     },

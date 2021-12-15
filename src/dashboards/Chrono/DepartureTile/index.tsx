@@ -45,7 +45,7 @@ function getColumnSizes(
     isMobile: boolean,
     hideTracks: boolean | undefined,
     hideSituations: boolean | undefined,
-) {
+): Record<string, React.CSSProperties | undefined> {
     const getColSize = (desktopWidth: string, mobileWidth: string) =>
         !isMobile ? { width: desktopWidth } : { width: mobileWidth }
 
@@ -58,8 +58,8 @@ function getColumnSizes(
                 ? getColSize('54%', '49%')
                 : getColSize('64%', '61%'),
         departureCol: getColSize('20%', '20%'),
-        trackCol: !hideTracks ? getColSize('10%', '11%') : null,
-        situationCol: !hideSituations ? getColSize('10%', '11%') : null,
+        trackCol: !hideTracks ? getColSize('10%', '11%') : undefined,
+        situationCol: !hideSituations ? getColSize('10%', '11%') : undefined,
     }
 }
 
@@ -96,7 +96,7 @@ const DepartureTile = ({
             <Table spacing="small" fixed>
                 <TableHead>
                     <TableRow className="tableRow">
-                        <HeaderCell style={columnSizes.iconCol}></HeaderCell>
+                        <HeaderCell style={columnSizes.iconCol}> </HeaderCell>
                         <HeaderCell style={columnSizes.lineCol}>
                             Linje
                         </HeaderCell>
