@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import { useHistory, useRouteMatch } from 'react-router'
@@ -23,6 +23,8 @@ import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
+import QRTile from '../../components/QRTile'
+import ImageTile from '../../components/ImageTile'
 
 import { useSettingsContext } from '../../settings'
 
@@ -94,6 +96,12 @@ const COLS: { [key: string]: number } = {
 
 const ChronoDashboard = (): JSX.Element | null => {
     const [settings] = useSettingsContext()
+    const {
+        customImageTiles = [],
+        customQrTiles = [],
+        hiddenCustomTileIds = [],
+        showCustomTiles,
+    } = settings || {}
     const history = useHistory()
     const dashboardKey = history.location.key
     const boardId =
@@ -121,6 +129,10 @@ const ChronoDashboard = (): JSX.Element | null => {
             ({ departures }) => departures.length > 0,
         )
     }
+
+    const numberOfCustomImages = customImageTiles.filter(
+        ({ id }) => !hiddenCustomTileIds.includes(id),
+    ).length
 
     const walkInfo = useWalkInfo(stopPlacesWithDepartures)
 
@@ -160,6 +172,26 @@ const ChronoDashboard = (): JSX.Element | null => {
         stopPlacesHasLoaded && bikeHasLoaded && scooterHasLoaded,
     )
 
+    const imageTilesToDisplay = useMemo(
+        () =>
+            showCustomTiles
+                ? customImageTiles.filter(
+                      ({ id }) => !hiddenCustomTileIds.includes(id),
+                  )
+                : [],
+        [customImageTiles, showCustomTiles, hiddenCustomTileIds],
+    )
+
+    const qrTilesToDisplay = useMemo(
+        () =>
+            showCustomTiles
+                ? customQrTiles.filter(
+                      ({ id }) => !hiddenCustomTileIds.includes(id),
+                  )
+                : [],
+        [showCustomTiles, customQrTiles, hiddenCustomTileIds],
+    )
+
     useEffect(() => {
         let defaultTileOrder: Item[] = []
         if (stopPlacesWithDepartures) {
@@ -190,6 +222,23 @@ const ChronoDashboard = (): JSX.Element | null => {
             ]
         }
 
+        if (imageTilesToDisplay)
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                ...imageTilesToDisplay.map((imgTile) => ({
+                    id: imgTile.id,
+                    name: imgTile.displayName,
+                })),
+            ]
+        if (qrTilesToDisplay)
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                ...qrTilesToDisplay.map((qrTile) => ({
+                    id: qrTile.id,
+                    name: qrTile.displayName,
+                })),
+            ]
+
         const storedTileOrder: Item[] | undefined = getFromLocalStorage(
             boardId + '-tile-order',
         )
@@ -214,6 +263,8 @@ const ChronoDashboard = (): JSX.Element | null => {
         settings?.showMap,
         settings?.showWeather,
         boardId,
+        imageTilesToDisplay,
+        qrTilesToDisplay,
     ])
 
     const longPress = useLongPress(
@@ -327,12 +378,40 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     ) : (
                                         []
                                     )
-                                } else if (stopPlacesWithDepartures) {
+                                }
+                                if (imageTilesToDisplay.length > 0) {
+                                    const tile = imageTilesToDisplay.find(
+                                        (img) => img.id === item.id,
+                                    )
+
+                                    if (tile)
+                                        return (
+                                            <div key={item.id}>
+                                                <ImageTile
+                                                    {...tile}
+                                                ></ImageTile>
+                                            </div>
+                                        )
+                                }
+
+                                if (qrTilesToDisplay.length > 0) {
+                                    const tile = qrTilesToDisplay.find(
+                                        (qr) => qr.id === item.id,
+                                    )
+
+                                    if (tile)
+                                        return (
+                                            <div key={item.id} className="tile">
+                                                <QRTile {...tile}></QRTile>
+                                            </div>
+                                        )
+                                }
+                                if (stopPlacesWithDepartures) {
                                     const stopIndex =
                                         stopPlacesWithDepartures.findIndex(
                                             (p) => p.id == item.id,
                                         )
-                                    return (
+                                    return stopIndex >= 0 ? (
                                         <div key={item.id}>
                                             <DepartureTile
                                                 key={item.id}
@@ -351,7 +430,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                                 }
                                             />
                                         </div>
-                                    )
+                                    ) : null
                                 }
                             })}
                         </div>
@@ -461,6 +540,45 @@ const ChronoDashboard = (): JSX.Element | null => {
                         ) : (
                             []
                         )}
+                        {imageTilesToDisplay.length > 0 &&
+                            imageTilesToDisplay.map((imageTile, index) => (
+                                <div
+                                    key={imageTile.id}
+                                    data-grid={getDataGrid(
+                                        numberOfStopPlaces +
+                                            weatherCol +
+                                            bikeCol +
+                                            mapCol +
+                                            index,
+                                        maxWidthCols,
+                                        10,
+                                        2,
+                                    )}
+                                >
+                                    <ImageTile {...imageTile}></ImageTile>
+                                </div>
+                            ))}
+                        {qrTilesToDisplay.length > 0 &&
+                            qrTilesToDisplay.map((qrTile, index) => (
+                                <div
+                                    key={qrTile.id}
+                                    data-grid={getDataGrid(
+                                        numberOfStopPlaces +
+                                            weatherCol +
+                                            bikeCol +
+                                            mapCol +
+                                            numberOfCustomImages +
+                                            index,
+                                        maxWidthCols,
+                                        10,
+                                        3,
+                                    )}
+                                >
+                                    <div className="tile">
+                                        <QRTile {...qrTile}></QRTile>
+                                    </div>
+                                </div>
+                            ))}
                     </ResponsiveReactGridLayout>
                 </div>
             )}

@@ -60,6 +60,15 @@ export enum IconColorType {
     CONTRAST = 'contrast',
 }
 
+export type CustomTileType = 'qr' | 'image'
+export interface CustomTile {
+    id: string
+    type: CustomTileType
+    displayName: string
+    sourceUrl: string
+    description?: string
+    displayHeader?: string
+}
 export interface BoardOwnersData {
     uid: string
     email: string

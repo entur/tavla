@@ -124,6 +124,7 @@
             max-width: 75%;
             text-overflow: ellipsis;
             overflow: hidden;
+            white-space: nowrap;
         }
 
         &--details-in-view {

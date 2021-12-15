@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
 import { useHistory, useRouteMatch } from 'react-router'
@@ -35,6 +35,8 @@ import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
 import { LongPressProvider } from '../../logic/longPressContext'
 
 import WeatherTile from '../../components/WeatherTile'
+import QRTile from '../../components/QRTile'
+import ImageTile from '../../components/ImageTile'
 
 import DepartureTile from './DepartureTile'
 import BikeTile from './BikeTile'
@@ -97,6 +99,12 @@ const COLS: { [key: string]: number } = {
 
 const EnturDashboard = (): JSX.Element | null => {
     const [settings] = useSettingsContext()
+    const {
+        customImageTiles = [],
+        customQrTiles = [],
+        hiddenCustomTileIds = [],
+        showCustomTiles,
+    } = settings || {}
     const history = useHistory()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
@@ -167,6 +175,26 @@ const EnturDashboard = (): JSX.Element | null => {
         stopPlacesHasLoaded && bikeHasLoaded && scooterHasLoaded,
     )
 
+    const imageTilesToDisplay = useMemo(
+        () =>
+            showCustomTiles
+                ? customImageTiles.filter(
+                      ({ id }) => !hiddenCustomTileIds.includes(id),
+                  )
+                : [],
+        [customImageTiles, showCustomTiles, hiddenCustomTileIds],
+    )
+
+    const qrTilesToDisplay = useMemo(
+        () =>
+            showCustomTiles
+                ? customQrTiles.filter(
+                      ({ id }) => !hiddenCustomTileIds.includes(id),
+                  )
+                : [],
+        [showCustomTiles, customQrTiles, hiddenCustomTileIds],
+    )
+
     useEffect(() => {
         let defaultTileOrder: Item[] = []
         if (stopPlacesWithDepartures) {
@@ -196,6 +224,22 @@ const EnturDashboard = (): JSX.Element | null => {
                 ...defaultTileOrder,
             ]
         }
+        if (imageTilesToDisplay)
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                ...imageTilesToDisplay.map((imgTile) => ({
+                    id: imgTile.id,
+                    name: imgTile.displayName,
+                })),
+            ]
+        if (qrTilesToDisplay)
+            defaultTileOrder = [
+                ...defaultTileOrder,
+                ...qrTilesToDisplay.map((qrTile) => ({
+                    id: qrTile.id,
+                    name: qrTile.displayName,
+                })),
+            ]
 
         const storedTileOrder: Item[] | undefined = getFromLocalStorage(
             boardId + '-tile-order',
@@ -221,6 +265,8 @@ const EnturDashboard = (): JSX.Element | null => {
         settings?.showWeather,
         boardId,
         hasData,
+        imageTilesToDisplay,
+        qrTilesToDisplay,
     ])
 
     const longPress = useLongPress(
@@ -328,12 +374,41 @@ const EnturDashboard = (): JSX.Element | null => {
                                     ) : (
                                         []
                                     )
-                                } else if (stopPlacesWithDepartures) {
+                                }
+                                if (imageTilesToDisplay.length > 0) {
+                                    const tile = imageTilesToDisplay.find(
+                                        (img) => img.id === item.id,
+                                    )
+
+                                    if (tile)
+                                        return (
+                                            <div key={item.id}>
+                                                <ImageTile
+                                                    {...tile}
+                                                ></ImageTile>
+                                            </div>
+                                        )
+                                }
+
+                                if (qrTilesToDisplay.length > 0) {
+                                    const tile = qrTilesToDisplay.find(
+                                        (qr) => qr.id === item.id,
+                                    )
+
+                                    if (tile)
+                                        return (
+                                            <div key={item.id} className="tile">
+                                                <QRTile {...tile}></QRTile>
+                                            </div>
+                                        )
+                                }
+                                if (stopPlacesWithDepartures) {
                                     const stopIndex =
                                         stopPlacesWithDepartures.findIndex(
                                             (p) => p.id == item.id,
                                         )
-                                    return (
+
+                                    return stopIndex >= 0 ? (
                                         <div key={item.id}>
                                             <DepartureTile
                                                 walkInfo={getWalkInfoForStopPlace(
@@ -347,6 +422,8 @@ const EnturDashboard = (): JSX.Element | null => {
                                                 }
                                             />
                                         </div>
+                                    ) : (
+                                        []
                                     )
                                 }
                             })}
@@ -483,6 +560,59 @@ const EnturDashboard = (): JSX.Element | null => {
                         ) : (
                             []
                         )}
+                        {imageTilesToDisplay.length > 0 &&
+                            imageTilesToDisplay.map((imageTile, index) => (
+                                <div
+                                    key={imageTile.id}
+                                    data-grid={getDataGrid(
+                                        numberOfStopPlaces +
+                                            weatherCol +
+                                            bikeCol +
+                                            mapCol +
+                                            index,
+                                        maxWidthCols,
+                                        10,
+                                        2,
+                                    )}
+                                >
+                                    {!isMobile ? (
+                                        <ResizeHandle
+                                            size="32"
+                                            className="resizeHandle"
+                                            variant="light"
+                                        />
+                                    ) : null}
+                                    <ImageTile {...imageTile}></ImageTile>
+                                </div>
+                            ))}
+                        {qrTilesToDisplay.length > 0 &&
+                            qrTilesToDisplay.map((qrTile, index) => (
+                                <div
+                                    key={qrTile.id}
+                                    data-grid={getDataGrid(
+                                        numberOfStopPlaces +
+                                            weatherCol +
+                                            bikeCol +
+                                            mapCol +
+                                            imageTilesToDisplay.length +
+                                            index,
+                                        maxWidthCols,
+                                        10,
+                                        3,
+                                    )}
+                                >
+                                    {!isMobile ? (
+                                        <ResizeHandle
+                                            size="32"
+                                            className="resizeHandle"
+                                            variant="light"
+                                        />
+                                    ) : null}
+                                    <div className="tile">
+                                        <QRTile {...qrTile}></QRTile>
+                                    </div>
+                                </div>
+                            ))}
                     </ResponsiveReactGridLayout>
                 </div>
             )}

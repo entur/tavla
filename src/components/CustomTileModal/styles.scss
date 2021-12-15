@@ -1,0 +1,15 @@
+@import '../../assets/styles/import.scss';
+
+.custom-tile-modal {
+    & > * {
+        margin-bottom: 1rem;
+    }
+    &__buttons {
+        margin-top: 1rem;
+        float: right;
+    }
+
+    button:not(:first-child) {
+        margin-left: 1rem;
+    }
+}

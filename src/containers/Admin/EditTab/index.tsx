@@ -58,6 +58,7 @@ import ToggleDetailsPanel from './ToggleDetailsPanel'
 import WeatherPanel from './WeatherPanel'
 
 import './styles.scss'
+import CustomTilePanel from './CustomTilePanel'
 
 const isMobile = isMobileWeb()
 
@@ -123,6 +124,9 @@ const EditTab = (): JSX.Element => {
         showTemperature = true,
         showWind = true,
         showPrecipitation = true,
+        customImageTiles = [],
+        customQrTiles = [],
+        showCustomTiles,
     } = settings || {}
 
     const [distance, setDistance] = useState<number>(
@@ -353,6 +357,19 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
+            {
+                i: 'customTilePanel',
+                x: 1.5,
+                y: 10,
+                w: 1.5,
+                h:
+                    1.5 +
+                    tileHeight(
+                        customImageTiles.length + customQrTiles.length,
+                        0.24,
+                        0,
+                    ),
+            },
         ],
         md: [
             {
@@ -382,6 +399,19 @@ const EditTab = (): JSX.Element => {
                     tileHeight(
                         getNumberOfRealtimeModes(realtimeLines),
                         0.75,
+                        0,
+                    ),
+            },
+            {
+                i: 'customTilePanel',
+                x: 2,
+                y: 10,
+                w: 1,
+                h:
+                    2 +
+                    tileHeight(
+                        customImageTiles.length + customQrTiles.length,
+                        0.24,
                         0,
                     ),
             },
@@ -417,6 +447,19 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
+            {
+                i: 'customTilePanel',
+                x: 0,
+                y: 10,
+                w: 1,
+                h:
+                    2 +
+                    tileHeight(
+                        customImageTiles.length + customQrTiles.length,
+                        0.24,
+                        0,
+                    ),
+            },
         ],
         xs: [
             {
@@ -449,6 +492,19 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
+            {
+                i: 'customTilePanel',
+                x: 0,
+                y: 10,
+                w: 1,
+                h:
+                    2 +
+                    tileHeight(
+                        customImageTiles.length + customQrTiles.length,
+                        0.24,
+                        0,
+                    ),
+            },
         ],
         xxs: [
             {
@@ -478,6 +534,19 @@ const EditTab = (): JSX.Element => {
                     tileHeight(
                         getNumberOfRealtimeModes(realtimeLines),
                         0.75,
+                        0,
+                    ),
+            },
+            {
+                i: 'customTilePanel',
+                x: 0,
+                y: 10,
+                w: 1,
+                h:
+                    2 +
+                    tileHeight(
+                        customImageTiles.length + customQrTiles.length,
+                        0.24,
                         0,
                     ),
             },
@@ -646,6 +715,38 @@ const EditTab = (): JSX.Element => {
                         />
                     </div>
                     <WeatherPanel />
+                </div>
+                <div key="customTilePanel" className="edit-tab__tile">
+                    <div className="edit-tab__header">
+                        <Heading2>
+                            {'Bilde og QR '}
+                            <Tooltip
+                                content={
+                                    <div>
+                                        <SubParagraph className="tooltip-container-weather">
+                                            Tilgjengelig i visningstyper kompakt
+                                            og kronologisk.
+                                        </SubParagraph>
+                                    </div>
+                                }
+                                placement="top"
+                            >
+                                <span>
+                                    <ValidationInfoIcon size={20} />
+                                </span>
+                            </Tooltip>
+                        </Heading2>
+                        <Switch
+                            onChange={(e) =>
+                                setSettings({
+                                    showCustomTiles: e.currentTarget.checked,
+                                })
+                            }
+                            checked={showCustomTiles}
+                            size="large"
+                        />
+                    </div>
+                    <CustomTilePanel></CustomTilePanel>
                 </div>
             </ResponsiveReactGridLayout>
         </div>
