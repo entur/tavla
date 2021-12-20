@@ -26,7 +26,7 @@ const NeedToBeOwnerModal = ({ open, onDismiss, uid }: Props): JSX.Element => {
         (lock: boolean) => {
             if (lock && settings && settings.owners && uid) {
                 setSettings({
-                    owners: [...settings?.owners, uid],
+                    owners: [...(settings?.owners || []), uid],
                 })
                 logEvent(analytics, 'lock_board_to_account')
                 addToast({
