@@ -31,7 +31,7 @@ export interface DrawableRoute {
 }
 
 export type StopPlaceWithDepartures = StopPlace & {
-    departures: LineData[]
+    departures: NonEmpty<LineData>
 }
 
 export type StopPlaceWithLines = StopPlace & { lines: Line[] }
@@ -105,4 +105,11 @@ export interface Viewport {
     zoom: number
     maxZoom: number
     minZoom: number
+}
+
+export type NonEmpty<A> = [A, ...A[]]
+
+export function nonEmpty<A>(arr: A[]): NonEmpty<A> | undefined {
+    if (arr[0]) return arr as NonEmpty<A>
+    return undefined
 }

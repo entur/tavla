@@ -126,13 +126,7 @@ const EnturDashboard = (): JSX.Element | null => {
     const bikeRentalStations = useBikeRentalStations()
     const scooters = useMobility(FormFactor.SCOOTER)
 
-    let stopPlacesWithDepartures = useStopPlacesWithDepartures()
-
-    if (stopPlacesWithDepartures) {
-        stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
-            ({ departures }) => departures.length > 0,
-        )
-    }
+    const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
     const walkInfo = useWalkInfo(stopPlacesWithDepartures)
 
@@ -383,9 +377,7 @@ const EnturDashboard = (): JSX.Element | null => {
                                     if (tile)
                                         return (
                                             <div key={item.id}>
-                                                <ImageTile
-                                                    {...tile}
-                                                ></ImageTile>
+                                                <ImageTile {...tile} />
                                             </div>
                                         )
                                 }
@@ -398,7 +390,7 @@ const EnturDashboard = (): JSX.Element | null => {
                                     if (tile)
                                         return (
                                             <div key={item.id} className="tile">
-                                                <QRTile {...tile}></QRTile>
+                                                <QRTile {...tile} />
                                             </div>
                                         )
                                 }
@@ -582,7 +574,7 @@ const EnturDashboard = (): JSX.Element | null => {
                                             variant="light"
                                         />
                                     ) : null}
-                                    <ImageTile {...imageTile}></ImageTile>
+                                    <ImageTile {...imageTile} />
                                 </div>
                             ))}
                         {qrTilesToDisplay.length > 0 &&
@@ -609,7 +601,7 @@ const EnturDashboard = (): JSX.Element | null => {
                                         />
                                     ) : null}
                                     <div className="tile">
-                                        <QRTile {...qrTile}></QRTile>
+                                        <QRTile {...qrTile} />
                                     </div>
                                 </div>
                             ))}

@@ -58,16 +58,12 @@ const MapDashboard = (): JSX.Element => {
                     </div>
                 )}
                 <div className="departure-display">
-                    {stopPlacesWithDepartures?.map((stopPlace) =>
-                        stopPlace.departures.length ? (
-                            <DepartureTag
-                                key={stopPlace.id}
-                                stopPlace={stopPlace}
-                            ></DepartureTag>
-                        ) : (
-                            []
-                        ),
-                    )}
+                    {stopPlacesWithDepartures?.map((stopPlace) => (
+                        <DepartureTag
+                            key={stopPlace.id}
+                            stopPlace={stopPlace}
+                        />
+                    ))}
                 </div>
             </div>
         </DashboardWrapper>

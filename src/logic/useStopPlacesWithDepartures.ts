@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 
 import { StopPlaceDetails, DeparturesById, TransportMode } from '@entur/sdk'
 
-import { StopPlaceWithDepartures } from '../types'
+import { nonEmpty, StopPlaceWithDepartures } from '../types'
 import {
     transformDepartureToLineData,
     unique,
@@ -106,10 +106,10 @@ export default function useStopPlacesWithDepartures():
                         !departuresForThisStopPlace ||
                         !departuresForThisStopPlace.departures
                     ) {
-                        return { ...stop, departures: [] }
+                        return undefined
                     }
 
-                    const mappedAndFilteredDepartures =
+                    const mappedAndFilteredDepartures = nonEmpty(
                         departuresForThisStopPlace.departures
                             .map(transformDepartureToLineData)
                             .filter(isNotNullOrUndefined)
@@ -119,7 +119,11 @@ export default function useStopPlacesWithDepartures():
                                     !hiddenStopModes?.[stopId]?.includes(
                                         type as unknown as TransportMode,
                                     ),
-                            )
+                            ),
+                    )
+
+                    if (!mappedAndFilteredDepartures) return undefined
+
                     return {
                         ...stop,
                         id: stopId,

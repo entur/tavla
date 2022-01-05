@@ -101,7 +101,7 @@ const Map = ({
                         ),
                     },
                 ]}
-            ></LineOverlay>
+            />
         )
     }, [hoveredVehicle, showRoutesInMap])
 
@@ -126,7 +126,7 @@ const Map = ({
                     IconColorType.DEFAULT,
                 ),
             }))
-        return <LineOverlay routes={routesToDraw}></LineOverlay>
+        return <LineOverlay routes={routesToDraw} />
     }, [
         permanentlyVisibleRoutesInMap,
         uniqueLines,
@@ -235,76 +235,76 @@ const Map = ({
                                         vehicle.vehicleRef
                                       : false
                               }
-                          ></RealtimeVehicleTag>
+                          />
                       </Marker>
                   ))
                 : [],
         [realtimeVehicles, hoveredVehicle],
     )
 
-    const scooterClusterMarkers = useMemo(() => {
-        scooterClusters.map((scooterCluster) => {
-            const [slongitude, slatitude] = scooterCluster.geometry.coordinates
-
-            const { cluster: isCluster } = scooterCluster.properties
-            let pointCount = 0
-
-            if (isCluster) {
-                pointCount = (scooterCluster.properties as ClusterProperties)
-                    .point_count
-            }
-
-            return (
-                <Marker
-                    key={
-                        pointCount
-                            ? `cluster-${scooterCluster.id}`
-                            : scooterCluster.properties.scooterId
-                    }
-                    latitude={slatitude}
-                    longitude={slongitude}
-                    className="map__scooter-marker"
-                >
-                    <ScooterMarkerTag
-                        pointCount={pointCount}
-                        operator={
-                            pointCount
-                                ? null
-                                : scooterCluster.properties.scooterOperator
-                        }
-                    ></ScooterMarkerTag>
-                </Marker>
-            )
-        })
-    }, [scooterClusters])
-
-    const stopPlaceMarkers = useMemo(
+    const scooterClusterMarkers = useMemo(
         () =>
-            stopPlaces?.map((stopPlace) =>
-                stopPlace.departures.length > 0 ? (
+            scooterClusters.map((scooterCluster) => {
+                const [slongitude, slatitude] =
+                    scooterCluster.geometry.coordinates
+
+                const { cluster: isCluster } = scooterCluster.properties
+                let pointCount = 0
+
+                if (isCluster) {
+                    pointCount = (
+                        scooterCluster.properties as ClusterProperties
+                    ).point_count
+                }
+
+                return (
                     <Marker
-                        key={stopPlace.id}
-                        latitude={stopPlace.latitude ?? 0}
-                        longitude={stopPlace.longitude ?? 0}
-                        offsetLeft={-50}
-                        offsetTop={-10}
-                        className="map__stop-place-marker"
+                        key={
+                            pointCount
+                                ? `cluster-${scooterCluster.id}`
+                                : scooterCluster.properties.scooterId
+                        }
+                        latitude={slatitude}
+                        longitude={slongitude}
+                        className="map__scooter-marker"
                     >
-                        <StopPlaceTag
-                            stopPlace={stopPlace}
-                            walkTime={
-                                walkTimes?.find(
-                                    (walkTime) =>
-                                        walkTime.stopId === stopPlace.id &&
-                                        walkTime.walkTime !== undefined,
-                                )?.walkTime ?? null
+                        <ScooterMarkerTag
+                            pointCount={pointCount}
+                            operator={
+                                pointCount
+                                    ? null
+                                    : scooterCluster.properties.scooterOperator
                             }
                         />
                     </Marker>
-                ) : (
-                    []
-                ),
-            ),
+                )
+            }),
+        [scooterClusters],
+    )
+
+    const stopPlaceMarkers = useMemo(
+        () =>
+            stopPlaces?.map((stopPlace) => (
+                <Marker
+                    key={stopPlace.id}
+                    latitude={stopPlace.latitude ?? 0}
+                    longitude={stopPlace.longitude ?? 0}
+                    offsetLeft={-50}
+                    offsetTop={-10}
+                    className="map__stop-place-marker"
+                >
+                    <StopPlaceTag
+                        stopPlace={stopPlace}
+                        walkTime={
+                            walkTimes?.find(
+                                (walkTime) =>
+                                    walkTime.stopId === stopPlace.id &&
+                                    walkTime.walkTime !== undefined,
+                            )?.walkTime ?? null
+                        }
+                    />
+                </Marker>
+            )),
         [stopPlaces, walkTimes],
     )
 
@@ -331,7 +331,7 @@ const Map = ({
                         <BikeRentalStationTag
                             bikes={stationCluster.properties.bikesAvailable}
                             spaces={stationCluster.properties.spacesAvailable}
-                        ></BikeRentalStationTag>
+                        />
                     </Marker>
                 )
             }),
