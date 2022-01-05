@@ -398,6 +398,7 @@ const TimelineDashboard = (): JSX.Element | null => {
                                             (p) => p.id == tileItem.id,
                                         )
                                     const item = data[stopIndex]
+                                    if (!item) return null
 
                                     return renderTile(item, tileItem.id)
                                 }
