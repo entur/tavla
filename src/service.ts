@@ -24,7 +24,7 @@ export default createEnturService({
 })
 
 export const apolloClient = new ApolloClient({
-    uri: 'https://api.entur.io/journey-planner/v3/graphql',
+    uri: `${process.env.JOURNEYPLANNER_HOST_V3}/graphql`,
     cache: new InMemoryCache(),
     headers: {
         'ET-Client-Name': CLIENT_NAME,
