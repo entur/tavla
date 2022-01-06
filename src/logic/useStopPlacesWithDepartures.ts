@@ -7,6 +7,7 @@ import {
     transformDepartureToLineData,
     unique,
     isNotNullOrUndefined,
+    nonEmpty,
 } from '../utils'
 import service from '../service'
 import { useSettingsContext } from '../settings'
@@ -106,10 +107,10 @@ export default function useStopPlacesWithDepartures():
                         !departuresForThisStopPlace ||
                         !departuresForThisStopPlace.departures
                     ) {
-                        return { ...stop, departures: [] }
+                        return undefined
                     }
 
-                    const mappedAndFilteredDepartures =
+                    const mappedAndFilteredDepartures = nonEmpty(
                         departuresForThisStopPlace.departures
                             .map(transformDepartureToLineData)
                             .filter(isNotNullOrUndefined)
@@ -119,7 +120,11 @@ export default function useStopPlacesWithDepartures():
                                     !hiddenStopModes?.[stopId]?.includes(
                                         type as unknown as TransportMode,
                                     ),
-                            )
+                            ),
+                    )
+
+                    if (!mappedAndFilteredDepartures) return undefined
+
                     return {
                         ...stop,
                         id: stopId,

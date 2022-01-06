@@ -28,7 +28,6 @@ import { useSettingsContext } from '../../settings'
 
 import RearrangeModal, { Item } from '../../components/RearrangeModal'
 import { LongPressProvider } from '../../logic/longPressContext'
-import { StopPlaceWithDepartures } from '../../types'
 
 import DepartureTile from './DepartureTile'
 
@@ -81,14 +80,6 @@ function getDataGrid(
         x: index % maxWidth,
         y: 0,
     }
-}
-
-function removeStopPlacesWithNoDepartures(
-    sPlacesWithDepartures: StopPlaceWithDepartures[],
-): StopPlaceWithDepartures[] {
-    return sPlacesWithDepartures.filter(
-        ({ departures }) => departures.length > 0,
-    )
 }
 
 const BusStop = (): JSX.Element | null => {
@@ -153,9 +144,7 @@ const BusStop = (): JSX.Element | null => {
     useEffect(() => {
         let defaultTileOrder: Item[] = []
         if (stopPlacesWithDepartures) {
-            const filtered = removeStopPlacesWithNoDepartures(
-                stopPlacesWithDepartures,
-            ).map((item) => ({
+            const filtered = stopPlacesWithDepartures.map((item) => ({
                 id: item.id,
                 name: item.name,
             }))

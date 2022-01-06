@@ -122,13 +122,7 @@ const ChronoDashboard = (): JSX.Element | null => {
     const bikeRentalStations = useBikeRentalStations()
     const scooters = useMobility(FormFactor.SCOOTER)
 
-    let stopPlacesWithDepartures = useStopPlacesWithDepartures()
-
-    if (stopPlacesWithDepartures) {
-        stopPlacesWithDepartures = stopPlacesWithDepartures.filter(
-            ({ departures }) => departures.length > 0,
-        )
-    }
+    const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
     const numberOfCustomImages = customImageTiles.filter(
         ({ id }) => !hiddenCustomTileIds.includes(id),
@@ -387,9 +381,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     if (tile)
                                         return (
                                             <div key={item.id}>
-                                                <ImageTile
-                                                    {...tile}
-                                                ></ImageTile>
+                                                <ImageTile {...tile} />
                                             </div>
                                         )
                                 }
@@ -402,7 +394,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     if (tile)
                                         return (
                                             <div key={item.id} className="tile">
-                                                <QRTile {...tile}></QRTile>
+                                                <QRTile {...tile} />
                                             </div>
                                         )
                                 }
@@ -555,7 +547,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                         2,
                                     )}
                                 >
-                                    <ImageTile {...imageTile}></ImageTile>
+                                    <ImageTile {...imageTile} />
                                 </div>
                             ))}
                         {qrTilesToDisplay.length > 0 &&
@@ -575,7 +567,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     )}
                                 >
                                     <div className="tile">
-                                        <QRTile {...qrTile}></QRTile>
+                                        <QRTile {...qrTile} />
                                     </div>
                                 </div>
                             ))}

@@ -217,21 +217,19 @@ const TimelineDashboard = (): JSX.Element | null => {
 
     const data: TimelineData[] = useMemo(
         () =>
-            (stopPlacesWithDepartures || [])
-                .filter(({ departures }) => departures.length > 0)
-                .map(({ id, name, departures }) => {
-                    const groupedDepartures = Object.entries(
-                        groupDeparturesByMode(departures.reverse()),
-                    ).sort(([modeA], [modeB]) =>
-                        orderModes(modeA, modeB),
-                    ) as TimelineData['groupedDepartures']
+            (stopPlacesWithDepartures || []).map(({ id, name, departures }) => {
+                const groupedDepartures = Object.entries(
+                    groupDeparturesByMode(departures.reverse()),
+                ).sort(([modeA], [modeB]) =>
+                    orderModes(modeA, modeB),
+                ) as TimelineData['groupedDepartures']
 
-                    return {
-                        stopId: id,
-                        name,
-                        groupedDepartures,
-                    }
-                }),
+                return {
+                    stopId: id,
+                    name,
+                    groupedDepartures,
+                }
+            }),
         [stopPlacesWithDepartures],
     )
 
@@ -398,6 +396,7 @@ const TimelineDashboard = (): JSX.Element | null => {
                                             (p) => p.id == tileItem.id,
                                         )
                                     const item = data[stopIndex]
+                                    if (!item) return null
 
                                     return renderTile(item, tileItem.id)
                                 }

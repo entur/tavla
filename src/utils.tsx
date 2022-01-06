@@ -29,7 +29,7 @@ import type { TravelSwitchProps } from '@entur/form'
 import { Departure, LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 import { TranslatedString, Translation } from '@entur/sdk/lib/mobility/types'
 
-import { LineData, TileSubLabel, Theme, IconColorType } from './types'
+import { LineData, TileSubLabel, Theme, IconColorType, NonEmpty } from './types'
 import { useSettingsContext } from './settings'
 
 export const EMAIL_REGEX =
@@ -528,4 +528,9 @@ export function createTimeString(date: Date): string {
     const yearString =
         currentYear == date.getFullYear() ? '' : `${date.getFullYear()}`
     return `${dateString} ${yearString} ${timeString}`
+}
+
+export function nonEmpty<A>(arr: A[]): NonEmpty<A> | undefined {
+    if (arr[0]) return arr as NonEmpty<A>
+    return undefined
 }
