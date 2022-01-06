@@ -2,11 +2,12 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 
 import { StopPlaceDetails, DeparturesById, TransportMode } from '@entur/sdk'
 
-import { nonEmpty, StopPlaceWithDepartures } from '../types'
+import { StopPlaceWithDepartures } from '../types'
 import {
     transformDepartureToLineData,
     unique,
     isNotNullOrUndefined,
+    nonEmpty,
 } from '../utils'
 import service from '../service'
 import { useSettingsContext } from '../settings'

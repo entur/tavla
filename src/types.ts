@@ -108,8 +108,3 @@ export interface Viewport {
 }
 
 export type NonEmpty<A> = [A, ...A[]]
-
-export function nonEmpty<A>(arr: A[]): NonEmpty<A> | undefined {
-    if (arr[0]) return arr as NonEmpty<A>
-    return undefined
-}
