@@ -1,3 +1,5 @@
+import { ApolloClient, InMemoryCache } from '@apollo/client'
+
 import createEnturService, { TransportMode, TransportSubmode } from '@entur/sdk'
 
 import { StopPlaceWithLines, Line } from './types'
@@ -18,6 +20,14 @@ export default createEnturService({
         journeyPlanner: process.env.JOURNEYPLANNER_HOST,
         geocoder: process.env.GEOCODER_HOST,
         mobility: process.env.MOBILITY_HOST,
+    },
+})
+
+export const apolloClient = new ApolloClient({
+    uri: 'https://api.entur.io/journey-planner/v3/graphql',
+    cache: new InMemoryCache(),
+    headers: {
+        'ET-Client-Name': CLIENT_NAME,
     },
 })
 
