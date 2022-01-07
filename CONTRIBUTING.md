@@ -120,7 +120,8 @@ Press the cogwheel next to "Project Settings" in the left menu and go to "Projec
 
 ```diff
 # .env.prod
-JOURNEYPLANNER_HOST=https://api.entur.io/journey-planner/v2
+JOURNEYPLANNER_HOST_V2=https://api.entur.io/journey-planner/v2
+JOURNEYPLANNER_HOST_V3=https://api.entur.io/journey-planner/v3
 GEOCODER_HOST=https://api.entur.io/geocoder/v1
 -FIREBASE_CONFIG='{"apiKey":"AIz...
 +FIREBASE_CONFIG='{"apiKey":"<YOUR_CONFIG ... >
