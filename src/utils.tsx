@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import differenceInSeconds from 'date-fns/differenceInSeconds'
-import differenceInMinutes from 'date-fns/differenceInMinutes'
-import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 
 import {
@@ -26,7 +24,7 @@ import {
 import { colors } from '@entur/tokens'
 import type { TravelSwitchProps } from '@entur/form'
 
-import { Departure, LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
+import { LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 import { TranslatedString, Translation } from '@entur/sdk/lib/mobility/types'
 
 import { LineData, TileSubLabel, Theme, IconColorType, NonEmpty } from './types'
@@ -184,11 +182,6 @@ export function groupBy<T extends Record<string, any>>(
     }, {} as Record<string, any>)
 }
 
-function formatDeparture(minDiff: number, departureTime: Date): string {
-    if (minDiff > 15) return format(departureTime, 'HH:mm')
-    return minDiff < 1 ? 'Nå' : `${minDiff} min`
-}
-
 export function unique<T>(
     array: T[],
     isEqual: (a: T, b: T) => boolean = (a, b): boolean => a === b,
@@ -201,49 +194,6 @@ export function unique<T>(
 
 export function timeUntil(time: string): number {
     return differenceInSeconds(parseISO(time), new Date())
-}
-
-export function transformDepartureToLineData(
-    departure: Departure,
-): LineData | null {
-    const {
-        date,
-        expectedDepartureTime,
-        aimedDepartureTime,
-        destinationDisplay,
-        serviceJourney,
-        situations,
-        cancellation,
-    } = departure
-
-    const { line } = serviceJourney.journeyPattern || {}
-
-    if (!line) return null
-
-    const departureTime = parseISO(expectedDepartureTime)
-    const minDiff = differenceInMinutes(departureTime, new Date())
-
-    const route = `${line.publicCode || ''} ${
-        destinationDisplay.frontText
-    }`.trim()
-
-    const quay = departure.quay
-
-    const transportMode: TransportMode =
-        line.transportMode === 'coach' ? TransportMode.BUS : line.transportMode
-    const subType = departure.serviceJourney?.transportSubmode
-
-    return {
-        id: `${date}::${aimedDepartureTime}::${departure.serviceJourney.id}`,
-        expectedDepartureTime,
-        type: transportMode,
-        subType,
-        time: formatDeparture(minDiff, departureTime),
-        route,
-        situation: situations[0]?.summary?.[0]?.value,
-        hasCancellation: cancellation,
-        quay,
-    }
 }
 
 export function createTileSubLabel({

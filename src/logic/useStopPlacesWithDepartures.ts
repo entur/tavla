@@ -1,46 +1,178 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 
-import { StopPlaceDetails, DeparturesById, TransportMode } from '@entur/sdk'
+import { gql } from '@apollo/client'
+import { format, differenceInMinutes, parseISO } from 'date-fns'
 
-import { StopPlaceWithDepartures } from '../types'
-import {
-    transformDepartureToLineData,
-    unique,
-    isNotNullOrUndefined,
-    nonEmpty,
-} from '../utils'
-import service from '../service'
+import { TransportMode, TransportSubmode } from '@entur/sdk'
+
+import { LineData, StopPlaceWithDepartures } from '../types'
+import { unique, isNotNullOrUndefined, nonEmpty } from '../utils'
+import { apolloClient } from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'
 
 import useNearestPlaces from './useNearestPlaces'
 
+const GET_STOP_PLACES_WITH_DEPARTURES_QUERY = gql`
+    query getStopPlacesWithDepartures($ids: [String]!) {
+        stopPlaces(ids: $ids) {
+            id
+            name
+            description
+            latitude
+            longitude
+            transportMode
+            transportSubmode
+            estimatedCalls(
+                numberOfDepartures: 200
+                numberOfDeparturesPerLineAndDestinationDisplay: 20
+                arrivalDeparture: departures
+            ) {
+                aimedDepartureTime
+                cancellation
+                date
+                destinationDisplay {
+                    frontText
+                }
+                expectedDepartureTime
+                quay {
+                    id
+                    name
+                    publicCode
+                }
+                serviceJourney {
+                    id
+                    journeyPattern {
+                        line {
+                            publicCode
+                            transportMode
+                        }
+                    }
+                    transportSubmode
+                }
+                situations {
+                    summary {
+                        value
+                    }
+                }
+            }
+        }
+    }
+`
+
+type GetStopPlacesWithDeparturesVariables = {
+    ids: string[]
+}
+
+type EstimatedCall = {
+    date: string
+    expectedDepartureTime: string
+    aimedDepartureTime: string
+    destinationDisplay: {
+        frontText: string
+    }
+    serviceJourney: {
+        id: string
+        journeyPattern: {
+            line: {
+                publicCode: string
+                transportMode: TransportMode
+            }
+        }
+        transportSubmode: TransportSubmode
+    }
+    situations: Array<{
+        summary: Array<{
+            value: string
+        }>
+    }>
+    cancellation: boolean
+    quay: {
+        id: string
+        name: string
+        publicCode: string
+    }
+}
+
+type GetStopPlacesWithDeparturesResponse = {
+    stopPlaces: Array<null | {
+        id: string
+        name: string
+        description?: string
+        latitude?: number
+        longitude?: number
+        transportMode: string
+        transportSubmode: string
+        estimatedCalls: EstimatedCall[]
+    }>
+}
+
 async function fetchStopPlaceDepartures(
     allStopPlaceIdsWithoutDuplicateNumber: string[],
-    signal: AbortSignal,
-): Promise<{
-    sortedStops: StopPlaceDetails[]
-    departures: Array<DeparturesById | undefined>
-}> {
-    const allStopPlaces = await service.getStopPlaces(
-        allStopPlaceIdsWithoutDuplicateNumber,
-        undefined,
-        { signal },
-    )
-    const sortedStops = allStopPlaces
+): Promise<
+    Array<NonNullable<GetStopPlacesWithDeparturesResponse['stopPlaces'][0]>>
+> {
+    const { data } = await apolloClient.query<
+        GetStopPlacesWithDeparturesResponse,
+        GetStopPlacesWithDeparturesVariables
+    >({
+        query: GET_STOP_PLACES_WITH_DEPARTURES_QUERY,
+        variables: {
+            ids: allStopPlaceIdsWithoutDuplicateNumber,
+        },
+    })
+
+    const sortedStops = data.stopPlaces
         .filter(isNotNullOrUndefined)
         .sort((a, b) => a.name.localeCompare(b.name, 'no'))
 
-    const departures = await service.getDeparturesFromStopPlaces(
-        allStopPlaceIdsWithoutDuplicateNumber,
-        {
-            includeNonBoarding: false,
-            limit: 200,
-            limitPerLine: 20,
-        },
-        { signal },
-    )
-    return { sortedStops, departures }
+    return sortedStops
+}
+
+function formatDeparture(minDiff: number, departureTime: Date): string {
+    if (minDiff > 15) return format(departureTime, 'HH:mm')
+    return minDiff < 1 ? 'Nå' : `${minDiff} min`
+}
+function transformDepartureToLineData(
+    departure: EstimatedCall,
+): LineData | null {
+    const {
+        date,
+        expectedDepartureTime,
+        aimedDepartureTime,
+        destinationDisplay,
+        serviceJourney,
+        situations,
+        cancellation,
+        quay,
+    } = departure
+
+    const { line } = serviceJourney.journeyPattern || {}
+
+    if (!line) return null
+
+    const departureTime = parseISO(expectedDepartureTime)
+    const minDiff = differenceInMinutes(departureTime, new Date())
+
+    const route = `${line.publicCode || ''} ${
+        destinationDisplay.frontText
+    }`.trim()
+
+    const transportMode: TransportMode =
+        line.transportMode === 'coach' ? TransportMode.BUS : line.transportMode
+    const subType = serviceJourney?.transportSubmode
+
+    return {
+        id: `${date}::${aimedDepartureTime}::${serviceJourney.id}`,
+        expectedDepartureTime,
+        type: transportMode,
+        subType,
+        time: formatDeparture(minDiff, departureTime),
+        route,
+        situation: situations[0]?.summary?.[0]?.value,
+        hasCancellation: cancellation,
+        quay,
+    }
 }
 
 export default function useStopPlacesWithDepartures():
@@ -80,38 +212,24 @@ export default function useStopPlacesWithDepartures():
         [newStops, hiddenStops, nearestStopPlaces],
     )
 
-    const allStopPlaceIdsWithoutDuplicateNumber = useMemo(
-        () => allStopPlaceIds.map((id) => id.replace(/-\d+$/, '')),
-        [allStopPlaceIds],
-    )
-
     const formatStopPlacesWithDepartures = useCallback(
-        (stopsAndDepartures: {
-            sortedStops: StopPlaceDetails[]
-            departures: Array<DeparturesById | undefined>
-        }): StopPlaceWithDepartures[] => {
+        (
+            stopsAndDepartures: Array<
+                NonNullable<
+                    GetStopPlacesWithDeparturesResponse['stopPlaces'][0]
+                >
+            >,
+        ): StopPlaceWithDepartures[] => {
             const formattedStopPlacesWithDepartures = allStopPlaceIds.map(
                 (stopId) => {
-                    const stop = stopsAndDepartures.sortedStops.find(
+                    const stop = stopsAndDepartures.find(
                         ({ id }) => id === stopId.replace(/-\d+$/, ''),
                     )
 
                     if (!stop) return
 
-                    const departuresForThisStopPlace =
-                        stopsAndDepartures.departures
-                            .filter(isNotNullOrUndefined)
-                            .find(({ id }) => stop.id === id)
-
-                    if (
-                        !departuresForThisStopPlace ||
-                        !departuresForThisStopPlace.departures
-                    ) {
-                        return undefined
-                    }
-
                     const mappedAndFilteredDepartures = nonEmpty(
-                        departuresForThisStopPlace.departures
+                        stop.estimatedCalls
                             .map(transformDepartureToLineData)
                             .filter(isNotNullOrUndefined)
                             .filter(
@@ -127,7 +245,6 @@ export default function useStopPlacesWithDepartures():
 
                     return {
                         ...stop,
-                        id: stopId,
                         departures: mappedAndFilteredDepartures,
                     }
                 },
@@ -143,35 +260,34 @@ export default function useStopPlacesWithDepartures():
     useEffect(() => {
         const isDisabled = Boolean(hiddenModes?.includes('kollektiv'))
 
-        const abortController = new AbortController()
+        let aborted = false
+
         if (isDisabled) {
             return setStopPlacesWithDepartures(null)
         }
-        if (nearestPlaces.length !== 0)
-            fetchStopPlaceDepartures(allStopPlaceIds, abortController.signal)
-                .then(formatStopPlacesWithDepartures)
-                .then(setStopPlacesWithDepartures)
-                .catch((error) => {
-                    if (error.name !== 'AbortError') throw error
-                })
 
-        const intervalId = setInterval(() => {
-            fetchStopPlaceDepartures(allStopPlaceIds, abortController.signal)
-                .then(formatStopPlacesWithDepartures)
-                .then(setStopPlacesWithDepartures)
-                .catch((error) => {
-                    if (error.name !== 'AbortError') throw error
-                })
-        }, REFRESH_INTERVAL)
+        const fetchAndSet = () =>
+            fetchStopPlaceDepartures(allStopPlaceIds).then((result) => {
+                if (!aborted) {
+                    setStopPlacesWithDepartures(
+                        formatStopPlacesWithDepartures(result),
+                    )
+                }
+            })
+
+        if (nearestPlaces.length) {
+            fetchAndSet()
+        }
+
+        const intervalId = setInterval(fetchAndSet, REFRESH_INTERVAL)
 
         return (): void => {
             clearInterval(intervalId)
-            abortController.abort()
+            aborted = true
         }
     }, [
         nearestPlaces,
         allStopPlaceIds,
-        allStopPlaceIdsWithoutDuplicateNumber,
         formatStopPlacesWithDepartures,
         hiddenModes,
         settings,
