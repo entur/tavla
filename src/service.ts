@@ -1,3 +1,5 @@
+import { ApolloClient, InMemoryCache } from '@apollo/client'
+
 import createEnturService, { TransportMode, TransportSubmode } from '@entur/sdk'
 
 import { StopPlaceWithLines, Line } from './types'
@@ -15,9 +17,17 @@ if (!CLIENT_NAME && process.env.NODE_ENV !== 'production') {
 export default createEnturService({
     clientName: CLIENT_NAME,
     hosts: {
-        journeyPlanner: process.env.JOURNEYPLANNER_HOST,
+        journeyPlanner: process.env.JOURNEYPLANNER_HOST_V2,
         geocoder: process.env.GEOCODER_HOST,
         mobility: process.env.MOBILITY_HOST,
+    },
+})
+
+export const apolloClient = new ApolloClient({
+    uri: `${process.env.JOURNEYPLANNER_HOST_V3}/graphql`,
+    cache: new InMemoryCache(),
+    headers: {
+        'ET-Client-Name': CLIENT_NAME,
     },
 })
 
@@ -27,7 +37,7 @@ function journeyplannerPost<T>(
     variables: Record<string, any>,
     signal: AbortSignal,
 ): Promise<T> {
-    return fetch(`${process.env.JOURNEYPLANNER_HOST}/graphql`, {
+    return fetch(`${process.env.JOURNEYPLANNER_HOST_V2}/graphql`, {
         method: 'POST',
         headers: {
             'ET-Client-Name': CLIENT_NAME,
