@@ -2,12 +2,55 @@ import { useState, useEffect } from 'react'
 
 import { isEqual } from 'lodash'
 
-import { Coordinates, QueryMode } from '@entur/sdk'
+import { gql } from '@apollo/client'
 
-import service from '../service'
+import { Coordinates } from '@entur/sdk'
+
+import { apolloClient } from '../service'
 import { useSettingsContext } from '../settings'
 import { StopPlaceWithDepartures } from '../types'
 import { usePrevious, isNotNullOrUndefined } from '../utils'
+
+const GET_WALK_INFO_QUERY = gql`
+    query getWalkInfo($from: Location!, $to: Location!) {
+        trip(
+            from: $from
+            to: $to
+            modes: { directMode: foot }
+            numTripPatterns: 1
+        ) {
+            tripPatterns {
+                duration
+                walkDistance
+            }
+        }
+    }
+`
+
+type Location = {
+    name?: string
+    place?: string
+    coordinates?: {
+        latitude: number
+        longitude: number
+    }
+}
+
+type GetWalkInfoVariables = {
+    from: Location
+    to: Location
+}
+
+type WalkInfoTripPattern = {
+    duration: number
+    walkDistance: number
+}
+
+type GetWalkInfoResult = {
+    trip: {
+        tripPatterns: WalkInfoTripPattern[]
+    }
+}
 
 export type WalkInfo = {
     stopId: string
@@ -18,47 +61,37 @@ export type WalkInfo = {
 async function getWalkInfo(
     stopPlaces: StopPlaceWithDepartures[],
     from: Coordinates,
-    signal: AbortSignal,
 ): Promise<WalkInfo[]> {
     const travelTimes = await Promise.all(
-        stopPlaces.map((stopPlace) =>
-            service
-                .getTripPatterns(
-                    {
-                        from: {
-                            name: 'pin',
-                            coordinates: from,
-                        },
-                        to: {
-                            name: stopPlace.name,
-                            place: stopPlace.id,
-                        },
-                        modes: [QueryMode.FOOT],
-                        limit: 1,
+        stopPlaces.map(async (stopPlace) => {
+            const { data } = await apolloClient.query<
+                GetWalkInfoResult,
+                GetWalkInfoVariables
+            >({
+                query: GET_WALK_INFO_QUERY,
+                variables: {
+                    from: {
+                        name: 'pin',
+                        coordinates: from,
                     },
-                    undefined,
-                    { signal },
-                )
-                .then((result) => {
-                    if (
-                        !result ||
-                        !result[0] ||
-                        !result[0].duration ||
-                        !result[0].walkDistance
-                    ) {
-                        return null
-                    }
-                    return {
-                        stopId: stopPlace.id,
-                        walkTime: result[0].duration,
-                        walkDistance: result[0].walkDistance,
-                    }
-                })
-                .catch((error) => {
-                    if (error.name !== 'AbortError') throw error
-                    return null
-                }),
-        ),
+                    to: {
+                        name: stopPlace.name,
+                        place: stopPlace.id,
+                    },
+                },
+            })
+
+            const tripPattern: WalkInfoTripPattern | undefined =
+                data.trip.tripPatterns[0]
+
+            if (!tripPattern) return
+
+            return {
+                stopId: stopPlace.id,
+                walkTime: tripPattern.duration,
+                walkDistance: tripPattern.walkDistance,
+            }
+        }),
     )
 
     return travelTimes.filter(isNotNullOrUndefined)
@@ -79,26 +112,22 @@ export default function useTravelTime(
     const ids = stopPlaces?.map((stopPlace) => stopPlace.id)
     const previousIds = usePrevious(ids)
     useEffect(() => {
-        const abortController = new AbortController()
+        let aborted = false
         if (!stopPlaces) {
             return setTravelTime(null)
         }
         if (!isEqual(ids, previousIds)) {
-            getWalkInfo(
-                stopPlaces,
-                {
-                    latitude: fromLatitude,
-                    longitude: fromLongitude,
-                },
-                abortController.signal,
-            )
-                .then(setTravelTime)
-                .catch((error) => {
-                    if (error.name !== 'AbortError') throw error
-                })
+            getWalkInfo(stopPlaces, {
+                latitude: fromLatitude,
+                longitude: fromLongitude,
+            }).then((info) => {
+                if (!aborted) {
+                    setTravelTime(info)
+                }
+            })
         }
         return () => {
-            abortController.abort()
+            aborted = true
         }
     }, [fromLatitude, fromLongitude, ids, previousIds, stopPlaces])
 
