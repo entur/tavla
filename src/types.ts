@@ -1,6 +1,6 @@
 import { FieldValue, Timestamp } from 'firebase/firestore'
 
-import { TransportMode, TransportSubmode, StopPlace, Quay } from '@entur/sdk'
+import { TransportMode, TransportSubmode, StopPlace } from '@entur/sdk'
 
 import { Settings } from './settings'
 
@@ -13,7 +13,11 @@ export interface LineData {
     expectedDepartureTime: string
     situation?: string
     hasCancellation?: boolean
-    quay?: Quay | undefined
+    quay?: {
+        id: string
+        name: string
+        publicCode: string
+    }
 }
 export interface Line {
     id: string
