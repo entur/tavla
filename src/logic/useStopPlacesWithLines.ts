@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 
-import { getStopPlacesWithLines } from '../service'
 import { Line, StopPlaceWithLines } from '../types'
 import { unique } from '../utils'
 
 import { useSettingsContext } from '../settings'
 
-import { useStopPlacesWithDepartures } from '.'
+import { getStopPlacesWithLines } from './getStopPlacesWithLines'
+import useStopPlacesWithDepartures from './useStopPlacesWithDepartures'
 
 interface Return {
     uniqueLines: Line[] | undefined
@@ -32,7 +32,6 @@ export const useStopPlacesWithLines = (): Return => {
                 const result: StopPlaceWithLines[] =
                     await getStopPlacesWithLines(
                         stopPlaces.map((sPlace) => sPlace.id),
-                        abortController.signal,
                     )
                 setStopPlacesWithLines(result)
 

@@ -38,7 +38,7 @@ import {
     useMobility,
     useBikeRentalStations,
 } from '../../../logic'
-import { getStopPlacesWithLines } from '../../../service'
+import { getStopPlacesWithLines } from '../../../logic/getStopPlacesWithLines'
 import {
     saveToLocalStorage,
     getFromLocalStorage,
@@ -209,27 +209,25 @@ const EditTab = (): JSX.Element => {
     const scooters = useMobility(FormFactor.SCOOTER)
 
     useEffect(() => {
-        const abortController = new AbortController()
+        let aborted = false
         const ids = [...newStops, ...nearestStopPlaceIds]
 
         getStopPlacesWithLines(
             ids.map((id: string) => id.replace(/-\d+$/, '')),
-            abortController.signal,
-        )
-            .then((resultingStopPlaces) => {
-                setStopPlaces(
-                    resultingStopPlaces.map((s, index) => ({
-                        ...s,
-                        id: ids[index],
-                    })),
-                )
-            })
-            .catch((error) => {
-                if (error.name !== 'AbortError') throw error
-            })
+        ).then((resultingStopPlaces) => {
+            if (aborted) {
+                return
+            }
+            setStopPlaces(
+                resultingStopPlaces.map((s, index) => ({
+                    ...s,
+                    id: ids[index],
+                })),
+            )
+        })
 
         return (): void => {
-            abortController.abort()
+            aborted = true
         }
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
 
