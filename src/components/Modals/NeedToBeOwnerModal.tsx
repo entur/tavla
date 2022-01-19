@@ -1,7 +1,5 @@
 import React, { useCallback } from 'react'
 
-import { logEvent } from '@firebase/analytics'
-
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { PrimaryButton } from '@entur/button'
@@ -12,7 +10,6 @@ import { GridContainer, GridItem } from '@entur/grid'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import { useSettingsContext } from '../../settings'
-import { analytics } from '../../firebase-init'
 
 import CloseButton from './LoginModal/CloseButton/CloseButton'
 
@@ -28,7 +25,6 @@ const NeedToBeOwnerModal = ({ open, onDismiss, uid }: Props): JSX.Element => {
                 setSettings({
                     owners: [...(settings?.owners || []), uid],
                 })
-                logEvent(analytics, 'lock_board_to_account')
                 addToast({
                     title: 'Tavla ble låst til din konto.',
                     content:
