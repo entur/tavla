@@ -7,11 +7,7 @@ import { FilterChip } from '@entur/chip'
 
 import { DrawableRoute, Line } from '../../../../types'
 import { Settings } from '../../../../settings'
-import {
-    getIcon,
-    isNotNullOrUndefined,
-    transportModeNameMapper,
-} from '../../../../utils'
+import { filterMap, getIcon, transportModeNameMapper } from '../../../../utils'
 
 import './styles.scss'
 
@@ -28,37 +24,25 @@ function PermanentLinesPanel({
     permanentlyVisibleRoutesInMap,
     setSettings,
 }: PermanentLinesPanelProps) {
-    const filteredLines = realtimeLines.filter(
-        (line) => !hiddenRealtimeDataLineRefs.includes(line.id),
+    const filteredLines = filterMap(realtimeLines, (line) =>
+        !hiddenRealtimeDataLineRefs.includes(line.id) && line.pointsOnLink
+            ? { ...line, pointsOnLink: line.pointsOnLink }
+            : undefined,
     )
 
-    const sortedLines = filteredLines
-        .sort((a, b) =>
-            transportModeNameMapper(a.transportMode) + a.publicCode >
-            transportModeNameMapper(b.transportMode) + b.publicCode
-                ? 1
-                : -1,
-        )
-        .map(({ id, publicCode, transportMode, pointsOnLink }) =>
-            pointsOnLink
-                ? {
-                      id,
-                      publicCode,
-                      transportMode,
-                      pointsOnLink,
-                  }
-                : undefined,
-        )
-        .filter(isNotNullOrUndefined)
+    const sortedLines = filteredLines.sort((a, b) =>
+        transportModeNameMapper(a.transportMode) + a.publicCode >
+        transportModeNameMapper(b.transportMode) + b.publicCode
+            ? 1
+            : -1,
+    )
 
     const handleFilterChipOnChange = (
         id: string,
         pointsOnLink: string,
         transportMode: string,
     ): void =>
-        permanentlyVisibleRoutesInMap
-            ?.map(({ lineRef }) => lineRef)
-            .includes(id)
+        permanentlyVisibleRoutesInMap.map(({ lineRef }) => lineRef).includes(id)
             ? setSettings({
                   permanentlyVisibleRoutesInMap:
                       permanentlyVisibleRoutesInMap.filter(
