@@ -89,7 +89,7 @@ export default function Navbar(): JSX.Element {
                             to="/privacy"
                             active={location.pathname === '/privacy'}
                         >
-                            <span>Informasjonskapsler</span>
+                            <span>Personvern</span>
                             <PrivacyIcon size="20" />
                         </TopNavigationItem>
                     </li>
