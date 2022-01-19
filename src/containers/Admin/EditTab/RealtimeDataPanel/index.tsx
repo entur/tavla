@@ -5,7 +5,6 @@ import { Switch, TravelSwitch } from '@entur/form'
 import { Loader } from '@entur/loader'
 import { Heading3, Label, Paragraph } from '@entur/typography'
 import { ExpandablePanel } from '@entur/expand'
-import { ClosedLockIcon } from '@entur/icons'
 
 import { Line } from '../../../../types'
 import {
@@ -17,6 +16,7 @@ import {
 import { useSettingsContext } from '../../../../settings'
 
 import './styles.scss'
+import PermanentLinesPanel from './PermanentLinesPanel'
 
 interface Props {
     realtimeLines: Line[] | undefined
@@ -69,9 +69,19 @@ const RealtimeDataPanel = ({
         [hiddenRealtimeDataLineRefs, setSettings],
     )
 
-    return !realtimeLines ? (
-        <Loader>Laster...</Loader>
-    ) : realtimeLines.length > 0 ? (
+    if (!realtimeLines) {
+        return <Loader>Laster...</Loader>
+    }
+
+    if (realtimeLines.length === 0) {
+        return (
+            <Paragraph>
+                Ingen sanntidsdata å vise for stasjonene og modusene som er
+                valgt.
+            </Paragraph>
+        )
+    }
+    return (
         <div className="realtime-detail-panel">
             <div className="realtime-detail-panel__realtime-selection-panel">
                 {modes.map((mode) => (
@@ -218,120 +228,20 @@ const RealtimeDataPanel = ({
                                 hideRealtimeData: false,
                             })
                         }}
-                    ></Switch>
+                    />
                 </div>
                 {showRoutesInMap && (
-                    <div className="expandable-panel__wrapper">
-                        <ExpandablePanel
-                            title={
-                                <div className="expandable-panel__title-wrapper">
-                                    <span className="expandable-panel__title-icon">
-                                        <ClosedLockIcon></ClosedLockIcon>
-                                    </span>
-                                    <span>Permanente rutelinjer</span>
-                                </div>
-                            }
-                            defaultOpen={
-                                realtimeLines.filter(
-                                    (line) =>
-                                        !hiddenRealtimeDataLineRefs.includes(
-                                            line.id,
-                                        ),
-                                ).length > 0
-                            }
-                        >
-                            <div className="realtime-detail-panel__container">
-                                {realtimeLines
-                                    .filter(
-                                        (line) =>
-                                            !hiddenRealtimeDataLineRefs.includes(
-                                                line.id,
-                                            ),
-                                    )
-                                    .sort((a, b) =>
-                                        transportModeNameMapper(
-                                            a.transportMode,
-                                        ) +
-                                            a.publicCode >
-                                        transportModeNameMapper(
-                                            b.transportMode,
-                                        ) +
-                                            b.publicCode
-                                            ? 1
-                                            : -1,
-                                    )
-                                    .map(
-                                        ({
-                                            id,
-                                            publicCode,
-                                            transportMode,
-                                            pointsOnLink,
-                                        }) => (
-                                            <div
-                                                className="realtime-detail-panel__buttons"
-                                                key={id}
-                                            >
-                                                <FilterChip
-                                                    value={id}
-                                                    checked={permanentlyVisibleRoutesInMap
-                                                        ?.map(
-                                                            (drawableRoute) =>
-                                                                drawableRoute.lineRef,
-                                                        )
-                                                        .includes(id)}
-                                                    onChange={() =>
-                                                        permanentlyVisibleRoutesInMap
-                                                            ?.map(
-                                                                (
-                                                                    drawableRoute,
-                                                                ) =>
-                                                                    drawableRoute.lineRef,
-                                                            )
-                                                            .includes(id)
-                                                            ? setSettings({
-                                                                  permanentlyVisibleRoutesInMap:
-                                                                      permanentlyVisibleRoutesInMap.filter(
-                                                                          (
-                                                                              route,
-                                                                          ) =>
-                                                                              route.lineRef !==
-                                                                              id,
-                                                                      ),
-                                                                  hideRealtimeData:
-                                                                      false,
-                                                              })
-                                                            : setSettings({
-                                                                  permanentlyVisibleRoutesInMap:
-                                                                      [
-                                                                          ...permanentlyVisibleRoutesInMap,
-                                                                          {
-                                                                              lineRef:
-                                                                                  id,
-                                                                              pointsOnLink,
-                                                                              mode: transportMode,
-                                                                          },
-                                                                      ],
-                                                                  hideRealtimeData:
-                                                                      false,
-                                                              })
-                                                    }
-                                                >
-                                                    {publicCode}
-                                                    {getIcon(transportMode)}
-                                                </FilterChip>
-                                            </div>
-                                        ),
-                                    )}
-                            </div>
-                        </ExpandablePanel>
-                    </div>
+                    <PermanentLinesPanel
+                        realtimeLines={realtimeLines}
+                        hiddenRealtimeDataLineRefs={hiddenRealtimeDataLineRefs}
+                        permanentlyVisibleRoutesInMap={
+                            permanentlyVisibleRoutesInMap
+                        }
+                        setSettings={setSettings}
+                    />
                 )}
             </div>
         </div>
-    ) : (
-        <Paragraph>
-            Ingen sanntidsdata å vise for stasjonene og modusene som er valgt.
-        </Paragraph>
     )
 }
 
