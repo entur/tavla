@@ -39,6 +39,17 @@ export function isNotNullOrUndefined<T>(
     return thing !== undefined && thing !== null
 }
 
+export function filterMap<A, B>(
+    arr: A[],
+    mapper: (item: A, index: number, array: A[]) => B | undefined,
+): B[] {
+    return arr.reduce((acc: B[], item: A, index, array) => {
+        const b = mapper(item, index, array)
+        if (b === undefined) return acc
+        return [...acc, b]
+    }, [])
+}
+
 function isSubModeAirportLink(subMode?: string): boolean {
     if (!subMode) return false
     const airportLinkTypes = ['airportLinkRail', 'airportLinkBus']

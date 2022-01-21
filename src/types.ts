@@ -25,7 +25,7 @@ export interface Line {
     transportMode: TransportMode
     transportSubmode: TransportSubmode
     publicCode: string
-    pointsOnLink: string
+    pointsOnLink?: string
 }
 
 export interface DrawableRoute {
