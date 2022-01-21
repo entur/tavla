@@ -1,6 +1,6 @@
 export type Line = {
     lineRef: string
-    lineName: string
+    lineName?: string
     publicCode?: string
     pointsOnLink?: string
 }

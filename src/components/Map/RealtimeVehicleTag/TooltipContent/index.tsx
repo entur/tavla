@@ -53,7 +53,7 @@ const TooltipContent = ({ realtimeVehicle }: Props): JSX.Element => {
                     routeNumber={realtimeVehicle.line.publicCode ?? ''}
                 />
                 <div className="map__realtime-vehicle-tag__tooltip-content-front-text">
-                    {realtimeVehicle.line.lineName.split('=>').pop()?.trim()}
+                    {realtimeVehicle.line.lineName?.split('=>').pop()?.trim()}
                 </div>
             </div>
             <Label
