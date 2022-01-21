@@ -17,6 +17,7 @@ import {
 } from '../../logic'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 import { DEFAULT_ZOOM } from '../../constants'
+import ResizeHandle from '../../assets/icons/ResizeHandle'
 
 import RearrangeModal, { Item } from '../../components/RearrangeModal'
 import {
@@ -472,6 +473,11 @@ const ChronoDashboard = (): JSX.Element | null => {
                                 key="weather"
                                 data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
                             >
+                                <ResizeHandle
+                                    size="32"
+                                    className="resizeHandle"
+                                    variant="light"
+                                />
                                 <WeatherTile className="tile" />
                             </div>
                         )}
@@ -483,6 +489,11 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     maxWidthCols,
                                 )}
                             >
+                                <ResizeHandle
+                                    size="32"
+                                    className="resizeHandle"
+                                    variant="light"
+                                />
                                 <DepartureTile
                                     key={index}
                                     stopPlaceWithDepartures={stop}
@@ -501,6 +512,13 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     maxWidthCols,
                                 )}
                             >
+                                {!isMobile ? (
+                                    <ResizeHandle
+                                        size="32"
+                                        className="resizeHandle"
+                                        variant="light"
+                                    />
+                                ) : null}
                                 <BikeTile stations={bikeRentalStations} />
                             </div>
                         ) : (
@@ -515,6 +533,13 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     maxWidthCols,
                                 )}
                             >
+                                {!isMobile ? (
+                                    <ResizeHandle
+                                        size="32"
+                                        className="resizeHandle"
+                                        variant="dark"
+                                    />
+                                ) : null}
                                 <MapTile
                                     scooters={scooters}
                                     stopPlaces={stopPlacesWithDepartures}
@@ -547,6 +572,13 @@ const ChronoDashboard = (): JSX.Element | null => {
                                         2,
                                     )}
                                 >
+                                    {!isMobile ? (
+                                        <ResizeHandle
+                                            size="32"
+                                            className="resizeHandle"
+                                            variant="light"
+                                        />
+                                    ) : null}
                                     <ImageTile {...imageTile} />
                                 </div>
                             ))}
@@ -567,6 +599,13 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     )}
                                 >
                                     <div className="tile">
+                                        {!isMobile ? (
+                                            <ResizeHandle
+                                                size="32"
+                                                className="resizeHandle"
+                                                variant="light"
+                                            />
+                                        ) : null}
                                         <QRTile {...qrTile} />
                                     </div>
                                 </div>
