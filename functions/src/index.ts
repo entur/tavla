@@ -4,6 +4,8 @@ import { getAuth } from 'firebase-admin/auth'
 import { getFirestore } from 'firebase-admin/firestore'
 import { getStorage } from 'firebase-admin/storage'
 
+/* eslint-disable no-console */
+
 initializeApp()
 
 export const getImageUploadToken = https.onCall(async (data, context) => {
@@ -64,7 +66,7 @@ export const deleteImagefromStorage = firestoreDB
         if (change.before.data().logo && !change.after.data().logo) {
             try {
                 const imageUrl: string = change.before.data().logo
-                const imageIdMatch = imageUrl.match(/(?<=\%2F)(.*?)(?=\?)/)
+                const imageIdMatch = imageUrl.match(/(?<=%2F)(.*?)(?=\?)/)
                 const path = `images/${
                     imageIdMatch ? imageIdMatch[0] : context.params.settingsID
                 }`

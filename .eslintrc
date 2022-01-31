@@ -44,6 +44,7 @@
         "@typescript-eslint/no-shadow": "error",
         "arrow-body-style": "error",
         "eol-last": "warn",
+        "import/no-unresolved": "off",
         "import/no-useless-path-segments": "error",
         "import/order": [
             "error",
