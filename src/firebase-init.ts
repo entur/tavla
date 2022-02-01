@@ -14,7 +14,7 @@ const firebaseConfig = process.env.FIREBASE_CONFIG
 
 export const firebaseApp = initializeApp(firebaseConfig)
 export const auth = getAuth(firebaseApp)
-export const functions = getFunctions(firebaseApp)
+export const functions = getFunctions(firebaseApp, 'europe-west3')
 export const db = getFirestore(firebaseApp)
 export const storage = getStorage(firebaseApp)
 if (process.env.FIREBASE_ENV === 'local') {
