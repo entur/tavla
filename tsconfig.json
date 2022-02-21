@@ -3,7 +3,7 @@
         "outDir": "./dist/",
         "sourceMap": true,
         "module": "commonjs",
-        "lib": ["es2020", "dom", "dom.iterable"],
+        "lib": ["es2021", "dom", "dom.iterable"],
         "target": "es5",
         "jsx": "react",
         "esModuleInterop": true,
