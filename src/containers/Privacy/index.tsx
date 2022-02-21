@@ -24,8 +24,8 @@ const Privacy = (): JSX.Element => (
             <Heading2>Tilganger</Heading2>
             <Paragraph>
                 For at reiseplanleggeren skal fungere optimalt trenger den
-                forskjellige tilganger til telefonen din. Entur-appen kan be om
-                følgende tilganger:
+                forskjellige tilganger til nettleseren din. Entur-appen kan be
+                om følgende tilganger:
             </Paragraph>
             <Heading3>Din posisjon</Heading3>
             <Paragraph>
@@ -58,6 +58,18 @@ const Privacy = (): JSX.Element => (
                 <Link href="https://firebase.google.com/support/privacy">
                     Firebase Privacy Policy.
                 </Link>
+            </Paragraph>
+
+            <Heading2>Feilsøking</Heading2>
+            <Paragraph>
+                Vi bruker <Link href="https://sentry.io">Sentry</Link> til å
+                logge kræsjrapporter når noe går galt på Tavla. Dette bruker vi
+                til å enklere oppdage og rette feil som oppstår i koden.
+            </Paragraph>
+            <Paragraph>
+                Feilrapportene vi mottar inneholder informasjon om hvilken
+                nettleser og hvilket operativsystem du bruker. Vi lagrer ikke
+                IP-adresser.
             </Paragraph>
         </div>
     </article>
