@@ -87,7 +87,6 @@
     "devDependencies": {
         "@babel/cli": "^7.17.0",
         "@babel/core": "^7.17.2",
-        "@babel/plugin-proposal-class-properties": "^7.16.7",
         "@babel/preset-env": "^7.16.11",
         "@babel/preset-react": "^7.16.7",
         "@types/google-polyline": "^1.0.0",
@@ -102,8 +101,6 @@
         "@types/ws": "^8.2.2",
         "@typescript-eslint/eslint-plugin": "^5.12.0",
         "@typescript-eslint/parser": "^5.12.0",
-        "babel-eslint": "^10.1.0",
-        "babel-loader": "^8.2.3",
         "babel-plugin-transform-inline-environment-variables": "^0.4.3",
         "copy-webpack-plugin": "^9.0.1",
         "css-loader": "^6.6.0",
