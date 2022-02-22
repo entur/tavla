@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 
 const HtmlWebPackPlugin = require('html-webpack-plugin')
@@ -35,18 +36,6 @@ module.exports = smp.wrap((env, args) => ({
                 exclude:
                     args.mode === 'production' ? /entur\/sdk/ : /node_modules/,
                 loader: 'ts-loader',
-            },
-            {
-                test: /\.jsx?$/,
-                exclude:
-                    args.mode === 'production' ? /entur\/sdk/ : /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env'],
-                        exclude: /mapbox-gl/,
-                    },
-                },
             },
             {
                 test: /\.(sc|c)ss$/,
