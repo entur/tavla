@@ -195,7 +195,14 @@ const TimelineDashboard = (): JSX.Element | null => {
     const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
     )
-    const walkInfo = useWalkInfo(stopPlacesWithDepartures)
+    const walkInfoDestinations = useMemo(() => {
+        if (!stopPlacesWithDepartures) return stopPlacesWithDepartures
+        return stopPlacesWithDepartures.map((dep) => ({
+            ...dep,
+            place: dep.id,
+        }))
+    }, [stopPlacesWithDepartures])
+    const walkInfo = useWalkInfo(walkInfoDestinations)
     const hideWalkInfo = settings?.hideWalkInfo
 
     const numberOfStopPlaces = stopPlacesWithDepartures?.length || 0

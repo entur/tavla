@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
@@ -9,16 +9,13 @@ import Tile from '../components/Tile'
 import { useSettingsContext } from '../../../settings'
 import { IconColorType } from '../../../types'
 import { getIconColorType, getTranslation } from '../../../utils'
-import useWalkInfoBike, { WalkInfoBike } from '../../../logic/useWalkInfoBike'
+import useWalkInfo, { WalkInfo } from '../../../logic/useWalkInfo'
 import TileRow from '../components/TileRow'
 
 import './styles.scss'
 
-function getWalkInfoBike(
-    walkInfos: WalkInfoBike[],
-    id: string,
-): WalkInfoBike | undefined {
-    return walkInfos.find((walkInfoBike) => walkInfoBike.stopId === id)
+function getWalkInfo(walkInfos: WalkInfo[], id: string): WalkInfo | undefined {
+    return walkInfos.find((walkInfo) => walkInfo.stopId === id)
 }
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
@@ -34,7 +31,19 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
         }
     }, [settings])
 
-    const walkInfoBike = useWalkInfoBike(stations)
+    const stationDestinations = useMemo(
+        () =>
+            stations.map((station) => ({
+                id: station.id,
+                coordinates: {
+                    latitude: station.lat,
+                    longitude: station.lon,
+                },
+            })),
+        [stations],
+    )
+
+    const walkInfo = useWalkInfo(stationDestinations)
 
     return (
         <Tile
@@ -54,9 +63,9 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                             color={colors.transport[iconColorType].mobility}
                         />
                     }
-                    walkInfoBike={
+                    walkInfo={
                         !hideWalkInfo
-                            ? getWalkInfoBike(walkInfoBike || [], station.id)
+                            ? getWalkInfo(walkInfo || [], station.id)
                             : undefined
                     }
                     label={getTranslation(station.name) || ''}

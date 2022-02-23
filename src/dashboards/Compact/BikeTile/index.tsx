@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
@@ -9,18 +9,32 @@ import TileRow from '../components/TileRow'
 import { useSettingsContext } from '../../../settings'
 import { IconColorType } from '../../../types'
 import { getIconColorType, getTranslation } from '../../../utils'
-import useWalkInfoBike, { WalkInfoBike } from '../../../logic/useWalkInfoBike'
+import useWalkInfo, { WalkInfo } from '../../../logic/useWalkInfo'
 
 function getWalkInfoBike(
-    walkInfos: WalkInfoBike[],
+    walkInfos: WalkInfo[],
     id: string,
-): WalkInfoBike | undefined {
-    return walkInfos.find((walkInfoBike) => walkInfoBike.stopId === id)
+): WalkInfo | undefined {
+    return walkInfos.find((walkInfo) => walkInfo.stopId === id)
 }
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
     const [settings] = useSettingsContext()
-    const walkInfoBike = useWalkInfoBike(stations)
+
+    const stationDestinations = useMemo(
+        () =>
+            stations.map((station) => ({
+                id: station.id,
+                coordinates: {
+                    latitude: station.lat,
+                    longitude: station.lon,
+                },
+            })),
+        [stations],
+    )
+
+    const walkInfo = useWalkInfo(stationDestinations)
+
     const hideWalkInfo = settings?.hideWalkInfo
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
@@ -50,9 +64,9 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                             color={colors.transport[iconColorType].mobility}
                         />
                     }
-                    walkInfoBike={
+                    walkInfo={
                         !hideWalkInfo
-                            ? getWalkInfoBike(walkInfoBike || [], station.id)
+                            ? getWalkInfoBike(walkInfo || [], station.id)
                             : undefined
                     }
                     label={getTranslation(station.name) || ''}

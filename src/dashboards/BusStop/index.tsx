@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { Layouts, Layout, WidthProvider, Responsive } from 'react-grid-layout'
 import { useHistory, useRouteMatch } from 'react-router'
 
@@ -108,7 +108,14 @@ const BusStop = (): JSX.Element | null => {
     const scooters = useMobility(FormFactor.SCOOTER)
     const bikeRentalStations = useBikeRentalStations()
 
-    const walkInfo = useWalkInfo(stopPlacesWithDepartures)
+    const walkInfoDestinations = useMemo(() => {
+        if (!stopPlacesWithDepartures) return stopPlacesWithDepartures
+        return stopPlacesWithDepartures.map((dep) => ({
+            ...dep,
+            place: dep.id,
+        }))
+    }, [stopPlacesWithDepartures])
+    const walkInfo = useWalkInfo(walkInfoDestinations)
 
     function clearLongPressTimeout() {
         setIsLongPressStarted(false)

@@ -8,7 +8,6 @@ import { Coordinates } from '@entur/sdk'
 
 import { apolloClient } from '../service'
 import { useSettingsContext } from '../settings'
-import { StopPlaceWithDepartures } from '../types'
 import { usePrevious, isNotNullOrUndefined } from '../utils'
 
 const GET_WALK_INFO_QUERY = gql`
@@ -27,14 +26,20 @@ const GET_WALK_INFO_QUERY = gql`
     }
 `
 
-type Location = {
+type PlaceLocation = {
     name?: string
-    place?: string
-    coordinates?: {
+    place: string
+}
+
+type CoordinatesLocation = {
+    name?: string
+    coordinates: {
         latitude: number
         longitude: number
     }
 }
+
+type Location = PlaceLocation | CoordinatesLocation
 
 type GetWalkInfoVariables = {
     from: Location
@@ -52,18 +57,38 @@ type GetWalkInfoResult = {
     }
 }
 
+type Destination = Location & {
+    id: string
+}
+
 export type WalkInfo = {
     stopId: string
     walkTime: number
     walkDistance: number
 }
 
+function pick<T extends object, K extends keyof T>(
+    obj: T,
+    keys: K[],
+): Pick<T, K> {
+    return Object.keys(obj).reduce((acc, key) => {
+        const k = key as K
+        if (!keys.includes(k)) {
+            return acc
+        }
+        return {
+            ...acc,
+            [k]: obj[k],
+        }
+    }, {} as Pick<T, K>)
+}
+
 async function getWalkInfo(
-    stopPlaces: StopPlaceWithDepartures[],
+    destinations: Destination[],
     from: Coordinates,
 ): Promise<WalkInfo[]> {
     const travelTimes = await Promise.all(
-        stopPlaces.map(async (stopPlace) => {
+        destinations.map(async (destination) => {
             const { data } = await apolloClient.query<
                 GetWalkInfoResult,
                 GetWalkInfoVariables
@@ -74,10 +99,10 @@ async function getWalkInfo(
                         name: 'pin',
                         coordinates: from,
                     },
-                    to: {
-                        name: stopPlace.name,
-                        place: stopPlace.id,
-                    },
+                    to:
+                        'place' in destination
+                            ? pick(destination, ['name', 'place'])
+                            : pick(destination, ['name', 'coordinates']),
                 },
             })
 
@@ -87,7 +112,7 @@ async function getWalkInfo(
             if (!tripPattern) return
 
             return {
-                stopId: stopPlace.id,
+                stopId: destination.id,
                 walkTime: tripPattern.duration,
                 walkDistance: tripPattern.walkDistance,
             }
@@ -97,8 +122,8 @@ async function getWalkInfo(
     return travelTimes.filter(isNotNullOrUndefined)
 }
 
-export default function useTravelTime(
-    stopPlaces: StopPlaceWithDepartures[] | null,
+export default function useWalkInfo(
+    destinations: Destination[] | null,
 ): WalkInfo[] | null {
     const [settings] = useSettingsContext()
     const [travelTime, setTravelTime] = useState<WalkInfo[] | null>(null)
@@ -109,15 +134,15 @@ export default function useTravelTime(
             longitude: 0,
         }
 
-    const ids = stopPlaces?.map((stopPlace) => stopPlace.id)
+    const ids = destinations?.map((stopPlace) => stopPlace.id)
     const previousIds = usePrevious(ids)
     useEffect(() => {
         let aborted = false
-        if (!stopPlaces) {
+        if (!destinations) {
             return setTravelTime(null)
         }
         if (!isEqual(ids, previousIds)) {
-            getWalkInfo(stopPlaces, {
+            getWalkInfo(destinations, {
                 latitude: fromLatitude,
                 longitude: fromLongitude,
             }).then((info) => {
@@ -129,7 +154,7 @@ export default function useTravelTime(
         return () => {
             aborted = true
         }
-    }, [fromLatitude, fromLongitude, ids, previousIds, stopPlaces])
+    }, [fromLatitude, fromLongitude, ids, previousIds, destinations])
 
     return travelTime
 }
