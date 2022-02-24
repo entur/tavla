@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
 
@@ -25,7 +25,16 @@ const MapDashboard = (): JSX.Element => {
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const bikeRentalStations = useBikeRentalStations()
-    const walkTimes = useWalkInfo(stopPlacesWithDepartures)
+
+    const walkInfoDestinations = useMemo(() => {
+        if (!stopPlacesWithDepartures) return stopPlacesWithDepartures
+        return stopPlacesWithDepartures.map((dep) => ({
+            ...dep,
+            place: dep.id,
+        }))
+    }, [stopPlacesWithDepartures])
+    const walkTimes = useWalkInfo(walkInfoDestinations)
+
     const scooters = useMobility(FormFactor.SCOOTER)
     const HEADER_MARGIN = 16
     //Used to calculate the height of the viewport for the map

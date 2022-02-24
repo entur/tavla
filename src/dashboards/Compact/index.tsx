@@ -128,7 +128,14 @@ const EnturDashboard = (): JSX.Element | null => {
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    const walkInfo = useWalkInfo(stopPlacesWithDepartures)
+    const walkInfoDestinations = useMemo(() => {
+        if (!stopPlacesWithDepartures) return stopPlacesWithDepartures
+        return stopPlacesWithDepartures.map((dep) => ({
+            ...dep,
+            place: dep.id,
+        }))
+    }, [stopPlacesWithDepartures])
+    const walkInfo = useWalkInfo(walkInfoDestinations)
 
     const numberOfStopPlaces = stopPlacesWithDepartures
         ? stopPlacesWithDepartures.length

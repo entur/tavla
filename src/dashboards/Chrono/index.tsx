@@ -129,7 +129,14 @@ const ChronoDashboard = (): JSX.Element | null => {
         ({ id }) => !hiddenCustomTileIds.includes(id),
     ).length
 
-    const walkInfo = useWalkInfo(stopPlacesWithDepartures)
+    const walkInfoDestinations = useMemo(() => {
+        if (!stopPlacesWithDepartures) return stopPlacesWithDepartures
+        return stopPlacesWithDepartures.map((dep) => ({
+            ...dep,
+            place: dep.id,
+        }))
+    }, [stopPlacesWithDepartures])
+    const walkInfo = useWalkInfo(walkInfoDestinations)
 
     const numberOfStopPlaces = stopPlacesWithDepartures?.length || 0
     const anyBikeRentalStations: number | null =
