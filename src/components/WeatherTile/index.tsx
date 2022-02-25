@@ -3,7 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { CloudRainIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
 
 import { useWeather } from '../../logic'
-import { getWeatherDescriptionFromApi, getWeatherIconEntur } from '../../utils'
+import {
+    createAbortController,
+    getWeatherDescriptionFromApi,
+    getWeatherIconEntur,
+} from '../../utils'
 import { useSettingsContext } from '../../settings'
 
 import './styles.scss'
@@ -35,7 +39,7 @@ function WeatherTile(props: Props): JSX.Element {
     const [description, setDescription] = useState('')
 
     useEffect(() => {
-        const abortController = new AbortController()
+        const abortController = createAbortController()
 
         if (weather) {
             if (

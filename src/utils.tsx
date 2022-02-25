@@ -381,7 +381,7 @@ export function isEqualUnsorted<T>(array: T[], includes: T[]): boolean {
 
 export const getWeatherDescriptionFromApi = async (
     iconName: string,
-    signal: AbortSignal,
+    signal?: AbortSignal,
 ): Promise<string> => {
     const weatherNameMatch = iconName.match(/.+?(?=_|$)/)
     if (!weatherNameMatch)
@@ -494,4 +494,21 @@ export function createTimeString(date: Date): string {
 export function nonEmpty<A>(arr: A[]): NonEmpty<A> | undefined {
     if (arr[0]) return arr as NonEmpty<A>
     return undefined
+}
+
+export function createAbortController():
+    | AbortController
+    | { signal: undefined; abort: () => void } {
+    try {
+        return createAbortController()
+    } catch (error) {
+        /**
+         * AbortController is not supported by this browser.
+         * We make a fake one that does nothing.
+         */
+        return {
+            signal: undefined,
+            abort: () => undefined,
+        }
+    }
 }
