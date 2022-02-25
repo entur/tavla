@@ -8,13 +8,15 @@ import service from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'
 
+import { createAbortController } from '../utils'
+
 import { useOperators } from '.'
 
 async function fetchVehicles(
     coordinates: Coordinates,
     distance: number,
     operators: Operator[],
-    signal: AbortSignal,
+    signal?: AbortSignal,
     formFactor?: FormFactor,
 ): Promise<Vehicle[]> {
     if (!coordinates || !distance || !operators?.length) {
@@ -57,7 +59,7 @@ export default function useMobility(formFactor?: FormFactor): Vehicle[] | null {
     const isDisabled = Boolean(hiddenModes?.includes('sparkesykkel'))
 
     useEffect(() => {
-        const abortController = new AbortController()
+        const abortController = createAbortController()
         if (!coordinates || !distance || isDisabled) {
             return setVehicles(null)
         }

@@ -5,10 +5,11 @@ import { Station } from '@entur/sdk/lib/mobility/types'
 
 import service from '../service'
 import { useSettingsContext } from '../settings'
+import { createAbortController } from '../utils'
 
 async function fetchBikeRentalStationsById(
     allStationIds: string[],
-    signal: AbortSignal,
+    signal?: AbortSignal,
 ): Promise<Station[] | null> {
     const allStations = await service.mobility.getStationsById(
         {
@@ -22,7 +23,7 @@ async function fetchBikeRentalStationsById(
 async function fetchBikeRentalStationsNearby(
     coordinates: Coordinates,
     distance: number,
-    signal: AbortSignal,
+    signal?: AbortSignal,
 ): Promise<Station[] | null> {
     const allStations = await service.mobility.getStations(
         {
@@ -58,7 +59,7 @@ export default function useBikeRentalStations(
     const isDisabled = Boolean(hiddenModes?.includes('bysykkel'))
 
     useEffect(() => {
-        const abortController = new AbortController()
+        const abortController = createAbortController()
         if (!coordinates || !distance || isDisabled) {
             return setBikeRentalStations(null)
         }
@@ -78,7 +79,7 @@ export default function useBikeRentalStations(
     }, [coordinates, distance, isDisabled])
 
     useEffect(() => {
-        const abortController = new AbortController()
+        const abortController = createAbortController()
         if (isDisabled) {
             return setBikeRentalStations(null)
         }

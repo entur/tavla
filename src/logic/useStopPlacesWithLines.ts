@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Line, StopPlaceWithLines } from '../types'
-import { unique } from '../utils'
+import { createAbortController, unique } from '../utils'
 
 import { useSettingsContext } from '../settings'
 
@@ -25,7 +25,7 @@ export const useStopPlacesWithLines = (): Return => {
     >([])
 
     useEffect(() => {
-        const abortController = new AbortController()
+        const abortController = createAbortController()
         const fetchDataAndSetStates = async () => {
             if (!stopPlaces) return
             try {

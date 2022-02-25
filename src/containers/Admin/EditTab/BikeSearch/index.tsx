@@ -6,7 +6,7 @@ import { Station } from '@entur/sdk/lib/mobility/types'
 
 import service from '../../../../service'
 
-import { getTranslation } from '../../../../utils'
+import { createAbortController, getTranslation } from '../../../../utils'
 
 import './styles.scss'
 
@@ -28,7 +28,7 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
     const [stations, setStations] = useState<Station[]>([])
 
     useEffect(() => {
-        const controller = new AbortController()
+        const controller = createAbortController()
         if (position) {
             service.mobility
                 .getStations(
@@ -45,7 +45,7 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
                     setStations(data)
                 })
                 .catch((err) => {
-                    if (!controller.signal.aborted) {
+                    if (!controller.signal?.aborted) {
                         throw err
                     }
                 })
