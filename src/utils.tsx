@@ -500,7 +500,7 @@ export function createAbortController():
     | AbortController
     | { signal: undefined; abort: () => void } {
     try {
-        return createAbortController()
+        return new AbortController()
     } catch (error) {
         /**
          * AbortController is not supported by this browser.
