@@ -47,7 +47,7 @@
         "@entur/loader": "^0.4.5",
         "@entur/menu": "^4.0.6",
         "@entur/modal": "^1.5.9",
-        "@entur/sdk": "^4.4.0",
+        "@entur/sdk": "^5.0.0",
         "@entur/tab": "^0.4.28",
         "@entur/table": "^4.5.4",
         "@entur/tokens": "^3.3.1",
