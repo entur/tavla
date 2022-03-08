@@ -104,7 +104,6 @@ async function getWalkInfo(
                             ? pick(destination, ['name', 'place'])
                             : pick(destination, ['name', 'coordinates']),
                 },
-                fetchPolicy: 'network-only',
             })
 
             const tripPattern: WalkInfoTripPattern | undefined =
