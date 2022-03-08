@@ -15,7 +15,7 @@ import './styles.scss'
 
 interface Props {
     realtimeVehicle: RealtimeVehicle
-    setHoveredVehicle: (realtimeVehicle: RealtimeVehicle | null) => void
+    setHoveredVehicle: (realtimeVehicle: RealtimeVehicle | undefined) => void
     isHovered: boolean
 }
 
@@ -42,7 +42,7 @@ const RealtimeVehicleTag = ({
             <div
                 className="map__realtime-vehicle-tag-circle-outer"
                 onMouseEnter={() => setHoveredVehicle(realtimeVehicle)}
-                onMouseLeave={() => setHoveredVehicle(null)}
+                onMouseLeave={() => setHoveredVehicle(undefined)}
                 style={
                     realtimeVehicle.active
                         ? { backgroundColor: 'white' }

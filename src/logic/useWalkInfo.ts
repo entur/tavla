@@ -123,11 +123,11 @@ async function getWalkInfo(
     return travelTimes.filter(isNotNullOrUndefined)
 }
 
-export default function useWalkInfo(
-    destinations: Destination[] | null,
-): WalkInfo[] | null {
+const EMPTY_WALK_INFO: WalkInfo[] = []
+
+export default function useWalkInfo(destinations: Destination[]): WalkInfo[] {
     const [settings] = useSettingsContext()
-    const [travelTime, setTravelTime] = useState<WalkInfo[] | null>(null)
+    const [travelTime, setTravelTime] = useState<WalkInfo[]>(EMPTY_WALK_INFO)
 
     const { latitude: fromLatitude, longitude: fromLongitude } =
         settings?.coordinates ?? {
@@ -140,7 +140,7 @@ export default function useWalkInfo(
     useEffect(() => {
         let aborted = false
         if (!destinations) {
-            return setTravelTime(null)
+            return setTravelTime(EMPTY_WALK_INFO)
         }
         if (!isEqual(ids, previousIds)) {
             getWalkInfo(destinations, {

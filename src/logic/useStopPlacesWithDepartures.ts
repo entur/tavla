@@ -1,12 +1,12 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { gql } from '@apollo/client'
-import { format, differenceInMinutes, parseISO } from 'date-fns'
+import { differenceInMinutes, format, parseISO } from 'date-fns'
 
 import { TransportMode, TransportSubmode } from '@entur/sdk'
 
 import { LineData, StopPlaceWithDepartures } from '../types'
-import { unique, isNotNullOrUndefined, nonEmpty } from '../utils'
+import { isNotNullOrUndefined, nonEmpty, unique } from '../utils'
 import { apolloClient } from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'
@@ -123,11 +123,9 @@ async function fetchStopPlaceDepartures(
         fetchPolicy: 'network-only',
     })
 
-    const sortedStops = data.stopPlaces
+    return data.stopPlaces
         .filter(isNotNullOrUndefined)
         .sort((a, b) => a.name.localeCompare(b.name, 'no'))
-
-    return sortedStops
 }
 
 function formatDeparture(minDiff: number, departureTime: Date): string {
@@ -176,9 +174,9 @@ function transformDepartureToLineData(
     }
 }
 
-export default function useStopPlacesWithDepartures():
-    | StopPlaceWithDepartures[]
-    | null {
+const EMPTY_STOP_PLACES_WITH_DEPARTURES: StopPlaceWithDepartures[] = []
+
+export default function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] {
     const [settings] = useSettingsContext()
 
     const nearestPlaces = useNearestPlaces(
@@ -186,8 +184,8 @@ export default function useStopPlacesWithDepartures():
         settings?.distance,
     )
     const [stopPlacesWithDepartures, setStopPlacesWithDepartures] = useState<
-        StopPlaceWithDepartures[] | null
-    >(null)
+        StopPlaceWithDepartures[]
+    >(EMPTY_STOP_PLACES_WITH_DEPARTURES)
 
     const {
         newStops = [],
@@ -264,7 +262,9 @@ export default function useStopPlacesWithDepartures():
         let aborted = false
 
         if (isDisabled) {
-            return setStopPlacesWithDepartures(null)
+            return setStopPlacesWithDepartures(
+                EMPTY_STOP_PLACES_WITH_DEPARTURES,
+            )
         }
 
         const fetchAndSet = () =>

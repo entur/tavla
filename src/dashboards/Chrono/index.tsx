@@ -343,7 +343,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                                                 bikeRentalStations={
                                                     bikeRentalStations
                                                 }
-                                                walkTimes={null}
                                                 latitude={
                                                     settings?.coordinates
                                                         ?.latitude ?? 0
@@ -551,7 +550,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     scooters={scooters}
                                     stopPlaces={stopPlacesWithDepartures}
                                     bikeRentalStations={bikeRentalStations}
-                                    walkTimes={null}
                                     latitude={
                                         settings?.coordinates?.latitude ?? 0
                                     }
