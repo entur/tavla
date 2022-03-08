@@ -191,14 +191,14 @@ const Map = ({
     )
 
     const { clusters: scooterClusters } = useSupercluster({
-        points: scooterpoints,
+        points: scooterpoints || [],
         bounds,
         zoom: viewport.zoom,
         options: { radius: 38, maxZoom: 18 },
     })
 
     const { clusters: stationClusters } = useSupercluster({
-        points: bikeRentalStationPoints,
+        points: bikeRentalStationPoints || [],
         bounds,
         zoom: viewport.zoom,
         options: {
@@ -376,9 +376,9 @@ const Map = ({
 }
 
 interface Props {
-    stopPlaces: StopPlaceWithDepartures[]
-    bikeRentalStations: Station[]
-    scooters: Vehicle[]
+    stopPlaces?: StopPlaceWithDepartures[]
+    bikeRentalStations?: Station[]
+    scooters?: Vehicle[]
     walkTimes?: Array<{ stopId: string; walkTime: number }>
     interactive: boolean
     mapStyle?: string | undefined

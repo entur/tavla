@@ -10,7 +10,7 @@ import { createAbortController } from '../utils'
 async function fetchBikeRentalStationsById(
     allStationIds: string[],
     signal?: AbortSignal,
-): Promise<Station[] | null> {
+): Promise<Station[]> {
     return await service.mobility.getStationsById(
         {
             stationIds: allStationIds,
@@ -38,12 +38,14 @@ const EMPTY_BIKE_RENTAL_STATIONS: Station[] = []
 
 export default function useBikeRentalStations(
     removeHiddenStations = true,
-): Station[] {
+): Station[] | undefined {
     const [settings] = useSettingsContext()
-    const [bikeRentalStations, setBikeRentalStations] = useState<Station[]>(
-        EMPTY_BIKE_RENTAL_STATIONS,
-    )
-    const [nearbyStations, setNearbyStations] = useState<Station[]>([])
+    const [bikeRentalStations, setBikeRentalStations] = useState<
+        Station[] | undefined
+    >(EMPTY_BIKE_RENTAL_STATIONS)
+    const [nearbyStations, setNearbyStations] = useState<
+        Station[] | undefined
+    >()
     const [userSelectedStations, setUserSelectedStations] = useState<Station[]>(
         [],
     )
@@ -84,7 +86,7 @@ export default function useBikeRentalStations(
             return setBikeRentalStations(EMPTY_BIKE_RENTAL_STATIONS)
         }
         fetchBikeRentalStationsById(newStations, abortController.signal)
-            .then((stations) => setUserSelectedStations(stations || []))
+            .then(setUserSelectedStations)
             .catch((error) => {
                 if (error.name !== 'AbortError') throw error
             })
@@ -94,6 +96,8 @@ export default function useBikeRentalStations(
     }, [newStations, isDisabled])
 
     useEffect(() => {
+        if (!nearbyStations) return
+
         if (isDisabled) {
             return setBikeRentalStations(EMPTY_BIKE_RENTAL_STATIONS)
         }

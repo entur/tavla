@@ -20,9 +20,9 @@ function MapTile(data: Props): JSX.Element {
 }
 
 interface Props {
-    stopPlaces: StopPlaceWithDepartures[]
-    bikeRentalStations: Station[]
-    scooters: Vehicle[]
+    stopPlaces?: StopPlaceWithDepartures[]
+    bikeRentalStations?: Station[]
+    scooters?: Vehicle[]
     walkTimes?: Array<{ stopId: string; walkTime: number }>
     latitude: number
     longitude: number

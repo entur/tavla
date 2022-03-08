@@ -38,10 +38,12 @@ async function fetchVehicles(
 
 const EMPTY_VEHICLES: Vehicle[] = []
 
-export default function useMobility(formFactor?: FormFactor): Vehicle[] {
+export default function useMobility(
+    formFactor?: FormFactor,
+): Vehicle[] | undefined {
     const [settings] = useSettingsContext()
     const allOperators = useOperators()
-    const [vehicles, setVehicles] = useState<Vehicle[]>(EMPTY_VEHICLES)
+    const [vehicles, setVehicles] = useState<Vehicle[]>()
 
     const { coordinates, distance, hiddenMobilityOperators, hiddenModes } =
         settings || {}

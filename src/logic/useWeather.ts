@@ -5,8 +5,8 @@ import { REFRESH_INTERVAL } from '../constants'
 import { useSettingsContext } from '../settings'
 
 async function getWeather(
-    latitude: number | null,
-    longitude: number | null,
+    latitude: number,
+    longitude: number,
 ): Promise<Properties> {
     const url = `https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=${latitude}&lon=${longitude}`
     const weather = await fetch(url).then((response) => {
@@ -22,16 +22,14 @@ async function getWeather(
     }
 }
 
-export default function useWeather(): Properties | null {
+export default function useWeather(): Properties | undefined {
     const [settings] = useSettingsContext()
-    const [weather, setWeather] = useState<Properties | null>(null)
+    const [weather, setWeather] = useState<Properties | undefined>()
 
     const coordinates = settings?.coordinates
     useEffect(() => {
-        getWeather(
-            coordinates?.latitude ?? 0,
-            coordinates?.longitude ?? 0,
-        ).then(setWeather)
+        if (!coordinates) return
+        getWeather(coordinates.latitude, coordinates.longitude).then(setWeather)
 
         const intervalId = setInterval(() => {
             getWeather(coordinates?.latitude ?? 0, coordinates?.longitude ?? 0)

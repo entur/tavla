@@ -109,7 +109,7 @@ const BusStop = (): JSX.Element | null => {
     const bikeRentalStations = useBikeRentalStations()
 
     const walkInfoDestinations = useMemo(() => {
-        if (!stopPlacesWithDepartures) return stopPlacesWithDepartures
+        if (!stopPlacesWithDepartures) return []
         return stopPlacesWithDepartures.map((dep) => ({
             ...dep,
             place: dep.id,

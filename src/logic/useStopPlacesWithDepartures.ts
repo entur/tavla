@@ -176,7 +176,9 @@ function transformDepartureToLineData(
 
 const EMPTY_STOP_PLACES_WITH_DEPARTURES: StopPlaceWithDepartures[] = []
 
-export default function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] {
+export default function useStopPlacesWithDepartures():
+    | StopPlaceWithDepartures[]
+    | undefined {
     const [settings] = useSettingsContext()
 
     const nearestPlaces = useNearestPlaces(
@@ -184,8 +186,8 @@ export default function useStopPlacesWithDepartures(): StopPlaceWithDepartures[]
         settings?.distance,
     )
     const [stopPlacesWithDepartures, setStopPlacesWithDepartures] = useState<
-        StopPlaceWithDepartures[]
-    >(EMPTY_STOP_PLACES_WITH_DEPARTURES)
+        StopPlaceWithDepartures[] | undefined
+    >()
 
     const {
         newStops = [],
