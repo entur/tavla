@@ -129,7 +129,7 @@ const EnturDashboard = (): JSX.Element | null => {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
     const walkInfoDestinations = useMemo(() => {
-        if (!stopPlacesWithDepartures) return stopPlacesWithDepartures
+        if (!stopPlacesWithDepartures) return []
         return stopPlacesWithDepartures.map((dep) => ({
             ...dep,
             place: dep.id,
@@ -140,7 +140,7 @@ const EnturDashboard = (): JSX.Element | null => {
     const numberOfStopPlaces = stopPlacesWithDepartures
         ? stopPlacesWithDepartures.length
         : 0
-    const anyBikeRentalStations: number | null =
+    const anyBikeRentalStations: number | undefined =
         bikeRentalStations && bikeRentalStations.length
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
@@ -338,7 +338,6 @@ const EnturDashboard = (): JSX.Element | null => {
                                                 bikeRentalStations={
                                                     bikeRentalStations
                                                 }
-                                                walkTimes={null}
                                                 latitude={
                                                     settings?.coordinates
                                                         ?.latitude ?? 0
@@ -546,7 +545,6 @@ const EnturDashboard = (): JSX.Element | null => {
                                     scooters={scooters}
                                     stopPlaces={stopPlacesWithDepartures}
                                     bikeRentalStations={bikeRentalStations}
-                                    walkTimes={null}
                                     latitude={
                                         settings?.coordinates?.latitude ?? 0
                                     }

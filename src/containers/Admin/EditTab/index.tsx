@@ -187,7 +187,8 @@ const EditTab = (): JSX.Element => {
     const [stopPlaces, setStopPlaces] = useState<
         StopPlaceWithLines[] | undefined
     >(undefined)
-    const bikeRentalStations: Station[] | null = useBikeRentalStations(false)
+    const bikeRentalStations: Station[] | undefined =
+        useBikeRentalStations(false)
     const [sortedBikeRentalStations, setSortedBikeRentalStations] = useState<
         Station[]
     >([])

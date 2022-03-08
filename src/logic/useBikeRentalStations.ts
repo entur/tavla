@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Coordinates } from '@entur/sdk'
 import { Station } from '@entur/sdk/lib/mobility/types'
@@ -10,22 +10,21 @@ import { createAbortController } from '../utils'
 async function fetchBikeRentalStationsById(
     allStationIds: string[],
     signal?: AbortSignal,
-): Promise<Station[] | null> {
-    const allStations = await service.mobility.getStationsById(
+): Promise<Station[]> {
+    return await service.mobility.getStationsById(
         {
             stationIds: allStationIds,
         },
         { signal },
     )
-    return allStations
 }
 
 async function fetchBikeRentalStationsNearby(
     coordinates: Coordinates,
     distance: number,
     signal?: AbortSignal,
-): Promise<Station[] | null> {
-    const allStations = await service.mobility.getStations(
+): Promise<Station[]> {
+    return await service.mobility.getStations(
         {
             lat: coordinates.latitude,
             lon: coordinates.longitude,
@@ -33,17 +32,20 @@ async function fetchBikeRentalStationsNearby(
         },
         { signal },
     )
-    return allStations
 }
+
+const EMPTY_BIKE_RENTAL_STATIONS: Station[] = []
 
 export default function useBikeRentalStations(
     removeHiddenStations = true,
-): Station[] | null {
+): Station[] | undefined {
     const [settings] = useSettingsContext()
     const [bikeRentalStations, setBikeRentalStations] = useState<
-        Station[] | null
-    >(null)
-    const [nearbyStations, setNearbyStations] = useState<Station[]>([])
+        Station[] | undefined
+    >(EMPTY_BIKE_RENTAL_STATIONS)
+    const [nearbyStations, setNearbyStations] = useState<
+        Station[] | undefined
+    >()
     const [userSelectedStations, setUserSelectedStations] = useState<Station[]>(
         [],
     )
@@ -61,7 +63,7 @@ export default function useBikeRentalStations(
     useEffect(() => {
         const abortController = createAbortController()
         if (!coordinates || !distance || isDisabled) {
-            return setBikeRentalStations(null)
+            return setBikeRentalStations(EMPTY_BIKE_RENTAL_STATIONS)
         }
         fetchBikeRentalStationsNearby(
             coordinates,
@@ -81,10 +83,10 @@ export default function useBikeRentalStations(
     useEffect(() => {
         const abortController = createAbortController()
         if (isDisabled) {
-            return setBikeRentalStations(null)
+            return setBikeRentalStations(EMPTY_BIKE_RENTAL_STATIONS)
         }
         fetchBikeRentalStationsById(newStations, abortController.signal)
-            .then((stations) => setUserSelectedStations(stations || []))
+            .then(setUserSelectedStations)
             .catch((error) => {
                 if (error.name !== 'AbortError') throw error
             })
@@ -94,8 +96,10 @@ export default function useBikeRentalStations(
     }, [newStations, isDisabled])
 
     useEffect(() => {
+        if (!nearbyStations) return
+
         if (isDisabled) {
-            return setBikeRentalStations(null)
+            return setBikeRentalStations(EMPTY_BIKE_RENTAL_STATIONS)
         }
         const uniqueUserStations = userSelectedStations.filter(
             (userStation) =>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { useApolloClient, useQuery } from '@apollo/client'
 import type { FetchResult } from '@apollo/client'
@@ -127,23 +127,6 @@ export default function useRealtimeVehicleData(filter?: Filter): Return {
     }, [client, filter, filterVehiclesByLineRefs, dispatch])
 
     useEffect(() => {
-        const mappedDataFromBothAPIs = (
-            Object.values(state.vehicles) as RealtimeVehicle[]
-        ).map((vehicle) => {
-            const line = uniqueLines?.find((l) => l.id === vehicle.line.lineRef)
-            return {
-                ...vehicle,
-                line: {
-                    ...vehicle.line,
-                    publicCode: line?.publicCode,
-                    pointsOnLink: line?.pointsOnLink,
-                },
-            }
-        })
-        setRealtimeVehicles(mappedDataFromBothAPIs)
-    }, [state, uniqueLines])
-
-    useEffect(() => {
         const interval = setInterval(() => {
             dispatch({ type: ActionType.SWEEP })
         }, SWEEP_INTERVAL_MS)
@@ -152,6 +135,30 @@ export default function useRealtimeVehicleData(filter?: Filter): Return {
             clearInterval(interval)
         }
     }, [dispatch])
+
+    const mappedDataFromBothAPIs = useMemo(
+        () =>
+            (Object.values(state.vehicles) as RealtimeVehicle[]).map(
+                (vehicle) => {
+                    const line = uniqueLines?.find(
+                        (l) => l.id === vehicle.line.lineRef,
+                    )
+                    return {
+                        ...vehicle,
+                        line: {
+                            ...vehicle.line,
+                            publicCode: line?.publicCode,
+                            pointsOnLink: line?.pointsOnLink,
+                        },
+                    }
+                },
+            ),
+        [state.vehicles, uniqueLines],
+    )
+
+    useEffect(() => {
+        setRealtimeVehicles(mappedDataFromBothAPIs)
+    }, [mappedDataFromBothAPIs])
 
     return { realtimeVehicles, allLinesWithRealtimeData }
 }

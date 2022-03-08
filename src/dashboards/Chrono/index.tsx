@@ -130,7 +130,7 @@ const ChronoDashboard = (): JSX.Element | null => {
     ).length
 
     const walkInfoDestinations = useMemo(() => {
-        if (!stopPlacesWithDepartures) return stopPlacesWithDepartures
+        if (!stopPlacesWithDepartures) return []
         return stopPlacesWithDepartures.map((dep) => ({
             ...dep,
             place: dep.id,
@@ -139,7 +139,7 @@ const ChronoDashboard = (): JSX.Element | null => {
     const walkInfo = useWalkInfo(walkInfoDestinations)
 
     const numberOfStopPlaces = stopPlacesWithDepartures?.length || 0
-    const anyBikeRentalStations: number | null =
+    const anyBikeRentalStations: number | undefined =
         bikeRentalStations && bikeRentalStations.length
 
     const maxWidthCols = COLS[breakpoint]
@@ -343,7 +343,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                                                 bikeRentalStations={
                                                     bikeRentalStations
                                                 }
-                                                walkTimes={null}
                                                 latitude={
                                                     settings?.coordinates
                                                         ?.latitude ?? 0
@@ -551,7 +550,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     scooters={scooters}
                                     stopPlaces={stopPlacesWithDepartures}
                                     bikeRentalStations={bikeRentalStations}
-                                    walkTimes={null}
                                     latitude={
                                         settings?.coordinates?.latitude ?? 0
                                     }

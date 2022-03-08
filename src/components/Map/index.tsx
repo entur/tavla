@@ -77,8 +77,9 @@ const Map = ({
             ([0, 0, 0, 0] as [number, number, number, number]),
     )
 
-    const [hoveredVehicle, setHoveredVehicle] =
-        useState<RealtimeVehicle | null>(null)
+    const [hoveredVehicle, setHoveredVehicle] = useState<
+        RealtimeVehicle | undefined
+    >(undefined)
 
     const hoveredRoute = useMemo(() => {
         if (
@@ -203,15 +204,6 @@ const Map = ({
         options: {
             radius: 45,
             maxZoom: 18,
-            map: (props): Record<string, unknown> => ({
-                bikesAvailable: props.bikesAvailable,
-                spacesAvailable: props.spacesAvailable,
-            }),
-            reduce: (acc, props): Record<string, unknown> => {
-                acc.bikesAvailable += props.bikesAvailable
-                acc.spacesAvailable += props.spacesAvailable
-                return acc
-            },
         },
     })
     const realtimeVehicleMarkers = useMemo(
@@ -384,10 +376,10 @@ const Map = ({
 }
 
 interface Props {
-    stopPlaces?: StopPlaceWithDepartures[] | null
-    bikeRentalStations?: Station[] | null
-    scooters?: Vehicle[] | null
-    walkTimes?: Array<{ stopId: string; walkTime: number }> | null
+    stopPlaces?: StopPlaceWithDepartures[]
+    bikeRentalStations?: Station[]
+    scooters?: Vehicle[]
+    walkTimes?: Array<{ stopId: string; walkTime: number }>
     interactive: boolean
     mapStyle?: string | undefined
     latitude: number

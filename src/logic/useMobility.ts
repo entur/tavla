@@ -1,8 +1,8 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { Coordinates } from '@entur/sdk'
 
-import { Vehicle, FormFactor, Operator } from '@entur/sdk/lib/mobility/types'
+import { FormFactor, Operator, Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import service from '../service'
 import { useSettingsContext } from '../settings'
@@ -23,7 +23,7 @@ async function fetchVehicles(
         return []
     }
 
-    const vehicles: Promise<Vehicle[]> = service.mobility.getVehicles(
+    return service.mobility.getVehicles(
         {
             lat: Number(coordinates.latitude),
             lon: Number(coordinates.longitude),
@@ -34,14 +34,16 @@ async function fetchVehicles(
         },
         { signal },
     )
-
-    return vehicles
 }
 
-export default function useMobility(formFactor?: FormFactor): Vehicle[] | null {
+const EMPTY_VEHICLES: Vehicle[] = []
+
+export default function useMobility(
+    formFactor?: FormFactor,
+): Vehicle[] | undefined {
     const [settings] = useSettingsContext()
     const allOperators = useOperators()
-    const [vehicles, setVehicles] = useState<Vehicle[] | null>([])
+    const [vehicles, setVehicles] = useState<Vehicle[]>()
 
     const { coordinates, distance, hiddenMobilityOperators, hiddenModes } =
         settings || {}
@@ -61,7 +63,7 @@ export default function useMobility(formFactor?: FormFactor): Vehicle[] | null {
     useEffect(() => {
         const abortController = createAbortController()
         if (!coordinates || !distance || isDisabled) {
-            return setVehicles(null)
+            return setVehicles(EMPTY_VEHICLES)
         }
 
         fetchVehicles(

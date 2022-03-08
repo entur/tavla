@@ -72,7 +72,7 @@ function ZoomEditor(props: Props): JSX.Element {
 interface Props {
     zoom: number
     onZoomUpdated: (newZoom: number) => void
-    scooters: Vehicle[] | null
+    scooters: Vehicle[] | undefined
 }
 
 export default memo<Props>(ZoomEditor)
