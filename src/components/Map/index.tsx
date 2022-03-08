@@ -203,15 +203,6 @@ const Map = ({
         options: {
             radius: 45,
             maxZoom: 18,
-            map: (props): Record<string, unknown> => ({
-                bikesAvailable: props.bikesAvailable,
-                spacesAvailable: props.spacesAvailable,
-            }),
-            reduce: (acc, props): Record<string, unknown> => {
-                acc.bikesAvailable += props.bikesAvailable
-                acc.spacesAvailable += props.spacesAvailable
-                return acc
-            },
         },
     })
     const realtimeVehicleMarkers = useMemo(
