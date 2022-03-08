@@ -36,12 +36,12 @@ async function fetchVehicles(
     )
 }
 
-const EMPTY_VEHICLE: Vehicle[] = []
+const EMPTY_VEHICLES: Vehicle[] = []
 
 export default function useMobility(formFactor?: FormFactor): Vehicle[] {
     const [settings] = useSettingsContext()
     const allOperators = useOperators()
-    const [vehicles, setVehicles] = useState<Vehicle[]>(EMPTY_VEHICLE)
+    const [vehicles, setVehicles] = useState<Vehicle[]>(EMPTY_VEHICLES)
 
     const { coordinates, distance, hiddenMobilityOperators, hiddenModes } =
         settings || {}
@@ -61,7 +61,7 @@ export default function useMobility(formFactor?: FormFactor): Vehicle[] {
     useEffect(() => {
         const abortController = createAbortController()
         if (!coordinates || !distance || isDisabled) {
-            return setVehicles(EMPTY_VEHICLE)
+            return setVehicles(EMPTY_VEHICLES)
         }
 
         fetchVehicles(
