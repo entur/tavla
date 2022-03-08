@@ -120,6 +120,7 @@ async function fetchStopPlaceDepartures(
         variables: {
             ids: allStopPlaceIdsWithoutDuplicateNumber,
         },
+        fetchPolicy: 'network-only',
     })
 
     const sortedStops = data.stopPlaces

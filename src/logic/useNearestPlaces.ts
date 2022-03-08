@@ -94,6 +94,7 @@ export default function useNearestPlaces(
                     filterByPlaceTypes: ['stopPlace', 'bicycleRent'],
                     multiModalMode: 'parent',
                 },
+                fetchPolicy: 'network-only',
             })
             .then(({ data }) => {
                 if (ignoreResponse) return
