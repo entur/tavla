@@ -6,3 +6,4 @@ dist/
 .firebase/*.cache
 *.log
 functions/lib
+sentry.properties
