@@ -12,6 +12,7 @@ import App from './containers/App'
 if (process.env.SENTRY_DSN) {
     init({
         dsn: process.env.SENTRY_DSN,
+        release: process.env.VERSION,
     })
 }
 
