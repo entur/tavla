@@ -5,6 +5,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const postcssPresetEnv = require('postcss-preset-env')
 const CopyPlugin = require('copy-webpack-plugin')
+const SentryCliPlugin = require('@sentry/webpack-plugin')
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 
@@ -92,6 +93,14 @@ module.exports = smp.wrap((env, args) => ({
                 { from: 'public/images/', to: 'images' },
             ],
         }),
+        args.mode === 'production'
+            ? new SentryCliPlugin({
+                  include: OUTPUT_PATH,
+                  ignore: ['node_modules', 'webpack.config.js', 'sw.js'],
+                  org: 'entur',
+                  project: 'tavla',
+              })
+            : false,
     ],
     optimization: {
         splitChunks: {
