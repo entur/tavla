@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { Route, Switch, BrowserRouter, useLocation } from 'react-router-dom'
 
-import PWAPrompt from 'react-ios-pwa-prompt'
-
 import { ApolloProvider } from '@apollo/client'
 
 import { ToastProvider } from '@entur/alert'
@@ -10,6 +8,8 @@ import { ToastProvider } from '@entur/alert'
 import { SettingsContext, useSettings } from '../settings'
 import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
+
+import PWAPrompt from '../../vendor/react-ios-pwa-prompt'
 
 import { realtimeVehiclesClient } from '../services/realtimeVehicles/realtimeVehiclesService'
 
