@@ -91,7 +91,7 @@ export default function useNearestPlaces(
                     latitude,
                     longitude,
                     maximumDistance: distance,
-                    filterByPlaceTypes: ['stopPlace', 'bicycleRent'],
+                    filterByPlaceTypes: ['stopPlace'],
                     multiModalMode: 'parent',
                 },
             })
