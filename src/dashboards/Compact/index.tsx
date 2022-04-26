@@ -111,9 +111,8 @@ const EnturDashboard = (): JSX.Element | null => {
     const isCancelled = useRef<NodeJS.Timeout>()
 
     const dashboardKey = history.location.key
-    const boardId =
-        useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
-            ?.documentId
+    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')
+        ?.params?.documentId
 
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey as string),

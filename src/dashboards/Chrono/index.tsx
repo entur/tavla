@@ -105,9 +105,8 @@ const ChronoDashboard = (): JSX.Element | null => {
     } = settings || {}
     const history = useHistory()
     const dashboardKey = history.location.key
-    const boardId =
-        useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
-            ?.documentId
+    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')
+        ?.params?.documentId
 
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
