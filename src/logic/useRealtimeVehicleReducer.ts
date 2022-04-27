@@ -64,11 +64,11 @@ const update = (state: State, payload: RealtimeVehicle[]) => {
     payload.forEach((vehicle) => {
         const updatedVehicle = { ...vehicle }
         updatedVehicle.active = isVehicleActive(updatedVehicle, now)
-        if (updatedVehicles[updatedVehicle.vehicleRef]) {
+        const currentVehicle = updatedVehicles[updatedVehicle.vehicleRef]
+        if (currentVehicle) {
             if (
                 updatedVehicle.lastUpdatedEpochSecond >
-                updatedVehicles[updatedVehicle.vehicleRef]
-                    .lastUpdatedEpochSecond
+                currentVehicle.lastUpdatedEpochSecond
             ) {
                 updatedVehicles[updatedVehicle.vehicleRef] = updatedVehicle
             }

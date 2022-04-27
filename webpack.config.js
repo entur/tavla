@@ -100,16 +100,20 @@ module.exports = smp.wrap((env, args) => ({
                 { from: 'public/images/', to: 'images' },
             ],
         }),
-        new SourceMapDevToolPlugin({
-            filename: '[name].[fullhash].js.map',
-            noSources: false,
-        }),
-        new SentryCliPlugin({
-            include: OUTPUT_PATH,
-            org: 'entur',
-            project: 'tavla',
-            release: process.env.VERSION,
-        }),
+        ...(args.mode === 'production'
+            ? [
+                  new SourceMapDevToolPlugin({
+                      filename: '[name].[fullhash].js.map',
+                      noSources: false,
+                  }),
+                  new SentryCliPlugin({
+                      include: OUTPUT_PATH,
+                      org: 'entur',
+                      project: 'tavla',
+                      release: process.env.VERSION,
+                  }),
+              ]
+            : []),
     ],
     optimization: {
         splitChunks: {

@@ -105,9 +105,8 @@ const ChronoDashboard = (): JSX.Element | null => {
     } = settings || {}
     const history = useHistory()
     const dashboardKey = history.location.key
-    const boardId =
-        useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
-            ?.documentId
+    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')
+        ?.params?.documentId
 
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
@@ -142,7 +141,7 @@ const ChronoDashboard = (): JSX.Element | null => {
     const anyBikeRentalStations: number | undefined =
         bikeRentalStations && bikeRentalStations.length
 
-    const maxWidthCols = COLS[breakpoint]
+    const maxWidthCols = COLS[breakpoint] || 1
 
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
     const [modalVisible, setModalVisible] = useState(false)
@@ -410,14 +409,15 @@ const ChronoDashboard = (): JSX.Element | null => {
                                         stopPlacesWithDepartures.findIndex(
                                             (p) => p.id == item.id,
                                         )
-                                    return stopIndex >= 0 ? (
+
+                                    const stopPlace =
+                                        stopPlacesWithDepartures[stopIndex]
+                                    return stopPlace ? (
                                         <div key={item.id}>
                                             <DepartureTile
                                                 key={item.id}
                                                 stopPlaceWithDepartures={
-                                                    stopPlacesWithDepartures[
-                                                        stopIndex
-                                                    ]
+                                                    stopPlace
                                                 }
                                                 walkInfo={getWalkInfoForStopPlace(
                                                     walkInfo || [],

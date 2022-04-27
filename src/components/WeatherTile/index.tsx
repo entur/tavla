@@ -38,13 +38,13 @@ function WeatherTile(props: Props): JSX.Element {
     )
     const [description, setDescription] = useState('')
 
+    const weatherData = weather?.timeseries[3]
+
     useEffect(() => {
         const abortController = createAbortController()
 
-        if (weather) {
-            if (
-                weather.timeseries[3].data.instant.details.air_temperature >= 0
-            ) {
+        if (weatherData) {
+            if (weatherData.data.instant.details.air_temperature >= 0) {
                 setTemperatureClassName(
                     'weather-tile__weather-data-container__weather-data--color-red',
                 )
@@ -55,7 +55,7 @@ function WeatherTile(props: Props): JSX.Element {
             }
 
             getWeatherDescriptionFromApi(
-                weather.timeseries[3].data.next_1_hours.summary.symbol_code,
+                weatherData.data.next_1_hours.summary.symbol_code,
                 abortController.signal,
             )
                 .then((fetchedDescription) =>
@@ -70,15 +70,14 @@ function WeatherTile(props: Props): JSX.Element {
         return () => {
             abortController.abort()
         }
-    }, [weather])
+    }, [weatherData])
 
     const Icon = (): JSX.Element => (
         <div>
-            {weather ? (
+            {weatherData ? (
                 <div className="icon-entur">
                     {getWeatherIconEntur(
-                        weather.timeseries[3].data.next_1_hours.summary
-                            .symbol_code,
+                        weatherData.data.next_1_hours.summary.symbol_code,
                     )}
                 </div>
             ) : (
@@ -95,9 +94,9 @@ function WeatherTile(props: Props): JSX.Element {
                     temperatureClassName
                 }
             >
-                {weather
+                {weatherData
                     ? parseInt(
-                          weather.timeseries[3].data.instant.details.air_temperature.toString(),
+                          weatherData.data.instant.details.air_temperature.toString(),
                       ) + '°'
                     : '…'}
             </div>
@@ -111,8 +110,8 @@ function WeatherTile(props: Props): JSX.Element {
         <div className="weather-tile__weather-data-container__weather-data">
             <WindIcon size={20} />
             <div className="weather-tile__weather-data-container__weather-data__value">
-                {weather
-                    ? weather.timeseries[3].data.instant.details.wind_speed +
+                {weatherData
+                    ? weatherData.data.instant.details.wind_speed +
                       ' ' +
                       weather.meta.units.wind_speed
                     : '…'}
@@ -124,8 +123,8 @@ function WeatherTile(props: Props): JSX.Element {
         <div className="weather-tile__weather-data-container__weather-data">
             <CloudRainIcon size={20} />
             <div className="weather-tile__weather-data-container__weather-data__value">
-                {weather
-                    ? weather.timeseries[3].data.next_1_hours.details
+                {weatherData
+                    ? weatherData.data.next_1_hours.details
                           .precipitation_amount +
                       ' ' +
                       weather.meta.units.precipitation_amount
@@ -138,9 +137,9 @@ function WeatherTile(props: Props): JSX.Element {
         <div className="weather-tile__weather-data-container__weather-data">
             <UmbrellaIcon size={20} />
             <div className="weather-tile__weather-data-container__weather-data__value">
-                {weather
+                {weatherData
                     ? parseInt(
-                          weather.timeseries[3].data.next_1_hours.details.probability_of_precipitation.toString(),
+                          weatherData.data.next_1_hours.details.probability_of_precipitation.toString(),
                       ) +
                       ' ' +
                       weather.meta.units.probability_of_precipitation

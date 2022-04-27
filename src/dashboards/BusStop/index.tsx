@@ -94,9 +94,8 @@ const BusStop = (): JSX.Element | null => {
 
     const dashboardKey = history.location.key
 
-    const boardId =
-        useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
-            ?.documentId
+    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')
+        ?.params?.documentId
 
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey as string),
@@ -131,7 +130,7 @@ const BusStop = (): JSX.Element | null => {
             scooters?.length ||
             stopPlacesWithDepartures?.length,
     )
-    const maxWidthCols = COLS[breakpoint]
+    const maxWidthCols = COLS[breakpoint] || 1
     const stopPlacesHasLoaded = Boolean(
         stopPlacesWithDepartures ||
             settings?.hiddenModes?.includes('kollektiv'),
@@ -263,6 +262,11 @@ const BusStop = (): JSX.Element | null => {
                                     stopPlacesWithDepartures.findIndex(
                                         (p) => p.id == item.id,
                                     )
+
+                                const stopPlace =
+                                    stopPlacesWithDepartures[stopIndex]
+
+                                if (!stopPlace) return null
                                 return (
                                     <div key={item.id}>
                                         <DepartureTile
@@ -270,11 +274,7 @@ const BusStop = (): JSX.Element | null => {
                                                 walkInfo || [],
                                                 item.id,
                                             )}
-                                            stopPlaceWithDepartures={
-                                                stopPlacesWithDepartures[
-                                                    stopIndex
-                                                ]
-                                            }
+                                            stopPlaceWithDepartures={stopPlace}
                                             isMobile
                                             numberOfTileRows={numberOfTileRows}
                                         />

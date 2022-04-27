@@ -222,7 +222,8 @@ const EditTab = (): JSX.Element => {
             setStopPlaces(
                 resultingStopPlaces.map((s, index) => ({
                     ...s,
-                    id: ids[index],
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    id: ids[index]!,
                 })),
             )
         })

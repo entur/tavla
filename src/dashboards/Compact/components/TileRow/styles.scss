@@ -68,6 +68,18 @@
             width: 0.875rem;
         }
 
+        &__date {
+            color: var(--tavla-label-font-color);
+            margin-left: 0.5rem;
+        }
+
+        &__divider {
+            border-left: 2px solid var(--tavla-label-font-color);
+            height: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         &__situation {
             font-size: 1.125rem;
             height: 1.25rem;

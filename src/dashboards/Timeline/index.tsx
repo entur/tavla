@@ -188,9 +188,8 @@ const TimelineDashboard = (): JSX.Element | null => {
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
 
-    const boardId =
-        useRouteMatch<{ documentId: string }>('/t/:documentId')?.params
-            ?.documentId
+    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')
+        ?.params?.documentId
 
     const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,

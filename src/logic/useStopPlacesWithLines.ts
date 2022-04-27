@@ -41,7 +41,7 @@ export const useStopPlacesWithLines = (): Return => {
                             ...el,
                             lines: el.lines.filter((line) =>
                                 hiddenStopModes && hiddenStopModes[el.id]
-                                    ? !hiddenStopModes[el.id].includes(
+                                    ? !hiddenStopModes[el.id]?.includes(
                                           line.transportMode,
                                       )
                                     : line,

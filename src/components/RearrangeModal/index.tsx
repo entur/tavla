@@ -8,6 +8,8 @@ import { Modal } from '@entur/modal'
 import { PrimaryButton } from '@entur/button'
 import { DraggableIcon } from '@entur/icons'
 
+import { isNotNullOrUndefined } from '../../utils'
+
 import './styles.scss'
 
 function RearrangeModal({
@@ -35,7 +37,7 @@ function RearrangeModal({
             result.destination.index,
         )
 
-        onTileOrderChanged(rearrangedTileOrder)
+        onTileOrderChanged(rearrangedTileOrder.filter(isNotNullOrUndefined))
     }
     return (
         <Modal
