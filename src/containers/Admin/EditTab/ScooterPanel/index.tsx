@@ -50,9 +50,11 @@ function ScooterPanel(): JSX.Element {
                             }
                             onChange={onToggleOperator}
                         >
-                            <span className="scooter-panel__eds-paragraph">
-                                {operator.name.translation[0].value}
-                            </span>
+                            {operator.name.translation[0] && (
+                                <span className="scooter-panel__eds-paragraph">
+                                    {operator.name.translation[0].value}
+                                </span>
+                            )}
                         </FilterChip>
                     </div>
                 ))}

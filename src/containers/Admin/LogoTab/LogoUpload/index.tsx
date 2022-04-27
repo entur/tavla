@@ -28,11 +28,12 @@ const LogoUpload = (): JSX.Element => {
     const handleDrop = (acceptedFiles?: File[]): void => {
         if (!acceptedFiles?.length) return
 
+        const [file] = acceptedFiles
+        if (!file) return
+
         setStandbyText('Logoen din lastes opp')
         setError(undefined)
         setProgress(0)
-
-        const [file] = acceptedFiles
 
         const handleFinished = (imageUrl: string): void => {
             setSettings({ logo: imageUrl })
@@ -49,7 +50,7 @@ const LogoUpload = (): JSX.Element => {
     }
 
     const handleReject = (rejections: FileRejection[]): void => {
-        const { code, message } = rejections[0].errors[0]
+        const { code, message } = rejections[0]?.errors[0] || {}
 
         if (code === 'file-too-large') {
             setError('Filen kan ikke overskride 5MB')

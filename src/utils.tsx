@@ -424,7 +424,7 @@ const arrayContains = (original: string[], contains: string[]): boolean =>
     original.some((r) => contains.indexOf(r) >= 0)
 
 export function getDepartureNumber(departure: LineData): string {
-    return departure.route.split(/[\s]/g)[0]
+    return departure.route.split(/[\s]/g)[0] || ''
 }
 
 export function getDepartureDirection(departure: LineData): string[] {

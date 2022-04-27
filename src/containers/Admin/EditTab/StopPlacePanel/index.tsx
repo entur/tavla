@@ -107,7 +107,7 @@ function StopPlacePanel(props: Props): JSX.Element {
 
             const allModesUnchecked =
                 uniqueTransportModes.length ===
-                newHiddenModes[stopPlaceId].length
+                newHiddenModes[stopPlaceId]?.length
 
             if (allModesUnchecked) {
                 setSettings({

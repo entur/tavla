@@ -66,25 +66,30 @@ const DepartureTile = ({
             icons={getTransportHeaderIcons(departures, iconColorType)}
             walkInfo={!hideWalkInfo ? walkInfo : undefined}
         >
-            {routes.map((route) => {
-                const subType = groupedDepartures[route][0].subType
-                const routeData = groupedDepartures[route]
-                const routeType = routeData[0].type
-                const icon = getIcon(routeType, iconColorType, subType)
-                const platform = routeData[0].quay?.publicCode
-                return (
-                    <TileRow
-                        key={route}
-                        label={route}
-                        subLabels={routeData.map(createTileSubLabel)}
-                        icon={icon}
-                        hideSituations={hideSituations}
-                        hideTracks={hideTracks}
-                        platform={platform}
-                        type={routeType}
-                    />
-                )
-            })}
+            {routes
+                .map((route) => {
+                    const routeData = groupedDepartures[route]
+                    const firstRouteData = routeData && routeData[0]
+                    if (!firstRouteData) return
+
+                    const subType = firstRouteData.subType
+                    const routeType = firstRouteData.type
+                    const icon = getIcon(routeType, iconColorType, subType)
+                    const platform = firstRouteData.quay?.publicCode
+                    return (
+                        <TileRow
+                            key={route}
+                            label={route}
+                            subLabels={routeData.map(createTileSubLabel)}
+                            icon={icon}
+                            hideSituations={hideSituations}
+                            hideTracks={hideTracks}
+                            platform={platform}
+                            type={routeType}
+                        />
+                    )
+                })
+                .filter(isNotNullOrUndefined)}
         </Tile>
     )
 }
