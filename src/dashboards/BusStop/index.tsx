@@ -130,7 +130,7 @@ const BusStop = (): JSX.Element | null => {
             scooters?.length ||
             stopPlacesWithDepartures?.length,
     )
-    const maxWidthCols = COLS[breakpoint]
+    const maxWidthCols = COLS[breakpoint] || 1
     const stopPlacesHasLoaded = Boolean(
         stopPlacesWithDepartures ||
             settings?.hiddenModes?.includes('kollektiv'),
@@ -262,6 +262,11 @@ const BusStop = (): JSX.Element | null => {
                                     stopPlacesWithDepartures.findIndex(
                                         (p) => p.id == item.id,
                                     )
+
+                                const stopPlace =
+                                    stopPlacesWithDepartures[stopIndex]
+
+                                if (!stopPlace) return null
                                 return (
                                     <div key={item.id}>
                                         <DepartureTile
@@ -269,11 +274,7 @@ const BusStop = (): JSX.Element | null => {
                                                 walkInfo || [],
                                                 item.id,
                                             )}
-                                            stopPlaceWithDepartures={
-                                                stopPlacesWithDepartures[
-                                                    stopIndex
-                                                ]
-                                            }
+                                            stopPlaceWithDepartures={stopPlace}
                                             isMobile
                                             numberOfTileRows={numberOfTileRows}
                                         />

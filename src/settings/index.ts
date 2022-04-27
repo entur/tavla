@@ -166,12 +166,13 @@ export function useSettings(): [Settings | null, Setter] {
 
         let positionArray: string[] = []
         try {
-            positionArray = location.pathname
-                .split('/')[2]
-                .split('@')[1]
-                .split('-')
-                .join('.')
-                .split(/,/)
+            positionArray =
+                location.pathname
+                    ?.split('/')[2]
+                    ?.split('@')[1]
+                    ?.split('-')
+                    .join('.')
+                    .split(/,/) || []
         } catch (error) {
             return
         }

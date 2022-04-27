@@ -152,7 +152,7 @@ const EnturDashboard = (): JSX.Element | null => {
             stopPlacesWithDepartures?.length,
     )
 
-    const maxWidthCols = COLS[breakpoint]
+    const maxWidthCols = COLS[breakpoint] || 1
 
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
 
@@ -405,7 +405,10 @@ const EnturDashboard = (): JSX.Element | null => {
                                             (p) => p.id == item.id,
                                         )
 
-                                    return stopIndex >= 0 ? (
+                                    const stopPlace =
+                                        stopPlacesWithDepartures[stopIndex]
+
+                                    return stopPlace ? (
                                         <div key={item.id}>
                                             <DepartureTile
                                                 walkInfo={getWalkInfoForStopPlace(
@@ -413,9 +416,7 @@ const EnturDashboard = (): JSX.Element | null => {
                                                     item.id,
                                                 )}
                                                 stopPlaceWithDepartures={
-                                                    stopPlacesWithDepartures[
-                                                        stopIndex
-                                                    ]
+                                                    stopPlace
                                                 }
                                             />
                                         </div>

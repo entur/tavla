@@ -28,7 +28,7 @@ async function getStopPlace(coordinates: {
         size: 1,
         radius: 1000,
     })
-    return convertFeatureToLocation(result[0]).name
+    return result[0] && convertFeatureToLocation(result[0]).name
 }
 
 function mapFeaturesToItems(features: Feature[]): Item[] {

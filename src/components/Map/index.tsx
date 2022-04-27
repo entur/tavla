@@ -240,6 +240,8 @@ const Map = ({
                 const [slongitude, slatitude] =
                     scooterCluster.geometry.coordinates
 
+                if (!slongitude || !slatitude) return null
+
                 const { cluster: isCluster } = scooterCluster.properties
                 let pointCount = 0
 
@@ -305,6 +307,8 @@ const Map = ({
             stationClusters.map((stationCluster) => {
                 const [slongitude, slatitude] =
                     stationCluster.geometry.coordinates
+
+                if (!slongitude || !slatitude) return null
 
                 const { cluster: isCluster } = stationCluster.properties
 
