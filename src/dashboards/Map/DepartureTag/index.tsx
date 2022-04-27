@@ -1,5 +1,8 @@
 import React from 'react'
 
+import { format, isToday } from 'date-fns'
+import { nb } from 'date-fns/locale'
+
 import { colors } from '@entur/tokens'
 import { Heading4 } from '@entur/typography'
 
@@ -46,12 +49,21 @@ const DepartureTag = (props: Props): JSX.Element => (
                     <div className="departure-row__departure">
                         {departure.time}
                     </div>
+                    {isToday(departure.departureTime) ? null : (
+                        <Date date={departure.departureTime} />
+                    )}
                 </div>
             ))}
         </div>
         <div className="divider"></div>
     </div>
 )
+
+function Date({ date }: { date: Date }) {
+    const formatedDate = format(date, 'd. MMMM', { locale: nb })
+
+    return <div className="departure-row__date">{`(${formatedDate})`}</div>
+}
 
 interface Props {
     stopPlace: StopPlaceWithDepartures

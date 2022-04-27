@@ -1,5 +1,9 @@
 import React from 'react'
 
+import { format, isSameDay, isToday } from 'date-fns'
+
+import { nb } from 'date-fns/locale'
+
 import { Heading3 } from '@entur/typography'
 
 import { TileSubLabel } from '../../../../types'
@@ -50,15 +54,36 @@ export function TileRow({
                     </div>
                 ) : null}
                 <div className="tilerow__sublabels">
-                    {subLabels.map((subLabel, index) => (
-                        <div className="tilerow__sublabel" key={index}>
-                            {subLabel.time}
-                            <SubLabelIcon
-                                hideSituations={hideSituations}
-                                subLabel={subLabel}
-                            />
-                        </div>
-                    ))}
+                    {subLabels.map((subLabel, index) => {
+                        const nextLabel: TileSubLabel | undefined =
+                            subLabels[index + 1]
+
+                        const isLastDepartureOfDay =
+                            nextLabel &&
+                            !isSameDay(
+                                nextLabel.departureTime,
+                                subLabel.departureTime,
+                            )
+
+                        const showDate =
+                            index === 0 && !isToday(subLabel.departureTime)
+
+                        return (
+                            <div className="tilerow__sublabel" key={index}>
+                                {subLabel.time}
+
+                                <SubLabelIcon
+                                    hideSituations={hideSituations}
+                                    subLabel={subLabel}
+                                />
+                                {isLastDepartureOfDay && <Divider />}
+
+                                {showDate && (
+                                    <Date date={subLabel.departureTime} />
+                                )}
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </div>
@@ -93,6 +118,16 @@ function SubLabelIcon({
             </div>
         )
     return null
+}
+
+function Divider() {
+    return <div className="tilerow__sublabel__divider"></div>
+}
+
+function Date({ date }: { date: Date }) {
+    const formatedDate = format(date, 'd. MMMM', { locale: nb })
+
+    return <div className="tilerow__sublabel__date">{`(${formatedDate})`}</div>
 }
 
 interface Props {

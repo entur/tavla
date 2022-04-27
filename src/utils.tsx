@@ -211,12 +211,14 @@ export function createTileSubLabel({
     situation,
     hasCancellation,
     time,
+    departureTime,
 }: LineData): TileSubLabel {
     return {
         situation,
         hasSituation: Boolean(situation),
         hasCancellation,
         time,
+        departureTime,
     }
 }
 

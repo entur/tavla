@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { Heading3 } from '@entur/typography'
 
@@ -10,6 +10,7 @@ import { IconColorType, LineData, TileSubLabel } from '../../../../types'
 
 import SituationModal from '../../../../components/SituationModal'
 import { createTileSubLabel, getIcon, isMobileWeb } from '../../../../utils'
+import { DateRow } from '../../../../components/DateRow'
 
 import './styles.scss'
 
@@ -23,42 +24,50 @@ export function TileRows({
 }: Props): JSX.Element {
     return (
         <TableBody>
-            {visibleDepartures.map((data) => {
+            {visibleDepartures.map((data, index) => {
                 const icon = getIcon(data.type, iconColorType, data.subType)
                 const subLabel = createTileSubLabel(data)
+                const previousRow = visibleDepartures[index - 1]
+
                 return (
-                    <TableRow key={data.id} className="tilerows">
-                        <DataCell>
-                            <div className="tilerows__icon">{icon}</div>
-                        </DataCell>
-                        <DataCell>
-                            <Heading3 className="tilerows__label">
-                                {data.route}
-                            </Heading3>
-                        </DataCell>
-                        <DataCell>
-                            <div className="tilerows__sublabel">
-                                {subLabel.time}
-                            </div>
-                        </DataCell>
-                        {!hideTracks ? (
+                    <Fragment key={data.id}>
+                        <DateRow
+                            currentRow={data}
+                            previousRow={previousRow}
+                        ></DateRow>
+                        <TableRow className="tilerows">
+                            <DataCell>
+                                <div className="tilerows__icon">{icon}</div>
+                            </DataCell>
+                            <DataCell>
+                                <Heading3 as="div" className="tilerows__label">
+                                    {data.route}
+                                </Heading3>
+                            </DataCell>
                             <DataCell>
                                 <div className="tilerows__sublabel">
-                                    {data.quay?.publicCode || '-'}
+                                    {subLabel.time}
                                 </div>
                             </DataCell>
-                        ) : null}
-                        {!hideSituations ? (
-                            <DataCell>
-                                <div className="tilerows__sublabel">
-                                    <SubLabelIcon
-                                        hideSituations={hideSituations}
-                                        subLabel={subLabel}
-                                    />
-                                </div>
-                            </DataCell>
-                        ) : null}
-                    </TableRow>
+                            {!hideTracks ? (
+                                <DataCell>
+                                    <div className="tilerows__sublabel">
+                                        {data.quay?.publicCode || '-'}
+                                    </div>
+                                </DataCell>
+                            ) : null}
+                            {!hideSituations ? (
+                                <DataCell>
+                                    <div className="tilerows__sublabel">
+                                        <SubLabelIcon
+                                            hideSituations={hideSituations}
+                                            subLabel={subLabel}
+                                        />
+                                    </div>
+                                </DataCell>
+                            ) : null}
+                        </TableRow>
+                    </Fragment>
                 )
             })}
         </TableBody>
