@@ -9,6 +9,7 @@ export interface LineData {
     type: TransportMode
     subType?: TransportSubmode
     time: string
+    departureTime: Date
     route: string
     expectedDepartureTime: string
     situation?: string
@@ -48,6 +49,7 @@ export interface NearestPlaces {
 export interface TileSubLabel {
     situation?: string
     time: string
+    departureTime: Date
     hasCancellation?: boolean
     hasSituation?: boolean
 }

@@ -167,6 +167,7 @@ function transformDepartureToLineData(
         type: transportMode,
         subType,
         time: formatDeparture(minDiff, departureTime),
+        departureTime,
         route,
         situation: situations[0]?.summary?.[0]?.value,
         hasCancellation: cancellation,

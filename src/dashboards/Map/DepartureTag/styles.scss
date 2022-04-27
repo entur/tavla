@@ -39,6 +39,11 @@
     margin-bottom: 1.5rem;
     padding-top: 0.5rem;
 
+    &__date {
+        color: $colors-greys-grey30;
+        margin-left: 0.5rem;
+    }
+
     &__direction {
         flex: 1;
         display: flex;

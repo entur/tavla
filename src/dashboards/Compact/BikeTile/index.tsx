@@ -76,12 +76,14 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                                 station.numBikesAvailable === 1
                                     ? '1 sykkel'
                                     : `${station.numBikesAvailable} sykler`,
+                            departureTime: new Date(),
                         },
                         {
                             time:
                                 station.numDocksAvailable === 1
                                     ? '1 lås'
                                     : `${station.numDocksAvailable} låser`,
+                            departureTime: new Date(),
                         },
                     ]}
                 />
