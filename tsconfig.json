@@ -13,8 +13,8 @@
         "typeRoots": ["./types", "node_modules/@types"],
         "strict": true,
         "downlevelIteration": true,
-        "skipLibCheck": true,
-//        "noUncheckedIndexedAccess": true
+        "skipLibCheck": true
+        // "noUncheckedIndexedAccess": true
     },
     "include": ["types", "./src/**/*", "sw.js"],
     "exclude": ["node_modules"]
