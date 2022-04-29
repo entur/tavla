@@ -25,6 +25,7 @@ const GET_STOP_PLACES_WITH_DEPARTURES_QUERY = gql`
             transportSubmode
             estimatedCalls(
                 numberOfDepartures: 200
+                timeRange: 172800
                 numberOfDeparturesPerLineAndDestinationDisplay: 20
                 arrivalDeparture: departures
             ) {
