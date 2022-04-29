@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
-import { format, isSameDay, isToday } from 'date-fns'
+import { format, isSameDay, isToday, formatISO } from 'date-fns'
 
 import { nb } from 'date-fns/locale'
 
@@ -68,20 +68,26 @@ export function TileRow({
                         const showDate =
                             index === 0 && !isToday(subLabel.departureTime)
 
+                        const isoDate = formatISO(subLabel.departureTime)
+
                         return (
-                            <div className="tilerow__sublabel" key={index}>
-                                {subLabel.time}
+                            <Fragment key={index}>
+                                <div className="tilerow__sublabel">
+                                    <time dateTime={isoDate}>
+                                        {subLabel.time}
+                                    </time>
 
-                                <SubLabelIcon
-                                    hideSituations={hideSituations}
-                                    subLabel={subLabel}
-                                />
+                                    <SubLabelIcon
+                                        hideSituations={hideSituations}
+                                        subLabel={subLabel}
+                                    />
+
+                                    {showDate && (
+                                        <Date date={subLabel.departureTime} />
+                                    )}
+                                </div>
                                 {isLastDepartureOfDay && <Divider />}
-
-                                {showDate && (
-                                    <Date date={subLabel.departureTime} />
-                                )}
-                            </div>
+                            </Fragment>
                         )
                     })}
                 </div>
@@ -121,7 +127,7 @@ function SubLabelIcon({
 }
 
 function Divider() {
-    return <div className="tilerow__sublabel__divider"></div>
+    return <div role="separator" className="tilerow__sublabel__divider"></div>
 }
 
 function Date({ date }: { date: Date }) {

@@ -55,7 +55,12 @@
         align-items: center;
         display: flex;
         font-weight: 400;
-        min-width: 6.5rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+
+        &:first-child {
+            padding-left: 0;
+        }
 
         &__cancellation {
             align-items: center;
@@ -75,9 +80,6 @@
 
         &__divider {
             border-left: 2px solid var(--tavla-label-font-color);
-            height: 100%;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         &__situation {
