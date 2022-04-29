@@ -257,20 +257,10 @@ export const getBoardsForUserOnSnapshot = (
     return onSnapshot(boardsQuery, observer)
 }
 
-// The IN query does not support more than 10 documents
-export const getBoardsByIdsOnSnapshot = (
+export const getBoardsByIds = (
     boardIds: string[],
-    observer: {
-        next: (querySnapshot: QuerySnapshot) => void
-        error: () => void
-    },
-): (() => void) => {
-    const boardsQuery = query(
-        collection(db, SETTINGS_COLLECTION),
-        where(documentId(), 'in', boardIds),
-    )
-    return onSnapshot(boardsQuery, observer)
-}
+): Promise<Array<DocumentSnapshot<DocumentData>>> =>
+    Promise.all(boardIds.map((id) => getDoc(doc(db, SETTINGS_COLLECTION, id))))
 
 export const getInvitesForUserOnSnapshot = (
     userEmail: string | null,

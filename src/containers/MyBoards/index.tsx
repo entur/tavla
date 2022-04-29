@@ -9,7 +9,7 @@ import { ThemeDashboardPreview } from '../../assets/icons/ThemeDashboardPreview'
 import {
     getBoardsForUserOnSnapshot,
     getInvitesForUserOnSnapshot,
-    getBoardsByIdsOnSnapshot,
+    getBoardsByIds,
 } from '../../services/firebase'
 import { useUser } from '../../auth'
 import { Board, SharedBoard, Theme } from '../../types'
@@ -103,47 +103,49 @@ const MyBoards = (): JSX.Element | null => {
             return
         }
         const boardInviteIds = invites.map((invite) => invite.id)
+        getBoardsByIds(boardInviteIds)
+            .then((querySnapshots) => {
+                const filteredSnapshots = querySnapshots.filter(
+                    (snapshots) =>
+                        !snapshots.metadata.hasPendingWrites &&
+                        snapshots.data(),
+                )
 
-        const unsubscribeBoardsFromId = getBoardsByIdsOnSnapshot(
-            boardInviteIds,
-            {
-                next: (querySnapshot) => {
-                    if (querySnapshot.metadata.hasPendingWrites) return
-                    const boardData = querySnapshot.docs.map(
-                        (board) =>
-                            ({
-                                id: board.id,
-                                boardName: board.data().boardName,
-                                sharedBy: '',
-                                theme: board.data().theme,
-                                dashboard: board.data().dashboard,
-                                isScheduledForDelete:
-                                    board.data().isScheduledForDelete,
-                            } as SharedBoard),
-                    )
-                    const updatedSharedBoards: SharedBoard[] = boardData.map(
-                        (board) => {
-                            const matchingInviteData = invites.find(
-                                (invite) => invite.id === board.id,
-                            )
-                            return matchingInviteData
-                                ? {
-                                      ...board,
-                                      sharedBy: matchingInviteData.sharedBy,
-                                      timeIssued: matchingInviteData.timeIssued,
-                                  }
-                                : { ...board, sharedBy: 'En ukjent' }
-                        },
-                    )
-                    setSharedBoards(filterSharedBoards(updatedSharedBoards))
-                },
-                error: () => setSharedBoards([]),
-            },
-        )
+                const boardData: SharedBoard[] = filteredSnapshots.map(
+                    (boardSnap) => {
+                        const data = boardSnap.data()
 
-        return () => {
-            unsubscribeBoardsFromId()
-        }
+                        return {
+                            id: boardSnap.id,
+                            boardName: data ? data.boardName : '',
+                            sharedBy: '',
+                            theme: data ? data.theme : '',
+                            dashboard: data ? data.dashboard : '',
+                            isScheduledForDelete: data
+                                ? data.isScheduledForDelete
+                                : '',
+                        } as SharedBoard
+                    },
+                )
+
+                const updatedSharedBoards: SharedBoard[] = boardData.map(
+                    (board) => {
+                        const matchingInviteData = invites.find(
+                            (invite) => invite.id === board?.id,
+                        )
+                        return matchingInviteData
+                            ? {
+                                  ...board,
+                                  sharedBy: matchingInviteData.sharedBy,
+                                  timeIssued: matchingInviteData.timeIssued,
+                              }
+                            : { ...board, sharedBy: 'En ukjent' }
+                    },
+                )
+
+                setSharedBoards(filterSharedBoards(updatedSharedBoards))
+            })
+            .catch(() => setSharedBoards([]))
     }, [invites])
 
     if (boards === undefined || user === undefined || invites === undefined) {
