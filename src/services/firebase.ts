@@ -14,7 +14,6 @@ import {
     DocumentSnapshot,
     getDocs,
     collectionGroup,
-    documentId,
 } from 'firebase/firestore'
 import { httpsCallable } from 'firebase/functions'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
