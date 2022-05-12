@@ -342,7 +342,13 @@ const EditTab = (): JSX.Element => {
                 h: 1.55 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
             },
             { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.4 },
-            { i: 'mapPanel', x: 3, y: 5, w: 1.5, h: 3.2 },
+            {
+                i: 'mapPanel',
+                x: 3,
+                y: 5,
+                w: 1.5,
+                h: settings?.showMap ? 3.2 : 0.9,
+            },
             { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 1.5 },
             {
                 i: 'realtimeDataPanel',
@@ -387,7 +393,7 @@ const EditTab = (): JSX.Element => {
                 h: 1.55 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
             },
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
-            { i: 'mapPanel', x: 0, y: 7, w: 2, h: 3 },
+            { i: 'mapPanel', x: 0, y: 7, w: 2, h: settings?.showMap ? 3 : 0.8 },
             { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.3 },
             {
                 i: 'realtimeDataPanel',
@@ -432,7 +438,13 @@ const EditTab = (): JSX.Element => {
                 h: 1.4 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
-            { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
+            {
+                i: 'mapPanel',
+                x: 0,
+                y: 9.5,
+                w: 1,
+                h: settings?.showMap ? 3 : 0.8,
+            },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.3 },
             {
                 i: 'realtimeDataPanel',
@@ -477,7 +489,13 @@ const EditTab = (): JSX.Element => {
                 h: 1.4 + tileHeight(sortedBikeRentalStations.length, 0.265, 0),
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
-            { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
+            {
+                i: 'mapPanel',
+                x: 0,
+                y: 9.5,
+                w: 1,
+                h: settings?.showMap ? 3 : 0.8,
+            },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
             {
                 i: 'realtimeDataPanel',
@@ -522,7 +540,13 @@ const EditTab = (): JSX.Element => {
                 h: 1.4 + tileHeight(sortedBikeRentalStations.length, 0.265, 0),
             },
             { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
-            { i: 'mapPanel', x: 0, y: 9.5, w: 1, h: 3 },
+            {
+                i: 'mapPanel',
+                x: 0,
+                y: 9.5,
+                w: 1,
+                h: settings?.showMap ? 3 : 0.8,
+            },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 2 },
             {
                 i: 'realtimeDataPanel',
@@ -696,11 +720,13 @@ const EditTab = (): JSX.Element => {
                             size="large"
                         />
                     </div>
-                    <ZoomEditor
-                        zoom={zoom}
-                        onZoomUpdated={setZoom}
-                        scooters={scooters}
-                    />
+                    {settings?.showMap && (
+                        <ZoomEditor
+                            zoom={zoom}
+                            onZoomUpdated={setZoom}
+                            scooters={scooters}
+                        />
+                    )}
                 </div>
                 <div key="weatherPanel" className="edit-tab__tile-weather">
                     <div className="edit-tab__header">
