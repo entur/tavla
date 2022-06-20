@@ -80,18 +80,6 @@ async function populateSecretVars(vars, environment) {
 }
 
 async function populate(env = 'staging', version) {
-    //    const environment = typeof env === 'string' ? env : 'dev'
-
-    // if (!SUPPORTED_ENVIRONMENTS.includes(environment)) {
-    //     console.error(
-    //         `\n\nEnviroment ${environment} is not supported. Use yarn start [${SUPPORTED_ENVIRONMENTS.join(
-    //             '|',
-    //         )}]\n`,
-    //     )
-    //     process.exit(1)
-    // }
-    console.log('Environment is ', env)
-
     console.log(`Loading environment configuration for ${env}\n`)
     const localVars = parse(join(process.cwd(), '.env.local'))
     const environmentVars = parse(join(__dirname, `./.env.${env}`))
