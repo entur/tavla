@@ -75,10 +75,13 @@ workflows:
     build-and-deploy:
         jobs:
             - build
-            - deploy-staging:
+            - staging-approval:
                   requires:
                       - build
                   type: approval
+            - deploy-staging:
+                  requires:
+                      - staging-approval
             - prod-approval:
                   requires:
                       - deploy-staging
