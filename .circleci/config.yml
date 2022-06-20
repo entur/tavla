@@ -78,7 +78,7 @@ workflows:
             - deploy-staging:
                   requires:
                       - build
-                   type: approval
+                  type: approval
             - prod-approval:
                   requires:
                       - deploy-staging
