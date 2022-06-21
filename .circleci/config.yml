@@ -49,6 +49,7 @@ jobs:
         working_directory: ~/Tavla
 
         steps:
+            - setup-service-accounts
             - checkout
             - add_ssh_keys: *ssh-fingerprint
             - run: npm ci
@@ -58,7 +59,9 @@ jobs:
                   command: npm ci
             - run:
                   name: Deploy web
-                  command: npm run deploy:prod --token=$FIREBASE_TOKEN --non-interactive
+                  command:
+                      GOOGLE_APPLICATION_CREDENTIALS="/tmp/serviceaccount.prod.json"
+                      npm run deploy:prod
             - slack/status: *slack-status-prod
     deploy-staging:
         docker:
@@ -77,8 +80,7 @@ jobs:
                   command:
                       GOOGLE_APPLICATION_CREDENTIALS="/tmp/serviceaccount.staging.json"
                       npm run deploy:staging
-                      #npm run deploy:staging --token=$FIREBASE_TOKEN --non-interactive
-            #- slack/status: *slack-status-staging
+            - slack/status: *slack-status-staging
 workflows:
     version: 2
     build-and-deploy:
