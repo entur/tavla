@@ -23,8 +23,8 @@ aliases:
       failure_message: 'Det skjedde en feil ved deploy av Tavla til prod😔'
       include_job_number_field: false
       include_project_field: false
-commands: 
-        setup-service-accounts:
+commands:
+    setup-service-accounts:
         steps:
             - run: echo $FIREBASE_DEPLOY_CREDENTIALS_STAGING > /tmp/serviceaccount.staging.json
             - run: echo $FIREBASE_DEPLOY_CREDENTIALS_PROD > /tmp/serviceaccount.prod.json
@@ -71,7 +71,8 @@ jobs:
             - add_ssh_keys: *ssh-fingerprint
             - run: npm ci
             - run: *install-cf
-                   - setup-service-accounts
+            - run:
+                  - setup-service-accounts
             - run:
                   name: Deploy web staging
                   command:
