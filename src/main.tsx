@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client'
 import 'react-app-polyfill/stable'
 
 import { init } from '@sentry/react'
+import splitbee from '@splitbee/web'
 
 import './main.scss'
 import App from './containers/App'
@@ -13,6 +14,13 @@ if (process.env.SENTRY_DSN) {
     init({
         dsn: process.env.SENTRY_DSN,
         release: process.env.VERSION,
+    })
+}
+
+if (process.env.SPLITBEE_TOKEN) {
+    splitbee.init({
+        token: process.env.SPLITBEE_TOKEN,
+        disableCookie: true,
     })
 }
 

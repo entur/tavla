@@ -23,6 +23,11 @@ aliases:
       failure_message: 'Det skjedde en feil ved deploy av Tavla til prod😔'
       include_job_number_field: false
       include_project_field: false
+commands:
+    setup-service-accounts:
+        steps:
+            - run: echo $FIREBASE_DEPLOY_CREDENTIALS_STAGING > /tmp/serviceaccount.staging.json
+            - run: echo $FIREBASE_DEPLOY_CREDENTIALS_PROD > /tmp/serviceaccount.prod.json
 jobs:
     build:
         docker:
@@ -33,7 +38,7 @@ jobs:
         steps:
             - checkout
             - add_ssh_keys: *ssh-fingerprint
-            - run: npm ci
+            - run: npm ci --verbose
             - run: npm test
             - run: npm run lint
 
@@ -44,6 +49,7 @@ jobs:
         working_directory: ~/Tavla
 
         steps:
+            - setup-service-accounts
             - checkout
             - add_ssh_keys: *ssh-fingerprint
             - run: npm ci
@@ -53,7 +59,9 @@ jobs:
                   command: npm ci
             - run:
                   name: Deploy web
-                  command: npm run deploy:prod --token=$FIREBASE_TOKEN --non-interactive
+                  command:
+                      GOOGLE_APPLICATION_CREDENTIALS="/tmp/serviceaccount.prod.json"
+                      npm run deploy:prod
             - slack/status: *slack-status-prod
     deploy-staging:
         docker:
@@ -62,23 +70,29 @@ jobs:
         working_directory: ~/Tavla
 
         steps:
+            - setup-service-accounts
             - checkout
             - add_ssh_keys: *ssh-fingerprint
             - run: npm ci
             - run: *install-cf
             - run:
                   name: Deploy web staging
-                  command: npm run deploy:staging --token=$FIREBASE_TOKEN --non-interactive
+                  command:
+                      GOOGLE_APPLICATION_CREDENTIALS="/tmp/serviceaccount.staging.json"
+                      npm run deploy:staging
             - slack/status: *slack-status-staging
 workflows:
     version: 2
     build-and-deploy:
         jobs:
             - build
-            - deploy-staging:
-                  filters: *filter-only-master
+            - staging-approval:
                   requires:
                       - build
+                  type: approval
+            - deploy-staging:
+                  requires:
+                      - staging-approval
             - prod-approval:
                   requires:
                       - deploy-staging

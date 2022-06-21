@@ -21,11 +21,7 @@ process.env.VERSION = execSync('git rev-parse --short HEAD', {
     encoding: 'utf8',
 }).trim()
 
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
-
-const smp = new SpeedMeasurePlugin()
-
-module.exports = smp.wrap((env, args) => ({
+module.exports = async (env, args) => ({
     mode: args.mode === 'production' ? 'production' : 'development',
     entry: './src/main.tsx',
     devtool: args.mode === 'production' ? false : 'inline-source-map',
@@ -126,4 +122,4 @@ module.exports = smp.wrap((env, args) => ({
             },
         },
     },
-}))
+})
