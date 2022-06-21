@@ -33,7 +33,7 @@ jobs:
         steps:
             - checkout
             - add_ssh_keys: *ssh-fingerprint
-            - run: npm ci
+            - run: npm ci --verbose
             - run: npm test
             - run: npm run lint
 
