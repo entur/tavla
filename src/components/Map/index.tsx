@@ -71,7 +71,7 @@ const Map = ({
     } = settings || {}
     const { uniqueLines } = useStopPlacesWithLines()
 
-    const debouncedViewport = useDebounce(viewport, 200)
+    const debouncedViewport = useDebounce(viewport, 2000)
     const mapRef = useRef<MapRef>(null)
     const [filter, setFilter] = useState<Filter>({})
     const { realtimeVehicles } = useRealtimeVehicleData(filter)
