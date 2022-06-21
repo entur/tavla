@@ -23,7 +23,7 @@ import {
 
 import { Filter } from '../../services/realtimeVehicles/types/filter'
 
-import { getDocumentId, getIconColor, useDebounce } from '../../utils'
+import { getIconColor, useDebounce } from '../../utils'
 import { useSettingsContext } from '../../settings'
 
 import { logEvent } from '../../logger'
@@ -337,9 +337,7 @@ const Map = ({
         [stationClusters],
     )
 
-    logEvent(Events.MAP_RENDERED, {
-        id: getDocumentId(),
-    })
+    logEvent(Events.MAP_RENDERED)
 
     return (
         <InteractiveMap
