@@ -33,7 +33,6 @@ async function getSecret(key, environment) {
         })
 
         version = secretVersion
-
         console.log('cersion ', version)
     } catch (err) {
         console.error(err)
