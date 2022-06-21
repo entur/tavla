@@ -23,8 +23,11 @@ import {
 
 import { Filter } from '../../services/realtimeVehicles/types/filter'
 
-import { getIconColor, useDebounce } from '../../utils'
+import { getDocumentId, getIconColor, useDebounce } from '../../utils'
 import { useSettingsContext } from '../../settings'
+
+import { logEvent } from '../../logger'
+import { Events } from '../../logger/events'
 
 import useRealtimeVehicleData from '../../logic/useRealtimeVehicleData'
 import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
@@ -333,6 +336,10 @@ const Map = ({
             }),
         [stationClusters],
     )
+
+    logEvent(Events.MAP_RENDERED, {
+        id: getDocumentId(),
+    })
 
     return (
         <InteractiveMap
