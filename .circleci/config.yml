@@ -67,10 +67,8 @@ jobs:
         working_directory: ~/Tavla
 
         steps:
+            - setup-service-accounts
             - checkout
-            - run:
-                  name: Set up service accounts
-                  command: setup-service-accounts
             - add_ssh_keys: *ssh-fingerprint
             - run: npm ci
             - run: *install-cf
