@@ -6,7 +6,7 @@ import { FormFactor, Operator, Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import service from '../service'
 import { useSettingsContext } from '../settings'
-import { REFRESH_INTERVAL } from '../constants'
+import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../constants'
 
 import { createAbortController } from '../utils'
 
@@ -29,7 +29,11 @@ async function fetchVehicles(
             lon: Number(coordinates.longitude),
             range: distance,
             count: 50,
-            operators: operators.map((operator) => operator.id),
+            operators: operators
+                .map((operator) => operator.id)
+                .filter((o) =>
+                    Object.values(ALL_ACTIVE_OPERATOR_IDS).includes(o),
+                ),
             formFactors: formFactor ? [formFactor] : undefined,
         },
         { signal },
