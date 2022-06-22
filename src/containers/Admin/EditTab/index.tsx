@@ -8,13 +8,7 @@ import React, {
 
 import { WidthProvider, Responsive } from 'react-grid-layout'
 
-import {
-    Heading2,
-    Heading3,
-    Heading4,
-    Paragraph,
-    SubParagraph,
-} from '@entur/typography'
+import { Heading2, Heading3, Heading4, SubParagraph } from '@entur/typography'
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
@@ -52,7 +46,6 @@ import BikePanelSearch from './BikeSearch'
 import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
 import ScooterPanel from './ScooterPanel'
-import RealtimeDataPanel from './RealtimeDataPanel'
 import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
 import WeatherPanel from './WeatherPanel'
@@ -116,8 +109,6 @@ const EditTab = (): JSX.Element => {
         newStops = [],
         newStations = [],
         hiddenModes,
-        hideRealtimeData,
-        hiddenRealtimeDataLineRefs = [],
         showMap = false,
         showWeather = false,
         showIcon = true,
@@ -284,10 +275,6 @@ const EditTab = (): JSX.Element => {
         [setSettings, hiddenModes],
     )
 
-    const toggleRealtimeData = useCallback(
-        () => setSettings({ hideRealtimeData: !hideRealtimeData }),
-        [setSettings, hideRealtimeData],
-    )
     const [showTooltip, setShowTooltip] = useState<boolean>(false)
 
     useEffect(() => {
@@ -655,28 +642,6 @@ const EditTab = (): JSX.Element => {
                         </Heading3>
                     </div>
                     <ToggleDetailsPanel />
-                </div>
-
-                <div key="realtimeDataPanel" className="edit-tab__tile">
-                    <div className="edit-tab__header">
-                        <Heading2>Sanntidsposisjoner</Heading2>
-                        <Switch
-                            onChange={() => toggleRealtimeData()}
-                            checked={!hideRealtimeData}
-                            size="large"
-                        ></Switch>
-                    </div>
-                    {!hiddenModes?.includes('kollektiv') ? (
-                        <RealtimeDataPanel
-                            realtimeLines={realtimeLines}
-                            hiddenLines={hiddenRealtimeDataLineRefs}
-                        />
-                    ) : (
-                        <Paragraph>
-                            Kollektivdata er skrudd av. Skru det på ved å trykke
-                            på knappen øverst til høyre i kollektiv-ruten.
-                        </Paragraph>
-                    )}
                 </div>
 
                 <div key="bikePanel" className="edit-tab__tile">

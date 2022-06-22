@@ -13,7 +13,7 @@ export const DEFAULT_ZOOM = 15.5
 //Realtime data
 export const INACTIVE_VEHICLE_IN_SECONDS = 60
 export const EXPIRE_VEHICLE_IN_SECONDS = 600
-export const SWEEP_INTERVAL_MS = 1000
+export const SWEEP_INTERVAL_MS = 10000
 export const BUFFER_SIZE = 20
-export const BUFFER_TIME = 200
+export const BUFFER_TIME = 2000
 export const DEFAULT_FETCH_POLICY = 'no-cache'

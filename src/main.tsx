@@ -7,6 +7,8 @@ import 'react-app-polyfill/stable'
 import { init } from '@sentry/react'
 import splitbee from '@splitbee/web'
 
+import './wdyr'
+
 import './main.scss'
 import App from './containers/App'
 
