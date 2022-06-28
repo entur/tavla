@@ -59,6 +59,9 @@ const DashboardPickerTab = (): JSX.Element => {
                     callback={(val): void => updateChoice(val)}
                     className="display-wrapper__display-card"
                 />
+                {/* 
+                    Disabling Map-component until we find a better way of handling Mapbox's new pricing policy for map views
+
                 <RadioCard
                     title="Kart"
                     description="Avgangene vises i visualisert i et kart. Viser ikke Sparkesykler, spor/platform eller avvik."
@@ -67,7 +70,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     preview={dashboardImages.Map}
                     callback={(val): void => updateChoice(val)}
                     className="display-wrapper__display-card"
-                />
+                /> */}
                 <RadioCard
                     title="Holdeplass"
                     description="Her får avgangene full bredde med god plass til å vise avviksmeldinger. Egner seg godt for når man er interessert i ett eller få stopp."

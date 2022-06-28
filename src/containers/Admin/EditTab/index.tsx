@@ -657,7 +657,7 @@ const EditTab = (): JSX.Element => {
                     <ToggleDetailsPanel />
                 </div>
 
-                <div key="realtimeDataPanel" className="edit-tab__tile">
+                {/* <div key="realtimeDataPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Sanntidsposisjoner</Heading2>
                         <Switch
@@ -677,7 +677,7 @@ const EditTab = (): JSX.Element => {
                             på knappen øverst til høyre i kollektiv-ruten.
                         </Paragraph>
                     )}
-                </div>
+                </div> 
 
                 <div key="bikePanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
@@ -694,7 +694,7 @@ const EditTab = (): JSX.Element => {
                     />
                     <BikePanel stations={sortedBikeRentalStations} />
                 </div>
-                <div key="scooterPanel" className="edit-tab__tile">
+                 <div key="scooterPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Sparkesykkel</Heading2>
                         <Switch
@@ -704,7 +704,7 @@ const EditTab = (): JSX.Element => {
                         />
                     </div>
                     <ScooterPanel />
-                </div>
+                </div> 
                 <div key="mapPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kart</Heading2>
@@ -728,6 +728,7 @@ const EditTab = (): JSX.Element => {
                         />
                     )}
                 </div>
+                */}
                 <div key="weatherPanel" className="edit-tab__tile-weather">
                     <div className="edit-tab__header">
                         <Heading2>

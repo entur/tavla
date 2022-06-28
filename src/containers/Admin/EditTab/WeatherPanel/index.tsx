@@ -74,7 +74,7 @@ function WeatherPanel(): JSX.Element {
                 <Label>Se været i området for den neste timen.</Label>
                 <br />
                 {weatherSettings.map((object) => (
-                    <div key={object.value} className="scooter-panel__buttons">
+                    <div key={object.value} className="weather-panel__buttons">
                         <FilterChip
                             value={object.value}
                             checked={object.checked}
