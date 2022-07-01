@@ -1,15 +1,21 @@
 import React, { useState, memo, useRef, useEffect, useMemo } from 'react'
 
-import { InteractiveMap, Marker } from 'react-map-gl'
-import type { MapRef } from 'react-map-gl'
+import ReactMapGL, { Marker, Source, Layer } from 'react-map-gl'
 
-import type { ClusterProperties } from 'supercluster'
+import type { MapRef, Point } from 'react-map-gl'
+
+import { GeoJsonProperties } from 'geojson'
+
+import type { ClusterProperties, PointFeature } from 'supercluster'
 import useSupercluster from 'use-supercluster'
 import polyline from 'google-polyline'
 
 import { TransportMode } from '@entur/sdk'
 
 import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
+
+import { colors } from '@entur/tokens'
+import { BicycleIcon, ParkIcon } from '@entur/icons'
 
 import PositionPin from '../../assets/icons/positionPin'
 
@@ -38,18 +44,17 @@ import RealtimeVehicleTag from './RealtimeVehicleTag'
 
 import './styles.scss'
 
-const Map = ({
+const MapComponent = ({
     stopPlaces,
     bikeRentalStations,
     scooters,
     walkTimes,
-    interactive,
     mapStyle,
     latitude,
     longitude,
     zoom,
 }: Props): JSX.Element => {
-    const [viewport, setViewPort] = useState<Viewport>({
+    const [viewport] = useState<Viewport>({
         latitude,
         longitude,
         width: 'auto',
@@ -59,104 +64,22 @@ const Map = ({
         minZoom: 13.5,
     })
 
-    const [settings] = useSettingsContext()
-    const {
-        permanentlyVisibleRoutesInMap,
-        hiddenRealtimeDataLineRefs,
-        showRoutesInMap,
-        hideRealtimeData,
-    } = settings || {}
-    const { uniqueLines } = useStopPlacesWithLines()
+    const [scootersList, setScootersList] = useState<Vehicle[] | undefined>([])
+    const [scooterPoints, setScooterPoints] = useState<any[] | undefined>([])
 
-    const debouncedViewport = useDebounce(viewport, 200)
-    const mapRef = useRef<MapRef>(null)
-    const [filter, setFilter] = useState<Filter>({})
-    const { realtimeVehicles } = useRealtimeVehicleData(filter)
-    const [bounds, setBounds] = useState<[number, number, number, number]>(
-        mapRef.current?.getMap()?.getBounds()?.toArray()?.flat() ||
-            ([0, 0, 0, 0] as [number, number, number, number]),
-    )
-
-    const [hoveredVehicle, setHoveredVehicle] = useState<
-        RealtimeVehicle | undefined
-    >(undefined)
-
-    const hoveredRoute = useMemo(() => {
-        if (
-            !hoveredVehicle ||
-            !hoveredVehicle.line.pointsOnLink ||
-            !showRoutesInMap
-        )
-            return null
-
-        const coords = polyline.decode(hoveredVehicle.line.pointsOnLink)
-
-        return (
-            <LineOverlay
-                routes={[
-                    {
-                        points: coords,
-                        color: getIconColor(
-                            hoveredVehicle.mode.toLowerCase() as TransportMode,
-                            IconColorType.DEFAULT,
-                        ),
-                    },
-                ]}
-            />
-        )
-    }, [hoveredVehicle, showRoutesInMap])
-
-    const permanentlyDrawnRoutes = useMemo(() => {
-        if (
-            !permanentlyVisibleRoutesInMap ||
-            !showRoutesInMap ||
-            hideRealtimeData
-        )
-            return null
-
-        const routesToDraw = permanentlyVisibleRoutesInMap
-            .filter(
-                ({ lineRef }: DrawableRoute) =>
-                    uniqueLines?.map(({ id }: Line) => id).includes(lineRef) &&
-                    !hiddenRealtimeDataLineRefs?.includes(lineRef),
-            )
-            .map(({ pointsOnLink, mode }: DrawableRoute) => ({
-                points: polyline.decode(pointsOnLink),
-                color: getIconColor(
-                    mode.toLowerCase() as TransportMode,
-                    IconColorType.DEFAULT,
-                ),
-            }))
-        return <LineOverlay routes={routesToDraw} />
-    }, [
-        permanentlyVisibleRoutesInMap,
-        uniqueLines,
-        hiddenRealtimeDataLineRefs,
-        showRoutesInMap,
-        hideRealtimeData,
-    ])
+    const [bikeRentalStationsList, setBikeRentalStationsList] = useState<
+        Station[] | undefined
+    >([])
+    const [bikeRentalStationsPoints, setBikeRentalStationsPoints] = useState<
+        any[] | undefined
+    >([])
 
     useEffect(() => {
-        const newBounds = (mapRef.current
-            ?.getMap()
-            ?.getBounds()
-            ?.toArray()
-            ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
+        if (JSON.stringify(scooters) === JSON.stringify(scootersList)) return
 
-        setBounds(newBounds)
-        setFilter((prevFilter: Filter) => ({
-            ...prevFilter,
-            boundingBox: {
-                minLat: newBounds[1],
-                minLon: newBounds[0],
-                maxLat: newBounds[3],
-                maxLon: newBounds[2],
-            },
-        }))
-    }, [mapRef, debouncedViewport])
+        setScootersList(scooters)
 
-    const scooterpoints = useMemo(
-        () =>
+        const mappedScooterPoints: GeoJSON.Feature[] | undefined =
             scooters?.map((scooter: Vehicle) => ({
                 type: 'Feature' as const,
                 properties: {
@@ -168,12 +91,20 @@ const Map = ({
                     type: 'Point' as const,
                     coordinates: [scooter.lon, scooter.lat],
                 },
-            })),
-        [scooters],
-    )
+            }))
+        setScooterPoints(mappedScooterPoints)
+    }, [scooters, scootersList])
 
-    const bikeRentalStationPoints = useMemo(
-        () =>
+    useEffect(() => {
+        if (
+            JSON.stringify(bikeRentalStations) ===
+            JSON.stringify(bikeRentalStationsList)
+        )
+            return
+
+        setBikeRentalStationsList(bikeRentalStations)
+
+        const mappedBikeRentalStationsPoints: GeoJSON.Feature[] | undefined =
             bikeRentalStations?.map((bikeRentalStation: Station) => ({
                 type: 'Feature' as const,
                 properties: {
@@ -186,196 +117,214 @@ const Map = ({
                     type: 'Point' as const,
                     coordinates: [bikeRentalStation.lon, bikeRentalStation.lat],
                 },
-            })),
-        [bikeRentalStations],
-    )
+            }))
 
-    const { clusters: scooterClusters } = useSupercluster({
-        points: scooterpoints || [],
-        bounds,
-        zoom: viewport.zoom,
-        options: { radius: 38, maxZoom: 18 },
-    })
+        setBikeRentalStationsPoints(mappedBikeRentalStationsPoints)
+    }, [bikeRentalStations, bikeRentalStationsList])
 
-    const { clusters: stationClusters } = useSupercluster({
-        points: bikeRentalStationPoints || [],
-        bounds,
-        zoom: viewport.zoom,
-        options: {
-            radius: 45,
-            maxZoom: 18,
-        },
-    })
-    const realtimeVehicleMarkers = useMemo(
-        () =>
-            realtimeVehicles
-                ? realtimeVehicles.map((vehicle) => (
-                      <Marker
-                          key={vehicle.vehicleRef}
-                          latitude={vehicle.location.latitude}
-                          longitude={vehicle.location.longitude}
-                          className="map__realtime-vehicle-marker"
-                          offsetTop={-25}
-                          offsetLeft={-10}
-                      >
-                          <RealtimeVehicleTag
-                              realtimeVehicle={vehicle}
-                              setHoveredVehicle={setHoveredVehicle}
-                              isHovered={
-                                  hoveredVehicle
-                                      ? hoveredVehicle.vehicleRef ===
-                                        vehicle.vehicleRef
-                                      : false
-                              }
-                          />
-                      </Marker>
-                  ))
-                : [],
-        [realtimeVehicles, hoveredVehicle],
-    )
+    const scooterClusterMarkers =
+        scooterPoints &&
+        scooterPoints.map((scooter) => {
+            const [slongitude, slatitude] = scooter.geometry.coordinates
 
-    const scooterClusterMarkers = useMemo(
-        () =>
-            scooterClusters.map((scooterCluster) => {
-                const [slongitude, slatitude] =
-                    scooterCluster.geometry.coordinates
+            if (!slongitude || !slatitude) return null
 
-                if (!slongitude || !slatitude) return null
+            const { scooterId: id, cluster: isCluster } = scooter.properties
 
-                const { cluster: isCluster } = scooterCluster.properties
-                let pointCount = 0
-
-                if (isCluster) {
-                    pointCount = (
-                        scooterCluster.properties as ClusterProperties
-                    ).point_count
-                }
-
-                return (
-                    <Marker
-                        key={
-                            pointCount
-                                ? `cluster-${scooterCluster.id}`
-                                : scooterCluster.properties.scooterId
-                        }
-                        latitude={slatitude}
-                        longitude={slongitude}
-                        className="map__scooter-marker"
-                    >
-                        <ScooterMarkerTag
-                            pointCount={pointCount}
-                            operator={
-                                pointCount
-                                    ? null
-                                    : scooterCluster.properties.scooterOperator
-                            }
-                        />
-                    </Marker>
-                )
-            }),
-        [scooterClusters],
-    )
-
-    const stopPlaceMarkers = useMemo(
-        () =>
-            stopPlaces?.map((stopPlace) => (
-                <Marker
-                    key={stopPlace.id}
-                    latitude={stopPlace.latitude ?? 0}
-                    longitude={stopPlace.longitude ?? 0}
-                    offsetLeft={-50}
-                    offsetTop={-10}
-                    className="map__stop-place-marker"
+            return (
+                <Source
+                    key={id}
+                    id={`${id}-source`}
+                    type="geojson"
+                    data={scooter}
                 >
-                    <StopPlaceTag
-                        stopPlace={stopPlace}
-                        walkTime={
-                            walkTimes?.find(
-                                (walkTime) =>
-                                    walkTime.stopId === stopPlace.id &&
-                                    walkTime.walkTime !== undefined,
-                            )?.walkTime ?? null
-                        }
+                    <Layer
+                        id={`${id}-layer`}
+                        type="circle"
+                        paint={{
+                            'circle-color': '#ffff00',
+                            'circle-radius': 8,
+                            'circle-stroke-color': '#333333',
+                            'circle-stroke-width': 2,
+                        }}
+                    />
+                </Source>
+            )
+            // return (
+            //     <Marker
+            //         key={
+            //             pointCount
+            //                 ? `cluster-${scooterCluster.id}`
+            //                 : scooterCluster.properties.scooterId
+            //         }
+            //         latitude={slatitude}
+            //         longitude={slongitude}
+            //         style={{ zIndex: 4 }}
+            //     >
+            //         <ScooterMarkerTag
+            //             pointCount={pointCount}
+            //             operator={
+            //                 pointCount
+            //                     ? null
+            //                     : scooterCluster.properties.scooterOperator
+            //             }
+            //         />
+            //     </Marker>
+            // )
+        })
+
+    const stopPlaceMarkers = stopPlaces?.map((stopPlace) => (
+        <Marker
+            key={stopPlace.id}
+            latitude={stopPlace.latitude ?? 0}
+            longitude={stopPlace.longitude ?? 0}
+            style={{ zIndex: 6 }}
+        >
+            <StopPlaceTag
+                stopPlace={stopPlace}
+                walkTime={
+                    walkTimes?.find(
+                        (walkTime) =>
+                            walkTime.stopId === stopPlace.id &&
+                            walkTime.walkTime !== undefined,
+                    )?.walkTime ?? null
+                }
+            />
+        </Marker>
+    ))
+
+    const stationClusterMarkers =
+        bikeRentalStationsPoints &&
+        bikeRentalStationsPoints.map((bikeRentalStation) => {
+            const [slongitude, slatitude] =
+                bikeRentalStation.geometry.coordinates
+
+            if (!slongitude || !slatitude) return null
+
+            const {
+                stationId: id,
+                cluster: isCluster,
+                bikesAvailable,
+                spacesAvailable,
+            } = bikeRentalStation.properties
+
+            //console.log(bikeRentalStation)
+
+            return (
+                <Source
+                    key={id}
+                    id={`${id}-source`}
+                    type="geojson"
+                    data={bikeRentalStation}
+                >
+                    <Layer
+                        id={`${id}-layer`}
+                        type="circle"
+                        paint={{
+                            'circle-color': '#ffff00',
+                            'circle-radius': 8,
+                            'circle-stroke-color': '#333333',
+                            'circle-stroke-width': 2,
+                        }}
+                    />
+                    <Layer
+                        id={`${id}-bikesAvailable`}
+                        type="symbol"
+                        layout={{
+                            'text-field': ['get', 'bikesAvailable'],
+                            'text-size': 14,
+                            'text-offset': [0, -1.5],
+                        }}
+                        paint={{
+                            'text-color': '#ffff00',
+                            'text-halo-color': '#333333',
+                            'text-halo-width': 1,
+                        }}
+                    />
+                    <Layer
+                        id={`${id}-spacesAvailable`}
+                        type="symbol"
+                        layout={{
+                            'text-field': ['get', 'spacesAvailable'],
+                            'text-size': 14,
+                            'text-offset': [2, -1.5],
+                        }}
+                        paint={{
+                            'text-color': '#ffff00',
+                            'text-halo-color': '#333333',
+                            'text-halo-width': 1,
+                        }}
+                    />
+
+                    {/* <BikeRentalStationTag
+                        bikes={bikeRentalStation.properties.bikesAvailable}
+                        spaces={bikeRentalStation.properties.spacesAvailable}
+                    /> */}
+                    {/* <div className="bicycle-tag">
+                        <div className="bicycle-tag__row">
+                            <div className="bicycle-tag__row__icon">
+                                <BicycleIcon
+                                    key="bike-tile-icon"
+                                    color={colors.brand.white}
+                                />
+                            </div>
+                            <div className="bicycle-tag__row__amount">
+                                {bikeRentalStation.properties.bikesAvailable}
+                            </div>
+                        </div>
+                        <div className="bicycle-tag__row">
+                            <div className="bicycle-tag__row__icon">
+                                <ParkIcon
+                                    key="space-tile-icon"
+                                    color={colors.brand.white}
+                                />
+                            </div>
+                            <div className="bicycle-tag__row__amount">
+                                {bikeRentalStation.properties.spacesAvailable}
+                            </div>
+                        </div>
+                    </div> */}
+                </Source>
+            )
+
+            /*  return (
+                <Marker
+                    key={
+                        isCluster
+                            ? bikeRentalStation.id
+                            : bikeRentalStation.properties.stationId
+                    }
+                    latitude={slatitude}
+                    longitude={slongitude}
+                    marker-size="large"
+                    style={{ zIndex: 5 }}
+                >
+                    <BikeRentalStationTag
+                        bikes={bikeRentalStation.properties.bikesAvailable}
+                        spaces={bikeRentalStation.properties.spacesAvailable}
                     />
                 </Marker>
-            )),
-        [stopPlaces, walkTimes],
-    )
-
-    const stationClusterMarkers = useMemo(
-        () =>
-            stationClusters.map((stationCluster) => {
-                const [slongitude, slatitude] =
-                    stationCluster.geometry.coordinates
-
-                if (!slongitude || !slatitude) return null
-
-                const { cluster: isCluster } = stationCluster.properties
-
-                return (
-                    <Marker
-                        key={
-                            isCluster
-                                ? stationCluster.id
-                                : stationCluster.properties.stationId
-                        }
-                        latitude={slatitude}
-                        longitude={slongitude}
-                        marker-size="large"
-                        className="map__bike-rental-station-marker"
-                    >
-                        <BikeRentalStationTag
-                            bikes={stationCluster.properties.bikesAvailable}
-                            spaces={stationCluster.properties.spacesAvailable}
-                        />
-                    </Marker>
-                )
-            }),
-        [stationClusters],
-    )
+            )*/
+        })
+    console.log('Logging map?')
 
     return (
-        <InteractiveMap
+        <ReactMapGL
             {...viewport}
-            dragPan={false}
-            touchAction="pan-y"
-            mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
-            mapStyle={mapStyle || process.env.MAPBOX_STYLE_MAPVIEW}
-            onViewportChange={
-                interactive
-                    ? (newViewPort: Viewport): void => {
-                          const {
-                              zoom: newZoom,
-                              maxZoom,
-                              minZoom,
-                          } = newViewPort
-                          setViewPort({
-                              latitude,
-                              longitude,
-                              width: 'auto',
-                              height: '100%',
-                              zoom: newZoom,
-                              maxZoom,
-                              minZoom,
-                          })
-                      }
-                    : undefined
-            }
-            ref={mapRef}
+            mapboxAccessToken="pk.eyJ1IjoiZW50dXIiLCJhIjoiY2o3dDF5ZWlrNGoyNjJxbWpscTlnMDJ2MiJ9.WLaC_f_uxaD1FLyZEjuchA"
+            mapStyle="mapbox://styles/entur/ckfi7v87704jn19o71b6z02bp"
+            reuseMaps
         >
-            {realtimeVehicles && realtimeVehicleMarkers}
-            {permanentlyDrawnRoutes}
-            {hoveredRoute}
-            {scooterClusters && scooterClusterMarkers}
+            {scooterPoints && scooterClusterMarkers}
             {stopPlaces && stopPlaceMarkers}
-            {stationClusters && stationClusterMarkers}
+            {bikeRentalStationsPoints && stationClusterMarkers}
             <Marker
                 latitude={viewport.latitude ?? 0}
                 longitude={viewport.longitude ?? 0}
             >
                 <PositionPin size={24} />
             </Marker>
-        </InteractiveMap>
+        </ReactMapGL>
     )
 }
 
@@ -391,4 +340,4 @@ interface Props {
     zoom: number
 }
 
-export default memo(Map)
+export default memo(MapComponent)

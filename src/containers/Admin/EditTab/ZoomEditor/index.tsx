@@ -33,12 +33,9 @@ function ZoomEditor(props: Props): JSX.Element {
             <ReactMapGL
                 latitude={latitude}
                 longitude={longitude}
-                width="auto"
-                height="100%"
                 zoom={zoom || DEFAULT_ZOOM}
-                mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
-                mapStyle={process.env.MAPBOX_STYLE}
-                className="settings-map"
+                mapboxAccessToken="pk.eyJ1IjoiZW50dXIiLCJhIjoiY2o3dDF5ZWlrNGoyNjJxbWpscTlnMDJ2MiJ9.WLaC_f_uxaD1FLyZEjuchA"
+                mapStyle="mapbox://styles/entur/ckfi7v87704jn19o71b6z02bp"
             >
                 <Marker latitude={latitude} longitude={longitude}>
                     <PositionPin size={24} />

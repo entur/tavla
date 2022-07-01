@@ -1,5 +1,6 @@
 import React from 'react'
-import { CanvasOverlay } from 'react-map-gl'
+//import { CanvasOverlay } from 'react-map-gl'
+import CanvasOverlay from 'react-map-gl'
 
 interface RouteToDraw {
     points: Array<[number, number]>
@@ -32,7 +33,7 @@ const LineOverlay = ({ routes }: Props): JSX.Element | null => {
         })
     }
 
-    return <CanvasOverlay redraw={redraw} />
+    return <CanvasOverlay /> //redraw={redraw} />
 }
 
 export default LineOverlay
