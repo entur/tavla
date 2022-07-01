@@ -24,7 +24,7 @@ const ScooterMarkerTag = ({ pointCount, operator }: Props): JSX.Element =>
     )
 
 interface Props {
-    pointCount: number
+    pointCount?: number
     operator: Operator | null
 }
 

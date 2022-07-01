@@ -100,32 +100,15 @@ const MapComponent = ({
 
             if (!slongitude || !slatitude) return null
 
-            const { cluster: isCluster } = scooterCluster.properties
-            let pointCount = 0
-
-            if (isCluster) {
-                pointCount = (scooterCluster.properties as ClusterProperties)
-                    .point_count
-            }
-
             return (
                 <Marker
-                    key={
-                        pointCount
-                            ? `cluster-${scooterCluster.id}`
-                            : scooterCluster.properties.scooterId
-                    }
+                    key={`cluster-${scooterCluster.id}`}
                     latitude={slatitude}
                     longitude={slongitude}
                     style={{ zIndex: 4 }}
                 >
                     <ScooterMarkerTag
-                        pointCount={pointCount}
-                        operator={
-                            pointCount
-                                ? null
-                                : scooterCluster.properties.scooterOperator
-                        }
+                        operator={scooterCluster.properties.scooterOperator}
                     />
                 </Marker>
             )
