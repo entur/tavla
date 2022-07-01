@@ -1,43 +1,18 @@
-import React, { useState, memo, useRef, useEffect, useMemo } from 'react'
+import React, { useState, memo, useEffect } from 'react'
 
 import ReactMapGL, { Marker } from 'react-map-gl'
 
-import type { MapRef, Point } from 'react-map-gl'
-
-import { GeoJsonProperties } from 'geojson'
-
-import type { ClusterProperties, PointFeature } from 'supercluster'
-import useSupercluster from 'use-supercluster'
-import polyline from 'google-polyline'
-
-import { TransportMode } from '@entur/sdk'
+import splitbee from '@splitbee/web'
 
 import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 
 import PositionPin from '../../assets/icons/positionPin'
 
-import {
-    DrawableRoute,
-    IconColorType,
-    Line,
-    StopPlaceWithDepartures,
-    Viewport,
-} from '../../types'
+import { StopPlaceWithDepartures, Viewport } from '../../types'
 
-import { Filter } from '../../services/realtimeVehicles/types/filter'
-
-import { getIconColor, useDebounce } from '../../utils'
-import { useSettingsContext } from '../../settings'
-
-import useRealtimeVehicleData from '../../logic/useRealtimeVehicleData'
-import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
-import { useStopPlacesWithLines } from '../../logic/useStopPlacesWithLines'
-
-import LineOverlay from './RealtimeVehicleTag/LineOverlay'
 import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
 import ScooterMarkerTag from './ScooterMarkerTag'
-import RealtimeVehicleTag from './RealtimeVehicleTag'
 
 import './styles.scss'
 
@@ -46,7 +21,6 @@ const MapComponent = ({
     bikeRentalStations,
     scooters,
     walkTimes,
-    mapStyle,
     latitude,
     longitude,
     zoom,
@@ -206,6 +180,8 @@ const MapComponent = ({
                 </Marker>
             )
         })
+
+    splitbee.track('MAP_RENDERED')
 
     return (
         <ReactMapGL
