@@ -34,8 +34,8 @@ function ZoomEditor(props: Props): JSX.Element {
                 latitude={latitude}
                 longitude={longitude}
                 zoom={zoom || DEFAULT_ZOOM}
-                mapboxAccessToken="pk.eyJ1IjoiZW50dXIiLCJhIjoiY2o3dDF5ZWlrNGoyNjJxbWpscTlnMDJ2MiJ9.WLaC_f_uxaD1FLyZEjuchA"
-                mapStyle="mapbox://styles/entur/ckfi7v87704jn19o71b6z02bp"
+                mapboxAccessToken={process.env.MAPBOX_TOKEN}
+                mapStyle={process.env.MAPBOX_STYLE_MAPVIEW}
             >
                 <Marker latitude={latitude} longitude={longitude}>
                     <PositionPin size={24} />

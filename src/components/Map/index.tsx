@@ -1,6 +1,6 @@
 import React, { useState, memo, useRef, useEffect, useMemo } from 'react'
 
-import ReactMapGL, { Marker, Source, Layer } from 'react-map-gl'
+import ReactMapGL, { Marker } from 'react-map-gl'
 
 import type { MapRef, Point } from 'react-map-gl'
 
@@ -13,9 +13,6 @@ import polyline from 'google-polyline'
 import { TransportMode } from '@entur/sdk'
 
 import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
-
-import { colors } from '@entur/tokens'
-import { BicycleIcon, ParkIcon } from '@entur/icons'
 
 import PositionPin from '../../assets/icons/positionPin'
 
@@ -124,53 +121,40 @@ const MapComponent = ({
 
     const scooterClusterMarkers =
         scooterPoints &&
-        scooterPoints.map((scooter) => {
-            const [slongitude, slatitude] = scooter.geometry.coordinates
+        scooterPoints.map((scooterCluster) => {
+            const [slongitude, slatitude] = scooterCluster.geometry.coordinates
 
             if (!slongitude || !slatitude) return null
 
-            const { scooterId: id, cluster: isCluster } = scooter.properties
+            const { cluster: isCluster } = scooterCluster.properties
+            let pointCount = 0
+
+            if (isCluster) {
+                pointCount = (scooterCluster.properties as ClusterProperties)
+                    .point_count
+            }
 
             return (
-                <Source
-                    key={id}
-                    id={`${id}-source`}
-                    type="geojson"
-                    data={scooter}
+                <Marker
+                    key={
+                        pointCount
+                            ? `cluster-${scooterCluster.id}`
+                            : scooterCluster.properties.scooterId
+                    }
+                    latitude={slatitude}
+                    longitude={slongitude}
+                    style={{ zIndex: 4 }}
                 >
-                    <Layer
-                        id={`${id}-layer`}
-                        type="circle"
-                        paint={{
-                            'circle-color': '#ffff00',
-                            'circle-radius': 8,
-                            'circle-stroke-color': '#333333',
-                            'circle-stroke-width': 2,
-                        }}
+                    <ScooterMarkerTag
+                        pointCount={pointCount}
+                        operator={
+                            pointCount
+                                ? null
+                                : scooterCluster.properties.scooterOperator
+                        }
                     />
-                </Source>
+                </Marker>
             )
-            // return (
-            //     <Marker
-            //         key={
-            //             pointCount
-            //                 ? `cluster-${scooterCluster.id}`
-            //                 : scooterCluster.properties.scooterId
-            //         }
-            //         latitude={slatitude}
-            //         longitude={slongitude}
-            //         style={{ zIndex: 4 }}
-            //     >
-            //         <ScooterMarkerTag
-            //             pointCount={pointCount}
-            //             operator={
-            //                 pointCount
-            //                     ? null
-            //                     : scooterCluster.properties.scooterOperator
-            //             }
-            //         />
-            //     </Marker>
-            // )
         })
 
     const stopPlaceMarkers = stopPlaces?.map((stopPlace) => (
@@ -201,93 +185,9 @@ const MapComponent = ({
 
             if (!slongitude || !slatitude) return null
 
-            const {
-                stationId: id,
-                cluster: isCluster,
-                bikesAvailable,
-                spacesAvailable,
-            } = bikeRentalStation.properties
-
-            //console.log(bikeRentalStation)
+            const { cluster: isCluster } = bikeRentalStation.properties
 
             return (
-                <Source
-                    key={id}
-                    id={`${id}-source`}
-                    type="geojson"
-                    data={bikeRentalStation}
-                >
-                    <Layer
-                        id={`${id}-layer`}
-                        type="circle"
-                        paint={{
-                            'circle-color': '#ffff00',
-                            'circle-radius': 8,
-                            'circle-stroke-color': '#333333',
-                            'circle-stroke-width': 2,
-                        }}
-                    />
-                    <Layer
-                        id={`${id}-bikesAvailable`}
-                        type="symbol"
-                        layout={{
-                            'text-field': ['get', 'bikesAvailable'],
-                            'text-size': 14,
-                            'text-offset': [0, -1.5],
-                        }}
-                        paint={{
-                            'text-color': '#ffff00',
-                            'text-halo-color': '#333333',
-                            'text-halo-width': 1,
-                        }}
-                    />
-                    <Layer
-                        id={`${id}-spacesAvailable`}
-                        type="symbol"
-                        layout={{
-                            'text-field': ['get', 'spacesAvailable'],
-                            'text-size': 14,
-                            'text-offset': [2, -1.5],
-                        }}
-                        paint={{
-                            'text-color': '#ffff00',
-                            'text-halo-color': '#333333',
-                            'text-halo-width': 1,
-                        }}
-                    />
-
-                    {/* <BikeRentalStationTag
-                        bikes={bikeRentalStation.properties.bikesAvailable}
-                        spaces={bikeRentalStation.properties.spacesAvailable}
-                    /> */}
-                    {/* <div className="bicycle-tag">
-                        <div className="bicycle-tag__row">
-                            <div className="bicycle-tag__row__icon">
-                                <BicycleIcon
-                                    key="bike-tile-icon"
-                                    color={colors.brand.white}
-                                />
-                            </div>
-                            <div className="bicycle-tag__row__amount">
-                                {bikeRentalStation.properties.bikesAvailable}
-                            </div>
-                        </div>
-                        <div className="bicycle-tag__row">
-                            <div className="bicycle-tag__row__icon">
-                                <ParkIcon
-                                    key="space-tile-icon"
-                                    color={colors.brand.white}
-                                />
-                            </div>
-                            <div className="bicycle-tag__row__amount">
-                                {bikeRentalStation.properties.spacesAvailable}
-                            </div>
-                        </div>
-                    </div> */}
-                </Source>
-            )
-
-            /*  return (
                 <Marker
                     key={
                         isCluster
@@ -304,15 +204,14 @@ const MapComponent = ({
                         spaces={bikeRentalStation.properties.spacesAvailable}
                     />
                 </Marker>
-            )*/
+            )
         })
-    console.log('Logging map?')
 
     return (
         <ReactMapGL
             {...viewport}
-            mapboxAccessToken="pk.eyJ1IjoiZW50dXIiLCJhIjoiY2o3dDF5ZWlrNGoyNjJxbWpscTlnMDJ2MiJ9.WLaC_f_uxaD1FLyZEjuchA"
-            mapStyle="mapbox://styles/entur/ckfi7v87704jn19o71b6z02bp"
+            mapboxAccessToken={process.env.MAPBOX_TOKEN}
+            mapStyle={process.env.MAPBOX_STYLE_MAPVIEW}
             reuseMaps
         >
             {scooterPoints && scooterClusterMarkers}
