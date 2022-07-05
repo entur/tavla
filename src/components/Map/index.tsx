@@ -1,6 +1,6 @@
-import React, { useState, memo, useEffect, useRef, useCallback } from 'react'
+import React, { useState, memo, useEffect, useRef } from 'react'
 
-import ReactMapGL, { MapRef, Marker, Source, Layer } from 'react-map-gl'
+import ReactMapGL, { Marker, Source, Layer } from 'react-map-gl'
 import type { LayerProps } from 'react-map-gl'
 
 import splitbee from '@splitbee/web'
@@ -19,9 +19,7 @@ import BicycleParkIcon from '../../assets/logos/BicyclePark.svg'
 import BicycleIcon from '../../assets/logos/Bicycles.svg'
 import BicycleBackground from '../../assets/logos/Bicycle_background.svg'
 
-import BikeRentalStationTag from './BikeRentalStationTag'
 import StopPlaceTag from './StopPlaceTag'
-import ScooterMarkerTag from './ScooterMarkerTag'
 
 import './styles.scss'
 
@@ -54,7 +52,7 @@ const MapComponent = ({
         any[] | undefined
     >([])
 
-    const mapRef = useRef<MapRef>(null)
+    const mapRef = useRef<any>(null)
 
     const onMapLoad = () => {
         const map: mapboxgl.Map | undefined = mapRef.current?.getMap()
@@ -151,7 +149,6 @@ const MapComponent = ({
                 type: 'symbol',
                 layout: {
                     'icon-image': name,
-                    'icon-allow-overlap': true,
                 },
             }
             return (
@@ -269,7 +266,6 @@ const MapComponent = ({
         })
 
     splitbee.track('MAP_RENDERED')
-    console.log('Map render')
 
     return (
         <ReactMapGL
