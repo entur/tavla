@@ -149,6 +149,10 @@ const MapComponent = ({
                 type: 'symbol',
                 layout: {
                     'icon-image': name,
+                    'icon-allow-overlap': true,
+                    'symbol-z-order': 'source',
+                    'symbol-sort-key': 1,
+                    'symbol-avoid-edges': true,
                 },
             }
             return (
@@ -168,7 +172,7 @@ const MapComponent = ({
                     key={stopPlace.id}
                     latitude={stopPlace.latitude ?? 0}
                     longitude={stopPlace.longitude ?? 0}
-                    style={{ zIndex: 6 }}
+                    style={{ zIndex: 1 }}
                 >
                     <StopPlaceTag
                         stopPlace={stopPlace}
@@ -278,8 +282,8 @@ const MapComponent = ({
             crossSourceCollisions={false}
         >
             {scooterLayers}
-            {stopPlaceMarkers}
             {stationClusterMarkers}
+            {stopPlaceMarkers}
             <Marker
                 latitude={viewport.latitude ?? 0}
                 longitude={viewport.longitude ?? 0}
