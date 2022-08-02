@@ -61,7 +61,6 @@ If you have already configured the firebase CLI you can skip the first two steps
 
 ```
 npm i -g firebase-tools
-
 ```
 
 2. Sign in to use the CLI
@@ -76,7 +75,7 @@ firebase login
 firebase emulators:start
 ```
 
-Your terminal should now tell you where you can find the interface for your emulated firebase instances. Usually it's at [localhost:4000](loclahost:4000).
+Your terminal should now tell you where you can find the interface for your emulated firebase instances. Usually it's at [localhost:4000](http://localhost:4000).
 
 4.  From the root directory, fire up the web app using your emulators with
 
@@ -100,9 +99,11 @@ We use ESLint to ensure code quality. Please make sure ESLint is happy with the 
 npm run lint
 ```
 
-## Using your own Firebase Project
+## Using your own Firebase project
 
 We are using Firebase for hosting tavla.entur.no (Firebase Hosting) and we are using Firebase Authentication as our authentication platform. Therefore, if you are thinking of hosting your own fork of Tavla, we would recommend you to do the same.
+
+Note that you will need the Firebase billing plan _Blaze_ to run Tavla, which requires a payment method linked to your account that will be charged if your usage exceeds Google's [no-cost limits](https://firebase.google.com/pricing).
 
 PS! Make sure you are following the licenses and terms for Tavla: https://github.com/entur/tavla#licenses-and-terms
 
@@ -151,6 +152,71 @@ In the Firebase Console (console.firebase.google.com), go to "Database" and setu
 We went for "eur3", the multi-region option in Europe.
 
 The Firestore Rules are defined in the `firestore.rules` file in this repository.
+
+### Configure Sentry
+
+You can either a) set up your own Sentry credentials and project, or b) remove the Sentry integration before deploying.
+
+#### a) Set up your own Sentry project
+
+Set up your Sentry account, organization and project on [sentry.io](https://sentry.io).
+
+1. Install the Sentry CLI by running `npm i -g sentry-cli`
+
+2. Run `sentry-cli login` to initialize the CLI. You will be prompted for your credentials
+
+3. Add your DSN URL to the `.env` file:
+
+```diff
+{
+-SENTRY_DSN=https://e3ffa4d3948a4177a5e15329969aa213@o209253.ingest.sentry.io/6221247
++SENTRY_DSN=https://...
+}
+```
+
+4. Set your organization slug and project slug in `webpack.config.js`:
+
+```diff
+        ...(args.mode === 'production'
+            ? [
+                  new SourceMapDevToolPlugin({
+                      filename: '[name].[fullhash].js.map',
+                      noSources: false,
+                  }),
+                  new SentryCliPlugin({
+                      include: OUTPUT_PATH,
+-                      org: 'entur',
+-                      project: 'tavla',
++                      org: 'myawesome-org',
++                      project: 'myawesome-project',
+                      release: process.env.VERSION,
+                  }),
+              ]
+            : []),
+```
+
+5. Finally, update the Content Security-Policy in `firebase.json`. Replace the `ingest.sentry.io` link with your own.
+
+#### b) Remove Sentry integration
+
+To avoid using Sentry, you can remove the integration in `webpack.config.js`:
+
+```diff
+        ...(args.mode === 'production'
+            ? [
+                  new SourceMapDevToolPlugin({
+                      filename: '[name].[fullhash].js.map',
+                      noSources: false,
+                  }),
+-                  new SentryCliPlugin({
+-                      include: OUTPUT_PATH,
+-                      org: 'entur',
+-                      project: 'tavla',
+-                      release: process.env.VERSION,
+-                  }),
+              ]
+            : []),
+```
 
 ### Deploy
 
