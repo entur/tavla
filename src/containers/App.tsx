@@ -211,7 +211,6 @@ const Content = (): JSX.Element => {
                         <div className="themeBackground">
                             <ToastProvider>
                                 <Header />
-                                <PrimaryButton onClick={ () => console.log("klikk") }>Endre skrift</PrimaryButton>
                                 <Switch>
                                     <Route
                                         exact

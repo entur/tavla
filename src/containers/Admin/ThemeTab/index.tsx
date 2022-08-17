@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Heading2, Paragraph } from '@entur/typography'
+import { Heading2, Heading3, Paragraph } from '@entur/typography'
 
 import { useSettingsContext } from '../../../settings'
 import { Theme } from '../../../types'
@@ -13,11 +13,14 @@ import Entur from '../../../assets/previews/Entur-theme.svg'
 import { getDocumentId } from '../../../utils'
 
 import './styles.scss'
+import { PrimaryButton } from '@entur/button'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
     const [settings, setSettings] = useSettingsContext()
     const documentId = getDocumentId()
+    const [fontScale, setFontScale] = useState(1)
+    const baseFontSize = 16
 
     useEffect(() => {
         if (settings?.theme && !radioValue) {
@@ -46,7 +49,10 @@ const ThemeTab = (): JSX.Element => {
 
     return (
         <div>
-            <Heading2 className="heading">Velg farger</Heading2>
+            <Heading2 className="heading">
+                Tilpass utseende
+            </Heading2>
+            <Heading3 className="heading">Velg farger</Heading3>
             <div className="theme-tab">
                 <RadioCard
                     title="Entur (standard)"
@@ -81,6 +87,9 @@ const ThemeTab = (): JSX.Element => {
                     className="theme-tab__theme-card"
                 />
             </div>
+            <div><Heading3 className="heading">Velg skriftstørrelse</Heading3></div>
+            <PrimaryButton onClick={() => setFontScale(fontScale + 1)}>+</PrimaryButton>
+            <div style={{fontSize:fontScale*baseFontSize}}>Her kommer forhåndsvisning: </div>
         </div>
     )
 }

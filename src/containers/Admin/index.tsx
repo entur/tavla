@@ -52,7 +52,7 @@ const AdminPage = (): JSX.Element => {
                     <TabList className="admin__tabs__header">
                         <Tab>Rediger innhold</Tab>
                         <Tab>Velg visning</Tab>
-                        <Tab>Velg farger</Tab>
+                        <Tab>Tilpass utseende</Tab>
                         <Tab>Last opp logo {lockIcon}</Tab>
                         <Tab>Endre lenke {lockIcon}</Tab>
                         <Tab>Deling {lockIconShareTab}</Tab>
