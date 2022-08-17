@@ -121,11 +121,11 @@ const ThemeTab = (): JSX.Element => {
                     className="theme-tab__theme-card"
                 />
             </div>
-            <div style={{display: "flex", flexDirection: "column", width: "17%"}}>
+            <div style={{display: "flex", flexDirection: "column", width: "fit-content"}}>
                 <div><Heading3 className="heading">Velg tekststørrelse</Heading3></div>
                 <div style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around"}}>
                     <FloatingButton onClick={() => onChangeFontSize(eFontChangeAction.decrease)} style={{width: "11rem", minWidth: "8rem"}} aria-label="Mindre">Mindre<SubtractIcon/></FloatingButton>
-                    <text style={{margin: "2rem"}}>{fontScale*100}%</text>
+                    <span style={{margin: "2rem"}}>{fontScale*100}%</span>
                     <FloatingButton onClick={() => onChangeFontSize(eFontChangeAction.increase)} style={{width: "11rem", minWidth: "8rem"}} aria-label="Større">Større<AddIcon/></FloatingButton>
                 </div>
                 <div style={{fontSize:fontScale*baseFontSize}}>Her kommer forhåndsvisning: </div>
