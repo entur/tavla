@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 
-import { useSettingsContext } from '../../../settings'
+import { useSettingsContext,  } from '../../../settings'
+import { saveToLocalStorage, getFromLocalStorage } from '../../../settings/LocalStorage'
+
 import { Theme } from '../../../types'
 import RadioCard from '../../../components/RadioCard'
 import Grey from '../../../assets/previews/Grey-theme.svg'
@@ -19,7 +21,7 @@ const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
     const [settings, setSettings] = useSettingsContext()
     const documentId = getDocumentId()
-    const [fontScale, setFontScale] = useState(1)
+    const [fontScale, setFontScale] = useState(getFromLocalStorage("fontScale") || 1)
     const baseFontSize = 16
 
     useEffect(() => {
@@ -45,6 +47,31 @@ const ThemeTab = (): JSX.Element => {
                 </Paragraph>
             </div>
         )
+    }
+
+    enum eFontChangeAction {
+        increase = 1,
+        decrease
+    }
+
+    function onChangeFontSize(action: eFontChangeAction) {
+        let newFontScale = fontScale
+
+        switch(action){
+            case eFontChangeAction.increase:
+                console.log("Increase")
+                newFontScale += 0.5
+
+            case eFontChangeAction.decrease:
+                console.log("Decrease")
+                newFontScale = (newFontScale - 0.5) || 0.5
+            
+            default:
+                break
+        }
+
+        setFontScale(newFontScale)
+        saveToLocalStorage("fontScale", newFontScale)
     }
 
     return (
@@ -88,11 +115,13 @@ const ThemeTab = (): JSX.Element => {
                 />
             </div>
             <div><Heading3 className="heading">Velg skriftstørrelse</Heading3></div>
-            <PrimaryButton onClick={() => setFontScale(fontScale - 1 || 1)}>-</PrimaryButton>
-            <PrimaryButton onClick={() => setFontScale(fontScale + 1)}>+</PrimaryButton>
+            <PrimaryButton onClick={() => onChangeFontSize(eFontChangeAction.decrease)}>-</PrimaryButton>
+            <text>{fontScale*100}%</text>
+            <PrimaryButton onClick={() => onChangeFontSize(eFontChangeAction.increase)}>+</PrimaryButton>
             <div style={{fontSize:fontScale*baseFontSize}}>Her kommer forhåndsvisning: </div>
         </div>
     )
+
 }
 
 export default ThemeTab
