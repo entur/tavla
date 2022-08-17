@@ -8,6 +8,7 @@ import { useSettingsContext } from '../../../settings'
 import { ThemeDashboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
 
 import './styles.scss'
+import { PrimaryButton } from '@entur/button'
 
 const DashboardPickerTab = (): JSX.Element => {
     const [settings, setSettings] = useSettingsContext()
@@ -77,6 +78,9 @@ const DashboardPickerTab = (): JSX.Element => {
                     callback={(val): void => updateChoice(val)}
                     className="display-wrapper__display-card"
                 />
+                <div>
+                    <PrimaryButton onClick={() => document.documentElement.style.fontSize= "3rem" }>Øk</PrimaryButton>
+                </div>
             </div>
         </div>
     )

@@ -37,6 +37,8 @@ import ThemeProvider from './ThemeWrapper/ThemeProvider'
 import MyBoards from './MyBoards'
 
 import './styles.scss'
+import { PrimaryButton } from '@entur/button'
+import { fontSizes } from '@entur/tokens'
 
 const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1
 
@@ -185,6 +187,7 @@ const Content = (): JSX.Element => {
     const settings = useSettings()
     const location = useLocation()
 
+
     const isOnTavle = !['/privacy', '/tavler'].includes(location.pathname)
 
     const Dashboard = settings[0]
@@ -208,6 +211,7 @@ const Content = (): JSX.Element => {
                         <div className="themeBackground">
                             <ToastProvider>
                                 <Header />
+                                <PrimaryButton onClick={ () => console.log("klikk") }>Endre skrift</PrimaryButton>
                                 <Switch>
                                     <Route
                                         exact

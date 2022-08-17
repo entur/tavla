@@ -67,6 +67,7 @@ export interface Settings {
     customQrTiles: CustomTile[]
     showCustomTiles: boolean
     hiddenCustomTileIds: string[]
+    fontSize?: number
 }
 
 type Setter = (settings: Partial<Settings>) => void
