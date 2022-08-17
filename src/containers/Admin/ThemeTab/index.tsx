@@ -15,7 +15,8 @@ import Entur from '../../../assets/previews/Entur-theme.svg'
 import { getDocumentId } from '../../../utils'
 
 import './styles.scss'
-import { PrimaryButton } from '@entur/button'
+import { FloatingButton, PrimaryButton } from '@entur/button'
+import { AddIcon, SubtractIcon } from '@entur/icons'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
@@ -114,11 +115,15 @@ const ThemeTab = (): JSX.Element => {
                     className="theme-tab__theme-card"
                 />
             </div>
-            <div><Heading3 className="heading">Velg skriftstørrelse</Heading3></div>
-            <PrimaryButton onClick={() => onChangeFontSize(eFontChangeAction.decrease)}>-</PrimaryButton>
-            <text>{fontScale*100}%</text>
-            <PrimaryButton onClick={() => onChangeFontSize(eFontChangeAction.increase)}>+</PrimaryButton>
-            <div style={{fontSize:fontScale*baseFontSize}}>Her kommer forhåndsvisning: </div>
+            <div style={{display: "flex", flexDirection: "column", width: "17%"}}>
+                <div><Heading3 className="heading">Velg tekststørrelse</Heading3></div>
+                <div style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around"}}>
+                    <FloatingButton onClick={() => onChangeFontSize(eFontChangeAction.decrease)} style={{width: "11rem", minWidth: "8rem"}} aria-label="Mindre">Mindre<SubtractIcon/></FloatingButton>
+                    <text style={{margin: "2rem"}}>{fontScale*100}%</text>
+                    <FloatingButton onClick={() => onChangeFontSize(eFontChangeAction.increase)} style={{width: "11rem", minWidth: "8rem"}} aria-label="Større">Større<AddIcon/></FloatingButton>
+                </div>
+                <div style={{fontSize:fontScale*baseFontSize}}>Her kommer forhåndsvisning: </div>
+            </div>
         </div>
     )
 
