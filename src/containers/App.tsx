@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Route, Switch, BrowserRouter, useLocation } from 'react-router-dom'
+import { Route, Switch, BrowserRouter, useLocation, useRouteMatch } from 'react-router-dom'
 
 import { ApolloProvider } from '@apollo/client'
 
@@ -189,8 +189,9 @@ const Content = (): JSX.Element => {
 
 
     const isOnTavle = !['/privacy', '/tavler'].includes(location.pathname)
+
+    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')?.params?.documentId
     
-    const fontSizeScale = (getFromLocalStorage("fontScale") as number || 1) * 16
 
     const Dashboard = settings[0]
         ? getDashboardComponent(settings[0].dashboard)
@@ -198,7 +199,9 @@ const Content = (): JSX.Element => {
 
     useEffect(() => {
         updateManifest(window.location.href, window.location.origin)
+
         if(window.location.href.includes("/t/")){
+            const fontSizeScale = (getFromLocalStorage(boardId + "-fontScale") as number || 1) * 16
             document.documentElement.style.fontSize = fontSizeScale + "px"
         }else{
             document.documentElement.style.fontSize = "16px"

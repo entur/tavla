@@ -17,12 +17,16 @@ import { getDocumentId } from '../../../utils'
 import './styles.scss'
 import { FloatingButton, PrimaryButton } from '@entur/button'
 import { AddIcon, SubtractIcon } from '@entur/icons'
+import { useRouteMatch } from 'react-router'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
     const [settings, setSettings] = useSettingsContext()
     const documentId = getDocumentId()
-    const [fontScale, setFontScale] = useState(getFromLocalStorage("fontScale") || 1)
+
+    const boardId = useRouteMatch<{ documentId: string }>('/admin/:documentId')?.params?.documentId
+
+    const [fontScale, setFontScale] = useState(getFromLocalStorage(boardId + "-fontScale") || 1)
     const baseFontSize = 16
 
     useEffect(() => {
@@ -55,6 +59,7 @@ const ThemeTab = (): JSX.Element => {
         decrease
     }
 
+
     function onChangeFontSize(action: eFontChangeAction) {
         let newFontScale = fontScale
 
@@ -71,8 +76,9 @@ const ThemeTab = (): JSX.Element => {
                 break
         }
 
+
         setFontScale(newFontScale)
-        saveToLocalStorage("fontScale", newFontScale)
+        saveToLocalStorage(boardId + "-fontScale", newFontScale)
     }
 
     return (
