@@ -189,6 +189,8 @@ const Content = (): JSX.Element => {
 
 
     const isOnTavle = !['/privacy', '/tavler'].includes(location.pathname)
+    
+    const fontSizeScale = (getFromLocalStorage("fontScale") as number || 1) * 16
 
     const Dashboard = settings[0]
         ? getDashboardComponent(settings[0].dashboard)
@@ -196,7 +198,14 @@ const Content = (): JSX.Element => {
 
     useEffect(() => {
         updateManifest(window.location.href, window.location.origin)
+        if(window.location.href.includes("/t/")){
+            document.documentElement.style.fontSize = fontSizeScale + "px"
+        }else{
+            document.documentElement.style.fontSize = "16px"
+        }
     }, [location.pathname])
+
+
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
