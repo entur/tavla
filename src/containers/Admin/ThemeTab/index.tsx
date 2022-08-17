@@ -88,6 +88,7 @@ const ThemeTab = (): JSX.Element => {
                 />
             </div>
             <div><Heading3 className="heading">Velg skriftstørrelse</Heading3></div>
+            <PrimaryButton onClick={() => setFontScale(fontScale - 1 || 1)}>-</PrimaryButton>
             <PrimaryButton onClick={() => setFontScale(fontScale + 1)}>+</PrimaryButton>
             <div style={{fontSize:fontScale*baseFontSize}}>Her kommer forhåndsvisning: </div>
         </div>
