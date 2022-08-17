@@ -59,12 +59,12 @@ const ThemeTab = (): JSX.Element => {
 
         switch(action){
             case eFontChangeAction.increase:
-                console.log("Increase")
                 newFontScale += 0.5
+                break
 
             case eFontChangeAction.decrease:
-                console.log("Decrease")
                 newFontScale = (newFontScale - 0.5) || 0.5
+                break
             
             default:
                 break
