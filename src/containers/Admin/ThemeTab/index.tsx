@@ -5,13 +5,14 @@ import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { useSettingsContext,  } from '../../../settings'
 import { saveToLocalStorage, getFromLocalStorage } from '../../../settings/LocalStorage'
 
-import { LineData, NonEmpty, StopPlaceWithDepartures, Theme } from '../../../types'
+import { Direction, LineData, NonEmpty, StopPlaceWithDepartures, Theme } from '../../../types'
 import RadioCard from '../../../components/RadioCard'
 import Grey from '../../../assets/previews/Grey-theme.svg'
 import Dark from '../../../assets/previews/Dark-theme.svg'
 import Light from '../../../assets/previews/Light-theme.svg'
 import Entur from '../../../assets/previews/Entur-theme.svg'
-
+import Standard from '../../../assets/previews/standard.svg'
+import Rotate from '../../../assets/previews/rotert.svg'
 import { getDocumentId, groupBy } from '../../../utils'
 
 import './styles.scss'
@@ -27,6 +28,8 @@ const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
     const [settings, setSettings] = useSettingsContext()
     const documentId = getDocumentId()
+    const [rotationRadioValue, setRotationRadioValue] = useState<Direction | null>(null)
+
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
@@ -50,7 +53,7 @@ const ThemeTab = (): JSX.Element => {
 
     
     const [fontScale, setFontScale] = useState(getFromLocalStorage(boardId + "-fontScale") || 1)
-    const baseFontSize = 16
+    //const baseFontSize = 16
 
     useEffect(() => {
         if (settings?.theme && !radioValue) {
@@ -64,6 +67,16 @@ const ThemeTab = (): JSX.Element => {
             theme: value,
         })
     }
+
+    const switchDirection = (value: Direction): void => {
+
+        console.log("direction value???", value)
+        setRotationRadioValue(value)
+        setSettings({
+            direction: value,
+        })
+    }
+
 
     if (!documentId) {
         return (
@@ -148,11 +161,7 @@ const ThemeTab = (): JSX.Element => {
                     <div style={{display: "flex", flexDirection: "column", width: "fit-content"}}>
                     <div><Heading3 className="heading">Velg tekststørrelse</Heading3></div>
                     <Paragraph className="logo-page__paragraph">
-                            Her kan du legge inn egen logo på din tavle. Logoen vil
-                            være plassert i øverste venstre hjørne, og ha en høyde
-                            på 32 piksler som standard. Du kan velge å sette
-                            størrelsen til stor logo (56px), men da vil du ikke
-                            kunne legge til en beskrivelse av avgangstavla.
+                    Her kan du velge hvor stor teksten på tavla skal være. Teksten vil kun gjelde for den samme nettleseren du endrer innstillingen på.
                         </Paragraph>
                     <div style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
                         <FloatingButton onClick={() => onChangeFontSize(eFontChangeAction.decrease)} style={{width: "11rem", minWidth: "8rem"}} aria-label="Mindre">Mindre<SubtractIcon/></FloatingButton>
@@ -164,7 +173,28 @@ const ThemeTab = (): JSX.Element => {
                          </div> */}
                     </div>
                     <div>
-                        <p>Her kommer retning!!</p>
+                        <Heading3 className="heading">Velg retning</Heading3>
+                        <Paragraph className="logo-page__paragraph">
+                            Her kan du velge hvilken retning innholdet på tavla skal vises.
+                            <div style={{display: 'flex', flexDirection: "row"}}>
+                            <RadioCard
+                                title="Standard"
+                                cardValue="standard"
+                                preview={Standard}
+                                selected={rotationRadioValue === 'standard'}
+                                callback={(val): void => switchDirection(val as Direction)}
+                                className="theme-tab__theme-card"
+                            />
+                            <RadioCard
+                                title="Rotate"
+                                cardValue="rotate"
+                                preview={Rotate}
+                                selected={rotationRadioValue === 'rotate'}
+                                callback={(val): void => switchDirection(val as Direction)}
+                                className="theme-tab__theme-card"
+                            />
+                            </div>
+                        </Paragraph>
                     </div>
             </div>
         </div>
