@@ -5,27 +5,50 @@ import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { useSettingsContext,  } from '../../../settings'
 import { saveToLocalStorage, getFromLocalStorage } from '../../../settings/LocalStorage'
 
-import { Theme } from '../../../types'
+import { LineData, NonEmpty, StopPlaceWithDepartures, Theme } from '../../../types'
 import RadioCard from '../../../components/RadioCard'
 import Grey from '../../../assets/previews/Grey-theme.svg'
 import Dark from '../../../assets/previews/Dark-theme.svg'
 import Light from '../../../assets/previews/Light-theme.svg'
 import Entur from '../../../assets/previews/Entur-theme.svg'
 
-import { getDocumentId } from '../../../utils'
+import { getDocumentId, groupBy } from '../../../utils'
 
 import './styles.scss'
+import './../../../dashboards/Chrono/styles.scss'
 import { FloatingButton, PrimaryButton } from '@entur/button'
 import { AddIcon, SubtractIcon } from '@entur/icons'
 import { useRouteMatch } from 'react-router'
+import DepartureTile from '../../../dashboards/Compact/DepartureTile'
+import { useStopPlacesWithDepartures } from '../../../logic'
+import { Line, TransportMode } from '@entur/sdk/lib/journeyPlanner/types'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
     const [settings, setSettings] = useSettingsContext()
     const documentId = getDocumentId()
 
+    const stopPlacesWithDepartures = useStopPlacesWithDepartures()
+
+    const [stopPlaceExample, setStopPlaceExample] = useState<StopPlaceWithDepartures>()
+
+    useEffect(() => {
+        const previewStopPlace = stopPlacesWithDepartures && stopPlacesWithDepartures[0]
+        if(previewStopPlace){
+            const {departures} = previewStopPlace
+            const groupedDepartures = groupBy<LineData>(departures, 'route')
+            const routes = Object.keys(groupedDepartures)[0]
+            if(departures && routes){
+                const myDepartures = groupedDepartures[routes] as NonEmpty<LineData>
+                setStopPlaceExample({...previewStopPlace, departures: myDepartures})
+            }
+        }
+    }, [stopPlacesWithDepartures])
+
+
     const boardId = useRouteMatch<{ documentId: string }>('/admin/:documentId')?.params?.documentId
 
+    
     const [fontScale, setFontScale] = useState(getFromLocalStorage(boardId + "-fontScale") || 1)
     const baseFontSize = 16
 
@@ -136,7 +159,9 @@ const ThemeTab = (): JSX.Element => {
                         <span style={{margin: "2rem"}}>{fontScale*100}%</span>
                         <FloatingButton onClick={() => onChangeFontSize(eFontChangeAction.increase)} style={{width: "11rem", minWidth: "8rem"}} aria-label="Større">Større<AddIcon/></FloatingButton>
                     </div>
-                    <div style={{fontSize:fontScale*baseFontSize}}>Her kommer forhåndsvisning: </div>
+                        <div className="chrono" style={{fontSize:fontScale*baseFontSize}}>
+                            {stopPlaceExample && <DepartureTile stopPlaceWithDepartures={stopPlaceExample} />}
+                         </div>
                     </div>
                     <div>
                         <p>Her kommer retning!!</p>
