@@ -28,7 +28,11 @@ const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
     const [settings, setSettings] = useSettingsContext()
     const documentId = getDocumentId()
-    const [rotationRadioValue, setRotationRadioValue] = useState<Direction | null>(null)
+    const boardId = useRouteMatch<{ documentId: string }>('/admin/:documentId')?.params?.documentId
+
+    const direction = getFromLocalStorage(boardId + "-direction") as Direction
+
+    const [rotationRadioValue, setRotationRadioValue] = useState<Direction | null>(direction || Direction.STANDARD)
 
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
@@ -49,7 +53,6 @@ const ThemeTab = (): JSX.Element => {
     }, [stopPlacesWithDepartures])
 
 
-    const boardId = useRouteMatch<{ documentId: string }>('/admin/:documentId')?.params?.documentId
 
     
     const [fontScale, setFontScale] = useState(getFromLocalStorage(boardId + "-fontScale") || 1)
@@ -75,6 +78,8 @@ const ThemeTab = (): JSX.Element => {
         setSettings({
             direction: value,
         })
+        onChangeDirection(value)
+        
     }
 
 
@@ -115,6 +120,23 @@ const ThemeTab = (): JSX.Element => {
 
         setFontScale(newFontScale)
         saveToLocalStorage(boardId + "-fontScale", newFontScale)
+    }
+
+    function onChangeDirection(direction: Direction){
+        saveToLocalStorage(boardId + "-direction", direction)
+        /* switch(direction){
+            case Direction.STANDARD:
+                newFontScale += 0.5
+                break
+
+            case Direction.ROTERT:
+                newFontScale = (newFontScale - 0.5) || 0.5
+                break
+            
+            default:
+                break
+        } */
+        
     }
 
     return (

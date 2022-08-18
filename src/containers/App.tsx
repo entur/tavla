@@ -39,6 +39,7 @@ import MyBoards from './MyBoards'
 import './styles.scss'
 import { PrimaryButton } from '@entur/button'
 import { fontSizes } from '@entur/tokens'
+import { Direction } from '../types'
 
 const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1
 
@@ -202,9 +203,19 @@ const Content = (): JSX.Element => {
 
         if(window.location.href.includes("/t/")){
             const fontSizeScale = (getFromLocalStorage(boardId + "-fontScale") as number || 1) * 16
+            const direction = getFromLocalStorage(boardId + "-direction") as Direction
             document.documentElement.style.fontSize = fontSizeScale + "px"
+            if(direction === Direction.ROTERT){
+                document.documentElement.style.transform = "rotate(-90deg)"
+            }else {
+                document.documentElement.style.transform = "rotate(0deg)"
+            }
+
+
         }else{
             document.documentElement.style.fontSize = "16px"
+            document.documentElement.style.transform = "rotate(0deg)"
+
         }
     }, [location.pathname])
 
