@@ -121,14 +121,26 @@ const ThemeTab = (): JSX.Element => {
                     className="theme-tab__theme-card"
                 />
             </div>
-            <div style={{display: "flex", flexDirection: "column", width: "fit-content"}}>
-                <div><Heading3 className="heading">Velg tekststørrelse</Heading3></div>
-                <div style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around"}}>
-                    <FloatingButton onClick={() => onChangeFontSize(eFontChangeAction.decrease)} style={{width: "11rem", minWidth: "8rem"}} aria-label="Mindre">Mindre<SubtractIcon/></FloatingButton>
-                    <span style={{margin: "2rem"}}>{fontScale*100}%</span>
-                    <FloatingButton onClick={() => onChangeFontSize(eFontChangeAction.increase)} style={{width: "11rem", minWidth: "8rem"}} aria-label="Større">Større<AddIcon/></FloatingButton>
-                </div>
-                <div style={{fontSize:fontScale*baseFontSize}}>Her kommer forhåndsvisning: </div>
+                <div className="sizeAndDirection" style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem" }}>
+                    <div style={{display: "flex", flexDirection: "column", width: "fit-content"}}>
+                    <div><Heading3 className="heading">Velg tekststørrelse</Heading3></div>
+                    <Paragraph className="logo-page__paragraph">
+                            Her kan du legge inn egen logo på din tavle. Logoen vil
+                            være plassert i øverste venstre hjørne, og ha en høyde
+                            på 32 piksler som standard. Du kan velge å sette
+                            størrelsen til stor logo (56px), men da vil du ikke
+                            kunne legge til en beskrivelse av avgangstavla.
+                        </Paragraph>
+                    <div style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+                        <FloatingButton onClick={() => onChangeFontSize(eFontChangeAction.decrease)} style={{width: "11rem", minWidth: "8rem"}} aria-label="Mindre">Mindre<SubtractIcon/></FloatingButton>
+                        <span style={{margin: "2rem"}}>{fontScale*100}%</span>
+                        <FloatingButton onClick={() => onChangeFontSize(eFontChangeAction.increase)} style={{width: "11rem", minWidth: "8rem"}} aria-label="Større">Større<AddIcon/></FloatingButton>
+                    </div>
+                    <div style={{fontSize:fontScale*baseFontSize}}>Her kommer forhåndsvisning: </div>
+                    </div>
+                    <div>
+                        <p>Her kommer retning!!</p>
+                    </div>
             </div>
         </div>
     )
