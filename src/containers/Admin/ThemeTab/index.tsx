@@ -12,7 +12,7 @@ import Dark from '../../../assets/previews/Dark-theme.svg'
 import Light from '../../../assets/previews/Light-theme.svg'
 import Entur from '../../../assets/previews/Entur-theme.svg'
 import Standard from '../../../assets/previews/standard.svg'
-import Rotate from '../../../assets/previews/rotert.svg'
+import Rotert from '../../../assets/previews/rotert.svg'
 import { getDocumentId, groupBy } from '../../../utils'
 
 import './styles.scss'
@@ -186,10 +186,10 @@ const ThemeTab = (): JSX.Element => {
                                 className="theme-tab__theme-card"
                             />
                             <RadioCard
-                                title="Rotate"
-                                cardValue="rotate"
-                                preview={Rotate}
-                                selected={rotationRadioValue === 'rotate'}
+                                title="Rotert"
+                                cardValue="rotert"
+                                preview={Rotert}
+                                selected={rotationRadioValue === 'rotert'}
                                 callback={(val): void => switchDirection(val as Direction)}
                                 className="theme-tab__theme-card"
                             />

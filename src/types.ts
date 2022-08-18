@@ -63,7 +63,7 @@ export enum Theme {
 
 export enum Direction {
     STANDARD = 'standard',
-    ROTATE = 'rotate',
+    ROTERT = 'rotert',
 }
 
 
