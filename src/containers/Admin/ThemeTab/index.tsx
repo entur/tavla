@@ -159,9 +159,9 @@ const ThemeTab = (): JSX.Element => {
                         <span style={{margin: "2rem"}}>{fontScale*100}%</span>
                         <FloatingButton onClick={() => onChangeFontSize(eFontChangeAction.increase)} style={{width: "11rem", minWidth: "8rem"}} aria-label="Større">Større<AddIcon/></FloatingButton>
                     </div>
-                        <div className="chrono" style={{fontSize:fontScale*baseFontSize}}>
+                       {/*  <div className="chrono" style={{fontSize:fontScale*baseFontSize}}>
                             {stopPlaceExample && <DepartureTile stopPlaceWithDepartures={stopPlaceExample} />}
-                         </div>
+                         </div> */}
                     </div>
                     <div>
                         <p>Her kommer retning!!</p>
