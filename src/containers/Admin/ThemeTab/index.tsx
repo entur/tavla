@@ -193,48 +193,6 @@ const ThemeTab = (): JSX.Element => {
                     className="theme-tab__theme-card"
                 />
             </div>
-            {/* <div className='theme-tab__grid'> */}
-            <div>
-                <Heading3 className="heading">Velg tekststørrelse</Heading3>
-                <Paragraph className="theme-tab__paragraph">
-                    Her kan du velge hvor stor teksten på tavla skal være.
-                    Teksten vil kun gjelde for den samme nettleseren du endrer
-                    innstillingen på.
-                </Paragraph>
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <FloatingButton
-                        onClick={() =>
-                            onChangeFontSize(eFontChangeAction.decrease)
-                        }
-                        style={{ width: '11rem', minWidth: '8rem' }}
-                        aria-label="Mindre"
-                    >
-                        Mindre
-                        <SubtractIcon />
-                    </FloatingButton>
-                    <span style={{ margin: '2rem' }}>{fontScale * 100}%</span>
-                    <FloatingButton
-                        onClick={() =>
-                            onChangeFontSize(eFontChangeAction.increase)
-                        }
-                        style={{ width: '11rem', minWidth: '8rem' }}
-                        aria-label="Større"
-                    >
-                        Større
-                        <AddIcon />
-                    </FloatingButton>
-                </div>
-                {/*  <div className="chrono" style={{fontSize:fontScale*baseFontSize}}>
-                        {stopPlaceExample && <DepartureTile stopPlaceWithDepartures={stopPlaceExample} />}
-                        </div> */}
-            </div>
             <div>
                 <Heading3 className="heading">Velg rotasjon</Heading3>
                 <Paragraph className="theme-tab__paragraph">
@@ -264,7 +222,47 @@ const ThemeTab = (): JSX.Element => {
                     />
                 </div>
             </div>
-            {/* </div> */}
+            <div>
+                <Heading3 className="heading">Velg tekststørrelse</Heading3>
+                <Paragraph className="theme-tab__paragraph">
+                    Her kan du velge hvor stor teksten på tavla skal være.
+                    Teksten vil kun gjelde for den samme nettleseren du endrer
+                    innstillingen på.
+                </Paragraph>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'left',
+                    }}
+                >
+                    <FloatingButton
+                        onClick={() =>
+                            onChangeFontSize(eFontChangeAction.decrease)
+                        }
+                        style={{ width: '11rem', minWidth: '8rem' }}
+                        aria-label="Mindre"
+                    >
+                        Mindre
+                        <SubtractIcon />
+                    </FloatingButton>
+                    <span style={{ width: "5rem", textAlign: "center" }}>{fontScale * 100}%</span>
+                    <FloatingButton
+                        onClick={() =>
+                            onChangeFontSize(eFontChangeAction.increase)
+                        }
+                        style={{ width: '11rem', minWidth: '8rem' }}
+                        aria-label="Større"
+                    >
+                        Større
+                        <AddIcon />
+                    </FloatingButton>
+                </div>
+                {/*  <div className="chrono" style={{fontSize:fontScale*baseFontSize}}>
+                        {stopPlaceExample && <DepartureTile stopPlaceWithDepartures={stopPlaceExample} />}
+                        </div> */}
+            </div>
         </div>
     )
 }
