@@ -195,7 +195,7 @@ const ThemeTab = (): JSX.Element => {
                          </div> */}
                     </div>
                     <div>
-                        <Heading3 className="heading">Velg retning</Heading3>
+                        <Heading3 className="heading">Velg rotasjon</Heading3>
                         <Paragraph className="logo-page__paragraph">
                             Her kan du velge hvilken retning innholdet på tavla skal vises.
                             <div style={{display: 'flex', flexDirection: "row"}}>
