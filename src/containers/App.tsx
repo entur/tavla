@@ -205,8 +205,16 @@ const Content = (): JSX.Element => {
             const fontSizeScale = (getFromLocalStorage(boardId + "-fontScale") as number || 1) * 16
             const direction = getFromLocalStorage(boardId + "-direction") as Direction
             document.documentElement.style.fontSize = fontSizeScale + "px"
+            //document.documentElement.style.background = "yellow"
+
             if(direction === Direction.ROTERT){
                 document.documentElement.style.transform = "rotate(-90deg)"
+                document.documentElement.style.height = "100vw"
+                //document.documentElement.style.display = "block"
+                const wrapper =  document.getElementById("dashboard-wrapper-id")
+                console.log("halla", wrapper)
+                
+
             }else {
                 document.documentElement.style.transform = "rotate(0deg)"
             }
