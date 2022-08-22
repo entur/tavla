@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Switch, BrowserRouter, useLocation, useRouteMatch } from 'react-router-dom'
 
 import { ApolloProvider } from '@apollo/client'
@@ -198,6 +198,8 @@ const Content = (): JSX.Element => {
         ? getDashboardComponent(settings[0].dashboard)
         : (): null => null
 
+    const [isRotated, setIsRotated] = useState(false)    
+
     useEffect(() => {
         updateManifest(window.location.href, window.location.origin)
 
@@ -205,30 +207,15 @@ const Content = (): JSX.Element => {
             const fontSizeScale = (getFromLocalStorage(boardId + "-fontScale") as number || 1) * 16
             const direction = getFromLocalStorage(boardId + "-direction") as Direction
             document.documentElement.style.fontSize = fontSizeScale + "px"
-            //document.documentElement.style.background = "yellow"
-
-            if(direction === Direction.ROTERT){
-                document.documentElement.style.transform = "rotate(-90deg)"
-                document.documentElement.style.height = "100vw"
-                //document.documentElement.style.display = "block"
-                const wrapper =  document.getElementById("dashboard-wrapper-id")
-                console.log("halla", wrapper)
-                
-
-            }else {
-                document.documentElement.style.transform = "rotate(0deg)"
-            }
-
+            setIsRotated(direction === Direction.ROTERT)
 
         }else{
             document.documentElement.style.fontSize = "16px"
-            document.documentElement.style.transform = "rotate(0deg)"
+            setIsRotated(false)
 
         }
     }, [location.pathname])
-
-
-
+    
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
             <UserProvider value={user}>
@@ -239,7 +226,7 @@ const Content = (): JSX.Element => {
                     value={isOnTavle ? settings : [null, settings[1]]}
                 >
                     <ThemeProvider>
-                        <div className="themeBackground">
+                        <div className="themeBackground" style={isRotated ? {transform: "rotate(-90deg) translate(-100vh)", transformOrigin: "top left", width: "100vh", height: "100vh"} : {}}>
                             <ToastProvider>
                                 <Header />
                                 <Switch>
