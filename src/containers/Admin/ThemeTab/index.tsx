@@ -206,7 +206,7 @@ const ThemeTab = (): JSX.Element => {
                         display: 'flex',
                         flexDirection: 'row',
                         alignItems: 'center',
-                        justifyContent: 'center',
+                        justifyContent: 'flex-start',
                     }}
                 >
                     <FloatingButton
@@ -219,7 +219,7 @@ const ThemeTab = (): JSX.Element => {
                         Mindre
                         <SubtractIcon />
                     </FloatingButton>
-                    <span style={{ margin: '2rem' }}>{fontScale * 100}%</span>
+                    <span className="font-scale-button-text">{fontScale * 100}%</span>
                     <FloatingButton
                         onClick={() =>
                             onChangeFontSize(eFontChangeAction.increase)
