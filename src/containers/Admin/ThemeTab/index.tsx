@@ -248,7 +248,7 @@ const ThemeTab = (): JSX.Element => {
                     <RadioCard
                         title="Standard"
                         cardValue="standard"
-                        preview={Standard}
+                        preview={directionPreviewImages.Standard}
                         selected={rotationRadioValue === 'standard'}
                         callback={(val): void =>
                             switchDirection(val as Direction)
@@ -258,7 +258,7 @@ const ThemeTab = (): JSX.Element => {
                     <RadioCard
                         title="Rotert"
                         cardValue="rotert"
-                        preview={Rotert}
+                        preview={directionPreviewImages.Rotated}
                         selected={rotationRadioValue === 'rotert'}
                         callback={(val): void =>
                             switchDirection(val as Direction)

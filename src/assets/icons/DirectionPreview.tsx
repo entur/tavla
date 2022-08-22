@@ -17,49 +17,26 @@ export function DirectionPreview(
 ): Record<string, any> {
     switch (theme) {
         case Theme.DARK:
-            if(direction === Direction.STANDARD ){
-                return {
-                    DarkStandard
-                }
+            return {
+                Standard: DarkStandard,
+                Rotated: DarkRotated
             }
-            else {
-                return {
-                    DarkRotated
-                }
-            }
-           
+            
         case Theme.GREY:
-            if(direction === Direction.STANDARD ){
-                return {
-                    GreyStandard
-                }
-            }
-            else {
-                return {
-                    GreyRotated
-                }
+            return {
+                Standard: GreyStandard,
+                Rotated: GreyRotated
             }
         case Theme.LIGHT:
-            if(direction === Direction.STANDARD ){
-                return {
-                    LightStandard
-                }
-            }
-            else {
-                return {
-                    LightRotated
-                }
+            return {
+                Standard: LightStandard,
+                Rotated: LightRotated
             }
         default:
-            if(direction === Direction.STANDARD ){
-                return {
-                    EnturStandard
-                }
-            }
-            else {
-                return {
-                    EnturRotated
-                }
+            return {
+                Standard: EnturStandard,
+                Rotated: EnturRotated
+
             }
     }
 }
