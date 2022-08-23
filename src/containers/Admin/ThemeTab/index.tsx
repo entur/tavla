@@ -30,7 +30,6 @@ import { FloatingButton } from '@entur/button'
 import { AddIcon, SubtractIcon } from '@entur/icons'
 import { useRouteMatch } from 'react-router'
 import { useStopPlacesWithDepartures } from '../../../logic'
-import { Line, TransportMode } from '@entur/sdk/lib/journeyPlanner/types'
 import { DirectionPreview } from '../../../assets/icons/DirectionPreview'
 
 const ThemeTab = (): JSX.Element => {
@@ -50,7 +49,7 @@ const ThemeTab = (): JSX.Element => {
     const [stopPlaceExample, setStopPlaceExample] =
         useState<StopPlaceWithDepartures>()
 
-    const directionPreviewImages = DirectionPreview(settings?.theme, direction) 
+    const directionPreviewImages = DirectionPreview(settings?.theme) 
 
     useEffect(() => {
         const previewStopPlace =
@@ -90,7 +89,6 @@ const ThemeTab = (): JSX.Element => {
     }
 
     const switchDirection = (value: Direction): void => {
-        console.log('direction value???', value)
         setRotationRadioValue(value)
         setSettings({
             direction: value,
@@ -194,7 +192,7 @@ const ThemeTab = (): JSX.Element => {
                     <RadioCard
                         title="Standard"
                         cardValue="standard"
-                        preview={Standard}
+                        preview={directionPreviewImages.Standard}
                         selected={rotationRadioValue === 'standard'}
                         callback={(val): void =>
                             switchDirection(val as Direction)
@@ -204,7 +202,7 @@ const ThemeTab = (): JSX.Element => {
                     <RadioCard
                         title="Rotert"
                         cardValue="rotert"
-                        preview={Rotert}
+                        preview={directionPreviewImages.Rotated}
                         selected={rotationRadioValue === 'rotert'}
                         callback={(val): void =>
                             switchDirection(val as Direction)

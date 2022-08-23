@@ -24,7 +24,7 @@
     &__grid-itme {
         display: flex;
         flex-direction: column;
-        width: fit-content
+        width: fit-content;
     }
 
     &__theme-card {
@@ -45,7 +45,7 @@
     color: var(--tavla-font-color);
 }
 
-.font-scale-button-text{
+.font-scale-button-text {
     margin: 2rem;
 }
 
@@ -60,7 +60,7 @@
             margin: 0 0 1rem 0;
         }
     }
-    .font-scale-button-text{
+    .font-scale-button-text {
         margin: 1rem;
     }
 }

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Switch, BrowserRouter, useLocation, useRouteMatch } from 'react-router-dom'
+import {
+    Route,
+    Switch,
+    BrowserRouter,
+    useLocation,
+    useRouteMatch,
+} from 'react-router-dom'
 
 import { ApolloProvider } from '@apollo/client'
 
@@ -188,34 +194,35 @@ const Content = (): JSX.Element => {
     const settings = useSettings()
     const location = useLocation()
 
-
     const isOnTavle = !['/privacy', '/tavler'].includes(location.pathname)
 
-    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')?.params?.documentId
-    
+    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')
+        ?.params?.documentId
 
     const Dashboard = settings[0]
         ? getDashboardComponent(settings[0].dashboard)
         : (): null => null
 
-    const [isRotated, setIsRotated] = useState(false)    
+    const [isRotated, setIsRotated] = useState(false)
 
     useEffect(() => {
         updateManifest(window.location.href, window.location.origin)
 
-        if(window.location.href.includes("/t/")){
-            const fontSizeScale = (getFromLocalStorage(boardId + "-fontScale") as number || 1) * 16
-            const direction = getFromLocalStorage(boardId + "-direction") as Direction
-            document.documentElement.style.fontSize = fontSizeScale + "px"
+        if (window.location.href.includes('/t/')) {
+            const fontSizeScale =
+                ((getFromLocalStorage(boardId + '-fontScale') as number) || 1) *
+                16
+            const direction = getFromLocalStorage(
+                boardId + '-direction',
+            ) as Direction
+            document.documentElement.style.fontSize = fontSizeScale + 'px'
             setIsRotated(direction === Direction.ROTERT)
-
-        }else{
-            document.documentElement.style.fontSize = "16px"
+        } else {
+            document.documentElement.style.fontSize = '16px'
             setIsRotated(false)
-
         }
     }, [location.pathname])
-    
+
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
             <UserProvider value={user}>
@@ -226,7 +233,20 @@ const Content = (): JSX.Element => {
                     value={isOnTavle ? settings : [null, settings[1]]}
                 >
                     <ThemeProvider>
-                        <div className="themeBackground" style={isRotated ? {transform: "rotate(-90deg) translate(-100vh)", transformOrigin: "top left", width: "100vh", height: "100vh"} : {}}>
+                        <div
+                            className="themeBackground"
+                            style={
+                                isRotated
+                                    ? {
+                                          transform:
+                                              'rotate(-90deg) translate(-100vh)',
+                                          transformOrigin: 'top left',
+                                          width: '100vh',
+                                          height: '100vh',
+                                      }
+                                    : {}
+                            }
+                        >
                             <ToastProvider>
                                 <Header />
                                 <Switch>

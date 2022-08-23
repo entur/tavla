@@ -59,7 +59,10 @@ function DashboardWrapper(props: Props): JSX.Element {
 
     return (
         <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
-            <div id="dashboard-wrapper-id" className={`dashboard-wrapper ${className}`}>
+            <div
+                id="dashboard-wrapper-id"
+                className={`dashboard-wrapper ${className}`}
+            >
                 {renderContents()}
                 {logo && (
                     <div className="dashboard-wrapper__byline">
