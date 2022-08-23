@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
+import { useRouteMatch } from 'react-router'
+
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
+
+import { FloatingButton } from '@entur/button'
+
+import { AddIcon, SubtractIcon } from '@entur/icons'
 
 import { useSettingsContext } from '../../../settings'
 import {
@@ -8,29 +14,19 @@ import {
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
 
-import {
-    Direction,
-    LineData,
-    NonEmpty,
-    StopPlaceWithDepartures,
-    Theme,
-} from '../../../types'
+import { Direction, Theme } from '../../../types'
 import RadioCard from '../../../components/RadioCard'
 import Grey from '../../../assets/previews/Grey-theme.svg'
 import Dark from '../../../assets/previews/Dark-theme.svg'
 import Light from '../../../assets/previews/Light-theme.svg'
 import Entur from '../../../assets/previews/Entur-theme.svg'
-import Standard from '../../../assets/previews/standard.svg'
-import Rotert from '../../../assets/previews/rotert.svg'
-import { getDocumentId, groupBy } from '../../../utils'
+import { getDocumentId } from '../../../utils'
+
+import { DirectionPreview } from '../../../assets/icons/DirectionPreview'
+
+import '../../../dashboards/Chrono/styles.scss'
 
 import './styles.scss'
-import './../../../dashboards/Chrono/styles.scss'
-import { FloatingButton } from '@entur/button'
-import { AddIcon, SubtractIcon } from '@entur/icons'
-import { useRouteMatch } from 'react-router'
-import { useStopPlacesWithDepartures } from '../../../logic'
-import { DirectionPreview } from '../../../assets/icons/DirectionPreview'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
@@ -44,36 +40,11 @@ const ThemeTab = (): JSX.Element => {
     const [rotationRadioValue, setRotationRadioValue] =
         useState<Direction | null>(direction || Direction.STANDARD)
 
-    const stopPlacesWithDepartures = useStopPlacesWithDepartures()
-
-    const [stopPlaceExample, setStopPlaceExample] =
-        useState<StopPlaceWithDepartures>()
-
-    const directionPreviewImages = DirectionPreview(settings?.theme) 
-
-    useEffect(() => {
-        const previewStopPlace =
-            stopPlacesWithDepartures && stopPlacesWithDepartures[0]
-        if (previewStopPlace) {
-            const { departures } = previewStopPlace
-            const groupedDepartures = groupBy<LineData>(departures, 'route')
-            const routes = Object.keys(groupedDepartures)[0]
-            if (departures && routes) {
-                const myDepartures = groupedDepartures[
-                    routes
-                ] as NonEmpty<LineData>
-                setStopPlaceExample({
-                    ...previewStopPlace,
-                    departures: myDepartures,
-                })
-            }
-        }
-    }, [stopPlacesWithDepartures])
+    const directionPreviewImages = DirectionPreview(settings?.theme)
 
     const [fontScale, setFontScale] = useState(
         getFromLocalStorage(boardId + '-fontScale') || 1,
     )
-    //const baseFontSize = 16
 
     useEffect(() => {
         if (settings?.theme && !radioValue) {
@@ -133,9 +104,8 @@ const ThemeTab = (): JSX.Element => {
         saveToLocalStorage(boardId + '-fontScale', newFontScale)
     }
 
-    function onChangeDirection(direction: Direction){
-        saveToLocalStorage(boardId + "-direction", direction)
-        
+    function onChangeDirection(dashboardDirection: Direction) {
+        saveToLocalStorage(boardId + '-direction', dashboardDirection)
     }
 
     return (
@@ -236,7 +206,9 @@ const ThemeTab = (): JSX.Element => {
                         Mindre
                         <SubtractIcon />
                     </FloatingButton>
-                    <span style={{ width: "5rem", textAlign: "center" }}>{fontScale * 100}%</span>
+                    <span style={{ width: '5rem', textAlign: 'center' }}>
+                        {fontScale * 100}%
+                    </span>
                     <FloatingButton
                         onClick={() =>
                             onChangeFontSize(eFontChangeAction.increase)

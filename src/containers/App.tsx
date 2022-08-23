@@ -34,6 +34,8 @@ import {
     saveToLocalStorage,
 } from '../settings/LocalStorage'
 
+import { Direction } from '../types'
+
 import LandingPage from './LandingPage'
 import Admin from './Admin'
 import Privacy from './Privacy'
@@ -43,9 +45,6 @@ import ThemeProvider from './ThemeWrapper/ThemeProvider'
 import MyBoards from './MyBoards'
 
 import './styles.scss'
-import { PrimaryButton } from '@entur/button'
-import { fontSizes } from '@entur/tokens'
-import { Direction } from '../types'
 
 const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1
 
@@ -221,7 +220,7 @@ const Content = (): JSX.Element => {
             document.documentElement.style.fontSize = '16px'
             setIsRotated(false)
         }
-    }, [location.pathname])
+    }, [location.pathname, boardId])
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
