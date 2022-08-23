@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Heading2, Heading3, Paragraph } from '@entur/typography'
+import { Heading2, Heading3, Label, Paragraph } from '@entur/typography'
 
 import { useSettingsContext } from '../../../settings'
 import {
@@ -32,6 +32,8 @@ import { useRouteMatch } from 'react-router'
 import DepartureTile from '../../../dashboards/Compact/DepartureTile'
 import { useStopPlacesWithDepartures } from '../../../logic'
 import { Line, TransportMode } from '@entur/sdk/lib/journeyPlanner/types'
+import { RadioGroup, RadioPanel } from '@entur/form'
+import { fovyToAltitude } from '@math.gl/web-mercator/src/web-mercator-utils'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
@@ -69,9 +71,15 @@ const ThemeTab = (): JSX.Element => {
         }
     }, [stopPlacesWithDepartures])
 
+
     const [fontScale, setFontScale] = useState(
         getFromLocalStorage(boardId + '-fontScale') || 1,
     )
+
+    const [value, setValue] = useState(
+        getFromLocalStorage(boardId + '-fontScale') || "Liten",
+    )
+
     //const baseFontSize = 16
 
     useEffect(() => {
@@ -88,7 +96,6 @@ const ThemeTab = (): JSX.Element => {
     }
 
     const switchDirection = (value: Direction): void => {
-        console.log('direction value???', value)
         setRotationRadioValue(value)
         setSettings({
             direction: value,
@@ -108,30 +115,39 @@ const ThemeTab = (): JSX.Element => {
         )
     }
 
-    enum eFontChangeAction {
-        increase = 1,
-        decrease,
-    }
+    console.log(getFromLocalStorage(boardId + '-fontScale'))
 
-    function onChangeFontSize(action: eFontChangeAction) {
-        let newFontScale = fontScale
+    function onChangeFontSize(fontScale: string) {
+        saveToLocalStorage(boardId + '-fontScale', fontScale)
 
-        switch (action) {
-            case eFontChangeAction.increase:
-                newFontScale += 0.5
+        switch (fontScale) {
+            case "0.5":
+                setFontScale(0.5)
                 break
 
-            case eFontChangeAction.decrease:
-                newFontScale = newFontScale - 0.5 || 0.5
+            case "1":
+                setFontScale(1)
+                break
+
+            case "1.5":
+                setFontScale(1.5)
+                break
+
+            case "2":
+                setFontScale(2.5)
+                break
+            
+            case "3":
+                setFontScale(3.5)
                 break
 
             default:
                 break
         }
 
-        setFontScale(newFontScale)
-        saveToLocalStorage(boardId + '-fontScale', newFontScale)
     }
+
+
 
     function onChangeDirection(direction: Direction) {
         saveToLocalStorage(boardId + '-direction', direction)
@@ -148,7 +164,6 @@ const ThemeTab = (): JSX.Element => {
                 break
         } */
     }
-
     return (
         <div className="theme-tab">
             <Heading2 className="heading">Tilpass utseende</Heading2>
@@ -201,36 +216,22 @@ const ThemeTab = (): JSX.Element => {
                     Teksten vil kun gjelde for den samme nettleseren du endrer
                     innstillingen på.
                 </Paragraph>
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <FloatingButton
-                        onClick={() =>
-                            onChangeFontSize(eFontChangeAction.decrease)
-                        }
-                        style={{ width: '11rem', minWidth: '8rem' }}
-                        aria-label="Mindre"
-                    >
-                        Mindre
-                        <SubtractIcon />
-                    </FloatingButton>
-                    <span style={{ margin: '2rem' }}>{fontScale * 100}%</span>
-                    <FloatingButton
-                        onClick={() =>
-                            onChangeFontSize(eFontChangeAction.increase)
-                        }
-                        style={{ width: '11rem', minWidth: '8rem' }}
-                        aria-label="Større"
-                    >
-                        Større
-                        <AddIcon />
-                    </FloatingButton>
+
+                <div>
+                    <RadioGroup
+                        name="ticket-type"
+                        value={value} 
+                        onChange={ e => {setValue(e.target.value); onChangeFontSize(e.target.value)}}>
+                    <div style={{ display: 'grid', gridGap: '0.5rem', alignItems: "center", gridTemplateColumns: "repeat(auto-fill, minmax(10rem, 0.5fr))"}}>
+                        <RadioPanel style = {{minWidth: "10rem", maxWidth: "12rem"}} title="Ekstra liten" value="0.5" size="medium" />
+                        <RadioPanel style = {{minWidth: "10rem", maxWidth: "12rem"}} title="Liten" value="1" size="medium"/>
+                        <RadioPanel style = {{minWidth: "10rem", maxWidth: "12rem"}} title="Vanlig" value="1.5" size="medium"/>
+                        <RadioPanel style = {{minWidth: "10rem", maxWidth: "12rem"}} title="Stor" value="2" size="medium"/>
+                        <RadioPanel style = {{minWidth: "10rem", maxWidth: "12rem"}} title="Ekstra stor" value="2.5" size="medium"/>
+                    </div>
+                    </RadioGroup>
                 </div>
+                
                 {/*  <div className="chrono" style={{fontSize:fontScale*baseFontSize}}>
                         {stopPlaceExample && <DepartureTile stopPlaceWithDepartures={stopPlaceExample} />}
                         </div> */}
