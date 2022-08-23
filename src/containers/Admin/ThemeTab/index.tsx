@@ -30,6 +30,8 @@ import { FloatingButton } from '@entur/button'
 import { AddIcon, SubtractIcon } from '@entur/icons'
 import { useRouteMatch } from 'react-router'
 import { useStopPlacesWithDepartures } from '../../../logic'
+import { Line, TransportMode } from '@entur/sdk/lib/journeyPlanner/types'
+import { DirectionPreview } from '../../../assets/icons/DirectionPreview'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
@@ -47,6 +49,8 @@ const ThemeTab = (): JSX.Element => {
 
     const [stopPlaceExample, setStopPlaceExample] =
         useState<StopPlaceWithDepartures>()
+
+    const directionPreviewImages = DirectionPreview(settings?.theme, direction) 
 
     useEffect(() => {
         const previewStopPlace =
@@ -133,18 +137,6 @@ const ThemeTab = (): JSX.Element => {
 
     function onChangeDirection(direction: Direction){
         saveToLocalStorage(boardId + "-direction", direction)
-        /* switch(direction){
-            case Direction.STANDARD:
-                newFontScale += 0.5
-                break
-
-            case Direction.ROTERT:
-                newFontScale = (newFontScale - 0.5) || 0.5
-                break
-            
-            default:
-                break
-        } */
         
     }
 
@@ -233,7 +225,7 @@ const ThemeTab = (): JSX.Element => {
                         display: 'flex',
                         flexDirection: 'row',
                         alignItems: 'center',
-                        justifyContent: 'left',
+                        justifyContent: 'flex-start',
                     }}
                 >
                     <FloatingButton
@@ -258,9 +250,6 @@ const ThemeTab = (): JSX.Element => {
                         <AddIcon />
                     </FloatingButton>
                 </div>
-                {/*  <div className="chrono" style={{fontSize:fontScale*baseFontSize}}>
-                        {stopPlaceExample && <DepartureTile stopPlaceWithDepartures={stopPlaceExample} />}
-                        </div> */}
             </div>
         </div>
     )
