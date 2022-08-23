@@ -17,12 +17,10 @@ import { getDocumentId, groupBy } from '../../../utils'
 
 import './styles.scss'
 import './../../../dashboards/Chrono/styles.scss'
-import { FloatingButton, PrimaryButton } from '@entur/button'
+import { FloatingButton } from '@entur/button'
 import { AddIcon, SubtractIcon } from '@entur/icons'
 import { useRouteMatch } from 'react-router'
-import DepartureTile from '../../../dashboards/Compact/DepartureTile'
 import { useStopPlacesWithDepartures } from '../../../logic'
-import { Line, TransportMode } from '@entur/sdk/lib/journeyPlanner/types'
 
 const ThemeTab = (): JSX.Element => {
     const [radioValue, setRadioValue] = useState<Theme | null>(null)
@@ -56,7 +54,6 @@ const ThemeTab = (): JSX.Element => {
 
     
     const [fontScale, setFontScale] = useState(getFromLocalStorage(boardId + "-fontScale") || 1)
-    //const baseFontSize = 16
 
     useEffect(() => {
         if (settings?.theme && !radioValue) {
@@ -124,19 +121,6 @@ const ThemeTab = (): JSX.Element => {
 
     function onChangeDirection(direction: Direction){
         saveToLocalStorage(boardId + "-direction", direction)
-        /* switch(direction){
-            case Direction.STANDARD:
-                newFontScale += 0.5
-                break
-
-            case Direction.ROTERT:
-                newFontScale = (newFontScale - 0.5) || 0.5
-                break
-            
-            default:
-                break
-        } */
-        
     }
 
     return (
@@ -190,9 +174,6 @@ const ThemeTab = (): JSX.Element => {
                         <span style={{margin: "2rem"}}>{fontScale*100}%</span>
                         <FloatingButton onClick={() => onChangeFontSize(eFontChangeAction.increase)} style={{width: "11rem", minWidth: "8rem"}} aria-label="Større">Større<AddIcon/></FloatingButton>
                     </div>
-                       {/*  <div className="chrono" style={{fontSize:fontScale*baseFontSize}}>
-                            {stopPlaceExample && <DepartureTile stopPlaceWithDepartures={stopPlaceExample} />}
-                         </div> */}
                     </div>
                     <div>
                         <Heading3 className="heading">Velg retning</Heading3>

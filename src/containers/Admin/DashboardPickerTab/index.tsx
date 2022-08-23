@@ -8,7 +8,6 @@ import { useSettingsContext } from '../../../settings'
 import { ThemeDashboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
 
 import './styles.scss'
-import { PrimaryButton } from '@entur/button'
 
 const DashboardPickerTab = (): JSX.Element => {
     const [settings, setSettings] = useSettingsContext()

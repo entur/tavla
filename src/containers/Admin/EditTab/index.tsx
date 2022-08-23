@@ -59,7 +59,6 @@ import WeatherPanel from './WeatherPanel'
 
 import './styles.scss'
 import CustomTilePanel from './CustomTilePanel'
-import { Button, PrimaryButton } from '@entur/button'
 
 const isMobile = isMobileWeb()
 
