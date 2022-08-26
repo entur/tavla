@@ -196,6 +196,7 @@ export function useSettings(): [Settings | null, Setter] {
 
             const docId = getDocumentId()
             if (docId) {
+                console.log("doc Id", docId, "merged settings: ", mergedSettings)
                 persistMultipleFieldsToFirebase(docId, mergedSettings)
                 return
             }

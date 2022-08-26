@@ -24,8 +24,6 @@ import { getDocumentId } from '../../../utils'
 
 import { DirectionPreview } from '../../../assets/icons/DirectionPreview'
 
-import '../../../dashboards/Chrono/styles.scss'
-
 import './styles.scss'
 
 const ThemeTab = (): JSX.Element => {
@@ -37,8 +35,9 @@ const ThemeTab = (): JSX.Element => {
 
     const direction = getFromLocalStorage(boardId + '-direction') as Direction
 
-    const [rotationRadioValue, setRotationRadioValue] =
-        useState<Direction | null>(direction || Direction.STANDARD)
+    const [rotationRadioValue, setRotationRadioValue] = useState<Direction>(
+        direction || Direction.STANDARD,
+    )
 
     const directionPreviewImages = DirectionPreview(settings?.theme)
 
@@ -188,32 +187,25 @@ const ThemeTab = (): JSX.Element => {
                     Teksten vil kun gjelde for den samme nettleseren du endrer
                     innstillingen på.
                 </Paragraph>
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                    }}
-                >
+                <div className="theme-tab__font-size-buttons">
                     <FloatingButton
                         onClick={() =>
                             onChangeFontSize(eFontChangeAction.decrease)
                         }
-                        style={{ width: '11rem', minWidth: '8rem' }}
+                        className="theme-tab__font-size-button"
                         aria-label="Mindre"
                     >
                         Mindre
                         <SubtractIcon />
                     </FloatingButton>
-                    <span style={{ width: '5rem', textAlign: 'center' }}>
+                    <span className="theme-tab__font-size-percentage">
                         {fontScale * 100}%
                     </span>
                     <FloatingButton
                         onClick={() =>
                             onChangeFontSize(eFontChangeAction.increase)
                         }
-                        style={{ width: '11rem', minWidth: '8rem' }}
+                        className="theme-tab__font-size-button"
                         aria-label="Større"
                     >
                         Større
