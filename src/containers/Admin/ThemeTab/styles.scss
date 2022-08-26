@@ -3,10 +3,10 @@
 .theme-tab {
     color: var(--tavla-font-color);
     width: 100%;
-    display: grid;
-    box-sizing: border-box;
-    grid-auto-rows: row;
-    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+
+    &__paragraph {
+        color: var(--tavla-font-color);
+    }
 
     &__eds-paragraph {
         color: var(--tavla-font-color);
@@ -16,8 +16,30 @@
         color: var(--tavla-font-color);
     }
 
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+    }
+
     &__theme-card {
         max-width: 35rem;
+    }
+
+     &__font-size-buttons {
+        display: flex;
+        flex-direction: row;
+        align-items:   center;
+        justify-content: flex-start;
+    }
+
+    &__font-size-button {
+        width: 11rem;
+        min-width: 8rem;
+    }
+
+    &__font-size-percentage {
+        width: 5rem;
+        text-align: center;
     }
 }
 

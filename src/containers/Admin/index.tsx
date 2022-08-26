@@ -16,7 +16,7 @@ import EditTab from './EditTab'
 import ThemeTab from './ThemeTab'
 import VisningTab from './DashboardPickerTab'
 import NameTab from './NameTab'
-import FloatingButtons from './FloatingButtons'
+import LockAndViewButtons from './LockAndViewButtons'
 import './styles.scss'
 import ShareTab from './ShareTab'
 
@@ -52,7 +52,7 @@ const AdminPage = (): JSX.Element => {
                     <TabList className="admin__tabs__header">
                         <Tab>Rediger innhold</Tab>
                         <Tab>Velg visning</Tab>
-                        <Tab>Velg farger</Tab>
+                        <Tab>Tilpass utseende</Tab>
                         <Tab>Last opp logo {lockIcon}</Tab>
                         <Tab>Endre lenke {lockIcon}</Tab>
                         <Tab>Deling {lockIconShareTab}</Tab>
@@ -88,7 +88,7 @@ const AdminPage = (): JSX.Element => {
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
-                <FloatingButtons />
+                <LockAndViewButtons />
             </div>
         </ThemeContrastWrapper>
     )

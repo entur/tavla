@@ -37,7 +37,7 @@
         "@entur/alert": "^0.10.4",
         "@entur/button": "^2.8.0",
         "@entur/chip": "^0.5.3",
-        "@entur/dropdown": "^2.3.0",
+        "@entur/dropdown": "^3.0.1",
         "@entur/expand": "^3.3.10",
         "@entur/fileupload": "^0.3.36",
         "@entur/form": "^5.3.2",

@@ -9,7 +9,7 @@ import LockModal from '../../../components/Modals/LockModal'
 
 import './styles.scss'
 
-const FloatingButtons = (): JSX.Element => {
+const LockAndViewButtons = (): JSX.Element => {
     const history = useHistory()
     const [settings] = useSettingsContext()
     const documentId = getDocumentId()
@@ -50,4 +50,4 @@ const FloatingButtons = (): JSX.Element => {
     )
 }
 
-export default FloatingButtons
+export default LockAndViewButtons
