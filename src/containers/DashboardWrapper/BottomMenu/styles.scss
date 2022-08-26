@@ -7,7 +7,8 @@
     width: fit-content;
     background-color: var(--tavla-button-background-color);
     border-radius: 10px 10px 0 0;
-    transition: transform 0.3s ease-out;
+    visibility: visible;
+    transition: transform 0.3s ease-in, visibility 0s 0s;
     transform: translate(0, 0);
     z-index: 5;
 
@@ -25,8 +26,9 @@
 }
 
 .hidden-menu {
-    transition: transform 0.3s ease-in;
     transform: translate(0, 100%);
+    visibility: hidden;
+    transition: transform 0.3s ease-in, visibility 0s 0.3s;
 }
 
 @media (max-width: 900px) {
