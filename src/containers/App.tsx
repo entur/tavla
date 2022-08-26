@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import {
+    BrowserRouter,
     Route,
     Switch,
-    BrowserRouter,
     useLocation,
     useRouteMatch,
 } from 'react-router-dom'
@@ -11,35 +11,35 @@ import { ApolloProvider } from '@apollo/client'
 
 import { ToastProvider } from '@entur/alert'
 
-import { SettingsContext, useSettings } from '../settings'
 import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
+import { SettingsContext, useSettings } from '../settings'
 
 import PWAPrompt from '../../vendor/react-ios-pwa-prompt'
 
 import { realtimeVehiclesClient } from '../services/realtimeVehicles/realtimeVehiclesService'
 
-import Compact from '../dashboards/Compact'
 import Chrono from '../dashboards/Chrono'
-import Timeline from '../dashboards/Timeline'
+import Compact from '../dashboards/Compact'
 import MapDashboard from '../dashboards/Map'
+import Timeline from '../dashboards/Timeline'
 
-import PrivateRoute from '../routers/PrivateRoute'
 import Header from '../components/Header'
 import BusStop from '../dashboards/BusStop'
+import PrivateRoute from '../routers/PrivateRoute'
 
-import { isMobileWeb } from '../utils'
 import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../settings/LocalStorage'
+import { isMobileWeb } from '../utils'
 
 import { Direction } from '../types'
 
-import LandingPage from './LandingPage'
 import Admin from './Admin'
-import Privacy from './Privacy'
 import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
+import LandingPage from './LandingPage'
+import Privacy from './Privacy'
 import ThemeProvider from './ThemeWrapper/ThemeProvider'
 
 import MyBoards from './MyBoards'

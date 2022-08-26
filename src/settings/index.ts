@@ -67,7 +67,7 @@ export interface Settings {
     customQrTiles: CustomTile[]
     showCustomTiles: boolean
     hiddenCustomTileIds: string[]
-    fontSize?: number
+    fontScale?: number
     direction?: Direction
 }
 
