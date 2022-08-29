@@ -6,6 +6,7 @@
 
     &__paragraph {
         color: var(--tavla-font-color);
+        max-width: 40rem;
     }
 
     &__eds-paragraph {
@@ -56,6 +57,10 @@
     color: var(--tavla-font-color);
 }
 
+.font-scale-button-text {
+    margin: 2rem;
+}
+
 @media (max-width: 450px) {
     .theme-tab {
         width: 100%;
@@ -66,5 +71,8 @@
         &__theme-card {
             margin: 0 0 1rem 0;
         }
+    }
+    .font-scale-button-text {
+        margin: 1rem;
     }
 }
