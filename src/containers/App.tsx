@@ -206,21 +206,16 @@ const Content = (): JSX.Element => {
 
     useEffect(() => {
         updateManifest(window.location.href, window.location.origin)
-
         if (window.location.href.includes('/t/')) {
-            const fontSizeScale =
-                ((getFromLocalStorage(boardId + '-fontScale') as number) || 1) *
-                16
-            const direction = getFromLocalStorage(
-                boardId + '-direction',
-            ) as Direction
-            document.documentElement.style.fontSize = fontSizeScale + 'px'
+            const direction = settings[0]?.direction || Direction.STANDARD
+            const fontSizeScale = settings[0]?.fontScale || 1
+            document.documentElement.style.fontSize = fontSizeScale * 16 + 'px'
             setIsRotated(direction === Direction.ROTERT)
         } else {
             document.documentElement.style.fontSize = '16px'
             setIsRotated(false)
         }
-    }, [location.pathname, boardId])
+    }, [location.pathname, boardId, settings])
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>

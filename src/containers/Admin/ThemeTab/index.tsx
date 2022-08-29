@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
 
-import { useRouteMatch } from 'react-router'
-
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 
 import { FloatingButton } from '@entur/button'
@@ -9,12 +7,8 @@ import { FloatingButton } from '@entur/button'
 import { AddIcon, SubtractIcon } from '@entur/icons'
 
 import { useSettingsContext } from '../../../settings'
-import {
-    saveToLocalStorage,
-    getFromLocalStorage,
-} from '../../../settings/LocalStorage'
 
-import { Direction, Theme } from '../../../types'
+import { Direction, Theme, FontChangeAction } from '../../../types'
 import RadioCard from '../../../components/RadioCard'
 import Grey from '../../../assets/previews/Grey-theme.svg'
 import Dark from '../../../assets/previews/Dark-theme.svg'
@@ -27,43 +21,55 @@ import { DirectionPreview } from '../../../assets/icons/DirectionPreview'
 import './styles.scss'
 
 const ThemeTab = (): JSX.Element => {
-    const [radioValue, setRadioValue] = useState<Theme | null>(null)
     const [settings, setSettings] = useSettingsContext()
-    const documentId = getDocumentId()
-    const boardId = useRouteMatch<{ documentId: string }>('/admin/:documentId')
-        ?.params?.documentId
-
-    const direction = getFromLocalStorage(boardId + '-direction') as Direction
-
-    const [rotationRadioValue, setRotationRadioValue] = useState<Direction>(
-        direction || Direction.STANDARD,
+    const [themeRadioValue, setThemeRadioValue] = useState<Theme | null>(null)
+    const [fontScale, setFontScale] = useState<number>(settings?.fontScale || 1)
+    const [directionRadioValue, setDirectionRadioValue] = useState<Direction>(
+        settings?.direction || Direction.STANDARD,
     )
-
+    const documentId = getDocumentId()
     const directionPreviewImages = DirectionPreview(settings?.theme)
 
-    const [fontScale, setFontScale] = useState(
-        getFromLocalStorage(boardId + '-fontScale') || 1,
-    )
-
     useEffect(() => {
-        if (settings?.theme && !radioValue) {
-            setRadioValue(settings.theme)
+        if (settings?.theme && !themeRadioValue) {
+            setThemeRadioValue(settings.theme)
         }
-    }, [settings, radioValue])
+    }, [settings, themeRadioValue])
 
     const switchTheme = (value: Theme): void => {
-        setRadioValue(value)
+        setThemeRadioValue(value)
         setSettings({
             theme: value,
         })
     }
 
     const switchDirection = (value: Direction): void => {
-        setRotationRadioValue(value)
+        setDirectionRadioValue(value)
         setSettings({
             direction: value,
         })
-        onChangeDirection(value)
+    }
+
+    function changeFontSize(action: FontChangeAction) {
+        let newFontScale = fontScale
+
+        switch (action) {
+            case FontChangeAction.increase:
+                newFontScale += 0.5
+                break
+
+            case FontChangeAction.decrease:
+                newFontScale = newFontScale - 0.5 || 0.5
+                break
+
+            default:
+                break
+        }
+
+        setFontScale(newFontScale)
+        setSettings({
+            fontScale: newFontScale,
+        })
     }
 
     if (!documentId) {
@@ -76,35 +82,6 @@ const ThemeTab = (): JSX.Element => {
                 </Paragraph>
             </div>
         )
-    }
-
-    enum eFontChangeAction {
-        increase = 1,
-        decrease,
-    }
-
-    function onChangeFontSize(action: eFontChangeAction) {
-        let newFontScale = fontScale
-
-        switch (action) {
-            case eFontChangeAction.increase:
-                newFontScale += 0.5
-                break
-
-            case eFontChangeAction.decrease:
-                newFontScale = newFontScale - 0.5 || 0.5
-                break
-
-            default:
-                break
-        }
-
-        setFontScale(newFontScale)
-        saveToLocalStorage(boardId + '-fontScale', newFontScale)
-    }
-
-    function onChangeDirection(dashboardDirection: Direction) {
-        saveToLocalStorage(boardId + '-direction', dashboardDirection)
     }
 
     return (
@@ -122,7 +99,7 @@ const ThemeTab = (): JSX.Element => {
                     title="Entur (standard)"
                     cardValue="default"
                     preview={Entur}
-                    selected={radioValue === 'default'}
+                    selected={themeRadioValue === 'default'}
                     callback={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
@@ -130,7 +107,7 @@ const ThemeTab = (): JSX.Element => {
                     title="Mørkt"
                     cardValue="dark"
                     preview={Dark}
-                    selected={radioValue === 'dark'}
+                    selected={themeRadioValue === 'dark'}
                     callback={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
@@ -138,7 +115,7 @@ const ThemeTab = (): JSX.Element => {
                     title="Lyst"
                     cardValue="light"
                     preview={Light}
-                    selected={radioValue === 'light'}
+                    selected={themeRadioValue === 'light'}
                     callback={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
@@ -146,7 +123,7 @@ const ThemeTab = (): JSX.Element => {
                     title="Grått"
                     cardValue="grey"
                     preview={Grey}
-                    selected={radioValue === 'grey'}
+                    selected={themeRadioValue === 'grey'}
                     callback={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
@@ -162,7 +139,7 @@ const ThemeTab = (): JSX.Element => {
                         title="Standard"
                         cardValue="standard"
                         preview={directionPreviewImages.Standard}
-                        selected={rotationRadioValue === 'standard'}
+                        selected={directionRadioValue === 'standard'}
                         callback={(val): void =>
                             switchDirection(val as Direction)
                         }
@@ -172,7 +149,7 @@ const ThemeTab = (): JSX.Element => {
                         title="Rotert"
                         cardValue="rotert"
                         preview={directionPreviewImages.Rotated}
-                        selected={rotationRadioValue === 'rotert'}
+                        selected={directionRadioValue === 'rotert'}
                         callback={(val): void =>
                             switchDirection(val as Direction)
                         }
@@ -190,7 +167,7 @@ const ThemeTab = (): JSX.Element => {
                 <div className="theme-tab__font-size-buttons">
                     <FloatingButton
                         onClick={() =>
-                            onChangeFontSize(eFontChangeAction.decrease)
+                            changeFontSize(FontChangeAction.decrease)
                         }
                         className="theme-tab__font-size-button"
                         aria-label="Mindre"
@@ -203,7 +180,7 @@ const ThemeTab = (): JSX.Element => {
                     </span>
                     <FloatingButton
                         onClick={() =>
-                            onChangeFontSize(eFontChangeAction.increase)
+                            changeFontSize(FontChangeAction.increase)
                         }
                         className="theme-tab__font-size-button"
                         aria-label="Større"
