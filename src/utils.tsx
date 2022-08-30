@@ -145,6 +145,14 @@ export function getTransportIconIdentifier(
     }
 }
 
+export const BREAKPOINTS = {
+    lg: 1200,
+    md: 996,
+    sm: 768,
+    xs: 480,
+    xxs: 0,
+}
+
 export function getIcon(
     mode: TransportMode,
     iconColorType: IconColorType = IconColorType.CONTRAST,

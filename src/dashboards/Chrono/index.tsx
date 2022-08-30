@@ -29,7 +29,12 @@ import ImageTile from '../../components/ImageTile'
 
 import { useSettingsContext } from '../../settings'
 
-import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
+import {
+    isEqualUnsorted,
+    usePrevious,
+    isMobileWeb,
+    BREAKPOINTS,
+} from '../../utils'
 
 import { WalkInfo } from '../../logic/useWalkInfo'
 import { LongPressProvider } from '../../logic/longPressContext'
@@ -77,14 +82,6 @@ function getDefaultBreakpoint() {
         return 'md'
     }
     return 'sm'
-}
-
-const BREAKPOINTS = {
-    lg: 1400,
-    md: 996,
-    sm: 768,
-    xs: 480,
-    xxs: 0,
 }
 
 const COLS: { [key: string]: number } = {
