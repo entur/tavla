@@ -18,6 +18,7 @@ import {
     getIconColorType,
     usePrevious,
     isEqualUnsorted,
+    BREAKPOINTS,
 } from '../../utils'
 import { LineData, IconColorType } from '../../types'
 
@@ -41,14 +42,6 @@ const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]
 
 // Use this to scale the race track.
 const ZOOM = 1
-
-const BREAKPOINTS = {
-    lg: 1400,
-    md: 996,
-    sm: 768,
-    xs: 480,
-    xxs: 0,
-}
 
 function diffSincePreviousTick(minute: number): number {
     if (minute <= 0) return -1 * minute

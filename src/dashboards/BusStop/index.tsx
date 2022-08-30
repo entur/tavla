@@ -8,7 +8,7 @@ import { Loader } from '@entur/loader'
 
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
 
-import { isEqualUnsorted } from '../../utils'
+import { BREAKPOINTS, isEqualUnsorted } from '../../utils'
 import DashboardWrapper from '../../containers/DashboardWrapper'
 
 import { DEFAULT_ZOOM } from '../../constants'
@@ -44,14 +44,6 @@ function getDefaultBreakpoint() {
         return 'md'
     }
     return 'sm'
-}
-
-const BREAKPOINTS = {
-    lg: 1200,
-    md: 996,
-    sm: 768,
-    xs: 480,
-    xxs: 0,
 }
 
 const COLS: { [key: string]: number } = {
