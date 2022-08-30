@@ -87,7 +87,7 @@ function getDefaultBreakpoint() {
 const COLS: { [key: string]: number } = {
     lg: 3,
     md: 2,
-    sm: 1,
+    sm: 2,
     xs: 1,
     xxs: 1,
 }
