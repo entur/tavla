@@ -39,7 +39,7 @@ export function TileRow({
     hideTracks,
     platform,
     type,
-}: Props): JSX.Element {
+}: TileRowProps): JSX.Element {
     return (
         <div className="tilerow">
             <div className="tilerow__icon">{icon}</div>
@@ -136,7 +136,7 @@ function Date({ date }: { date: Date }) {
     return <div className="tilerow__sublabel__date">{`(${formatedDate})`}</div>
 }
 
-interface Props {
+interface TileRowProps {
     label: string
     subLabels: TileSubLabel[]
     icon: JSX.Element | null

@@ -20,6 +20,8 @@ import { DirectionPreview } from '../../../assets/icons/DirectionPreview'
 
 import './styles.scss'
 
+import FontSizePreview from './FontSizePreview'
+
 const ThemeTab = (): JSX.Element => {
     const [settings, setSettings] = useSettingsContext()
     const [themeRadioValue, setThemeRadioValue] = useState<Theme | null>(null)
@@ -189,6 +191,7 @@ const ThemeTab = (): JSX.Element => {
                         <AddIcon />
                     </FloatingButton>
                 </div>
+                <FontSizePreview fontScale={fontScale} />
             </div>
         </div>
     )
