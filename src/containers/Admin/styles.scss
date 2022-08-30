@@ -39,6 +39,9 @@
         color: var(--tavla-font-color);
         border-color: var(--tavla-button-background-color);
         width: 12rem;
+        min-height: 3rem;
+        height: auto;
+        flex: 1;
     }
 
     .eds-tab:hover {
@@ -69,13 +72,6 @@
     .eds-tab-panel:focus,
     .eds-tab:focus {
         outline: none;
-    }
-}
-
-@media (max-width: 1140px) {
-    .eds-tab {
-        min-width: 10rem;
-        padding-bottom: 3.5rem;
     }
 }
 
