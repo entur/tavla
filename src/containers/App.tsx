@@ -193,10 +193,9 @@ const Content = (): JSX.Element => {
     const settings = useSettings()
     const location = useLocation()
 
-    const isOnTavle = !['/privacy', '/tavler'].includes(location.pathname)
+    const includeSettings = !['/privacy', '/tavler'].includes(location.pathname)
 
-    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')
-        ?.params?.documentId
+    const isOnTavle = useRouteMatch('/t/')
 
     const Dashboard = settings[0]
         ? getDashboardComponent(settings[0].dashboard)
@@ -206,16 +205,16 @@ const Content = (): JSX.Element => {
 
     useEffect(() => {
         updateManifest(window.location.href, window.location.origin)
-        if (window.location.href.includes('/t/')) {
+        if (isOnTavle) {
             const direction = settings[0]?.direction || Direction.STANDARD
             const fontSizeScale = settings[0]?.fontScale || 1
             document.documentElement.style.fontSize = fontSizeScale * 16 + 'px'
-            setIsRotated(direction === Direction.ROTERT)
+            setIsRotated(direction === Direction.ROTATED)
         } else {
             document.documentElement.style.fontSize = '16px'
             setIsRotated(false)
         }
-    }, [location.pathname, boardId, settings])
+    }, [location.pathname, isOnTavle, settings])
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
@@ -224,7 +223,7 @@ const Content = (): JSX.Element => {
                     ? ProgressiveWebAppPrompt(location.pathname)
                     : null}
                 <SettingsContext.Provider
-                    value={isOnTavle ? settings : [null, settings[1]]}
+                    value={includeSettings ? settings : [null, settings[1]]}
                 >
                     <ThemeProvider>
                         <div

@@ -139,9 +139,9 @@ const ThemeTab = (): JSX.Element => {
                 <div className="theme-tab__grid">
                     <RadioCard
                         title="Standard"
-                        cardValue="standard"
+                        cardValue={Direction.STANDARD}
                         preview={directionPreviewImages.Standard}
-                        selected={directionRadioValue === 'standard'}
+                        selected={directionRadioValue === Direction.STANDARD}
                         callback={(val): void =>
                             switchDirection(val as Direction)
                         }
@@ -149,9 +149,9 @@ const ThemeTab = (): JSX.Element => {
                     />
                     <RadioCard
                         title="Rotert"
-                        cardValue="rotert"
+                        cardValue={Direction.ROTATED}
                         preview={directionPreviewImages.Rotated}
-                        selected={directionRadioValue === 'rotert'}
+                        selected={directionRadioValue === Direction.ROTATED}
                         callback={(val): void =>
                             switchDirection(val as Direction)
                         }
