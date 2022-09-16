@@ -7,6 +7,8 @@ import {
     useRouteMatch,
 } from 'react-router-dom'
 
+import classNames from 'classnames'
+
 import { ApolloProvider } from '@apollo/client'
 
 import { ToastProvider } from '@entur/alert'
@@ -227,18 +229,9 @@ const Content = (): JSX.Element => {
                 >
                     <ThemeProvider>
                         <div
-                            className="themeBackground"
-                            style={
-                                isRotated
-                                    ? {
-                                          transform:
-                                              'rotate(-90deg) translate(-100vh)',
-                                          transformOrigin: 'top left',
-                                          width: '100vh',
-                                          height: '100vh',
-                                      }
-                                    : {}
-                            }
+                            className={classNames('themeBackground', {
+                                rotated: isRotated,
+                            })}
                         >
                             <ToastProvider>
                                 <Header />
