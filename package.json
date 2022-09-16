@@ -60,6 +60,7 @@
         "@splitbee/web": "^0.3.0",
         "@types/react-beautiful-dnd": "^13.1.2",
         "@types/supercluster": "^7.1.0",
+        "classnames": "^2.3.1",
         "connect-history-api-fallback": "^1.6.0",
         "copy-to-clipboard": "^3.3.1",
         "date-fns": "^2.28.0",
