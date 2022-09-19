@@ -32,7 +32,7 @@ function BoardOverflowMenu({
         useState<boolean>(false)
     const [removeSelfFromTavleModalOpen, setRemoveSelfFromTavleModalOpen] =
         useState<boolean>(false)
-    const overflowRedigerTavle = useCallback(() => {
+    const overflowEditTavle = useCallback(() => {
         history.push(`/admin/${id}`)
     }, [id, history])
 
@@ -49,7 +49,7 @@ function BoardOverflowMenu({
     return (
         <>
             <OverflowMenu className="board-card__text-container__top-wrapper__overflow">
-                <OverflowMenuLink onSelect={overflowRedigerTavle}>
+                <OverflowMenuLink onSelect={overflowEditTavle}>
                     <span aria-hidden>
                         <ConfigurationIcon inline />
                     </span>

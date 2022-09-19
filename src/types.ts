@@ -61,6 +61,16 @@ export enum Theme {
     GREY = 'grey',
 }
 
+export enum Direction {
+    STANDARD = 'standard',
+    ROTATED = 'rotated',
+}
+
+export enum FontChangeAction {
+    increase = 1,
+    decrease,
+}
+
 export enum IconColorType {
     DEFAULT = 'default',
     CONTRAST = 'contrast',

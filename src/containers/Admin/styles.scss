@@ -6,7 +6,7 @@
     margin-left: auto;
     margin-right: auto;
     justify-content: center;
-    padding: 2rem 4rem;
+    padding: 2rem 4rem 6rem;
     color: var(--tavla-font-color);
 
     &__tabs {
@@ -39,6 +39,9 @@
         color: var(--tavla-font-color);
         border-color: var(--tavla-button-background-color);
         width: 12rem;
+        min-height: 3rem;
+        height: auto;
+        flex: 1;
     }
 
     .eds-tab:hover {
@@ -98,9 +101,6 @@
             align-items: baseline;
         }
 
-        .eds-tab {
-            min-width: 10rem;
-        }
         &__tabs {
             &__header {
                 padding-left: 1.5rem;

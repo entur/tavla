@@ -1,6 +1,9 @@
 @import './assets/styles/import.scss';
 @import './variables.scss';
 
+html {
+    background-color: var(--tavla-background-color);
+}
 body {
     margin: 0;
     background-color: var(--tavla-background-color);

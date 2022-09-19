@@ -1,0 +1,79 @@
+@import '../../../../assets/styles/import.scss';
+@import '../../../../variables.scss';
+
+.tilePreview {
+    @media (max-width: 480px) {
+        width: 100%;
+    }
+    @media (min-width: 480px) and (max-width: 768px) {
+        width: 100%;
+    }
+    @media (min-width: 768px) and (max-width: 996px) {
+        width: 50%;
+    }
+    @media (min-width: 996px) and (max-width: 1200px) {
+        width: 50%;
+    }
+    @media (min-width: 1200px) {
+        width: 33%;
+    }
+
+    border-radius: 1rem;
+    background-color: var(--tavla-box-background-color);
+    flex: none;
+    padding: 2rem;
+    overflow: scroll;
+
+    &__tileRow {
+        display: flex;
+        border-bottom: 2px solid var(--tavla-border-color);
+        border-top: 2px solid var(--tavla-border-color);
+        padding: 1em 0;
+        line-height: normal;
+    }
+
+    &__label {
+        margin-bottom: 0.5em;
+        font-size: 1.5em;
+    }
+
+    &__icon {
+        margin-right: 1rem;
+        font-size: 2em;
+    }
+
+    &__texts {
+        flex-direction: column;
+        overflow-x: scroll;
+        white-space: nowrap;
+    }
+
+    &__platform-info {
+        color: var(--tavla-label-font-color);
+        margin-bottom: 0.5em;
+    }
+
+    &__sublabels {
+        display: flex;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        font-size: 1.25em;
+    }
+
+    &__sublabel {
+        align-items: center;
+        display: flex;
+        font-weight: 400;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+
+        &:first-child {
+            padding-left: 0;
+        }
+    }
+}
+
+.introductoryText {
+    margin-top: 2rem;
+    color: var(--tavla-label-font-color);
+}

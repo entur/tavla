@@ -30,7 +30,12 @@ import {
 import { useSettingsContext } from '../../settings'
 
 import { DEFAULT_ZOOM } from '../../constants'
-import { isEqualUnsorted, usePrevious, isMobileWeb } from '../../utils'
+import {
+    isEqualUnsorted,
+    usePrevious,
+    isMobileWeb,
+    BREAKPOINTS,
+} from '../../utils'
 
 import { LongPressProvider } from '../../logic/longPressContext'
 
@@ -81,18 +86,10 @@ function getDefaultBreakpoint() {
     return 'sm'
 }
 
-const BREAKPOINTS = {
-    lg: 1200,
-    md: 996,
-    sm: 768,
-    xs: 480,
-    xxs: 0,
-}
-
 const COLS: { [key: string]: number } = {
     lg: 3,
     md: 2,
-    sm: 1,
+    sm: 2,
     xs: 1,
     xxs: 1,
 }

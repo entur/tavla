@@ -1,37 +1,47 @@
-import React, { useEffect } from 'react'
-import { Route, Switch, BrowserRouter, useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import {
+    BrowserRouter,
+    Route,
+    Switch,
+    useLocation,
+    useRouteMatch,
+} from 'react-router-dom'
+
+import classNames from 'classnames'
 
 import { ApolloProvider } from '@apollo/client'
 
 import { ToastProvider } from '@entur/alert'
 
-import { SettingsContext, useSettings } from '../settings'
 import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
+import { SettingsContext, useSettings } from '../settings'
 
 import PWAPrompt from '../../vendor/react-ios-pwa-prompt'
 
 import { realtimeVehiclesClient } from '../services/realtimeVehicles/realtimeVehiclesService'
 
-import Compact from '../dashboards/Compact'
 import Chrono from '../dashboards/Chrono'
-import Timeline from '../dashboards/Timeline'
+import Compact from '../dashboards/Compact'
 import MapDashboard from '../dashboards/Map'
+import Timeline from '../dashboards/Timeline'
 
-import PrivateRoute from '../routers/PrivateRoute'
 import Header from '../components/Header'
 import BusStop from '../dashboards/BusStop'
+import PrivateRoute from '../routers/PrivateRoute'
 
-import { isMobileWeb } from '../utils'
 import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../settings/LocalStorage'
+import { isMobileWeb } from '../utils'
 
-import LandingPage from './LandingPage'
+import { Direction } from '../types'
+
 import Admin from './Admin'
-import Privacy from './Privacy'
 import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
+import LandingPage from './LandingPage'
+import Privacy from './Privacy'
 import ThemeProvider from './ThemeWrapper/ThemeProvider'
 
 import MyBoards from './MyBoards'
@@ -185,15 +195,28 @@ const Content = (): JSX.Element => {
     const settings = useSettings()
     const location = useLocation()
 
-    const isOnTavle = !['/privacy', '/tavler'].includes(location.pathname)
+    const includeSettings = !['/privacy', '/tavler'].includes(location.pathname)
+
+    const isOnTavle = useRouteMatch('/t/')
 
     const Dashboard = settings[0]
         ? getDashboardComponent(settings[0].dashboard)
         : (): null => null
 
+    const [isRotated, setIsRotated] = useState(false)
+
     useEffect(() => {
         updateManifest(window.location.href, window.location.origin)
-    }, [location.pathname])
+        if (isOnTavle) {
+            const direction = settings[0]?.direction || Direction.STANDARD
+            const fontSizeScale = settings[0]?.fontScale || 1
+            document.documentElement.style.fontSize = fontSizeScale * 16 + 'px'
+            setIsRotated(direction === Direction.ROTATED)
+        } else {
+            document.documentElement.style.fontSize = '16px'
+            setIsRotated(false)
+        }
+    }, [location.pathname, isOnTavle, settings])
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
@@ -202,10 +225,14 @@ const Content = (): JSX.Element => {
                     ? ProgressiveWebAppPrompt(location.pathname)
                     : null}
                 <SettingsContext.Provider
-                    value={isOnTavle ? settings : [null, settings[1]]}
+                    value={includeSettings ? settings : [null, settings[1]]}
                 >
                     <ThemeProvider>
-                        <div className="themeBackground">
+                        <div
+                            className={classNames('themeBackground', {
+                                rotated: isRotated,
+                            })}
+                        >
                             <ToastProvider>
                                 <Header />
                                 <Switch>

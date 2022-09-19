@@ -11,7 +11,7 @@ import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 
 import { Coordinates, TransportMode } from '@entur/sdk'
 
-import { Theme, DrawableRoute, CustomTile } from '../types'
+import { Theme, DrawableRoute, CustomTile, Direction } from '../types'
 import { getSettingsReference } from '../services/firebase'
 import { getDocumentId } from '../utils'
 import { useUser } from '../auth'
@@ -67,6 +67,8 @@ export interface Settings {
     customQrTiles: CustomTile[]
     showCustomTiles: boolean
     hiddenCustomTileIds: string[]
+    fontScale?: number
+    direction?: Direction
 }
 
 type Setter = (settings: Partial<Settings>) => void
