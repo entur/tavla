@@ -705,7 +705,7 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ScooterPanel />
                 </div>
-                <div key="mapPanel" className="edit-tab__tile">
+                {/* <div key="mapPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kart</Heading2>
                         <Switch
@@ -727,7 +727,7 @@ const EditTab = (): JSX.Element => {
                             scooters={scooters}
                         />
                     )}
-                </div>
+                </div> */}
                 <div key="weatherPanel" className="edit-tab__tile-weather">
                     <div className="edit-tab__header">
                         <Heading2>
