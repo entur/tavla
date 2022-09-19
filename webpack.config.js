@@ -6,7 +6,6 @@ const HtmlWebPackPlugin = require('html-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const postcssPresetEnv = require('postcss-preset-env')
 const CopyPlugin = require('copy-webpack-plugin')
-const SentryCliPlugin = require('@sentry/webpack-plugin')
 const { SourceMapDevToolPlugin } = require('webpack')
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
@@ -101,12 +100,6 @@ module.exports = async (env, args) => ({
                   new SourceMapDevToolPlugin({
                       filename: '[name].[fullhash].js.map',
                       noSources: false,
-                  }),
-                  new SentryCliPlugin({
-                      include: OUTPUT_PATH,
-                      org: 'entur',
-                      project: 'tavla',
-                      release: process.env.VERSION,
                   }),
               ]
             : []),
