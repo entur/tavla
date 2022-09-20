@@ -19,7 +19,7 @@ import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
 
-import { FormFactor, Station } from '@entur/sdk/lib/mobility/types'
+import { Station } from '@entur/sdk/lib/mobility/types'
 
 import { useSettingsContext, Mode } from '../../../settings'
 
@@ -33,11 +33,7 @@ import {
 
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { Line, StopPlaceWithLines } from '../../../types'
-import {
-    useNearestPlaces,
-    useMobility,
-    useBikeRentalStations,
-} from '../../../logic'
+import { useNearestPlaces, useBikeRentalStations } from '../../../logic'
 import { getStopPlacesWithLines } from '../../../logic/getStopPlacesWithLines'
 import {
     saveToLocalStorage,
@@ -53,7 +49,6 @@ import StopPlaceSearch from './StopPlaceSearch'
 import BikePanel from './BikePanel'
 import ScooterPanel from './ScooterPanel'
 import RealtimeDataPanel from './RealtimeDataPanel'
-import ZoomEditor from './ZoomEditor'
 import ToggleDetailsPanel from './ToggleDetailsPanel'
 import WeatherPanel from './WeatherPanel'
 
@@ -118,7 +113,6 @@ const EditTab = (): JSX.Element => {
         hiddenModes,
         hideRealtimeData,
         hiddenRealtimeDataLineRefs = [],
-        showMap = false,
         showWeather = false,
         showIcon = true,
         showTemperature = true,
@@ -146,7 +140,7 @@ const EditTab = (): JSX.Element => {
         [uniqueLines, allLinesWithRealtimeData],
     )
 
-    const [zoom, setZoom] = useState<number>(settings?.zoom || DEFAULT_ZOOM)
+    const zoom = settings?.zoom || DEFAULT_ZOOM
     const debouncedZoom = useDebounce(zoom, 200)
 
     useEffect(() => {
@@ -207,7 +201,6 @@ const EditTab = (): JSX.Element => {
                 .map(({ id }) => id),
         [nearestPlaces],
     )
-    const scooters = useMobility(FormFactor.SCOOTER)
 
     useEffect(() => {
         let aborted = false
@@ -705,7 +698,7 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ScooterPanel />
                 </div>
-                <div key="mapPanel" className="edit-tab__tile">
+                {/* <div key="mapPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kart</Heading2>
                         <Switch
@@ -727,7 +720,7 @@ const EditTab = (): JSX.Element => {
                             scooters={scooters}
                         />
                     )}
-                </div>
+                </div> */}
                 <div key="weatherPanel" className="edit-tab__tile-weather">
                     <div className="edit-tab__header">
                         <Heading2>
