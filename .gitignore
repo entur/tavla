@@ -7,3 +7,4 @@ dist/
 *.log
 functions/lib
 sentry.properties
+graphql.config.json
