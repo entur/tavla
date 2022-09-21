@@ -38,6 +38,8 @@ import { isMobileWeb } from '../utils'
 
 import { Direction } from '../types'
 
+import JCDecaux from '../dashboards/JCDecaux'
+
 import Admin from './Admin'
 import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
 import LandingPage from './LandingPage'
@@ -218,6 +220,8 @@ const Content = (): JSX.Element => {
         }
     }, [location.pathname, isOnTavle, settings])
 
+    const isJCDecaux = true
+
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
             <UserProvider value={user}>
@@ -228,57 +232,61 @@ const Content = (): JSX.Element => {
                     value={includeSettings ? settings : [null, settings[1]]}
                 >
                     <ThemeProvider>
-                        <div
-                            className={classNames('themeBackground', {
-                                rotated: isRotated,
-                            })}
-                        >
-                            <ToastProvider>
-                                <Header />
-                                <Switch>
-                                    <Route
-                                        exact
-                                        path="/"
-                                        component={LandingPage}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/t/:documentId"
-                                        component={Dashboard}
-                                    />
-                                    <PrivateRoute
-                                        exact
-                                        path="/admin/:documentId"
-                                        component={settings[0] && Admin}
-                                        errorComponent={LockedTavle}
-                                    />
-                                    <Route
-                                        path="/dashboard"
-                                        component={Dashboard}
-                                    />
-                                    <Route
-                                        path="/tavler"
-                                        component={MyBoards}
-                                    />
-                                    <Route
-                                        path="/admin"
-                                        component={
-                                            settings[0]
-                                                ? Admin
-                                                : (): null => null
-                                        }
-                                    />
-                                    <Route
-                                        path="/privacy"
-                                        component={Privacy}
-                                    />
-                                    <Route
-                                        path="/"
-                                        component={PageDoesNotExist}
-                                    />
-                                </Switch>
-                            </ToastProvider>
-                        </div>
+                        {isJCDecaux ? (
+                            <JCDecaux />
+                        ) : (
+                            <div
+                                className={classNames('themeBackground', {
+                                    rotated: isRotated,
+                                })}
+                            >
+                                <ToastProvider>
+                                    <Header />
+                                    <Switch>
+                                        <Route
+                                            exact
+                                            path="/"
+                                            component={LandingPage}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/t/:documentId"
+                                            component={Dashboard}
+                                        />
+                                        <PrivateRoute
+                                            exact
+                                            path="/admin/:documentId"
+                                            component={settings[0] && Admin}
+                                            errorComponent={LockedTavle}
+                                        />
+                                        <Route
+                                            path="/dashboard"
+                                            component={Dashboard}
+                                        />
+                                        <Route
+                                            path="/tavler"
+                                            component={MyBoards}
+                                        />
+                                        <Route
+                                            path="/admin"
+                                            component={
+                                                settings[0]
+                                                    ? Admin
+                                                    : (): null => null
+                                            }
+                                        />
+                                        <Route
+                                            path="/privacy"
+                                            component={Privacy}
+                                        />
+                                        <Route
+                                            path="/"
+                                            component={PageDoesNotExist}
+                                        />
+                                    </Switch>
+                                </ToastProvider>
+                            </div>
+                        )}
                     </ThemeProvider>
                 </SettingsContext.Provider>
             </UserProvider>
