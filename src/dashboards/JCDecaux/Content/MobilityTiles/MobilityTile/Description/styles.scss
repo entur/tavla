@@ -1,0 +1,18 @@
+.vehicles-description {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    gap: 2rem;
+    width: 26rem;
+
+    &-heading {
+        font-size: 3rem;
+        margin: 0;
+    }
+
+    &-area {
+        font-size: 2rem;
+        line-height: 150%;
+        margin: 0;
+    }
+}

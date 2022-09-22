@@ -1,3 +1,18 @@
-.leadParagraph {
+.heading-wrapper {
+    margin-top: 4rem;
+}
+
+.lead-paragraph {
     display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.JCD-heading {
+    font-size: 8rem;
+    font: Nationale;
+}
+
+.JCD-last-updated {
+    font-size: 2rem;
 }

@@ -1,18 +1,21 @@
 import React from 'react'
 
-import { Heading1, LeadParagraph } from '@entur/typography'
-import { LimeIcon } from '@entur/icons'
 import { Contrast } from '@entur/layout'
+
+import PulsatingDot from '../../components/PulsatingDot'
 
 import './styles.scss'
 
 const Heading = (): JSX.Element | null => (
-    <Contrast style={{ border: '5px solid orange', color: 'white' }}>
-        <Heading1>I nærheten</Heading1>
-        <LeadParagraph className="leadParagraph">
-            <LimeIcon />
-            <div>Sist oppdatert -klokkeslett-</div>
-        </LeadParagraph>
+    <Contrast className="heading-wrapper">
+        <h1 className="JCD-heading">I nærheten</h1>
+        <div className="lead-paragraph">
+            <div>
+                <PulsatingDot />
+            </div>
+            {/* TODO: Bytt ut 13:59 med faktisk tidspunkt */}
+            <h3 className="JCD-last-updated">Sist oppdatert 13:59</h3>
+        </div>
     </Contrast>
 )
 

@@ -1,10 +1,12 @@
 import React from 'react'
 
-import { LogoPositiveIcon } from '@entur/icons'
+import EnturLogo from '../../../assets/icons/enturLogo'
+
+import './styles.scss'
 
 const Header = (): JSX.Element | null => (
-    <div style={{ border: '5px solid orange', color: 'white' }}>
-        <LogoPositiveIcon />
+    <div className="logo-container">
+        <EnturLogo />
     </div>
 )
 
