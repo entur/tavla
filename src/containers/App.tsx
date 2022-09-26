@@ -207,6 +207,8 @@ const Content = (): JSX.Element => {
 
     const [isRotated, setIsRotated] = useState(false)
 
+    const [isJCDecaux, setIsJCDecaux] = useState(settings[0]?.jcdecaux || false)
+
     useEffect(() => {
         updateManifest(window.location.href, window.location.origin)
         if (isOnTavle) {
@@ -220,7 +222,9 @@ const Content = (): JSX.Element => {
         }
     }, [location.pathname, isOnTavle, settings])
 
-    const isJCDecaux = true
+    useEffect(() => {
+        setIsJCDecaux(settings[0]?.jcdecaux || false)
+    }, [settings])
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>

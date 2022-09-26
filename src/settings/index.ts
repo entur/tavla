@@ -69,6 +69,7 @@ export interface Settings {
     hiddenCustomTileIds: string[]
     fontScale?: number
     direction?: Direction
+    jcdecaux?: boolean
 }
 
 type Setter = (settings: Partial<Settings>) => void
@@ -96,6 +97,7 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     customQrTiles: [],
     showCustomTiles: false,
     hiddenCustomTileIds: [],
+    jcdecaux: false,
 }
 
 export function useSettings(): [Settings | null, Setter] {
