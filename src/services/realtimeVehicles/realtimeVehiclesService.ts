@@ -37,6 +37,7 @@ export const realtimeVehiclesClient = new ApolloClient({
         mobilityLink,
         vehiclesLink,
     ),
+    connectToDevTools: true,
 
     cache: new InMemoryCache({
         addTypename: false,
