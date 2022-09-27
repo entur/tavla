@@ -6,30 +6,60 @@ import { BicycleIcon, CarIcon, ScooterIcon } from '@entur/icons'
 
 import './styles.scss'
 
-const AvailableVehicles = ({ formFactor }: Props): JSX.Element | null => (
+const NumberSpan = ({
+    numberOfVehicles,
+}: NumberSpanProps): JSX.Element | null => {
+    if (numberOfVehicles > 99)
+        return (
+            <span className="available-vehicles-box-overflow">
+                <span className="available-vehicles-box-overflow-number">
+                    99
+                </span>
+                <span className="available-vehicles-box-overflow-symbol">
+                    +
+                </span>
+            </span>
+        )
+    return <p>{numberOfVehicles}</p>
+}
+
+const AvailableVehicles = ({
+    formFactor,
+    numberOfCars,
+    numberOfScooters,
+    numberOfBikes,
+}: AvailableVehicleProps): JSX.Element | null => (
     <>
         {formFactor === FormFactor.CAR && (
             <div className="available-vehicles-box">
                 <CarIcon />
-                <p>1</p>
+                <NumberSpan numberOfVehicles={numberOfCars} />
             </div>
         )}
         {formFactor === FormFactor.SCOOTER && (
             <div className="available-vehicles-box">
                 <ScooterIcon />
-                <p>12</p>
+                <NumberSpan numberOfVehicles={numberOfScooters} />
             </div>
         )}
         {formFactor === FormFactor.BICYCLE && (
             <div className="available-vehicles-box">
-                <BicycleIcon /> <p>3</p>
+                <BicycleIcon color="currentColor" />
+                <NumberSpan numberOfVehicles={numberOfBikes} />
             </div>
         )}
     </>
 )
 
-interface Props {
+interface NumberSpanProps {
+    numberOfVehicles: number
+}
+
+interface AvailableVehicleProps {
     formFactor: FormFactor
+    numberOfCars: number
+    numberOfScooters: number
+    numberOfBikes: number
 }
 
 export default AvailableVehicles

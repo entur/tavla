@@ -6,14 +6,24 @@ import AvailableVehicles from './AvailableVehicles'
 import Description from './Description'
 import './styles.scss'
 
-const MobilityTile = ({ formFactor }: Props): JSX.Element | null => (
+const MobilityTile = ({
+    formFactor,
+    numberOfBikes,
+}: Props): JSX.Element | null => (
     <div className="mobility-tile-wrapper">
-        <AvailableVehicles formFactor={formFactor} />
+        <AvailableVehicles
+            formFactor={formFactor}
+            numberOfCars={1}
+            numberOfScooters={12}
+            numberOfBikes={numberOfBikes}
+        />
         <Description formFactor={formFactor} />
     </div>
 )
 
 interface Props {
     formFactor: FormFactor
+    numberOfBikes: number
 }
+
 export default MobilityTile

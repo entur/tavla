@@ -6,11 +6,25 @@ import MobilityTile from './MobilityTile'
 
 import './styles.scss'
 
-const MobilityTiles = (): JSX.Element | null => (
+const MobilityTiles = ({ numberOfBikes }: Props): JSX.Element | null => (
     <div className="mobility-tiles-wrapper">
-        <MobilityTile formFactor={FormFactor.CAR} />
-        <MobilityTile formFactor={FormFactor.SCOOTER} />
+        <MobilityTile
+            formFactor={FormFactor.CAR}
+            numberOfBikes={numberOfBikes}
+        />
+        <MobilityTile
+            formFactor={FormFactor.SCOOTER}
+            numberOfBikes={numberOfBikes}
+        />
+        <MobilityTile
+            formFactor={FormFactor.BICYCLE}
+            numberOfBikes={numberOfBikes}
+        />
     </div>
 )
+
+type Props = {
+    numberOfBikes: number
+}
 
 export default MobilityTiles
