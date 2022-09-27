@@ -236,14 +236,19 @@ const Content = (): JSX.Element => {
                     value={includeSettings ? settings : [null, settings[1]]}
                 >
                     <ThemeProvider>
-                        {isJCDecaux ? (
-                            <JCDecaux />
-                        ) : (
-                            <div
-                                className={classNames('themeBackground', {
-                                    rotated: isRotated,
-                                })}
-                            >
+                        <div
+                            className={classNames('themeBackground', {
+                                rotated: isRotated,
+                            })}
+                        >
+                            {isJCDecaux ? (
+                                <JCDecaux />
+                            ) : (
+                                // <div
+                                //     className={classNames('themeBackground', {
+                                //         rotated: isRotated,
+                                //     })}
+                                // >
                                 <ToastProvider>
                                     <Header />
                                     <Switch>
@@ -289,8 +294,9 @@ const Content = (): JSX.Element => {
                                         />
                                     </Switch>
                                 </ToastProvider>
-                            </div>
-                        )}
+                                // </div>
+                            )}
+                        </div>
                     </ThemeProvider>
                 </SettingsContext.Provider>
             </UserProvider>
