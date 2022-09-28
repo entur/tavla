@@ -97,7 +97,6 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     customQrTiles: [],
     showCustomTiles: false,
     hiddenCustomTileIds: [],
-    //updated: false
 }
 
 export function useSettings(): [Settings | null, Setter] {
