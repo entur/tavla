@@ -69,6 +69,7 @@ export interface Settings {
     hiddenCustomTileIds: string[]
     fontScale?: number
     direction?: Direction
+    pageRefreshedAt?: number
 }
 
 type Setter = (settings: Partial<Settings>) => void
@@ -96,6 +97,7 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     customQrTiles: [],
     showCustomTiles: false,
     hiddenCustomTileIds: [],
+    //updated: false
 }
 
 export function useSettings(): [Settings | null, Setter] {

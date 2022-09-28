@@ -21,6 +21,8 @@ import { ValidationInfoIcon } from '@entur/icons'
 
 import { Station } from '@entur/sdk/lib/mobility/types'
 
+import { Button } from '@entur/button'
+
 import { useSettingsContext, Mode } from '../../../settings'
 
 import {
@@ -35,6 +37,7 @@ import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { Line, StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces, useBikeRentalStations } from '../../../logic'
 import { getStopPlacesWithLines } from '../../../logic/getStopPlacesWithLines'
+
 import {
     saveToLocalStorage,
     getFromLocalStorage,
@@ -342,6 +345,7 @@ const EditTab = (): JSX.Element => {
                 w: 1.5,
                 h: settings?.showMap ? 3.2 : 0.9,
             },
+            { i: 'refreshTavlePanel', x: 3, y: 0, w: 1.5, h: 1.65 },
             { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 1.5 },
             {
                 i: 'realtimeDataPanel',
@@ -387,6 +391,7 @@ const EditTab = (): JSX.Element => {
             },
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
             { i: 'mapPanel', x: 0, y: 7, w: 2, h: settings?.showMap ? 3 : 0.8 },
+            { i: 'refreshTavlePanel', x: 0, y: 4.5, w: 2, h: 1.7 },
             { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.3 },
             {
                 i: 'realtimeDataPanel',
@@ -438,6 +443,7 @@ const EditTab = (): JSX.Element => {
                 w: 1,
                 h: settings?.showMap ? 3 : 0.8,
             },
+            { i: 'refreshTavlePanel', x: 0, y: 8, w: 1, h: 1.6 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.3 },
             {
                 i: 'realtimeDataPanel',
@@ -489,7 +495,8 @@ const EditTab = (): JSX.Element => {
                 w: 1,
                 h: settings?.showMap ? 3 : 0.8,
             },
-            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.5 },
+            { i: 'refreshTavlePanel', x: 0, y: 8, w: 1, h: 1.8 },
+            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 2.5 },
             {
                 i: 'realtimeDataPanel',
                 x: 0,
@@ -540,6 +547,7 @@ const EditTab = (): JSX.Element => {
                 w: 1,
                 h: settings?.showMap ? 3 : 0.8,
             },
+            { i: 'refreshTavlePanel', x: 0, y: 8, w: 1, h: 1.8 },
             { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 2 },
             {
                 i: 'realtimeDataPanel',
@@ -568,6 +576,12 @@ const EditTab = (): JSX.Element => {
                     ),
             },
         ],
+    }
+
+    const updateTavle = () => {
+        setSettings({
+            pageRefreshedAt: new Date().getTime(),
+        })
     }
 
     return (
@@ -734,6 +748,20 @@ const EditTab = (): JSX.Element => {
                         />
                     </div>
                     <WeatherPanel />
+                </div>
+                <div key="refreshTavlePanel" className="edit-tab__tile-refresh">
+                    <div className="edit-tab__header">
+                        <Heading2>Last inn tavler på nytt</Heading2>
+                    </div>
+                    <div>
+                        <Paragraph>
+                            Når du trykker på knappen vil alle skjermer som
+                            viser denne tavlen bli lastet inn på nytt.
+                        </Paragraph>
+                        <Button onClick={updateTavle} variant="primary">
+                            Last inn tavler på nytt
+                        </Button>
+                    </div>
                 </div>
                 <div key="customTilePanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
