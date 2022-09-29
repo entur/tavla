@@ -5,7 +5,6 @@ import { Station } from '@entur/sdk/lib/mobility/types'
 
 import service from '../service'
 import { useSettingsContext } from '../settings'
-import { createAbortController } from '../utils'
 
 async function fetchBikeRentalStationsById(
     allStationIds: string[],
@@ -34,21 +33,12 @@ async function fetchBikeRentalStationsNearby(
     )
 }
 
-const EMPTY_BIKE_RENTAL_STATIONS: Station[] = []
-
-export default function useBikeRentalStations(
-    removeHiddenStations = true,
-): Station[] | undefined {
+export default function useBikeRentalStations2(
+    excludeHiddenStations = true,
+): Station[] {
     const [settings] = useSettingsContext()
-    const [bikeRentalStations, setBikeRentalStations] = useState<
-        Station[] | undefined
-    >(EMPTY_BIKE_RENTAL_STATIONS)
-    const [nearbyStations, setNearbyStations] = useState<
-        Station[] | undefined
-    >()
-    const [userSelectedStations, setUserSelectedStations] = useState<Station[]>(
-        [],
-    )
+    const [stations, setStations] = useState<Station[]>([])
+    const [stationIds, setStationIds] = useState<string[]>([])
 
     const {
         coordinates,
@@ -60,61 +50,59 @@ export default function useBikeRentalStations(
 
     const isDisabled = Boolean(hiddenModes?.includes('bysykkel'))
 
+    // Todo: check usememo for ids, memo on distance and coordinates
     useEffect(() => {
-        const abortController = createAbortController()
-        if (!coordinates || !distance || isDisabled) {
-            return setBikeRentalStations(EMPTY_BIKE_RENTAL_STATIONS)
-        }
+        if (!coordinates || !distance || isDisabled) return
+        const abortController = new AbortController()
+
         fetchBikeRentalStationsNearby(
             coordinates,
             distance,
             abortController.signal,
-        )
-            .then((stations) => setNearbyStations(stations || []))
-            .catch((error) => {
-                if (error.name !== 'AbortError') throw error
-            })
-
-        return () => {
-            abortController.abort()
-        }
+        ).then((sts) => {
+            setStationIds(sts.map((st) => st.id)) // Store IDs of all nearby stations
+        })
     }, [coordinates, distance, isDisabled])
 
-    useEffect(() => {
-        const abortController = createAbortController()
-        if (isDisabled) {
-            return setBikeRentalStations(EMPTY_BIKE_RENTAL_STATIONS)
-        }
-        fetchBikeRentalStationsById(newStations, abortController.signal)
-            .then(setUserSelectedStations)
-            .catch((error) => {
-                if (error.name !== 'AbortError') throw error
+    function pollStationsById() {
+        if (stationIds.length === 0 || isDisabled) return
+
+        const abortController = new AbortController()
+
+        const getData = () => {
+            // Filter out IDs of hidden stations if excludeHiddenStations is true
+            const stationsToFetch = excludeHiddenStations
+                ? stationIds.filter((st) => !hiddenStations.includes(st))
+                : stationIds
+
+            const uniqueStationsToFetch = [
+                ...new Set([...stationsToFetch, ...newStations]),
+            ]
+
+            fetchBikeRentalStationsById(
+                uniqueStationsToFetch,
+                abortController.signal,
+            ).then((st) => {
+                setStations(st)
             })
+        }
+        getData()
+
+        const intervalId = setInterval(getData, 30000)
         return () => {
+            // If connection is interrupted or updated, stop next poll
+            // And send abort signal to cancel network request in case it is in progress
+            clearInterval(intervalId)
             abortController.abort()
         }
-    }, [newStations, isDisabled])
-
-    useEffect(() => {
-        if (!nearbyStations) return
-
-        if (isDisabled) {
-            return setBikeRentalStations(EMPTY_BIKE_RENTAL_STATIONS)
-        }
-        const uniqueUserStations = userSelectedStations.filter(
-            (userStation) =>
-                !nearbyStations.some(
-                    (nearbyStation) => nearbyStation.id === userStation.id,
-                ),
-        )
-        setBikeRentalStations([...nearbyStations, ...uniqueUserStations])
-    }, [nearbyStations, userSelectedStations, isDisabled])
-
-    if (removeHiddenStations && bikeRentalStations) {
-        return bikeRentalStations.filter(
-            (station) => !hiddenStations.includes(station.id),
-        )
     }
+    useEffect(pollStationsById, [
+        stationIds,
+        hiddenStations,
+        isDisabled,
+        excludeHiddenStations,
+        newStations,
+    ])
 
-    return bikeRentalStations
+    return stations
 }
