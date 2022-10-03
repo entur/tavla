@@ -238,7 +238,7 @@ const Content = (): JSX.Element => {
                             })}
                         >
                             <ToastProvider>
-                                <Header />
+                                {settings[0]?.jcdecaux ? <></> : <Header />}
                                 <Switch>
                                     <Route
                                         exact
