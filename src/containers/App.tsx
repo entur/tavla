@@ -54,7 +54,9 @@ const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1
 
 function getDashboardComponent(
     dashboardKey?: string | void,
+    isJCDecaux = false,
 ): () => JSX.Element | null {
+    if (isJCDecaux) return JCDecaux
     switch (dashboardKey) {
         case 'Timeline':
             return Timeline
@@ -202,12 +204,10 @@ const Content = (): JSX.Element => {
     const isOnTavle = useRouteMatch('/t/')
 
     const Dashboard = settings[0]
-        ? getDashboardComponent(settings[0].dashboard)
+        ? getDashboardComponent(settings[0].dashboard, settings[0].jcdecaux)
         : (): null => null
 
     const [isRotated, setIsRotated] = useState(false)
-
-    const [isJCDecaux, setIsJCDecaux] = useState(settings[0]?.jcdecaux || false)
 
     useEffect(() => {
         updateManifest(window.location.href, window.location.origin)
@@ -221,10 +221,6 @@ const Content = (): JSX.Element => {
             setIsRotated(false)
         }
     }, [location.pathname, isOnTavle, settings])
-
-    useEffect(() => {
-        setIsJCDecaux(settings[0]?.jcdecaux || false)
-    }, [settings])
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
@@ -241,61 +237,51 @@ const Content = (): JSX.Element => {
                                 rotated: isRotated,
                             })}
                         >
-                            {isJCDecaux ? (
-                                <JCDecaux />
-                            ) : (
-                                // <div
-                                //     className={classNames('themeBackground', {
-                                //         rotated: isRotated,
-                                //     })}
-                                // >
-                                <ToastProvider>
-                                    <Header />
-                                    <Switch>
-                                        <Route
-                                            exact
-                                            path="/"
-                                            component={LandingPage}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/t/:documentId"
-                                            component={Dashboard}
-                                        />
-                                        <PrivateRoute
-                                            exact
-                                            path="/admin/:documentId"
-                                            component={settings[0] && Admin}
-                                            errorComponent={LockedTavle}
-                                        />
-                                        <Route
-                                            path="/dashboard"
-                                            component={Dashboard}
-                                        />
-                                        <Route
-                                            path="/tavler"
-                                            component={MyBoards}
-                                        />
-                                        <Route
-                                            path="/admin"
-                                            component={
-                                                settings[0]
-                                                    ? Admin
-                                                    : (): null => null
-                                            }
-                                        />
-                                        <Route
-                                            path="/privacy"
-                                            component={Privacy}
-                                        />
-                                        <Route
-                                            path="/"
-                                            component={PageDoesNotExist}
-                                        />
-                                    </Switch>
-                                </ToastProvider>
-                                // </div>
-                            )}
+                            <ToastProvider>
+                                {settings[0]?.jcdecaux ? <></> : <Header />}
+                                <Switch>
+                                    <Route
+                                        exact
+                                        path="/"
+                                        component={LandingPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/t/:documentId"
+                                        component={Dashboard}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path="/admin/:documentId"
+                                        component={settings[0] && Admin}
+                                        errorComponent={LockedTavle}
+                                    />
+                                    <Route
+                                        path="/dashboard"
+                                        component={Dashboard}
+                                    />
+                                    <Route
+                                        path="/tavler"
+                                        component={MyBoards}
+                                    />
+                                    <Route
+                                        path="/admin"
+                                        component={
+                                            settings[0]
+                                                ? Admin
+                                                : (): null => null
+                                        }
+                                    />
+                                    <Route
+                                        path="/privacy"
+                                        component={Privacy}
+                                    />
+                                    <Route
+                                        path="/"
+                                        component={PageDoesNotExist}
+                                    />
+                                </Switch>
+                            </ToastProvider>
                         </div>
                     </ThemeProvider>
                 </SettingsContext.Provider>

@@ -4,6 +4,7 @@ import { FormFactor } from '@entur/sdk/lib/mobility/types'
 
 import './styles.scss'
 
+// note: kan bruke if for strings, mindre code reuse
 const Description = ({ formFactor }: Props): JSX.Element | null => (
     <>
         {formFactor === FormFactor.CAR && (

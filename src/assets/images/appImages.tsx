@@ -1,7 +1,8 @@
 import React from 'react'
 
-import Images from './app_images.svg'
+import Images from './app_images.webp'
 
+// note: tsx i images mappen, kan brukes direkte no need for component
 function AppImages({ height }: Props): JSX.Element {
     const appImages = Images
 

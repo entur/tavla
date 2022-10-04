@@ -8,6 +8,7 @@ import Header from './Header'
 
 import './styles.scss'
 
+// note: classname wrapper kan skape problemer
 const JCDecaux = (): JSX.Element | null => {
     const bikeRentalStations = useBikeRentalStations()
     const [totalNumberOfBikes, setTotalNumberOfBikes] = useState(0)

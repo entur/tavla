@@ -6,6 +6,9 @@ import MobilityTile from './MobilityTile'
 
 import './styles.scss'
 
+// note: naming av mobilitytiles mobilitytile er noe vanskelig
+// reuse feels meh her
+
 const MobilityTiles = ({ numberOfBikes }: Props): JSX.Element | null => (
     <div className="mobility-tiles-wrapper">
         <MobilityTile

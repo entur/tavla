@@ -6,6 +6,7 @@ import AvailableVehicles from './AvailableVehicles'
 import Description from './Description'
 import './styles.scss'
 
+// note: numberofcars, scooters, bike i object mapped til formfactor?
 const MobilityTile = ({
     formFactor,
     numberOfBikes,
