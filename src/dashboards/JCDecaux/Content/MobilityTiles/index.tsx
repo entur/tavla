@@ -12,14 +12,14 @@ const MobilityTiles = ({ numberOfBikes }: Props): JSX.Element | null => (
             formFactor={FormFactor.CAR}
             numberOfBikes={numberOfBikes}
         />
-        <MobilityTile
+        {/* <MobilityTile
             formFactor={FormFactor.SCOOTER}
             numberOfBikes={numberOfBikes}
         />
         <MobilityTile
             formFactor={FormFactor.BICYCLE}
             numberOfBikes={numberOfBikes}
-        />
+        /> */}
     </div>
 )
 
