@@ -27,3 +27,33 @@
         }
     }
 }
+
+.row-box {
+    margin: 1rem;
+    display: flex;
+}
+
+.red-box {
+    background-color: #c5044e;
+    border-radius: 10px;
+    width: 12rem;
+    height: 4.5rem;
+}
+
+.time {
+    font-size: 2.5rem;
+    margin: 1rem;
+    margin-left: auto;
+}
+
+.stopPlace {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 1rem;
+}
+
+.lineNumber {
+    font-size: 2rem;
+    float: right;
+    margin-right: 2rem;
+}
