@@ -12,11 +12,13 @@
             filter: brightness(0.95);
         }
     }
+
     &__add-button {
         width: 100%;
         margin-top: 1rem;
         margin-bottom: 2rem;
     }
+
     &__row {
         display: flex;
         align-items: center;
@@ -25,6 +27,7 @@
         font-size: $font-sizes-large;
         font-weight: 600;
         -webkit-font-smoothing: antialiased;
+
         &:not(:last-child) {
             border-bottom: 0.125rem solid var(--tavla-border-color);
         }
@@ -33,9 +36,11 @@
     &__icons {
         display: flex;
         align-items: center;
+
         & > * {
             cursor: pointer;
         }
+
         & > *:not(:last-child) {
             margin-right: 1rem;
         }

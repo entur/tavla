@@ -10,6 +10,7 @@
         align-items: center;
         box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
         transition: all 0.1s ease-in-out;
+
         &:hover {
             transform: scale(1.5);
         }
@@ -24,10 +25,12 @@
         align-items: center;
         font-size: $font-sizes-medium;
     }
+
     &-tooltip {
         opacity: 0;
         visibility: hidden;
     }
+
     &-tooltip.visible {
         opacity: 1;
         visibility: visible;
