@@ -8,6 +8,9 @@ import service from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../constants'
 
+// Workaround for incompatible AbortSignal types between lib.dom and @entur/sdk
+import { AbortSignal as AbortSignalNodeFetch } from 'node-fetch/externals'
+
 import { createAbortController } from '../utils'
 
 import { useOperators } from '.'
@@ -36,7 +39,7 @@ async function fetchVehicles(
                 ),
             formFactors: formFactor ? [formFactor] : undefined,
         },
-        { signal },
+        { signal: signal as AbortSignalNodeFetch },
     )
 }
 

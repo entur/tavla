@@ -3,6 +3,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import differenceInSeconds from 'date-fns/differenceInSeconds'
 import parseISO from 'date-fns/parseISO'
 
+// Workaround for incompatible AbortSignal types between lib.dom and @entur/sdk
+import { AbortSignal as NodeFetchAbortSignal } from 'node-fetch/externals'
+
 import {
     BicycleIcon,
     BusIcon,

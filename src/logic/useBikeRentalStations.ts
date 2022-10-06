@@ -7,6 +7,9 @@ import service from '../service'
 import { useSettingsContext } from '../settings'
 import { createAbortController } from '../utils'
 
+// Workaround for incompatible AbortSignal types between lib.dom and @entur/sdk
+import { AbortSignal as AbortSignalNodeFetch } from 'node-fetch/externals'
+
 async function fetchBikeRentalStationsById(
     allStationIds: string[],
     signal?: AbortSignal,
@@ -15,7 +18,7 @@ async function fetchBikeRentalStationsById(
         {
             stationIds: allStationIds,
         },
-        { signal },
+        { signal: signal as AbortSignalNodeFetch },
     )
 }
 
@@ -30,7 +33,7 @@ async function fetchBikeRentalStationsNearby(
             lon: coordinates.longitude,
             range: distance,
         },
-        { signal },
+        { signal: signal as AbortSignalNodeFetch },
     )
 }
 

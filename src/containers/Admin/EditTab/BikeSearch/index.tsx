@@ -8,6 +8,9 @@ import service from '../../../../service'
 
 import { createAbortController, getTranslation } from '../../../../utils'
 
+// Workaround for incompatible AbortSignal types between lib.dom and @entur/sdk
+import { AbortSignal as AbortSignalNodeFetch } from 'node-fetch/externals'
+
 import './styles.scss'
 
 const MAX_SEARCH_RANGE = 100_000
@@ -38,7 +41,7 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
                         range: MAX_SEARCH_RANGE,
                     },
                     {
-                        signal: controller.signal,
+                        signal: controller.signal as AbortSignalNodeFetch,
                     },
                 )
                 .then((data) => {
