@@ -21,13 +21,13 @@ import PWAPrompt from '../../vendor/react-ios-pwa-prompt'
 
 import { realtimeVehiclesClient } from '../services/realtimeVehicles/realtimeVehiclesService'
 
-import Chrono from '../dashboards/Chrono'
-import Compact from '../dashboards/Compact'
-import MapDashboard from '../dashboards/Map'
-import Timeline from '../dashboards/Timeline'
+import { ChronoDashboard } from '../dashboards/Chrono/ChronoDashboard'
+import { CompactDashboard } from '../dashboards/Compact/CompactDashboard'
+import { MapDashboard } from '../dashboards/Map/MapDashboard'
+import { TimelineDashboard } from '../dashboards/Timeline/TimelineDashboard'
 
-import Header from '../components/Header'
-import BusStop from '../dashboards/BusStop'
+import { Header } from '../components/Header/Header'
+import { BusStopDashboard } from '../dashboards/BusStop/BusStopDashboard'
 import PrivateRoute from '../routers/PrivateRoute'
 
 import {
@@ -38,13 +38,13 @@ import { isMobileWeb } from '../utils'
 
 import { Direction } from '../types'
 
-import Admin from './Admin'
+import { AdminPage } from './Admin/AdminPage'
 import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
-import LandingPage from './LandingPage'
-import Privacy from './Privacy'
+import { LandingPage } from './LandingPage/LandingPage'
+import { Privacy } from './Privacy/Privacy'
 import ThemeProvider from './ThemeWrapper/ThemeProvider'
 
-import MyBoards from './MyBoards'
+import { MyBoards } from './MyBoards/MyBoards'
 
 import './styles.scss'
 
@@ -55,15 +55,15 @@ function getDashboardComponent(
 ): () => JSX.Element | null {
     switch (dashboardKey) {
         case 'Timeline':
-            return Timeline
+            return TimelineDashboard
         case 'Chrono':
-            return Chrono
+            return ChronoDashboard
         case 'Map':
             return MapDashboard
         case 'BusStop':
-            return BusStop
+            return BusStopDashboard
         default:
-            return Compact
+            return CompactDashboard
     }
 }
 
@@ -249,7 +249,7 @@ const Content = (): JSX.Element => {
                                     <PrivateRoute
                                         exact
                                         path="/admin/:documentId"
-                                        component={settings[0] && Admin}
+                                        component={settings[0] && AdminPage}
                                         errorComponent={LockedTavle}
                                     />
                                     <Route
@@ -264,7 +264,7 @@ const Content = (): JSX.Element => {
                                         path="/admin"
                                         component={
                                             settings[0]
-                                                ? Admin
+                                                ? AdminPage
                                                 : (): null => null
                                         }
                                     />

@@ -11,9 +11,9 @@ import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import { useSettingsContext } from '../../settings'
 
-import CloseButton from './LoginModal/CloseButton/CloseButton'
+import { CloseButton } from './LoginModal/CloseButton/CloseButton'
 
-import './styles.scss'
+import './Modals.scss'
 
 const NeedToBeOwnerModal = ({ open, onDismiss, uid }: Props): JSX.Element => {
     const { addToast } = useToast()
@@ -71,10 +71,10 @@ const NeedToBeOwnerModal = ({ open, onDismiss, uid }: Props): JSX.Element => {
     )
 }
 
-export default NeedToBeOwnerModal
-
 interface Props {
     open: boolean
     onDismiss: (goToFirstTab?: boolean) => void
     uid: string | undefined
 }
+
+export { NeedToBeOwnerModal }

@@ -7,7 +7,7 @@ import { Tooltip } from '@entur/tooltip'
 
 import type { BoardOwnersData } from '../../../../types'
 
-export const SharedWithRows = ({
+const SharedWithRows = ({
     users,
     currentUserEmail,
     onRemove,
@@ -57,4 +57,4 @@ interface Props {
     userEmailsBeingRemoved: string[]
 }
 
-export default SharedWithRows
+export { SharedWithRows }

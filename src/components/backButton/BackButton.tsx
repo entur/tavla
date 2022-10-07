@@ -2,7 +2,7 @@ import React from 'react'
 
 import { BackArrowIcon } from '@entur/icons'
 
-import './styles.scss'
+import './BackButton.scss'
 
 const BackButton = ({ action, className }: Props): JSX.Element => (
     <button className={`back-button ${className}`} onClick={action}>
@@ -15,4 +15,4 @@ interface Props {
     className: string
 }
 
-export default BackButton
+export { BackButton }
