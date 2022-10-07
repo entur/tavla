@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import type { Timestamp } from '@firebase/firestore'
+import type { Timestamp } from 'firebase/firestore'
 
 import { Button } from '@entur/button'
 import { ClockIcon, UserIcon } from '@entur/icons'
