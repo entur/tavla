@@ -11,4 +11,4 @@ interface Props {
     size?: number | string
 }
 
-export default PositionPin
+export { PositionPin }

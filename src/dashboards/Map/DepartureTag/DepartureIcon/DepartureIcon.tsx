@@ -22,4 +22,4 @@ interface Props {
     routeNumber: string
 }
 
-export default DepartureIcon
+export { DepartureIcon }

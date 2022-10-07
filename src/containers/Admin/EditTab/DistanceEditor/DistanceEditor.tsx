@@ -7,7 +7,7 @@ import { MAX_DISTANCE } from '../../../../constants'
 
 import './DistanceEditor.scss'
 
-function DistanceEditor(props: Props): JSX.Element {
+const DistanceEditor = (props: Props): JSX.Element => {
     const { distance, onDistanceUpdated } = props
 
     const handleDistanceUpdate = useCallback(
@@ -38,10 +38,11 @@ function DistanceEditor(props: Props): JSX.Element {
     )
 }
 
+const MemoizedDistanceEditor = memo(DistanceEditor)
+
 interface Props {
     distance: number
     onDistanceUpdated: (newDistance: number) => void
 }
 
-// TODO: Memo default to named export
-export default memo<Props>(DistanceEditor)
+export { MemoizedDistanceEditor as DistanceEditor }

@@ -5,7 +5,7 @@ import { BicycleIcon } from '@entur/icons'
 import { Station } from '@entur/sdk/lib/mobility/types'
 
 import { Tile } from '../components/Tile/Tile'
-import TileRow from '../components/TileRow/TileRow'
+import { TileRow } from '../components/TileRow/TileRow'
 import { useSettingsContext } from '../../../settings'
 import { IconColorType } from '../../../types'
 import { getIconColorType, getTranslation } from '../../../utils'

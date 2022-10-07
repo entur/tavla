@@ -11,7 +11,7 @@ import { TransportMode } from '@entur/sdk'
 
 import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 
-import PositionPin from '../../assets/icons/PositionPin'
+import { PositionPin } from '../../assets/icons/PositionPin'
 
 import {
     DrawableRoute,

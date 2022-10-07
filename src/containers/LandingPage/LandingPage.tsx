@@ -11,7 +11,7 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { createSettings } from '../../services/firebase'
 import { DEFAULT_SETTINGS } from '../../settings/UrlStorage'
 
-import SearchPanel from './SearchPanel/SearchPanel'
+import { SearchPanel } from './SearchPanel/SearchPanel'
 import { TypographyCarousel } from './TypographyCarousel/TypographyCarousel'
 import './LandingPage.scss'
 

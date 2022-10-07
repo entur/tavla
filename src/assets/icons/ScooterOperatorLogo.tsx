@@ -34,4 +34,4 @@ interface Props {
     size?: number
 }
 
-export default ScooterOperatorLogo
+export { ScooterOperatorLogo }

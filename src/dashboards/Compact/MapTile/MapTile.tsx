@@ -27,4 +27,4 @@ interface Props {
     zoom: number
 }
 
-export default MapTile
+export { MapTile }

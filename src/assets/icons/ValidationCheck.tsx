@@ -49,4 +49,4 @@ function ValidationCheck(): JSX.Element {
     )
 }
 
-export default ValidationCheck
+export { ValidationCheck }

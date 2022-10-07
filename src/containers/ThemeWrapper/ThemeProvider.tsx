@@ -35,4 +35,4 @@ const ThemeProvider: FC = (props): JSX.Element => {
 
 export const useTheme = (): ThemeContextType => React.useContext(ThemeContext)
 
-export default ThemeProvider
+export { ThemeProvider }

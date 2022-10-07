@@ -28,4 +28,4 @@ interface Props {
     spin?: boolean
 }
 
-export default Spinner
+export { Spinner }

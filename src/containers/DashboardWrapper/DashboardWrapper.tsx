@@ -7,10 +7,10 @@ import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 import { useCounter, isDarkOrDefaultTheme } from '../../utils'
 import { useSettingsContext } from '../../settings'
 
-import EnturLogo from '../../assets/icons/EnturLogo'
+import { EnturLogo } from '../../assets/icons/EnturLogo'
 
 import { StopPlaceWithDepartures } from '../../types'
-import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
+import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
 
 import { NoStopsOnTavle } from '../Error/ErrorPages'
 

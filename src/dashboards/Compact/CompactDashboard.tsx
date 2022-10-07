@@ -14,8 +14,6 @@ import {
     Item,
 } from '../../components/RearrangeModal/RearrangeModal'
 
-//TODO: ENDRE COMPACT NAVN ELLERNÅ SÅNT
-
 import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
@@ -25,7 +23,7 @@ import {
 
 import { WalkInfo } from '../../logic/useWalkInfo'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-import ResizeHandle from '../../assets/icons/ResizeHandle'
+import { ResizeHandle } from '../../assets/icons/ResizeHandle'
 
 import {
     getFromLocalStorage,
@@ -48,9 +46,9 @@ import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { QRTile } from '../../components/QRTile/QRTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 
-import DepartureTile from './DepartureTile/DepartureTile'
+import { DepartureTile } from './DepartureTile/DepartureTile'
 import { BikeTile } from './BikeTile/BikeTile'
-import MapTile from './MapTile/MapTile'
+import { MapTile } from './MapTile/MapTile'
 
 import './CompactDashboard.scss'
 

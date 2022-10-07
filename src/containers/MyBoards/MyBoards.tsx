@@ -15,7 +15,7 @@ import { useUser } from '../../auth'
 import { Board, SharedBoard, Theme } from '../../types'
 
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
-import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
+import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
 
 import { SharedBoards } from './SharedBoards/SharedBoards'
 import { OwnedBoards } from './OwnedBoards/OwnedBoards'

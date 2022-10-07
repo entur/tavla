@@ -7,8 +7,8 @@ import { nb } from 'date-fns/locale'
 import { Heading3 } from '@entur/typography'
 
 import { TileSubLabel } from '../../../../types'
-import ValidationExclamation from '../../../../assets/icons/ValidationExclamation'
-import ValidationError from '../../../../assets/icons/ValidationError'
+import { ValidationExclamation } from '../../../../assets/icons/ValidationExclamation'
+import { ValidationError } from '../../../../assets/icons/ValidationError'
 
 import { SituationModal } from '../../../../components/SituationModal/SituationModal'
 
@@ -30,7 +30,7 @@ function formatWalkInfo(walkInfo: WalkInfo) {
     }
 }
 
-export function TileRow({
+function TileRow({
     label,
     icon,
     walkInfo,
@@ -147,4 +147,4 @@ interface TileRowProps {
     type?: string
 }
 
-export default TileRow
+export { TileRow }

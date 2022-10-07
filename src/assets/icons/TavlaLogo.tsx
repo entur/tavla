@@ -34,4 +34,4 @@ interface Props {
     forceColor?: 'blue' | 'white'
 }
 
-export default TavlaLogo
+export { TavlaLogo }

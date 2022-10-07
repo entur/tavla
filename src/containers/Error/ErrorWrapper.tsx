@@ -5,7 +5,7 @@ import { Heading1 } from '@entur/typography'
 
 import { useSettingsContext } from '../../settings'
 import { Theme } from '../../types'
-import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
+import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
 
 import './ErrorWrapper.scss'
 

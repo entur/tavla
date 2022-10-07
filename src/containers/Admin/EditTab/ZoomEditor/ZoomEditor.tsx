@@ -6,8 +6,8 @@ import { Vehicle } from '@entur/sdk/lib/mobility/types'
 import { Slider } from '../../../../components'
 import { DEFAULT_ZOOM } from '../../../../constants'
 import { useSettingsContext } from '../../../../settings'
-import ScooterOperatorLogo from '../../../../assets/icons/ScooterOperatorLogo'
-import PositionPin from '../../../../assets/icons/PositionPin'
+import { ScooterOperatorLogo } from '../../../../assets/icons/ScooterOperatorLogo'
+import { PositionPin } from '../../../../assets/icons/PositionPin'
 
 import './ZoomEditor.scss'
 
@@ -69,10 +69,12 @@ function ZoomEditor(props: Props): JSX.Element {
     )
 }
 
+const MemoizedZoomEditor = memo(ZoomEditor)
+
 interface Props {
     zoom: number
     onZoomUpdated: (newZoom: number) => void
     scooters: Vehicle[] | undefined
 }
 
-export default memo<Props>(ZoomEditor)
+export { MemoizedZoomEditor as ZoomEditor }

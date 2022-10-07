@@ -45,4 +45,4 @@ function ValidationExclamation(): JSX.Element {
     )
 }
 
-export default ValidationExclamation
+export { ValidationExclamation }

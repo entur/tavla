@@ -17,7 +17,7 @@ import {
 } from '../../logic'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { DEFAULT_ZOOM } from '../../constants'
-import ResizeHandle from '../../assets/icons/ResizeHandle'
+import { ResizeHandle } from '../../assets/icons/ResizeHandle'
 
 import {
     RearrangeModal,

@@ -42,7 +42,7 @@ import { AdminPage } from './Admin/AdminPage'
 import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
 import { Privacy } from './Privacy/Privacy'
-import ThemeProvider from './ThemeWrapper/ThemeProvider'
+import { ThemeProvider } from './ThemeWrapper/ThemeProvider'
 
 import { MyBoards } from './MyBoards/MyBoards'
 

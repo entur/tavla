@@ -19,7 +19,7 @@ import {
 import { BoardOwnersData, Invite } from '../../../types'
 
 import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
-import RemoveSelfFromTavleModal from '../../../components/Modals/RemoveSelfFromTavleModal'
+import { RemoveSelfFromTavleModal } from '../../../components/Modals/RemoveSelfFromTavleModal'
 import { NeedToBeOwnerModal } from '../../../components/Modals/NeedToBeOwnerModal'
 
 import { EditableBoardTitle } from './components/EditableBoardTitle'

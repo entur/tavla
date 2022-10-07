@@ -67,4 +67,4 @@ interface Props {
     variant?: 'light' | 'dark'
 }
 
-export default ResizeHandle
+export { ResizeHandle }

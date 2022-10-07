@@ -18,4 +18,4 @@ const ThemeContrastWrapper = ({
     }
 }
 
-export default ThemeContrastWrapper
+export { ThemeContrastWrapper }

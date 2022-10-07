@@ -5,7 +5,7 @@ import { PrimaryButton } from '@entur/button'
 
 import { Paragraph } from '@entur/typography'
 
-import ValidationExclamation from '../../assets/icons/ValidationExclamation'
+import { ValidationExclamation } from '../../assets/icons/ValidationExclamation'
 
 import './SituationModal.scss'
 
