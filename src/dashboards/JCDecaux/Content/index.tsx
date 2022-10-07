@@ -1,5 +1,7 @@
 import { GridItem } from '@entur/grid'
-import React from 'react'
+import { TransportMode } from '@entur/sdk'
+import React, { useMemo } from 'react'
+import { compareAsc } from 'date-fns'
 import { useStopPlacesWithDepartures } from '../../../logic'
 import BusTile from './BusTile'
 
@@ -11,37 +13,27 @@ import './styles.scss'
 const Content = ({ numberOfBikes }: Props): JSX.Element | null => {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    if (stopPlacesWithDepartures) {
-        // const stopIndex = stopPlacesWithDepartures.findIndex(
-        //     (p) => p.id == item.id,
-        // )
+    const busDepartures = useMemo(
+        () =>
+            stopPlacesWithDepartures
+                ?.flatMap((stopPlace) => stopPlace.departures)
+                .filter((departure) => departure.type === TransportMode.BUS)
+                .sort((a, b) => compareAsc(a.departureTime, b.departureTime))
+                .slice(0, 3) ?? [],
+        [stopPlacesWithDepartures],
+    )
 
-        // const stopPlace = stopPlacesWithDepartures[stopIndex]
-        const stopPlace = stopPlacesWithDepartures[1]
-
-        if (stopPlace) {
-            return (
-                <div className="content-wrapper">
-                    <Heading />
-                    <BusTile stopPlaceWithDepartures={stopPlace} />
-                    <MobilityOptions numberOfBikes={numberOfBikes} />
-                </div>
-            )
-        }
-
-        // return stopPlace ? (
-        //     <div key={item.id}>
-        //         <DepartureTile
-        //             walkInfo={getWalkInfoForStopPlace(walkInfo || [], item.id)}
-        //             stopPlaceWithDepartures={stopPlace}
-        //         />
-        //     </div>
-        // ) : (
-        //     []
-        // )
+    if (!stopPlacesWithDepartures) {
+        return <></>
     }
 
-    return <p>Funket ikke</p>
+    return (
+        <div className="content-wrapper">
+            <Heading />
+            <BusTile departures={busDepartures} />
+            <MobilityOptions numberOfBikes={numberOfBikes} />
+        </div>
+    )
 }
 
 type Props = {
