@@ -194,7 +194,7 @@ const Content = (): JSX.Element => {
     const user = useFirebaseAuthentication()
     const settings = useSettings()
     const location = useLocation()
-    const [openTavle] = useState(new Date().getTime())
+    const [tavleOpenedAt] = useState(new Date().getTime())
 
     const includeSettings = !['/privacy', '/tavler'].includes(location.pathname)
 
@@ -220,14 +220,14 @@ const Content = (): JSX.Element => {
     }, [location.pathname, isOnTavle, settings])
 
     useEffect(() => {
-        if (isOnTavle && openTavle) {
-            if (settings[0]?.pageRefreshedAt) {
-                if (openTavle < settings[0]?.pageRefreshedAt) {
-                    window.location.reload()
-                }
-            }
+        if (
+            isOnTavle &&
+            settings[0]?.pageRefreshedAt &&
+            tavleOpenedAt < settings[0]?.pageRefreshedAt
+        ) {
+            window.location.reload()
         }
-    }, [settings, isOnTavle, openTavle])
+    }, [settings, isOnTavle, tavleOpenedAt])
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>

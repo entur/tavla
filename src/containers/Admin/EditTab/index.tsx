@@ -578,11 +578,11 @@ const EditTab = (): JSX.Element => {
         ],
     }
 
-    const updateTavle = () => {
+    const handleUpdateTavle = useCallback(() => {
         setSettings({
             pageRefreshedAt: new Date().getTime(),
         })
-    }
+    }, [setSettings])
 
     return (
         <div className="edit-tab">
@@ -758,7 +758,7 @@ const EditTab = (): JSX.Element => {
                             Når du trykker på knappen vil alle skjermer som
                             viser denne tavlen bli lastet inn på nytt.
                         </Paragraph>
-                        <Button onClick={updateTavle} variant="primary">
+                        <Button onClick={handleUpdateTavle} variant="primary">
                             Last inn tavler på nytt
                         </Button>
                     </div>
