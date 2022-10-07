@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import { Coordinates } from '@entur/sdk'
+// Workaround for incompatible AbortSignal types between lib.dom and @entur/sdk
+import { AbortSignal as AbortSignalNodeFetch } from 'node-fetch/externals'
 
 import { FormFactor, Operator, Vehicle } from '@entur/sdk/lib/mobility/types'
+import { Coordinates } from '@entur/sdk'
 
 import service from '../service'
 import { useSettingsContext } from '../settings'
@@ -36,7 +38,7 @@ async function fetchVehicles(
                 ),
             formFactors: formFactor ? [formFactor] : undefined,
         },
-        { signal },
+        { signal: signal as AbortSignalNodeFetch },
     )
 }
 
