@@ -192,6 +192,7 @@ const Content = (): JSX.Element => {
     const user = useFirebaseAuthentication()
     const settings = useSettings()
     const location = useLocation()
+    const [tavleOpenedAt] = useState(new Date().getTime())
 
     const includeSettings = !['/privacy', '/tavler'].includes(location.pathname)
 
@@ -215,6 +216,16 @@ const Content = (): JSX.Element => {
             setIsRotated(false)
         }
     }, [location.pathname, isOnTavle, settings])
+
+    useEffect(() => {
+        if (
+            isOnTavle &&
+            settings[0]?.pageRefreshedAt &&
+            tavleOpenedAt < settings[0]?.pageRefreshedAt
+        ) {
+            window.location.reload()
+        }
+    }, [settings, isOnTavle, tavleOpenedAt])
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
