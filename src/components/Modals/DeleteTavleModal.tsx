@@ -11,9 +11,9 @@ import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 
 import { deleteTavle } from '../../settings/FirestoreStorage'
 
-import CloseButton from './LoginModal/CloseButton/CloseButton'
+import { CloseButton } from './LoginModal/CloseButton/CloseButton'
 
-import './styles.scss'
+import './Modals.scss'
 
 const DeleteTavleModal = ({ open, onDismiss, id }: Props): JSX.Element => {
     const { addToast } = useToast()
@@ -75,10 +75,10 @@ const DeleteTavleModal = ({ open, onDismiss, id }: Props): JSX.Element => {
     )
 }
 
-export default DeleteTavleModal
-
 interface Props {
     open: boolean
     onDismiss: () => void
     id: string
 }
+
+export { DeleteTavleModal }
