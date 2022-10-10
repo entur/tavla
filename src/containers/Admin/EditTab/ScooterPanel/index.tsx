@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
 
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
@@ -16,7 +16,7 @@ function ScooterPanel(): JSX.Element {
     const { hiddenMobilityOperators = [] } = settings || {}
 
     const onToggleOperator = useCallback(
-        (event) => {
+        (event: ChangeEvent<HTMLInputElement>) => {
             const OperatorId = event.target.id
             setSettings({
                 hiddenMobilityOperators: toggleValueInList(
