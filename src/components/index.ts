@@ -1,3 +1,3 @@
-export { default as BackButton } from './backButton/BackButton'
-export { default as Slider } from './Slider'
-export { default as Clock } from './Clock'
+export { BackButton } from './BackButton/BackButton'
+export { Slider } from './Slider/Slider'
+export { Clock } from './Clock/Clock'

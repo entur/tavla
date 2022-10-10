@@ -11,9 +11,9 @@ import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 
 import { removeFromOwners } from '../../settings/FirestoreStorage'
 
-import CloseButton from './LoginModal/CloseButton/CloseButton'
+import { CloseButton } from './LoginModal/CloseButton/CloseButton'
 
-import './styles.scss'
+import './Modals.scss'
 
 const RemoveLockModal = ({ open, onDismiss, id, uid }: Props): JSX.Element => {
     const { addToast } = useToast()
@@ -76,11 +76,11 @@ const RemoveLockModal = ({ open, onDismiss, id, uid }: Props): JSX.Element => {
     )
 }
 
-export default RemoveLockModal
-
 interface Props {
     open: boolean
     onDismiss: () => void
     id: string
     uid: string
 }
+
+export { RemoveLockModal }

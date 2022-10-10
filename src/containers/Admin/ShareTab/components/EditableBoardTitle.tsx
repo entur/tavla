@@ -7,10 +7,7 @@ import { Heading2 } from '@entur/typography'
 
 import { updateSingleSettingsField } from '../../../../services/firebase'
 
-export const EditableBoardTitle = ({
-    boardName,
-    documentId,
-}: Props): JSX.Element => {
+const EditableBoardTitle = ({ boardName, documentId }: Props): JSX.Element => {
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
     const [newBoardName, setNewBoardName] = useState<string>(boardName)
 
@@ -84,4 +81,4 @@ interface Props {
     boardName: string
 }
 
-export default EditableBoardTitle
+export { EditableBoardTitle }

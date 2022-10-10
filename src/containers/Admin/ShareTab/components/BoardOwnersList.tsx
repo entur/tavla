@@ -12,7 +12,7 @@ import { removeFromOwners } from '../../../../settings/FirestoreStorage'
 
 import { SharedWithRows } from './SharedWithRows'
 
-export const BoardOwnersList = ({
+const BoardOwnersList = ({
     documentId,
     ownersData,
     invites,
@@ -120,4 +120,4 @@ interface Props {
     invites: Invite[]
 }
 
-export default BoardOwnersList
+export { BoardOwnersList }

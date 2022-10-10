@@ -7,7 +7,7 @@ import { IconButton } from '@entur/button'
 import { LinkIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 
-export const BoardLink = ({ boardID }: Props): JSX.Element => {
+const BoardLink = ({ boardID }: Props): JSX.Element => {
     const { addToast } = useToast()
 
     return (
@@ -39,4 +39,4 @@ interface Props {
     boardID: string
 }
 
-export default BoardLink
+export { BoardLink }
