@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { ChangeEvent, useCallback, useMemo } from 'react'
 
 import { Checkbox } from '@entur/form'
 import { Paragraph } from '@entur/typography'
@@ -46,7 +46,7 @@ function StopPlacePanel(props: Props): JSX.Element {
     }, [hiddenStopModes, hiddenStops.length, setSettings, stops])
 
     const onToggleStop = useCallback(
-        (event) => {
+        (event: ChangeEvent<HTMLInputElement>) => {
             const checked = event.target.checked
             const stopId = event.target.id
             const stopPlace = filteredStopPlaces.find(

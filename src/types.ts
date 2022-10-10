@@ -1,6 +1,11 @@
+import React from 'react'
+
 import { FieldValue, Timestamp } from 'firebase/firestore'
 
 import { TransportMode, TransportSubmode, StopPlace } from '@entur/sdk'
+
+import { ToastProvider as _ToastProvider } from '@entur/alert'
+import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
 
 import { Settings } from './settings'
 
@@ -124,3 +129,10 @@ export interface Viewport {
 }
 
 export type NonEmpty<A> = [A, ...A[]]
+
+/* Augment the proptype of @entur/alert ToastProvider with children definition.
+ * This should be deleted when @entur/alert updates to @types/react@18.x and updates their definition
+ */
+export const ToastProvider = _ToastProvider as React.FC<
+    ToastProviderProps & { children: React.ReactNode }
+>

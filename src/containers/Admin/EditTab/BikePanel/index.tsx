@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
 
 import { Station } from '@entur/sdk/lib/mobility/types'
 import { Checkbox, Fieldset } from '@entur/form'
@@ -28,7 +28,7 @@ function BikePanel(props: Props): JSX.Element {
     }, [hiddenStations.length, setSettings, stations])
 
     const onToggleStation = useCallback(
-        (event) => {
+        (event: ChangeEvent<HTMLInputElement>) => {
             const stationId = event.target.id
             setSettings({
                 hiddenStations: toggleValueInList(hiddenStations, stationId),
