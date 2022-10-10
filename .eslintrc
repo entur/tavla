@@ -46,7 +46,7 @@
         "eol-last": "warn",
         "import/no-unresolved": "off",
         "import/no-useless-path-segments": "error",
-        "import/no-default-export": "error",
+        //fault-export": "error",
         "import/order": [
             "error",
             {
