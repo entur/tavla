@@ -11,7 +11,11 @@ const ThemeContext = React.createContext<ThemeContextType>({
     themeContext: Theme.DEFAULT,
 })
 
-const ThemeProvider: FC = (props): JSX.Element => {
+interface ThemeProviderProps {
+    children: React.ReactNode
+}
+
+const ThemeProvider: FC<ThemeProviderProps> = (props) => {
     const [settings] = useSettingsContext()
 
     const themeContext = settings?.theme || Theme.DEFAULT

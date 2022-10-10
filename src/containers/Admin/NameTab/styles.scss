@@ -10,9 +10,11 @@
         color: var(--tavla-font-color);
     }
 }
+
 .name-grid {
     padding-bottom: 5rem;
-    // The design system overrides this when using contrast, but we still want it.
+
+    /* The design system overrides this when using contrast, but we still want it. */
     .eds-form-control-wrapper--disabled {
         background-color: #e9e9e9;
     }

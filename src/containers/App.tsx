@@ -11,8 +11,6 @@ import classNames from 'classnames'
 
 import { ApolloProvider } from '@apollo/client'
 
-import { ToastProvider } from '@entur/alert'
-
 import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
 import { SettingsContext, useSettings } from '../settings'
@@ -36,7 +34,7 @@ import {
 } from '../settings/LocalStorage'
 import { isMobileWeb } from '../utils'
 
-import { Direction } from '../types'
+import { Direction, ToastProvider } from '../types'
 
 import JCDecaux from '../dashboards/JCDecaux'
 

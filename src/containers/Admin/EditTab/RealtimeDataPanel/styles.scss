@@ -28,9 +28,11 @@
                 display: flex;
                 align-items: center;
             }
+
             &-name {
                 margin-right: 1rem;
             }
+
             &-icon {
                 margin-bottom: -0.1rem;
                 margin-right: 0.5rem;
@@ -47,6 +49,7 @@
     &__route-display-selection {
         display: flex;
         align-items: center;
+
         &-info-text {
             margin-right: 1rem;
         }
@@ -74,6 +77,7 @@
     .eds-chip {
         background-color: var(--tavla-border-color);
     }
+
     .eds-filter-chip__icon {
         background-color: var(--tavla-background-color);
     }

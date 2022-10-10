@@ -4,6 +4,7 @@
 html {
     background-color: var(--tavla-background-color);
 }
+
 body {
     margin: 0;
     background-color: var(--tavla-background-color);
@@ -29,7 +30,7 @@ input[type='number'] {
     overflow: hidden;
 }
 
-//THEME SPECIFIC STYLING
+/* THEME SPECIFIC STYLING */
 
 .dark-theme .eds-form-control-wrapper--dark {
     background-color: $colors-greys-grey40;

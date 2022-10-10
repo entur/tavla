@@ -5,6 +5,7 @@
     .eds-contrast {
         background: inherit;
     }
+
     .tooltip-container {
         font-weight: 500;
         max-width: 15rem;
@@ -15,6 +16,7 @@
             color: var(--tavla-box-background-color);
         }
     }
+
     .tooltip-container-weather {
         color: var(--tavla-box-background-color);
         margin: 0;
@@ -119,6 +121,7 @@
         .eds-switch {
             padding: 0;
         }
+
         .eds-h2 {
             margin: 0;
             max-width: 75%;
@@ -196,16 +199,20 @@
         &__set-stops {
             display: block;
         }
+
         &__expanding-text-field {
             padding: 0;
         }
+
         &__tile {
             display: block;
             padding: 1rem;
         }
+
         &__input-wrapper {
             padding: 0;
         }
+
         &__input-wrapper::after {
             width: 5rem;
             margin: 0;
@@ -213,6 +220,7 @@
             margin-left: 0.2rem;
             border-bottom: 5px dotted var(--tavla-input-dotted-border-color);
         }
+
         .eds-h3 {
             margin: 1rem 0;
         }
@@ -234,6 +242,7 @@
         }
     }
 }
+
 @media (min-width: 996px) {
     .edit-tab {
         margin-left: -2rem;

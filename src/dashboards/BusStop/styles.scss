@@ -6,8 +6,8 @@
     -khtml-user-select: none; /* Konqueror HTML */
     -moz-user-select: none; /* Old versions of Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently
-                          supported by Chrome, Edge, Opera and Firefox */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+
     &__tiles {
         display: block;
         flex-direction: column;
@@ -24,6 +24,7 @@
                 font-size: 2rem;
             }
         }
+
         .maptile {
             height: inherit;
             width: 100%;
@@ -33,6 +34,7 @@
             z-index: 1;
         }
     }
+
     &__loading-screen {
         margin: 0;
         width: 100%;
@@ -43,6 +45,7 @@
         transform: translate(-50%, -50%);
     }
 }
+
 @media (min-width: 996px) {
     .busStop {
         &__tiles {
@@ -71,10 +74,12 @@
                 overflow-y: scroll;
             }
         }
+
         .maptile {
             height: 60vh;
             width: 100%;
         }
+
         .eds-table--small {
             .eds-table__data-cell {
                 padding: 0;
