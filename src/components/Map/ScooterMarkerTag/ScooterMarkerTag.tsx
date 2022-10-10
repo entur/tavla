@@ -4,7 +4,7 @@ import { ScooterIcon } from '@entur/icons'
 
 import { Operator } from '@entur/sdk/lib/mobility/types'
 
-import ScooterOperatorLogo from '../../../assets/icons/ScooterOperatorLogo'
+import { ScooterOperatorLogo } from '../../../assets/icons/ScooterOperatorLogo'
 
 import './ScooterMarkerTag.scss'
 

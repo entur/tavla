@@ -9,7 +9,7 @@ import LightStandard from '../previews/direction-preview/light_standard.svg'
 
 import { Theme } from '../../types'
 
-export function DirectionPreview(
+function DirectionPreview(
     theme: Theme | undefined,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Record<string, any> {
@@ -37,3 +37,5 @@ export function DirectionPreview(
             }
     }
 }
+
+export { DirectionPreview }

@@ -9,7 +9,7 @@ import { toggleValueInList, isDarkOrDefaultTheme } from '../../../../utils'
 import { StopPlaceWithLines } from '../../../../types'
 import { useSettingsContext } from '../../../../settings'
 
-import ThemeContrastWrapper from '../../../ThemeWrapper/ThemeContrastWrapper'
+import { ThemeContrastWrapper } from '../../../ThemeWrapper/ThemeContrastWrapper'
 
 import { PanelRow } from './PanelRow/Panelrow'
 import './StopPlacePanel.scss'

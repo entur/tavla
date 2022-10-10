@@ -15,7 +15,7 @@ import {
     getDepartureDirection,
 } from '../../../utils'
 
-import DepartureIcon from './DepartureIcon/DepartureIcon'
+import { DepartureIcon } from './DepartureIcon/DepartureIcon'
 import './DepartureTag.scss'
 
 const DepartureTag = (props: Props): JSX.Element => (
@@ -68,4 +68,4 @@ function Date({ date }: { date: Date }) {
 interface Props {
     stopPlace: StopPlaceWithDepartures
 }
-export default DepartureTag
+export { DepartureTag }

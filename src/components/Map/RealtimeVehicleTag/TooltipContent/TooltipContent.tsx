@@ -4,7 +4,7 @@ import { colors } from '@entur/tokens'
 import { TransportMode } from '@entur/sdk'
 import { Label } from '@entur/typography'
 
-import DepartureIcon from '../../../../dashboards/Map/DepartureTag/DepartureIcon/DepartureIcon'
+import { DepartureIcon } from '../../../../dashboards/Map/DepartureTag/DepartureIcon/DepartureIcon'
 import {
     getIcon,
     getIconColor,

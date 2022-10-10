@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ValidationCheck from '../../../assets/icons/ValidationCheck'
+import { ValidationCheck } from '../../../assets/icons/ValidationCheck'
 
 import './RadioBox.scss'
 

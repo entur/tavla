@@ -15,4 +15,4 @@ interface Props {
     height?: string
 }
 
-export default EnturLogo
+export { EnturLogo }

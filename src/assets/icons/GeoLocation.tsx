@@ -25,4 +25,4 @@ interface Props {
     size?: number | string
 }
 
-export default GeoLocation
+export { GeoLocation }

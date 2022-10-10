@@ -194,6 +194,8 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
     )
 }
 
+const MemoizedSearchPanel = memo(SearchPanel)
+
 interface Props {
     handleCoordinatesSelected: (
         choseCoord: Coordinates,
@@ -201,5 +203,4 @@ interface Props {
     ) => void
 }
 
-// TODO: How does this work with non-default exports
-export default memo(SearchPanel)
+export { MemoizedSearchPanel as SearchPanel }

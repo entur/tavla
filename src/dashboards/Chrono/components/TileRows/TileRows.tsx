@@ -4,8 +4,8 @@ import { Heading3 } from '@entur/typography'
 
 import { DataCell, TableBody, TableRow } from '@entur/table'
 
-import ValidationExclamation from '../../../../assets/icons/ValidationExclamation'
-import ValidationError from '../../../../assets/icons/ValidationError'
+import { ValidationExclamation } from '../../../../assets/icons/ValidationExclamation'
+import { ValidationError } from '../../../../assets/icons/ValidationError'
 import { IconColorType, LineData, TileSubLabel } from '../../../../types'
 
 import { SituationModal } from '../../../../components/SituationModal/SituationModal'

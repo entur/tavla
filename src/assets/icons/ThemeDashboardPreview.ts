@@ -21,7 +21,7 @@ import BusStopGrey from '../previews/previewGrey/Holdeplass-gray.svg'
 
 import { Theme } from '../../types'
 
-export function ThemeDashboardPreview(
+function ThemeDashboardPreview(
     theme: Theme | undefined,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Record<string, any> {
@@ -60,3 +60,5 @@ export function ThemeDashboardPreview(
             }
     }
 }
+
+export { ThemeDashboardPreview }

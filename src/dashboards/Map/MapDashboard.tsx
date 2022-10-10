@@ -17,7 +17,7 @@ import { DEFAULT_ZOOM } from '../../constants'
 
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 
-import DepartureTag from './DepartureTag/DepartureTag'
+import { DepartureTag } from './DepartureTag/DepartureTag'
 import './MapDashboard.scss'
 
 const MapDashboard = (): JSX.Element => {

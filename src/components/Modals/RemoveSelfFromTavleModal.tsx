@@ -95,4 +95,4 @@ interface Props {
     forceRefresh?: boolean
 }
 
-export default RemoveSelfFromTavleModal
+export { RemoveSelfFromTavleModal }

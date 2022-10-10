@@ -1,7 +1,7 @@
 import React from 'react'
 
-import ValidationExclamation from '../../../../assets/icons/ValidationExclamation'
-import ValidationError from '../../../../assets/icons/ValidationError'
+import { ValidationExclamation } from '../../../../assets/icons/ValidationExclamation'
+import { ValidationError } from '../../../../assets/icons/ValidationError'
 import { TileSubLabel } from '../../../../types'
 
 import './SubLabelIcon.scss'

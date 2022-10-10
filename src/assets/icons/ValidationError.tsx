@@ -52,4 +52,4 @@ function ValidationError(): JSX.Element {
     )
 }
 
-export default ValidationError
+export { ValidationError }

@@ -7,7 +7,7 @@ import { useUser } from '../../auth'
 
 import { useSettingsContext } from '../../settings'
 
-import ThemeContrastWrapper from '../ThemeWrapper/ThemeContrastWrapper'
+import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
 
 import { isDarkOrDefaultTheme } from '../../utils'
 
