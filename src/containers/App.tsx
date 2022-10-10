@@ -11,8 +11,6 @@ import classNames from 'classnames'
 
 import { ApolloProvider } from '@apollo/client'
 
-import { ToastProvider } from '@entur/alert'
-
 import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
 import { SettingsContext, useSettings } from '../settings'
@@ -36,7 +34,7 @@ import {
 } from '../settings/LocalStorage'
 import { isMobileWeb } from '../utils'
 
-import { Direction } from '../types'
+import { Direction, ToastProvider } from '../types'
 
 import { AdminPage } from './Admin/AdminPage'
 import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
@@ -194,6 +192,7 @@ const Content = (): JSX.Element => {
     const user = useFirebaseAuthentication()
     const settings = useSettings()
     const location = useLocation()
+    const [tavleOpenedAt] = useState(new Date().getTime())
 
     const includeSettings = !['/privacy', '/tavler'].includes(location.pathname)
 
@@ -217,6 +216,16 @@ const Content = (): JSX.Element => {
             setIsRotated(false)
         }
     }, [location.pathname, isOnTavle, settings])
+
+    useEffect(() => {
+        if (
+            isOnTavle &&
+            settings[0]?.pageRefreshedAt &&
+            tavleOpenedAt < settings[0]?.pageRefreshedAt
+        ) {
+            window.location.reload()
+        }
+    }, [settings, isOnTavle, tavleOpenedAt])
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>

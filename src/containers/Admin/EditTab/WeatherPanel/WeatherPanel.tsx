@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
 
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
@@ -48,7 +48,7 @@ function WeatherPanel(): JSX.Element {
     ]
 
     const onToggle = useCallback(
-        (event) => {
+        (event: ChangeEvent<HTMLInputElement>) => {
             const weatherSetting = event.target.value
             switch (weatherSetting) {
                 case 'showIcon':
