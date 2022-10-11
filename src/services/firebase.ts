@@ -1,32 +1,32 @@
+import type {
+    DocumentData,
+    DocumentReference,
+    GeoPoint,
+    QuerySnapshot,
+} from 'firebase/firestore'
 import {
-    collection,
-    getDoc,
-    query,
-    doc,
-    where,
-    onSnapshot,
-    updateDoc,
-    serverTimestamp,
-    arrayRemove,
-    deleteDoc,
     addDoc,
-    setDoc,
-    DocumentSnapshot,
-    getDocs,
+    arrayRemove,
+    collection,
     collectionGroup,
+    deleteDoc,
+    doc,
+    DocumentSnapshot,
+    getDoc,
+    getDocs,
+    onSnapshot,
+    query,
+    serverTimestamp,
+    setDoc,
+    updateDoc,
+    where,
 } from 'firebase/firestore'
 import { httpsCallable } from 'firebase/functions'
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-import { signInWithCustomToken } from 'firebase/auth'
-import type {
-    DocumentReference,
-    QuerySnapshot,
-    GeoPoint,
-    DocumentData,
-} from 'firebase/firestore'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import type { User } from 'firebase/auth'
-import { storage, db, auth, functions } from '../firebase-init'
-import { Settings } from '../settings/index'
+import { signInWithCustomToken } from 'firebase/auth'
+import { auth, db, functions, storage } from '../firebase-init'
+import { Settings } from '../settings'
 import { getDocumentId } from '../utils'
 import { FieldTypes } from '../settings/FirestoreStorage'
 import { BoardOwnersData } from '../types'
@@ -96,14 +96,6 @@ export const createSettingsWithId = async (
     docId: string,
 ): Promise<void> =>
     await setDoc(doc(collection(db, SETTINGS_COLLECTION), docId), settings)
-
-export const createDocumentWithId = async (
-    collectionPath: string,
-    docId: string,
-    docData: DocumentData,
-): Promise<void> => {
-    await setDoc(doc(collection(db, collectionPath), docId), docData)
-}
 
 export const copySettingsToNewId = async (
     newDocId: string,
@@ -404,7 +396,5 @@ export const getOwnersDataByBoardIdAsOwner = async (
         boardId,
     } as UploadData)
 
-    const ownerData: BoardOwnersData[] = response.data
-
-    return ownerData
+    return response.data
 }

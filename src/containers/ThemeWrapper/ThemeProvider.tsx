@@ -36,6 +36,4 @@ const ThemeProvider: FC<ThemeProviderProps> = (props) => {
     return <ThemeContext.Provider value={contextValue} {...props} />
 }
 
-export const useTheme = (): ThemeContextType => React.useContext(ThemeContext)
-
 export { ThemeProvider }
