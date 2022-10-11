@@ -69,6 +69,7 @@ export interface Settings {
     hiddenCustomTileIds: string[]
     fontScale?: number
     direction?: Direction
+    pageRefreshedAt?: number
 }
 
 type Setter = (settings: Partial<Settings>) => void

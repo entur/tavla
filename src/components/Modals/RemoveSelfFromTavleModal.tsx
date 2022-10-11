@@ -11,9 +11,9 @@ import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 
 import { removeFromOwners } from '../../settings/FirestoreStorage'
 
-import CloseButton from './LoginModal/CloseButton/CloseButton'
+import { CloseButton } from './LoginModal/CloseButton/CloseButton'
 
-import './styles.scss'
+import './Modals.scss'
 
 const RemoveSelfFromTavleModal = ({
     open,
@@ -87,8 +87,6 @@ const RemoveSelfFromTavleModal = ({
     )
 }
 
-export default RemoveSelfFromTavleModal
-
 interface Props {
     open: boolean
     onDismiss: () => void
@@ -96,3 +94,5 @@ interface Props {
     uid: string
     forceRefresh?: boolean
 }
+
+export { RemoveSelfFromTavleModal }

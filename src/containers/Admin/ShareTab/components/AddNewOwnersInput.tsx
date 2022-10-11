@@ -26,7 +26,7 @@ enum inputFeedbackType {
     CLEAR = 'info',
 }
 
-export const AddNewOwnersInput = ({
+const AddNewOwnersInput = ({
     documentId,
     ownersData,
     invites,
@@ -129,4 +129,4 @@ interface Props {
     invites: Invite[]
 }
 
-export default AddNewOwnersInput
+export { AddNewOwnersInput }
