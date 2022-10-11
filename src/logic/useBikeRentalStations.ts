@@ -36,7 +36,7 @@ async function fetchBikeRentalStationsNearby(
 
 const EMPTY_BIKE_RENTAL_STATIONS: Station[] = []
 
-export default function useBikeRentalStations(
+function useBikeRentalStations(
     removeHiddenStations = true,
 ): Station[] | undefined {
     const [settings] = useSettingsContext()
@@ -118,3 +118,5 @@ export default function useBikeRentalStations(
 
     return bikeRentalStations
 }
+
+export { useBikeRentalStations }

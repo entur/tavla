@@ -118,4 +118,4 @@ const useVehicleReducer = (): [
     Dispatch<Action>,
 ] => useReducer(reducerFactory(), initialState)
 
-export default useVehicleReducer
+export { useVehicleReducer }

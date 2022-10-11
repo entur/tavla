@@ -20,7 +20,7 @@ async function getWeather(
     }
 }
 
-export default function useWeather(): Properties | undefined {
+function useWeather(): Properties | undefined {
     const [settings] = useSettingsContext()
     const [weather, setWeather] = useState<Properties | undefined>()
 
@@ -122,3 +122,4 @@ interface WeatherDetailsFuture {
     precipitation_amount_min: number
     probability_of_precipitation: number
 }
+export { useWeather }

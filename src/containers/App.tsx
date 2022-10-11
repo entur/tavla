@@ -19,7 +19,7 @@ import { MapDashboard } from '../dashboards/Map/MapDashboard'
 import { TimelineDashboard } from '../dashboards/Timeline/TimelineDashboard'
 import { Header } from '../components/Header/Header'
 import { BusStopDashboard } from '../dashboards/BusStop/BusStopDashboard'
-import PrivateRoute from '../routers/PrivateRoute'
+import { PrivateRoute } from '../routers/PrivateRoute'
 import {
     getFromLocalStorage,
     saveToLocalStorage,
@@ -289,4 +289,4 @@ const App = (): JSX.Element => (
     </BrowserRouter>
 )
 
-export default App
+export { App }

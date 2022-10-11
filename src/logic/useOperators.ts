@@ -7,7 +7,7 @@ async function fetchOperators(): Promise<Operator[]> {
     return service.mobility.getOperators()
 }
 
-export default function useOperators(): Operator[] {
+function useOperators(): Operator[] {
     const [operators, setOperators] = useState<Operator[]>([])
 
     useEffect(() => {
@@ -30,3 +30,5 @@ export default function useOperators(): Operator[] {
 
     return operators
 }
+
+export { useOperators }

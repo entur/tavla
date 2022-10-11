@@ -37,4 +37,4 @@ interface Props {
     exact: boolean
 }
 
-export default PrivateRoute
+export { PrivateRoute }

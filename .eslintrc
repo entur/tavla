@@ -47,6 +47,7 @@
         "import/no-unresolved": "off",
         "import/no-useless-path-segments": "error",
         //fault-export": "error",
+        "import/no-default-export": "error",
         "import/order": [
             "error",
             {

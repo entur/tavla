@@ -7,7 +7,7 @@ import { isNotNullOrUndefined, nonEmpty, unique } from '../utils'
 import { apolloClient } from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'
-import useNearestPlaces from './useNearestPlaces'
+import { useNearestPlaces } from './useNearestPlaces'
 
 const GET_STOP_PLACES_WITH_DEPARTURES_QUERY = gql`
     query getStopPlacesWithDepartures($ids: [String]!) {
@@ -174,9 +174,7 @@ function transformDepartureToLineData(
 
 const EMPTY_STOP_PLACES_WITH_DEPARTURES: StopPlaceWithDepartures[] = []
 
-export default function useStopPlacesWithDepartures():
-    | StopPlaceWithDepartures[]
-    | undefined {
+function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] | undefined {
     const [settings] = useSettingsContext()
 
     const nearestPlaces = useNearestPlaces(
@@ -296,3 +294,5 @@ export default function useStopPlacesWithDepartures():
 
     return stopPlacesWithDepartures
 }
+
+export { useStopPlacesWithDepartures }
