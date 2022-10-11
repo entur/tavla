@@ -1,15 +1,11 @@
 import React from 'react'
-
 import { ExpandablePanel } from '@entur/expand'
 import { ClosedLockIcon } from '@entur/icons'
-
 import { FilterChip } from '@entur/chip'
-
 import { DrawableRoute, Line } from '../../../../types'
 import { Settings } from '../../../../settings'
 import { filterMap, getIcon, transportModeNameMapper } from '../../../../utils'
-
-import './styles.scss'
+import './PermanentLinesPanel.scss'
 
 type PermanentLinesPanelProps = {
     realtimeLines: Line[]
@@ -110,4 +106,4 @@ function PermanentLinesPanel({
     )
 }
 
-export default PermanentLinesPanel
+export { PermanentLinesPanel }

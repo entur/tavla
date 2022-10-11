@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react'
-
 // Workaround for incompatible AbortSignal types between lib.dom and @entur/sdk
 import { AbortSignal as AbortSignalNodeFetch } from 'node-fetch/externals'
-
 import { Coordinates } from '@entur/sdk'
 import { Station } from '@entur/sdk/lib/mobility/types'
-
 import service from '../service'
 import { useSettingsContext } from '../settings'
 

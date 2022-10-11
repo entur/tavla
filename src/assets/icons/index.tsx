@@ -1,3 +1,3 @@
-export { default as TavlaLogo } from './tavlaLogo'
-export { default as GeoLocation } from './geolocation'
-export { default as Spinner } from './spinner'
+export { TavlaLogo } from './TavlaLogo'
+export { GeoLocation } from './GeoLocation'
+export { Spinner } from './Spinner'

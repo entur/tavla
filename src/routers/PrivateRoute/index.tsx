@@ -1,6 +1,5 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-
 import { useUser } from '../../auth'
 import { getDocumentId } from '../../utils'
 import { useSettingsContext } from '../../settings'

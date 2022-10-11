@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-
 import { SecondarySquareButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-
 import { addNewInviteToBoard } from '../../../../services/firebase'
 import { useUser } from '../../../../auth'
 import { BoardOwnersData, Invite } from '../../../../types'
@@ -26,7 +24,7 @@ enum inputFeedbackType {
     CLEAR = 'info',
 }
 
-export const AddNewOwnersInput = ({
+const AddNewOwnersInput = ({
     documentId,
     ownersData,
     invites,
@@ -129,4 +127,4 @@ interface Props {
     invites: Invite[]
 }
 
-export default AddNewOwnersInput
+export { AddNewOwnersInput }

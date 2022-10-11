@@ -1,18 +1,12 @@
 import React, { useState } from 'react'
-
 import { Table, TableHead, TableRow, HeaderCell, TableBody } from '@entur/table'
-
 import { useUser } from '../../../../auth'
-
 import type { BoardOwnersData, Invite } from '../../../../types'
-
 import { removeSentBoardInviteAsOwner } from '../../../../services/firebase'
-
 import { removeFromOwners } from '../../../../settings/FirestoreStorage'
-
 import { SharedWithRows } from './SharedWithRows'
 
-export const BoardOwnersList = ({
+const BoardOwnersList = ({
     documentId,
     ownersData,
     invites,
@@ -120,4 +114,4 @@ interface Props {
     invites: Invite[]
 }
 
-export default BoardOwnersList
+export { BoardOwnersList }

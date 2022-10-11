@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-
 import differenceInSeconds from 'date-fns/differenceInSeconds'
 import parseISO from 'date-fns/parseISO'
-
 import {
     BicycleIcon,
     BusIcon,
@@ -20,13 +18,10 @@ import {
     CloudIcon,
     SunIcon,
 } from '@entur/icons'
-
 import { colors } from '@entur/tokens'
 import type { TravelSwitchProps } from '@entur/form'
-
 import { LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 import { TranslatedString, Translation } from '@entur/sdk/lib/mobility/types'
-
 import { LineData, TileSubLabel, Theme, IconColorType, NonEmpty } from './types'
 import { useSettingsContext } from './settings'
 

@@ -1,5 +1,4 @@
 import React, { FC, useMemo, useEffect } from 'react'
-
 import { Theme } from '../../types'
 import { useSettingsContext } from '../../settings'
 
@@ -39,4 +38,4 @@ const ThemeProvider: FC<ThemeProviderProps> = (props) => {
 
 export const useTheme = (): ThemeContextType => React.useContext(ThemeContext)
 
-export default ThemeProvider
+export { ThemeProvider }
