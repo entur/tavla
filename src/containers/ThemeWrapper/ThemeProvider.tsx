@@ -1,5 +1,4 @@
 import React, { FC, useMemo, useEffect } from 'react'
-
 import { Theme } from '../../types'
 import { useSettingsContext } from '../../settings'
 

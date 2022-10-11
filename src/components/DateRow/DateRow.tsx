@@ -1,13 +1,9 @@
 import React from 'react'
-
 import { format, isSameDay } from 'date-fns'
 import { nb } from 'date-fns/locale'
-
 import { DataCell, TableRow } from '@entur/table'
 import { Heading4 } from '@entur/typography'
-
 import { LineData } from '../../types'
-
 import './DateRow.scss'
 
 function DateRow({ previousRow, currentRow }: Props) {

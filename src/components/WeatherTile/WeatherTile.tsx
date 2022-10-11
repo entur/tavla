@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
 import { CloudRainIcon, UmbrellaIcon, WindIcon } from '@entur/icons'
-
 import { useWeather } from '../../logic'
 import {
     createAbortController,
@@ -9,7 +7,6 @@ import {
     getWeatherIconEntur,
 } from '../../utils'
 import { useSettingsContext } from '../../settings'
-
 import './WeatherTile.scss'
 
 interface Props {

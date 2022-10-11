@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
-
 import { Operator } from '@entur/sdk/lib/mobility/types'
-
 import service from '../service'
 import { ALL_ACTIVE_OPERATOR_IDS } from '../constants'
 

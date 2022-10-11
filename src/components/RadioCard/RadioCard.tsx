@@ -1,9 +1,6 @@
 import React, { useCallback } from 'react'
-
 import { Heading3, Paragraph } from '@entur/typography'
-
 import { RadioBox } from './RadioBox/RadioBox'
-
 import './RadioCard.scss'
 
 function RadioCard({

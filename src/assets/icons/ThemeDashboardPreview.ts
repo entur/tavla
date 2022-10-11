@@ -18,7 +18,6 @@ import ChronoGrey from '../previews/previewGrey/Kronologisk-grey.svg'
 import TimelineGrey from '../previews/previewGrey/Tidslinje-grey.svg'
 import MapGrey from '../previews/previewGrey/Kart-grey.svg'
 import BusStopGrey from '../previews/previewGrey/Holdeplass-gray.svg'
-
 import { Theme } from '../../types'
 
 function ThemeDashboardPreview(

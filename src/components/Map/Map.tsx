@@ -1,18 +1,12 @@
 import React, { useState, memo, useRef, useEffect, useMemo } from 'react'
-
 import { InteractiveMap, Marker } from 'react-map-gl'
 import type { MapRef } from 'react-map-gl'
-
 import type { ClusterProperties } from 'supercluster'
 import useSupercluster from 'use-supercluster'
 import polyline from 'google-polyline'
-
 import { TransportMode } from '@entur/sdk'
-
 import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
-
 import { PositionPin } from '../../assets/icons/PositionPin'
-
 import {
     DrawableRoute,
     IconColorType,
@@ -20,22 +14,17 @@ import {
     StopPlaceWithDepartures,
     Viewport,
 } from '../../types'
-
 import { Filter } from '../../services/realtimeVehicles/types/filter'
-
 import { getIconColor, useDebounce } from '../../utils'
 import { useSettingsContext } from '../../settings'
-
 import useRealtimeVehicleData from '../../logic/useRealtimeVehicleData'
 import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
 import { useStopPlacesWithLines } from '../../logic/useStopPlacesWithLines'
-
 import { LineOverlay } from './RealtimeVehicleTag/LineOverlay/LineOverlay'
 import { BikeRentalStationTag } from './BikeRentalStationTag/BikeRentalStationTag'
 import { StopPlaceTag } from './StopPlaceTag/StopPlaceTag'
 import { ScooterMarkerTag } from './ScooterMarkerTag/ScooterMarkerTag'
 import { RealtimeVehicleTag } from './RealtimeVehicleTag/RealtimeVehicleTag'
-
 import './Map.scss'
 
 const Map = memo(function Map({

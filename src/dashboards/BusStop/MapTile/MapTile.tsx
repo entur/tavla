@@ -1,14 +1,9 @@
 import React from 'react'
-
 import 'mapbox-gl/dist/mapbox-gl.css'
-
 import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
-
 import { Map } from '../../../components/Map/Map'
-
 import { StopPlaceWithDepartures } from '../../../types'
 import { isMobileWeb } from '../../../utils'
-
 import './MapTile.scss'
 
 function MapTile(data: Props): JSX.Element {

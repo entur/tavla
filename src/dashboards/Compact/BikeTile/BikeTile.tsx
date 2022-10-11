@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
-
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
 import { Station } from '@entur/sdk/lib/mobility/types'
-
 import { Tile } from '../components/Tile/Tile'
 import { TileRow } from '../components/TileRow/TileRow'
 import { useSettingsContext } from '../../../settings'

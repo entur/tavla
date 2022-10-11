@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
 import cx from 'classnames'
-
 import './TypographyCarousel.scss'
 
 function getQuoteClassNames(index: number, active: number): string {

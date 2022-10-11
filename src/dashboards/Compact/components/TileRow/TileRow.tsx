@@ -1,20 +1,13 @@
 import React, { Fragment } from 'react'
-
 import { format, isSameDay, isToday, formatISO } from 'date-fns'
-
 import { nb } from 'date-fns/locale'
-
 import { Heading3 } from '@entur/typography'
-
 import { TileSubLabel } from '../../../../types'
 import { ValidationExclamation } from '../../../../assets/icons/ValidationExclamation'
 import { ValidationError } from '../../../../assets/icons/ValidationError'
-
 import { SituationModal } from '../../../../components/SituationModal/SituationModal'
-
 import { isMobileWeb } from '../../../../utils'
 import { WalkInfo } from '../../../../logic/useWalkInfo'
-
 import { PlatformInfo } from './PlatformInfo/PlatformInfo'
 import './TileRow.scss'
 

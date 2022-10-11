@@ -1,16 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-
 import { gql } from '@apollo/client'
 import { differenceInMinutes, format, parseISO } from 'date-fns'
-
 import { TransportMode, TransportSubmode } from '@entur/sdk'
-
 import { LineData, StopPlaceWithDepartures } from '../types'
 import { isNotNullOrUndefined, nonEmpty, unique } from '../utils'
 import { apolloClient } from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL } from '../constants'
-
 import useNearestPlaces from './useNearestPlaces'
 
 const GET_STOP_PLACES_WITH_DEPARTURES_QUERY = gql`

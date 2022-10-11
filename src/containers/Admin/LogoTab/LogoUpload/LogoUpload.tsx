@@ -1,15 +1,11 @@
 import React, { useState } from 'react'
-
 import type { FileRejection } from 'react-dropzone'
-
 import { FileUpload } from '@entur/fileupload'
 import { Label, Link } from '@entur/typography'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
-
 import { uploadLogo } from '../../../../services/firebase'
 import { useSettingsContext } from '../../../../settings'
-
 import '../LogoTab.scss'
 
 const UPLOAD_ZONE_TEXT =

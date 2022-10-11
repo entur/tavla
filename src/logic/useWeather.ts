@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
-
 import { REFRESH_INTERVAL } from '../constants'
-
 import { useSettingsContext } from '../settings'
 
 async function getWeather(

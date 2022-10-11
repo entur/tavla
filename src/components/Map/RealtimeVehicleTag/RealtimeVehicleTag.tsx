@@ -1,15 +1,11 @@
 import React from 'react'
-
 import { Tooltip } from '@entur/tooltip'
 import { colors } from '@entur/tokens'
 import { LegMode, TransportMode } from '@entur/sdk'
-
 import { getIconColor } from '../../../utils'
 import { IconColorType } from '../../../types'
-
 import { RealtimeVehicle } from '../../../services/realtimeVehicles/types/realtimeVehicle'
 import { useSettingsContext } from '../../../settings'
-
 import { TooltipContent } from './TooltipContent/TooltipContent'
 import './RealtimeVehicleTag.scss'
 

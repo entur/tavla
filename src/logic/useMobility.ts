@@ -1,17 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
-
 // Workaround for incompatible AbortSignal types between lib.dom and @entur/sdk
 import { AbortSignal as AbortSignalNodeFetch } from 'node-fetch/externals'
-
 import { FormFactor, Operator, Vehicle } from '@entur/sdk/lib/mobility/types'
 import { Coordinates } from '@entur/sdk'
-
 import service from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../constants'
-
 import { createAbortController } from '../utils'
-
 import { useOperators } from '.'
 
 async function fetchVehicles(

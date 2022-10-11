@@ -1,13 +1,10 @@
 import React, { ChangeEvent, useCallback } from 'react'
-
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
-
 import { toggleValueInList } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 import { useOperators } from '../../../../logic'
-
 import './ScooterPanel.scss'
 
 function ScooterPanel(): JSX.Element {

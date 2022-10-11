@@ -1,14 +1,11 @@
 import React, { memo, useCallback } from 'react'
 import ReactMapGL, { Marker } from 'react-map-gl'
-
 import { Vehicle } from '@entur/sdk/lib/mobility/types'
-
 import { Slider } from '../../../../components'
 import { DEFAULT_ZOOM } from '../../../../constants'
 import { useSettingsContext } from '../../../../settings'
 import { ScooterOperatorLogo } from '../../../../assets/icons/ScooterOperatorLogo'
 import { PositionPin } from '../../../../assets/icons/PositionPin'
-
 import './ZoomEditor.scss'
 
 function ZoomEditor(props: Props): JSX.Element {

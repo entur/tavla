@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-
 import {
     getIcon,
     groupBy,
@@ -15,13 +14,10 @@ import {
     LineData,
     IconColorType,
 } from '../../../types'
-
 import { Tile } from '../components/Tile/Tile'
 import { TileRow } from '../components/TileRow/TileRow'
-
 import { useSettingsContext } from '../../../settings'
 import { WalkInfo } from '../../../logic/useWalkInfo'
-
 import './DepartureTile.scss'
 
 function getTransportHeaderIcons(

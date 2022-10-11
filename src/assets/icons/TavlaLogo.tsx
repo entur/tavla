@@ -1,9 +1,6 @@
 import React from 'react'
-
 import { Theme } from '../../types'
-
 import { useSettingsContext } from '../../settings'
-
 import TavlaWhite from '../logos/Tavla-white.svg'
 import TavlaBlue from '../logos/Tavla-blue.svg'
 

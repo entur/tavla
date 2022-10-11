@@ -1,15 +1,11 @@
 import React, { Fragment, useMemo, useEffect, useState, useRef } from 'react'
-
 import { useRouteMatch } from 'react-router'
-
 import { useLongPress } from 'use-long-press'
-
 import { Heading2 } from '@entur/typography'
 import { LegBone } from '@entur/travel'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 import { WalkingIcon } from '@entur/icons'
-
 import {
     getIcon,
     getIconColor,
@@ -21,12 +17,10 @@ import {
     BREAKPOINTS,
 } from '../../utils'
 import { LineData, IconColorType } from '../../types'
-
 import { useStopPlacesWithDepartures, useWalkInfo } from '../../logic'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { useSettingsContext } from '../../settings'
 import { WalkInfo } from '../../logic/useWalkInfo'
-
 import {
     RearrangeModal,
     Item,
@@ -35,9 +29,7 @@ import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
-
 import { LongPressProvider } from '../../logic/longPressContext'
-
 import './TimelineDashboard.scss'
 
 const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]

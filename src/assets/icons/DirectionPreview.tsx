@@ -6,7 +6,6 @@ import GreyRotated from '../previews/direction-preview/grey_rotated.svg'
 import GreyStandard from '../previews/direction-preview/grey_standard.svg'
 import LightRotated from '../previews/direction-preview/light_rotated.svg'
 import LightStandard from '../previews/direction-preview/light_standard.svg'
-
 import { Theme } from '../../types'
 
 function DirectionPreview(

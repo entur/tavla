@@ -58,7 +58,7 @@
                     "sibling",
                     "index"
                 ],
-                "newlines-between": "always-and-inside-groups",
+                "newlines-between": "never",
                 "pathGroups": [
                     {
                         "pattern": "react+(|-**)",

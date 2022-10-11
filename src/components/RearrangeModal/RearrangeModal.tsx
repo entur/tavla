@@ -1,15 +1,10 @@
 import React from 'react'
-
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-
 import type { DropResult } from 'react-beautiful-dnd'
-
 import { Modal } from '@entur/modal'
 import { PrimaryButton } from '@entur/button'
 import { DraggableIcon } from '@entur/icons'
-
 import { isNotNullOrUndefined } from '../../utils'
-
 import './RearrangeModal.scss'
 
 function RearrangeModal({

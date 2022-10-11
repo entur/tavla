@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { CloseIcon } from '@entur/icons'
-
 import './CloseButton.scss'
 
 interface Props {

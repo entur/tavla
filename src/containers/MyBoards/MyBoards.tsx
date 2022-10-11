@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
-
 import type { DocumentData, Timestamp } from 'firebase/firestore'
-
 import { NotificationBadge } from '@entur/layout'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
-
 import { ThemeDashboardPreview } from '../../assets/icons/ThemeDashboardPreview'
 import {
     getBoardsForUserOnSnapshot,
@@ -13,13 +10,10 @@ import {
 } from '../../services/firebase'
 import { useUser } from '../../auth'
 import { Board, SharedBoard, Theme } from '../../types'
-
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
-
 import { SharedBoards } from './SharedBoards/SharedBoards'
 import { OwnedBoards } from './OwnedBoards/OwnedBoards'
-
 import './MyBoards.scss'
 
 function sortBoard(boards: Board[]): Board[] {

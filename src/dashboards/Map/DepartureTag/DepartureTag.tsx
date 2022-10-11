@@ -1,20 +1,15 @@
 import React from 'react'
-
 import { format, isToday } from 'date-fns'
 import { nb } from 'date-fns/locale'
-
 import { colors } from '@entur/tokens'
 import { Heading4 } from '@entur/typography'
-
 import { StopPlaceWithDepartures, IconColorType } from '../../../types'
-
 import {
     getIcon,
     getIconColor,
     getDepartureNumber,
     getDepartureDirection,
 } from '../../../utils'
-
 import { DepartureIcon } from './DepartureIcon/DepartureIcon'
 import './DepartureTag.scss'
 

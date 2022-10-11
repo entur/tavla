@@ -1,9 +1,6 @@
 import React, { useCallback, useState } from 'react'
-
 import { useHistory } from 'react-router'
-
 import copy from 'copy-to-clipboard'
-
 import {
     ConfigurationIcon,
     OpenedLockIcon,
@@ -13,11 +10,9 @@ import {
 } from '@entur/icons'
 import { OverflowMenu, OverflowMenuItem, OverflowMenuLink } from '@entur/menu'
 import { useToast } from '@entur/alert'
-
 import { RemoveLockModal } from '../../../../../components/Modals/RemoveLockModal'
 import { DeleteTavleModal } from '../../../../../components/Modals/DeleteTavleModal'
 import { RemoveSelfFromTavleModal } from '../../../../../components/Modals/RemoveSelfFromTavleModal'
-
 import '../BoardCard.scss'
 
 function BoardOverflowMenu({

@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react'
-
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
-
 import { FloatingButton } from '@entur/button'
-
 import { AddIcon, SubtractIcon } from '@entur/icons'
-
 import { useSettingsContext } from '../../../settings'
-
 import { Direction, Theme, FontChangeAction } from '../../../types'
 import { RadioCard } from '../../../components/RadioCard/RadioCard'
 import Grey from '../../../assets/previews/Grey-theme.svg'
@@ -15,11 +10,8 @@ import Dark from '../../../assets/previews/Dark-theme.svg'
 import Light from '../../../assets/previews/Light-theme.svg'
 import Entur from '../../../assets/previews/Entur-theme.svg'
 import { getDocumentId } from '../../../utils'
-
 import { DirectionPreview } from '../../../assets/icons/DirectionPreview'
-
 import './ThemeTab.scss'
-
 import { FontSizePreview } from './FontSizePreview/FontSizePreview'
 
 const ThemeTab = (): JSX.Element => {

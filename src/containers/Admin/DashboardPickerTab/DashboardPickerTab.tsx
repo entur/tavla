@@ -1,12 +1,8 @@
 import React, { useState, useCallback } from 'react'
-
 import { Heading2 } from '@entur/typography'
-
 import { RadioCard } from '../../../components/RadioCard/RadioCard'
-
 import { useSettingsContext } from '../../../settings'
 import { ThemeDashboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
-
 import './DashboardPickerTab.scss'
 
 const DashboardPickerTab = (): JSX.Element => {
