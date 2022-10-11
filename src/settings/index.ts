@@ -6,16 +6,12 @@ import {
     useEffect,
 } from 'react'
 import { useLocation } from 'react-router-dom'
-
 import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
-
 import { Coordinates, TransportMode } from '@entur/sdk'
-
 import { Theme, DrawableRoute, CustomTile, Direction } from '../types'
 import { getSettingsReference } from '../services/firebase'
 import { getDocumentId } from '../utils'
 import { useUser } from '../auth'
-
 import {
     persist as persistToUrl,
     restore as restoreFromUrl,
@@ -69,6 +65,7 @@ export interface Settings {
     hiddenCustomTileIds: string[]
     fontScale?: number
     direction?: Direction
+    pageRefreshedAt?: number
 }
 
 type Setter = (settings: Partial<Settings>) => void

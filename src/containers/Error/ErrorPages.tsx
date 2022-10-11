@@ -1,23 +1,16 @@
 import React, { useState } from 'react'
-
 import { useHistory } from 'react-router'
-
 import { signOut } from 'firebase/auth'
-
 import { useToast } from '@entur/alert'
-
-import LoginModal from '../../components/Modals/LoginModal'
-
+import { LoginModal } from '../../components/Modals/LoginModal/LoginModal'
 import { useUser, auth } from '../../auth'
 import { getDocumentId } from '../../utils'
-
 import sikkerhetBomLight from '../../assets/images/sikkerhet_bom_light@2x.png'
 import duerLight from '../../assets/images/duer@2x.png'
 import sauerLight from '../../assets/images/sauer_lag@2x.png'
+import { ErrorWrapper } from './ErrorWrapper'
 
-import ErrorWrapper from '.'
-
-export function LockedTavle(): JSX.Element {
+function LockedTavle(): JSX.Element {
     const user = useUser()
     const userLoggedin = Boolean(user && !user.isAnonymous)
     const history = useHistory()
@@ -68,7 +61,7 @@ export function LockedTavle(): JSX.Element {
     )
 }
 
-export function PageDoesNotExist(): JSX.Element {
+function PageDoesNotExist(): JSX.Element {
     const history = useHistory()
     const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
         event.preventDefault()
@@ -87,7 +80,7 @@ export function PageDoesNotExist(): JSX.Element {
     )
 }
 
-export function NoStopsOnTavle(): JSX.Element {
+function NoStopsOnTavle(): JSX.Element {
     return (
         <div>
             <ErrorWrapper
@@ -99,7 +92,7 @@ export function NoStopsOnTavle(): JSX.Element {
     )
 }
 
-export function NoTavlerAvailable(): JSX.Element {
+function NoTavlerAvailable(): JSX.Element {
     const history = useHistory()
     const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
         event.preventDefault()
@@ -118,7 +111,7 @@ export function NoTavlerAvailable(): JSX.Element {
     )
 }
 
-export function NoSharedTavlerAvailable(): JSX.Element {
+function NoSharedTavlerAvailable(): JSX.Element {
     return (
         <div>
             <ErrorWrapper
@@ -130,7 +123,7 @@ export function NoSharedTavlerAvailable(): JSX.Element {
     )
 }
 
-export function NoAccessToTavler(): JSX.Element {
+function NoAccessToTavler(): JSX.Element {
     const [displayLogin, setDisplayLogin] = useState<boolean>(false)
     const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
         event.preventDefault()
@@ -156,4 +149,13 @@ export function NoAccessToTavler(): JSX.Element {
             />
         </div>
     )
+}
+
+export {
+    LockedTavle,
+    PageDoesNotExist,
+    NoTavlerAvailable,
+    NoStopsOnTavle,
+    NoSharedTavlerAvailable,
+    NoAccessToTavler,
 }

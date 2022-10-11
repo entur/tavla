@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { colors } from '@entur/tokens'
-
 import { Theme } from '../../types'
 import { useThemeColor } from '../../utils'
 
@@ -49,4 +47,4 @@ function ValidationCheck(): JSX.Element {
     )
 }
 
-export default ValidationCheck
+export { ValidationCheck }

@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react'
-
 import { Line, StopPlaceWithLines } from '../types'
 import { createAbortController, unique } from '../utils'
-
 import { useSettingsContext } from '../settings'
-
 import { getStopPlacesWithLines } from './getStopPlacesWithLines'
 import useStopPlacesWithDepartures from './useStopPlacesWithDepartures'
 

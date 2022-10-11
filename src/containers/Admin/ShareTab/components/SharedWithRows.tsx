@@ -1,13 +1,11 @@
 import React from 'react'
-
 import { IconButton } from '@entur/button'
 import { CloseIcon, LoadingIcon } from '@entur/icons'
 import { TableRow, DataCell } from '@entur/table'
 import { Tooltip } from '@entur/tooltip'
-
 import type { BoardOwnersData } from '../../../../types'
 
-export const SharedWithRows = ({
+const SharedWithRows = ({
     users,
     currentUserEmail,
     onRemove,
@@ -57,4 +55,4 @@ interface Props {
     userEmailsBeingRemoved: string[]
 }
 
-export default SharedWithRows
+export { SharedWithRows }

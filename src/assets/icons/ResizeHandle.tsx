@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { colors } from '@entur/tokens'
-
 import '../../variables.scss'
 
 function ResizeHandle({ className, size, variant }: Props): JSX.Element | null {
@@ -67,4 +65,4 @@ interface Props {
     variant?: 'light' | 'dark'
 }
 
-export default ResizeHandle
+export { ResizeHandle }

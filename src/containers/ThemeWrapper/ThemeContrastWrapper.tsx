@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Contrast } from '@entur/layout'
 
 interface Props {
@@ -18,4 +17,4 @@ const ThemeContrastWrapper = ({
     }
 }
 
-export default ThemeContrastWrapper
+export { ThemeContrastWrapper }

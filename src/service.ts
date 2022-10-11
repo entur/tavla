@@ -1,5 +1,4 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
-
 import createEnturClient from '@entur/sdk'
 
 const CLIENT_NAME = process.env.CLIENT_NAME || ''

@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Theme } from '../../types'
 import { useThemeColor } from '../../utils'
 
@@ -45,4 +44,4 @@ function ValidationExclamation(): JSX.Element {
     )
 }
 
-export default ValidationExclamation
+export { ValidationExclamation }
