@@ -1,10 +1,7 @@
 import React from 'react'
-
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
-
 import { BicycleIcon, CarIcon, ScooterIcon } from '@entur/icons'
-
-import './styles.scss'
+import './AvailableVehicles.scss'
 
 const NumberSpan = ({
     numberOfVehicles,
@@ -62,4 +59,4 @@ interface AvailableVehicleProps {
     numberOfBikes: number
 }
 
-export default AvailableVehicles
+export { AvailableVehicles }

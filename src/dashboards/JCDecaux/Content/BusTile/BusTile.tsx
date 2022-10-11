@@ -1,7 +1,7 @@
 import React from 'react'
 import { BusIcon } from '@entur/icons'
 import { LineData } from '../../../../types'
-import './styles.scss'
+import './BusTile.scss'
 
 interface Props {
     departures: LineData[]
@@ -53,4 +53,4 @@ function BusTile({ departures }: Props): JSX.Element | null {
     )
 }
 
-export default BusTile
+export { BusTile }

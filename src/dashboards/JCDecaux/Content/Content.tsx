@@ -2,10 +2,10 @@ import React, { useMemo } from 'react'
 import { compareAsc } from 'date-fns'
 import { TransportMode } from '@entur/sdk'
 import { useStopPlacesWithDepartures } from '../../../logic'
-import BusTile from './BusTile'
-import Heading from './Heading'
-import MobilityOptions from './MobilityTiles'
-import './styles.scss'
+import { BusTile } from './BusTile/BusTile'
+import { Heading } from './Heading/Heading'
+import { MobilityTiles } from './MobilityTiles/MobilityTiles'
+import './Content.scss'
 
 const Content = ({ numberOfBikes }: Props): JSX.Element | null => {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
@@ -28,7 +28,7 @@ const Content = ({ numberOfBikes }: Props): JSX.Element | null => {
         <div className="content-wrapper">
             <Heading />
             <BusTile departures={busDepartures} />
-            <MobilityOptions numberOfBikes={numberOfBikes} />
+            <MobilityTiles numberOfBikes={numberOfBikes} />
         </div>
     )
 }
@@ -37,4 +37,4 @@ type Props = {
     numberOfBikes: number
 }
 
-export default Content
+export { Content }

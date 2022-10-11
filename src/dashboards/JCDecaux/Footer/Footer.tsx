@@ -1,8 +1,6 @@
 import React from 'react'
-
 import AppImages from '../../../assets/images/appImages'
-
-import './styles.scss'
+import './Footer.scss'
 
 const Footer = (): JSX.Element | null => (
     <div className="footer-wrapper">
@@ -17,4 +15,4 @@ const Footer = (): JSX.Element | null => (
     </div>
 )
 
-export default Footer
+export { Footer }

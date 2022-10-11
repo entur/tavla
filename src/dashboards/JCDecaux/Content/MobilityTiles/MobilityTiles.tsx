@@ -1,10 +1,7 @@
 import React from 'react'
-
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
-
-import MobilityTile from './MobilityTile'
-
-import './styles.scss'
+import { MobilityTile } from './MobilityTile/MobilityTile'
+import './MobilityTiles.scss'
 
 // note: naming av mobilitytiles mobilitytile er noe vanskelig
 // reuse feels meh her
@@ -30,4 +27,4 @@ type Props = {
     numberOfBikes: number
 }
 
-export default MobilityTiles
+export { MobilityTiles }

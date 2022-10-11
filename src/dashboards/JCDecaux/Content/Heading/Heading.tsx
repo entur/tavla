@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
-
 import { Contrast } from '@entur/layout'
-
-import PulsatingDot from '../../components/PulsatingDot'
-
-import './styles.scss'
+import { PulsatingDot } from '../../components/PulsatingDot/PulsatingDot'
+import './Heading.scss'
 
 const Heading = (): JSX.Element | null => {
     const [rightNow, setRightNow] = useState(new Date().toLocaleTimeString())
@@ -33,4 +30,4 @@ const Heading = (): JSX.Element | null => {
     )
 }
 
-export default Heading
+export { Heading }

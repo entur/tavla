@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
-import AvailableVehicles from './AvailableVehicles'
-import Description from './Description'
-import './styles.scss'
+import { AvailableVehicles } from './AvailableVehicles/AvailableVehicles'
+import { Description } from './Description/Description'
+import './MobilityTile.scss'
 
 // note: numberofcars, scooters, bike i object mapped til formfactor?
 const MobilityTile = ({
@@ -25,4 +25,4 @@ interface Props {
     numberOfBikes: number
 }
 
-export default MobilityTile
+export { MobilityTile }

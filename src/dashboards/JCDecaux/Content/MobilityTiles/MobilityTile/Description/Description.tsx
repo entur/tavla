@@ -1,8 +1,6 @@
 import React from 'react'
-
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
-
-import './styles.scss'
+import './Description.scss'
 
 // note: kan bruke if for strings, mindre code reuse
 const Description = ({ formFactor }: Props): JSX.Element | null => (
@@ -39,4 +37,4 @@ interface Props {
     formFactor: FormFactor
 }
 
-export default Description
+export { Description }

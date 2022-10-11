@@ -1,6 +1,5 @@
 import React from 'react'
-
-import './styles.scss'
+import './PulsatingDot.scss'
 
 const PulsatingDot = () => (
     <div className="ring-container">
@@ -9,4 +8,4 @@ const PulsatingDot = () => (
     </div>
 )
 
-export default PulsatingDot
+export { PulsatingDot }

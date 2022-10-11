@@ -26,7 +26,7 @@ import {
 } from '../settings/LocalStorage'
 import { isMobileWeb } from '../utils'
 import { Direction, ToastProvider } from '../types'
-import JCDecaux from '../dashboards/JCDecaux'
+import { JCDecaux } from '../dashboards/JCDecaux/JCDecaux'
 import { AdminPage } from './Admin/AdminPage'
 import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
