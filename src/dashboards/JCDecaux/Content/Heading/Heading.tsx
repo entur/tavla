@@ -23,7 +23,6 @@ const Heading = (): JSX.Element | null => {
                 <div>
                     <PulsatingDot />
                 </div>
-                {/* TODO: Bytt ut 13:59 med faktisk tidspunkt */}
                 <h3 className="JCD-last-updated">Sist oppdatert {rightNow}</h3>
             </div>
         </Contrast>
