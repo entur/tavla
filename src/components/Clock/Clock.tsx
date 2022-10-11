@@ -1,9 +1,6 @@
 import React from 'react'
-
 import { Heading2 } from '@entur/typography'
-
 import { useCounter } from '../../utils'
-
 import './Clock.scss'
 
 const DAYS = [

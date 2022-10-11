@@ -1,7 +1,5 @@
 import { gql } from '@apollo/client'
-
 import { TransportMode, TransportSubmode } from '@entur/sdk'
-
 import { apolloClient } from '../service'
 import { Line, StopPlaceWithLines } from '../types'
 import { isNotNullOrUndefined, unique } from '../utils'

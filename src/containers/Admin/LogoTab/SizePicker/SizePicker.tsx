@@ -1,9 +1,6 @@
 import React, { ChangeEvent } from 'react'
-
 import { RadioGroup, Radio } from '@entur/form'
-
 import { useSettingsContext } from '../../../../settings'
-
 import './SizePicker.scss'
 
 const SizePicker = (): JSX.Element => {

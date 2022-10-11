@@ -18,7 +18,6 @@ import {
 import { httpsCallable } from 'firebase/functions'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { signInWithCustomToken } from 'firebase/auth'
-
 import type {
     DocumentReference,
     QuerySnapshot,
@@ -26,9 +25,7 @@ import type {
     DocumentData,
 } from 'firebase/firestore'
 import type { User } from 'firebase/auth'
-
 import { storage, db, auth, functions } from '../firebase-init'
-
 import { Settings } from '../settings/index'
 import { getDocumentId } from '../utils'
 import { FieldTypes } from '../settings/FirestoreStorage'

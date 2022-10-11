@@ -1,11 +1,8 @@
 import React from 'react'
-
 import { Checkbox } from '@entur/form'
 import { DeleteIcon, EditIcon } from '@entur/icons'
-
 import { useSettingsContext } from '../../../../../settings'
 import { CustomTile } from '../../../../../types'
-
 import '../CustomTilePanel.scss'
 
 interface Props extends CustomTile {

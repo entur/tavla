@@ -1,13 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react'
-
 import { useParams } from 'react-router'
-
 import { SubwayIcon } from '@entur/icons'
 import { colors } from '@entur/tokens'
 import { Paragraph } from '@entur/typography'
-
 import { IconColorType } from '../../../../types'
-
 import './FontSizePreview.scss'
 
 type Props = {

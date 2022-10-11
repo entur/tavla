@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
-
 import { PrimaryButton } from '@entur/button'
-
 import { CustomTileModal } from '../../../../components/CustomTileModal/CustomTileModal'
 import { useSettingsContext } from '../../../../settings'
-
 import { CustomTilePanelRow } from './CustomTilePanelRow/CustomTilePanelRow'
-
 import './CustomTilePanel.scss'
 
 const CustomTilePanel = (): JSX.Element => {

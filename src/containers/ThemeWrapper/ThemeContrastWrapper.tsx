@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Contrast } from '@entur/layout'
 
 interface Props {

@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react'
-
 import { gql } from '@apollo/client'
-
 import { NearestPlace, Coordinates, TypeName } from '@entur/sdk'
-
 import { isNotNullOrUndefined } from '../utils'
 import { apolloClient } from '../service'
 

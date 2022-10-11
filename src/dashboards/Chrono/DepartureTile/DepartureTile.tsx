@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
 import { HeaderCell, Table, TableHead, TableRow } from '@entur/table'
-
 import {
     getIcon,
     unique,
@@ -14,13 +12,10 @@ import {
     LineData,
     IconColorType,
 } from '../../../types'
-
 import { Tile } from '../components/Tile/Tile'
 import { TileRows } from '../components/TileRows/TileRows'
-
 import { useSettingsContext } from '../../../settings'
 import { WalkInfo } from '../../../logic/useWalkInfo'
-
 import './DepartureTile.scss'
 
 function getTransportHeaderIcons(

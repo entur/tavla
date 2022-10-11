@@ -1,12 +1,10 @@
 import type { GeoPoint } from 'firebase/firestore'
-
 import {
     updateSingleSettingsField,
     removeFromArray,
     deleteDocument,
     updateMultipleSettingsFields,
 } from '../services/firebase'
-
 import { Settings } from './index'
 
 export type FieldTypes =

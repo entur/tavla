@@ -1,5 +1,4 @@
 import { Dispatch, useReducer } from 'react'
-
 import { RealtimeVehicle } from '../services/realtimeVehicles/types/realtimeVehicle'
 import {
     EXPIRE_VEHICLE_IN_SECONDS,

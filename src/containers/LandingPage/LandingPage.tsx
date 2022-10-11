@@ -1,16 +1,12 @@
 import React, { useCallback } from 'react'
-
 import { useNavigate } from 'react-router'
-
 import { Coordinates } from '@entur/sdk'
 import { Heading1, Heading2, Paragraph, Link } from '@entur/typography'
 import { Contrast } from '@entur/layout'
 import { ForwardIcon } from '@entur/icons'
 import { GridContainer, GridItem } from '@entur/grid'
-
 import { createSettings } from '../../services/firebase'
 import { DEFAULT_SETTINGS } from '../../settings/UrlStorage'
-
 import { SearchPanel } from './SearchPanel/SearchPanel'
 import { TypographyCarousel } from './TypographyCarousel/TypographyCarousel'
 import './LandingPage.scss'

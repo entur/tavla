@@ -1,8 +1,6 @@
 import React from 'react'
-
 import { colors } from '@entur/tokens'
 import { BicycleIcon, ParkIcon } from '@entur/icons'
-
 import './BikeRentalStationTag.scss'
 
 const BikeRentalStationTag = ({ bikes, spaces }: Props): JSX.Element => (

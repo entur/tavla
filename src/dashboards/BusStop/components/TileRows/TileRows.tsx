@@ -1,16 +1,11 @@
 import React, { Fragment } from 'react'
-
 import { Heading3 } from '@entur/typography'
-
 import { DataCell, TableBody, TableRow } from '@entur/table'
-
 import { IconColorType, LineData } from '../../../../types'
-
 import { SituationModal } from '../../../../components/SituationModal/SituationModal'
 import { createTileSubLabel, getIcon, isMobileWeb } from '../../../../utils'
 import { SubLabelIcon } from '../SubLabelIcon/SubLabelIcon'
 import { DateRow } from '../../../../components/DateRow/DateRow'
-
 import './TileRows.scss'
 
 const isMobile = isMobileWeb()

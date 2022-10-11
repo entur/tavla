@@ -1,7 +1,5 @@
 import React, { useState, useEffect, Dispatch } from 'react'
-
 import type { User } from 'firebase/auth'
-
 import {
     Heading2,
     Paragraph,
@@ -11,15 +9,12 @@ import {
     Label,
 } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
-
 import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
 import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
-
 import { LogoUpload } from './LogoUpload/LogoUpload'
 import { SizePicker } from './SizePicker/SizePicker'
 import { Description } from './Description/Description'
-
 import './LogoTab.scss'
 
 const Requirements = (): JSX.Element => (

@@ -1,13 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-
 import { useNavigate, useParams } from 'react-router-dom'
-
 import { signOut } from 'firebase/auth'
-
 import copy from 'copy-to-clipboard'
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { useWindowWidth } from '@react-hook/window-size'
-
 import {
     ConfigurationIcon,
     OpenedLockIcon,
@@ -16,14 +12,11 @@ import {
     CopyIcon,
 } from '@entur/icons'
 import { useToast } from '@entur/alert'
-
 import { useSettingsContext } from '../../../settings'
 import { auth, useUser } from '../../../auth'
-
 import { LockModal } from '../../../components/Modals/LockModal/LockModal'
 import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
 import { MineTavlerModal } from '../../../components/Modals/MineTavlerModal/MineTavlerModal'
-
 import { MenuButton } from './MenuButton/MenuButton'
 import './BottomMenu.scss'
 

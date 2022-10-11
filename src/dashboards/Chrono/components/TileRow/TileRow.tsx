@@ -1,10 +1,7 @@
 import React from 'react'
-
 import { Heading3 } from '@entur/typography'
-
 import { TileSubLabel } from '../../../../types'
 import { WalkInfo } from '../../../../logic/useWalkInfo'
-
 import './TileRow.scss'
 
 function formatWalkInfo(walkInfo: WalkInfo) {

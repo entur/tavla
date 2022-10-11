@@ -1,11 +1,8 @@
 import React, { useState, useEffect, FormEvent } from 'react'
-
 import { Heading3, Paragraph } from '@entur/typography'
 import { TextField } from '@entur/form'
-
 import { useDebounce } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
-
 import '../LogoTab.scss'
 
 const Description = (): JSX.Element => {

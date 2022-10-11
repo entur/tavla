@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import {
     Label,
     Paragraph,
@@ -11,16 +10,13 @@ import { TextField } from '@entur/form'
 import { SecondarySquareButton } from '@entur/button'
 import { CheckIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-
 import {
     copySettingsToNewId,
     setIdToBeDeleted,
     userIsOwner,
 } from '../../../../services/firebase'
-
 import { getDocumentId } from '../../../../utils'
 import { useUser } from '../../../../auth'
-
 import '../NameTab.scss'
 
 enum inputFeedback {

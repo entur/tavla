@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react'
-
 import type { User } from 'firebase/auth'
-
 import { useToast } from '@entur/alert'
 import { Modal } from '@entur/modal'
-
 import { useUser } from '../../../auth'
 import { usePrevious } from '../../../utils'
-
 import { EmailLogin } from './EmailLogin/EmailLogin'
 import { LoginOptions } from './LoginOptions/LoginOptions'
 import { Signup } from './Signup/Signup'
 import { ResetPassword } from './ResetPassword/ResetPassword'
 import { EmailSent } from './EmailSent/EmailSent'
-
 import { CloseButton } from './CloseButton/CloseButton'
 import './LoginModal.scss'
 

@@ -1,5 +1,4 @@
 import React from 'react'
-
 import Pin from '../logos/pin.svg'
 
 function PositionPin({ className, size }: Props): JSX.Element | null {

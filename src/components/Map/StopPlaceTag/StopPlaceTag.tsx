@@ -1,10 +1,7 @@
 import React from 'react'
-
 import { colors } from '@entur/tokens'
-
 import { getIcon, getIconColor } from '../../../utils'
 import { IconColorType, StopPlaceWithDepartures } from '../../../types'
-
 import './StopPlaceTag.scss'
 
 const StopPlaceTag = ({ stopPlace, walkTime }: Props): JSX.Element => {

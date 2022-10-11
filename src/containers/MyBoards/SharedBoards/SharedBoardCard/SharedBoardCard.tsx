@@ -1,17 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-
 import type { Timestamp } from '@firebase/firestore'
-
 import { Button } from '@entur/button'
 import { ClockIcon, UserIcon } from '@entur/icons'
 import { Heading3 } from '@entur/typography'
-
 import { ThemeDashboardPreview } from '../../../../assets/icons/ThemeDashboardPreview'
 import type { Theme } from '../../../../types'
 import { useUser } from '../../../../auth'
 import { createTimeString } from '../../../../utils'
-
 import { answerBoardInvitation } from '../../../../services/firebase'
 
 const SharedBoardCard = ({

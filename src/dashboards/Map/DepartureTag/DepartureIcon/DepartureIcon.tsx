@@ -1,5 +1,4 @@
 import React from 'react'
-
 import './DepartureIcon.scss'
 
 const DepartureIcon = ({ icon, color, routeNumber }: Props): JSX.Element => (

@@ -1,10 +1,7 @@
 import React, { memo, useCallback } from 'react'
-
 import { Label } from '@entur/typography'
-
 import { Slider } from '../../../../components'
 import { MAX_DISTANCE } from '../../../../constants'
-
 import './DistanceEditor.scss'
 
 const DistanceEditor = (props: Props): JSX.Element => {

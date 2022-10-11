@@ -1,17 +1,11 @@
 import React from 'react'
-
 import { Link } from 'react-router-dom'
-
 import type { User } from 'firebase/auth'
-
 import type { DocumentData } from 'firebase/firestore'
-
 import { AddIcon } from '@entur/icons'
 import { Contrast } from '@entur/layout'
 import { Heading3 } from '@entur/typography'
-
 import { Board } from '../../../types'
-
 import { BoardCard } from './BoardCard/BoardCard'
 
 const OwnedBoards = ({ boards, user, preview }: Props): JSX.Element => (

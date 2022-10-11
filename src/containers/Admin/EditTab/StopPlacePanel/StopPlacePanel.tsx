@@ -1,16 +1,12 @@
 import React, { ChangeEvent, useCallback, useMemo } from 'react'
-
 import { Checkbox } from '@entur/form'
 import { Paragraph } from '@entur/typography'
 import { TransportMode } from '@entur/sdk'
 import { Loader } from '@entur/loader'
-
 import { toggleValueInList, isDarkOrDefaultTheme } from '../../../../utils'
 import { StopPlaceWithLines } from '../../../../types'
 import { useSettingsContext } from '../../../../settings'
-
 import { ThemeContrastWrapper } from '../../../ThemeWrapper/ThemeContrastWrapper'
-
 import { PanelRow } from './PanelRow/Panelrow'
 import './StopPlacePanel.scss'
 

@@ -1,14 +1,9 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
-
 import { useLocation, useParams } from 'react-router'
-
 import { useLongPress } from 'use-long-press'
-
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
-
 import { Loader } from '@entur/loader'
-
 import {
     useBikeRentalStations,
     useStopPlacesWithDepartures,
@@ -18,7 +13,6 @@ import {
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { DEFAULT_ZOOM } from '../../constants'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
-
 import {
     RearrangeModal,
     Item,
@@ -28,27 +22,20 @@ import {
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
 import { QRTile } from '../../components/QRTile/QRTile'
-
 import { useSettingsContext } from '../../settings'
-
 import {
     isEqualUnsorted,
     usePrevious,
     isMobileWeb,
     BREAKPOINTS,
 } from '../../utils'
-
 import { WalkInfo } from '../../logic/useWalkInfo'
 import { LongPressProvider } from '../../logic/longPressContext'
-
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
-
 import { ImageTile } from '../../components/ImageTile/ImageTile'
-
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import { BikeTile } from './BikeTile/BikeTile'
-
 import './ChronoDashboard.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)

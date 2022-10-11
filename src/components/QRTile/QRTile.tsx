@@ -1,12 +1,9 @@
 import React from 'react'
 import QRCode from 'react-qr-code'
-
 import { colors } from '@entur/tokens'
 import { Link, Paragraph } from '@entur/typography'
-
 import { CustomTile, Theme } from '../../types'
 import { useSettingsContext } from '../../settings'
-
 import './QRTile.scss'
 
 const QRTile = ({ sourceUrl, description }: CustomTile): JSX.Element => {

@@ -1,13 +1,10 @@
 import React, { useState, useEffect, Dispatch } from 'react'
-
 import type { User } from 'firebase/auth'
 import type { DocumentData, DocumentSnapshot } from 'firebase/firestore'
 import type { FirebaseError } from 'firebase/app'
-
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
 import { NegativeButton } from '@entur/button'
-
 import { useSettingsContext } from '../../../settings'
 import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
@@ -17,16 +14,13 @@ import {
     getOwnersDataByBoardIdAsOwner,
 } from '../../../services/firebase'
 import { BoardOwnersData, Invite } from '../../../types'
-
 import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
 import { RemoveSelfFromTavleModal } from '../../../components/Modals/RemoveSelfFromTavleModal'
 import { NeedToBeOwnerModal } from '../../../components/Modals/NeedToBeOwnerModal'
-
 import { EditableBoardTitle } from './components/EditableBoardTitle'
 import { BoardLink } from './components/BoardLink'
 import { AddNewOwnersInput } from './components/AddNewOwnersInput'
 import { BoardOwnersList } from './components/BoardOwnersList'
-
 import './ShareTab.scss'
 
 const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {

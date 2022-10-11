@@ -1,20 +1,13 @@
 import React, { useState } from 'react'
-
 import { useNavigate } from 'react-router'
-
 import { signOut } from 'firebase/auth'
-
 import { useToast } from '@entur/alert'
-
 import { LoginModal } from '../../components/Modals/LoginModal/LoginModal'
-
 import { useUser, auth } from '../../auth'
 import { getDocumentId } from '../../utils'
-
 import sikkerhetBomLight from '../../assets/images/sikkerhet_bom_light@2x.png'
 import duerLight from '../../assets/images/duer@2x.png'
 import sauerLight from '../../assets/images/sauer_lag@2x.png'
-
 import { ErrorWrapper } from './ErrorWrapper'
 
 function LockedTavle(): JSX.Element {

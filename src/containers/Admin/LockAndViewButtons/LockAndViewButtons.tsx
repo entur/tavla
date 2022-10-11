@@ -1,12 +1,9 @@
 import React, { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router'
-
 import { Button } from '@entur/button'
-
 import { useSettingsContext } from '../../../settings'
 import { getDocumentId } from '../../../utils'
 import { LockModal } from '../../../components/Modals/LockModal/LockModal'
-
 import './LockAndViewButtons.scss'
 
 const LockAndViewButtons = (): JSX.Element => {

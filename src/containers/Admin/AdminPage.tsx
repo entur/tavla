@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from 'react'
-
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
-
 import { LockedTavle } from '../Error/ErrorPages'
-
 import { useUser } from '../../auth'
-
 import { useSettingsContext } from '../../settings'
-
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
-
 import { isDarkOrDefaultTheme } from '../../utils'
-
 import { LogoTab } from './LogoTab/LogoTab'
 import { EditTab } from './EditTab/EditTab'
 import { ThemeTab } from './ThemeTab/ThemeTab'

@@ -1,11 +1,8 @@
 import React, { ChangeEvent, useCallback } from 'react'
-
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
-
 import { useSettingsContext } from '../../../../settings'
-
 import './WeatherPanel.scss'
 
 interface weatherSetting {

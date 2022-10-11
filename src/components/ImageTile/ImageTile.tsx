@@ -1,9 +1,6 @@
 import React from 'react'
-
 import { Heading3, Paragraph } from '@entur/typography'
-
 import { CustomTile } from '../../types'
-
 import './ImageTile.scss'
 
 const ImageTile = ({
