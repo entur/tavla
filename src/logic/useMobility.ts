@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { AbortSignal as AbortSignalNodeFetch } from 'node-fetch/externals'
 import { FormFactor, Operator, Vehicle } from '@entur/sdk/lib/mobility/types'
 import { Coordinates } from '@entur/sdk'
-import service from '../service'
+import { enturClient } from '../service'
 import { useSettingsContext } from '../settings'
 import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../constants'
 import { createAbortController } from '../utils'
@@ -20,7 +20,7 @@ async function fetchVehicles(
         return []
     }
 
-    return service.mobility.getVehicles(
+    return enturClient.mobility.getVehicles(
         {
             lat: Number(coordinates.latitude),
             lon: Number(coordinates.longitude),

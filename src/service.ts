@@ -10,7 +10,7 @@ if (!CLIENT_NAME && process.env.NODE_ENV !== 'production') {
     )
 }
 
-export default createEnturClient({
+const enturClient = createEnturClient({
     clientName: CLIENT_NAME,
     hosts: {
         journeyPlanner: process.env.JOURNEYPLANNER_HOST_V2,
@@ -19,10 +19,12 @@ export default createEnturClient({
     },
 })
 
-export const apolloClient = new ApolloClient({
+const apolloClient = new ApolloClient({
     uri: `${process.env.JOURNEYPLANNER_HOST_V3}/graphql`,
     cache: new InMemoryCache(),
     headers: {
         'ET-Client-Name': CLIENT_NAME,
     },
 })
+
+export { enturClient, apolloClient }

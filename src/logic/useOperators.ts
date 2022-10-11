@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Operator } from '@entur/sdk/lib/mobility/types'
-import service from '../service'
+import { enturClient } from '../service'
 import { ALL_ACTIVE_OPERATOR_IDS } from '../constants'
 
 async function fetchOperators(): Promise<Operator[]> {
-    return service.mobility.getOperators()
+    return enturClient.mobility.getOperators()
 }
 
 function useOperators(): Operator[] {
