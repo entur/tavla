@@ -17,7 +17,7 @@ import {
 import { Filter } from '../../services/realtimeVehicles/types/filter'
 import { getIconColor, useDebounce } from '../../utils'
 import { useSettingsContext } from '../../settings'
-import useRealtimeVehicleData from '../../logic/useRealtimeVehicleData'
+import { useRealtimeVehicleData } from '../../logic/useRealtimeVehicleData'
 import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
 import { useStopPlacesWithLines } from '../../logic/useStopPlacesWithLines'
 import { LineOverlay } from './RealtimeVehicleTag/LineOverlay/LineOverlay'
