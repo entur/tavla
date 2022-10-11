@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { Layouts, Layout, WidthProvider, Responsive } from 'react-grid-layout'
-import { useHistory, useRouteMatch } from 'react-router'
+import { useLocation, useParams } from 'react-router'
 
 import { useLongPress } from 'use-long-press'
 
@@ -79,7 +79,7 @@ function getDataGrid(
 
 const BusStopDashboard = (): JSX.Element | null => {
     const [settings] = useSettingsContext()
-    const history = useHistory()
+    const location = useLocation()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
@@ -87,10 +87,9 @@ const BusStopDashboard = (): JSX.Element | null => {
     const [numberOfStopPlaces, setNumberOfStopPlaces] = useState<number>(0)
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    const dashboardKey = history.location.key
+    const dashboardKey = location.key
 
-    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')
-        ?.params?.documentId
+    const { documentId: boardId } = useParams<{ documentId: string }>()
 
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey as string),

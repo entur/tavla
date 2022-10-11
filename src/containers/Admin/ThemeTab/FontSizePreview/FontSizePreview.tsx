@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 
-import { useRouteMatch } from 'react-router'
+import { useParams } from 'react-router'
 
 import { SubwayIcon } from '@entur/icons'
 import { colors } from '@entur/tokens'
@@ -15,8 +15,7 @@ type Props = {
 }
 
 const FontSizePreview = ({ fontScale }: Props) => {
-    const boardId = useRouteMatch<{ documentId: string }>('/admin/:documentId')
-        ?.params?.documentId
+    const { documentId: boardId } = useParams<{ documentId: string }>()
     const [baseFontSize, setBaseFontSize] = useState(16)
 
     useEffect(() => {

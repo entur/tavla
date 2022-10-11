@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
-import { useHistory, useRouteMatch } from 'react-router'
+import { useLocation, useParams } from 'react-router'
 
 import { useLongPress } from 'use-long-press'
 
@@ -104,10 +104,9 @@ const ChronoDashboard = (): JSX.Element | null => {
         hiddenCustomTileIds = [],
         showCustomTiles,
     } = settings || {}
-    const history = useHistory()
-    const dashboardKey = history.location.key
-    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')
-        ?.params?.documentId
+    const location = useLocation()
+    const dashboardKey = location.key
+    const { documentId: boardId } = useParams<{ documentId: string }>()
 
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()

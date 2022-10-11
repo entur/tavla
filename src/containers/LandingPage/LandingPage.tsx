@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 
 import { Coordinates } from '@entur/sdk'
 import { Heading1, Heading2, Paragraph, Link } from '@entur/typography'
@@ -27,7 +27,7 @@ function EnturLink(): JSX.Element {
 }
 
 function LandingPage(): JSX.Element {
-    const history = useHistory()
+    const navigate = useNavigate()
     const addLocation = useCallback(
         (position: Coordinates, locationName: string): void => {
             const initialSettings = {
@@ -37,10 +37,10 @@ function LandingPage(): JSX.Element {
                 created: new Date(),
             }
             createSettings(initialSettings).then((docRef) => {
-                history.push(`/t/${docRef.id}`)
+                navigate(`/t/${docRef.id}`)
             })
         },
-        [history],
+        [navigate],
     )
 
     return (

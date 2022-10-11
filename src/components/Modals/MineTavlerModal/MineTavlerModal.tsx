@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
@@ -20,7 +20,7 @@ import { getDocumentId } from '../../../utils'
 import './MineTavlerModal.scss'
 
 const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const user = useUser()
     const [settings, setSettings] = useSettingsContext()
 
@@ -29,9 +29,9 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
 
     useEffect(() => {
         if (isLocked) {
-            history.push('/tavler')
+            navigate('/tavler')
         }
-    }, [isLocked, history])
+    }, [isLocked, navigate])
 
     if (user === undefined || isLocked) {
         return null
@@ -48,7 +48,7 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     }
 
     if (user && !user.isAnonymous && !getDocumentId() && open) {
-        history.push('/tavler')
+        navigate('/tavler')
         return null
     }
 
@@ -69,7 +69,7 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
             })
         }
 
-        history.push('/tavler')
+        navigate('/tavler')
     }
 
     return (

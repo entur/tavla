@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 
-import { useHistory, useRouteMatch } from 'react-router'
+import { useLocation, useParams } from 'react-router'
 
 import { useLongPress } from 'use-long-press'
 
@@ -105,14 +105,13 @@ const CompactDashboard = (): JSX.Element | null => {
         hiddenCustomTileIds = [],
         showCustomTiles,
     } = settings || {}
-    const history = useHistory()
+    const location = useLocation()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
 
-    const dashboardKey = history.location.key
-    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')
-        ?.params?.documentId
+    const dashboardKey = location.key
+    const { documentId: boardId } = useParams<{ documentId: string }>()
 
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey as string),

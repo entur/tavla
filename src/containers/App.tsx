@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import {
     BrowserRouter,
     Route,
-    Switch,
+    Routes,
     useLocation,
-    useRouteMatch,
+    useMatch,
 } from 'react-router-dom'
 
 import classNames from 'classnames'
@@ -26,7 +26,6 @@ import { TimelineDashboard } from '../dashboards/Timeline/TimelineDashboard'
 
 import { Header } from '../components/Header/Header'
 import { BusStopDashboard } from '../dashboards/BusStop/BusStopDashboard'
-import PrivateRoute from '../routers/PrivateRoute'
 
 import {
     getFromLocalStorage,
@@ -37,7 +36,7 @@ import { isMobileWeb } from '../utils'
 import { Direction, ToastProvider } from '../types'
 
 import { AdminPage } from './Admin/AdminPage'
-import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
+import { PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
 import { Privacy } from './Privacy/Privacy'
 import { ThemeProvider } from './ThemeWrapper/ThemeProvider'
@@ -196,7 +195,7 @@ const Content = (): JSX.Element => {
 
     const includeSettings = !['/privacy', '/tavler'].includes(location.pathname)
 
-    const isOnTavle = useRouteMatch('/t/')
+    const isOnTavle = useMatch('/t/')
 
     const Dashboard = settings[0]
         ? getDashboardComponent(settings[0].dashboard)
@@ -244,48 +243,39 @@ const Content = (): JSX.Element => {
                         >
                             <ToastProvider>
                                 <Header />
-                                <Switch>
+                                <Routes>
+                                    <Route path="/" element={<LandingPage />} />
                                     <Route
-                                        exact
-                                        path="/"
-                                        component={LandingPage}
-                                    />
-                                    <Route
-                                        exact
                                         path="/t/:documentId"
-                                        component={Dashboard}
+                                        element={<Dashboard />}
                                     />
-                                    <PrivateRoute
-                                        exact
+                                    <Route
                                         path="/admin/:documentId"
-                                        component={settings[0] && AdminPage}
-                                        errorComponent={LockedTavle}
+                                        element={<AdminPage />}
                                     />
                                     <Route
                                         path="/dashboard"
-                                        component={Dashboard}
+                                        element={<Dashboard />}
                                     />
                                     <Route
                                         path="/tavler"
-                                        component={MyBoards}
+                                        element={<MyBoards />}
                                     />
                                     <Route
                                         path="/admin"
-                                        component={
-                                            settings[0]
-                                                ? AdminPage
-                                                : (): null => null
+                                        element={
+                                            settings[0] ? <AdminPage /> : <></>
                                         }
                                     />
                                     <Route
                                         path="/privacy"
-                                        component={Privacy}
+                                        element={<Privacy />}
                                     />
                                     <Route
-                                        path="/"
-                                        component={PageDoesNotExist}
+                                        path="*"
+                                        element={<PageDoesNotExist />}
                                     />
-                                </Switch>
+                                </Routes>
                             </ToastProvider>
                         </div>
                     </ThemeProvider>

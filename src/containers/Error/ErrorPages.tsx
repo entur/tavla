@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 
 import { signOut } from 'firebase/auth'
 
@@ -20,7 +20,7 @@ import { ErrorWrapper } from './ErrorWrapper'
 function LockedTavle(): JSX.Element {
     const user = useUser()
     const userLoggedin = Boolean(user && !user.isAnonymous)
-    const history = useHistory()
+    const navigate = useNavigate()
     const documentId = getDocumentId()
     const { addToast } = useToast()
 
@@ -38,7 +38,7 @@ function LockedTavle(): JSX.Element {
                   variant: 'success',
               })
 
-              signOut(auth).then(() => history.push(`/t/${documentId}`))
+              signOut(auth).then(() => navigate(`/t/${documentId}`))
           }
     const callbackMessage = !userLoggedin ? 'Logg inn' : 'Logg ut'
 
@@ -69,10 +69,10 @@ function LockedTavle(): JSX.Element {
 }
 
 function PageDoesNotExist(): JSX.Element {
-    const history = useHistory()
+    const navigate = useNavigate()
     const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
         event.preventDefault()
-        history.push(`/`)
+        navigate(`/`)
     }
     return (
         <div>
@@ -100,10 +100,10 @@ function NoStopsOnTavle(): JSX.Element {
 }
 
 function NoTavlerAvailable(): JSX.Element {
-    const history = useHistory()
+    const navigate = useNavigate()
     const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
         event.preventDefault()
-        history.push(`/`)
+        navigate(`/`)
     }
     return (
         <div>
