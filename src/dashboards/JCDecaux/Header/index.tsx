@@ -1,7 +1,5 @@
 import React from 'react'
-
-import EnturLogo from '../../../assets/icons/enturLogo'
-
+import { EnturLogo } from '../../../assets/icons/EnturLogo'
 import './styles.scss'
 
 const Header = (): JSX.Element | null => (

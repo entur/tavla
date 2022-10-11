@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
-
 import AvailableVehicles from './AvailableVehicles'
 import Description from './Description'
 import './styles.scss'

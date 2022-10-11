@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
-
 import { useBikeRentalStations } from '../../logic'
-
 import Content from './Content'
 import Footer from './Footer'
 import Header from './Header'
-
 import './styles.scss'
 
 // note: classname wrapper kan skape problemer

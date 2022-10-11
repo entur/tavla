@@ -1,15 +1,10 @@
-import { BusIcon } from '@entur/icons'
 import React from 'react'
-
+import { BusIcon } from '@entur/icons'
 import { LineData } from '../../../../types'
-import { filterMap } from '../../../../utils'
-
 import './styles.scss'
 
 interface Props {
     departures: LineData[]
-    platform?: string
-    type?: string
 }
 
 function BusTile({ departures }: Props): JSX.Element | null {
@@ -28,7 +23,7 @@ function BusTile({ departures }: Props): JSX.Element | null {
                     padding: '1rem',
                 }}
             >
-                {filterMap(departures, (departure) => {
+                {departures.map((departure) => {
                     const routeNumber = departure.route.split(' ')[0]
                     const routeDestination = departure.route
                         .split(' ')

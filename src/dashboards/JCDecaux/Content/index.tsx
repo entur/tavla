@@ -1,13 +1,10 @@
-import { GridItem } from '@entur/grid'
-import { TransportMode } from '@entur/sdk'
 import React, { useMemo } from 'react'
 import { compareAsc } from 'date-fns'
+import { TransportMode } from '@entur/sdk'
 import { useStopPlacesWithDepartures } from '../../../logic'
 import BusTile from './BusTile'
-
 import Heading from './Heading'
 import MobilityOptions from './MobilityTiles'
-
 import './styles.scss'
 
 const Content = ({ numberOfBikes }: Props): JSX.Element | null => {
