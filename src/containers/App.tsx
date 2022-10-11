@@ -6,44 +6,32 @@ import {
     useLocation,
     useRouteMatch,
 } from 'react-router-dom'
-
 import classNames from 'classnames'
-
 import { ApolloProvider } from '@apollo/client'
-
 import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
 import { SettingsContext, useSettings } from '../settings'
-
 import PWAPrompt from '../../vendor/react-ios-pwa-prompt'
-
 import { realtimeVehiclesClient } from '../services/realtimeVehicles/realtimeVehiclesService'
-
 import { ChronoDashboard } from '../dashboards/Chrono/ChronoDashboard'
 import { CompactDashboard } from '../dashboards/Compact/CompactDashboard'
 import { MapDashboard } from '../dashboards/Map/MapDashboard'
 import { TimelineDashboard } from '../dashboards/Timeline/TimelineDashboard'
-
 import { Header } from '../components/Header/Header'
 import { BusStopDashboard } from '../dashboards/BusStop/BusStopDashboard'
 import PrivateRoute from '../routers/PrivateRoute'
-
 import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../settings/LocalStorage'
 import { isMobileWeb } from '../utils'
-
 import { Direction, ToastProvider } from '../types'
-
 import { AdminPage } from './Admin/AdminPage'
 import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
 import { Privacy } from './Privacy/Privacy'
 import { ThemeProvider } from './ThemeWrapper/ThemeProvider'
-
 import { MyBoards } from './MyBoards/MyBoards'
-
 import './styles.scss'
 
 const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1

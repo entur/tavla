@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { BackArrowIcon } from '@entur/icons'
-
 import './BackButton.scss'
 
 const BackButton = ({ action, className }: Props): JSX.Element => (

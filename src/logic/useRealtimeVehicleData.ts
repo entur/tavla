@@ -1,27 +1,20 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-
 import { useApolloClient, useQuery } from '@apollo/client'
 import type { FetchResult } from '@apollo/client'
-
 import { Filter } from '../services/realtimeVehicles/types/filter'
 import { RealtimeVehicle } from '../services/realtimeVehicles/types/realtimeVehicle'
-
 import {
     VEHICLES_QUERY,
     VEHICLE_UPDATES_SUBSCRIPTION,
 } from '../services/realtimeVehicles/graphql'
-
 import {
     SWEEP_INTERVAL_MS,
     DEFAULT_FETCH_POLICY,
     BUFFER_SIZE,
     BUFFER_TIME,
 } from '../constants'
-
 import { useSettingsContext } from '../settings'
-
 import { useStopPlacesWithLines } from './useStopPlacesWithLines'
-
 import useVehicleReducer, { ActionType } from './useRealtimeVehicleReducer'
 
 interface Return {

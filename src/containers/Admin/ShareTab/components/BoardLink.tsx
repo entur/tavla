@@ -1,7 +1,5 @@
 import React from 'react'
-
 import copy from 'copy-to-clipboard'
-
 import { useToast } from '@entur/alert'
 import { IconButton } from '@entur/button'
 import { LinkIcon } from '@entur/icons'

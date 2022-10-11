@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
-
 import { Modal } from '@entur/modal'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
-
 import { useSettingsContext } from '../../settings'
-
 import type { CustomTileType } from '../../types'
-
 import './CustomTileModel.scss'
 
 interface Props {

@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Theme } from '../../types'
 import { useThemeColor } from '../../utils'
 

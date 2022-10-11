@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { Operator } from '@entur/sdk/lib/mobility/types'
-
 import Voi from '../logos/Voi.svg'
 import Tier from '../logos/Tier.svg'
 import Bolt from '../logos/Bolt.svg'

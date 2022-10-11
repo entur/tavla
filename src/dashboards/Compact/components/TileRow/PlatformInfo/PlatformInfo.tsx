@@ -1,5 +1,4 @@
 import React from 'react'
-
 import './PlatformInfo.scss'
 
 function PlatformInfo({ platform, type }: Props): JSX.Element | null {

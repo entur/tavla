@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react'
-
 import { isEqual } from 'lodash'
-
 import { gql } from '@apollo/client'
-
 import { Coordinates } from '@entur/sdk'
-
 import { apolloClient } from '../service'
 import { useSettingsContext } from '../settings'
 import { usePrevious, isNotNullOrUndefined } from '../utils'

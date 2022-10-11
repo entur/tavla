@@ -1,19 +1,12 @@
 import React from 'react'
-
 import { Loader } from '@entur/loader'
-
 import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
-
 import { useCounter, isDarkOrDefaultTheme } from '../../utils'
 import { useSettingsContext } from '../../settings'
-
 import { EnturLogo } from '../../assets/icons/EnturLogo'
-
 import { StopPlaceWithDepartures } from '../../types'
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
-
 import { NoStopsOnTavle } from '../Error/ErrorPages'
-
 import { BottomMenu } from './BottomMenu/BottomMenu'
 import './DashboardWrapper.scss'
 

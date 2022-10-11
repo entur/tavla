@@ -1,20 +1,16 @@
 import React, { useState, Dispatch, SetStateAction } from 'react'
-
 import type { User } from 'firebase/auth'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-
 import { TextField } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
 import { EmailIcon, ClosedLockIcon, BackArrowIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Link } from '@entur/typography'
 import { SmallExpandableAlertBox } from '@entur/alert'
-
 import { auth } from '../../../../auth'
 import { useFormFields } from '../../../../utils'
 import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
-
 import { ModalType } from '../LoginModal'
 import { CloseButton } from '../CloseButton/CloseButton'
 

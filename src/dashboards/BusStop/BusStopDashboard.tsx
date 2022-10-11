@@ -1,16 +1,11 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { Layouts, Layout, WidthProvider, Responsive } from 'react-grid-layout'
 import { useHistory, useRouteMatch } from 'react-router'
-
 import { useLongPress } from 'use-long-press'
-
 import { Loader } from '@entur/loader'
-
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
-
 import { BREAKPOINTS, isEqualUnsorted } from '../../utils'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-
 import { DEFAULT_ZOOM } from '../../constants'
 import {
     useStopPlacesWithDepartures,
@@ -23,19 +18,14 @@ import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
-
 import { useSettingsContext } from '../../settings'
-
 import {
     RearrangeModal,
     Item,
 } from '../../components/RearrangeModal/RearrangeModal'
 import { LongPressProvider } from '../../logic/longPressContext'
-
 import { DepartureTile } from './DepartureTile/DepartureTile'
-
 import { MapTile } from './MapTile/MapTile'
-
 import './BusStopDashboard.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)

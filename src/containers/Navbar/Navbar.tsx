@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-
 import { signOut } from 'firebase/auth'
-
 import { useToast } from '@entur/alert'
 import { TopNavigationItem } from '@entur/menu'
 import { UserIcon, LogOutIcon, GithubIcon, PrivacyIcon } from '@entur/icons'
-
 import { useUser, auth } from '../../auth'
 import { TavlaLogo } from '../../assets/icons'
 import { LoginModal } from '../../components/Modals/LoginModal/LoginModal'
-
 import './Navbar.scss'
 
 const Navbar = (): JSX.Element => {

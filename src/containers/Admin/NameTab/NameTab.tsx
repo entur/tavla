@@ -1,14 +1,10 @@
 import React, { useState, useEffect, Dispatch } from 'react'
-
 import type { User } from 'firebase/auth'
-
 import { Heading2, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
-
 import { useUser } from '../../../auth'
 import { getDocumentId } from '../../../utils'
 import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
-
 import './NameTab.scss'
 import { CustomURL } from './CustomURL/CustomURL'
 

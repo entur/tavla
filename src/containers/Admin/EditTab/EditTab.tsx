@@ -5,9 +5,7 @@ import React, {
     useCallback,
     SyntheticEvent,
 } from 'react'
-
 import { WidthProvider, Responsive } from 'react-grid-layout'
-
 import {
     Heading2,
     Heading3,
@@ -18,13 +16,9 @@ import {
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
-
 import { Station } from '@entur/sdk/lib/mobility/types'
-
 import { Button } from '@entur/button'
-
 import { useSettingsContext, Mode } from '../../../settings'
-
 import {
     useDebounce,
     toggleValueInList,
@@ -32,20 +26,16 @@ import {
     isMobileWeb,
     getTranslation,
 } from '../../../utils'
-
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { Line, StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces, useBikeRentalStations } from '../../../logic'
 import { getStopPlacesWithLines } from '../../../logic/getStopPlacesWithLines'
-
 import {
     saveToLocalStorage,
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
 import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
-
 import useRealtimeVehicleData from '../../../logic/useRealtimeVehicleData'
-
 import { StopPlacePanel } from './StopPlacePanel/StopPlacePanel'
 import { BikePanelSearch } from './BikeSearch/BikePanelSearch'
 import { StopPlaceSearch } from './StopPlaceSearch/StopPlaceSearch'
@@ -54,7 +44,6 @@ import { ScooterPanel } from './ScooterPanel/ScooterPanel'
 import { RealtimeDataPanel } from './RealtimeDataPanel/RealTimeDataPanel'
 import { ToggleDetailsPanel } from './ToggleDetailsPanel/ToggleDetailsPanel'
 import { WeatherPanel } from './WeatherPanel/WeatherPanel'
-
 import './EditTab.scss'
 import { CustomTilePanel } from './CustomTilePanel/CustomTilePanel'
 

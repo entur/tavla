@@ -1,10 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
 import { NewIcon } from '@entur/icons'
-
 import { getDocumentId } from '../../../utils'
-
 import './UpgradeTavlaBanner.scss'
 
 // TODO: Hvorfor er dette en container som blir brukt i et component?

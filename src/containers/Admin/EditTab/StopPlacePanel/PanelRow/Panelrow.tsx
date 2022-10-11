@@ -1,10 +1,8 @@
 import React, { ChangeEvent } from 'react'
-
 import { Checkbox, TravelSwitch } from '@entur/form'
 import type { TravelSwitchProps } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
 import { TransportMode } from '@entur/sdk'
-
 import { unique, isTransport } from '../../../../../utils'
 import { Settings } from '../../../../../settings'
 import { StopPlaceWithLines } from '../../../../../types'

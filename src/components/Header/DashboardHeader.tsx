@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
 import { useSettings } from '../../settings'
-
 import { Clock } from '../Clock/Clock'
 import { TavlaLogo } from '../../assets/icons'
 import { UpgradeTavlaBanner } from '../../containers/DashboardWrapper/UpgradeTavlaBanner/UpgradeTavlaBanner'

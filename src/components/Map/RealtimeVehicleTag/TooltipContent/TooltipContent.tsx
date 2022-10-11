@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-
 import { colors } from '@entur/tokens'
 import { TransportMode } from '@entur/sdk'
 import { Label } from '@entur/typography'
-
 import { DepartureIcon } from '../../../../dashboards/Map/DepartureTag/DepartureIcon/DepartureIcon'
 import {
     getIcon,
@@ -11,10 +9,8 @@ import {
     getLastUpdated,
     getFeedbackString,
 } from '../../../../utils'
-
 import { IconColorType } from '../../../../types'
 import { RealtimeVehicle } from '../../../../services/realtimeVehicles/types/realtimeVehicle'
-
 import './TooltipContent.scss'
 
 interface Props {

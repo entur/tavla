@@ -1,8 +1,6 @@
 import { useState, useEffect, useContext, createContext } from 'react'
-
 import type { User } from 'firebase/auth'
 import { onAuthStateChanged, signInAnonymously } from 'firebase/auth'
-
 import { auth } from './firebase-init'
 
 /**

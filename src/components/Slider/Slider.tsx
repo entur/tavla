@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react'
-
 import './Slider.scss'
 
 function Slider(props: Props): JSX.Element {

@@ -1,7 +1,5 @@
 import React, { useMemo } from 'react'
-
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
-
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import {
     useStopPlacesWithDepartures,
@@ -9,14 +7,10 @@ import {
     useWalkInfo,
     useMobility,
 } from '../../logic'
-
 import { Map } from '../../components/Map/Map'
-
 import { useSettingsContext } from '../../settings'
 import { DEFAULT_ZOOM } from '../../constants'
-
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
-
 import { DepartureTag } from './DepartureTag/DepartureTag'
 import './MapDashboard.scss'
 

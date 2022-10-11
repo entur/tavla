@@ -1,5 +1,4 @@
 import React from 'react'
-
 import EnturWhite from '../logos/Enturlogo_white.svg'
 import EnturBlack from '../logos/Enturlogo_black.svg'
 
