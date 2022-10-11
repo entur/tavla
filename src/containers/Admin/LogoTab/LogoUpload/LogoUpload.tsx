@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { ErrorCode } from 'react-dropzone'
 import type { FileRejection } from 'react-dropzone'
 
 import { FileUpload } from '@entur/fileupload'
@@ -52,7 +53,7 @@ const LogoUpload = (): JSX.Element => {
     const handleReject = (rejections: FileRejection[]): void => {
         const { code, message } = rejections[0]?.errors[0] || {}
 
-        if (code === 'file-too-large') {
+        if (code === ErrorCode.FileTooLarge) {
             setError('Filen kan ikke overskride 5MB')
         } else {
             setError(message)
