@@ -28,10 +28,6 @@ export function persistMultipleFields(docId: string, settings: Settings): void {
     updateMultipleSettingsFields(docId, settings)
 }
 
-export function removeOwners(docId: string): void {
-    persistSingleField(docId, 'owners', [])
-}
-
 export const removeFromOwners = async (
     docId: string,
     uid: string,

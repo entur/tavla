@@ -262,21 +262,6 @@ export function useCounter(interval = 1000): number {
     return tick
 }
 
-export function isLegMode(mode: string): mode is LegMode {
-    return [
-        'air',
-        'bus',
-        'water',
-        'rail',
-        'metro',
-        'tram',
-        'coach',
-        'car',
-        'bicycle',
-        'foot',
-    ].includes(mode)
-}
-
 export const isTransport = (
     mode: string,
 ): mode is TravelSwitchProps['transport'] =>
@@ -307,15 +292,6 @@ export const transportModeNameMapper = (mode: TransportMode): string => {
             return 'T-bane'
         default:
             return 'Buss'
-    }
-}
-
-export interface Suggestion {
-    name: string
-    id?: string
-    coordinates?: {
-        latitude: number
-        longitude: number
     }
 }
 
