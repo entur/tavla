@@ -7,7 +7,7 @@ import { UpgradeTavlaBanner } from '../../containers/DashboardWrapper/UpgradeTav
 import { isMobileWeb } from '../../utils'
 
 function DashboardHeader(): JSX.Element | null {
-    const settings = useSettings()[0]
+    const [settings] = useSettings()
     if (!settings) return null
     const { logo, logoSize, description } = settings
 
