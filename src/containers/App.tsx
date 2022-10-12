@@ -279,4 +279,4 @@ const App = (): JSX.Element => (
     </BrowserRouter>
 )
 
-export default App
+export { App }

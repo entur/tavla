@@ -35,7 +35,7 @@ import {
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
 import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
-import useRealtimeVehicleData from '../../../logic/useRealtimeVehicleData'
+import { useRealtimeVehicleData } from '../../../logic/useRealtimeVehicleData'
 import { StopPlacePanel } from './StopPlacePanel/StopPlacePanel'
 import { BikePanelSearch } from './BikeSearch/BikePanelSearch'
 import { StopPlaceSearch } from './StopPlaceSearch/StopPlaceSearch'

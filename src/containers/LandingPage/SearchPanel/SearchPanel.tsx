@@ -3,7 +3,7 @@ import { Button } from '@entur/button'
 import { Coordinates, Feature, convertFeatureToLocation } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
 import { PositionIcon } from '@entur/icons'
-import service from '../../../service'
+import { enturClient } from '../../../service'
 import { useLocationPermission } from '../../../hooks'
 import './SearchPanel.scss'
 
@@ -21,7 +21,7 @@ async function getStopPlace(coordinates: {
     latitude: number
     longitude: number
 }): Promise<string | undefined> {
-    const result = await service.getFeaturesReverse(coordinates, {
+    const result = await enturClient.getFeaturesReverse(coordinates, {
         size: 1,
         radius: 1000,
     })
@@ -152,7 +152,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
             return defaultSuggestions
         }
 
-        const featuresData = await service.getFeatures(query)
+        const featuresData = await enturClient.getFeatures(query)
         const suggestedFeatures = mapFeaturesToItems(featuresData)
         return [...defaultSuggestions, ...suggestedFeatures]
     }

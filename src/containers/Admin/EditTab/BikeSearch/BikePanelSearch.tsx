@@ -4,7 +4,7 @@ import { AbortSignal as AbortSignalNodeFetch } from 'node-fetch/externals'
 import { Coordinates } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
 import { Station } from '@entur/sdk/lib/mobility/types'
-import service from '../../../../service'
+import { enturClient } from '../../../../service'
 import { createAbortController, getTranslation } from '../../../../utils'
 import './BikePanelSearch.scss'
 
@@ -28,7 +28,7 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
     useEffect(() => {
         const controller = createAbortController()
         if (position) {
-            service.mobility
+            enturClient.mobility
                 .getStations(
                     {
                         lat: position.latitude,
