@@ -1,7 +1,7 @@
 import React from 'react'
 import { Coordinates, Feature } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
-import service from '../../../../service'
+import { enturClient } from '../../../../service'
 import './StopPlaceSearch.scss'
 
 interface Item {
@@ -24,7 +24,7 @@ function mapFeaturesToItems(features: Feature[]): Item[] {
 async function getItems(query: string): Promise<Item[]> {
     if (!query.trim().length) return []
 
-    const featuresData = await service.getFeatures(query, undefined, {
+    const featuresData = await enturClient.getFeatures(query, undefined, {
         layers: ['venue'],
     })
     return mapFeaturesToItems(featuresData)

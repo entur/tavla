@@ -42,11 +42,6 @@ export type StopPlaceWithDepartures = StopPlace & {
 
 export type StopPlaceWithLines = StopPlace & { lines: Line[] }
 
-export interface NearestPlaces {
-    bikeRentalStationIds: string[]
-    stopPlaceIds: string[]
-}
-
 export interface TileSubLabel {
     situation?: string
     time: string
