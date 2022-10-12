@@ -33,7 +33,7 @@ async function fetchBikeRentalStationsNearby(
     )
 }
 
-export default function useBikeRentalStations2(
+export default function useBikeRentalStations(
     excludeHiddenStations = true,
 ): Station[] {
     const [settings] = useSettingsContext()
