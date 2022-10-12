@@ -1,6 +1,41 @@
-.wrapper {
+.jcdecaux-wrapper {
     display: flex;
     flex-direction: column;
     height: 1920px;
     color: white;
+}
+
+.jcdecaux-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5rem 5rem 0 0;
+}
+
+.jcdecaux-content-wrapper {
+    height: 100%;
+    padding: 0 0 0 4rem;
+}
+
+.heading-wrapper {
+    padding: 4rem 0 4rem 0;
+}
+
+.lead-paragraph {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.JCD-heading {
+    font-size: 8rem;
+}
+
+.JCD-last-updated {
+    font-size: 2rem;
+}
+
+.mobility-tiles-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
 }

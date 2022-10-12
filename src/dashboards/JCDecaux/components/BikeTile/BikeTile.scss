@@ -1,3 +1,16 @@
+.mobility-tile-wrapper {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.mobility-tiles-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+
 .vehicles-description {
     display: flex;
     flex-direction: column;

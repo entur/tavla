@@ -1,5 +1,5 @@
 import React from 'react'
-import AppImages from '../../../assets/images/appImages'
+import AppImages from '../../../../assets/images/appImages'
 import './Footer.scss'
 
 const Footer = (): JSX.Element | null => (

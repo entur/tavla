@@ -1,13 +1,23 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { compareAsc } from 'date-fns'
 import { BusIcon } from '@entur/icons'
-import { LineData } from '../../../../types'
+import { TransportMode } from '@entur/sdk'
+import { useStopPlacesWithDepartures } from '../../../../logic'
 import './BusTile.scss'
 
-interface Props {
-    departures: LineData[]
-}
+function BusTile(): JSX.Element | null {
+    const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-function BusTile({ departures }: Props): JSX.Element | null {
+    const busDepartures = useMemo(
+        () =>
+            stopPlacesWithDepartures
+                ?.flatMap((stopPlace) => stopPlace.departures)
+                .filter((departure) => departure.type === TransportMode.BUS)
+                .sort((a, b) => compareAsc(a.departureTime, b.departureTime))
+                .slice(0, 3) ?? [],
+        [stopPlacesWithDepartures],
+    )
+
     return (
         <>
             <div style={{ marginBottom: '2rem' }}>
@@ -23,7 +33,7 @@ function BusTile({ departures }: Props): JSX.Element | null {
                     padding: '1rem',
                 }}
             >
-                {departures.map((departure) => {
+                {busDepartures.map((departure) => {
                     const routeNumber = departure.route.split(' ')[0]
                     const routeDestination = departure.route
                         .split(' ')

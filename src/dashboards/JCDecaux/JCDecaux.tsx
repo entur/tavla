@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useBikeRentalStations } from '../../logic'
-import { Content } from './Content/Content'
-import { Footer } from './Footer/Footer'
-import { Header } from './Header/Header'
+import { EnturLogo } from '../../assets/icons/EnturLogo'
 import './JCDecaux.scss'
+import { LastUpdated } from './components/LastUpdated/LastUpdated'
+import { BusTile } from './components/BusTile/BusTile'
+import { ScooterTile } from './components/ScooterTile/ScooterTile'
+import { BikeTile } from './components/BikeTile/BikeTile'
+import { CarTile } from './components/CarTile/CarTile'
+import { Footer } from './components/Footer/Footer'
 
 // note: classname wrapper kan skape problemer
 const JCDecaux = (): JSX.Element | null => {
@@ -19,9 +23,24 @@ const JCDecaux = (): JSX.Element | null => {
     }, [bikeRentalStations])
 
     return (
-        <div className="wrapper">
-            <Header />
-            <Content numberOfBikes={totalNumberOfBikes} />
+        <div className="jcdecaux-wrapper">
+            <div className="jcdecaux-content-wrapper">
+                <div className="jcdecaux-header">
+                    <EnturLogo />
+                </div>
+                <div className="heading-wrapper">
+                    <h1 className="JCD-heading">I nærheten</h1>
+                    <LastUpdated />
+                </div>
+
+                <div>
+                    <BusTile />
+                </div>
+
+                <div className="mobility-tiles-wrapper">
+                    <CarTile numberOfCars={20} />
+                </div>
+            </div>
             <Footer />
         </div>
     )
