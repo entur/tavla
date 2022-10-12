@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { PulsatingDot } from '../PulsatingDot/PulsatingDot'
 import './LastUpdated.scss'
 
-const LastUpdated = (): JSX.Element | null => {
+const LastUpdated = (): JSX.Element => {
     const [rightNow, setRightNow] = useState(new Date().toLocaleTimeString())
 
     useEffect(() => {

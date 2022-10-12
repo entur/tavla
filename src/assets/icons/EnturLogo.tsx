@@ -5,14 +5,18 @@ import EnturContrast from '../logos/Enturlogo_contrast.svg'
 
 // note: switch og enum
 function EnturLogo({ className, style, height }: Props): JSX.Element {
-    const enturLogo =
-        style === 'black'
-            ? EnturBlack
-            : style === 'white'
-            ? EnturWhite
-            : EnturContrast
+    const enturLogo = () => {
+        switch (style) {
+            case 'black':
+                return EnturBlack
+            case 'white':
+                return EnturWhite
+            default:
+                return EnturContrast
+        }
+    }
 
-    return <img src={enturLogo} height={height} className={className} />
+    return <img src={enturLogo()} height={height} className={className} />
 }
 
 interface Props {

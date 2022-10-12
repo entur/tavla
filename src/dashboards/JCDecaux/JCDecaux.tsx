@@ -10,7 +10,7 @@ import { CarTile } from './components/CarTile/CarTile'
 import { Footer } from './components/Footer/Footer'
 
 // note: classname wrapper kan skape problemer
-const JCDecaux = (): JSX.Element | null => {
+const JCDecaux = (): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
     const [totalNumberOfBikes, setTotalNumberOfBikes] = useState(0)
     useEffect(() => {

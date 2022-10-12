@@ -1,8 +1,8 @@
 import React from 'react'
-import AppImages from '../../../../assets/images/appImages'
+import Images from '../../../../assets/images/app_images.webp'
 import './Footer.scss'
 
-const Footer = (): JSX.Element | null => (
+const Footer = (): JSX.Element => (
     <div className="footer-wrapper">
         <div className="footer-text">
             <h2 className="footer-heading">Last ned Entur-appen</h2>
@@ -11,7 +11,7 @@ const Footer = (): JSX.Element | null => (
                 i nesten hele Norge!
             </h3>
         </div>
-        <AppImages />
+        <img src={Images} />
     </div>
 )
 

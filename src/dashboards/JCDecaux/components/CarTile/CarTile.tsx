@@ -2,9 +2,7 @@ import React from 'react'
 import { CarIcon } from '@entur/icons'
 import './CarTile.scss'
 
-const NumberSpan = ({
-    numberOfVehicles,
-}: NumberSpanProps): JSX.Element | null => {
+const NumberSpan = ({ numberOfVehicles }: NumberSpanProps): JSX.Element => {
     if (numberOfVehicles > 99)
         return (
             <span className="available-vehicles-box-overflow">

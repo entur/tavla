@@ -5,7 +5,7 @@ import { TransportMode } from '@entur/sdk'
 import { useStopPlacesWithDepartures } from '../../../../logic'
 import './BusTile.scss'
 
-function BusTile(): JSX.Element | null {
+function BusTile(): JSX.Element {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
     const busDepartures = useMemo(

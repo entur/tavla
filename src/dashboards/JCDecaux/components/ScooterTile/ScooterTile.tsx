@@ -1,9 +1,7 @@
 import React from 'react'
 import { ScooterIcon } from '@entur/icons'
 
-const NumberSpan = ({
-    numberOfVehicles,
-}: NumberSpanProps): JSX.Element | null => {
+const NumberSpan = ({ numberOfVehicles }: NumberSpanProps): JSX.Element => {
     if (numberOfVehicles > 99)
         return (
             <span className="available-vehicles-box-overflow">
@@ -18,9 +16,7 @@ const NumberSpan = ({
     return <p>{numberOfVehicles}</p>
 }
 
-const ScooterTile = ({
-    numberOfScooters,
-}: ScooterTileProps): JSX.Element | null => (
+const ScooterTile = ({ numberOfScooters }: ScooterTileProps): JSX.Element => (
     <div className="mobility-tiles-wrapper">
         <div className="mobility-tile-wrapper">
             <div className="available-vehicles-box">
