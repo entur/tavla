@@ -3,7 +3,6 @@ import EnturWhite from '../logos/Enturlogo_white.svg'
 import EnturBlack from '../logos/Enturlogo_black.svg'
 import EnturContrast from '../logos/Enturlogo_contrast.svg'
 
-// note: switch og enum
 function EnturLogo({ className, style, height }: Props): JSX.Element {
     const enturLogo = () => {
         switch (style) {

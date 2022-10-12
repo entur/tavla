@@ -24,9 +24,9 @@ const BikeTile = ({ numberOfBikes }: BikeTileProps) => (
                 <NumberSpan numberOfVehicles={numberOfBikes} />
             </div>
             <div className="vehicles-description">
-                <h2 className="vehicles-description-heading">Elsparkesykler</h2>
+                <h2 className="vehicles-description-heading">Sykler</h2>
                 <h3 className="vehicles-description-area">
-                    Innen 500 meters radius
+                    Innen 100 meters radius
                 </h3>
             </div>
         </div>

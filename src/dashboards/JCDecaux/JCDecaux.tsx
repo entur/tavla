@@ -4,12 +4,9 @@ import { EnturLogo } from '../../assets/icons/EnturLogo'
 import './JCDecaux.scss'
 import { LastUpdated } from './components/LastUpdated/LastUpdated'
 import { BusTile } from './components/BusTile/BusTile'
-import { ScooterTile } from './components/ScooterTile/ScooterTile'
-import { BikeTile } from './components/BikeTile/BikeTile'
 import { CarTile } from './components/CarTile/CarTile'
 import { Footer } from './components/Footer/Footer'
 
-// note: classname wrapper kan skape problemer
 const JCDecaux = (): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
     const [totalNumberOfBikes, setTotalNumberOfBikes] = useState(0)
@@ -38,7 +35,8 @@ const JCDecaux = (): JSX.Element => {
                 </div>
 
                 <div className="mobility-tiles-wrapper">
-                    <CarTile numberOfCars={20} />
+                    {/* Todo: change this to use biketile and style */}
+                    <CarTile numberOfCars={totalNumberOfBikes} />
                 </div>
             </div>
             <Footer />

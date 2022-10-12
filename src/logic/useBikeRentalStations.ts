@@ -60,7 +60,7 @@ export default function useBikeRentalStations(
             distance,
             abortController.signal,
         ).then((sts) => {
-            setStationIds(sts.map((st) => st.id)) // Store IDs of all nearby stations
+            setStationIds(sts.map((st) => st.id))
         })
     }, [coordinates, distance, isDisabled])
 
@@ -70,7 +70,6 @@ export default function useBikeRentalStations(
         const abortController = new AbortController()
 
         const getData = () => {
-            // Filter out IDs of hidden stations if excludeHiddenStations is true
             const stationsToFetch = excludeHiddenStations
                 ? stationIds.filter((st) => !hiddenStations.includes(st))
                 : stationIds
