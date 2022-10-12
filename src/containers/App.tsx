@@ -177,7 +177,7 @@ function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
 
 const Content = (): JSX.Element => {
     const user = useFirebaseAuthentication()
-    const settings = useSettings()
+    const [settings, setSettings] = useSettings()
     const location = useLocation()
     const [tavleOpenedAt] = useState(new Date().getTime())
 
@@ -185,8 +185,8 @@ const Content = (): JSX.Element => {
 
     const isOnTavle = useMatch('/t/')
 
-    const Dashboard = settings[0]
-        ? getDashboardComponent(settings[0].dashboard)
+    const Dashboard = settings
+        ? getDashboardComponent(settings.dashboard)
         : (): null => null
 
     const [isRotated, setIsRotated] = useState(false)
@@ -194,8 +194,8 @@ const Content = (): JSX.Element => {
     useEffect(() => {
         updateManifest(window.location.href, window.location.origin)
         if (isOnTavle) {
-            const direction = settings[0]?.direction || Direction.STANDARD
-            const fontSizeScale = settings[0]?.fontScale || 1
+            const direction = settings?.direction || Direction.STANDARD
+            const fontSizeScale = settings?.fontScale || 1
             document.documentElement.style.fontSize = fontSizeScale * 16 + 'px'
             setIsRotated(direction === Direction.ROTATED)
         } else {
@@ -207,8 +207,8 @@ const Content = (): JSX.Element => {
     useEffect(() => {
         if (
             isOnTavle &&
-            settings[0]?.pageRefreshedAt &&
-            tavleOpenedAt < settings[0]?.pageRefreshedAt
+            settings?.pageRefreshedAt &&
+            tavleOpenedAt < settings?.pageRefreshedAt
         ) {
             window.location.reload()
         }
@@ -221,7 +221,11 @@ const Content = (): JSX.Element => {
                     ? ProgressiveWebAppPrompt(location.pathname)
                     : null}
                 <SettingsContext.Provider
-                    value={includeSettings ? settings : [null, settings[1]]}
+                    value={
+                        includeSettings
+                            ? [settings, setSettings]
+                            : [null, setSettings]
+                    }
                 >
                     <ThemeProvider>
                         <div
@@ -252,7 +256,7 @@ const Content = (): JSX.Element => {
                                     <Route
                                         path="/admin"
                                         element={
-                                            settings[0] ? <AdminPage /> : <></>
+                                            settings ? <AdminPage /> : <></>
                                         }
                                     />
                                     <Route
