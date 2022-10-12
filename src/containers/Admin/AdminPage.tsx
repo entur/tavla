@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
+import { Loader } from '@entur/loader'
+import { LockedTavle } from '../Error/ErrorPages'
 import { useUser } from '../../auth'
 import { useSettingsContext } from '../../settings'
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
@@ -34,6 +36,19 @@ const AdminPage = (): JSX.Element => {
             !user || user.isAnonymous || !settings?.owners?.includes(user.uid),
         )
     }, [user, settings?.owners])
+
+    if (!settings) {
+        return <Loader />
+    }
+
+    const permitted =
+        !settings.owners ||
+        settings.owners.length === 0 ||
+        settings.owners.includes(user?.uid ?? '')
+
+    if (!permitted) {
+        return <LockedTavle />
+    }
 
     return (
         <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>

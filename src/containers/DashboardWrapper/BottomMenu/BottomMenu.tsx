@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import copy from 'copy-to-clipboard'
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
@@ -22,7 +22,7 @@ import './BottomMenu.scss'
 
 function BottomMenu({ className }: Props): JSX.Element {
     const URL = document.location.href
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const user = useUser()
     const width = useWindowWidth()
@@ -46,14 +46,14 @@ function BottomMenu({ className }: Props): JSX.Element {
     const onSettingsButtonClick = useCallback(
         (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             if (documentId) {
-                history.push(`/admin/${documentId}`)
+                navigate(`/admin/${documentId}`)
             } else {
                 const path = window.location.pathname.split('@')[1]
-                history.push(`/admin/@${path}`)
+                navigate(`/admin/@${path}`)
                 event.preventDefault()
             }
         },
-        [history, documentId],
+        [navigate, documentId],
     )
 
     const lockingButton = settings &&

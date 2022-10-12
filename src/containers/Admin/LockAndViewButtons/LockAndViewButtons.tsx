@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@entur/button'
 import { useSettingsContext } from '../../../settings'
 import { getDocumentId } from '../../../utils'
@@ -7,7 +7,7 @@ import { LockModal } from '../../../components/Modals/LockModal/LockModal'
 import './LockAndViewButtons.scss'
 
 const LockAndViewButtons = (): JSX.Element => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const [settings] = useSettingsContext()
     const documentId = getDocumentId()
 
@@ -17,10 +17,10 @@ const LockAndViewButtons = (): JSX.Element => {
 
     const goToDash = useCallback(() => {
         if (documentId) {
-            history.push(window.location.pathname.replace('admin', 't'))
+            navigate(window.location.pathname.replace('admin', 't'))
         }
-        history.push(window.location.pathname.replace('admin', 'dashboard'))
-    }, [history, documentId])
+        navigate(window.location.pathname.replace('admin', 'dashboard'))
+    }, [navigate, documentId])
 
     const showLockButton = !owners?.length && documentId
 

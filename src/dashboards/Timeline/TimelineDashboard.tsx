@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo, useEffect, useState, useRef } from 'react'
-import { useRouteMatch } from 'react-router'
+import { useParams } from 'react-router-dom'
 import { useLongPress } from 'use-long-press'
 import { Heading2 } from '@entur/typography'
 import { LegBone } from '@entur/travel'
@@ -175,8 +175,7 @@ const TimelineDashboard = (): JSX.Element | null => {
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
     const isCancelled = useRef<NodeJS.Timeout>()
 
-    const boardId = useRouteMatch<{ documentId: string }>('/t/:documentId')
-        ?.params?.documentId
+    const { documentId: boardId } = useParams<{ documentId: string }>()
 
     const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
