@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { Coordinates } from '@entur/sdk'
 import { Heading1, Heading2, Paragraph, Link } from '@entur/typography'
 import { Contrast } from '@entur/layout'

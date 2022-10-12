@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@entur/button'
 import { useSettingsContext } from '../../../settings'
 import { getDocumentId } from '../../../utils'

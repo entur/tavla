@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { useToast } from '@entur/alert'
 import { LoginModal } from '../../components/Modals/LoginModal/LoginModal'

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'

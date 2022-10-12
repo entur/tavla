@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
-import { useLocation, useParams } from 'react-router'
+import { useLocation, useParams } from 'react-router-dom'
 import { useLongPress } from 'use-long-press'
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
 import { Loader } from '@entur/loader'

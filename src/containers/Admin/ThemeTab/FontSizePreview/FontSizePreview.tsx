@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
 import { SubwayIcon } from '@entur/icons'
 import { colors } from '@entur/tokens'
 import { Paragraph } from '@entur/typography'

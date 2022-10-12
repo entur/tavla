@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import copy from 'copy-to-clipboard'
 import {
     ConfigurationIcon,
