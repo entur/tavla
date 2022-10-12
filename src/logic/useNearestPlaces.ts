@@ -69,10 +69,7 @@ type GetNearestPlacesResponse = {
     }>
 }
 
-export default function useNearestPlaces(
-    position: Coordinates | undefined,
-    distance = 2000,
-) {
+function useNearestPlaces(position: Coordinates | undefined, distance = 2000) {
     const [nearestPlaces, setNearestPlaces] = useState<NearestPlace[]>([])
 
     const { latitude, longitude } = position ?? {}
@@ -121,3 +118,5 @@ export default function useNearestPlaces(
 
     return nearestPlaces
 }
+
+export { useNearestPlaces }

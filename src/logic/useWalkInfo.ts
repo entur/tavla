@@ -120,7 +120,7 @@ async function getWalkInfo(
 
 const EMPTY_WALK_INFO: WalkInfo[] = []
 
-export default function useWalkInfo(destinations: Destination[]): WalkInfo[] {
+function useWalkInfo(destinations: Destination[]): WalkInfo[] {
     const [settings] = useSettingsContext()
     const [travelTime, setTravelTime] = useState<WalkInfo[]>(EMPTY_WALK_INFO)
 
@@ -154,3 +154,5 @@ export default function useWalkInfo(destinations: Destination[]): WalkInfo[] {
 
     return travelTime
 }
+
+export { useWalkInfo }

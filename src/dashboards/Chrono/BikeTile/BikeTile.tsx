@@ -6,7 +6,7 @@ import { Tile } from '../components/Tile/Tile'
 import { useSettingsContext } from '../../../settings'
 import { IconColorType } from '../../../types'
 import { getIconColorType, getTranslation } from '../../../utils'
-import useWalkInfo, { WalkInfo } from '../../../logic/useWalkInfo'
+import { useWalkInfo, WalkInfo } from '../../../logic/useWalkInfo'
 import { TileRow } from '../components/TileRow/TileRow'
 import './BikeTile.scss'
 

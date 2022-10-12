@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { AbortSignal as AbortSignalNodeFetch } from 'node-fetch/externals'
 import { Coordinates } from '@entur/sdk'
 import { Station } from '@entur/sdk/lib/mobility/types'
-import service from '../service'
+import { enturClient } from '../service'
 import { useSettingsContext } from '../settings'
 import { createAbortController } from '../utils'
 
@@ -11,7 +11,7 @@ async function fetchBikeRentalStationsById(
     allStationIds: string[],
     signal?: AbortSignal,
 ): Promise<Station[]> {
-    return await service.mobility.getStationsById(
+    return await enturClient.mobility.getStationsById(
         {
             stationIds: allStationIds,
         },
@@ -24,7 +24,7 @@ async function fetchBikeRentalStationsNearby(
     distance: number,
     signal?: AbortSignal,
 ): Promise<Station[]> {
-    return await service.mobility.getStations(
+    return await enturClient.mobility.getStations(
         {
             lat: coordinates.latitude,
             lon: coordinates.longitude,
@@ -36,7 +36,7 @@ async function fetchBikeRentalStationsNearby(
 
 const EMPTY_BIKE_RENTAL_STATIONS: Station[] = []
 
-export default function useBikeRentalStations(
+function useBikeRentalStations(
     removeHiddenStations = true,
 ): Station[] | undefined {
     const [settings] = useSettingsContext()
@@ -118,3 +118,5 @@ export default function useBikeRentalStations(
 
     return bikeRentalStations
 }
+
+export { useBikeRentalStations }

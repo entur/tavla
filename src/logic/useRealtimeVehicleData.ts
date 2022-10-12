@@ -15,7 +15,7 @@ import {
 } from '../constants'
 import { useSettingsContext } from '../settings'
 import { useStopPlacesWithLines } from './useStopPlacesWithLines'
-import useVehicleReducer, { ActionType } from './useRealtimeVehicleReducer'
+import { useVehicleReducer, ActionType } from './useRealtimeVehicleReducer'
 
 interface Return {
     realtimeVehicles: RealtimeVehicle[] | undefined
@@ -28,7 +28,7 @@ interface QueryData {
 /**
  * Hook to query and subscribe to remote vehicle data
  */
-export default function useRealtimeVehicleData(filter?: Filter): Return {
+function useRealtimeVehicleData(filter?: Filter): Return {
     const client = useApolloClient()
     const [state, dispatch] = useVehicleReducer()
     const { uniqueLines } = useStopPlacesWithLines()
@@ -155,3 +155,5 @@ export default function useRealtimeVehicleData(filter?: Filter): Return {
 
     return { realtimeVehicles, allLinesWithRealtimeData }
 }
+
+export { useRealtimeVehicleData }
