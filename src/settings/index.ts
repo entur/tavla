@@ -95,7 +95,7 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     hiddenCustomTileIds: [],
 }
 
-export function useSettings(): [Settings | null, Setter] {
+export function useFirebaseSettings(): [Settings | null, Setter] {
     const [settings, setLocalSettings] = useState<Settings | null>(null)
 
     const location = useLocation()

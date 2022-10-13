@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
     BrowserRouter,
+    matchPath,
     Route,
     Routes,
     useLocation,
@@ -10,7 +11,7 @@ import classNames from 'classnames'
 import { ApolloProvider } from '@apollo/client'
 import { useFirebaseAuthentication, UserProvider } from '../auth'
 import '../firebase-init'
-import { SettingsContext, useSettings } from '../settings'
+import { SettingsContext, useFirebaseSettings } from '../settings'
 import PWAPrompt from '../../vendor/react-ios-pwa-prompt'
 import { realtimeVehiclesClient } from '../services/realtimeVehicles/realtimeVehiclesService'
 import { ChronoDashboard } from '../dashboards/Chrono/ChronoDashboard'
@@ -175,11 +176,26 @@ function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
     )
 }
 
+const useReloadOnTavleUpdate = () => {
+    const [settings] = useFirebaseSettings()
+    const isOnTavle = useMatch('/t/*')
+    const [tavleOpenedAt] = useState(new Date().getTime())
+
+    useEffect(() => {
+        if (
+            isOnTavle &&
+            settings?.pageRefreshedAt &&
+            tavleOpenedAt < settings?.pageRefreshedAt
+        ) {
+            window.location.reload()
+        }
+    }, [settings, isOnTavle, tavleOpenedAt])
+}
+
 const Content = (): JSX.Element => {
     const user = useFirebaseAuthentication()
-    const [settings, setSettings] = useSettings()
+    const [settings, setSettings] = useFirebaseSettings()
     const location = useLocation()
-    const [tavleOpenedAt] = useState(new Date().getTime())
 
     const includeSettings = !['/privacy', '/tavler'].includes(location.pathname)
 
@@ -204,15 +220,7 @@ const Content = (): JSX.Element => {
         }
     }, [location.pathname, isOnTavle, settings])
 
-    useEffect(() => {
-        if (
-            isOnTavle &&
-            settings?.pageRefreshedAt &&
-            tavleOpenedAt < settings?.pageRefreshedAt
-        ) {
-            window.location.reload()
-        }
-    }, [settings, isOnTavle, tavleOpenedAt])
+    useReloadOnTavleUpdate()
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
