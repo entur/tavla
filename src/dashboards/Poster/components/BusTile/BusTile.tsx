@@ -24,7 +24,7 @@ function BusTile(): JSX.Element {
                 <p style={{ fontSize: '2.5rem' }}>Neste buss</p>
             </div>
             <div
-                className="available-vehicles-box"
+                className="available-vehicles-box-bus"
                 style={{
                     width: '90%',
                     display: 'inline-block',
@@ -41,8 +41,8 @@ function BusTile(): JSX.Element {
                         .join(' ')
 
                     return (
-                        <div key={departure.id} className="row-box">
-                            <div className="red-box">
+                        <div key={departure.id} className="poster-busline-row">
+                            <div className="poster-busline-number-box">
                                 <BusIcon
                                     color="white"
                                     style={{
@@ -51,10 +51,10 @@ function BusTile(): JSX.Element {
                                         marginLeft: '1rem',
                                     }}
                                 />
-                                <p className="lineNumber">{routeNumber}</p>
+                                <p className="poster-busline-number">{routeNumber}</p>
                             </div>
-                            <p className="stopPlace">{routeDestination}</p>
-                            <p className="time">{departure.time}</p>
+                            <p className="poster-busline-stop-place">{routeDestination}</p>
+                            <p className="poster-busline-time">{departure.time}</p>
                         </div>
                     )
                 })}

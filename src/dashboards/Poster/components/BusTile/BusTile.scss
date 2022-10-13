@@ -1,13 +1,14 @@
-.available-vehicles-box {
+.available-vehicles-box-bus {
     border-radius: 12px;
     background-color: var(--tavla-box-background-color);
-    display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 8rem;
-    height: 13rem;
-    width: 26rem;
-    padding: 3rem;
+    width: 90%;
+    display: inline-block;
+    height: 23%;
+    margin-bottom: 10%;
+    padding: 1rem;
 
     &-overflow {
         display: inline-block;
@@ -28,31 +29,31 @@
     }
 }
 
-.row-box {
+.poster-busline-row {
     margin: 1rem;
     display: flex;
 }
 
-.red-box {
+.poster-busline-number-box {
     background-color: #c5044e;
     border-radius: 10px;
     width: 12rem;
     height: 4.5rem;
 }
 
-.time {
+.poster-busline-time {
     font-size: 2.5rem;
     margin: 1.5rem;
     margin-left: auto;
     font-weight: bold;
 }
 
-.stopPlace {
+.poster-busline-stop-place {
     font-size: 2.5rem;
     margin: 1.5rem;
 }
 
-.lineNumber {
+.poster-busline-number {
     font-size: 2rem;
     float: right;
     margin: 1.5rem;

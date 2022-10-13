@@ -39,3 +39,33 @@
     flex-direction: column;
     gap: 5rem;
 }
+
+.available-vehicles-box {
+    display: flex;
+    border-radius: 12px;
+    background-color: var(--tavla-box-background-color);
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8rem;
+    height: 13rem;
+    width: 26rem;
+    padding: 3rem;
+
+    &-overflow {
+        display: inline-block;
+
+        span {
+            height: 40px;
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        &-number {
+            font-size: 6rem;
+        }
+
+        &-symbol {
+            font-size: 2rem;
+        }
+    }
+}
