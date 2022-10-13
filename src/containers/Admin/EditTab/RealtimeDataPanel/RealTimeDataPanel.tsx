@@ -12,7 +12,7 @@ import {
 } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
 //TODO: ENDRE SCSS FILNAVNET TIL Å VÆRE FELLES FOR PERMANENTLINESPANEL OG REALTIMEPANEL
-import './PermanentLinesPanel.scss'
+import './linesPanel.scss'
 import { PermanentLinesPanel } from './PermanentLinesPanel'
 
 interface Props {
