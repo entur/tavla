@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
     BrowserRouter,
-    matchPath,
     Route,
     Routes,
     useLocation,
@@ -252,10 +251,6 @@ const Content = (): JSX.Element => {
                                     <Route
                                         path="/admin/:documentId"
                                         element={<AdminPage />}
-                                    />
-                                    <Route
-                                        path="/dashboard"
-                                        element={<Dashboard />}
                                     />
                                     <Route
                                         path="/tavler"
