@@ -1,20 +1,21 @@
-import React, { useState, useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Heading2 } from '@entur/typography'
 import { RadioCard } from '../../../components/RadioCard/RadioCard'
-import { useSettingsContext } from '../../../settings'
+import { useSettings } from '../../../settings/SettingsProvider'
+import { DashboardTypes } from '../../../types'
 import { ThemeDashboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
 import './DashboardPickerTab.scss'
 
 const DashboardPickerTab = (): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
     const dashboardImages = ThemeDashboardPreview(settings?.theme)
 
-    const [radioValue, setRadioValue] = useState<string>(
-        settings?.dashboard || 'Compact',
+    const [radioValue, setRadioValue] = useState<DashboardTypes>(
+        settings?.dashboard || DashboardTypes.Compact,
     )
 
     const updateChoice = useCallback(
-        (value: string) => {
+        (value: DashboardTypes) => {
             if (value != radioValue) {
                 setRadioValue(value)
                 setSettings({
@@ -31,46 +32,46 @@ const DashboardPickerTab = (): JSX.Element => {
                 <RadioCard
                     title="Kompakt (standard)"
                     description="Alle avgangene til en linje vises på en samlet rad. Ikke egnet for linjer som varierer spor/plattform."
-                    cardValue="Compact"
-                    selected={radioValue === 'Compact'}
+                    cardValue={DashboardTypes.Compact}
+                    selected={radioValue === DashboardTypes.Compact}
                     preview={dashboardImages.Compact}
-                    callback={(val): void => updateChoice(val)}
+                    callback={updateChoice}
                     className="display-wrapper__display-card"
                 />
                 <RadioCard
                     title="Kronologisk"
                     description="Avgangene vises i en kronologisk rekkefølge. Egner seg godt for linjer som varierer spor/plattform."
-                    cardValue="Chrono"
-                    selected={radioValue === 'Chrono'}
+                    cardValue={DashboardTypes.Chrono}
+                    selected={radioValue === DashboardTypes.Chrono}
                     preview={dashboardImages.Chrono}
-                    callback={(val): void => updateChoice(val)}
+                    callback={updateChoice}
                     className="display-wrapper__display-card"
                 />
                 <RadioCard
                     title="Tidslinje"
                     description="Avgangene vises i en visualisert fremstilling. Viser ikke bysykkel, spor/plattform eller avvik."
-                    cardValue="Timeline"
-                    selected={radioValue === 'Timeline'}
+                    cardValue={DashboardTypes.Timeline}
+                    selected={radioValue === DashboardTypes.Timeline}
                     preview={dashboardImages.Timeline}
-                    callback={(val): void => updateChoice(val)}
+                    callback={updateChoice}
                     className="display-wrapper__display-card"
                 />
                 <RadioCard
                     title="Kart"
                     description="Avgangene vises i visualisert i et kart. Viser ikke Sparkesykler, spor/platform eller avvik."
-                    cardValue="Map"
-                    selected={radioValue === 'Map'}
+                    cardValue={DashboardTypes.Map}
+                    selected={radioValue === DashboardTypes.Map}
                     preview={dashboardImages.Map}
-                    callback={(val): void => updateChoice(val)}
+                    callback={updateChoice}
                     className="display-wrapper__display-card"
                 />
                 <RadioCard
                     title="Holdeplass"
                     description="Her får avgangene full bredde med god plass til å vise avviksmeldinger. Egner seg godt for når man er interessert i ett eller få stopp."
-                    cardValue="BusStop"
-                    selected={radioValue === 'BusStop'}
+                    cardValue={DashboardTypes.BusStop}
+                    selected={radioValue === DashboardTypes.BusStop}
                     preview={dashboardImages.BusStop}
-                    callback={(val): void => updateChoice(val)}
+                    callback={updateChoice}
                     className="display-wrapper__display-card"
                 />
             </div>

@@ -21,7 +21,7 @@ import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import { DEFAULT_ZOOM } from '../../constants'
 import {
     isEqualUnsorted,
@@ -84,7 +84,7 @@ const COLS: { [key: string]: number } = {
 }
 
 const CompactDashboard = (): JSX.Element | null => {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const {
         customImageTiles = [],
         customQrTiles = [],

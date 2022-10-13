@@ -16,7 +16,7 @@ import {
 } from '../../../types'
 import { Tile } from '../components/Tile/Tile'
 import { TileRow } from '../components/TileRow/TileRow'
-import { useSettingsContext } from '../../../settings'
+import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/useWalkInfo'
 import './DepartureTile.scss'
 
@@ -43,7 +43,7 @@ const DepartureTile = ({
     const { departures, name } = stopPlaceWithDepartures
     const groupedDepartures = groupBy<LineData>(departures, 'route')
     const routes = Object.keys(groupedDepartures)
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const hideSituations = settings?.hideSituations
     const hideTracks = settings?.hideTracks
     const hideWalkInfo = settings?.hideWalkInfo

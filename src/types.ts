@@ -67,6 +67,14 @@ export enum FontChangeAction {
     decrease,
 }
 
+export enum DashboardTypes {
+    Timeline = 'Timeline',
+    Chrono = 'Chrono',
+    Map = 'Map',
+    BusStop = 'BusStop',
+    Compact = 'Compact',
+}
+
 export enum IconColorType {
     DEFAULT = 'default',
     CONTRAST = 'contrast',

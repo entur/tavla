@@ -8,17 +8,13 @@ import {
 } from 'react-router-dom'
 import classNames from 'classnames'
 import { ApolloProvider } from '@apollo/client'
-import { useFirebaseAuthentication, UserProvider } from '../auth'
+import { UserProvider } from '../UserProvider'
 import '../firebase-init'
-import { SettingsContext, useFirebaseSettings } from '../settings'
+import { SettingsProvider, useSettings } from '../settings/SettingsProvider'
 import PWAPrompt from '../../vendor/react-ios-pwa-prompt'
 import { realtimeVehiclesClient } from '../services/realtimeVehicles/realtimeVehiclesService'
-import { ChronoDashboard } from '../dashboards/Chrono/ChronoDashboard'
-import { CompactDashboard } from '../dashboards/Compact/CompactDashboard'
-import { MapDashboard } from '../dashboards/Map/MapDashboard'
-import { TimelineDashboard } from '../dashboards/Timeline/TimelineDashboard'
+import { DashboardResolver } from '../dashboards/DashboardResolver'
 import { Header } from '../components/Header/Header'
-import { BusStopDashboard } from '../dashboards/BusStop/BusStopDashboard'
 import {
     getFromLocalStorage,
     saveToLocalStorage,
@@ -34,23 +30,6 @@ import { MyBoards } from './MyBoards/MyBoards'
 import './styles.scss'
 
 const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1
-
-function getDashboardComponent(
-    dashboardKey?: string | void,
-): () => JSX.Element | null {
-    switch (dashboardKey) {
-        case 'Timeline':
-            return TimelineDashboard
-        case 'Chrono':
-            return ChronoDashboard
-        case 'Map':
-            return MapDashboard
-        case 'BusStop':
-            return BusStopDashboard
-        default:
-            return CompactDashboard
-    }
-}
 
 const useUpdateManifest = () => {
     const location = useLocation()
@@ -158,12 +137,14 @@ const hidePWA = (pathName: string) =>
         'iPod',
     ].includes(navigator.platform)
 
-function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
+const ProgressiveWebAppPrompt: React.FC = () => {
+    const location = useLocation()
+
     useEffect(() => {
         saveToLocalStorage('numberOfVisits', numberOfVisits + 1)
     }, [])
 
-    if (hidePWA(pathName)) {
+    if (hidePWA(location.pathname) || isMobileWeb()) {
         return null
     }
 
@@ -182,7 +163,7 @@ function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
 }
 
 const useReloadOnTavleUpdate = () => {
-    const [settings] = useFirebaseSettings()
+    const [settings] = useSettings()
     const isOnTavle = useMatch('/t/*')
     const [tavleOpenedAt] = useState(new Date().getTime())
 
@@ -197,20 +178,10 @@ const useReloadOnTavleUpdate = () => {
     }, [settings, isOnTavle, tavleOpenedAt])
 }
 
-const Content = (): JSX.Element => {
-    const user = useFirebaseAuthentication()
-    const [settings, setSettings] = useFirebaseSettings()
-    const location = useLocation()
-
-    const includeSettings = !['/privacy', '/tavler'].includes(location.pathname)
-
-    const isOnTavle = useMatch('/t/')
-
-    const Dashboard = settings
-        ? getDashboardComponent(settings.dashboard)
-        : (): null => null
-
-    const [isRotated, setIsRotated] = useState(false)
+const useHandleRotationAndFontScaling = (): boolean => {
+    const [isRotated, setIsRotated] = useState<boolean>(false)
+    const [settings] = useSettings()
+    const isOnTavle = useMatch('/t/*')
 
     useEffect(() => {
         if (isOnTavle) {
@@ -224,71 +195,54 @@ const Content = (): JSX.Element => {
         }
     }, [isOnTavle, settings])
 
+    return isRotated
+}
+
+const Content = (): JSX.Element => {
+    const isRotated = useHandleRotationAndFontScaling()
     useUpdateManifest()
     useReloadOnTavleUpdate()
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
-            <UserProvider value={user}>
-                {isMobileWeb()
-                    ? ProgressiveWebAppPrompt(location.pathname)
-                    : null}
-                <SettingsContext.Provider
-                    value={
-                        includeSettings
-                            ? [settings, setSettings]
-                            : [null, setSettings]
-                    }
+            <ProgressiveWebAppPrompt />
+            <ThemeProvider>
+                <div
+                    className={classNames('themeBackground', {
+                        rotated: isRotated,
+                    })}
                 >
-                    <ThemeProvider>
-                        <div
-                            className={classNames('themeBackground', {
-                                rotated: isRotated,
-                            })}
-                        >
-                            <ToastProvider>
-                                <Header />
-                                <Routes>
-                                    <Route path="/" element={<LandingPage />} />
-                                    <Route
-                                        path="/t/:documentId"
-                                        element={<Dashboard />}
-                                    />
-                                    <Route
-                                        path="/admin/:documentId"
-                                        element={<AdminPage />}
-                                    />
-                                    <Route
-                                        path="/tavler"
-                                        element={<MyBoards />}
-                                    />
-                                    <Route
-                                        path="/admin"
-                                        element={
-                                            settings ? <AdminPage /> : <></>
-                                        }
-                                    />
-                                    <Route
-                                        path="/privacy"
-                                        element={<Privacy />}
-                                    />
-                                    <Route
-                                        path="*"
-                                        element={<PageDoesNotExist />}
-                                    />
-                                </Routes>
-                            </ToastProvider>
-                        </div>
-                    </ThemeProvider>
-                </SettingsContext.Provider>
-            </UserProvider>
+                    <ToastProvider>
+                        <Header />
+                        <Routes>
+                            <Route path="/" element={<LandingPage />} />
+                            <Route
+                                path="/t/:documentId"
+                                element={<DashboardResolver />}
+                            />
+                            <Route
+                                path="/admin/:documentId"
+                                element={<AdminPage />}
+                            />
+                            <Route path="/tavler" element={<MyBoards />} />
+                            <Route path="/admin" element={<AdminPage />} />
+                            <Route path="/privacy" element={<Privacy />} />
+                            <Route path="*" element={<PageDoesNotExist />} />
+                        </Routes>
+                    </ToastProvider>
+                </div>
+            </ThemeProvider>
         </ApolloProvider>
     )
 }
 
 const App = (): JSX.Element => (
     <BrowserRouter>
-        <Content />
+        <UserProvider>
+            <SettingsProvider>
+                <Content />
+            </SettingsProvider>
+        </UserProvider>
     </BrowserRouter>
 )
 

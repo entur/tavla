@@ -1,14 +1,14 @@
 import React, { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@entur/button'
-import { useSettingsContext } from '../../../settings'
+import { useSettings } from '../../../settings/SettingsProvider'
 import { getDocumentId } from '../../../utils'
 import { LockModal } from '../../../components/Modals/LockModal/LockModal'
 import './LockAndViewButtons.scss'
 
 const LockAndViewButtons = (): JSX.Element => {
     const navigate = useNavigate()
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const documentId = getDocumentId()
 
     const owners = settings?.owners

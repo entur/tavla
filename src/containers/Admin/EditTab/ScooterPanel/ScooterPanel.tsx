@@ -3,12 +3,12 @@ import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
 import { toggleValueInList } from '../../../../utils'
-import { useSettingsContext } from '../../../../settings'
+import { useSettings } from '../../../../settings/SettingsProvider'
 import { useOperators } from '../../../../logic'
 import './ScooterPanel.scss'
 
 function ScooterPanel(): JSX.Element {
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
     const operators = useOperators()
     const { hiddenMobilityOperators = [] } = settings || {}
 

@@ -4,7 +4,7 @@ import { AbortSignal as AbortSignalNodeFetch } from 'node-fetch/externals'
 import { FormFactor, Operator, Vehicle } from '@entur/sdk/lib/mobility/types'
 import { Coordinates } from '@entur/sdk'
 import { enturClient } from '../service'
-import { useSettingsContext } from '../settings'
+import { useSettings } from '../settings/SettingsProvider'
 import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../constants'
 import { createAbortController } from '../utils'
 import { useOperators } from '.'
@@ -40,7 +40,7 @@ async function fetchVehicles(
 const EMPTY_VEHICLES: Vehicle[] = []
 
 function useMobility(formFactor?: FormFactor): Vehicle[] | undefined {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const allOperators = useOperators()
     const [vehicles, setVehicles] = useState<Vehicle[]>()
 

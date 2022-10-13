@@ -12,8 +12,8 @@ import {
     CopyIcon,
 } from '@entur/icons'
 import { useToast } from '@entur/alert'
-import { useSettingsContext } from '../../../settings'
-import { auth, useUser } from '../../../auth'
+import { useSettings } from '../../../settings/SettingsProvider'
+import { auth, useUser } from '../../../UserProvider'
 import { LockModal } from '../../../components/Modals/LockModal/LockModal'
 import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
 import { MineTavlerModal } from '../../../components/Modals/MineTavlerModal/MineTavlerModal'
@@ -26,7 +26,7 @@ function BottomMenu({ className }: Props): JSX.Element {
 
     const user = useUser()
     const width = useWindowWidth()
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const [menuHiddenByScroll, setMenuHiddenByScroll] = useState(false)
     const [isMobileWidth, setIsMobileWidth] = useState<boolean>(
         document.body.clientWidth <= 900,

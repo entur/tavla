@@ -2,7 +2,7 @@ import React from 'react'
 import { Loader } from '@entur/loader'
 import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 import { useCounter, isDarkOrDefaultTheme } from '../../utils'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
 import { StopPlaceWithDepartures } from '../../types'
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
@@ -41,7 +41,7 @@ function DashboardWrapper(props: Props): JSX.Element {
         return <NoStopsOnTavle />
     }
 
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
 
     const { logo, theme } = settings || {}
 

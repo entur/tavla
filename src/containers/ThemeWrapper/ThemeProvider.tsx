@@ -1,6 +1,6 @@
 import React, { FC, useMemo, useEffect } from 'react'
 import { Theme } from '../../types'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 
 type ThemeContextType = {
     themeContext: Theme
@@ -15,7 +15,7 @@ interface ThemeProviderProps {
 }
 
 const ThemeProvider: FC<ThemeProviderProps> = (props) => {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
 
     const themeContext = settings?.theme || Theme.DEFAULT
 

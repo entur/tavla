@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { FloatingButton } from '@entur/button'
 import { AddIcon, SubtractIcon } from '@entur/icons'
-import { useSettingsContext } from '../../../settings'
+import { useSettings } from '../../../settings/SettingsProvider'
 import { Direction, Theme, FontChangeAction } from '../../../types'
 import { RadioCard } from '../../../components/RadioCard/RadioCard'
 import Grey from '../../../assets/previews/Grey-theme.svg'
@@ -15,7 +15,7 @@ import './ThemeTab.scss'
 import { FontSizePreview } from './FontSizePreview/FontSizePreview'
 
 const ThemeTab = (): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
     const [themeRadioValue, setThemeRadioValue] = useState<Theme | null>(null)
     const [fontScale, setFontScale] = useState<number>(settings?.fontScale || 1)
     const [directionRadioValue, setDirectionRadioValue] = useState<Direction>(

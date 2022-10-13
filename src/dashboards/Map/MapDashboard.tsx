@@ -8,14 +8,14 @@ import {
     useMobility,
 } from '../../logic'
 import { Map } from '../../components/Map/Map'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import { DEFAULT_ZOOM } from '../../constants'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { DepartureTag } from './DepartureTag/DepartureTag'
 import './MapDashboard.scss'
 
 const MapDashboard = (): JSX.Element => {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const bikeRentalStations = useBikeRentalStations()

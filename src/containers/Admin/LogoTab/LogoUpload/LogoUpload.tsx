@@ -6,14 +6,14 @@ import { Label, Link } from '@entur/typography'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { uploadLogo } from '../../../../services/firebase'
-import { useSettingsContext } from '../../../../settings'
+import { useSettings } from '../../../../settings/SettingsProvider'
 import '../LogoTab.scss'
 
 const UPLOAD_ZONE_TEXT =
     'Slipp logofilen din her eller klikk for å velge fil å laste opp'
 
 const LogoUpload = (): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
 
     const logo = settings?.logo
 

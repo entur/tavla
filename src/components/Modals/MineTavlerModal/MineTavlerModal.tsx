@@ -4,8 +4,8 @@ import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
-import { useUser } from '../../../auth'
-import { useSettingsContext } from '../../../settings'
+import { useUser } from '../../../UserProvider'
+import { useSettings } from '../../../settings/SettingsProvider'
 import { LoginModal } from '../LoginModal/LoginModal'
 import { CloseButton } from '../LoginModal/CloseButton/CloseButton'
 import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
@@ -16,7 +16,7 @@ import './MineTavlerModal.scss'
 const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const navigate = useNavigate()
     const user = useUser()
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
 
     const isLocked =
         user && !user.isAnonymous && settings?.owners?.length && open

@@ -5,7 +5,7 @@ import { LegMode, TransportMode } from '@entur/sdk'
 import { getIconColor } from '../../../utils'
 import { IconColorType } from '../../../types'
 import { RealtimeVehicle } from '../../../services/realtimeVehicles/types/realtimeVehicle'
-import { useSettingsContext } from '../../../settings'
+import { useSettings } from '../../../settings/SettingsProvider'
 import { TooltipContent } from './TooltipContent/TooltipContent'
 import './RealtimeVehicleTag.scss'
 
@@ -20,7 +20,7 @@ const RealtimeVehicleTag = ({
     setHoveredVehicle,
     isHovered,
 }: Props): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
 
     const { permanentlyVisibleRoutesInMap = [] } = settings || {}
 

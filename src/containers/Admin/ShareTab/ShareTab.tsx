@@ -5,8 +5,8 @@ import type { FirebaseError } from 'firebase/app'
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
 import { NegativeButton } from '@entur/button'
-import { useSettingsContext } from '../../../settings'
-import { useUser } from '../../../auth'
+import { useSettings } from '../../../settings/SettingsProvider'
+import { useUser } from '../../../UserProvider'
 import { getDocumentId } from '../../../utils'
 import {
     getBoardOnSnapshot,
@@ -25,7 +25,7 @@ import './ShareTab.scss'
 
 const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
     const user = useUser()
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
 
     const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false)
     const [needToBeOwnerModalOpen, setNeedToBeOwnerModalOpen] =

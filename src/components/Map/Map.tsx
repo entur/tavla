@@ -16,7 +16,7 @@ import {
 } from '../../types'
 import { Filter } from '../../services/realtimeVehicles/types/filter'
 import { getIconColor, useDebounce } from '../../utils'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import { useRealtimeVehicleData } from '../../logic/useRealtimeVehicleData'
 import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
 import { useStopPlacesWithLines } from '../../logic/useStopPlacesWithLines'
@@ -48,7 +48,7 @@ const Map = memo(function Map({
         minZoom: 13.5,
     })
 
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const {
         permanentlyVisibleRoutesInMap,
         hiddenRealtimeDataLineRefs,

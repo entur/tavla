@@ -3,7 +3,7 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { RadioBox } from './RadioBox/RadioBox'
 import './RadioCard.scss'
 
-function RadioCard({
+function RadioCard<T>({
     title,
     description,
     cardValue,
@@ -11,7 +11,7 @@ function RadioCard({
     preview,
     callback,
     className,
-}: Props): JSX.Element {
+}: Props<T>): JSX.Element {
     const sendChoice = useCallback(
         (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
             event.preventDefault()
@@ -51,13 +51,13 @@ function RadioCard({
     )
 }
 
-interface Props {
+interface Props<T> {
     title: string
     preview: string
-    cardValue: string
+    cardValue: T
     selected: boolean
     description?: string
-    callback?: (value: string) => void
+    callback?: (value: T) => void
     className?: string
 }
 

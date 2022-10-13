@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { REFRESH_INTERVAL } from '../constants'
-import { useSettingsContext } from '../settings'
+import { useSettings } from '../settings/SettingsProvider'
 
 async function getWeather(
     latitude: number,
@@ -21,7 +21,7 @@ async function getWeather(
 }
 
 function useWeather(): Properties | undefined {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const [weather, setWeather] = useState<Properties | undefined>()
 
     const coordinates = settings?.coordinates

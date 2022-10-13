@@ -10,7 +10,7 @@ import {
     isTransport,
     transportModeNameMapper,
 } from '../../../../utils'
-import { useSettingsContext } from '../../../../settings'
+import { useSettings } from '../../../../settings/SettingsProvider'
 //TODO: ENDRE SCSS FILNAVNET TIL Å VÆRE FELLES FOR PERMANENTLINESPANEL OG REALTIMEPANEL
 import './PermanentLinesPanel.scss'
 import { PermanentLinesPanel } from './PermanentLinesPanel'
@@ -24,7 +24,7 @@ const RealtimeDataPanel = ({
     realtimeLines,
     hiddenLines,
 }: Props): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
 
     const {
         showRoutesInMap,

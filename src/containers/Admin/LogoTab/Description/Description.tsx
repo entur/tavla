@@ -2,11 +2,11 @@ import React, { useState, useEffect, FormEvent } from 'react'
 import { Heading3, Paragraph } from '@entur/typography'
 import { TextField } from '@entur/form'
 import { useDebounce } from '../../../../utils'
-import { useSettingsContext } from '../../../../settings'
+import { useSettings } from '../../../../settings/SettingsProvider'
 import '../LogoTab.scss'
 
 const Description = (): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
 
     const { description, logoSize } = settings || {}
 

@@ -3,8 +3,8 @@ import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { LockedTavle } from '../Error/ErrorPages'
-import { useUser } from '../../auth'
-import { useSettingsContext } from '../../settings'
+import { useUser } from '../../UserProvider'
+import { useSettings } from '../../settings/SettingsProvider'
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
 import { isDarkOrDefaultTheme } from '../../utils'
 import { LogoTab } from './LogoTab/LogoTab'
@@ -17,7 +17,7 @@ import { ShareTab } from './ShareTab/ShareTab'
 import './AdminPage.scss'
 
 const AdminPage = (): JSX.Element => {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const user = useUser()
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)

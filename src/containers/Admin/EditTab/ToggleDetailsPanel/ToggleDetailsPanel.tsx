@@ -2,11 +2,11 @@ import React from 'react'
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
-import { useSettingsContext } from '../../../../settings'
+import { useSettings } from '../../../../settings/SettingsProvider'
 import './ToggleDetailsPanel.scss'
 
 function ToggleDetailsPanel(): JSX.Element {
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
     const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
 
     return (

@@ -4,7 +4,7 @@ import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { addNewInviteToBoard } from '../../../../services/firebase'
-import { useUser } from '../../../../auth'
+import { useUser } from '../../../../UserProvider'
 import { BoardOwnersData, Invite } from '../../../../types'
 import { EMAIL_REGEX } from '../../../../utils'
 

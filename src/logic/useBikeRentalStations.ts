@@ -4,7 +4,7 @@ import { AbortSignal as AbortSignalNodeFetch } from 'node-fetch/externals'
 import { Coordinates } from '@entur/sdk'
 import { Station } from '@entur/sdk/lib/mobility/types'
 import { enturClient } from '../service'
-import { useSettingsContext } from '../settings'
+import { useSettings } from '../settings/SettingsProvider'
 import { createAbortController } from '../utils'
 
 async function fetchBikeRentalStationsById(
@@ -39,7 +39,7 @@ const EMPTY_BIKE_RENTAL_STATIONS: Station[] = []
 function useBikeRentalStations(
     removeHiddenStations = true,
 ): Station[] | undefined {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const [bikeRentalStations, setBikeRentalStations] = useState<
         Station[] | undefined
     >(EMPTY_BIKE_RENTAL_STATIONS)

@@ -18,7 +18,8 @@ import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
 import { Station } from '@entur/sdk/lib/mobility/types'
 import { Button } from '@entur/button'
-import { useSettingsContext, Mode } from '../../../settings'
+import { Mode } from '../../../settings'
+import { useSettings } from '../../../settings/SettingsProvider'
 import {
     useDebounce,
     toggleValueInList,
@@ -98,7 +99,7 @@ const getNumberOfRealtimeModes = (
 
 const EditTab = (): JSX.Element => {
     const [breakpoint, setBreakpoint] = useState<string>('lg')
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
     const {
         newStops = [],
         newStations = [],

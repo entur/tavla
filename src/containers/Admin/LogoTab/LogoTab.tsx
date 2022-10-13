@@ -9,7 +9,7 @@ import {
     Label,
 } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
-import { useUser } from '../../../auth'
+import { useUser } from '../../../UserProvider'
 import { getDocumentId } from '../../../utils'
 import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
 import { LogoUpload } from './LogoUpload/LogoUpload'

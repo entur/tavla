@@ -1,11 +1,11 @@
 import React from 'react'
 import { Theme } from '../../types'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import TavlaWhite from '../logos/Tavla-white.svg'
 import TavlaBlue from '../logos/Tavla-blue.svg'
 
 function TavlaLogo({ className, forceColor }: Props): JSX.Element {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
 
     if (forceColor) {
         const LogoSource = forceColor === 'blue' ? TavlaBlue : TavlaWhite

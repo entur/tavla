@@ -3,7 +3,7 @@ import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
 import { Station } from '@entur/sdk/lib/mobility/types'
 import { Tile } from '../components/Tile/Tile'
-import { useSettingsContext } from '../../../settings'
+import { useSettings } from '../../../settings/SettingsProvider'
 import { IconColorType } from '../../../types'
 import { getIconColorType, getTranslation } from '../../../utils'
 import { useWalkInfo, WalkInfo } from '../../../logic/useWalkInfo'
@@ -15,7 +15,7 @@ function getWalkInfo(walkInfos: WalkInfo[], id: string): WalkInfo | undefined {
 }
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const hideWalkInfo = settings?.hideWalkInfo
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,

@@ -4,7 +4,7 @@ import { BicycleIcon } from '@entur/icons'
 import { Station } from '@entur/sdk/lib/mobility/types'
 import { Tile } from '../components/Tile/Tile'
 import { TileRow } from '../components/TileRow/TileRow'
-import { useSettingsContext } from '../../../settings'
+import { useSettings } from '../../../settings/SettingsProvider'
 import { IconColorType } from '../../../types'
 import { getIconColorType, getTranslation } from '../../../utils'
 import { useWalkInfo, WalkInfo } from '../../../logic/useWalkInfo'
@@ -17,7 +17,7 @@ function getWalkInfoBike(
 }
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
 
     const stationDestinations = useMemo(
         () =>
