@@ -39,9 +39,7 @@ const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1
 
 function getDashboardComponent(
     dashboardKey?: string | void,
-    isPoster = false,
 ): () => JSX.Element | null {
-    if (isPoster) return Poster
     switch (dashboardKey) {
         case 'Timeline':
             return TimelineDashboard
@@ -51,6 +49,8 @@ function getDashboardComponent(
             return MapDashboard
         case 'BusStop':
             return BusStopDashboard
+        case 'Poster':
+            return Poster
         default:
             return CompactDashboard
     }
@@ -190,7 +190,7 @@ const Content = (): JSX.Element => {
     const isOnTavle = useRouteMatch('/t/')
 
     const Dashboard = settings
-        ? getDashboardComponent(settings.dashboard, settings.poster)
+        ? getDashboardComponent(settings.dashboard)
         : (): null => null
 
     const [isRotated, setIsRotated] = useState(false)
@@ -238,7 +238,11 @@ const Content = (): JSX.Element => {
                             })}
                         >
                             <ToastProvider>
-                                {settings?.poster ? <></> : <Header />}
+                                {settings?.dashboard === 'Poster' ? (
+                                    <></>
+                                ) : (
+                                    <Header />
+                                )}
                                 <Switch>
                                     <Route
                                         exact
