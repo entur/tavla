@@ -80,7 +80,11 @@ export enum IconColorType {
     CONTRAST = 'contrast',
 }
 
-export type CustomTileType = 'qr' | 'image'
+export enum CustomTileType {
+    QR = 'qr',
+    Image = 'image',
+}
+
 export interface CustomTile {
     id: string
     type: CustomTileType
