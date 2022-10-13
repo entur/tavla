@@ -65,7 +65,7 @@ export interface Settings {
     hiddenCustomTileIds: string[]
     fontScale?: number
     direction?: Direction
-    jcdecaux?: boolean
+    poster?: boolean
     pageRefreshedAt?: number
 }
 
@@ -94,7 +94,7 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     customQrTiles: [],
     showCustomTiles: false,
     hiddenCustomTileIds: [],
-    jcdecaux: false,
+    poster: false,
 }
 
 export function useSettings(): [Settings | null, Setter] {

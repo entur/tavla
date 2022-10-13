@@ -26,7 +26,7 @@ import {
 } from '../settings/LocalStorage'
 import { isMobileWeb } from '../utils'
 import { Direction, ToastProvider } from '../types'
-import { JCDecaux } from '../dashboards/JCDecaux/JCDecaux'
+import { Poster } from '../dashboards/Poster/Poster'
 import { AdminPage } from './Admin/AdminPage'
 import { LockedTavle, PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
@@ -39,9 +39,9 @@ const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1
 
 function getDashboardComponent(
     dashboardKey?: string | void,
-    isJCDecaux = false,
+    isPoster = false,
 ): () => JSX.Element | null {
-    if (isJCDecaux) return JCDecaux
+    if (isPoster) return Poster
     switch (dashboardKey) {
         case 'Timeline':
             return TimelineDashboard
@@ -190,7 +190,7 @@ const Content = (): JSX.Element => {
     const isOnTavle = useRouteMatch('/t/')
 
     const Dashboard = settings
-        ? getDashboardComponent(settings.dashboard, settings.jcdecaux)
+        ? getDashboardComponent(settings.dashboard, settings.poster)
         : (): null => null
 
     const [isRotated, setIsRotated] = useState(false)
@@ -238,7 +238,7 @@ const Content = (): JSX.Element => {
                             })}
                         >
                             <ToastProvider>
-                                {settings?.jcdecaux ? <></> : <Header />}
+                                {settings?.poster ? <></> : <Header />}
                                 <Switch>
                                     <Route
                                         exact

@@ -1,17 +1,17 @@
-.jcdecaux-wrapper {
+.poster-wrapper {
     display: flex;
     flex-direction: column;
     height: 1920px;
     color: white;
 }
 
-.jcdecaux-header {
+.poster-header {
     display: flex;
     justify-content: flex-end;
     padding: 5rem 5rem 0 0;
 }
 
-.jcdecaux-content-wrapper {
+.poster-content-wrapper {
     height: 100%;
     padding: 0 0 0 4rem;
 }
@@ -26,11 +26,11 @@
     gap: 1rem;
 }
 
-.JCD-heading {
+.poster-heading {
     font-size: 8rem;
 }
 
-.JCD-last-updated {
+.poster-last-updated {
     font-size: 2rem;
 }
 

@@ -23,7 +23,7 @@ const LastUpdated = (): JSX.Element => {
             <div>
                 <PulsatingDot />
             </div>
-            <h3 className="JCD-last-updated">Sist oppdatert {rightNow}</h3>
+            <h3 className="poster-last-updated">Sist oppdatert {rightNow}</h3>
         </div>
     )
 }

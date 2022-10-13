@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useBikeRentalStations } from '../../logic'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
-import './JCDecaux.scss'
+import './Poster.scss'
 import { LastUpdated } from './components/LastUpdated/LastUpdated'
 import { BusTile } from './components/BusTile/BusTile'
 import { CarTile } from './components/CarTile/CarTile'
 import { Footer } from './components/Footer/Footer'
 
-const JCDecaux = (): JSX.Element => {
+const Poster = (): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
     const [totalNumberOfBikes, setTotalNumberOfBikes] = useState(0)
     useEffect(() => {
@@ -20,13 +20,13 @@ const JCDecaux = (): JSX.Element => {
     }, [bikeRentalStations])
 
     return (
-        <div className="jcdecaux-wrapper">
-            <div className="jcdecaux-content-wrapper">
-                <div className="jcdecaux-header">
+        <div className="poster-wrapper">
+            <div className="poster-content-wrapper">
+                <div className="poster-header">
                     <EnturLogo />
                 </div>
                 <div className="heading-wrapper">
-                    <h1 className="JCD-heading">I nærheten</h1>
+                    <h1 className="poster-heading">I nærheten</h1>
                     <LastUpdated />
                 </div>
 
@@ -44,4 +44,4 @@ const JCDecaux = (): JSX.Element => {
     )
 }
 
-export { JCDecaux }
+export { Poster }
