@@ -1,10 +1,11 @@
-import React, { useState, useEffect, Dispatch } from 'react'
+import React, { Dispatch, useEffect, useState } from 'react'
 import type { User } from 'firebase/auth'
 import { Heading2, Paragraph } from '@entur/typography'
-import { GridItem, GridContainer } from '@entur/grid'
+import { GridContainer, GridItem } from '@entur/grid'
 import { useUser } from '../../../UserProvider'
 import { getDocumentId } from '../../../utils'
 import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
+import { LoginCase } from '../../../components/Modals/LoginModal/login-modal-types'
 import './NameTab.scss'
 import { CustomURL } from './CustomURL/CustomURL'
 
@@ -48,7 +49,7 @@ const NameTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             <LoginModal
                 onDismiss={handleDismiss}
                 open={open}
-                loginCase="link"
+                loginCase={LoginCase.link}
             />
             <Heading2 className="heading">Lag egen Tavla-lenke</Heading2>
             <GridContainer spacing="extraLarge" className="name-grid">

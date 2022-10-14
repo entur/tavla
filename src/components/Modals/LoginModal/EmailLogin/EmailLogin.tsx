@@ -1,9 +1,9 @@
-import React, { useState, Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import type { User } from 'firebase/auth'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { TextField } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
-import { EmailIcon, ClosedLockIcon, BackArrowIcon } from '@entur/icons'
+import { BackArrowIcon, ClosedLockIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Link } from '@entur/typography'
 import { SmallExpandableAlertBox } from '@entur/alert'
@@ -11,20 +11,20 @@ import { auth } from '../../../../UserProvider'
 import { useFormFields } from '../../../../utils'
 import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
-import { ModalType } from '../LoginModal'
 import { CloseButton } from '../../../CloseButton/CloseButton'
+import { ModalType } from '../login-modal-types'
 
 export interface UserLogin {
     email: string
     password: string
 }
 
-interface Props {
+interface EmailLoginProps {
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
 }
 
-const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
+const EmailLogin: React.FC<EmailLoginProps> = ({ setModalType, onDismiss }) => {
     const [inputs, handleInputsChange] = useFormFields<UserLogin>({
         email: '',
         password: '',
@@ -72,7 +72,7 @@ const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
     }
 
     const handleClose = (): void => {
-        setModalType('LoginOptionsModal')
+        setModalType(ModalType.LoginOptionsModal)
         onDismiss()
     }
 
@@ -81,7 +81,9 @@ const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
             <div className="modal-header">
                 <BackArrowIcon
                     size={30}
-                    onClick={(): void => setModalType('LoginOptionsModal')}
+                    onClick={(): void =>
+                        setModalType(ModalType.LoginOptionsModal)
+                    }
                     className="go-to"
                 />
                 <CloseButton onClick={handleClose} />
@@ -141,7 +143,11 @@ const EmailLogin = ({ setModalType, onDismiss }: Props): JSX.Element => {
                 </GridContainer>
             </form>
             <div className="centered">
-                <Link onClick={(): void => setModalType('ResetPasswordModal')}>
+                <Link
+                    onClick={(): void =>
+                        setModalType(ModalType.ResetPasswordModal)
+                    }
+                >
                     Jeg har glemt passord
                 </Link>
             </div>

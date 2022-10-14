@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import type { User } from 'firebase/auth'
 import { useToast } from '@entur/alert'
 import { Modal } from '@entur/modal'
-import { CloseButton } from '../../CloseButton/CloseButton'
 import { useUser } from '../../../UserProvider'
 import { usePrevious } from '../../../utils'
 import { EmailLogin } from './EmailLogin/EmailLogin'
@@ -11,80 +10,31 @@ import { Signup } from './Signup/Signup'
 import { ResetPassword } from './ResetPassword/ResetPassword'
 import { EmailSent } from './EmailSent/EmailSent'
 import './LoginModal.scss'
+import { LoginCase, ModalType } from './login-modal-types'
 
-export type LoginCase =
-    | 'lock'
-    | 'mytables'
-    | 'logo'
-    | 'link'
-    | 'share'
-    | 'error'
-    | 'default'
-
-interface Props {
+interface LoginModalProps {
     open: boolean
     onDismiss: (user?: User) => void
     loginCase: LoginCase
 }
 
-export type ModalType =
-    | 'LoginOptionsModal'
-    | 'LoginEmailModal'
-    | 'SignupModal'
-    | 'ResetPasswordModal'
-    | 'EmailSentModal'
-
-const LoginModal = ({ open, onDismiss, loginCase }: Props): JSX.Element => {
+const LoginModal: React.FC<LoginModalProps> = ({
+    open,
+    onDismiss,
+    loginCase,
+}) => {
     const user = useUser()
+    const { addToast } = useToast()
+    const [modalType, setModalType] = useState<ModalType>(
+        ModalType.LoginOptionsModal,
+    )
 
     const isLoggedIn = user && !user.isAnonymous
-
-    const { addToast } = useToast()
-
-    const [modalType, setModalType] = useState<ModalType>('LoginOptionsModal')
-
-    const displayModal = (): JSX.Element => {
-        switch (modalType) {
-            case 'LoginEmailModal':
-                return (
-                    <EmailLogin
-                        setModalType={setModalType}
-                        onDismiss={onDismiss}
-                    />
-                )
-            case 'SignupModal':
-                return (
-                    <Signup setModalType={setModalType} onDismiss={onDismiss} />
-                )
-            case 'ResetPasswordModal':
-                return (
-                    <ResetPassword
-                        setModalType={setModalType}
-                        onDismiss={onDismiss}
-                    />
-                )
-            case 'EmailSentModal':
-                return (
-                    <EmailSent
-                        setModalType={setModalType}
-                        onDismiss={onDismiss}
-                    />
-                )
-            default:
-                return (
-                    <LoginOptions
-                        setModalType={setModalType}
-                        loginCase={loginCase}
-                    />
-                )
-        }
-    }
-
     const prevIsLoggedIn = usePrevious(isLoggedIn)
 
     useEffect(() => {
         if (user && isLoggedIn && !prevIsLoggedIn && open) {
-            setModalType('LoginOptionsModal')
+            setModalType(ModalType.LoginOptionsModal)
             addToast({
                 title: 'Logget inn',
                 content: 'Du har nå logget inn på din konto.',
@@ -94,14 +44,10 @@ const LoginModal = ({ open, onDismiss, loginCase }: Props): JSX.Element => {
         }
     }, [isLoggedIn, open, onDismiss, addToast, prevIsLoggedIn, user])
 
-    const handleDismiss = (): void => {
-        setModalType('LoginOptionsModal')
+    const handleDismiss = useCallback(() => {
+        setModalType(ModalType.LoginOptionsModal)
         onDismiss()
-    }
-
-    const closeButton = modalType === 'LoginOptionsModal' && (
-        <CloseButton onClick={handleDismiss} />
-    )
+    }, [setModalType, onDismiss])
 
     return (
         <Modal
@@ -111,8 +57,28 @@ const LoginModal = ({ open, onDismiss, loginCase }: Props): JSX.Element => {
             title=""
             className="login-modal"
         >
-            {closeButton}
-            {displayModal()}
+            {modalType === ModalType.LoginOptionsModal && (
+                <LoginOptions
+                    setModalType={setModalType}
+                    onDismiss={onDismiss}
+                    loginCase={loginCase}
+                />
+            )}
+            {modalType === ModalType.EmailSentModal && (
+                <EmailSent setModalType={setModalType} onDismiss={onDismiss} />
+            )}
+            {modalType === ModalType.ResetPasswordModal && (
+                <ResetPassword
+                    setModalType={setModalType}
+                    onDismiss={onDismiss}
+                />
+            )}
+            {modalType === ModalType.SignupModal && (
+                <Signup setModalType={setModalType} onDismiss={onDismiss} />
+            )}
+            {modalType === ModalType.LoginEmailModal && (
+                <EmailLogin setModalType={setModalType} onDismiss={onDismiss} />
+            )}
         </Modal>
     )
 }

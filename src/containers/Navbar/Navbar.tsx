@@ -3,10 +3,11 @@ import { Link, useLocation } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { useToast } from '@entur/alert'
 import { TopNavigationItem } from '@entur/menu'
-import { UserIcon, LogOutIcon, GithubIcon, PrivacyIcon } from '@entur/icons'
-import { useUser, auth } from '../../UserProvider'
+import { GithubIcon, LogOutIcon, PrivacyIcon, UserIcon } from '@entur/icons'
+import { auth, useUser } from '../../UserProvider'
 import { TavlaLogo } from '../../assets/icons'
 import { LoginModal } from '../../components/Modals/LoginModal/LoginModal'
+import { LoginCase } from '../../components/Modals/LoginModal/login-modal-types'
 import './Navbar.scss'
 
 const Navbar = (): JSX.Element => {
@@ -40,7 +41,7 @@ const Navbar = (): JSX.Element => {
         <LoginModal
             open={displayLoginModal}
             onDismiss={(): void => setDisplayLoginModal(false)}
-            loginCase="default"
+            loginCase={LoginCase.default}
         />
     ) : null
 

@@ -9,6 +9,7 @@ import { useUser } from '../../../UserProvider'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { CloseButton } from '../../CloseButton/CloseButton'
 import { LoginModal } from '../LoginModal/LoginModal'
+import { LoginCase } from '../LoginModal/login-modal-types'
 import './LockModal.scss'
 
 interface LockModalProps {
@@ -40,7 +41,13 @@ const LockModal: React.FC<LockModalProps> = ({ open, onDismiss }) => {
     }
 
     if (!user || user.isAnonymous) {
-        return <LoginModal open={open} onDismiss={onDismiss} loginCase="lock" />
+        return (
+            <LoginModal
+                open={open}
+                onDismiss={onDismiss}
+                loginCase={LoginCase.lock}
+            />
+        )
     }
 
     return (

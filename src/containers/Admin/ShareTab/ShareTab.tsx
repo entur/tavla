@@ -1,9 +1,9 @@
-import React, { useState, useEffect, Dispatch } from 'react'
+import React, { Dispatch, useEffect, useState } from 'react'
 import type { User } from 'firebase/auth'
 import type { DocumentData, DocumentSnapshot } from 'firebase/firestore'
 import type { FirebaseError } from 'firebase/app'
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
-import { GridItem, GridContainer } from '@entur/grid'
+import { GridContainer, GridItem } from '@entur/grid'
 import { NegativeButton } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { useUser } from '../../../UserProvider'
@@ -15,6 +15,7 @@ import {
 } from '../../../services/firebase'
 import { BoardOwnersData, Invite } from '../../../types'
 import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
+import { LoginCase } from '../../../components/Modals/LoginModal/login-modal-types'
 import { RemoveSelfFromTavleModal } from '../../../components/Modals/RemoveSelfFromTavleModal'
 import { NeedToBeOwnerModal } from '../../../components/Modals/NeedToBeOwnerModal'
 import { EditableBoardTitle } from './components/EditableBoardTitle'
@@ -193,7 +194,7 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
             <LoginModal
                 onDismiss={handleDismissLoginModal}
                 open={loginModalOpen}
-                loginCase="share"
+                loginCase={LoginCase.share}
             />
             <NeedToBeOwnerModal
                 open={needToBeOwnerModalOpen}

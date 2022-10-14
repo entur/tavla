@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { useToast } from '@entur/alert'
 import { LoginModal } from '../../components/Modals/LoginModal/LoginModal'
-import { useUser, auth } from '../../UserProvider'
+import { LoginCase } from '../../components/Modals/LoginModal/login-modal-types'
+import { auth, useUser } from '../../UserProvider'
 import { getDocumentId } from '../../utils'
 import sikkerhetBomLight from '../../assets/images/sikkerhet_bom_light@2x.png'
 import duerLight from '../../assets/images/duer@2x.png'
@@ -39,7 +40,7 @@ function LockedTavle(): JSX.Element {
         <LoginModal
             open={displayLogin}
             onDismiss={(): void => setDisplayLogin(false)}
-            loginCase="error"
+            loginCase={LoginCase.error}
         />
     ) : null
 
@@ -133,7 +134,7 @@ function NoAccessToTavler(): JSX.Element {
         <LoginModal
             open={displayLogin}
             onDismiss={(): void => setDisplayLogin(false)}
-            loginCase="error"
+            loginCase={LoginCase.error}
         />
     )
 

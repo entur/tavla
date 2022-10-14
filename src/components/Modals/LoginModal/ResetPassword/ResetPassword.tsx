@@ -1,28 +1,31 @@
-import React, { useState, Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import type { User } from 'firebase/auth'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { TextField } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
-import { EmailIcon, BackArrowIcon } from '@entur/icons'
+import { BackArrowIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
 import { auth } from '../../../../UserProvider'
 import { useFormFields } from '../../../../utils'
 import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
-import { ModalType } from '../LoginModal'
 import { CloseButton } from '../../../CloseButton/CloseButton'
+import { ModalType } from '../login-modal-types'
 
 export interface UserResetPassword {
     email: string
 }
 
-interface Props {
+interface ResetPasswordProps {
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
 }
 
-const ResetPassword = ({ setModalType, onDismiss }: Props): JSX.Element => {
+const ResetPassword: React.FC<ResetPasswordProps> = ({
+    setModalType,
+    onDismiss,
+}) => {
     const [inputs, handleInputsChange] = useFormFields<UserResetPassword>({
         email: '',
     })
@@ -36,7 +39,7 @@ const ResetPassword = ({ setModalType, onDismiss }: Props): JSX.Element => {
 
         sendPasswordResetEmail(auth, inputs.email, actionCodeSettings)
             .then(() => {
-                setModalType('EmailSentModal')
+                setModalType(ModalType.EmailSentModal)
             })
             .catch((error) => {
                 if (error.code === 'auth/invalid-email') {
@@ -50,7 +53,7 @@ const ResetPassword = ({ setModalType, onDismiss }: Props): JSX.Element => {
     }
 
     const handleClose = (): void => {
-        setModalType('LoginOptionsModal')
+        setModalType(ModalType.LoginOptionsModal)
         onDismiss()
     }
 
@@ -59,7 +62,9 @@ const ResetPassword = ({ setModalType, onDismiss }: Props): JSX.Element => {
             <div className="modal-header">
                 <BackArrowIcon
                     size={30}
-                    onClick={(): void => setModalType('LoginEmailModal')}
+                    onClick={(): void =>
+                        setModalType(ModalType.LoginEmailModal)
+                    }
                     className="go-to"
                 />
                 <CloseButton onClick={handleClose} />

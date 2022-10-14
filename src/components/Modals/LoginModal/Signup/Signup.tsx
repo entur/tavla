@@ -1,23 +1,23 @@
-import React, { useState, Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import type { User } from 'firebase/auth'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { TextField } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
-import { EmailIcon, ClosedLockIcon, BackArrowIcon } from '@entur/icons'
+import { BackArrowIcon, ClosedLockIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading2, Link } from '@entur/typography'
 import { auth } from '../../../../UserProvider'
 import { useFormFields } from '../../../../utils'
 import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
-import { ModalType } from '../LoginModal'
 import { CloseButton } from '../../../CloseButton/CloseButton'
+import { ModalType } from '../login-modal-types'
 
 // eslint-disable-next-line
 const EMAIL_REGEX =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-interface Props {
+interface SignupProps {
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
 }
@@ -28,7 +28,7 @@ interface UserSignUp {
     repeatPassword: string
 }
 
-const Signup = ({ setModalType, onDismiss }: Props): JSX.Element => {
+const Signup: React.FC<SignupProps> = ({ setModalType, onDismiss }) => {
     const [inputs, handleInputsChange] = useFormFields<UserSignUp>({
         email: '',
         password: '',
@@ -79,7 +79,7 @@ const Signup = ({ setModalType, onDismiss }: Props): JSX.Element => {
     }
 
     const handleClose = (): void => {
-        setModalType('LoginOptionsModal')
+        setModalType(ModalType.LoginOptionsModal)
         onDismiss()
     }
 
@@ -88,7 +88,9 @@ const Signup = ({ setModalType, onDismiss }: Props): JSX.Element => {
             <div className="modal-header">
                 <BackArrowIcon
                     size={30}
-                    onClick={(): void => setModalType('LoginOptionsModal')}
+                    onClick={(): void =>
+                        setModalType(ModalType.LoginOptionsModal)
+                    }
                     className="go-to"
                 />
                 <CloseButton onClick={handleClose} />
@@ -161,7 +163,11 @@ const Signup = ({ setModalType, onDismiss }: Props): JSX.Element => {
             </GridContainer>
 
             <div className="centered">
-                <Link onClick={(): void => setModalType('LoginEmailModal')}>
+                <Link
+                    onClick={(): void =>
+                        setModalType(ModalType.LoginEmailModal)
+                    }
+                >
                     Jeg har allerede en konto
                 </Link>
             </div>

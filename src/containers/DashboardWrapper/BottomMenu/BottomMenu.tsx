@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import copy from 'copy-to-clipboard'
@@ -6,16 +6,17 @@ import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { useWindowWidth } from '@react-hook/window-size'
 import {
     ConfigurationIcon,
-    OpenedLockIcon,
-    LogOutIcon,
-    UserIcon,
     CopyIcon,
+    LogOutIcon,
+    OpenedLockIcon,
+    UserIcon,
 } from '@entur/icons'
 import { useToast } from '@entur/alert'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { auth, useUser } from '../../../UserProvider'
 import { LockModal } from '../../../components/Modals/LockModal/LockModal'
 import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
+import { LoginCase } from '../../../components/Modals/LoginModal/login-modal-types'
 import { MineTavlerModal } from '../../../components/Modals/MineTavlerModal/MineTavlerModal'
 import { MenuButton } from './MenuButton/MenuButton'
 import './BottomMenu.scss'
@@ -225,7 +226,7 @@ function BottomMenu({ className }: Props): JSX.Element {
             <LoginModal
                 open={loginModalOpen}
                 onDismiss={(): void => setLoginModalOpen(false)}
-                loginCase="default"
+                loginCase={LoginCase.default}
             />
 
             <MineTavlerModal
