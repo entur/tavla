@@ -18,7 +18,7 @@ const NumberSpan = ({ numberOfVehicles }: NumberSpanProps): JSX.Element => {
 
 const ScooterTile = ({ numberOfScooters }: ScooterTileProps): JSX.Element => (
     <div className="mobility-tiles-wrapper">
-        <div className="mobility-tile-wrapper">
+        <div className="scooter-tile-wrapper">
             <div className="available-vehicles-box">
                 <ScooterIcon />
                 <NumberSpan numberOfVehicles={numberOfScooters} />

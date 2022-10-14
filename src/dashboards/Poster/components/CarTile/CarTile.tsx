@@ -19,7 +19,7 @@ const NumberSpan = ({ numberOfVehicles }: NumberSpanProps): JSX.Element => {
 
 const CarTile = ({ numberOfCars }: CarTileProps) => (
     <div className="mobility-tiles-wrapper">
-        <div className="mobility-tile-wrapper">
+        <div className="car-tile-wrapper">
             <div className="available-vehicles-box">
                 <CarIcon />
                 <NumberSpan numberOfVehicles={numberOfCars} />
