@@ -7,7 +7,7 @@ import Check from '../../../assets/images/check.png'
 import retinaCheck from '../../../assets/images/check@2x.png'
 import { useUser } from '../../../UserProvider'
 import { useSettings } from '../../../settings/SettingsProvider'
-import { CloseButton } from '../LoginModal/CloseButton/CloseButton'
+import { CloseButton } from '../../CloseButton/CloseButton'
 import { LoginModal } from '../LoginModal/LoginModal'
 import './LockModal.scss'
 

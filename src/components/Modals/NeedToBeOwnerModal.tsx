@@ -7,7 +7,7 @@ import { GridContainer, GridItem } from '@entur/grid'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import { useSettings } from '../../settings/SettingsProvider'
-import { CloseButton } from './LoginModal/CloseButton/CloseButton'
+import { CloseButton } from '../CloseButton/CloseButton'
 import './Modals.scss'
 
 interface NeedToBeOwnerModalProps {

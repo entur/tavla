@@ -12,7 +12,7 @@ import { useFormFields } from '../../../../utils'
 import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
 import { ModalType } from '../LoginModal'
-import { CloseButton } from '../CloseButton/CloseButton'
+import { CloseButton } from '../../../CloseButton/CloseButton'
 
 export interface UserLogin {
     email: string

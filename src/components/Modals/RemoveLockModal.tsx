@@ -7,7 +7,7 @@ import { useToast } from '@entur/alert'
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 import { removeFromOwners } from '../../settings/FirestoreStorage'
-import { CloseButton } from './LoginModal/CloseButton/CloseButton'
+import { CloseButton } from '../CloseButton/CloseButton'
 import './Modals.scss'
 
 interface RemoveLockModalProps {
