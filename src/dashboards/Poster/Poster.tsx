@@ -39,23 +39,29 @@ const Poster = (): JSX.Element => {
                 <div className="mobility-tiles-wrapper">
                     {/* Todo: change this to use biketile and style */}
                     <div className="poster-vehicle-tile">
-                        <CarTile numberOfCars={totalNumberOfBikes} />
-                        <div className="vehicles-description">
-                            <h2 className="vehicles-description-heading">
+                        <div className="available-vehicles-box">
+                            <CarTile numberOfCars={totalNumberOfBikes} />
+                        </div>
+
+                        <div className="poster-vehicles-description">
+                            <h2 className="poster-vehicles-description-heading">
                                 Delebil
                             </h2>
-                            <h3 className="vehicles-description-area">
+                            <h3 className="poster-vehicles-description-area">
                                 Parkeringsplassen ved Vestveien
                             </h3>
                         </div>
                     </div>
                     <div className="poster-vehicle-tile">
-                        <ScooterTile numberOfScooters={20} />
-                        <div className="vehicles-description">
-                            <h2 className="vehicles-description-heading">
+                        <div className="available-vehicles-box">
+                            <ScooterTile numberOfScooters={20} />
+                        </div>
+
+                        <div className="poster-vehicles-description">
+                            <h2 className="poster-vehicles-description-heading">
                                 Elsparkesykler
                             </h2>
-                            <h3 className="vehicles-description-area">
+                            <h3 className="poster-vehicles-description-area">
                                 Innen 500 meters radius
                             </h3>
                         </div>

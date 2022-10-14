@@ -71,7 +71,7 @@
 }
 
 
-.vehicles-description {
+.poster-vehicles-description {
     display: flex;
     flex-direction: column;
     margin-top: 2rem;
@@ -88,9 +88,4 @@
         line-height: 150%;
         margin: 0;
     }
-}
-.poster-car-tile {
-    display: flex;
-    justify-content: space-between;
-    text-align: left;
 }

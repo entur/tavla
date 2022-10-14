@@ -17,10 +17,10 @@ const NumberSpan = ({ numberOfVehicles }: NumberSpanProps): JSX.Element => {
 }
 
 const ScooterTile = ({ numberOfScooters }: ScooterTileProps): JSX.Element => (
-    <div className="available-vehicles-box">
-        <ScooterIcon />
+    <>
+       <ScooterIcon />
         <NumberSpan numberOfVehicles={numberOfScooters} />
-    </div>
+    </>
 )
 
 interface NumberSpanProps {

@@ -17,10 +17,10 @@ const NumberSpan = ({ numberOfVehicles }: NumberSpanProps): JSX.Element => {
 }
 
 const CarTile = ({ numberOfCars }: CarTileProps) => (
-    <div className="available-vehicles-box">
+    <>
         <CarIcon />
         <NumberSpan numberOfVehicles={numberOfCars} />
-    </div>
+    </>
 )
 
 interface NumberSpanProps {
