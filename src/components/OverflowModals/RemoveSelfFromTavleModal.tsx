@@ -6,32 +6,38 @@ import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { useToast } from '@entur/alert'
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
-import { deleteTavle } from '../../settings/FirestoreStorage'
+import { removeFromOwners } from '../../settings/FirestoreStorage'
 import { CloseButton } from '../CloseButton/CloseButton'
-import './Modals.scss'
+import './OverflowModals.scss'
 
-interface DeleteTavleModalProps {
+interface RemoveSelfFromTavleModalProps {
     open: boolean
     onDismiss: () => void
     id: string
+    uid: string
+    forceRefresh?: boolean
 }
 
-const DeleteTavleModal: React.FC<DeleteTavleModalProps> = ({
+const RemoveSelfFromTavleModal: React.FC<RemoveSelfFromTavleModalProps> = ({
     open,
     onDismiss,
     id,
+    uid,
+    forceRefresh = false,
 }) => {
     const { addToast } = useToast()
-    const handleDelete = useCallback(() => {
-        deleteTavle(id)
+
+    const handleRemoveSelfFromTavle = useCallback(async () => {
+        await removeFromOwners(id, uid)
         addToast({
-            title: 'Avgangstavla ble slettet.',
+            title: 'Du ble fjernet fra tavla.',
             content:
-                'Tavla ble slettet permanent og er dermed ikke lenger tilgjengelig.',
+                'Du er ikke lenger en eier av denne tavla og vil ikke ha mulighet til å gjøre endringer i den.',
             variant: 'success',
         })
+        if (forceRefresh) window.location.reload()
         onDismiss()
-    }, [id, onDismiss, addToast])
+    }, [id, uid, forceRefresh, onDismiss, addToast])
 
     return (
         <Modal
@@ -45,20 +51,21 @@ const DeleteTavleModal: React.FC<DeleteTavleModalProps> = ({
             <div className="centered">
                 <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>
-            <Heading3 margin="none">Slette avgangstavle?</Heading3>
+            <Heading3 margin="none">Forlate avgangstavle?</Heading3>
             <Paragraph>
-                Er du sikker på at du vil slette denne tavla? Tavla vil være
-                borte for godt og ikke mulig å finne tilbake til.
+                Er du sikker på at du vil forlate denne tavla? Tilgangen for
+                andre tavla eventuelt er delt med vil ikke endres, men du selv
+                vil ikke lenger ha mulighet til å gjøre endringer i den.
             </Paragraph>
             <GridContainer spacing="medium">
                 <GridItem small={12}>
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={handleDelete}
+                        onClick={handleRemoveSelfFromTavle}
                         className="modal-submit"
                     >
-                        Ja, slett tavle for godt
+                        Ja, fjern meg fra tavla
                     </PrimaryButton>
                 </GridItem>
                 <GridItem small={12}>
@@ -75,4 +82,4 @@ const DeleteTavleModal: React.FC<DeleteTavleModalProps> = ({
     )
 }
 
-export { DeleteTavleModal }
+export { RemoveSelfFromTavleModal }

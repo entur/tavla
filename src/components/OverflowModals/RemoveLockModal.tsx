@@ -8,36 +8,32 @@ import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 import { removeFromOwners } from '../../settings/FirestoreStorage'
 import { CloseButton } from '../CloseButton/CloseButton'
-import './Modals.scss'
+import './OverflowModals.scss'
 
-interface RemoveSelfFromTavleModalProps {
+interface RemoveLockModalProps {
     open: boolean
     onDismiss: () => void
     id: string
     uid: string
-    forceRefresh?: boolean
 }
 
-const RemoveSelfFromTavleModal: React.FC<RemoveSelfFromTavleModalProps> = ({
+const RemoveLockModal: React.FC<RemoveLockModalProps> = ({
     open,
     onDismiss,
     id,
     uid,
-    forceRefresh = false,
 }) => {
     const { addToast } = useToast()
-
-    const handleRemoveSelfFromTavle = useCallback(async () => {
+    const handleRemoveLockedTavle = useCallback(async () => {
         await removeFromOwners(id, uid)
         addToast({
-            title: 'Du ble fjernet fra tavla.',
+            title: 'Tavla ble fjernet fra din konto.',
             content:
-                'Du er ikke lenger en eier av denne tavla og vil ikke ha mulighet til å gjøre endringer i den.',
+                'Avgangstavla er ikke lenger låst til din konto. Den eksisterer fortsatt og er fra nå tilgjengelig for andre å redigere.',
             variant: 'success',
         })
-        if (forceRefresh) window.location.reload()
         onDismiss()
-    }, [id, uid, forceRefresh, onDismiss, addToast])
+    }, [id, uid, onDismiss, addToast])
 
     return (
         <Modal
@@ -51,21 +47,21 @@ const RemoveSelfFromTavleModal: React.FC<RemoveSelfFromTavleModalProps> = ({
             <div className="centered">
                 <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
             </div>
-            <Heading3 margin="none">Forlate avgangstavle?</Heading3>
+            <Heading3 margin="none">Låse opp avgangstavle?</Heading3>
             <Paragraph>
-                Er du sikker på at du vil forlate denne tavla? Tilgangen for
-                andre tavla eventuelt er delt med vil ikke endres, men du selv
-                vil ikke lenger ha mulighet til å gjøre endringer i den.
+                Er du sikker på at du vil låse opp denne tavla? Tavla vil
+                fortsatt eksistere, men ikke lenger være knyttet til din konto
+                eller vises i oversikten på Mine Tavler.
             </Paragraph>
             <GridContainer spacing="medium">
                 <GridItem small={12}>
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={handleRemoveSelfFromTavle}
+                        onClick={handleRemoveLockedTavle}
                         className="modal-submit"
                     >
-                        Ja, fjern meg fra tavla
+                        Ja, lås opp tavla
                     </PrimaryButton>
                 </GridItem>
                 <GridItem small={12}>
@@ -82,4 +78,4 @@ const RemoveSelfFromTavleModal: React.FC<RemoveSelfFromTavleModalProps> = ({
     )
 }
 
-export { RemoveSelfFromTavleModal }
+export { RemoveLockModal }
