@@ -11,14 +11,13 @@ import { CloseButton } from '../LoginModal/CloseButton/CloseButton'
 import { LoginModal } from '../LoginModal/LoginModal'
 import './LockModal.scss'
 
-interface Props {
+interface LockModalProps {
     open: boolean
     onDismiss: () => void
 }
 
-const LockModal = ({ open, onDismiss }: Props): JSX.Element | null => {
+const LockModal: React.FC<LockModalProps> = ({ open, onDismiss }) => {
     const user = useUser()
-
     const [settings, setSettings] = useSettings()
 
     useEffect(() => {

@@ -10,23 +10,30 @@ import { removeFromOwners } from '../../settings/FirestoreStorage'
 import { CloseButton } from './LoginModal/CloseButton/CloseButton'
 import './Modals.scss'
 
-const RemoveLockModal = ({ open, onDismiss, id, uid }: Props): JSX.Element => {
+interface RemoveLockModalProps {
+    open: boolean
+    onDismiss: () => void
+    id: string
+    uid: string
+}
+
+const RemoveLockModal: React.FC<RemoveLockModalProps> = ({
+    open,
+    onDismiss,
+    id,
+    uid,
+}) => {
     const { addToast } = useToast()
-    const overflowRemoveLockedTavle = useCallback(
-        (remove: boolean) => {
-            if (remove) {
-                removeFromOwners(id, uid)
-                addToast({
-                    title: 'Tavla ble fjernet fra din konto.',
-                    content:
-                        'Avgangstavla er ikke lenger låst til din konto. Den eksisterer fortsatt og er fra nå tilgjengelig for andre å redigere.',
-                    variant: 'success',
-                })
-            }
-            onDismiss()
-        },
-        [id, uid, onDismiss, addToast],
-    )
+    const handleRemoveLockedTavle = useCallback(async () => {
+        await removeFromOwners(id, uid)
+        addToast({
+            title: 'Tavla ble fjernet fra din konto.',
+            content:
+                'Avgangstavla er ikke lenger låst til din konto. Den eksisterer fortsatt og er fra nå tilgjengelig for andre å redigere.',
+            variant: 'success',
+        })
+        onDismiss()
+    }, [id, uid, onDismiss, addToast])
 
     return (
         <Modal
@@ -42,26 +49,26 @@ const RemoveLockModal = ({ open, onDismiss, id, uid }: Props): JSX.Element => {
             </div>
             <Heading3 margin="none">Låse opp avgangstavle?</Heading3>
             <Paragraph>
-                Er du sikker på at du vil fjerne denne tavla fra din konto?
-                Tavla vil fortsatt eksistere, men ikke lenger være knyttet til
-                din konto eller vises i oversikten på Mine Tavler.
+                Er du sikker på at du vil låse opp denne tavla? Tavla vil
+                fortsatt eksistere, men ikke lenger være knyttet til din konto
+                eller vises i oversikten på Mine Tavler.
             </Paragraph>
             <GridContainer spacing="medium">
                 <GridItem small={12}>
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={(): void => overflowRemoveLockedTavle(true)}
+                        onClick={handleRemoveLockedTavle}
                         className="modal-submit"
                     >
-                        Ja, fjern tavla fra min konto
+                        Ja, lås opp tavla
                     </PrimaryButton>
                 </GridItem>
                 <GridItem small={12}>
                     <SecondaryButton
                         width="fluid"
                         type="submit"
-                        onClick={(): void => overflowRemoveLockedTavle(false)}
+                        onClick={onDismiss}
                     >
                         Avbryt
                     </SecondaryButton>
@@ -69,13 +76,6 @@ const RemoveLockModal = ({ open, onDismiss, id, uid }: Props): JSX.Element => {
             </GridContainer>
         </Modal>
     )
-}
-
-interface Props {
-    open: boolean
-    onDismiss: () => void
-    id: string
-    uid: string
 }
 
 export { RemoveLockModal }

@@ -10,27 +10,34 @@ import { useSettings } from '../../settings/SettingsProvider'
 import { CloseButton } from './LoginModal/CloseButton/CloseButton'
 import './Modals.scss'
 
-const NeedToBeOwnerModal = ({ open, onDismiss, uid }: Props): JSX.Element => {
+interface NeedToBeOwnerModalProps {
+    open: boolean
+    onDismiss: (goToFirstTab?: boolean) => void
+    uid: string | undefined
+}
+
+const NeedToBeOwnerModal: React.FC<NeedToBeOwnerModalProps> = ({
+    open,
+    onDismiss,
+    uid,
+}) => {
     const { addToast } = useToast()
     const [settings, setSettings] = useSettings()
 
-    const addOwnerToTavle = useCallback(
-        (lock: boolean) => {
-            if (lock && settings && settings.owners && uid) {
-                setSettings({
-                    owners: [...(settings?.owners || []), uid],
-                })
-                addToast({
-                    title: 'Tavla ble låst til din konto.',
-                    content:
-                        'Nå som avgangstavla er låst til din konto kan kun du og de du velger å dele den med redigere den.',
-                    variant: 'success',
-                })
-            }
-            onDismiss()
-        },
-        [uid, settings, onDismiss, addToast, setSettings],
-    )
+    const handleAddOwnerToTavle = useCallback(() => {
+        if (settings?.owners && uid) {
+            setSettings({
+                owners: [...(settings?.owners || []), uid],
+            })
+            addToast({
+                title: 'Tavla ble låst til din konto.',
+                content:
+                    'Nå som avgangstavla er låst til din konto kan kun du og de du velger å dele den med redigere den.',
+                variant: 'success',
+            })
+        }
+        onDismiss()
+    }, [uid, settings, onDismiss, addToast, setSettings])
 
     return (
         <Modal
@@ -55,7 +62,7 @@ const NeedToBeOwnerModal = ({ open, onDismiss, uid }: Props): JSX.Element => {
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={(): void => addOwnerToTavle(true)}
+                        onClick={handleAddOwnerToTavle}
                         className="modal-submit"
                     >
                         Lås tavla til min konto
@@ -64,12 +71,6 @@ const NeedToBeOwnerModal = ({ open, onDismiss, uid }: Props): JSX.Element => {
             </GridContainer>
         </Modal>
     )
-}
-
-interface Props {
-    open: boolean
-    onDismiss: (goToFirstTab?: boolean) => void
-    uid: string | undefined
 }
 
 export { NeedToBeOwnerModal }
