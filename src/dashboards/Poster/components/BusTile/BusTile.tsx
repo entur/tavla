@@ -20,8 +20,8 @@ function BusTile(): JSX.Element {
 
     return (
         <>
-            <div style={{ marginBottom: '2rem' }}>
-                <p style={{ fontSize: '2.5rem' }}>Neste buss</p>
+            <div className="poster-next-bus-wrapper">
+                <p className="poster-next-bus">Neste buss</p>
             </div>
             <div className="available-vehicles-box-bus">
                 {busDepartures.map((departure) => {
@@ -42,10 +42,16 @@ function BusTile(): JSX.Element {
                                         marginLeft: '1rem',
                                     }}
                                 />
-                                <p className="poster-busline-number">{routeNumber}</p>
+                                <p className="poster-busline-number">
+                                    {routeNumber}
+                                </p>
                             </div>
-                            <p className="poster-busline-stop-place">{routeDestination}</p>
-                            <p className="poster-busline-time">{departure.time}</p>
+                            <p className="poster-busline-stop-place">
+                                {routeDestination}
+                            </p>
+                            <p className="poster-busline-time">
+                                {departure.time}
+                            </p>
                         </div>
                     )
                 })}
