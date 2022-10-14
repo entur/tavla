@@ -14,8 +14,8 @@ import {
     getOwnersDataByBoardIdAsOwner,
 } from '../../../services/firebase'
 import { BoardOwnersData, Invite } from '../../../types'
-import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
-import { LoginCase } from '../../../components/Modals/LoginModal/login-modal-types'
+import { LoginModal } from '../../../components/LoginModal/LoginModal'
+import { LoginCase } from '../../../components/LoginModal/login-modal-types'
 import { RemoveSelfFromTavleModal } from '../../../components/Modals/RemoveSelfFromTavleModal'
 import { NeedToBeOwnerModal } from '../../../components/Modals/NeedToBeOwnerModal'
 import { EditableBoardTitle } from './components/EditableBoardTitle'

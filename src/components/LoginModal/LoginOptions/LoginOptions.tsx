@@ -2,9 +2,9 @@ import React, { Dispatch, SetStateAction, useCallback } from 'react'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
-import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
-import { CloseButton } from '../../../CloseButton/CloseButton'
+import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
+import { CloseButton } from '../../CloseButton/CloseButton'
 import { LoginCase, ModalType } from '../login-modal-types'
 
 const description: Record<LoginCase, string> = {

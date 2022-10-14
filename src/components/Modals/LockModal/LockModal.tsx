@@ -8,8 +8,8 @@ import retinaCheck from '../../../assets/images/check@2x.png'
 import { useUser } from '../../../UserProvider'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { CloseButton } from '../../CloseButton/CloseButton'
-import { LoginModal } from '../LoginModal/LoginModal'
-import { LoginCase } from '../LoginModal/login-modal-types'
+import { LoginModal } from '../../LoginModal/LoginModal'
+import { LoginCase } from '../../LoginModal/login-modal-types'
 import './LockModal.scss'
 
 interface LockModalProps {

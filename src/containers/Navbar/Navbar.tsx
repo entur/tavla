@@ -6,8 +6,8 @@ import { TopNavigationItem } from '@entur/menu'
 import { GithubIcon, LogOutIcon, PrivacyIcon, UserIcon } from '@entur/icons'
 import { auth, useUser } from '../../UserProvider'
 import { TavlaLogo } from '../../assets/icons'
-import { LoginModal } from '../../components/Modals/LoginModal/LoginModal'
-import { LoginCase } from '../../components/Modals/LoginModal/login-modal-types'
+import { LoginModal } from '../../components/LoginModal/LoginModal'
+import { LoginCase } from '../../components/LoginModal/login-modal-types'
 import './Navbar.scss'
 
 const Navbar = (): JSX.Element => {
