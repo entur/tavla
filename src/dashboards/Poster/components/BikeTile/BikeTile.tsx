@@ -17,18 +17,16 @@ const NumberSpan = ({ numberOfVehicles }: NumberSpanProps): JSX.Element => {
 }
 
 const BikeTile = ({ numberOfBikes }: BikeTileProps) => (
-    <div className="mobility-tiles-wrapper">
-        <div className="bike-tile-wrapper">
-            <div className="available-vehicles-box">
-                <CityBikeIcon />
-                <NumberSpan numberOfVehicles={numberOfBikes} />
-            </div>
-            <div className="vehicles-description">
-                <h2 className="vehicles-description-heading">Sykler</h2>
-                <h3 className="vehicles-description-area">
-                    Innen 100 meters radius
-                </h3>
-            </div>
+    <div className="bike-tile-wrapper">
+        <div className="available-vehicles-box">
+            <CityBikeIcon />
+            <NumberSpan numberOfVehicles={numberOfBikes} />
+        </div>
+        <div className="vehicles-description">
+            <h2 className="vehicles-description-heading">Sykler</h2>
+            <h3 className="vehicles-description-area">
+                Innen 100 meters radius
+            </h3>
         </div>
     </div>
 )

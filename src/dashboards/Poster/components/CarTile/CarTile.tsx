@@ -18,18 +18,16 @@ const NumberSpan = ({ numberOfVehicles }: NumberSpanProps): JSX.Element => {
 }
 
 const CarTile = ({ numberOfCars }: CarTileProps) => (
-    <div className="mobility-tiles-wrapper">
-        <div className="car-tile-wrapper">
-            <div className="available-vehicles-box">
-                <CarIcon />
-                <NumberSpan numberOfVehicles={numberOfCars} />
-            </div>
-            <div className="vehicles-description">
-                <h2 className="vehicles-description-heading">Delebil</h2>
-                <h3 className="vehicles-description-area">
-                    Parkeringsplassen ved Vestveien
-                </h3>
-            </div>
+    <div className="car-tile-wrapper">
+        <div className="available-vehicles-box">
+            <CarIcon />
+            <NumberSpan numberOfVehicles={numberOfCars} />
+        </div>
+        <div className="vehicles-description">
+            <h2 className="vehicles-description-heading">Delebil</h2>
+            <h3 className="vehicles-description-area">
+                Parkeringsplassen ved Vestveien
+            </h3>
         </div>
     </div>
 )
