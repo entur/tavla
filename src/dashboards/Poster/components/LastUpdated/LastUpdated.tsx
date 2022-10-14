@@ -19,11 +19,13 @@ const LastUpdated = (): JSX.Element => {
     // <Contrast className="heading-wrapper">
 
     return (
-        <div className="lead-paragraph">
+        <div className="poster-last-updated">
             <div>
                 <PulsatingDot />
             </div>
-            <h3 className="poster-last-updated">Sist oppdatert {rightNow}</h3>
+            <h3 className="poster-last-updated-heading">
+                Sist oppdatert {rightNow}
+            </h3>
         </div>
     )
 }

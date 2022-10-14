@@ -21,12 +21,12 @@ const Poster = (): JSX.Element => {
     }, [bikeRentalStations])
 
     return (
-        <div className="poster-wrapper">
+        <div className="poster">
             <div className="poster-content-wrapper">
                 <div className="poster-header">
                     <EnturLogo />
                 </div>
-                <div className="heading-wrapper">
+                <div className="poster-heading-wrapper">
                     <h1 className="poster-heading">I nærheten</h1>
                     <LastUpdated />
                 </div>
@@ -36,30 +36,30 @@ const Poster = (): JSX.Element => {
 
                 <div className="poster-mobility-tiles-wrapper">
                     {/* Todo: change this to use biketile and style */}
-                    <div className="poster-vehicle-tile">
-                        <div className="poster-available-vehicles-box">
-                            <CarTile numberOfCars={totalNumberOfBikes} />
-                        </div>
-                        <div className="poster-vehicles-description">
-                            <h2 className="poster-vehicles-description-heading">
+                    <div className="poster-mobility-tile">
+                        <div className="poster-mobility-description">
+                            <h2 className="poster-mobility-description-heading">
                                 Delebil
                             </h2>
-                            <h3 className="poster-vehicles-description-area">
+                            <h3 className="poster-mobility-description-area">
                                 Parkeringsplassen ved Vestveien
                             </h3>
                         </div>
-                    </div>
-                    <div className="poster-vehicle-tile">
-                        <div className="poster-available-vehicles-box">
-                            <ScooterTile numberOfScooters={20} />
+                        <div className="poster-mobility-vehicles-box">
+                            <CarTile numberOfCars={totalNumberOfBikes} />
                         </div>
-                        <div className="poster-vehicles-description">
-                            <h2 className="poster-vehicles-description-heading">
+                    </div>
+                    <div className="poster-mobility-tile">
+                        <div className="poster-mobility-description">
+                            <h2 className="poster-mobility-description-heading">
                                 Elsparkesykler
                             </h2>
-                            <h3 className="poster-vehicles-description-area">
+                            <h3 className="poster-mobility-description-area">
                                 Innen 500 meters radius
                             </h3>
+                        </div>
+                        <div className="poster-mobility-vehicles-box">
+                            <ScooterTile numberOfScooters={20} />
                         </div>
                     </div>
                 </div>
