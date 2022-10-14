@@ -5,12 +5,10 @@
     align-items: center;
     font-size: 8rem;
     width: 90%;
-    display: inline-block;
     height: 23%;
     margin-bottom: 10%;
-    width: '90%';
-    display: 'inline-block';
-    padding: '1rem';
+    display: inline-block;
+    padding: 1rem;
 
     &-overflow {
         display: inline-block;
@@ -60,11 +58,11 @@
     float: right;
     margin: 1.5rem;
 }
-.poster-next-bus-wrapper{
-    margin-bottom: '2rem';
-    font-size: '2.5rem' 
+
+.poster-next-bus-wrapper {
+    margin-bottom: 2rem;
 }
 
-.poster-next-bus{
+.poster-next-bus {
     font-size: 2.5rem;
 }

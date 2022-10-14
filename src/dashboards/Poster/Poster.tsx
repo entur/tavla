@@ -7,7 +7,6 @@ import { BusTile } from './components/BusTile/BusTile'
 import { CarTile } from './components/CarTile/CarTile'
 import { PosterFooter } from './components/PosterFooter/PosterFooter'
 import { ScooterTile } from './components/ScooterTile/ScooterTile'
-import { BikeTile } from '../Chrono/BikeTile/BikeTile'
 
 const Poster = (): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
