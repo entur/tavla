@@ -17,7 +17,7 @@ import { auth, useUser } from '../../../UserProvider'
 import { LockModal } from '../../../components/LockModal/LockModal'
 import { LoginModal } from '../../../components/LoginModal/LoginModal'
 import { LoginCase } from '../../../components/LoginModal/login-modal-types'
-import { MineTavlerModal } from '../../../components/Modals/MineTavlerModal/MineTavlerModal'
+import { MineTavlerModal } from '../../../components/MineTavlerModal/MineTavlerModal'
 import { MenuButton } from './MenuButton/MenuButton'
 import './BottomMenu.scss'
 
