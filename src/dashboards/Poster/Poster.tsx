@@ -31,12 +31,11 @@ const Poster = (): JSX.Element => {
                     <h1 className="poster-heading">I nærheten</h1>
                     <LastUpdated />
                 </div>
-
                 <div>
                     <BusTile />
                 </div>
 
-                <div className="mobility-tiles-wrapper">
+                <div className="poster-mobility-tiles-wrapper">
                     {/* Todo: change this to use biketile and style */}
                     <div className="poster-vehicle-tile">
                         <div className="available-vehicles-box">
@@ -53,10 +52,9 @@ const Poster = (): JSX.Element => {
                         </div>
                     </div>
                     <div className="poster-vehicle-tile">
-                        <div className="available-vehicles-box">
+                        <div className="poster-available-vehicles-box">
                             <ScooterTile numberOfScooters={20} />
                         </div>
-
                         <div className="poster-vehicles-description">
                             <h2 className="poster-vehicles-description-heading">
                                 Elsparkesykler
