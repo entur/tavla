@@ -23,16 +23,7 @@ function BusTile(): JSX.Element {
             <div style={{ marginBottom: '2rem' }}>
                 <p style={{ fontSize: '2.5rem' }}>Neste buss</p>
             </div>
-            <div
-                className="available-vehicles-box-bus"
-                style={{
-                    width: '90%',
-                    display: 'inline-block',
-                    height: '23%',
-                    marginBottom: '10%',
-                    padding: '1rem',
-                }}
-            >
+            <div className="available-vehicles-box-bus">
                 {busDepartures.map((departure) => {
                     const routeNumber = departure.route.split(' ')[0]
                     const routeDestination = departure.route
