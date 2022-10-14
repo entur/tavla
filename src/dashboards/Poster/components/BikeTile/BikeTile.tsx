@@ -17,7 +17,7 @@ const NumberSpan = ({ numberOfVehicles }: NumberSpanProps): JSX.Element => {
 }
 
 const BikeTile = ({ numberOfBikes }: BikeTileProps) => (
-    <div className="available-vehicles-box">
+    <div className="poster-available-vehicles-box">
         <CityBikeIcon />
         <NumberSpan numberOfVehicles={numberOfBikes} />
     </div>
