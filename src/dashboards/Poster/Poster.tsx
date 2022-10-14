@@ -5,7 +5,7 @@ import './Poster.scss'
 import { LastUpdated } from './components/LastUpdated/LastUpdated'
 import { BusTile } from './components/BusTile/BusTile'
 import { CarTile } from './components/CarTile/CarTile'
-import { Footer } from './components/Footer/Footer'
+import { PosterFooter } from './components/PosterFooter/PosterFooter'
 import { ScooterTile } from './components/ScooterTile/ScooterTile'
 import { BikeTile } from '../Chrono/BikeTile/BikeTile'
 
@@ -38,10 +38,9 @@ const Poster = (): JSX.Element => {
                 <div className="poster-mobility-tiles-wrapper">
                     {/* Todo: change this to use biketile and style */}
                     <div className="poster-vehicle-tile">
-                        <div className="available-vehicles-box">
+                        <div className="poster-available-vehicles-box">
                             <CarTile numberOfCars={totalNumberOfBikes} />
                         </div>
-
                         <div className="poster-vehicles-description">
                             <h2 className="poster-vehicles-description-heading">
                                 Delebil
@@ -66,7 +65,7 @@ const Poster = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <Footer />
+            <PosterFooter />
         </div>
     )
 }
