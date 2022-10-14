@@ -32,46 +32,46 @@ const DashboardPickerTab = (): JSX.Element => {
                 <RadioCard
                     title="Kompakt (standard)"
                     description="Alle avgangene til en linje vises på en samlet rad. Ikke egnet for linjer som varierer spor/plattform."
-                    cardValue={DashboardTypes.Compact}
+                    value={DashboardTypes.Compact}
                     selected={radioValue === DashboardTypes.Compact}
                     preview={dashboardImages.Compact}
-                    callback={updateChoice}
+                    onChange={updateChoice}
                     className="display-wrapper__display-card"
                 />
                 <RadioCard
                     title="Kronologisk"
                     description="Avgangene vises i en kronologisk rekkefølge. Egner seg godt for linjer som varierer spor/plattform."
-                    cardValue={DashboardTypes.Chrono}
+                    value={DashboardTypes.Chrono}
                     selected={radioValue === DashboardTypes.Chrono}
                     preview={dashboardImages.Chrono}
-                    callback={updateChoice}
+                    onChange={updateChoice}
                     className="display-wrapper__display-card"
                 />
                 <RadioCard
                     title="Tidslinje"
                     description="Avgangene vises i en visualisert fremstilling. Viser ikke bysykkel, spor/plattform eller avvik."
-                    cardValue={DashboardTypes.Timeline}
+                    value={DashboardTypes.Timeline}
                     selected={radioValue === DashboardTypes.Timeline}
                     preview={dashboardImages.Timeline}
-                    callback={updateChoice}
+                    onChange={updateChoice}
                     className="display-wrapper__display-card"
                 />
                 <RadioCard
                     title="Kart"
                     description="Avgangene vises i visualisert i et kart. Viser ikke Sparkesykler, spor/platform eller avvik."
-                    cardValue={DashboardTypes.Map}
+                    value={DashboardTypes.Map}
                     selected={radioValue === DashboardTypes.Map}
                     preview={dashboardImages.Map}
-                    callback={updateChoice}
+                    onChange={updateChoice}
                     className="display-wrapper__display-card"
                 />
                 <RadioCard
                     title="Holdeplass"
                     description="Her får avgangene full bredde med god plass til å vise avviksmeldinger. Egner seg godt for når man er interessert i ett eller få stopp."
-                    cardValue={DashboardTypes.BusStop}
+                    value={DashboardTypes.BusStop}
                     selected={radioValue === DashboardTypes.BusStop}
                     preview={dashboardImages.BusStop}
-                    callback={updateChoice}
+                    onChange={updateChoice}
                     className="display-wrapper__display-card"
                 />
             </div>

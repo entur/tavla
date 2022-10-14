@@ -91,34 +91,34 @@ const ThemeTab = (): JSX.Element => {
             <div className="theme-tab__grid">
                 <RadioCard
                     title="Entur (standard)"
-                    cardValue="default"
+                    value="default"
                     preview={Entur}
                     selected={themeRadioValue === 'default'}
-                    callback={(val): void => switchTheme(val as Theme)}
+                    onChange={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
                 <RadioCard
                     title="Mørkt"
-                    cardValue="dark"
+                    value="dark"
                     preview={Dark}
                     selected={themeRadioValue === 'dark'}
-                    callback={(val): void => switchTheme(val as Theme)}
+                    onChange={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
                 <RadioCard
                     title="Lyst"
-                    cardValue="light"
+                    value="light"
                     preview={Light}
                     selected={themeRadioValue === 'light'}
-                    callback={(val): void => switchTheme(val as Theme)}
+                    onChange={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
                 <RadioCard
                     title="Grått"
-                    cardValue="grey"
+                    value="grey"
                     preview={Grey}
                     selected={themeRadioValue === 'grey'}
-                    callback={(val): void => switchTheme(val as Theme)}
+                    onChange={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
             </div>
@@ -131,20 +131,20 @@ const ThemeTab = (): JSX.Element => {
                 <div className="theme-tab__grid">
                     <RadioCard
                         title="Standard"
-                        cardValue={Direction.STANDARD}
+                        value={Direction.STANDARD}
                         preview={directionPreviewImages.Standard}
                         selected={directionRadioValue === Direction.STANDARD}
-                        callback={(val): void =>
+                        onChange={(val): void =>
                             switchDirection(val as Direction)
                         }
                         className="theme-tab__theme-card"
                     />
                     <RadioCard
                         title="Rotert"
-                        cardValue={Direction.ROTATED}
+                        value={Direction.ROTATED}
                         preview={directionPreviewImages.Rotated}
                         selected={directionRadioValue === Direction.ROTATED}
-                        callback={(val): void =>
+                        onChange={(val): void =>
                             switchDirection(val as Direction)
                         }
                         className="theme-tab__theme-card"

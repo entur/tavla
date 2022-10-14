@@ -1,33 +1,46 @@
 import React, { useCallback } from 'react'
+import classNames from 'classnames'
 import { Heading3, Paragraph } from '@entur/typography'
 import { RadioBox } from './RadioBox/RadioBox'
 import './RadioCard.scss'
 
+interface RadioCardProps<T> {
+    title: string
+    preview: string
+    value: T
+    selected: boolean
+    description?: string
+    onChange: (value: T) => void
+    className?: string
+}
+
 function RadioCard<T>({
     title,
     description,
-    cardValue,
+    value,
     selected,
     preview,
-    callback,
+    onChange,
     className,
-}: Props<T>): JSX.Element {
-    const sendChoice = useCallback(
+}: RadioCardProps<T>): JSX.Element {
+    const handleClick = useCallback(
         (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
             event.preventDefault()
-            if (callback) {
-                callback(cardValue)
-            }
+            onChange(value)
         },
-        [cardValue, callback],
+        [value, onChange],
     )
 
     return (
         <div
-            className={`radio-card ${
-                selected ? 'radio-card__selected' : ''
-            } ${className}`}
-            onClick={sendChoice}
+            className={classNames(
+                'radio-card',
+                {
+                    'radio-card__selected': selected,
+                },
+                className,
+            )}
+            onClick={handleClick}
         >
             <img className="radio-card__preview" src={preview} />
             <div className="radio-card__radio-container">
@@ -49,16 +62,6 @@ function RadioCard<T>({
             </div>
         </div>
     )
-}
-
-interface Props<T> {
-    title: string
-    preview: string
-    cardValue: T
-    selected: boolean
-    description?: string
-    callback?: (value: T) => void
-    className?: string
 }
 
 export { RadioCard }
