@@ -1,61 +1,51 @@
 import React from 'react'
+import classNames from 'classnames'
 import { Heading2 } from '@entur/typography'
-import { useCounter } from '../../utils'
+import { capitalize, useCounter } from '../../utils'
 import './Clock.scss'
 
-const DAYS = [
-    'Søndag',
-    'Mandag',
-    'Tirsdag',
-    'Onsdag',
-    'Torsdag',
-    'Fredag',
-    'Lørdag',
-]
+interface ClockProps {
+    className?: string
+}
 
-const MONTHS = [
-    'januar',
-    'februar',
-    'mars',
-    'april',
-    'mai',
-    'juni',
-    'juli',
-    'august',
-    'september',
-    'oktober',
-    'november',
-    'desember',
-]
-
-function Clock({ className }: Props): JSX.Element {
+function Clock({ className }: ClockProps): JSX.Element {
+    // This insures that the Clock-component is updated once every second.
     useCounter()
 
     const now = new Date()
 
-    const date = `${DAYS[now.getDay()]} ${now.getDate()}. ${
-        MONTHS[now.getMonth()]
-    }`
-    const hours = `${now.getHours()}`.padStart(2, '0')
-    const minutes = `${now.getMinutes()}`.padStart(2, '0')
-    const time = `${hours}:${minutes}`
+    const time = new Intl.DateTimeFormat('no-NB', {
+        timeStyle: 'short',
+    }).format(now)
+
+    const date = new Intl.DateTimeFormat('no-NB', {
+        weekday: 'long',
+        day: '2-digit',
+        month: 'long',
+    }).format(now)
 
     return (
-        <div className={`clock ${className}`}>
+        <div className={classNames('clock', className)}>
             <Heading2
                 margin="none"
-                className={`clock__time ${className}__time`}
+                className={classNames(
+                    'clock__time',
+                    !!className && `${className}__time`,
+                )}
                 as="span"
             >
                 {time}
             </Heading2>
-            <span className={`clock__date ${className}__date`}>{date}</span>
+            <span
+                className={classNames(
+                    'clock__date',
+                    !!className && `${className}__date`,
+                )}
+            >
+                {capitalize(date)}
+            </span>
         </div>
     )
-}
-
-interface Props {
-    className?: string
 }
 
 export { Clock }
