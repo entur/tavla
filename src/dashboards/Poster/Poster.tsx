@@ -22,17 +22,16 @@ const Poster = (): JSX.Element => {
 
     return (
         <div className="poster">
+            <div className="poster-header">
+                <EnturLogo />
+            </div>
             <div className="poster-content-wrapper">
-                <div className="poster-header">
-                    <EnturLogo />
-                </div>
                 <div className="poster-heading-wrapper">
                     <h1 className="poster-heading">I nærheten</h1>
                     <LastUpdated />
                 </div>
-                <div>
-                    <BusTile />
-                </div>
+                <div className="poster-next-bus">Neste buss</div>
+                <BusTile />
 
                 <div className="poster-mobility-tiles-wrapper">
                     {/* Todo: change this to use biketile and style */}

@@ -6,7 +6,12 @@
 
     &-content-wrapper {
         height: 100%;
-        padding: 0 0 0 4rem;
+        padding: 0 4rem 0 4rem;
+    }
+
+    &-next-bus {
+        font-size: 2.5rem;
+        padding-bottom: 2.5rem;
     }
 
     &-header {
@@ -26,7 +31,7 @@
     &-mobility-tiles-wrapper {
         display: flex;
         flex-direction: row;
-        gap: 5rem;
+        justify-content: space-between;
     }
     &-mobility-tile {
         display: flex;

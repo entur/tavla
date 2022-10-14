@@ -19,44 +19,30 @@ function BusTile(): JSX.Element {
     )
 
     return (
-        <>
-            <div className="poster-next-bus-wrapper">
-                <p className="poster-next-bus">Neste buss</p>
-            </div>
-            <div className="available-vehicles-box-bus">
-                {busDepartures.map((departure) => {
-                    const routeNumber = departure.route.split(' ')[0]
-                    const routeDestination = departure.route
-                        .split(' ')
-                        .slice(1)
-                        .join(' ')
+        <div className="poster-bus-tile">
+            {busDepartures.map((departure) => {
+                const routeNumber = departure.route.split(' ')[0]
+                const routeDestination = departure.route
+                    .split(' ')
+                    .slice(1)
+                    .join(' ')
 
-                    return (
-                        <div key={departure.id} className="poster-busline-row">
-                            <div className="poster-busline-number-box">
-                                <BusIcon
-                                    color="white"
-                                    style={{
-                                        height: '4rem',
-                                        width: '4rem',
-                                        marginLeft: '1rem',
-                                    }}
-                                />
-                                <p className="poster-busline-number">
-                                    {routeNumber}
-                                </p>
+                return (
+                    <div key={departure.id} className="poster-bus-tile-row">
+                        <div className="poster-bus-tile-route">
+                            <BusIcon className="poster-bus-tile-icon" />
+                            <div className="poster-bus-tile-route-number">
+                                {routeNumber}
                             </div>
-                            <p className="poster-busline-stop-place">
-                                {routeDestination}
-                            </p>
-                            <p className="poster-busline-time">
-                                {departure.time}
-                            </p>
                         </div>
-                    )
-                })}
-            </div>
-        </>
+                        <p className="poster-bus-tile-destination">
+                            {routeDestination}
+                        </p>
+                        <p className="poster-bus-tile-time">{departure.time}</p>
+                    </div>
+                )
+            })}
+        </div>
     )
 }
 
