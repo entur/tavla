@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import copy from 'copy-to-clipboard'
 import {
     ConfigurationIcon,
@@ -20,7 +20,7 @@ function BoardOverflowMenu({
     uid,
     sharedBoard = false,
 }: Props): JSX.Element {
-    const history = useHistory()
+    const navigate = useNavigate()
     const [removeLockModalOpen, setRemoveLockModalOpen] =
         useState<boolean>(false)
     const [deleteTavleModalOpen, setDeleteTavleModalOpen] =
@@ -28,8 +28,8 @@ function BoardOverflowMenu({
     const [removeSelfFromTavleModalOpen, setRemoveSelfFromTavleModalOpen] =
         useState<boolean>(false)
     const overflowEditTavle = useCallback(() => {
-        history.push(`/admin/${id}`)
-    }, [id, history])
+        navigate(`/admin/${id}`)
+    }, [id, navigate])
 
     const { addToast } = useToast()
     const overflowShareTavle = (): void => {
