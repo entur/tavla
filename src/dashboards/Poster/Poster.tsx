@@ -6,6 +6,8 @@ import { LastUpdated } from './components/LastUpdated/LastUpdated'
 import { BusTile } from './components/BusTile/BusTile'
 import { CarTile } from './components/CarTile/CarTile'
 import { Footer } from './components/Footer/Footer'
+import { ScooterTile } from './components/ScooterTile/ScooterTile'
+import { BikeTile } from '../Chrono/BikeTile/BikeTile'
 
 const Poster = (): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
@@ -36,7 +38,28 @@ const Poster = (): JSX.Element => {
 
                 <div className="mobility-tiles-wrapper">
                     {/* Todo: change this to use biketile and style */}
-                    <CarTile numberOfCars={totalNumberOfBikes} />
+                    <div className="poster-vehicle-tile">
+                        <CarTile numberOfCars={totalNumberOfBikes} />
+                        <div className="vehicles-description">
+                            <h2 className="vehicles-description-heading">
+                                Delebil
+                            </h2>
+                            <h3 className="vehicles-description-area">
+                                Parkeringsplassen ved Vestveien
+                            </h3>
+                        </div>
+                    </div>
+                    <div className="poster-vehicle-tile">
+                        <ScooterTile numberOfScooters={20} />
+                        <div className="vehicles-description">
+                            <h2 className="vehicles-description-heading">
+                                Elsparkesykler
+                            </h2>
+                            <h3 className="vehicles-description-area">
+                                Innen 500 meters radius
+                            </h3>
+                        </div>
+                    </div>
                 </div>
             </div>
             <Footer />
