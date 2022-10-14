@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { getDocumentId } from '../../../utils'
-import { LockModal } from '../../../components/Modals/LockModal/LockModal'
+import { LockModal } from '../../../components/LockModal/LockModal'
 import './LockAndViewButtons.scss'
 
 const LockAndViewButtons = (): JSX.Element => {

@@ -14,7 +14,7 @@ import {
 import { useToast } from '@entur/alert'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { auth, useUser } from '../../../UserProvider'
-import { LockModal } from '../../../components/Modals/LockModal/LockModal'
+import { LockModal } from '../../../components/LockModal/LockModal'
 import { LoginModal } from '../../../components/LoginModal/LoginModal'
 import { LoginCase } from '../../../components/LoginModal/login-modal-types'
 import { MineTavlerModal } from '../../../components/Modals/MineTavlerModal/MineTavlerModal'
