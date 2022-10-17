@@ -2,15 +2,16 @@
     border-radius: 12px;
     background-color: var(--tavla-box-background-color);
     justify-content: space-between;
-    align-items: center;
     font-size: 2.5rem;
     width: 100%;
     margin-bottom: 10%;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     padding: 1rem;
 
+
     &-row {
-        margin: 0rem 1rem 0rem 1rem;
+        margin: 1rem;
         display: flex;
     }
 
@@ -36,7 +37,7 @@
 
     &-destination {
         font-size: 2.5rem;
-        margin: 1.5rem;
+        margin: 1rem;
         width: 50%;
         white-space: nowrap;
         overflow-y: hidden;
