@@ -11,7 +11,6 @@ import {
     transportModeNameMapper,
 } from '../../../../utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
-//TODO: ENDRE SCSS FILNAVNET TIL Å VÆRE FELLES FOR PERMANENTLINESPANEL OG REALTIMEPANEL
 import './PermanentLinesPanel.scss'
 import { PermanentLinesPanel } from './PermanentLinesPanel'
 

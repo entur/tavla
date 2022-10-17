@@ -1,0 +1,46 @@
+.poster-bus-tile {
+    border-radius: 12px;
+    background-color: var(--tavla-box-background-color);
+    justify-content: space-between;
+    align-items: center;
+    font-size: 2.5rem;
+    width: 100%;
+    margin-bottom: 10%;
+    display: inline-block;
+    padding: 1rem;
+
+    &-row {
+        margin: 1rem;
+        display: flex;
+    }
+
+    &-route {
+        background-color: #c5044e;
+        border-radius: 10px;
+        width: 12rem;
+        height: 4.5rem;
+    }
+
+    &-route-number {
+        float: right;
+        line-height: normal;
+        margin: 1rem 1rem 0 0;
+    }
+
+    &-icon {
+        color: white;
+        height: 4rem;
+        width: 4rem;
+        margin-left: 1rem;
+    }
+
+    &-destination {
+        margin: 1.5rem;
+    }
+
+    &-time {
+        margin: 1.5rem;
+        margin-left: auto;
+        font-weight: bold;
+    }
+}

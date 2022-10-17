@@ -73,6 +73,7 @@ export enum DashboardTypes {
     Map = 'Map',
     BusStop = 'BusStop',
     Compact = 'Compact',
+    Poster = 'Poster',
 }
 
 export enum IconColorType {
