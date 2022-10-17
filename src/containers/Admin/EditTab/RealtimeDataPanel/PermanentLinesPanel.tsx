@@ -5,7 +5,7 @@ import { FilterChip } from '@entur/chip'
 import { DrawableRoute, Line } from '../../../../types'
 import { Settings } from '../../../../settings'
 import { filterMap, getIcon, transportModeNameMapper } from '../../../../utils'
-import './PermanentLinesPanel.scss'
+import './linesPanel.scss'
 
 type PermanentLinesPanelProps = {
     realtimeLines: Line[]

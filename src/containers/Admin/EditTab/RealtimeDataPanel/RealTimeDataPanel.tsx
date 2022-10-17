@@ -11,7 +11,7 @@ import {
     transportModeNameMapper,
 } from '../../../../utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
-import './PermanentLinesPanel.scss'
+import './linesPanel.scss'
 import { PermanentLinesPanel } from './PermanentLinesPanel'
 
 interface Props {
