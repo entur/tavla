@@ -1,0 +1,90 @@
+.poster {
+    display: flex;
+    flex-direction: column;
+    height: 1920px;
+    color: white;
+
+    &-content-wrapper {
+        height: 100%;
+        padding: 0 4rem 0 4rem;
+    }
+
+    &-next-bus {
+        font-size: 2.5rem;
+        padding-bottom: 2.5rem;
+    }
+
+    &-header {
+        display: flex;
+        justify-content: flex-end;
+        padding: 5rem 5rem 0 0;
+    }
+
+    &-heading-wrapper {
+        padding: 4rem 0 4rem 0;
+    }
+
+    &-heading {
+        font-size: 8rem;
+    }
+
+    &-mobility-tiles-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    &-mobility-tile {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    &-mobility-description {
+        display: flex;
+        flex-direction: column;
+        margin-top: 2rem;
+        gap: 2rem;
+        width: 26rem;
+
+        &-heading {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        &-area {
+            font-size: 2rem;
+            line-height: 150%;
+            margin: 0;
+        }
+    }
+
+    &-mobility-vehicles-box {
+        display: flex;
+        border-radius: 12px;
+        background-color: var(--tavla-box-background-color);
+        justify-content: space-between;
+        align-items: center;
+        font-size: 8rem;
+        height: 13rem;
+        width: 26rem;
+        padding: 3rem;
+
+        &-overflow {
+            display: inline-block;
+
+            span {
+                height: 40px;
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            &-number {
+                font-size: 6rem;
+            }
+
+            &-symbol {
+                font-size: 2rem;
+            }
+        }
+    }
+}
