@@ -2,13 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { PulsatingDot } from '../PulsatingDot/PulsatingDot'
 import './LastUpdated.scss'
 
+const getTimeString = (): string => {
+    const options: Intl.DateTimeFormatOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'Europe/Oslo',
+    }
+    const formatter = new Intl.DateTimeFormat(['nb-NO'], options)
+    return formatter.format(new Date())
+}
+
 const LastUpdated = (): JSX.Element => {
-    const [rightNow, setRightNow] = useState(new Date().toLocaleTimeString())
+    const [currentTime, setCurrentTime] = useState(getTimeString())
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setRightNow(new Date().toLocaleTimeString())
-        }, 1000)
+            setCurrentTime(getTimeString())
+        }, 30000)
 
         return () => {
             clearInterval(timer)
@@ -24,7 +34,7 @@ const LastUpdated = (): JSX.Element => {
                 <PulsatingDot />
             </div>
             <h3 className="poster-last-updated-heading">
-                Sist oppdatert {rightNow}
+                Sist oppdatert {currentTime}
             </h3>
         </div>
     )
