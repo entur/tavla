@@ -43,7 +43,7 @@
     &-mobility-description {
         display: flex;
         flex-direction: column;
-        margin: 2rem 0rem 2rem 0rem;
+        margin: 2rem 0 2rem 0;
         gap: 2rem;
         width: 26rem;
 
@@ -69,7 +69,6 @@
         height: 13rem;
         width: 28rem;
         padding: 3rem;
-
 
         &-overflow {
             display: inline-block;
