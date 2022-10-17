@@ -11,7 +11,6 @@ import {
     transportModeNameMapper,
 } from '../../../../utils'
 import { useSettingsContext } from '../../../../settings'
-
 import './linesPanel.scss'
 import { PermanentLinesPanel } from './PermanentLinesPanel'
 
