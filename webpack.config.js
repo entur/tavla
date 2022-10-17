@@ -24,6 +24,10 @@ module.exports = async (env, args) => ({
     mode: args.mode === 'production' ? 'production' : 'development',
     entry: './src/main.tsx',
     devtool: args.mode === 'production' ? false : 'inline-source-map',
+    cache: {
+        type: 'filesystem',
+        cacheLocation: path.resolve(__dirname, 'node_modules/.cache/webpack'),
+    },
     output: {
         path: OUTPUT_PATH,
         filename: '[name].[fullhash].js',
