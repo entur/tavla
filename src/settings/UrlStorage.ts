@@ -1,6 +1,6 @@
 import lz from 'lz-string'
 import { DEFAULT_DISTANCE } from '../constants'
-import { Theme } from '../types'
+import { DashboardTypes, Theme } from '../types'
 import { Settings } from './index'
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -13,7 +13,7 @@ export const DEFAULT_SETTINGS: Settings = {
     hiddenStopModes: {},
     newStations: [],
     newStops: [],
-    dashboard: '',
+    dashboard: DashboardTypes.Compact,
     coordinates: undefined,
     owners: [],
     theme: Theme.DEFAULT,

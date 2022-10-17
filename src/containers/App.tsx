@@ -8,24 +8,19 @@ import {
 } from 'react-router-dom'
 import classNames from 'classnames'
 import { ApolloProvider } from '@apollo/client'
-import { useFirebaseAuthentication, UserProvider } from '../auth'
+import { UserProvider } from '../UserProvider'
 import '../firebase-init'
-import { SettingsContext, useSettings } from '../settings'
+import { SettingsProvider, useSettings } from '../settings/SettingsProvider'
 import PWAPrompt from '../../vendor/react-ios-pwa-prompt'
 import { realtimeVehiclesClient } from '../services/realtimeVehicles/realtimeVehiclesService'
-import { ChronoDashboard } from '../dashboards/Chrono/ChronoDashboard'
-import { CompactDashboard } from '../dashboards/Compact/CompactDashboard'
-import { MapDashboard } from '../dashboards/Map/MapDashboard'
-import { TimelineDashboard } from '../dashboards/Timeline/TimelineDashboard'
+import { DashboardResolver } from '../dashboards/DashboardResolver'
 import { Header } from '../components/Header/Header'
-import { BusStopDashboard } from '../dashboards/BusStop/BusStopDashboard'
 import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../settings/LocalStorage'
 import { isMobileWeb } from '../utils'
 import { Direction, ToastProvider } from '../types'
-import { Poster } from '../dashboards/Poster/Poster'
 import { AdminPage } from './Admin/AdminPage'
 import { PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
@@ -36,104 +31,91 @@ import './styles.scss'
 
 const numberOfVisits = getFromLocalStorage<number>('numberOfVisits') || 1
 
-function getDashboardComponent(
-    dashboardKey?: string | void,
-): () => JSX.Element | null {
-    switch (dashboardKey) {
-        case 'Timeline':
-            return TimelineDashboard
-        case 'Chrono':
-            return ChronoDashboard
-        case 'Map':
-            return MapDashboard
-        case 'BusStop':
-            return BusStopDashboard
-        case 'Poster':
-            return Poster
-        default:
-            return CompactDashboard
-    }
-}
+const useUpdateManifest = () => {
+    const location = useLocation()
 
-function updateManifest(href: string, origin: string): void {
-    const manifest = window.document.getElementById('manifest-placeholder')
-    if (manifest) {
-        const dynamicManifest = {
-            name: 'Tavla - Enturs avgangstavle',
-            short_name: 'Tavla',
-            start_url: `${href}`,
-            scope: `${href}`,
-            display: 'standalone',
-            background_color: '#181C56',
-            theme_color: '#181C56',
-            description: 'Lag din egen sanntidstavle.',
-            orientation: 'portrait',
-            lang: 'no',
-            icons: [
-                {
-                    src: `${origin}/images/logo/logo-72x72.png`,
-                    sizes: '72x72',
-                    type: 'image/png',
-                    purpose: 'any maskable',
-                },
-                {
-                    src: `${origin}/images/logo/logo-96x96.png`,
-                    sizes: '96x96',
-                    type: 'image/png',
-                    purpose: 'any maskable',
-                },
-                {
-                    src: `${origin}/images/logo/logo-128x128.png`,
-                    sizes: '128x128',
-                    type: 'image/png',
-                    purpose: 'any maskable',
-                },
-                {
-                    src: `${origin}/images/logo/logo-144x144.png`,
-                    sizes: '144x144',
-                    type: 'image/png',
-                    purpose: 'any maskable',
-                },
-                {
-                    src: `${origin}/images/logo/logo-152x152.png`,
-                    sizes: '152x152',
-                    type: 'image/png',
-                    purpose: 'any maskable',
-                },
-                {
-                    src: `${origin}/images/logo/logo-192x192.png`,
-                    sizes: '192x192',
-                    type: 'image/png',
-                    purpose: 'any maskable',
-                },
-                {
-                    src: `${origin}/images/logo/logo-384x384.png`,
-                    sizes: '384x384',
-                    type: 'image/png',
-                    purpose: 'any maskable',
-                },
-                {
-                    src: `${origin}/images/logo/logo-512x512.png`,
-                    sizes: '512x512',
-                    type: 'image/png',
-                    purpose: 'any maskable',
-                },
-            ],
-            splash_screen: [
-                {
-                    src: `${origin}/images/splash/startup-image-1284x2778.png`,
-                    sizes: '1284x2778',
-                    type: 'image/png',
-                },
-            ],
+    useEffect(() => {
+        const href = window.location.href
+        const origin = window.location.origin
+        const manifest = window.document.getElementById('manifest-placeholder')
+        if (manifest) {
+            const dynamicManifest = {
+                name: 'Tavla - Enturs avgangstavle',
+                short_name: 'Tavla',
+                start_url: `${href}`,
+                scope: `${href}`,
+                display: 'standalone',
+                background_color: '#181C56',
+                theme_color: '#181C56',
+                description: 'Lag din egen sanntidstavle.',
+                orientation: 'portrait',
+                lang: 'no',
+                icons: [
+                    {
+                        src: `${origin}/images/logo/logo-72x72.png`,
+                        sizes: '72x72',
+                        type: 'image/png',
+                        purpose: 'any maskable',
+                    },
+                    {
+                        src: `${origin}/images/logo/logo-96x96.png`,
+                        sizes: '96x96',
+                        type: 'image/png',
+                        purpose: 'any maskable',
+                    },
+                    {
+                        src: `${origin}/images/logo/logo-128x128.png`,
+                        sizes: '128x128',
+                        type: 'image/png',
+                        purpose: 'any maskable',
+                    },
+                    {
+                        src: `${origin}/images/logo/logo-144x144.png`,
+                        sizes: '144x144',
+                        type: 'image/png',
+                        purpose: 'any maskable',
+                    },
+                    {
+                        src: `${origin}/images/logo/logo-152x152.png`,
+                        sizes: '152x152',
+                        type: 'image/png',
+                        purpose: 'any maskable',
+                    },
+                    {
+                        src: `${origin}/images/logo/logo-192x192.png`,
+                        sizes: '192x192',
+                        type: 'image/png',
+                        purpose: 'any maskable',
+                    },
+                    {
+                        src: `${origin}/images/logo/logo-384x384.png`,
+                        sizes: '384x384',
+                        type: 'image/png',
+                        purpose: 'any maskable',
+                    },
+                    {
+                        src: `${origin}/images/logo/logo-512x512.png`,
+                        sizes: '512x512',
+                        type: 'image/png',
+                        purpose: 'any maskable',
+                    },
+                ],
+                splash_screen: [
+                    {
+                        src: `${origin}/images/splash/startup-image-1284x2778.png`,
+                        sizes: '1284x2778',
+                        type: 'image/png',
+                    },
+                ],
+            }
+            const stringManifest = JSON.stringify(dynamicManifest)
+            const blob = new Blob([stringManifest], {
+                type: 'application/json',
+            })
+            const manifestURL = URL.createObjectURL(blob)
+            manifest.setAttribute('href', manifestURL)
         }
-        const stringManifest = JSON.stringify(dynamicManifest)
-        const blob = new Blob([stringManifest], {
-            type: 'application/json',
-        })
-        const manifestURL = URL.createObjectURL(blob)
-        manifest.setAttribute('href', manifestURL)
-    }
+    }, [location.pathname])
 }
 
 const hidePWA = (pathName: string) =>
@@ -155,12 +137,14 @@ const hidePWA = (pathName: string) =>
         'iPod',
     ].includes(navigator.platform)
 
-function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
+const ProgressiveWebAppPrompt: React.FC = () => {
+    const location = useLocation()
+
     useEffect(() => {
         saveToLocalStorage('numberOfVisits', numberOfVisits + 1)
     }, [])
 
-    if (hidePWA(pathName)) {
+    if (hidePWA(location.pathname) || isMobileWeb()) {
         return null
     }
 
@@ -178,34 +162,10 @@ function ProgressiveWebAppPrompt(pathName: string): JSX.Element | null {
     )
 }
 
-const Content = (): JSX.Element => {
-    const user = useFirebaseAuthentication()
-    const [settings, setSettings] = useSettings()
-    const location = useLocation()
+const useReloadOnTavleUpdate = () => {
+    const [settings] = useSettings()
+    const isOnTavle = useMatch('/t/*')
     const [tavleOpenedAt] = useState(new Date().getTime())
-
-    const includeSettings = !['/privacy', '/tavler'].includes(location.pathname)
-
-    const isOnTavle = useMatch('/t/')
-
-    const Dashboard = settings
-        ? getDashboardComponent(settings.dashboard)
-        : (): null => null
-
-    const [isRotated, setIsRotated] = useState(false)
-
-    useEffect(() => {
-        updateManifest(window.location.href, window.location.origin)
-        if (isOnTavle) {
-            const direction = settings?.direction || Direction.STANDARD
-            const fontSizeScale = settings?.fontScale || 1
-            document.documentElement.style.fontSize = fontSizeScale * 16 + 'px'
-            setIsRotated(direction === Direction.ROTATED)
-        } else {
-            document.documentElement.style.fontSize = '16px'
-            setIsRotated(false)
-        }
-    }, [location.pathname, isOnTavle, settings])
 
     useEffect(() => {
         if (
@@ -216,77 +176,73 @@ const Content = (): JSX.Element => {
             window.location.reload()
         }
     }, [settings, isOnTavle, tavleOpenedAt])
+}
+
+const useHandleRotationAndFontScaling = (): boolean => {
+    const [isRotated, setIsRotated] = useState<boolean>(false)
+    const [settings] = useSettings()
+    const isOnTavle = useMatch('/t/*')
+
+    useEffect(() => {
+        if (isOnTavle) {
+            const direction = settings?.direction || Direction.STANDARD
+            const fontSizeScale = settings?.fontScale || 1
+            document.documentElement.style.fontSize = fontSizeScale * 16 + 'px'
+            setIsRotated(direction === Direction.ROTATED)
+        } else {
+            document.documentElement.style.fontSize = '16px'
+            setIsRotated(false)
+        }
+    }, [isOnTavle, settings])
+
+    return isRotated
+}
+
+const Content = (): JSX.Element => {
+    const isRotated = useHandleRotationAndFontScaling()
+    useUpdateManifest()
+    useReloadOnTavleUpdate()
 
     return (
         <ApolloProvider client={realtimeVehiclesClient}>
-            <UserProvider value={user}>
-                {isMobileWeb()
-                    ? ProgressiveWebAppPrompt(location.pathname)
-                    : null}
-                <SettingsContext.Provider
-                    value={
-                        includeSettings
-                            ? [settings, setSettings]
-                            : [null, setSettings]
-                    }
+            <ProgressiveWebAppPrompt />
+            <ThemeProvider>
+                <div
+                    className={classNames('themeBackground', {
+                        rotated: isRotated,
+                    })}
                 >
-                    <ThemeProvider>
-                        <div
-                            className={classNames('themeBackground', {
-                                rotated: isRotated,
-                            })}
-                        >
-                            <ToastProvider>
-                                {settings?.dashboard === 'Poster' ? (
-                                    <></>
-                                ) : (
-                                    <Header />
-                                )}
-                                <Routes>
-                                    <Route path="/" element={<LandingPage />} />
-                                    <Route
-                                        path="/t/:documentId"
-                                        element={<Dashboard />}
-                                    />
-                                    <Route
-                                        path="/admin/:documentId"
-                                        element={<AdminPage />}
-                                    />
-                                    <Route
-                                        path="/dashboard"
-                                        element={<Dashboard />}
-                                    />
-                                    <Route
-                                        path="/tavler"
-                                        element={<MyBoards />}
-                                    />
-                                    <Route
-                                        path="/admin"
-                                        element={
-                                            settings ? <AdminPage /> : <></>
-                                        }
-                                    />
-                                    <Route
-                                        path="/privacy"
-                                        element={<Privacy />}
-                                    />
-                                    <Route
-                                        path="*"
-                                        element={<PageDoesNotExist />}
-                                    />
-                                </Routes>
-                            </ToastProvider>
-                        </div>
-                    </ThemeProvider>
-                </SettingsContext.Provider>
-            </UserProvider>
+                    <ToastProvider>
+                        <Header />
+                        <Routes>
+                            <Route path="/" element={<LandingPage />} />
+                            <Route
+                                path="/t/:documentId"
+                                element={<DashboardResolver />}
+                            />
+                            <Route
+                                path="/admin/:documentId"
+                                element={<AdminPage />}
+                            />
+                            <Route path="/tavler" element={<MyBoards />} />
+                            <Route path="/admin" element={<AdminPage />} />
+                            <Route path="/privacy" element={<Privacy />} />
+                            <Route path="*" element={<PageDoesNotExist />} />
+                        </Routes>
+                    </ToastProvider>
+                </div>
+            </ThemeProvider>
         </ApolloProvider>
     )
 }
 
 const App = (): JSX.Element => (
     <BrowserRouter>
-        <Content />
+        <UserProvider>
+            <SettingsProvider>
+                <Content />
+            </SettingsProvider>
+        </UserProvider>
     </BrowserRouter>
 )
 

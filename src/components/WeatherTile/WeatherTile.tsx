@@ -6,7 +6,7 @@ import {
     getWeatherDescriptionFromApi,
     getWeatherIconEntur,
 } from '../../utils'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import './WeatherTile.scss'
 
 interface Props {
@@ -21,7 +21,7 @@ interface weatherComponent {
 
 function WeatherTile(props: Props): JSX.Element {
     const weather = useWeather()
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
 
     const {
         showIcon = true,

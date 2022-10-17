@@ -1,16 +1,24 @@
 import React from 'react'
+import { useMatch } from 'react-router-dom'
 import { Contrast } from '@entur/layout'
+import { useSettings } from '../../settings/SettingsProvider'
 import { Navbar } from '../../containers/Navbar/Navbar'
+import { DashboardTypes } from '../../types'
 import { DashboardHeader } from './DashboardHeader'
 import './Header.scss'
 
 function Header(): JSX.Element | null {
-    const path = window.location.pathname.split('/')[1]
+    const [settings] = useSettings()
+    const isOnTavle = useMatch('/t/*')
 
-    const onDashboard = path == 't' || path == 'dashboard'
-    const header = onDashboard ? <DashboardHeader /> : <Navbar />
+    if (settings?.dashboard === DashboardTypes.Poster) return <></>
 
-    return <Contrast>{header}</Contrast>
+    return (
+        <Contrast>
+            {isOnTavle && <DashboardHeader />}
+            {!isOnTavle && <Navbar />}
+        </Contrast>
+    )
 }
 
 export { Header }

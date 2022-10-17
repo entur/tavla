@@ -1,7 +1,7 @@
 import React from 'react'
 import { PrimaryButton } from '@entur/button'
 import { Heading1 } from '@entur/typography'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import { Theme } from '../../types'
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
 import './ErrorWrapper.scss'
@@ -13,7 +13,7 @@ function ErrorWrapper({
     callbackMessage,
     callback,
 }: Props): JSX.Element {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
 
     const errorCallback = callback ? (
         <PrimaryButton

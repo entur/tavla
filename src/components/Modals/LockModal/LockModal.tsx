@@ -5,8 +5,8 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
 import Check from '../../../assets/images/check.png'
 import retinaCheck from '../../../assets/images/check@2x.png'
-import { useUser } from '../../../auth'
-import { useSettingsContext } from '../../../settings'
+import { useUser } from '../../../UserProvider'
+import { useSettings } from '../../../settings/SettingsProvider'
 import { CloseButton } from '../LoginModal/CloseButton/CloseButton'
 import { LoginModal } from '../LoginModal/LoginModal'
 import './LockModal.scss'
@@ -19,7 +19,7 @@ interface Props {
 const LockModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const user = useUser()
 
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
 
     useEffect(() => {
         if (

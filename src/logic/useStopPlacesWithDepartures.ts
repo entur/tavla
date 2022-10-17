@@ -5,7 +5,7 @@ import { TransportMode, TransportSubmode } from '@entur/sdk'
 import { LineData, StopPlaceWithDepartures } from '../types'
 import { isNotNullOrUndefined, nonEmpty, unique } from '../utils'
 import { apolloClient } from '../service'
-import { useSettingsContext } from '../settings'
+import { useSettings } from '../settings/SettingsProvider'
 import { REFRESH_INTERVAL } from '../constants'
 import { useNearestPlaces } from './useNearestPlaces'
 
@@ -175,7 +175,7 @@ function transformDepartureToLineData(
 const EMPTY_STOP_PLACES_WITH_DEPARTURES: StopPlaceWithDepartures[] = []
 
 function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] | undefined {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
 
     const nearestPlaces = useNearestPlaces(
         settings?.coordinates,

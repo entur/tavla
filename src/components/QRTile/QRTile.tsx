@@ -3,11 +3,11 @@ import QRCode from 'react-qr-code'
 import { colors } from '@entur/tokens'
 import { Link, Paragraph } from '@entur/typography'
 import { CustomTile, Theme } from '../../types'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import './QRTile.scss'
 
 const QRTile = ({ sourceUrl, description }: CustomTile): JSX.Element => {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const { theme = Theme.DEFAULT } = settings || {}
 
     return (

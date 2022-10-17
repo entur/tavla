@@ -18,7 +18,7 @@ import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import {
     RearrangeModal,
     Item,
@@ -68,7 +68,7 @@ function getDataGrid(
 }
 
 const BusStopDashboard = (): JSX.Element | null => {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const location = useLocation()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)

@@ -22,7 +22,7 @@ import {
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
 import { QRTile } from '../../components/QRTile/QRTile'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import {
     isEqualUnsorted,
     usePrevious,
@@ -84,7 +84,7 @@ const COLS: { [key: string]: number } = {
 }
 
 const ChronoDashboard = (): JSX.Element | null => {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const {
         customImageTiles = [],
         customQrTiles = [],

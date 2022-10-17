@@ -1,17 +1,17 @@
-import {
-    createContext,
-    useContext,
-    useState,
-    useCallback,
-    useEffect,
-} from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 import { Coordinates, TransportMode } from '@entur/sdk'
-import { Theme, DrawableRoute, CustomTile, Direction } from '../types'
+import {
+    Theme,
+    DrawableRoute,
+    CustomTile,
+    Direction,
+    DashboardTypes,
+} from '../types'
 import { getSettingsReference } from '../services/firebase'
 import { getDocumentId } from '../utils'
-import { useUser } from '../auth'
+import { useUser } from '../UserProvider'
 import {
     persist as persistToUrl,
     restore as restoreFromUrl,
@@ -21,6 +21,7 @@ import {
     persistMultipleFields as persistMultipleFieldsToFirebase,
     FieldTypes,
 } from './FirestoreStorage'
+import type { SettingsSetter } from './SettingsProvider'
 
 export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
 
@@ -39,7 +40,7 @@ export interface Settings {
     zoom?: number
     newStations?: string[]
     newStops?: string[]
-    dashboard?: string | void
+    dashboard?: DashboardTypes
     owners?: string[]
     theme?: Theme
     logo?: string
@@ -68,17 +69,6 @@ export interface Settings {
     pageRefreshedAt?: number
 }
 
-type Setter = (settings: Partial<Settings>) => void
-
-export const SettingsContext = createContext<[Settings | null, Setter]>([
-    null,
-    (): void => undefined,
-])
-
-export function useSettingsContext(): [Settings | null, Setter] {
-    return useContext(SettingsContext)
-}
-
 const DEFAULT_SETTINGS: Partial<Settings> = {
     description: '',
     logoSize: '32px',
@@ -95,7 +85,7 @@ const DEFAULT_SETTINGS: Partial<Settings> = {
     hiddenCustomTileIds: [],
 }
 
-export function useSettings(): [Settings | null, Setter] {
+export function useFirebaseSettings(): [Settings | null, SettingsSetter] {
     const [settings, setLocalSettings] = useState<Settings | null>(null)
 
     const location = useLocation()

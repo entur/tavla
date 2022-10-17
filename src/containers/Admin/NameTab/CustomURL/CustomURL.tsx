@@ -16,7 +16,7 @@ import {
     userIsOwner,
 } from '../../../../services/firebase'
 import { getDocumentId } from '../../../../utils'
-import { useUser } from '../../../../auth'
+import { useUser } from '../../../../UserProvider'
 import '../NameTab.scss'
 
 enum inputFeedback {

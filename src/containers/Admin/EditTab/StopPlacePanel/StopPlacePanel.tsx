@@ -5,13 +5,13 @@ import { TransportMode } from '@entur/sdk'
 import { Loader } from '@entur/loader'
 import { toggleValueInList, isDarkOrDefaultTheme } from '../../../../utils'
 import { StopPlaceWithLines } from '../../../../types'
-import { useSettingsContext } from '../../../../settings'
+import { useSettings } from '../../../../settings/SettingsProvider'
 import { ThemeContrastWrapper } from '../../../ThemeWrapper/ThemeContrastWrapper'
 import { PanelRow } from './PanelRow/Panelrow'
 import './StopPlacePanel.scss'
 
 function StopPlacePanel(props: Props): JSX.Element {
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
 
     const {
         hiddenStopModes = {},

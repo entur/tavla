@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Modal } from '@entur/modal'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import type { CustomTileType } from '../../types'
 import './CustomTileModel.scss'
 
@@ -14,7 +14,7 @@ interface Props {
 type ActionType = 'update' | 'addNew'
 
 const CustomTileModal = ({ setIsOpen, selectedTileId }: Props): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
     const { customQrTiles = [], customImageTiles = [] } = settings || {}
     const selectedItem = [...customQrTiles, ...customImageTiles].find(
         (tile) => tile.id === selectedTileId,

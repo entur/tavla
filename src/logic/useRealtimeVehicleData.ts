@@ -13,7 +13,7 @@ import {
     BUFFER_SIZE,
     BUFFER_TIME,
 } from '../constants'
-import { useSettingsContext } from '../settings'
+import { useSettings } from '../settings/SettingsProvider'
 import { useStopPlacesWithLines } from './useStopPlacesWithLines'
 import { useVehicleReducer, ActionType } from './useRealtimeVehicleReducer'
 
@@ -32,7 +32,7 @@ function useRealtimeVehicleData(filter?: Filter): Return {
     const client = useApolloClient()
     const [state, dispatch] = useVehicleReducer()
     const { uniqueLines } = useStopPlacesWithLines()
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const { hiddenRealtimeDataLineRefs } = settings || {}
     const [realtimeVehicles, setRealtimeVehicles] = useState<
         RealtimeVehicle[] | undefined

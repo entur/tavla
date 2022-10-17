@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Line, StopPlaceWithLines } from '../types'
 import { createAbortController, unique } from '../utils'
-import { useSettingsContext } from '../settings'
+import { useSettings } from '../settings/SettingsProvider'
 import { getStopPlacesWithLines } from './getStopPlacesWithLines'
 import { useStopPlacesWithDepartures } from './useStopPlacesWithDepartures'
 
@@ -11,7 +11,7 @@ interface Return {
 }
 
 export const useStopPlacesWithLines = (): Return => {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const { hiddenStopModes } = settings || {}
     const [uniqueLines, setUniqueLines] = useState<Line[] | undefined>(
         undefined,

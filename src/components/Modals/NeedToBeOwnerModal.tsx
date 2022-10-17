@@ -6,13 +6,13 @@ import { useToast } from '@entur/alert'
 import { GridContainer, GridItem } from '@entur/grid'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import { CloseButton } from './LoginModal/CloseButton/CloseButton'
 import './Modals.scss'
 
 const NeedToBeOwnerModal = ({ open, onDismiss, uid }: Props): JSX.Element => {
     const { addToast } = useToast()
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
 
     const addOwnerToTavle = useCallback(
         (lock: boolean) => {

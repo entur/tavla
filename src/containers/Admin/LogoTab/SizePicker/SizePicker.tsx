@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react'
 import { RadioGroup, Radio } from '@entur/form'
-import { useSettingsContext } from '../../../../settings'
+import { useSettings } from '../../../../settings/SettingsProvider'
 import './SizePicker.scss'
 
 const SizePicker = (): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
 
     const { logoSize = '32px' } = settings || {}
 

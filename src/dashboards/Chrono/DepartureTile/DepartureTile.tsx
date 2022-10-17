@@ -14,7 +14,7 @@ import {
 } from '../../../types'
 import { Tile } from '../components/Tile/Tile'
 import { TileRows } from '../components/TileRows/TileRows'
-import { useSettingsContext } from '../../../settings'
+import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/useWalkInfo'
 import './DepartureTile.scss'
 
@@ -65,7 +65,7 @@ const DepartureTile = ({
     numberOfTileRows = 7,
 }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,

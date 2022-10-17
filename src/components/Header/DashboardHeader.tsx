@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useSettings } from '../../settings'
+import { useFirebaseSettings } from '../../settings'
 import { Clock } from '../Clock/Clock'
 import { TavlaLogo } from '../../assets/icons'
 import { UpgradeTavlaBanner } from '../../containers/DashboardWrapper/UpgradeTavlaBanner/UpgradeTavlaBanner'
 import { isMobileWeb } from '../../utils'
 
 function DashboardHeader(): JSX.Element | null {
-    const [settings] = useSettings()
+    const [settings] = useFirebaseSettings()
     if (!settings) return null
     const { logo, logoSize, description } = settings
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Checkbox } from '@entur/form'
 import { DeleteIcon, EditIcon } from '@entur/icons'
-import { useSettingsContext } from '../../../../../settings'
+import { useSettings } from '../../../../../settings/SettingsProvider'
 import { CustomTile } from '../../../../../types'
 import '../CustomTilePanel.scss'
 
@@ -16,7 +16,7 @@ const CustomTilePanelRow = ({
     setSelectedTileId,
     setIsOpenModal,
 }: Props): JSX.Element => {
-    const [settings, setSettings] = useSettingsContext()
+    const [settings, setSettings] = useSettings()
     const {
         hiddenCustomTileIds = [],
         customImageTiles = [],

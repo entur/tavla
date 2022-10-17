@@ -23,7 +23,7 @@ import type { TravelSwitchProps } from '@entur/form'
 import { LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 import { TranslatedString, Translation } from '@entur/sdk/lib/mobility/types'
 import { LineData, TileSubLabel, Theme, IconColorType, NonEmpty } from './types'
-import { useSettingsContext } from './settings'
+import { useSettings } from './settings/SettingsProvider'
 
 export const EMAIL_REGEX =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -344,7 +344,7 @@ export const useThemeColor = (
     color: { [key: string]: string },
     fallback: string,
 ): string => {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     if (!settings?.theme) {
         return fallback
     }

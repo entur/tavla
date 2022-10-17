@@ -19,7 +19,7 @@ import {
 import { LineData, IconColorType } from '../../types'
 import { useStopPlacesWithDepartures, useWalkInfo } from '../../logic'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-import { useSettingsContext } from '../../settings'
+import { useSettings } from '../../settings/SettingsProvider'
 import { WalkInfo } from '../../logic/useWalkInfo'
 import {
     RearrangeModal,
@@ -120,7 +120,7 @@ interface TickProps {
 }
 
 function Tick({ minutes, mode, index }: TickProps): JSX.Element {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const [color, setColor] = useState(colors.blues.blue30)
     let label = `${minutes} min`
     let marginLeft = -30
@@ -168,7 +168,7 @@ interface TimelineData {
 const TimelineDashboard = (): JSX.Element | null => {
     useCounter()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )

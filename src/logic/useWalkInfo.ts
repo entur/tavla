@@ -3,7 +3,7 @@ import { isEqual } from 'lodash'
 import { gql } from '@apollo/client'
 import { Coordinates } from '@entur/sdk'
 import { apolloClient } from '../service'
-import { useSettingsContext } from '../settings'
+import { useSettings } from '../settings/SettingsProvider'
 import { usePrevious, isNotNullOrUndefined } from '../utils'
 
 const GET_WALK_INFO_QUERY = gql`
@@ -121,7 +121,7 @@ async function getWalkInfo(
 const EMPTY_WALK_INFO: WalkInfo[] = []
 
 function useWalkInfo(destinations: Destination[]): WalkInfo[] {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const [travelTime, setTravelTime] = useState<WalkInfo[]>(EMPTY_WALK_INFO)
 
     const { latitude: fromLatitude, longitude: fromLongitude } =
