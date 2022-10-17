@@ -27,7 +27,7 @@ const Poster = (): JSX.Element => {
             </div>
             <div className="poster-content-wrapper">
                 <div className="poster-heading-wrapper">
-                    <h1 className="poster-heading">I nærheten</h1>
+                    <h1 className="poster-heading">Skal du videre?</h1>
                     <LastUpdated />
                 </div>
                 <div className="poster-next-bus">Neste buss</div>
@@ -41,7 +41,7 @@ const Poster = (): JSX.Element => {
                                 Delebil
                             </h2>
                             <h3 className="poster-mobility-description-area">
-                                Parkeringsplassen ved Vestveien
+                                P-plassen ved Vestveien
                             </h3>
                         </div>
                         <div className="poster-mobility-vehicles-box">
@@ -54,7 +54,7 @@ const Poster = (): JSX.Element => {
                                 Elsparkesykler
                             </h2>
                             <h3 className="poster-mobility-description-area">
-                                Innen 500 meters radius
+                                Innen 200 meters radius
                             </h3>
                         </div>
                         <div className="poster-mobility-vehicles-box">

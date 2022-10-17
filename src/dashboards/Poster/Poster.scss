@@ -43,7 +43,7 @@
     &-mobility-description {
         display: flex;
         flex-direction: column;
-        margin-top: 2rem;
+        margin: 2rem 0rem 2rem 0rem;
         gap: 2rem;
         width: 26rem;
 
@@ -65,10 +65,11 @@
         background-color: var(--tavla-box-background-color);
         justify-content: space-between;
         align-items: center;
-        font-size: 8rem;
+        font-size: 7.8rem;
         height: 13rem;
-        width: 26rem;
+        width: 28rem;
         padding: 3rem;
+
 
         &-overflow {
             display: inline-block;

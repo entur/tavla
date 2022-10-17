@@ -10,7 +10,7 @@
     padding: 1rem;
 
     &-row {
-        margin: 1rem;
+        margin: 0rem 1rem 0rem 1rem;
         display: flex;
     }
 
@@ -35,12 +35,20 @@
     }
 
     &-destination {
+        font-size: 2.5rem;
         margin: 1.5rem;
+        width: 50%;
+        white-space: nowrap;
+        overflow-y: hidden;
+        text-overflow: ellipsis;
+        line-height: 1;
     }
 
     &-time {
+        font-size: 2.5rem;
         margin: 1.5rem;
         margin-left: auto;
         font-weight: bold;
+
     }
 }
