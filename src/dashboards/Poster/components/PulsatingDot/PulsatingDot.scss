@@ -1,0 +1,45 @@
+.ring-container {
+    position: relative;
+    height: 25px;
+    width: 25px;
+}
+
+.circle {
+    width: 15px;
+    height: 15px;
+    background-color: var(--tavla-success-font-color, 0.3);
+    border-radius: 50%;
+    position: absolute;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.ringring {
+    border: 5px solid var(--tavla-success-font-color);
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    animation: pulsate 1s ease-out;
+    -webkit-animation: pulsate 1s ease-out;
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+    opacity: 0;
+}
+
+@keyframes pulsate {
+    0% {
+        -webkit-transform: scale(0.1, 0.1);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: scale(1.2, 1.2);
+        opacity: 0;
+    }
+}

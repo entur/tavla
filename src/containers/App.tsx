@@ -25,6 +25,7 @@ import {
 } from '../settings/LocalStorage'
 import { isMobileWeb } from '../utils'
 import { Direction, ToastProvider } from '../types'
+import { Poster } from '../dashboards/Poster/Poster'
 import { AdminPage } from './Admin/AdminPage'
 import { PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
@@ -47,6 +48,8 @@ function getDashboardComponent(
             return MapDashboard
         case 'BusStop':
             return BusStopDashboard
+        case 'Poster':
+            return Poster
         default:
             return CompactDashboard
     }
@@ -234,7 +237,11 @@ const Content = (): JSX.Element => {
                             })}
                         >
                             <ToastProvider>
-                                <Header />
+                                {settings?.dashboard === 'Poster' ? (
+                                    <></>
+                                ) : (
+                                    <Header />
+                                )}
                                 <Routes>
                                     <Route path="/" element={<LandingPage />} />
                                     <Route
