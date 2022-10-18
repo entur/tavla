@@ -7,14 +7,36 @@ import {
 import { WebSocketLink } from '@apollo/client/link/ws'
 import { MultiAPILink } from '@habx/apollo-multi-endpoint-link'
 
-const realtimeVehiclesClient = new ApolloClient({
+const CLIENT_NAME = process.env.CLIENT_NAME || ''
+
+if (!CLIENT_NAME && process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line no-console
+    console.error(
+        'CLIENT_NAME is missing! Please set a client name in your environment config.',
+    )
+}
+
+const endpoints = {
+    vehicles:
+        process.env.VEHICLES_REALTIME_HOST ??
+        'https://api.entur.io/realtime/v1/vehicles',
+    mobility: process.env.MOBILITY_HOST ?? 'https://api.entur.io/mobility/v2',
+    geocoder: process.env.GEOCODER_HOST ?? 'https://api.entur.io/geocoder/v1',
+    journey_planner_v2:
+        process.env.JOURNEYPLANNER_HOST_V2 ??
+        'https://api.entur.io/journey-planner/v2',
+    journey_planner_v3:
+        process.env.JOURNEYPLANNER_HOST_V3 ??
+        'https://api.entur.io/journey-planner/v3',
+}
+
+const apolloClient = new ApolloClient({
+    headers: {
+        'ET-Client-Name': CLIENT_NAME,
+    },
     link: ApolloLink.from([
         new MultiAPILink({
-            endpoints: {
-                vehicles:
-                    process.env.VEHICLES_REALTIME_HOST ??
-                    'https://api.entur.io/realtime/v1/vehicles',
-            },
+            endpoints,
             httpSuffix: '/graphql',
             wsSuffix: '/subscriptions',
             createHttpLink: () => createHttpLink(),
@@ -28,8 +50,8 @@ const realtimeVehiclesClient = new ApolloClient({
         }),
     ]),
     cache: new InMemoryCache({
-        addTypename: false,
+        addTypename: true,
     }),
 })
 
-export { realtimeVehiclesClient }
+export { apolloClient }

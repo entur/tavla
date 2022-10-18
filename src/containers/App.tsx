@@ -12,7 +12,7 @@ import { UserProvider } from '../UserProvider'
 import '../firebase-init'
 import { SettingsProvider, useSettings } from '../settings/SettingsProvider'
 import PWAPrompt from '../../vendor/react-ios-pwa-prompt'
-import { realtimeVehiclesClient } from '../services/realtimeVehicles/realtimeVehiclesService'
+import { apolloClient } from '../services/realtimeVehicles/realtimeVehiclesService'
 import { DashboardResolver } from '../dashboards/DashboardResolver'
 import { Header } from '../components/Header/Header'
 import {
@@ -204,7 +204,7 @@ const Content = (): JSX.Element => {
     useReloadOnTavleUpdate()
 
     return (
-        <ApolloProvider client={realtimeVehiclesClient}>
+        <ApolloProvider client={apolloClient}>
             <ProgressiveWebAppPrompt />
             <ThemeProvider>
                 <div
