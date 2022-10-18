@@ -1,31 +1,31 @@
-.ring-container {
+.pulsating-dot {
     position: relative;
     height: 25px;
     width: 25px;
-}
 
-.circle {
-    width: 15px;
-    height: 15px;
-    background-color: var(--tavla-success-font-color, 0.3);
-    border-radius: 50%;
-    position: absolute;
-    margin-left: 5px;
-    margin-top: 5px;
-}
+    &-outer-circle {
+        border: 5px solid var(--tavla-success-font-color);
+        border-radius: 30px;
+        -webkit-border-radius: 30px;
+        height: 25px;
+        width: 25px;
+        position: absolute;
+        animation: pulsate 1s ease-out;
+        -webkit-animation: pulsate 1s ease-out;
+        animation-iteration-count: infinite;
+        -webkit-animation-iteration-count: infinite;
+        opacity: 0;
+    }
 
-.ringring {
-    border: 5px solid var(--tavla-success-font-color);
-    border-radius: 30px;
-    -webkit-border-radius: 30px;
-    height: 25px;
-    width: 25px;
-    position: absolute;
-    animation: pulsate 1s ease-out;
-    -webkit-animation: pulsate 1s ease-out;
-    animation-iteration-count: infinite;
-    -webkit-animation-iteration-count: infinite;
-    opacity: 0;
+    &-inner-circle {
+        width: 15px;
+        height: 15px;
+        background-color: var(--tavla-success-font-color, 0.3);
+        border-radius: 50%;
+        position: absolute;
+        margin-left: 5px;
+        margin-top: 5px;
+    }
 }
 
 @keyframes pulsate {
