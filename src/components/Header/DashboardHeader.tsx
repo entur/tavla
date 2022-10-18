@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { useFirebaseSettings } from '../../settings'
 import { Clock } from '../Clock/Clock'
 import { TavlaLogo } from '../../assets/icons'
-import { UpgradeTavlaBanner } from '../../containers/DashboardWrapper/UpgradeTavlaBanner/UpgradeTavlaBanner'
 import { isMobileWeb } from '../../utils'
 
 function DashboardHeader(): JSX.Element | null {
@@ -33,7 +32,6 @@ function DashboardHeader(): JSX.Element | null {
 
     return (
         <div>
-            <UpgradeTavlaBanner />
             <div className="header">
                 <div className="header__logo-wrapper">
                     {headerLogo}

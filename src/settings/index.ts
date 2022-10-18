@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, matchPath } from 'react-router-dom'
 import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 import { Coordinates, TransportMode } from '@entur/sdk'
 import {
@@ -10,7 +10,6 @@ import {
     DashboardTypes,
 } from '../types'
 import { getSettingsReference } from '../services/firebase'
-import { getDocumentId } from '../utils'
 import { useUser } from '../UserProvider'
 import {
     persist as persistToUrl,
@@ -90,7 +89,27 @@ export function useFirebaseSettings(): [Settings | null, SettingsSetter] {
 
     const location = useLocation()
     const user = useUser()
-    const id = getDocumentId()
+
+    const matchAdmin = matchPath<'documentId', string>(
+        `/admin/:documentId/*`,
+        location.pathname,
+    )
+
+    const matchT = matchPath<'documentId', string>(
+        `/t/:documentId/*`,
+        location.pathname,
+    )
+
+    const getDocumentId = (): string | undefined => {
+        if (matchAdmin) {
+            return matchAdmin.params.documentId
+        }
+        if (matchT) {
+            return matchT.params.documentId
+        }
+    }
+
+    const documentId = getDocumentId()
 
     useEffect(() => {
         const protectedPath =
@@ -104,9 +123,9 @@ export function useFirebaseSettings(): [Settings | null, SettingsSetter] {
             return
         }
 
-        if (id) {
+        if (documentId) {
             return onSnapshot(
-                getSettingsReference(id),
+                getSettingsReference(documentId),
                 (documentSnapshot: DocumentSnapshot) => {
                     if (!documentSnapshot.exists()) {
                         window.location.pathname = '/'
@@ -133,7 +152,7 @@ export function useFirebaseSettings(): [Settings | null, SettingsSetter] {
                             ([key, value]) => {
                                 if (data[key as keyof Settings] === undefined) {
                                     persistSingleFieldToFirebase(
-                                        id,
+                                        documentId,
                                         key,
                                         value as FieldTypes,
                                     )
@@ -174,22 +193,21 @@ export function useFirebaseSettings(): [Settings | null, SettingsSetter] {
                 longitude: Number(positionArray[1]),
             },
         })
-    }, [location, user, id])
+    }, [location, user, documentId])
 
     const setSettings = useCallback(
         (newSettings: Partial<Settings>) => {
             const mergedSettings = { ...settings, ...newSettings } as Settings
             setLocalSettings(mergedSettings)
 
-            const docId = getDocumentId()
-            if (docId) {
-                persistMultipleFieldsToFirebase(docId, mergedSettings)
+            if (documentId) {
+                persistMultipleFieldsToFirebase(documentId, mergedSettings)
                 return
             }
 
             persistToUrl(mergedSettings)
         },
-        [settings],
+        [settings, documentId],
     )
 
     return [settings, setSettings]

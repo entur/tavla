@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { FloatingButton } from '@entur/button'
 import { AddIcon, SubtractIcon } from '@entur/icons'
@@ -9,7 +10,6 @@ import Grey from '../../../assets/previews/Grey-theme.svg'
 import Dark from '../../../assets/previews/Dark-theme.svg'
 import Light from '../../../assets/previews/Light-theme.svg'
 import Entur from '../../../assets/previews/Entur-theme.svg'
-import { getDocumentId } from '../../../utils'
 import { DirectionPreview } from '../../../assets/icons/DirectionPreview'
 import './ThemeTab.scss'
 import { FontSizePreview } from './FontSizePreview/FontSizePreview'
@@ -21,7 +21,7 @@ const ThemeTab = (): JSX.Element => {
     const [directionRadioValue, setDirectionRadioValue] = useState<Direction>(
         settings?.direction || Direction.STANDARD,
     )
-    const documentId = getDocumentId()
+    const { documentId } = useParams<{ documentId: string }>()
     const directionPreviewImages = DirectionPreview(settings?.theme)
 
     useEffect(() => {

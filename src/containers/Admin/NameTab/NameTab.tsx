@@ -1,9 +1,9 @@
 import React, { useState, useEffect, Dispatch } from 'react'
+import { useParams } from 'react-router-dom'
 import type { User } from 'firebase/auth'
 import { Heading2, Paragraph } from '@entur/typography'
 import { GridItem, GridContainer } from '@entur/grid'
 import { useUser } from '../../../UserProvider'
-import { getDocumentId } from '../../../utils'
 import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
 import './NameTab.scss'
 import { CustomURL } from './CustomURL/CustomURL'
@@ -12,7 +12,7 @@ const NameTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false)
     const user = useUser()
 
-    const documentId = getDocumentId()
+    const { documentId } = useParams<{ documentId: string }>()
 
     useEffect((): void => {
         if (tabIndex === 4 && user && user.isAnonymous) {
