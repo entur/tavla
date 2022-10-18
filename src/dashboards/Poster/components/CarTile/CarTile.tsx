@@ -1,10 +1,10 @@
 import React from 'react'
-import { CarIcon } from '@entur/icons'
+import { RentalCarIcon } from '../../../../assets/icons/RentalCarIcon'
 import { NumberDisplay } from '../NumberDisplay/NumberDisplay'
 
 const CarTile = ({ numberOfCars }: CarTileProps) => (
     <>
-        <CarIcon />
+        <RentalCarIcon />
         <NumberDisplay numberOfVehicles={numberOfCars} />
     </>
 )
