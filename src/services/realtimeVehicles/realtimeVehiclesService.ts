@@ -5,6 +5,11 @@ import {
     InMemoryCache,
 } from '@apollo/client'
 
+enum Endpoints {
+    Mobility,
+    Vehicles,
+}
+
 const CLIENT_NAME = process.env.CLIENT_NAME || ''
 
 if (!CLIENT_NAME && process.env.NODE_ENV !== 'production') {
@@ -15,31 +20,28 @@ if (!CLIENT_NAME && process.env.NODE_ENV !== 'production') {
 }
 
 const mobilityLink = new HttpLink({
-    uri:
-        (process.env.MOBILITY_HOST ?? 'https://api.entur.io/mobility/v2') +
-        '/graphql',
+    uri: process.env.MOBILITY_HOST + '/graphql',
     headers: {
         'ET-Client-Name': CLIENT_NAME,
     },
 })
 
 const vehiclesLink = new HttpLink({
-    uri:
-        process.env.VEHICLES_REALTIME_HOST ??
-        'https://api.staging.entur.io/realtime/v1/vehicles/graphql',
+    uri: process.env.VEHICLES_REALTIME_HOST,
     headers: {
         'ET-Client-Name': CLIENT_NAME,
     },
 })
-export const realtimeVehiclesClient = new ApolloClient({
+
+const realtimeVehiclesClient = new ApolloClient({
     link: ApolloLink.split(
-        (operation) => operation.getContext().endPoint === 'mobility',
+        (operation) => operation.getContext().endPoint === Endpoints.Mobility,
         mobilityLink,
         vehiclesLink,
     ),
-    connectToDevTools: true,
-
     cache: new InMemoryCache({
         addTypename: false,
     }),
 })
+
+export { realtimeVehiclesClient, Endpoints }

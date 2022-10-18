@@ -22,7 +22,6 @@ const enturClient = createEnturClient({
 const apolloClient = new ApolloClient({
     uri: `${process.env.JOURNEYPLANNER_HOST_V3}/graphql`,
     cache: new InMemoryCache(),
-    connectToDevTools: true,
     headers: {
         'ET-Client-Name': CLIENT_NAME,
     },

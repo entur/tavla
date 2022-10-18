@@ -1,10 +1,9 @@
 import { gql, useQuery } from '@apollo/client'
-
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
+import { useSettings } from '../settings/SettingsProvider'
+import { Endpoints } from '../services/realtimeVehicles/realtimeVehiclesService'
 
-import { useSettingsContext } from '../settings'
-
-const GET_STOPPLACES = gql`
+const GET_STOP_PLACES = gql`
     query getStopPlaces(
         $formFactor: [FormFactor]
         $longitude: Float!
@@ -41,17 +40,17 @@ const GET_STOPPLACES = gql`
 `
 
 export const useStopPlaceData = (mobilityType: FormFactor) => {
-    const [settings] = useSettingsContext()
+    const [settings] = useSettings()
     const { coordinates } = settings || {}
 
-    const response = useQuery(GET_STOPPLACES, {
+    const response = useQuery(GET_STOP_PLACES, {
         variables: {
             formFactor: mobilityType,
             latitude: coordinates?.latitude,
             longitude: coordinates?.longitude,
         },
         context: {
-            endPoint: 'mobility',
+            endPoint: Endpoints.Mobility,
         },
     })
     return response
