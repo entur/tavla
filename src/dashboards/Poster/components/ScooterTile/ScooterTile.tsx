@@ -13,4 +13,3 @@ interface ScooterTileProps {
     numberOfScooters: number
 }
 export { ScooterTile }
-
