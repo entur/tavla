@@ -28,10 +28,6 @@ function ScooterPanel(): JSX.Element {
     return (
         <Fieldset className="scooter-panel">
             <div className="scooter-panel__container">
-                <Label>
-                    Sparkesykkel krever visningstype som støtter kart.
-                </Label>
-                <br />
                 {operators.map((operator, index) => (
                     <div
                         key={operator + 'btn' + index.toString()}
