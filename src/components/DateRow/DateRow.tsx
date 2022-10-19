@@ -11,7 +11,7 @@ type DateRowProps = {
     currentRow: LineData
 }
 
-function DateRow({ previousRow, currentRow }: DateRowProps) {
+const DateRow: React.FC<DateRowProps> = ({ previousRow, currentRow }) => {
     const isNewDay =
         previousRow &&
         !isSameDay(previousRow.departureTime, currentRow.departureTime)

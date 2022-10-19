@@ -9,9 +9,9 @@ interface SituationModalProps {
     situationMessage: string
 }
 
-function SituationModal({
+const SituationModal: React.FC<SituationModalProps> = ({
     situationMessage,
-}: SituationModalProps): JSX.Element {
+}) => {
     const [isOpen, setOpen] = React.useState<boolean>(false)
 
     return (
