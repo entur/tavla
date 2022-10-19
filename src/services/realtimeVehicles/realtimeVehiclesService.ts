@@ -21,7 +21,6 @@ const endpoints = {
         process.env.VEHICLES_REALTIME_HOST ??
         'https://api.entur.io/realtime/v1/vehicles',
     mobility: process.env.MOBILITY_HOST ?? 'https://api.entur.io/mobility/v2',
-    geocoder: process.env.GEOCODER_HOST ?? 'https://api.entur.io/geocoder/v1',
     journey_planner_v2:
         process.env.JOURNEYPLANNER_HOST_V2 ??
         'https://api.entur.io/journey-planner/v2',
