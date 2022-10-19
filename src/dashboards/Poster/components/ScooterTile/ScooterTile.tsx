@@ -12,5 +12,4 @@ const ScooterTile = ({ numberOfScooters }: ScooterTileProps): JSX.Element => (
 interface ScooterTileProps {
     numberOfScooters: number
 }
-
 export { ScooterTile }
