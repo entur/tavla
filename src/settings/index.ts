@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
-import { useLocation, matchPath } from 'react-router-dom'
+import { useLocation, matchPath, useMatch } from 'react-router-dom'
 import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 import { Coordinates, TransportMode } from '@entur/sdk'
 import {
@@ -90,26 +90,8 @@ export function useFirebaseSettings(): [Settings | null, SettingsSetter] {
     const location = useLocation()
     const user = useUser()
 
-    const matchAdmin = matchPath<'documentId', string>(
-        `/admin/:documentId/*`,
-        location.pathname,
-    )
-
-    const matchT = matchPath<'documentId', string>(
-        `/t/:documentId/*`,
-        location.pathname,
-    )
-
-    const getDocumentId = (): string | undefined => {
-        if (matchAdmin) {
-            return matchAdmin.params.documentId
-        }
-        if (matchT) {
-            return matchT.params.documentId
-        }
-    }
-
-    const documentId = getDocumentId()
+    const documentId = useMatch<'documentId', string>('/:page/:documentId')
+        ?.params.documentId
 
     useEffect(() => {
         const protectedPath =
