@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const { execSync } = require('child_process')
-
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const postcssPresetEnv = require('postcss-preset-env')
@@ -34,7 +33,7 @@ module.exports = async (env, args) => ({
         publicPath: '/',
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.graphql'],
     },
     module: {
         rules: [
@@ -66,6 +65,11 @@ module.exports = async (env, args) => ({
                 generator: {
                     filename: 'assets/[hash][ext][query]',
                 },
+            },
+            {
+                test: /\.graphql$/,
+                exclude: /node_modules/,
+                loader: 'graphql-tag/loader',
             },
         ],
     },

@@ -111,6 +111,7 @@
         "eslint-plugin-react-hooks": "4.6.0",
         "file-loader": "6.2.0",
         "firebase-tools": "10.9.2",
+        "graphql-tag": "2.12.6",
         "html-webpack-plugin": "5.5.0",
         "postcss": "8.4.17",
         "postcss-loader": "7.0.1",
