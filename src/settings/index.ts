@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
-import { useLocation, matchPath, useMatch } from 'react-router-dom'
+import { useLocation, useMatch } from 'react-router-dom'
 import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 import { Coordinates, TransportMode } from '@entur/sdk'
 import {
