@@ -22,6 +22,11 @@ function BusTile(): JSX.Element {
         <div className="poster-bus-tile">
             {busDepartures.map((departure) => {
                 const routeNumber = departure.route.split(' ')[0]
+                const adjustedFontSize = routeNumber
+                    ? routeNumber.length > 3
+                        ? '2rem'
+                        : '2.5rem'
+                    : '2.5rem'
                 const routeDestination = departure.route
                     .split(' ')
                     .slice(1)
@@ -31,7 +36,10 @@ function BusTile(): JSX.Element {
                     <div key={departure.id} className="poster-bus-tile-row">
                         <div className="poster-bus-tile-route">
                             <BusIcon className="poster-bus-tile-icon" />
-                            <div className="poster-bus-tile-route-number">
+                            <div
+                                className="poster-bus-tile-route-number"
+                                style={{ fontSize: adjustedFontSize }}
+                            >
                                 {routeNumber}
                             </div>
                         </div>
