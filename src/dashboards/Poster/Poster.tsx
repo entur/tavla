@@ -26,9 +26,7 @@ const Poster = (): JSX.Element => {
     const mobilityPicker = initialMobility.filter(
         (mob) => !settings?.hiddenModes.includes(mob),
     )
-
-    console.log(mobilityPicker)
-
+    
     useEffect(() => {
         const tempNumberOfBikes = bikeRentalStations?.reduce(
             (numberOfBikes, station) =>
