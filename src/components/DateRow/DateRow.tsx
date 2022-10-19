@@ -6,7 +6,12 @@ import { Heading4 } from '@entur/typography'
 import { LineData } from '../../types'
 import './DateRow.scss'
 
-function DateRow({ previousRow, currentRow }: Props) {
+type DateRowProps = {
+    previousRow?: LineData
+    currentRow: LineData
+}
+
+const DateRow: React.FC<DateRowProps> = ({ previousRow, currentRow }) => {
     const isNewDay =
         previousRow &&
         !isSameDay(previousRow.departureTime, currentRow.departureTime)
@@ -22,11 +27,6 @@ function DateRow({ previousRow, currentRow }: Props) {
             </DataCell>
         </TableRow>
     ) : null
-}
-
-type Props = {
-    previousRow?: LineData
-    currentRow: LineData
 }
 
 export { DateRow }
