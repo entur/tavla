@@ -1,4 +1,4 @@
-@import '../../../assets/styles/import.scss';
+@use '../../../assets/styles/Variables.scss';
 
 .map__realtime-vehicle-tag {
     &-circle-outer {
@@ -23,7 +23,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: $font-sizes-medium;
+        font-size: Variables.$font-sizes-medium;
     }
 
     &-tooltip {

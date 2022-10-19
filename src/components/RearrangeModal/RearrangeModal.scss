@@ -1,5 +1,4 @@
-@import './../../assets/styles/import.scss';
-@import '../../variables.scss';
+@use '../../assets/styles/Variables.scss';
 
 .rearrange-modal {
     user-select: inherit;
@@ -22,7 +21,7 @@
         align-items: center;
 
         &--is-dragging {
-            box-shadow: $shadows-card-shadow-hover-contrast;
+            box-shadow: Variables.$shadows-card-shadow-hover-contrast;
         }
     }
 }

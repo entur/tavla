@@ -1,5 +1,4 @@
-@import '../../../assets/styles/import.scss';
-@import '../../../variables.scss';
+@use '../../../assets/styles/Variables.scss';
 
 .chrono .bikerow {
     display: flex;
@@ -20,7 +19,7 @@
     &__icon {
         min-width: 2rem;
         margin-right: 1rem;
-        font-size: $font-sizes-extra-large4;
+        font-size: Variables.$font-sizes-extra-large4;
     }
 
     &__walking-time {

@@ -1,5 +1,4 @@
-@import '../../../assets/styles/import.scss';
-@import '../../../variables.scss';
+@use '../../../assets/styles/Variables.scss';
 
 .cluster-marker {
     color: var(--tavla-background-color);
@@ -17,7 +16,7 @@
 
 .scooter-icon {
     height: 1rem;
-    color: $colors-transport-default-mobility;
+    color: Variables.$colors-transport-default-mobility;
     margin: 0.25rem;
 }
 

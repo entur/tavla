@@ -1,5 +1,4 @@
-@import '../../../../assets/styles/import.scss';
-@import '../../../../variables.scss';
+@use '../../../../assets/styles/Variables.scss';
 
 .chrono .tilerow {
     display: flex;
@@ -22,7 +21,7 @@
     &__icon {
         min-width: 2rem;
         margin-right: 1rem;
-        font-size: $font-sizes-extra-large4;
+        font-size: Variables.$font-sizes-extra-large4;
     }
 
     &__texts {
@@ -49,6 +48,6 @@
         grid-template-columns: repeat(20, 1fr);
         justify-content: space-between;
         min-width: 130rem;
-        font-size: $font-sizes-extra-large;
+        font-size: Variables.$font-sizes-extra-large;
     }
 }

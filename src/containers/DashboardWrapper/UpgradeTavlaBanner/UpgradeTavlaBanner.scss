@@ -1,12 +1,12 @@
-@import '../../../assets/styles/import.scss';
+@use '../../../assets/styles/Variables.scss';
 
 .banner {
-    background: $colors-validation-canary;
+    background: Variables.$colors-validation-canary;
     width: 100%;
     height: 2.3rem;
     text-align: center;
     margin: 0 auto;
-    color: $colors-brand-blue;
+    color: Variables.$colors-brand-blue;
     line-height: 2.3rem;
 
     &__icon {
@@ -15,6 +15,6 @@
     }
 
     &__link {
-        color: $colors-brand-blue;
+        color: Variables.$colors-brand-blue;
     }
 }
