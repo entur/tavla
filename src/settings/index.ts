@@ -23,7 +23,7 @@ import {
 } from './FirestoreStorage'
 import type { SettingsSetter } from './SettingsProvider'
 
-export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel'
+export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel' | 'delebil'
 
 export interface Settings {
     boardName?: string

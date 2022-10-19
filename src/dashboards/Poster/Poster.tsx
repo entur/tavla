@@ -40,19 +40,23 @@ const Poster = (): JSX.Element => {
 
                 <div className="poster-mobility-tiles-wrapper">
                     {/* Todo: change this to use biketile and style */}
-                    <div className="poster-mobility-tile">
-                        <div className="poster-mobility-description">
-                            <h2 className="poster-mobility-description-heading">
-                                Delebil
-                            </h2>
-                            <h3 className="poster-mobility-description-area">
-                                P-plassen ved Vestveien
-                            </h3>
+                    {settings?.hiddenModes.includes('delebil') ? (
+                        <></>
+                    ) : (
+                        <div className="poster-mobility-tile">
+                            <div className="poster-mobility-description">
+                                <h2 className="poster-mobility-description-heading">
+                                    Delebil
+                                </h2>
+                                <h3 className="poster-mobility-description-area">
+                                    P-plassen ved Vestveien
+                                </h3>
+                            </div>
+                            <div className="poster-mobility-vehicles-box">
+                                <CarTile numberOfCars={totalNumberOfBikes} />
+                            </div>
                         </div>
-                        <div className="poster-mobility-vehicles-box">
-                            <CarTile numberOfCars={totalNumberOfBikes} />
-                        </div>
-                    </div>
+                    )}
                     {settings?.hiddenModes.includes('sparkesykkel') ? (
                         <></>
                     ) : (
