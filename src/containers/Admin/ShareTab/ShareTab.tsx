@@ -1,10 +1,10 @@
-import React, { useState, useEffect, Dispatch } from 'react'
+import React, { Dispatch, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import type { User } from 'firebase/auth'
 import type { DocumentData, DocumentSnapshot } from 'firebase/firestore'
 import type { FirebaseError } from 'firebase/app'
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
-import { GridItem, GridContainer } from '@entur/grid'
+import { GridContainer, GridItem } from '@entur/grid'
 import { NegativeButton } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { useUser } from '../../../UserProvider'
@@ -14,9 +14,10 @@ import {
     getOwnersDataByBoardIdAsOwner,
 } from '../../../services/firebase'
 import { BoardOwnersData, Invite } from '../../../types'
-import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
-import { RemoveSelfFromTavleModal } from '../../../components/Modals/RemoveSelfFromTavleModal'
-import { NeedToBeOwnerModal } from '../../../components/Modals/NeedToBeOwnerModal'
+import { LoginModal } from '../../../components/LoginModal/LoginModal'
+import { LoginCase } from '../../../components/LoginModal/login-modal-types'
+import { RemoveSelfFromTavleModal } from '../../../components/OverflowModals/RemoveSelfFromTavleModal'
+import { NeedToBeOwnerModal } from '../../../components/OverflowModals/NeedToBeOwnerModal'
 import { EditableBoardTitle } from './components/EditableBoardTitle'
 import { BoardLink } from './components/BoardLink'
 import { AddNewOwnersInput } from './components/AddNewOwnersInput'
@@ -193,7 +194,7 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
             <LoginModal
                 onDismiss={handleDismissLoginModal}
                 open={loginModalOpen}
-                loginCase="share"
+                loginCase={LoginCase.share}
             />
             <NeedToBeOwnerModal
                 open={needToBeOwnerModalOpen}

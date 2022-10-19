@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
-import { LockModal } from '../../../components/Modals/LockModal/LockModal'
+import { LockModal } from '../../../components/LockModal/LockModal'
 import './LockAndViewButtons.scss'
 
 const LockAndViewButtons = (): JSX.Element => {

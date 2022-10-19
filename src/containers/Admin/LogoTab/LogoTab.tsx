@@ -1,17 +1,18 @@
-import React, { useState, useEffect, Dispatch } from 'react'
+import React, { Dispatch, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import type { User } from 'firebase/auth'
 import {
     Heading2,
+    Label,
+    Link,
+    ListItem,
     Paragraph,
     UnorderedList,
-    ListItem,
-    Link,
-    Label,
 } from '@entur/typography'
-import { GridItem, GridContainer } from '@entur/grid'
+import { GridContainer, GridItem } from '@entur/grid'
 import { useUser } from '../../../UserProvider'
-import { LoginModal } from '../../../components/Modals/LoginModal/LoginModal'
+import { LoginModal } from '../../../components/LoginModal/LoginModal'
+import { LoginCase } from '../../../components/LoginModal/login-modal-types'
 import { LogoUpload } from './LogoUpload/LogoUpload'
 import { SizePicker } from './SizePicker/SizePicker'
 import { Description } from './Description/Description'
@@ -89,7 +90,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             <LoginModal
                 onDismiss={handleDismiss}
                 open={open}
-                loginCase="logo"
+                loginCase={LoginCase.logo}
             />
             <Heading2 className="heading">Last opp logo</Heading2>
             <GridContainer spacing="extraLarge" className="logo-grid">

@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { useToast } from '@entur/alert'
-import { LoginModal } from '../../components/Modals/LoginModal/LoginModal'
-import { useUser, auth } from '../../UserProvider'
+import { LoginModal } from '../../components/LoginModal/LoginModal'
+import { LoginCase } from '../../components/LoginModal/login-modal-types'
+import { auth, useUser } from '../../UserProvider'
 import sikkerhetBomLight from '../../assets/images/sikkerhet_bom_light@2x.png'
 import duerLight from '../../assets/images/duer@2x.png'
 import sauerLight from '../../assets/images/sauer_lag@2x.png'
@@ -38,7 +39,7 @@ function LockedTavle(): JSX.Element {
         <LoginModal
             open={displayLogin}
             onDismiss={(): void => setDisplayLogin(false)}
-            loginCase="error"
+            loginCase={LoginCase.error}
         />
     ) : null
 
@@ -132,7 +133,7 @@ function NoAccessToTavler(): JSX.Element {
         <LoginModal
             open={displayLogin}
             onDismiss={(): void => setDisplayLogin(false)}
-            loginCase="error"
+            loginCase={LoginCase.error}
         />
     )
 

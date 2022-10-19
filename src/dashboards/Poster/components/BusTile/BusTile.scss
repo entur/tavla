@@ -18,13 +18,16 @@
         background-color: #c5044e;
         border-radius: 10px;
         width: 12rem;
-        height: 4.5rem;
     }
 
     &-route-number {
         float: right;
         line-height: 1;
         margin: 1rem 1rem 0 0;
+
+        &--text-small {
+            font-size: 2rem;
+        }
     }
 
     &-icon {
