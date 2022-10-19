@@ -25,7 +25,7 @@ async function fetchVehicles(
             lat: Number(coordinates.latitude),
             lon: Number(coordinates.longitude),
             range: distance,
-            count: 50,
+            count: 100,
             operators: operators
                 .map((operator) => operator.id)
                 .filter((o) =>

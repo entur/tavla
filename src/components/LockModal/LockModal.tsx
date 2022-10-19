@@ -3,22 +3,22 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { Modal } from '@entur/modal'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
-import Check from '../../../assets/images/check.png'
-import retinaCheck from '../../../assets/images/check@2x.png'
-import { useUser } from '../../../UserProvider'
-import { useSettings } from '../../../settings/SettingsProvider'
-import { CloseButton } from '../LoginModal/CloseButton/CloseButton'
+import Check from '../../assets/images/check.png'
+import retinaCheck from '../../assets/images/check@2x.png'
+import { useUser } from '../../UserProvider'
+import { useSettings } from '../../settings/SettingsProvider'
+import { CloseButton } from '../CloseButton/CloseButton'
 import { LoginModal } from '../LoginModal/LoginModal'
+import { LoginCase } from '../LoginModal/login-modal-types'
 import './LockModal.scss'
 
-interface Props {
+interface LockModalProps {
     open: boolean
     onDismiss: () => void
 }
 
-const LockModal = ({ open, onDismiss }: Props): JSX.Element | null => {
+const LockModal: React.FC<LockModalProps> = ({ open, onDismiss }) => {
     const user = useUser()
-
     const [settings, setSettings] = useSettings()
 
     useEffect(() => {
@@ -41,7 +41,13 @@ const LockModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     }
 
     if (!user || user.isAnonymous) {
-        return <LoginModal open={open} onDismiss={onDismiss} loginCase="lock" />
+        return (
+            <LoginModal
+                open={open}
+                onDismiss={onDismiss}
+                loginCase={LoginCase.lock}
+            />
+        )
     }
 
     return (

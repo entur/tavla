@@ -5,12 +5,13 @@ import { Paragraph } from '@entur/typography'
 import { ValidationExclamation } from '../../assets/icons/ValidationExclamation'
 import './SituationModal.scss'
 
-interface Props {
+interface SituationModalProps {
     situationMessage: string
 }
 
-function SituationModal(props: Props): JSX.Element {
-    const { situationMessage } = props
+const SituationModal: React.FC<SituationModalProps> = ({
+    situationMessage,
+}) => {
     const [isOpen, setOpen] = React.useState<boolean>(false)
 
     return (

@@ -3,19 +3,19 @@ import type { User } from 'firebase/auth'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
-import { ModalType } from '../LoginModal'
-import { CloseButton } from '../CloseButton/CloseButton'
-import Check from '../../../../assets/images/check.png'
-import retinaCheck from '../../../../assets/images/check@2x.png'
+import { CloseButton } from '../../CloseButton/CloseButton'
+import Check from '../../../assets/images/check.png'
+import retinaCheck from '../../../assets/images/check@2x.png'
+import { ModalType } from '../login-modal-types'
 
-interface Props {
+interface EmailSentProps {
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
 }
 
-const EmailSent = ({ setModalType, onDismiss }: Props): JSX.Element => {
+const EmailSent: React.FC<EmailSentProps> = ({ setModalType, onDismiss }) => {
     const handleClose = (): void => {
-        setModalType('LoginOptionsModal')
+        setModalType(ModalType.LoginOptionsModal)
         onDismiss()
     }
     return (
@@ -34,7 +34,9 @@ const EmailSent = ({ setModalType, onDismiss }: Props): JSX.Element => {
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={(): void => setModalType('LoginEmailModal')}
+                        onClick={(): void =>
+                            setModalType(ModalType.LoginEmailModal)
+                        }
                         className="modal-submit"
                     >
                         Logg inn

@@ -2,11 +2,11 @@
     border-radius: 12px;
     background-color: var(--tavla-box-background-color);
     justify-content: space-between;
-    align-items: center;
     font-size: 2.5rem;
     width: 100%;
     margin-bottom: 10%;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     padding: 1rem;
 
     &-row {
@@ -18,13 +18,16 @@
         background-color: #c5044e;
         border-radius: 10px;
         width: 12rem;
-        height: 4.5rem;
     }
 
     &-route-number {
         float: right;
-        line-height: normal;
+        line-height: 1;
         margin: 1rem 1rem 0 0;
+
+        &--text-small {
+            font-size: 2rem;
+        }
     }
 
     &-icon {
@@ -35,7 +38,12 @@
     }
 
     &-destination {
-        margin: 1.5rem;
+        margin: 1rem;
+        width: 50%;
+        white-space: nowrap;
+        overflow-y: hidden;
+        text-overflow: ellipsis;
+        line-height: 1;
     }
 
     &-time {

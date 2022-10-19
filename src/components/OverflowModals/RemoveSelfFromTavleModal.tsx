@@ -7,37 +7,37 @@ import { useToast } from '@entur/alert'
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 import { removeFromOwners } from '../../settings/FirestoreStorage'
-import { CloseButton } from './LoginModal/CloseButton/CloseButton'
-import './Modals.scss'
+import { CloseButton } from '../CloseButton/CloseButton'
+import './OverflowModals.scss'
 
-const RemoveSelfFromTavleModal = ({
+interface RemoveSelfFromTavleModalProps {
+    open: boolean
+    onDismiss: () => void
+    id: string
+    uid: string
+    forceRefresh?: boolean
+}
+
+const RemoveSelfFromTavleModal: React.FC<RemoveSelfFromTavleModalProps> = ({
     open,
     onDismiss,
     id,
     uid,
     forceRefresh = false,
-}: Props): JSX.Element => {
+}) => {
     const { addToast } = useToast()
 
-    const onRemoveSelfFromTavle = useCallback(
-        (remove: boolean) => {
-            const asyncRemove = async () => {
-                if (remove) {
-                    await removeFromOwners(id, uid)
-                    addToast({
-                        title: 'Du ble fjernet fra tavla.',
-                        content:
-                            'Du er ikke lenger en eier av denne tavla og vil ikke ha mulighet til å gjøre endringer i den.',
-                        variant: 'success',
-                    })
-                    if (forceRefresh) window.location.reload()
-                }
-                onDismiss()
-            }
-            asyncRemove()
-        },
-        [id, uid, forceRefresh, onDismiss, addToast],
-    )
+    const handleRemoveSelfFromTavle = useCallback(async () => {
+        await removeFromOwners(id, uid)
+        addToast({
+            title: 'Du ble fjernet fra tavla.',
+            content:
+                'Du er ikke lenger en eier av denne tavla og vil ikke ha mulighet til å gjøre endringer i den.',
+            variant: 'success',
+        })
+        if (forceRefresh) window.location.reload()
+        onDismiss()
+    }, [id, uid, forceRefresh, onDismiss, addToast])
 
     return (
         <Modal
@@ -62,7 +62,7 @@ const RemoveSelfFromTavleModal = ({
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={(): void => onRemoveSelfFromTavle(true)}
+                        onClick={handleRemoveSelfFromTavle}
                         className="modal-submit"
                     >
                         Ja, fjern meg fra tavla
@@ -72,7 +72,7 @@ const RemoveSelfFromTavleModal = ({
                     <SecondaryButton
                         width="fluid"
                         type="submit"
-                        onClick={(): void => onRemoveSelfFromTavle(false)}
+                        onClick={onDismiss}
                     >
                         Avbryt
                     </SecondaryButton>
@@ -80,14 +80,6 @@ const RemoveSelfFromTavleModal = ({
             </GridContainer>
         </Modal>
     )
-}
-
-interface Props {
-    open: boolean
-    onDismiss: () => void
-    id: string
-    uid: string
-    forceRefresh?: boolean
 }
 
 export { RemoveSelfFromTavleModal }

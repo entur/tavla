@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useBikeRentalStations } from '../../logic'
+import { FormFactor } from '@entur/sdk/lib/mobility/types'
+import { useBikeRentalStations, useMobility } from '../../logic'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
 import './Poster.scss'
 import { LastUpdated } from './components/LastUpdated/LastUpdated'
@@ -11,6 +12,8 @@ import { ScooterTile } from './components/ScooterTile/ScooterTile'
 const Poster = (): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
     const [totalNumberOfBikes, setTotalNumberOfBikes] = useState(0)
+    const totalNumberOfScooters = useMobility(FormFactor.SCOOTER)?.length || 0
+
     useEffect(() => {
         const tempNumberOfBikes = bikeRentalStations?.reduce(
             (numberOfBikes, station) =>
@@ -27,7 +30,7 @@ const Poster = (): JSX.Element => {
             </div>
             <div className="poster-content-wrapper">
                 <div className="poster-heading-wrapper">
-                    <h1 className="poster-heading">I nærheten</h1>
+                    <h1 className="poster-heading">Skal du videre?</h1>
                     <LastUpdated />
                 </div>
                 <div className="poster-next-bus">Neste buss</div>
@@ -41,7 +44,7 @@ const Poster = (): JSX.Element => {
                                 Delebil
                             </h2>
                             <h3 className="poster-mobility-description-area">
-                                Parkeringsplassen ved Vestveien
+                                P-plassen ved Vestveien
                             </h3>
                         </div>
                         <div className="poster-mobility-vehicles-box">
@@ -54,11 +57,13 @@ const Poster = (): JSX.Element => {
                                 Elsparkesykler
                             </h2>
                             <h3 className="poster-mobility-description-area">
-                                Innen 500 meters radius
+                                Innen 200 meters radius
                             </h3>
                         </div>
                         <div className="poster-mobility-vehicles-box">
-                            <ScooterTile numberOfScooters={20} />
+                            <ScooterTile
+                                numberOfScooters={totalNumberOfScooters}
+                            />
                         </div>
                     </div>
                 </div>
