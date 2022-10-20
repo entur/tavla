@@ -1,43 +1,8 @@
-import { gql } from '@apollo/client'
 import { TransportMode, TransportSubmode } from '@entur/sdk'
-import { apolloClient } from '../service'
-import { Line, StopPlaceWithLines } from '../types'
-import { isNotNullOrUndefined, unique } from '../utils'
-
-const STOP_PLACES_QUERY = gql`
-    query getStopPlaces($ids: [String]!) {
-        stopPlaces(ids: $ids) {
-            id
-            name
-            description
-            latitude
-            longitude
-            transportMode
-            transportSubmode
-            estimatedCalls(
-                numberOfDeparturesPerLineAndDestinationDisplay: 1
-                timeRange: 604800
-                numberOfDepartures: 200
-                arrivalDeparture: departures
-            ) {
-                destinationDisplay {
-                    frontText
-                }
-                serviceJourney {
-                    line {
-                        id
-                        transportMode
-                        transportSubmode
-                        publicCode
-                    }
-                    pointsOnLink {
-                        points
-                    }
-                }
-            }
-        }
-    }
-`
+import { Line, StopPlaceWithLines } from '../../types'
+import { isNotNullOrUndefined, unique } from '../../utils'
+import { apolloClient } from '../../services/realtimeVehicles/realtimeVehiclesService'
+import STOP_PLACES_QUERY from './GetStopPlacesWithLines.graphql'
 
 type GetStopPlacesVariables = {
     ids: string[]

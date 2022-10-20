@@ -30,7 +30,7 @@ import {
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { Line, StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces, useBikeRentalStations } from '../../../logic'
-import { getStopPlacesWithLines } from '../../../logic/getStopPlacesWithLines'
+import { getStopPlacesWithLines } from '../../../logic/get-stop-places-with-lines/getStopPlacesWithLines'
 import {
     saveToLocalStorage,
     getFromLocalStorage,
