@@ -7,26 +7,31 @@ import { useToast } from '@entur/alert'
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
 import { deleteTavle } from '../../settings/FirestoreStorage'
-import { CloseButton } from './LoginModal/CloseButton/CloseButton'
-import './Modals.scss'
+import { CloseButton } from '../CloseButton/CloseButton'
+import './OverflowModals.scss'
 
-const DeleteTavleModal = ({ open, onDismiss, id }: Props): JSX.Element => {
+interface DeleteTavleModalProps {
+    open: boolean
+    onDismiss: () => void
+    id: string
+}
+
+const DeleteTavleModal: React.FC<DeleteTavleModalProps> = ({
+    open,
+    onDismiss,
+    id,
+}) => {
     const { addToast } = useToast()
-    const overflowDeleteTavle = useCallback(
-        (remove: boolean) => {
-            if (remove) {
-                deleteTavle(id)
-                addToast({
-                    title: 'Avgangstavla ble slettet.',
-                    content:
-                        'Tavla ble slettet permanent og er dermed ikke lenger tilgjengelig.',
-                    variant: 'success',
-                })
-            }
-            onDismiss()
-        },
-        [id, onDismiss, addToast],
-    )
+    const handleDelete = useCallback(() => {
+        deleteTavle(id)
+        addToast({
+            title: 'Avgangstavla ble slettet.',
+            content:
+                'Tavla ble slettet permanent og er dermed ikke lenger tilgjengelig.',
+            variant: 'success',
+        })
+        onDismiss()
+    }, [id, onDismiss, addToast])
 
     return (
         <Modal
@@ -50,7 +55,7 @@ const DeleteTavleModal = ({ open, onDismiss, id }: Props): JSX.Element => {
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={(): void => overflowDeleteTavle(true)}
+                        onClick={handleDelete}
                         className="modal-submit"
                     >
                         Ja, slett tavle for godt
@@ -60,7 +65,7 @@ const DeleteTavleModal = ({ open, onDismiss, id }: Props): JSX.Element => {
                     <SecondaryButton
                         width="fluid"
                         type="submit"
-                        onClick={(): void => overflowDeleteTavle(false)}
+                        onClick={onDismiss}
                     >
                         Avbryt
                     </SecondaryButton>
@@ -68,12 +73,6 @@ const DeleteTavleModal = ({ open, onDismiss, id }: Props): JSX.Element => {
             </GridContainer>
         </Modal>
     )
-}
-
-interface Props {
-    open: boolean
-    onDismiss: () => void
-    id: string
 }
 
 export { DeleteTavleModal }

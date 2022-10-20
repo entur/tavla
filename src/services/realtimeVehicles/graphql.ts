@@ -42,7 +42,7 @@ export const VEHICLES_QUERY = gql`
         $mode: VehicleModeEnumeration
         $monitored: Boolean
         $boundingBox: BoundingBox
-    ) {
+    ) @api(name: vehicles) {
         vehicles(
             codespaceId: $codespaceId
             lineRef: $lineRef
@@ -69,7 +69,7 @@ export const VEHICLE_UPDATES_SUBSCRIPTION = gql`
         $bufferSize: Int
         $bufferTime: Int
         $boundingBox: BoundingBox
-    ) {
+    ) @api(name: vehicles) {
         vehicleUpdates(
             codespaceId: $codespaceId
             lineRef: $lineRef

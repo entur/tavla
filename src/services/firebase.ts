@@ -27,13 +27,10 @@ import type { User } from 'firebase/auth'
 import { signInWithCustomToken } from 'firebase/auth'
 import { auth, db, functions, storage } from '../firebase-init'
 import { Settings } from '../settings'
-import { getDocumentId } from '../utils'
 import { FieldTypes } from '../settings/FirestoreStorage'
 import { BoardOwnersData } from '../types'
 
 const SETTINGS_COLLECTION = 'settings'
-
-const currentDocumentId = getDocumentId()
 
 export const getSettingsReference = (id: string): DocumentReference =>
     doc(collection(db, SETTINGS_COLLECTION), id)
@@ -165,6 +162,7 @@ export const uploadLogo = async (
     onProgress: (progress: number) => void,
     onFinished: (url: string) => void,
     onError: () => void,
+    documentId: string | undefined,
 ): Promise<void> => {
     const token = await auth.currentUser?.getIdToken()
     interface ResponseData {
@@ -182,7 +180,7 @@ export const uploadLogo = async (
     )
 
     const response = await getImageUploadToken({
-        imageUid: currentDocumentId,
+        imageUid: documentId,
         token,
     })
 
@@ -190,7 +188,7 @@ export const uploadLogo = async (
         await signInWithCustomToken(auth, response.data.uploadToken)
 
     const uploadTask = uploadBytesResumable(
-        ref(storage, `images/${currentDocumentId}`),
+        ref(storage, `images/${documentId}`),
         image,
     )
 
@@ -205,16 +203,11 @@ export const uploadLogo = async (
         onError,
         async () => {
             onFinished(
-                await getDownloadURL(
-                    ref(storage, `images/${currentDocumentId}`),
-                ),
+                await getDownloadURL(ref(storage, `images/${documentId}`)),
             )
-            updateDoc(
-                doc(collection(db, SETTINGS_COLLECTION), currentDocumentId),
-                {
-                    lastmodified: serverTimestamp(),
-                },
-            )
+            updateDoc(doc(collection(db, SETTINGS_COLLECTION), documentId), {
+                lastmodified: serverTimestamp(),
+            })
         },
     )
 }

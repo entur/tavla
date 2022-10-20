@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { FloatingButton } from '@entur/button'
 import { AddIcon, SubtractIcon } from '@entur/icons'
@@ -9,7 +10,6 @@ import Grey from '../../../assets/previews/Grey-theme.svg'
 import Dark from '../../../assets/previews/Dark-theme.svg'
 import Light from '../../../assets/previews/Light-theme.svg'
 import Entur from '../../../assets/previews/Entur-theme.svg'
-import { getDocumentId } from '../../../utils'
 import { DirectionPreview } from '../../../assets/icons/DirectionPreview'
 import './ThemeTab.scss'
 import { FontSizePreview } from './FontSizePreview/FontSizePreview'
@@ -21,7 +21,7 @@ const ThemeTab = (): JSX.Element => {
     const [directionRadioValue, setDirectionRadioValue] = useState<Direction>(
         settings?.direction || Direction.STANDARD,
     )
-    const documentId = getDocumentId()
+    const { documentId } = useParams<{ documentId: string }>()
     const directionPreviewImages = DirectionPreview(settings?.theme)
 
     useEffect(() => {
@@ -91,34 +91,34 @@ const ThemeTab = (): JSX.Element => {
             <div className="theme-tab__grid">
                 <RadioCard
                     title="Entur (standard)"
-                    cardValue="default"
+                    value="default"
                     preview={Entur}
                     selected={themeRadioValue === 'default'}
-                    callback={(val): void => switchTheme(val as Theme)}
+                    onChange={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
                 <RadioCard
                     title="Mørkt"
-                    cardValue="dark"
+                    value="dark"
                     preview={Dark}
                     selected={themeRadioValue === 'dark'}
-                    callback={(val): void => switchTheme(val as Theme)}
+                    onChange={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
                 <RadioCard
                     title="Lyst"
-                    cardValue="light"
+                    value="light"
                     preview={Light}
                     selected={themeRadioValue === 'light'}
-                    callback={(val): void => switchTheme(val as Theme)}
+                    onChange={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
                 <RadioCard
                     title="Grått"
-                    cardValue="grey"
+                    value="grey"
                     preview={Grey}
                     selected={themeRadioValue === 'grey'}
-                    callback={(val): void => switchTheme(val as Theme)}
+                    onChange={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
                 />
             </div>
@@ -131,20 +131,20 @@ const ThemeTab = (): JSX.Element => {
                 <div className="theme-tab__grid">
                     <RadioCard
                         title="Standard"
-                        cardValue={Direction.STANDARD}
+                        value={Direction.STANDARD}
                         preview={directionPreviewImages.Standard}
                         selected={directionRadioValue === Direction.STANDARD}
-                        callback={(val): void =>
+                        onChange={(val): void =>
                             switchDirection(val as Direction)
                         }
                         className="theme-tab__theme-card"
                     />
                     <RadioCard
                         title="Rotert"
-                        cardValue={Direction.ROTATED}
+                        value={Direction.ROTATED}
                         preview={directionPreviewImages.Rotated}
                         selected={directionRadioValue === Direction.ROTATED}
-                        callback={(val): void =>
+                        onChange={(val): void =>
                             switchDirection(val as Direction)
                         }
                         className="theme-tab__theme-card"

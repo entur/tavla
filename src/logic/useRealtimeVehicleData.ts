@@ -34,9 +34,6 @@ function useRealtimeVehicleData(filter?: Filter): Return {
     const { uniqueLines } = useStopPlacesWithLines()
     const [settings] = useSettings()
     const { hiddenRealtimeDataLineRefs } = settings || {}
-    const [realtimeVehicles, setRealtimeVehicles] = useState<
-        RealtimeVehicle[] | undefined
-    >(undefined)
     const [allLinesWithRealtimeData, setAllLinesWithRealtimeData] = useState<
         string[] | undefined
     >(undefined)
@@ -129,7 +126,7 @@ function useRealtimeVehicleData(filter?: Filter): Return {
         }
     }, [dispatch])
 
-    const mappedDataFromBothAPIs = useMemo(
+    const realtimeVehicles = useMemo(
         () =>
             (Object.values(state.vehicles) as RealtimeVehicle[]).map(
                 (vehicle) => {
@@ -148,10 +145,6 @@ function useRealtimeVehicleData(filter?: Filter): Return {
             ),
         [state.vehicles, uniqueLines],
     )
-
-    useEffect(() => {
-        setRealtimeVehicles(mappedDataFromBothAPIs)
-    }, [mappedDataFromBothAPIs])
 
     return { realtimeVehicles, allLinesWithRealtimeData }
 }

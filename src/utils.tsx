@@ -295,17 +295,6 @@ export const transportModeNameMapper = (mode: TransportMode): string => {
     }
 }
 
-// Matches the ID in an URL, if it exists.
-const ID_REGEX = /^\/(?:t|(?:admin))\/([a-zA-Z0-9_-]*)(?:\/)?/
-
-export const getDocumentId = (): string | undefined => {
-    const id = window.location.pathname.match(ID_REGEX)
-
-    if (id) {
-        return id[1]
-    }
-}
-
 export function useFormFields<T>(
     initialState: T,
 ): [
@@ -493,3 +482,6 @@ export function createAbortController():
         }
     }
 }
+
+export const capitalize = (str: string) =>
+    str[0]?.toLocaleUpperCase() + str.slice(1)
