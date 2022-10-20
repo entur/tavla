@@ -1,14 +1,17 @@
 .poster-footer-wrapper {
     background-color: var(--tavla-box-background-color);
     display: flex;
-    padding: 4rem;
+    padding: 4rem 4rem 0 4rem;
 }
 
 .poster-footer-heading {
     font-size: 2.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem;
 }
 
 .poster-footer-description {
-    font-size: 2.25rem;
+    font-size: 2rem;
     line-height: 3rem;
+    font-weight: normal;
 }
