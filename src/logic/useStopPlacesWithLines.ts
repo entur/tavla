@@ -3,7 +3,7 @@ import { Line, StopPlaceWithLines } from '../types'
 import { createAbortController, unique } from '../utils'
 import { useSettings } from '../settings/SettingsProvider'
 import { getStopPlacesWithLines } from './getStopPlacesWithLines'
-import { useStopPlacesWithDepartures } from './useStopPlacesWithDepartures'
+import { useStopPlacesWithDepartures } from './use-stop-places-with-departures/useStopPlacesWithDepartures'
 
 interface Return {
     uniqueLines: Line[] | undefined

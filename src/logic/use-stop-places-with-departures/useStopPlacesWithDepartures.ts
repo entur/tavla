@@ -1,61 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { gql } from '@apollo/client'
 import { differenceInMinutes, format, parseISO } from 'date-fns'
 import { TransportMode, TransportSubmode } from '@entur/sdk'
-import { LineData, StopPlaceWithDepartures } from '../types'
-import { isNotNullOrUndefined, nonEmpty, unique } from '../utils'
-import { apolloClient } from '../service'
-import { useSettings } from '../settings/SettingsProvider'
-import { REFRESH_INTERVAL } from '../constants'
-import { useNearestPlaces } from './useNearestPlaces'
-
-const GET_STOP_PLACES_WITH_DEPARTURES_QUERY = gql`
-    query getStopPlacesWithDepartures($ids: [String]!) {
-        stopPlaces(ids: $ids) {
-            id
-            name
-            description
-            latitude
-            longitude
-            transportMode
-            transportSubmode
-            estimatedCalls(
-                numberOfDepartures: 200
-                timeRange: 172800
-                numberOfDeparturesPerLineAndDestinationDisplay: 20
-                arrivalDeparture: departures
-            ) {
-                aimedDepartureTime
-                cancellation
-                date
-                destinationDisplay {
-                    frontText
-                }
-                expectedDepartureTime
-                quay {
-                    id
-                    name
-                    publicCode
-                }
-                serviceJourney {
-                    id
-                    journeyPattern {
-                        line {
-                            publicCode
-                            transportMode
-                        }
-                    }
-                    transportSubmode
-                }
-                situations {
-                    summary {
-                        value
-                    }
-                }
-            }
-        }
-    }
-`
+import { LineData, StopPlaceWithDepartures } from '../../types'
+import { isNotNullOrUndefined, nonEmpty, unique } from '../../utils'
+import { useSettings } from '../../settings/SettingsProvider'
+import { REFRESH_INTERVAL } from '../../constants'
+import { useNearestPlaces } from '../useNearestPlaces'
+import { apolloClient } from '../../services/realtimeVehicles/realtimeVehiclesService'
+import GET_STOP_PLACES_WITH_DEPARTURES_QUERY from './GetStopPlacesWithDepartures.graphql'
 
 type GetStopPlacesWithDeparturesVariables = {
     ids: string[]
