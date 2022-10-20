@@ -4,7 +4,6 @@ import { FormFactor } from '@entur/sdk/lib/mobility/types'
 import { useBikeRentalStations, useMobility } from '../../logic'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
 import { useSettings } from '../../settings/SettingsProvider'
-//import { Mode } from '../../settings'
 import './Poster.scss'
 import { LastUpdated } from './components/LastUpdated/LastUpdated'
 import { BusTile } from './components/BusTile/BusTile'
@@ -17,16 +16,6 @@ const Poster = (): JSX.Element => {
     const [totalNumberOfBikes, setTotalNumberOfBikes] = useState(0)
     const totalNumberOfScooters = useMobility(FormFactor.SCOOTER)?.length || 0
     const [settings] = useSettings()
-    // const initialMobility: Mode[] = [
-    //     'bysykkel',
-    //     'kollektiv',
-    //     'sparkesykkel',
-    //     'delebil',
-    // ]
-
-    // const mobilityPicker = initialMobility.filter(
-    //     (mob) => !settings?.hiddenModes.includes(mob),
-    // )
 
     useEffect(() => {
         const tempNumberOfBikes = bikeRentalStations?.reduce(
