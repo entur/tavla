@@ -714,7 +714,6 @@ const EditTab = (): JSX.Element => {
                     </div>
                 </div>
 
-
                 {/* <div key="mapPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kart</Heading2>

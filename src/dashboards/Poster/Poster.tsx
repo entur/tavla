@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import classNames from 'classnames'
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
 import { useBikeRentalStations, useMobility } from '../../logic'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
@@ -15,7 +16,7 @@ const Poster = (): JSX.Element => {
     const bikeRentalStations = useBikeRentalStations()
     const [totalNumberOfBikes, setTotalNumberOfBikes] = useState(0)
     const totalNumberOfScooters = useMobility(FormFactor.SCOOTER)?.length || 0
-    const [settings, setSettings] = useSettings()
+    const [settings] = useSettings()
     const initialMobility: Mode[] = [
         'bysykkel',
         'kollektiv',
@@ -26,7 +27,7 @@ const Poster = (): JSX.Element => {
     const mobilityPicker = initialMobility.filter(
         (mob) => !settings?.hiddenModes.includes(mob),
     )
-    
+
     useEffect(() => {
         const tempNumberOfBikes = bikeRentalStations?.reduce(
             (numberOfBikes, station) =>
@@ -46,15 +47,33 @@ const Poster = (): JSX.Element => {
                     <h1 className="poster-heading">Skal du videre?</h1>
                     <LastUpdated />
                 </div>
-                <div className="poster-next-bus">Neste buss</div>
-                <BusTile />
 
-                <div className="poster-mobility-tiles-wrapper">
+                {settings?.hiddenModes.includes('kollektiv') ? (
+                    <></>
+                ) : (
+                    <>
+                        <div className="poster-next-bus">Neste buss</div>
+                        <BusTile />
+                    </>
+                )}
+                <div
+                    className={classNames({
+                        'poster-mobility-tiles-wrapper': true,
+                        'poster-mobility-tiles-wrapper--listed':
+                            settings?.hiddenModes.includes('kollektiv'),
+                    })}
+                >
                     {/* Todo: change this to use biketile and style */}
-                    { settings?.hiddenModes.includes('delebil') ? (
+                    {settings?.hiddenModes.includes('delebil') ? (
                         <></>
                     ) : (
-                        <div className="poster-mobility-tile">
+                        <div
+                            className={classNames({
+                                'poster-mobility-tile': true,
+                                'poster-mobility-tile--listed':
+                                    settings?.hiddenModes.includes('kollektiv'),
+                            })}
+                        >
                             <div className="poster-mobility-description">
                                 <h2 className="poster-mobility-description-heading">
                                     Delebil
@@ -71,7 +90,13 @@ const Poster = (): JSX.Element => {
                     {settings?.hiddenModes.includes('sparkesykkel') ? (
                         <></>
                     ) : (
-                        <div className="poster-mobility-tile">
+                        <div
+                            className={classNames({
+                                'poster-mobility-tile': true,
+                                'poster-mobility-tile--listed':
+                                    settings?.hiddenModes.includes('kollektiv'),
+                            })}
+                        >
                             <div className="poster-mobility-description">
                                 <h2 className="poster-mobility-description-heading">
                                     Elsparkesykler

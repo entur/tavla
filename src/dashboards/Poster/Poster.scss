@@ -32,12 +32,19 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        &--listed {
+            flex-direction: column;
+        }
     }
 
     &-mobility-tile {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        &--listed {
+            flex-direction: row-reverse;
+            padding: 5rem 0 5rem 0;
+        }
     }
 
     &-mobility-description {
