@@ -1,5 +1,5 @@
 export { useBikeRentalStations } from './useBikeRentalStations'
-export { useNearestPlaces } from './useNearestPlaces'
+export { useNearestPlaces } from './use-nearest-places/useNearestPlaces'
 export { useStopPlacesWithDepartures } from './use-stop-places-with-departures/useStopPlacesWithDepartures'
 export { useMobility } from './useMobility'
 export { useWalkInfo } from './useWalkInfo'

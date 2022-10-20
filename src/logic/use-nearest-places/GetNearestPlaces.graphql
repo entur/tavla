@@ -1,0 +1,27 @@
+query getNearestPlaces(
+    $latitude: Float!
+    $longitude: Float!
+    $maximumDistance: Float!
+    $filterByPlaceTypes: [FilterPlaceType]
+    $multiModalMode: MultiModalMode
+) @api(name: journey_planner_v3) {
+    nearest(
+        latitude: $latitude
+        longitude: $longitude
+        maximumDistance: $maximumDistance
+        filterByPlaceTypes: $filterByPlaceTypes
+        multiModalMode: $multiModalMode
+    ) {
+        edges {
+            node {
+                distance
+                place {
+                    __typename
+                    id
+                    latitude
+                    longitude
+                }
+            }
+        }
+    }
+}
