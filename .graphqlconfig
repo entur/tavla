@@ -69,7 +69,8 @@
       "schemaPath": "graphql-schemas/mobility.graphql",
       "includes": [
         "graphql-schemas/ApiDirective.graphql",
-        "graphql-schemas/mobility.graphql"
+        "graphql-schemas/mobility.graphql",
+        "src/containers/Admin/EditTab/BikeSearch/GetStations.graphql"
       ],
       "extensions": {
         "endpoints": {

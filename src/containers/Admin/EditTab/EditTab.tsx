@@ -685,10 +685,12 @@ const EditTab = (): JSX.Element => {
                             size="large"
                         />
                     </div>
-                    <BikePanelSearch
-                        position={settings?.coordinates}
-                        onSelected={addNewStation}
-                    />
+                    {!!settings?.coordinates && (
+                        <BikePanelSearch
+                            position={settings.coordinates}
+                            onSelected={addNewStation}
+                        />
+                    )}
                     <BikePanel stations={sortedBikeRentalStations} />
                 </div>
                 <div key="scooterPanel" className="edit-tab__tile">
