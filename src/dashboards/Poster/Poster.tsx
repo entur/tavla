@@ -52,7 +52,8 @@ const Poster = (): JSX.Element => {
                             settings?.hiddenModes.includes('kollektiv'),
                     })}
                 >
-                    {/* Todo: change this to use biketile and style */}
+
+
                     {settings?.hiddenModes.includes('delebil') ? (
                         <></>
                     ) : (
