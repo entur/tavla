@@ -52,8 +52,6 @@ const Poster = (): JSX.Element => {
                             settings?.hiddenModes.includes('kollektiv'),
                     })}
                 >
-
-
                     {settings?.hiddenModes.includes('delebil') ? (
                         <></>
                     ) : (
