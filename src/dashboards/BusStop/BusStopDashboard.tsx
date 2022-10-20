@@ -13,7 +13,7 @@ import {
     useWalkInfo,
     useBikeRentalStations,
 } from '../../logic'
-import { WalkInfo } from '../../logic/useWalkInfo'
+import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import {
     getFromLocalStorage,
     saveToLocalStorage,

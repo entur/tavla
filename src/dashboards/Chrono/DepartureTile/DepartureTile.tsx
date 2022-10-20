@@ -15,7 +15,7 @@ import {
 import { Tile } from '../components/Tile/Tile'
 import { TileRows } from '../components/TileRows/TileRows'
 import { useSettings } from '../../../settings/SettingsProvider'
-import { WalkInfo } from '../../../logic/useWalkInfo'
+import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import './DepartureTile.scss'
 
 function getTransportHeaderIcons(

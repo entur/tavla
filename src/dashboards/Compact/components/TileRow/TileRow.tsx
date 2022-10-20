@@ -7,7 +7,7 @@ import { ValidationExclamation } from '../../../../assets/icons/ValidationExclam
 import { ValidationError } from '../../../../assets/icons/ValidationError'
 import { SituationModal } from '../../../../components/SituationModal/SituationModal'
 import { isMobileWeb } from '../../../../utils'
-import { WalkInfo } from '../../../../logic/useWalkInfo'
+import { WalkInfo } from '../../../../logic/use-walk-info/useWalkInfo'
 import { PlatformInfo } from './PlatformInfo/PlatformInfo'
 import './TileRow.scss'
 

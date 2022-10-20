@@ -14,7 +14,7 @@ import {
     useMobility,
     useWalkInfo,
 } from '../../logic'
-import { WalkInfo } from '../../logic/useWalkInfo'
+import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
 import {
