@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useParams } from 'react-router'
 import { ErrorCode } from 'react-dropzone'
 import type { FileRejection } from 'react-dropzone'
 import { FileUpload } from '@entur/fileupload'
@@ -21,6 +22,7 @@ const LogoUpload = (): JSX.Element => {
     const [uploadVisible, setUploadVisible] = useState(!logo)
     const [standbyText, setStandbyText] = useState(UPLOAD_ZONE_TEXT)
     const [progress, setProgress] = useState<number>()
+    const { documentId } = useParams<{ documentId: string }>()
 
     const handleDrop = (acceptedFiles?: File[]): void => {
         if (!acceptedFiles?.length) return
@@ -43,7 +45,7 @@ const LogoUpload = (): JSX.Element => {
             setProgress(undefined)
         }
 
-        uploadLogo(file, setProgress, handleFinished, handleError)
+        uploadLogo(file, setProgress, handleFinished, handleError, documentId)
     }
 
     const handleReject = (rejections: FileRejection[]): void => {

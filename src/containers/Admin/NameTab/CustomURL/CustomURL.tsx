@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import {
     Label,
     Paragraph,
@@ -15,7 +16,6 @@ import {
     setIdToBeDeleted,
     userIsOwner,
 } from '../../../../services/firebase'
-import { getDocumentId } from '../../../../utils'
 import { useUser } from '../../../../UserProvider'
 import '../NameTab.scss'
 
@@ -44,7 +44,9 @@ const CustomURL = (): JSX.Element => {
     const [feedbackMessageType, setFeedbackMessageType] = useState(
         inputFeedbackType.CLEAR,
     )
-    const [currentDoc, setCurrentDoc] = useState(getDocumentId() as string)
+
+    const { documentId } = useParams<{ documentId: string }>()
+    const [currentDoc, setCurrentDoc] = useState(documentId as string)
 
     const handleCustomUrlChange = (
         event: React.ChangeEvent<HTMLInputElement>,
@@ -77,7 +79,7 @@ const CustomURL = (): JSX.Element => {
 
             const successfulCopy = await copySettingsToNewId(
                 customUrlInput,
-                getDocumentId() ?? '',
+                documentId ?? '',
             )
             if (successfulCopy) {
                 setIdToBeDeleted(currentDoc)

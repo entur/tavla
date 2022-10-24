@@ -704,6 +704,18 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ScooterPanel />
                 </div>
+
+                <div key="delebil" className="edit-tab__tile">
+                    <div className="edit-tab__header">
+                        <Heading2>Delebil</Heading2>
+                        <Switch
+                            onChange={(): void => toggleMode('delebil')}
+                            checked={!hiddenModes?.includes('delebil')}
+                            size="large"
+                        />
+                    </div>
+                </div>
+
                 {/* <div key="mapPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kart</Heading2>

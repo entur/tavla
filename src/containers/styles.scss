@@ -1,5 +1,4 @@
-@import '../assets/styles/import.scss';
-@import '../variables.scss';
+@use '../assets/styles/Variables.scss';
 
 .themeBackground {
     background-color: var(--tavla-background-color);
@@ -21,16 +20,16 @@
     }
 
     .iOSPWA-container {
-        background-color: $colors-blues-blue80;
-        border: 0.0625rem solid $colors-blues-blue90;
+        background-color: Variables.$colors-blues-blue80;
+        border: 0.0625rem solid Variables.$colors-blues-blue90;
         border-radius: 0.25rem;
         opacity: 1;
 
         .iOSPWA-title {
-            color: $colors-brand-blue;
+            color: Variables.$colors-brand-blue;
             font-family: var(--tavla-font-family);
-            font-weight: $font-weights-heading;
-            font-size: $font-sizes-extra-large;
+            font-weight: Variables.$font-weights-heading;
+            font-size: Variables.$font-sizes-extra-large;
         }
 
         .iOSPWA-description {
@@ -39,10 +38,10 @@
 
         .iOSPWA-step1-copy,
         .iOSPWA-step2-copy {
-            color: $colors-brand-blue;
+            color: Variables.$colors-brand-blue;
             font-family: var(--tavla-font-family);
-            font-weight: $font-weights-body;
-            font-size: $font-sizes-medium;
+            font-weight: Variables.$font-weights-body;
+            font-size: Variables.$font-sizes-medium;
         }
 
         .iOSPWA-step1,
@@ -50,11 +49,11 @@
         .iOSPWA-step1-icon,
         .iOSPWA-step2-icon,
         .iOSPWA-cancel {
-            color: $colors-brand-blue;
-            fill: $colors-brand-blue !important;
+            color: Variables.$colors-brand-blue;
+            fill: Variables.$colors-brand-blue !important;
             font-family: var(--tavla-font-family);
-            font-weight: $font-weights-body;
-            font-size: $font-sizes-large;
+            font-weight: Variables.$font-weights-body;
+            font-size: Variables.$font-sizes-large;
         }
     }
 }

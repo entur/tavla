@@ -1,5 +1,4 @@
-@import '../../../assets/styles/import.scss';
-@import '../../../variables.scss';
+@use '../../../assets/styles/Variables.scss';
 
 .label {
     color: var(--tavla-label-font-color);
@@ -106,7 +105,7 @@
         &__submit-button {
             align-self: flex-start;
             float: right;
-            padding-left: $space-small;
+            padding-left: Variables.$space-small;
         }
     }
 }

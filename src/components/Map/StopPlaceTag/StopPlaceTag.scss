@@ -1,5 +1,4 @@
-@import '../../../assets/styles/import.scss';
-@import '../../../variables.scss';
+@use '../../../assets/styles/Variables.scss';
 
 .stopplace-tag {
     display: flex;
@@ -24,14 +23,14 @@
     }
 
     &__stopplace {
-        color: $colors-brand-blue;
+        color: Variables.$colors-brand-blue;
         text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
         height: auto;
     }
 
     &__walking-distance {
         line-height: 1rem;
-        color: $colors-brand-blue;
+        color: Variables.$colors-brand-blue;
         text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
         font-size: 0.75rem;
     }

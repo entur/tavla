@@ -1,4 +1,4 @@
-@import '../../../assets/styles/import.scss';
+@use '../../../assets/styles/Variables.scss';
 
 .search-panel {
     width: 100%;
@@ -59,7 +59,7 @@
     }
 }
 
-@media (max-width: $breakpoints-large) {
+@media (max-width: Variables.$breakpoints-large) {
     .search-panel {
         &__submit-button {
             width: 100%;

@@ -1,16 +1,16 @@
-@import '../../assets/styles/import.scss';
+@use '../../assets/styles/Variables.scss';
 
 $max-width: 86rem;
 
 .landing-page {
-    color: $colors-brand-blue;
+    color: Variables.$colors-brand-blue;
     background-color: white;
-    padding-bottom: $space-extra-large9;
+    padding-bottom: Variables.$space-extra-large9;
 
     &__header-grid {
         max-width: $max-width;
         margin: auto;
-        padding: $space-medium;
+        padding: Variables.$space-medium;
     }
 
     &__contrast {
@@ -18,7 +18,7 @@ $max-width: 86rem;
     }
 
     header {
-        margin: $space-extra-large auto;
+        margin: Variables.$space-extra-large auto;
     }
 
     &__carousel {
@@ -26,42 +26,42 @@ $max-width: 86rem;
         flex-direction: column;
 
         > h1 {
-            font-weight: $font-weights-body;
+            font-weight: Variables.$font-weights-body;
         }
     }
 
     &__link-wrapper {
         display: flex;
         align-items: center;
-        padding: $space-extra-large3 $space-large;
+        padding: Variables.$space-extra-large3 Variables.$space-large;
         text-align: right;
 
         svg {
-            font-size: $font-sizes-extra-large;
+            font-size: Variables.$font-sizes-extra-large;
         }
     }
 
     &__entur-link.eds-link {
         background-image: linear-gradient(
             120deg,
-            $colors-brand-coral,
-            $colors-brand-coral
+            Variables.$colors-brand-coral,
+            Variables.$colors-brand-coral
         );
-        font-size: $font-sizes-extra-large;
-        font-weight: $font-weights-body;
+        font-size: Variables.$font-sizes-extra-large;
+        font-weight: Variables.$font-weights-body;
     }
 
     &__search-panel {
         max-width: $max-width;
-        margin: $space-extra-large auto;
+        margin: Variables.$space-extra-large auto;
     }
 
     &__main-image-container {
         background: linear-gradient(
-            $colors-brand-blue 0%,
-            $colors-brand-blue 50%,
-            $colors-brand-white 50%,
-            $colors-brand-white 100%
+            Variables.$colors-brand-blue 0%,
+            Variables.$colors-brand-blue 50%,
+            Variables.$colors-brand-white 50%,
+            Variables.$colors-brand-white 100%
         );
 
         > img {
@@ -76,11 +76,11 @@ $max-width: 86rem;
 
     article {
         max-width: $max-width;
-        margin: $space-extra-large8 auto;
+        margin: Variables.$space-extra-large8 auto;
     }
 
     &__article-grid-item {
-        padding: 0 $space-default;
+        padding: 0 Variables.$space-default;
     }
 
     &__logo {
@@ -88,16 +88,16 @@ $max-width: 86rem;
     }
 
     &__cover-photo {
-        padding: $space-medium;
+        padding: Variables.$space-medium;
         width: 100%;
         max-width: $max-width;
     }
 }
 
-@media (max-width: $breakpoints-large) {
+@media (max-width: Variables.$breakpoints-large) {
     .landing-page {
         &__header-grid {
-            padding: $space-medium;
+            padding: Variables.$space-medium;
         }
 
         &__main-image-container {
@@ -105,11 +105,11 @@ $max-width: 86rem;
         }
 
         &__entur-link.eds-link {
-            font-size: $font-sizes-large;
+            font-size: Variables.$font-sizes-large;
         }
 
         &__link-wrapper {
-            padding: $space-extra-large3 $space-medium;
+            padding: Variables.$space-extra-large3 Variables.$space-medium;
         }
     }
 }

@@ -1,5 +1,4 @@
-@import '../../../../assets/styles/import.scss';
-@import '../../../../variables.scss';
+@use '../../../../assets/styles/Variables.scss';
 
 .stop-place-panel {
     margin: 1rem 0 1rem 0;
@@ -46,7 +45,7 @@
                 font-weight: 600;
                 -webkit-font-smoothing: antialiased;
                 align-items: center;
-                font-size: $font-sizes-large;
+                font-size: Variables.$font-sizes-large;
             }
         }
 
