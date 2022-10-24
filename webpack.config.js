@@ -33,7 +33,7 @@ module.exports = async (env, args) => ({
         publicPath: '/',
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.graphql'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
     module: {
         rules: [
