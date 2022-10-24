@@ -1,11 +1,11 @@
-@import '../../assets/styles/import.scss';
+@use '../../assets/styles/Variables.scss';
 
 .privacy {
     background-color: white;
     overflow: auto;
 
     &__header {
-        background-color: $colors-brand-blue;
+        background-color: Variables.$colors-brand-blue;
         padding: 2rem 3rem;
 
         h1 {
@@ -15,7 +15,7 @@
 
     &__body {
         max-width: 1000px;
-        color: $colors-brand-blue;
+        color: Variables.$colors-brand-blue;
         background-color: white;
         padding: 2rem 4rem;
     }

@@ -1,10 +1,8 @@
-@import '../../../../assets/styles/import.scss';
-@import '../../../../variables.scss';
-@import '~@entur/table/dist/styles.css';
+@use '../../../../assets/styles/Variables.scss';
 
 .busStop .tilerow__sublabel {
     &__cancellation {
-        background-color: $colors-brand-white;
+        background-color: Variables.$colors-brand-white;
         border-radius: 0.5rem;
         height: 0.875rem;
         overflow: visible;

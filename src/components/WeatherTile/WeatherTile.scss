@@ -1,14 +1,13 @@
-@import '../../assets/styles/import.scss';
-@import '../../variables.scss';
+@use '../../assets/styles/Variables.scss';
 
 .weather-tile {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 $space-extra-large3;
+    gap: 0 Variables.$space-extra-large3;
     justify-content: center;
     overflow: auto !important;
     align-items: center;
-    padding: $space-medium !important;
+    padding: Variables.$space-medium !important;
     min-height: 150px;
     z-index: 3;
 
@@ -32,8 +31,8 @@
             }
 
             &__description {
-                padding-top: $space-small;
-                font-size: $font-sizes-extra-large;
+                padding-top: Variables.$space-small;
+                font-size: Variables.$font-sizes-extra-large;
                 white-space: nowrap;
             }
         }
@@ -43,35 +42,35 @@
         display: flex;
         align-items: flex-end;
         flex-wrap: nowrap;
-        padding-top: $space-extra-large;
+        padding-top: Variables.$space-extra-large;
 
         &:first-child {
-            padding-top: $space-extra-small;
+            padding-top: Variables.$space-extra-small;
         }
 
         &__weather-data {
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-size: $font-sizes-large;
-            margin-right: $space-large;
+            font-size: Variables.$font-sizes-large;
+            margin-right: Variables.$space-large;
 
             &:last-child {
                 margin-right: 0;
             }
 
             &__value {
-                padding-top: $space-small;
-                font-size: $font-sizes-medium;
+                padding-top: Variables.$space-small;
+                font-size: Variables.$font-sizes-medium;
                 white-space: nowrap;
             }
 
             &--color-red {
-                color: $colors-brand-coral;
+                color: Variables.$colors-brand-coral;
             }
 
             &--color-blue {
-                color: $colors-validation-sky-contrast;
+                color: Variables.$colors-validation-sky-contrast;
             }
         }
     }

@@ -1,4 +1,4 @@
-@import '../../../assets/styles/import.scss';
+@use '../../../assets/styles/Variables.scss';
 
 .typography-carousel {
     font-size: 2.5rem;
@@ -22,33 +22,33 @@
         }
 
         &:nth-child(1) {
-            color: $colors-brand-peach;
+            color: Variables.$colors-brand-peach;
             font-style: italic;
             font-weight: 400;
         }
 
         &:nth-child(2) {
-            color: $colors-brand-lavender;
+            color: Variables.$colors-brand-lavender;
         }
 
         &:nth-child(3) {
-            color: $colors-brand-coral;
+            color: Variables.$colors-brand-coral;
             font-weight: 400;
         }
 
         &:nth-child(4) {
-            color: $colors-brand-peach;
+            color: Variables.$colors-brand-peach;
             font-style: italic;
             font-weight: 400;
         }
 
         &:nth-child(5) {
-            color: $colors-brand-lavender;
+            color: Variables.$colors-brand-lavender;
         }
     }
 }
 
-@media (max-width: $breakpoints-large) {
+@media (max-width: Variables.$breakpoints-large) {
     .typography-carousel {
         margin-bottom: 3rem;
     }

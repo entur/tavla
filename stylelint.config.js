@@ -21,6 +21,7 @@ module.exports = {
                     'content',
                     'return',
                     'function',
+                    'use',
                 ],
             },
         ],

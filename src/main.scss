@@ -1,5 +1,6 @@
-@import './assets/styles/import.scss';
-@import './variables.scss';
+@use './assets/styles/EnturImports.scss';
+@use './assets/styles/CustomProperties.scss';
+@use './assets/styles/Variables.scss';
 
 html {
     background-color: var(--tavla-background-color);
@@ -33,37 +34,38 @@ input[type='number'] {
 /* THEME SPECIFIC STYLING */
 
 .dark-theme .eds-form-control-wrapper--dark {
-    background-color: $colors-greys-grey40;
-    color: $colors-brand-blue;
+    background-color: Variables.$colors-greys-grey40;
+    color: Variables.$colors-brand-blue;
 
     &:hover {
-        background-color: $colors-greys-grey40;
-        color: $colors-brand-blue;
+        background-color: Variables.$colors-greys-grey40;
+        color: Variables.$colors-brand-blue;
 
         &::before {
-            border-color: $colors-brand-lavender;
+            border-color: Variables.$colors-brand-lavender;
         }
     }
 
     ::placeholder {
-        color: $colors-blues-blue40;
+        color: Variables.$colors-blues-blue40;
     }
 
     input {
-        font-size: $font-sizes-extra-large;
-        line-height: $line-heights-extra-large4;
+        font-size: Variables.$font-sizes-extra-large;
+        line-height: Variables.$line-heights-extra-large4;
     }
 }
 
 .dark-theme .eds-dropdown-list__item {
-    background-color: $colors-greys-grey40;
-    border-bottom: $border-widths-default solid $colors-greys-grey20;
-    color: $colors-brand-white;
+    background-color: Variables.$colors-greys-grey40;
+    border-bottom: Variables.$border-widths-default solid
+        Variables.$colors-greys-grey20;
+    color: Variables.$colors-brand-white;
 
     &:hover,
     &:active,
     &:focus,
     &--highlighted {
-        background-color: $colors-greys-grey20;
+        background-color: Variables.$colors-greys-grey20;
     }
 }

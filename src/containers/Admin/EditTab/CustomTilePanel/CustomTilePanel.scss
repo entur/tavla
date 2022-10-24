@@ -1,4 +1,4 @@
-@import '../../../../variables.scss';
+@use '../../../../assets/styles/Variables.scss';
 
 .custom-tile-panel {
     .eds-button {
@@ -24,7 +24,7 @@
         align-items: center;
         height: 3rem;
         justify-content: space-between;
-        font-size: $font-sizes-large;
+        font-size: Variables.$font-sizes-large;
         font-weight: 600;
         -webkit-font-smoothing: antialiased;
 
