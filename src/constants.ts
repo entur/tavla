@@ -1,6 +1,6 @@
 export const DEFAULT_DISTANCE = 500
 export const REFRESH_INTERVAL = 30000
-export const ALL_ACTIVE_OPERATOR_IDS = {
+export const ALL_ACTIVE_OPERATOR_IDS: Record<string, string> = {
     VOI: 'YVO:Operator:voi',
     TIER: 'YTI:Operator:Tier',
     BOLT: 'YBO:Operator:bolt',

@@ -70,7 +70,9 @@
       "includes": [
         "graphql-schemas/ApiDirective.graphql",
         "graphql-schemas/mobility.graphql",
-        "src/containers/Admin/EditTab/BikeSearch/GetStations.graphql"
+        "src/containers/Admin/EditTab/BikeSearch/GetStations.graphql",
+        "src/logic/use-mobility/GetOperators.graphql",
+        "src/logic/use-mobility/GetVehicles.graphql"
       ],
       "extensions": {
         "endpoints": {

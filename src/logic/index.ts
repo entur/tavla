@@ -1,7 +1,7 @@
 export { useBikeRentalStations } from './useBikeRentalStations'
 export { useNearestPlaces } from './use-nearest-places/useNearestPlaces'
 export { useStopPlacesWithDepartures } from './use-stop-places-with-departures/useStopPlacesWithDepartures'
-export { useMobility } from './useMobility'
+export { useMobility } from './use-mobility/useMobility'
 export { useWalkInfo } from './use-walk-info/useWalkInfo'
 export { useWeather } from './useWeather'
 export { useOperators } from './useOperators'
