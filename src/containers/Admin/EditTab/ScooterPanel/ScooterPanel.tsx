@@ -1,28 +1,42 @@
-import React, { ChangeEvent, useCallback } from 'react'
+import React, { ChangeEvent, useCallback, useMemo } from 'react'
+import { useQuery } from '@apollo/client'
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
+import { Operator } from '@entur/sdk/lib/mobility/types'
 import { toggleValueInList } from '../../../../utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
-import { useOperators } from '../../../../logic'
+import { ALL_ACTIVE_OPERATOR_IDS } from '../../../../constants'
 import './ScooterPanel.scss'
+import ScooterPanelQuery from './ScooterPanelQuery.graphql'
 
 function ScooterPanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
-    const operators = useOperators()
+
+    const { data } = useQuery<{ operators: Operator[] }>(ScooterPanelQuery, {
+        fetchPolicy: 'cache-and-network',
+    })
+
     const { hiddenMobilityOperators = [] } = settings || {}
 
     const onToggleOperator = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
-            const OperatorId = event.target.id
             setSettings({
                 hiddenMobilityOperators: toggleValueInList(
                     hiddenMobilityOperators,
-                    OperatorId,
+                    event.target.id,
                 ),
             })
         },
         [hiddenMobilityOperators, setSettings],
+    )
+
+    const operators = useMemo(
+        () =>
+            data?.operators.filter(
+                (operator) => !!ALL_ACTIVE_OPERATOR_IDS[operator.id],
+            ) ?? [],
+        [data?.operators],
     )
 
     return (
@@ -32,13 +46,9 @@ function ScooterPanel(): JSX.Element {
                     Sparkesykkel krever visningstype som støtter kart.
                 </Label>
                 <br />
-                {operators.map((operator, index) => (
-                    <div
-                        key={operator + 'btn' + index.toString()}
-                        className="scooter-panel__buttons"
-                    >
+                {operators.map((operator) => (
+                    <div key={operator.id} className="scooter-panel__buttons">
                         <FilterChip
-                            key={operator.id}
                             id={operator.id}
                             value={operator.id}
                             name={operator.id}
