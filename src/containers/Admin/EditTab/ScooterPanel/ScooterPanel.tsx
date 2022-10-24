@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useCallback } from 'react'
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
-import { Label } from '@entur/typography'
 import { toggleValueInList } from '../../../../utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { useOperators } from '../../../../logic'
@@ -28,10 +27,6 @@ function ScooterPanel(): JSX.Element {
     return (
         <Fieldset className="scooter-panel">
             <div className="scooter-panel__container">
-                <Label>
-                    Sparkesykkel krever visningstype som støtter kart.
-                </Label>
-                <br />
                 {operators.map((operator, index) => (
                     <div
                         key={operator + 'btn' + index.toString()}

@@ -1,4 +1,4 @@
-@import '../../assets/styles/import.scss';
+@use '../../assets/styles/Variables.scss';
 
 .eds-modal__overlay {
     background: var(--tavla-modal-overlay-color);
@@ -9,7 +9,7 @@
 
     p {
         padding: 0 1rem;
-        color: $colors-brand-blue;
+        color: Variables.$colors-brand-blue;
         text-align: center;
         margin: 0;
     }
@@ -45,7 +45,7 @@
     }
 
     .eds-link {
-        color: $colors-brand-blue;
+        color: Variables.$colors-brand-blue;
     }
 
     .modal-submit {

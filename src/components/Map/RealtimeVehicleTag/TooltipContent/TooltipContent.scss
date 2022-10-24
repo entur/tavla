@@ -1,4 +1,4 @@
-@import '../../../../assets/styles/import.scss';
+@use '../../../../assets/styles/Variables.scss';
 
 .map__realtime-vehicle-tag__tooltip-content {
     &-wrapper {
@@ -22,7 +22,7 @@
 
     &-front-text {
         margin-left: 0.8rem;
-        font-size: $font-sizes-large;
+        font-size: Variables.$font-sizes-large;
         white-space: nowrap;
     }
 }

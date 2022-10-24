@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { useToast } from '@entur/alert'
 import { LoginModal } from '../../components/LoginModal/LoginModal'
 import { LoginCase } from '../../components/LoginModal/login-modal-types'
 import { auth, useUser } from '../../UserProvider'
-import { getDocumentId } from '../../utils'
 import sikkerhetBomLight from '../../assets/images/sikkerhet_bom_light@2x.png'
 import duerLight from '../../assets/images/duer@2x.png'
 import sauerLight from '../../assets/images/sauer_lag@2x.png'
@@ -15,7 +14,7 @@ function LockedTavle(): JSX.Element {
     const user = useUser()
     const userLoggedin = Boolean(user && !user.isAnonymous)
     const navigate = useNavigate()
-    const documentId = getDocumentId()
+    const { documentId } = useParams<{ documentId: string }>()
     const { addToast } = useToast()
 
     const [displayLogin, setDisplayLogin] = useState<boolean>(false)

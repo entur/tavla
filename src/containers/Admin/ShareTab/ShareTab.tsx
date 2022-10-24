@@ -1,4 +1,5 @@
 import React, { Dispatch, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import type { User } from 'firebase/auth'
 import type { DocumentData, DocumentSnapshot } from 'firebase/firestore'
 import type { FirebaseError } from 'firebase/app'
@@ -7,7 +8,6 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { NegativeButton } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { useUser } from '../../../UserProvider'
-import { getDocumentId } from '../../../utils'
 import {
     getBoardOnSnapshot,
     getInvitesForBoardOnSnapshot,
@@ -40,7 +40,7 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
 
     const [shouldRefresh, setShouldRefresh] = useState<boolean>(false)
 
-    const documentId = getDocumentId()
+    const { documentId } = useParams<{ documentId: string }>()
 
     const handleDismissLoginModal = (newUser: User | undefined): void => {
         if (!newUser || newUser.isAnonymous) {

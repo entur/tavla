@@ -1,5 +1,4 @@
-@import '../../../../assets/styles/import.scss';
-@import '../../../../variables.scss';
+@use '../../../../assets/styles/Variables.scss';
 
 .busStop .tilerow {
     border-bottom: 2px solid var(--tavla-border-color) !important;
@@ -31,7 +30,7 @@
 
         &__cancellation {
             align-items: center;
-            background-color: $colors-brand-white;
+            background-color: Variables.$colors-brand-white;
             border-radius: 0.5rem;
             display: flex;
             height: 0.875rem;

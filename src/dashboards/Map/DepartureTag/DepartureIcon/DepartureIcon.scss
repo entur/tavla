@@ -1,8 +1,7 @@
-@import '../../../../assets/styles/import.scss';
-@import '../../../../variables.scss';
+@use '../../../../assets/styles/Variables.scss';
 
 .icon-box {
-    color: $colors-brand-white;
+    color: Variables.$colors-brand-white;
     max-width: auto;
     width: auto;
     height: 2rem;
@@ -10,7 +9,7 @@
     align-items: flex-start;
     text-align: center;
     display: flex;
-    font-size: $font-sizes-medium;
+    font-size: Variables.$font-sizes-medium;
     padding: 0.3rem 0.5625rem 0 0.5625rem;
 
     &__icon {
