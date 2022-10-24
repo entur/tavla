@@ -1,26 +1,10 @@
 import { useState, useEffect } from 'react'
 import { isEqual } from 'lodash'
-import { gql } from '@apollo/client'
 import { Coordinates } from '@entur/sdk'
-import { apolloClient } from '../service'
-import { useSettings } from '../settings/SettingsProvider'
-import { usePrevious, isNotNullOrUndefined } from '../utils'
-
-const GET_WALK_INFO_QUERY = gql`
-    query getWalkInfo($from: Location!, $to: Location!) {
-        trip(
-            from: $from
-            to: $to
-            modes: { directMode: foot }
-            numTripPatterns: 1
-        ) {
-            tripPatterns {
-                duration
-                walkDistance
-            }
-        }
-    }
-`
+import { useSettings } from '../../settings/SettingsProvider'
+import { usePrevious, isNotNullOrUndefined } from '../../utils'
+import { apolloClient } from '../../services/realtimeVehicles/realtimeVehiclesService'
+import GET_WALK_INFO_QUERY from './GetWalkInfo.graphql'
 
 type PlaceLocation = {
     name?: string

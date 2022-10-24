@@ -29,7 +29,7 @@ import {
     isMobileWeb,
     BREAKPOINTS,
 } from '../../utils'
-import { WalkInfo } from '../../logic/useWalkInfo'
+import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import { LongPressProvider } from '../../logic/longPressContext'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'

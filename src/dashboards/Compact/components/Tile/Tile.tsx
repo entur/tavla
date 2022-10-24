@@ -1,6 +1,6 @@
 import React from 'react'
 import { Heading2 } from '@entur/typography'
-import { WalkInfo } from '../../../../logic/useWalkInfo'
+import { WalkInfo } from '../../../../logic/use-walk-info/useWalkInfo'
 import { useIsLongPressed } from '../../../../logic/longPressContext'
 import './Tile.scss'
 

@@ -20,7 +20,7 @@ import { LineData, IconColorType } from '../../types'
 import { useStopPlacesWithDepartures, useWalkInfo } from '../../logic'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { useSettings } from '../../settings/SettingsProvider'
-import { WalkInfo } from '../../logic/useWalkInfo'
+import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import {
     RearrangeModal,
     Item,

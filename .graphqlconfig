@@ -46,7 +46,11 @@
       "schemaPath": "graphql-schemas/journey-planner-v3.graphql",
       "includes": [
         "graphql-schemas/ApiDirective.graphql",
-        "graphql-schemas/journey-planner-v3.graphql"
+        "graphql-schemas/journey-planner-v3.graphql",
+        "src/logic/use-stop-places-with-departures/GetStopPlacesWithDepartures.graphql",
+        "src/logic/use-nearest-places/GetNearestPlaces.graphql",
+        "src/logic/use-walk-info/GetWalkInfo.graphql",
+        "src/logic/get-stop-places-with-lines/GetStopPlacesWithLines.graphql"
       ],
       "extensions": {
         "endpoints": {

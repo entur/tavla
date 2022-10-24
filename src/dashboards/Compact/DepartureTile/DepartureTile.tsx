@@ -17,7 +17,7 @@ import {
 import { Tile } from '../components/Tile/Tile'
 import { TileRow } from '../components/TileRow/TileRow'
 import { useSettings } from '../../../settings/SettingsProvider'
-import { WalkInfo } from '../../../logic/useWalkInfo'
+import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 
 function getTransportHeaderIcons(
     departures: LineData[],
