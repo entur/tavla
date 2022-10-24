@@ -1,0 +1,8 @@
+enum Endpoints {
+    vehicles
+    mobility
+    journey_planner_v2
+    journey_planner_v3
+}
+
+directive @api(name: Endpoints) on QUERY | SUBSCRIPTION | MUTATION

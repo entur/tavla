@@ -1,0 +1,308 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+}
+
+type BrandAssets {
+    brandImageUrl: String!
+    brandImageUrlDark: String
+    brandLastModified: String!
+    brandTermsUrl: String
+    color: String
+}
+
+type EcoLabel {
+    countryCode: String!
+    ecoSticker: String!
+}
+
+type Feature {
+    geometry: MultiPolygon
+    properties: GeofencingZoneProperties
+    type: String
+}
+
+type FeatureCollection {
+    features: [Feature]
+    type: String
+}
+
+type GeofencingZoneProperties {
+    end: Int
+    name: String
+    rules: [GeofencingZoneRule]
+    start: Int
+}
+
+type GeofencingZoneRule {
+    maximumSpeedKph: Int
+    rideAllowed: Boolean!
+    rideThroughAllowed: Boolean!
+    stationParking: Boolean
+    vehicleTypeIds: [String]
+}
+
+type GeofencingZones {
+    geojson: FeatureCollection
+    systemId: ID
+}
+
+type MultiPolygon {
+    coordinates: [[[[Float]]]]
+    type: String
+}
+
+type Operator {
+    id: ID!
+    name: TranslatedString!
+}
+
+type PricingPlan {
+    currency: String!
+    description: TranslatedString!
+    id: ID!
+    isTaxable: Boolean!
+    name: TranslatedString!
+    perKmPricing: [PricingSegment]
+    perMinPricing: [PricingSegment]
+    price: Float!
+    surgePricing: Boolean
+    url: String
+}
+
+type PricingSegment {
+    end: Int
+    interval: Int!
+    rate: Float!
+    start: Int!
+}
+
+type Query {
+    codespaces: [String]
+    geofencingZones(systemIds: [ID]): [GeofencingZones]
+    operators: [Operator]
+    stations(availableFormFactors: [FormFactor], availablePropulsionTypes: [PropulsionType], codespaces: [String], count: Int, lat: Float!, lon: Float!, operators: [String], range: Int!, systems: [String]): [Station]
+    stationsById(ids: [String]!): [Station]
+    vehicles(codespaces: [String], count: Int, formFactors: [FormFactor], includeDisabled: Boolean = false, includeReserved: Boolean = false, lat: Float!, lon: Float!, operators: [String], propulsionTypes: [PropulsionType], range: Int!, systems: [String]): [Vehicle]
+}
+
+type Region {
+    id: ID!
+    name: String!
+}
+
+type RentalApp {
+    discoveryUri: String
+    storeUri: String
+}
+
+type RentalApps {
+    android: RentalApp
+    ios: RentalApp
+}
+
+type RentalUris {
+    android: String
+    ios: String
+    web: String
+}
+
+type Station {
+    address: String
+    capacity: Int
+    contactPhone: String
+    crossStreet: String
+    id: ID!
+    isChargingStation: Boolean
+    isInstalled: Boolean!
+    isRenting: Boolean!
+    isReturning: Boolean!
+    isValetStation: Boolean
+    isVirtualStation: Boolean
+    lastReported: Int!
+    lat: Float!
+    lon: Float!
+    name: TranslatedString!
+    numBikesAvailable: Int!
+    numBikesDisabled: Int
+    numDocksAvailable: Int
+    numDocksDisabled: Int
+    parkingHoop: Boolean
+    parkingType: ParkingType
+    postCode: String
+    pricingPlans: [PricingPlan]!
+    region: Region
+    rentalMethods: [RentalMethod]
+    rentalUris: RentalUris
+    shortName: TranslatedString
+    stationArea: MultiPolygon
+    system: System!
+    vehicleCapacity: [VehicleTypeCapacity]
+    vehicleDocksAvailable: [VehicleDocksAvailability]
+    vehicleTypeCapacity: [VehicleTypeCapacity]
+    vehicleTypesAvailable: [VehicleTypeAvailability]
+}
+
+type System {
+    brandAssets: BrandAssets
+    email: String
+    feedContactEmail: String
+    id: ID!
+    language: String!
+    licenseUrl: String
+    name: TranslatedString!
+    operator: Operator!
+    phoneNumber: String
+    privacyLastUpdated: String
+    privacyUrl: String
+    purchaseUrl: String
+    rentalApps: RentalApps
+    shortName: TranslatedString
+    startDate: String
+    termsLastUpdated: String
+    termsUrl: String
+    timezone: String!
+    url: String
+}
+
+type TranslatedString {
+    translation: [Translation]!
+}
+
+type Translation {
+    language: String!
+    value: String!
+}
+
+type Vehicle {
+    availableUntil: String
+    currentFuelPercent: Float
+    currentRangeMeters: Float!
+    id: ID!
+    isDisabled: Boolean!
+    isReserved: Boolean!
+    lat: Float!
+    lon: Float!
+    pricingPlan: PricingPlan!
+    rentalUris: RentalUris
+    system: System!
+    vehicleEquipment: [VehicleEquipment]
+    vehicleType: VehicleType!
+}
+
+type VehicleAssets {
+    iconLastModified: String!
+    iconUrl: String!
+    iconUrlDark: String
+}
+
+type VehicleDocksAvailability {
+    count: Int!
+    vehicleTypes: [VehicleType]!
+}
+
+type VehicleType {
+    cargoLoadCapacity: Int
+    cargoVolumeCapacity: Int
+    color: String
+    defaultPricingPlan: PricingPlan
+    defaultReserveTime: Int
+    ecoLabel: [EcoLabel]
+    formFactor: FormFactor!
+    gCO2km: Int
+    id: ID!
+    make: String
+    maxPermittedSpeed: Int
+    maxRangeMeters: Float
+    model: String
+    name: TranslatedString
+    pricingPlans: [PricingPlan]
+    propulsionType: PropulsionType!
+    ratedPower: Int
+    returnConstraint: ReturnConstraint
+    riderCapacity: Int
+    vehicleAccessories: [VehicleAccessory]
+    vehicleAssets: VehicleAssets
+    vehicleImage: String
+    wheelCount: Int
+}
+
+type VehicleTypeAvailability {
+    count: Int!
+    vehicleType: VehicleType!
+}
+
+type VehicleTypeCapacity {
+    count: Int!
+    vehicleType: VehicleType!
+}
+
+enum FormFactor {
+    BICYCLE
+    CAR
+    CARGO_BICYCLE
+    MOPED
+    OTHER
+    SCOOTER
+    SCOOTER_SEATED
+    SCOOTER_STANDING
+}
+
+enum ParkingType {
+    OTHER
+    PARKING_LOT
+    SIDEWALK_PARKING
+    STREET_PARKING
+    UNDERGROUND_PARKING
+}
+
+enum PropulsionType {
+    COMBUSTION
+    COMBUSTION_DIESEL
+    ELECTRIC
+    ELECTRIC_ASSIST
+    HUMAN
+    HYBRID
+    HYDROGEN_FUEL_CELL
+    PLUG_IN_HYBRID
+}
+
+enum RentalMethod {
+    ACCOUNTNUMBER
+    ANDROIDPAY
+    APPLEPLAY
+    CREDITCARD
+    KEY
+    PAYPASS
+    PHONE
+    TRANSITCARD
+}
+
+enum ReturnConstraint {
+    ANY_STATION
+    FREE_FLOATING
+    HYBRID
+    ROUNDTRIP_STATION
+}
+
+enum VehicleAccessory {
+    AIR_CONDITIONING
+    AUTOMATIC
+    CONVERTIBLE
+    CRUISE_CONTROL
+    DOORS_2
+    DOORS_3
+    DOORS_4
+    DOORS_5
+    MANUAL
+    NAVIGATION
+}
+
+enum VehicleEquipment {
+    CHILD_SEAT_A
+    CHILD_SEAT_B
+    CHILD_SEAT_C
+    SNOW_CHAINS
+    WINTER_TIRES
+}

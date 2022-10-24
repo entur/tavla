@@ -1,0 +1,23 @@
+#import "./VehicleFragment.graphql"
+
+query VehiclesQuery(
+    $codespaceId: String
+    $lineRef: String
+    $serviceJourneyId: String
+    $operatorRef: String
+    $mode: VehicleModeEnumeration
+    $monitored: Boolean
+    $boundingBox: BoundingBox
+) @api(name: vehicles) {
+    vehicles(
+        codespaceId: $codespaceId
+        lineRef: $lineRef
+        serviceJourneyId: $serviceJourneyId
+        operatorRef: $operatorRef
+        mode: $mode
+        monitored: $monitored
+        boundingBox: $boundingBox
+    ) {
+        ...VehicleFragment
+    }
+}
