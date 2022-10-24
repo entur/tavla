@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -11,13 +11,13 @@ import { LoginCase } from '../LoginModal/login-modal-types'
 import { CloseButton } from '../CloseButton/CloseButton'
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
-import { getDocumentId } from '../../utils'
 import './MineTavlerModal.scss'
 
 const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const navigate = useNavigate()
     const user = useUser()
     const [settings, setSettings] = useSettings()
+    const { documentId } = useParams<{ documentId: string }>()
 
     const isLocked =
         user && !user.isAnonymous && settings?.owners?.length && open
@@ -42,7 +42,7 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
         )
     }
 
-    if (user && !user.isAnonymous && !getDocumentId() && open) {
+    if (user && !user.isAnonymous && !documentId && open) {
         navigate('/tavler')
         return null
     }

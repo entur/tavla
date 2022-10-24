@@ -1,4 +1,5 @@
 import React, { Dispatch, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import type { User } from 'firebase/auth'
 import {
     Heading2,
@@ -10,7 +11,6 @@ import {
 } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { useUser } from '../../../UserProvider'
-import { getDocumentId } from '../../../utils'
 import { LoginModal } from '../../../components/LoginModal/LoginModal'
 import { LoginCase } from '../../../components/LoginModal/login-modal-types'
 import { LogoUpload } from './LogoUpload/LogoUpload'
@@ -54,7 +54,7 @@ const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false)
     const user = useUser()
 
-    const documentId = getDocumentId()
+    const { documentId } = useParams<{ documentId: string }>()
 
     useEffect((): void => {
         if (tabIndex === 3 && user && user.isAnonymous) {

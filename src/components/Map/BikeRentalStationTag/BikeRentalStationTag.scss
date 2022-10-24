@@ -1,8 +1,7 @@
-@import '../../../assets/styles/import.scss';
-@import '../../../variables.scss';
+@use '../../../assets/styles/Variables.scss';
 
 .bicycle-tag {
-    background-color: $colors-transport-default-mobility;
+    background-color: Variables.$colors-transport-default-mobility;
     justify-content: center;
     text-align: center;
     width: 100%;

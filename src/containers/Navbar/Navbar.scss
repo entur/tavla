@@ -1,10 +1,10 @@
-@import '../../assets/styles/import.scss';
+@use '../../assets/styles/Variables.scss';
 
 .navbar {
     align-items: center;
     display: flex;
     justify-content: space-between;
-    padding: $space-medium 4rem;
+    padding: Variables.$space-medium 4rem;
     color: var(--tavla-font-color);
 
     ul {
@@ -30,9 +30,9 @@
     }
 }
 
-@media (max-width: $breakpoints-large) {
+@media (max-width: Variables.$breakpoints-large) {
     .navbar {
-        padding: $space-small $space-medium;
+        padding: Variables.$space-small Variables.$space-medium;
 
         li a {
             padding: 0;

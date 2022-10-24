@@ -1,10 +1,9 @@
-@import '../../../assets/styles/import.scss';
-@import '../../../variables.scss';
+@use '../../../assets/styles/Variables.scss';
 
 .departure-tile {
     position: relative;
     background-color: white;
-    color: $colors-brand-blue;
+    color: Variables.$colors-brand-blue;
     margin-left: 1rem;
     margin-right: 1rem;
     border-radius: 1rem;
@@ -22,7 +21,7 @@
 .weather-tile-map {
     position: relative;
     background-color: white;
-    color: $colors-brand-blue;
+    color: Variables.$colors-brand-blue;
     padding: 2rem 0;
     margin: 0 1rem;
     border-radius: 1rem;
@@ -40,7 +39,7 @@
     padding-top: 0.5rem;
 
     &__date {
-        color: $colors-greys-grey30;
+        color: Variables.$colors-greys-grey30;
         margin-left: 0.5rem;
     }
 
@@ -70,5 +69,5 @@
     left: 1.4rem;
     right: 1.4rem;
     height: 1px;
-    background-color: $colors-greys-grey30;
+    background-color: Variables.$colors-greys-grey30;
 }

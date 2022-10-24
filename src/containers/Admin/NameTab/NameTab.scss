@@ -1,5 +1,4 @@
-@import '../../../assets/styles/import.scss';
-@import '../../../variables.scss';
+@use '../../../assets/styles/Variables.scss';
 
 .label {
     color: var(--tavla-label-font-color);
@@ -30,8 +29,8 @@
     }
 
     .custom-url {
-        padding-top: $space-extra-large;
-        padding-bottom: $space-extra-large;
+        padding-top: Variables.$space-extra-large;
+        padding-bottom: Variables.$space-extra-large;
 
         .input-area {
             display: flex;
@@ -40,7 +39,7 @@
 
         .prepend {
             position: relative;
-            padding-right: $space-extra-small;
+            padding-right: Variables.$space-extra-small;
             top: 0.2rem;
             color: var(--tavla-font-color);
         }
@@ -52,7 +51,7 @@
         .submit-button {
             align-self: flex-start;
             float: right;
-            padding-left: $space-small;
+            padding-left: Variables.$space-small;
         }
     }
 }
