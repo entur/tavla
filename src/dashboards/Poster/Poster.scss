@@ -1,3 +1,5 @@
+@use '../../assets/styles/Variables.scss';
+
 .poster {
     display: flex;
     flex-direction: column;
@@ -71,7 +73,7 @@
     &-mobility-vehicles-box {
         display: flex;
         border-radius: 12px;
-        background-color: var(--tavla-box-background-color);
+        background-color: Variables.$colors-blues-blue20;
         justify-content: space-between;
         align-items: center;
         font-size: 7.8rem;

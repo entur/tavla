@@ -1,54 +1,47 @@
+@use '../../../../assets/styles/Variables.scss';
+
 .poster-bus-tile {
     border-radius: 12px;
-    background-color: var(--tavla-box-background-color);
+    background-color: Variables.$colors-blues-blue20;
     justify-content: space-between;
     font-size: 2.5rem;
     width: 100%;
     margin-bottom: 10%;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: 1.5rem 2rem 1.5rem 2rem;
+    line-height: 1.2;
 
     &-row {
-        margin: 1rem;
+        margin: 0.5rem 0 0.5rem 0;
         display: flex;
     }
 
     &-route {
+        display: flex;
+        align-items: center;
         background-color: #c5044e;
         border-radius: 10px;
-        width: 12rem;
-    }
-
-    &-route-number {
-        float: right;
-        line-height: 1;
-        margin: 1rem 1rem 0 0;
-
-        &--text-small {
-            font-size: 2rem;
-        }
+        padding: 0 1rem 0 0.5rem;
     }
 
     &-icon {
-        color: white;
-        height: 4rem;
-        width: 4rem;
-        margin-left: 1rem;
+        font-size: 4rem;
+        display: inline-block;
+        color: inherit;
+        margin-right: 1rem;
+        margin-bottom: 0.5rem;
     }
 
     &-destination {
-        margin: 1rem;
-        width: 50%;
+        margin: auto auto auto 1.5rem;
         white-space: nowrap;
         overflow-y: hidden;
         text-overflow: ellipsis;
-        line-height: 1;
     }
 
     &-time {
-        margin: 1.5rem;
-        margin-left: auto;
+        margin: auto 0 auto auto;
         font-weight: bold;
     }
 }
