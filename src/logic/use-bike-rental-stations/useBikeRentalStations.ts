@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { Station } from '@entur/sdk/lib/mobility/types'
 import { useSettings } from '../../settings/SettingsProvider'
@@ -70,7 +70,10 @@ function useBikeRentalStations(excludeHiddenStations = true): Station[] {
         getNearByStationsData,
     ])
 
-    return getStationsByIdData?.stationsById ?? []
+    return useMemo(
+        () => getStationsByIdData?.stationsById ?? [],
+        [getStationsByIdData?.stationsById],
+    )
 }
 
 export { useBikeRentalStations }
