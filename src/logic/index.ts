@@ -4,4 +4,3 @@ export { useStopPlacesWithDepartures } from './use-stop-places-with-departures/u
 export { useMobility } from './use-mobility/useMobility'
 export { useWalkInfo } from './use-walk-info/useWalkInfo'
 export { useWeather } from './useWeather'
-export { useOperators } from './useOperators'
