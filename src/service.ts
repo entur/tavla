@@ -1,4 +1,3 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client'
 import createEnturClient from '@entur/sdk'
 
 const CLIENT_NAME = process.env.CLIENT_NAME || ''
@@ -19,12 +18,4 @@ const enturClient = createEnturClient({
     },
 })
 
-const apolloClient = new ApolloClient({
-    uri: `${process.env.JOURNEYPLANNER_HOST_V3}/graphql`,
-    cache: new InMemoryCache(),
-    headers: {
-        'ET-Client-Name': CLIENT_NAME,
-    },
-})
-
-export { enturClient, apolloClient }
+export { enturClient }

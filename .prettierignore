@@ -2,3 +2,4 @@ dist
 lib
 vendor
 graphql-schemas
+*.graphql

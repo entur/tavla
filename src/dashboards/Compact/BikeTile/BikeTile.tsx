@@ -7,7 +7,7 @@ import { TileRow } from '../components/TileRow/TileRow'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { IconColorType } from '../../../types'
 import { getIconColorType, getTranslation } from '../../../utils'
-import { useWalkInfo, WalkInfo } from '../../../logic/useWalkInfo'
+import { useWalkInfo, WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 
 function getWalkInfoBike(
     walkInfos: WalkInfo[],

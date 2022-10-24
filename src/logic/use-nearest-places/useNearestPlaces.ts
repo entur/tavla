@@ -1,38 +1,8 @@
 import { useState, useEffect } from 'react'
-import { gql } from '@apollo/client'
 import { NearestPlace, Coordinates, TypeName } from '@entur/sdk'
-import { isNotNullOrUndefined } from '../utils'
-import { apolloClient } from '../service'
-
-const GET_NEAREST_PLACES_QUERY = gql`
-    query getNearestPlaces(
-        $latitude: Float!
-        $longitude: Float!
-        $maximumDistance: Float!
-        $filterByPlaceTypes: [FilterPlaceType]
-        $multiModalMode: MultiModalMode
-    ) {
-        nearest(
-            latitude: $latitude
-            longitude: $longitude
-            maximumDistance: $maximumDistance
-            filterByPlaceTypes: $filterByPlaceTypes
-            multiModalMode: $multiModalMode
-        ) {
-            edges {
-                node {
-                    distance
-                    place {
-                        __typename
-                        id
-                        latitude
-                        longitude
-                    }
-                }
-            }
-        }
-    }
-`
+import { isNotNullOrUndefined } from '../../utils'
+import { apolloClient } from '../../services/realtimeVehicles/realtimeVehiclesService'
+import GET_NEAREST_PLACES_QUERY from './GetNearestPlaces.graphql'
 
 type GetNearestPlacesVariables = {
     latitude: number
