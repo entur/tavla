@@ -90,7 +90,8 @@ const Poster = (): JSX.Element => {
                                     Elsparkesykler
                                 </h2>
                                 <h3 className="poster-mobility-description-area">
-                                    Innen 200 meters radius
+                                    Innen {settings?.distance || 0} meters
+                                    radius
                                 </h3>
                             </div>
                             <div className="poster-mobility-vehicles-box">
