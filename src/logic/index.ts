@@ -1,4 +1,4 @@
-export { useBikeRentalStations } from './useBikeRentalStations'
+export { useBikeRentalStations } from './use-bike-rental-stations/useBikeRentalStations'
 export { useNearestPlaces } from './use-nearest-places/useNearestPlaces'
 export { useStopPlacesWithDepartures } from './use-stop-places-with-departures/useStopPlacesWithDepartures'
 export { useMobility } from './use-mobility/useMobility'
