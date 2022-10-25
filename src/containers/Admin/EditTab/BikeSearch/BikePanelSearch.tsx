@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-// Workaround for incompatible AbortSignal types between lib.dom and @entur/sdk
-import { AbortSignal as AbortSignalNodeFetch } from 'node-fetch/externals'
+import React, { useCallback } from 'react'
+import { useQuery } from '@apollo/client'
 import { Coordinates } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
 import { Station } from '@entur/sdk/lib/mobility/types'
-import { enturClient } from '../../../../service'
-import { createAbortController, getTranslation } from '../../../../utils'
+import { GetStationsParams } from '@entur/sdk/lib/mobility/getStations'
+import { getTranslation } from '../../../../utils'
+import BikePanelSearchQuery from './BikePanelSearch.graphql'
 import './BikePanelSearch.scss'
 
 const MAX_SEARCH_RANGE = 100_000
@@ -22,36 +22,26 @@ function mapFeaturesToItems(features: Station[]): Item[] {
     }))
 }
 
-const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
-    const [stations, setStations] = useState<Station[]>([])
+interface BikePanelSearchProps {
+    onSelected: (stationId: string) => void
+    position: Coordinates
+}
 
-    useEffect(() => {
-        const controller = createAbortController()
-        if (position) {
-            enturClient.mobility
-                .getStations(
-                    {
-                        lat: position.latitude,
-                        lon: position.longitude,
-                        range: MAX_SEARCH_RANGE,
-                    },
-                    {
-                        signal: controller.signal as AbortSignalNodeFetch,
-                    },
-                )
-                .then((data) => {
-                    setStations(data)
-                })
-                .catch((err) => {
-                    if (!controller.signal?.aborted) {
-                        throw err
-                    }
-                })
-        }
-        return () => {
-            controller.abort()
-        }
-    }, [position])
+const BikePanelSearch: React.FC<BikePanelSearchProps> = ({
+    onSelected,
+    position,
+}) => {
+    const { data } = useQuery<{ stations: Station[] }, GetStationsParams>(
+        BikePanelSearchQuery,
+        {
+            variables: {
+                lat: position?.latitude,
+                lon: position?.longitude,
+                range: MAX_SEARCH_RANGE,
+            },
+            fetchPolicy: 'cache-and-network',
+        },
+    )
 
     const getItems = (query: string): Item[] => {
         const inputValue = query.trim().toLowerCase()
@@ -59,19 +49,22 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
         if (!inputLength) return []
 
         return mapFeaturesToItems(
-            stations.filter((station) =>
+            data?.stations.filter((station) =>
                 getTranslation(station.name)
                     ?.toLowerCase()
                     .match(new RegExp(inputValue)),
-            ),
+            ) ?? [],
         )
     }
 
-    const onItemSelected = (item: Item | null): void => {
-        if (item) {
-            onSelected(item.value)
-        }
-    }
+    const handleOnChange = useCallback(
+        (item: Item | null): void => {
+            if (item) {
+                onSelected(item.value)
+            }
+        },
+        [onSelected],
+    )
 
     return (
         <div className="bike-search">
@@ -80,16 +73,11 @@ const BikePanelSearch = ({ onSelected, position }: Props): JSX.Element => {
                 openOnFocus
                 label="Ny bysykkelstasjon"
                 items={getItems}
-                onChange={onItemSelected}
+                onChange={handleOnChange}
                 highlightFirstItemOnOpen
             />
         </div>
     )
-}
-
-interface Props {
-    onSelected: (stationId: string) => void
-    position: Coordinates | undefined
 }
 
 export { BikePanelSearch }

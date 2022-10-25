@@ -1,0 +1,11 @@
+query GetOperators @api(name: mobility) {
+    operators {
+        id
+        name {
+            translation {
+                language
+                value
+            }
+        }
+    }
+}

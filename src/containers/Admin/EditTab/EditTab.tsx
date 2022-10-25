@@ -174,11 +174,7 @@ const EditTab = (): JSX.Element => {
     const [stopPlaces, setStopPlaces] = useState<
         StopPlaceWithLines[] | undefined
     >(undefined)
-    const bikeRentalStations: Station[] | undefined =
-        useBikeRentalStations(false)
-    const [sortedBikeRentalStations, setSortedBikeRentalStations] = useState<
-        Station[]
-    >([])
+    const bikeRentalStations = useBikeRentalStations(false)
 
     const nearestPlaces = useNearestPlaces(
         settings?.coordinates,
@@ -219,9 +215,9 @@ const EditTab = (): JSX.Element => {
         }
     }, [nearestPlaces, nearestStopPlaceIds, newStops])
 
-    useEffect(() => {
-        if (bikeRentalStations) {
-            const sortedStations = bikeRentalStations
+    const sortedBikeRentalStations = useMemo(
+        () =>
+            bikeRentalStations
                 .filter(isNotNullOrUndefined)
                 .sort((a: Station, b: Station) => {
                     const aName = getTranslation(a.name)
@@ -229,10 +225,9 @@ const EditTab = (): JSX.Element => {
                     if (!aName) return 1
                     if (!bName) return -1
                     return aName.localeCompare(bName, 'no')
-                })
-            setSortedBikeRentalStations(sortedStations)
-        }
-    }, [bikeRentalStations])
+                }),
+        [bikeRentalStations],
+    )
 
     const addNewStop = useCallback(
         (stopId: string) => {
@@ -685,10 +680,12 @@ const EditTab = (): JSX.Element => {
                             size="large"
                         />
                     </div>
-                    <BikePanelSearch
-                        position={settings?.coordinates}
-                        onSelected={addNewStation}
-                    />
+                    {!!settings?.coordinates && (
+                        <BikePanelSearch
+                            position={settings.coordinates}
+                            onSelected={addNewStation}
+                        />
+                    )}
                     <BikePanel stations={sortedBikeRentalStations} />
                 </div>
                 <div key="scooterPanel" className="edit-tab__tile">

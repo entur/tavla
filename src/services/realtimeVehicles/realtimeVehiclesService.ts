@@ -30,15 +30,17 @@ const endpoints = {
 }
 
 const apolloClient = new ApolloClient({
-    headers: {
-        'ET-Client-Name': CLIENT_NAME,
-    },
     link: ApolloLink.from([
         new MultiAPILink({
             endpoints,
             httpSuffix: '/graphql',
             wsSuffix: '/subscriptions',
-            createHttpLink: () => createHttpLink(),
+            createHttpLink: () =>
+                createHttpLink({
+                    headers: {
+                        'ET-Client-Name': CLIENT_NAME,
+                    },
+                }),
             createWsLink: (endpoint) =>
                 new WebSocketLink({
                     uri: endpoint,
