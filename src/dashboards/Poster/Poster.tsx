@@ -29,7 +29,7 @@ const Poster = (): JSX.Element => {
     return (
         <div className="poster">
             <div className="poster-header">
-                <EnturLogo />
+                <EnturLogo className="poster-header-logo" />
             </div>
             <div className="poster-content-wrapper">
                 <div className="poster-heading-wrapper">
