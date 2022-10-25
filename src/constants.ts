@@ -14,3 +14,12 @@ export const SWEEP_INTERVAL_MS = 1000
 export const BUFFER_SIZE = 20
 export const BUFFER_TIME = 200
 export const DEFAULT_FETCH_POLICY = 'no-cache'
+
+// Client name for calling the API
+export const CLIENT_NAME = process.env.CLIENT_NAME || ''
+if (!CLIENT_NAME && process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line no-console
+    console.error(
+        'CLIENT_NAME is missing! Please set a client name in your environment config.',
+    )
+}

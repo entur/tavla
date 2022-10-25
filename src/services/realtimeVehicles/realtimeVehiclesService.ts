@@ -6,15 +6,7 @@ import {
 } from '@apollo/client'
 import { WebSocketLink } from '@apollo/client/link/ws'
 import { MultiAPILink } from '@habx/apollo-multi-endpoint-link'
-
-const CLIENT_NAME = process.env.CLIENT_NAME || ''
-
-if (!CLIENT_NAME && process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line no-console
-    console.error(
-        'CLIENT_NAME is missing! Please set a client name in your environment config.',
-    )
-}
+import { CLIENT_NAME } from '../../constants'
 
 const endpoints = {
     vehicles:

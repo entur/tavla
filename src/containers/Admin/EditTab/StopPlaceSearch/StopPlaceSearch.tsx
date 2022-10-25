@@ -1,37 +1,19 @@
 import React from 'react'
-import { Coordinates, Feature } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
-import { enturClient } from '../../../../service'
+import {
+    AutocompleteItem,
+    fetchAutocomplete,
+} from '../../../../logic/geocoder/fetchAutocomplete'
 import './StopPlaceSearch.scss'
 
-interface Item {
-    value: string
-    label: string
-    coordinates?: Coordinates
+interface StopPlaceSearchProps {
+    handleAddNewStop: (stopId: string) => void
 }
 
-function mapFeaturesToItems(features: Feature[]): Item[] {
-    return features.map(({ geometry, properties: { id, name, locality } }) => ({
-        value: id,
-        label: locality ? `${name}, ${locality}` : name,
-        coordinates: {
-            longitude: geometry.coordinates[0],
-            latitude: geometry.coordinates[1],
-        },
-    }))
-}
-
-async function getItems(query: string): Promise<Item[]> {
-    if (!query.trim().length) return []
-
-    const featuresData = await enturClient.getFeatures(query, undefined, {
-        layers: ['venue'],
-    })
-    return mapFeaturesToItems(featuresData)
-}
-
-const StopPlaceSearch = ({ handleAddNewStop }: Props): JSX.Element => {
-    const onItemSelected = (item: Item | null): void => {
+const StopPlaceSearch: React.FC<StopPlaceSearchProps> = ({
+    handleAddNewStop,
+}) => {
+    const onItemSelected = (item: AutocompleteItem | null): void => {
         if (item) {
             handleAddNewStop(item.value)
         }
@@ -44,16 +26,12 @@ const StopPlaceSearch = ({ handleAddNewStop }: Props): JSX.Element => {
                 openOnFocus
                 debounceTimeout={500}
                 label="Nytt stoppested"
-                items={getItems}
+                items={fetchAutocomplete}
                 onChange={onItemSelected}
                 highlightFirstItemOnOpen
             />
         </div>
     )
-}
-
-interface Props {
-    handleAddNewStop: (stopId: string) => void
 }
 
 export { StopPlaceSearch }
