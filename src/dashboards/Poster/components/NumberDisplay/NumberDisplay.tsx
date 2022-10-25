@@ -1,13 +1,21 @@
 import React from 'react'
+import classNames from 'classnames'
 import './NumberDisplay.scss'
 
 const NumberDisplay = ({
     numberOfVehicles,
 }: NumberDisplayProps): JSX.Element => {
-    if (numberOfVehicles > 99)
-        return <span className="poster-number-display">99+</span>
+    const isLargeNumber = numberOfVehicles > 99
 
-    return <span>{numberOfVehicles}</span>
+    return (
+        <span
+            className={classNames({
+                'poster-number-long': isLargeNumber,
+            })}
+        >
+            {isLargeNumber ? '99+' : numberOfVehicles.toString()}
+        </span>
+    )
 }
 
 interface NumberDisplayProps {

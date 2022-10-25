@@ -1,3 +1,5 @@
+@use '../../assets/styles/Variables.scss';
+
 .poster {
     display: flex;
     flex-direction: column;
@@ -6,26 +8,32 @@
 
     &-content-wrapper {
         height: 100%;
-        padding: 0 4rem 0 4rem;
+        padding: 0 6rem 0 6rem;
     }
 
     &-next-bus {
-        font-size: 2.5rem;
-        padding-bottom: 2.5rem;
+        font-size: 3rem;
+        font-weight: 600;
+        padding: 2.5rem 0 2.5rem 0;
     }
 
     &-header {
         display: flex;
         justify-content: flex-end;
         padding: 5rem 5rem 0 0;
+
+        &-logo {
+            height: 3.5rem;
+        }
     }
 
     &-heading-wrapper {
-        padding: 4rem 0 4rem 0;
+        padding: 8rem 0 4rem 0;
     }
 
     &-heading {
-        font-size: 8rem;
+        font-size: 7rem;
+        font-weight: 600;
     }
 
     &-mobility-tiles-wrapper {
@@ -42,6 +50,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        width: 46%;
 
         &--listed {
             flex-direction: row-reverse;
@@ -52,13 +61,14 @@
     &-mobility-description {
         display: flex;
         flex-direction: column;
-        margin: 2rem 0 2rem 0;
-        width: 26rem;
+        margin: 2rem 0 1rem 0;
+        width: 100%;
 
         &-heading {
             font-size: 3rem;
+            font-weight: 600;
             margin: 0;
-            padding-bottom: 2rem;
+            padding-bottom: 1.5rem;
         }
 
         &-area {
@@ -71,30 +81,11 @@
     &-mobility-vehicles-box {
         display: flex;
         border-radius: 12px;
-        background-color: var(--tavla-box-background-color);
+        background-color: Variables.$colors-blues-blue20;
         justify-content: space-between;
         align-items: center;
-        font-size: 7.8rem;
-        height: 13rem;
-        width: 28rem;
-        padding: 3rem;
-
-        &-overflow {
-            display: inline-block;
-
-            span {
-                height: 40px;
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            &-number {
-                font-size: 6rem;
-            }
-
-            &-symbol {
-                font-size: 2rem;
-            }
-        }
+        font-size: 8rem;
+        width: 100%;
+        padding: 2rem 2.5rem 2rem 2.5rem;
     }
 }
