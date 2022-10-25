@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import classNames from 'classnames'
 import { compareAsc } from 'date-fns'
 import { BusIcon } from '@entur/icons'
 import { TransportMode } from '@entur/sdk'
@@ -32,15 +31,7 @@ function BusTile(): JSX.Element {
                     <div key={departure.id} className="poster-bus-tile-row">
                         <div className="poster-bus-tile-route">
                             <BusIcon className="poster-bus-tile-icon" />
-                            <div
-                                className={classNames({
-                                    'poster-bus-tile-route-number': true,
-                                    'poster-bus-tile-route-number--text-small':
-                                        (routeNumber?.length ?? 0) > 3,
-                                })}
-                            >
-                                {routeNumber}
-                            </div>
+                            <span>{routeNumber}</span>
                         </div>
                         <p className="poster-bus-tile-destination">
                             {routeDestination}

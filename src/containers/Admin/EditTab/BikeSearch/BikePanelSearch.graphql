@@ -1,0 +1,19 @@
+query BikePanelSearch (
+    $lat: Float!
+    $lon: Float!
+    $range: Int!
+) @api(name: mobility) {
+    stations(
+        lon: $lon
+        lat: $lat
+        range: $range
+    ) {
+        id
+        name {
+            translation {
+                language
+                value
+            }
+        }
+    }
+}
