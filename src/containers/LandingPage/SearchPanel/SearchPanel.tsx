@@ -1,10 +1,11 @@
 import React, { memo, useState, useEffect } from 'react'
 import { Button } from '@entur/button'
-import { Coordinates, Feature, convertFeatureToLocation } from '@entur/sdk'
+import { Coordinates } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
 import { PositionIcon } from '@entur/icons'
-import { enturClient } from '../../../service'
 import { useLocationPermission } from '../../../hooks'
+import { fetchAutocomplete } from '../../../logic/geocoder/fetchAutocomplete'
+import { fetchReverse } from '../../../logic/geocoder/fetchReverse'
 import './SearchPanel.scss'
 
 const YOUR_POSITION = 'Posisjonen din'
@@ -15,28 +16,6 @@ interface Item {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     icons?: Array<React.ComponentType<any>>
     coordinates?: Coordinates
-}
-
-async function getStopPlace(coordinates: {
-    latitude: number
-    longitude: number
-}): Promise<string | undefined> {
-    const result = await enturClient.getFeaturesReverse(coordinates, {
-        size: 1,
-        radius: 1000,
-    })
-    return result[0] && convertFeatureToLocation(result[0]).name
-}
-
-function mapFeaturesToItems(features: Feature[]): Item[] {
-    return features.map(({ geometry, properties: { id, name, locality } }) => ({
-        value: id,
-        label: locality ? `${name}, ${locality}` : name,
-        coordinates: {
-            longitude: geometry.coordinates[0],
-            latitude: geometry.coordinates[1],
-        },
-    }))
 }
 
 function getErrorMessage(error: GeolocationPositionError): string {
@@ -75,7 +54,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
 
     const getAddressFromPosition = (position: Coordinates): void => {
         setChosenCoord(position)
-        getStopPlace(position).then((locationName) => {
+        fetchReverse(position).then((locationName) => {
             if (locationName) {
                 setLocation({
                     hasLocation: true,
@@ -152,8 +131,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
             return defaultSuggestions
         }
 
-        const featuresData = await enturClient.getFeatures(query)
-        const suggestedFeatures = mapFeaturesToItems(featuresData)
+        const suggestedFeatures = await fetchAutocomplete(query)
         return [...defaultSuggestions, ...suggestedFeatures]
     }
 
