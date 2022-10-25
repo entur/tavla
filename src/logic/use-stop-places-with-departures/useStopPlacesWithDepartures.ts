@@ -7,7 +7,7 @@ import { useSettings } from '../../settings/SettingsProvider'
 import { REFRESH_INTERVAL } from '../../constants'
 import { useNearestPlaces } from '../use-nearest-places/useNearestPlaces'
 import { apolloClient } from '../../services/realtimeVehicles/realtimeVehiclesService'
-import GET_STOP_PLACES_WITH_DEPARTURES_QUERY from './GetStopPlacesWithDepartures.graphql'
+import GET_STOP_PLACES_WITH_DEPARTURES_QUERY from './GetStopPlacesWithDepartures.journey-planner.graphql'
 
 type GetStopPlacesWithDeparturesVariables = {
     ids: string[]

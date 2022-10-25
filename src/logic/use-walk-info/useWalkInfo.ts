@@ -4,7 +4,7 @@ import { Coordinates } from '@entur/sdk'
 import { useSettings } from '../../settings/SettingsProvider'
 import { usePrevious, isNotNullOrUndefined } from '../../utils'
 import { apolloClient } from '../../services/realtimeVehicles/realtimeVehiclesService'
-import GET_WALK_INFO_QUERY from './GetWalkInfo.graphql'
+import GET_WALK_INFO_QUERY from './GetWalkInfo.journey-planner.graphql'
 
 type PlaceLocation = {
     name?: string
