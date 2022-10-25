@@ -67,6 +67,7 @@
         "dotenv": "16.0.3",
         "firebase": "9.10.0",
         "google-polyline": "1.0.3",
+        "graphql": "16.6.0",
         "lodash": "4.17.21",
         "lz-string": "1.4.4",
         "mapbox-gl": "2.10.0",
