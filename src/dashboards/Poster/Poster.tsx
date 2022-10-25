@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
-import { useBikeRentalStations, useMobility } from '../../logic'
+import { useRentalStations, useMobility } from '../../logic'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
 import { useSettings } from '../../settings/SettingsProvider'
 import './Poster.scss'
@@ -12,8 +12,10 @@ import { PosterFooter } from './components/PosterFooter/PosterFooter'
 import { ScooterTile } from './components/ScooterTile/ScooterTile'
 
 const Poster = (): JSX.Element => {
-    const bikeRentalStations = useBikeRentalStations()
+    const bikeRentalStations = useRentalStations(true, FormFactor.BICYCLE)
+    const carRentalStations = useRentalStations(true, FormFactor.CAR)
     const [totalNumberOfBikes, setTotalNumberOfBikes] = useState(0)
+    const [totalNumberOfCars, setTotalNumberOfCars] = useState(0)
     const totalNumberOfScooters = useMobility(FormFactor.SCOOTER)?.length || 0
     const [settings] = useSettings()
 
@@ -25,6 +27,15 @@ const Poster = (): JSX.Element => {
         )
         setTotalNumberOfBikes(tempNumberOfBikes || 0)
     }, [bikeRentalStations])
+
+    useEffect(() => {
+        const tempNumberOfCars = carRentalStations?.reduce(
+            (numberOfCars, station) =>
+                numberOfCars + station.numBikesAvailable,
+            0,
+        )
+        setTotalNumberOfCars(tempNumberOfCars || 0)
+    }, [carRentalStations])
 
     return (
         <div className="poster">
@@ -71,7 +82,7 @@ const Poster = (): JSX.Element => {
                                 </h3>
                             </div>
                             <div className="poster-mobility-vehicles-box">
-                                <CarTile numberOfCars={totalNumberOfBikes} />
+                                <CarTile numberOfCars={totalNumberOfCars} />
                             </div>
                         </div>
                     )}

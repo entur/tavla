@@ -29,7 +29,7 @@ import {
 } from '../../../utils'
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { Line, StopPlaceWithLines } from '../../../types'
-import { useNearestPlaces, useBikeRentalStations } from '../../../logic'
+import { useNearestPlaces, useRentalStations } from '../../../logic'
 import { getStopPlacesWithLines } from '../../../logic/get-stop-places-with-lines/getStopPlacesWithLines'
 import {
     saveToLocalStorage,
@@ -174,7 +174,7 @@ const EditTab = (): JSX.Element => {
     const [stopPlaces, setStopPlaces] = useState<
         StopPlaceWithLines[] | undefined
     >(undefined)
-    const bikeRentalStations = useBikeRentalStations(false)
+    const bikeRentalStations = useRentalStations(false)
 
     const nearestPlaces = useNearestPlaces(
         settings?.coordinates,

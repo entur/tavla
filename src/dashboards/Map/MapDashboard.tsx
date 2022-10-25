@@ -3,7 +3,7 @@ import { FormFactor } from '@entur/sdk/lib/mobility/types'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import {
     useStopPlacesWithDepartures,
-    useBikeRentalStations,
+    useRentalStations,
     useWalkInfo,
     useMobility,
 } from '../../logic'
@@ -18,7 +18,7 @@ const MapDashboard = (): JSX.Element => {
     const [settings] = useSettings()
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
-    const bikeRentalStations = useBikeRentalStations()
+    const bikeRentalStations = useRentalStations()
 
     const walkInfoDestinations = useMemo(() => {
         if (!stopPlacesWithDepartures) return []
