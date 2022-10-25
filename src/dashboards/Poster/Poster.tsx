@@ -12,26 +12,14 @@ import { PosterFooter } from './components/PosterFooter/PosterFooter'
 import { ScooterTile } from './components/ScooterTile/ScooterTile'
 
 const Poster = (): JSX.Element => {
-    const bikeRentalStations = useRentalStations(true, FormFactor.BICYCLE)
     const carRentalStations = useRentalStations(true, FormFactor.CAR)
-    const [totalNumberOfBikes, setTotalNumberOfBikes] = useState(0)
     const [totalNumberOfCars, setTotalNumberOfCars] = useState(0)
     const totalNumberOfScooters = useMobility(FormFactor.SCOOTER)?.length || 0
     const [settings] = useSettings()
 
     useEffect(() => {
-        const tempNumberOfBikes = bikeRentalStations?.reduce(
-            (numberOfBikes, station) =>
-                numberOfBikes + station.numBikesAvailable,
-            0,
-        )
-        setTotalNumberOfBikes(tempNumberOfBikes || 0)
-    }, [bikeRentalStations])
-
-    useEffect(() => {
         const tempNumberOfCars = carRentalStations?.reduce(
-            (numberOfCars, station) =>
-                numberOfCars + station.numBikesAvailable,
+            (numberOfCars, station) => numberOfCars + station.numBikesAvailable,
             0,
         )
         setTotalNumberOfCars(tempNumberOfCars || 0)
