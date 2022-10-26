@@ -16,6 +16,6 @@
         "skipLibCheck": true,
         "noUncheckedIndexedAccess": true
     },
-    "include": ["types", "./src/**/*", "sw.js"],
+    "include": ["types", "./src/**/*", "sw.js", "graphql-generated"],
     "exclude": ["node_modules"]
 }

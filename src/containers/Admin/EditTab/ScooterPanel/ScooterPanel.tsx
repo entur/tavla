@@ -7,7 +7,7 @@ import { toggleValueInList } from '../../../../utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { ALL_ACTIVE_OPERATOR_IDS } from '../../../../constants'
 import './ScooterPanel.scss'
-import ScooterPanelQuery from './ScooterPanelQuery.graphql'
+import ScooterPanelQuery from './ScooterPanelQuery.mobility.graphql'
 
 function ScooterPanel(): JSX.Element {
     const [settings, setSettings] = useSettings()

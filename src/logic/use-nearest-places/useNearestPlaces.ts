@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { NearestPlace, Coordinates, TypeName } from '@entur/sdk'
 import { isNotNullOrUndefined } from '../../utils'
-import { apolloClient } from '../../services/realtimeVehicles/realtimeVehiclesService'
-import GET_NEAREST_PLACES_QUERY from './GetNearestPlaces.graphql'
+import { apolloClient } from '../../apollo-client'
+import GET_NEAREST_PLACES_QUERY from './GetNearestPlaces.journey-planner.graphql'
 
 type GetNearestPlacesVariables = {
     latitude: number

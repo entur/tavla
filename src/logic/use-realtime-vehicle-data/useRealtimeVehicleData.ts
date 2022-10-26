@@ -12,8 +12,8 @@ import {
 import { useSettings } from '../../settings/SettingsProvider'
 import { useStopPlacesWithLines } from '../useStopPlacesWithLines'
 import { useVehicleReducer, ActionType } from '../useRealtimeVehicleReducer'
-import VEHICLE_UPDATES_SUBSCRIPTION from './VehicleUpdatesSubscription.graphql'
-import VEHICLES_QUERY from './VehiclesQuery.graphql'
+import VEHICLE_UPDATES_SUBSCRIPTION from './VehicleUpdatesSubscription.vehicles.graphql'
+import VEHICLES_QUERY from './VehiclesQuery.vehicles.graphql'
 
 interface Return {
     realtimeVehicles: RealtimeVehicle[] | undefined

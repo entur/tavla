@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
-import { useQuery } from '@apollo/client'
 import { Coordinates } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
-import { Station } from '@entur/sdk/lib/mobility/types'
-import { GetStationsParams } from '@entur/sdk/lib/mobility/getStations'
-import { getTranslation } from '../../../../utils'
-import BikePanelSearchQuery from './BikePanelSearch.graphql'
+import { getTranslation, isNotNullOrUndefined } from '../../../../utils'
+import {
+    BikePanelSearchStationFragment,
+    useBikePanelSearchQuery,
+} from '../../../../../graphql-generated/mobility-v2'
 import './BikePanelSearch.scss'
 
 const MAX_SEARCH_RANGE = 100_000
@@ -15,7 +15,9 @@ interface Item {
     label: string
 }
 
-function mapFeaturesToItems(features: Station[]): Item[] {
+function mapFeaturesToItems(
+    features: BikePanelSearchStationFragment[],
+): Item[] {
     return features.map(({ id, name }) => ({
         value: id,
         label: getTranslation(name) || '',
@@ -31,29 +33,28 @@ const BikePanelSearch: React.FC<BikePanelSearchProps> = ({
     onSelected,
     position,
 }) => {
-    const { data } = useQuery<{ stations: Station[] }, GetStationsParams>(
-        BikePanelSearchQuery,
-        {
-            variables: {
-                lat: position?.latitude,
-                lon: position?.longitude,
-                range: MAX_SEARCH_RANGE,
-            },
-            fetchPolicy: 'cache-and-network',
+    const { data } = useBikePanelSearchQuery({
+        variables: {
+            lat: position?.latitude,
+            lon: position?.longitude,
+            range: MAX_SEARCH_RANGE,
         },
-    )
+        fetchPolicy: 'cache-and-network',
+    })
 
     const getItems = (query: string): Item[] => {
         const inputValue = query.trim().toLowerCase()
         const inputLength = inputValue.length
-        if (!inputLength) return []
+        if (!inputLength || !data?.stations) return []
 
         return mapFeaturesToItems(
-            data?.stations.filter((station) =>
-                getTranslation(station.name)
-                    ?.toLowerCase()
-                    .match(new RegExp(inputValue)),
-            ) ?? [],
+            data.stations
+                .filter(isNotNullOrUndefined)
+                .filter((station) =>
+                    getTranslation(station?.name)
+                        ?.toLowerCase()
+                        .match(new RegExp(inputValue)),
+                ),
         )
     }
 

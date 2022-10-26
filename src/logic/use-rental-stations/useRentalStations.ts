@@ -3,8 +3,8 @@ import { useLazyQuery } from '@apollo/client'
 import { FormFactor, Station } from '@entur/sdk/lib/mobility/types'
 import { useSettings } from '../../settings/SettingsProvider'
 import { REFRESH_INTERVAL } from '../../constants'
-import GetNearbyStations from './GetNearbyStations.graphql'
-import GetStationsById from './GetStationsById.graphql'
+import GetNearbyStations from './GetNearbyStations.mobility.graphql'
+import GetStationsById from './GetStationsById.mobility.graphql'
 
 function useRentalStations(
     excludeHiddenStations = true,

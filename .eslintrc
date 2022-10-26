@@ -20,6 +20,7 @@
         "es6": true,
         "node": true
     },
+    "ignorePatterns": ["graphql-generated/*.ts"],
     "settings": {
         "import/extensions": [".js", ".jsx"],
         "import/resolver": {

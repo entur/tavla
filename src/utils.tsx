@@ -21,7 +21,7 @@ import {
 import { colors } from '@entur/tokens'
 import type { TravelSwitchProps } from '@entur/form'
 import { LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
-import { TranslatedString, Translation } from '@entur/sdk/lib/mobility/types'
+import { TranslatedString } from '../graphql-generated/mobility-v2'
 import { LineData, TileSubLabel, Theme, IconColorType, NonEmpty } from './types'
 import { useSettings } from './settings/SettingsProvider'
 
@@ -405,9 +405,9 @@ export function getTranslation(
     translationObject: TranslatedString,
     languageId = 'nb',
 ): string | null {
-    const translations: Translation[] = translationObject.translation
+    const translations = translationObject?.translation
     const match = translations.find(
-        (currentTranslation) => currentTranslation.language === languageId,
+        (currentTranslation) => currentTranslation?.language === languageId,
     )
     if (!match) return null
     return match.value

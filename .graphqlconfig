@@ -1,92 +1,28 @@
 {
   "projects": {
     "vehicles": {
-      "name": "vehicles",
-      "schemaPath": "graphql-schemas/vehicles.graphql",
+      "name": "vehicles-v1",
+      "schemaPath": "graphql-schemas/vehicles-v1.json",
       "includes": [
         "graphql-schemas/ApiDirective.graphql",
-        "graphql-schemas/vehicles.graphql",
-        "src/logic/use-realtime-vehicle-data/VehicleFragment.graphql",
-        "src/logic/use-realtime-vehicle-data/VehiclesQuery.graphql",
-        "src/logic/use-realtime-vehicle-data/VehicleUpdatesSubscription.graphql"
-      ],
-      "extensions": {
-        "endpoints": {
-          "vehicles": {
-            "url": "https://api.entur.io/realtime/v1/vehicles/graphql",
-            "headers": {
-              "user-agent": "JS GraphQL"
-            },
-            "introspect": true
-          }
-        }
-      }
-    },
-    "journey-planner-v2": {
-      "name": "journey-planner-v2",
-      "schemaPath": "graphql-schemas/journey-planner-v2.graphql",
-      "includes": [
-        "graphql-schemas/ApiDirective.graphql",
-        "graphql-schemas/journey-planner-v2.graphql"
-      ],
-      "extensions": {
-        "endpoints": {
-          "journey-planner-v2": {
-            "url": "https://api.entur.io/journey-planner/v2/graphql",
-            "headers": {
-              "user-agent": "JS GraphQL"
-            },
-            "introspect": true
-          }
-        }
-      }
+        "src/**/*.vehicles.graphql"
+      ]
     },
     "journey-planner-v3": {
       "name": "journey-planner-v3",
-      "schemaPath": "graphql-schemas/journey-planner-v3.graphql",
+      "schemaPath": "graphql-schemas/journey-planner-v3.json",
       "includes": [
         "graphql-schemas/ApiDirective.graphql",
-        "graphql-schemas/journey-planner-v3.graphql",
-        "src/logic/use-stop-places-with-departures/GetStopPlacesWithDepartures.graphql",
-        "src/logic/use-nearest-places/GetNearestPlaces.graphql",
-        "src/logic/use-walk-info/GetWalkInfo.graphql",
-        "src/logic/get-stop-places-with-lines/GetStopPlacesWithLines.graphql"
-      ],
-      "extensions": {
-        "endpoints": {
-          "journey-planner-v3": {
-            "url": "https://api.entur.io/journey-planner/v3/graphql",
-            "headers": {
-              "user-agent": "JS GraphQL"
-            },
-            "introspect": true
-          }
-        }
-      }
+        "src/**/*.journey-planner.graphql"
+      ]
     },
-    "mobility": {
-      "name": "mobility",
-      "schemaPath": "graphql-schemas/mobility.graphql",
+    "mobility-v2": {
+      "name": "mobility-v2",
+      "schemaPath": "graphql-schemas/mobility-v2.json",
       "includes": [
         "graphql-schemas/ApiDirective.graphql",
-        "graphql-schemas/mobility.graphql",
-        "src/containers/Admin/EditTab/BikeSearch/GetStations.graphql",
-        "src/logic/use-mobility/GetOperators.graphql",
-        "src/logic/use-mobility/GetVehicles.graphql",
-        "src/logic/use-bike-rental-stations/GetStationsById.graphql",
-        "src/logic/use-bike-rental-stations/GetNearbyStations.graphql"
-      ],
-      "extensions": {
-        "endpoints": {
-          "mobility": {
-            "url": "https://api.entur.io/mobility/v2/graphql",
-            "headers": {
-              "user-agent": "JS GraphQL"
-            },
-            "introspect": true
-          }
-        }
-      }
+        "src/**/*.mobility.graphql"
+      ]
     }
   }
 }
