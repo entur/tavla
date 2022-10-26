@@ -23,7 +23,6 @@ import { useSettings } from '../../../settings/SettingsProvider'
 import {
     useDebounce,
     toggleValueInList,
-    isNotNullOrUndefined,
     isMobileWeb,
     getTranslation,
 } from '../../../utils'
@@ -37,6 +36,7 @@ import {
 } from '../../../settings/LocalStorage'
 import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
 import { useRealtimeVehicleData } from '../../../logic/use-realtime-vehicle-data/useRealtimeVehicleData'
+import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { StopPlacePanel } from './StopPlacePanel/StopPlacePanel'
 import { BikePanelSearch } from './BikeSearch/BikePanelSearch'
 import { StopPlaceSearch } from './StopPlaceSearch/StopPlaceSearch'

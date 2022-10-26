@@ -4,7 +4,6 @@ import {
     getIcon,
     unique,
     getTransportIconIdentifier,
-    isNotNullOrUndefined,
     getIconColorType,
 } from '../../../utils'
 import {
@@ -16,6 +15,7 @@ import { Tile } from '../components/Tile/Tile'
 import { TileRows } from '../components/TileRows/TileRows'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
+import { isNotNullOrUndefined } from '../../../utils/typeguards'
 
 function getTransportHeaderIcons(
     departures: LineData[],

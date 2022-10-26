@@ -1,38 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import differenceInSeconds from 'date-fns/differenceInSeconds'
 import parseISO from 'date-fns/parseISO'
 import {
     BicycleIcon,
     BusIcon,
+    CarferryIcon,
+    CloudIcon,
+    CloudLightningIcon,
+    CloudRainIcon,
+    CloudSnowIcon,
     FerryIcon,
+    PlaneIcon,
     SubwayIcon,
+    SunCloudIcon,
+    SunCloudRainIcon,
+    SunIcon,
     TrainIcon,
     TramIcon,
-    PlaneIcon,
-    CarferryIcon,
-    CloudLightningIcon,
-    SunCloudRainIcon,
-    CloudSnowIcon,
-    CloudRainIcon,
-    SunCloudIcon,
-    CloudIcon,
-    SunIcon,
 } from '@entur/icons'
 import { colors } from '@entur/tokens'
 import type { TravelSwitchProps } from '@entur/form'
 import { LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 import { TranslatedString } from '../graphql-generated/mobility-v2'
-import { LineData, TileSubLabel, Theme, IconColorType, NonEmpty } from './types'
+import { IconColorType, LineData, NonEmpty, Theme, TileSubLabel } from './types'
 import { useSettings } from './settings/SettingsProvider'
 
 export const EMAIL_REGEX =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
-export function isNotNullOrUndefined<T>(
-    thing: T | undefined | null,
-): thing is T {
-    return thing !== undefined && thing !== null
-}
 
 export function filterMap<A, B>(
     arr: A[],
