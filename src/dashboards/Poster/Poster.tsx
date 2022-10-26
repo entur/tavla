@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
 import { useRentalStations, useMobility } from '../../logic'
@@ -13,18 +13,19 @@ import { ScooterTile } from './components/ScooterTile/ScooterTile'
 
 const Poster = (): JSX.Element => {
     const carRentalStations = useRentalStations(true, FormFactor.CAR)
-    const [totalNumberOfCars, setTotalNumberOfCars] = useState(0)
+
+    const totalNumberOfCars = useMemo(
+        () =>
+            carRentalStations?.reduce(
+                (numberOfCars, station) =>
+                    numberOfCars + station.numBikesAvailable,
+                0,
+            ),
+        [carRentalStations],
+    )
+
     const totalNumberOfScooters = useMobility(FormFactor.SCOOTER)?.length || 0
     const [settings] = useSettings()
-
-    useEffect(() => {
-        const tempNumberOfCars = carRentalStations?.reduce(
-            (numberOfCars, station) => numberOfCars + station.numBikesAvailable,
-            0,
-        )
-        setTotalNumberOfCars(tempNumberOfCars || 0)
-    }, [carRentalStations])
-
     return (
         <div className="poster">
             <div className="poster-header">
