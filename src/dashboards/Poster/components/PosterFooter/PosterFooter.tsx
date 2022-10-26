@@ -10,7 +10,7 @@ const PosterFooter = (): JSX.Element => (
                 Her finner du kollektiv- og mobilitetstilbud i hele Norge.
             </h3>
         </div>
-        <img src={Images} />
+        <img src={Images} className="poster-footer-app-image"/>
     </div>
 )
 
