@@ -27,7 +27,18 @@ const config: CodegenConfig = {
                 'typescript-operations',
                 'typescript-react-apollo',
             ],
-            config: generatorConfig,
+            config: {
+                ...generatorConfig,
+                scalars: {
+                    Coordinates: '../types/JourneyPlannerV3#Coordinates',
+                    Date: '../types/JourneyPlannerV3#Date',
+                    DateTime: '../types/JourneyPlannerV3#DateTime',
+                    LocalTime: '../types/JourneyPlannerV3#LocalTime',
+                    Time: '../types/JourneyPlannerV3#Time',
+                    Long: '../types/JourneyPlannerV3#Long',
+                    DoubleFunction: '../types/JourneyPlannerV3#DoubleFunction',
+                },
+            },
         },
         './graphql-schemas/vehicles-v1.json': {
             schema: 'https://api.entur.io/realtime/v1/vehicles/graphql',
@@ -41,7 +52,12 @@ const config: CodegenConfig = {
                 'typescript-operations',
                 'typescript-react-apollo',
             ],
-            config: generatorConfig,
+            config: {
+                ...generatorConfig,
+                scalars: {
+                    DateTime: '../types/VehiclesV1#DateTime',
+                },
+            },
         },
         './graphql-schemas/mobility-v2.json': {
             schema: 'https://api.entur.io/mobility/v2/graphql',
