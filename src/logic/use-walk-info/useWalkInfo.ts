@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { isEqual } from 'lodash'
 import { Coordinates } from '@entur/sdk'
 import { useSettings } from '../../settings/SettingsProvider'
-import { usePrevious } from '../../utils'
 import { apolloClient } from '../../apollo-client'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
+import { usePrevious } from '../../hooks/usePrevious'
 import GET_WALK_INFO_QUERY from './GetWalkInfo.journey-planner.graphql'
 
 type PlaceLocation = {

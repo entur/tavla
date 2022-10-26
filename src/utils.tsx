@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import differenceInSeconds from 'date-fns/differenceInSeconds'
 import parseISO from 'date-fns/parseISO'
 import {
@@ -259,15 +259,6 @@ export const transportModeNameMapper = (mode: TransportMode): string => {
     }
 }
 
-export function usePrevious<T>(value: T): T {
-    const ref = useRef<T>(value)
-
-    useEffect(() => {
-        ref.current = value
-    }, [value])
-
-    return ref.current
-}
 export const isMobileWeb = (): boolean =>
     typeof window.orientation !== 'undefined' ||
     navigator.userAgent.indexOf('IEMobile') !== -1

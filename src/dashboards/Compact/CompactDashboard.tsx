@@ -23,16 +23,12 @@ import {
 } from '../../settings/LocalStorage'
 import { useSettings } from '../../settings/SettingsProvider'
 import { DEFAULT_ZOOM } from '../../constants'
-import {
-    isEqualUnsorted,
-    usePrevious,
-    isMobileWeb,
-    BREAKPOINTS,
-} from '../../utils'
+import { isEqualUnsorted, isMobileWeb, BREAKPOINTS } from '../../utils'
 import { LongPressProvider } from '../../logic/longPressContext'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { QRTile } from '../../components/QRTile/QRTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
+import { usePrevious } from '../../hooks/usePrevious'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { BikeTile } from './BikeTile/BikeTile'
 import { MapTile } from './MapTile/MapTile'

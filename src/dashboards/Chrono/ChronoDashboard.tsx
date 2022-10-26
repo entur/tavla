@@ -23,16 +23,12 @@ import {
 } from '../../settings/LocalStorage'
 import { QRTile } from '../../components/QRTile/QRTile'
 import { useSettings } from '../../settings/SettingsProvider'
-import {
-    isEqualUnsorted,
-    usePrevious,
-    isMobileWeb,
-    BREAKPOINTS,
-} from '../../utils'
+import { isEqualUnsorted, isMobileWeb, BREAKPOINTS } from '../../utils'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import { LongPressProvider } from '../../logic/longPressContext'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
+import { usePrevious } from '../../hooks/usePrevious'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import { BikeTile } from './BikeTile/BikeTile'
