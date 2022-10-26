@@ -15,11 +15,12 @@ import {
     Viewport,
 } from '../../types'
 import { Filter } from '../../services/realtimeVehicles/types/filter'
-import { getIconColor, useDebounce } from '../../utils'
+import { getIconColor } from '../../utils'
 import { useSettings } from '../../settings/SettingsProvider'
 import { useRealtimeVehicleData } from '../../logic/use-realtime-vehicle-data/useRealtimeVehicleData'
 import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
 import { useStopPlacesWithLines } from '../../logic/useStopPlacesWithLines'
+import { useDebounce } from '../../hooks/useDebounce'
 import { LineOverlay } from './RealtimeVehicleTag/LineOverlay/LineOverlay'
 import { BikeRentalStationTag } from './BikeRentalStationTag/BikeRentalStationTag'
 import { StopPlaceTag } from './StopPlaceTag/StopPlaceTag'

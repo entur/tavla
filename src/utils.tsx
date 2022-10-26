@@ -226,23 +226,6 @@ export function toggleValueInList<T>(list: T[], item: T): T[] {
     return [...list, item]
 }
 
-// https://usehooks.com/useDebounce/
-export function useDebounce<T>(value: T, delay: number): T {
-    const [debouncedValue, setDebouncedValue] = useState<T>(value)
-
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            setDebouncedValue(value)
-        }, delay)
-
-        return (): void => {
-            clearTimeout(handler)
-        }
-    }, [value, delay])
-
-    return debouncedValue
-}
-
 export function useCounter(interval = 1000): number {
     const [tick, setTick] = useState<number>(0)
 
