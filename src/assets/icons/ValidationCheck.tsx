@@ -1,7 +1,7 @@
 import React from 'react'
 import { colors } from '@entur/tokens'
 import { Theme } from '../../types'
-import { useThemeColor } from '../../utils'
+import { useThemeColor } from '../../hooks/useThemeColor'
 
 function ValidationCheck(): JSX.Element {
     const checkIconColor = colors.validation.mintContrast

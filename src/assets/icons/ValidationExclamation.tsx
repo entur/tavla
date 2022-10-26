@@ -1,6 +1,6 @@
 import React from 'react'
 import { Theme } from '../../types'
-import { useThemeColor } from '../../utils'
+import { useThemeColor } from '../../hooks/useThemeColor'
 
 function ValidationExclamation(): JSX.Element {
     const exclamationIconColor = useThemeColor(

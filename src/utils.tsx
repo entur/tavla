@@ -23,7 +23,6 @@ import type { TravelSwitchProps } from '@entur/form'
 import { LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 import { TranslatedString } from '../graphql-generated/mobility-v2'
 import { IconColorType, LineData, NonEmpty, Theme, TileSubLabel } from './types'
-import { useSettings } from './settings/SettingsProvider'
 
 export const EMAIL_REGEX =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -262,17 +261,6 @@ export const transportModeNameMapper = (mode: TransportMode): string => {
 export const isMobileWeb = (): boolean =>
     typeof window.orientation !== 'undefined' ||
     navigator.userAgent.indexOf('IEMobile') !== -1
-
-export const useThemeColor = (
-    color: { [key: string]: string },
-    fallback: string,
-): string => {
-    const [settings] = useSettings()
-    if (!settings?.theme) {
-        return fallback
-    }
-    return color[settings?.theme] || fallback
-}
 
 export function isDarkOrDefaultTheme(theme?: Theme): boolean {
     return !theme || theme === Theme.DARK || theme === Theme.DEFAULT
