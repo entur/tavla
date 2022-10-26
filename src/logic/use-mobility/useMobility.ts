@@ -6,7 +6,10 @@ import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../../constants'
 import GetOperators from './GetOperators.mobility.graphql'
 import GetVehicles from './GetVehicles.mobility.graphql'
 
-function useMobility(formFactor?: FormFactor): Vehicle[] | undefined {
+function useMobility(
+    formFactor?: FormFactor,
+    customDistance?: number,
+): Vehicle[] | undefined {
     const [settings] = useSettings()
     const { data: getOperatorsData } = useQuery<{ operators: Operator[] }>(
         GetOperators,
@@ -15,8 +18,14 @@ function useMobility(formFactor?: FormFactor): Vehicle[] | undefined {
         vehicles: Vehicle[]
     }>(GetVehicles)
 
-    const { coordinates, distance, hiddenMobilityOperators, hiddenModes } =
-        settings || {}
+    const {
+        coordinates,
+        distance: globalDistance,
+        hiddenMobilityOperators,
+        hiddenModes,
+    } = settings || {}
+
+    const distance = customDistance || globalDistance
 
     const isDisabled = Boolean(hiddenModes?.includes('sparkesykkel'))
 

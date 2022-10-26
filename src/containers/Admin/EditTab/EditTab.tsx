@@ -47,6 +47,7 @@ import { ToggleDetailsPanel } from './ToggleDetailsPanel/ToggleDetailsPanel'
 import { WeatherPanel } from './WeatherPanel/WeatherPanel'
 import './EditTab.scss'
 import { CustomTilePanel } from './CustomTilePanel/CustomTilePanel'
+import { DistanceTextField } from './DistanceTextField/DistanceTextField'
 
 const isMobile = isMobileWeb()
 
@@ -119,6 +120,32 @@ const EditTab = (): JSX.Element => {
     const [distance, setDistance] = useState<number>(
         settings?.distance || DEFAULT_DISTANCE,
     )
+
+    const [enableScooterDistance, setEnableScooterDistance] = useState<boolean>(
+        !!settings?.scooterDistance,
+    )
+
+    const [scooterDistance, setScooterDistance] = useState<number>(
+        settings?.scooterDistance || 0,
+    )
+
+    const debouncedScooterDistance = useDebounce(scooterDistance, 800)
+    const updateScooterDistance =
+        settings?.scooterDistance !== debouncedScooterDistance
+    useEffect(() => {
+        if (updateScooterDistance) {
+            setSettings({
+                scooterDistance: enableScooterDistance
+                    ? debouncedScooterDistance
+                    : 0,
+            })
+        }
+    }, [
+        debouncedScooterDistance,
+        updateScooterDistance,
+        setSettings,
+        enableScooterDistance,
+    ])
 
     const { allLinesWithRealtimeData } = useRealtimeVehicleData()
     const { uniqueLines } = useStopPlacesWithLines()
@@ -695,6 +722,24 @@ const EditTab = (): JSX.Element => {
                             onChange={(): void => toggleMode('sparkesykkel')}
                             checked={!hiddenModes?.includes('sparkesykkel')}
                             size="large"
+                        />
+                    </div>
+                    <div>
+                        Bruk egen avstand for elsparkesykler
+                        <Switch
+                            onChange={() =>
+                                setEnableScooterDistance((prev) => !prev)
+                            }
+                            checked={enableScooterDistance}
+                            size="medium"
+                        />
+                        <DistanceTextField
+                            label="Elsparkesykkel avstand"
+                            min={0}
+                            max={1000}
+                            onChange={setScooterDistance}
+                            defaultValue={scooterDistance}
+                            disabled={!enableScooterDistance}
                         />
                     </div>
                     <ScooterPanel />
