@@ -3,7 +3,7 @@ import { isEqual } from 'lodash'
 import { Coordinates } from '@entur/sdk'
 import { useSettings } from '../../settings/SettingsProvider'
 import { usePrevious, isNotNullOrUndefined } from '../../utils'
-import { apolloClient } from '../../services/realtimeVehicles/realtimeVehiclesService'
+import { apolloClient } from '../../apollo-client'
 import GET_WALK_INFO_QUERY from './GetWalkInfo.journey-planner.graphql'
 
 type PlaceLocation = {

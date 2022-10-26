@@ -12,7 +12,7 @@ import { UserProvider } from '../UserProvider'
 import '../firebase-init'
 import { SettingsProvider, useSettings } from '../settings/SettingsProvider'
 import PWAPrompt from '../../vendor/react-ios-pwa-prompt'
-import { apolloClient } from '../services/realtimeVehicles/realtimeVehiclesService'
+import { apolloClient } from '../apollo-client'
 import { DashboardResolver } from '../dashboards/DashboardResolver'
 import { Header } from '../components/Header/Header'
 import {

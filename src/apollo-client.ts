@@ -6,7 +6,7 @@ import {
 } from '@apollo/client'
 import { WebSocketLink } from '@apollo/client/link/ws'
 import { MultiAPILink } from '@habx/apollo-multi-endpoint-link'
-import { CLIENT_NAME } from '../../constants'
+import { CLIENT_NAME } from './constants'
 
 const endpoints = {
     vehicles:
