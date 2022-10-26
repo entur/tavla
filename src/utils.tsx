@@ -226,19 +226,6 @@ export function toggleValueInList<T>(list: T[], item: T): T[] {
     return [...list, item]
 }
 
-export function useCounter(interval = 1000): number {
-    const [tick, setTick] = useState<number>(0)
-
-    useEffect(() => {
-        const timerID = setInterval(() => {
-            setTick(tick + 1)
-        }, interval)
-        return (): void => clearInterval(timerID)
-    }, [interval, tick])
-
-    return tick
-}
-
 export const isTransport = (
     mode: string,
 ): mode is TravelSwitchProps['transport'] =>

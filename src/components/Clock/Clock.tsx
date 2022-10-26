@@ -1,7 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import { Heading2 } from '@entur/typography'
-import { capitalize, useCounter } from '../../utils'
+import { capitalize } from '../../utils'
+import { useCounter } from '../../hooks/useCounter'
 import './Clock.scss'
 
 interface ClockProps {
