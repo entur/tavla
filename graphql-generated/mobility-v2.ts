@@ -393,6 +393,11 @@ export type BikePanelSearchQueryVariables = Exact<{
 
 export type BikePanelSearchQuery = { __typename?: 'Query', stations: Array<{ __typename?: 'Station', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } | null> | null };
 
+export type ScooterPanelQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ScooterPanelQuery = { __typename?: 'Query', operators: Array<{ __typename?: 'Operator', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } | null> | null };
+
 export type GetNearbyStationsQueryVariables = Exact<{
   lat: Scalars['Float'];
   lon: Scalars['Float'];
@@ -466,6 +471,34 @@ export function useBikePanelSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type BikePanelSearchQueryHookResult = ReturnType<typeof useBikePanelSearchQuery>;
 export type BikePanelSearchLazyQueryHookResult = ReturnType<typeof useBikePanelSearchLazyQuery>;
 export type BikePanelSearchQueryResult = Apollo.QueryResult<BikePanelSearchQuery, BikePanelSearchQueryVariables>;
+export const ScooterPanelQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ScooterPanelQuery"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"operators"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useScooterPanelQuery__
+ *
+ * To run a query within a React component, call `useScooterPanelQuery` and pass it any options that fit your needs.
+ * When your component renders, `useScooterPanelQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useScooterPanelQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useScooterPanelQuery(baseOptions?: Apollo.QueryHookOptions<ScooterPanelQuery, ScooterPanelQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ScooterPanelQuery, ScooterPanelQueryVariables>(ScooterPanelQueryDocument, options);
+      }
+export function useScooterPanelQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ScooterPanelQuery, ScooterPanelQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ScooterPanelQuery, ScooterPanelQueryVariables>(ScooterPanelQueryDocument, options);
+        }
+export type ScooterPanelQueryHookResult = ReturnType<typeof useScooterPanelQuery>;
+export type ScooterPanelQueryLazyQueryHookResult = ReturnType<typeof useScooterPanelQueryLazyQuery>;
+export type ScooterPanelQueryQueryResult = Apollo.QueryResult<ScooterPanelQuery, ScooterPanelQueryVariables>;
 export const GetNearbyStationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetNearbyStations"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lat"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lon"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"range"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"count"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"codespaces"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"systems"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"operators"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stations"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"lon"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lon"}}},{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lat"}}},{"kind":"Argument","name":{"kind":"Name","value":"range"},"value":{"kind":"Variable","name":{"kind":"Name","value":"range"}}},{"kind":"Argument","name":{"kind":"Name","value":"count"},"value":{"kind":"Variable","name":{"kind":"Name","value":"count"}}},{"kind":"Argument","name":{"kind":"Name","value":"codespaces"},"value":{"kind":"Variable","name":{"kind":"Name","value":"codespaces"}}},{"kind":"Argument","name":{"kind":"Name","value":"systems"},"value":{"kind":"Variable","name":{"kind":"Name","value":"systems"}}},{"kind":"Argument","name":{"kind":"Name","value":"operators"},"value":{"kind":"Variable","name":{"kind":"Name","value":"operators"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
 
 /**
