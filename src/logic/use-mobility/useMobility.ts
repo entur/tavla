@@ -3,8 +3,8 @@ import { useLazyQuery, useQuery } from '@apollo/client'
 import { FormFactor, Operator, Vehicle } from '@entur/sdk/lib/mobility/types'
 import { useSettings } from '../../settings/SettingsProvider'
 import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../../constants'
-import GetOperators from './GetOperators.graphql'
-import GetVehicles from './GetVehicles.graphql'
+import GetOperators from './GetOperators.mobility.graphql'
+import GetVehicles from './GetVehicles.mobility.graphql'
 
 function useMobility(formFactor?: FormFactor): Vehicle[] | undefined {
     const [settings] = useSettings()

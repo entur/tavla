@@ -1,3 +1,13 @@
+fragment BikePanelSearchStation on Station {
+    id
+    name {
+        translation {
+            language
+            value
+        }
+    }
+}
+
 query BikePanelSearch (
     $lat: Float!
     $lon: Float!
@@ -8,12 +18,6 @@ query BikePanelSearch (
         lat: $lat
         range: $range
     ) {
-        id
-        name {
-            translation {
-                language
-                value
-            }
-        }
+        ...BikePanelSearchStation
     }
 }

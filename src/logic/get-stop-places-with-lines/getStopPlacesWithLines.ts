@@ -1,8 +1,8 @@
 import { TransportMode, TransportSubmode } from '@entur/sdk'
 import { Line, StopPlaceWithLines } from '../../types'
 import { isNotNullOrUndefined, unique } from '../../utils'
-import { apolloClient } from '../../services/realtimeVehicles/realtimeVehiclesService'
-import STOP_PLACES_QUERY from './GetStopPlacesWithLines.graphql'
+import { apolloClient } from '../../apollo-client'
+import STOP_PLACES_QUERY from './GetStopPlacesWithLines.journey-planner.graphql'
 
 type GetStopPlacesVariables = {
     ids: string[]
