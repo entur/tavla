@@ -6,6 +6,7 @@ query GetNearbyStations (
     $codespaces: [String]
     $systems: [String]
     $operators: [String]
+    $availableFormFactors: [FormFactor]
 ) @api(name: mobility) {
     stations(
         lon: $lon
@@ -15,6 +16,7 @@ query GetNearbyStations (
         codespaces: $codespaces
         systems: $systems
         operators: $operators
+        availableFormFactors: $availableFormFactors
     ) {
         id
     }

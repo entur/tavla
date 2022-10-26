@@ -1,12 +1,15 @@
 import { useEffect } from 'react'
 import { useLazyQuery } from '@apollo/client'
-import { Station } from '@entur/sdk/lib/mobility/types'
+import { FormFactor, Station } from '@entur/sdk/lib/mobility/types'
 import { useSettings } from '../../settings/SettingsProvider'
 import { REFRESH_INTERVAL } from '../../constants'
 import GetNearbyStations from './GetNearbyStations.mobility.graphql'
 import GetStationsById from './GetStationsById.mobility.graphql'
 
-function useBikeRentalStations(excludeHiddenStations = true): Station[] {
+function useRentalStations(
+    excludeHiddenStations = true,
+    formFactor: FormFactor | undefined = undefined,
+): Station[] {
     const [settings] = useSettings()
 
     const [getNearbyStations, { data: getNearByStationsData }] = useLazyQuery<{
@@ -35,9 +38,10 @@ function useBikeRentalStations(excludeHiddenStations = true): Station[] {
                 lat: coordinates.latitude,
                 lon: coordinates.longitude,
                 range: distance,
+                availableFormFactors: formFactor,
             },
         }).finally()
-    }, [coordinates, distance, isDisabled, getNearbyStations])
+    }, [coordinates, distance, isDisabled, getNearbyStations, formFactor])
 
     useEffect(() => {
         if (!getNearByStationsData || isDisabled) return
@@ -73,4 +77,4 @@ function useBikeRentalStations(excludeHiddenStations = true): Station[] {
     return getStationsByIdData?.stationsById ?? []
 }
 
-export { useBikeRentalStations }
+export { useRentalStations }

@@ -9,7 +9,7 @@ import {
     Item,
 } from '../../components/RearrangeModal/RearrangeModal'
 import {
-    useBikeRentalStations,
+    useRentalStations,
     useStopPlacesWithDepartures,
     useMobility,
     useWalkInfo,
@@ -107,7 +107,7 @@ const CompactDashboard = (): JSX.Element | null => {
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
     )
 
-    const bikeRentalStations = useBikeRentalStations()
+    const bikeRentalStations = useRentalStations()
     const scooters = useMobility(FormFactor.SCOOTER)
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()

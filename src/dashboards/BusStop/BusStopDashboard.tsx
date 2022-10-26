@@ -11,7 +11,7 @@ import {
     useStopPlacesWithDepartures,
     useMobility,
     useWalkInfo,
-    useBikeRentalStations,
+    useRentalStations,
 } from '../../logic'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import {
@@ -89,7 +89,7 @@ const BusStopDashboard = (): JSX.Element | null => {
     )
 
     const scooters = useMobility(FormFactor.SCOOTER)
-    const bikeRentalStations = useBikeRentalStations()
+    const bikeRentalStations = useRentalStations()
 
     const walkInfoDestinations = useMemo(() => {
         if (!stopPlacesWithDepartures) return []
