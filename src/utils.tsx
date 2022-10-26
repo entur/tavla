@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import differenceInSeconds from 'date-fns/differenceInSeconds'
 import parseISO from 'date-fns/parseISO'
 import {
@@ -257,27 +257,6 @@ export const transportModeNameMapper = (mode: TransportMode): string => {
         default:
             return 'Buss'
     }
-}
-
-export function useFormFields<T>(
-    initialState: T,
-): [
-    T,
-    (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void,
-] {
-    const [values, setValues] = useState<T>(initialState)
-
-    return [
-        values,
-        function (
-            event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-        ): void {
-            setValues({
-                ...values,
-                [event.target.id]: event.target.value,
-            })
-        },
-    ]
 }
 
 export function usePrevious<T>(value: T): T {
