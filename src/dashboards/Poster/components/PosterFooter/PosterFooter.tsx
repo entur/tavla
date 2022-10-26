@@ -1,5 +1,5 @@
 import React from 'react'
-import Images from '../../../../assets/images/app_images_cropped.webp'
+import Images from '../../../../assets/images/app_images_cropped.png'
 import './PosterFooter.scss'
 
 const PosterFooter = (): JSX.Element => (
