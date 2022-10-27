@@ -3,16 +3,9 @@ import {
     BicycleIcon,
     BusIcon,
     CarferryIcon,
-    CloudIcon,
-    CloudLightningIcon,
-    CloudRainIcon,
-    CloudSnowIcon,
     FerryIcon,
     PlaneIcon,
     SubwayIcon,
-    SunCloudIcon,
-    SunCloudRainIcon,
-    SunIcon,
     TrainIcon,
     TramIcon,
 } from '@entur/icons'
@@ -21,7 +14,6 @@ import type { TravelSwitchProps } from '@entur/form'
 import { LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 import { TranslatedString } from '../graphql-generated/mobility-v2'
 import { IconColorType, LineData, Theme, TileSubLabel } from './types'
-import { arrayContains } from './utils/array'
 
 export const EMAIL_REGEX =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -215,55 +207,6 @@ export const isMobileWeb = (): boolean =>
 
 export function isDarkOrDefaultTheme(theme?: Theme): boolean {
     return !theme || theme === Theme.DARK || theme === Theme.DEFAULT
-}
-
-export const getWeatherDescriptionFromApi = async (
-    iconName: string,
-    signal?: AbortSignal,
-): Promise<string> => {
-    const weatherNameMatch = iconName.match(/.+?(?=_|$)/)
-    if (!weatherNameMatch)
-        return Promise.reject('No REGEX match found for ' + iconName)
-    const url = `https://api.met.no/weatherapi/weathericon/2.0/legends`
-    const response = await fetch(url, { signal })
-    const weatherData = await response.json()
-    return weatherData[weatherNameMatch.toString()].desc_nb
-}
-
-export const getWeatherIconEntur = (APIconName: string): JSX.Element => {
-    const stripedAPIIconName = APIconName.replace(
-        /heavy|light|showers|_|day|night/g,
-        '',
-    )
-    const weatherConditions = stripedAPIIconName.split('and')
-
-    const cloud = ['cloudy', 'fog']
-    const sunCloud = ['fair', 'partlycloudy']
-    const rain = ['rain']
-    const lightning = ['thunder']
-    const snow = ['snow', 'sleet']
-    const sunCloudRain = ['rainshowers']
-    const sun = ['clearsky']
-
-    if (arrayContains(weatherConditions, lightning))
-        return <CloudLightningIcon />
-    if (arrayContains(weatherConditions, sunCloudRain))
-        return <SunCloudRainIcon />
-    if (arrayContains(weatherConditions, snow)) return <CloudSnowIcon />
-    if (arrayContains(weatherConditions, rain)) return <CloudRainIcon />
-    if (arrayContains(weatherConditions, sunCloud)) return <SunCloudIcon />
-    if (arrayContains(weatherConditions, cloud)) return <CloudIcon />
-    if (arrayContains(weatherConditions, sun))
-        return <SunIcon className="icon-entur--sun" />
-    return <div>?</div>
-}
-
-export function getDepartureNumber(departure: LineData): string {
-    return departure.route.split(/[\s]/g)[0] || ''
-}
-
-export function getDepartureDirection(departure: LineData): string[] {
-    return departure.route.split(/([\s])/g).slice(1)
 }
 
 export function getTranslation(
