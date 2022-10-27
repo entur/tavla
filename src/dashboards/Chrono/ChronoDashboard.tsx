@@ -11,7 +11,7 @@ import {
     useWalkInfo,
 } from '../../logic'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-import { DEFAULT_ZOOM } from '../../constants'
+import { BREAKPOINTS, DEFAULT_ZOOM } from '../../constants'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
 import {
     RearrangeModal,
@@ -23,7 +23,7 @@ import {
 } from '../../settings/LocalStorage'
 import { QRTile } from '../../components/QRTile/QRTile'
 import { useSettings } from '../../settings/SettingsProvider'
-import { isMobileWeb, BREAKPOINTS } from '../../utils'
+import { isMobileWeb } from '../../utils'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import { LongPressProvider } from '../../logic/longPressContext'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'

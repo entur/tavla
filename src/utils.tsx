@@ -2,17 +2,6 @@ import { TransportMode } from '@entur/sdk'
 import { TranslatedString } from '../graphql-generated/mobility-v2'
 import { LineData, Theme, TileSubLabel } from './types'
 
-export const EMAIL_REGEX =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
-export const BREAKPOINTS = {
-    lg: 1200,
-    md: 996,
-    sm: 768,
-    xs: 480,
-    xxs: 0,
-}
-
 export function createTileSubLabel({
     situation,
     hasCancellation,

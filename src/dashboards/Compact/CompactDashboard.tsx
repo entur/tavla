@@ -22,8 +22,8 @@ import {
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
 import { useSettings } from '../../settings/SettingsProvider'
-import { DEFAULT_ZOOM } from '../../constants'
-import { isMobileWeb, BREAKPOINTS } from '../../utils'
+import { DEFAULT_ZOOM, BREAKPOINTS } from '../../constants'
+import { isMobileWeb } from '../../utils'
 import { LongPressProvider } from '../../logic/longPressContext'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { QRTile } from '../../components/QRTile/QRTile'
