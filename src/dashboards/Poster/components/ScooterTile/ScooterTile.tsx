@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScooterIcon } from '@entur/icons'
+import { ScooterIcon } from '../../../../assets/icons/ScooterIcon'
 import { NumberDisplay } from '../NumberDisplay/NumberDisplay'
 
 const ScooterTile = ({ numberOfScooters }: ScooterTileProps): JSX.Element => (
