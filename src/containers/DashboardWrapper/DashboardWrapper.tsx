@@ -1,7 +1,7 @@
 import React from 'react'
 import { Loader } from '@entur/loader'
 import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
-import { isDarkOrDefaultTheme } from '../../utils'
+import { isDarkOrDefaultTheme } from '../../utils/utils'
 import { useSettings } from '../../settings/SettingsProvider'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
 import { StopPlaceWithDepartures } from '../../types'

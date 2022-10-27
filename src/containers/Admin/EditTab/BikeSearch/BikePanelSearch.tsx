@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { Coordinates } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
-import { getTranslation } from '../../../../utils'
+import { getTranslation } from '../../../../utils/utils'
 import {
     BikePanelSearchStationFragment,
     useBikePanelSearchQuery,

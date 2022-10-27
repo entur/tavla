@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Line, StopPlaceWithLines } from '../types'
-import { createAbortController } from '../utils'
+import { createAbortController } from '../utils/utils'
 import { useSettings } from '../settings/SettingsProvider'
 import { unique } from '../utils/array'
 import { getStopPlacesWithLines } from './get-stop-places-with-lines/getStopPlacesWithLines'

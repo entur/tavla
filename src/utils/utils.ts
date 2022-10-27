@@ -1,6 +1,6 @@
 import { TransportMode } from '@entur/sdk'
-import { TranslatedString } from '../graphql-generated/mobility-v2'
-import { LineData, Theme, TileSubLabel } from './types'
+import { TranslatedString } from '../../graphql-generated/mobility-v2'
+import { LineData, Theme, TileSubLabel } from '../types'
 
 export function createTileSubLabel({
     situation,

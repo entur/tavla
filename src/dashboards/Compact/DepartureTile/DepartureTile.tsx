@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { createTileSubLabel } from '../../../utils'
+import { createTileSubLabel } from '../../../utils/utils'
 import {
     StopPlaceWithDepartures,
     LineData,

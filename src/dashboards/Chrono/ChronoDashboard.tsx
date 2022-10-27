@@ -23,7 +23,7 @@ import {
 } from '../../settings/LocalStorage'
 import { QRTile } from '../../components/QRTile/QRTile'
 import { useSettings } from '../../settings/SettingsProvider'
-import { isMobileWeb } from '../../utils'
+import { isMobileWeb } from '../../utils/utils'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import { LongPressProvider } from '../../logic/longPressContext'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'

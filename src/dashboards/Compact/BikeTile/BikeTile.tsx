@@ -6,7 +6,7 @@ import { Tile } from '../components/Tile/Tile'
 import { TileRow } from '../components/TileRow/TileRow'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { IconColorType } from '../../../types'
-import { getTranslation } from '../../../utils'
+import { getTranslation } from '../../../utils/utils'
 import { useWalkInfo, WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import { getIconColorType } from '../../../utils/icon'
 

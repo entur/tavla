@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useWeather } from '../../logic'
-import { createAbortController } from '../../utils'
+import { createAbortController } from '../../utils/utils'
 import { useSettings } from '../../settings/SettingsProvider'
 import { Temperature } from './Temperature'
 import { WeatherIcon } from './WeatherIcon'
