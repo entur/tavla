@@ -26,6 +26,7 @@ const Poster = (): JSX.Element => {
 
     const totalNumberOfScooters = useMobility(FormFactor.SCOOTER)?.length || 0
     const [settings] = useSettings()
+    const hideBusTile = settings?.hiddenModes.includes('kollektiv')
     return (
         <div className="poster">
             <div className="poster-header">
@@ -37,7 +38,7 @@ const Poster = (): JSX.Element => {
                     <LastUpdated />
                 </div>
 
-                {settings?.hiddenModes.includes('kollektiv') ? (
+                {hideBusTile ? (
                     <></>
                 ) : (
                     <>
@@ -48,8 +49,7 @@ const Poster = (): JSX.Element => {
                 <div
                     className={classNames({
                         'poster-mobility-tiles-wrapper': true,
-                        'poster-mobility-tiles-wrapper--listed':
-                            settings?.hiddenModes.includes('kollektiv'),
+                        'poster-mobility-tiles-wrapper--listed': hideBusTile,
                     })}
                 >
                     {settings?.hiddenModes.includes('delebil') ? (
@@ -58,8 +58,7 @@ const Poster = (): JSX.Element => {
                         <div
                             className={classNames({
                                 'poster-mobility-tile': true,
-                                'poster-mobility-tile--listed':
-                                    settings?.hiddenModes.includes('kollektiv'),
+                                'poster-mobility-tile--listed': hideBusTile,
                             })}
                         >
                             <div className="poster-mobility-description">
@@ -70,7 +69,13 @@ const Poster = (): JSX.Element => {
                                     P-plassen ved Vestveien
                                 </h3>
                             </div>
-                            <div className="poster-mobility-vehicles-box">
+                            <div
+                                className={classNames({
+                                    'poster-mobility-vehicles-box': true,
+                                    'poster-mobility-vehicles-box--listed':
+                                        hideBusTile,
+                                })}
+                            >
                                 <CarTile numberOfCars={totalNumberOfCars} />
                             </div>
                         </div>
@@ -81,8 +86,7 @@ const Poster = (): JSX.Element => {
                         <div
                             className={classNames({
                                 'poster-mobility-tile': true,
-                                'poster-mobility-tile--listed':
-                                    settings?.hiddenModes.includes('kollektiv'),
+                                'poster-mobility-tile--listed': hideBusTile,
                             })}
                         >
                             <div className="poster-mobility-description">
@@ -94,7 +98,13 @@ const Poster = (): JSX.Element => {
                                     radius
                                 </h3>
                             </div>
-                            <div className="poster-mobility-vehicles-box">
+                            <div
+                                className={classNames({
+                                    'poster-mobility-vehicles-box': true,
+                                    'poster-mobility-vehicles-box--listed':
+                                        hideBusTile,
+                                })}
+                            >
                                 <ScooterTile
                                     numberOfScooters={totalNumberOfScooters}
                                 />
