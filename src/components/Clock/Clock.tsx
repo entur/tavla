@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
+import { capitalize } from 'lodash'
 import { Heading2 } from '@entur/typography'
-import { capitalize } from '../../utils'
 import { useCounter } from '../../hooks/useCounter'
 import './Clock.scss'
 
