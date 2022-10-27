@@ -125,7 +125,7 @@ const Poster = (): JSX.Element => {
                         >
                             <div className="poster-mobility-description">
                                 <h2 className="poster-mobility-description-heading">
-                                    Elsparkesykler
+                                    Bysykler
                                 </h2>
                                 <h3 className="poster-mobility-description-area">
                                     Innen {settings?.distance || 0} meters
