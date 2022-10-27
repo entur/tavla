@@ -22,21 +22,11 @@ import { colors } from '@entur/tokens'
 import type { TravelSwitchProps } from '@entur/form'
 import { LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 import { TranslatedString } from '../graphql-generated/mobility-v2'
-import { IconColorType, LineData, NonEmpty, Theme, TileSubLabel } from './types'
+import { IconColorType, LineData, Theme, TileSubLabel } from './types'
+import { arrayContains } from './utils/array'
 
 export const EMAIL_REGEX =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
-export function filterMap<A, B>(
-    arr: A[],
-    mapper: (item: A, index: number, array: A[]) => B | undefined,
-): B[] {
-    return arr.reduce((acc: B[], item: A, index, array) => {
-        const b = mapper(item, index, array)
-        if (b === undefined) return acc
-        return [...acc, b]
-    }, [])
-}
 
 function isSubModeAirportLink(subMode?: string): boolean {
     if (!subMode) return false
@@ -173,32 +163,6 @@ export function getIcon(
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function groupBy<T extends Record<string, any>>(
-    objectArray: T[],
-    property: keyof T,
-): { [key: string]: T[] } {
-    return objectArray.reduce((acc, obj) => {
-        const key = obj[property]
-        if (!acc[key]) {
-            acc[key] = []
-        }
-        acc[key].push(obj)
-        return acc
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }, {} as Record<string, any>)
-}
-
-export function unique<T>(
-    array: T[],
-    isEqual: (a: T, b: T) => boolean = (a, b): boolean => a === b,
-): T[] {
-    return array.filter((item, index, items) => {
-        const previousItems = items.slice(0, index)
-        return !previousItems.some((uniqueItem) => isEqual(item, uniqueItem))
-    })
-}
-
 export function timeUntil(time: string): number {
     return differenceInSeconds(parseISO(time), new Date())
 }
@@ -216,13 +180,6 @@ export function createTileSubLabel({
         time,
         departureTime,
     }
-}
-
-export function toggleValueInList<T>(list: T[], item: T): T[] {
-    if (list.includes(item)) {
-        return list.filter((i) => i !== item)
-    }
-    return [...list, item]
 }
 
 export const isTransport = (
@@ -266,11 +223,6 @@ export function isDarkOrDefaultTheme(theme?: Theme): boolean {
     return !theme || theme === Theme.DARK || theme === Theme.DEFAULT
 }
 
-export function isEqualUnsorted<T>(array: T[], includes: T[]): boolean {
-    if (array.length !== includes.length) return false
-    return includes.every((i) => array.includes(i))
-}
-
 export const getWeatherDescriptionFromApi = async (
     iconName: string,
     signal?: AbortSignal,
@@ -311,9 +263,6 @@ export const getWeatherIconEntur = (APIconName: string): JSX.Element => {
         return <SunIcon className="icon-entur--sun" />
     return <div>?</div>
 }
-
-const arrayContains = (original: string[], contains: string[]): boolean =>
-    original.some((r) => contains.indexOf(r) >= 0)
 
 export function getDepartureNumber(departure: LineData): string {
     return departure.route.split(/[\s]/g)[0] || ''
@@ -381,11 +330,6 @@ export function createTimeString(date: Date): string {
     const yearString =
         currentYear == date.getFullYear() ? '' : `${date.getFullYear()}`
     return `${dateString} ${yearString} ${timeString}`
-}
-
-export function nonEmpty<A>(arr: A[]): NonEmpty<A> | undefined {
-    if (arr[0]) return arr as NonEmpty<A>
-    return undefined
 }
 
 export function createAbortController():

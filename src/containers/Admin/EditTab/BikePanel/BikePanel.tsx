@@ -2,8 +2,9 @@ import React, { ChangeEvent, useCallback } from 'react'
 import { Station } from '@entur/sdk/lib/mobility/types'
 import { Checkbox, Fieldset } from '@entur/form'
 import { Paragraph } from '@entur/typography'
-import { getTranslation, toggleValueInList } from '../../../../utils'
+import { getTranslation } from '../../../../utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
+import { toggleValueInList } from '../../../../utils/array'
 import './BikePanel.scss'
 
 function BikePanel(props: Props): JSX.Element {

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Table, TableRow, TableHead, HeaderCell } from '@entur/table'
 import {
     getIcon,
-    unique,
     getTransportIconIdentifier,
     getIconColorType,
 } from '../../../utils'
@@ -16,6 +15,7 @@ import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import { Tile } from '../components/Tile/Tile'
 import { TileRows } from '../components/TileRows/TileRows'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
+import { unique } from '../../../utils/array'
 import './DepartureTile.scss'
 
 function getTransportHeaderIcons(

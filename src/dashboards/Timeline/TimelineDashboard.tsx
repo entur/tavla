@@ -11,7 +11,6 @@ import {
     getIconColor,
     timeUntil,
     getIconColorType,
-    isEqualUnsorted,
     BREAKPOINTS,
 } from '../../utils'
 import { LineData, IconColorType } from '../../types'
@@ -30,6 +29,7 @@ import {
 import { LongPressProvider } from '../../logic/longPressContext'
 import { useCounter } from '../../hooks/useCounter'
 import { usePrevious } from '../../hooks/usePrevious'
+import { isEqualUnsorted } from '../../utils/array'
 import './TimelineDashboard.scss'
 
 const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]

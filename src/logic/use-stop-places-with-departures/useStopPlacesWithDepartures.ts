@@ -2,12 +2,12 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { differenceInMinutes, format, parseISO } from 'date-fns'
 import { TransportMode, TransportSubmode } from '@entur/sdk'
 import { LineData, StopPlaceWithDepartures } from '../../types'
-import { nonEmpty, unique } from '../../utils'
 import { useSettings } from '../../settings/SettingsProvider'
 import { REFRESH_INTERVAL } from '../../constants'
 import { useNearestPlaces } from '../use-nearest-places/useNearestPlaces'
 import { apolloClient } from '../../apollo-client'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
+import { nonEmpty, unique } from '../../utils/array'
 import GET_STOP_PLACES_WITH_DEPARTURES_QUERY from './GetStopPlacesWithDepartures.journey-planner.graphql'
 
 type GetStopPlacesWithDeparturesVariables = {

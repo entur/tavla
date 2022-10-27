@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import {
     getIcon,
-    groupBy,
-    unique,
     getTransportIconIdentifier,
     createTileSubLabel,
     getIconColorType,
-    filterMap,
 } from '../../../utils'
 import {
     StopPlaceWithDepartures,
@@ -18,6 +15,7 @@ import { TileRow } from '../components/TileRow/TileRow'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
+import { filterMap, groupBy, unique } from '../../../utils/array'
 
 function getTransportHeaderIcons(
     departures: LineData[],
