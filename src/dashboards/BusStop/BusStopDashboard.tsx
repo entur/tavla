@@ -3,10 +3,8 @@ import { Layouts, Layout, WidthProvider, Responsive } from 'react-grid-layout'
 import { useLocation, useParams } from 'react-router-dom'
 import { useLongPress } from 'use-long-press'
 import { Loader } from '@entur/loader'
-import { FormFactor } from '@entur/sdk/lib/mobility/types'
-import { BREAKPOINTS } from '../../constants'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-import { DEFAULT_ZOOM } from '../../constants'
+import { DEFAULT_ZOOM, BREAKPOINTS } from '../../constants'
 import {
     useStopPlacesWithDepartures,
     useMobility,
@@ -25,6 +23,7 @@ import {
 } from '../../components/RearrangeModal/RearrangeModal'
 import { LongPressProvider } from '../../logic/longPressContext'
 import { isEqualUnsorted } from '../../utils/array'
+import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import './BusStopDashboard.scss'
@@ -89,7 +88,7 @@ const BusStopDashboard = (): JSX.Element | null => {
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
     )
 
-    const scooters = useMobility(FormFactor.SCOOTER)
+    const scooters = useMobility(FormFactor.Scooter)
     const bikeRentalStations = useRentalStations()
 
     const walkInfoDestinations = useMemo(() => {

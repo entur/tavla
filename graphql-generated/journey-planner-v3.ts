@@ -1234,6 +1234,7 @@ export type RoutingParameters = {
   ignoreRealTimeUpdates: Maybe<Scalars['Boolean']>;
   /** When true, service journeys cancelled in scheduled route data will be included during this search. */
   includedPlannedCancellations: Maybe<Scalars['Boolean']>;
+  /** @deprecated Parking is specified by modes */
   kissAndRide: Maybe<Scalars['Boolean']>;
   /** This is the maximum duration in seconds for a direct street search. This is a performance limit and should therefore be set high. Use filters to limit what is presented to the client. */
   maxDirectStreetDuration: Maybe<Scalars['Int']>;
@@ -1250,6 +1251,7 @@ export type RoutingParameters = {
   onlyTransitTrips: Maybe<Scalars['Boolean']>;
   /** Penalty added for using every route that is not preferred if user set any route as preferred. We return number of seconds that we are willing to wait for preferred route. */
   otherThanPreferredRoutesPenalty: Maybe<Scalars['Int']>;
+  /** @deprecated Parking is specified by modes */
   parkAndRide: Maybe<Scalars['Boolean']>;
   /** @deprecated NOT IN USE IN OTP2. */
   reverseOptimizeOnTheFly: Maybe<Scalars['Boolean']>;

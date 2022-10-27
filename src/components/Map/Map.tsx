@@ -5,7 +5,6 @@ import type { ClusterProperties } from 'supercluster'
 import useSupercluster from 'use-supercluster'
 import polyline from 'google-polyline'
 import { TransportMode } from '@entur/sdk'
-import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 import { PositionPin } from '../../assets/icons/PositionPin'
 import {
     DrawableRoute,
@@ -18,6 +17,10 @@ import { Filter } from '../../services/realtimeVehicles/types/filter'
 import { useSettings } from '../../settings/SettingsProvider'
 import { useRealtimeVehicleData } from '../../logic/use-realtime-vehicle-data/useRealtimeVehicleData'
 import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
+import {
+    UseMobility_VehicleFragment,
+    UseRentalStations_StationFragment,
+} from '../../../graphql-generated/mobility-v2'
 import { useStopPlacesWithLines } from '../../logic/useStopPlacesWithLines'
 import { useDebounce } from '../../hooks/useDebounce'
 import { getIconColor } from '../../utils/icon'
@@ -147,7 +150,7 @@ const Map = memo(function Map({
 
     const scooterpoints = useMemo(
         () =>
-            scooters?.map((scooter: Vehicle) => ({
+            scooters?.map((scooter: UseMobility_VehicleFragment) => ({
                 type: 'Feature' as const,
                 properties: {
                     cluster: false,
@@ -164,7 +167,7 @@ const Map = memo(function Map({
 
     const bikeRentalStationPoints = useMemo(
         () =>
-            bikeRentalStations?.map((bikeRentalStation: Station) => ({
+            bikeRentalStations?.map((bikeRentalStation) => ({
                 type: 'Feature' as const,
                 properties: {
                     cluster: false,
@@ -371,8 +374,8 @@ const Map = memo(function Map({
 
 interface Props {
     stopPlaces?: StopPlaceWithDepartures[]
-    bikeRentalStations?: Station[]
-    scooters?: Vehicle[]
+    bikeRentalStations?: UseRentalStations_StationFragment[]
+    scooters?: UseMobility_VehicleFragment[]
     walkTimes?: Array<{ stopId: string; walkTime: number }>
     interactive: boolean
     mapStyle?: string | undefined
