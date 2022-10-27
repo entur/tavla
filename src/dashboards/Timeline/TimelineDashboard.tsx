@@ -9,7 +9,6 @@ import { WalkingIcon } from '@entur/icons'
 import {
     getIcon,
     getIconColor,
-    timeUntil,
     getIconColorType,
     BREAKPOINTS,
 } from '../../utils'
@@ -30,6 +29,7 @@ import { LongPressProvider } from '../../logic/longPressContext'
 import { useCounter } from '../../hooks/useCounter'
 import { usePrevious } from '../../hooks/usePrevious'
 import { isEqualUnsorted } from '../../utils/array'
+import { timeUntil } from '../../utils/time'
 import './TimelineDashboard.scss'
 
 const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]

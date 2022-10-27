@@ -3,12 +3,8 @@ import { colors } from '@entur/tokens'
 import { TransportMode } from '@entur/sdk'
 import { Label } from '@entur/typography'
 import { DepartureIcon } from '../../../../dashboards/Map/DepartureTag/DepartureIcon/DepartureIcon'
-import {
-    getIcon,
-    getIconColor,
-    getLastUpdated,
-    getFeedbackString,
-} from '../../../../utils'
+import { getIcon, getIconColor } from '../../../../utils'
+import { getFeedbackString, getLastUpdated } from '../../../../utils/time'
 import { IconColorType } from '../../../../types'
 import { RealtimeVehicle } from '../../../../services/realtimeVehicles/types/realtimeVehicle'
 import './TooltipContent.scss'
