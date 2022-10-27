@@ -45,6 +45,8 @@ $heading-font-size: 3.5rem;
 
         &--listed {
             flex-direction: column;
+            position: relative;
+            top: 15%;
         }
     }
 
@@ -56,7 +58,8 @@ $heading-font-size: 3.5rem;
 
         &--listed {
             flex-direction: row-reverse;
-            padding: 5rem 0 5rem 0;
+            width: 100%;
+            padding-bottom: 5rem;
         }
     }
 
@@ -90,5 +93,9 @@ $heading-font-size: 3.5rem;
         font-size: 8rem;
         width: 100%;
         padding: 2rem 2.5rem 2rem 2.5rem;
+
+        &--listed {
+            margin-right: 4rem;
+        }
     }
 }

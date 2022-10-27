@@ -70,7 +70,15 @@ const Poster = (): JSX.Element => {
                                     P-plassen ved Vestveien
                                 </h3>
                             </div>
-                            <div className="poster-mobility-vehicles-box">
+                            <div
+                                className={classNames({
+                                    'poster-mobility-vehicles-box': true,
+                                    'poster-mobility-vehicles-box--listed':
+                                        settings?.hiddenModes.includes(
+                                            'kollektiv',
+                                        ),
+                                })}
+                            >
                                 <CarTile numberOfCars={totalNumberOfCars} />
                             </div>
                         </div>
@@ -94,7 +102,15 @@ const Poster = (): JSX.Element => {
                                     radius
                                 </h3>
                             </div>
-                            <div className="poster-mobility-vehicles-box">
+                            <div
+                                className={classNames({
+                                    'poster-mobility-vehicles-box': true,
+                                    'poster-mobility-vehicles-box--listed':
+                                        settings?.hiddenModes.includes(
+                                            'kollektiv',
+                                        ),
+                                })}
+                            >
                                 <ScooterTile
                                     numberOfScooters={totalNumberOfScooters}
                                 />
