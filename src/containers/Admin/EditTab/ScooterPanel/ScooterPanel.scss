@@ -1,4 +1,6 @@
 .scooter-panel {
+    padding-top: 1rem;
+
     &__container {
         width: 100%;
         height: 100%;
@@ -8,6 +10,15 @@
         display: inline-block;
         padding-right: 0.5rem;
         margin-top: 0.8rem;
+    }
+
+    &-number-input {
+        margin-top: 1rem;
+    }
+
+    &-distance-wrapper {
+        display: flex;
+        justify-content:space-around;
     }
 
     .eds-filter-chip:not(:first-child) {
