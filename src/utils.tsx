@@ -10,7 +10,6 @@ import {
     TramIcon,
 } from '@entur/icons'
 import { colors } from '@entur/tokens'
-import type { TravelSwitchProps } from '@entur/form'
 import { LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 import { TranslatedString } from '../graphql-generated/mobility-v2'
 import { IconColorType, LineData, Theme, TileSubLabel } from './types'
@@ -167,22 +166,6 @@ export function createTileSubLabel({
         departureTime,
     }
 }
-
-export const isTransport = (
-    mode: string,
-): mode is TravelSwitchProps['transport'] =>
-    [
-        'bus',
-        'rail',
-        'water',
-        'air',
-        'tram',
-        'bike',
-        'metro',
-        'scooter',
-        'airportLinkRail',
-        'airportLinkBus',
-    ].includes(mode)
 
 export const transportModeNameMapper = (mode: TransportMode): string => {
     switch (mode) {
