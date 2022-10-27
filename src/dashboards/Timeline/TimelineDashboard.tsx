@@ -6,12 +6,7 @@ import { LegBone } from '@entur/travel'
 import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 import { WalkingIcon } from '@entur/icons'
-import {
-    getIcon,
-    getIconColor,
-    getIconColorType,
-    BREAKPOINTS,
-} from '../../utils'
+import { BREAKPOINTS } from '../../utils'
 import { LineData, IconColorType } from '../../types'
 import { useStopPlacesWithDepartures, useWalkInfo } from '../../logic'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
@@ -30,6 +25,7 @@ import { useCounter } from '../../hooks/useCounter'
 import { usePrevious } from '../../hooks/usePrevious'
 import { isEqualUnsorted } from '../../utils/array'
 import { timeUntil } from '../../utils/time'
+import { getIcon, getIconColor, getIconColorType } from '../../utils/icon'
 import './TimelineDashboard.scss'
 
 const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]

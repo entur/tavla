@@ -8,7 +8,7 @@ import {
     IconColorType,
     LineData,
 } from '../../../types'
-import { getIcon, getIconColor } from '../../../utils'
+import { getIcon, getIconColor } from '../../../utils/icon'
 import { DepartureIcon } from './DepartureIcon/DepartureIcon'
 import './DepartureTag.scss'
 

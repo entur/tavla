@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-    getIcon,
-    getTransportIconIdentifier,
-    createTileSubLabel,
-    getIconColorType,
-} from '../../../utils'
+import { createTileSubLabel } from '../../../utils'
 import {
     StopPlaceWithDepartures,
     LineData,
@@ -16,6 +11,11 @@ import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { filterMap, groupBy, unique } from '../../../utils/array'
+import {
+    getIcon,
+    getIconColorType,
+    getTransportIconIdentifier,
+} from '../../../utils/icon'
 
 function getTransportHeaderIcons(
     departures: LineData[],

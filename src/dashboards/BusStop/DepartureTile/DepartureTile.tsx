@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Table, TableRow, TableHead, HeaderCell } from '@entur/table'
 import {
-    getIcon,
-    getTransportIconIdentifier,
-    getIconColorType,
-} from '../../../utils'
-import {
     StopPlaceWithDepartures,
     LineData,
     IconColorType,
@@ -16,6 +11,11 @@ import { Tile } from '../components/Tile/Tile'
 import { TileRows } from '../components/TileRows/TileRows'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { unique } from '../../../utils/array'
+import {
+    getIcon,
+    getIconColorType,
+    getTransportIconIdentifier,
+} from '../../../utils/icon'
 import './DepartureTile.scss'
 
 function getTransportHeaderIcons(

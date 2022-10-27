@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { HeaderCell, Table, TableHead, TableRow } from '@entur/table'
 import {
-    getIcon,
-    getTransportIconIdentifier,
-    getIconColorType,
-} from '../../../utils'
-import {
     StopPlaceWithDepartures,
     LineData,
     IconColorType,
@@ -16,6 +11,11 @@ import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { unique } from '../../../utils/array'
+import {
+    getIcon,
+    getIconColorType,
+    getTransportIconIdentifier,
+} from '../../../utils/icon'
 
 function getTransportHeaderIcons(
     departures: LineData[],

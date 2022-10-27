@@ -4,8 +4,9 @@ import { ClosedLockIcon } from '@entur/icons'
 import { FilterChip } from '@entur/chip'
 import { DrawableRoute, Line } from '../../../../types'
 import { Settings } from '../../../../settings'
-import { getIcon, transportModeNameMapper } from '../../../../utils'
+import { transportModeNameMapper } from '../../../../utils'
 import { filterMap } from '../../../../utils/array'
+import { getIcon } from '../../../../utils/icon'
 import './linesPanel.scss'
 
 type PermanentLinesPanelProps = {
