@@ -20,13 +20,7 @@ import { Station } from '@entur/sdk/lib/mobility/types'
 import { Button } from '@entur/button'
 import { Mode } from '../../../settings'
 import { useSettings } from '../../../settings/SettingsProvider'
-import {
-    useDebounce,
-    toggleValueInList,
-    isNotNullOrUndefined,
-    isMobileWeb,
-    getTranslation,
-} from '../../../utils'
+import { isMobileWeb, getTranslation } from '../../../utils/utils'
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
 import { Line, StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces, useRentalStations } from '../../../logic'
@@ -37,6 +31,9 @@ import {
 } from '../../../settings/LocalStorage'
 import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
 import { useRealtimeVehicleData } from '../../../logic/use-realtime-vehicle-data/useRealtimeVehicleData'
+import { isNotNullOrUndefined } from '../../../utils/typeguards'
+import { useDebounce } from '../../../hooks/useDebounce'
+import { toggleValueInList } from '../../../utils/array'
 import { StopPlacePanel } from './StopPlacePanel/StopPlacePanel'
 import { BikePanelSearch } from './BikeSearch/BikePanelSearch'
 import { StopPlaceSearch } from './StopPlaceSearch/StopPlaceSearch'

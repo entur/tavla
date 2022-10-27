@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useFirebaseSettings } from '../../settings'
 import { Clock } from '../Clock/Clock'
 import { TavlaLogo } from '../../assets/icons'
-import { isMobileWeb } from '../../utils'
+import { isMobileWeb } from '../../utils/utils'
 
 function DashboardHeader(): JSX.Element | null {
     const [settings] = useFirebaseSettings()

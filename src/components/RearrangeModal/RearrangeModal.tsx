@@ -4,7 +4,7 @@ import type { DropResult } from 'react-beautiful-dnd'
 import { Modal } from '@entur/modal'
 import { PrimaryButton } from '@entur/button'
 import { DraggableIcon } from '@entur/icons'
-import { isNotNullOrUndefined } from '../../utils'
+import { isNotNullOrUndefined } from '../../utils/typeguards'
 import './RearrangeModal.scss'
 
 function RearrangeModal({

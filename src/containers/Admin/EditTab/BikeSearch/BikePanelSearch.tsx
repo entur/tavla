@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react'
 import { Coordinates } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
-import { getTranslation, isNotNullOrUndefined } from '../../../../utils'
+import { getTranslation } from '../../../../utils/utils'
 import {
     BikePanelSearchStationFragment,
     useBikePanelSearchQuery,
 } from '../../../../../graphql-generated/mobility-v2'
+import { isNotNullOrUndefined } from '../../../../utils/typeguards'
 import './BikePanelSearch.scss'
 
 const MAX_SEARCH_RANGE = 100_000

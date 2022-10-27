@@ -6,7 +6,7 @@ import { LinkIcon, ClockIcon } from '@entur/icons'
 import { ThemeDashboardPreview } from '../../../../assets/icons/ThemeDashboardPreview'
 import { persistSingleField } from '../../../../settings/FirestoreStorage'
 import { Settings } from '../../../../settings'
-import { createTimeString } from '../../../../utils'
+import { createTimeString } from '../../../../utils/time'
 import { BoardOverflowMenu } from './OverflowMenu/BoardOverflowMenu'
 import './BoardCard.scss'
 

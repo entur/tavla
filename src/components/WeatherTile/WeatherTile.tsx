@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useWeather } from '../../logic'
-import {
-    createAbortController,
-    getWeatherDescriptionFromApi,
-} from '../../utils'
+import { createAbortController } from '../../utils/utils'
 import { useSettings } from '../../settings/SettingsProvider'
 import { Temperature } from './Temperature'
 import { WeatherIcon } from './WeatherIcon'
 import { Wind } from './Wind'
 import { Precipitation } from './Precipitation'
 import './WeatherTile.scss'
+
+const getWeatherDescriptionFromApi = async (
+    iconName: string,
+    signal?: AbortSignal,
+): Promise<string> => {
+    const weatherNameMatch = iconName.match(/.+?(?=_|$)/)
+    if (!weatherNameMatch)
+        return Promise.reject('No REGEX match found for ' + iconName)
+    const url = `https://api.met.no/weatherapi/weathericon/2.0/legends`
+    const response = await fetch(url, { signal })
+    const weatherData = await response.json()
+    return weatherData[weatherNameMatch.toString()].desc_nb
+}
 
 interface WeatherTileProps {
     className?: string

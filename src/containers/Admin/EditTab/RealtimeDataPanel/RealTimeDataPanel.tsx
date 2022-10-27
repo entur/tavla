@@ -5,14 +5,12 @@ import { Loader } from '@entur/loader'
 import { Heading3, Label, Paragraph } from '@entur/typography'
 import { ExpandablePanel } from '@entur/expand'
 import { Line } from '../../../../types'
-import {
-    getIcon,
-    isTransport,
-    transportModeNameMapper,
-} from '../../../../utils'
+import { transportModeNameMapper } from '../../../../utils/utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
-import './linesPanel.scss'
+import { isTransport } from '../../../../utils/typeguards'
+import { getIcon } from '../../../../utils/icon'
 import { PermanentLinesPanel } from './PermanentLinesPanel'
+import './linesPanel.scss'
 
 interface Props {
     realtimeLines: Line[] | undefined
