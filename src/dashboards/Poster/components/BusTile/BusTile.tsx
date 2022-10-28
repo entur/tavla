@@ -14,12 +14,7 @@ function BusTile(): JSX.Element {
         settings?.hiddenModes.includes('delebil') &&
         settings?.hiddenModes.includes('bysykkel')
 
-    function numberOfLines(): number {
-        if (onlyBusShowing) {
-            return 7
-        }
-        return 3
-    }
+    const numberOfLines = onlyBusShowing ? 7 : 3
 
     const busDepartures = useMemo(
         () =>
@@ -27,8 +22,8 @@ function BusTile(): JSX.Element {
                 ?.flatMap((stopPlace) => stopPlace.departures)
                 .filter((departure) => departure.type === TransportMode.BUS)
                 .sort((a, b) => compareAsc(a.departureTime, b.departureTime))
-                .slice(0, numberOfLines()) ?? [],
-        [stopPlacesWithDepartures],
+                .slice(0, numberOfLines) ?? [],
+        [stopPlacesWithDepartures, numberOfLines],
     )
 
     return (
