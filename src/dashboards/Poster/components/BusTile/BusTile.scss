@@ -17,6 +17,11 @@
         display: flex;
         padding-top: 0.25rem;
         padding-bottom: 0.25rem;
+
+        &--onlyBus {
+            padding-top: 6;
+            padding-bottom: 6;
+        }
     }
 
     &-route {

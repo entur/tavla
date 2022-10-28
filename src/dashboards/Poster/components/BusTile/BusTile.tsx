@@ -3,10 +3,23 @@ import { compareAsc } from 'date-fns'
 import { BusIcon } from '@entur/icons'
 import { TransportMode } from '@entur/sdk'
 import { useStopPlacesWithDepartures } from '../../../../logic'
+import { useSettings } from '../../../../settings/SettingsProvider'
 import './BusTile.scss'
 
 function BusTile(): JSX.Element {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
+    const [settings] = useSettings()
+    const onlyBusShowing =
+        settings?.hiddenModes.includes('sparkesykkel') &&
+        settings?.hiddenModes.includes('delebil') &&
+        settings?.hiddenModes.includes('bysykkel')
+
+    function numberOfLines(): number {
+        if (onlyBusShowing) {
+            return 7
+        }
+        return 3
+    }
 
     const busDepartures = useMemo(
         () =>
@@ -14,7 +27,7 @@ function BusTile(): JSX.Element {
                 ?.flatMap((stopPlace) => stopPlace.departures)
                 .filter((departure) => departure.type === TransportMode.BUS)
                 .sort((a, b) => compareAsc(a.departureTime, b.departureTime))
-                .slice(0, 3) ?? [],
+                .slice(0, numberOfLines()) ?? [],
         [stopPlacesWithDepartures],
     )
 
