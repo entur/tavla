@@ -1,5 +1,5 @@
 import React from 'react'
-import { CityBikeIcon } from '@entur/icons'
+import { CityBikeIcon } from '../../../../assets/icons/CityBikeIcon'
 import { NumberDisplay } from '../NumberDisplay/NumberDisplay'
 
 const BikeTile = ({ numberOfBikes }: BikeTileProps) => (
