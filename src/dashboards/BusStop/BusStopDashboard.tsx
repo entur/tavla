@@ -4,9 +4,8 @@ import { useLocation, useParams } from 'react-router-dom'
 import { useLongPress } from 'use-long-press'
 import { Loader } from '@entur/loader'
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
-import { BREAKPOINTS } from '../../constants'
+import { BREAKPOINTS, DEFAULT_ZOOM } from '../../constants'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-import { DEFAULT_ZOOM } from '../../constants'
 import {
     useStopPlacesWithDepartures,
     useMobility,

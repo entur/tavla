@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react'
 import { compareAsc } from 'date-fns'
+import classNames from 'classnames'
 import { BusIcon } from '@entur/icons'
 import { TransportMode } from '@entur/sdk'
 import { useStopPlacesWithDepartures } from '../../../../logic'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import './BusTile.scss'
-import classNames from 'classnames'
 
 function BusTile(): JSX.Element {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
