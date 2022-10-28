@@ -5,6 +5,7 @@ import { TransportMode } from '@entur/sdk'
 import { useStopPlacesWithDepartures } from '../../../../logic'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import './BusTile.scss'
+import classNames from 'classnames'
 
 function BusTile(): JSX.Element {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
@@ -14,7 +15,7 @@ function BusTile(): JSX.Element {
         settings?.hiddenModes.includes('delebil') &&
         settings?.hiddenModes.includes('bysykkel')
 
-    const numberOfLines = onlyBusShowing ? 7 : 3
+    const numberOfLines = onlyBusShowing ? 6 : 3
 
     const busDepartures = useMemo(
         () =>
@@ -36,8 +37,20 @@ function BusTile(): JSX.Element {
                     .join(' ')
 
                 return (
-                    <div key={departure.id} className="poster-bus-tile-row">
-                        <div className="poster-bus-tile-route">
+                    <div
+                        key={departure.id}
+                        className={classNames({
+                            'poster-bus-tile-row': true,
+                            'poster-bus-tile-row--only-bus': onlyBusShowing,
+                        })}
+                    >
+                        <div
+                            className={classNames({
+                                'poster-bus-tile-route': true,
+                                'poster-bus-tile-route--only-bus':
+                                    onlyBusShowing,
+                            })}
+                        >
                             <BusIcon className="poster-bus-tile-icon" />
                             <span>{routeNumber}</span>
                         </div>
