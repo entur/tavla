@@ -18,7 +18,6 @@ const BikeTile = () => {
             header="Bysykler"
             description={`Innen ${settings?.distance || 0} meters radius`}
             numberOfVehicles={numberOfBikes}
-            vertical={false}
         />
     )
 }

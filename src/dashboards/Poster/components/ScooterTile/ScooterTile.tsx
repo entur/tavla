@@ -18,7 +18,6 @@ const ScooterTile = (): JSX.Element => {
             header="Elsparkesykler"
             description={`Innen ${settings?.distance || 0} meters radius`}
             numberOfVehicles={numberOfScooters}
-            vertical={false}
         />
     )
 }

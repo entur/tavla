@@ -27,7 +27,6 @@ const CarTile = () => {
             header="Delebiler"
             description="P-plassen ved Vestveien"
             numberOfVehicles={totalNumberOfCars}
-            vertical={false}
         />
     )
 }
