@@ -12,7 +12,6 @@ import { isNotNullOrUndefined } from '../../utils/typeguards'
 function useMobility(
     formFactor?: FormFactor,
     customDistance?: number,
-
 ): UseMobility_VehicleFragment[] | undefined {
     const [settings] = useSettings()
     const { data: getOperatorsData } = useUseMobility_OperatorsQuery()
