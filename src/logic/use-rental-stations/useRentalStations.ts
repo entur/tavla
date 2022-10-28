@@ -1,24 +1,25 @@
 import { useEffect } from 'react'
-import { useLazyQuery } from '@apollo/client'
-import { FormFactor, Station } from '@entur/sdk/lib/mobility/types'
 import { useSettings } from '../../settings/SettingsProvider'
 import { REFRESH_INTERVAL } from '../../constants'
-import GetNearbyStations from './GetNearbyStations.mobility.graphql'
-import GetStationsById from './GetStationsById.mobility.graphql'
+import {
+    FormFactor,
+    useUseRentalStations_StationsByIdLazyQuery,
+    useUseRentalStations_NearbyStationsLazyQuery,
+    UseRentalStations_StationFragment,
+} from '../../../graphql-generated/mobility-v2'
+import { isNotNullOrUndefined } from '../../utils/typeguards'
 
 function useRentalStations(
     excludeHiddenStations = true,
     formFactor: FormFactor | undefined = undefined,
-): Station[] {
+): UseRentalStations_StationFragment[] {
     const [settings] = useSettings()
 
-    const [getNearbyStations, { data: getNearByStationsData }] = useLazyQuery<{
-        stations: Station[]
-    }>(GetNearbyStations)
+    const [getNearbyStations, { data: getNearByStationsData }] =
+        useUseRentalStations_NearbyStationsLazyQuery()
 
-    const [getStationsById, { data: getStationsByIdData }] = useLazyQuery<{
-        stationsById: Station[]
-    }>(GetStationsById)
+    const [getStationsById, { data: getStationsByIdData }] =
+        useUseRentalStations_StationsByIdLazyQuery()
 
     const {
         coordinates,
@@ -46,7 +47,9 @@ function useRentalStations(
     useEffect(() => {
         if (!getNearByStationsData || isDisabled) return
         const nearbyStationIds =
-            getNearByStationsData?.stations.map((station) => station.id) ?? []
+            getNearByStationsData?.stations
+                ?.filter(isNotNullOrUndefined)
+                .map((station) => station.id) ?? []
 
         const stationsToFetch = excludeHiddenStations
             ? nearbyStationIds.filter(
@@ -74,7 +77,7 @@ function useRentalStations(
         getNearByStationsData,
     ])
 
-    return getStationsByIdData?.stationsById ?? []
+    return getStationsByIdData?.stationsById?.filter(isNotNullOrUndefined) ?? []
 }
 
 export { useRentalStations }

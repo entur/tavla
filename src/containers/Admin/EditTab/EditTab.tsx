@@ -16,7 +16,6 @@ import {
 import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
-import { Station } from '@entur/sdk/lib/mobility/types'
 import { Button } from '@entur/button'
 import { Mode } from '../../../settings'
 import { useSettings } from '../../../settings/SettingsProvider'
@@ -214,15 +213,13 @@ const EditTab = (): JSX.Element => {
 
     const sortedBikeRentalStations = useMemo(
         () =>
-            bikeRentalStations
-                .filter(isNotNullOrUndefined)
-                .sort((a: Station, b: Station) => {
-                    const aName = getTranslation(a.name)
-                    const bName = getTranslation(b.name)
-                    if (!aName) return 1
-                    if (!bName) return -1
-                    return aName.localeCompare(bName, 'no')
-                }),
+            bikeRentalStations.filter(isNotNullOrUndefined).sort((a, b) => {
+                const aName = getTranslation(a.name)
+                const bName = getTranslation(b.name)
+                if (!aName) return 1
+                if (!bName) return -1
+                return aName.localeCompare(bName, 'no')
+            }),
         [bikeRentalStations],
     )
 

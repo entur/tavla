@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import { FormFactor } from '@entur/sdk/lib/mobility/types'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import {
     useStopPlacesWithDepartures,
@@ -11,6 +10,7 @@ import { Map } from '../../components/Map/Map'
 import { useSettings } from '../../settings/SettingsProvider'
 import { DEFAULT_ZOOM } from '../../constants'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
+import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { DepartureTag } from './DepartureTag/DepartureTag'
 import './MapDashboard.scss'
 
@@ -29,7 +29,7 @@ const MapDashboard = (): JSX.Element => {
     }, [stopPlacesWithDepartures])
     const walkTimes = useWalkInfo(walkInfoDestinations)
 
-    const scooters = useMobility(FormFactor.SCOOTER)
+    const scooters = useMobility(FormFactor.Scooter)
     const HEADER_MARGIN = 16
     //Used to calculate the height of the viewport for the map
     const headerHeight =

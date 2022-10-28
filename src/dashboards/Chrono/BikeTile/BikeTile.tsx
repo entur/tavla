@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
-import { Station } from '@entur/sdk/lib/mobility/types'
 import { Tile } from '../components/Tile/Tile'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { IconColorType } from '../../../types'
 import { getTranslation } from '../../../utils/utils'
 import { getIconColorType } from '../../../utils/icon'
 import { useWalkInfo, WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
+import { UseRentalStations_StationFragment } from '../../../../graphql-generated/mobility-v2'
 import { TileRow } from '../components/TileRow/TileRow'
 import './BikeTile.scss'
 
@@ -89,7 +89,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
 }
 
 interface Props {
-    stations: Station[]
+    stations: UseRentalStations_StationFragment[]
 }
 
 export { BikeTile }

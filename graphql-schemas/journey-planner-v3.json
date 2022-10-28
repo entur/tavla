@@ -8161,8 +8161,8 @@
               "name": "Boolean",
               "ofType": null
             },
-            "isDeprecated": false,
-            "deprecationReason": null
+            "isDeprecated": true,
+            "deprecationReason": "Parking is specified by modes"
           },
           {
             "name": "maxDirectStreetDuration",
@@ -8245,8 +8245,8 @@
               "name": "Boolean",
               "ofType": null
             },
-            "isDeprecated": false,
-            "deprecationReason": null
+            "isDeprecated": true,
+            "deprecationReason": "Parking is specified by modes"
           },
           {
             "name": "reverseOptimizeOnTheFly",

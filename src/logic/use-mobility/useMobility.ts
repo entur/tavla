@@ -1,19 +1,21 @@
 import { useEffect, useMemo } from 'react'
-import { useLazyQuery, useQuery } from '@apollo/client'
-import { FormFactor, Operator, Vehicle } from '@entur/sdk/lib/mobility/types'
 import { useSettings } from '../../settings/SettingsProvider'
+import {
+    useUseMobility_OperatorsQuery,
+    UseMobility_VehicleFragment,
+    FormFactor,
+    useUseMobility_VehiclesLazyQuery,
+} from '../../../graphql-generated/mobility-v2'
 import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../../constants'
-import GetOperators from './GetOperators.mobility.graphql'
-import GetVehicles from './GetVehicles.mobility.graphql'
+import { isNotNullOrUndefined } from '../../utils/typeguards'
 
-function useMobility(formFactor?: FormFactor): Vehicle[] | undefined {
+function useMobility(
+    formFactor?: FormFactor,
+): UseMobility_VehicleFragment[] | undefined {
     const [settings] = useSettings()
-    const { data: getOperatorsData } = useQuery<{ operators: Operator[] }>(
-        GetOperators,
-    )
-    const [getVehicles, { data: getVehiclesData }] = useLazyQuery<{
-        vehicles: Vehicle[]
-    }>(GetVehicles)
+    const { data: getOperatorsData } = useUseMobility_OperatorsQuery()
+    const [getVehicles, { data: getVehiclesData }] =
+        useUseMobility_VehiclesLazyQuery()
 
     const { coordinates, distance, hiddenMobilityOperators, hiddenModes } =
         settings || {}
@@ -23,6 +25,7 @@ function useMobility(formFactor?: FormFactor): Vehicle[] | undefined {
     const operators = useMemo(
         () =>
             getOperatorsData?.operators
+                ?.filter(isNotNullOrUndefined)
                 .filter((operator) => !ALL_ACTIVE_OPERATOR_IDS[operator.id])
                 .filter(
                     (operator) =>
@@ -47,12 +50,12 @@ function useMobility(formFactor?: FormFactor): Vehicle[] | undefined {
                 operators: operators
                     .map((operator) => operator.id)
                     .filter((id) => !ALL_ACTIVE_OPERATOR_IDS[id]),
-                formFactor: formFactor ? [formFactor] : undefined,
+                formFactors: formFactor ? [formFactor] : undefined,
             },
         }).finally()
     }, [coordinates, distance, operators, isDisabled, formFactor, getVehicles])
 
-    return getVehiclesData?.vehicles ?? []
+    return getVehiclesData?.vehicles?.filter(isNotNullOrUndefined) ?? []
 }
 
 export { useMobility }

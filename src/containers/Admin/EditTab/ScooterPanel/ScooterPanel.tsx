@@ -1,18 +1,17 @@
 import React, { ChangeEvent, useCallback, useMemo } from 'react'
-import { useQuery } from '@apollo/client'
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
-import { Operator } from '@entur/sdk/lib/mobility/types'
 import { useSettings } from '../../../../settings/SettingsProvider'
+import { useScooterPanelQuery } from '../../../../../graphql-generated/mobility-v2'
 import { ALL_ACTIVE_OPERATOR_IDS } from '../../../../constants'
 import { toggleValueInList } from '../../../../utils/array'
+import { isNotNullOrUndefined } from '../../../../utils/typeguards'
 import './ScooterPanel.scss'
-import ScooterPanelQuery from './ScooterPanelQuery.mobility.graphql'
 
 function ScooterPanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
 
-    const { data } = useQuery<{ operators: Operator[] }>(ScooterPanelQuery, {
+    const { data } = useScooterPanelQuery({
         fetchPolicy: 'cache-and-network',
     })
 
@@ -32,9 +31,10 @@ function ScooterPanel(): JSX.Element {
 
     const operators = useMemo(
         () =>
-            data?.operators.filter(
-                (operator) => !!ALL_ACTIVE_OPERATOR_IDS[operator.id],
-            ) ?? [],
+            data?.operators
+                ?.filter(isNotNullOrUndefined)
+                .filter((operator) => !!ALL_ACTIVE_OPERATOR_IDS[operator.id]) ??
+            [],
         [data?.operators],
     )
 

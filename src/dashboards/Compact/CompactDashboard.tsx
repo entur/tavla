@@ -3,7 +3,6 @@ import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useLocation, useParams } from 'react-router-dom'
 import { useLongPress } from 'use-long-press'
 import { Loader } from '@entur/loader'
-import { FormFactor } from '@entur/sdk/lib/mobility/types'
 import {
     RearrangeModal,
     Item,
@@ -30,6 +29,7 @@ import { QRTile } from '../../components/QRTile/QRTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { usePrevious } from '../../hooks/usePrevious'
 import { isEqualUnsorted } from '../../utils/array'
+import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { BikeTile } from './BikeTile/BikeTile'
 import { MapTile } from './MapTile/MapTile'
@@ -105,7 +105,7 @@ const CompactDashboard = (): JSX.Element | null => {
     )
 
     const bikeRentalStations = useRentalStations()
-    const scooters = useMobility(FormFactor.SCOOTER)
+    const scooters = useMobility(FormFactor.Scooter)
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
