@@ -7,11 +7,11 @@ import { BackArrowIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
 import { auth } from '../../../UserProvider'
-import { useFormFields } from '../../../utils'
 import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
 import { CloseButton } from '../../CloseButton/CloseButton'
 import { ModalType } from '../login-modal-types'
+import { useFormFields } from '../../../hooks/useFormFields'
 
 export interface UserResetPassword {
     email: string

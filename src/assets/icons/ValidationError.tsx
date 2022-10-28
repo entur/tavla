@@ -1,6 +1,6 @@
 import React from 'react'
 import { Theme } from '../../types'
-import { useThemeColor } from '../../utils'
+import { useThemeColor } from '../../hooks/useThemeColor'
 
 function ValidationError(): JSX.Element {
     const crossIconColor = useThemeColor(

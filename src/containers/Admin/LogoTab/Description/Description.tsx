@@ -1,9 +1,9 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 import { Heading3, Paragraph } from '@entur/typography'
 import { TextField } from '@entur/form'
-import { useDebounce } from '../../../../utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import '../LogoTab.scss'
+import { useDebounce } from '../../../../hooks/useDebounce'
 
 const Description = (): JSX.Element => {
     const [settings, setSettings] = useSettings()

@@ -5,7 +5,8 @@ import { ValidationExclamation } from '../../../../assets/icons/ValidationExclam
 import { ValidationError } from '../../../../assets/icons/ValidationError'
 import { IconColorType, LineData, TileSubLabel } from '../../../../types'
 import { SituationModal } from '../../../../components/SituationModal/SituationModal'
-import { createTileSubLabel, getIcon, isMobileWeb } from '../../../../utils'
+import { createTileSubLabel, isMobileWeb } from '../../../../utils/utils'
+import { getIcon } from '../../../../utils/icon'
 import { DateRow } from '../../../../components/DateRow/DateRow'
 import './TileRows.scss'
 

@@ -6,7 +6,9 @@ import { Tooltip } from '@entur/tooltip'
 import { addNewInviteToBoard } from '../../../../services/firebase'
 import { useUser } from '../../../../UserProvider'
 import { BoardOwnersData, Invite } from '../../../../types'
-import { EMAIL_REGEX } from '../../../../utils'
+
+const EMAIL_REGEX =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 enum inputFeedback {
     NOT_VALID_EMAIL = 'Ugyldig: Du har ikke skrevet en gyldig e-postadresse.',

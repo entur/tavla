@@ -19,7 +19,7 @@ import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../settings/LocalStorage'
-import { isMobileWeb } from '../utils'
+import { isMobileWeb } from '../utils/utils'
 import { Direction, ToastProvider } from '../types'
 import { AdminPage } from './Admin/AdminPage'
 import { PageDoesNotExist } from './Error/ErrorPages'

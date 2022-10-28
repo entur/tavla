@@ -4,7 +4,7 @@ import { useLocation, useParams } from 'react-router-dom'
 import { useLongPress } from 'use-long-press'
 import { Loader } from '@entur/loader'
 import { FormFactor } from '@entur/sdk/lib/mobility/types'
-import { BREAKPOINTS, isEqualUnsorted } from '../../utils'
+import { BREAKPOINTS } from '../../constants'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { DEFAULT_ZOOM } from '../../constants'
 import {
@@ -24,6 +24,7 @@ import {
     Item,
 } from '../../components/RearrangeModal/RearrangeModal'
 import { LongPressProvider } from '../../logic/longPressContext'
+import { isEqualUnsorted } from '../../utils/array'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import './BusStopDashboard.scss'

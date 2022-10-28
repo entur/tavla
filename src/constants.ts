@@ -23,3 +23,12 @@ if (!CLIENT_NAME && process.env.NODE_ENV !== 'production') {
         'CLIENT_NAME is missing! Please set a client name in your environment config.',
     )
 }
+
+// Layout breakpoints
+export const BREAKPOINTS = {
+    lg: 1200,
+    md: 996,
+    sm: 768,
+    xs: 480,
+    xxs: 0,
+}

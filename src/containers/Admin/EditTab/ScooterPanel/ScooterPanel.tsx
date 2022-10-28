@@ -11,12 +11,13 @@ import { Fieldset, Switch, TextField } from '@entur/form'
 import type { VariantType } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Operator } from '@entur/sdk/lib/mobility/types'
-import { toggleValueInList, useDebounce } from '../../../../utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import {
     ALL_ACTIVE_OPERATOR_IDS,
     DEFAULT_DISTANCE,
 } from '../../../../constants'
+import { toggleValueInList } from '../../../../utils/array'
+import { useDebounce } from '../../../../hooks/useDebounce'
 import './ScooterPanel.scss'
 import ScooterPanelQuery from './ScooterPanelQuery.mobility.graphql'
 

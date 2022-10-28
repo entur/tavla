@@ -1,5 +1,7 @@
 @use '../../assets/styles/Variables.scss';
 
+$heading-font-size: 3.5rem;
+
 .poster {
     display: flex;
     flex-direction: column;
@@ -12,7 +14,7 @@
     }
 
     &-next-bus {
-        font-size: 3rem;
+        font-size: $heading-font-size;
         font-weight: 600;
         padding: 2.5rem 0 2.5rem 0;
     }
@@ -43,6 +45,8 @@
 
         &--listed {
             flex-direction: column;
+            position: relative;
+            top: 8%;
         }
     }
 
@@ -54,7 +58,8 @@
 
         &--listed {
             flex-direction: row-reverse;
-            padding: 5rem 0 5rem 0;
+            width: 100%;
+            padding-bottom: 5rem;
         }
     }
 
@@ -65,13 +70,14 @@
         width: 100%;
 
         &-heading {
-            font-size: 3rem;
+            font-size: $heading-font-size;
             font-weight: 600;
             margin: 0;
             padding-bottom: 1.5rem;
         }
 
         &-area {
+            word-break: break-word;
             font-size: 2rem;
             line-height: 150%;
             margin: 0;
@@ -87,5 +93,9 @@
         font-size: 8rem;
         width: 100%;
         padding: 2rem 2.5rem 2rem 2.5rem;
+
+        &--listed {
+            margin-right: 4rem;
+        }
     }
 }
