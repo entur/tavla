@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useLocation, useParams } from 'react-router-dom'
 import { useLongPress } from 'use-long-press'
-import { FormFactor } from '@entur/sdk/lib/mobility/types'
 import { Loader } from '@entur/loader'
 import {
     useRentalStations,
@@ -30,6 +29,7 @@ import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { usePrevious } from '../../hooks/usePrevious'
 import { isEqualUnsorted } from '../../utils/array'
+import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import { BikeTile } from './BikeTile/BikeTile'
@@ -104,7 +104,7 @@ const ChronoDashboard = (): JSX.Element | null => {
     )
 
     const bikeRentalStations = useRentalStations()
-    const scooters = useMobility(FormFactor.SCOOTER)
+    const scooters = useMobility(FormFactor.Scooter)
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 

@@ -5,19 +5,18 @@ import React, {
     useMemo,
     useState,
 } from 'react'
-import { useQuery } from '@apollo/client'
 import { Fieldset, Switch, TextField } from '@entur/form'
 import type { VariantType } from '@entur/form'
 import { FilterChip } from '@entur/chip'
-import { Operator } from '@entur/sdk/lib/mobility/types'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import {
     ALL_ACTIVE_OPERATOR_IDS,
     DEFAULT_DISTANCE,
 } from '../../../../constants'
+import { useScooterPanelQuery } from '../../../../../graphql-generated/mobility-v2'
 import { toggleValueInList } from '../../../../utils/array'
+import { isNotNullOrUndefined } from '../../../../utils/typeguards'
 import './ScooterPanel.scss'
-import ScooterPanelQuery from './ScooterPanelQuery.mobility.graphql'
 
 function ScooterPanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
@@ -59,7 +58,7 @@ function ScooterPanel(): JSX.Element {
         }
     }
 
-    const { data } = useQuery<{ operators: Operator[] }>(ScooterPanelQuery, {
+    const { data } = useScooterPanelQuery({
         fetchPolicy: 'cache-and-network',
     })
 
@@ -79,9 +78,10 @@ function ScooterPanel(): JSX.Element {
 
     const operators = useMemo(
         () =>
-            data?.operators.filter(
-                (operator) => !!ALL_ACTIVE_OPERATOR_IDS[operator.id],
-            ) ?? [],
+            data?.operators
+                ?.filter(isNotNullOrUndefined)
+                .filter((operator) => !!ALL_ACTIVE_OPERATOR_IDS[operator.id]) ??
+            [],
         [data?.operators],
     )
 

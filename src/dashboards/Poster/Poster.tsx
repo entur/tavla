@@ -1,20 +1,20 @@
 import React, { useMemo } from 'react'
 import classNames from 'classnames'
-import { FormFactor } from '@entur/sdk/lib/mobility/types'
 import { useRentalStations, useMobility } from '../../logic'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
 import { useSettings } from '../../settings/SettingsProvider'
-import './Poster.scss'
+import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { LastUpdated } from './components/LastUpdated/LastUpdated'
 import { BusTile } from './components/BusTile/BusTile'
 import { CarTile } from './components/CarTile/CarTile'
 import { PosterFooter } from './components/PosterFooter/PosterFooter'
 import { ScooterTile } from './components/ScooterTile/ScooterTile'
 import { BikeTile } from './components/BikeTile/BikeTile'
+import './Poster.scss'
 
 const Poster = (): JSX.Element => {
-    const carRentalStations = useRentalStations(true, FormFactor.CAR)
-    const bikeRentalStations = useRentalStations(true, FormFactor.BICYCLE)
+    const carRentalStations = useRentalStations(true, FormFactor.Car)
+    const bikeRentalStations = useRentalStations(true, FormFactor.Bicycle)
 
     const totalNumberOfCars = useMemo(
         () =>
@@ -26,7 +26,7 @@ const Poster = (): JSX.Element => {
         [carRentalStations],
     )
 
-    const totalNumberOfScooters = useMobility(FormFactor.SCOOTER)?.length || 0
+    const totalNumberOfScooters = useMobility(FormFactor.Scooter)?.length || 0
     const [settings] = useSettings()
     const hideBusTile = settings?.hiddenModes.includes('kollektiv')
     return (

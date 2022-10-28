@@ -1,11 +1,14 @@
 import React from 'react'
 import { Loader } from '@entur/loader'
-import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 import { isDarkOrDefaultTheme } from '../../utils/utils'
 import { useSettings } from '../../settings/SettingsProvider'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
 import { StopPlaceWithDepartures } from '../../types'
 import { useCounter } from '../../hooks/useCounter'
+import {
+    UseMobility_VehicleFragment,
+    UseRentalStations_StationFragment,
+} from '../../../graphql-generated/mobility-v2'
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
 import { NoStopsOnTavle } from '../Error/ErrorPages'
 import { BottomMenu } from './BottomMenu/BottomMenu'
@@ -70,8 +73,8 @@ function DashboardWrapper(props: Props): JSX.Element {
 
 interface Props {
     stopPlacesWithDepartures?: StopPlaceWithDepartures[] | null
-    bikeRentalStations?: Station[] | null
-    scooters?: Vehicle[] | null
+    bikeRentalStations?: UseRentalStations_StationFragment[] | null
+    scooters?: UseMobility_VehicleFragment[] | null
     className: string
     children: JSX.Element | JSX.Element[]
 }
