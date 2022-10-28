@@ -2,7 +2,6 @@ import React, {
     ChangeEvent,
     SyntheticEvent,
     useCallback,
-    useEffect,
     useMemo,
     useState,
 } from 'react'
@@ -17,7 +16,6 @@ import {
     DEFAULT_DISTANCE,
 } from '../../../../constants'
 import { toggleValueInList } from '../../../../utils/array'
-import { useDebounce } from '../../../../hooks/useDebounce'
 import './ScooterPanel.scss'
 import ScooterPanelQuery from './ScooterPanelQuery.mobility.graphql'
 
@@ -25,16 +23,28 @@ function ScooterPanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
     const { scooterDistance } = settings || {}
 
-    const [distance, setDistance] = useState(
-        settings?.scooterDistance?.distance ||
-            settings?.distance ||
-            DEFAULT_DISTANCE,
-    )
-
-    const debouncedScooterDistance = useDebounce(distance, 800)
-
+    const [enabled, setEnabled] = useState(Boolean(scooterDistance?.enabled))
     const [variant, setVariant] = useState<VariantType>('info')
     const [feedback, setFeedback] = useState<string | undefined>()
+
+    const [, setTimeoutId] = useState<NodeJS.Timeout | undefined>()
+    const debounceSetScooterDistance = (distance: number) => {
+        const id = setTimeout(() => {
+            setSettings({
+                scooterDistance: {
+                    distance,
+                    enabled,
+                },
+            })
+        }, 1000)
+
+        setTimeoutId((prevId) => {
+            if (prevId) {
+                clearTimeout(prevId)
+            }
+            return id
+        })
+    }
 
     const handleDistanceInput = (e: SyntheticEvent<HTMLInputElement>) => {
         if (e.currentTarget.validity.valid) {
@@ -42,28 +52,12 @@ function ScooterPanel(): JSX.Element {
             setFeedback(undefined)
 
             const value = Number(e.currentTarget.value) || 1
-            setDistance(value)
+            debounceSetScooterDistance(value)
         } else {
             setVariant('error')
             setFeedback('Must be a number between 1 and 1000')
         }
     }
-
-    const [enabled, setEnabled] = useState(Boolean(scooterDistance?.enabled))
-
-    useEffect(() => {
-        if (
-            settings?.scooterDistance?.distance !== debouncedScooterDistance ||
-            settings?.scooterDistance?.enabled !== enabled
-        ) {
-            setSettings({
-                scooterDistance: {
-                    distance: debouncedScooterDistance,
-                    enabled,
-                },
-            })
-        }
-    }, [debouncedScooterDistance, enabled, settings, setSettings])
 
     const { data } = useQuery<{ operators: Operator[] }>(ScooterPanelQuery, {
         fetchPolicy: 'cache-and-network',
@@ -111,6 +105,11 @@ function ScooterPanel(): JSX.Element {
                 min={1}
                 max={1000}
                 onInput={handleDistanceInput}
+                defaultValue={
+                    settings?.scooterDistance?.distance ||
+                    settings?.distance ||
+                    DEFAULT_DISTANCE
+                }
                 size="large"
                 disableLabelAnimation={true}
                 variant={variant}
