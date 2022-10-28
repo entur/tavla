@@ -19,28 +19,33 @@ function BusTile(): JSX.Element {
     )
 
     return (
-        <div className="poster-bus-tile">
-            {busDepartures.map((departure) => {
-                const routeNumber = departure.route.split(' ')[0]
-                const routeDestination = departure.route
-                    .split(' ')
-                    .slice(1)
-                    .join(' ')
+        <>
+            <div className="poster-next-bus">Neste buss</div>
+            <div className="poster-bus-tile">
+                {busDepartures.map((departure) => {
+                    const routeNumber = departure.route.split(' ')[0]
+                    const routeDestination = departure.route
+                        .split(' ')
+                        .slice(1)
+                        .join(' ')
 
-                return (
-                    <div key={departure.id} className="poster-bus-tile-row">
-                        <div className="poster-bus-tile-route">
-                            <BusIcon className="poster-bus-tile-icon" />
-                            <span>{routeNumber}</span>
+                    return (
+                        <div key={departure.id} className="poster-bus-tile-row">
+                            <div className="poster-bus-tile-route">
+                                <BusIcon className="poster-bus-tile-icon" />
+                                <span>{routeNumber}</span>
+                            </div>
+                            <p className="poster-bus-tile-destination">
+                                {routeDestination}
+                            </p>
+                            <p className="poster-bus-tile-time">
+                                {departure.time}
+                            </p>
                         </div>
-                        <p className="poster-bus-tile-destination">
-                            {routeDestination}
-                        </p>
-                        <p className="poster-bus-tile-time">{departure.time}</p>
-                    </div>
-                )
-            })}
-        </div>
+                    )
+                })}
+            </div>
+        </>
     )
 }
 

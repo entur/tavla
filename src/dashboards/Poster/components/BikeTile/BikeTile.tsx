@@ -1,16 +1,26 @@
 import React from 'react'
 import { CityBikeIcon } from '@entur/icons'
-import { NumberDisplay } from '../NumberDisplay/NumberDisplay'
+import { MobilityTile } from '../MobilityTile/MobilityTile'
+import { useSettings } from '../../../../settings/SettingsProvider'
+import { useRentalStations } from '../../../../logic'
+import { FormFactor } from '../../../../../graphql-generated/mobility-v2'
 
-const BikeTile = ({ numberOfBikes }: BikeTileProps) => (
-    <>
-        <CityBikeIcon />
-        <NumberDisplay numberOfVehicles={numberOfBikes} />
-    </>
-)
+const BikeTile = () => {
+    const [settings] = useSettings()
 
-interface BikeTileProps {
-    numberOfBikes: number
+    const numberOfBikes = useRentalStations(true, FormFactor.Bicycle).length
+
+    if (settings?.hiddenModes.includes('bysykkel')) return <></>
+
+    return (
+        <MobilityTile
+            icon={<CityBikeIcon />}
+            header="Bysykler"
+            description={`Innen ${settings?.distance || 0} meters radius`}
+            numberOfVehicles={numberOfBikes}
+            vertical={false}
+        />
+    )
 }
 
 export { BikeTile }
