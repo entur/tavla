@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useCallback } from 'react'
-import { Station } from '@entur/sdk/lib/mobility/types'
 import { Checkbox, Fieldset } from '@entur/form'
 import { Paragraph } from '@entur/typography'
 import { getTranslation } from '../../../../utils/utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { toggleValueInList } from '../../../../utils/array'
+import { UseRentalStations_StationFragment } from '../../../../../graphql-generated/mobility-v2'
 import './BikePanel.scss'
 
 function BikePanel(props: Props): JSX.Element {
@@ -71,7 +71,7 @@ function BikePanel(props: Props): JSX.Element {
 }
 
 interface Props {
-    stations: Station[]
+    stations: UseRentalStations_StationFragment[]
 }
 
 export { BikePanel }

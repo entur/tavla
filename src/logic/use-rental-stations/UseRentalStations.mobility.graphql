@@ -1,0 +1,40 @@
+fragment UseRentalStations_StationFragment on Station {
+    id
+    name {
+        translation {
+            language
+            value
+        }
+    }
+    lat
+    lon
+    numBikesAvailable
+    numDocksAvailable
+}
+
+query UseRentalStations_StationsById (
+    $stationIds: [String!]!
+) @api(name: mobility) {
+    stationsById(
+        ids: $stationIds
+    ) {
+        ...UseRentalStations_StationFragment
+    }
+}
+
+
+query UseRentalStations_NearbyStations (
+    $lat: Float!
+    $lon: Float!
+    $range: Int!
+    $availableFormFactors: [FormFactor]
+) @api(name: mobility) {
+    stations(
+        lon: $lon
+        lat: $lat
+        range: $range
+        availableFormFactors: $availableFormFactors
+    ) {
+        id
+    }
+}

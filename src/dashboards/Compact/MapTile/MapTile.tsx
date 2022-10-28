@@ -1,7 +1,10 @@
 import React from 'react'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { Station, Vehicle } from '@entur/sdk/lib/mobility/types'
 import { Map } from '../../../components/Map/Map'
+import {
+    UseMobility_VehicleFragment,
+    UseRentalStations_StationFragment,
+} from '../../../../graphql-generated/mobility-v2'
 import { StopPlaceWithDepartures } from '../../../types'
 import './MapTile.scss'
 
@@ -15,8 +18,8 @@ function MapTile(data: Props): JSX.Element {
 
 interface Props {
     stopPlaces?: StopPlaceWithDepartures[]
-    bikeRentalStations?: Station[]
-    scooters?: Vehicle[]
+    bikeRentalStations?: UseRentalStations_StationFragment[]
+    scooters?: UseMobility_VehicleFragment[]
     walkTimes?: Array<{ stopId: string; walkTime: number }>
     latitude: number
     longitude: number
