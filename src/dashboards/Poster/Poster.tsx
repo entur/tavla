@@ -9,10 +9,12 @@ import { BusTile } from './components/BusTile/BusTile'
 import { CarTile } from './components/CarTile/CarTile'
 import { PosterFooter } from './components/PosterFooter/PosterFooter'
 import { ScooterTile } from './components/ScooterTile/ScooterTile'
+import { BikeTile } from './components/BikeTile/BikeTile'
 import './Poster.scss'
 
 const Poster = (): JSX.Element => {
     const carRentalStations = useRentalStations(true, FormFactor.Car)
+    const bikeRentalStations = useRentalStations(true, FormFactor.Bicycle)
 
     const totalNumberOfCars = useMemo(
         () =>
@@ -107,6 +109,38 @@ const Poster = (): JSX.Element => {
                             >
                                 <ScooterTile
                                     numberOfScooters={totalNumberOfScooters}
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    {settings?.hiddenModes.includes('bysykkel') ? (
+                        <></>
+                    ) : (
+                        <div
+                            className={classNames({
+                                'poster-mobility-tile': true,
+                                'poster-mobility-tile--listed': hideBusTile,
+                            })}
+                        >
+                            <div className="poster-mobility-description">
+                                <h2 className="poster-mobility-description-heading">
+                                    Bysykler
+                                </h2>
+                                <h3 className="poster-mobility-description-area">
+                                    Innen {settings?.distance || 0} meters
+                                    radius
+                                </h3>
+                            </div>
+                            <div
+                                className={classNames({
+                                    'poster-mobility-vehicles-box': true,
+                                    'poster-mobility-vehicles-box--listed':
+                                        hideBusTile,
+                                })}
+                            >
+                                <BikeTile
+                                    numberOfBikes={bikeRentalStations.length}
                                 />
                             </div>
                         </div>
