@@ -76,24 +76,6 @@ const toolTip = (
     </Tooltip>
 )
 
-const mobilityLimitationToolTip = (
-    <Tooltip
-        content={
-            <div>
-                <SubParagraph className="tooltip-container-weather">
-                    Du kan kun velge to av tre mikromobilitetstilbud (bysykkel,
-                    delebil og elsparkesykkel).
-                </SubParagraph>
-            </div>
-        }
-        placement="top"
-    >
-        <span>
-            <ValidationInfoIcon size={20} />
-        </span>
-    </Tooltip>
-)
-
 const TooltipText = (props: { title: string; text: string }) => (
     <div className="tooltip-container">
         <Heading4 margin="none">{props.title}</Heading4>
