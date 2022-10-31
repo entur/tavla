@@ -20,13 +20,12 @@ const MobilityTile: React.FC<MobilityTileProps> = ({
     const [settings] = useSettings()
     const vertical = settings?.hiddenModes.includes('kollektiv')
 
+    const mobilityTileClass = classNames('poster-mobility-tile', {
+        'poster-mobility-tile--listed': vertical,
+    })
+
     return (
-        <div
-            className={classNames({
-                'poster-mobility-tile': true,
-                'poster-mobility-tile--listed': vertical,
-            })}
-        >
+        <div className={mobilityTileClass}>
             <div className="poster-mobility-tile-description">
                 <h2 className="poster-mobility-tile-description-heading">
                     {header}
@@ -35,12 +34,7 @@ const MobilityTile: React.FC<MobilityTileProps> = ({
                     {description}
                 </h3>
             </div>
-            <div
-                className={classNames({
-                    'poster-mobility-tile-vehicles-box': true,
-                    'poster-mobility-tile-vehicles-box--listed': vertical,
-                })}
-            >
+            <div className="poster-mobility-tile-vehicles-box">
                 {icon}
                 <NumberDisplay numberOfVehicles={numberOfVehicles} />
             </div>

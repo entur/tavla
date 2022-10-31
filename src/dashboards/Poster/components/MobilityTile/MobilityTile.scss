@@ -11,6 +11,10 @@
         flex-direction: row-reverse;
         width: 100%;
         padding-bottom: 5rem;
+
+        > :first-child {
+            margin-left: 4rem;
+        }
     }
 
     &-vehicles-box {
@@ -22,11 +26,8 @@
         font-size: 8rem;
         width: 100%;
         padding: 2rem 2.5rem 2rem 2.5rem;
-
-        &--listed {
-            margin-right: 4rem;
-        }
     }
+
     &-description {
         display: flex;
         flex-direction: column;
