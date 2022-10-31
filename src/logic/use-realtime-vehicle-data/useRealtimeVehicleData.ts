@@ -28,17 +28,13 @@ interface QueryData {
 function useRealtimeVehicleData(filter?: Filter): Return {
     const client = useApolloClient()
     const [state, dispatch] = useVehicleReducer()
-    const { uniqueLines } = useStopPlacesWithLines()
+    const uniqueLines = useStopPlacesWithLines()
     const [settings] = useSettings()
     const { hiddenRealtimeDataLineRefs } = settings || {}
 
     const filterVehiclesByLineRefs = useCallback(
         (vehiclesUpdates: RealtimeVehicle[] | undefined) => {
-            if (
-                !vehiclesUpdates ||
-                !uniqueLines ||
-                settings?.hideRealtimeData
-            ) {
+            if (!vehiclesUpdates || settings?.hideRealtimeData) {
                 return undefined
             }
 
@@ -119,7 +115,7 @@ function useRealtimeVehicleData(filter?: Filter): Return {
         () =>
             (Object.values(state.vehicles) as RealtimeVehicle[]).map(
                 (vehicle) => {
-                    const line = uniqueLines?.find(
+                    const line = uniqueLines.find(
                         (l) => l.id === vehicle.line.lineRef,
                     )
                     return {

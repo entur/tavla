@@ -59,7 +59,7 @@ const Map = memo(function Map({
         showRoutesInMap,
         hideRealtimeData,
     } = settings || {}
-    const { uniqueLines } = useStopPlacesWithLines()
+    const uniqueLines = useStopPlacesWithLines()
 
     const debouncedViewport = useDebounce(viewport, 200)
     const mapRef = useRef<MapRef>(null)
@@ -110,7 +110,7 @@ const Map = memo(function Map({
         const routesToDraw = permanentlyVisibleRoutesInMap
             .filter(
                 ({ lineRef }: DrawableRoute) =>
-                    uniqueLines?.map(({ id }: Line) => id).includes(lineRef) &&
+                    uniqueLines.map(({ id }: Line) => id).includes(lineRef) &&
                     !hiddenRealtimeDataLineRefs?.includes(lineRef),
             )
             .map(({ pointsOnLink, mode }: DrawableRoute) => ({

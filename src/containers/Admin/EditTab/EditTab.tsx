@@ -117,15 +117,13 @@ const EditTab = (): JSX.Element => {
     )
 
     const allLinesWithRealtimeData = useLinesWithRealtimePositions()
-    const { uniqueLines } = useStopPlacesWithLines()
+    const uniqueLines = useStopPlacesWithLines()
 
     const realtimeLines = useMemo(
         () =>
-            !uniqueLines || !allLinesWithRealtimeData
-                ? undefined
-                : uniqueLines?.filter((line) =>
-                      allLinesWithRealtimeData?.includes(line.id),
-                  ),
+            uniqueLines.filter((line) =>
+                allLinesWithRealtimeData?.includes(line.id),
+            ),
         [uniqueLines, allLinesWithRealtimeData],
     )
 
