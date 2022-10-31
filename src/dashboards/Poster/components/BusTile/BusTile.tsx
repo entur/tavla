@@ -27,6 +27,14 @@ function BusTile(): JSX.Element {
         [stopPlacesWithDepartures, numberOfLines],
     )
 
+    const rowClass = classNames('poster-bus-tile-row', {
+        'poster-bus-tile-row--only-bus': onlyBusShowing,
+    })
+
+    const routeClass = classNames('poster-bus-tile-route', {
+        'poster-bus-tile-route--only-bus': onlyBusShowing,
+    })
+
     return (
         <>
             <div className="poster-next-bus">Neste buss</div>
@@ -39,20 +47,8 @@ function BusTile(): JSX.Element {
                         .join(' ')
 
                     return (
-                        <div
-                            key={departure.id}
-                            className={classNames({
-                                'poster-bus-tile-row': true,
-                                'poster-bus-tile-row--only-bus': onlyBusShowing,
-                            })}
-                        >
-                            <div
-                                className={classNames({
-                                    'poster-bus-tile-route': true,
-                                    'poster-bus-tile-route--only-bus':
-                                        onlyBusShowing,
-                                })}
-                            >
+                        <div key={departure.id} className={rowClass}>
+                            <div className={routeClass}>
                                 <BusIcon className="poster-bus-tile-icon" />
                                 <span>{routeNumber}</span>
                             </div>
