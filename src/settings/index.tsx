@@ -36,6 +36,7 @@ export interface Settings {
         [stopPlaceId: string]: string[]
     }
     distance?: number
+    scooterDistance?: { distance: number; enabled: boolean }
     zoom?: number
     newStations?: string[]
     newStops?: string[]

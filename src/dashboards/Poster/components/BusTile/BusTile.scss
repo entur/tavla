@@ -17,6 +17,10 @@
         display: flex;
         padding-top: 0.25rem;
         padding-bottom: 0.25rem;
+
+        &--only-bus {
+            margin: 1rem 0 1rem 0;
+        }
     }
 
     &-route {
@@ -25,6 +29,10 @@
         background-color: #c5044e;
         border-radius: 10px;
         padding: 0 1rem 0 1rem;
+
+        &--only-bus {
+            padding: 0.5rem 1rem 0.5rem 1rem;
+        }
     }
 
     &-icon {
@@ -33,6 +41,10 @@
         color: inherit;
         margin-right: 1rem;
         margin-bottom: 0.5rem;
+
+        &--only-bus {
+            padding: 1.2rem 0 1.2rem 0;
+        }
     }
 
     &-destination {

@@ -11,14 +11,21 @@ import { isNotNullOrUndefined } from '../../utils/typeguards'
 
 function useMobility(
     formFactor?: FormFactor,
+    customDistance?: number,
 ): UseMobility_VehicleFragment[] | undefined {
     const [settings] = useSettings()
     const { data: getOperatorsData } = useUseMobility_OperatorsQuery()
     const [getVehicles, { data: getVehiclesData }] =
         useUseMobility_VehiclesLazyQuery()
 
-    const { coordinates, distance, hiddenMobilityOperators, hiddenModes } =
-        settings || {}
+    const {
+        coordinates,
+        distance: globalDistance,
+        hiddenMobilityOperators,
+        hiddenModes,
+    } = settings || {}
+
+    const distance = customDistance || globalDistance
 
     const isDisabled = Boolean(hiddenModes?.includes('sparkesykkel'))
 

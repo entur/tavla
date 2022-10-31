@@ -316,7 +316,7 @@ const EditTab = (): JSX.Element => {
                 w: 1.5,
                 h: 1.55 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
             },
-            { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.4 },
+            { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 2 },
             {
                 i: 'mapPanel',
                 x: 3,

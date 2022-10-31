@@ -3,7 +3,7 @@ import Images from '../../../../assets/images/app_images_cropped.png'
 import './PosterFooter.scss'
 
 const PosterFooter = (): JSX.Element => (
-    <div className="poster-footer-wrapper">
+    <div className="poster-footer">
         <div>
             <h2 className="poster-footer-heading">Last ned Entur-appen!</h2>
             <h3 className="poster-footer-description">

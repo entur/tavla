@@ -1,9 +1,9 @@
 import React from 'react'
-import { CityBikeIcon } from '@entur/icons'
 import { MobilityTile } from '../MobilityTile/MobilityTile'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { useRentalStations } from '../../../../logic'
 import { FormFactor } from '../../../../../graphql-generated/mobility-v2'
+import { CityBikeIcon } from '../../../../assets/icons/CityBikeIcon'
 
 const BikeTile = () => {
     const [settings] = useSettings()
