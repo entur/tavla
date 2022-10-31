@@ -69,7 +69,7 @@ const Map = memo(function Map({
         maxLat: 0,
         maxLon: 0,
     })
-    const { realtimeVehicles } = useRealtimeVehicleData(boundingBox)
+    const realtimeVehicles = useRealtimeVehicleData(boundingBox)
     const [bounds, setBounds] = useState<[number, number, number, number]>(
         mapRef.current?.getMap()?.getBounds()?.toArray()?.flat() ||
             ([0, 0, 0, 0] as [number, number, number, number]),
@@ -203,29 +203,27 @@ const Map = memo(function Map({
     })
     const realtimeVehicleMarkers = useMemo(
         () =>
-            realtimeVehicles
-                ? realtimeVehicles.map((vehicle) => (
-                      <Marker
-                          key={vehicle.vehicleRef}
-                          latitude={vehicle.location.latitude}
-                          longitude={vehicle.location.longitude}
-                          className="map__realtime-vehicle-marker"
-                          offsetTop={-25}
-                          offsetLeft={-10}
-                      >
-                          <RealtimeVehicleTag
-                              realtimeVehicle={vehicle}
-                              setHoveredVehicle={setHoveredVehicle}
-                              isHovered={
-                                  hoveredVehicle
-                                      ? hoveredVehicle.vehicleRef ===
-                                        vehicle.vehicleRef
-                                      : false
-                              }
-                          />
-                      </Marker>
-                  ))
-                : [],
+            realtimeVehicles.map((vehicle) => (
+                <Marker
+                    key={vehicle.vehicleRef}
+                    latitude={vehicle.location.latitude}
+                    longitude={vehicle.location.longitude}
+                    className="map__realtime-vehicle-marker"
+                    offsetTop={-25}
+                    offsetLeft={-10}
+                >
+                    <RealtimeVehicleTag
+                        realtimeVehicle={vehicle}
+                        setHoveredVehicle={setHoveredVehicle}
+                        isHovered={
+                            hoveredVehicle
+                                ? hoveredVehicle.vehicleRef ===
+                                  vehicle.vehicleRef
+                                : false
+                        }
+                    />
+                </Marker>
+            )),
         [realtimeVehicles, hoveredVehicle],
     )
 

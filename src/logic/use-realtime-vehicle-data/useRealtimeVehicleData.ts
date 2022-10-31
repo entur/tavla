@@ -15,9 +15,6 @@ import { RealtimeVehicle } from './types'
 import VEHICLE_UPDATES_SUBSCRIPTION from './VehicleUpdatesSubscription.vehicles.graphql'
 import VEHICLES_QUERY from './VehiclesQuery.vehicles.graphql'
 
-interface Return {
-    realtimeVehicles: RealtimeVehicle[] | undefined
-}
 interface QueryData {
     vehicles: RealtimeVehicle[]
 }
@@ -25,7 +22,7 @@ interface QueryData {
 /**
  * Hook to query and subscribe to remote vehicle data
  */
-function useRealtimeVehicleData(boundingBox: BoundingBox): Return {
+function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
     const client = useApolloClient()
     const [state, dispatch] = useVehicleReducer()
     const uniqueLines = useStopPlacesWithLines()
@@ -110,7 +107,7 @@ function useRealtimeVehicleData(boundingBox: BoundingBox): Return {
         }
     }, [dispatch])
 
-    const realtimeVehicles = useMemo(
+    return useMemo(
         () =>
             (Object.values(state.vehicles) as RealtimeVehicle[]).map(
                 (vehicle) => {
@@ -129,8 +126,6 @@ function useRealtimeVehicleData(boundingBox: BoundingBox): Return {
             ),
         [state.vehicles, uniqueLines],
     )
-
-    return { realtimeVehicles }
 }
 
 export { useRealtimeVehicleData }

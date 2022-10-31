@@ -17,7 +17,7 @@ export enum ActionType {
 
 export type Action = {
     type: ActionType
-    payload?: RealtimeVehicle[] | RealtimeVehicle
+    payload?: RealtimeVehicle[]
 }
 
 const initialState: State = {
