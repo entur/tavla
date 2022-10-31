@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import { useApolloClient, useQuery } from '@apollo/client'
 import type { FetchResult } from '@apollo/client'
-import { Filter } from '../../services/realtimeVehicles/types/filter'
-import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
+import { BoundingBox } from '../../../graphql-generated/vehicles-v1'
 import {
     SWEEP_INTERVAL_MS,
     DEFAULT_FETCH_POLICY,
@@ -12,6 +11,7 @@ import {
 import { useSettings } from '../../settings/SettingsProvider'
 import { useStopPlacesWithLines } from '../useStopPlacesWithLines'
 import { useVehicleReducer, ActionType } from '../useRealtimeVehicleReducer'
+import { RealtimeVehicle } from './types'
 import VEHICLE_UPDATES_SUBSCRIPTION from './VehicleUpdatesSubscription.vehicles.graphql'
 import VEHICLES_QUERY from './VehiclesQuery.vehicles.graphql'
 
@@ -25,7 +25,7 @@ interface QueryData {
 /**
  * Hook to query and subscribe to remote vehicle data
  */
-function useRealtimeVehicleData(filter?: Filter): Return {
+function useRealtimeVehicleData(boundingBox: BoundingBox): Return {
     const client = useApolloClient()
     const [state, dispatch] = useVehicleReducer()
     const uniqueLines = useStopPlacesWithLines()
@@ -66,7 +66,7 @@ function useRealtimeVehicleData(filter?: Filter): Return {
 
     useQuery<QueryData>(VEHICLES_QUERY, {
         fetchPolicy: DEFAULT_FETCH_POLICY,
-        variables: filter,
+        variables: { boundingBox },
         skip: !uniqueLines,
         onCompleted: handleQueryData,
     })
@@ -77,8 +77,7 @@ function useRealtimeVehicleData(filter?: Filter): Return {
                 query: VEHICLE_UPDATES_SUBSCRIPTION,
                 fetchPolicy: DEFAULT_FETCH_POLICY,
                 variables: {
-                    ...filter,
-                    enableLiveUpdates: true,
+                    boundingBox,
                     bufferSize: BUFFER_SIZE,
                     bufferTime: BUFFER_TIME,
                 },
@@ -99,7 +98,7 @@ function useRealtimeVehicleData(filter?: Filter): Return {
         return () => {
             subscription.unsubscribe()
         }
-    }, [client, filter, filterVehiclesByLineRefs, dispatch])
+    }, [client, boundingBox, filterVehiclesByLineRefs, dispatch])
 
     useEffect(() => {
         const interval = setInterval(() => {

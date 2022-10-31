@@ -1,9 +1,9 @@
 import { Dispatch, useReducer } from 'react'
-import { RealtimeVehicle } from '../services/realtimeVehicles/types/realtimeVehicle'
 import {
     EXPIRE_VEHICLE_IN_SECONDS,
     INACTIVE_VEHICLE_IN_SECONDS,
 } from '../constants'
+import { RealtimeVehicle } from './use-realtime-vehicle-data/types'
 
 export type State = {
     vehicles: Record<string, RealtimeVehicle>

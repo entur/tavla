@@ -1,23 +1,11 @@
 #import "./VehicleFragment.vehicles.graphql"
 
 subscription VehicleUpdates(
-    $codespaceId: String
-    $lineRef: String
-    $serviceJourneyId: String
-    $operatorRef: String
-    $mode: VehicleModeEnumeration
-    $monitored: Boolean
     $bufferSize: Int
     $bufferTime: Int
     $boundingBox: BoundingBox
 ) @api(name: vehicles) {
     vehicleUpdates(
-        codespaceId: $codespaceId
-        lineRef: $lineRef
-        serviceJourneyId: $serviceJourneyId
-        operatorRef: $operatorRef
-        mode: $mode
-        monitored: $monitored
         bufferSize: $bufferSize
         bufferTime: $bufferTime
         boundingBox: $boundingBox

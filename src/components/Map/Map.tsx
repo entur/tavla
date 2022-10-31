@@ -13,10 +13,9 @@ import {
     StopPlaceWithDepartures,
     Viewport,
 } from '../../types'
-import { Filter } from '../../services/realtimeVehicles/types/filter'
 import { useSettings } from '../../settings/SettingsProvider'
 import { useRealtimeVehicleData } from '../../logic/use-realtime-vehicle-data/useRealtimeVehicleData'
-import { RealtimeVehicle } from '../../services/realtimeVehicles/types/realtimeVehicle'
+import { RealtimeVehicle } from '../../logic/use-realtime-vehicle-data/types'
 import {
     UseMobility_VehicleFragment,
     UseRentalStations_StationFragment,
@@ -24,6 +23,7 @@ import {
 import { useStopPlacesWithLines } from '../../logic/useStopPlacesWithLines'
 import { useDebounce } from '../../hooks/useDebounce'
 import { getIconColor } from '../../utils/icon'
+import { BoundingBox } from '../../../graphql-generated/vehicles-v1'
 import { LineOverlay } from './RealtimeVehicleTag/LineOverlay/LineOverlay'
 import { BikeRentalStationTag } from './BikeRentalStationTag/BikeRentalStationTag'
 import { StopPlaceTag } from './StopPlaceTag/StopPlaceTag'
@@ -63,8 +63,13 @@ const Map = memo(function Map({
 
     const debouncedViewport = useDebounce(viewport, 200)
     const mapRef = useRef<MapRef>(null)
-    const [filter, setFilter] = useState<Filter>({})
-    const { realtimeVehicles } = useRealtimeVehicleData(filter)
+    const [boundingBox, setBoundingBox] = useState<BoundingBox>({
+        minLat: 0,
+        minLon: 0,
+        maxLat: 0,
+        maxLon: 0,
+    })
+    const { realtimeVehicles } = useRealtimeVehicleData(boundingBox)
     const [bounds, setBounds] = useState<[number, number, number, number]>(
         mapRef.current?.getMap()?.getBounds()?.toArray()?.flat() ||
             ([0, 0, 0, 0] as [number, number, number, number]),
@@ -137,15 +142,12 @@ const Map = memo(function Map({
             ?.flat() || [0, 0, 0, 0]) as [number, number, number, number]
 
         setBounds(newBounds)
-        setFilter((prevFilter: Filter) => ({
-            ...prevFilter,
-            boundingBox: {
-                minLat: newBounds[1],
-                minLon: newBounds[0],
-                maxLat: newBounds[3],
-                maxLon: newBounds[2],
-            },
-        }))
+        setBoundingBox({
+            minLat: newBounds[1],
+            minLon: newBounds[0],
+            maxLat: newBounds[3],
+            maxLon: newBounds[2],
+        })
     }, [mapRef, debouncedViewport])
 
     const scooterpoints = useMemo(
