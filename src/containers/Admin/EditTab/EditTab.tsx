@@ -43,6 +43,7 @@ import { ToggleDetailsPanel } from './ToggleDetailsPanel/ToggleDetailsPanel'
 import { WeatherPanel } from './WeatherPanel/WeatherPanel'
 import './EditTab.scss'
 import { CustomTilePanel } from './CustomTilePanel/CustomTilePanel'
+import { PosterMobilityAlert } from './PosterMobilityAlert'
 
 const isMobile = isMobileWeb()
 
@@ -64,6 +65,24 @@ const toolTip = (
                     Tilgjengelig i visningstyper kompakt, kronologisk og kart.
                     Værdata fra YR (met.no). Noe værdata kan bli skjult ved
                     liten boksstørrelse.
+                </SubParagraph>
+            </div>
+        }
+        placement="top"
+    >
+        <span>
+            <ValidationInfoIcon size={20} />
+        </span>
+    </Tooltip>
+)
+
+const mobilityLimitationToolTip = (
+    <Tooltip
+        content={
+            <div>
+                <SubParagraph className="tooltip-container-weather">
+                    Du kan kun velge to av tre mikromobilitetstilbud (bysykkel,
+                    delebil og elsparkesykkel).
                 </SubParagraph>
             </div>
         }
@@ -609,7 +628,7 @@ const EditTab = (): JSX.Element => {
                     rundt {locationName?.split(',')[0]}
                 </Heading2>
             </div>
-
+            <PosterMobilityAlert />
             <ResponsiveReactGridLayout
                 key={breakpoint}
                 cols={COLS}
@@ -667,7 +686,9 @@ const EditTab = (): JSX.Element => {
 
                 <div key="bikePanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
-                        <Heading2>Bysykkel</Heading2>
+                        <Heading2>
+                            Bysykkel {mobilityLimitationToolTip}
+                        </Heading2>
                         <Switch
                             onChange={(): void => toggleMode('bysykkel')}
                             checked={!hiddenModes?.includes('bysykkel')}
@@ -684,7 +705,9 @@ const EditTab = (): JSX.Element => {
                 </div>
                 <div key="scooterPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
-                        <Heading2>Sparkesykkel</Heading2>
+                        <Heading2>
+                            Sparkesykkel {mobilityLimitationToolTip}
+                        </Heading2>
                         <Switch
                             onChange={(): void => toggleMode('sparkesykkel')}
                             checked={!hiddenModes?.includes('sparkesykkel')}
@@ -693,12 +716,17 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ScooterPanel />
                 </div>
-
                 <div key="delebil" className="edit-tab__tile">
                     <div className="edit-tab__header">
-                        <Heading2>Delebil</Heading2>
+                        <Heading2>
+                            Delebil {mobilityLimitationToolTip}{' '}
+                        </Heading2>
                         <Switch
-                            onChange={(): void => toggleMode('delebil')}
+                            onChange={(): void => {
+                                {
+                                    toggleMode('delebil')
+                                }
+                            }}
                             checked={!hiddenModes?.includes('delebil')}
                             size="large"
                         />
