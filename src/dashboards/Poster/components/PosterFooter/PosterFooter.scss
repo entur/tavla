@@ -1,21 +1,22 @@
-.poster-footer-wrapper {
+.poster-footer {
     background-color: var(--tavla-box-background-color);
     display: flex;
-    padding: 4rem 4rem 0 4rem;
-}
+    justify-content: space-between;
+    padding: 4rem 6rem 0 6rem;
 
-.poster-footer-heading {
-    font-size: 2.75rem;
-    margin-top: 1.5rem;
-    margin-bottom: 2.5rem;
-    font-weight: 600;
-}
+    &-heading {
+        font-size: 2.75rem;
+        margin-top: 1.5rem;
+        margin-bottom: 2.5rem;
+        font-weight: 600;
+    }
 
-.poster-footer-description {
-    font-size: 2rem;
-    line-height: 3rem;
-}
+    &-description {
+        font-size: 2rem;
+        line-height: 3rem;
+    }
 
-.poster-footer-app-image {
-    height: 17rem;
+    &-app-image {
+        height: 17rem;
+    }
 }
