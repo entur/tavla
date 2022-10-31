@@ -29,7 +29,7 @@ import {
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
 import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
-import { useRealtimeVehicleData } from '../../../logic/use-realtime-vehicle-data/useRealtimeVehicleData'
+import { useLinesWithRealtimePositions } from '../../../logic/use-realtime-vehicle-data/useLinesWithRealtimePositions'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { useDebounce } from '../../../hooks/useDebounce'
 import { toggleValueInList } from '../../../utils/array'
@@ -116,7 +116,7 @@ const EditTab = (): JSX.Element => {
         settings?.distance || DEFAULT_DISTANCE,
     )
 
-    const { allLinesWithRealtimeData } = useRealtimeVehicleData()
+    const allLinesWithRealtimeData = useLinesWithRealtimePositions()
     const { uniqueLines } = useStopPlacesWithLines()
 
     const realtimeLines = useMemo(

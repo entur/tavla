@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useApolloClient, useQuery } from '@apollo/client'
 import type { FetchResult } from '@apollo/client'
 import { Filter } from '../../services/realtimeVehicles/types/filter'
@@ -17,7 +17,6 @@ import VEHICLES_QUERY from './VehiclesQuery.vehicles.graphql'
 
 interface Return {
     realtimeVehicles: RealtimeVehicle[] | undefined
-    allLinesWithRealtimeData: string[] | undefined
 }
 interface QueryData {
     vehicles: RealtimeVehicle[]
@@ -32,9 +31,6 @@ function useRealtimeVehicleData(filter?: Filter): Return {
     const { uniqueLines } = useStopPlacesWithLines()
     const [settings] = useSettings()
     const { hiddenRealtimeDataLineRefs } = settings || {}
-    const [allLinesWithRealtimeData, setAllLinesWithRealtimeData] = useState<
-        string[] | undefined
-    >(undefined)
 
     const filterVehiclesByLineRefs = useCallback(
         (vehiclesUpdates: RealtimeVehicle[] | undefined) => {
@@ -62,11 +58,6 @@ function useRealtimeVehicleData(filter?: Filter): Return {
 
     const handleQueryData = useCallback(
         ({ vehicles }: QueryData) => {
-            setAllLinesWithRealtimeData([
-                ...new Set<string>(
-                    vehicles.map((el: RealtimeVehicle) => el.line.lineRef),
-                ),
-            ])
             const filteredUpdates = filterVehiclesByLineRefs(vehicles)
             if (filteredUpdates && filteredUpdates?.length > 0)
                 dispatch({
@@ -144,7 +135,7 @@ function useRealtimeVehicleData(filter?: Filter): Return {
         [state.vehicles, uniqueLines],
     )
 
-    return { realtimeVehicles, allLinesWithRealtimeData }
+    return { realtimeVehicles }
 }
 
 export { useRealtimeVehicleData }
