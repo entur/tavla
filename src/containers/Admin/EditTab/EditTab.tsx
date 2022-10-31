@@ -29,7 +29,7 @@ import {
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
 import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
-import { useLinesWithRealtimePositions } from '../../../logic/use-realtime-vehicle-data/useLinesWithRealtimePositions'
+import { useLinesWithRealtimePositions } from '../../../logic/use-lines-with-realtime-positions/useLinesWithRealtimePositions'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { useDebounce } from '../../../hooks/useDebounce'
 import { toggleValueInList } from '../../../utils/array'

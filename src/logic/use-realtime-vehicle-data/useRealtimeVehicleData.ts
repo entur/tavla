@@ -10,7 +10,7 @@ import {
 } from '../../constants'
 import { useSettings } from '../../settings/SettingsProvider'
 import { useStopPlacesWithLines } from '../useStopPlacesWithLines'
-import { useVehicleReducer, ActionType } from '../useRealtimeVehicleReducer'
+import { useVehicleReducer, ActionType } from './useRealtimeVehicleReducer'
 import { RealtimeVehicle } from './types'
 import VEHICLE_UPDATES_SUBSCRIPTION from './VehicleUpdatesSubscription.vehicles.graphql'
 import VEHICLES_QUERY from './VehiclesQuery.vehicles.graphql'

@@ -1,28 +1,12 @@
 fragment VehicleFragment on VehicleUpdate {
     vehicleRef
-    codespace {
-        codespaceId
-    }
-    operator {
-        operatorRef
-    }
     line {
         lineName
         lineRef
     }
-    serviceJourney {
-        serviceJourneyId
-    }
-    direction
     mode
     lastUpdated
     lastUpdatedEpochSecond
-    expiration
-    expirationEpochSecond
-    speed
-    heading
-    monitored
-    delay
     location {
         latitude
         longitude
