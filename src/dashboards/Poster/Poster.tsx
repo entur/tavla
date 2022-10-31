@@ -12,7 +12,13 @@ import './Poster.scss'
 
 const Poster = (): JSX.Element => {
     const [settings] = useSettings()
-    const hideBusTile = settings?.hiddenModes.includes('kollektiv')
+    const { hiddenModes } = settings || {}
+
+    const hideBusTile = hiddenModes?.includes('kollektiv')
+    const hideScooterTile = hiddenModes?.includes('sparkesykkel')
+    const hideBikeTile = hiddenModes?.includes('bysykkel')
+    const hideCarTile = hiddenModes?.includes('delebil')
+
     return (
         <div className="poster">
             <div className="poster-header">
@@ -23,16 +29,16 @@ const Poster = (): JSX.Element => {
                     <h1 className="poster-heading">Skal du videre?</h1>
                     <LastUpdated />
                 </div>
-                {hideBusTile ? <></> : <BusTile />}
+                {hideBusTile ? null : <BusTile />}
                 <div
                     className={classNames({
                         'poster-mobility-tiles-wrapper': true,
                         'poster-mobility-tiles-wrapper--listed': hideBusTile,
                     })}
                 >
-                    <BikeTile />
-                    <ScooterTile />
-                    <CarTile />
+                    {hideBikeTile ? null : <BikeTile />}
+                    {hideScooterTile ? null : <ScooterTile />}
+                    {hideCarTile ? null : <CarTile />}
                 </div>
             </div>
             <PosterFooter />

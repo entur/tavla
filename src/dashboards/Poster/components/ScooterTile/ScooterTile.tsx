@@ -10,8 +10,6 @@ const ScooterTile = (): JSX.Element => {
 
     const numberOfScooters = useMobility(FormFactor.Scooter)?.length || 0
 
-    if (settings?.hiddenModes.includes('sparkesykkel')) return <></>
-
     return (
         <MobilityTile
             icon={<ScooterIcon />}

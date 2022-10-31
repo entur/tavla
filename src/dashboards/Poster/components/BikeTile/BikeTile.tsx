@@ -10,8 +10,6 @@ const BikeTile = () => {
 
     const numberOfBikes = useRentalStations(true, FormFactor.Bicycle).length
 
-    if (settings?.hiddenModes.includes('bysykkel')) return <></>
-
     return (
         <MobilityTile
             icon={<CityBikeIcon />}
