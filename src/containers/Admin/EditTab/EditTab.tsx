@@ -686,9 +686,7 @@ const EditTab = (): JSX.Element => {
 
                 <div key="bikePanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
-                        <Heading2>
-                            Bysykkel {mobilityLimitationToolTip}
-                        </Heading2>
+                        <Heading2>Bysykkel</Heading2>
                         <Switch
                             onChange={(): void => toggleMode('bysykkel')}
                             checked={!hiddenModes?.includes('bysykkel')}
@@ -705,9 +703,7 @@ const EditTab = (): JSX.Element => {
                 </div>
                 <div key="scooterPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
-                        <Heading2>
-                            Sparkesykkel {mobilityLimitationToolTip}
-                        </Heading2>
+                        <Heading2>Sparkesykkel</Heading2>
                         <Switch
                             onChange={(): void => toggleMode('sparkesykkel')}
                             checked={!hiddenModes?.includes('sparkesykkel')}
@@ -718,9 +714,7 @@ const EditTab = (): JSX.Element => {
                 </div>
                 <div key="delebil" className="edit-tab__tile">
                     <div className="edit-tab__header">
-                        <Heading2>
-                            Delebil {mobilityLimitationToolTip}{' '}
-                        </Heading2>
+                        <Heading2>Delebil</Heading2>
                         <Switch
                             onChange={(): void => {
                                 {
