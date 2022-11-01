@@ -1,16 +1,29 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { MobilityTile } from '../MobilityTile/MobilityTile'
+import { useRentalStations } from '../../../../logic'
+import { FormFactor } from '../../../../../graphql-generated/mobility-v2'
 import { RentalCarIcon } from '../../../../assets/icons/RentalCarIcon'
-import { NumberDisplay } from '../NumberDisplay/NumberDisplay'
 
-const CarTile = ({ numberOfCars }: CarTileProps) => (
-    <>
-        <RentalCarIcon />
-        <NumberDisplay numberOfVehicles={numberOfCars} />
-    </>
-)
+const CarTile = () => {
+    const carRentalStations = useRentalStations(true, FormFactor.Car)
+    const totalNumberOfCars = useMemo(
+        () =>
+            carRentalStations?.reduce(
+                (numberOfCars, station) =>
+                    numberOfCars + station.numBikesAvailable,
+                0,
+            ),
+        [carRentalStations],
+    )
 
-interface CarTileProps {
-    numberOfCars: number
+    return (
+        <MobilityTile
+            icon={<RentalCarIcon />}
+            header="Delebiler"
+            description="P-plassen ved Vestveien"
+            numberOfVehicles={totalNumberOfCars}
+        />
+    )
 }
 
 export { CarTile }

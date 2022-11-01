@@ -1,0 +1,38 @@
+fragment UseRealtimeVehicleData_VehicleFragment on VehicleUpdate {
+    vehicleRef
+    line {
+        lineName
+        lineRef
+    }
+    mode
+    lastUpdated
+    lastUpdatedEpochSecond
+    location {
+        latitude
+        longitude
+    }
+}
+
+query UseRealtimeVehicleData_VehiclesQuery(
+    $boundingBox: BoundingBox
+) @api(name: vehicles) {
+    vehicles(
+        boundingBox: $boundingBox
+    ) {
+        ...UseRealtimeVehicleData_VehicleFragment
+    }
+}
+
+subscription UseRealtimeVehicleData_VehiclesSubscription(
+    $bufferSize: Int
+    $bufferTime: Int
+    $boundingBox: BoundingBox
+) @api(name: vehicles) {
+    vehicleUpdates(
+        bufferSize: $bufferSize
+        bufferTime: $bufferTime
+        boundingBox: $boundingBox
+    ) {
+        ...UseRealtimeVehicleData_VehicleFragment
+    }
+}

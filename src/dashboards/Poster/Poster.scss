@@ -1,5 +1,3 @@
-@use '../../assets/styles/Variables.scss';
-
 $heading-font-size: 3.5rem;
 
 .poster {
@@ -47,55 +45,6 @@ $heading-font-size: 3.5rem;
             flex-direction: column;
             position: relative;
             top: 8%;
-        }
-    }
-
-    &-mobility-tile {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 46%;
-
-        &--listed {
-            flex-direction: row-reverse;
-            width: 100%;
-            padding-bottom: 5rem;
-        }
-    }
-
-    &-mobility-description {
-        display: flex;
-        flex-direction: column;
-        margin: 2rem 0 1rem 0;
-        width: 100%;
-
-        &-heading {
-            font-size: $heading-font-size;
-            font-weight: 600;
-            margin: 0;
-            padding-bottom: 1.5rem;
-        }
-
-        &-area {
-            word-break: break-word;
-            font-size: 2rem;
-            line-height: 150%;
-            margin: 0;
-        }
-    }
-
-    &-mobility-vehicles-box {
-        display: flex;
-        border-radius: 12px;
-        background-color: Variables.$colors-blues-blue20;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 8rem;
-        width: 100%;
-        padding: 2rem 2.5rem 2rem 2.5rem;
-
-        &--listed {
-            margin-right: 4rem;
         }
     }
 }

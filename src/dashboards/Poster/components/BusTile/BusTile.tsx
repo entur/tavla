@@ -27,41 +27,42 @@ function BusTile(): JSX.Element {
         [stopPlacesWithDepartures, numberOfLines],
     )
 
-    return (
-        <div className="poster-bus-tile">
-            {busDepartures.map((departure) => {
-                const routeNumber = departure.route.split(' ')[0]
-                const routeDestination = departure.route
-                    .split(' ')
-                    .slice(1)
-                    .join(' ')
+    const rowClass = classNames('poster-bus-tile-row', {
+        'poster-bus-tile-row--only-bus': onlyBusShowing,
+    })
 
-                return (
-                    <div
-                        key={departure.id}
-                        className={classNames({
-                            'poster-bus-tile-row': true,
-                            'poster-bus-tile-row--only-bus': onlyBusShowing,
-                        })}
-                    >
-                        <div
-                            className={classNames({
-                                'poster-bus-tile-route': true,
-                                'poster-bus-tile-route--only-bus':
-                                    onlyBusShowing,
-                            })}
-                        >
-                            <BusIcon className="poster-bus-tile-icon" />
-                            <span>{routeNumber}</span>
+    const routeClass = classNames('poster-bus-tile-route', {
+        'poster-bus-tile-route--only-bus': onlyBusShowing,
+    })
+
+    return (
+        <>
+            <div className="poster-next-bus">Neste buss</div>
+            <div className="poster-bus-tile">
+                {busDepartures.map((departure) => {
+                    const routeNumber = departure.route.split(' ')[0]
+                    const routeDestination = departure.route
+                        .split(' ')
+                        .slice(1)
+                        .join(' ')
+
+                    return (
+                        <div key={departure.id} className={rowClass}>
+                            <div className={routeClass}>
+                                <BusIcon className="poster-bus-tile-icon" />
+                                <span>{routeNumber}</span>
+                            </div>
+                            <p className="poster-bus-tile-destination">
+                                {routeDestination}
+                            </p>
+                            <p className="poster-bus-tile-time">
+                                {departure.time}
+                            </p>
                         </div>
-                        <p className="poster-bus-tile-destination">
-                            {routeDestination}
-                        </p>
-                        <p className="poster-bus-tile-time">{departure.time}</p>
-                    </div>
-                )
-            })}
-        </div>
+                    )
+                })}
+            </div>
+        </>
     )
 }
 
