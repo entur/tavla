@@ -103,7 +103,11 @@ const ChronoDashboard = (): JSX.Element | null => {
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
     )
 
-    const bikeRentalStations = useRentalStations()
+    const bikeRentalStations = useRentalStations(
+        true,
+        FormFactor.Bicycle,
+        settings?.hiddenModes?.includes('bysykkel'),
+    )
     const scooters = useMobility(FormFactor.Scooter)
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()

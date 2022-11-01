@@ -12,6 +12,7 @@ import { isNotNullOrUndefined } from '../../utils/typeguards'
 function useRentalStations(
     excludeHiddenStations = true,
     formFactor: FormFactor | undefined = undefined,
+    isDisabled = false,
 ): UseRentalStations_StationFragment[] {
     const [settings] = useSettings()
 
@@ -26,10 +27,7 @@ function useRentalStations(
         distance,
         newStations = [],
         hiddenStations = [],
-        hiddenModes,
     } = settings || {}
-
-    const isDisabled = Boolean(hiddenModes?.includes('bysykkel'))
 
     useEffect(() => {
         if (!coordinates || !distance || isDisabled) return
