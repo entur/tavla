@@ -33,6 +33,7 @@ import { useRealtimeVehicleData } from '../../../logic/use-realtime-vehicle-data
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { useDebounce } from '../../../hooks/useDebounce'
 import { toggleValueInList } from '../../../utils/array'
+import { FormFactor } from '../../../../graphql-generated/mobility-v2'
 import { StopPlacePanel } from './StopPlacePanel/StopPlacePanel'
 import { BikePanelSearch } from './BikeSearch/BikePanelSearch'
 import { StopPlaceSearch } from './StopPlaceSearch/StopPlaceSearch'
@@ -170,7 +171,7 @@ const EditTab = (): JSX.Element => {
     const [stopPlaces, setStopPlaces] = useState<
         StopPlaceWithLines[] | undefined
     >(undefined)
-    const bikeRentalStations = useRentalStations(false)
+    const bikeRentalStations = useRentalStations(false, FormFactor.Bicycle)
 
     const nearestPlaces = useNearestPlaces(
         settings?.coordinates,
