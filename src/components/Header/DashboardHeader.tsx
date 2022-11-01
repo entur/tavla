@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useFirebaseSettings } from '../../settings'
+import { useFirebaseSettings } from '../../settings/useFirebaseSettings'
 import { Clock } from '../Clock/Clock'
 import { TavlaLogo } from '../../assets/icons'
 import { isMobileWeb } from '../../utils/utils'

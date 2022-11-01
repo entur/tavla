@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react'
-import { Settings, useFirebaseSettings } from './index'
+import { Settings, useFirebaseSettings } from './useFirebaseSettings'
 
 type SettingsSetter = (settings: Partial<Settings>) => void
 
