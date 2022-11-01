@@ -1,9 +1,9 @@
 import { Dispatch, useReducer } from 'react'
-import { RealtimeVehicle } from '../services/realtimeVehicles/types/realtimeVehicle'
 import {
     EXPIRE_VEHICLE_IN_SECONDS,
     INACTIVE_VEHICLE_IN_SECONDS,
-} from '../constants'
+} from '../../constants'
+import { RealtimeVehicle } from './types'
 
 export type State = {
     vehicles: Record<string, RealtimeVehicle>
@@ -17,7 +17,7 @@ export enum ActionType {
 
 export type Action = {
     type: ActionType
-    payload?: RealtimeVehicle[] | RealtimeVehicle
+    payload?: RealtimeVehicle[]
 }
 
 const initialState: State = {
@@ -55,6 +55,9 @@ const hydrate = (payload: RealtimeVehicle[]) => {
 }
 
 const update = (state: State, payload: RealtimeVehicle[]) => {
+    if (payload.length === 0) {
+        return state
+    }
     const now = getCurrentEpochSeconds()
     const updatedVehicles = {
         ...state.vehicles,

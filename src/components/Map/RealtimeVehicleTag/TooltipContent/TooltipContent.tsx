@@ -6,7 +6,7 @@ import { DepartureIcon } from '../../../../dashboards/Map/DepartureTag/Departure
 import { getFeedbackString, getLastUpdated } from '../../../../utils/time'
 import { getIcon, getIconColor } from '../../../../utils/icon'
 import { IconColorType } from '../../../../types'
-import { RealtimeVehicle } from '../../../../services/realtimeVehicles/types/realtimeVehicle'
+import { RealtimeVehicle } from '../../../../logic/use-realtime-vehicle-data/types'
 import './TooltipContent.scss'
 
 interface Props {

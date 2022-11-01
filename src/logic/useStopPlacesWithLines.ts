@@ -6,21 +6,11 @@ import { unique } from '../utils/array'
 import { getStopPlacesWithLines } from './get-stop-places-with-lines/getStopPlacesWithLines'
 import { useStopPlacesWithDepartures } from './use-stop-places-with-departures/useStopPlacesWithDepartures'
 
-interface Return {
-    uniqueLines: Line[] | undefined
-    stopPlacesWithLines: StopPlaceWithLines[] | undefined
-}
-
-export const useStopPlacesWithLines = (): Return => {
+export const useStopPlacesWithLines = (): Line[] => {
     const [settings] = useSettings()
     const { hiddenStopModes } = settings || {}
-    const [uniqueLines, setUniqueLines] = useState<Line[] | undefined>(
-        undefined,
-    )
+    const [uniqueLines, setUniqueLines] = useState<Line[]>([])
     const stopPlaces = useStopPlacesWithDepartures()
-    const [stopPlacesWithLines, setStopPlacesWithLines] = useState<
-        StopPlaceWithLines[]
-    >([])
 
     useEffect(() => {
         const abortController = createAbortController()
@@ -31,7 +21,6 @@ export const useStopPlacesWithLines = (): Return => {
                     await getStopPlacesWithLines(
                         stopPlaces.map((sPlace) => sPlace.id),
                     )
-                setStopPlacesWithLines(result)
 
                 const lines: Line[] = unique(
                     result
@@ -63,5 +52,5 @@ export const useStopPlacesWithLines = (): Return => {
         }
     }, [stopPlaces, hiddenStopModes])
 
-    return { uniqueLines, stopPlacesWithLines }
+    return uniqueLines
 }
