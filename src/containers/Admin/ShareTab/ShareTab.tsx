@@ -12,7 +12,7 @@ import {
     getBoardOnSnapshot,
     getInvitesForBoardOnSnapshot,
     getOwnersDataByBoardIdAsOwner,
-} from '../../../services/firebase'
+} from '../../../settings/firebase'
 import { BoardOwnersData, Invite } from '../../../types'
 import { LoginModal } from '../../../components/LoginModal/LoginModal'
 import { LoginCase } from '../../../components/LoginModal/login-modal-types'

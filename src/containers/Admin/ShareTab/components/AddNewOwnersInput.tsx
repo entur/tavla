@@ -3,7 +3,7 @@ import { SecondarySquareButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { addNewInviteToBoard } from '../../../../services/firebase'
+import { addNewInviteToBoard } from '../../../../settings/firebase'
 import { useUser } from '../../../../UserProvider'
 import { BoardOwnersData, Invite } from '../../../../types'
 

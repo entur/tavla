@@ -9,7 +9,7 @@ import { useLocation, useMatch } from 'react-router-dom'
 import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 import { Loader } from '@entur/loader'
 import { useUser } from '../UserProvider'
-import { getSettingsReference } from '../services/firebase'
+import { getSettingsReference } from './firebase'
 import { DEFAULT_SETTINGS, Settings } from './settings'
 import {
     FieldTypes,

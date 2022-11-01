@@ -15,7 +15,7 @@ import {
     copySettingsToNewId,
     setIdToBeDeleted,
     userIsOwner,
-} from '../../../../services/firebase'
+} from '../../../../settings/firebase'
 import { useUser } from '../../../../UserProvider'
 import '../NameTab.scss'
 

@@ -7,7 +7,7 @@ import {
     getBoardsForUserOnSnapshot,
     getInvitesForUserOnSnapshot,
     getBoardsByIds,
-} from '../../services/firebase'
+} from '../../settings/firebase'
 import { useUser } from '../../UserProvider'
 import { Board, SharedBoard, Theme } from '../../types'
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'

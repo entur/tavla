@@ -26,9 +26,9 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import type { User } from 'firebase/auth'
 import { signInWithCustomToken } from 'firebase/auth'
 import { auth, db, functions, storage } from '../firebase-init'
-import { FieldTypes } from '../settings/FirestoreStorage'
 import { BoardOwnersData } from '../types'
-import { Settings } from '../settings/settings'
+import { FieldTypes } from './FirestoreStorage'
+import { Settings } from './settings'
 
 const SETTINGS_COLLECTION = 'settings'
 

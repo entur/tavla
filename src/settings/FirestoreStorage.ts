@@ -4,7 +4,7 @@ import {
     removeFromArray,
     deleteDocument,
     updateMultipleSettingsFields,
-} from '../services/firebase'
+} from './firebase'
 import { Settings } from './settings'
 
 export type FieldTypes =
