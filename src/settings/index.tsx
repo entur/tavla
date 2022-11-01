@@ -1,88 +1,110 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useMatch } from 'react-router-dom'
 import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 import { Coordinates, TransportMode } from '@entur/sdk'
 import {
-    Theme,
-    DrawableRoute,
     CustomTile,
-    Direction,
     DashboardTypes,
+    Direction,
+    DrawableRoute,
+    Theme,
 } from '../types'
 import { getSettingsReference } from '../services/firebase'
 import { useUser } from '../UserProvider'
+import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../constants'
 import {
-    persist as persistToUrl,
-    restore as restoreFromUrl,
-} from './UrlStorage'
-import {
-    persistSingleField as persistSingleFieldToFirebase,
-    persistMultipleFields as persistMultipleFieldsToFirebase,
     FieldTypes,
+    persistMultipleFields as persistMultipleFieldsToFirebase,
+    persistSingleField as persistSingleFieldToFirebase,
 } from './FirestoreStorage'
 import type { SettingsSetter } from './SettingsProvider'
 
-export type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel' | 'delebil'
+type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel' | 'delebil'
 
-export interface Settings {
-    boardName?: string
-    coordinates?: Coordinates
-    hiddenMobilityOperators: string[]
-    hiddenStations: string[]
-    hiddenStops: string[]
-    hiddenModes: Mode[]
-    hiddenStopModes: { [stopPlaceId: string]: TransportMode[] }
-    hiddenRoutes: {
-        [stopPlaceId: string]: string[]
-    }
-    distance?: number
-    scooterDistance?: { distance: number; enabled: boolean }
-    zoom?: number
-    newStations?: string[]
-    newStops?: string[]
-    dashboard?: DashboardTypes
-    owners?: string[]
-    theme?: Theme
-    logo?: string
-    logoSize?: string
-    description?: string
-    showMap?: boolean
-    showWeather?: boolean
-    showIcon?: boolean
-    showTemperature?: boolean
-    showWind?: boolean
-    showPrecipitation?: boolean
-    showRoutesInMap: boolean
-    permanentlyVisibleRoutesInMap: DrawableRoute[]
-    hideSituations?: boolean
-    hideTracks?: boolean
-    hideWalkInfo?: boolean
-    hideRealtimeData?: boolean
-    hiddenRealtimeDataLineRefs: string[]
-    isScheduledForDelete?: boolean
+interface Settings {
+    boardName: string
+    coordinates: Coordinates
     customImageTiles: CustomTile[]
     customQrTiles: CustomTile[]
-    showCustomTiles: boolean
+    dashboard: DashboardTypes
+    description: string
+    direction: Direction
+    distance: number
+    fontScale: number
     hiddenCustomTileIds: string[]
-    fontScale?: number
-    direction?: Direction
-    pageRefreshedAt?: number
+    hiddenMobilityOperators: string[]
+    hiddenModes: Mode[]
+    hiddenRealtimeDataLineRefs: string[]
+    hiddenRoutes: { [stopPlaceId: string]: string[] }
+    hiddenStations: string[]
+    hiddenStopModes: { [stopPlaceId: string]: TransportMode[] }
+    hiddenStops: string[]
+    hideRealtimeData: boolean
+    hideSituations: boolean
+    hideTracks: boolean
+    hideWalkInfo: boolean
+    isScheduledForDelete: boolean
+    logo: string
+    logoSize: string
+    newStations: string[]
+    newStops: string[]
+    owners: string[]
+    pageRefreshedAt: number
+    permanentlyVisibleRoutesInMap: DrawableRoute[]
+    scooterDistance: { distance: number; enabled: boolean }
+    showCustomTiles: boolean
+    showIcon: boolean
+    showMap: boolean
+    showPrecipitation: boolean
+    showRoutesInMap: boolean
+    showTemperature: boolean
+    showWeather: boolean
+    showWind: boolean
+    theme: Theme
+    zoom: number
 }
 
-const DEFAULT_SETTINGS: Partial<Settings> = {
-    description: '',
-    logoSize: '32px',
-    theme: Theme.DEFAULT,
-    owners: [] as string[],
-    hiddenStopModes: {},
-    hiddenRealtimeDataLineRefs: [],
-    hideRealtimeData: true,
-    showRoutesInMap: true,
-    permanentlyVisibleRoutesInMap: [],
+const DEFAULT_SETTINGS: Settings = {
+    boardName: '',
+    coordinates: { latitude: 59.91750312241921, longitude: 10.727442837962354 },
     customImageTiles: [],
     customQrTiles: [],
-    showCustomTiles: false,
+    dashboard: DashboardTypes.Compact,
+    description: '',
+    direction: Direction.STANDARD,
+    distance: DEFAULT_DISTANCE,
+    fontScale: 1,
     hiddenCustomTileIds: [],
+    hiddenMobilityOperators: [],
+    hiddenModes: ['sparkesykkel'],
+    hiddenRealtimeDataLineRefs: [],
+    hiddenRoutes: {},
+    hiddenStations: [],
+    hiddenStopModes: {},
+    hiddenStops: [],
+    hideRealtimeData: true,
+    hideSituations: false,
+    hideTracks: false,
+    hideWalkInfo: false,
+    isScheduledForDelete: false,
+    logo: '',
+    logoSize: '32px',
+    newStations: [],
+    newStops: [],
+    owners: [],
+    pageRefreshedAt: 0,
+    permanentlyVisibleRoutesInMap: [],
+    scooterDistance: { distance: DEFAULT_DISTANCE, enabled: false },
+    showCustomTiles: false,
+    showIcon: true,
+    showMap: false,
+    showPrecipitation: true,
+    showRoutesInMap: true,
+    showTemperature: true,
+    showWeather: false,
+    showWind: true,
+    theme: Theme.DEFAULT,
+    zoom: DEFAULT_ZOOM,
 }
 
 export function useFirebaseSettings(): [Settings | null, SettingsSetter] {
@@ -154,44 +176,21 @@ export function useFirebaseSettings(): [Settings | null, SettingsSetter] {
                 },
             )
         }
-
-        let positionArray: string[] = []
-        try {
-            positionArray =
-                location.pathname
-                    ?.split('/')[2]
-                    ?.split('@')[1]
-                    ?.split('-')
-                    .join('.')
-                    .split(/,/) || []
-        } catch (error) {
-            return
-        }
-
-        setLocalSettings({
-            ...DEFAULT_SETTINGS,
-            ...restoreFromUrl(),
-            coordinates: {
-                latitude: Number(positionArray[0]),
-                longitude: Number(positionArray[1]),
-            },
-        })
     }, [location, user, documentId])
 
     const setSettings = useCallback(
         (newSettings: Partial<Settings>) => {
             const mergedSettings = { ...settings, ...newSettings } as Settings
             setLocalSettings(mergedSettings)
-
             if (documentId) {
                 persistMultipleFieldsToFirebase(documentId, mergedSettings)
-                return
             }
-
-            persistToUrl(mergedSettings)
         },
         [settings, documentId],
     )
 
     return [settings, setSettings]
 }
+
+export type { Settings, Mode }
+export { DEFAULT_SETTINGS }
