@@ -95,7 +95,7 @@ const Map = memo(function Map({
                     {
                         points: coords,
                         color: getIconColor(
-                            hoveredVehicle.mode.toLowerCase() as TransportMode,
+                            hoveredVehicle.mode?.toLowerCase() as TransportMode,
                             IconColorType.DEFAULT,
                         ),
                     },

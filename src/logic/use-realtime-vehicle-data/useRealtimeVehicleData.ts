@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo } from 'react'
-import { useApolloClient, useQuery } from '@apollo/client'
-import type { FetchResult } from '@apollo/client'
-import { BoundingBox } from '../../../graphql-generated/vehicles-v1'
+import {
+    BoundingBox,
+    useUseRealtimeVehicleData_VehiclesQuery,
+    useUseRealtimeVehicleData_VehiclesSubscription,
+} from '../../../graphql-generated/vehicles-v1'
 import {
     SWEEP_INTERVAL_MS,
     DEFAULT_FETCH_POLICY,
@@ -10,92 +12,66 @@ import {
 } from '../../constants'
 import { useSettings } from '../../settings/SettingsProvider'
 import { useStopPlacesWithLines } from '../useStopPlacesWithLines'
+import { isNotNullOrUndefined } from '../../utils/typeguards'
 import { useVehicleReducer, ActionType } from './useRealtimeVehicleReducer'
-import { RealtimeVehicle } from './types'
-import VEHICLE_UPDATES_SUBSCRIPTION from './VehicleUpdatesSubscription.vehicles.graphql'
-import VEHICLES_QUERY from './VehiclesQuery.vehicles.graphql'
-
-interface QueryData {
-    vehicles: RealtimeVehicle[]
-}
+import { RealtimeVehicle, toRealtimeVehicle } from './types'
 
 /**
  * Hook to query and subscribe to remote vehicle data
  */
 function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
-    const client = useApolloClient()
     const [state, dispatch] = useVehicleReducer()
     const uniqueLines = useStopPlacesWithLines()
     const [settings] = useSettings()
     const { hiddenRealtimeDataLineRefs } = settings || {}
 
-    const filterVehiclesByLineRefs = useCallback(
-        (vehiclesUpdates: RealtimeVehicle[] | undefined) => {
-            if (!vehiclesUpdates || settings?.hideRealtimeData) {
-                return undefined
-            }
-
-            const filteredUpdates = vehiclesUpdates.filter(
-                (vehicle) =>
-                    uniqueLines
-                        .map((line) => line.id)
-                        .includes(vehicle.line.lineRef) &&
-                    hiddenRealtimeDataLineRefs &&
-                    !hiddenRealtimeDataLineRefs?.includes(vehicle.line.lineRef),
-            )
-
-            return filteredUpdates.length > 0 ? filteredUpdates : undefined
-        },
-        [uniqueLines, hiddenRealtimeDataLineRefs, settings?.hideRealtimeData],
+    const filterVehicleByLineRefs = useCallback(
+        (vehicle: RealtimeVehicle) =>
+            uniqueLines.map((line) => line.id).includes(vehicle.line.lineRef) &&
+            hiddenRealtimeDataLineRefs &&
+            !hiddenRealtimeDataLineRefs?.includes(vehicle.line.lineRef),
+        [uniqueLines, hiddenRealtimeDataLineRefs],
     )
 
-    const handleQueryData = useCallback(
-        ({ vehicles }: QueryData) => {
-            const filteredUpdates = filterVehiclesByLineRefs(vehicles)
-            if (filteredUpdates && filteredUpdates?.length > 0)
-                dispatch({
-                    type: ActionType.HYDRATE,
-                    payload: filteredUpdates,
-                })
-        },
-        [dispatch, filterVehiclesByLineRefs],
-    )
-
-    useQuery<QueryData>(VEHICLES_QUERY, {
+    useUseRealtimeVehicleData_VehiclesQuery({
         fetchPolicy: DEFAULT_FETCH_POLICY,
         variables: { boundingBox },
-        skip: !uniqueLines,
-        onCompleted: handleQueryData,
+        skip: !uniqueLines || settings?.hideRealtimeData,
+        onCompleted: ({ vehicles }) => {
+            const filteredVehicles =
+                vehicles
+                    ?.map(toRealtimeVehicle)
+                    .filter(isNotNullOrUndefined)
+                    .filter(filterVehicleByLineRefs) ?? []
+
+            dispatch({
+                type: ActionType.HYDRATE,
+                payload: filteredVehicles,
+            })
+        },
     })
 
-    useEffect(() => {
-        const subscription = client
-            .subscribe({
-                query: VEHICLE_UPDATES_SUBSCRIPTION,
-                fetchPolicy: DEFAULT_FETCH_POLICY,
-                variables: {
-                    boundingBox,
-                    bufferSize: BUFFER_SIZE,
-                    bufferTime: BUFFER_TIME,
-                },
-            })
-            .subscribe((fetchResult: FetchResult) => {
-                if (fetchResult?.data?.vehicleUpdates.length > 0) {
-                    const filteredUpdates = filterVehiclesByLineRefs(
-                        fetchResult?.data?.vehicleUpdates,
-                    )
-                    if (filteredUpdates)
-                        dispatch({
-                            type: ActionType.UPDATE,
-                            payload: filteredUpdates,
-                        })
-                }
-            })
+    useUseRealtimeVehicleData_VehiclesSubscription({
+        fetchPolicy: DEFAULT_FETCH_POLICY,
+        skip: !uniqueLines || settings?.hideRealtimeData,
+        variables: {
+            boundingBox,
+            bufferSize: BUFFER_SIZE,
+            bufferTime: BUFFER_TIME,
+        },
+        onData: (options) => {
+            const vehicles = options.data.data?.vehicleUpdates ?? []
+            const filteredVehicles = vehicles
+                .map(toRealtimeVehicle)
+                .filter(isNotNullOrUndefined)
+                .filter(filterVehicleByLineRefs)
 
-        return () => {
-            subscription.unsubscribe()
-        }
-    }, [client, boundingBox, filterVehiclesByLineRefs, dispatch])
+            dispatch({
+                type: ActionType.UPDATE,
+                payload: filteredVehicles,
+            })
+        },
+    })
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -109,21 +85,19 @@ function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
 
     return useMemo(
         () =>
-            (Object.values(state.vehicles) as RealtimeVehicle[]).map(
-                (vehicle) => {
-                    const line = uniqueLines.find(
-                        (l) => l.id === vehicle.line.lineRef,
-                    )
-                    return {
-                        ...vehicle,
-                        line: {
-                            ...vehicle.line,
-                            publicCode: line?.publicCode,
-                            pointsOnLink: line?.pointsOnLink,
-                        },
-                    }
-                },
-            ),
+            Object.values(state.vehicles).map((vehicle) => {
+                const line = uniqueLines.find(
+                    (l) => l.id === vehicle.line.lineRef,
+                )
+                return {
+                    ...vehicle,
+                    line: {
+                        ...vehicle.line,
+                        publicCode: line?.publicCode,
+                        pointsOnLink: line?.pointsOnLink,
+                    },
+                }
+            }),
         [state.vehicles, uniqueLines],
     )
 }

@@ -55,6 +55,9 @@ const hydrate = (payload: RealtimeVehicle[]) => {
 }
 
 const update = (state: State, payload: RealtimeVehicle[]) => {
+    if (payload.length === 0) {
+        return state
+    }
     const now = getCurrentEpochSeconds()
     const updatedVehicles = {
         ...state.vehicles,
