@@ -43,6 +43,7 @@ import { ToggleDetailsPanel } from './ToggleDetailsPanel/ToggleDetailsPanel'
 import { WeatherPanel } from './WeatherPanel/WeatherPanel'
 import './EditTab.scss'
 import { CustomTilePanel } from './CustomTilePanel/CustomTilePanel'
+import { PosterMobilityAlert } from './PosterMobilityAlert'
 
 const isMobile = isMobileWeb()
 
@@ -607,7 +608,7 @@ const EditTab = (): JSX.Element => {
                     rundt {locationName?.split(',')[0]}
                 </Heading2>
             </div>
-
+            <PosterMobilityAlert />
             <ResponsiveReactGridLayout
                 key={breakpoint}
                 cols={COLS}
@@ -691,7 +692,6 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ScooterPanel />
                 </div>
-
                 <div key="delebil" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Delebil</Heading2>
