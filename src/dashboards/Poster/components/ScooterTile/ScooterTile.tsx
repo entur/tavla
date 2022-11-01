@@ -8,13 +8,18 @@ import { FormFactor } from '../../../../../graphql-generated/mobility-v2'
 const ScooterTile = (): JSX.Element => {
     const [settings] = useSettings()
 
-    const numberOfScooters = useMobility(FormFactor.Scooter)?.length || 0
+    const distance = settings?.scooterDistance?.enabled
+        ? settings.scooterDistance.distance
+        : settings?.distance || 0
+
+    const numberOfScooters =
+        useMobility(FormFactor.Scooter, distance)?.length || 0
 
     return (
         <MobilityTile
             icon={<ScooterIcon />}
             header="Elsparkesykler"
-            description={`Innen ${settings?.distance || 0} meters radius`}
+            description={`Innen ${distance} meters radius`}
             numberOfVehicles={numberOfScooters}
         />
     )
