@@ -57,15 +57,6 @@ const DashboardPickerTab = (): JSX.Element => {
                     className="display-wrapper__display-card"
                 />
                 <RadioCard
-                    title="Kart"
-                    description="Avgangene vises i visualisert i et kart. Viser ikke Sparkesykler, spor/platform eller avvik."
-                    value={DashboardTypes.Map}
-                    selected={radioValue === DashboardTypes.Map}
-                    preview={dashboardImages.Map}
-                    onChange={updateChoice}
-                    className="display-wrapper__display-card"
-                />
-                <RadioCard
                     title="Holdeplass"
                     description="Her får avgangene full bredde med god plass til å vise avviksmeldinger. Egner seg godt for når man er interessert i ett eller få stopp."
                     value={DashboardTypes.BusStop}
