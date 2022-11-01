@@ -698,11 +698,7 @@ const EditTab = (): JSX.Element => {
                     <div className="edit-tab__header">
                         <Heading2>Delebil</Heading2>
                         <Switch
-                            onChange={(): void => {
-                                {
-                                    toggleMode('delebil')
-                                }
-                            }}
+                            onChange={(): void => toggleMode('delebil')}
                             checked={!hiddenModes?.includes('delebil')}
                             size="large"
                         />

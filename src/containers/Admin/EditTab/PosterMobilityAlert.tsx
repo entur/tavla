@@ -6,14 +6,11 @@ import { DashboardTypes } from '../../../types'
 function PosterMobilityAlert(): JSX.Element {
     const [settings] = useSettings()
 
-    const isLessThanOneHiddenMode =
+    const isEmptyHiddenMode =
         settings?.hiddenModes?.length !== undefined
             ? settings.hiddenModes.length === 0
             : false
-    if (
-        isLessThanOneHiddenMode &&
-        settings?.dashboard === DashboardTypes.Poster
-    ) {
+    if (isEmptyHiddenMode && settings?.dashboard === DashboardTypes.Poster) {
         return (
             <ToastAlertBox variant="info" title="Nå har du valgt for mange!">
                 Du kan kun velge tre mobilitetstyper for denne visningstypen.
