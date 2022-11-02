@@ -17,7 +17,7 @@ import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
 import { Button } from '@entur/button'
-import { ExpandableText } from '@entur/expand'
+import { ExpandablePanel, ExpandableText } from '@entur/expand'
 import { Mode } from '../../../settings'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { isMobileWeb, getTranslation } from '../../../utils/utils'
@@ -630,7 +630,8 @@ const EditTab = (): JSX.Element => {
                 </Heading2>
             </div>
             <PosterMobilityAlert />
-            <ExpandableText title="Kollektivtilbud" defaultOpen>
+            <div>
+                <div className="edit-tab__secondary-title">Mobilitetstilbud</div>
                 <ResponsiveReactGridLayout
                     key={breakpoint}
                     cols={COLS}
@@ -729,111 +730,102 @@ const EditTab = (): JSX.Element => {
                     )}
                 </div> */}
                 </ResponsiveReactGridLayout>
-            </ExpandableText>
-            <ExpandableText title="Annen tilpasning" defaultOpen>
-                <ResponsiveReactGridLayout
-                    key={breakpoint}
-                    cols={COLS}
-                    layouts={LAYOUT}
-                    autoSize={true}
-                    margin={isMobile ? [0, 16] : [32, 32]}
-                    isResizable={false}
-                    isDraggable={false}
-                    onBreakpointChange={(newBreakpoint: string) => {
-                        setBreakpoint(newBreakpoint)
-                    }}
-                >
-                    <div key="realtimeDataPanel" className="edit-tab__tile">
-                        <div className="edit-tab__header">
-                            <Heading2>Sanntidsposisjoner</Heading2>
-                            <Switch
-                                onChange={() => toggleRealtimeData()}
-                                checked={!hideRealtimeData}
-                                size="large"
-                            ></Switch>
-                        </div>
-                        {!hiddenModes?.includes('kollektiv') ? (
-                            <RealtimeDataPanel
-                                realtimeLines={realtimeLines}
-                                hiddenLines={hiddenRealtimeDataLineRefs}
-                            />
-                        ) : (
-                            <Paragraph>
-                                Kollektivdata er skrudd av. Skru det på ved å
-                                trykke på knappen øverst til høyre i
-                                kollektiv-ruten.
-                            </Paragraph>
-                        )}
+            </div>
+            <div className="edit-tab__secondary-title">Annen tilpasning</div>
+            <ResponsiveReactGridLayout
+                key={breakpoint}
+                cols={COLS}
+                layouts={LAYOUT}
+                autoSize={true}
+                margin={isMobile ? [0, 16] : [32, 32]}
+                isResizable={false}
+                isDraggable={false}
+                onBreakpointChange={(newBreakpoint: string) => {
+                    setBreakpoint(newBreakpoint)
+                }}
+            >
+                <div key="realtimeDataPanel" className="edit-tab__tile">
+                    <div className="edit-tab__header">
+                        <Heading2>Sanntidsposisjoner</Heading2>
+                        <Switch
+                            onChange={() => toggleRealtimeData()}
+                            checked={!hideRealtimeData}
+                            size="large"
+                        ></Switch>
                     </div>
-                    <div
-                        key="refreshTavlePanel"
-                        className="edit-tab__tile-refresh"
-                    >
-                        <div className="edit-tab__header">
-                            <Heading2>Last inn tavler på nytt</Heading2>
-                        </div>
-                        <div>
-                            <Paragraph>
-                                Når du trykker på knappen vil alle skjermer som
-                                viser denne tavlen bli lastet inn på nytt.
-                            </Paragraph>
-                            <Button
-                                onClick={handleUpdateTavle}
-                                variant="primary"
-                            >
-                                Last inn tavler på nytt
-                            </Button>
-                        </div>
+                    {!hiddenModes?.includes('kollektiv') ? (
+                        <RealtimeDataPanel
+                            realtimeLines={realtimeLines}
+                            hiddenLines={hiddenRealtimeDataLineRefs}
+                        />
+                    ) : (
+                        <Paragraph>
+                            Kollektivdata er skrudd av. Skru det på ved å trykke
+                            på knappen øverst til høyre i kollektiv-ruten.
+                        </Paragraph>
+                    )}
+                </div>
+                <div key="refreshTavlePanel" className="edit-tab__tile-refresh">
+                    <div className="edit-tab__header">
+                        <Heading2>Last inn tavler på nytt</Heading2>
                     </div>
-                    <div key="weatherPanel" className="edit-tab__tile-weather">
-                        <div className="edit-tab__header">
-                            <Heading2>
-                                {'Vær '}
-                                {toolTip}
-                            </Heading2>
-                            <Switch
-                                onChange={handleWeatherSettingsChange}
-                                checked={showWeather}
-                                size="large"
-                            />
-                        </div>
-                        <WeatherPanel />
+                    <div>
+                        <Paragraph>
+                            Når du trykker på knappen vil alle skjermer som
+                            viser denne tavlen bli lastet inn på nytt.
+                        </Paragraph>
+                        <Button onClick={handleUpdateTavle} variant="primary">
+                            Last inn tavler på nytt
+                        </Button>
                     </div>
-                    <div key="customTilePanel" className="edit-tab__tile">
-                        <div className="edit-tab__header">
-                            <Heading2>
-                                {'Bilde og QR '}
-                                <Tooltip
-                                    content={
-                                        <div>
-                                            <SubParagraph className="tooltip-container-weather">
-                                                Tilgjengelig i visningstyper
-                                                kompakt og kronologisk.
-                                            </SubParagraph>
-                                        </div>
-                                    }
-                                    placement="top"
-                                >
-                                    <span>
-                                        <ValidationInfoIcon size={20} />
-                                    </span>
-                                </Tooltip>
-                            </Heading2>
-                            <Switch
-                                onChange={(e) =>
-                                    setSettings({
-                                        showCustomTiles:
-                                            e.currentTarget.checked,
-                                    })
+                </div>
+                <div key="weatherPanel" className="edit-tab__tile-weather">
+                    <div className="edit-tab__header">
+                        <Heading2>
+                            {'Vær '}
+                            {toolTip}
+                        </Heading2>
+                        <Switch
+                            onChange={handleWeatherSettingsChange}
+                            checked={showWeather}
+                            size="large"
+                        />
+                    </div>
+                    <WeatherPanel />
+                </div>
+                <div key="customTilePanel" className="edit-tab__tile">
+                    <div className="edit-tab__header">
+                        <Heading2>
+                            {'Bilde og QR '}
+                            <Tooltip
+                                content={
+                                    <div>
+                                        <SubParagraph className="tooltip-container-weather">
+                                            Tilgjengelig i visningstyper kompakt
+                                            og kronologisk.
+                                        </SubParagraph>
+                                    </div>
                                 }
-                                checked={showCustomTiles}
-                                size="large"
-                            />
-                        </div>
-                        <CustomTilePanel></CustomTilePanel>
+                                placement="top"
+                            >
+                                <span>
+                                    <ValidationInfoIcon size={20} />
+                                </span>
+                            </Tooltip>
+                        </Heading2>
+                        <Switch
+                            onChange={(e) =>
+                                setSettings({
+                                    showCustomTiles: e.currentTarget.checked,
+                                })
+                            }
+                            checked={showCustomTiles}
+                            size="large"
+                        />
                     </div>
-                </ResponsiveReactGridLayout>
-            </ExpandableText>
+                    <CustomTilePanel></CustomTilePanel>
+                </div>
+            </ResponsiveReactGridLayout>
         </div>
     )
 }
