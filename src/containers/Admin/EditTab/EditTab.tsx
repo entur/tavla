@@ -351,6 +351,25 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
+            {
+                i: 'customTilePanel',
+                x: 2.6,
+                y: 20,
+                w: 1.5,
+                h:
+                    1.5 +
+                    tileHeight(
+                        customImageTiles.length + customQrTiles.length,
+                        0.24,
+                        0,
+                    ),
+            }, {
+                i: 'delebil',
+                x: 3,
+                y: 20,
+                w: 1.5,
+                h: 1
+            },
         ],
         md: [
             {
@@ -641,7 +660,6 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ToggleDetailsPanel />
                 </div>
-
                 <div key="realtimeDataPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Sanntidsposisjoner</Heading2>
