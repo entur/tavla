@@ -17,6 +17,7 @@ import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
 import { Button } from '@entur/button'
+import { ExpandableText } from '@entur/expand'
 import { Mode } from '../../../settings'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { isMobileWeb, getTranslation } from '../../../utils/utils'
@@ -310,7 +311,7 @@ const EditTab = (): JSX.Element => {
             },
             {
                 i: 'bikePanel',
-                x: 1.5,
+                x: 3,
                 y: 0,
                 w: 1.5,
                 h: 1.55 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
@@ -324,10 +325,10 @@ const EditTab = (): JSX.Element => {
                 h: settings?.showMap ? 3.2 : 0.9,
             },
             { i: 'refreshTavlePanel', x: 3, y: 0, w: 1.5, h: 1.65 },
-            { i: 'weatherPanel', x: 3, y: 0, w: 1.5, h: 1.5 },
+            { i: 'weatherPanel', x: 0, y: 0, w: 1.5, h: 1.5 },
             {
                 i: 'realtimeDataPanel',
-                x: 0,
+                x: 1.5,
                 y: 0,
                 w: 1.5,
                 h:
@@ -340,8 +341,8 @@ const EditTab = (): JSX.Element => {
             },
             {
                 i: 'customTilePanel',
-                x: 1.5,
-                y: 10,
+                x: 0,
+                y: 3,
                 w: 1.5,
                 h:
                     1.5 +
@@ -351,24 +352,25 @@ const EditTab = (): JSX.Element => {
                         0,
                     ),
             },
+            // {
+            //     i: 'customTilePanel',
+            //     x: 2.6,
+            //     y: 20,
+            //     w: 1.5,
+            //     h:
+            //         1.5 +
+            //         tileHeight(
+            //             customImageTiles.length + customQrTiles.length,
+            //             0.24,
+            //             0,
+            //         ),
+            // },
             {
-                i: 'customTilePanel',
-                x: 2.6,
-                y: 20,
-                w: 1.5,
-                h:
-                    1.5 +
-                    tileHeight(
-                        customImageTiles.length + customQrTiles.length,
-                        0.24,
-                        0,
-                    ),
-            }, {
                 i: 'delebil',
-                x: 3,
-                y: 20,
+                x: 1.5,
+                y: 10,
                 w: 1.5,
-                h: 1
+                h: 1.1,
             },
         ],
         md: [
@@ -388,7 +390,7 @@ const EditTab = (): JSX.Element => {
             },
             { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
             { i: 'mapPanel', x: 0, y: 7, w: 2, h: settings?.showMap ? 3 : 0.8 },
-            { i: 'refreshTavlePanel', x: 0, y: 4.5, w: 2, h: 1.7 },
+            { i: 'refreshTavlePanel', x: 3, y: 0, w: 2, h: 1.7 },
             { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.3 },
             {
                 i: 'realtimeDataPanel',
@@ -628,100 +630,82 @@ const EditTab = (): JSX.Element => {
                 </Heading2>
             </div>
             <PosterMobilityAlert />
-            <ResponsiveReactGridLayout
-                key={breakpoint}
-                cols={COLS}
-                layouts={LAYOUT}
-                autoSize={true}
-                margin={isMobile ? [0, 16] : [32, 32]}
-                isResizable={false}
-                isDraggable={false}
-                onBreakpointChange={(newBreakpoint: string) => {
-                    setBreakpoint(newBreakpoint)
-                }}
-            >
-                <div key="busStopPanel" className="edit-tab__tile">
-                    <div className="edit-tab__header">
-                        <Heading2>Kollektiv</Heading2>
-                        <Switch
-                            onChange={(): void => toggleMode('kollektiv')}
-                            checked={!hiddenModes?.includes('kollektiv')}
-                            size="large"
-                        />
+            <ExpandableText title="Kollektivtilbud" defaultOpen>
+                <ResponsiveReactGridLayout
+                    key={breakpoint}
+                    cols={COLS}
+                    layouts={LAYOUT}
+                    autoSize={true}
+                    margin={isMobile ? [0, 16] : [32, 32]}
+                    isResizable={false}
+                    isDraggable={false}
+                    onBreakpointChange={(newBreakpoint: string) => {
+                        setBreakpoint(newBreakpoint)
+                    }}
+                >
+                    <div key="busStopPanel" className="edit-tab__tile">
+                        <div className="edit-tab__header">
+                            <Heading2>Kollektiv</Heading2>
+                            <Switch
+                                onChange={(): void => toggleMode('kollektiv')}
+                                checked={!hiddenModes?.includes('kollektiv')}
+                                size="large"
+                            />
+                        </div>
+                        <div className="edit-tab__set-stops">
+                            <StopPlaceSearch handleAddNewStop={addNewStop} />
+                        </div>
+                        <StopPlacePanel stops={stopPlaces} />
+                        <div>
+                            <Heading3 className="edit-tab__header--details-in-view">
+                                Detaljer i visningen
+                            </Heading3>
+                        </div>
+                        <ToggleDetailsPanel />
                     </div>
-                    <div className="edit-tab__set-stops">
-                        <StopPlaceSearch handleAddNewStop={addNewStop} />
-                    </div>
-                    <StopPlacePanel stops={stopPlaces} />
-                    <div>
-                        <Heading3 className="edit-tab__header--details-in-view">
-                            Detaljer i visningen
-                        </Heading3>
-                    </div>
-                    <ToggleDetailsPanel />
-                </div>
-                <div key="realtimeDataPanel" className="edit-tab__tile">
-                    <div className="edit-tab__header">
-                        <Heading2>Sanntidsposisjoner</Heading2>
-                        <Switch
-                            onChange={() => toggleRealtimeData()}
-                            checked={!hideRealtimeData}
-                            size="large"
-                        ></Switch>
-                    </div>
-                    {!hiddenModes?.includes('kollektiv') ? (
-                        <RealtimeDataPanel
-                            realtimeLines={realtimeLines}
-                            hiddenLines={hiddenRealtimeDataLineRefs}
-                        />
-                    ) : (
-                        <Paragraph>
-                            Kollektivdata er skrudd av. Skru det på ved å trykke
-                            på knappen øverst til høyre i kollektiv-ruten.
-                        </Paragraph>
-                    )}
-                </div>
 
-                <div key="bikePanel" className="edit-tab__tile">
-                    <div className="edit-tab__header">
-                        <Heading2>Bysykkel</Heading2>
-                        <Switch
-                            onChange={(): void => toggleMode('bysykkel')}
-                            checked={!hiddenModes?.includes('bysykkel')}
-                            size="large"
-                        />
+                    <div key="bikePanel" className="edit-tab__tile">
+                        <div className="edit-tab__header">
+                            <Heading2>Bysykkel</Heading2>
+                            <Switch
+                                onChange={(): void => toggleMode('bysykkel')}
+                                checked={!hiddenModes?.includes('bysykkel')}
+                                size="large"
+                            />
+                        </div>
+                        {!!settings?.coordinates && (
+                            <BikePanelSearch
+                                position={settings.coordinates}
+                                onSelected={addNewStation}
+                            />
+                        )}
+                        <BikePanel stations={sortedBikeRentalStations} />
                     </div>
-                    {!!settings?.coordinates && (
-                        <BikePanelSearch
-                            position={settings.coordinates}
-                            onSelected={addNewStation}
-                        />
-                    )}
-                    <BikePanel stations={sortedBikeRentalStations} />
-                </div>
-                <div key="scooterPanel" className="edit-tab__tile">
-                    <div className="edit-tab__header">
-                        <Heading2>Sparkesykkel</Heading2>
-                        <Switch
-                            onChange={(): void => toggleMode('sparkesykkel')}
-                            checked={!hiddenModes?.includes('sparkesykkel')}
-                            size="large"
-                        />
+                    <div key="scooterPanel" className="edit-tab__tile">
+                        <div className="edit-tab__header">
+                            <Heading2>Sparkesykkel</Heading2>
+                            <Switch
+                                onChange={(): void =>
+                                    toggleMode('sparkesykkel')
+                                }
+                                checked={!hiddenModes?.includes('sparkesykkel')}
+                                size="large"
+                            />
+                        </div>
+                        <ScooterPanel />
                     </div>
-                    <ScooterPanel />
-                </div>
-                <div key="delebil" className="edit-tab__tile">
-                    <div className="edit-tab__header">
-                        <Heading2>Delebil</Heading2>
-                        <Switch
-                            onChange={(): void => toggleMode('delebil')}
-                            checked={!hiddenModes?.includes('delebil')}
-                            size="large"
-                        />
+                    <div key="delebil" className="edit-tab__tile">
+                        <div className="edit-tab__header">
+                            <Heading2>Delebil</Heading2>
+                            <Switch
+                                onChange={(): void => toggleMode('delebil')}
+                                checked={!hiddenModes?.includes('delebil')}
+                                size="large"
+                            />
+                        </div>
                     </div>
-                </div>
 
-                {/* <div key="mapPanel" className="edit-tab__tile">
+                    {/* <div key="mapPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kart</Heading2>
                         <Switch
@@ -744,67 +728,112 @@ const EditTab = (): JSX.Element => {
                         />
                     )}
                 </div> */}
-                <div key="weatherPanel" className="edit-tab__tile-weather">
-                    <div className="edit-tab__header">
-                        <Heading2>
-                            {'Vær '}
-                            {toolTip}
-                        </Heading2>
-                        <Switch
-                            onChange={handleWeatherSettingsChange}
-                            checked={showWeather}
-                            size="large"
-                        />
+                </ResponsiveReactGridLayout>
+            </ExpandableText>
+            <ExpandableText title="Annen tilpasning" defaultOpen>
+                <ResponsiveReactGridLayout
+                    key={breakpoint}
+                    cols={COLS}
+                    layouts={LAYOUT}
+                    autoSize={true}
+                    margin={isMobile ? [0, 16] : [32, 32]}
+                    isResizable={false}
+                    isDraggable={false}
+                    onBreakpointChange={(newBreakpoint: string) => {
+                        setBreakpoint(newBreakpoint)
+                    }}
+                >
+                    <div key="realtimeDataPanel" className="edit-tab__tile">
+                        <div className="edit-tab__header">
+                            <Heading2>Sanntidsposisjoner</Heading2>
+                            <Switch
+                                onChange={() => toggleRealtimeData()}
+                                checked={!hideRealtimeData}
+                                size="large"
+                            ></Switch>
+                        </div>
+                        {!hiddenModes?.includes('kollektiv') ? (
+                            <RealtimeDataPanel
+                                realtimeLines={realtimeLines}
+                                hiddenLines={hiddenRealtimeDataLineRefs}
+                            />
+                        ) : (
+                            <Paragraph>
+                                Kollektivdata er skrudd av. Skru det på ved å
+                                trykke på knappen øverst til høyre i
+                                kollektiv-ruten.
+                            </Paragraph>
+                        )}
                     </div>
-                    <WeatherPanel />
-                </div>
-                <div key="refreshTavlePanel" className="edit-tab__tile-refresh">
-                    <div className="edit-tab__header">
-                        <Heading2>Last inn tavler på nytt</Heading2>
-                    </div>
-                    <div>
-                        <Paragraph>
-                            Når du trykker på knappen vil alle skjermer som
-                            viser denne tavlen bli lastet inn på nytt.
-                        </Paragraph>
-                        <Button onClick={handleUpdateTavle} variant="primary">
-                            Last inn tavler på nytt
-                        </Button>
-                    </div>
-                </div>
-                <div key="customTilePanel" className="edit-tab__tile">
-                    <div className="edit-tab__header">
-                        <Heading2>
-                            {'Bilde og QR '}
-                            <Tooltip
-                                content={
-                                    <div>
-                                        <SubParagraph className="tooltip-container-weather">
-                                            Tilgjengelig i visningstyper kompakt
-                                            og kronologisk.
-                                        </SubParagraph>
-                                    </div>
-                                }
-                                placement="top"
+                    <div
+                        key="refreshTavlePanel"
+                        className="edit-tab__tile-refresh"
+                    >
+                        <div className="edit-tab__header">
+                            <Heading2>Last inn tavler på nytt</Heading2>
+                        </div>
+                        <div>
+                            <Paragraph>
+                                Når du trykker på knappen vil alle skjermer som
+                                viser denne tavlen bli lastet inn på nytt.
+                            </Paragraph>
+                            <Button
+                                onClick={handleUpdateTavle}
+                                variant="primary"
                             >
-                                <span>
-                                    <ValidationInfoIcon size={20} />
-                                </span>
-                            </Tooltip>
-                        </Heading2>
-                        <Switch
-                            onChange={(e) =>
-                                setSettings({
-                                    showCustomTiles: e.currentTarget.checked,
-                                })
-                            }
-                            checked={showCustomTiles}
-                            size="large"
-                        />
+                                Last inn tavler på nytt
+                            </Button>
+                        </div>
                     </div>
-                    <CustomTilePanel></CustomTilePanel>
-                </div>
-            </ResponsiveReactGridLayout>
+                    <div key="weatherPanel" className="edit-tab__tile-weather">
+                        <div className="edit-tab__header">
+                            <Heading2>
+                                {'Vær '}
+                                {toolTip}
+                            </Heading2>
+                            <Switch
+                                onChange={handleWeatherSettingsChange}
+                                checked={showWeather}
+                                size="large"
+                            />
+                        </div>
+                        <WeatherPanel />
+                    </div>
+                    <div key="customTilePanel" className="edit-tab__tile">
+                        <div className="edit-tab__header">
+                            <Heading2>
+                                {'Bilde og QR '}
+                                <Tooltip
+                                    content={
+                                        <div>
+                                            <SubParagraph className="tooltip-container-weather">
+                                                Tilgjengelig i visningstyper
+                                                kompakt og kronologisk.
+                                            </SubParagraph>
+                                        </div>
+                                    }
+                                    placement="top"
+                                >
+                                    <span>
+                                        <ValidationInfoIcon size={20} />
+                                    </span>
+                                </Tooltip>
+                            </Heading2>
+                            <Switch
+                                onChange={(e) =>
+                                    setSettings({
+                                        showCustomTiles:
+                                            e.currentTarget.checked,
+                                    })
+                                }
+                                checked={showCustomTiles}
+                                size="large"
+                            />
+                        </div>
+                        <CustomTilePanel></CustomTilePanel>
+                    </div>
+                </ResponsiveReactGridLayout>
+            </ExpandableText>
         </div>
     )
 }
