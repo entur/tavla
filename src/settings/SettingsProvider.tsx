@@ -20,7 +20,7 @@ import {
 type SettingsSetter = (settings: Partial<Settings>) => void
 
 const SettingsContext = createContext<[Settings, SettingsSetter]>([
-    {} as Settings,
+    DEFAULT_SETTINGS,
     (): void => undefined,
 ])
 
@@ -107,22 +107,26 @@ const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
         [settings, documentId],
     )
 
-    if (!documentId) {
-        return <>{children}</>
-    }
-
-    if (settings === null) {
+    if (!!documentId && settings === null) {
         return <Loader />
     }
 
     return (
-        <SettingsContext.Provider value={[settings, setSettings]}>
+        <SettingsContext.Provider value={[settings!, setSettings]}>
             {children}
         </SettingsContext.Provider>
     )
 }
 
 function useSettings(): [Settings, SettingsSetter] {
+    const documentId = useMatch<'documentId', string>('/:page/:documentId')
+        ?.params.documentId
+    if (process.env.NODE_ENV === 'development' && !documentId) {
+        // eslint-disable-next-line no-console
+        console.warn(
+            'Using useSettings outside of a route with documentId will give you DEFAULT_SETTINGS',
+        )
+    }
     return useContext(SettingsContext)
 }
 
