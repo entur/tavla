@@ -216,14 +216,16 @@ const Content = (): JSX.Element => {
                         <Header />
                         <Routes>
                             <Route path="/" element={<LandingPage />} />
-                            <Route
-                                path="/t/:documentId"
-                                element={<DashboardResolver />}
-                            />
-                            <Route
-                                path="/admin/:documentId"
-                                element={<AdminPage />}
-                            />
+                            <Route element={<SettingsProvider />}>
+                                <Route
+                                    path="/t/:documentId"
+                                    element={<DashboardResolver />}
+                                />
+                                <Route
+                                    path="/admin/:documentId"
+                                    element={<AdminPage />}
+                                />
+                            </Route>
                             <Route path="/tavler" element={<MyBoards />} />
                             <Route path="/admin" element={<AdminPage />} />
                             <Route path="/privacy" element={<Privacy />} />
@@ -239,9 +241,7 @@ const Content = (): JSX.Element => {
 const App = (): JSX.Element => (
     <BrowserRouter>
         <UserProvider>
-            <SettingsProvider>
-                <Content />
-            </SettingsProvider>
+            <Content />
         </UserProvider>
     </BrowserRouter>
 )

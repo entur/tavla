@@ -5,7 +5,7 @@ import React, {
     useEffect,
     useState,
 } from 'react'
-import { useLocation, useMatch } from 'react-router-dom'
+import { Outlet, useMatch, useNavigate } from 'react-router-dom'
 import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 import { Loader } from '@entur/loader'
 import { useUser } from '../UserProvider'
@@ -24,34 +24,21 @@ const SettingsContext = createContext<[Settings, SettingsSetter]>([
     (): void => undefined,
 ])
 
-const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
-    children,
-}) => {
+const SettingsProvider: React.FC = () => {
     const [settings, setLocalSettings] = useState<Settings | null>(null)
-
-    const location = useLocation()
+    const navigate = useNavigate()
     const user = useUser()
-
+    const onAdmin = useMatch('/admin/*')
     const documentId = useMatch<'documentId', string>('/:page/:documentId')
         ?.params.documentId
 
     useEffect(() => {
-        const protectedPath =
-            location.pathname == '/' ||
-            location.pathname.split('/')[1] == 'privacy' ||
-            location.pathname.split('/')[1] == 'tavler'
-
-        if (protectedPath) {
-            setLocalSettings(null)
-            return
-        }
-
         if (documentId) {
             return onSnapshot(
                 getSettingsReference(documentId),
                 (documentSnapshot: DocumentSnapshot) => {
                     if (!documentSnapshot.exists()) {
-                        window.location.pathname = '/'
+                        navigate('/')
                         return
                     }
 
@@ -84,17 +71,15 @@ const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
                         )
                     }
 
-                    setLocalSettings((prevSettings) => {
-                        const onAdmin =
-                            location.pathname.split('/')[1] === 'admin'
-                        return prevSettings && onAdmin
+                    setLocalSettings((prevSettings) =>
+                        prevSettings && !!onAdmin
                             ? prevSettings
-                            : settingsWithDefaults
-                    })
+                            : settingsWithDefaults,
+                    )
                 },
             )
         }
-    }, [location, user, documentId])
+    }, [onAdmin, user, documentId, navigate])
 
     const setSettings = useCallback(
         (newSettings: Partial<Settings>) => {
@@ -107,13 +92,13 @@ const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
         [settings, documentId],
     )
 
-    if (!!documentId && settings === null) {
+    if (settings === null) {
         return <Loader />
     }
 
     return (
-        <SettingsContext.Provider value={[settings!, setSettings]}>
-            {children}
+        <SettingsContext.Provider value={[settings, setSettings]}>
+            <Outlet />
         </SettingsContext.Provider>
     )
 }
