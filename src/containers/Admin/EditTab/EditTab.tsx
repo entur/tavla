@@ -33,6 +33,7 @@ import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { useDebounce } from '../../../hooks/useDebounce'
 import { toggleValueInList } from '../../../utils/array'
 import { Mode } from '../../../settings/settings'
+import { FormFactor } from '../../../../graphql-generated/mobility-v2'
 import { StopPlacePanel } from './StopPlacePanel/StopPlacePanel'
 import { BikePanelSearch } from './BikeSearch/BikePanelSearch'
 import { StopPlaceSearch } from './StopPlaceSearch/StopPlaceSearch'
@@ -43,6 +44,7 @@ import { ToggleDetailsPanel } from './ToggleDetailsPanel/ToggleDetailsPanel'
 import { WeatherPanel } from './WeatherPanel/WeatherPanel'
 import './EditTab.scss'
 import { CustomTilePanel } from './CustomTilePanel/CustomTilePanel'
+import { PosterMobilityAlert } from './PosterMobilityAlert'
 
 const isMobile = isMobileWeb()
 
@@ -168,7 +170,7 @@ const EditTab = (): JSX.Element => {
     const [stopPlaces, setStopPlaces] = useState<
         StopPlaceWithLines[] | undefined
     >(undefined)
-    const bikeRentalStations = useRentalStations(false)
+    const bikeRentalStations = useRentalStations(false, FormFactor.Bicycle)
 
     const nearestPlaces = useNearestPlaces(
         settings?.coordinates,
@@ -607,7 +609,7 @@ const EditTab = (): JSX.Element => {
                     rundt {locationName?.split(',')[0]}
                 </Heading2>
             </div>
-
+            <PosterMobilityAlert />
             <ResponsiveReactGridLayout
                 key={breakpoint}
                 cols={COLS}
@@ -691,7 +693,6 @@ const EditTab = (): JSX.Element => {
                     </div>
                     <ScooterPanel />
                 </div>
-
                 <div key="delebil" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Delebil</Heading2>
