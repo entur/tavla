@@ -10,11 +10,13 @@ import {
     UseRentalStations_StationFragment,
 } from '../../../graphql-generated/mobility-v2'
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
+import { useHandleFontScaling } from '../../hooks/useHandleFontScaling'
 import { NoStopsOnTavle } from '../Error/ErrorPages'
 import { BottomMenu } from './BottomMenu/BottomMenu'
 import './DashboardWrapper.scss'
 
 function DashboardWrapper(props: Props): JSX.Element {
+    useHandleFontScaling()
     const secondsSinceMount = useCounter()
     const {
         className,

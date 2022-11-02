@@ -178,7 +178,7 @@ const useReloadOnTavleUpdate = () => {
     }, [settings, isOnTavle, tavleOpenedAt])
 }
 
-const useHandleRotationAndFontScaling = (): boolean => {
+const useHandleRotation = (): boolean => {
     const [isRotated, setIsRotated] = useState<boolean>(false)
     const [settings] = useSettings()
     const isOnTavle = useMatch('/t/*')
@@ -186,11 +186,8 @@ const useHandleRotationAndFontScaling = (): boolean => {
     useEffect(() => {
         if (isOnTavle) {
             const direction = settings?.direction || Direction.STANDARD
-            const fontSizeScale = settings?.fontScale || 1
-            document.documentElement.style.fontSize = fontSizeScale * 16 + 'px'
             setIsRotated(direction === Direction.ROTATED)
         } else {
-            document.documentElement.style.fontSize = '16px'
             setIsRotated(false)
         }
     }, [isOnTavle, settings])
@@ -199,7 +196,7 @@ const useHandleRotationAndFontScaling = (): boolean => {
 }
 
 const Content = (): JSX.Element => {
-    const isRotated = useHandleRotationAndFontScaling()
+    const isRotated = useHandleRotation()
     useUpdateManifest()
     useReloadOnTavleUpdate()
 
