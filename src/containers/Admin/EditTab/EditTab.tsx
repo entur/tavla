@@ -307,7 +307,7 @@ const EditTab = (): JSX.Element => {
                 x: 0,
                 y: 0,
                 w: 1.5,
-                h: 2.35 + tileHeight(stopPlaces?.length || 0, 0.4, 0.35),
+                h: 1.85 + tileHeight(stopPlaces?.length || 0, 0.4, 0.35),
             },
             {
                 i: 'bikePanel',
@@ -316,7 +316,7 @@ const EditTab = (): JSX.Element => {
                 w: 1.5,
                 h: 1.55 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
             },
-            { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 2 },
+            { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.88 },
             {
                 i: 'mapPanel',
                 x: 3,
@@ -370,7 +370,7 @@ const EditTab = (): JSX.Element => {
                 x: 1.5,
                 y: 10,
                 w: 1.5,
-                h: 1.1,
+                h: 1,
             },
         ],
         md: [
