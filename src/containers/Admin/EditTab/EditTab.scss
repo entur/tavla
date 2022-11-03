@@ -1,16 +1,13 @@
 @use '../../../assets/styles/Variables.scss';
 
 .edit-tab {
-
-    &__secondary-title{
-        //display: flex;
-        //justify-content: space-between;
-        margin: 2rem 2rem 0rem 2rem;
+    &__secondary-title {
+        margin: 2rem 2rem 0 2rem;
         font-size: 1.3rem;
-        opacity: 75%;
+        opacity: 0.75;
     }
 
-.eds-contrast {
+    .eds-contrast {
         background: inherit;
     }
 
@@ -42,9 +39,7 @@
         -moz-appearance: textfield;
     }
 
-  
     &__tile {
-        background-color: green;
         padding: 2rem;
         background-color: var(--tavla-box-background-color);
         display: block;
@@ -120,6 +115,7 @@
     .eds-grid {
         &__item {
             height: fit-content;
+
             h2 {
                 margin: 0;
                 color: var(--tavla-font-color);
@@ -198,7 +194,7 @@
     }
 
     .distance-editor {
-       margin-left: 2rem;
+        margin-left: 2rem;
         width: auto;
     }
 

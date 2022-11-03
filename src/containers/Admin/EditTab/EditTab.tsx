@@ -17,7 +17,6 @@ import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
 import { Button } from '@entur/button'
-import { ExpandablePanel, ExpandableText } from '@entur/expand'
 import { Mode } from '../../../settings'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { isMobileWeb, getTranslation } from '../../../utils/utils'
@@ -631,7 +630,9 @@ const EditTab = (): JSX.Element => {
             </div>
             <PosterMobilityAlert />
             <div>
-                <div className="edit-tab__secondary-title">Mobilitetstilbud</div>
+                <div className="edit-tab__secondary-title">
+                    Mobilitetstilbud
+                </div>
                 <ResponsiveReactGridLayout
                     key={breakpoint}
                     cols={COLS}
