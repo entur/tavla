@@ -3,7 +3,7 @@ import { PrimaryButton } from '@entur/button'
 import { Heading1 } from '@entur/typography'
 import { useSettings } from '../../settings/SettingsProvider'
 import { Theme } from '../../types'
-import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
+import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
 import './ErrorWrapper.scss'
 
 function ErrorWrapper({

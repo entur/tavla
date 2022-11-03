@@ -9,7 +9,6 @@ import './DashboardHeader.scss'
 
 function DashboardHeader(): JSX.Element | null {
     const [settings] = useSettings()
-    const { logo } = settings
 
     const showBoardDescription = !isMobileWeb() && settings.logoSize === '32px'
 
@@ -18,10 +17,16 @@ function DashboardHeader(): JSX.Element | null {
             <div className="dashboard-header">
                 <div className="dashboard-header__logo-wrapper">
                     <Link to="/">
-                        {logo ? (
-                            <img src={logo} height={settings.logoSize} />
+                        {settings.logo ? (
+                            <img
+                                src={settings.logo}
+                                height={settings.logoSize}
+                            />
                         ) : (
-                            <TavlaLogo className="dashboard-header__logo-wrapper__logo" />
+                            <TavlaLogo
+                                className="dashboard-header__logo-wrapper__logo"
+                                theme={settings.theme}
+                            />
                         )}
                     </Link>
                     {showBoardDescription && (

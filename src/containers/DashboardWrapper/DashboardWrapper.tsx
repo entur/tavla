@@ -11,9 +11,10 @@ import {
     UseMobility_VehicleFragment,
     UseRentalStations_StationFragment,
 } from '../../../graphql-generated/mobility-v2'
-import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
+import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
 import { useReloadTavleOnUpdate } from '../../hooks/useReloadTavleOnUpdate'
 import { useHandleFontScaling } from '../../hooks/useHandleFontScaling'
+import { useThemeHandler } from '../../hooks/useThemeHandler'
 import { DashboardHeader } from '../../components/DashboardHeader/DashboardHeader'
 import { NoStopsOnTavle } from '../Error/ErrorPages'
 import { BottomMenu } from './BottomMenu/BottomMenu'
@@ -35,6 +36,7 @@ function DashboardWrapper({
     scooters,
 }: DashboardWrapperProps): JSX.Element {
     const secondsSinceMount = useCounter()
+    useThemeHandler()
     useHandleFontScaling()
     useReloadTavleOnUpdate()
     const [settings] = useSettings()

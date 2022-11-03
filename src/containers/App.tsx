@@ -19,7 +19,6 @@ import { AdminPage } from './Admin/AdminPage'
 import { PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
 import { Privacy } from './Privacy/Privacy'
-import { ThemeProvider } from './ThemeWrapper/ThemeProvider'
 import { MyBoards } from './MyBoards/MyBoards'
 import './styles.scss'
 
@@ -75,28 +74,26 @@ const Content = (): JSX.Element => {
     return (
         <ApolloProvider client={apolloClient}>
             <ProgressiveWebAppPrompt />
-            <ThemeProvider>
-                <div className={classNames('themeBackground')}>
-                    <ToastProvider>
-                        <Routes>
-                            <Route path="/" element={<LandingPage />} />
-                            <Route element={<SettingsProvider />}>
-                                <Route
-                                    path="/t/:documentId"
-                                    element={<DashboardResolver />}
-                                />
-                                <Route
-                                    path="/admin/:documentId"
-                                    element={<AdminPage />}
-                                />
-                            </Route>
-                            <Route path="/tavler" element={<MyBoards />} />
-                            <Route path="/privacy" element={<Privacy />} />
-                            <Route path="*" element={<PageDoesNotExist />} />
-                        </Routes>
-                    </ToastProvider>
-                </div>
-            </ThemeProvider>
+            <div className={classNames('themeBackground')}>
+                <ToastProvider>
+                    <Routes>
+                        <Route path="/" element={<LandingPage />} />
+                        <Route element={<SettingsProvider />}>
+                            <Route
+                                path="/t/:documentId"
+                                element={<DashboardResolver />}
+                            />
+                            <Route
+                                path="/admin/:documentId"
+                                element={<AdminPage />}
+                            />
+                        </Route>
+                        <Route path="/tavler" element={<MyBoards />} />
+                        <Route path="/privacy" element={<Privacy />} />
+                        <Route path="*" element={<PageDoesNotExist />} />
+                    </Routes>
+                </ToastProvider>
+            </div>
         </ApolloProvider>
     )
 }
