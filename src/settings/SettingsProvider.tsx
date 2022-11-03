@@ -19,10 +19,7 @@ import {
 
 type SettingsSetter = (settings: Partial<Settings>) => void
 
-const SettingsContext = createContext<[Settings, SettingsSetter]>([
-    DEFAULT_SETTINGS,
-    (): void => undefined,
-])
+const SettingsContext = createContext<[Settings, SettingsSetter] | null>(null)
 
 const SettingsProvider: React.FC = () => {
     const [settings, setLocalSettings] = useState<Settings | null>(null)
@@ -104,15 +101,15 @@ const SettingsProvider: React.FC = () => {
 }
 
 function useSettings(): [Settings, SettingsSetter] {
-    const documentId = useMatch<'documentId', string>('/:page/:documentId')
-        ?.params.documentId
-    if (process.env.NODE_ENV === 'development' && !documentId) {
-        // eslint-disable-next-line no-console
-        console.warn(
-            'Using useSettings outside of a route with documentId will give you DEFAULT_SETTINGS',
+    const settingsContext = useContext(SettingsContext)
+
+    if (settingsContext === null) {
+        throw new Error(
+            'SettingsContext is null. This is because useSettings() was used outside of SettingsProvider and a route with documentId.',
         )
     }
-    return useContext(SettingsContext)
+
+    return settingsContext
 }
 
 export type { SettingsSetter }
