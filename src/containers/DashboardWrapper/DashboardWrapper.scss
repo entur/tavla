@@ -2,7 +2,6 @@
     background-color: var(--tavla-background-color);
     color: var(--tavla-font-color);
     padding: 2rem 4rem;
-    overflow: hidden;
 
     &__bottom-menu {
         position: fixed;
@@ -23,4 +22,11 @@
             padding-left: 0.75rem;
         }
     }
+}
+
+.rotated {
+    transform: rotate(-90deg) translate(-100vh);
+    transform-origin: top left;
+    width: 100vh;
+    height: 100vw;
 }

@@ -5,8 +5,10 @@ import { Loader } from '@entur/loader'
 import { LockedTavle } from '../Error/ErrorPages'
 import { useUser } from '../../UserProvider'
 import { useSettings } from '../../settings/SettingsProvider'
-import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
+import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
 import { isDarkOrDefaultTheme } from '../../utils/utils'
+import { useThemeHandler } from '../../hooks/useThemeHandler'
+import { Navbar } from '../Navbar/Navbar'
 import { LogoTab } from './LogoTab/LogoTab'
 import { EditTab } from './EditTab/EditTab'
 import { ThemeTab } from './ThemeTab/ThemeTab'
@@ -19,6 +21,7 @@ import './AdminPage.scss'
 const AdminPage = (): JSX.Element => {
     const [settings] = useSettings()
     const user = useUser()
+    useThemeHandler()
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
 
@@ -52,6 +55,7 @@ const AdminPage = (): JSX.Element => {
 
     return (
         <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
+            <Navbar theme={settings.theme} />
             <div className="admin">
                 <Tabs
                     index={currentIndex}

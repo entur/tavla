@@ -7,7 +7,7 @@ import { Heading3 } from '@entur/typography'
 import { ThemeDashboardPreview } from '../../../../assets/icons/ThemeDashboardPreview'
 import type { Theme } from '../../../../types'
 import { useUser } from '../../../../UserProvider'
-import { answerBoardInvitation } from '../../../../services/firebase'
+import { answerBoardInvitation } from '../../../../settings/firebase'
 import { createTimeString } from '../../../../utils/time'
 
 const SharedBoardCard = ({

@@ -6,7 +6,7 @@ import { FileUpload } from '@entur/fileupload'
 import { Label, Link } from '@entur/typography'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
-import { uploadLogo } from '../../../../services/firebase'
+import { uploadLogo } from '../../../../settings/firebase'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import '../LogoTab.scss'
 

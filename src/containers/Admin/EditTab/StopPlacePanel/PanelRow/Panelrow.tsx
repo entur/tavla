@@ -3,10 +3,10 @@ import { Checkbox, TravelSwitch } from '@entur/form'
 import type { TravelSwitchProps } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
 import { TransportMode } from '@entur/sdk'
-import { Settings } from '../../../../../settings'
 import { StopPlaceWithLines } from '../../../../../types'
 import { unique } from '../../../../../utils/array'
 import { isTransport } from '../../../../../utils/typeguards'
+import { Settings } from '../../../../../settings/settings'
 
 const PanelRow = ({
     onToggleStop,

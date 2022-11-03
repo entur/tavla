@@ -3,7 +3,7 @@ import { IconButton } from '@entur/button'
 import { CheckIcon, CloseIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading2 } from '@entur/typography'
-import { updateSingleSettingsField } from '../../../../services/firebase'
+import { updateSingleSettingsField } from '../../../../settings/firebase'
 
 const EditableBoardTitle = ({ boardName, documentId }: Props): JSX.Element => {
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)

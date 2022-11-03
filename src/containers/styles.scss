@@ -5,13 +5,6 @@
     height: 100vh;
 }
 
-.rotated {
-    transform: rotate(-90deg) translate(-100vh);
-    transform-origin: top left;
-    width: 100vh;
-    height: 100vh;
-}
-
 .pwa-prompt {
     .iOSPWA-overlay {
         display: none;

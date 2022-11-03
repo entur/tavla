@@ -7,7 +7,7 @@ import { isDarkOrDefaultTheme } from '../../../../utils/utils'
 import { toggleValueInList } from '../../../../utils/array'
 import { StopPlaceWithLines } from '../../../../types'
 import { useSettings } from '../../../../settings/SettingsProvider'
-import { ThemeContrastWrapper } from '../../../ThemeWrapper/ThemeContrastWrapper'
+import { ThemeContrastWrapper } from '../../../ThemeContrastWrapper/ThemeContrastWrapper'
 import { PanelRow } from './PanelRow/Panelrow'
 import './StopPlacePanel.scss'
 
