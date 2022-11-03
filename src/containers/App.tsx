@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import {
-    BrowserRouter,
-    Route,
-    Routes,
-    useLocation,
-    useMatch,
-} from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 import { ApolloProvider } from '@apollo/client'
 import { UserProvider } from '../UserProvider'
 import '../firebase-init'
-import { SettingsProvider, useSettings } from '../settings/SettingsProvider'
+import { SettingsProvider } from '../settings/SettingsProvider'
 import PWAPrompt from '../../vendor/react-ios-pwa-prompt'
 import { apolloClient } from '../apollo-client'
 import { DashboardResolver } from '../dashboards/DashboardResolver'
@@ -161,25 +155,8 @@ const ProgressiveWebAppPrompt: React.FC = () => {
     )
 }
 
-const useReloadOnTavleUpdate = () => {
-    const [settings] = useSettings()
-    const isOnTavle = useMatch('/t/*')
-    const [tavleOpenedAt] = useState(new Date().getTime())
-
-    useEffect(() => {
-        if (
-            isOnTavle &&
-            settings?.pageRefreshedAt &&
-            tavleOpenedAt < settings?.pageRefreshedAt
-        ) {
-            window.location.reload()
-        }
-    }, [settings, isOnTavle, tavleOpenedAt])
-}
-
 const Content = (): JSX.Element => {
     useUpdateManifest()
-    useReloadOnTavleUpdate()
 
     return (
         <ApolloProvider client={apolloClient}>

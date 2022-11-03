@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
 import { useSettings } from '../../settings/SettingsProvider'
 import { Direction } from '../../types'
+import { useReloadTavleOnUpdate } from '../../hooks/useReloadTavleOnUpdate'
 import { LastUpdated } from './components/LastUpdated/LastUpdated'
 import { BusTile } from './components/BusTile/BusTile'
 import { CarTile } from './components/CarTile/CarTile'
@@ -12,6 +13,7 @@ import { BikeTile } from './components/BikeTile/BikeTile'
 import './Poster.scss'
 
 const Poster = (): JSX.Element => {
+    useReloadTavleOnUpdate()
     const [settings] = useSettings()
     const { hiddenModes } = settings || {}
 

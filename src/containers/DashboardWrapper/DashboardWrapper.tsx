@@ -12,6 +12,7 @@ import {
     UseRentalStations_StationFragment,
 } from '../../../graphql-generated/mobility-v2'
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
+import { useReloadTavleOnUpdate } from '../../hooks/useReloadTavleOnUpdate'
 import { useHandleFontScaling } from '../../hooks/useHandleFontScaling'
 import { DashboardHeader } from '../../components/DashboardHeader/DashboardHeader'
 import { NoStopsOnTavle } from '../Error/ErrorPages'
@@ -35,6 +36,7 @@ function DashboardWrapper({
 }: DashboardWrapperProps): JSX.Element {
     const secondsSinceMount = useCounter()
     useHandleFontScaling()
+    useReloadTavleOnUpdate()
     const [settings] = useSettings()
 
     const noData =
