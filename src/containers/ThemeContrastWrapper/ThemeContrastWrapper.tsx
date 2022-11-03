@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
 import { Contrast } from '@entur/layout'
 
 interface Props {
@@ -14,9 +13,9 @@ const ThemeContrastWrapper = ({
     className,
 }: Props): JSX.Element => {
     if (useContrast) {
-        return <Contrast className={classNames(className)}>{children}</Contrast>
+        return <Contrast className={className}>{children}</Contrast>
     } else {
-        return <div className={classNames(className)}>{children}</div>
+        return <div className={className}>{children}</div>
     }
 }
 
