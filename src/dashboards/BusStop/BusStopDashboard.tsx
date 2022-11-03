@@ -4,13 +4,8 @@ import { useLocation, useParams } from 'react-router-dom'
 import { useLongPress } from 'use-long-press'
 import { Loader } from '@entur/loader'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-import { DEFAULT_ZOOM, BREAKPOINTS } from '../../constants'
-import {
-    useStopPlacesWithDepartures,
-    useMobility,
-    useWalkInfo,
-    useRentalStations,
-} from '../../logic'
+import { BREAKPOINTS } from '../../constants'
+import { useStopPlacesWithDepartures, useWalkInfo } from '../../logic'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import {
     getFromLocalStorage,
@@ -23,9 +18,7 @@ import {
 } from '../../components/RearrangeModal/RearrangeModal'
 import { LongPressProvider } from '../../logic/longPressContext'
 import { isEqualUnsorted } from '../../utils/array'
-import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { DepartureTile } from './DepartureTile/DepartureTile'
-import { MapTile } from './MapTile/MapTile'
 import './BusStopDashboard.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -88,13 +81,6 @@ const BusStopDashboard = (): JSX.Element | null => {
         boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
     )
 
-    const scooters = useMobility(FormFactor.Scooter)
-    const bikeRentalStations = useRentalStations(
-        true,
-        FormFactor.Bicycle,
-        settings?.hiddenModes?.includes('bysykkel'),
-    )
-
     const walkInfoDestinations = useMemo(() => {
         if (!stopPlacesWithDepartures) return []
         return stopPlacesWithDepartures.map((dep) => ({
@@ -112,29 +98,12 @@ const BusStopDashboard = (): JSX.Element | null => {
     }
 
     const mapCol = settings?.showMap ? 1 : 0
-    const totalItems = numberOfStopPlaces + mapCol
-    const hasData = Boolean(
-        bikeRentalStations?.length ||
-            scooters?.length ||
-            stopPlacesWithDepartures?.length,
-    )
     const maxWidthCols = COLS[breakpoint] || 1
     const stopPlacesHasLoaded = Boolean(
         stopPlacesWithDepartures ||
             settings?.hiddenModes?.includes('kollektiv'),
     )
 
-    const bikeHasLoaded = Boolean(
-        bikeRentalStations || settings?.hiddenModes?.includes('bysykkel'),
-    )
-
-    const scooterHasLoaded = Boolean(
-        scooters || settings?.hiddenModes?.includes('sparkesykkel'),
-    )
-
-    const hasFetchedData = Boolean(
-        stopPlacesHasLoaded && bikeHasLoaded && scooterHasLoaded,
-    )
     useEffect(() => {
         let defaultTileOrder: Item[] = []
         if (stopPlacesWithDepartures) {
@@ -199,9 +168,7 @@ const BusStopDashboard = (): JSX.Element | null => {
         return (
             <DashboardWrapper
                 className="busStop"
-                bikeRentalStations={bikeRentalStations}
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
-                scooters={scooters}
             >
                 <LongPressProvider value={isLongPressStarted}>
                     <div className="busStop__tiles" {...longPress}>
@@ -218,34 +185,7 @@ const BusStopDashboard = (): JSX.Element | null => {
                             onDismiss={() => setModalVisible(false)}
                         />
                         {tileOrder.map((item) => {
-                            if (item.id == 'map') {
-                                return hasData && mapCol ? (
-                                    <div key={item.id}>
-                                        <MapTile
-                                            scooters={scooters}
-                                            stopPlaces={
-                                                stopPlacesWithDepartures
-                                            }
-                                            bikeRentalStations={
-                                                bikeRentalStations
-                                            }
-                                            latitude={
-                                                settings?.coordinates
-                                                    ?.latitude ?? 0
-                                            }
-                                            longitude={
-                                                settings?.coordinates
-                                                    ?.longitude ?? 0
-                                            }
-                                            zoom={
-                                                settings?.zoom ?? DEFAULT_ZOOM
-                                            }
-                                        />
-                                    </div>
-                                ) : (
-                                    []
-                                )
-                            } else if (stopPlacesWithDepartures) {
+                            if (stopPlacesWithDepartures) {
                                 const stopIndex =
                                     stopPlacesWithDepartures.findIndex(
                                         (p) => p.id == item.id,
@@ -278,11 +218,9 @@ const BusStopDashboard = (): JSX.Element | null => {
     return (
         <DashboardWrapper
             className="busStop"
-            bikeRentalStations={bikeRentalStations}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
-            scooters={scooters}
         >
-            {!hasFetchedData ? (
+            {!stopPlacesHasLoaded ? (
                 <div className="busStop__loading-screen">
                     <Loader>Laster inn</Loader>
                 </div>
@@ -326,30 +264,6 @@ const BusStopDashboard = (): JSX.Element | null => {
                                 />
                             </div>
                         ))}
-                        {mapCol ? (
-                            <div
-                                key={totalItems - 1}
-                                data-grid={getDataGrid(
-                                    totalItems - 1,
-                                    maxWidthCols,
-                                )}
-                            >
-                                <MapTile
-                                    scooters={scooters}
-                                    stopPlaces={stopPlacesWithDepartures}
-                                    bikeRentalStations={bikeRentalStations}
-                                    latitude={
-                                        settings?.coordinates?.latitude ?? 0
-                                    }
-                                    longitude={
-                                        settings?.coordinates?.longitude ?? 0
-                                    }
-                                    zoom={settings?.zoom ?? DEFAULT_ZOOM}
-                                />
-                            </div>
-                        ) : (
-                            []
-                        )}
                     </ResponsiveReactGridLayout>
                 </div>
             )}
