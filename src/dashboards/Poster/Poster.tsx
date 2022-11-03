@@ -25,31 +25,34 @@ const Poster = (): JSX.Element => {
 
     return (
         <div
-            className={classNames('poster', {
-                'poster--rotated': isRotated,
+            className={classNames({
+                'poster-rotated': isRotated,
             })}
         >
-            <div className="poster-header">
-                <EnturLogo className="poster-header-logo" />
-            </div>
-            <div className="poster-content-wrapper">
-                <div className="poster-heading-wrapper">
-                    <h1 className="poster-heading">Skal du videre?</h1>
-                    <LastUpdated />
+            <div className={classNames('poster')}>
+                <div className="poster-header">
+                    <EnturLogo className="poster-header-logo" />
                 </div>
-                {hideBusTile ? null : <BusTile />}
-                <div
-                    className={classNames({
-                        'poster-mobility-tiles-wrapper': true,
-                        'poster-mobility-tiles-wrapper--listed': hideBusTile,
-                    })}
-                >
-                    {hideBikeTile ? null : <BikeTile />}
-                    {hideScooterTile ? null : <ScooterTile />}
-                    {hideCarTile ? null : <CarTile />}
+                <div className="poster-content-wrapper">
+                    <div className="poster-heading-wrapper">
+                        <h1 className="poster-heading">Skal du videre?</h1>
+                        <LastUpdated />
+                    </div>
+                    {hideBusTile ? null : <BusTile />}
+                    <div
+                        className={classNames({
+                            'poster-mobility-tiles-wrapper': true,
+                            'poster-mobility-tiles-wrapper--listed':
+                                hideBusTile,
+                        })}
+                    >
+                        {hideBikeTile ? null : <BikeTile />}
+                        {hideScooterTile ? null : <ScooterTile />}
+                        {hideCarTile ? null : <CarTile />}
+                    </div>
                 </div>
+                <PosterFooter />
             </div>
-            <PosterFooter />
         </div>
     )
 }
