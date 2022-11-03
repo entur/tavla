@@ -5,6 +5,7 @@ import { useToast } from '@entur/alert'
 import { LoginModal } from '../../components/LoginModal/LoginModal'
 import { LoginCase } from '../../components/LoginModal/login-modal-types'
 import { auth, useUser } from '../../UserProvider'
+import { useSettings } from '../../settings/SettingsProvider'
 import sikkerhetBomLight from '../../assets/images/sikkerhet_bom_light@2x.png'
 import duerLight from '../../assets/images/duer@2x.png'
 import sauerLight from '../../assets/images/sauer_lag@2x.png'
@@ -12,6 +13,7 @@ import { Navbar } from '../Navbar/Navbar'
 import { ErrorWrapper } from './ErrorWrapper'
 
 function LockedTavle(): JSX.Element {
+    const [settings] = useSettings()
     const user = useUser()
     const userLoggedin = Boolean(user && !user.isAnonymous)
     const navigate = useNavigate()
@@ -57,6 +59,7 @@ function LockedTavle(): JSX.Element {
                 image={sikkerhetBomLight}
                 callbackMessage={callbackMessage}
                 callback={callback}
+                theme={settings.theme}
             />
         </div>
     )
@@ -85,12 +88,15 @@ function PageDoesNotExist(): JSX.Element {
 }
 
 function NoStopsOnTavle(): JSX.Element {
+    const [settings] = useSettings()
+
     return (
         <div>
             <ErrorWrapper
                 title="Nå havnet vi på ville veier."
                 message="Vi finner ingen stoppesteder å vise på denne tavla. Rediger tavla eller prøv et nytt søk."
                 image={sauerLight}
+                theme={settings.theme}
             />
         </div>
     )
