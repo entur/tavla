@@ -8,6 +8,7 @@ import { auth, useUser } from '../../UserProvider'
 import sikkerhetBomLight from '../../assets/images/sikkerhet_bom_light@2x.png'
 import duerLight from '../../assets/images/duer@2x.png'
 import sauerLight from '../../assets/images/sauer_lag@2x.png'
+import { Navbar } from '../Navbar/Navbar'
 import { ErrorWrapper } from './ErrorWrapper'
 
 function LockedTavle(): JSX.Element {
@@ -68,15 +69,18 @@ function PageDoesNotExist(): JSX.Element {
         navigate(`/`)
     }
     return (
-        <div>
-            <ErrorWrapper
-                title="Her var det tomt!"
-                message="Det finnes ingen tavle på denne url-en. Du kan lage en avgangstavle ved å trykke på knappen nedenfor."
-                image={duerLight}
-                callbackMessage="Gå tilbake"
-                callback={callback}
-            />
-        </div>
+        <>
+            <Navbar />
+            <div>
+                <ErrorWrapper
+                    title="Her var det tomt!"
+                    message="Det finnes ingen tavle på denne url-en. Du kan lage en avgangstavle ved å trykke på knappen nedenfor."
+                    image={duerLight}
+                    callbackMessage="Gå tilbake"
+                    callback={callback}
+                />
+            </div>
+        </>
     )
 }
 

@@ -12,6 +12,7 @@ import { useUser } from '../../UserProvider'
 import { Board, SharedBoard, Theme } from '../../types'
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
+import { Navbar } from '../Navbar/Navbar'
 import { SharedBoards } from './SharedBoards/SharedBoards'
 import { OwnedBoards } from './OwnedBoards/OwnedBoards'
 import './MyBoards.scss'
@@ -154,6 +155,7 @@ const MyBoards = (): JSX.Element | null => {
 
     return (
         <ThemeContrastWrapper>
+            <Navbar />
             <div className="my-boards">
                 <Tabs index={currentIndex} onChange={setCurrentIndex}>
                     <TabList>

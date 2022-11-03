@@ -14,13 +14,12 @@ import { SettingsProvider, useSettings } from '../settings/SettingsProvider'
 import PWAPrompt from '../../vendor/react-ios-pwa-prompt'
 import { apolloClient } from '../apollo-client'
 import { DashboardResolver } from '../dashboards/DashboardResolver'
-import { Header } from '../components/Header/Header'
 import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../settings/LocalStorage'
 import { isMobileWeb } from '../utils/utils'
-import { Direction, ToastProvider } from '../types'
+import { ToastProvider } from '../types'
 import { AdminPage } from './Admin/AdminPage'
 import { PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
@@ -178,25 +177,7 @@ const useReloadOnTavleUpdate = () => {
     }, [settings, isOnTavle, tavleOpenedAt])
 }
 
-const useHandleRotation = (): boolean => {
-    const [isRotated, setIsRotated] = useState<boolean>(false)
-    const [settings] = useSettings()
-    const isOnTavle = useMatch('/t/*')
-
-    useEffect(() => {
-        if (isOnTavle) {
-            const direction = settings?.direction || Direction.STANDARD
-            setIsRotated(direction === Direction.ROTATED)
-        } else {
-            setIsRotated(false)
-        }
-    }, [isOnTavle, settings])
-
-    return isRotated
-}
-
 const Content = (): JSX.Element => {
-    const isRotated = useHandleRotation()
     useUpdateManifest()
     useReloadOnTavleUpdate()
 
@@ -204,13 +185,8 @@ const Content = (): JSX.Element => {
         <ApolloProvider client={apolloClient}>
             <ProgressiveWebAppPrompt />
             <ThemeProvider>
-                <div
-                    className={classNames('themeBackground', {
-                        rotated: isRotated,
-                    })}
-                >
+                <div className={classNames('themeBackground')}>
                     <ToastProvider>
-                        <Header />
                         <Routes>
                             <Route path="/" element={<LandingPage />} />
                             <Route element={<SettingsProvider />}>
@@ -224,7 +200,6 @@ const Content = (): JSX.Element => {
                                 />
                             </Route>
                             <Route path="/tavler" element={<MyBoards />} />
-                            <Route path="/admin" element={<AdminPage />} />
                             <Route path="/privacy" element={<Privacy />} />
                             <Route path="*" element={<PageDoesNotExist />} />
                         </Routes>

@@ -7,6 +7,7 @@ import { useUser } from '../../UserProvider'
 import { useSettings } from '../../settings/SettingsProvider'
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
 import { isDarkOrDefaultTheme } from '../../utils/utils'
+import { Navbar } from '../Navbar/Navbar'
 import { LogoTab } from './LogoTab/LogoTab'
 import { EditTab } from './EditTab/EditTab'
 import { ThemeTab } from './ThemeTab/ThemeTab'
@@ -52,6 +53,7 @@ const AdminPage = (): JSX.Element => {
 
     return (
         <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
+            <Navbar theme={settings.theme} />
             <div className="admin">
                 <Tabs
                     index={currentIndex}

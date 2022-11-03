@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
 import { useSettings } from '../../settings/SettingsProvider'
+import { Direction } from '../../types'
 import { LastUpdated } from './components/LastUpdated/LastUpdated'
 import { BusTile } from './components/BusTile/BusTile'
 import { CarTile } from './components/CarTile/CarTile'
@@ -18,9 +19,14 @@ const Poster = (): JSX.Element => {
     const hideScooterTile = hiddenModes?.includes('sparkesykkel')
     const hideBikeTile = hiddenModes?.includes('bysykkel')
     const hideCarTile = hiddenModes?.includes('delebil')
+    const isRotated = settings.direction === Direction.ROTATED
 
     return (
-        <div className="poster">
+        <div
+            className={classNames('poster', {
+                'poster--rotated': isRotated,
+            })}
+        >
             <div className="poster-header">
                 <EnturLogo className="poster-header-logo" />
             </div>

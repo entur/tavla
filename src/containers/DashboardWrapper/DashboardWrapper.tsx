@@ -1,9 +1,11 @@
 import React from 'react'
+import classNames from 'classnames'
 import { Loader } from '@entur/loader'
+import { Contrast } from '@entur/layout'
 import { isDarkOrDefaultTheme } from '../../utils/utils'
 import { useSettings } from '../../settings/SettingsProvider'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
-import { StopPlaceWithDepartures } from '../../types'
+import { Direction, StopPlaceWithDepartures } from '../../types'
 import { useCounter } from '../../hooks/useCounter'
 import {
     UseMobility_VehicleFragment,
@@ -11,20 +13,29 @@ import {
 } from '../../../graphql-generated/mobility-v2'
 import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
 import { useHandleFontScaling } from '../../hooks/useHandleFontScaling'
+import { DashboardHeader } from '../../components/DashboardHeader/DashboardHeader'
 import { NoStopsOnTavle } from '../Error/ErrorPages'
 import { BottomMenu } from './BottomMenu/BottomMenu'
 import './DashboardWrapper.scss'
 
-function DashboardWrapper(props: Props): JSX.Element {
-    useHandleFontScaling()
+interface DashboardWrapperProps {
+    stopPlacesWithDepartures?: StopPlaceWithDepartures[] | null
+    bikeRentalStations?: UseRentalStations_StationFragment[] | null
+    scooters?: UseMobility_VehicleFragment[] | null
+    className: string
+    children: JSX.Element | JSX.Element[]
+}
+
+function DashboardWrapper({
+    className,
+    children,
+    bikeRentalStations,
+    stopPlacesWithDepartures,
+    scooters,
+}: DashboardWrapperProps): JSX.Element {
     const secondsSinceMount = useCounter()
-    const {
-        className,
-        children,
-        bikeRentalStations,
-        stopPlacesWithDepartures,
-        scooters,
-    } = props
+    useHandleFontScaling()
+    const [settings] = useSettings()
 
     const noData =
         !stopPlacesWithDepartures?.length &&
@@ -47,38 +58,35 @@ function DashboardWrapper(props: Props): JSX.Element {
         return <NoStopsOnTavle />
     }
 
-    const [settings] = useSettings()
-
-    const { logo, theme } = settings || {}
-
-    const getEnturLogo = (): JSX.Element => {
-        const logoColor = isDarkOrDefaultTheme(theme) ? 'white' : 'black'
-        return <EnturLogo height="24px" style={logoColor} />
-    }
-
     return (
-        <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
-            <div className={`dashboard-wrapper ${className}`}>
+        <ThemeContrastWrapper
+            className={classNames({
+                rotated: settings.direction === Direction.ROTATED,
+            })}
+            useContrast={isDarkOrDefaultTheme(settings.theme)}
+        >
+            <DashboardHeader />
+            <div className={classNames('dashboard-wrapper', className)}>
                 {renderContents()}
-                {logo && (
+                {settings.logo && (
                     <div className="dashboard-wrapper__byline">
-                        Tjenesten leveres av {getEnturLogo()}
+                        Tjenesten leveres av{' '}
+                        <EnturLogo
+                            height="24px"
+                            style={
+                                isDarkOrDefaultTheme(settings.theme)
+                                    ? 'white'
+                                    : 'black'
+                            }
+                        />
                     </div>
                 )}
-                <ThemeContrastWrapper useContrast={true}>
+                <Contrast>
                     <BottomMenu className="dashboard-wrapper__bottom-menu" />
-                </ThemeContrastWrapper>
+                </Contrast>
             </div>
         </ThemeContrastWrapper>
     )
-}
-
-interface Props {
-    stopPlacesWithDepartures?: StopPlaceWithDepartures[] | null
-    bikeRentalStations?: UseRentalStations_StationFragment[] | null
-    scooters?: UseMobility_VehicleFragment[] | null
-    className: string
-    children: JSX.Element | JSX.Element[]
 }
 
 export { DashboardWrapper }

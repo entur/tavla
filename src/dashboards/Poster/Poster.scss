@@ -6,6 +6,13 @@ $heading-font-size: 3.5rem;
     height: 1920px;
     color: white;
 
+    &--rotated {
+        transform: rotate(-90deg) translate(-100vh);
+        transform-origin: top left;
+        width: 100vh;
+        height: 100vw;
+    }
+
     &-content-wrapper {
         height: 100%;
         padding: 0 6rem 0 6rem;
