@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Layouts, Layout, WidthProvider, Responsive } from 'react-grid-layout'
 import { useLocation, useParams } from 'react-router-dom'
-import { useLongPress } from 'use-long-press'
 import { Loader } from '@entur/loader'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { BREAKPOINTS } from '../../constants'
@@ -12,11 +11,7 @@ import {
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
 import { useSettings } from '../../settings/SettingsProvider'
-import {
-    RearrangeModal,
-    Item,
-} from '../../components/RearrangeModal/RearrangeModal'
-import { LongPressProvider } from '../../logic/longPressContext'
+import { Item } from '../../components/RearrangeModal/RearrangeModal'
 import { isEqualUnsorted } from '../../utils/array'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import './BusStopDashboard.scss'
@@ -64,9 +59,6 @@ const BusStopDashboard = (): JSX.Element | null => {
     const [settings] = useSettings()
     const location = useLocation()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
-    const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
-    const isCancelled = useRef<NodeJS.Timeout>()
-    const [modalVisible, setModalVisible] = useState(false)
     const [numberOfStopPlaces, setNumberOfStopPlaces] = useState<number>(0)
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
@@ -90,14 +82,6 @@ const BusStopDashboard = (): JSX.Element | null => {
     }, [stopPlacesWithDepartures])
     const walkInfo = useWalkInfo(walkInfoDestinations)
 
-    function clearLongPressTimeout() {
-        setIsLongPressStarted(false)
-        if (isCancelled.current) {
-            clearTimeout(isCancelled.current)
-        }
-    }
-
-    const mapCol = settings?.showMap ? 1 : 0
     const maxWidthCols = COLS[breakpoint] || 1
     const stopPlacesHasLoaded = Boolean(
         stopPlacesWithDepartures ||
@@ -114,12 +98,6 @@ const BusStopDashboard = (): JSX.Element | null => {
             setNumberOfStopPlaces(filtered.length)
             defaultTileOrder = filtered
         }
-        if (mapCol) {
-            defaultTileOrder = [
-                ...defaultTileOrder,
-                { id: 'map', name: 'Kart' },
-            ]
-        }
         const storedTileOrder: Item[] | undefined = getFromLocalStorage(
             boardId + '-tile-order',
         )
@@ -135,31 +113,8 @@ const BusStopDashboard = (): JSX.Element | null => {
         } else {
             setTileOrder(defaultTileOrder)
         }
-    }, [stopPlacesWithDepartures, mapCol, boardId])
+    }, [stopPlacesWithDepartures, boardId])
 
-    const longPress = useLongPress(
-        () => {
-            setModalVisible(true)
-        },
-        {
-            threshold: 750,
-            onStart: () => {
-                isCancelled.current = setTimeout(() => {
-                    setIsLongPressStarted(true)
-                }, 150)
-            },
-            onFinish: () => {
-                clearLongPressTimeout()
-            },
-            onCancel: () => {
-                clearLongPressTimeout()
-            },
-            onMove: () => {
-                clearLongPressTimeout()
-            },
-            cancelOnMovement: true,
-        },
-    )
     if (window.innerWidth < BREAKPOINTS.md) {
         const numberOfTileRows = 10
 
@@ -170,48 +125,34 @@ const BusStopDashboard = (): JSX.Element | null => {
                 className="busStop"
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
             >
-                <LongPressProvider value={isLongPressStarted}>
-                    <div className="busStop__tiles" {...longPress}>
-                        <RearrangeModal
-                            itemOrder={tileOrder}
-                            onTileOrderChanged={(item) => {
-                                setTileOrder(item)
-                                saveToLocalStorage(
-                                    boardId + '-tile-order',
-                                    item,
+                <div className="busStop__tiles">
+                    {tileOrder.map((item) => {
+                        if (stopPlacesWithDepartures) {
+                            const stopIndex =
+                                stopPlacesWithDepartures.findIndex(
+                                    (p) => p.id == item.id,
                                 )
-                            }}
-                            modalVisible={modalVisible}
-                            onDismiss={() => setModalVisible(false)}
-                        />
-                        {tileOrder.map((item) => {
-                            if (stopPlacesWithDepartures) {
-                                const stopIndex =
-                                    stopPlacesWithDepartures.findIndex(
-                                        (p) => p.id == item.id,
-                                    )
 
-                                const stopPlace =
-                                    stopPlacesWithDepartures[stopIndex]
+                            const stopPlace =
+                                stopPlacesWithDepartures[stopIndex]
 
-                                if (!stopPlace) return null
-                                return (
-                                    <div key={item.id}>
-                                        <DepartureTile
-                                            walkInfo={getWalkInfoForStopPlace(
-                                                walkInfo || [],
-                                                item.id,
-                                            )}
-                                            stopPlaceWithDepartures={stopPlace}
-                                            isMobile
-                                            numberOfTileRows={numberOfTileRows}
-                                        />
-                                    </div>
-                                )
-                            }
-                        })}
-                    </div>
-                </LongPressProvider>
+                            if (!stopPlace) return null
+                            return (
+                                <div key={item.id}>
+                                    <DepartureTile
+                                        walkInfo={getWalkInfoForStopPlace(
+                                            walkInfo || [],
+                                            item.id,
+                                        )}
+                                        stopPlaceWithDepartures={stopPlace}
+                                        isMobile
+                                        numberOfTileRows={numberOfTileRows}
+                                    />
+                                </div>
+                            )
+                        }
+                    })}
+                </div>
             </DashboardWrapper>
         )
     }
