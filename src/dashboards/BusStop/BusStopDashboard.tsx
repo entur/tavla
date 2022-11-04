@@ -27,15 +27,6 @@ const BusStopDashboard = (): JSX.Element | null => {
         }))
     }, [stopPlacesWithDepartures])
 
-    const tileOrder = useMemo(
-        () =>
-            (stopPlacesWithDepartures || []).map((item) => ({
-                id: item.id,
-                name: item.name,
-            })),
-        [stopPlacesWithDepartures],
-    )
-
     const walkInfo = useWalkInfo(walkInfoDestinations)
 
     const stopPlacesHasLoaded = Boolean(
@@ -46,40 +37,26 @@ const BusStopDashboard = (): JSX.Element | null => {
     if (window.innerWidth < BREAKPOINTS.md) {
         const numberOfTileRows = 10
 
-        if (!tileOrder) return null
-
         return (
             <DashboardWrapper
                 className="busStop"
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
             >
                 <div className="busStop__tiles">
-                    {tileOrder.map((item) => {
-                        if (stopPlacesWithDepartures) {
-                            const stopIndex =
-                                stopPlacesWithDepartures.findIndex(
-                                    (p) => p.id == item.id,
-                                )
-
-                            const stopPlace =
-                                stopPlacesWithDepartures[stopIndex]
-
-                            if (!stopPlace) return null
-                            return (
-                                <div key={item.id}>
-                                    <DepartureTile
-                                        walkInfo={getWalkInfoForStopPlace(
-                                            walkInfo || [],
-                                            item.id,
-                                        )}
-                                        stopPlaceWithDepartures={stopPlace}
-                                        isMobile
-                                        numberOfTileRows={numberOfTileRows}
-                                    />
-                                </div>
-                            )
-                        }
-                    })}
+                    small
+                    {stopPlacesWithDepartures?.map((stopPlace) => (
+                        <div key={stopPlace.id}>
+                            <DepartureTile
+                                walkInfo={getWalkInfoForStopPlace(
+                                    walkInfo || [],
+                                    stopPlace.id,
+                                )}
+                                stopPlaceWithDepartures={stopPlace}
+                                isMobile
+                                numberOfTileRows={numberOfTileRows}
+                            />
+                        </div>
+                    ))}
                 </div>
             </DashboardWrapper>
         )
@@ -95,6 +72,7 @@ const BusStopDashboard = (): JSX.Element | null => {
                 </div>
             ) : (
                 <div className="busStop__tiles">
+                    large
                     {(stopPlacesWithDepartures || []).map((stop, index) => (
                         <div key={stop.id}>
                             <DepartureTile
