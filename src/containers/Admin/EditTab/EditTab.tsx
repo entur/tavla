@@ -733,19 +733,57 @@ const EditTab = (): JSX.Element => {
                 </ResponsiveReactGridLayout>
             </div>
             <div className="edit-tab__secondary-title">Annen tilpasning</div>
-            <ResponsiveReactGridLayout
-                key={breakpoint}
-                cols={COLS}
-                layouts={LAYOUT}
-                autoSize={true}
-                margin={isMobile ? [0, 16] : [32, 32]}
-                isResizable={false}
-                isDraggable={false}
-                onBreakpointChange={(newBreakpoint: string) => {
-                    setBreakpoint(newBreakpoint)
-                }}
-            >
-                <div key="realtimeDataPanel" className="edit-tab__tile">
+            <div className="flex-container">
+                <div className="left-column">
+                    <div className="flex-item">
+                        <div className="edit-tab__header">
+                            <Heading2>
+                                {'Vær '}
+                                {toolTip}
+                            </Heading2>
+                            <Switch
+                                onChange={handleWeatherSettingsChange}
+                                checked={showWeather}
+                                size="large"
+                            />
+                        </div>
+                        <WeatherPanel />
+                    </div>
+                    <div className="flex-item">
+                        <div className="edit-tab__header">
+                            <Heading2>
+                                {'Bilde og QR '}
+                                <Tooltip
+                                    content={
+                                        <div>
+                                            <SubParagraph className="tooltip-container-weather">
+                                                Tilgjengelig i visningstyper
+                                                kompakt og kronologisk.
+                                            </SubParagraph>
+                                        </div>
+                                    }
+                                    placement="top"
+                                >
+                                    <span>
+                                        <ValidationInfoIcon size={20} />
+                                    </span>
+                                </Tooltip>
+                            </Heading2>
+                            <Switch
+                                onChange={(e) =>
+                                    setSettings({
+                                        showCustomTiles:
+                                            e.currentTarget.checked,
+                                    })
+                                }
+                                checked={showCustomTiles}
+                                size="large"
+                            />
+                        </div>
+                        <CustomTilePanel></CustomTilePanel>
+                    </div>
+                </div>
+                <div className="flex-item--real-time">
                     <div className="edit-tab__header">
                         <Heading2>Sanntidsposisjoner</Heading2>
                         <Switch
@@ -766,7 +804,7 @@ const EditTab = (): JSX.Element => {
                         </Paragraph>
                     )}
                 </div>
-                <div key="refreshTavlePanel" className="edit-tab__tile-refresh">
+                <div className="flex-item--refresh">
                     <div className="edit-tab__header">
                         <Heading2>Last inn tavler på nytt</Heading2>
                     </div>
@@ -780,53 +818,7 @@ const EditTab = (): JSX.Element => {
                         </Button>
                     </div>
                 </div>
-                <div key="weatherPanel" className="edit-tab__tile-weather">
-                    <div className="edit-tab__header">
-                        <Heading2>
-                            {'Vær '}
-                            {toolTip}
-                        </Heading2>
-                        <Switch
-                            onChange={handleWeatherSettingsChange}
-                            checked={showWeather}
-                            size="large"
-                        />
-                    </div>
-                    <WeatherPanel />
-                </div>
-                <div key="customTilePanel" className="edit-tab__tile">
-                    <div className="edit-tab__header">
-                        <Heading2>
-                            {'Bilde og QR '}
-                            <Tooltip
-                                content={
-                                    <div>
-                                        <SubParagraph className="tooltip-container-weather">
-                                            Tilgjengelig i visningstyper kompakt
-                                            og kronologisk.
-                                        </SubParagraph>
-                                    </div>
-                                }
-                                placement="top"
-                            >
-                                <span>
-                                    <ValidationInfoIcon size={20} />
-                                </span>
-                            </Tooltip>
-                        </Heading2>
-                        <Switch
-                            onChange={(e) =>
-                                setSettings({
-                                    showCustomTiles: e.currentTarget.checked,
-                                })
-                            }
-                            checked={showCustomTiles}
-                            size="large"
-                        />
-                    </div>
-                    <CustomTilePanel></CustomTilePanel>
-                </div>
-            </ResponsiveReactGridLayout>
+            </div>
         </div>
     )
 }

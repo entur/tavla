@@ -1,5 +1,54 @@
 @use '../../../assets/styles/Variables.scss';
 
+.flex-container{
+    margin-top: 10rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin-top: 2rem;
+
+}
+
+.left-column{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: block;
+    overflow-x: visible;
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.flex-item {
+        margin-bottom: 2rem;
+        padding: 2rem;
+        background-color: var(--tavla-box-background-color);
+        border-radius: 1rem;
+
+        &--real-time {
+            flex-grow: 1;
+            flex-basis: 0;
+            //margin-bottom: 2rem;
+            padding: 2rem;
+            background-color: var(--tavla-box-background-color);
+            border-radius: 1rem;
+            margin-left: 2rem;
+        }
+
+        &--refresh {
+            flex-grow: 1;
+            flex-basis: 0;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background-color: var(--tavla-box-background-color);
+            border-radius: 1rem;
+            overflow-x: visible;
+            margin-left: 2rem;
+        }
+
+}
 .edit-tab {
     &__secondary-title {
         margin: 2rem 2rem 0 2rem;
