@@ -34,33 +34,6 @@ const BusStopDashboard = (): JSX.Element | null => {
             settings?.hiddenModes?.includes('kollektiv'),
     )
 
-    if (window.innerWidth < BREAKPOINTS.md) {
-        const numberOfTileRows = 10
-
-        return (
-            <DashboardWrapper
-                className="busStop"
-                stopPlacesWithDepartures={stopPlacesWithDepartures}
-            >
-                <div className="busStop__tiles">
-                    small
-                    {stopPlacesWithDepartures?.map((stopPlace) => (
-                        <div key={stopPlace.id}>
-                            <DepartureTile
-                                walkInfo={getWalkInfoForStopPlace(
-                                    walkInfo || [],
-                                    stopPlace.id,
-                                )}
-                                stopPlaceWithDepartures={stopPlace}
-                                isMobile
-                                numberOfTileRows={numberOfTileRows}
-                            />
-                        </div>
-                    ))}
-                </div>
-            </DashboardWrapper>
-        )
-    }
     return (
         <DashboardWrapper
             className="busStop"
@@ -72,16 +45,16 @@ const BusStopDashboard = (): JSX.Element | null => {
                 </div>
             ) : (
                 <div className="busStop__tiles">
-                    large
-                    {(stopPlacesWithDepartures || []).map((stop, index) => (
-                        <div key={stop.id}>
+                    small
+                    {(stopPlacesWithDepartures || []).map((stopPlace) => (
+                        <div key={stopPlace.id}>
                             <DepartureTile
-                                key={index.toString()}
-                                stopPlaceWithDepartures={stop}
                                 walkInfo={getWalkInfoForStopPlace(
                                     walkInfo || [],
-                                    stop.id,
+                                    stopPlace.id,
                                 )}
+                                stopPlaceWithDepartures={stopPlace}
+                                isMobile={window.innerWidth < BREAKPOINTS.md}
                             />
                         </div>
                     ))}
