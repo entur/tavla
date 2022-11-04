@@ -1,3 +1,20 @@
+.bus-stop-departure-tile {
+    &-head-icon {
+        width: 10%;
+    }
+    
+    &-head-departure {
+        width: 18%;
+    }
+
+    &-head-track {
+        width: 18%;
+    }
+
+    &-head-situation {
+        width: 30%;
+    }
+}
 .busStop .tile {
     width: 100%;
     height: fit-content;

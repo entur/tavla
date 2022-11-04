@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { Table, TableRow, TableHead, HeaderCell } from '@entur/table'
 import {
     StopPlaceWithDepartures,
@@ -36,51 +36,18 @@ function getTransportHeaderIcons(
     return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
 }
 
-function getColSizes(
-    isMobile: boolean,
-    hideTracks: boolean | undefined,
-    hideSituations: boolean | undefined,
-): Record<string, React.CSSProperties | undefined> {
-    const getColSize = (desktopWidth: string, mobileWidth: string) =>
-        !isMobile ? { width: desktopWidth } : { width: mobileWidth }
-
-    return {
-        iconCol: getColSize('10%', '10%'),
-        lineCol:
-            !hideTracks && !hideSituations
-                ? getColSize('24%', '43%')
-                : !hideTracks || !hideSituations
-                ? getColSize('42', '42%')
-                : getColSize('60%', '60%'),
-        departureCol: getColSize('18%', '22%'),
-        trackCol: !hideTracks ? getColSize('18%', '13%') : undefined,
-        situationCol: !hideSituations ? getColSize('30%', '11%') : undefined,
-    }
-}
-
 const DepartureTile = ({
     stopPlaceWithDepartures,
     walkInfo,
-    isMobile = false,
-    numberOfTileRows = 10,
 }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
     const [settings] = useSettings()
     const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
-    const [iconColorType, setIconColorType] = useState<IconColorType>(
-        IconColorType.CONTRAST,
+
+    const iconColorType = useMemo(
+        () => getIconColorType(settings?.theme),
+        [settings?.theme],
     )
-
-    const limitedDepartures = departures.slice(0, numberOfTileRows)
-    const visibleDepartures = isMobile ? limitedDepartures : departures
-
-    useEffect(() => {
-        if (settings) {
-            setIconColorType(getIconColorType(settings.theme))
-        }
-    }, [settings])
-
-    const columnSizes = getColSizes(isMobile, hideTracks, hideSituations)
 
     return (
         <Tile
@@ -91,27 +58,27 @@ const DepartureTile = ({
             <Table spacing="small" fixed>
                 <TableHead>
                     <TableRow className="tableRow">
-                        <HeaderCell style={columnSizes.iconCol}> </HeaderCell>
-                        <HeaderCell style={columnSizes.lineCol}>
-                            Linje
+                        <HeaderCell className="bus-stop-departure-tile-head-icon">
+                            {' '}
                         </HeaderCell>
-                        <HeaderCell style={columnSizes.departureCol}>
+                        <HeaderCell>Linje</HeaderCell>
+                        <HeaderCell className="bus-stop-departure-tile-head-departure">
                             Avgang
                         </HeaderCell>
                         {!hideTracks ? (
-                            <HeaderCell style={columnSizes.trackCol}>
+                            <HeaderCell className="bus-stop-departure-tile-head-track">
                                 Spor
                             </HeaderCell>
                         ) : null}
                         {!hideSituations ? (
-                            <HeaderCell style={columnSizes.situationCol}>
+                            <HeaderCell className="bus-stop-departure-tile-head-situation">
                                 Avvik
                             </HeaderCell>
                         ) : null}
                     </TableRow>
                 </TableHead>
                 <TileRows
-                    visibleDepartures={visibleDepartures}
+                    visibleDepartures={departures}
                     hideSituations={hideSituations}
                     hideTracks={hideTracks}
                     iconColorType={iconColorType}
@@ -124,8 +91,6 @@ const DepartureTile = ({
 interface Props {
     stopPlaceWithDepartures: StopPlaceWithDepartures
     walkInfo?: WalkInfo
-    isMobile?: boolean
-    numberOfTileRows?: number
 }
 
 export { DepartureTile }

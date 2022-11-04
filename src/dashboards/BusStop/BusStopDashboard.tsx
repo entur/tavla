@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-import { BREAKPOINTS } from '../../constants'
 import { useStopPlacesWithDepartures, useWalkInfo } from '../../logic'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import { DepartureTile } from './DepartureTile/DepartureTile'
@@ -40,7 +39,6 @@ const BusStopDashboard = (): JSX.Element | null => {
                                 stopPlace.id,
                             )}
                             stopPlaceWithDepartures={stopPlace}
-                            isMobile={window.innerWidth < BREAKPOINTS.md}
                         />
                     </div>
                 ))}
