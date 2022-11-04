@@ -8,12 +8,11 @@ import { FormFactor } from '../../../../../graphql-generated/mobility-v2'
 const ScooterTile = (): JSX.Element => {
     const [settings] = useSettings()
 
-    const distance = settings?.scooterDistance?.enabled
+    const distance = settings.scooterDistance.enabled
         ? settings.scooterDistance.distance
-        : settings?.distance || 0
+        : settings.distance
 
-    const numberOfScooters =
-        useMobility(FormFactor.Scooter, distance)?.length || 0
+    const numberOfScooters = useMobility(FormFactor.Scooter, distance).length
 
     return (
         <MobilityTile

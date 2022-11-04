@@ -4,7 +4,7 @@ import { useLocation, useParams } from 'react-router-dom'
 import { useLongPress } from 'use-long-press'
 import { Loader } from '@entur/loader'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-import { DEFAULT_ZOOM, BREAKPOINTS } from '../../constants'
+import { BREAKPOINTS } from '../../constants'
 import {
     useStopPlacesWithDepartures,
     useMobility,
@@ -92,7 +92,7 @@ const BusStopDashboard = (): JSX.Element | null => {
     const bikeRentalStations = useRentalStations(
         true,
         FormFactor.Bicycle,
-        settings?.hiddenModes?.includes('bysykkel'),
+        settings.hiddenModes.includes('bysykkel'),
     )
 
     const walkInfoDestinations = useMemo(() => {
@@ -111,7 +111,7 @@ const BusStopDashboard = (): JSX.Element | null => {
         }
     }
 
-    const mapCol = settings?.showMap ? 1 : 0
+    const mapCol = settings.showMap ? 1 : 0
     const totalItems = numberOfStopPlaces + mapCol
     const hasData = Boolean(
         bikeRentalStations?.length ||
@@ -120,16 +120,15 @@ const BusStopDashboard = (): JSX.Element | null => {
     )
     const maxWidthCols = COLS[breakpoint] || 1
     const stopPlacesHasLoaded = Boolean(
-        stopPlacesWithDepartures ||
-            settings?.hiddenModes?.includes('kollektiv'),
+        stopPlacesWithDepartures || settings.hiddenModes.includes('kollektiv'),
     )
 
     const bikeHasLoaded = Boolean(
-        bikeRentalStations || settings?.hiddenModes?.includes('bysykkel'),
+        bikeRentalStations || settings.hiddenModes.includes('bysykkel'),
     )
 
     const scooterHasLoaded = Boolean(
-        scooters || settings?.hiddenModes?.includes('sparkesykkel'),
+        scooters || settings.hiddenModes.includes('sparkesykkel'),
     )
 
     const hasFetchedData = Boolean(
@@ -230,16 +229,12 @@ const BusStopDashboard = (): JSX.Element | null => {
                                                 bikeRentalStations
                                             }
                                             latitude={
-                                                settings?.coordinates
-                                                    ?.latitude ?? 0
+                                                settings.coordinates.latitude
                                             }
                                             longitude={
-                                                settings?.coordinates
-                                                    ?.longitude ?? 0
+                                                settings.coordinates.longitude
                                             }
-                                            zoom={
-                                                settings?.zoom ?? DEFAULT_ZOOM
-                                            }
+                                            zoom={settings.zoom}
                                         />
                                     </div>
                                 ) : (
@@ -338,13 +333,9 @@ const BusStopDashboard = (): JSX.Element | null => {
                                     scooters={scooters}
                                     stopPlaces={stopPlacesWithDepartures}
                                     bikeRentalStations={bikeRentalStations}
-                                    latitude={
-                                        settings?.coordinates?.latitude ?? 0
-                                    }
-                                    longitude={
-                                        settings?.coordinates?.longitude ?? 0
-                                    }
-                                    zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                                    latitude={settings.coordinates.latitude}
+                                    longitude={settings.coordinates.longitude}
+                                    zoom={settings.zoom}
                                 />
                             </div>
                         ) : (

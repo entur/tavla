@@ -12,22 +12,15 @@ import { isNotNullOrUndefined } from '../../utils/typeguards'
 function useMobility(
     formFactor?: FormFactor,
     customDistance?: number,
-): UseMobility_VehicleFragment[] | undefined {
+): UseMobility_VehicleFragment[] {
     const [settings] = useSettings()
     const { data: getOperatorsData } = useUseMobility_OperatorsQuery()
     const [getVehicles, { data: getVehiclesData }] =
         useUseMobility_VehiclesLazyQuery()
 
-    const {
-        coordinates,
-        distance: globalDistance,
-        hiddenMobilityOperators,
-        hiddenModes,
-    } = settings || {}
+    const distance = customDistance || settings.distance
 
-    const distance = customDistance || globalDistance
-
-    const isDisabled = Boolean(hiddenModes?.includes('sparkesykkel'))
+    const isDisabled = Boolean(settings.hiddenModes.includes('sparkesykkel'))
 
     const operators = useMemo(
         () =>
@@ -36,22 +29,21 @@ function useMobility(
                 .filter((operator) => !ALL_ACTIVE_OPERATOR_IDS[operator.id])
                 .filter(
                     (operator) =>
-                        !hiddenMobilityOperators ||
-                        !hiddenMobilityOperators?.includes(operator.id),
+                        !settings.hiddenMobilityOperators.includes(operator.id),
                 ) ?? [],
-        [hiddenMobilityOperators, getOperatorsData?.operators],
+        [settings.hiddenMobilityOperators, getOperatorsData?.operators],
     )
 
     useEffect(() => {
-        if (!coordinates || !distance || isDisabled) {
+        if (isDisabled) {
             return
         }
         getVehicles({
             fetchPolicy: 'cache-and-network',
             pollInterval: REFRESH_INTERVAL,
             variables: {
-                lat: coordinates.latitude,
-                lon: coordinates.longitude,
+                lat: settings.coordinates.latitude,
+                lon: settings.coordinates.longitude,
                 range: distance,
                 count: 100,
                 operators: operators
@@ -60,7 +52,14 @@ function useMobility(
                 formFactors: formFactor ? [formFactor] : undefined,
             },
         }).finally()
-    }, [coordinates, distance, operators, isDisabled, formFactor, getVehicles])
+    }, [
+        settings.coordinates,
+        distance,
+        operators,
+        isDisabled,
+        formFactor,
+        getVehicles,
+    ])
 
     return getVehiclesData?.vehicles?.filter(isNotNullOrUndefined) ?? []
 }

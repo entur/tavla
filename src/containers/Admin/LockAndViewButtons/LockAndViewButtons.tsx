@@ -10,8 +10,6 @@ const LockAndViewButtons = (): JSX.Element => {
     const [settings] = useSettings()
     const { documentId } = useParams<{ documentId: string }>()
 
-    const owners = settings?.owners
-
     const [lockModalOpen, setLockModalOpen] = useState<boolean>(false)
 
     const goToDash = useCallback(() => {
@@ -21,7 +19,7 @@ const LockAndViewButtons = (): JSX.Element => {
         navigate(window.location.pathname.replace('admin', 'dashboard'))
     }, [navigate, documentId])
 
-    const showLockButton = !owners?.length && documentId
+    const showLockButton = !settings.owners.length && documentId
 
     return (
         <>

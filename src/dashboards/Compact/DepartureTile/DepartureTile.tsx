@@ -41,9 +41,7 @@ const DepartureTile = ({
     const groupedDepartures = groupBy<LineData>(departures, 'route')
     const routes = Object.keys(groupedDepartures)
     const [settings] = useSettings()
-    const hideSituations = settings?.hideSituations
-    const hideTracks = settings?.hideTracks
-    const hideWalkInfo = settings?.hideWalkInfo
+
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
@@ -58,7 +56,7 @@ const DepartureTile = ({
         <Tile
             title={name}
             icons={getTransportHeaderIcons(departures, iconColorType)}
-            walkInfo={!hideWalkInfo ? walkInfo : undefined}
+            walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
         >
             {filterMap(routes, (route) => {
                 const routeData = groupedDepartures[route]
@@ -75,8 +73,8 @@ const DepartureTile = ({
                         label={route}
                         subLabels={routeData.map(createTileSubLabel)}
                         icon={icon}
-                        hideSituations={hideSituations}
-                        hideTracks={hideTracks}
+                        hideSituations={settings.hideSituations}
+                        hideTracks={settings.hideTracks}
                         platform={platform}
                         type={routeType}
                     />

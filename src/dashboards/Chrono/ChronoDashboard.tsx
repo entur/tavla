@@ -10,7 +10,7 @@ import {
     useWalkInfo,
 } from '../../logic'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-import { BREAKPOINTS, DEFAULT_ZOOM } from '../../constants'
+import { BREAKPOINTS } from '../../constants'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
 import {
     RearrangeModal,
@@ -82,12 +82,6 @@ const COLS: { [key: string]: number } = {
 
 const ChronoDashboard = (): JSX.Element | null => {
     const [settings] = useSettings()
-    const {
-        customImageTiles = [],
-        customQrTiles = [],
-        hiddenCustomTileIds = [],
-        showCustomTiles,
-    } = settings || {}
     const location = useLocation()
     const dashboardKey = location.key
     const { documentId: boardId } = useParams<{ documentId: string }>()
@@ -106,14 +100,14 @@ const ChronoDashboard = (): JSX.Element | null => {
     const bikeRentalStations = useRentalStations(
         true,
         FormFactor.Bicycle,
-        settings?.hiddenModes?.includes('bysykkel'),
+        settings.hiddenModes.includes('bysykkel'),
     )
     const scooters = useMobility(FormFactor.Scooter)
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
-    const numberOfCustomImages = customImageTiles.filter(
-        ({ id }) => !hiddenCustomTileIds.includes(id),
+    const numberOfCustomImages = settings.customImageTiles.filter(
+        ({ id }) => !settings.hiddenCustomTileIds.includes(id),
     ).length
 
     const walkInfoDestinations = useMemo(() => {
@@ -141,20 +135,19 @@ const ChronoDashboard = (): JSX.Element | null => {
     )
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
-    const mapCol = settings?.showMap ? 1 : 0
-    const weatherCol = settings?.showWeather ? 1 : 0
+    const mapCol = settings.showMap ? 1 : 0
+    const weatherCol = settings.showWeather ? 1 : 0
 
     const stopPlacesHasLoaded = Boolean(
-        stopPlacesWithDepartures ||
-            settings?.hiddenModes?.includes('kollektiv'),
+        stopPlacesWithDepartures || settings.hiddenModes.includes('kollektiv'),
     )
 
     const bikeHasLoaded = Boolean(
-        bikeRentalStations || settings?.hiddenModes?.includes('bysykkel'),
+        bikeRentalStations || settings.hiddenModes.includes('bysykkel'),
     )
 
     const scooterHasLoaded = Boolean(
-        scooters || settings?.hiddenModes?.includes('sparkesykkel'),
+        scooters || settings.hiddenModes.includes('sparkesykkel'),
     )
 
     const hasFetchedData = Boolean(
@@ -163,22 +156,30 @@ const ChronoDashboard = (): JSX.Element | null => {
 
     const imageTilesToDisplay = useMemo(
         () =>
-            showCustomTiles
-                ? customImageTiles.filter(
-                      ({ id }) => !hiddenCustomTileIds.includes(id),
+            settings.showCustomTiles
+                ? settings.customImageTiles.filter(
+                      ({ id }) => !settings.hiddenCustomTileIds.includes(id),
                   )
                 : [],
-        [customImageTiles, showCustomTiles, hiddenCustomTileIds],
+        [
+            settings.customImageTiles,
+            settings.showCustomTiles,
+            settings.hiddenCustomTileIds,
+        ],
     )
 
     const qrTilesToDisplay = useMemo(
         () =>
-            showCustomTiles
-                ? customQrTiles.filter(
-                      ({ id }) => !hiddenCustomTileIds.includes(id),
+            settings.showCustomTiles
+                ? settings.customQrTiles.filter(
+                      ({ id }) => !settings.hiddenCustomTileIds.includes(id),
                   )
                 : [],
-        [showCustomTiles, customQrTiles, hiddenCustomTileIds],
+        [
+            settings.showCustomTiles,
+            settings.customQrTiles,
+            settings.hiddenCustomTileIds,
+        ],
     )
 
     useEffect(() => {
@@ -204,7 +205,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                 { id: 'map', name: 'Kart' },
             ]
         }
-        if (settings?.showWeather) {
+        if (settings.showWeather) {
             defaultTileOrder = [
                 { id: 'weather', name: 'Vær' },
                 ...defaultTileOrder,
@@ -249,8 +250,8 @@ const ChronoDashboard = (): JSX.Element | null => {
         anyBikeRentalStations,
         mapCol,
         hasData,
-        settings?.showMap,
-        settings?.showWeather,
+        settings.showMap,
+        settings.showWeather,
         boardId,
         imageTilesToDisplay,
         qrTilesToDisplay,
@@ -320,7 +321,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                             />
                             {tileOrder.map((item) => {
                                 if (item.id == 'map') {
-                                    return hasData && settings?.showMap ? (
+                                    return hasData && settings.showMap ? (
                                         <div key={item.id}>
                                             <MapTile
                                                 scooters={scooters}
@@ -331,17 +332,14 @@ const ChronoDashboard = (): JSX.Element | null => {
                                                     bikeRentalStations
                                                 }
                                                 latitude={
-                                                    settings?.coordinates
-                                                        ?.latitude ?? 0
+                                                    settings.coordinates
+                                                        .latitude
                                                 }
                                                 longitude={
-                                                    settings?.coordinates
-                                                        ?.longitude ?? 0
+                                                    settings.coordinates
+                                                        .longitude
                                                 }
-                                                zoom={
-                                                    settings?.zoom ??
-                                                    DEFAULT_ZOOM
-                                                }
+                                                zoom={settings.zoom}
                                             />
                                         </div>
                                     ) : (
@@ -359,7 +357,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                         []
                                     )
                                 } else if (item.id == 'weather') {
-                                    return settings?.showWeather ? (
+                                    return settings.showWeather ? (
                                         <div key={item.id}>
                                             <WeatherTile className="tile" />
                                         </div>
@@ -462,7 +460,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                             }
                         }}
                     >
-                        {settings?.showWeather && (
+                        {settings.showWeather && (
                             <div
                                 key="weather"
                                 data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
@@ -538,13 +536,9 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     scooters={scooters}
                                     stopPlaces={stopPlacesWithDepartures}
                                     bikeRentalStations={bikeRentalStations}
-                                    latitude={
-                                        settings?.coordinates?.latitude ?? 0
-                                    }
-                                    longitude={
-                                        settings?.coordinates?.longitude ?? 0
-                                    }
-                                    zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                                    latitude={settings.coordinates.latitude}
+                                    longitude={settings.coordinates.longitude}
+                                    zoom={settings.zoom}
                                 />
                             </div>
                         ) : (

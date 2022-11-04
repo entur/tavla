@@ -15,12 +15,11 @@ import './Poster.scss'
 const Poster = (): JSX.Element => {
     useReloadTavleOnUpdate()
     const [settings] = useSettings()
-    const { hiddenModes } = settings || {}
 
-    const hideBusTile = hiddenModes?.includes('kollektiv')
-    const hideScooterTile = hiddenModes?.includes('sparkesykkel')
-    const hideBikeTile = hiddenModes?.includes('bysykkel')
-    const hideCarTile = hiddenModes?.includes('delebil')
+    const hideBusTile = settings.hiddenModes.includes('kollektiv')
+    const hideScooterTile = settings.hiddenModes.includes('sparkesykkel')
+    const hideBikeTile = settings.hiddenModes.includes('bysykkel')
+    const hideCarTile = settings.hiddenModes.includes('delebil')
     const isRotated = settings.direction === Direction.ROTATED
 
     return (

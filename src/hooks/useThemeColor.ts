@@ -5,10 +5,7 @@ const useThemeColor = (
     fallback: string,
 ): string => {
     const [settings] = useSettings()
-    if (!settings?.theme) {
-        return fallback
-    }
-    return color[settings?.theme] || fallback
+    return color[settings.theme] || fallback
 }
 
 export { useThemeColor }

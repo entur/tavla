@@ -21,7 +21,7 @@ import BusStopGrey from '../previews/previewGrey/Holdeplass-gray.svg'
 import { Theme } from '../../types'
 
 function ThemeDashboardPreview(
-    theme: Theme | undefined,
+    theme: Theme,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Record<string, any> {
     switch (theme) {
@@ -49,7 +49,7 @@ function ThemeDashboardPreview(
                 Map: MapLight,
                 BusStop: BusStopLight,
             }
-        default:
+        case Theme.DEFAULT:
             return {
                 Timeline: TimelineDefault,
                 Chrono: ChronoDefault,

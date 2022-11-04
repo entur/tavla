@@ -53,12 +53,6 @@ const Map = memo(function Map({
     })
 
     const [settings] = useSettings()
-    const {
-        permanentlyVisibleRoutesInMap,
-        hiddenRealtimeDataLineRefs,
-        showRoutesInMap,
-        hideRealtimeData,
-    } = settings || {}
     const uniqueLines = useStopPlacesWithLines()
 
     const debouncedViewport = useDebounce(viewport, 200)
@@ -83,7 +77,7 @@ const Map = memo(function Map({
         if (
             !hoveredVehicle ||
             !hoveredVehicle.line.pointsOnLink ||
-            !showRoutesInMap
+            !settings.showRoutesInMap
         )
             return null
 
@@ -102,21 +96,21 @@ const Map = memo(function Map({
                 ]}
             />
         )
-    }, [hoveredVehicle, showRoutesInMap])
+    }, [hoveredVehicle, settings.showRoutesInMap])
 
     const permanentlyDrawnRoutes = useMemo(() => {
         if (
-            !permanentlyVisibleRoutesInMap ||
-            !showRoutesInMap ||
-            hideRealtimeData
+            !settings.permanentlyVisibleRoutesInMap ||
+            !settings.showRoutesInMap ||
+            settings.hideRealtimeData
         )
             return null
 
-        const routesToDraw = permanentlyVisibleRoutesInMap
+        const routesToDraw = settings.permanentlyVisibleRoutesInMap
             .filter(
                 ({ lineRef }: DrawableRoute) =>
                     uniqueLines.map(({ id }: Line) => id).includes(lineRef) &&
-                    !hiddenRealtimeDataLineRefs?.includes(lineRef),
+                    !settings.hiddenRealtimeDataLineRefs?.includes(lineRef),
             )
             .map(({ pointsOnLink, mode }: DrawableRoute) => ({
                 points: polyline.decode(pointsOnLink),
@@ -127,11 +121,11 @@ const Map = memo(function Map({
             }))
         return <LineOverlay routes={routesToDraw} />
     }, [
-        permanentlyVisibleRoutesInMap,
+        settings.permanentlyVisibleRoutesInMap,
         uniqueLines,
-        hiddenRealtimeDataLineRefs,
-        showRoutesInMap,
-        hideRealtimeData,
+        settings.hiddenRealtimeDataLineRefs,
+        settings.showRoutesInMap,
+        settings.hideRealtimeData,
     ])
 
     useEffect(() => {

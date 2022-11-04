@@ -7,7 +7,6 @@ import './ToggleDetailsPanel.scss'
 
 function ToggleDetailsPanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
-    const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
 
     return (
         <Fieldset className="toggle-detail-panel">
@@ -26,7 +25,7 @@ function ToggleDetailsPanel(): JSX.Element {
                                 hideSituations: !event.currentTarget.checked,
                             })
                         }}
-                        checked={!hideSituations}
+                        checked={!settings.hideSituations}
                     >
                         Avviksinfo
                     </FilterChip>
@@ -41,7 +40,7 @@ function ToggleDetailsPanel(): JSX.Element {
                                 hideWalkInfo: !event.currentTarget.checked,
                             })
                         }}
-                        checked={!hideWalkInfo}
+                        checked={!settings.hideWalkInfo}
                     >
                         Gangavstand
                     </FilterChip>
@@ -56,7 +55,7 @@ function ToggleDetailsPanel(): JSX.Element {
                                 hideTracks: !event.currentTarget.checked,
                             })
                         }}
-                        checked={!hideTracks}
+                        checked={!settings.hideTracks}
                     >
                         Spor/plattform
                     </FilterChip>
