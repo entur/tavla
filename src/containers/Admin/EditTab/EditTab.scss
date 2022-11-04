@@ -27,24 +27,22 @@
         background-color: var(--tavla-box-background-color);
         border-radius: 1rem;
 
-        &--real-time {
+        &--middle {
             flex-grow: 1;
             flex-basis: 0;
-            //margin-bottom: 2rem;
             padding: 2rem;
             background-color: var(--tavla-box-background-color);
             border-radius: 1rem;
             margin-left: 2rem;
         }
 
-        &--refresh {
+        &--right {
             flex-grow: 1;
             flex-basis: 0;
             margin-bottom: 2rem;
             padding: 2rem;
             background-color: var(--tavla-box-background-color);
             border-radius: 1rem;
-            overflow-x: visible;
             margin-left: 2rem;
         }
 

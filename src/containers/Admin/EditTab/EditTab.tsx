@@ -5,7 +5,6 @@ import React, {
     useCallback,
     SyntheticEvent,
 } from 'react'
-import { WidthProvider, Responsive } from 'react-grid-layout'
 import {
     Heading2,
     Heading3,
@@ -47,16 +46,6 @@ import { PosterMobilityAlert } from './PosterMobilityAlert'
 
 const isMobile = isMobileWeb()
 
-const ResponsiveReactGridLayout = WidthProvider(Responsive)
-
-const COLS: { [key: string]: number } = {
-    lg: 4.5,
-    md: 3,
-    sm: 1,
-    xs: 1,
-    xxs: 1,
-}
-
 const toolTip = (
     <Tooltip
         content={
@@ -83,19 +72,7 @@ const TooltipText = (props: { title: string; text: string }) => (
     </div>
 )
 
-// height of tile is set to default value + a value times number of rows
-const tileHeight = (items: number, rowHeight: number, padding: number) =>
-    items > 0 ? items * rowHeight + padding : 0
-
-const getNumberOfRealtimeModes = (
-    realtimeLines: Line[] | undefined,
-): number => {
-    if (!realtimeLines) return 0
-    return new Set(realtimeLines.map(({ transportMode }) => transportMode)).size
-}
-
 const EditTab = (): JSX.Element => {
-    const [breakpoint, setBreakpoint] = useState<string>('lg')
     const [settings, setSettings] = useSettings()
     const {
         newStops = [],
@@ -299,283 +276,6 @@ const EditTab = (): JSX.Element => {
               })
     }
 
-    const LAYOUT = {
-        lg: [
-            {
-                i: 'busStopPanel',
-                x: 0,
-                y: 0,
-                w: 1.5,
-                h: 1.85 + tileHeight(stopPlaces?.length || 0, 0.4, 0.35),
-            },
-            {
-                i: 'bikePanel',
-                x: 3,
-                y: 0,
-                w: 1.5,
-                h: 1.55 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
-            },
-            { i: 'scooterPanel', x: 1.5, y: 3.2, w: 1.5, h: 1.88 },
-            {
-                i: 'mapPanel',
-                x: 3,
-                y: 5,
-                w: 1.5,
-                h: settings?.showMap ? 3.2 : 0.9,
-            },
-            { i: 'refreshTavlePanel', x: 3, y: 0, w: 1.5, h: 1.65 },
-            { i: 'weatherPanel', x: 0, y: 0, w: 1.5, h: 1.5 },
-            {
-                i: 'realtimeDataPanel',
-                x: 1.5,
-                y: 0,
-                w: 1.5,
-                h:
-                    2 +
-                    tileHeight(
-                        getNumberOfRealtimeModes(realtimeLines),
-                        0.75,
-                        0,
-                    ),
-            },
-            {
-                i: 'customTilePanel',
-                x: 0,
-                y: 3,
-                w: 1.5,
-                h:
-                    1.5 +
-                    tileHeight(
-                        customImageTiles.length + customQrTiles.length,
-                        0.24,
-                        0,
-                    ),
-            },
-            // {
-            //     i: 'customTilePanel',
-            //     x: 2.6,
-            //     y: 20,
-            //     w: 1.5,
-            //     h:
-            //         1.5 +
-            //         tileHeight(
-            //             customImageTiles.length + customQrTiles.length,
-            //             0.24,
-            //             0,
-            //         ),
-            // },
-            {
-                i: 'delebil',
-                x: 1.5,
-                y: 10,
-                w: 1.5,
-                h: 1,
-            },
-        ],
-        md: [
-            {
-                i: 'busStopPanel',
-                x: 0,
-                y: 0,
-                w: 2,
-                h: 2.35 + tileHeight(stopPlaces?.length || 0, 0.44, 0.32),
-            },
-            {
-                i: 'bikePanel',
-                x: 2,
-                y: 0,
-                w: 1,
-                h: 1.55 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
-            },
-            { i: 'scooterPanel', x: 2, y: 3, w: 1, h: 1.75 },
-            { i: 'mapPanel', x: 0, y: 7, w: 2, h: settings?.showMap ? 3 : 0.8 },
-            { i: 'refreshTavlePanel', x: 3, y: 0, w: 2, h: 1.7 },
-            { i: 'weatherPanel', x: 0, y: 4.5, w: 2, h: 1.3 },
-            {
-                i: 'realtimeDataPanel',
-                x: 0,
-                y: 0,
-                w: 2,
-                h:
-                    2 +
-                    tileHeight(
-                        getNumberOfRealtimeModes(realtimeLines),
-                        0.75,
-                        0,
-                    ),
-            },
-            {
-                i: 'customTilePanel',
-                x: 2,
-                y: 10,
-                w: 1,
-                h:
-                    2 +
-                    tileHeight(
-                        customImageTiles.length + customQrTiles.length,
-                        0.24,
-                        0,
-                    ),
-            },
-        ],
-        sm: [
-            {
-                i: 'busStopPanel',
-                x: 0,
-                y: 0,
-                w: 1,
-                h: 2.25 + tileHeight(stopPlaces?.length || 0, 0.6, 0.32),
-            },
-            {
-                i: 'bikePanel',
-                x: 0,
-                y: 3,
-                w: 1,
-                h: 1.4 + tileHeight(sortedBikeRentalStations.length, 0.24, 0),
-            },
-            { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.2 },
-            {
-                i: 'mapPanel',
-                x: 0,
-                y: 9.5,
-                w: 1,
-                h: settings?.showMap ? 3 : 0.8,
-            },
-            { i: 'refreshTavlePanel', x: 0, y: 8, w: 1, h: 1.6 },
-            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 1.3 },
-            {
-                i: 'realtimeDataPanel',
-                x: 0,
-                y: 0,
-                w: 1,
-                h:
-                    2 +
-                    tileHeight(
-                        getNumberOfRealtimeModes(realtimeLines),
-                        0.75,
-                        0,
-                    ),
-            },
-            {
-                i: 'customTilePanel',
-                x: 0,
-                y: 10,
-                w: 1,
-                h:
-                    2 +
-                    tileHeight(
-                        customImageTiles.length + customQrTiles.length,
-                        0.24,
-                        0,
-                    ),
-            },
-        ],
-        xs: [
-            {
-                i: 'busStopPanel',
-                x: 0,
-                y: 0,
-                w: 1,
-                h: 2.5 + tileHeight(stopPlaces?.length || 0, 0.75, 0.25),
-            },
-            {
-                i: 'bikePanel',
-                x: 0,
-                y: 3,
-                w: 1,
-                h: 1.4 + tileHeight(sortedBikeRentalStations.length, 0.265, 0),
-            },
-            { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
-            {
-                i: 'mapPanel',
-                x: 0,
-                y: 9.5,
-                w: 1,
-                h: settings?.showMap ? 3 : 0.8,
-            },
-            { i: 'refreshTavlePanel', x: 0, y: 8, w: 1, h: 1.8 },
-            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 2.5 },
-            {
-                i: 'realtimeDataPanel',
-                x: 0,
-                y: 0,
-                w: 1,
-                h:
-                    2 +
-                    tileHeight(
-                        getNumberOfRealtimeModes(realtimeLines),
-                        0.75,
-                        0,
-                    ),
-            },
-            {
-                i: 'customTilePanel',
-                x: 0,
-                y: 10,
-                w: 1,
-                h:
-                    2 +
-                    tileHeight(
-                        customImageTiles.length + customQrTiles.length,
-                        0.24,
-                        0,
-                    ),
-            },
-        ],
-        xxs: [
-            {
-                i: 'busStopPanel',
-                x: 0,
-                y: 0,
-                w: 1,
-                h: 2.5 + tileHeight(stopPlaces?.length || 0, 0.75, 0.25),
-            },
-            {
-                i: 'bikePanel',
-                x: 0,
-                y: 3,
-                w: 1,
-                h: 1.4 + tileHeight(sortedBikeRentalStations.length, 0.265, 0),
-            },
-            { i: 'scooterPanel', x: 0, y: 5, w: 1, h: 1.6 },
-            {
-                i: 'mapPanel',
-                x: 0,
-                y: 9.5,
-                w: 1,
-                h: settings?.showMap ? 3 : 0.8,
-            },
-            { i: 'refreshTavlePanel', x: 0, y: 8, w: 1, h: 1.8 },
-            { i: 'weatherPanel', x: 0, y: 8, w: 1, h: 2 },
-            {
-                i: 'realtimeDataPanel',
-                x: 0,
-                y: 0,
-                w: 1,
-                h:
-                    2 +
-                    tileHeight(
-                        getNumberOfRealtimeModes(realtimeLines),
-                        0.75,
-                        0,
-                    ),
-            },
-            {
-                i: 'customTilePanel',
-                x: 0,
-                y: 10,
-                w: 1,
-                h:
-                    2 +
-                    tileHeight(
-                        customImageTiles.length + customQrTiles.length,
-                        0.24,
-                        0,
-                    ),
-            },
-        ],
-    }
-
     const handleUpdateTavle = useCallback(() => {
         setSettings({
             pageRefreshedAt: new Date().getTime(),
@@ -601,14 +301,6 @@ const EditTab = (): JSX.Element => {
                             showCloseButton={true}
                             disableHoverListener={true}
                             disableFocusListener={true}
-                            popperModifiers={[
-                                {
-                                    name: 'offset',
-                                    options: {
-                                        offset: !isMobile ? [20, 30] : [15, 20],
-                                    },
-                                },
-                            ]}
                         >
                             <TextField
                                 label=""
@@ -633,19 +325,8 @@ const EditTab = (): JSX.Element => {
                 <div className="edit-tab__secondary-title">
                     Mobilitetstilbud
                 </div>
-                <ResponsiveReactGridLayout
-                    key={breakpoint}
-                    cols={COLS}
-                    layouts={LAYOUT}
-                    autoSize={true}
-                    margin={isMobile ? [0, 16] : [32, 32]}
-                    isResizable={false}
-                    isDraggable={false}
-                    onBreakpointChange={(newBreakpoint: string) => {
-                        setBreakpoint(newBreakpoint)
-                    }}
-                >
-                    <div key="busStopPanel" className="edit-tab__tile">
+                <div className="flex-container">
+                    <div className="edit-tab__tile">
                         <div className="edit-tab__header">
                             <Heading2>Kollektiv</Heading2>
                             <Switch
@@ -666,7 +347,35 @@ const EditTab = (): JSX.Element => {
                         <ToggleDetailsPanel />
                     </div>
 
-                    <div key="bikePanel" className="edit-tab__tile">
+                    <div className="left-column">
+                        <div className="flex-item--right">
+                            <div className="edit-tab__header">
+                                <Heading2>Sparkesykkel</Heading2>
+                                <Switch
+                                    onChange={(): void =>
+                                        toggleMode('sparkesykkel')
+                                    }
+                                    checked={
+                                        !hiddenModes?.includes('sparkesykkel')
+                                    }
+                                    size="large"
+                                />
+                            </div>
+                            <ScooterPanel />
+                        </div>
+                        <div className="flex-item--right">
+                            <div className="edit-tab__header">
+                                <Heading2>Delebil</Heading2>
+                                <Switch
+                                    onChange={(): void => toggleMode('delebil')}
+                                    checked={!hiddenModes?.includes('delebil')}
+                                    size="large"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex-item--right">
                         <div className="edit-tab__header">
                             <Heading2>Bysykkel</Heading2>
                             <Switch
@@ -683,30 +392,6 @@ const EditTab = (): JSX.Element => {
                         )}
                         <BikePanel stations={sortedBikeRentalStations} />
                     </div>
-                    <div key="scooterPanel" className="edit-tab__tile">
-                        <div className="edit-tab__header">
-                            <Heading2>Sparkesykkel</Heading2>
-                            <Switch
-                                onChange={(): void =>
-                                    toggleMode('sparkesykkel')
-                                }
-                                checked={!hiddenModes?.includes('sparkesykkel')}
-                                size="large"
-                            />
-                        </div>
-                        <ScooterPanel />
-                    </div>
-                    <div key="delebil" className="edit-tab__tile">
-                        <div className="edit-tab__header">
-                            <Heading2>Delebil</Heading2>
-                            <Switch
-                                onChange={(): void => toggleMode('delebil')}
-                                checked={!hiddenModes?.includes('delebil')}
-                                size="large"
-                            />
-                        </div>
-                    </div>
-
                     {/* <div key="mapPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kart</Heading2>
@@ -730,7 +415,7 @@ const EditTab = (): JSX.Element => {
                         />
                     )}
                 </div> */}
-                </ResponsiveReactGridLayout>
+                </div>
             </div>
             <div className="edit-tab__secondary-title">Annen tilpasning</div>
             <div className="flex-container">
@@ -783,7 +468,7 @@ const EditTab = (): JSX.Element => {
                         <CustomTilePanel></CustomTilePanel>
                     </div>
                 </div>
-                <div className="flex-item--real-time">
+                <div className="flex-item--middle">
                     <div className="edit-tab__header">
                         <Heading2>Sanntidsposisjoner</Heading2>
                         <Switch
@@ -804,7 +489,7 @@ const EditTab = (): JSX.Element => {
                         </Paragraph>
                     )}
                 </div>
-                <div className="flex-item--refresh">
+                <div className="flex-item--right">
                     <div className="edit-tab__header">
                         <Heading2>Last inn tavler på nytt</Heading2>
                     </div>
