@@ -1,4 +1,16 @@
-query getNearestPlaces(
+fragment UseNearestPlaces_EdgeFragment on placeAtDistanceEdge {
+    node {
+        distance
+        place {
+            __typename
+            id
+            latitude
+            longitude
+        }
+    }
+}
+
+query NearestPlaces(
     $latitude: Float!
     $longitude: Float!
     $maximumDistance: Float!
@@ -13,15 +25,7 @@ query getNearestPlaces(
         multiModalMode: $multiModalMode
     ) {
         edges {
-            node {
-                distance
-                place {
-                    __typename
-                    id
-                    latitude
-                    longitude
-                }
-            }
+            ...UseNearestPlaces_EdgeFragment
         }
     }
 }
