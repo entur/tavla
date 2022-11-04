@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react'
-import { Loader } from '@entur/loader'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { BREAKPOINTS } from '../../constants'
 import { useStopPlacesWithDepartures, useWalkInfo } from '../../logic'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
-import { useSettings } from '../../settings/SettingsProvider'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import './BusStopDashboard.scss'
 
@@ -16,7 +14,6 @@ function getWalkInfoForStopPlace(
 }
 
 const BusStopDashboard = (): JSX.Element | null => {
-    const [settings] = useSettings()
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
     const walkInfoDestinations = useMemo(() => {
@@ -29,37 +26,25 @@ const BusStopDashboard = (): JSX.Element | null => {
 
     const walkInfo = useWalkInfo(walkInfoDestinations)
 
-    const stopPlacesHasLoaded = Boolean(
-        stopPlacesWithDepartures ||
-            settings?.hiddenModes?.includes('kollektiv'),
-    )
-
     return (
         <DashboardWrapper
             className="busStop"
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
-            {!stopPlacesHasLoaded ? (
-                <div className="busStop__loading-screen">
-                    <Loader>Laster inn</Loader>
-                </div>
-            ) : (
-                <div className="busStop__tiles">
-                    small
-                    {(stopPlacesWithDepartures || []).map((stopPlace) => (
-                        <div key={stopPlace.id}>
-                            <DepartureTile
-                                walkInfo={getWalkInfoForStopPlace(
-                                    walkInfo || [],
-                                    stopPlace.id,
-                                )}
-                                stopPlaceWithDepartures={stopPlace}
-                                isMobile={window.innerWidth < BREAKPOINTS.md}
-                            />
-                        </div>
-                    ))}
-                </div>
-            )}
+            <div className="busStop__tiles">
+                {(stopPlacesWithDepartures || []).map((stopPlace) => (
+                    <div key={stopPlace.id}>
+                        <DepartureTile
+                            walkInfo={getWalkInfoForStopPlace(
+                                walkInfo || [],
+                                stopPlace.id,
+                            )}
+                            stopPlaceWithDepartures={stopPlace}
+                            isMobile={window.innerWidth < BREAKPOINTS.md}
+                        />
+                    </div>
+                ))}
+            </div>
         </DashboardWrapper>
     )
 }
