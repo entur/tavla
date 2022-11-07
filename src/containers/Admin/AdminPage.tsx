@@ -26,19 +26,17 @@ const AdminPage = (): JSX.Element => {
     const [currentIndex, setCurrentIndex] = useState<number>(0)
 
     const [lockShareTab, setLockShareTab] = useState<boolean>(
-        !user || user.isAnonymous || !settings?.owners?.includes(user.uid),
+        !user || user.isAnonymous || !settings.owners.includes(user.uid),
     )
 
     const lockIcon = (!user || user.isAnonymous) && <ClosedLockIcon inline />
     const lockIconShareTab = lockShareTab && <ClosedLockIcon inline />
 
-    const { theme } = settings || {}
-
     useEffect(() => {
         setLockShareTab(
-            !user || user.isAnonymous || !settings?.owners?.includes(user.uid),
+            !user || user.isAnonymous || !settings.owners.includes(user.uid),
         )
-    }, [user, settings?.owners])
+    }, [user, settings.owners])
 
     if (!settings) {
         return <Loader />
@@ -54,7 +52,9 @@ const AdminPage = (): JSX.Element => {
     }
 
     return (
-        <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
+        <ThemeContrastWrapper
+            useContrast={isDarkOrDefaultTheme(settings.theme)}
+        >
             <Navbar theme={settings.theme} />
             <div className="admin">
                 <Tabs

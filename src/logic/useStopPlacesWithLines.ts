@@ -8,7 +8,6 @@ import { useStopPlacesWithDepartures } from './use-stop-places-with-departures/u
 
 export const useStopPlacesWithLines = (): Line[] => {
     const [settings] = useSettings()
-    const { hiddenStopModes } = settings || {}
     const [uniqueLines, setUniqueLines] = useState<Line[]>([])
     const stopPlaces = useStopPlacesWithDepartures()
 
@@ -27,10 +26,10 @@ export const useStopPlacesWithLines = (): Line[] => {
                         .map((el) => ({
                             ...el,
                             lines: el.lines.filter((line) =>
-                                hiddenStopModes && hiddenStopModes[el.id]
-                                    ? !hiddenStopModes[el.id]?.includes(
-                                          line.transportMode,
-                                      )
+                                settings.hiddenStopModes[el.id]
+                                    ? !settings.hiddenStopModes[
+                                          el.id
+                                      ]?.includes(line.transportMode)
                                     : line,
                             ),
                         }))
@@ -50,7 +49,7 @@ export const useStopPlacesWithLines = (): Line[] => {
         return () => {
             abortController.abort()
         }
-    }, [stopPlaces, hiddenStopModes])
+    }, [stopPlaces, settings.hiddenStopModes])
 
     return uniqueLines
 }

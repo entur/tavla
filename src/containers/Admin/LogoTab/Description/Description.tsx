@@ -8,19 +8,17 @@ import { useDebounce } from '../../../../hooks/useDebounce'
 const Description = (): JSX.Element => {
     const [settings, setSettings] = useSettings()
 
-    const { description, logoSize } = settings || {}
-
-    const [value, setValue] = useState(description)
+    const [value, setValue] = useState(settings.description)
 
     const debouncedValue = useDebounce(value, 300)
 
     useEffect(() => {
-        if (debouncedValue && description !== debouncedValue) {
+        if (debouncedValue && settings.description !== debouncedValue) {
             setSettings({
                 description: debouncedValue,
             })
         }
-    }, [description, debouncedValue, setSettings])
+    }, [settings.description, debouncedValue, setSettings])
 
     return (
         <>
@@ -39,7 +37,7 @@ const Description = (): JSX.Element => {
                     setValue(event.currentTarget.value)
                 }
                 maxLength={80}
-                disabled={logoSize === '56px'}
+                disabled={settings.logoSize === '56px'}
                 placeholder="Eks. «Kollektivanganger fra Thon Hotel Oslofjord»."
             />
         </>

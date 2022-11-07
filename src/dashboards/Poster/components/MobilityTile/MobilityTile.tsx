@@ -18,7 +18,7 @@ const MobilityTile: React.FC<MobilityTileProps> = ({
     icon,
 }: MobilityTileProps) => {
     const [settings] = useSettings()
-    const vertical = settings?.hiddenModes.includes('kollektiv')
+    const vertical = settings.hiddenModes.includes('kollektiv')
 
     const mobilityTileClass = classNames('poster-mobility-tile', {
         'poster-mobility-tile--listed': vertical,

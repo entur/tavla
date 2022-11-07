@@ -7,7 +7,6 @@ import './CustomTilePanel.scss'
 
 const CustomTilePanel = (): JSX.Element => {
     const [settings] = useSettings()
-    const { customQrTiles = [], customImageTiles = [] } = settings || {}
     const [isOpenModal, setIsOpenModal] = useState(false)
     const [selectedTileId, setSelectedTileId] = useState<string | undefined>(
         undefined,
@@ -28,16 +27,18 @@ const CustomTilePanel = (): JSX.Element => {
                 <CustomTileModal
                     setIsOpen={setIsOpenModal}
                     selectedTileId={selectedTileId}
-                ></CustomTileModal>
-            )}
-            {[...customQrTiles, ...customImageTiles].map((customTile) => (
-                <CustomTilePanelRow
-                    key={customTile.id}
-                    {...customTile}
-                    setIsOpenModal={setIsOpenModal}
-                    setSelectedTileId={setSelectedTileId}
                 />
-            ))}
+            )}
+            {[...settings.customQrTiles, ...settings.customImageTiles].map(
+                (customTile) => (
+                    <CustomTilePanelRow
+                        key={customTile.id}
+                        {...customTile}
+                        setIsOpenModal={setIsOpenModal}
+                        setSelectedTileId={setSelectedTileId}
+                    />
+                ),
+            )}
         </div>
     )
 }

@@ -14,7 +14,6 @@ function getWalkInfoForStopPlace(
 
 const BusStopDashboard = (): JSX.Element | null => {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
-
     const walkInfoDestinations = useMemo(() => {
         if (!stopPlacesWithDepartures) return []
         return stopPlacesWithDepartures.map((dep) => ({

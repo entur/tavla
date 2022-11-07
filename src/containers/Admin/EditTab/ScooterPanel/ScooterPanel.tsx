@@ -9,10 +9,7 @@ import { Fieldset, Switch, TextField } from '@entur/form'
 import type { VariantType } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { useSettings } from '../../../../settings/SettingsProvider'
-import {
-    ALL_ACTIVE_OPERATOR_IDS,
-    DEFAULT_DISTANCE,
-} from '../../../../constants'
+import { ALL_ACTIVE_OPERATOR_IDS } from '../../../../constants'
 import { useScooterPanelQuery } from '../../../../../graphql-generated/mobility-v2'
 import { toggleValueInList } from '../../../../utils/array'
 import { isNotNullOrUndefined } from '../../../../utils/typeguards'
@@ -20,9 +17,7 @@ import './ScooterPanel.scss'
 
 function ScooterPanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
-    const { scooterDistance } = settings || {}
-
-    const [enabled, setEnabled] = useState(Boolean(scooterDistance?.enabled))
+    const [enabled, setEnabled] = useState(settings.scooterDistance.enabled)
     const [variant, setVariant] = useState<VariantType>('info')
     const [feedback, setFeedback] = useState<string | undefined>()
 
@@ -62,18 +57,16 @@ function ScooterPanel(): JSX.Element {
         fetchPolicy: 'cache-and-network',
     })
 
-    const { hiddenMobilityOperators = [] } = settings || {}
-
     const onToggleOperator = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             setSettings({
                 hiddenMobilityOperators: toggleValueInList(
-                    hiddenMobilityOperators,
+                    settings.hiddenMobilityOperators,
                     event.target.id,
                 ),
             })
         },
-        [hiddenMobilityOperators, setSettings],
+        [settings.hiddenMobilityOperators, setSettings],
     )
 
     const operators = useMemo(
@@ -106,9 +99,7 @@ function ScooterPanel(): JSX.Element {
                 max={1000}
                 onInput={handleDistanceInput}
                 defaultValue={
-                    settings?.scooterDistance?.distance ||
-                    settings?.distance ||
-                    DEFAULT_DISTANCE
+                    settings.scooterDistance.distance || settings.distance
                 }
                 size="large"
                 disableLabelAnimation={true}
@@ -128,7 +119,7 @@ function ScooterPanel(): JSX.Element {
                                 value={operator.id}
                                 name={operator.id}
                                 checked={
-                                    !hiddenMobilityOperators.includes(
+                                    !settings.hiddenMobilityOperators.includes(
                                         operator.id,
                                     )
                                 }

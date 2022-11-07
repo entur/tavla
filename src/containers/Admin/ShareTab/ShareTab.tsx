@@ -62,7 +62,7 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
         if (user && !user.isAnonymous) {
             if (
                 tabIndex === 5 &&
-                !settings?.owners?.some((ownerUID) => ownerUID === user.uid)
+                !settings.owners.some((ownerUID) => ownerUID === user.uid)
             ) {
                 setNeedToBeOwnerModalOpen(true)
             } else {
@@ -70,7 +70,7 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
                 setNeedToBeOwnerModalOpen(false)
             }
         }
-    }, [user, settings?.owners, tabIndex, setTabIndex])
+    }, [user, settings.owners, tabIndex, setTabIndex])
 
     useEffect(() => {
         if (shouldRefresh) window.location.reload()

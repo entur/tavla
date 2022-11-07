@@ -8,7 +8,6 @@ import {
 } from '../../logic'
 import { Map } from '../../components/Map/Map'
 import { useSettings } from '../../settings/SettingsProvider'
-import { DEFAULT_ZOOM } from '../../constants'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { DepartureTag } from './DepartureTag/DepartureTag'
@@ -21,7 +20,7 @@ const MapDashboard = (): JSX.Element => {
     const bikeRentalStations = useRentalStations(
         true,
         FormFactor.Bicycle,
-        settings?.hiddenModes?.includes('bysykkel'),
+        settings.hiddenModes.includes('bysykkel'),
     )
 
     const walkInfoDestinations = useMemo(() => {
@@ -55,11 +54,11 @@ const MapDashboard = (): JSX.Element => {
                     stopPlaces={stopPlacesWithDepartures}
                     walkTimes={walkTimes}
                     interactive
-                    latitude={settings?.coordinates?.latitude ?? 0}
-                    longitude={settings?.coordinates?.longitude ?? 0}
-                    zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                    latitude={settings.coordinates.latitude}
+                    longitude={settings.coordinates.longitude}
+                    zoom={settings.zoom}
                 />
-                {settings?.showWeather && (
+                {settings.showWeather && (
                     <div className="weather-display">
                         <WeatherTile className="weather-tile-map" />
                     </div>

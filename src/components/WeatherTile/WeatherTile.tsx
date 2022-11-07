@@ -31,13 +31,6 @@ function WeatherTile(props: WeatherTileProps): JSX.Element {
     const weather = useWeather()
     const [settings] = useSettings()
 
-    const {
-        showIcon = true,
-        showTemperature = true,
-        showWind = true,
-        showPrecipitation = true,
-    } = settings || {}
-
     const [description, setDescription] = useState('')
 
     const weatherData = weather?.timeseries[IN_THREE_HOURS]
@@ -64,9 +57,9 @@ function WeatherTile(props: WeatherTileProps): JSX.Element {
 
     return (
         <div className={'weather-tile ' + props.className}>
-            {(showIcon || showTemperature) && (
+            {(settings.showIcon || settings.showTemperature) && (
                 <div className="weather-tile__icon-and-temperature">
-                    {showIcon && (
+                    {settings.showIcon && (
                         <WeatherIcon
                             symbolCode={
                                 weatherData?.data.next_1_hours.summary
@@ -74,7 +67,7 @@ function WeatherTile(props: WeatherTileProps): JSX.Element {
                             }
                         />
                     )}
-                    {showTemperature && (
+                    {settings.showTemperature && (
                         <Temperature
                             description={description}
                             temperature={
@@ -85,9 +78,9 @@ function WeatherTile(props: WeatherTileProps): JSX.Element {
                     )}
                 </div>
             )}
-            {(showWind || showPrecipitation) && (
+            {(settings.showWind || settings.showPrecipitation) && (
                 <div className="weather-tile__weather-data-container">
-                    {showWind && (
+                    {settings.showWind && (
                         <Wind
                             windSpeed={
                                 weatherData?.data.instant.details.wind_speed
@@ -95,7 +88,7 @@ function WeatherTile(props: WeatherTileProps): JSX.Element {
                             unit={weather?.meta.units.wind_speed}
                         />
                     )}
-                    {showPrecipitation && (
+                    {settings.showPrecipitation && (
                         <Precipitation
                             precipitationAmount={
                                 weatherData?.data.next_1_hours.details

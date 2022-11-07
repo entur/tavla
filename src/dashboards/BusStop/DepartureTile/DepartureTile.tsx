@@ -42,7 +42,6 @@ const DepartureTile = ({
 }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
     const [settings] = useSettings()
-    const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
 
     const iconColorType = useMemo(
         () => getIconColorType(settings?.theme),
@@ -53,7 +52,7 @@ const DepartureTile = ({
         <Tile
             title={name}
             icons={getTransportHeaderIcons(departures, iconColorType)}
-            walkInfo={!hideWalkInfo ? walkInfo : undefined}
+            walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
         >
             <Table spacing="small" fixed>
                 <TableHead>
@@ -65,12 +64,12 @@ const DepartureTile = ({
                         <HeaderCell className="bus-stop-departure-tile-head-departure">
                             Avgang
                         </HeaderCell>
-                        {!hideTracks ? (
+                        {!settings.hideTracks ? (
                             <HeaderCell className="bus-stop-departure-tile-head-track">
                                 Spor
                             </HeaderCell>
                         ) : null}
-                        {!hideSituations ? (
+                        {!settings.hideSituations ? (
                             <HeaderCell className="bus-stop-departure-tile-head-situation">
                                 Avvik
                             </HeaderCell>
@@ -79,8 +78,8 @@ const DepartureTile = ({
                 </TableHead>
                 <TileRows
                     visibleDepartures={departures}
-                    hideSituations={hideSituations}
-                    hideTracks={hideTracks}
+                    hideSituations={settings.hideSituations}
+                    hideTracks={settings.hideTracks}
                     iconColorType={iconColorType}
                 />
             </Table>

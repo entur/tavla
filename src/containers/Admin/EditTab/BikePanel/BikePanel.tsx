@@ -7,14 +7,15 @@ import { toggleValueInList } from '../../../../utils/array'
 import { UseRentalStations_StationFragment } from '../../../../../graphql-generated/mobility-v2'
 import './BikePanel.scss'
 
-function BikePanel(props: Props): JSX.Element {
-    const [settings, setSettings] = useSettings()
-    const { hiddenStations = [] } = settings || {}
+interface BikePanelProps {
+    stations: UseRentalStations_StationFragment[]
+}
 
-    const { stations } = props
+function BikePanel({ stations }: BikePanelProps): JSX.Element {
+    const [settings, setSettings] = useSettings()
 
     const onChooseAllPressed = useCallback(() => {
-        if (hiddenStations.length > 0) {
+        if (settings.hiddenStations.length > 0) {
             setSettings({
                 hiddenStations: [],
             })
@@ -23,16 +24,19 @@ function BikePanel(props: Props): JSX.Element {
                 hiddenStations: stations.map(({ id }) => id),
             })
         }
-    }, [hiddenStations.length, setSettings, stations])
+    }, [settings.hiddenStations.length, setSettings, stations])
 
     const onToggleStation = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             const stationId = event.target.id
             setSettings({
-                hiddenStations: toggleValueInList(hiddenStations, stationId),
+                hiddenStations: toggleValueInList(
+                    settings.hiddenStations,
+                    stationId,
+                ),
             })
         },
-        [hiddenStations, setSettings],
+        [settings.hiddenStations, setSettings],
     )
 
     if (!stations.length) {
@@ -49,7 +53,7 @@ function BikePanel(props: Props): JSX.Element {
                 id="check-all-stop-places-bike"
                 name="check-all-stop-places-bike"
                 onChange={onChooseAllPressed}
-                checked={!hiddenStations.length}
+                checked={!settings.hiddenStations.length}
             >
                 Velg alle
             </Checkbox>
@@ -58,7 +62,7 @@ function BikePanel(props: Props): JSX.Element {
                     key={id}
                     id={id}
                     name={getTranslation(name) || ''}
-                    checked={!hiddenStations.includes(id)}
+                    checked={!settings.hiddenStations.includes(id)}
                     onChange={onToggleStation}
                 >
                     <span className="bike-panel__eds-paragraph">
@@ -68,10 +72,6 @@ function BikePanel(props: Props): JSX.Element {
             ))}
         </Fieldset>
     )
-}
-
-interface Props {
-    stations: UseRentalStations_StationFragment[]
 }
 
 export { BikePanel }

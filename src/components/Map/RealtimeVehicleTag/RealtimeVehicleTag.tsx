@@ -9,7 +9,7 @@ import { getIconColor } from '../../../utils/icon'
 import { TooltipContent } from './TooltipContent/TooltipContent'
 import './RealtimeVehicleTag.scss'
 
-interface Props {
+interface RealtimeVehicleTagProps {
     realtimeVehicle: RealtimeVehicle
     setHoveredVehicle: (realtimeVehicle: RealtimeVehicle | undefined) => void
     isHovered: boolean
@@ -19,10 +19,8 @@ const RealtimeVehicleTag = ({
     realtimeVehicle,
     setHoveredVehicle,
     isHovered,
-}: Props): JSX.Element => {
+}: RealtimeVehicleTagProps): JSX.Element => {
     const [settings, setSettings] = useSettings()
-
-    const { permanentlyVisibleRoutesInMap = [] } = settings || {}
 
     return (
         <Tooltip
@@ -46,13 +44,13 @@ const RealtimeVehicleTag = ({
                 }
                 onClick={() => {
                     if (
-                        permanentlyVisibleRoutesInMap
+                        settings.permanentlyVisibleRoutesInMap
                             .map((drawableRoute) => drawableRoute.lineRef)
                             .includes(realtimeVehicle.line.lineRef)
                     ) {
                         setSettings({
                             permanentlyVisibleRoutesInMap:
-                                permanentlyVisibleRoutesInMap.filter(
+                                settings.permanentlyVisibleRoutesInMap.filter(
                                     ({ lineRef }) =>
                                         lineRef !==
                                         realtimeVehicle.line.lineRef,
@@ -62,7 +60,7 @@ const RealtimeVehicleTag = ({
                         if (realtimeVehicle.line.pointsOnLink)
                             setSettings({
                                 permanentlyVisibleRoutesInMap: [
-                                    ...permanentlyVisibleRoutesInMap,
+                                    ...settings.permanentlyVisibleRoutesInMap,
                                     {
                                         pointsOnLink:
                                             realtimeVehicle.line.pointsOnLink,

@@ -10,14 +10,23 @@ import { useUser } from '../../../../UserProvider'
 import { answerBoardInvitation } from '../../../../settings/firebase'
 import { createTimeString } from '../../../../utils/time'
 
-const SharedBoardCard = ({
+interface SharedBoardCardProps {
+    id: string
+    boardName: string
+    sharedBy: string
+    theme: Theme
+    dashboard: string | undefined | void
+    timeIssued: Timestamp
+}
+
+const SharedBoardCard: React.FC<SharedBoardCardProps> = ({
     id,
     sharedBy,
     boardName,
     theme,
     dashboard,
     timeIssued,
-}: Props): JSX.Element => {
+}) => {
     const user = useUser()
     const preview = ThemeDashboardPreview(theme)
     const dashboardType = dashboard || 'Chrono'
@@ -84,15 +93,6 @@ const SharedBoardCard = ({
             </div>
         </div>
     )
-}
-
-interface Props {
-    id: string
-    boardName: string
-    sharedBy: string
-    theme: Theme | undefined
-    dashboard: string | undefined | void
-    timeIssued: Timestamp
 }
 
 export { SharedBoardCard }
