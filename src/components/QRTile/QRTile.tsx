@@ -8,7 +8,6 @@ import './QRTile.scss'
 
 const QRTile = ({ sourceUrl, description }: CustomTile): JSX.Element => {
     const [settings] = useSettings()
-    const { theme = Theme.DEFAULT } = settings || {}
 
     return (
         <div className="qr-tile__wrapper">
@@ -17,7 +16,11 @@ const QRTile = ({ sourceUrl, description }: CustomTile): JSX.Element => {
                     className="qr-code"
                     value={sourceUrl}
                     size={256}
-                    fgColor={theme !== Theme.DARK ? colors.brand.blue : 'black'}
+                    fgColor={
+                        settings.theme !== Theme.DARK
+                            ? colors.brand.blue
+                            : 'black'
+                    }
                     level="Q"
                 ></QRCode>
             </div>

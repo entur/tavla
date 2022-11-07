@@ -1,10 +1,19 @@
 import React from 'react'
 import { PrimaryButton } from '@entur/button'
 import { Heading1 } from '@entur/typography'
-import { useSettings } from '../../settings/SettingsProvider'
 import { Theme } from '../../types'
-import { ThemeContrastWrapper } from '../ThemeWrapper/ThemeContrastWrapper'
+import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
+import { isDarkOrDefaultTheme } from '../../utils/utils'
 import './ErrorWrapper.scss'
+
+interface ErrorWrapperProps {
+    title: string
+    message: string
+    image: string
+    callbackMessage?: string
+    callback?: (event: React.SyntheticEvent<HTMLButtonElement>) => void
+    theme?: Theme
+}
 
 function ErrorWrapper({
     title,
@@ -12,39 +21,28 @@ function ErrorWrapper({
     image,
     callbackMessage,
     callback,
-}: Props): JSX.Element {
-    const [settings] = useSettings()
-
-    const errorCallback = callback ? (
-        <PrimaryButton
-            size="medium"
-            onClick={callback}
-            className="primary-button"
-        >
-            {callbackMessage}
-        </PrimaryButton>
-    ) : null
-
+    theme = Theme.DEFAULT,
+}: ErrorWrapperProps): JSX.Element {
     return (
-        <ThemeContrastWrapper useContrast={settings?.theme === Theme.DEFAULT}>
+        <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
             <div className="error-wrapper">
                 <img className="style-image" src={`${image}`} />
                 <Heading1 className="heading" margin="both">
                     {title}
                 </Heading1>
                 <div className="main-text">{message}</div>
-                {errorCallback}
+                {callback && (
+                    <PrimaryButton
+                        size="medium"
+                        onClick={callback}
+                        className="primary-button"
+                    >
+                        {callbackMessage}
+                    </PrimaryButton>
+                )}
             </div>
         </ThemeContrastWrapper>
     )
-}
-
-interface Props {
-    title: string
-    message: string
-    image: string
-    callbackMessage?: string
-    callback?: (event: React.SyntheticEvent<HTMLButtonElement>) => void
 }
 
 export { ErrorWrapper }

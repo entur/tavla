@@ -19,8 +19,7 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const [settings, setSettings] = useSettings()
     const { documentId } = useParams<{ documentId: string }>()
 
-    const isLocked =
-        user && !user.isAnonymous && settings?.owners?.length && open
+    const isLocked = user && !user.isAnonymous && settings.owners.length && open
 
     useEffect(() => {
         if (isLocked) {

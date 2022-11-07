@@ -3,7 +3,7 @@ import { FieldValue, Timestamp } from 'firebase/firestore'
 import { TransportMode, TransportSubmode, StopPlace } from '@entur/sdk'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
-import { Settings } from './settings'
+import { Settings } from './settings/settings'
 
 export interface LineData {
     id: string

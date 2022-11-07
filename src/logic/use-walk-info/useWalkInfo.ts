@@ -110,10 +110,7 @@ function useWalkInfo(destinations: Destination[]): WalkInfo[] {
     const [travelTime, setTravelTime] = useState<WalkInfo[]>(EMPTY_WALK_INFO)
 
     const { latitude: fromLatitude, longitude: fromLongitude } =
-        settings?.coordinates ?? {
-            latitude: 0,
-            longitude: 0,
-        }
+        settings.coordinates
 
     const ids = destinations?.map((stopPlace) => stopPlace.id)
     const previousIds = usePrevious(ids)

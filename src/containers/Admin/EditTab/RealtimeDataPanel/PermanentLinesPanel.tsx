@@ -3,10 +3,10 @@ import { ExpandablePanel } from '@entur/expand'
 import { ClosedLockIcon } from '@entur/icons'
 import { FilterChip } from '@entur/chip'
 import { DrawableRoute, Line } from '../../../../types'
-import { Settings } from '../../../../settings'
 import { transportModeNameMapper } from '../../../../utils/utils'
 import { filterMap } from '../../../../utils/array'
 import { getIcon } from '../../../../utils/icon'
+import { Settings } from '../../../../settings/settings'
 import './linesPanel.scss'
 
 type PermanentLinesPanelProps = {

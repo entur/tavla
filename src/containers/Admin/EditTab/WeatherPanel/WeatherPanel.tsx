@@ -14,33 +14,26 @@ interface weatherSetting {
 function WeatherPanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
 
-    const {
-        showIcon = true,
-        showTemperature = true,
-        showWind = true,
-        showPrecipitation = true,
-    } = settings || {}
-
     const weatherSettings: weatherSetting[] = [
         {
             name: 'Værikon',
             value: 'showIcon',
-            checked: showIcon,
+            checked: settings.showIcon,
         },
         {
             name: 'Temperatur',
             value: 'showTemperature',
-            checked: showTemperature,
+            checked: settings.showTemperature,
         },
         {
             name: 'Vind',
             value: 'showWind',
-            checked: showWind,
+            checked: settings.showWind,
         },
         {
             name: 'Nedbør',
             value: 'showPrecipitation',
-            checked: showPrecipitation,
+            checked: settings.showPrecipitation,
         },
     ]
 
@@ -49,20 +42,28 @@ function WeatherPanel(): JSX.Element {
             const weatherSetting = event.target.value
             switch (weatherSetting) {
                 case 'showIcon':
-                    setSettings({ showIcon: !showIcon })
+                    setSettings({ showIcon: !settings.showIcon })
                     break
                 case 'showTemperature':
-                    setSettings({ showTemperature: !showTemperature })
+                    setSettings({ showTemperature: !settings.showTemperature })
                     break
                 case 'showWind':
-                    setSettings({ showWind: !showWind })
+                    setSettings({ showWind: !settings.showWind })
                     break
                 case 'showPrecipitation':
-                    setSettings({ showPrecipitation: !showPrecipitation })
+                    setSettings({
+                        showPrecipitation: !settings.showPrecipitation,
+                    })
                     break
             }
         },
-        [setSettings, showIcon, showTemperature, showWind, showPrecipitation],
+        [
+            setSettings,
+            settings.showIcon,
+            settings.showTemperature,
+            settings.showWind,
+            settings.showPrecipitation,
+        ],
     )
 
     return (

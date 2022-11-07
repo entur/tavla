@@ -24,18 +24,22 @@ function useWeather(): Properties | undefined {
     const [settings] = useSettings()
     const [weather, setWeather] = useState<Properties | undefined>()
 
-    const coordinates = settings?.coordinates
     useEffect(() => {
-        if (!coordinates) return
-        getWeather(coordinates.latitude, coordinates.longitude).then(setWeather)
+        getWeather(
+            settings.coordinates.latitude,
+            settings.coordinates.longitude,
+        ).then(setWeather)
 
         const intervalId = setInterval(() => {
-            getWeather(coordinates?.latitude ?? 0, coordinates?.longitude ?? 0)
+            getWeather(
+                settings.coordinates?.latitude ?? 0,
+                settings.coordinates?.longitude ?? 0,
+            )
                 .then((res) => res)
                 .then(setWeather)
         }, REFRESH_INTERVAL)
         return (): void => clearInterval(intervalId)
-    }, [coordinates])
+    }, [settings.coordinates])
     return weather
 }
 

@@ -11,9 +11,9 @@ function BusTile(): JSX.Element {
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const [settings] = useSettings()
     const onlyBusShowing =
-        settings?.hiddenModes.includes('sparkesykkel') &&
-        settings?.hiddenModes.includes('delebil') &&
-        settings?.hiddenModes.includes('bysykkel')
+        settings.hiddenModes.includes('sparkesykkel') &&
+        settings.hiddenModes.includes('delebil') &&
+        settings.hiddenModes.includes('bysykkel')
 
     const numberOfLines = onlyBusShowing ? 6 : 3
 

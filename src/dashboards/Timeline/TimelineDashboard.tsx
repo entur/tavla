@@ -184,7 +184,6 @@ const TimelineDashboard = (): JSX.Element | null => {
         }))
     }, [stopPlacesWithDepartures])
     const walkInfo = useWalkInfo(walkInfoDestinations)
-    const hideWalkInfo = settings?.hideWalkInfo
 
     const numberOfStopPlaces = stopPlacesWithDepartures?.length || 0
     const hasData = Boolean(stopPlacesWithDepartures?.length)
@@ -249,7 +248,7 @@ const TimelineDashboard = (): JSX.Element | null => {
     }, [
         stopPlacesWithDepartures,
         hasData,
-        settings?.showMap,
+        settings.showMap,
         boardId,
         prevNumberOfStopPlaces,
     ])
@@ -283,7 +282,7 @@ const TimelineDashboard = (): JSX.Element | null => {
             <div key={tileItemId} className="timeline__stop">
                 <header className="timeline__header">
                     <Heading2 className="timeline__heading">{name}</Heading2>
-                    {!hideWalkInfo && walkInfo ? (
+                    {!settings.hideWalkInfo && walkInfo ? (
                         <div className="timeline__walking-time">
                             {formatWalkInfo(
                                 getWalkInfoForStopPlace(walkInfo || [], stopId),
@@ -291,7 +290,7 @@ const TimelineDashboard = (): JSX.Element | null => {
                         </div>
                     ) : undefined}
                 </header>
-                {!hideWalkInfo &&
+                {!settings.hideWalkInfo &&
                 getWalkInfoForStopPlace(walkInfo || [], stopId) ? (
                     <div
                         className="timeline__walk-marker"
@@ -408,7 +407,7 @@ const TimelineDashboard = (): JSX.Element | null => {
                             <Heading2 className="timeline__heading">
                                 {name}
                             </Heading2>
-                            {!hideWalkInfo && walkInfo ? (
+                            {!settings.hideWalkInfo && walkInfo ? (
                                 <div className="timeline__walking-time">
                                     {formatWalkInfo(
                                         getWalkInfoForStopPlace(
@@ -419,7 +418,7 @@ const TimelineDashboard = (): JSX.Element | null => {
                                 </div>
                             ) : undefined}
                         </header>
-                        {!hideWalkInfo &&
+                        {!settings.hideWalkInfo &&
                         getWalkInfoForStopPlace(walkInfo || [], stopId) ? (
                             <div
                                 className="timeline__walk-marker"

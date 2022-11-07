@@ -16,11 +16,9 @@ import { Switch, TextField } from '@entur/form'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
 import { Button } from '@entur/button'
-import { Mode } from '../../../settings'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { isMobileWeb, getTranslation } from '../../../utils/utils'
-import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
-import { StopPlaceWithLines } from '../../../types'
+import { Line, StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces, useRentalStations } from '../../../logic'
 import { getStopPlacesWithLines } from '../../../logic/get-stop-places-with-lines/getStopPlacesWithLines'
 import {
@@ -32,6 +30,7 @@ import { useLinesWithRealtimePositions } from '../../../logic/use-lines-with-rea
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { useDebounce } from '../../../hooks/useDebounce'
 import { toggleValueInList } from '../../../utils/array'
+import { Mode } from '../../../settings/settings'
 import { FormFactor } from '../../../../graphql-generated/mobility-v2'
 import { StopPlacePanel } from './StopPlacePanel/StopPlacePanel'
 import { BikePanelSearch } from './BikeSearch/BikePanelSearch'
@@ -75,23 +74,8 @@ const TooltipText = (props: { title: string; text: string }) => (
 
 const EditTab = (): JSX.Element => {
     const [settings, setSettings] = useSettings()
-    const {
-        newStops = [],
-        newStations = [],
-        hiddenModes,
-        hideRealtimeData,
-        hiddenRealtimeDataLineRefs = [],
-        showWeather = false,
-        showIcon = true,
-        showTemperature = true,
-        showWind = true,
-        showPrecipitation = true,
-        showCustomTiles,
-    } = settings || {}
 
-    const [distance, setDistance] = useState<number>(
-        settings?.distance || DEFAULT_DISTANCE,
-    )
+    const [distance, setDistance] = useState<number>(settings.distance)
 
     const allLinesWithRealtimeData = useLinesWithRealtimePositions()
     const uniqueLines = useStopPlacesWithLines()
@@ -104,8 +88,7 @@ const EditTab = (): JSX.Element => {
         [uniqueLines, allLinesWithRealtimeData],
     )
 
-    const zoom = settings?.zoom || DEFAULT_ZOOM
-    const debouncedZoom = useDebounce(zoom, 200)
+    const debouncedZoom = useDebounce(settings.zoom, 200)
 
     useEffect(() => {
         if (settings && settings.zoom !== debouncedZoom) {
@@ -117,7 +100,7 @@ const EditTab = (): JSX.Element => {
 
     const debouncedDistance = useDebounce(distance, 800)
     useEffect(() => {
-        if (settings?.distance !== debouncedDistance) {
+        if (settings.distance !== debouncedDistance) {
             setSettings({
                 distance: debouncedDistance,
             })
@@ -126,19 +109,19 @@ const EditTab = (): JSX.Element => {
 
     useEffect(() => {
         if (
-            showWeather &&
-            !showIcon &&
-            !showTemperature &&
-            !showWind &&
-            !showPrecipitation
+            settings.showWeather &&
+            !settings.showIcon &&
+            !settings.showTemperature &&
+            !settings.showWind &&
+            !settings.showPrecipitation
         )
             setSettings({ showWeather: false })
     }, [
-        showIcon,
-        showTemperature,
-        showWind,
-        showPrecipitation,
-        showWeather,
+        settings.showIcon,
+        settings.showTemperature,
+        settings.showWind,
+        settings.showPrecipitation,
+        settings.showWeather,
         setSettings,
     ])
 
@@ -148,11 +131,11 @@ const EditTab = (): JSX.Element => {
     const bikeRentalStations = useRentalStations(false, FormFactor.Bicycle)
 
     const nearestPlaces = useNearestPlaces(
-        settings?.coordinates,
+        settings.coordinates,
         debouncedDistance,
     )
 
-    const locationName = settings?.boardName
+    const locationName = settings.boardName
 
     const nearestStopPlaceIds = useMemo(
         () =>
@@ -164,7 +147,7 @@ const EditTab = (): JSX.Element => {
 
     useEffect(() => {
         let aborted = false
-        const ids = [...newStops, ...nearestStopPlaceIds]
+        const ids = [...settings.newStops, ...nearestStopPlaceIds]
 
         getStopPlacesWithLines(
             ids.map((id: string) => id.replace(/-\d+$/, '')),
@@ -184,7 +167,7 @@ const EditTab = (): JSX.Element => {
         return (): void => {
             aborted = true
         }
-    }, [nearestPlaces, nearestStopPlaceIds, newStops])
+    }, [nearestPlaces, nearestStopPlaceIds, settings.newStops])
 
     const sortedBikeRentalStations = useMemo(
         () =>
@@ -200,7 +183,10 @@ const EditTab = (): JSX.Element => {
 
     const addNewStop = useCallback(
         (stopId: string) => {
-            const numberOfDuplicates = [...nearestStopPlaceIds, ...newStops]
+            const numberOfDuplicates = [
+                ...nearestStopPlaceIds,
+                ...settings.newStops,
+            ]
                 .map((id) => id.replace(/-\d+$/, ''))
                 .filter((id) => id === stopId).length
 
@@ -209,34 +195,34 @@ const EditTab = (): JSX.Element => {
                 : `${stopId}-${numberOfDuplicates}`
 
             setSettings({
-                newStops: [...newStops, id],
+                newStops: [...settings.newStops, id],
             })
         },
-        [nearestStopPlaceIds, newStops, setSettings],
+        [nearestStopPlaceIds, settings.newStops, setSettings],
     )
 
     const addNewStation = useCallback(
         (stationId: string) => {
-            if (newStations.includes(stationId)) return
+            if (settings.newStations.includes(stationId)) return
             setSettings({
-                newStations: [...newStations, stationId],
+                newStations: [...settings.newStations, stationId],
             })
         },
-        [newStations, setSettings],
+        [settings.newStations, setSettings],
     )
 
     const toggleMode = useCallback(
         (mode: Mode) => {
             setSettings({
-                hiddenModes: toggleValueInList(hiddenModes || [], mode),
+                hiddenModes: toggleValueInList(settings.hiddenModes, mode),
             })
         },
-        [setSettings, hiddenModes],
+        [setSettings, settings.hiddenModes],
     )
 
     const toggleRealtimeData = useCallback(
-        () => setSettings({ hideRealtimeData: !hideRealtimeData }),
-        [setSettings, hideRealtimeData],
+        () => setSettings({ hideRealtimeData: !settings.hideRealtimeData }),
+        [setSettings, settings.hideRealtimeData],
     )
     const [showTooltip, setShowTooltip] = useState<boolean>(false)
 
@@ -261,8 +247,12 @@ const EditTab = (): JSX.Element => {
     const handleWeatherSettingsChange = (
         event: React.ChangeEvent<HTMLInputElement>,
     ): void => {
-        !(showIcon || showTemperature || showWind || showPrecipitation) &&
-        !showWeather
+        !(
+            settings.showIcon ||
+            settings.showTemperature ||
+            settings.showWind ||
+            settings.showPrecipitation
+        ) && !settings.showWeather
             ? setSettings({
                   showWeather: event.currentTarget.checked,
                   showIcon: true,
@@ -330,7 +320,7 @@ const EditTab = (): JSX.Element => {
                             <Heading2>Kollektiv</Heading2>
                             <Switch
                                 onChange={(): void => toggleMode('kollektiv')}
-                                checked={!hiddenModes?.includes('kollektiv')}
+                                checked={settings.hiddenModes.includes('kollektiv')}
                                 size="large"
                             />
                         </div>
@@ -355,7 +345,7 @@ const EditTab = (): JSX.Element => {
                                         toggleMode('sparkesykkel')
                                     }
                                     checked={
-                                        !hiddenModes?.includes('sparkesykkel')
+                                        settings.hiddenModes.includes('sparkesykkel')
                                     }
                                     size="large"
                                 />
@@ -367,7 +357,7 @@ const EditTab = (): JSX.Element => {
                                 <Heading2>Delebil</Heading2>
                                 <Switch
                                     onChange={(): void => toggleMode('delebil')}
-                                    checked={!hiddenModes?.includes('delebil')}
+                                    checked={settings.hiddenModes.includes('delebil')}
                                     size="large"
                                 />
                             </div>
@@ -379,7 +369,7 @@ const EditTab = (): JSX.Element => {
                             <Heading2>Bysykkel</Heading2>
                             <Switch
                                 onChange={(): void => toggleMode('bysykkel')}
-                                checked={!hiddenModes?.includes('bysykkel')}
+                                checked={settings.hiddenModes.includes('bysykkel')}
                                 size="large"
                             />
                         </div>
@@ -406,7 +396,7 @@ const EditTab = (): JSX.Element => {
                             size="large"
                         />
                     </div>
-                    {settings?.showMap && (
+                    {settings.showMap && (
                         <ZoomEditor
                             zoom={zoom}
                             onZoomUpdated={setZoom}
@@ -427,7 +417,7 @@ const EditTab = (): JSX.Element => {
                             </Heading2>
                             <Switch
                                 onChange={handleWeatherSettingsChange}
-                                checked={showWeather}
+                                checked={settings.showWeather}
                                 size="large"
                             />
                         </div>
@@ -460,7 +450,7 @@ const EditTab = (): JSX.Element => {
                                             e.currentTarget.checked,
                                     })
                                 }
-                                checked={showCustomTiles}
+                                checked={settings.showCustomTiles}
                                 size="large"
                             />
                         </div>
@@ -472,14 +462,14 @@ const EditTab = (): JSX.Element => {
                         <Heading2>Sanntidsposisjoner</Heading2>
                         <Switch
                             onChange={() => toggleRealtimeData()}
-                            checked={!hideRealtimeData}
+                            checked={settings.hideRealtimeData}
                             size="large"
                         ></Switch>
                     </div>
-                    {!hiddenModes?.includes('kollektiv') ? (
+                    {settings.hiddenModes.includes('kollektiv') ? (
                         <RealtimeDataPanel
                             realtimeLines={realtimeLines}
-                            hiddenLines={hiddenRealtimeDataLineRefs}
+                            hiddenLines={settings.hiddenRealtimeDataLineRefs}
                         />
                     ) : (
                         <Paragraph>

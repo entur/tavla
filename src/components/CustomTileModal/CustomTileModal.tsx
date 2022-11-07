@@ -21,14 +21,13 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
     selectedTileId,
 }): JSX.Element => {
     const [settings, setSettings] = useSettings()
-    const { customQrTiles = [], customImageTiles = [] } = settings || {}
 
     const selectedItem = useMemo(
         () =>
-            [...customQrTiles, ...customImageTiles].find(
+            [...settings.customQrTiles, ...settings.customImageTiles].find(
                 (tile) => tile.id === selectedTileId,
             ),
-        [customQrTiles, customImageTiles, selectedTileId],
+        [settings.customQrTiles, settings.customImageTiles, selectedTileId],
     )
 
     const [tileType, setTileType] = useState<CustomTileType>(
@@ -56,10 +55,10 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
             setSettings({
                 customQrTiles: [
                     ...(actionType === ActionType.Update
-                        ? customQrTiles.filter(
+                        ? settings.customQrTiles.filter(
                               ({ id }) => id !== selectedTileId,
                           )
-                        : customQrTiles),
+                        : settings.customQrTiles),
                     {
                         id: String(Date.now()),
                         displayName,
@@ -74,10 +73,10 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
             setSettings({
                 customImageTiles: [
                     ...(actionType === ActionType.Update
-                        ? customImageTiles.filter(
+                        ? settings.customImageTiles.filter(
                               ({ id }) => id !== selectedTileId,
                           )
-                        : customImageTiles),
+                        : settings.customImageTiles),
                     {
                         id: String(Date.now()),
                         displayName,

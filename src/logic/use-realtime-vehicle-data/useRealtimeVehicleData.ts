@@ -23,20 +23,18 @@ function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
     const [state, dispatch] = useVehicleReducer()
     const uniqueLines = useStopPlacesWithLines()
     const [settings] = useSettings()
-    const { hiddenRealtimeDataLineRefs } = settings || {}
 
     const filterVehicleByLineRefs = useCallback(
         (vehicle: RealtimeVehicle) =>
             uniqueLines.map((line) => line.id).includes(vehicle.line.lineRef) &&
-            hiddenRealtimeDataLineRefs &&
-            !hiddenRealtimeDataLineRefs?.includes(vehicle.line.lineRef),
-        [uniqueLines, hiddenRealtimeDataLineRefs],
+            !settings.hiddenRealtimeDataLineRefs.includes(vehicle.line.lineRef),
+        [uniqueLines, settings.hiddenRealtimeDataLineRefs],
     )
 
     useUseRealtimeVehicleData_VehiclesQuery({
         fetchPolicy: DEFAULT_FETCH_POLICY,
         variables: { boundingBox },
-        skip: !uniqueLines || settings?.hideRealtimeData,
+        skip: !uniqueLines || settings.hideRealtimeData,
         onCompleted: ({ vehicles }) => {
             const filteredVehicles =
                 vehicles
@@ -53,7 +51,7 @@ function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
 
     useUseRealtimeVehicleData_VehiclesSubscription({
         fetchPolicy: DEFAULT_FETCH_POLICY,
-        skip: !uniqueLines || settings?.hideRealtimeData,
+        skip: !uniqueLines || settings.hideRealtimeData,
         variables: {
             boundingBox,
             bufferSize: BUFFER_SIZE,

@@ -48,3 +48,10 @@ $heading-font-size: 3.5rem;
         }
     }
 }
+
+.poster-rotated {
+    transform: rotate(-90deg) translate(-100vh);
+    transform-origin: top left;
+    width: 100vh;
+    height: 100vh;
+}

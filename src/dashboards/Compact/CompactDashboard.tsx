@@ -21,7 +21,7 @@ import {
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
 import { useSettings } from '../../settings/SettingsProvider'
-import { DEFAULT_ZOOM, BREAKPOINTS } from '../../constants'
+import { BREAKPOINTS } from '../../constants'
 import { isMobileWeb } from '../../utils/utils'
 import { LongPressProvider } from '../../logic/longPressContext'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
@@ -82,12 +82,6 @@ const COLS: { [key: string]: number } = {
 
 const CompactDashboard = (): JSX.Element | null => {
     const [settings] = useSettings()
-    const {
-        customImageTiles = [],
-        customQrTiles = [],
-        hiddenCustomTileIds = [],
-        showCustomTiles,
-    } = settings || {}
     const location = useLocation()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
@@ -107,7 +101,7 @@ const CompactDashboard = (): JSX.Element | null => {
     const bikeRentalStations = useRentalStations(
         true,
         FormFactor.Bicycle,
-        settings?.hiddenModes?.includes('bysykkel'),
+        settings.hiddenModes.includes('bysykkel'),
     )
     const scooters = useMobility(FormFactor.Scooter)
 
@@ -129,8 +123,8 @@ const CompactDashboard = (): JSX.Element | null => {
         bikeRentalStations && bikeRentalStations.length
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
-    const mapCol = settings?.showMap ? 1 : 0
-    const weatherCol = settings?.showWeather ? 1 : 0
+    const mapCol = settings.showMap ? 1 : 0
+    const weatherCol = settings.showWeather ? 1 : 0
 
     const hasData = Boolean(
         bikeRentalStations?.length ||
@@ -145,16 +139,15 @@ const CompactDashboard = (): JSX.Element | null => {
     const [modalVisible, setModalVisible] = useState(false)
 
     const stopPlacesHasLoaded = Boolean(
-        stopPlacesWithDepartures ||
-            settings?.hiddenModes?.includes('kollektiv'),
+        stopPlacesWithDepartures || settings.hiddenModes.includes('kollektiv'),
     )
 
     const bikeHasLoaded = Boolean(
-        bikeRentalStations || settings?.hiddenModes?.includes('bysykkel'),
+        bikeRentalStations || settings.hiddenModes.includes('bysykkel'),
     )
 
     const scooterHasLoaded = Boolean(
-        scooters || settings?.hiddenModes?.includes('sparkesykkel'),
+        scooters || settings.hiddenModes.includes('sparkesykkel'),
     )
 
     const hasFetchedData = Boolean(
@@ -163,22 +156,30 @@ const CompactDashboard = (): JSX.Element | null => {
 
     const imageTilesToDisplay = useMemo(
         () =>
-            showCustomTiles
-                ? customImageTiles.filter(
-                      ({ id }) => !hiddenCustomTileIds.includes(id),
+            settings.showCustomTiles
+                ? settings.customImageTiles.filter(
+                      ({ id }) => !settings.hiddenCustomTileIds.includes(id),
                   )
                 : [],
-        [customImageTiles, showCustomTiles, hiddenCustomTileIds],
+        [
+            settings.customImageTiles,
+            settings.showCustomTiles,
+            settings.hiddenCustomTileIds,
+        ],
     )
 
     const qrTilesToDisplay = useMemo(
         () =>
-            showCustomTiles
-                ? customQrTiles.filter(
-                      ({ id }) => !hiddenCustomTileIds.includes(id),
+            settings.showCustomTiles
+                ? settings.customQrTiles.filter(
+                      ({ id }) => !settings.hiddenCustomTileIds.includes(id),
                   )
                 : [],
-        [showCustomTiles, customQrTiles, hiddenCustomTileIds],
+        [
+            settings.showCustomTiles,
+            settings.customQrTiles,
+            settings.hiddenCustomTileIds,
+        ],
     )
 
     useEffect(() => {
@@ -204,7 +205,7 @@ const CompactDashboard = (): JSX.Element | null => {
                 { id: 'map', name: 'Kart' },
             ]
         }
-        if (settings?.showWeather) {
+        if (settings.showWeather) {
             defaultTileOrder = [
                 { id: 'weather', name: 'Vær' },
                 ...defaultTileOrder,
@@ -247,8 +248,8 @@ const CompactDashboard = (): JSX.Element | null => {
         prevNumberOfStopPlaces,
         anyBikeRentalStations,
         mapCol,
-        settings?.showMap,
-        settings?.showWeather,
+        settings.showMap,
+        settings.showWeather,
         boardId,
         hasData,
         imageTilesToDisplay,
@@ -324,17 +325,14 @@ const CompactDashboard = (): JSX.Element | null => {
                                                     bikeRentalStations
                                                 }
                                                 latitude={
-                                                    settings?.coordinates
-                                                        ?.latitude ?? 0
+                                                    settings.coordinates
+                                                        .latitude
                                                 }
                                                 longitude={
-                                                    settings?.coordinates
-                                                        ?.longitude ?? 0
+                                                    settings.coordinates
+                                                        .longitude
                                                 }
-                                                zoom={
-                                                    settings?.zoom ??
-                                                    DEFAULT_ZOOM
-                                                }
+                                                zoom={settings.zoom}
                                             />
                                         </div>
                                     ) : (
@@ -352,7 +350,7 @@ const CompactDashboard = (): JSX.Element | null => {
                                         []
                                     )
                                 } else if (item.id == 'weather') {
-                                    return settings?.showWeather ? (
+                                    return settings.showWeather ? (
                                         <div key={item.id}>
                                             <WeatherTile className="tile" />
                                         </div>
@@ -454,7 +452,7 @@ const CompactDashboard = (): JSX.Element | null => {
                             }
                         }}
                     >
-                        {settings?.showWeather && (
+                        {settings.showWeather && (
                             <div
                                 key="weather"
                                 data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
@@ -531,13 +529,9 @@ const CompactDashboard = (): JSX.Element | null => {
                                     scooters={scooters}
                                     stopPlaces={stopPlacesWithDepartures}
                                     bikeRentalStations={bikeRentalStations}
-                                    latitude={
-                                        settings?.coordinates?.latitude ?? 0
-                                    }
-                                    longitude={
-                                        settings?.coordinates?.longitude ?? 0
-                                    }
-                                    zoom={settings?.zoom ?? DEFAULT_ZOOM}
+                                    latitude={settings.coordinates.latitude}
+                                    longitude={settings.coordinates.longitude}
+                                    zoom={settings.zoom}
                                 />
                             </div>
                         ) : (

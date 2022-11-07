@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Loader } from '@entur/loader'
 import { useSettings } from '../settings/SettingsProvider'
 import { DashboardTypes } from '../types'
 import { TimelineDashboard } from './Timeline/TimelineDashboard'
@@ -12,7 +11,7 @@ import { Poster } from './Poster/Poster'
 const DashboardResolver: React.FC = () => {
     const [settings] = useSettings()
 
-    switch (settings?.dashboard) {
+    switch (settings.dashboard) {
         case DashboardTypes.Timeline:
             return <TimelineDashboard />
         case DashboardTypes.Chrono:
@@ -27,8 +26,6 @@ const DashboardResolver: React.FC = () => {
             return <CompactDashboard />
         case DashboardTypes.Poster:
             return <Poster />
-        default:
-            return <Loader />
     }
 }
 
