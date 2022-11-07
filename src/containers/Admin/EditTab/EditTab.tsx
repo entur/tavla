@@ -18,7 +18,7 @@ import { ValidationInfoIcon } from '@entur/icons'
 import { Button } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { isMobileWeb, getTranslation } from '../../../utils/utils'
-import { Line, StopPlaceWithLines } from '../../../types'
+import { StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces, useRentalStations } from '../../../logic'
 import { getStopPlacesWithLines } from '../../../logic/get-stop-places-with-lines/getStopPlacesWithLines'
 import {
@@ -320,7 +320,9 @@ const EditTab = (): JSX.Element => {
                             <Heading2>Kollektiv</Heading2>
                             <Switch
                                 onChange={(): void => toggleMode('kollektiv')}
-                                checked={settings.hiddenModes.includes('kollektiv')}
+                                checked={settings.hiddenModes.includes(
+                                    'kollektiv',
+                                )}
                                 size="large"
                             />
                         </div>
@@ -344,9 +346,9 @@ const EditTab = (): JSX.Element => {
                                     onChange={(): void =>
                                         toggleMode('sparkesykkel')
                                     }
-                                    checked={
-                                        settings.hiddenModes.includes('sparkesykkel')
-                                    }
+                                    checked={settings.hiddenModes.includes(
+                                        'sparkesykkel',
+                                    )}
                                     size="large"
                                 />
                             </div>
@@ -357,7 +359,9 @@ const EditTab = (): JSX.Element => {
                                 <Heading2>Delebil</Heading2>
                                 <Switch
                                     onChange={(): void => toggleMode('delebil')}
-                                    checked={settings.hiddenModes.includes('delebil')}
+                                    checked={settings.hiddenModes.includes(
+                                        'delebil',
+                                    )}
                                     size="large"
                                 />
                             </div>
@@ -369,7 +373,9 @@ const EditTab = (): JSX.Element => {
                             <Heading2>Bysykkel</Heading2>
                             <Switch
                                 onChange={(): void => toggleMode('bysykkel')}
-                                checked={settings.hiddenModes.includes('bysykkel')}
+                                checked={settings.hiddenModes.includes(
+                                    'bysykkel',
+                                )}
                                 size="large"
                             />
                         </div>
@@ -406,7 +412,7 @@ const EditTab = (): JSX.Element => {
                 </div> */}
                 </div>
             </div>
-            <div className="edit-tab__secondary-title">Annen tilpasning</div>
+            <div className="edit-tab__secondary-title">Annet</div>
             <div className="flex-container">
                 <div className="left-column">
                     <div className="flex-item">
