@@ -81,7 +81,7 @@
         "react-router-dom": "6.4.2",
         "subscriptions-transport-ws": "0.11.0",
         "supercluster": "7.1.5",
-        "superstruct": "0.16.6",
+        "superstruct": "0.16.7",
         "use-long-press": "2.0.2",
         "use-supercluster": "0.4.0"
     },
