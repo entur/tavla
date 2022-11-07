@@ -25,11 +25,10 @@ const LockModal: React.FC<LockModalProps> = ({ open, onDismiss }) => {
         if (
             user &&
             !user.isAnonymous &&
-            settings?.owners &&
             !settings.owners.includes(user.uid) &&
             open
         ) {
-            const newOwnersList = [...(settings?.owners || []), user.uid]
+            const newOwnersList = [...settings.owners, user.uid]
             setSettings({
                 owners: newOwnersList,
             })

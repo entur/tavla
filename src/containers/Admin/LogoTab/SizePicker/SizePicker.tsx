@@ -6,8 +6,6 @@ import './SizePicker.scss'
 const SizePicker = (): JSX.Element => {
     const [settings, setSettings] = useSettings()
 
-    const { logoSize = '32px' } = settings || {}
-
     const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
         setSettings({
             logoSize: event.target.value,
@@ -19,7 +17,7 @@ const SizePicker = (): JSX.Element => {
             name="logo-size"
             label="Størrelse på logo"
             onChange={handleChange}
-            value={logoSize}
+            value={settings.logoSize}
             className="eds-label"
         >
             <Radio value="32px">

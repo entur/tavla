@@ -15,11 +15,8 @@ const UPLOAD_ZONE_TEXT =
 
 const LogoUpload = (): JSX.Element => {
     const [settings, setSettings] = useSettings()
-
-    const logo = settings?.logo
-
     const [error, setError] = useState<string>()
-    const [uploadVisible, setUploadVisible] = useState(!logo)
+    const [uploadVisible, setUploadVisible] = useState(!settings.logo)
     const [standbyText, setStandbyText] = useState(UPLOAD_ZONE_TEXT)
     const [progress, setProgress] = useState<number>()
     const { documentId } = useParams<{ documentId: string }>()
@@ -91,7 +88,7 @@ const LogoUpload = (): JSX.Element => {
                 </>
             ) : (
                 <div className="logo-preview">
-                    <img src={logo} />
+                    <img src={settings.logo} />
                     <div className="logo-preview-toolbar">
                         <Link onClick={handleReset}>Last opp ny logo</Link>
                         <Link onClick={handleDelete}>

@@ -11,16 +11,12 @@ import { ThemeContrastWrapper } from '../../../ThemeContrastWrapper/ThemeContras
 import { PanelRow } from './PanelRow/Panelrow'
 import './StopPlacePanel.scss'
 
-function StopPlacePanel(props: Props): JSX.Element {
+interface StopPlacePanelProps {
+    stops: StopPlaceWithLines[] | undefined
+}
+
+function StopPlacePanel({ stops }: StopPlacePanelProps): JSX.Element {
     const [settings, setSettings] = useSettings()
-
-    const {
-        hiddenStopModes = {},
-        hiddenStops = [],
-        hiddenRoutes = {},
-    } = settings || {}
-
-    const { stops } = props
 
     const filteredStopPlaces = useMemo(
         () => stops?.filter(({ lines }) => lines.length) || [],
@@ -28,11 +24,14 @@ function StopPlacePanel(props: Props): JSX.Element {
     )
 
     const onChooseAllPressed = useCallback(() => {
-        if (hiddenStops.length > 0) {
+        if (settings.hiddenStops.length > 0) {
             setSettings({
                 hiddenStops: [],
                 hiddenStopModes: Object.fromEntries(
-                    Object.keys(hiddenStopModes).map((key) => [key, []]),
+                    Object.keys(settings.hiddenStopModes).map((key) => [
+                        key,
+                        [],
+                    ]),
                 ),
             })
         } else {
@@ -40,7 +39,12 @@ function StopPlacePanel(props: Props): JSX.Element {
                 hiddenStops: stops?.map(({ id }) => id) || [],
             })
         }
-    }, [hiddenStopModes, hiddenStops.length, setSettings, stops])
+    }, [
+        settings.hiddenStopModes,
+        settings.hiddenStops.length,
+        setSettings,
+        stops,
+    ])
 
     const onToggleStop = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -57,22 +61,27 @@ function StopPlacePanel(props: Props): JSX.Element {
             )
 
             setSettings({
-                hiddenStops: toggleValueInList(hiddenStops, stopId),
+                hiddenStops: toggleValueInList(settings.hiddenStops, stopId),
                 hiddenStopModes: {
-                    ...hiddenStopModes,
+                    ...settings.hiddenStopModes,
                     [stopId]: !checked ? uniqueTransportModes : [],
                 },
             })
         },
-        [filteredStopPlaces, hiddenStopModes, hiddenStops, setSettings],
+        [
+            filteredStopPlaces,
+            settings.hiddenStopModes,
+            settings.hiddenStops,
+            setSettings,
+        ],
     )
 
     const onToggleRoute = useCallback(
         (stopPlaceId: string, routeName: string) => {
             const newHiddenRoutes = {
-                ...hiddenRoutes,
+                ...settings.hiddenRoutes,
                 [stopPlaceId]: toggleValueInList(
-                    hiddenRoutes[stopPlaceId] || [],
+                    settings.hiddenRoutes[stopPlaceId] || [],
                     routeName,
                 ),
             }
@@ -80,15 +89,15 @@ function StopPlacePanel(props: Props): JSX.Element {
                 hiddenRoutes: newHiddenRoutes,
             })
         },
-        [hiddenRoutes, setSettings],
+        [settings.hiddenRoutes, setSettings],
     )
 
     const onToggleMode = useCallback(
         (stopPlaceId: string, mode: TransportMode): void => {
             const newHiddenModes = {
-                ...hiddenStopModes,
+                ...settings.hiddenStopModes,
                 [stopPlaceId]: toggleValueInList(
-                    hiddenStopModes[stopPlaceId] || [],
+                    settings.hiddenStopModes[stopPlaceId] || [],
                     mode,
                 ),
             }
@@ -108,18 +117,25 @@ function StopPlacePanel(props: Props): JSX.Element {
 
             if (allModesUnchecked) {
                 setSettings({
-                    hiddenStops: [...hiddenStops, stopPlaceId],
+                    hiddenStops: [...settings.hiddenStops, stopPlaceId],
                     hiddenStopModes: newHiddenModes,
                 })
                 return
             }
 
             setSettings({
-                hiddenStops: hiddenStops.filter((id) => id !== stopPlaceId),
+                hiddenStops: settings.hiddenStops.filter(
+                    (id) => id !== stopPlaceId,
+                ),
                 hiddenStopModes: newHiddenModes,
             })
         },
-        [filteredStopPlaces, hiddenStopModes, hiddenStops, setSettings],
+        [
+            filteredStopPlaces,
+            settings.hiddenStopModes,
+            settings.hiddenStops,
+            setSettings,
+        ],
     )
 
     if (!filteredStopPlaces.length) {
@@ -134,7 +150,7 @@ function StopPlacePanel(props: Props): JSX.Element {
         )
     }
 
-    const useContrast = isDarkOrDefaultTheme(settings?.theme)
+    const useContrast = isDarkOrDefaultTheme(settings.theme)
 
     return (
         <ThemeContrastWrapper useContrast={useContrast}>
@@ -148,7 +164,7 @@ function StopPlacePanel(props: Props): JSX.Element {
                             id="check-all-stop-places"
                             name="check-all-stop-places"
                             onChange={onChooseAllPressed}
-                            checked={!hiddenStops.length}
+                            checked={!settings.hiddenStops.length}
                         >
                             Velg alle
                         </Checkbox>
@@ -169,10 +185,6 @@ function StopPlacePanel(props: Props): JSX.Element {
             </div>
         </ThemeContrastWrapper>
     )
-}
-
-interface Props {
-    stops: StopPlaceWithLines[] | undefined
 }
 
 export { StopPlacePanel }

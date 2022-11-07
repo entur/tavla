@@ -14,7 +14,7 @@ const BikeTile = () => {
         <MobilityTile
             icon={<CityBikeIcon />}
             header="Bysykler"
-            description={`Innen ${settings?.distance || 0} meters radius`}
+            description={`Innen ${settings.distance} meters radius`}
             numberOfVehicles={numberOfBikes}
         />
     )

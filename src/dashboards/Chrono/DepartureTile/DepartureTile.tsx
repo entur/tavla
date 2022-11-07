@@ -65,7 +65,6 @@ const DepartureTile = ({
 }: Props): JSX.Element => {
     const { departures, name } = stopPlaceWithDepartures
     const [settings] = useSettings()
-    const { hideSituations, hideTracks, hideWalkInfo } = settings || {}
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
@@ -79,13 +78,17 @@ const DepartureTile = ({
         }
     }, [settings])
 
-    const columnSizes = getColumnSizes(isMobile, hideTracks, hideSituations)
+    const columnSizes = getColumnSizes(
+        isMobile,
+        settings.hideTracks,
+        settings.hideSituations,
+    )
 
     return (
         <Tile
             title={name}
             icons={getTransportHeaderIcons(departures, iconColorType)}
-            walkInfo={!hideWalkInfo ? walkInfo : undefined}
+            walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
         >
             <Table spacing="small" fixed>
                 <TableHead>
@@ -97,22 +100,22 @@ const DepartureTile = ({
                         <HeaderCell style={columnSizes.departureCol}>
                             Avgang
                         </HeaderCell>
-                        {!hideTracks ? (
+                        {!settings.hideTracks && (
                             <HeaderCell style={columnSizes.trackCol}>
                                 Spor
                             </HeaderCell>
-                        ) : null}
-                        {!hideSituations ? (
+                        )}
+                        {!settings.hideSituations && (
                             <HeaderCell style={columnSizes.situationCol}>
                                 Avvik
                             </HeaderCell>
-                        ) : null}
+                        )}
                     </TableRow>
                 </TableHead>
                 <TileRows
                     visibleDepartures={visibleDepartures}
-                    hideSituations={hideSituations}
-                    hideTracks={hideTracks}
+                    hideSituations={settings.hideSituations}
+                    hideTracks={settings.hideTracks}
                     iconColorType={iconColorType}
                 />
             </Table>

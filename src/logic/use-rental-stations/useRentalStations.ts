@@ -22,25 +22,24 @@ function useRentalStations(
     const [getStationsById, { data: getStationsByIdData }] =
         useUseRentalStations_StationsByIdLazyQuery()
 
-    const {
-        coordinates,
-        distance,
-        newStations = [],
-        hiddenStations = [],
-    } = settings || {}
-
     useEffect(() => {
-        if (!coordinates || !distance || isDisabled) return
+        if (isDisabled) return
         getNearbyStations({
             fetchPolicy: 'cache-and-network',
             variables: {
-                lat: coordinates.latitude,
-                lon: coordinates.longitude,
-                range: distance,
+                lat: settings.coordinates.latitude,
+                lon: settings.coordinates.longitude,
+                range: settings.distance,
                 availableFormFactors: formFactor,
             },
         }).finally()
-    }, [coordinates, distance, isDisabled, getNearbyStations, formFactor])
+    }, [
+        settings.coordinates,
+        settings.distance,
+        isDisabled,
+        getNearbyStations,
+        formFactor,
+    ])
 
     useEffect(() => {
         if (!getNearByStationsData || isDisabled) return
@@ -51,12 +50,12 @@ function useRentalStations(
 
         const stationsToFetch = excludeHiddenStations
             ? nearbyStationIds.filter(
-                  (stationId) => !hiddenStations.includes(stationId),
+                  (stationId) => !settings.hiddenStations.includes(stationId),
               )
             : nearbyStationIds
 
         const uniqueStationsToFetch = [
-            ...new Set([...stationsToFetch, ...newStations]),
+            ...new Set([...stationsToFetch, ...settings.newStations]),
         ]
 
         getStationsById({
@@ -67,10 +66,10 @@ function useRentalStations(
             },
         }).finally()
     }, [
-        hiddenStations,
+        settings.hiddenStations,
+        settings.newStations,
         isDisabled,
         excludeHiddenStations,
-        newStations,
         getStationsById,
         getNearByStationsData,
     ])

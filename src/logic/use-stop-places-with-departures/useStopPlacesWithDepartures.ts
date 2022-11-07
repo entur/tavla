@@ -131,20 +131,12 @@ function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] | undefined {
     const [settings] = useSettings()
 
     const nearestPlaces = useNearestPlaces(
-        settings?.coordinates,
-        settings?.distance,
+        settings.coordinates,
+        settings.distance,
     )
     const [stopPlacesWithDepartures, setStopPlacesWithDepartures] = useState<
         StopPlaceWithDepartures[] | undefined
     >()
-
-    const {
-        newStops = [],
-        hiddenStops,
-        hiddenStopModes,
-        hiddenRoutes,
-        hiddenModes,
-    } = settings || {}
 
     const nearestStopPlaces = useMemo(
         () =>
@@ -156,10 +148,10 @@ function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] | undefined {
 
     const allStopPlaceIds = useMemo(
         () =>
-            unique([...newStops, ...nearestStopPlaces]).filter(
-                (id) => !hiddenStops?.includes(id),
+            unique([...settings.newStops, ...nearestStopPlaces]).filter(
+                (id) => !settings.hiddenStops.includes(id),
             ),
-        [newStops, hiddenStops, nearestStopPlaces],
+        [settings.newStops, settings.hiddenStops, nearestStopPlaces],
     )
 
     const formatStopPlacesWithDepartures = useCallback(
@@ -184,8 +176,10 @@ function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] | undefined {
                             .filter(isNotNullOrUndefined)
                             .filter(
                                 ({ route, type }) =>
-                                    !hiddenRoutes?.[stopId]?.includes(route) &&
-                                    !hiddenStopModes?.[stopId]?.includes(
+                                    !settings.hiddenRoutes[stopId]?.includes(
+                                        route,
+                                    ) &&
+                                    !settings.hiddenStopModes[stopId]?.includes(
                                         type as unknown as TransportMode,
                                     ),
                             ),
@@ -204,11 +198,11 @@ function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] | undefined {
                 isNotNullOrUndefined,
             )
         },
-        [allStopPlaceIds, hiddenRoutes, hiddenStopModes],
+        [allStopPlaceIds, settings.hiddenRoutes, settings.hiddenStopModes],
     )
 
     useEffect(() => {
-        const isDisabled = Boolean(hiddenModes?.includes('kollektiv'))
+        const isDisabled = Boolean(settings.hiddenModes.includes('kollektiv'))
 
         let aborted = false
 
@@ -241,8 +235,7 @@ function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] | undefined {
         nearestPlaces,
         allStopPlaceIds,
         formatStopPlacesWithDepartures,
-        hiddenModes,
-        settings,
+        settings.hiddenModes,
     ])
 
     return stopPlacesWithDepartures

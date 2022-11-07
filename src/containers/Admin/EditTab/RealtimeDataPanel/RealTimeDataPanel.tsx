@@ -23,12 +23,6 @@ const RealtimeDataPanel = ({
 }: Props): JSX.Element => {
     const [settings, setSettings] = useSettings()
 
-    const {
-        showRoutesInMap,
-        permanentlyVisibleRoutesInMap = [],
-        hiddenRealtimeDataLineRefs = [],
-    } = settings || {}
-
     const modes = useMemo(
         () =>
             [...new Set(realtimeLines?.map((line) => line.transportMode))].sort(
@@ -42,10 +36,10 @@ const RealtimeDataPanel = ({
 
     const toggleRealtimeDataLineIds = useCallback(
         (lineId: string) => {
-            if (hiddenRealtimeDataLineRefs.includes(lineId)) {
+            if (settings.hiddenRealtimeDataLineRefs.includes(lineId)) {
                 setSettings({
                     hiddenRealtimeDataLineRefs:
-                        hiddenRealtimeDataLineRefs.filter(
+                        settings.hiddenRealtimeDataLineRefs.filter(
                             (el) => el !== lineId,
                         ),
                     hideRealtimeData: false,
@@ -53,14 +47,14 @@ const RealtimeDataPanel = ({
             } else {
                 setSettings({
                     hiddenRealtimeDataLineRefs: [
-                        ...hiddenRealtimeDataLineRefs,
+                        ...settings.hiddenRealtimeDataLineRefs,
                         lineId,
                     ],
                     hideRealtimeData: false,
                 })
             }
         },
-        [hiddenRealtimeDataLineRefs, setSettings],
+        [settings.hiddenRealtimeDataLineRefs, setSettings],
     )
 
     if (!realtimeLines) {
@@ -119,7 +113,7 @@ const RealtimeDataPanel = ({
                                                     ? setSettings({
                                                           hiddenRealtimeDataLineRefs:
                                                               [
-                                                                  ...hiddenRealtimeDataLineRefs,
+                                                                  ...settings.hiddenRealtimeDataLineRefs,
                                                                   ...realtimeLines
                                                                       .filter(
                                                                           ({
@@ -140,7 +134,7 @@ const RealtimeDataPanel = ({
                                                       })
                                                     : setSettings({
                                                           hiddenRealtimeDataLineRefs:
-                                                              hiddenRealtimeDataLineRefs.filter(
+                                                              settings.hiddenRealtimeDataLineRefs.filter(
                                                                   (ref) =>
                                                                       !realtimeLines
                                                                           .filter(
@@ -215,21 +209,23 @@ const RealtimeDataPanel = ({
                         Vis rutelinjer i kartet
                     </span>
                     <Switch
-                        checked={showRoutesInMap}
+                        checked={settings.showRoutesInMap}
                         onChange={() => {
                             setSettings({
-                                showRoutesInMap: !showRoutesInMap,
+                                showRoutesInMap: !settings.showRoutesInMap,
                                 hideRealtimeData: false,
                             })
                         }}
                     />
                 </div>
-                {showRoutesInMap && (
+                {settings.showRoutesInMap && (
                     <PermanentLinesPanel
                         realtimeLines={realtimeLines}
-                        hiddenRealtimeDataLineRefs={hiddenRealtimeDataLineRefs}
+                        hiddenRealtimeDataLineRefs={
+                            settings.hiddenRealtimeDataLineRefs
+                        }
                         permanentlyVisibleRoutesInMap={
-                            permanentlyVisibleRoutesInMap
+                            settings.permanentlyVisibleRoutesInMap
                         }
                         setSettings={setSettings}
                     />

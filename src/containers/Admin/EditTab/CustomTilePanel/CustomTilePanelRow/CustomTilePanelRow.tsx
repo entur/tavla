@@ -17,27 +17,28 @@ const CustomTilePanelRow = ({
     setIsOpenModal,
 }: Props): JSX.Element => {
     const [settings, setSettings] = useSettings()
-    const {
-        hiddenCustomTileIds = [],
-        customImageTiles = [],
-        customQrTiles = [],
-    } = settings || {}
 
     return (
         <div className="custom-tile-panel__row">
             <Checkbox
                 onChange={() => {
-                    hiddenCustomTileIds.find((hiddenId) => hiddenId === id)
+                    settings.hiddenCustomTileIds.find(
+                        (hiddenId) => hiddenId === id,
+                    )
                         ? setSettings({
-                              hiddenCustomTileIds: hiddenCustomTileIds.filter(
-                                  (hiddenId) => hiddenId !== id,
-                              ),
+                              hiddenCustomTileIds:
+                                  settings.hiddenCustomTileIds.filter(
+                                      (hiddenId) => hiddenId !== id,
+                                  ),
                           })
                         : setSettings({
-                              hiddenCustomTileIds: [...hiddenCustomTileIds, id],
+                              hiddenCustomTileIds: [
+                                  ...settings.hiddenCustomTileIds,
+                                  id,
+                              ],
                           })
                 }}
-                checked={!hiddenCustomTileIds.includes(id)}
+                checked={!settings.hiddenCustomTileIds.includes(id)}
             ></Checkbox>
             <span>{displayName}</span>
             <div className="custom-tile-panel__icons">
@@ -50,15 +51,16 @@ const CustomTilePanelRow = ({
                 <DeleteIcon
                     onClick={() =>
                         setSettings({
-                            customImageTiles: customImageTiles.filter(
+                            customImageTiles: settings.customImageTiles.filter(
                                 (el) => el.id !== id,
                             ),
-                            customQrTiles: customQrTiles.filter(
+                            customQrTiles: settings.customQrTiles.filter(
                                 (el) => el.id !== id,
                             ),
-                            hiddenCustomTileIds: hiddenCustomTileIds.filter(
-                                (el) => el !== id,
-                            ),
+                            hiddenCustomTileIds:
+                                settings.hiddenCustomTileIds.filter(
+                                    (el) => el !== id,
+                                ),
                         })
                     }
                 />

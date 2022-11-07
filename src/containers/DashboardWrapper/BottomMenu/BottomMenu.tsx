@@ -114,8 +114,8 @@ function BottomMenu({ className }: Props): JSX.Element {
         />
     )
 
-    const editButton = (!settings?.owners?.length ||
-        (user && settings.owners?.includes(user.uid))) && (
+    const editButton = (!settings.owners.length ||
+        (user && settings.owners.includes(user.uid))) && (
         <MenuButton
             title="Rediger"
             icon={<ConfigurationIcon size={21} />}

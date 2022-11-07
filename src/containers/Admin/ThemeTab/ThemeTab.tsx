@@ -17,15 +17,15 @@ import { FontSizePreview } from './FontSizePreview/FontSizePreview'
 const ThemeTab = (): JSX.Element => {
     const [settings, setSettings] = useSettings()
     const [themeRadioValue, setThemeRadioValue] = useState<Theme | null>(null)
-    const [fontScale, setFontScale] = useState<number>(settings?.fontScale || 1)
+    const [fontScale, setFontScale] = useState<number>(settings.fontScale)
     const [directionRadioValue, setDirectionRadioValue] = useState<Direction>(
-        settings?.direction || Direction.STANDARD,
+        settings.direction,
     )
     const { documentId } = useParams<{ documentId: string }>()
-    const directionPreviewImages = DirectionPreview(settings?.theme)
+    const directionPreviewImages = DirectionPreview(settings.theme)
 
     useEffect(() => {
-        if (settings?.theme && !themeRadioValue) {
+        if (settings.theme && !themeRadioValue) {
             setThemeRadioValue(settings.theme)
         }
     }, [settings, themeRadioValue])

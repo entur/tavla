@@ -17,7 +17,6 @@ function getWalkInfo(walkInfos: WalkInfo[], id: string): WalkInfo | undefined {
 
 const BikeTile = ({ stations }: Props): JSX.Element => {
     const [settings] = useSettings()
-    const hideWalkInfo = settings?.hideWalkInfo
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
     )
@@ -61,7 +60,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                         />
                     }
                     walkInfo={
-                        !hideWalkInfo
+                        !settings.hideWalkInfo
                             ? getWalkInfo(walkInfo || [], station.id)
                             : undefined
                     }

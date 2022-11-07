@@ -8,10 +8,10 @@ import './DashboardPickerTab.scss'
 
 const DashboardPickerTab = (): JSX.Element => {
     const [settings, setSettings] = useSettings()
-    const dashboardImages = ThemeDashboardPreview(settings?.theme)
+    const dashboardImages = ThemeDashboardPreview(settings.theme)
 
     const [radioValue, setRadioValue] = useState<DashboardTypes>(
-        settings?.dashboard || DashboardTypes.Compact,
+        settings.dashboard,
     )
 
     const updateChoice = useCallback(

@@ -25,9 +25,9 @@ const NeedToBeOwnerModal: React.FC<NeedToBeOwnerModalProps> = ({
     const [settings, setSettings] = useSettings()
 
     const handleAddOwnerToTavle = useCallback(() => {
-        if (settings?.owners && uid) {
+        if (settings.owners && uid) {
             setSettings({
-                owners: [...(settings?.owners || []), uid],
+                owners: [...settings.owners, uid],
             })
             addToast({
                 title: 'Tavla ble låst til din konto.',
