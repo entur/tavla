@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import { useLongPress } from 'use-long-press'
 import { Heading2 } from '@entur/typography'
 import { LegBone } from '@entur/travel'
-import { LegMode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 import { WalkingIcon } from '@entur/icons'
 import { BREAKPOINTS } from '../../constants'
@@ -26,6 +25,10 @@ import { usePrevious } from '../../hooks/usePrevious'
 import { isEqualUnsorted } from '../../utils/array'
 import { timeUntil } from '../../utils/time'
 import { getIcon, getIconColor, getIconColorType } from '../../utils/icon'
+import {
+    Mode,
+    TransportMode,
+} from '../../../graphql-generated/journey-planner-v3'
 import './TimelineDashboard.scss'
 
 const TICKS = [-1, 0, 1, 2, 3, 4, 5, 10, 15, 20, 30, 60]
@@ -73,14 +76,14 @@ function walkMarkerPosition(walkTime: number): number {
 }
 
 function groupDeparturesByMode(departures: LineData[]): {
-    [mode in LegMode]?: LineData[]
+    [mode in TransportMode]?: LineData[]
 } {
     return departures.reduce(
         (map, departure) => ({
             ...map,
             [departure.type]: [...(map[departure.type] || []), departure],
         }),
-        {} as { [mode in LegMode]?: LineData[] },
+        {} as { [mode in TransportMode]?: LineData[] },
     )
 }
 
@@ -90,9 +93,7 @@ function orderModes(modeA: string, modeB: string): number {
     return MODE_ORDER.indexOf(modeA) - MODE_ORDER.indexOf(modeB)
 }
 
-function getLegBonePattern(
-    mode: LegMode,
-): 'line' | 'dashed' | 'dotted' | 'wave' {
+function getLegBonePattern(mode: Mode): 'line' | 'dashed' | 'dotted' | 'wave' {
     switch (mode) {
         case 'bus':
             return 'dashed'
@@ -111,7 +112,7 @@ function getLegBonePattern(
 
 interface TickProps {
     minutes: number
-    mode: LegMode
+    mode: Mode
     index: number
 }
 
@@ -158,7 +159,7 @@ function Tick({ minutes, mode, index }: TickProps): JSX.Element {
 interface TimelineData {
     stopId: string
     name: string
-    groupedDepartures: Array<[LegMode, LineData[]]>
+    groupedDepartures: Array<[Mode, LineData[]]>
 }
 
 const TimelineDashboard = (): JSX.Element | null => {

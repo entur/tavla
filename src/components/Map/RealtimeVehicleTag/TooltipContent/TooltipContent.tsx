@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { colors } from '@entur/tokens'
-import { TransportMode } from '@entur/sdk'
 import { Label } from '@entur/typography'
 import { DepartureIcon } from '../../../../dashboards/Map/DepartureTag/DepartureIcon/DepartureIcon'
 import { getFeedbackString, getLastUpdated } from '../../../../utils/time'
 import { getIcon, getIconColor } from '../../../../utils/icon'
 import { IconColorType } from '../../../../types'
 import { RealtimeVehicle } from '../../../../logic/use-realtime-vehicle-data/types'
+import { TransportMode } from '../../../../../graphql-generated/journey-planner-v3'
 import './TooltipContent.scss'
 
 interface Props {

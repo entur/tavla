@@ -4,7 +4,7 @@ import type { MapRef } from 'react-map-gl'
 import type { ClusterProperties } from 'supercluster'
 import useSupercluster from 'use-supercluster'
 import polyline from 'google-polyline'
-import { TransportMode } from '@entur/sdk'
+import { TransportMode } from '../../../graphql-generated/journey-planner-v3'
 import { PositionPin } from '../../assets/icons/PositionPin'
 import {
     DrawableRoute,

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { differenceInMinutes, format, parseISO } from 'date-fns'
-import { TransportMode, TransportSubmode } from '@entur/sdk'
 import { LineData, StopPlaceWithDepartures } from '../../types'
 import { useSettings } from '../../settings/SettingsProvider'
 import { REFRESH_INTERVAL } from '../../constants'
@@ -8,6 +7,10 @@ import { useNearestPlaces } from '../use-nearest-places/useNearestPlaces'
 import { apolloClient } from '../../apollo-client'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
 import { nonEmpty, unique } from '../../utils/array'
+import {
+    TransportMode,
+    TransportSubmode,
+} from '../../../graphql-generated/journey-planner-v3'
 import GET_STOP_PLACES_WITH_DEPARTURES_QUERY from './GetStopPlacesWithDepartures.journey-planner.graphql'
 
 type GetStopPlacesWithDeparturesVariables = {
@@ -108,7 +111,7 @@ function transformDepartureToLineData(
     }`.trim()
 
     const transportMode: TransportMode =
-        line.transportMode === 'coach' ? TransportMode.BUS : line.transportMode
+        line.transportMode === 'coach' ? TransportMode.Bus : line.transportMode
     const subType = serviceJourney?.transportSubmode
 
     return {

@@ -1,5 +1,4 @@
 import React from 'react'
-import { LegMode, TransportMode, TransportSubmode } from '@entur/sdk'
 import { colors } from '@entur/tokens'
 import {
     BicycleIcon,
@@ -12,6 +11,11 @@ import {
     TramIcon,
 } from '@entur/icons'
 import { IconColorType, Theme } from '../types'
+import {
+    Mode,
+    TransportMode,
+    TransportSubmode,
+} from '../../graphql-generated/journey-planner-v3'
 
 function isSubModeAirportLink(subMode?: string): boolean {
     if (!subMode) return false
@@ -41,7 +45,7 @@ function getIconColorType(theme: Theme | undefined): IconColorType {
 }
 
 function getIconColor(
-    type: TransportMode | LegMode | 'ferry',
+    type: TransportMode | Mode | 'ferry',
     iconColorType: IconColorType,
     subType?: TransportSubmode,
 ): string {
@@ -80,7 +84,7 @@ type TransportIconIdentifier =
     | 'plane'
 
 function getTransportIconIdentifier(
-    legMode: TransportMode | LegMode,
+    legMode: TransportMode | Mode,
     subMode?: TransportSubmode,
 ): TransportIconIdentifier | null {
     if (isSubModeCarFerry(subMode)) {
