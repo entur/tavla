@@ -1,5 +1,5 @@
-import { Coordinates } from '@entur/sdk'
 import {
+    Coordinates,
     CustomTile,
     DashboardTypes,
     Direction,

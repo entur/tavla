@@ -1,6 +1,5 @@
 import React from 'react'
 import { FieldValue, Timestamp } from 'firebase/firestore'
-import { StopPlace } from '@entur/sdk'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
 import {
@@ -8,6 +7,22 @@ import {
     TransportSubmode,
 } from '../graphql-generated/journey-planner-v3'
 import { Settings } from './settings/settings'
+
+export interface Coordinates {
+    latitude: number
+    longitude: number
+}
+
+export interface StopPlace {
+    id: string
+    description?: string
+    name: string
+    latitude?: number
+    longitude?: number
+    tariffZones?: Array<{
+        id: string
+    }>
+}
 
 export interface LineData {
     id: string

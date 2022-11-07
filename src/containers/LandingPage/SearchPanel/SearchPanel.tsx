@@ -1,11 +1,11 @@
 import React, { memo, useState, useEffect } from 'react'
 import { Button } from '@entur/button'
-import { Coordinates } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
 import { PositionIcon } from '@entur/icons'
 import { fetchAutocomplete } from '../../../logic/geocoder/fetchAutocomplete'
 import { fetchReverse } from '../../../logic/geocoder/fetchReverse'
 import { useLocationPermission } from '../../../hooks/useLocationPermission'
+import { Coordinates } from '../../../types'
 import './SearchPanel.scss'
 
 const YOUR_POSITION = 'Posisjonen din'

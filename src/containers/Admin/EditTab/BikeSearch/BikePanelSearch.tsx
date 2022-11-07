@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
-import { Coordinates } from '@entur/sdk'
 import { Dropdown } from '@entur/dropdown'
 import { getTranslation } from '../../../../utils/utils'
 import {
     BikePanelSearchStationFragment,
     useBikePanelSearchQuery,
 } from '../../../../../graphql-generated/mobility-v2'
+import { Coordinates } from '../../../../types'
 import { isNotNullOrUndefined } from '../../../../utils/typeguards'
 import './BikePanelSearch.scss'
 
