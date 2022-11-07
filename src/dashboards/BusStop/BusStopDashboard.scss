@@ -12,28 +12,6 @@ $breakpoint-mobile: 1000px;
         display: block;
         flex-direction: column;
         overflow: hidden;
-
-        .tile {
-            width: 100%;
-            max-height: 80vh;
-            padding-top: 2rem;
-            margin-bottom: 2rem;
-            overflow: scroll;
-            border-radius: 1rem;
-
-            &__header-icons {
-                font-size: 2rem;
-            }
-        }
-
-        .maptile {
-            height: inherit;
-            width: 100%;
-            overflow: hidden;
-            margin-bottom: 1rem;
-            border-radius: 1rem;
-            z-index: 1;
-        }
     }
 
     &__loading-screen {
@@ -44,35 +22,5 @@ $breakpoint-mobile: 1000px;
         left: 50%;
         -ms-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
-    }
-}
-
-@media (max-width: $breakpoint-mobile) {
-    .busStop {
-        padding: 1rem 1rem 6rem;
-        overflow: auto;
-
-        &__tiles {
-            display: block;
-
-            .tile {
-                margin-bottom: 1rem;
-                max-height: 60vh;
-                width: 100%;
-                overflow-y: scroll;
-            }
-        }
-
-        .maptile {
-            height: 60vh;
-            width: 100%;
-        }
-
-        .eds-table--small {
-            .eds-table__data-cell {
-                padding: 0;
-                justify-content: center;
-            }
-        }
     }
 }

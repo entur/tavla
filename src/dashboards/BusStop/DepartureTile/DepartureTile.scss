@@ -1,6 +1,10 @@
 @use '../BusStopDashboard.scss';
 
 .bus-stop-departure-tile {
+    &-head {
+        border-bottom: none;
+    }
+
     &-head-icon {
         width: 10%;
     }

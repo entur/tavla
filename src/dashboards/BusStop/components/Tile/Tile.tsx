@@ -1,7 +1,6 @@
 import React from 'react'
 import { Heading2 } from '@entur/typography'
 import { WalkInfo } from '../../../../logic/use-walk-info/useWalkInfo'
-import { useIsLongPressed } from '../../../../logic/longPressContext'
 import './Tile.scss'
 
 function formatWalkInfo(walkInfo: WalkInfo) {
@@ -15,15 +14,16 @@ function formatWalkInfo(walkInfo: WalkInfo) {
 }
 
 function Tile({ title, icons, walkInfo, children }: Props): JSX.Element {
-    const isPressed = useIsLongPressed()
     return (
-        <div className={isPressed ? 'tile tile--pressed' : 'tile'}>
-            <header className="tile__header">
-                <Heading2>{title}</Heading2>
-                <div className="tile__header-icons">{icons}</div>
+        <div className="bus-stop-tile">
+            <header className="bus-stop-tile-header">
+                <Heading2 className="bus-stop-tile-header-heading">
+                    {title}
+                </Heading2>
+                <div className="bus-stop-tile-header-icons">{icons}</div>
             </header>
             {walkInfo ? (
-                <div className="tile__walking-time">
+                <div className="bus-stop-tile-walking-time">
                     {formatWalkInfo(walkInfo)}
                 </div>
             ) : null}

@@ -54,9 +54,9 @@ const DepartureTile = ({
             icons={getTransportHeaderIcons(departures, iconColorType)}
             walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
         >
-            <Table spacing="small" fixed>
-                <TableHead>
-                    <TableRow className="tableRow">
+            <Table spacing="large" fixed>
+                <TableHead className="bus-stop-departure-tile-head">
+                    <TableRow>
                         <HeaderCell className="bus-stop-departure-tile-head-icon">
                             {' '}
                         </HeaderCell>
