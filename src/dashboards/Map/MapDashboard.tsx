@@ -18,7 +18,11 @@ const MapDashboard = (): JSX.Element => {
     const [settings] = useSettings()
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
-    const bikeRentalStations = useRentalStations()
+    const bikeRentalStations = useRentalStations(
+        true,
+        FormFactor.Bicycle,
+        settings?.hiddenModes?.includes('bysykkel'),
+    )
 
     const walkInfoDestinations = useMemo(() => {
         if (!stopPlacesWithDepartures) return []

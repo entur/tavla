@@ -89,7 +89,11 @@ const BusStopDashboard = (): JSX.Element | null => {
     )
 
     const scooters = useMobility(FormFactor.Scooter)
-    const bikeRentalStations = useRentalStations()
+    const bikeRentalStations = useRentalStations(
+        true,
+        FormFactor.Bicycle,
+        settings?.hiddenModes?.includes('bysykkel'),
+    )
 
     const walkInfoDestinations = useMemo(() => {
         if (!stopPlacesWithDepartures) return []
