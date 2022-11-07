@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { useStopPlacesWithDepartures, useWalkInfo } from '../../logic'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
-import { DepartureTile } from './components/BusStopTile/BusStopTile'
+import { BusStopTile } from './components/BusStopTile/BusStopTile'
 import './BusStopDashboard.scss'
 
 function getWalkInfoForStopPlace(
@@ -32,7 +32,7 @@ const BusStopDashboard = (): JSX.Element | null => {
             <div>
                 {(stopPlacesWithDepartures || []).map((stopPlace) => (
                     <div key={stopPlace.id}>
-                        <DepartureTile
+                        <BusStopTile
                             walkInfo={getWalkInfoForStopPlace(
                                 walkInfo || [],
                                 stopPlace.id,

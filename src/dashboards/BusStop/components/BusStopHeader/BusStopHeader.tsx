@@ -13,7 +13,7 @@ function formatWalkInfo(walkInfo: WalkInfo) {
     }
 }
 
-function TileHeader({ title, icons, walkInfo }: Props): JSX.Element {
+function BusStopHeader({ title, icons, walkInfo }: Props): JSX.Element {
     return (
         <>
             <header className="bus-stop-tile-header">
@@ -37,4 +37,4 @@ interface Props {
     walkInfo?: WalkInfo
 }
 
-export { TileHeader }
+export { BusStopHeader }

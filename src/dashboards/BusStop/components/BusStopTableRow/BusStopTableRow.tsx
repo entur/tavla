@@ -3,9 +3,9 @@ import { DataCell, TableRow } from '@entur/table'
 import { IconColorType, LineData } from '../../../../types'
 import { SituationIcon } from '../SituationIcon/SituationIcon'
 import { getIcon } from '../../../../utils/icon'
-import './TableRow.scss'
+import './BusStopTableRow.scss'
 
-function TileRow({
+function BusStopTableRow({
     departure,
     hideSituations,
     hideTracks,
@@ -47,4 +47,4 @@ interface Props {
     iconColorType: IconColorType
 }
 
-export { TileRow }
+export { BusStopTableRow }

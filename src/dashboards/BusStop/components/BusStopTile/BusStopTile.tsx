@@ -7,8 +7,8 @@ import {
 } from '../../../../types'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../../logic/use-walk-info/useWalkInfo'
-import { TileHeader } from '../BusStopHeader/BusStopHeader'
-import { TileRow } from '../TableRow/TableRow'
+import { BusStopHeader } from '../BusStopHeader/BusStopHeader'
+import { BusStopTableRow } from '../BusStopTableRow/BusStopTableRow'
 import { isNotNullOrUndefined } from '../../../../utils/typeguards'
 import { unique } from '../../../../utils/array'
 import {
@@ -36,7 +36,7 @@ function getTransportHeaderIcons(
     return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
 }
 
-const DepartureTile = ({
+const BusStopTile = ({
     stopPlaceWithDepartures,
     walkInfo,
 }: Props): JSX.Element => {
@@ -50,7 +50,7 @@ const DepartureTile = ({
 
     return (
         <div className="bus-stop-tile">
-            <TileHeader
+            <BusStopHeader
                 title={name}
                 icons={getTransportHeaderIcons(departures, iconColorType)}
                 walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
@@ -79,7 +79,7 @@ const DepartureTile = ({
                 </TableHead>
                 <TableBody>
                     {departures.map((departure) => (
-                        <TileRow
+                        <BusStopTableRow
                             key={departure.id}
                             departure={departure}
                             hideSituations={settings.hideSituations}
@@ -98,4 +98,4 @@ interface Props {
     walkInfo?: WalkInfo
 }
 
-export { DepartureTile }
+export { BusStopTile }
