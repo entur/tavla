@@ -1,3 +1,5 @@
+$breakpoint-mobile: 1000px;
+
 .busStop {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -13,9 +15,10 @@
 
         .tile {
             width: 100%;
+            max-height: 80vh;
             padding-top: 2rem;
             margin-bottom: 2rem;
-            overflow: hidden;
+            overflow: scroll;
             border-radius: 1rem;
 
             &__header-icons {
@@ -44,20 +47,7 @@
     }
 }
 
-@media (min-width: 996px) {
-    .busStop {
-        &__tiles {
-            /*
-            react-grid-layout uses a margin of 32px between all grid-items.
-            This makes the tiles not lign up with the header, so to counteract
-            these margins on the sides, this styling is needed. 
-            */
-            margin: -2rem;
-        }
-    }
-}
-
-@media (max-width: 1000px) {
+@media (max-width: $breakpoint-mobile) {
     .busStop {
         padding: 1rem 1rem 6rem;
         overflow: auto;

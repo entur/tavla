@@ -1,3 +1,39 @@
+@use '../BusStopDashboard.scss';
+
+.bus-stop-departure-tile {
+    &-head-icon {
+        width: 10%;
+    }
+
+    &-head-departure {
+        width: 18%;
+    }
+
+    &-head-track {
+        width: 18%;
+    }
+
+    &-head-situation {
+        width: 30%;
+    }
+}
+
+@media (max-width: BusStopDashboard.$breakpoint-mobile) {
+    .bus-stop-departure-tile {
+        &-head-departure {
+            width: 22%;
+        }
+
+        &-head-track {
+            width: 13%;
+        }
+
+        &-head-situation {
+            width: 11%;
+        }
+    }
+}
+
 .busStop .tile {
     width: 100%;
     height: fit-content;
