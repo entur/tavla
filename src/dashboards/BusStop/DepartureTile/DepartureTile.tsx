@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Table, TableRow, TableHead, HeaderCell } from '@entur/table'
+import { Table, TableRow, TableHead, HeaderCell, TableBody } from '@entur/table'
 import {
     StopPlaceWithDepartures,
     LineData,
@@ -8,7 +8,7 @@ import {
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import { Tile } from '../components/Tile/Tile'
-import { TileRows } from '../components/TileRows/TileRows'
+import { TileRow } from '../components/TileRow/TileRow'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { unique } from '../../../utils/array'
 import {
@@ -76,12 +76,17 @@ const DepartureTile = ({
                         ) : null}
                     </TableRow>
                 </TableHead>
-                <TileRows
-                    visibleDepartures={departures}
-                    hideSituations={settings.hideSituations}
-                    hideTracks={settings.hideTracks}
-                    iconColorType={iconColorType}
-                />
+                <TableBody>
+                    {departures.map((departure) => (
+                        <TileRow
+                            key={departure.id}
+                            departure={departure}
+                            hideSituations={settings.hideSituations}
+                            hideTracks={settings.hideTracks}
+                            iconColorType={iconColorType}
+                        />
+                    ))}
+                </TableBody>
             </Table>
         </Tile>
     )
