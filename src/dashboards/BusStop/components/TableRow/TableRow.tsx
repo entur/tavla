@@ -3,7 +3,7 @@ import { DataCell, TableRow } from '@entur/table'
 import { IconColorType, LineData } from '../../../../types'
 import { SituationIcon } from '../SituationIcon/SituationIcon'
 import { getIcon } from '../../../../utils/icon'
-import './TileRow.scss'
+import './TableRow.scss'
 
 function TileRow({
     departure,

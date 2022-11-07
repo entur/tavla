@@ -1,0 +1,23 @@
+.bus-stop-tile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    &-heading {
+        margin: 0;
+    }
+
+    &-icons {
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+    }
+
+    &-walking-time {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1rem;
+        color: var(--tavla-font-color);
+    }
+}

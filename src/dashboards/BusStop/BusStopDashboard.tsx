@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { useStopPlacesWithDepartures, useWalkInfo } from '../../logic'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
-import { DepartureTile } from './DepartureTile/DepartureTile'
+import { DepartureTile } from './components/BusStopTile/BusStopTile'
 import './BusStopDashboard.scss'
 
 function getWalkInfoForStopPlace(

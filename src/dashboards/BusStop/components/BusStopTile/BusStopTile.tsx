@@ -4,19 +4,19 @@ import {
     StopPlaceWithDepartures,
     LineData,
     IconColorType,
-} from '../../../types'
-import { useSettings } from '../../../settings/SettingsProvider'
-import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
-import { Tile } from '../components/Tile/Tile'
-import { TileRow } from '../components/TileRow/TileRow'
-import { isNotNullOrUndefined } from '../../../utils/typeguards'
-import { unique } from '../../../utils/array'
+} from '../../../../types'
+import { useSettings } from '../../../../settings/SettingsProvider'
+import { WalkInfo } from '../../../../logic/use-walk-info/useWalkInfo'
+import { TileHeader } from '../BusStopHeader/BusStopHeader'
+import { TileRow } from '../TableRow/TableRow'
+import { isNotNullOrUndefined } from '../../../../utils/typeguards'
+import { unique } from '../../../../utils/array'
 import {
     getIcon,
     getIconColorType,
     getTransportIconIdentifier,
-} from '../../../utils/icon'
-import './DepartureTile.scss'
+} from '../../../../utils/icon'
+import './BusStopTile.scss'
 
 function getTransportHeaderIcons(
     departures: LineData[],
@@ -49,28 +49,29 @@ const DepartureTile = ({
     )
 
     return (
-        <Tile
-            title={name}
-            icons={getTransportHeaderIcons(departures, iconColorType)}
-            walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
-        >
+        <div className="bus-stop-tile">
+            <TileHeader
+                title={name}
+                icons={getTransportHeaderIcons(departures, iconColorType)}
+                walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
+            />
             <Table spacing="large" fixed>
-                <TableHead className="bus-stop-departure-tile-head">
+                <TableHead className="bus-stop-tile-table-head">
                     <TableRow>
-                        <HeaderCell className="bus-stop-departure-tile-head-icon">
+                        <HeaderCell className="bus-stop-tile-table-head-icon">
                             {' '}
                         </HeaderCell>
                         <HeaderCell>Linje</HeaderCell>
-                        <HeaderCell className="bus-stop-departure-tile-head-departure">
+                        <HeaderCell className="bus-stop-tile-table-head-departure">
                             Avgang
                         </HeaderCell>
                         {!settings.hideTracks ? (
-                            <HeaderCell className="bus-stop-departure-tile-head-track">
+                            <HeaderCell className="bus-stop-tile-table-head-track">
                                 Spor
                             </HeaderCell>
                         ) : null}
                         {!settings.hideSituations ? (
-                            <HeaderCell className="bus-stop-departure-tile-head-situation">
+                            <HeaderCell className="bus-stop-tile-table-head-situation">
                                 Avvik
                             </HeaderCell>
                         ) : null}
@@ -88,7 +89,7 @@ const DepartureTile = ({
                     ))}
                 </TableBody>
             </Table>
-        </Tile>
+        </div>
     )
 }
 
