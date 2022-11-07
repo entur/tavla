@@ -1,14 +1,10 @@
 import React from 'react'
-import { Heading3 } from '@entur/typography'
 import { DataCell, TableRow } from '@entur/table'
 import { IconColorType, LineData } from '../../../../types'
-import { SituationModal } from '../../../../components/SituationModal/SituationModal'
-import { createTileSubLabel, isMobileWeb } from '../../../../utils/utils'
+import { createTileSubLabel } from '../../../../utils/utils'
 import { SubLabelIcon } from '../SubLabelIcon/SubLabelIcon'
 import { getIcon } from '../../../../utils/icon'
 import './TileRow.scss'
-
-const isMobile = isMobileWeb()
 
 function TileRow({
     departure,
@@ -19,40 +15,25 @@ function TileRow({
     const icon = getIcon(departure.type, iconColorType, departure.subType)
     return (
         <TableRow>
-            <DataCell>
-                <div className="tilerow__icon">{icon}</div>
+            <DataCell className="bus-stop-row-icon">{icon}</DataCell>
+            <DataCell className="bus-stop-row-route">
+                {departure.route}
             </DataCell>
-            <DataCell>
-                <Heading3 className="tilerow__label">
-                    {departure.route}
-                </Heading3>
-            </DataCell>
-            <DataCell>
-                <div className="tilerow__sublabel">{departure.time}</div>
-            </DataCell>
+            <DataCell className="bus-stop-row-time">{departure.time}</DataCell>
             {!hideTracks ? (
-                <DataCell>
-                    <div className="tilerow__sublabel">
-                        {departure.quay?.publicCode || '-'}
-                    </div>
+                <DataCell className="bus-stop-row-track">
+                    {departure.quay?.publicCode || '-'}
                 </DataCell>
             ) : null}
             {!hideSituations ? (
                 <DataCell>
-                    {isMobile && departure?.situation ? (
-                        <SituationModal
-                            situationMessage={departure?.situation}
-                        />
-                    ) : (
-                        <SubLabelIcon
-                            subLabel={createTileSubLabel(departure)}
-                        />
-                    )}
+                    <SubLabelIcon subLabel={createTileSubLabel(departure)} />
                 </DataCell>
             ) : null}
         </TableRow>
     )
 }
+
 interface Props {
     departure: LineData
     hideSituations: boolean | undefined
