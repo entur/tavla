@@ -237,10 +237,7 @@ const EditTab = (): JSX.Element => {
     const toggleMode = useCallback(
         (mode: Mode) => {
             setSettings({
-                hiddenModes: toggleValueInList(
-                    settings.hiddenModes || [],
-                    mode,
-                ),
+                hiddenModes: toggleValueInList(settings.hiddenModes, mode),
             })
         },
         [setSettings, settings.hiddenModes],
