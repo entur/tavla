@@ -1,8 +1,7 @@
 import React from 'react'
 import { DataCell, TableRow } from '@entur/table'
 import { IconColorType, LineData } from '../../../../types'
-import { createTileSubLabel } from '../../../../utils/utils'
-import { SubLabelIcon } from '../SubLabelIcon/SubLabelIcon'
+import { SituationIcon } from '../SituationIcon/SituationIcon'
 import { getIcon } from '../../../../utils/icon'
 import './TileRow.scss'
 
@@ -27,7 +26,14 @@ function TileRow({
             ) : null}
             {!hideSituations ? (
                 <DataCell>
-                    <SubLabelIcon subLabel={createTileSubLabel(departure)} />
+                    {departure.situation ? (
+                        <>
+                            <SituationIcon
+                                hasCancellation={departure.hasCancellation}
+                            />
+                            {departure.situation}
+                        </>
+                    ) : null}
                 </DataCell>
             ) : null}
         </TableRow>
