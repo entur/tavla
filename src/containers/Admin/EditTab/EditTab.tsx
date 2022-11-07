@@ -20,7 +20,7 @@ import { Mode } from '../../../settings'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { isMobileWeb, getTranslation } from '../../../utils/utils'
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../../../constants'
-import { Line, StopPlaceWithLines } from '../../../types'
+import { StopPlaceWithLines } from '../../../types'
 import { useNearestPlaces, useRentalStations } from '../../../logic'
 import { getStopPlacesWithLines } from '../../../logic/get-stop-places-with-lines/getStopPlacesWithLines'
 import {
@@ -85,8 +85,6 @@ const EditTab = (): JSX.Element => {
         showTemperature = true,
         showWind = true,
         showPrecipitation = true,
-        customImageTiles = [],
-        customQrTiles = [],
         showCustomTiles,
     } = settings || {}
 
