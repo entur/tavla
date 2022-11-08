@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { Coordinates } from '@entur/sdk'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
+import { Coordinates } from '../../types'
 import {
     FilterPlaceType,
     MultiModalMode,

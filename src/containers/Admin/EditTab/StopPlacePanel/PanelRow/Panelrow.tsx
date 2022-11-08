@@ -2,11 +2,11 @@ import React, { ChangeEvent } from 'react'
 import { Checkbox, TravelSwitch } from '@entur/form'
 import type { TravelSwitchProps } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
-import { TransportMode } from '@entur/sdk'
 import { StopPlaceWithLines } from '../../../../../types'
 import { unique } from '../../../../../utils/array'
 import { isTransport } from '../../../../../utils/typeguards'
 import { Settings } from '../../../../../settings/settings'
+import { TransportMode } from '../../../../../../graphql-generated/journey-planner-v3'
 
 const PanelRow = ({
     onToggleStop,
@@ -18,10 +18,7 @@ const PanelRow = ({
     const { id, lines, name } = stopPlace
 
     const visibleLines = lines.filter(
-        (line) =>
-            !settings.hiddenStopModes[id]?.includes(
-                line.transportMode as unknown as TransportMode,
-            ),
+        (line) => !settings.hiddenStopModes[id]?.includes(line.transportMode),
     )
 
     const uniqueModes = unique(lines.map(({ transportMode }) => transportMode))
@@ -46,11 +43,8 @@ const PanelRow = ({
                 {uniqueModes.map((mode) => {
                     const props: Partial<TravelSwitchProps> = {
                         size: 'large',
-                        onChange: (): void =>
-                            onToggleMode(id, mode as unknown as TransportMode),
-                        checked: !settings.hiddenStopModes[id]?.includes(
-                            mode as unknown as TransportMode,
-                        ),
+                        onChange: (): void => onToggleMode(id, mode),
+                        checked: !settings.hiddenStopModes[id]?.includes(mode),
                     }
 
                     if (isTransport(mode)) {

@@ -1,5 +1,5 @@
-import { Coordinates, TransportMode } from '@entur/sdk'
 import {
+    Coordinates,
     CustomTile,
     DashboardTypes,
     Direction,
@@ -7,6 +7,7 @@ import {
     Theme,
 } from '../types'
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../constants'
+import { TransportMode } from '../../graphql-generated/journey-planner-v3'
 
 type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel' | 'delebil'
 

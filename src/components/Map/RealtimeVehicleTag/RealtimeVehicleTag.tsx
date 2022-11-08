@@ -1,11 +1,14 @@
 import React from 'react'
 import { Tooltip } from '@entur/tooltip'
 import { colors } from '@entur/tokens'
-import { LegMode, TransportMode } from '@entur/sdk'
 import { IconColorType } from '../../../types'
 import { RealtimeVehicle } from '../../../logic/use-realtime-vehicle-data/types'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { getIconColor } from '../../../utils/icon'
+import {
+    Mode,
+    TransportMode,
+} from '../../../../graphql-generated/journey-planner-v3'
 import { TooltipContent } from './TooltipContent/TooltipContent'
 import './RealtimeVehicleTag.scss'
 
@@ -80,7 +83,7 @@ const RealtimeVehicleTag = ({
                                   backgroundColor: getIconColor(
                                       realtimeVehicle.mode.toLowerCase() as
                                           | TransportMode
-                                          | LegMode
+                                          | Mode
                                           | 'ferry',
                                       IconColorType.DEFAULT,
                                       undefined,

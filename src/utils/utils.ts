@@ -1,4 +1,4 @@
-import { TransportMode } from '@entur/sdk'
+import { TransportMode } from '../../graphql-generated/journey-planner-v3'
 import { TranslatedString } from '../../graphql-generated/mobility-v2'
 import { LineData, Theme, TileSubLabel } from '../types'
 
