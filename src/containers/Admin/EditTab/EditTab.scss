@@ -1,55 +1,55 @@
 @use '../../../assets/styles/Variables.scss';
 
-.flex-container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    margin-top: 2rem;
-}
-
-.left-column {
-    align-items: center;
-    justify-content: center;
-    display: block;
-    overflow-x: visible;
-    flex-grow: 1;
-    flex-basis: 0;
-}
-
-.flex-item {
-    margin-bottom: 2rem;
-    padding: 2rem;
-    background-color: var(--tavla-box-background-color);
-    border-radius: 1rem;
-
-    &--middle {
-        flex-grow: 1;
-        flex-basis: 0;
-        padding: 2rem;
-        background-color: var(--tavla-box-background-color);
-        border-radius: 1rem;
-        margin-left: 2rem;
-    }
-
-    &--right {
-        flex-grow: 1;
-        flex-basis: 0;
-        margin-bottom: 2rem;
-        padding: 2rem;
-        background-color: var(--tavla-box-background-color);
-        border-radius: 1rem;
-        margin-left: 2rem;
-    }
-}
-
 .edit-tab {
     &__secondary-title {
         margin: 2rem 2rem 0 2rem;
         font-size: 1.3rem;
         opacity: 0.75;
     }
+
+    &__flex-container {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        margin-top: 2rem;
+    }
+
+    &__flexbox-left-column {
+        align-items: center;
+        justify-content: center;
+        display: block;
+        overflow-x: visible;
+        flex-grow: 1;
+        flex-basis: 0;
+    }
+    &__flex-item {
+        margin-bottom: 2rem;
+        padding: 2rem;
+        background-color: var(--tavla-box-background-color);
+        border-radius: 1rem;
+    
+        &--middle {
+            flex-grow: 1;
+            flex-basis: 0;
+            padding: 2rem;
+            background-color: var(--tavla-box-background-color);
+            border-radius: 1rem;
+            margin-left: 2rem;
+        }
+    
+        &--right {
+            flex-grow: 1;
+            flex-basis: 0;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background-color: var(--tavla-box-background-color);
+            border-radius: 1rem;
+            margin-left: 2rem;
+        }
+    }
+    
 
     .eds-contrast {
         background: inherit;
