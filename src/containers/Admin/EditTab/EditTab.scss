@@ -1,7 +1,7 @@
 @use '../../../assets/styles/Variables.scss';
 
 .edit-tab {
-    &__secondary-title {
+    &__heading {
         margin: 2rem 2rem 0 2rem;
         font-size: 1.3rem;
         opacity: 0.75;
@@ -16,7 +16,7 @@
         margin-top: 2rem;
         gap: 3rem;
     }
-    
+
     &__flex-item {
         margin-bottom: 2rem;
         padding: 2rem;
@@ -35,7 +35,6 @@
             gap: 3rem;
         }
     }
-
 
     .eds-contrast {
         background: inherit;

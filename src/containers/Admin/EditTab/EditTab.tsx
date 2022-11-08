@@ -311,7 +311,7 @@ const EditTab = (): JSX.Element => {
             </div>
             <PosterMobilityAlert />
             <div>
-                <div className="edit-tab__secondary-title">
+                <div className="edit-tab__heading">
                     Mobilitetstilbud
                 </div>
                 <div className="edit-tab__flex-container">
@@ -412,7 +412,7 @@ const EditTab = (): JSX.Element => {
                 </div> */}
                 </div>
             </div>
-            <div className="edit-tab__secondary-title">Annet</div>
+            <div className="edit-tab__heading">Annet</div>
             <div className="edit-tab__flex-container">
                 <div className="edity-tab__flex-item--column">
                     <div className="edit-tab__flex-item">
