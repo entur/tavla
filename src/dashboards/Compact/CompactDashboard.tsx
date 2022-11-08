@@ -1,12 +1,8 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useLocation, useParams } from 'react-router-dom'
-import { useLongPress } from 'use-long-press'
 import { Loader } from '@entur/loader'
-import {
-    RearrangeModal,
-    Item,
-} from '../../components/RearrangeModal/RearrangeModal'
+import { Item } from '../../components/RearrangeModal/RearrangeModal'
 import {
     useRentalStations,
     useStopPlacesWithDepartures,
@@ -23,7 +19,6 @@ import {
 import { useSettings } from '../../settings/SettingsProvider'
 import { BREAKPOINTS } from '../../constants'
 import { isMobileWeb } from '../../utils/utils'
-import { LongPressProvider } from '../../logic/longPressContext'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { QRTile } from '../../components/QRTile/QRTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
@@ -84,8 +79,6 @@ const CompactDashboard = (): JSX.Element | null => {
     const [settings] = useSettings()
     const location = useLocation()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
-    const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
-    const isCancelled = useRef<NodeJS.Timeout>()
 
     const dashboardKey = location.key
     const { documentId: boardId } = useParams<{ documentId: string }>()
@@ -135,8 +128,6 @@ const CompactDashboard = (): JSX.Element | null => {
     const maxWidthCols = COLS[breakpoint] || 1
 
     const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
-
-    const [modalVisible, setModalVisible] = useState(false)
 
     const stopPlacesHasLoaded = Boolean(
         stopPlacesWithDepartures || settings.hiddenModes.includes('kollektiv'),
@@ -256,37 +247,6 @@ const CompactDashboard = (): JSX.Element | null => {
         qrTilesToDisplay,
     ])
 
-    const longPress = useLongPress(
-        () => {
-            setModalVisible(true)
-        },
-        {
-            threshold: 750,
-            onStart: () => {
-                isCancelled.current = setTimeout(() => {
-                    setIsLongPressStarted(true)
-                }, 150)
-            },
-            onFinish: () => {
-                clearLongPressTimeout()
-            },
-            onCancel: () => {
-                clearLongPressTimeout()
-            },
-            onMove: () => {
-                clearLongPressTimeout()
-            },
-            cancelOnMovement: true,
-        },
-    )
-
-    function clearLongPressTimeout() {
-        setIsLongPressStarted(false)
-        if (isCancelled.current) {
-            clearTimeout(isCancelled.current)
-        }
-    }
-
     if (window.innerWidth < BREAKPOINTS.md) {
         if (!tileOrder) return null
 
@@ -297,121 +257,103 @@ const CompactDashboard = (): JSX.Element | null => {
                 stopPlacesWithDepartures={stopPlacesWithDepartures}
                 scooters={scooters}
             >
-                <LongPressProvider value={isLongPressStarted}>
-                    <div className="compact__tiles" {...longPress}>
-                        <div className="tile-wrapper">
-                            <RearrangeModal
-                                itemOrder={tileOrder}
-                                onTileOrderChanged={(item) => {
-                                    setTileOrder(item)
-                                    saveToLocalStorage(
-                                        boardId + '-tile-order',
-                                        item,
-                                    )
-                                }}
-                                modalVisible={modalVisible}
-                                onDismiss={() => setModalVisible(false)}
-                            />
-                            {tileOrder.map((item) => {
-                                if (item.id == 'map') {
-                                    return hasData && mapCol ? (
+                <div className="compact__tiles">
+                    <div className="tile-wrapper">
+                        {tileOrder.map((item) => {
+                            if (item.id == 'map') {
+                                return hasData && mapCol ? (
+                                    <div key={item.id}>
+                                        <MapTile
+                                            scooters={scooters}
+                                            stopPlaces={
+                                                stopPlacesWithDepartures
+                                            }
+                                            bikeRentalStations={
+                                                bikeRentalStations
+                                            }
+                                            latitude={
+                                                settings.coordinates.latitude
+                                            }
+                                            longitude={
+                                                settings.coordinates.longitude
+                                            }
+                                            zoom={settings.zoom}
+                                        />
+                                    </div>
+                                ) : (
+                                    []
+                                )
+                            } else if (item.id == 'city-bike') {
+                                return bikeRentalStations &&
+                                    anyBikeRentalStations ? (
+                                    <div key={item.id}>
+                                        <BikeTile
+                                            stations={bikeRentalStations}
+                                        />
+                                    </div>
+                                ) : (
+                                    []
+                                )
+                            } else if (item.id == 'weather') {
+                                return settings.showWeather ? (
+                                    <div key={item.id}>
+                                        <WeatherTile className="tile" />
+                                    </div>
+                                ) : (
+                                    []
+                                )
+                            }
+                            if (imageTilesToDisplay.length > 0) {
+                                const tile = imageTilesToDisplay.find(
+                                    (img) => img.id === item.id,
+                                )
+
+                                if (tile)
+                                    return (
                                         <div key={item.id}>
-                                            <MapTile
-                                                scooters={scooters}
-                                                stopPlaces={
-                                                    stopPlacesWithDepartures
-                                                }
-                                                bikeRentalStations={
-                                                    bikeRentalStations
-                                                }
-                                                latitude={
-                                                    settings.coordinates
-                                                        .latitude
-                                                }
-                                                longitude={
-                                                    settings.coordinates
-                                                        .longitude
-                                                }
-                                                zoom={settings.zoom}
-                                            />
+                                            <ImageTile {...tile} />
                                         </div>
-                                    ) : (
-                                        []
                                     )
-                                } else if (item.id == 'city-bike') {
-                                    return bikeRentalStations &&
-                                        anyBikeRentalStations ? (
-                                        <div key={item.id}>
-                                            <BikeTile
-                                                stations={bikeRentalStations}
-                                            />
+                            }
+
+                            if (qrTilesToDisplay.length > 0) {
+                                const tile = qrTilesToDisplay.find(
+                                    (qr) => qr.id === item.id,
+                                )
+
+                                if (tile)
+                                    return (
+                                        <div key={item.id} className="tile">
+                                            <QRTile {...tile} />
                                         </div>
-                                    ) : (
-                                        []
                                     )
-                                } else if (item.id == 'weather') {
-                                    return settings.showWeather ? (
-                                        <div key={item.id}>
-                                            <WeatherTile className="tile" />
-                                        </div>
-                                    ) : (
-                                        []
-                                    )
-                                }
-                                if (imageTilesToDisplay.length > 0) {
-                                    const tile = imageTilesToDisplay.find(
-                                        (img) => img.id === item.id,
+                            }
+                            if (stopPlacesWithDepartures) {
+                                const stopIndex =
+                                    stopPlacesWithDepartures.findIndex(
+                                        (p) => p.id == item.id,
                                     )
 
-                                    if (tile)
-                                        return (
-                                            <div key={item.id}>
-                                                <ImageTile {...tile} />
-                                            </div>
-                                        )
-                                }
+                                const stopPlace =
+                                    stopPlacesWithDepartures[stopIndex]
 
-                                if (qrTilesToDisplay.length > 0) {
-                                    const tile = qrTilesToDisplay.find(
-                                        (qr) => qr.id === item.id,
-                                    )
-
-                                    if (tile)
-                                        return (
-                                            <div key={item.id} className="tile">
-                                                <QRTile {...tile} />
-                                            </div>
-                                        )
-                                }
-                                if (stopPlacesWithDepartures) {
-                                    const stopIndex =
-                                        stopPlacesWithDepartures.findIndex(
-                                            (p) => p.id == item.id,
-                                        )
-
-                                    const stopPlace =
-                                        stopPlacesWithDepartures[stopIndex]
-
-                                    return stopPlace ? (
-                                        <div key={item.id}>
-                                            <DepartureTile
-                                                walkInfo={getWalkInfoForStopPlace(
-                                                    walkInfo || [],
-                                                    item.id,
-                                                )}
-                                                stopPlaceWithDepartures={
-                                                    stopPlace
-                                                }
-                                            />
-                                        </div>
-                                    ) : (
-                                        []
-                                    )
-                                }
-                            })}
-                        </div>
+                                return stopPlace ? (
+                                    <div key={item.id}>
+                                        <DepartureTile
+                                            walkInfo={getWalkInfoForStopPlace(
+                                                walkInfo || [],
+                                                item.id,
+                                            )}
+                                            stopPlaceWithDepartures={stopPlace}
+                                        />
+                                    </div>
+                                ) : (
+                                    []
+                                )
+                            }
+                        })}
                     </div>
-                </LongPressProvider>
+                </div>
             </DashboardWrapper>
         )
     }
