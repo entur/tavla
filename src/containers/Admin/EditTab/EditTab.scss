@@ -25,15 +25,6 @@
         flex-grow: 1;
         flex-basis: 0;
 
-        &--column {
-            align-items: center;
-            justify-content: center;
-            display: block;
-            overflow-x: visible;
-            flex-grow: 1;
-            flex-basis: 0;
-            gap: 3rem;
-        }
     }
 
     .eds-contrast {

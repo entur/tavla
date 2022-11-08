@@ -274,7 +274,7 @@ const EditTab = (): JSX.Element => {
     return (
         <div className="edit-tab">
             <div>
-                <Heading2 className="edit-tab__tiles-heading">
+                <Heading2 className="edit-tab__heading">
                     Viser kollektivtilbud innenfor
                     <div className="edit-tab__input-wrapper">
                         <Tooltip
@@ -311,7 +311,7 @@ const EditTab = (): JSX.Element => {
             </div>
             <PosterMobilityAlert />
             <div>
-                <div className="edit-tab__heading">Mobilitetstilbud</div>
+                <div className="edit-tab__tiles-heading">Mobilitetstilbud</div>
                 <div className="edit-tab__flex-container">
                     <div className="edit-tab__flex-item">
                         <div className="edit-tab__header">
@@ -336,7 +336,7 @@ const EditTab = (): JSX.Element => {
                         <ToggleDetailsPanel />
                     </div>
 
-                    <div className="edit-tab__flex-item--column">
+                    <div>
                         <div className=" edit-tab__flex-item">
                             <div className="edit-tab__header">
                                 <Heading2>Sparkesykkel</Heading2>
@@ -412,7 +412,7 @@ const EditTab = (): JSX.Element => {
             </div>
             <div className="edit-tab__tiles-heading">Annet</div>
             <div className="edit-tab__flex-container">
-                <div className="edity-tab__flex-item--column">
+                <div>
                     <div className="edit-tab__flex-item">
                         <div className="edit-tab__header">
                             <Heading2>
