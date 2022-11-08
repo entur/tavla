@@ -44,8 +44,8 @@ const BusStopTile = ({
     const [settings] = useSettings()
 
     const iconColorType = useMemo(
-        () => getIconColorType(settings?.theme),
-        [settings?.theme],
+        () => getIconColorType(settings.theme),
+        [settings.theme],
     )
 
     return (
@@ -65,16 +65,16 @@ const BusStopTile = ({
                         <HeaderCell className="bus-stop-tile-table-head-departure">
                             Avgang
                         </HeaderCell>
-                        {!settings.hideTracks ? (
+                        {!settings.hideTracks && (
                             <HeaderCell className="bus-stop-tile-table-head-track">
                                 Spor
                             </HeaderCell>
-                        ) : null}
-                        {!settings.hideSituations ? (
+                        )}
+                        {!settings.hideSituations && (
                             <HeaderCell className="bus-stop-tile-table-head-situation">
                                 Avvik
                             </HeaderCell>
-                        ) : null}
+                        )}
                     </TableRow>
                 </TableHead>
                 <TableBody>

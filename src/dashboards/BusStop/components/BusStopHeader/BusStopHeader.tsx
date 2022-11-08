@@ -22,11 +22,11 @@ function BusStopHeader({ title, icons, walkInfo }: Props): JSX.Element {
                 </Heading2>
                 <div className="bus-stop-tile-header-icons">{icons}</div>
             </header>
-            {walkInfo ? (
+            {!!walkInfo && (
                 <div className="bus-stop-tile-header-walking-time">
                     {formatWalkInfo(walkInfo)}
                 </div>
-            ) : null}
+            )}
         </>
     )
 }

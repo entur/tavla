@@ -1,7 +1,7 @@
 import React from 'react'
 import { DataCell, TableRow } from '@entur/table'
 import { IconColorType, LineData } from '../../../../types'
-import { SituationIcon } from '../SituationIcon/SituationIcon'
+import { SituationInfo } from '../SituationInfo/SituationInfo'
 import { getIcon } from '../../../../utils/icon'
 import './BusStopTableRow.scss'
 
@@ -11,31 +11,29 @@ function BusStopTableRow({
     hideTracks,
     iconColorType,
 }: Props): JSX.Element {
-    const icon = getIcon(departure.type, iconColorType, departure.subType)
+    const transportIcon = getIcon(
+        departure.type,
+        iconColorType,
+        departure.subType,
+    )
+
     return (
         <TableRow>
-            <DataCell className="bus-stop-row-icon">{icon}</DataCell>
+            <DataCell className="bus-stop-row-icon">{transportIcon}</DataCell>
             <DataCell className="bus-stop-row-route">
                 {departure.route}
             </DataCell>
             <DataCell className="bus-stop-row-time">{departure.time}</DataCell>
-            {!hideTracks ? (
+            {!hideTracks && (
                 <DataCell className="bus-stop-row-track">
                     {departure.quay?.publicCode || '-'}
                 </DataCell>
-            ) : null}
-            {!hideSituations ? (
+            )}
+            {!hideSituations && (
                 <DataCell>
-                    {departure.situation ? (
-                        <>
-                            <SituationIcon
-                                hasCancellation={departure.hasCancellation}
-                            />
-                            {departure.situation}
-                        </>
-                    ) : null}
+                    <SituationInfo departure={departure} />
                 </DataCell>
-            ) : null}
+            )}
         </TableRow>
     )
 }

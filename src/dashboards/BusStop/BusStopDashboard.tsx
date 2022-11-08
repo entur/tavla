@@ -9,7 +9,7 @@ function getWalkInfoForStopPlace(
     walkInfos: WalkInfo[],
     id: string,
 ): WalkInfo | undefined {
-    return walkInfos?.find((walkInfo) => walkInfo.stopId === id)
+    return walkInfos.find((walkInfo) => walkInfo.stopId === id)
 }
 
 const BusStopDashboard = (): JSX.Element | null => {
