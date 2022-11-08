@@ -315,7 +315,7 @@ const EditTab = (): JSX.Element => {
                     Mobilitetstilbud
                 </div>
                 <div className="edit-tab__flex-container">
-                    <div className="edit-tab__tile">
+                    <div className="edit-tab__flex-item">
                         <div className="edit-tab__header">
                             <Heading2>Kollektiv</Heading2>
                             <Switch
@@ -338,8 +338,8 @@ const EditTab = (): JSX.Element => {
                         <ToggleDetailsPanel />
                     </div>
 
-                    <div className="edit-tab__flex-left-column">
-                        <div className="edit-tab__flex-item--right">
+                    <div className="edit-tab__flex-item--column">
+                        <div className=" edit-tab__flex-item">
                             <div className="edit-tab__header">
                                 <Heading2>Sparkesykkel</Heading2>
                                 <Switch
@@ -354,7 +354,7 @@ const EditTab = (): JSX.Element => {
                             </div>
                             <ScooterPanel />
                         </div>
-                        <div className="edit-tab__flex-item--right">
+                        <div className="edit-tab__flex-item">
                             <div className="edit-tab__header">
                                 <Heading2>Delebil</Heading2>
                                 <Switch
@@ -368,7 +368,7 @@ const EditTab = (): JSX.Element => {
                         </div>
                     </div>
 
-                    <div className="edit-tab__flex-item--right">
+                    <div className="edit-tab__flex-item">
                         <div className="edit-tab__header">
                             <Heading2>Bysykkel</Heading2>
                             <Switch
@@ -414,7 +414,7 @@ const EditTab = (): JSX.Element => {
             </div>
             <div className="edit-tab__secondary-title">Annet</div>
             <div className="edit-tab__flex-container">
-                <div className="edity-tab__flexbox-left-column">
+                <div className="edity-tab__flex-item--column">
                     <div className="edit-tab__flex-item">
                         <div className="edit-tab__header">
                             <Heading2>
@@ -463,7 +463,7 @@ const EditTab = (): JSX.Element => {
                         <CustomTilePanel></CustomTilePanel>
                     </div>
                 </div>
-                <div className="edit-tab__flex-item--middle">
+                <div className="edit-tab__flex-item">
                     <div className="edit-tab__header">
                         <Heading2>Sanntidsposisjoner</Heading2>
                         <Switch
@@ -484,7 +484,7 @@ const EditTab = (): JSX.Element => {
                         </Paragraph>
                     )}
                 </div>
-                <div className="edit-tab__flex-item--right">
+                <div className="edit-tab__flex-item">
                     <div className="edit-tab__header">
                         <Heading2>Last inn tavler på nytt</Heading2>
                     </div>

@@ -14,42 +14,28 @@
         padding-left: 2rem;
         padding-right: 2rem;
         margin-top: 2rem;
+        gap: 3rem;
     }
-
-    &__flexbox-left-column {
-        align-items: center;
-        justify-content: center;
-        display: block;
-        overflow-x: visible;
-        flex-grow: 1;
-        flex-basis: 0;
-    }
+    
     &__flex-item {
         margin-bottom: 2rem;
         padding: 2rem;
         background-color: var(--tavla-box-background-color);
         border-radius: 1rem;
-    
-        &--middle {
+        flex-grow: 1;
+        flex-basis: 0;
+
+        &--column {
+            align-items: center;
+            justify-content: center;
+            display: block;
+            overflow-x: visible;
             flex-grow: 1;
             flex-basis: 0;
-            padding: 2rem;
-            background-color: var(--tavla-box-background-color);
-            border-radius: 1rem;
-            margin-left: 2rem;
-        }
-    
-        &--right {
-            flex-grow: 1;
-            flex-basis: 0;
-            margin-bottom: 2rem;
-            padding: 2rem;
-            background-color: var(--tavla-box-background-color);
-            border-radius: 1rem;
-            margin-left: 2rem;
+            gap: 3rem;
         }
     }
-    
+
 
     .eds-contrast {
         background: inherit;
