@@ -47,7 +47,16 @@ module.exports = async (env, args) => ({
                 test: /\.(sc|c)ss$/,
                 use: [
                     'style-loader',
-                    'css-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                auto: true, // enables .modules.scss to be identified as css-modules
+                                localIdentName: '[local]--[hash:base64:8]', // keep class-name and add hash
+                                exportLocalsConvention: 'as-is', // don't transform class-names
+                            },
+                        },
+                    },
                     {
                         loader: 'postcss-loader',
                         options: {
