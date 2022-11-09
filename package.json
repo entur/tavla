@@ -52,7 +52,7 @@
         "@entur/tokens": "3.4.1",
         "@entur/tooltip": "2.5.16",
         "@entur/travel": "5.0.14",
-        "@entur/typography": "1.7.0",
+        "@entur/typography": "1.7.1",
         "@habx/apollo-multi-endpoint-link": "2.8.0",
         "@n8tb1t/use-scroll-position": "2.0.3",
         "@react-hook/window-size": "3.1.1",
