@@ -1,8 +1,7 @@
 import React from 'react'
 import { Heading2 } from '@entur/typography'
 import { WalkInfo } from '../../../../logic/use-walk-info/useWalkInfo'
-import { useIsLongPressed } from '../../../../logic/longPressContext'
-import './Tile.scss'
+import './BusStopHeader.scss'
 
 function formatWalkInfo(walkInfo: WalkInfo) {
     if (walkInfo.walkTime / 60 < 1) {
@@ -14,21 +13,21 @@ function formatWalkInfo(walkInfo: WalkInfo) {
     }
 }
 
-function Tile({ title, icons, walkInfo, children }: Props): JSX.Element {
-    const isPressed = useIsLongPressed()
+function BusStopHeader({ title, icons, walkInfo }: Props): JSX.Element {
     return (
-        <div className={isPressed ? 'tile tile--pressed' : 'tile'}>
-            <header className="tile__header">
-                <Heading2>{title}</Heading2>
-                <div className="tile__header-icons">{icons}</div>
+        <>
+            <header className="bus-stop-tile-header">
+                <Heading2 className="bus-stop-tile-header-heading">
+                    {title}
+                </Heading2>
+                <div className="bus-stop-tile-header-icons">{icons}</div>
             </header>
-            {walkInfo ? (
-                <div className="tile__walking-time">
+            {!!walkInfo && (
+                <div className="bus-stop-tile-header-walking-time">
                     {formatWalkInfo(walkInfo)}
                 </div>
-            ) : null}
-            {children}
-        </div>
+            )}
+        </>
     )
 }
 
@@ -36,7 +35,6 @@ interface Props {
     title: string
     icons: JSX.Element | JSX.Element[]
     walkInfo?: WalkInfo
-    children: JSX.Element[] | JSX.Element
 }
 
-export { Tile }
+export { BusStopHeader }
