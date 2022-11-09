@@ -310,81 +310,77 @@ const EditTab = (): JSX.Element => {
                 </Heading2>
             </div>
             <PosterMobilityAlert />
-                <div className="edit-tab__tiles-heading">Mobilitetstilbud</div>
-                <div className="edit-tab__flex-container">
-                    <div className="edit-tab__flex-item">
-                        <div className="edit-tab__header">
-                            <Heading2>Kollektiv</Heading2>
-                            <Switch
-                                onChange={(): void => toggleMode('kollektiv')}
-                                checked={settings.hiddenModes.includes(
-                                    'kollektiv',
-                                )}
-                                size="large"
-                            />
-                        </div>
-                        <div className="edit-tab__set-stops">
-                            <StopPlaceSearch handleAddNewStop={addNewStop} />
-                        </div>
-                        <StopPlacePanel stops={stopPlaces} />
-                        <div>
-                            <Heading3 className="edit-tab__header--details-in-view">
-                                Detaljer i visningen
-                            </Heading3>
-                        </div>
-                        <ToggleDetailsPanel />
+            <div className="edit-tab__tiles-heading">Mobilitetstilbud</div>
+            <div className="edit-tab__flex-container">
+                <div className="edit-tab__flex-item">
+                    <div className="edit-tab__header">
+                        <Heading2>Kollektiv</Heading2>
+                        <Switch
+                            onChange={(): void => toggleMode('kollektiv')}
+                            checked={settings.hiddenModes.includes('kollektiv')}
+                            size="large"
+                        />
                     </div>
-
+                    <div className="edit-tab__set-stops">
+                        <StopPlaceSearch handleAddNewStop={addNewStop} />
+                    </div>
+                    <StopPlacePanel stops={stopPlaces} />
                     <div>
-                        <div className=" edit-tab__flex-item">
-                            <div className="edit-tab__header">
-                                <Heading2>Sparkesykkel</Heading2>
-                                <Switch
-                                    onChange={(): void =>
-                                        toggleMode('sparkesykkel')
-                                    }
-                                    checked={settings.hiddenModes.includes(
-                                        'sparkesykkel',
-                                    )}
-                                    size="large"
-                                />
-                            </div>
-                            <ScooterPanel />
-                        </div>
-                        <div className="edit-tab__flex-item">
-                            <div className="edit-tab__header">
-                                <Heading2>Delebil</Heading2>
-                                <Switch
-                                    onChange={(): void => toggleMode('delebil')}
-                                    checked={settings.hiddenModes.includes(
-                                        'delebil',
-                                    )}
-                                    size="large"
-                                />
-                            </div>
-                        </div>
+                        <Heading3 className="edit-tab__header--details-in-view">
+                            Detaljer i visningen
+                        </Heading3>
                     </div>
+                    <ToggleDetailsPanel />
+                </div>
 
-                    <div className="edit-tab__flex-item">
+                <div>
+                    <div className=" edit-tab__flex-item">
                         <div className="edit-tab__header">
-                            <Heading2>Bysykkel</Heading2>
+                            <Heading2>Sparkesykkel</Heading2>
                             <Switch
-                                onChange={(): void => toggleMode('bysykkel')}
+                                onChange={(): void =>
+                                    toggleMode('sparkesykkel')
+                                }
                                 checked={settings.hiddenModes.includes(
-                                    'bysykkel',
+                                    'sparkesykkel',
                                 )}
                                 size="large"
                             />
                         </div>
-                        {!!settings?.coordinates && (
-                            <BikePanelSearch
-                                position={settings.coordinates}
-                                onSelected={addNewStation}
-                            />
-                        )}
-                        <BikePanel stations={sortedBikeRentalStations} />
+                        <ScooterPanel />
                     </div>
-                    {/* <div key="mapPanel" className="edit-tab__tile">
+                    <div className="edit-tab__flex-item">
+                        <div className="edit-tab__header">
+                            <Heading2>Delebil</Heading2>
+                            <Switch
+                                onChange={(): void => toggleMode('delebil')}
+                                checked={settings.hiddenModes.includes(
+                                    'delebil',
+                                )}
+                                size="large"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="edit-tab__flex-item">
+                    <div className="edit-tab__header">
+                        <Heading2>Bysykkel</Heading2>
+                        <Switch
+                            onChange={(): void => toggleMode('bysykkel')}
+                            checked={settings.hiddenModes.includes('bysykkel')}
+                            size="large"
+                        />
+                    </div>
+                    {!!settings?.coordinates && (
+                        <BikePanelSearch
+                            position={settings.coordinates}
+                            onSelected={addNewStation}
+                        />
+                    )}
+                    <BikePanel stations={sortedBikeRentalStations} />
+                </div>
+                {/* <div key="mapPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">
                         <Heading2>Kart</Heading2>
                         <Switch
