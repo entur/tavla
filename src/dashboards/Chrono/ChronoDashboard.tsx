@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
-import { useLocation, useParams } from 'react-router-dom'
-import { useLongPress } from 'use-long-press'
+import { useLocation } from 'react-router-dom'
 import { Loader } from '@entur/loader'
 import {
     useRentalStations,
@@ -13,10 +12,6 @@ import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWra
 import { BREAKPOINTS } from '../../constants'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
 import {
-    RearrangeModal,
-    Item,
-} from '../../components/RearrangeModal/RearrangeModal'
-import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
@@ -24,11 +19,8 @@ import { QRTile } from '../../components/QRTile/QRTile'
 import { useSettings } from '../../settings/SettingsProvider'
 import { isMobileWeb } from '../../utils/utils'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
-import { LongPressProvider } from '../../logic/longPressContext'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
-import { usePrevious } from '../../hooks/usePrevious'
-import { isEqualUnsorted } from '../../utils/array'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { MapTile } from './MapTile/MapTile'
@@ -84,17 +76,10 @@ const ChronoDashboard = (): JSX.Element | null => {
     const [settings] = useSettings()
     const location = useLocation()
     const dashboardKey = location.key
-    const { documentId: boardId } = useParams<{ documentId: string }>()
-
-    const [isLongPressStarted, setIsLongPressStarted] = useState<boolean>(false)
-    const isCancelled = useRef<NodeJS.Timeout>()
 
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
         getFromLocalStorage(dashboardKey as string),
-    )
-    const [tileOrder, setTileOrder] = useState<Item[] | undefined>(
-        boardId ? getFromLocalStorage(boardId + '-tile-order') : undefined,
     )
 
     const bikeRentalStations = useRentalStations(
@@ -124,9 +109,6 @@ const ChronoDashboard = (): JSX.Element | null => {
         bikeRentalStations && bikeRentalStations.length
 
     const maxWidthCols = COLS[breakpoint] || 1
-
-    const prevNumberOfStopPlaces = usePrevious(numberOfStopPlaces)
-    const [modalVisible, setModalVisible] = useState(false)
 
     const hasData = Boolean(
         bikeRentalStations?.length ||
@@ -181,249 +163,6 @@ const ChronoDashboard = (): JSX.Element | null => {
             settings.hiddenCustomTileIds,
         ],
     )
-
-    useEffect(() => {
-        let defaultTileOrder: Item[] = []
-        if (stopPlacesWithDepartures) {
-            if (stopPlacesWithDepartures.length == prevNumberOfStopPlaces) {
-                return
-            }
-            defaultTileOrder = stopPlacesWithDepartures.map((item) => ({
-                id: item.id,
-                name: item.name,
-            }))
-        }
-        if (anyBikeRentalStations) {
-            defaultTileOrder = [
-                ...defaultTileOrder,
-                { id: 'city-bike', name: 'Bysykkel' },
-            ]
-        }
-        if (hasData && mapCol) {
-            defaultTileOrder = [
-                ...defaultTileOrder,
-                { id: 'map', name: 'Kart' },
-            ]
-        }
-        if (settings.showWeather) {
-            defaultTileOrder = [
-                { id: 'weather', name: 'Vær' },
-                ...defaultTileOrder,
-            ]
-        }
-
-        if (imageTilesToDisplay)
-            defaultTileOrder = [
-                ...defaultTileOrder,
-                ...imageTilesToDisplay.map((imgTile) => ({
-                    id: imgTile.id,
-                    name: imgTile.displayName,
-                })),
-            ]
-        if (qrTilesToDisplay)
-            defaultTileOrder = [
-                ...defaultTileOrder,
-                ...qrTilesToDisplay.map((qrTile) => ({
-                    id: qrTile.id,
-                    name: qrTile.displayName,
-                })),
-            ]
-
-        const storedTileOrder: Item[] | undefined = getFromLocalStorage(
-            boardId + '-tile-order',
-        )
-        if (
-            storedTileOrder &&
-            storedTileOrder.length === defaultTileOrder.length &&
-            isEqualUnsorted(
-                defaultTileOrder.map((item) => item.id),
-                storedTileOrder.map((item) => item.id),
-            )
-        ) {
-            setTileOrder(storedTileOrder)
-        } else {
-            setTileOrder(defaultTileOrder)
-        }
-    }, [
-        stopPlacesWithDepartures,
-        prevNumberOfStopPlaces,
-        anyBikeRentalStations,
-        mapCol,
-        hasData,
-        settings.showMap,
-        settings.showWeather,
-        boardId,
-        imageTilesToDisplay,
-        qrTilesToDisplay,
-    ])
-
-    const longPress = useLongPress(
-        () => {
-            setModalVisible(true)
-        },
-        {
-            threshold: 750,
-            onStart: () => {
-                isCancelled.current = setTimeout(() => {
-                    setIsLongPressStarted(true)
-                }, 150)
-            },
-            onFinish: () => {
-                clearLongPressTimeout()
-            },
-            onCancel: () => {
-                clearLongPressTimeout()
-            },
-            onMove: () => {
-                clearLongPressTimeout()
-            },
-            cancelOnMovement: true,
-        },
-    )
-
-    function clearLongPressTimeout() {
-        setIsLongPressStarted(false)
-        if (isCancelled.current) {
-            clearTimeout(isCancelled.current)
-        }
-    }
-
-    if (window.innerWidth < BREAKPOINTS.md) {
-        let numberOfTileRows = 10
-        if (window.innerWidth < BREAKPOINTS.xs) {
-            numberOfTileRows = 6
-        } else if (window.innerWidth < BREAKPOINTS.sm) {
-            numberOfTileRows = 8
-        }
-        if (!tileOrder) return null
-
-        return (
-            <DashboardWrapper
-                className="chrono"
-                bikeRentalStations={bikeRentalStations}
-                stopPlacesWithDepartures={stopPlacesWithDepartures}
-                scooters={scooters}
-            >
-                <LongPressProvider value={isLongPressStarted}>
-                    <div className="chrono__tiles" {...longPress}>
-                        <div className="tile-wrapper">
-                            <RearrangeModal
-                                itemOrder={tileOrder}
-                                onTileOrderChanged={(item) => {
-                                    setTileOrder(item)
-                                    saveToLocalStorage(
-                                        boardId + '-tile-order',
-                                        item,
-                                    )
-                                }}
-                                modalVisible={modalVisible}
-                                onDismiss={() => setModalVisible(false)}
-                            />
-                            {tileOrder.map((item) => {
-                                if (item.id == 'map') {
-                                    return hasData && settings.showMap ? (
-                                        <div key={item.id}>
-                                            <MapTile
-                                                scooters={scooters}
-                                                stopPlaces={
-                                                    stopPlacesWithDepartures
-                                                }
-                                                bikeRentalStations={
-                                                    bikeRentalStations
-                                                }
-                                                latitude={
-                                                    settings.coordinates
-                                                        .latitude
-                                                }
-                                                longitude={
-                                                    settings.coordinates
-                                                        .longitude
-                                                }
-                                                zoom={settings.zoom}
-                                            />
-                                        </div>
-                                    ) : (
-                                        []
-                                    )
-                                } else if (item.id == 'city-bike') {
-                                    return bikeRentalStations &&
-                                        anyBikeRentalStations ? (
-                                        <div key={item.id}>
-                                            <BikeTile
-                                                stations={bikeRentalStations}
-                                            />
-                                        </div>
-                                    ) : (
-                                        []
-                                    )
-                                } else if (item.id == 'weather') {
-                                    return settings.showWeather ? (
-                                        <div key={item.id}>
-                                            <WeatherTile className="tile" />
-                                        </div>
-                                    ) : (
-                                        []
-                                    )
-                                }
-                                if (imageTilesToDisplay.length > 0) {
-                                    const tile = imageTilesToDisplay.find(
-                                        (img) => img.id === item.id,
-                                    )
-
-                                    if (tile)
-                                        return (
-                                            <div key={item.id}>
-                                                <ImageTile {...tile} />
-                                            </div>
-                                        )
-                                }
-
-                                if (qrTilesToDisplay.length > 0) {
-                                    const tile = qrTilesToDisplay.find(
-                                        (qr) => qr.id === item.id,
-                                    )
-
-                                    if (tile)
-                                        return (
-                                            <div key={item.id} className="tile">
-                                                <QRTile {...tile} />
-                                            </div>
-                                        )
-                                }
-                                if (stopPlacesWithDepartures) {
-                                    const stopIndex =
-                                        stopPlacesWithDepartures.findIndex(
-                                            (p) => p.id == item.id,
-                                        )
-
-                                    const stopPlace =
-                                        stopPlacesWithDepartures[stopIndex]
-                                    return stopPlace ? (
-                                        <div key={item.id}>
-                                            <DepartureTile
-                                                key={item.id}
-                                                stopPlaceWithDepartures={
-                                                    stopPlace
-                                                }
-                                                walkInfo={getWalkInfoForStopPlace(
-                                                    walkInfo || [],
-                                                    item.id,
-                                                )}
-                                                isMobile
-                                                numberOfTileRows={
-                                                    numberOfTileRows
-                                                }
-                                            />
-                                        </div>
-                                    ) : null
-                                }
-                            })}
-                        </div>
-                    </div>
-                </LongPressProvider>
-            </DashboardWrapper>
-        )
-    }
 
     return (
         <DashboardWrapper
