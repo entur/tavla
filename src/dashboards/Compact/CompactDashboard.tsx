@@ -163,45 +163,6 @@ const CompactDashboard = (): JSX.Element | null => {
         ],
     )
 
-    if (window.innerWidth < BREAKPOINTS.md) {
-        return (
-            <DashboardWrapper
-                className="compact"
-                bikeRentalStations={bikeRentalStations}
-                stopPlacesWithDepartures={stopPlacesWithDepartures}
-                scooters={scooters}
-            >
-                <div className="compact__tiles">
-                    <div className="tile-wrapper">
-                        {!!settings.showWeather && (
-                            <WeatherTile className="tile" />
-                        )}
-                        {!settings.hiddenModes.includes('kollektiv') &&
-                            stopPlacesWithDepartures?.map((stopPlace) => (
-                                <DepartureTile
-                                    key={stopPlace.id}
-                                    walkInfo={getWalkInfoForStopPlace(
-                                        walkInfo || [],
-                                        stopPlace.id,
-                                    )}
-                                    stopPlaceWithDepartures={stopPlace}
-                                />
-                            ))}
-                        {!settings.hiddenModes.includes('bysykkel') &&
-                            !!anyBikeRentalStations && (
-                                <BikeTile stations={bikeRentalStations} />
-                            )}
-                        {imageTilesToDisplay.map((image) => (
-                            <ImageTile key={image.id} {...image} />
-                        ))}
-                        {qrTilesToDisplay.map((qr) => (
-                            <QRTile key={qr.id} {...qr} />
-                        ))}
-                    </div>
-                </div>
-            </DashboardWrapper>
-        )
-    }
     return (
         <DashboardWrapper
             className="compact"
