@@ -1,6 +1,31 @@
 @use '../../../assets/styles/Variables.scss';
 
 .edit-tab {
+    &__tiles-heading {
+        margin: 2rem 2rem 0 2rem;
+        font-size: 1.3rem;
+        opacity: 0.75;
+    }
+
+    &__flex-container {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        margin-top: 2rem;
+        gap: 3rem;
+    }
+
+    &__flex-item {
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background-color: var(--tavla-box-background-color);
+        border-radius: 1rem;
+        flex-grow: 1;
+        flex-basis: 0;
+    }
+
     .eds-contrast {
         background: inherit;
     }
