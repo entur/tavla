@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
-import { Tile } from '../components/Tile/Tile'
+import { Tile } from '../../../components/Tile/Tile'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { IconColorType } from '../../../types'
 import { getTranslation } from '../../../utils/utils'
@@ -43,6 +43,7 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
 
     return (
         <Tile
+            variant="chrono"
             title="Bysykkel"
             icons={[
                 <BicycleIcon

@@ -34,61 +34,6 @@
     }
 }
 
-.busStop .tile {
-    width: 100%;
-    height: fit-content;
-    background-color: var(--tavla-box-background-color);
-    color: var(--tavla-font-color);
-    flex: none;
-    padding: 2rem;
-    overflow: auto;
-
-    .tilerow {
-        &__sublabel {
-            &__situation {
-                font-size: 100%;
-            }
-        }
-    }
-
-    .eds-icon {
-        overflow: visible;
-        align-items: flex-end;
-    }
-
-    &__header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-
-        h2 {
-            margin: 0;
-        }
-
-        svg {
-            margin-left: 0.5rem;
-        }
-    }
-
-    &__header__icons {
-        font-size: 2rem;
-        float: right;
-    }
-
-    &__header__header3 {
-        overflow: hidden;
-        white-space: normal;
-        text-overflow: ellipsis;
-    }
-
-    &__walking-time {
-        font-style: normal;
-        font-weight: normal;
-        font-size: 1rem;
-        color: var(--tavla-font-color);
-    }
-}
-
 @media (max-width: 1000px) {
     .eds-table--small {
         &__row {

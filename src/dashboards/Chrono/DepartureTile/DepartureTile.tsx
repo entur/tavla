@@ -5,8 +5,8 @@ import {
     LineData,
     IconColorType,
 } from '../../../types'
-import { Tile } from '../components/Tile/Tile'
 import { TileRows } from '../components/TileRows/TileRows'
+import { Tile } from '../../../components/Tile/Tile'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
@@ -86,6 +86,7 @@ const DepartureTile = ({
 
     return (
         <Tile
+            variant="chrono"
             title={name}
             icons={getTransportHeaderIcons(departures, iconColorType)}
             walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}

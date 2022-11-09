@@ -5,7 +5,7 @@ import {
     LineData,
     IconColorType,
 } from '../../../types'
-import { Tile } from '../components/Tile/Tile'
+import { Tile } from '../../../components/Tile/Tile'
 import { TileRow } from '../components/TileRow/TileRow'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
@@ -54,6 +54,7 @@ const DepartureTile = ({
 
     return (
         <Tile
+            variant="compact"
             title={name}
             icons={getTransportHeaderIcons(departures, iconColorType)}
             walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}

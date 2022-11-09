@@ -7,7 +7,7 @@ import {
 } from '../../../types'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
-import { Tile } from '../components/Tile/Tile'
+import { Tile } from '../../../components/Tile/Tile'
 import { TileRows } from '../components/TileRows/TileRows'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { unique } from '../../../utils/array'
@@ -50,6 +50,7 @@ const DepartureTile = ({
 
     return (
         <Tile
+            variant="bus-stop"
             title={name}
             icons={getTransportHeaderIcons(departures, iconColorType)}
             walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
