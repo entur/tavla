@@ -2,9 +2,9 @@ import React, { useMemo } from 'react'
 import { compareAsc } from 'date-fns'
 import classNames from 'classnames'
 import { BusIcon } from '@entur/icons'
-import { TransportMode } from '@entur/sdk'
 import { useStopPlacesWithDepartures } from '../../../../logic'
 import { useSettings } from '../../../../settings/SettingsProvider'
+import { TransportMode } from '../../../../../graphql-generated/journey-planner-v3'
 import './BusTile.scss'
 
 function BusTile(): JSX.Element {
@@ -21,7 +21,7 @@ function BusTile(): JSX.Element {
         () =>
             stopPlacesWithDepartures
                 ?.flatMap((stopPlace) => stopPlace.departures)
-                .filter((departure) => departure.type === TransportMode.BUS)
+                .filter((departure) => departure.type === TransportMode.Bus)
                 .sort((a, b) => compareAsc(a.departureTime, b.departureTime))
                 .slice(0, numberOfLines) ?? [],
         [stopPlacesWithDepartures, numberOfLines],

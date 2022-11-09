@@ -1,7 +1,7 @@
 import React from 'react'
 import { ScooterIcon } from '@entur/icons'
-import { Operator } from '@entur/sdk/lib/mobility/types'
 import { ScooterOperatorLogo } from '../../../assets/icons/ScooterOperatorLogo'
+import { Operator } from '../../../../graphql-generated/mobility-v2'
 import './ScooterMarkerTag.scss'
 
 const ScooterMarkerTag = ({ pointCount, operator }: Props): JSX.Element =>
@@ -13,10 +13,7 @@ const ScooterMarkerTag = ({ pointCount, operator }: Props): JSX.Element =>
             </div>
         </div>
     ) : (
-        <ScooterOperatorLogo
-            operator={operator}
-            size={24}
-        ></ScooterOperatorLogo>
+        <ScooterOperatorLogo operator={operator} size={24} />
     )
 
 interface Props {

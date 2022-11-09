@@ -1,0 +1,48 @@
+@use '../../BusStopDashboard.scss';
+
+.bus-stop-tile {
+    width: 100%;
+    max-height: 80vh;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    overflow: scroll;
+    border-radius: 1rem;
+    background-color: var(--tavla-box-background-color);
+    color: var(--tavla-font-color);
+}
+
+.bus-stop-tile-table-head {
+    border-bottom: none;
+
+    &-icon {
+        width: 10%;
+    }
+
+    &-departure {
+        width: 18%;
+    }
+
+    &-track {
+        width: 18%;
+    }
+
+    &-situation {
+        width: 30%;
+    }
+}
+
+@media (max-width: BusStopDashboard.$breakpoint-mobile) {
+    .bus-stop-tile-table-head {
+        &-departure {
+            width: 22%;
+        }
+
+        &-track {
+            width: 13%;
+        }
+
+        &-situation {
+            width: 11%;
+        }
+    }
+}

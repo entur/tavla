@@ -1,4 +1,4 @@
-import { Coordinates } from '@entur/sdk'
+import { Coordinates } from '../../types'
 import { GeocoderResults } from './types'
 
 const endpoint = process.env.GEOCODER_HOST ?? 'https://api.entur.io/geocoder/v1'
