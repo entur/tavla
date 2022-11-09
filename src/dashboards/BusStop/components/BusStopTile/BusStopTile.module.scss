@@ -1,16 +1,5 @@
 @use '../../BusStopDashboard.scss';
 
-.busStopTile {
-    width: 100%;
-    max-height: 80vh;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    overflow: scroll;
-    border-radius: 1rem;
-    background-color: var(--tavla-box-background-color);
-    color: var(--tavla-font-color);
-}
-
 .tableHead {
     border-bottom: none;
 

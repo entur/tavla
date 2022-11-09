@@ -1,20 +1,21 @@
-.bus-stop-tile-header {
+.tileHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
 
-    &-heading {
+    &Heading {
         margin: 0;
     }
 
-    &-icons {
+    &Icons {
         font-size: 2rem;
         display: flex;
         align-items: center;
+        gap: 0.5rem;
     }
 
-    &-walking-time {
+    &WalkingTime {
         font-style: normal;
         font-weight: normal;
         font-size: 1rem;
