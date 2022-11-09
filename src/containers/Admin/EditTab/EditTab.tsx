@@ -310,7 +310,6 @@ const EditTab = (): JSX.Element => {
                 </Heading2>
             </div>
             <PosterMobilityAlert />
-            <div>
                 <div className="edit-tab__tiles-heading">Mobilitetstilbud</div>
                 <div className="edit-tab__flex-container">
                     <div className="edit-tab__flex-item">
@@ -408,7 +407,6 @@ const EditTab = (): JSX.Element => {
                         />
                     )}
                 </div> */}
-                </div>
             </div>
             <div className="edit-tab__tiles-heading">Annet</div>
             <div className="edit-tab__flex-container">
