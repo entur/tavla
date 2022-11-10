@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useLocation } from 'react-router-dom'
-import { Loader } from '@entur/loader'
 import {
     useRentalStations,
     useStopPlacesWithDepartures,
@@ -170,77 +169,124 @@ const ChronoDashboard = (): JSX.Element | null => {
             bikeRentalStations={bikeRentalStations}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
-            {!hasFetchedData ? (
-                <div className="compact__loading-screen">
-                    <Loader>Laster inn</Loader>
-                </div>
-            ) : (
-                <div className="chrono__tiles">
-                    <ResponsiveReactGridLayout
-                        key={breakpoint}
-                        breakpoints={BREAKPOINTS}
-                        cols={COLS}
-                        layouts={gridLayouts}
-                        isResizable={!isMobile}
-                        isDraggable={!isMobile}
-                        onBreakpointChange={(newBreakpoint: string) => {
-                            setBreakpoint(newBreakpoint)
-                        }}
-                        onLayoutChange={(
-                            layout: Layout[],
-                            layouts: Layouts,
-                        ): void => {
-                            if (numberOfStopPlaces > 0) {
-                                setGridLayouts(layouts)
-                                saveToLocalStorage(
-                                    dashboardKey as string,
-                                    layouts,
-                                )
-                            }
-                        }}
-                    >
-                        {settings.showWeather && (
-                            <div
-                                key="weather"
-                                data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
-                            >
-                                <ResizeHandle
-                                    size="32"
-                                    className="resizeHandle"
-                                    variant="light"
-                                />
-                                <WeatherTile className="tile" />
-                            </div>
-                        )}
-                        {(stopPlacesWithDepartures || []).map((stop, index) => (
-                            <div
-                                key={stop.id}
-                                data-grid={getDataGrid(
-                                    weatherCol + index,
-                                    maxWidthCols,
+            <div className="chrono__tiles">
+                <ResponsiveReactGridLayout
+                    key={breakpoint}
+                    breakpoints={BREAKPOINTS}
+                    cols={COLS}
+                    layouts={gridLayouts}
+                    isResizable={!isMobile}
+                    isDraggable={!isMobile}
+                    onBreakpointChange={(newBreakpoint: string) => {
+                        setBreakpoint(newBreakpoint)
+                    }}
+                    onLayoutChange={(
+                        layout: Layout[],
+                        layouts: Layouts,
+                    ): void => {
+                        if (numberOfStopPlaces > 0) {
+                            setGridLayouts(layouts)
+                            saveToLocalStorage(dashboardKey as string, layouts)
+                        }
+                    }}
+                >
+                    {settings.showWeather && (
+                        <div
+                            key="weather"
+                            data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
+                        >
+                            <ResizeHandle
+                                size="32"
+                                className="resizeHandle"
+                                variant="light"
+                            />
+                            <WeatherTile className="tile" />
+                        </div>
+                    )}
+                    {(stopPlacesWithDepartures || []).map((stop, index) => (
+                        <div
+                            key={stop.id}
+                            data-grid={getDataGrid(
+                                weatherCol + index,
+                                maxWidthCols,
+                            )}
+                        >
+                            <ResizeHandle
+                                size="32"
+                                className="resizeHandle"
+                                variant="light"
+                            />
+                            <DepartureTile
+                                key={index}
+                                stopPlaceWithDepartures={stop}
+                                walkInfo={getWalkInfoForStopPlace(
+                                    walkInfo || [],
+                                    stop.id,
                                 )}
-                            >
+                            />
+                        </div>
+                    ))}
+                    {bikeRentalStations && anyBikeRentalStations ? (
+                        <div
+                            key="city-bike"
+                            data-grid={getDataGrid(
+                                numberOfStopPlaces + weatherCol,
+                                maxWidthCols,
+                            )}
+                        >
+                            {!isMobile ? (
                                 <ResizeHandle
                                     size="32"
                                     className="resizeHandle"
                                     variant="light"
                                 />
-                                <DepartureTile
-                                    key={index}
-                                    stopPlaceWithDepartures={stop}
-                                    walkInfo={getWalkInfoForStopPlace(
-                                        walkInfo || [],
-                                        stop.id,
-                                    )}
+                            ) : null}
+                            <BikeTile stations={bikeRentalStations} />
+                        </div>
+                    ) : (
+                        []
+                    )}
+                    {hasData && mapCol ? (
+                        <div
+                            id="chrono-map-tile"
+                            key="map"
+                            data-grid={getDataGrid(
+                                numberOfStopPlaces + bikeCol + weatherCol,
+                                maxWidthCols,
+                            )}
+                        >
+                            {!isMobile ? (
+                                <ResizeHandle
+                                    size="32"
+                                    className="resizeHandle"
+                                    variant="dark"
                                 />
-                            </div>
-                        ))}
-                        {bikeRentalStations && anyBikeRentalStations ? (
+                            ) : null}
+                            <MapTile
+                                scooters={scooters}
+                                stopPlaces={stopPlacesWithDepartures}
+                                bikeRentalStations={bikeRentalStations}
+                                latitude={settings.coordinates.latitude}
+                                longitude={settings.coordinates.longitude}
+                                zoom={settings.zoom}
+                            />
+                        </div>
+                    ) : (
+                        []
+                    )}
+                    {imageTilesToDisplay.length > 0 &&
+                        imageTilesToDisplay.map((imageTile, index) => (
                             <div
-                                key="city-bike"
+                                key={imageTile.id}
                                 data-grid={getDataGrid(
-                                    numberOfStopPlaces + weatherCol,
+                                    numberOfStopPlaces +
+                                        weatherCol +
+                                        bikeCol +
+                                        mapCol +
+                                        index,
                                     maxWidthCols,
+                                    10,
+                                    2,
                                 )}
                             >
                                 {!isMobile ? (
@@ -250,54 +296,26 @@ const ChronoDashboard = (): JSX.Element | null => {
                                         variant="light"
                                     />
                                 ) : null}
-                                <BikeTile stations={bikeRentalStations} />
+                                <ImageTile {...imageTile} />
                             </div>
-                        ) : (
-                            []
-                        )}
-                        {hasData && mapCol ? (
+                        ))}
+                    {qrTilesToDisplay.length > 0 &&
+                        qrTilesToDisplay.map((qrTile, index) => (
                             <div
-                                id="chrono-map-tile"
-                                key="map"
+                                key={qrTile.id}
                                 data-grid={getDataGrid(
-                                    numberOfStopPlaces + bikeCol + weatherCol,
+                                    numberOfStopPlaces +
+                                        weatherCol +
+                                        bikeCol +
+                                        mapCol +
+                                        numberOfCustomImages +
+                                        index,
                                     maxWidthCols,
+                                    10,
+                                    3,
                                 )}
                             >
-                                {!isMobile ? (
-                                    <ResizeHandle
-                                        size="32"
-                                        className="resizeHandle"
-                                        variant="dark"
-                                    />
-                                ) : null}
-                                <MapTile
-                                    scooters={scooters}
-                                    stopPlaces={stopPlacesWithDepartures}
-                                    bikeRentalStations={bikeRentalStations}
-                                    latitude={settings.coordinates.latitude}
-                                    longitude={settings.coordinates.longitude}
-                                    zoom={settings.zoom}
-                                />
-                            </div>
-                        ) : (
-                            []
-                        )}
-                        {imageTilesToDisplay.length > 0 &&
-                            imageTilesToDisplay.map((imageTile, index) => (
-                                <div
-                                    key={imageTile.id}
-                                    data-grid={getDataGrid(
-                                        numberOfStopPlaces +
-                                            weatherCol +
-                                            bikeCol +
-                                            mapCol +
-                                            index,
-                                        maxWidthCols,
-                                        10,
-                                        2,
-                                    )}
-                                >
+                                <div className="tile">
                                     {!isMobile ? (
                                         <ResizeHandle
                                             size="32"
@@ -305,40 +323,12 @@ const ChronoDashboard = (): JSX.Element | null => {
                                             variant="light"
                                         />
                                     ) : null}
-                                    <ImageTile {...imageTile} />
+                                    <QRTile {...qrTile} />
                                 </div>
-                            ))}
-                        {qrTilesToDisplay.length > 0 &&
-                            qrTilesToDisplay.map((qrTile, index) => (
-                                <div
-                                    key={qrTile.id}
-                                    data-grid={getDataGrid(
-                                        numberOfStopPlaces +
-                                            weatherCol +
-                                            bikeCol +
-                                            mapCol +
-                                            numberOfCustomImages +
-                                            index,
-                                        maxWidthCols,
-                                        10,
-                                        3,
-                                    )}
-                                >
-                                    <div className="tile">
-                                        {!isMobile ? (
-                                            <ResizeHandle
-                                                size="32"
-                                                className="resizeHandle"
-                                                variant="light"
-                                            />
-                                        ) : null}
-                                        <QRTile {...qrTile} />
-                                    </div>
-                                </div>
-                            ))}
-                    </ResponsiveReactGridLayout>
-                </div>
-            )}
+                            </div>
+                        ))}
+                </ResponsiveReactGridLayout>
+            </div>
         </DashboardWrapper>
     )
 }

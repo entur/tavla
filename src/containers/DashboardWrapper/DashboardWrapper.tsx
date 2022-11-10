@@ -6,7 +6,6 @@ import { isDarkOrDefaultTheme } from '../../utils/utils'
 import { useSettings } from '../../settings/SettingsProvider'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
 import { Direction, StopPlaceWithDepartures } from '../../types'
-import { useCounter } from '../../hooks/useCounter'
 import {
     UseMobility_VehicleFragment,
     UseRentalStations_StationFragment,
@@ -35,7 +34,6 @@ function DashboardWrapper({
     stopPlacesWithDepartures,
     scooters,
 }: DashboardWrapperProps): JSX.Element {
-    const secondsSinceMount = useCounter()
     useThemeHandler()
     useHandleFontScaling()
     useReloadTavleOnUpdate()
