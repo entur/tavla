@@ -119,22 +119,6 @@ const ChronoDashboard = (): JSX.Element | null => {
     const mapCol = settings.showMap ? 1 : 0
     const weatherCol = settings.showWeather ? 1 : 0
 
-    const stopPlacesHasLoaded = Boolean(
-        stopPlacesWithDepartures || settings.hiddenModes.includes('kollektiv'),
-    )
-
-    const bikeHasLoaded = Boolean(
-        bikeRentalStations || settings.hiddenModes.includes('bysykkel'),
-    )
-
-    const scooterHasLoaded = Boolean(
-        scooters || settings.hiddenModes.includes('sparkesykkel'),
-    )
-
-    const hasFetchedData = Boolean(
-        stopPlacesHasLoaded && bikeHasLoaded && scooterHasLoaded,
-    )
-
     const imageTilesToDisplay = useMemo(
         () =>
             settings.showCustomTiles
