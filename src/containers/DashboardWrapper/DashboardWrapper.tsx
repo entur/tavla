@@ -51,11 +51,7 @@ function DashboardWrapper({
             return children
         }
 
-        if (secondsSinceMount < 2) {
-            return null
-        }
-
-        if (secondsSinceMount < 5) {
+        if (noData) {
             return <Loader>Laster...</Loader>
         }
 
