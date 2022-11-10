@@ -1,0 +1,63 @@
+.chronoDepartureTile {
+    height: 100%;
+}
+
+.tableHead {
+    border-bottom: none;
+
+    &Cell {
+        padding: 1rem 0 1rem 0.1rem !important;
+    }
+
+    &Icon {
+        width: 14%;
+    }
+
+    &Line {
+        width: 61%;
+
+        &__oneVisible {
+            width: 49%;
+        }
+
+        &__bothVisible {
+            width: 38%;
+        }
+    }
+
+    &Departure {
+        width: 20%;
+    }
+
+    &Track {
+        width: 11%;
+    }
+
+    &Situation {
+        width: 11%
+    }
+}
+
+@media (min-width: 480px) {
+    .tableHead {
+        &Line {
+            width: 64%;
+
+            &__oneVisible {
+                width: 54%;
+            }
+
+            &__bothVisible {
+                width: 44%;
+            }
+        }
+
+        &Track {
+            width: 10%;
+        }
+
+        &Situation {
+            width: 10%
+        }
+    }
+}

@@ -30,7 +30,7 @@ import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { usePrevious } from '../../hooks/usePrevious'
 import { isEqualUnsorted } from '../../utils/array'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
-import { DepartureTile } from './DepartureTile/DepartureTile'
+import { ChronoDepartureTile } from './ChronoDepartureTile/ChronoDepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import { BikeTile } from './BikeTile/BikeTile'
 import './ChronoDashboard.scss'
@@ -400,7 +400,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                         stopPlacesWithDepartures[stopIndex]
                                     return stopPlace ? (
                                         <div key={item.id}>
-                                            <DepartureTile
+                                            <ChronoDepartureTile
                                                 key={item.id}
                                                 stopPlaceWithDepartures={
                                                     stopPlace
@@ -486,7 +486,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     className="resizeHandle"
                                     variant="light"
                                 />
-                                <DepartureTile
+                                <ChronoDepartureTile
                                     key={index}
                                     stopPlaceWithDepartures={stop}
                                     walkInfo={getWalkInfoForStopPlace(

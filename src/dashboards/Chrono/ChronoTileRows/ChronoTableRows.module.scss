@@ -1,16 +1,20 @@
-@use '../../../../assets/styles/Variables.scss';
+@use '../../../assets/styles/Variables.scss';
 
-.chrono .tilerows {
+.chronoTableRow {
     border-bottom: 2px solid var(--tavla-border-color) !important;
     padding: 1rem;
 
-    &__icon {
+    &DataCell {
+        padding: 1rem 0 1rem 0.1rem;
+    }
+
+    &Icon {
         min-width: 2rem;
         margin-right: 1rem;
         font-size: 2rem;
     }
 
-    &__label {
+    &Label {
         margin: 0;
         padding-right: 0.25rem;
         overflow: hidden;
@@ -18,7 +22,7 @@
         text-overflow: ellipsis;
     }
 
-    &__sublabel {
+    &Sublabel {
         align-items: center;
         display: flex;
         font-size: Variables.$font-sizes-extra-large2;
@@ -27,7 +31,7 @@
         min-width: 5rem;
         text-align: right;
 
-        &__cancellation {
+        &Cancellation {
             align-items: center;
             background-color: Variables.$colors-brand-white;
             border-radius: 0.5rem;
@@ -45,11 +49,11 @@
     }
 
     @media (max-width: 480px) {
-        &__sublabel {
+        &Sublabel {
             font-size: Variables.$font-sizes-large;
         }
 
-        &__icon {
+        &Icon {
             min-width: 1.5rem;
             font-size: 1.5rem;
         }
