@@ -317,7 +317,9 @@ const EditTab = (): JSX.Element => {
                         <Heading2>Kollektiv</Heading2>
                         <Switch
                             onChange={(): void => toggleMode('kollektiv')}
-                            checked={settings.hiddenModes.includes('kollektiv')}
+                            checked={
+                                !settings.hiddenModes.includes('kollektiv')
+                            }
                             size="large"
                         />
                     </div>
@@ -341,9 +343,11 @@ const EditTab = (): JSX.Element => {
                                 onChange={(): void =>
                                     toggleMode('sparkesykkel')
                                 }
-                                checked={settings.hiddenModes.includes(
-                                    'sparkesykkel',
-                                )}
+                                checked={
+                                    !settings.hiddenModes.includes(
+                                        'sparkesykkel',
+                                    )
+                                }
                                 size="large"
                             />
                         </div>
@@ -354,9 +358,9 @@ const EditTab = (): JSX.Element => {
                             <Heading2>Delebil</Heading2>
                             <Switch
                                 onChange={(): void => toggleMode('delebil')}
-                                checked={settings.hiddenModes.includes(
-                                    'delebil',
-                                )}
+                                checked={
+                                    !settings.hiddenModes.includes('delebil')
+                                }
                                 size="large"
                             />
                         </div>
@@ -368,7 +372,7 @@ const EditTab = (): JSX.Element => {
                         <Heading2>Bysykkel</Heading2>
                         <Switch
                             onChange={(): void => toggleMode('bysykkel')}
-                            checked={settings.hiddenModes.includes('bysykkel')}
+                            checked={!settings.hiddenModes.includes('bysykkel')}
                             size="large"
                         />
                     </div>
@@ -460,11 +464,11 @@ const EditTab = (): JSX.Element => {
                         <Heading2>Sanntidsposisjoner</Heading2>
                         <Switch
                             onChange={() => toggleRealtimeData()}
-                            checked={settings.hideRealtimeData}
+                            checked={!settings.hideRealtimeData}
                             size="large"
                         ></Switch>
                     </div>
-                    {settings.hiddenModes.includes('kollektiv') ? (
+                    {!settings.hiddenModes.includes('kollektiv') ? (
                         <RealtimeDataPanel
                             realtimeLines={realtimeLines}
                             hiddenLines={settings.hiddenRealtimeDataLineRefs}
