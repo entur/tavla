@@ -16,7 +16,7 @@ import {
     getIconColorType,
     getTransportIconIdentifier,
 } from '../../../../utils/icon'
-import './BusStopTile.scss'
+import css from './BusStopTile.module.scss'
 
 function getTransportHeaderIcons(
     departures: LineData[],
@@ -49,29 +49,27 @@ const BusStopTile = ({
     )
 
     return (
-        <div className="bus-stop-tile">
+        <div className={css.busStopTile}>
             <BusStopHeader
                 title={name}
                 icons={getTransportHeaderIcons(departures, iconColorType)}
                 walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
             />
             <Table spacing="large" fixed>
-                <TableHead className="bus-stop-tile-table-head">
+                <TableHead className={css.tableHead}>
                     <TableRow>
-                        <HeaderCell className="bus-stop-tile-table-head-icon">
-                            {' '}
-                        </HeaderCell>
+                        <HeaderCell className={css.tableHeadIcon}> </HeaderCell>
                         <HeaderCell>Linje</HeaderCell>
-                        <HeaderCell className="bus-stop-tile-table-head-departure">
+                        <HeaderCell className={css.tableHeadDeparture}>
                             Avgang
                         </HeaderCell>
                         {!settings.hideTracks && (
-                            <HeaderCell className="bus-stop-tile-table-head-track">
+                            <HeaderCell className={css.tableHeadTrack}>
                                 Spor
                             </HeaderCell>
                         )}
                         {!settings.hideSituations && (
-                            <HeaderCell className="bus-stop-tile-table-head-situation">
+                            <HeaderCell className={css.tableHeadSituation}>
                                 Avvik
                             </HeaderCell>
                         )}
