@@ -1,4 +1,5 @@
 import React from 'react'
+import { uniqWith } from 'lodash'
 import { colors } from '@entur/tokens'
 import {
     BicycleIcon,
@@ -10,12 +11,13 @@ import {
     TrainIcon,
     TramIcon,
 } from '@entur/icons'
-import { IconColorType, Theme } from '../types'
+import { IconColorType, LineData, Theme } from '../types'
 import {
     Mode,
     TransportMode,
     TransportSubmode,
 } from '../../graphql-generated/journey-planner-v3'
+import { isNotNullOrUndefined } from './typeguards'
 
 function isSubModeAirportLink(subMode?: string): boolean {
     if (!subMode) return false
@@ -33,6 +35,20 @@ function isSubModeCarFerry(subMode?: string): boolean {
     ]
 
     return carFerryTypes.includes(subMode)
+}
+
+function getTransportHeaderIcons(
+    departures: LineData[],
+    iconColorType: IconColorType,
+): JSX.Element[] {
+    return uniqWith(
+        departures,
+        (a, b) =>
+            getTransportIconIdentifier(a.type, a.subType) ===
+            getTransportIconIdentifier(b.type, b.subType),
+    )
+        .map(({ type, subType }) => getIcon(type, iconColorType, subType))
+        .filter(isNotNullOrUndefined)
 }
 
 function getIconColorType(theme: Theme | undefined): IconColorType {
@@ -144,4 +160,4 @@ function getIcon(
     }
 }
 
-export { getIconColorType, getIconColor, getTransportIconIdentifier, getIcon }
+export { getIconColorType, getIconColor, getIcon, getTransportHeaderIcons }

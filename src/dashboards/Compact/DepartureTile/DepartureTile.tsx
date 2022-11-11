@@ -10,29 +10,11 @@ import { Tile } from '../components/Tile/Tile'
 import { TileRow } from '../components/TileRow/TileRow'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
-import { isNotNullOrUndefined } from '../../../utils/typeguards'
-import { unique } from '../../../utils/array'
 import {
     getIcon,
     getIconColorType,
-    getTransportIconIdentifier,
+    getTransportHeaderIcons,
 } from '../../../utils/icon'
-
-function getTransportHeaderIcons(
-    departures: LineData[],
-    iconColorType: IconColorType,
-): JSX.Element[] {
-    const transportModes = unique(
-        departures.map(({ type, subType }) => ({ type, subType })),
-        (a, b) =>
-            getTransportIconIdentifier(a.type, a.subType) ===
-            getTransportIconIdentifier(b.type, b.subType),
-    )
-
-    return transportModes
-        .map(({ type, subType }) => getIcon(type, iconColorType, subType))
-        .filter(isNotNullOrUndefined)
-}
 
 const DepartureTile = ({
     stopPlaceWithDepartures,
