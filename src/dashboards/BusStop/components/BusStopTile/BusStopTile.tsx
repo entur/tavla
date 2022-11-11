@@ -50,7 +50,7 @@ const BusStopTile = ({
     )
 
     return (
-        <Tile>
+        <Tile className={classes.BusStopTile}>
             <TileHeader
                 title={name}
                 icons={getTransportHeaderIcons(departures, iconColorType)}

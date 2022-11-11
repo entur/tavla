@@ -1,5 +1,9 @@
 @use '../../BusStopDashboard.scss';
 
+.BusStopTile {
+    max-height: 80vh;
+}
+
 .TableHead {
     border-bottom: none;
 }
