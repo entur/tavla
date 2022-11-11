@@ -36,7 +36,7 @@ interface Props {
     title: string
     icons: JSX.Element | JSX.Element[]
     walkInfo?: WalkInfo
-    children: JSX.Element[]
+    children: React.ReactNode
 }
 
 export { Tile }

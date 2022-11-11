@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { groupBy } from 'lodash'
 import { createTileSubLabel } from '../../../utils/utils'
 import {
     StopPlaceWithDepartures,
@@ -10,7 +11,7 @@ import { TileRow } from '../components/TileRow/TileRow'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
-import { filterMap, groupBy, unique } from '../../../utils/array'
+import { unique } from '../../../utils/array'
 import {
     getIcon,
     getIconColorType,
@@ -58,7 +59,7 @@ const DepartureTile = ({
             icons={getTransportHeaderIcons(departures, iconColorType)}
             walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
         >
-            {filterMap(routes, (route) => {
+            {routes.map((route) => {
                 const routeData = groupedDepartures[route]
                 const firstRouteData = routeData && routeData[0]
                 if (!firstRouteData) return
