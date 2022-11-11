@@ -32,7 +32,7 @@ import { isEqualUnsorted } from '../../utils/array'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { ChronoDepartureTile } from './ChronoDepartureTile/ChronoDepartureTile'
 import { MapTile } from './MapTile/MapTile'
-import { BikeTile } from './BikeTile/BikeTile'
+import { ChronoBikeTile } from './ChronoBikeTile/ChronoBikeTile'
 import './ChronoDashboard.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -349,7 +349,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     return bikeRentalStations &&
                                         anyBikeRentalStations ? (
                                         <div key={item.id}>
-                                            <BikeTile
+                                            <ChronoBikeTile
                                                 stations={bikeRentalStations}
                                             />
                                         </div>
@@ -511,7 +511,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                         variant="light"
                                     />
                                 ) : null}
-                                <BikeTile stations={bikeRentalStations} />
+                                <ChronoBikeTile stations={bikeRentalStations} />
                             </div>
                         ) : (
                             []
