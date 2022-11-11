@@ -1,7 +1,7 @@
 import React from 'react'
 import { Heading2 } from '@entur/typography'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
-import css from './TileHeader.module.scss'
+import classes from './TileHeader.module.scss'
 
 function formatWalkInfo(walkInfo: WalkInfo) {
     if (walkInfo.walkTime / 60 < 1) {
@@ -21,12 +21,12 @@ interface TileHeaderProps {
 
 const TileHeader: React.FC<TileHeaderProps> = ({ title, icons, walkInfo }) => (
     <>
-        <header className={css.tileHeader}>
-            <Heading2 className={css.tileHeaderHeading}>{title}</Heading2>
-            <div className={css.tileHeaderIcons}>{icons}</div>
+        <header className={classes.TileHeader}>
+            <Heading2 className={classes.Heading}>{title}</Heading2>
+            <div className={classes.Icons}>{icons}</div>
         </header>
         {!!walkInfo && (
-            <div className={css.tileHeaderWalkingTime}>
+            <div className={classes.WalkingTime}>
                 {formatWalkInfo(walkInfo)}
             </div>
         )}

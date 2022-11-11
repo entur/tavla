@@ -1,37 +1,35 @@
 @use '../../BusStopDashboard.scss';
 
-.tableHead {
+.TableHead {
     border-bottom: none;
+}
 
-    &Icon {
-        width: 10%;
-    }
+.Icon {
+    width: 10%;
+}
 
-    &Departure {
-        width: 18%;
-    }
+.Departure {
+    width: 18%;
+}
 
-    &Track {
-        width: 18%;
-    }
+.Track {
+    width: 18%;
+}
 
-    &Situation {
-        width: 30%;
-    }
+.Situation {
+    width: 30%;
 }
 
 @media (max-width: BusStopDashboard.$breakpoint-mobile) {
-    .tableHead {
-        &Departure {
-            width: 22%;
-        }
+    .Departure {
+        width: 22%;
+    }
 
-        &Track {
-            width: 13%;
-        }
+    .Track {
+        width: 13%;
+    }
 
-        &Situation {
-            width: 11%;
-        }
+    .Situation {
+        width: 11%;
     }
 }

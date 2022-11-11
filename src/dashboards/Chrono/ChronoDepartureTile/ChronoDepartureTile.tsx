@@ -18,7 +18,7 @@ import {
 } from '../../../utils/icon'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
 import { Tile } from '../../../components/Tile/Tile'
-import css from './ChronoDepartureTile.module.scss'
+import classes from './ChronoDepartureTile.module.scss'
 
 function getTransportHeaderIcons(
     departures: LineData[],
@@ -63,36 +63,32 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
     )
 
     return (
-        <Tile className={css.chronoDepartureTile}>
+        <Tile className={classes.ChronoDepartureTile}>
             <TileHeader
                 title={name}
                 icons={getTransportHeaderIcons(departures, iconColorType)}
                 walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
             />
             <Table fixed>
-                <TableHead className={css.tableHead}>
+                <TableHead className={classes.TableHead}>
                     <TableRow>
-                        <HeaderCell className={css.tableHeadIcon}> </HeaderCell>
+                        <HeaderCell className={classes.Icon}> </HeaderCell>
                         <HeaderCell
-                            className={classNames(
-                                css.tableHeadCell,
-                                css.tableHeadLine,
-                                {
-                                    [css.tableHeadLine__oneVisible]:
-                                        !settings.hideTracks ||
-                                        !settings.hideSituations,
-                                    [css.tableHeadLine__bothVisible]:
-                                        !settings.hideTracks &&
-                                        !settings.hideSituations,
-                                },
-                            )}
+                            className={classNames(classes.Cell, classes.Line, {
+                                [classes.Line__oneVisible]:
+                                    !settings.hideTracks ||
+                                    !settings.hideSituations,
+                                [classes.Line__bothVisible]:
+                                    !settings.hideTracks &&
+                                    !settings.hideSituations,
+                            })}
                         >
                             Linje
                         </HeaderCell>
                         <HeaderCell
                             className={classNames(
-                                css.tableHeadCell,
-                                css.tableHeadDeparture,
+                                classes.Cell,
+                                classes.Departure,
                             )}
                         >
                             Avgang
@@ -100,8 +96,8 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
                         {!settings.hideTracks && (
                             <HeaderCell
                                 className={classNames(
-                                    css.tableHeadCell,
-                                    css.tableHeadTrack,
+                                    classes.Cell,
+                                    classes.Track,
                                 )}
                             >
                                 Spor
@@ -110,8 +106,8 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
                         {!settings.hideSituations && (
                             <HeaderCell
                                 className={classNames(
-                                    css.tableHeadCell,
-                                    css.tableHeadSituation,
+                                    classes.Cell,
+                                    classes.Situation,
                                 )}
                             >
                                 Avvik

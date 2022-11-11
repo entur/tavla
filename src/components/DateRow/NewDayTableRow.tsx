@@ -3,7 +3,7 @@ import { format, isSameDay } from 'date-fns'
 import { nb } from 'date-fns/locale'
 import { DataCell, TableRow } from '@entur/table'
 import { Heading4 } from '@entur/typography'
-import css from './NewDayTableRow.module.scss'
+import classes from './NewDayTableRow.module.scss'
 
 type NewDayTableRowProps = {
     currentDate: Date
@@ -25,7 +25,7 @@ const NewDayTableRow: React.FC<NewDayTableRowProps> = ({
     })
 
     return (
-        <TableRow className={css.newDayTableRow}>
+        <TableRow className={classes.NewDayTableRow}>
             <DataCell>
                 <Heading4 as="h3">{formatedDate}</Heading4>
             </DataCell>

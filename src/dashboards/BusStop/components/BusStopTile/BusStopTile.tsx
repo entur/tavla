@@ -17,7 +17,7 @@ import {
 } from '../../../../utils/icon'
 import { Tile } from '../../../../components/Tile/Tile'
 import { TileHeader } from '../../../../components/TileHeader/TileHeader'
-import css from './BusStopTile.module.scss'
+import classes from './BusStopTile.module.scss'
 
 function getTransportHeaderIcons(
     departures: LineData[],
@@ -57,20 +57,20 @@ const BusStopTile = ({
                 walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
             />
             <Table spacing="large" fixed>
-                <TableHead className={css.tableHead}>
+                <TableHead className={classes.TableHead}>
                     <TableRow>
-                        <HeaderCell className={css.tableHeadIcon}> </HeaderCell>
+                        <HeaderCell className={classes.Icon}> </HeaderCell>
                         <HeaderCell>Linje</HeaderCell>
-                        <HeaderCell className={css.tableHeadDeparture}>
+                        <HeaderCell className={classes.Departure}>
                             Avgang
                         </HeaderCell>
                         {!settings.hideTracks && (
-                            <HeaderCell className={css.tableHeadTrack}>
+                            <HeaderCell className={classes.Track}>
                                 Spor
                             </HeaderCell>
                         )}
                         {!settings.hideSituations && (
-                            <HeaderCell className={css.tableHeadSituation}>
+                            <HeaderCell className={classes.Situation}>
                                 Avvik
                             </HeaderCell>
                         )}

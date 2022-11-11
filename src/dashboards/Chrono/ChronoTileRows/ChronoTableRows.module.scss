@@ -1,61 +1,63 @@
 @use '../../../assets/styles/Variables.scss';
 
-.chronoTableRow {
+.ChronoTableRow {
     border-bottom: 2px solid var(--tavla-border-color) !important;
     padding: 1rem;
+}
 
-    &DataCell {
-        padding: 1rem 0 1rem 0.1rem;
-    }
+.DataCell {
+    padding: 1rem 0 1rem 0.1rem;
+}
 
-    &Icon {
-        min-width: 2rem;
-        margin-right: 1rem;
-        font-size: 2rem;
-    }
+.Icon {
+    min-width: 2rem;
+    margin-right: 1rem;
+    font-size: 2rem;
+}
 
-    &Label {
-        margin: 0;
-        padding-right: 0.25rem;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
+.Label {
+    margin: 0;
+    padding-right: 0.25rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
-    &Sublabel {
-        align-items: center;
-        display: flex;
-        font-size: Variables.$font-sizes-extra-large2;
-        font-weight: Variables.$font-weights-body;
-        margin: 0;
-        min-width: 5rem;
-        text-align: right;
+.Sublabel {
+    align-items: center;
+    display: flex;
+    font-size: Variables.$font-sizes-extra-large2;
+    font-weight: Variables.$font-weights-body;
+    margin: 0;
+    min-width: 5rem;
+    text-align: right;
+}
 
-        &Cancellation {
-            align-items: center;
-            background-color: Variables.$colors-brand-white;
-            border-radius: 0.5rem;
-            display: flex;
-            height: 0.875rem;
-            justify-content: center;
-            margin-left: 1rem;
-            overflow: visible;
-            width: 0.875rem;
-        }
-    }
+.Cancellation {
+    align-items: center;
+    background-color: Variables.$colors-brand-white;
+    border-radius: 0.5rem;
+    display: flex;
+    height: 0.875rem;
+    justify-content: center;
+    margin-left: 1rem;
+    overflow: visible;
+    width: 0.875rem;
+}
 
-    @media (max-width: 1000px) {
+@media (max-width: 1000px) {
+    .ChronoTableRow {
         padding: 0.5rem;
     }
+}
 
-    @media (max-width: 480px) {
-        &Sublabel {
-            font-size: Variables.$font-sizes-large;
-        }
+@media (max-width: 480px) {
+    .Sublabel {
+        font-size: Variables.$font-sizes-large;
+    }
 
-        &Icon {
-            min-width: 1.5rem;
-            font-size: 1.5rem;
-        }
+    .Icon {
+        min-width: 1.5rem;
+        font-size: 1.5rem;
     }
 }

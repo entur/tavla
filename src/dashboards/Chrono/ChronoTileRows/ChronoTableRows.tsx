@@ -8,7 +8,7 @@ import { SituationModal } from '../../../components/SituationModal/SituationModa
 import { createTileSubLabel, isMobileWeb } from '../../../utils/utils'
 import { getIcon } from '../../../utils/icon'
 import { NewDayTableRow } from '../../../components/DateRow/NewDayTableRow'
-import css from './ChronoTableRows.module.scss'
+import classes from './ChronoTableRows.module.scss'
 
 const isMobile = isMobileWeb()
 
@@ -38,39 +38,30 @@ function ChronoTableRows({
                             currentDate={data.departureTime}
                             previousDate={previousRow?.departureTime}
                         />
-                        <TableRow className={css.chronoTableRow}>
+                        <TableRow className={classes.ChronoTableRow}>
                             <DataCell>
-                                <div className={css.chronoTableRowIcon}>
-                                    {icon}
-                                </div>
+                                <div className={classes.Icon}>{icon}</div>
                             </DataCell>
-                            <DataCell className={css.chronoTableRowDataCell}>
-                                <Heading3
-                                    as="div"
-                                    className={css.chronoTableRowLabel}
-                                >
+                            <DataCell className={classes.DataCell}>
+                                <Heading3 as="div" className={classes.Label}>
                                     {data.route}
                                 </Heading3>
                             </DataCell>
-                            <DataCell className={css.chronoTableRowDataCell}>
-                                <div className={css.chronoTableRowSublabel}>
+                            <DataCell className={classes.DataCell}>
+                                <div className={classes.Sublabel}>
                                     {subLabel.time}
                                 </div>
                             </DataCell>
                             {!hideTracks && (
-                                <DataCell
-                                    className={css.chronoTableRowDataCell}
-                                >
-                                    <div className={css.chronoTableRowSublabel}>
+                                <DataCell className={classes.DataCell}>
+                                    <div className={classes.Sublabel}>
                                         {data.quay?.publicCode || '-'}
                                     </div>
                                 </DataCell>
                             )}
                             {!hideSituations && (
-                                <DataCell
-                                    className={css.chronoTableRowDataCell}
-                                >
-                                    <div className={css.chronoTableRowSublabel}>
+                                <DataCell className={classes.DataCell}>
+                                    <div className={classes.Sublabel}>
                                         <SubLabelIcon
                                             hideSituations={hideSituations}
                                             subLabel={subLabel}
@@ -109,7 +100,7 @@ function SubLabelIcon({
 
     if (subLabel.hasCancellation)
         return (
-            <div className={css.chronoTableRowSublabelCancellation}>
+            <div className={classes.Cancellation}>
                 <ValidationError />
             </div>
         )
