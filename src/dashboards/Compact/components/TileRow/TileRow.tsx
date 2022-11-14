@@ -5,7 +5,7 @@ import { Heading3 } from '@entur/typography'
 import { TileSubLabel } from '../../../../types'
 import { SubLabelIcon } from '../../../../components/SubLabelIcon/SubLabelIcon'
 import { PlatformInfo } from './PlatformInfo/PlatformInfo'
-import './TileRow.scss'
+import classes from './TileRow.module.scss'
 
 interface TileRowProps {
     label: string
@@ -27,14 +27,14 @@ function TileRow({
     type,
 }: TileRowProps): JSX.Element {
     return (
-        <div className="tilerow">
-            <div className="tilerow__icon">{icon}</div>
-            <div className="tilerow__texts">
-                <Heading3 className="tilerow__label">{label}</Heading3>
+        <div className={classes.Tilerow}>
+            <div className={classes.Icon}>{icon}</div>
+            <div className={classes.Texts}>
+                <Heading3 className={classes.Label}>{label}</Heading3>
                 {!hideTracks && (
                     <PlatformInfo platform={platform} type={type} />
                 )}
-                <div className="tilerow__sublabels">
+                <div className={classes.Sublabels}>
                     {subLabels.map((subLabel, index) => {
                         const nextLabel: TileSubLabel | undefined =
                             subLabels[index + 1]
@@ -53,7 +53,7 @@ function TileRow({
 
                         return (
                             <Fragment key={index}>
-                                <div className="tilerow__sublabel">
+                                <div className={classes.Sublabel}>
                                     <time dateTime={isoDate}>
                                         {subLabel.time}
                                     </time>
@@ -78,13 +78,13 @@ function TileRow({
 }
 
 function Divider() {
-    return <div role="separator" className="tilerow__sublabel__divider"></div>
+    return <div role="separator" className={classes.Divider} />
 }
 
 function Date({ date }: { date: Date }) {
     const formatedDate = format(date, 'd. MMMM', { locale: nb })
 
-    return <div className="tilerow__sublabel__date">{`(${formatedDate})`}</div>
+    return <div className={classes.Date}>{`(${formatedDate})`}</div>
 }
 
 export { TileRow }
