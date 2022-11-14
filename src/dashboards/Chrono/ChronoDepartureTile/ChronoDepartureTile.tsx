@@ -74,14 +74,7 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
                     <TableRow>
                         <HeaderCell className={classes.Icon}> </HeaderCell>
                         <HeaderCell
-                            className={classNames(classes.Cell, classes.Line, {
-                                [classes.Line__oneVisible]:
-                                    !settings.hideTracks ||
-                                    !settings.hideSituations,
-                                [classes.Line__bothVisible]:
-                                    !settings.hideTracks &&
-                                    !settings.hideSituations,
-                            })}
+                            className={classNames(classes.Cell, classes.Line)}
                         >
                             Linje
                         </HeaderCell>

@@ -15,15 +15,7 @@
 }
 
 .Line {
-    width: 61%;
-
-    &__oneVisible {
-        width: 49%;
-    }
-
-    &__bothVisible {
-        width: 38%;
-    }
+    width: auto;
 }
 
 .Departure {
@@ -39,18 +31,6 @@
 }
 
 @media (min-width: 480px) {
-    .Line {
-        width: 64%;
-
-        &__oneVisible {
-            width: 54%;
-        }
-
-        &__bothVisible {
-            width: 44%;
-        }
-    }
-
     .Track {
         width: 10%;
     }
