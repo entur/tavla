@@ -1,6 +1,6 @@
-@use '../../../assets/styles/Variables.scss';
+@use 'src/assets/styles/Variables';
 
-.ChronoBikeTileRow {
+.BikeTileRow {
     display: flex;
     border-bottom: 2px solid var(--tavla-border-color);
     padding: 1rem 0;
@@ -14,8 +14,7 @@
 }
 
 .Label {
-    margin: 0;
-    margin-bottom: 0.5rem;
+    margin: 0 0 0.5rem 0;
     color: var(--tavla-font-color);
 }
 

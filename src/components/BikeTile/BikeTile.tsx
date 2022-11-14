@@ -1,24 +1,36 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
-import { Tile } from '../components/Tile/Tile'
-import { TileRow } from '../components/TileRow/TileRow'
-import { useSettings } from '../../../settings/SettingsProvider'
-import { IconColorType } from '../../../types'
-import { getTranslation } from '../../../utils/utils'
-import { useWalkInfo, WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
-import { getIconColorType } from '../../../utils/icon'
-import { UseRentalStations_StationFragment } from '../../../../graphql-generated/mobility-v2'
+import { Tile } from '../Tile/Tile'
+import { TileHeader } from '../TileHeader/TileHeader'
+import { useSettings } from '../../settings/SettingsProvider'
+import { IconColorType } from '../../types'
+import { getTranslation } from '../../utils/utils'
+import { getIconColorType } from '../../utils/icon'
+import { useWalkInfo, WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
+import { UseRentalStations_StationFragment } from '../../../graphql-generated/mobility-v2'
+import { BikeTileRow } from './BikeTileRow'
+import classes from './BikeTile.module.scss'
 
-function getWalkInfoBike(
-    walkInfos: WalkInfo[],
-    id: string,
-): WalkInfo | undefined {
+function getWalkInfo(walkInfos: WalkInfo[], id: string): WalkInfo | undefined {
     return walkInfos.find((walkInfo) => walkInfo.stopId === id)
 }
 
-const BikeTile = ({ stations }: Props): JSX.Element => {
+interface BikeTileProps {
+    stations: UseRentalStations_StationFragment[]
+}
+
+const BikeTile: React.FC<BikeTileProps> = ({ stations }) => {
     const [settings] = useSettings()
+    const [iconColorType, setIconColorType] = useState<IconColorType>(
+        IconColorType.CONTRAST,
+    )
+
+    useEffect(() => {
+        if (settings) {
+            setIconColorType(getIconColorType(settings.theme))
+        }
+    }, [settings])
 
     const stationDestinations = useMemo(
         () =>
@@ -34,29 +46,19 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
 
     const walkInfo = useWalkInfo(stationDestinations)
 
-    const hideWalkInfo = settings.hideWalkInfo
-    const [iconColorType, setIconColorType] = useState<IconColorType>(
-        IconColorType.CONTRAST,
-    )
-
-    useEffect(() => {
-        if (settings) {
-            setIconColorType(getIconColorType(settings.theme))
-        }
-    }, [settings])
-
     return (
-        <Tile
-            title="Bysykkel"
-            icons={[
-                <BicycleIcon
-                    key="bike-icon"
-                    color={colors.transport[iconColorType].mobility}
-                />,
-            ]}
-        >
+        <Tile className={classes.BikeTile}>
+            <TileHeader
+                title="Bysykkel"
+                icons={[
+                    <BicycleIcon
+                        key="bike-tile-icon"
+                        color={colors.transport[iconColorType].mobility}
+                    />,
+                ]}
+            />
             {stations.map((station) => (
-                <TileRow
+                <BikeTileRow
                     key={station.id}
                     icon={
                         <BicycleIcon
@@ -64,8 +66,8 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
                         />
                     }
                     walkInfo={
-                        !hideWalkInfo
-                            ? getWalkInfoBike(walkInfo || [], station.id)
+                        !settings.hideWalkInfo
+                            ? getWalkInfo(walkInfo || [], station.id)
                             : undefined
                     }
                     label={getTranslation(station.name) || ''}
@@ -89,10 +91,6 @@ const BikeTile = ({ stations }: Props): JSX.Element => {
             ))}
         </Tile>
     )
-}
-
-interface Props {
-    stations: UseRentalStations_StationFragment[]
 }
 
 export { BikeTile }
