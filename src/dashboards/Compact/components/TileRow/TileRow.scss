@@ -61,17 +61,6 @@
             padding-left: 0;
         }
 
-        &__cancellation {
-            align-items: center;
-            border-radius: 0.5rem;
-            display: flex;
-            height: 0.875rem;
-            justify-content: center;
-            margin-left: 0.375rem;
-            overflow: visible;
-            width: 0.875rem;
-        }
-
         &__date {
             color: var(--tavla-label-font-color);
             margin-left: 0.5rem;
@@ -79,17 +68,6 @@
 
         &__divider {
             border-left: 2px solid var(--tavla-label-font-color);
-        }
-
-        &__situation {
-            font-size: 1.125rem;
-            height: 1.25rem;
-            margin-left: 0.375rem;
-        }
-
-        svg {
-            margin-left: -0.125rem;
-            margin-right: -0.125rem;
         }
     }
 }

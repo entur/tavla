@@ -3,30 +3,23 @@ import { format, isSameDay, isToday, formatISO } from 'date-fns'
 import { nb } from 'date-fns/locale'
 import { Heading3 } from '@entur/typography'
 import { TileSubLabel } from '../../../../types'
-import { ValidationExclamation } from '../../../../assets/icons/ValidationExclamation'
-import { ValidationError } from '../../../../assets/icons/ValidationError'
-import { SituationModal } from '../../../../components/SituationModal/SituationModal'
-import { isMobileWeb } from '../../../../utils/utils'
-import { WalkInfo } from '../../../../logic/use-walk-info/useWalkInfo'
+import { SubLabelIcon } from '../../../../components/SubLabelIcon/SubLabelIcon'
 import { PlatformInfo } from './PlatformInfo/PlatformInfo'
 import './TileRow.scss'
 
-const isMobile = isMobileWeb()
-
-function formatWalkInfo(walkInfo: WalkInfo) {
-    if (walkInfo.walkTime / 60 < 1) {
-        return `Mindre enn 1 min å gå (${Math.ceil(walkInfo.walkDistance)} m)`
-    } else {
-        return `${Math.ceil(walkInfo.walkTime / 60)} min å gå (${Math.ceil(
-            walkInfo.walkDistance,
-        )} m)`
-    }
+interface TileRowProps {
+    label: string
+    subLabels: TileSubLabel[]
+    icon: JSX.Element | null
+    hideSituations?: boolean
+    hideTracks?: boolean
+    platform?: string
+    type?: string
 }
 
 function TileRow({
     label,
     icon,
-    walkInfo,
     subLabels,
     hideSituations,
     hideTracks,
@@ -41,11 +34,6 @@ function TileRow({
                 {!hideTracks && (
                     <PlatformInfo platform={platform} type={type} />
                 )}
-                {walkInfo ? (
-                    <div className="tilerow__walking-time">
-                        {formatWalkInfo(walkInfo)}
-                    </div>
-                ) : null}
                 <div className="tilerow__sublabels">
                     {subLabels.map((subLabel, index) => {
                         const nextLabel: TileSubLabel | undefined =
@@ -89,36 +77,6 @@ function TileRow({
     )
 }
 
-function SubLabelIcon({
-    subLabel,
-    hideSituations,
-}: {
-    subLabel: TileSubLabel
-    hideSituations?: boolean
-}): JSX.Element | null {
-    if (!hideSituations && subLabel?.situation)
-        if (isMobile)
-            return (
-                <div className="tilerow__sublabel__situation">
-                    <SituationModal situationMessage={subLabel.situation} />
-                </div>
-            )
-        else
-            return (
-                <div className="tilerow__sublabel__situation">
-                    <ValidationExclamation />
-                </div>
-            )
-
-    if (subLabel.hasCancellation)
-        return (
-            <div className="tilerow__sublabel__cancellation">
-                <ValidationError />
-            </div>
-        )
-    return null
-}
-
 function Divider() {
     return <div role="separator" className="tilerow__sublabel__divider"></div>
 }
@@ -127,17 +85,6 @@ function Date({ date }: { date: Date }) {
     const formatedDate = format(date, 'd. MMMM', { locale: nb })
 
     return <div className="tilerow__sublabel__date">{`(${formatedDate})`}</div>
-}
-
-interface TileRowProps {
-    label: string
-    subLabels: TileSubLabel[]
-    icon: JSX.Element | null
-    walkInfo?: WalkInfo
-    hideSituations?: boolean
-    hideTracks?: boolean
-    platform?: string
-    type?: string
 }
 
 export { TileRow }
