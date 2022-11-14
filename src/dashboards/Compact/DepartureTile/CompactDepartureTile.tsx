@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { groupBy } from 'lodash'
 import { createTileSubLabel } from '../../../utils/utils'
 import { StopPlaceWithDepartures, LineData } from '../../../types'
-import { TileRow } from '../components/TileRow/TileRow'
+import { TileRow } from '../TileRow/TileRow'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import {
