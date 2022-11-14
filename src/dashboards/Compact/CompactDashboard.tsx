@@ -23,7 +23,7 @@ import { QRTile } from '../../components/QRTile/QRTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { BikeTile } from '../../components/BikeTile/BikeTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
-import { CompactDepartureTile } from './DepartureTile/CompactDepartureTile'
+import { CompactDepartureTile } from './CompactDepartureTile/CompactDepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import './CompactDashboard.scss'
 

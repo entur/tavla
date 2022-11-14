@@ -5,9 +5,9 @@ import { Heading3 } from '@entur/typography'
 import { TileSubLabel } from '../../../types'
 import { SubLabelIcon } from '../../../components/SubLabelIcon/SubLabelIcon'
 import { PlatformInfo } from './PlatformInfo/PlatformInfo'
-import classes from './TileRow.module.scss'
+import classes from './CompactTileRow.module.scss'
 
-interface TileRowProps {
+interface CompactTileRowProps {
     label: string
     subLabels: TileSubLabel[]
     icon: JSX.Element | null
@@ -17,7 +17,7 @@ interface TileRowProps {
     type?: string
 }
 
-function TileRow({
+function CompactTileRow({
     label,
     icon,
     subLabels,
@@ -25,9 +25,9 @@ function TileRow({
     hideTracks,
     platform,
     type,
-}: TileRowProps): JSX.Element {
+}: CompactTileRowProps): JSX.Element {
     return (
-        <div className={classes.Tilerow}>
+        <div className={classes.CompactTileRow}>
             <div className={classes.Icon}>{icon}</div>
             <div className={classes.Texts}>
                 <Heading3 className={classes.Label}>{label}</Heading3>
@@ -87,4 +87,4 @@ function Date({ date }: { date: Date }) {
     return <div className={classes.Date}>{`(${formatedDate})`}</div>
 }
 
-export { TileRow }
+export { CompactTileRow }

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { groupBy } from 'lodash'
 import { createTileSubLabel } from '../../../utils/utils'
 import { StopPlaceWithDepartures, LineData } from '../../../types'
-import { TileRow } from '../TileRow/TileRow'
+import { CompactTileRow } from '../CompactTileRow/CompactTileRow'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import {
@@ -54,7 +54,7 @@ const CompactDepartureTile: React.FC<CompactDepartureTileProps> = ({
                 )
 
                 return (
-                    <TileRow
+                    <CompactTileRow
                         key={key}
                         label={key}
                         subLabels={lines.map(createTileSubLabel)}
