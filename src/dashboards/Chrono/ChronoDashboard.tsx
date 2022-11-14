@@ -22,6 +22,7 @@ import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
+import { QRTileWrapper } from '../../components/QRTile/QRTileWrapper'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import { BikeTile } from './BikeTile/BikeTile'
@@ -283,6 +284,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                         ) : (
                             []
                         )}
+
                         {imageTilesToDisplay.length > 0 &&
                             imageTilesToDisplay.map((imageTile, index) => (
                                 <div
@@ -308,6 +310,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     <ImageTile {...imageTile} />
                                 </div>
                             ))}
+
                         {qrTilesToDisplay.length > 0 &&
                             qrTilesToDisplay.map((qrTile, index) => (
                                 <div
@@ -337,6 +340,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                 </div>
                             ))}
                     </ResponsiveReactGridLayout>
+                    {settings.showCustomTiles ? <QRTileWrapper /> : <></>}
                 </div>
             )}
         </DashboardWrapper>

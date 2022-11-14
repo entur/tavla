@@ -19,9 +19,9 @@ import { useSettings } from '../../settings/SettingsProvider'
 import { BREAKPOINTS } from '../../constants'
 import { isMobileWeb } from '../../utils/utils'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
-import { QRTile } from '../../components/QRTile/QRTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
+import { QRTileWrapper } from '../../components/QRTile/QRTileWrapper'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { BikeTile } from './BikeTile/BikeTile'
 import { MapTile } from './MapTile/MapTile'
@@ -333,12 +333,11 @@ const CompactDashboard = (): JSX.Element | null => {
                                             variant="light"
                                         />
                                     ) : null}
-                                    <div className="tile">
-                                        <QRTile {...qrTile} />
-                                    </div>
+                                    <div className="tile"></div>
                                 </div>
                             ))}
                     </ResponsiveReactGridLayout>
+                    {settings.showCustomTiles ? <QRTileWrapper /> : <></>}
                 </div>
             )}
         </DashboardWrapper>

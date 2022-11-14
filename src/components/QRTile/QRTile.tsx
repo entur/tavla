@@ -1,7 +1,7 @@
 import React from 'react'
 import QRCode from 'react-qr-code'
 import { colors } from '@entur/tokens'
-import { Link, Paragraph } from '@entur/typography'
+import { Paragraph } from '@entur/typography'
 import { CustomTile, Theme } from '../../types'
 import { useSettings } from '../../settings/SettingsProvider'
 import './QRTile.scss'
@@ -15,16 +15,16 @@ const QRTile = ({ sourceUrl, description }: CustomTile): JSX.Element => {
                 <QRCode
                     className="qr-code"
                     value={sourceUrl}
-                    size={256}
+                    size={80}
                     fgColor={
                         settings.theme !== Theme.DARK
                             ? colors.brand.blue
                             : 'black'
                     }
-                    level="Q"
+                    level="L"
                 ></QRCode>
             </div>
-            <Link className="qr-tile__link">{sourceUrl}</Link>
+            {/* <Link className="qr-tile__link">{sourceUrl}</Link> */}
             {description && (
                 <Paragraph className="qr-tile__description">
                     {description}

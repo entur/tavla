@@ -85,7 +85,7 @@ const DEFAULT_SETTINGS: Settings = {
     pageRefreshedAt: 0,
     permanentlyVisibleRoutesInMap: [],
     scooterDistance: { distance: DEFAULT_DISTANCE, enabled: false },
-    showCustomTiles: false,
+    showCustomTiles: true,
     showIcon: true,
     showMap: false,
     showPrecipitation: true,

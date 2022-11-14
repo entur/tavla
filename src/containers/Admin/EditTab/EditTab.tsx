@@ -424,7 +424,7 @@ const EditTab = (): JSX.Element => {
                     <div className="edit-tab__flex-item">
                         <div className="edit-tab__header">
                             <Heading2>
-                                {'Bilde og QR '}
+                                Bilde og QR
                                 <Tooltip
                                     content={
                                         <div>
