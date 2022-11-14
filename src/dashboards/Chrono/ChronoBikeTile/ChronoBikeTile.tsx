@@ -43,7 +43,7 @@ const ChronoBikeTile = ({ stations }: Props): JSX.Element => {
     const walkInfo = useWalkInfo(stationDestinations)
 
     return (
-        <Tile className={classes.chronoBikeTile}>
+        <Tile className={classes.ChronoBikeTile}>
             <TileHeader
                 title="Bysykkel"
                 icons={[

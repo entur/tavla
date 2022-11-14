@@ -7,7 +7,7 @@ import { IconColorType, LineData, TileSubLabel } from '../../../types'
 import { SituationModal } from '../../../components/SituationModal/SituationModal'
 import { createTileSubLabel, isMobileWeb } from '../../../utils/utils'
 import { getIcon } from '../../../utils/icon'
-import { NewDayTableRow } from '../../../components/DateRow/NewDayTableRow'
+import { NewDayTableRow } from '../../../components/NewDayTableRow/NewDayTableRow'
 import classes from './ChronoTableRows.module.scss'
 
 const isMobile = isMobileWeb()

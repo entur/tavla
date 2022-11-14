@@ -6,7 +6,7 @@ import {
     LineData,
     IconColorType,
 } from '../../../types'
-import { ChronoTableRows } from '../ChronoTileRows/ChronoTableRows'
+import { ChronoTableRows } from '../ChronoTableRows/ChronoTableRows'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
