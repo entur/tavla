@@ -15,14 +15,14 @@ import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
-import { QRTile } from '../../components/QRTile/QRTile'
+import { QRBox } from '../../components/QRTile/QRBox'
 import { useSettings } from '../../settings/SettingsProvider'
 import { isMobileWeb } from '../../utils/utils'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
-import { QRTileWrapper } from '../../components/QRTile/QRTileWrapper'
+import { QRTile } from '../../components/QRTile/QRTile'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import { BikeTile } from './BikeTile/BikeTile'
@@ -200,6 +200,15 @@ const ChronoDashboard = (): JSX.Element | null => {
                             }
                         }}
                     >
+                        {settings.showCustomTiles && (
+                            <div
+                                key="qr"
+                                data-grid={getDataGrid(0, maxWidthCols, 1.8, 1.8)}
+                            >
+                                <QRTile />
+                            </div>
+                        )}
+
                         {settings.showWeather && (
                             <div
                                 key="weather"
@@ -284,7 +293,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                         ) : (
                             []
                         )}
-
                         {imageTilesToDisplay.length > 0 &&
                             imageTilesToDisplay.map((imageTile, index) => (
                                 <div
@@ -310,7 +318,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     <ImageTile {...imageTile} />
                                 </div>
                             ))}
-
                         {qrTilesToDisplay.length > 0 &&
                             qrTilesToDisplay.map((qrTile, index) => (
                                 <div
@@ -335,12 +342,11 @@ const ChronoDashboard = (): JSX.Element | null => {
                                                 variant="light"
                                             />
                                         ) : null}
-                                        <QRTile {...qrTile} />
+                                        <QRBox {...qrTile} />
                                     </div>
                                 </div>
                             ))}
                     </ResponsiveReactGridLayout>
-                    {settings.showCustomTiles ? <QRTileWrapper /> : <></>}
                 </div>
             )}
         </DashboardWrapper>

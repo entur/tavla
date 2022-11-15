@@ -1,37 +1,27 @@
 import React from 'react'
-import QRCode from 'react-qr-code'
-import { colors } from '@entur/tokens'
-import { Paragraph } from '@entur/typography'
-import { CustomTile, Theme } from '../../types'
-import { useSettings } from '../../settings/SettingsProvider'
+import { CustomTileType } from '../../types'
+import { QRBox } from './QRBox'
 import './QRTile.scss'
 
-const QRTile = ({ sourceUrl, description }: CustomTile): JSX.Element => {
-    const [settings] = useSettings()
-
-    return (
-        <div className="qr-tile__wrapper">
-            <div className="qr-tile__code">
-                <QRCode
-                    className="qr-code"
-                    value={sourceUrl}
-                    size={80}
-                    fgColor={
-                        settings.theme !== Theme.DARK
-                            ? colors.brand.blue
-                            : 'black'
-                    }
-                    level="L"
-                ></QRCode>
-            </div>
-            {/* <Link className="qr-tile__link">{sourceUrl}</Link> */}
-            {description && (
-                <Paragraph className="qr-tile__description">
-                    {description}
-                </Paragraph>
-            )}
+const QRTile = (): JSX.Element => (
+    <div className="tile tile__qr qr-tile-wrapper">
+        <text className="qr-tile-wrapper-title">Last ned Entur-appen!</text>
+        <div className="qr-tile-wrapper-flex">
+            <QRBox
+                id="entur-app"
+                sourceUrl="https://apps.apple.com/no/app/entur-journey-planner/id1225135707"
+                description="App Store"
+                type={CustomTileType.QR}
+                displayName="entur-app-appstore"
+            />
+            <QRBox
+                id="entur-app"
+                sourceUrl="https://play.google.com/store/apps/details?id=no.entur&hl=en&gl=NO"
+                description="Google Play"
+                type={CustomTileType.QR}
+                displayName="entur-app-playstore"
+            />
         </div>
-    )
-}
-
+    </div>
+)
 export { QRTile }

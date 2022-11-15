@@ -21,7 +21,7 @@ import { isMobileWeb } from '../../utils/utils'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
-import { QRTileWrapper } from '../../components/QRTile/QRTileWrapper'
+import { QRTile } from '../../components/QRTile/QRTile'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { BikeTile } from './BikeTile/BikeTile'
 import { MapTile } from './MapTile/MapTile'
@@ -200,10 +200,23 @@ const CompactDashboard = (): JSX.Element | null => {
                             }
                         }}
                     >
+                        {settings.showCustomTiles && (
+                            <div
+                                key="qr"
+                                data-grid={getDataGrid(
+                                    0,
+                                    maxWidthCols,
+                                    1.8,
+                                    1.8,
+                                )}
+                            >
+                                <QRTile />
+                            </div>
+                        )}
                         {settings.showWeather && (
                             <div
                                 key="weather"
-                                data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
+                                data-grid={getDataGrid(0, maxWidthCols, 1, 1)}
                             >
                                 <ResizeHandle
                                     size="32"
@@ -337,7 +350,6 @@ const CompactDashboard = (): JSX.Element | null => {
                                 </div>
                             ))}
                     </ResponsiveReactGridLayout>
-                    {settings.showCustomTiles ? <QRTileWrapper /> : <></>}
                 </div>
             )}
         </DashboardWrapper>
