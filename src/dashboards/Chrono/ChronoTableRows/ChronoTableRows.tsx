@@ -4,7 +4,7 @@ import { DataCell, TableBody, TableRow } from '@entur/table'
 import { IconColorType, LineData } from '../../../types'
 import { createTileSubLabel } from '../../../utils/utils'
 import { getIcon } from '../../../utils/icon'
-import { NewDayTableRow } from '../../../components/DateRow/NewDayTableRow'
+import { NewDayTableRow } from '../../../components/NewDayTableRow/NewDayTableRow'
 import { SubLabelIcon } from '../../../components/SubLabelIcon/SubLabelIcon'
 import classes from './ChronoTableRows.module.scss'
 

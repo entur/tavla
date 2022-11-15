@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { HeaderCell, Table, TableHead, TableRow } from '@entur/table'
 import { StopPlaceWithDepartures } from '../../../types'
-import { ChronoTableRows } from '../ChronoTileRows/ChronoTableRows'
+import { ChronoTableRows } from '../ChronoTableRows/ChronoTableRows'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import { getIconColorType, getTransportHeaderIcons } from '../../../utils/icon'
@@ -46,14 +46,7 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
                     <TableRow>
                         <HeaderCell className={classes.Icon}> </HeaderCell>
                         <HeaderCell
-                            className={classNames(classes.Cell, classes.Line, {
-                                [classes.Line__oneVisible]:
-                                    !settings.hideTracks ||
-                                    !settings.hideSituations,
-                                [classes.Line__bothVisible]:
-                                    !settings.hideTracks &&
-                                    !settings.hideSituations,
-                            })}
+                            className={classNames(classes.Cell, classes.Line)}
                         >
                             Linje
                         </HeaderCell>
