@@ -18,7 +18,7 @@ import { useRealtimeVehicleData } from '../../logic/use-realtime-vehicle-data/us
 import { RealtimeVehicle } from '../../logic/use-realtime-vehicle-data/types'
 import {
     UseMobility_VehicleFragment,
-    UseRentalStations_StationFragment,
+    StationFragment,
 } from '../../../graphql-generated/mobility-v2'
 import { useStopPlacesWithLines } from '../../logic/useStopPlacesWithLines'
 import { useDebounce } from '../../hooks/useDebounce'
@@ -368,7 +368,7 @@ const Map = memo(function Map({
 
 interface Props {
     stopPlaces?: StopPlaceWithDepartures[]
-    bikeRentalStations?: UseRentalStations_StationFragment[]
+    bikeRentalStations?: StationFragment[]
     scooters?: UseMobility_VehicleFragment[]
     walkTimes?: Array<{ stopId: string; walkTime: number }>
     interactive: boolean
