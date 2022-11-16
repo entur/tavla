@@ -43,6 +43,7 @@ function getDataGrid(
     maxWidth: number,
     maxHeigth = 0,
     height = 4,
+    y = 0,
 ): { [key: string]: number } {
     const dataGrid = {
         w: 1,
@@ -50,7 +51,7 @@ function getDataGrid(
         minH: 1,
         h: height,
         x: index % maxWidth,
-        y: 0,
+        y,
     }
     return !maxHeigth ? dataGrid : { ...dataGrid, maxH: maxHeigth }
 }
@@ -204,10 +205,11 @@ const CompactDashboard = (): JSX.Element | null => {
                             <div
                                 key="qr"
                                 data-grid={getDataGrid(
-                                    0,
+                                    maxWidthCols - 1,
                                     maxWidthCols,
                                     1.8,
                                     1.8,
+                                    Infinity,
                                 )}
                             >
                                 <QRTile />
