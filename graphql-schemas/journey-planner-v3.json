@@ -4904,18 +4904,6 @@
                 "deprecationReason": null
               },
               {
-                "name": "omitNonBoarding",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                },
-                "defaultValue": "false",
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
                 "name": "startTime",
                 "description": "DateTime for when to fetch estimated calls from. Default value is current time",
                 "type": {
@@ -8053,8 +8041,8 @@
               "name": "Boolean",
               "ofType": null
             },
-            "isDeprecated": false,
-            "deprecationReason": null
+            "isDeprecated": true,
+            "deprecationReason": "This is not supported!"
           },
           {
             "name": "disableRemainingWeightHeuristic",
@@ -8311,18 +8299,6 @@
           {
             "name": "turnReluctance",
             "description": "Multiplicative factor on expected turning time.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "waitAtBeginningFactor",
-            "description": "How much less bad is waiting at the beginning of the trip (replaces waitReluctance on the first boarding).",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -12518,7 +12494,7 @@
       },
       {
         "name": "skip",
-        "description": "Directs the executor to skip this field or fragment when the `if`'argument is true.",
+        "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
         "isRepeatable": false,
         "locations": [
           "FIELD",
