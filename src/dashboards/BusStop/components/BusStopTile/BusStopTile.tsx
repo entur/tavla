@@ -7,7 +7,6 @@ import {
 } from '../../../../types'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../../logic/use-walk-info/useWalkInfo'
-import { BusStopHeader } from '../BusStopHeader/BusStopHeader'
 import { BusStopTableRow } from '../BusStopTableRow/BusStopTableRow'
 import { isNotNullOrUndefined } from '../../../../utils/typeguards'
 import { unique } from '../../../../utils/array'
@@ -16,7 +15,9 @@ import {
     getIconColorType,
     getTransportIconIdentifier,
 } from '../../../../utils/icon'
-import css from './BusStopTile.module.scss'
+import { Tile } from '../../../../components/Tile/Tile'
+import { TileHeader } from '../../../../components/TileHeader/TileHeader'
+import classes from './BusStopTile.module.scss'
 
 function getTransportHeaderIcons(
     departures: LineData[],
@@ -49,27 +50,27 @@ const BusStopTile = ({
     )
 
     return (
-        <div className={css.busStopTile}>
-            <BusStopHeader
+        <Tile className={classes.BusStopTile}>
+            <TileHeader
                 title={name}
                 icons={getTransportHeaderIcons(departures, iconColorType)}
                 walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
             />
             <Table spacing="large" fixed>
-                <TableHead className={css.tableHead}>
+                <TableHead className={classes.TableHead}>
                     <TableRow>
-                        <HeaderCell className={css.tableHeadIcon}> </HeaderCell>
+                        <HeaderCell className={classes.Icon}> </HeaderCell>
                         <HeaderCell>Linje</HeaderCell>
-                        <HeaderCell className={css.tableHeadDeparture}>
+                        <HeaderCell className={classes.Departure}>
                             Avgang
                         </HeaderCell>
                         {!settings.hideTracks && (
-                            <HeaderCell className={css.tableHeadTrack}>
+                            <HeaderCell className={classes.Track}>
                                 Spor
                             </HeaderCell>
                         )}
                         {!settings.hideSituations && (
-                            <HeaderCell className={css.tableHeadSituation}>
+                            <HeaderCell className={classes.Situation}>
                                 Avvik
                             </HeaderCell>
                         )}
@@ -87,7 +88,7 @@ const BusStopTile = ({
                     ))}
                 </TableBody>
             </Table>
-        </div>
+        </Tile>
     )
 }
 
