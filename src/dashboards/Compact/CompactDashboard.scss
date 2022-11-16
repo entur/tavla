@@ -18,7 +18,6 @@
             overflow-x: hidden;
             margin-bottom: 1rem;
             border-radius: 1rem;
-
         }
 
         .maptile {
@@ -54,7 +53,6 @@
         transition: all 200ms ease;
         transition-property: left, top;
         z-index: 1;
-        //display: flex;
     }
 
     .react-grid-item.cssTransforms {
