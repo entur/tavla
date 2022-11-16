@@ -19,7 +19,7 @@ import { Button } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { isMobileWeb, getTranslation } from '../../../utils/utils'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearestPlaces, useRentalStations } from '../../../logic'
+import { useNearestStopPlaces, useRentalStations } from '../../../logic'
 import { getStopPlacesWithLines } from '../../../logic/get-stop-places-with-lines/getStopPlacesWithLines'
 import {
     saveToLocalStorage,
@@ -130,7 +130,7 @@ const EditTab = (): JSX.Element => {
     >(undefined)
     const bikeRentalStations = useRentalStations(false, FormFactor.Bicycle)
 
-    const nearestPlaces = useNearestPlaces(
+    const { nearestStopPlaces } = useNearestStopPlaces(
         settings.coordinates,
         debouncedDistance,
     )
@@ -138,11 +138,8 @@ const EditTab = (): JSX.Element => {
     const locationName = settings.boardName
 
     const nearestStopPlaceIds = useMemo(
-        () =>
-            nearestPlaces
-                .filter(({ type }) => type === 'StopPlace')
-                .map(({ id }) => id),
-        [nearestPlaces],
+        () => nearestStopPlaces.map(({ id }) => id),
+        [nearestStopPlaces],
     )
 
     useEffect(() => {
@@ -167,7 +164,7 @@ const EditTab = (): JSX.Element => {
         return (): void => {
             aborted = true
         }
-    }, [nearestPlaces, nearestStopPlaceIds, settings.newStops])
+    }, [nearestStopPlaces, nearestStopPlaceIds, settings.newStops])
 
     const sortedBikeRentalStations = useMemo(
         () =>

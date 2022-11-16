@@ -1,18 +1,25 @@
 import { useMemo } from 'react'
+import { ApolloError } from '@apollo/client'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
 import { Coordinates } from '../../types'
 import {
     FilterPlaceType,
     MultiModalMode,
-    useNearestPlacesQuery,
+    useNearestStopPlacesQuery,
 } from '../../../graphql-generated/journey-planner-v3'
-import { NearestPlace, toEdge } from './types'
+import { NearestStopPlace, toEdge } from './types'
 
-function useNearestPlaces(
+interface UseNearestStopPlaces {
+    nearestStopPlaces: NearestStopPlace[]
+    loading: boolean
+    error: ApolloError | undefined
+}
+
+function useNearestStopPlaces(
     position: Coordinates,
     distance = 2000,
-): NearestPlace[] {
-    const { data } = useNearestPlacesQuery({
+): UseNearestStopPlaces {
+    const { data, loading, error } = useNearestStopPlacesQuery({
         variables: {
             latitude: position.latitude,
             longitude: position.longitude,
@@ -20,9 +27,10 @@ function useNearestPlaces(
             filterByPlaceTypes: [FilterPlaceType.StopPlace],
             multiModalMode: MultiModalMode.Parent,
         },
+        fetchPolicy: 'cache-and-network',
     })
 
-    return useMemo(
+    const nearestStopPlaces = useMemo(
         () =>
             data?.nearest?.edges
                 ?.map(toEdge)
@@ -36,6 +44,12 @@ function useNearestPlaces(
                 })) ?? [],
         [data?.nearest],
     )
+
+    return {
+        nearestStopPlaces,
+        loading,
+        error,
+    }
 }
 
-export { useNearestPlaces }
+export { useNearestStopPlaces }
