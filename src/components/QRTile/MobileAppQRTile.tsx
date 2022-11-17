@@ -1,9 +1,9 @@
 import React from 'react'
 import { CustomTileType } from '../../types'
 import { QRBox } from './QRBox'
-import './QRTile.scss'
+import './MobileAppQRTile.scss'
 
-const QRTile = (): JSX.Element => (
+const MobileAppQRTile = (): JSX.Element => (
     <div className="tile tile__qr qr-tile-wrapper">
         <text className="qr-tile-wrapper-title">Last ned Entur-appen!</text>
         <div className="qr-tile-wrapper-flex">
@@ -24,4 +24,4 @@ const QRTile = (): JSX.Element => (
         </div>
     </div>
 )
-export { QRTile }
+export { MobileAppQRTile }

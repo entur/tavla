@@ -22,7 +22,7 @@ import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
-import { QRTile } from '../../components/QRTile/QRTile'
+import { MobileAppQRTile } from '../../components/QRTile/MobileAppQRTile'
 import { ChronoDepartureTile } from './ChronoDepartureTile/ChronoDepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import { ChronoBikeTile } from './ChronoBikeTile/ChronoBikeTile'
@@ -201,7 +201,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                             }
                         }}
                     >
-                        {settings.showCustomTiles && (
+                        {settings.showMobileAppQrTile && (
                             <div
                                 key="qr"
                                 data-grid={getDataGrid(
@@ -212,7 +212,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     Infinity,
                                 )}
                             >
-                                <QRTile />
+                                <MobileAppQRTile />
                             </div>
                         )}
 

@@ -21,7 +21,7 @@ import { isMobileWeb } from '../../utils/utils'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
-import { QRTile } from '../../components/QRTile/QRTile'
+import { MobileAppQRTile } from '../../components/QRTile/MobileAppQRTile'
 import { DepartureTile } from './DepartureTile/DepartureTile'
 import { BikeTile } from './BikeTile/BikeTile'
 import { MapTile } from './MapTile/MapTile'
@@ -201,7 +201,7 @@ const CompactDashboard = (): JSX.Element | null => {
                             }
                         }}
                     >
-                        {settings.showCustomTiles && (
+                        {settings.showMobileAppQrTile && (
                             <div
                                 key="qr"
                                 data-grid={getDataGrid(
@@ -212,7 +212,7 @@ const CompactDashboard = (): JSX.Element | null => {
                                     Infinity,
                                 )}
                             >
-                                <QRTile />
+                                <MobileAppQRTile />
                             </div>
                         )}
                         {settings.showWeather && (
