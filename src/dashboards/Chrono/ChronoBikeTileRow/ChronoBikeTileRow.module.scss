@@ -1,0 +1,53 @@
+@use '../../../assets/styles/Variables.scss';
+
+.ChronoBikeTileRow {
+    display: flex;
+    border-bottom: 2px solid var(--tavla-border-color);
+    padding: 1rem 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+    &:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+    }
+}
+
+.Label {
+    margin: 0;
+    margin-bottom: 0.5rem;
+    color: var(--tavla-font-color);
+}
+
+.Icon {
+    min-width: 2rem;
+    margin-right: 1rem;
+    font-size: Variables.$font-sizes-extra-large4;
+}
+
+.Texts {
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.WalkingTime {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    color: var(--tavla-label-font-color);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.Sublabels {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    justify-content: space-between;
+    min-width: 130rem;
+    font-size: Variables.$font-sizes-extra-large;
+}

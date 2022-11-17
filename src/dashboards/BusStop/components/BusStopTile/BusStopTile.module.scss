@@ -1,0 +1,39 @@
+@use '../../BusStopDashboard.scss';
+
+.BusStopTile {
+    max-height: 80vh;
+}
+
+.TableHead {
+    border-bottom: none;
+}
+
+.Icon {
+    width: 10%;
+}
+
+.Departure {
+    width: 18%;
+}
+
+.Track {
+    width: 18%;
+}
+
+.Situation {
+    width: 30%;
+}
+
+@media (max-width: BusStopDashboard.$breakpoint-mobile) {
+    .Departure {
+        width: 22%;
+    }
+
+    .Track {
+        width: 13%;
+    }
+
+    .Situation {
+        width: 11%;
+    }
+}

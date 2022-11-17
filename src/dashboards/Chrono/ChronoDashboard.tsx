@@ -23,9 +23,9 @@ import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { QRTile } from '../../components/QRTile/QRTile'
-import { DepartureTile } from './DepartureTile/DepartureTile'
+import { ChronoDepartureTile } from './ChronoDepartureTile/ChronoDepartureTile'
 import { MapTile } from './MapTile/MapTile'
-import { BikeTile } from './BikeTile/BikeTile'
+import { ChronoBikeTile } from './ChronoBikeTile/ChronoBikeTile'
 import './ChronoDashboard.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -242,7 +242,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     className="resizeHandle"
                                     variant="light"
                                 />
-                                <DepartureTile
+                                <ChronoDepartureTile
                                     key={index}
                                     stopPlaceWithDepartures={stop}
                                     walkInfo={getWalkInfoForStopPlace(
@@ -267,7 +267,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                         variant="light"
                                     />
                                 ) : null}
-                                <BikeTile stations={bikeRentalStations} />
+                                <ChronoBikeTile stations={bikeRentalStations} />
                             </div>
                         ) : (
                             []

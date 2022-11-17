@@ -1,23 +1,30 @@
 import React, { Fragment } from 'react'
 import { Heading3 } from '@entur/typography'
 import { DataCell, TableBody, TableRow } from '@entur/table'
-import { ValidationExclamation } from '../../../../assets/icons/ValidationExclamation'
-import { ValidationError } from '../../../../assets/icons/ValidationError'
-import { IconColorType, LineData, TileSubLabel } from '../../../../types'
-import { SituationModal } from '../../../../components/SituationModal/SituationModal'
-import { createTileSubLabel, isMobileWeb } from '../../../../utils/utils'
-import { getIcon } from '../../../../utils/icon'
-import { DateRow } from '../../../../components/DateRow/DateRow'
-import './TileRows.scss'
+import { ValidationExclamation } from '../../../assets/icons/ValidationExclamation'
+import { ValidationError } from '../../../assets/icons/ValidationError'
+import { IconColorType, LineData, TileSubLabel } from '../../../types'
+import { SituationModal } from '../../../components/SituationModal/SituationModal'
+import { createTileSubLabel, isMobileWeb } from '../../../utils/utils'
+import { getIcon } from '../../../utils/icon'
+import { NewDayTableRow } from '../../../components/NewDayTableRow/NewDayTableRow'
+import classes from './ChronoTableRows.module.scss'
 
 const isMobile = isMobileWeb()
 
-function TileRows({
+interface ChronoTableRowsProps {
+    visibleDepartures: LineData[]
+    hideSituations: boolean
+    hideTracks: boolean
+    iconColorType: IconColorType
+}
+
+function ChronoTableRows({
     visibleDepartures,
     hideSituations,
     hideTracks,
     iconColorType,
-}: Props): JSX.Element {
+}: ChronoTableRowsProps): JSX.Element {
     return (
         <TableBody>
             {visibleDepartures.map((data, index) => {
@@ -27,41 +34,41 @@ function TileRows({
 
                 return (
                     <Fragment key={data.id}>
-                        <DateRow
-                            currentRow={data}
-                            previousRow={previousRow}
-                        ></DateRow>
-                        <TableRow className="tilerows">
+                        <NewDayTableRow
+                            currentDate={data.departureTime}
+                            previousDate={previousRow?.departureTime}
+                        />
+                        <TableRow className={classes.ChronoTableRow}>
                             <DataCell>
-                                <div className="tilerows__icon">{icon}</div>
+                                <div className={classes.Icon}>{icon}</div>
                             </DataCell>
-                            <DataCell>
-                                <Heading3 as="div" className="tilerows__label">
+                            <DataCell className={classes.DataCell}>
+                                <Heading3 as="div" className={classes.Label}>
                                     {data.route}
                                 </Heading3>
                             </DataCell>
-                            <DataCell>
-                                <div className="tilerows__sublabel">
+                            <DataCell className={classes.DataCell}>
+                                <div className={classes.Sublabel}>
                                     {subLabel.time}
                                 </div>
                             </DataCell>
-                            {!hideTracks ? (
-                                <DataCell>
-                                    <div className="tilerows__sublabel">
+                            {!hideTracks && (
+                                <DataCell className={classes.DataCell}>
+                                    <div className={classes.Sublabel}>
                                         {data.quay?.publicCode || '-'}
                                     </div>
                                 </DataCell>
-                            ) : null}
-                            {!hideSituations ? (
-                                <DataCell>
-                                    <div className="tilerows__sublabel">
+                            )}
+                            {!hideSituations && (
+                                <DataCell className={classes.DataCell}>
+                                    <div className={classes.Sublabel}>
                                         <SubLabelIcon
                                             hideSituations={hideSituations}
                                             subLabel={subLabel}
                                         />
                                     </div>
                                 </DataCell>
-                            ) : null}
+                            )}
                         </TableRow>
                     </Fragment>
                 )
@@ -80,31 +87,24 @@ function SubLabelIcon({
     if (!hideSituations && subLabel?.situation)
         if (isMobile)
             return (
-                <div className="tilerow__sublabel__situation">
+                <div>
                     <SituationModal situationMessage={subLabel.situation} />
                 </div>
             )
         else
             return (
-                <div className="tilerow__sublabel__situation">
+                <div>
                     <ValidationExclamation />
                 </div>
             )
 
     if (subLabel.hasCancellation)
         return (
-            <div className="tilerow__sublabel__cancellation">
+            <div className={classes.Cancellation}>
                 <ValidationError />
             </div>
         )
     return null
 }
 
-interface Props {
-    visibleDepartures: LineData[]
-    hideSituations: boolean | undefined
-    hideTracks: boolean | undefined
-    iconColorType: IconColorType
-}
-
-export { TileRows }
+export { ChronoTableRows }
