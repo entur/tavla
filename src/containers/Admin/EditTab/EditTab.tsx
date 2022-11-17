@@ -454,7 +454,42 @@ const EditTab = (): JSX.Element => {
                         </div>
                         <CustomTilePanel></CustomTilePanel>
                     </div>
+                    <div className="edit-tab__flex-item">
+                        <div className="edit-tab__header">
+                            <Heading2>
+                                Entur App QR
+                                <Tooltip
+                                    content={
+                                        <div>
+                                            <SubParagraph className="tooltip-container-weather">
+                                                Tilgjengelig i visningstyper
+                                                kompakt og kronologisk.
+                                            </SubParagraph>
+                                        </div>
+                                    }
+                                    placement="top"
+                                >
+                                    <span>
+                                        <ValidationInfoIcon size={20} />
+                                    </span>
+                                </Tooltip>
+                            </Heading2>
+                            <Switch
+                                onChange={(e) =>
+                                    setSettings({
+                                        showMobileAppQrTile:
+                                            e.currentTarget.checked,
+                                    })
+                                }
+                                checked={settings.showMobileAppQrTile}
+                                size="large"
+                            />
+                        </div>
+                    </div>
                 </div>
+
+
+
                 <div className="edit-tab__flex-item">
                     <div className="edit-tab__header">
                         <Heading2>Sanntidsposisjoner</Heading2>

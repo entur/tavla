@@ -43,6 +43,7 @@ interface Settings {
     permanentlyVisibleRoutesInMap: DrawableRoute[]
     scooterDistance: { distance: number; enabled: boolean }
     showCustomTiles: boolean
+    showMobileAppQrTile: boolean
     showIcon: boolean
     showMap: boolean
     showPrecipitation: boolean
@@ -85,7 +86,8 @@ const DEFAULT_SETTINGS: Settings = {
     pageRefreshedAt: 0,
     permanentlyVisibleRoutesInMap: [],
     scooterDistance: { distance: DEFAULT_DISTANCE, enabled: false },
-    showCustomTiles: true,
+    showCustomTiles: false,
+    showMobileAppQrTile: true,
     showIcon: true,
     showMap: false,
     showPrecipitation: true,
