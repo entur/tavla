@@ -488,8 +488,6 @@ const EditTab = (): JSX.Element => {
                     </div>
                 </div>
 
-
-
                 <div className="edit-tab__flex-item">
                     <div className="edit-tab__header">
                         <Heading2>Sanntidsposisjoner</Heading2>
