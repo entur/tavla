@@ -13,7 +13,7 @@ interface CompactTileRowProps {
     icon: JSX.Element | null
     hideSituations?: boolean
     hideTracks?: boolean
-    platform?: string
+    platform: string | null
     type?: string
 }
 

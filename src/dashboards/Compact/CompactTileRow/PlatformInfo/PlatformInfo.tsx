@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './PlatformInfo.module.scss'
 
 interface Props {
-    platform?: string
+    platform: string | null
     type?: string
 }
 

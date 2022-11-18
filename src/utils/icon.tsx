@@ -17,6 +17,7 @@ import {
     TransportMode,
     TransportSubmode,
 } from '../../graphql-generated/journey-planner-v3'
+import { Departure } from '../logic/use-stop-place-with-estimated-calls/departure'
 import { isNotNullOrUndefined } from './typeguards'
 
 function isSubModeAirportLink(subMode?: string): boolean {
@@ -35,6 +36,22 @@ function isSubModeCarFerry(subMode?: string): boolean {
     ]
 
     return carFerryTypes.includes(subMode)
+}
+
+function getNewTransportHeaderIcons(
+    departures: Departure[],
+    iconColorType: IconColorType,
+): JSX.Element[] {
+    return uniqWith(
+        departures,
+        (a, b) =>
+            getTransportIconIdentifier(a.transportMode, a.transportSubmode) ===
+            getTransportIconIdentifier(b.transportMode, b.transportSubmode),
+    )
+        .map(({ transportMode, transportSubmode }) =>
+            getIcon(transportMode, iconColorType, transportSubmode),
+        )
+        .filter(isNotNullOrUndefined)
 }
 
 function getTransportHeaderIcons(
@@ -160,4 +177,10 @@ function getIcon(
     }
 }
 
-export { getIconColorType, getIconColor, getIcon, getTransportHeaderIcons }
+export {
+    getIconColorType,
+    getIconColor,
+    getIcon,
+    getTransportHeaderIcons,
+    getNewTransportHeaderIcons,
+}
