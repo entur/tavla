@@ -1,26 +1,27 @@
 import React from 'react'
 import { ValidationExclamation } from '../../../../assets/icons/ValidationExclamation'
 import { ValidationError } from '../../../../assets/icons/ValidationError'
-import { LineData } from '../../../../types'
+import { Departure } from '../../../../logic/use-stop-place-with-estimated-calls/departure'
 import './SituationInfo.scss'
 
 interface SituationInfoProps {
-    departure: LineData
+    departure: Departure
 }
 
 const SituationInfo = ({ departure }: SituationInfoProps) => {
-    if (!departure.situation) return null
+    const situation = departure.situations[0]?.summary[0]?.value
+    if (!situation) return null
 
     return (
         <>
             <span className="bus-stop-situation-icon">
-                {departure.hasCancellation ? (
+                {departure.cancellation ? (
                     <ValidationError />
                 ) : (
                     <ValidationExclamation />
                 )}
             </span>
-            {departure.situation}
+            {situation}
         </>
     )
 }

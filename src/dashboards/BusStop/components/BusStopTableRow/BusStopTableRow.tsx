@@ -1,9 +1,17 @@
 import React from 'react'
 import { DataCell, TableRow } from '@entur/table'
-import { IconColorType, LineData } from '../../../../types'
+import { IconColorType } from '../../../../types'
 import { SituationInfo } from '../SituationInfo/SituationInfo'
 import { getIcon } from '../../../../utils/icon'
+import { Departure } from '../../../../logic/use-stop-place-with-estimated-calls/departure'
 import './BusStopTableRow.scss'
+
+interface Props {
+    departure: Departure
+    hideSituations: boolean | undefined
+    hideTracks: boolean | undefined
+    iconColorType: IconColorType
+}
 
 function BusStopTableRow({
     departure,
@@ -12,9 +20,9 @@ function BusStopTableRow({
     iconColorType,
 }: Props): JSX.Element {
     const transportIcon = getIcon(
-        departure.type,
+        departure.transportMode,
         iconColorType,
-        departure.subType,
+        departure.transportSubmode,
     )
 
     return (
@@ -36,13 +44,6 @@ function BusStopTableRow({
             )}
         </TableRow>
     )
-}
-
-interface Props {
-    departure: LineData
-    hideSituations: boolean | undefined
-    hideTracks: boolean | undefined
-    iconColorType: IconColorType
 }
 
 export { BusStopTableRow }
