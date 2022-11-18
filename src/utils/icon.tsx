@@ -11,7 +11,7 @@ import {
     TrainIcon,
     TramIcon,
 } from '@entur/icons'
-import { IconColorType, LineData, Theme } from '../types'
+import { IconColorType, Theme } from '../types'
 import {
     Mode,
     TransportMode,
@@ -38,7 +38,7 @@ function isSubModeCarFerry(subMode?: string): boolean {
     return carFerryTypes.includes(subMode)
 }
 
-function getNewTransportHeaderIcons(
+function getTransportHeaderIcons(
     departures: Departure[],
     iconColorType: IconColorType,
 ): JSX.Element[] {
@@ -51,20 +51,6 @@ function getNewTransportHeaderIcons(
         .map(({ transportMode, transportSubmode }) =>
             getIcon(transportMode, iconColorType, transportSubmode),
         )
-        .filter(isNotNullOrUndefined)
-}
-
-function getTransportHeaderIcons(
-    departures: LineData[],
-    iconColorType: IconColorType,
-): JSX.Element[] {
-    return uniqWith(
-        departures,
-        (a, b) =>
-            getTransportIconIdentifier(a.type, a.subType) ===
-            getTransportIconIdentifier(b.type, b.subType),
-    )
-        .map(({ type, subType }) => getIcon(type, iconColorType, subType))
         .filter(isNotNullOrUndefined)
 }
 
@@ -177,10 +163,4 @@ function getIcon(
     }
 }
 
-export {
-    getIconColorType,
-    getIconColor,
-    getIcon,
-    getTransportHeaderIcons,
-    getNewTransportHeaderIcons,
-}
+export { getIconColorType, getIconColor, getIcon, getTransportHeaderIcons }

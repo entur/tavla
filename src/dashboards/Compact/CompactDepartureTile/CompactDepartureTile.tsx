@@ -6,7 +6,7 @@ import { useSettings } from '../../../settings/SettingsProvider'
 import {
     getIcon,
     getIconColorType,
-    getNewTransportHeaderIcons,
+    getTransportHeaderIcons,
 } from '../../../utils/icon'
 import { Tile } from '../../../components/Tile/Tile'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
@@ -55,7 +55,7 @@ const CompactDepartureTile: React.FC<CompactDepartureTileProps> = ({
         <Tile className={classes.CompactDepartureTile}>
             <TileHeader
                 title={stopPlaceWithEstimatedCalls.name}
-                icons={getNewTransportHeaderIcons(departures, iconColorType)}
+                icons={getTransportHeaderIcons(departures, iconColorType)}
             />
             <WalkTrip
                 coordinates={{

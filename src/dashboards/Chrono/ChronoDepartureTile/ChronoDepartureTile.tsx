@@ -4,10 +4,7 @@ import { HeaderCell, Table, TableHead, TableRow } from '@entur/table'
 import { Loader } from '@entur/loader'
 import { ChronoTableRows } from '../ChronoTableRows/ChronoTableRows'
 import { useSettings } from '../../../settings/SettingsProvider'
-import {
-    getIconColorType,
-    getNewTransportHeaderIcons,
-} from '../../../utils/icon'
+import { getIconColorType, getTransportHeaderIcons } from '../../../utils/icon'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
 import { Tile } from '../../../components/Tile/Tile'
 import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
@@ -49,7 +46,7 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
         <Tile className={classes.ChronoDepartureTile}>
             <TileHeader
                 title={stopPlaceWithEstimatedCalls.name}
-                icons={getNewTransportHeaderIcons(departures, iconColorType)}
+                icons={getTransportHeaderIcons(departures, iconColorType)}
             />
             <WalkTrip
                 coordinates={{
