@@ -8,7 +8,10 @@ import { getIconColorType, getTransportHeaderIcons } from '../../../utils/icon'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
 import { Tile } from '../../../components/Tile/Tile'
 import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
-import { toDeparture } from '../../../logic/use-stop-place-with-estimated-calls/departure'
+import {
+    filterHidden,
+    toDeparture,
+} from '../../../logic/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from '../../../components/WalkTrip/WalkTrip'
 import classes from './ChronoDepartureTile.module.scss'
 
@@ -30,8 +33,10 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
 
     const departures = useMemo(
         () =>
-            stopPlaceWithEstimatedCalls?.estimatedCalls.map(toDeparture) ?? [],
-        [stopPlaceWithEstimatedCalls?.estimatedCalls],
+            stopPlaceWithEstimatedCalls?.estimatedCalls
+                .map(toDeparture)
+                .filter(filterHidden(stopPlaceId, settings)) ?? [],
+        [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
     )
 
     if (!stopPlaceWithEstimatedCalls || loading) {

@@ -11,7 +11,10 @@ import {
 import { Tile } from '../../../components/Tile/Tile'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
 import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
-import { toDeparture } from '../../../logic/use-stop-place-with-estimated-calls/departure'
+import {
+    filterHidden,
+    toDeparture,
+} from '../../../logic/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from '../../../components/WalkTrip/WalkTrip'
 import { createTileSubLabel } from '../../../utils/utils'
 import classes from './CompactDepartureTile.module.scss'
@@ -34,8 +37,10 @@ const CompactDepartureTile: React.FC<CompactDepartureTileProps> = ({
 
     const departures = useMemo(
         () =>
-            stopPlaceWithEstimatedCalls?.estimatedCalls.map(toDeparture) ?? [],
-        [stopPlaceWithEstimatedCalls?.estimatedCalls],
+            stopPlaceWithEstimatedCalls?.estimatedCalls
+                .map(toDeparture)
+                .filter(filterHidden(stopPlaceId, settings)) ?? [],
+        [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
     )
 
     const groupedDepartures = useMemo(

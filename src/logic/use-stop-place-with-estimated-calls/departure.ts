@@ -3,6 +3,7 @@ import {
     TransportMode,
     TransportSubmode,
 } from '../../../graphql-generated/journey-planner-v3'
+import { Settings } from '../../settings/settings'
 import { EstimatedCall } from './types'
 
 interface Departure {
@@ -23,6 +24,10 @@ function formatTime(minDiff: number, departureTime: Date): string {
     return minDiff < 1 ? 'Nå' : `${minDiff} min`
 }
 
+/**
+ * Map EstimatedCall to Departure. Departure is similar to the old LineData-type.
+ * @param estimatedCall
+ */
 function toDeparture(estimatedCall: EstimatedCall): Departure {
     const line = estimatedCall.serviceJourney.journeyPattern.line
     const departureTime = parseISO(estimatedCall.expectedDepartureTime)
@@ -44,5 +49,18 @@ function toDeparture(estimatedCall: EstimatedCall): Departure {
     }
 }
 
-export { toDeparture }
+/**
+ * Create curried function that filters departures based on settings.hiddenRoutes and settings.hiddenStopModes
+ * @param stopPlaceId
+ * @param settings
+ */
+const filterHidden =
+    (stopPlaceId: string, settings: Settings) =>
+    (departure: Departure): boolean =>
+        !settings.hiddenRoutes[stopPlaceId]?.includes(departure.route) &&
+        !settings.hiddenStopModes[stopPlaceId]?.includes(
+            departure.transportMode,
+        )
+
+export { toDeparture, filterHidden }
 export type { Departure }
