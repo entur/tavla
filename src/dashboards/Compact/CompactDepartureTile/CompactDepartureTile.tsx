@@ -11,32 +11,13 @@ import {
 import { Tile } from '../../../components/Tile/Tile'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
 import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
-import {
-    Departure,
-    toDeparture,
-} from '../../../logic/use-stop-place-with-estimated-calls/departure'
-import { TileSubLabel } from '../../../types'
+import { toDeparture } from '../../../logic/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from '../../../components/WalkTrip/WalkTrip'
+import { createTileSubLabel } from '../../../utils/utils'
 import classes from './CompactDepartureTile.module.scss'
 
 interface CompactDepartureTileProps {
     stopPlaceId: string
-}
-
-function createTileSubLabel({
-    situations,
-    cancellation,
-    time,
-    departureTime,
-}: Departure): TileSubLabel {
-    const situation = situations[0]?.summary[0]?.value
-    return {
-        situation,
-        hasSituation: Boolean(situation),
-        hasCancellation: cancellation,
-        time,
-        departureTime,
-    }
 }
 
 const CompactDepartureTile: React.FC<CompactDepartureTileProps> = ({
