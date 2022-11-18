@@ -2,11 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useLocation } from 'react-router-dom'
 import { Loader } from '@entur/loader'
-import {
-    useRentalStations,
-    useStopPlacesWithDepartures,
-    useMobility,
-} from '../../logic'
+import { useRentalStations, useMobility } from '../../logic'
 import { useAllStopPlaceIds } from '../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
@@ -84,8 +80,6 @@ const CompactDashboard = (): JSX.Element | null => {
 
     const { allStopPlaceIds, loading: allStopPlacesLoading } =
         useAllStopPlaceIds()
-
-    const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
     const numberOfStopPlaces = allStopPlaceIds ? allStopPlaceIds.length : 0
     const anyBikeRentalStations: number | undefined =
@@ -245,7 +239,6 @@ const CompactDashboard = (): JSX.Element | null => {
 
                                 <MapTile
                                     scooters={scooters}
-                                    stopPlaces={stopPlacesWithDepartures}
                                     bikeRentalStations={bikeRentalStations}
                                     latitude={settings.coordinates.latitude}
                                     longitude={settings.coordinates.longitude}

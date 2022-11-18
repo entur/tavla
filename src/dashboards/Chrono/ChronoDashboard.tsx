@@ -2,11 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useLocation } from 'react-router-dom'
 import { Loader } from '@entur/loader'
-import {
-    useRentalStations,
-    useStopPlacesWithDepartures,
-    useMobility,
-} from '../../logic'
+import { useRentalStations, useMobility } from '../../logic'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { BREAKPOINTS } from '../../constants'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
@@ -83,8 +79,6 @@ const ChronoDashboard = (): JSX.Element | null => {
 
     const { allStopPlaceIds, loading: allStopPlacesLoading } =
         useAllStopPlaceIds()
-
-    const stopPlacesWithDepartures = useStopPlacesWithDepartures()
 
     const numberOfCustomImages = settings.customImageTiles.filter(
         ({ id }) => !settings.hiddenCustomTileIds.includes(id),
@@ -251,7 +245,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                                 ) : null}
                                 <MapTile
                                     scooters={scooters}
-                                    stopPlaces={stopPlacesWithDepartures}
                                     bikeRentalStations={bikeRentalStations}
                                     latitude={settings.coordinates.latitude}
                                     longitude={settings.coordinates.longitude}
