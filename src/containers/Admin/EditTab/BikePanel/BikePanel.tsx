@@ -4,11 +4,11 @@ import { Paragraph } from '@entur/typography'
 import { getTranslation } from '../../../../utils/utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { toggleValueInList } from '../../../../utils/array'
-import { UseRentalStations_StationFragment } from '../../../../../graphql-generated/mobility-v2'
+import { StationFragment } from '../../../../../graphql-generated/mobility-v2'
 import './BikePanel.scss'
 
 interface BikePanelProps {
-    stations: UseRentalStations_StationFragment[]
+    stations: StationFragment[]
 }
 
 function BikePanel({ stations }: BikePanelProps): JSX.Element {

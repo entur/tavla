@@ -4,7 +4,7 @@ import { Map } from '../../../components/Map/Map'
 import { StopPlaceWithDepartures } from '../../../types'
 import {
     UseMobility_VehicleFragment,
-    UseRentalStations_StationFragment,
+    StationFragment,
 } from '../../../../graphql-generated/mobility-v2'
 import './MapTile.scss'
 
@@ -18,7 +18,7 @@ function MapTile(data: Props): JSX.Element {
 
 interface Props {
     stopPlaces?: StopPlaceWithDepartures[]
-    bikeRentalStations?: UseRentalStations_StationFragment[]
+    bikeRentalStations?: StationFragment[]
     scooters?: UseMobility_VehicleFragment[]
     walkTimes?: Array<{ stopId: string; walkTime: number }>
     latitude: number
