@@ -47,5 +47,6 @@ module.exports = {
                 ignoreFunctions: ['var', '-webkit-gradient', 'color-stop'],
             },
         ],
+        'import-notation': 'string',
     },
 }
