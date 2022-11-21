@@ -8,7 +8,8 @@ import {
     IconColorType,
     LineData,
 } from '../../../types'
-import { getIcon, getIconColor } from '../../../utils/icon'
+import { getIconColor } from '../../../utils/icon'
+import { TransportModeIcon } from '../../../components/TransportModeIcon/TransportModeIcon'
 import { DepartureIcon } from './DepartureIcon/DepartureIcon'
 import './DepartureTag.scss'
 
@@ -32,12 +33,13 @@ const DepartureTag = (props: Props): JSX.Element => (
             {props.stopPlace.departures.slice(0, 2).map((departure) => (
                 <div className="departure-row" key={departure.id}>
                     <DepartureIcon
-                        icon={getIcon(
-                            departure.type,
-                            undefined,
-                            departure.subType,
-                            colors.brand.white,
-                        )}
+                        icon={
+                            <TransportModeIcon
+                                transportMode={departure.type}
+                                transportSubmode={departure.subType}
+                                color={colors.brand.white}
+                            />
+                        }
                         color={getIconColor(
                             departure.type,
                             IconColorType.DEFAULT,

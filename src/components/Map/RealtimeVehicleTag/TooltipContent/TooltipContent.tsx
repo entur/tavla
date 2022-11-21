@@ -3,10 +3,11 @@ import { colors } from '@entur/tokens'
 import { Label } from '@entur/typography'
 import { DepartureIcon } from '../../../../dashboards/Map/DepartureTag/DepartureIcon/DepartureIcon'
 import { getFeedbackString, getLastUpdated } from '../../../../utils/time'
-import { getIcon, getIconColor } from '../../../../utils/icon'
+import { getIconColor } from '../../../../utils/icon'
 import { IconColorType } from '../../../../types'
 import { RealtimeVehicle } from '../../../../logic/use-realtime-vehicle-data/types'
 import { TransportMode } from '../../../../../graphql-generated/journey-planner-v3'
+import { TransportModeIcon } from '../../../TransportModeIcon/TransportModeIcon'
 import './TooltipContent.scss'
 
 interface Props {
@@ -31,12 +32,14 @@ const TooltipContent = ({ realtimeVehicle }: Props): JSX.Element => {
         <div className="map__realtime-vehicle-tag__tooltip-content-wrapper">
             <div className="map__realtime-vehicle-tag__tooltip-content-first-row">
                 <DepartureIcon
-                    icon={getIcon(
-                        realtimeVehicle.mode.toLowerCase() as TransportMode,
-                        undefined,
-                        undefined,
-                        colors.brand.white,
-                    )}
+                    icon={
+                        <TransportModeIcon
+                            transportMode={
+                                realtimeVehicle.mode.toLowerCase() as TransportMode
+                            }
+                            color={colors.brand.white}
+                        />
+                    }
                     color={getIconColor(
                         realtimeVehicle.mode.toLowerCase() as TransportMode,
                         IconColorType.DEFAULT,

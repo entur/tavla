@@ -3,10 +3,10 @@ import { Heading3 } from '@entur/typography'
 import { DataCell, TableBody, TableRow } from '@entur/table'
 import { IconColorType } from '../../../types'
 import { createTileSubLabel } from '../../../utils/utils'
-import { getIcon } from '../../../utils/icon'
 import { NewDayTableRow } from '../../../components/NewDayTableRow/NewDayTableRow'
 import { SubLabelIcon } from '../../../components/SubLabelIcon/SubLabelIcon'
 import { Departure } from '../../../logic/use-stop-place-with-estimated-calls/departure'
+import { TransportModeIcon } from '../../../components/TransportModeIcon/TransportModeIcon'
 import classes from './ChronoTableRows.module.scss'
 
 interface ChronoTableRowsProps {
@@ -25,11 +25,6 @@ function ChronoTableRows({
     return (
         <TableBody>
             {visibleDepartures.map((data, index) => {
-                const icon = getIcon(
-                    data.transportMode,
-                    iconColorType,
-                    data.transportSubmode,
-                )
                 const subLabel = createTileSubLabel(data)
                 const previousRow = visibleDepartures[index - 1]
 
@@ -41,7 +36,13 @@ function ChronoTableRows({
                         />
                         <TableRow className={classes.ChronoTableRow}>
                             <DataCell>
-                                <div className={classes.Icon}>{icon}</div>
+                                <div className={classes.Icon}>
+                                    <TransportModeIcon
+                                        transportMode={data.transportMode}
+                                        iconColorType={iconColorType}
+                                        transportSubmode={data.transportSubmode}
+                                    />
+                                </div>
                             </DataCell>
                             <DataCell className={classes.DataCell}>
                                 <Heading3 as="div" className={classes.Label}>

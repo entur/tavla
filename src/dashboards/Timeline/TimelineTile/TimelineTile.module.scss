@@ -1,0 +1,20 @@
+.TimelineTile {
+    overflow: hidden;
+    position: relative;
+
+    &:last-child {
+        margin-bottom: 5rem;
+    }
+}
+
+.Track {
+    height: 6rem;
+    position: relative;
+}
+
+.Line {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 3;
+}
