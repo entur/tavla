@@ -4,14 +4,14 @@ import { colors } from '@entur/tokens'
 import { Link, Paragraph } from '@entur/typography'
 import { CustomTile, Theme } from '../../types'
 import { useSettings } from '../../settings/SettingsProvider'
-import './QRBox.scss'
+import classes from './QRBox.module.scss'
 
 const QRBox = ({ sourceUrl, description }: CustomTile): JSX.Element => {
     const [settings] = useSettings()
 
     return (
-        <div className="qr-box__wrapper">
-            <div className="qr-box__code">
+        <div className={classes.Wrapper}>
+            <div className={classes.Code}>
                 <QRCode
                     className="qr-code"
                     value={sourceUrl}
@@ -25,11 +25,11 @@ const QRBox = ({ sourceUrl, description }: CustomTile): JSX.Element => {
                 ></QRCode>
             </div>
             {description && (
-                <Paragraph className="qr-box__description">
+                <Paragraph className={classes.Description}>
                     {description}
                 </Paragraph>
             )}
-            <Link className="qr-box__link">{sourceUrl}</Link>
+            <Link className={classes.Link}>{sourceUrl}</Link>
         </div>
     )
 }

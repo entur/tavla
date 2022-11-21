@@ -1,0 +1,26 @@
+.Wrapper {
+    padding: 1rem;
+    width: 50%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.Code {
+    background-color: white;
+    border-radius: 1.5rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.Description {
+    margin-top: 1rem;
+}
+
+.Link {
+    width: 100%;
+    overflow: hidden;
+    font-size: small;
+}
