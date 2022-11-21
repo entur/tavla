@@ -11,22 +11,6 @@ function filterMap<A, B>(
     }, [])
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function groupBy<T extends Record<string, any>>(
-    objectArray: T[],
-    property: keyof T,
-): { [key: string]: T[] } {
-    return objectArray.reduce((acc, obj) => {
-        const key = obj[property]
-        if (!acc[key]) {
-            acc[key] = []
-        }
-        acc[key].push(obj)
-        return acc
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }, {} as Record<string, any>)
-}
-
 function unique<T>(
     array: T[],
     isEqual: (a: T, b: T) => boolean = (a, b): boolean => a === b,
@@ -59,7 +43,6 @@ function toggleValueInList<T>(list: T[], item: T): T[] {
 
 export {
     filterMap,
-    groupBy,
     unique,
     nonEmpty,
     isEqualUnsorted,

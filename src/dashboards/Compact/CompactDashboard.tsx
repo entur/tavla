@@ -21,9 +21,9 @@ import { isMobileWeb } from '../../utils/utils'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { QRTile } from '../../components/QRTile/QRTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
+import { BikeTile } from '../../components/BikeTile/BikeTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
-import { DepartureTile } from './DepartureTile/DepartureTile'
-import { BikeTile } from './BikeTile/BikeTile'
+import { CompactDepartureTile } from './CompactDepartureTile/CompactDepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import './CompactDashboard.scss'
 
@@ -226,7 +226,7 @@ const CompactDashboard = (): JSX.Element | null => {
                                     className="resizeHandle"
                                     variant="light"
                                 />
-                                <DepartureTile
+                                <CompactDepartureTile
                                     key={index}
                                     walkInfo={getWalkInfoForStopPlace(
                                         walkInfo || [],
