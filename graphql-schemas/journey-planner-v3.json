@@ -1181,6 +1181,16 @@
         "possibleTypes": null
       },
       {
+        "kind": "SCALAR",
+        "name": "Duration",
+        "description": "Duration in a lenient ISO-8601 duration format. Example P2DT2H12M40S, 2d2h12m40s or 1h",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "EstimatedCall",
         "description": "List of visits to quays as part of vehicle journeys. Updated with real time information where available",
@@ -7325,6 +7335,175 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "viaTrip",
+            "description": "Input type for executing a travel search for a trip between three or more locations. Returns trip patterns describing suggested alternatives for the trip.",
+            "args": [
+              {
+                "name": "dateTime",
+                "description": "Date and time for the earliest time the user is willing to start the journey (if arriveBy=false/not set) or the latest acceptable time of arriving (arriveBy=true). Defaults to now",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "from",
+                "description": "The start location",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "Location",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "locale",
+                "description": "The preferable language to use for text targeted the end user. Note! The data quality is limited, only stop and quay names are translates, and not in all places of the API.",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "Locale",
+                  "ofType": null
+                },
+                "defaultValue": "no",
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "numTripPatterns",
+                "description": "The maximum number of trip patterns per part of the search to return. Note! This reduces the number of trip patterns AFTER the OTP travel search is done in a post-filtering process. There is little performance gain in reducing the number of trip patterns returned. The post-filtering will reduce the number of trip-patterns down to this size. It does not make the search faster, as it did in OTP1. See also the trip meta-data on how to implement paging.",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": "12",
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "pageCursor",
+                "description": "Use the cursor to go to the next \"page\" of itineraries. Copy the cursor from the last response and keep the original request as is. This will enable you to search for itineraries in the next or previous time-window.",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "searchWindow",
+                "description": "The length of the search-window. This parameter is optional.\n\nThe search-window is defined as the duration between the earliest-departure-time(EDT) and the latest-departure-time(LDT). OTP will search for all itineraries in this departure window. If `arriveBy=true` the `dateTime` parameter is the latest-arrival-time, so OTP will dynamically calculate the EDT. Using a short search-window is faster than using a longer one, but the search duration is not linear. Using a \"too\" short search-window will waste resources server side, while using a search-window that is too long will be slow.\n\nOTP will dynamically calculate a reasonable value for the search-window, if not provided. The calculation comes with a significant overhead (10-20% extra). Whether you should use the dynamic calculated value or pass in a value depends on your use-case. For a travel planner in a small geographical area, with a dense network of public transportation, a fixed value between 40 minutes and 2 hours makes sense. To find the appropriate search-window, adjust it so that the number of itineraries on average is around the wanted `numItineraries`. Make sure you set the `numItineraries` to a high number while testing. For a country wide area like Norway, using the dynamic search-window is the best.\n\nWhen paginating, the search-window is calculated using the `numItineraries` in the original search together with statistics from the search for the last page. This behaviour is configured server side, and can not be overridden from the client.\n\nThe search-window used is returned to the response metadata as `searchWindowUsed` for debugging purposes.",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Duration",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "to",
+                "description": "The end location",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "Location",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "viaLocations",
+                "description": "The locations needed to be visited along hte route.",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "INPUT_OBJECT",
+                        "name": "ViaLocation",
+                        "ofType": null
+                      }
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "viaRequests",
+                "description": "The requests for the individual parts of the search. Note that the list must have length of exactly one greater than the viaLocations field.",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "ViaRequest",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "wheelchairAccessible",
+                "description": "Whether the trip must be wheelchair accessible. Supported for the street part to the search, not implemented for the transit jet.",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                },
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ViaTrip",
+                "ofType": null
+              }
+            },
+            "isDeprecated": true,
+            "deprecationReason": "This API is under development, expect the contract to change"
           }
         ],
         "inputFields": null,
@@ -11273,6 +11452,206 @@
             "deprecationReason": null
           }
         ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "ViaLocation",
+        "description": "Input format for specifying a location through either a place reference (id), coordinates or both. If both place and coordinates are provided the place ref will be used if found, coordinates will only be used if place is not known.",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "coordinates",
+            "description": "Coordinates for the location. This can be used alone or as fallback if the place id is not found.",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "InputCoordinates",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "maxSlack",
+            "description": "The maximum time the user wants to stay in the via location before continuing his journey",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Duration",
+              "ofType": null
+            },
+            "defaultValue": "\"PT1H\"",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "minSlack",
+            "description": "The minimum time the user wants to stay in the via location before continuing his journey",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Duration",
+              "ofType": null
+            },
+            "defaultValue": "\"PT0S\"",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "name",
+            "description": "The name of the location. This is pass-through informationand is not used in routing.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "place",
+            "description": "The id of an element in the OTP model. Currently supports Quay, StopPlace, multimodal StopPlace, and GroupOfStopPlaces.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "ViaRequest",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "modes",
+            "description": "The set of access/egress/direct/transit modes to be used for this search. Note that this only works at the Line level. If individual ServiceJourneys have modes that differ from the Line mode, this will NOT be accounted for.",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Modes",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ViaTrip",
+        "description": "Description of a travel between three or more places.",
+        "fields": [
+          {
+            "name": "routingErrors",
+            "description": "A list of routing errors, and fields which caused them",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "RoutingError",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tripPatternCombinations",
+            "description": "A list of lists of which indices of the next segment the trip pattern can be combined with",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "LIST",
+                        "name": null,
+                        "ofType": {
+                          "kind": "NON_NULL",
+                          "name": null,
+                          "ofType": {
+                            "kind": "SCALAR",
+                            "name": "Int"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tripPatterns",
+            "description": "A list of lists of the trip patterns for each segment of the journey",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "OBJECT",
+                        "name": "TripPattern",
+                        "ofType": null
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
         "possibleTypes": null
       },
       {
