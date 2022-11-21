@@ -1853,6 +1853,14 @@ export type QuayAtDistanceEdge = {
   node: Maybe<QuayAtDistance>;
 };
 
+export type BikeTileRowQueryVariables = Exact<{
+  from: Location;
+  to: Location;
+}>;
+
+
+export type BikeTileRowQuery = { __typename?: 'QueryType', trip: { __typename?: 'Trip', tripPatterns: Array<{ __typename?: 'TripPattern', duration: Long | null, walkDistance: number | null }> } };
+
 export type GetStopPlacesQueryVariables = Exact<{
   ids: Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>;
 }>;
@@ -1897,6 +1905,37 @@ export type GetWalkInfoQueryVariables = Exact<{
 
 export type GetWalkInfoQuery = { __typename?: 'QueryType', trip: { __typename?: 'Trip', tripPatterns: Array<{ __typename?: 'TripPattern', duration: Long | null, walkDistance: number | null }> } };
 
+export const UseNearestPlaces_EdgeFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UseNearestPlaces_EdgeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"placeAtDistanceEdge"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"distance"}},{"kind":"Field","name":{"kind":"Name","value":"place"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]}}]} as unknown as DocumentNode;
+export const BikeTileRowDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BikeTileRow"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"from"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"to"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trip"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"from"},"value":{"kind":"Variable","name":{"kind":"Name","value":"from"}}},{"kind":"Argument","name":{"kind":"Name","value":"to"},"value":{"kind":"Variable","name":{"kind":"Name","value":"to"}}},{"kind":"Argument","name":{"kind":"Name","value":"modes"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"directMode"},"value":{"kind":"EnumValue","value":"foot"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"numTripPatterns"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tripPatterns"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"walkDistance"}}]}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useBikeTileRowQuery__
+ *
+ * To run a query within a React component, call `useBikeTileRowQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBikeTileRowQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBikeTileRowQuery({
+ *   variables: {
+ *      from: // value for 'from'
+ *      to: // value for 'to'
+ *   },
+ * });
+ */
+export function useBikeTileRowQuery(baseOptions: Apollo.QueryHookOptions<BikeTileRowQuery, BikeTileRowQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BikeTileRowQuery, BikeTileRowQueryVariables>(BikeTileRowDocument, options);
+      }
+export function useBikeTileRowLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BikeTileRowQuery, BikeTileRowQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BikeTileRowQuery, BikeTileRowQueryVariables>(BikeTileRowDocument, options);
+        }
+export type BikeTileRowQueryHookResult = ReturnType<typeof useBikeTileRowQuery>;
+export type BikeTileRowLazyQueryHookResult = ReturnType<typeof useBikeTileRowLazyQuery>;
+export type BikeTileRowQueryResult = Apollo.QueryResult<BikeTileRowQuery, BikeTileRowQueryVariables>;
 export type WalkTripQueryVariables = Exact<{
   from: Location;
   to: Location;
