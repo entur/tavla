@@ -1,7 +1,7 @@
 import React from 'react'
 import QRCode from 'react-qr-code'
 import { colors } from '@entur/tokens'
-import { Paragraph } from '@entur/typography'
+import { Link, Paragraph } from '@entur/typography'
 import { CustomTile, Theme } from '../../types'
 import { useSettings } from '../../settings/SettingsProvider'
 import './QRBox.scss'
@@ -24,12 +24,12 @@ const QRBox = ({ sourceUrl, description }: CustomTile): JSX.Element => {
                     level="L"
                 ></QRCode>
             </div>
-            {/* <Link className="qr-tile__link">{sourceUrl}</Link> */}
             {description && (
                 <Paragraph className="qr-box__description">
                     {description}
                 </Paragraph>
             )}
+            <Link className="qr-box__link">{sourceUrl}</Link>
         </div>
     )
 }
