@@ -2,13 +2,8 @@ import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useLocation } from 'react-router-dom'
 import { Loader } from '@entur/loader'
-import {
-    useRentalStations,
-    useStopPlacesWithDepartures,
-    useMobility,
-    useWalkInfo,
-} from '../../logic'
-import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
+import { useRentalStations, useMobility } from '../../logic'
+import { useAllStopPlaceIds } from '../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
 import {
@@ -30,13 +25,6 @@ import './CompactDashboard.scss'
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 const isMobile = isMobileWeb()
-
-function getWalkInfoForStopPlace(
-    walkInfos: WalkInfo[],
-    id: string,
-): WalkInfo | undefined {
-    return walkInfos?.find((walkInfo) => walkInfo.stopId === id)
-}
 
 function getDataGrid(
     index: number,
@@ -90,20 +78,9 @@ const CompactDashboard = (): JSX.Element | null => {
     )
     const scooters = useMobility(FormFactor.Scooter)
 
-    const stopPlacesWithDepartures = useStopPlacesWithDepartures()
+    const { allStopPlaceIds } = useAllStopPlaceIds()
 
-    const walkInfoDestinations = useMemo(() => {
-        if (!stopPlacesWithDepartures) return []
-        return stopPlacesWithDepartures.map((dep) => ({
-            ...dep,
-            place: dep.id,
-        }))
-    }, [stopPlacesWithDepartures])
-    const walkInfo = useWalkInfo(walkInfoDestinations)
-
-    const numberOfStopPlaces = stopPlacesWithDepartures
-        ? stopPlacesWithDepartures.length
-        : 0
+    const numberOfStopPlaces = allStopPlaceIds.length
     const anyBikeRentalStations: number | undefined =
         bikeRentalStations && bikeRentalStations.length
 
@@ -111,17 +88,9 @@ const CompactDashboard = (): JSX.Element | null => {
     const mapCol = settings.showMap ? 1 : 0
     const weatherCol = settings.showWeather ? 1 : 0
 
-    const hasData = Boolean(
-        bikeRentalStations?.length ||
-            scooters?.length ||
-            stopPlacesWithDepartures?.length,
-    )
+    const hasData = Boolean(bikeRentalStations?.length || scooters?.length)
 
     const maxWidthCols = COLS[breakpoint] || 1
-
-    const stopPlacesHasLoaded = Boolean(
-        stopPlacesWithDepartures || settings.hiddenModes.includes('kollektiv'),
-    )
 
     const bikeHasLoaded = Boolean(
         bikeRentalStations || settings.hiddenModes.includes('bysykkel'),
@@ -131,9 +100,7 @@ const CompactDashboard = (): JSX.Element | null => {
         scooters || settings.hiddenModes.includes('sparkesykkel'),
     )
 
-    const hasFetchedData = Boolean(
-        stopPlacesHasLoaded && bikeHasLoaded && scooterHasLoaded,
-    )
+    const hasFetchedData = Boolean(bikeHasLoaded && scooterHasLoaded)
 
     const imageTilesToDisplay = useMemo(
         () =>
@@ -167,7 +134,6 @@ const CompactDashboard = (): JSX.Element | null => {
         <DashboardWrapper
             className="compact"
             bikeRentalStations={bikeRentalStations}
-            stopPlacesWithDepartures={stopPlacesWithDepartures}
             scooters={scooters}
         >
             {!hasFetchedData ? (
@@ -213,9 +179,9 @@ const CompactDashboard = (): JSX.Element | null => {
                                 <WeatherTile className="tile" />
                             </div>
                         )}
-                        {(stopPlacesWithDepartures || []).map((stop, index) => (
+                        {allStopPlaceIds.map((stopPlaceId, index) => (
                             <div
-                                key={stop.id}
+                                key={stopPlaceId}
                                 data-grid={getDataGrid(
                                     weatherCol + index,
                                     maxWidthCols,
@@ -227,12 +193,7 @@ const CompactDashboard = (): JSX.Element | null => {
                                     variant="light"
                                 />
                                 <CompactDepartureTile
-                                    key={index}
-                                    walkInfo={getWalkInfoForStopPlace(
-                                        walkInfo || [],
-                                        stop.id,
-                                    )}
-                                    stopPlaceWithDepartures={stop}
+                                    stopPlaceId={stopPlaceId}
                                 />
                             </div>
                         ))}
@@ -275,7 +236,6 @@ const CompactDashboard = (): JSX.Element | null => {
 
                                 <MapTile
                                     scooters={scooters}
-                                    stopPlaces={stopPlacesWithDepartures}
                                     bikeRentalStations={bikeRentalStations}
                                     latitude={settings.coordinates.latitude}
                                     longitude={settings.coordinates.longitude}

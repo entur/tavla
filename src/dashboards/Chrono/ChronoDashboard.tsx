@@ -2,12 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useLocation } from 'react-router-dom'
 import { Loader } from '@entur/loader'
-import {
-    useRentalStations,
-    useStopPlacesWithDepartures,
-    useMobility,
-    useWalkInfo,
-} from '../../logic'
+import { useRentalStations, useMobility } from '../../logic'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { BREAKPOINTS } from '../../constants'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
@@ -18,11 +13,11 @@ import {
 import { QRTile } from '../../components/QRTile/QRTile'
 import { useSettings } from '../../settings/SettingsProvider'
 import { isMobileWeb } from '../../utils/utils'
-import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { BikeTile } from '../../components/BikeTile/BikeTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
+import { useAllStopPlaceIds } from '../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
 import { ChronoDepartureTile } from './ChronoDepartureTile/ChronoDepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import './ChronoDashboard.scss'
@@ -30,13 +25,6 @@ import './ChronoDashboard.scss'
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 const isMobile = isMobileWeb()
-
-function getWalkInfoForStopPlace(
-    walkInfos: WalkInfo[],
-    id: string,
-): WalkInfo | undefined {
-    return walkInfos?.find((walkInfo) => walkInfo.stopId === id)
-}
 
 function getDataGrid(
     index: number,
@@ -89,39 +77,26 @@ const ChronoDashboard = (): JSX.Element | null => {
     )
     const scooters = useMobility(FormFactor.Scooter)
 
-    const stopPlacesWithDepartures = useStopPlacesWithDepartures()
+    const { allStopPlaceIds } = useAllStopPlaceIds()
 
     const numberOfCustomImages = settings.customImageTiles.filter(
         ({ id }) => !settings.hiddenCustomTileIds.includes(id),
     ).length
 
-    const walkInfoDestinations = useMemo(() => {
-        if (!stopPlacesWithDepartures) return []
-        return stopPlacesWithDepartures.map((dep) => ({
-            ...dep,
-            place: dep.id,
-        }))
-    }, [stopPlacesWithDepartures])
-    const walkInfo = useWalkInfo(walkInfoDestinations)
-
-    const numberOfStopPlaces = stopPlacesWithDepartures?.length || 0
+    const numberOfStopPlaces = allStopPlaceIds.length
     const anyBikeRentalStations: number | undefined =
         bikeRentalStations && bikeRentalStations.length
 
     const maxWidthCols = COLS[breakpoint] || 1
 
-    const hasData = Boolean(
-        bikeRentalStations?.length ||
-            scooters?.length ||
-            stopPlacesWithDepartures?.length,
-    )
+    const hasData = Boolean(bikeRentalStations?.length || scooters?.length)
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
     const mapCol = settings.showMap ? 1 : 0
     const weatherCol = settings.showWeather ? 1 : 0
 
     const stopPlacesHasLoaded = Boolean(
-        stopPlacesWithDepartures || settings.hiddenModes.includes('kollektiv'),
+        allStopPlaceIds || settings.hiddenModes.includes('kollektiv'),
     )
 
     const bikeHasLoaded = Boolean(
@@ -168,7 +143,6 @@ const ChronoDashboard = (): JSX.Element | null => {
         <DashboardWrapper
             className="chrono"
             bikeRentalStations={bikeRentalStations}
-            stopPlacesWithDepartures={stopPlacesWithDepartures}
         >
             {!hasFetchedData ? (
                 <div className="compact__loading-screen">
@@ -212,9 +186,9 @@ const ChronoDashboard = (): JSX.Element | null => {
                                 <WeatherTile className="tile" />
                             </div>
                         )}
-                        {(stopPlacesWithDepartures || []).map((stop, index) => (
+                        {allStopPlaceIds.map((stopPlaceId, index) => (
                             <div
-                                key={stop.id}
+                                key={stopPlaceId}
                                 data-grid={getDataGrid(
                                     weatherCol + index,
                                     maxWidthCols,
@@ -226,12 +200,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     variant="light"
                                 />
                                 <ChronoDepartureTile
-                                    key={index}
-                                    stopPlaceWithDepartures={stop}
-                                    walkInfo={getWalkInfoForStopPlace(
-                                        walkInfo || [],
-                                        stop.id,
-                                    )}
+                                    stopPlaceId={stopPlaceId}
                                 />
                             </div>
                         ))}
@@ -273,7 +242,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                                 ) : null}
                                 <MapTile
                                     scooters={scooters}
-                                    stopPlaces={stopPlacesWithDepartures}
                                     bikeRentalStations={bikeRentalStations}
                                     latitude={settings.coordinates.latitude}
                                     longitude={settings.coordinates.longitude}

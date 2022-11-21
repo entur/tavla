@@ -11,12 +11,13 @@ import {
     TrainIcon,
     TramIcon,
 } from '@entur/icons'
-import { IconColorType, LineData, Theme } from '../types'
+import { IconColorType, Theme } from '../types'
 import {
     Mode,
     TransportMode,
     TransportSubmode,
 } from '../../graphql-generated/journey-planner-v3'
+import { Departure } from '../logic/use-stop-place-with-estimated-calls/departure'
 import { isNotNullOrUndefined } from './typeguards'
 
 function isSubModeAirportLink(subMode?: string): boolean {
@@ -38,16 +39,18 @@ function isSubModeCarFerry(subMode?: string): boolean {
 }
 
 function getTransportHeaderIcons(
-    departures: LineData[],
+    departures: Departure[],
     iconColorType: IconColorType,
 ): JSX.Element[] {
     return uniqWith(
         departures,
         (a, b) =>
-            getTransportIconIdentifier(a.type, a.subType) ===
-            getTransportIconIdentifier(b.type, b.subType),
+            getTransportIconIdentifier(a.transportMode, a.transportSubmode) ===
+            getTransportIconIdentifier(b.transportMode, b.transportSubmode),
     )
-        .map(({ type, subType }) => getIcon(type, iconColorType, subType))
+        .map(({ transportMode, transportSubmode }) =>
+            getIcon(transportMode, iconColorType, transportSubmode),
+        )
         .filter(isNotNullOrUndefined)
 }
 

@@ -1,15 +1,16 @@
 import React, { Fragment } from 'react'
 import { Heading3 } from '@entur/typography'
 import { DataCell, TableBody, TableRow } from '@entur/table'
-import { IconColorType, LineData } from '../../../types'
+import { IconColorType } from '../../../types'
 import { createTileSubLabel } from '../../../utils/utils'
 import { getIcon } from '../../../utils/icon'
 import { NewDayTableRow } from '../../../components/NewDayTableRow/NewDayTableRow'
 import { SubLabelIcon } from '../../../components/SubLabelIcon/SubLabelIcon'
+import { Departure } from '../../../logic/use-stop-place-with-estimated-calls/departure'
 import classes from './ChronoTableRows.module.scss'
 
 interface ChronoTableRowsProps {
-    visibleDepartures: LineData[]
+    visibleDepartures: Departure[]
     hideSituations: boolean
     hideTracks: boolean
     iconColorType: IconColorType
@@ -24,7 +25,11 @@ function ChronoTableRows({
     return (
         <TableBody>
             {visibleDepartures.map((data, index) => {
-                const icon = getIcon(data.type, iconColorType, data.subType)
+                const icon = getIcon(
+                    data.transportMode,
+                    iconColorType,
+                    data.transportSubmode,
+                )
                 const subLabel = createTileSubLabel(data)
                 const previousRow = visibleDepartures[index - 1]
 

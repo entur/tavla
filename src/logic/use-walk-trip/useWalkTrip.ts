@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { is } from 'superstruct'
 import { ApolloError } from '@apollo/client'
 import { useSettings } from '../../settings/SettingsProvider'
-import { useBikeTileRowQuery } from '../../../graphql-generated/journey-planner-v3'
+import { useWalkTripQuery } from '../../../graphql-generated/journey-planner-v3'
 import { Coordinates } from '../../types'
 import { TripPatternStruct, WalkTrip } from './types'
 
@@ -15,7 +15,7 @@ interface UseWalkTrip {
 function useWalkTrip(coordinates: Coordinates): UseWalkTrip {
     const [settings] = useSettings()
 
-    const { data, loading, error } = useBikeTileRowQuery({
+    const { data, loading, error } = useWalkTripQuery({
         variables: {
             from: {
                 coordinates: settings.coordinates,

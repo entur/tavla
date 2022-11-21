@@ -3,7 +3,7 @@ import { differenceInMinutes, format, parseISO } from 'date-fns'
 import { LineData, StopPlaceWithDepartures } from '../../types'
 import { useSettings } from '../../settings/SettingsProvider'
 import { REFRESH_INTERVAL } from '../../constants'
-import { useNearestPlaces } from '../use-nearest-places/useNearestPlaces'
+import { useNearestStopPlaces } from '../use-nearest-stop-places/useNearestStopPlaces'
 import { apolloClient } from '../../apollo-client'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
 import { nonEmpty, unique } from '../../utils/array'
@@ -133,7 +133,7 @@ const EMPTY_STOP_PLACES_WITH_DEPARTURES: StopPlaceWithDepartures[] = []
 function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] | undefined {
     const [settings] = useSettings()
 
-    const nearestPlaces = useNearestPlaces(
+    const { nearestStopPlaces } = useNearestStopPlaces(
         settings.coordinates,
         settings.distance,
     )
@@ -141,20 +141,17 @@ function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] | undefined {
         StopPlaceWithDepartures[] | undefined
     >()
 
-    const nearestStopPlaces = useMemo(
-        () =>
-            nearestPlaces
-                .filter(({ type }) => type === 'StopPlace')
-                .map(({ id }) => id),
-        [nearestPlaces],
+    const nearestStopPlacesId = useMemo(
+        () => nearestStopPlaces.map(({ id }) => id),
+        [nearestStopPlaces],
     )
 
     const allStopPlaceIds = useMemo(
         () =>
-            unique([...settings.newStops, ...nearestStopPlaces]).filter(
+            unique([...settings.newStops, ...nearestStopPlacesId]).filter(
                 (id) => !settings.hiddenStops.includes(id),
             ),
-        [settings.newStops, settings.hiddenStops, nearestStopPlaces],
+        [settings.newStops, settings.hiddenStops, nearestStopPlacesId],
     )
 
     const formatStopPlacesWithDepartures = useCallback(
@@ -224,7 +221,7 @@ function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] | undefined {
                 }
             })
 
-        if (nearestPlaces.length) {
+        if (nearestStopPlaces.length) {
             fetchAndSet()
         }
 
@@ -235,7 +232,7 @@ function useStopPlacesWithDepartures(): StopPlaceWithDepartures[] | undefined {
             aborted = true
         }
     }, [
-        nearestPlaces,
+        nearestStopPlaces,
         allStopPlaceIds,
         formatStopPlacesWithDepartures,
         settings.hiddenModes,

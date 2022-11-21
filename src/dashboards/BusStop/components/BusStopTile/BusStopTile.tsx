@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react'
 import { Table, TableRow, TableHead, HeaderCell, TableBody } from '@entur/table'
-import { StopPlaceWithDepartures } from '../../../../types'
+import { Loader } from '@entur/loader'
 import { useSettings } from '../../../../settings/SettingsProvider'
-import { WalkInfo } from '../../../../logic/use-walk-info/useWalkInfo'
 import { BusStopTableRow } from '../BusStopTableRow/BusStopTableRow'
 import {
     getIconColorType,
@@ -10,26 +9,60 @@ import {
 } from '../../../../utils/icon'
 import { Tile } from '../../../../components/Tile/Tile'
 import { TileHeader } from '../../../../components/TileHeader/TileHeader'
+import { useStopPlaceWithEstimatedCalls } from '../../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
+import {
+    filterHidden,
+    toDeparture,
+} from '../../../../logic/use-stop-place-with-estimated-calls/departure'
+import { WalkTrip } from '../../../../components/WalkTrip/WalkTrip'
+import { ErrorTile } from '../../../../components/ErrorTile/ErrorTile'
 import classes from './BusStopTile.module.scss'
 
-const BusStopTile = ({
-    stopPlaceWithDepartures,
-    walkInfo,
-}: Props): JSX.Element => {
-    const { departures, name } = stopPlaceWithDepartures
-    const [settings] = useSettings()
+interface Props {
+    stopPlaceId: string
+}
 
+const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
+    const [settings] = useSettings()
     const iconColorType = useMemo(
         () => getIconColorType(settings.theme),
         [settings.theme],
     )
 
+    const { stopPlaceWithEstimatedCalls, loading } =
+        useStopPlaceWithEstimatedCalls(stopPlaceId)
+
+    const departures = useMemo(
+        () =>
+            stopPlaceWithEstimatedCalls?.estimatedCalls
+                .map(toDeparture)
+                .filter(filterHidden(stopPlaceId, settings)) ?? [],
+        [stopPlaceWithEstimatedCalls?.estimatedCalls, settings, stopPlaceId],
+    )
+
+    if (loading) {
+        return (
+            <Tile className={classes.BusStopTile}>
+                <Loader>Laster</Loader>
+            </Tile>
+        )
+    }
+
+    if (!stopPlaceWithEstimatedCalls) {
+        return <ErrorTile className={classes.BusStopTile} />
+    }
+
     return (
         <Tile className={classes.BusStopTile}>
             <TileHeader
-                title={name}
+                title={stopPlaceWithEstimatedCalls.name}
                 icons={getTransportHeaderIcons(departures, iconColorType)}
-                walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
+            />
+            <WalkTrip
+                coordinates={{
+                    latitude: stopPlaceWithEstimatedCalls.latitude,
+                    longitude: stopPlaceWithEstimatedCalls.longitude,
+                }}
             />
             <Table spacing="large" fixed>
                 <TableHead className={classes.TableHead}>
@@ -65,11 +98,6 @@ const BusStopTile = ({
             </Table>
         </Tile>
     )
-}
-
-interface Props {
-    stopPlaceWithDepartures: StopPlaceWithDepartures
-    walkInfo?: WalkInfo
 }
 
 export { BusStopTile }

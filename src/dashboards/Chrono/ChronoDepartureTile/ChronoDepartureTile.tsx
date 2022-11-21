@@ -1,45 +1,68 @@
 import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { HeaderCell, Table, TableHead, TableRow } from '@entur/table'
-import { StopPlaceWithDepartures } from '../../../types'
+import { Loader } from '@entur/loader'
 import { ChronoTableRows } from '../ChronoTableRows/ChronoTableRows'
 import { useSettings } from '../../../settings/SettingsProvider'
-import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
 import { getIconColorType, getTransportHeaderIcons } from '../../../utils/icon'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
 import { Tile } from '../../../components/Tile/Tile'
+import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
+import {
+    filterHidden,
+    toDeparture,
+} from '../../../logic/use-stop-place-with-estimated-calls/departure'
+import { WalkTrip } from '../../../components/WalkTrip/WalkTrip'
+import { ErrorTile } from '../../../components/ErrorTile/ErrorTile'
 import classes from './ChronoDepartureTile.module.scss'
 
 interface ChronoDepartureTileProps {
-    stopPlaceWithDepartures: StopPlaceWithDepartures
-    walkInfo?: WalkInfo
-    isMobile?: boolean
-    numberOfTileRows?: number
+    stopPlaceId: string
 }
 
 const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
-    stopPlaceWithDepartures,
-    walkInfo,
-    isMobile = false,
-    numberOfTileRows = 7,
+    stopPlaceId,
 }) => {
-    const { departures, name } = stopPlaceWithDepartures
     const [settings] = useSettings()
-
-    const limitedDepartures = departures.slice(0, numberOfTileRows)
-    const visibleDepartures = isMobile ? limitedDepartures : departures
-
     const iconColorType = useMemo(
         () => getIconColorType(settings.theme),
         [settings.theme],
     )
 
+    const { stopPlaceWithEstimatedCalls, loading } =
+        useStopPlaceWithEstimatedCalls(stopPlaceId)
+
+    const departures = useMemo(
+        () =>
+            stopPlaceWithEstimatedCalls?.estimatedCalls
+                .map(toDeparture)
+                .filter(filterHidden(stopPlaceId, settings)) ?? [],
+        [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
+    )
+
+    if (loading) {
+        return (
+            <Tile className={classes.ChronoDepartureTile}>
+                <Loader>Laster</Loader>
+            </Tile>
+        )
+    }
+
+    if (!stopPlaceWithEstimatedCalls) {
+        return <ErrorTile className={classes.ChronoDepartureTile} />
+    }
+
     return (
         <Tile className={classes.ChronoDepartureTile}>
             <TileHeader
-                title={name}
+                title={stopPlaceWithEstimatedCalls.name}
                 icons={getTransportHeaderIcons(departures, iconColorType)}
-                walkInfo={!settings.hideWalkInfo ? walkInfo : undefined}
+            />
+            <WalkTrip
+                coordinates={{
+                    longitude: stopPlaceWithEstimatedCalls.longitude,
+                    latitude: stopPlaceWithEstimatedCalls.latitude,
+                }}
             />
             <Table fixed>
                 <TableHead className={classes.TableHead}>
@@ -81,7 +104,7 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
                     </TableRow>
                 </TableHead>
                 <ChronoTableRows
-                    visibleDepartures={visibleDepartures}
+                    visibleDepartures={departures}
                     hideSituations={settings.hideSituations}
                     hideTracks={settings.hideTracks}
                     iconColorType={iconColorType}
