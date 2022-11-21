@@ -17,6 +17,7 @@ import { TICKS } from '../utils'
 import { TimelineWalkMarker } from '../TimelineWalkMarker/TimelineWalkMarker'
 import { Mode } from '../../../../graphql-generated/journey-planner-v3'
 import { TimelineDeparture } from '../TimelineDeparture/TimelineDeparture'
+import { ErrorTile } from '../../../components/ErrorTile/ErrorTile'
 import classes from './TimelineTile.module.scss'
 
 const MODE_ORDER = ['rail', 'metro', 'tram', 'bus', 'water', 'air']
@@ -55,12 +56,16 @@ const TimelineTile: React.FC<Props> = ({ stopPlaceId }) => {
         [departures],
     )
 
-    if (!stopPlaceWithEstimatedCalls || loading) {
+    if (loading) {
         return (
             <Tile className={classes.TimelineTile}>
                 <Loader>Laster</Loader>
             </Tile>
         )
+    }
+
+    if (!stopPlaceWithEstimatedCalls) {
+        return <ErrorTile className={classes.TimelineTile} />
     }
 
     const coordinates = {
