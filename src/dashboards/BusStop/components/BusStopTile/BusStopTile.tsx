@@ -15,6 +15,7 @@ import {
     toDeparture,
 } from '../../../../logic/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from '../../../../components/WalkTrip/WalkTrip'
+import { ErrorTile } from '../../../../components/ErrorTile/ErrorTile'
 import classes from './BusStopTile.module.scss'
 
 interface Props {
@@ -39,12 +40,16 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
         [stopPlaceWithEstimatedCalls?.estimatedCalls, settings, stopPlaceId],
     )
 
-    if (!stopPlaceWithEstimatedCalls || loading) {
+    if (loading) {
         return (
             <Tile className={classes.BusStopTile}>
                 <Loader>Laster</Loader>
             </Tile>
         )
+    }
+
+    if (!stopPlaceWithEstimatedCalls) {
+        return <ErrorTile className={classes.BusStopTile} />
     }
 
     return (

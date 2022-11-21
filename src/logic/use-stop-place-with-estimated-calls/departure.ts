@@ -50,7 +50,7 @@ function toDeparture(estimatedCall: EstimatedCall): Departure {
 }
 
 /**
- * Create curried function that filters departures based on settings.hiddenRoutes and settings.hiddenStopModes
+ * Create higher-order function that filters departures based on settings.hiddenRoutes and settings.hiddenStopModes
  * @param stopPlaceId
  * @param settings
  */

@@ -77,22 +77,19 @@ const ChronoDashboard = (): JSX.Element | null => {
     )
     const scooters = useMobility(FormFactor.Scooter)
 
-    const { allStopPlaceIds, loading: allStopPlacesLoading } =
-        useAllStopPlaceIds()
+    const { allStopPlaceIds } = useAllStopPlaceIds()
 
     const numberOfCustomImages = settings.customImageTiles.filter(
         ({ id }) => !settings.hiddenCustomTileIds.includes(id),
     ).length
 
-    const numberOfStopPlaces = allStopPlaceIds?.length || 0
+    const numberOfStopPlaces = allStopPlaceIds.length
     const anyBikeRentalStations: number | undefined =
         bikeRentalStations && bikeRentalStations.length
 
     const maxWidthCols = COLS[breakpoint] || 1
 
-    const hasData = Boolean(
-        bikeRentalStations?.length || scooters?.length || allStopPlacesLoading,
-    )
+    const hasData = Boolean(bikeRentalStations?.length || scooters?.length)
 
     const bikeCol = anyBikeRentalStations ? 1 : 0
     const mapCol = settings.showMap ? 1 : 0
@@ -189,7 +186,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                 <WeatherTile className="tile" />
                             </div>
                         )}
-                        {(allStopPlaceIds || []).map((stopPlaceId, index) => (
+                        {allStopPlaceIds.map((stopPlaceId, index) => (
                             <div
                                 key={stopPlaceId}
                                 data-grid={getDataGrid(

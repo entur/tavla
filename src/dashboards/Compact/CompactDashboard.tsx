@@ -78,10 +78,9 @@ const CompactDashboard = (): JSX.Element | null => {
     )
     const scooters = useMobility(FormFactor.Scooter)
 
-    const { allStopPlaceIds, loading: allStopPlacesLoading } =
-        useAllStopPlaceIds()
+    const { allStopPlaceIds } = useAllStopPlaceIds()
 
-    const numberOfStopPlaces = allStopPlaceIds ? allStopPlaceIds.length : 0
+    const numberOfStopPlaces = allStopPlaceIds.length
     const anyBikeRentalStations: number | undefined =
         bikeRentalStations && bikeRentalStations.length
 
@@ -89,9 +88,7 @@ const CompactDashboard = (): JSX.Element | null => {
     const mapCol = settings.showMap ? 1 : 0
     const weatherCol = settings.showWeather ? 1 : 0
 
-    const hasData = Boolean(
-        bikeRentalStations?.length || scooters?.length || allStopPlacesLoading,
-    )
+    const hasData = Boolean(bikeRentalStations?.length || scooters?.length)
 
     const maxWidthCols = COLS[breakpoint] || 1
 
