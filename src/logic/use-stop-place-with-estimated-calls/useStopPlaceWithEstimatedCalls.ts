@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { ApolloError } from '@apollo/client'
-import { useStopPlaceWithDeparturesQuery } from '../../../graphql-generated/journey-planner-v3'
+import { useStopPlaceWithEstimatedCallsQuery } from '../../../graphql-generated/journey-planner-v3'
 import { REFRESH_INTERVAL } from '../../constants'
 import {
     StopPlaceWithEstimatedCalls,
@@ -16,7 +16,7 @@ interface UseStopPlaceWithEstimatedCalls {
 function useStopPlaceWithEstimatedCalls(
     stopPlaceId: string,
 ): UseStopPlaceWithEstimatedCalls {
-    const { data, loading, error } = useStopPlaceWithDeparturesQuery({
+    const { data, loading, error } = useStopPlaceWithEstimatedCallsQuery({
         pollInterval: REFRESH_INTERVAL,
         variables: {
             id: stopPlaceId,
