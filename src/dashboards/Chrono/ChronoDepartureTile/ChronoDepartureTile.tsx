@@ -13,6 +13,7 @@ import {
     toDeparture,
 } from '../../../logic/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from '../../../components/WalkTrip/WalkTrip'
+import { ErrorTile } from '../../../components/ErrorTile/ErrorTile'
 import classes from './ChronoDepartureTile.module.scss'
 
 interface ChronoDepartureTileProps {
@@ -39,12 +40,16 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
         [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
     )
 
-    if (!stopPlaceWithEstimatedCalls || loading) {
+    if (loading) {
         return (
             <Tile className={classes.ChronoDepartureTile}>
                 <Loader>Laster</Loader>
             </Tile>
         )
+    }
+
+    if (!stopPlaceWithEstimatedCalls) {
+        return <ErrorTile className={classes.ChronoDepartureTile} />
     }
 
     return (
