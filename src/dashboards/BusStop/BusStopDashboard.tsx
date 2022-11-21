@@ -15,7 +15,7 @@ const BusStopDashboard = (): JSX.Element | null => {
             stopPlacesWithDepartures={[{} as StopPlaceWithDepartures]}
         >
             <div>
-                {(allStopPlaceIds || []).map((stopPlaceId) => (
+                {allStopPlaceIds.map((stopPlaceId) => (
                     <div key={stopPlaceId}>
                         <BusStopTile stopPlaceId={stopPlaceId} />
                     </div>

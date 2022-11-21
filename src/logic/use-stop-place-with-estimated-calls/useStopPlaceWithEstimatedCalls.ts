@@ -7,7 +7,7 @@ import {
     toStopPlaceWithEstimatedCalls,
 } from './types'
 
-interface UseStopPlacesWithEstimatedCalls {
+interface UseStopPlaceWithEstimatedCalls {
     stopPlaceWithEstimatedCalls: StopPlaceWithEstimatedCalls | null
     loading: boolean
     error: ApolloError | undefined
@@ -15,7 +15,7 @@ interface UseStopPlacesWithEstimatedCalls {
 
 function useStopPlaceWithEstimatedCalls(
     stopPlaceId: string,
-): UseStopPlacesWithEstimatedCalls {
+): UseStopPlaceWithEstimatedCalls {
     const { data, loading, error } = useStopPlaceWithDeparturesQuery({
         pollInterval: REFRESH_INTERVAL,
         variables: {
