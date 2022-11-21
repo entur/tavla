@@ -5,8 +5,8 @@ import { FilterChip } from '@entur/chip'
 import { DrawableRoute, Line } from '../../../../types'
 import { transportModeNameMapper } from '../../../../utils/utils'
 import { filterMap } from '../../../../utils/array'
-import { getIcon } from '../../../../utils/icon'
 import { Settings } from '../../../../settings/settings'
+import { TransportModeIcon } from '../../../../components/TransportModeIcon/TransportModeIcon'
 import './linesPanel.scss'
 
 type PermanentLinesPanelProps = {
@@ -97,7 +97,9 @@ function PermanentLinesPanel({
                                     }
                                 >
                                     {publicCode}
-                                    {getIcon(transportMode)}
+                                    <TransportModeIcon
+                                        transportMode={transportMode}
+                                    />
                                 </FilterChip>
                             </div>
                         ),

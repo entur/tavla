@@ -3,11 +3,7 @@ import { groupBy } from 'lodash'
 import { Loader } from '@entur/loader'
 import { CompactTileRow } from '../CompactTileRow/CompactTileRow'
 import { useSettings } from '../../../settings/SettingsProvider'
-import {
-    getIcon,
-    getIconColorType,
-    getTransportHeaderIcons,
-} from '../../../utils/icon'
+import { getIconColorType, getTransportHeaderIcons } from '../../../utils/icon'
 import { Tile } from '../../../components/Tile/Tile'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
 import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
@@ -17,6 +13,7 @@ import {
 } from '../../../logic/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from '../../../components/WalkTrip/WalkTrip'
 import { createTileSubLabel } from '../../../utils/utils'
+import { TransportModeIcon } from '../../../components/TransportModeIcon/TransportModeIcon'
 import classes from './CompactDepartureTile.module.scss'
 
 interface CompactDepartureTileProps {
@@ -72,18 +69,18 @@ const CompactDepartureTile: React.FC<CompactDepartureTileProps> = ({
                 const firstLine = lines[0]
                 if (!firstLine) return
 
-                const icon = getIcon(
-                    firstLine.transportMode,
-                    iconColorType,
-                    firstLine.transportSubmode,
-                )
-
                 return (
                     <CompactTileRow
                         key={key}
                         label={key}
                         subLabels={lines.map(createTileSubLabel)}
-                        icon={icon}
+                        icon={
+                            <TransportModeIcon
+                                transportMode={firstLine.transportMode}
+                                iconColorType={iconColorType}
+                                transportSubmode={firstLine.transportSubmode}
+                            />
+                        }
                         hideSituations={settings.hideSituations}
                         hideTracks={settings.hideTracks}
                         platform={firstLine.quay?.publicCode}

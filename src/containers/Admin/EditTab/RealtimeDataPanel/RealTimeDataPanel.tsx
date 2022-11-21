@@ -8,7 +8,7 @@ import { Line } from '../../../../types'
 import { transportModeNameMapper } from '../../../../utils/utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { isTransport } from '../../../../utils/typeguards'
-import { getIcon } from '../../../../utils/icon'
+import { TransportModeIcon } from '../../../../components/TransportModeIcon/TransportModeIcon'
 import { PermanentLinesPanel } from './PermanentLinesPanel'
 import './linesPanel.scss'
 
@@ -188,7 +188,11 @@ const RealtimeDataPanel = ({
                                                     }
                                                 >
                                                     {publicCode}
-                                                    {getIcon(transportMode)}
+                                                    <TransportModeIcon
+                                                        transportMode={
+                                                            transportMode
+                                                        }
+                                                    />
                                                 </FilterChip>
                                             </div>
                                         ),

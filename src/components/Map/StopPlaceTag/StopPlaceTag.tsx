@@ -1,7 +1,8 @@
 import React from 'react'
 import { colors } from '@entur/tokens'
 import { IconColorType, StopPlaceWithDepartures } from '../../../types'
-import { getIcon, getIconColor } from '../../../utils/icon'
+import { getIconColor } from '../../../utils/icon'
+import { TransportModeIcon } from '../../TransportModeIcon/TransportModeIcon'
 import './StopPlaceTag.scss'
 
 const StopPlaceTag = ({ stopPlace, walkTime }: Props): JSX.Element => {
@@ -10,7 +11,12 @@ const StopPlaceTag = ({ stopPlace, walkTime }: Props): JSX.Element => {
     ]
 
     const icons = uniqueTypes.map((type) => ({
-        icon: getIcon(type, undefined, undefined, colors.brand.white),
+        icon: (
+            <TransportModeIcon
+                transportMode={type}
+                color={colors.brand.white}
+            />
+        ),
         color: getIconColor(type, IconColorType.DEFAULT, undefined),
     }))
     return (

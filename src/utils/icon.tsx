@@ -1,16 +1,6 @@
 import React from 'react'
 import { uniqWith } from 'lodash'
 import { colors } from '@entur/tokens'
-import {
-    BicycleIcon,
-    BusIcon,
-    CarferryIcon,
-    FerryIcon,
-    PlaneIcon,
-    SubwayIcon,
-    TrainIcon,
-    TramIcon,
-} from '@entur/icons'
 import { IconColorType, Theme } from '../types'
 import {
     Mode,
@@ -18,6 +8,7 @@ import {
     TransportSubmode,
 } from '../../graphql-generated/journey-planner-v3'
 import { Departure } from '../logic/use-stop-place-with-estimated-calls/departure'
+import { TransportModeIcon } from '../components/TransportModeIcon/TransportModeIcon'
 import { isNotNullOrUndefined } from './typeguards'
 
 function isSubModeAirportLink(subMode?: string): boolean {
@@ -48,9 +39,14 @@ function getTransportHeaderIcons(
             getTransportIconIdentifier(a.transportMode, a.transportSubmode) ===
             getTransportIconIdentifier(b.transportMode, b.transportSubmode),
     )
-        .map(({ transportMode, transportSubmode }) =>
-            getIcon(transportMode, iconColorType, transportSubmode),
-        )
+        .map(({ transportMode, transportSubmode }) => (
+            <TransportModeIcon
+                key={transportMode}
+                transportMode={transportMode}
+                iconColorType={iconColorType}
+                transportSubmode={transportSubmode}
+            />
+        ))
         .filter(isNotNullOrUndefined)
 }
 
@@ -131,36 +127,9 @@ function getTransportIconIdentifier(
     }
 }
 
-function getIcon(
-    mode: TransportMode,
-    iconColorType: IconColorType = IconColorType.CONTRAST,
-    subMode?: TransportSubmode,
-    color?: string,
-): JSX.Element | null {
-    const colorToUse = color ?? getIconColor(mode, iconColorType, subMode)
-
-    const identifier = getTransportIconIdentifier(mode, subMode)
-
-    switch (identifier) {
-        case 'bus':
-            return <BusIcon key={identifier} color={colorToUse} />
-        case 'bicycle':
-            return <BicycleIcon key={identifier} color={colorToUse} />
-        case 'carferry':
-            return <CarferryIcon key={identifier} color={colorToUse} />
-        case 'ferry':
-            return <FerryIcon key={identifier} color={colorToUse} />
-        case 'subway':
-            return <SubwayIcon key={identifier} color={colorToUse} />
-        case 'train':
-            return <TrainIcon key={identifier} color={colorToUse} />
-        case 'tram':
-            return <TramIcon key={identifier} color={colorToUse} />
-        case 'plane':
-            return <PlaneIcon key={identifier} color={colorToUse} />
-        default:
-            return null
-    }
+export {
+    getIconColorType,
+    getIconColor,
+    getTransportHeaderIcons,
+    getTransportIconIdentifier,
 }
-
-export { getIconColorType, getIconColor, getIcon, getTransportHeaderIcons }

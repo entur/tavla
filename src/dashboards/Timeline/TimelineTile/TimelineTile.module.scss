@@ -1,0 +1,25 @@
+.TimelineTile {
+    background-color: var(--tavla-box-background-color);
+    width: 100%;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    overflow: hidden;
+    border-radius: 1rem;
+    position: relative;
+
+    &:last-child {
+        margin-bottom: 5rem;
+    }
+}
+
+.Track {
+    height: 6rem;
+    position: relative;
+}
+
+.Line {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 3;
+}
