@@ -1,12 +1,15 @@
 import React from 'react'
 import { CustomTileType } from '../../types'
+import { Tile } from '../Tile/Tile'
 import { QRBox } from './QRBox'
-import './MobileAppQRTile.scss'
+import classes from './MobileAppQRTile.module.scss'
 
 const MobileAppQRTile = (): JSX.Element => (
-    <div className="tile tile__qr qr-tile-wrapper">
-        <text className="qr-tile-wrapper-title">Last ned Entur-appen!</text>
-        <div className="qr-tile-wrapper-flex">
+    <Tile>
+        <div className={classes.TitleWrapper}>
+            <text className={classes.Title}>Last ned Entur-appen!</text>
+        </div>
+        <div className={classes.Flex}>
             <QRBox
                 id="entur-app"
                 sourceUrl="https://apps.apple.com/no/app/entur-journey-planner/id1225135707"
@@ -22,6 +25,6 @@ const MobileAppQRTile = (): JSX.Element => (
                 displayName="entur-app-playstore"
             />
         </div>
-    </div>
+    </Tile>
 )
 export { MobileAppQRTile }
