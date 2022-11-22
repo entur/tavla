@@ -117,6 +117,7 @@ function NoTavlerAvailable(): JSX.Element {
                 image={duerLight}
                 callbackMessage="Lag en ny tavle"
                 callback={callback}
+                altText="Illustrasjon av flere duer som står og spiser frø"
             />
         </div>
     )
