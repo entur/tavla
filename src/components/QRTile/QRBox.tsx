@@ -13,7 +13,6 @@ const QRBox = ({ sourceUrl, description }: CustomTile): JSX.Element => {
         <div className={classes.Wrapper}>
             <div className={classes.Code}>
                 <QRCode
-                    className="qr-code"
                     value={sourceUrl}
                     size={80}
                     fgColor={
