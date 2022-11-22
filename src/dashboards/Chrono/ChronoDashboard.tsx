@@ -10,13 +10,14 @@ import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
-import { QRTile } from '../../components/QRTile/QRTile'
+import { QRBox } from '../../components/QRTile/QRBox'
 import { useSettings } from '../../settings/SettingsProvider'
 import { isMobileWeb } from '../../utils/utils'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { BikeTile } from '../../components/BikeTile/BikeTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
+import { MobileAppQRTile } from '../../components/QRTile/MobileAppQRTile'
 import { useAllStopPlaceIds } from '../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
 import { ChronoDepartureTile } from './ChronoDepartureTile/ChronoDepartureTile'
 import { MapTile } from './MapTile/MapTile'
@@ -31,6 +32,7 @@ function getDataGrid(
     maxWidth: number,
     maxHeigth = 0,
     height = 4,
+    y = 0,
 ): { [key: string]: number } {
     const dataGrid = {
         w: 1,
@@ -38,7 +40,7 @@ function getDataGrid(
         minH: 1,
         h: height,
         x: index % maxWidth,
-        y: 0,
+        y,
     }
     return !maxHeigth ? dataGrid : { ...dataGrid, maxH: maxHeigth }
 }
@@ -173,6 +175,21 @@ const ChronoDashboard = (): JSX.Element | null => {
                             }
                         }}
                     >
+                        {settings.showMobileAppQrTile && (
+                            <div
+                                key="qr"
+                                data-grid={getDataGrid(
+                                    maxWidthCols - 1,
+                                    maxWidthCols,
+                                    1.8,
+                                    1.8,
+                                    Infinity,
+                                )}
+                            >
+                                <MobileAppQRTile />
+                            </div>
+                        )}
+
                         {settings.showWeather && (
                             <div
                                 key="weather"
@@ -300,7 +317,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                                 variant="light"
                                             />
                                         ) : null}
-                                        <QRTile {...qrTile} />
+                                        <QRBox {...qrTile} />
                                     </div>
                                 </div>
                             ))}

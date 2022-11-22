@@ -14,10 +14,10 @@ import { useSettings } from '../../settings/SettingsProvider'
 import { BREAKPOINTS } from '../../constants'
 import { isMobileWeb } from '../../utils/utils'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
-import { QRTile } from '../../components/QRTile/QRTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { BikeTile } from '../../components/BikeTile/BikeTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
+import { MobileAppQRTile } from '../../components/QRTile/MobileAppQRTile'
 import { CompactDepartureTile } from './CompactDepartureTile/CompactDepartureTile'
 import { MapTile } from './MapTile/MapTile'
 import './CompactDashboard.scss'
@@ -31,6 +31,7 @@ function getDataGrid(
     maxWidth: number,
     maxHeigth = 0,
     height = 4,
+    y = 0,
 ): { [key: string]: number } {
     const dataGrid = {
         w: 1,
@@ -38,7 +39,7 @@ function getDataGrid(
         minH: 1,
         h: height,
         x: index % maxWidth,
-        y: 0,
+        y,
     }
     return !maxHeigth ? dataGrid : { ...dataGrid, maxH: maxHeigth }
 }
@@ -166,10 +167,24 @@ const CompactDashboard = (): JSX.Element | null => {
                             }
                         }}
                     >
+                        {settings.showMobileAppQrTile && (
+                            <div
+                                key="qr"
+                                data-grid={getDataGrid(
+                                    maxWidthCols - 1,
+                                    maxWidthCols,
+                                    1.8,
+                                    1.8,
+                                    Infinity,
+                                )}
+                            >
+                                <MobileAppQRTile />
+                            </div>
+                        )}
                         {settings.showWeather && (
                             <div
                                 key="weather"
-                                data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
+                                data-grid={getDataGrid(0, maxWidthCols, 1, 1)}
                             >
                                 <ResizeHandle
                                     size="32"
@@ -293,9 +308,7 @@ const CompactDashboard = (): JSX.Element | null => {
                                             variant="light"
                                         />
                                     ) : null}
-                                    <div className="tile">
-                                        <QRTile {...qrTile} />
-                                    </div>
+                                    <div className="tile"></div>
                                 </div>
                             ))}
                     </ResponsiveReactGridLayout>
