@@ -1,0 +1,53 @@
+@use '../../../assets/styles/Variables.scss';
+
+.Departure {
+    position: absolute;
+    text-align: center;
+    transition: 1s all;
+    bottom: 0;
+    z-index: 4;
+}
+
+.DepartureIcon {
+    animation: pulse 2s;
+    animation-iteration-count: infinite;
+}
+
+.Label {
+    background-color: white;
+    padding: 4px;
+    color: black;
+    border-radius: 1px;
+    height: 2rem;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: Variables.$shadows-card-shadow;
+
+    &::after {
+        content: '';
+        display: block;
+        background-color: white;
+        position: absolute;
+        height: 10px;
+        width: 10px;
+        transform: rotate(45deg);
+        top: 26px;
+        left: calc(50% - 5px);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

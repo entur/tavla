@@ -1,17 +1,19 @@
 import { TransportMode } from '../../graphql-generated/journey-planner-v3'
 import { TranslatedString } from '../../graphql-generated/mobility-v2'
-import { LineData, Theme, TileSubLabel } from '../types'
+import { Theme, TileSubLabel } from '../types'
+import { Departure } from '../logic/use-stop-place-with-estimated-calls/departure'
 
 export function createTileSubLabel({
-    situation,
-    hasCancellation,
+    situations,
+    cancellation,
     time,
     departureTime,
-}: LineData): TileSubLabel {
+}: Departure): TileSubLabel {
+    const situation = situations[0]?.summary[0]?.value
     return {
         situation,
         hasSituation: Boolean(situation),
-        hasCancellation,
+        hasCancellation: cancellation,
         time,
         departureTime,
     }

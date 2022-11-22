@@ -1,0 +1,11 @@
+.TimelineDashboard {
+    user-select: none;
+    padding: 2rem 4rem;
+}
+
+@media (max-width: 1000px) {
+    .TimelineDashboard {
+        padding: 1rem;
+        overflow: hidden;
+    }
+}

@@ -9,7 +9,7 @@ import { Direction, StopPlaceWithDepartures } from '../../types'
 import { useCounter } from '../../hooks/useCounter'
 import {
     UseMobility_VehicleFragment,
-    UseRentalStations_StationFragment,
+    StationFragment,
 } from '../../../graphql-generated/mobility-v2'
 import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
 import { useReloadTavleOnUpdate } from '../../hooks/useReloadTavleOnUpdate'
@@ -22,7 +22,7 @@ import './DashboardWrapper.scss'
 
 interface DashboardWrapperProps {
     stopPlacesWithDepartures?: StopPlaceWithDepartures[] | null
-    bikeRentalStations?: UseRentalStations_StationFragment[] | null
+    bikeRentalStations?: StationFragment[] | null
     scooters?: UseMobility_VehicleFragment[] | null
     className: string
     children: JSX.Element | JSX.Element[]

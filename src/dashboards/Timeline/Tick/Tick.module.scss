@@ -1,0 +1,11 @@
+.Tick {
+    margin-top: 5px;
+}
+
+.LegBone {
+    margin-right: 0.125rem;
+
+    > * {
+        min-width: unset;
+    }
+}

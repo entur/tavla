@@ -1,4 +1,4 @@
-fragment UseNearestPlaces_EdgeFragment on placeAtDistanceEdge {
+fragment PlaceAtDistanceEdgeFragment on placeAtDistanceEdge {
     node {
         distance
         place {
@@ -10,7 +10,7 @@ fragment UseNearestPlaces_EdgeFragment on placeAtDistanceEdge {
     }
 }
 
-query NearestPlaces(
+query NearestStopPlaces(
     $latitude: Float!
     $longitude: Float!
     $maximumDistance: Float!
@@ -25,7 +25,7 @@ query NearestPlaces(
         multiModalMode: $multiModalMode
     ) {
         edges {
-            ...UseNearestPlaces_EdgeFragment
+            ...PlaceAtDistanceEdgeFragment
         }
     }
 }

@@ -1,4 +1,4 @@
-fragment UseRentalStations_StationFragment on Station {
+fragment StationFragment on Station {
     id
     name {
         translation {
@@ -18,7 +18,7 @@ query UseRentalStations_StationsById (
     stationsById(
         ids: $stationIds
     ) {
-        ...UseRentalStations_StationFragment
+        ...StationFragment
     }
 }
 

@@ -24,6 +24,7 @@ export type Scalars = {
   Date: Date;
   DateTime: DateTime;
   DoubleFunction: DoubleFunction;
+  Duration: any;
   LocalTime: LocalTime;
   Long: Long;
   Time: Time;
@@ -882,6 +883,11 @@ export type QueryType = {
   stopPlacesByBbox: Array<Maybe<StopPlace>>;
   /** Input type for executing a travel search for a trip between two locations. Returns trip patterns describing suggested alternatives for the trip. */
   trip: Trip;
+  /**
+   * Input type for executing a travel search for a trip between three or more locations. Returns trip patterns describing suggested alternatives for the trip.
+   * @deprecated This API is under development, expect the contract to change
+   */
+  viaTrip: ViaTrip;
 };
 
 
@@ -1088,6 +1094,20 @@ export type QueryTypeTripArgs = {
   walkSpeed?: InputMaybe<Scalars['Float']>;
   wheelchairAccessible?: InputMaybe<Scalars['Boolean']>;
   whiteListed?: InputMaybe<InputWhiteListed>;
+};
+
+
+export type QueryTypeViaTripArgs = {
+  dateTime?: InputMaybe<Scalars['DateTime']>;
+  from: Location;
+  locale?: InputMaybe<Locale>;
+  numTripPatterns?: InputMaybe<Scalars['Int']>;
+  pageCursor?: InputMaybe<Scalars['String']>;
+  searchWindow: Scalars['Duration'];
+  to: Location;
+  viaLocations: Array<ViaLocation>;
+  viaRequests?: InputMaybe<Array<ViaRequest>>;
+  wheelchairAccessible?: InputMaybe<Scalars['Boolean']>;
 };
 
 export enum RealtimeState {
@@ -1795,6 +1815,36 @@ export enum VertexType {
   Transit = 'transit'
 }
 
+/** Input format for specifying a location through either a place reference (id), coordinates or both. If both place and coordinates are provided the place ref will be used if found, coordinates will only be used if place is not known. */
+export type ViaLocation = {
+  /** Coordinates for the location. This can be used alone or as fallback if the place id is not found. */
+  coordinates?: InputMaybe<InputCoordinates>;
+  /** The maximum time the user wants to stay in the via location before continuing his journey */
+  maxSlack?: InputMaybe<Scalars['Duration']>;
+  /** The minimum time the user wants to stay in the via location before continuing his journey */
+  minSlack?: InputMaybe<Scalars['Duration']>;
+  /** The name of the location. This is pass-through informationand is not used in routing. */
+  name?: InputMaybe<Scalars['String']>;
+  /** The id of an element in the OTP model. Currently supports Quay, StopPlace, multimodal StopPlace, and GroupOfStopPlaces. */
+  place?: InputMaybe<Scalars['String']>;
+};
+
+export type ViaRequest = {
+  /** The set of access/egress/direct/transit modes to be used for this search. Note that this only works at the Line level. If individual ServiceJourneys have modes that differ from the Line mode, this will NOT be accounted for. */
+  modes?: InputMaybe<Modes>;
+};
+
+/** Description of a travel between three or more places. */
+export type ViaTrip = {
+  __typename?: 'ViaTrip';
+  /** A list of routing errors, and fields which caused them */
+  routingErrors: Array<RoutingError>;
+  /** A list of lists of which indices of the next segment the trip pattern can be combined with */
+  tripPatternCombinations: Array<Array<Array<Scalars['Int']>>>;
+  /** A list of lists of the trip patterns for each segment of the journey */
+  tripPatterns: Array<Array<TripPattern>>;
+};
+
 export enum WheelchairBoarding {
   /** There is no accessibility information for the stopPlace/quay. */
   NoInformation = 'noInformation',
@@ -1860,9 +1910,9 @@ export type GetStopPlacesQueryVariables = Exact<{
 
 export type GetStopPlacesQuery = { __typename?: 'QueryType', stopPlaces: Array<{ __typename?: 'StopPlace', id: string, name: string, description: string | null, latitude: number | null, longitude: number | null, transportMode: Array<TransportMode | null> | null, transportSubmode: Array<TransportSubmode | null> | null, estimatedCalls: Array<{ __typename?: 'EstimatedCall', destinationDisplay: { __typename?: 'DestinationDisplay', frontText: string | null } | null, serviceJourney: { __typename?: 'ServiceJourney', line: { __typename?: 'Line', id: string, transportMode: TransportMode | null, transportSubmode: TransportSubmode | null, publicCode: string | null }, pointsOnLink: { __typename?: 'PointsOnLink', points: string | null } | null } | null }> } | null> };
 
-export type UseNearestPlaces_EdgeFragment = { __typename?: 'placeAtDistanceEdge', node: { __typename?: 'PlaceAtDistance', distance: number | null, place: { __typename: 'BikePark', id: string, latitude: number | null, longitude: number | null } | { __typename: 'BikeRentalStation', id: string, latitude: number | null, longitude: number | null } | { __typename: 'Quay', id: string, latitude: number | null, longitude: number | null } | { __typename: 'RentalVehicle', id: string, latitude: number, longitude: number } | { __typename: 'StopPlace', id: string, latitude: number | null, longitude: number | null } | null } | null };
+export type PlaceAtDistanceEdgeFragment = { __typename?: 'placeAtDistanceEdge', node: { __typename?: 'PlaceAtDistance', distance: number | null, place: { __typename: 'BikePark', id: string, latitude: number | null, longitude: number | null } | { __typename: 'BikeRentalStation', id: string, latitude: number | null, longitude: number | null } | { __typename: 'Quay', id: string, latitude: number | null, longitude: number | null } | { __typename: 'RentalVehicle', id: string, latitude: number, longitude: number } | { __typename: 'StopPlace', id: string, latitude: number | null, longitude: number | null } | null } | null };
 
-export type NearestPlacesQueryVariables = Exact<{
+export type NearestStopPlacesQueryVariables = Exact<{
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   maximumDistance: Scalars['Float'];
@@ -1871,7 +1921,16 @@ export type NearestPlacesQueryVariables = Exact<{
 }>;
 
 
-export type NearestPlacesQuery = { __typename?: 'QueryType', nearest: { __typename?: 'placeAtDistanceConnection', edges: Array<{ __typename?: 'placeAtDistanceEdge', node: { __typename?: 'PlaceAtDistance', distance: number | null, place: { __typename: 'BikePark', id: string, latitude: number | null, longitude: number | null } | { __typename: 'BikeRentalStation', id: string, latitude: number | null, longitude: number | null } | { __typename: 'Quay', id: string, latitude: number | null, longitude: number | null } | { __typename: 'RentalVehicle', id: string, latitude: number, longitude: number } | { __typename: 'StopPlace', id: string, latitude: number | null, longitude: number | null } | null } | null } | null> | null } | null };
+export type NearestStopPlacesQuery = { __typename?: 'QueryType', nearest: { __typename?: 'placeAtDistanceConnection', edges: Array<{ __typename?: 'placeAtDistanceEdge', node: { __typename?: 'PlaceAtDistance', distance: number | null, place: { __typename: 'BikePark', id: string, latitude: number | null, longitude: number | null } | { __typename: 'BikeRentalStation', id: string, latitude: number | null, longitude: number | null } | { __typename: 'Quay', id: string, latitude: number | null, longitude: number | null } | { __typename: 'RentalVehicle', id: string, latitude: number, longitude: number } | { __typename: 'StopPlace', id: string, latitude: number | null, longitude: number | null } | null } | null } | null> | null } | null };
+
+export type StopPlaceWithEstimatedCallsFragment = { __typename?: 'StopPlace', id: string, name: string, description: string | null, latitude: number | null, longitude: number | null, transportMode: Array<TransportMode | null> | null, transportSubmode: Array<TransportSubmode | null> | null, estimatedCalls: Array<{ __typename?: 'EstimatedCall', aimedDepartureTime: DateTime, cancellation: boolean, date: Date | null, expectedDepartureTime: DateTime, destinationDisplay: { __typename?: 'DestinationDisplay', frontText: string | null } | null, quay: { __typename?: 'Quay', id: string, name: string, publicCode: string | null } | null, serviceJourney: { __typename?: 'ServiceJourney', id: string, transportSubmode: TransportSubmode | null, journeyPattern: { __typename?: 'JourneyPattern', line: { __typename?: 'Line', publicCode: string | null, transportMode: TransportMode | null } } | null } | null, situations: Array<{ __typename?: 'PtSituationElement', summary: Array<{ __typename?: 'MultilingualString', value: string }> }> }> };
+
+export type StopPlaceWithEstimatedCallsQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type StopPlaceWithEstimatedCallsQuery = { __typename?: 'QueryType', stopPlace: { __typename?: 'StopPlace', id: string, name: string, description: string | null, latitude: number | null, longitude: number | null, transportMode: Array<TransportMode | null> | null, transportSubmode: Array<TransportSubmode | null> | null, estimatedCalls: Array<{ __typename?: 'EstimatedCall', aimedDepartureTime: DateTime, cancellation: boolean, date: Date | null, expectedDepartureTime: DateTime, destinationDisplay: { __typename?: 'DestinationDisplay', frontText: string | null } | null, quay: { __typename?: 'Quay', id: string, name: string, publicCode: string | null } | null, serviceJourney: { __typename?: 'ServiceJourney', id: string, transportSubmode: TransportSubmode | null, journeyPattern: { __typename?: 'JourneyPattern', line: { __typename?: 'Line', publicCode: string | null, transportMode: TransportMode | null } } | null } | null, situations: Array<{ __typename?: 'PtSituationElement', summary: Array<{ __typename?: 'MultilingualString', value: string }> }> }> } | null };
 
 export type GetStopPlacesWithDeparturesQueryVariables = Exact<{
   ids: Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>;
@@ -1888,7 +1947,16 @@ export type GetWalkInfoQueryVariables = Exact<{
 
 export type GetWalkInfoQuery = { __typename?: 'QueryType', trip: { __typename?: 'Trip', tripPatterns: Array<{ __typename?: 'TripPattern', duration: Long | null, walkDistance: number | null }> } };
 
-export const UseNearestPlaces_EdgeFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UseNearestPlaces_EdgeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"placeAtDistanceEdge"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"distance"}},{"kind":"Field","name":{"kind":"Name","value":"place"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]}}]} as unknown as DocumentNode;
+export type WalkTripQueryVariables = Exact<{
+  from: Location;
+  to: Location;
+}>;
+
+
+export type WalkTripQuery = { __typename?: 'QueryType', trip: { __typename?: 'Trip', tripPatterns: Array<{ __typename?: 'TripPattern', duration: Long | null, walkDistance: number | null }> } };
+
+export const PlaceAtDistanceEdgeFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaceAtDistanceEdgeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"placeAtDistanceEdge"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"distance"}},{"kind":"Field","name":{"kind":"Name","value":"place"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]}}]} as unknown as DocumentNode;
+export const StopPlaceWithEstimatedCallsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StopPlaceWithEstimatedCallsFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"StopPlace"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}},{"kind":"Field","name":{"kind":"Name","value":"estimatedCalls"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"numberOfDepartures"},"value":{"kind":"IntValue","value":"200"}},{"kind":"Argument","name":{"kind":"Name","value":"timeRange"},"value":{"kind":"IntValue","value":"172800"}},{"kind":"Argument","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"},"value":{"kind":"IntValue","value":"20"}},{"kind":"Argument","name":{"kind":"Name","value":"arrivalDeparture"},"value":{"kind":"EnumValue","value":"departures"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aimedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"cancellation"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"destinationDisplay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"expectedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"quay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"serviceJourney"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"journeyPattern"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicCode"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"situations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 export const GetStopPlacesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getStopPlaces"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlaces"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}},{"kind":"Field","name":{"kind":"Name","value":"estimatedCalls"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"},"value":{"kind":"IntValue","value":"1"}},{"kind":"Argument","name":{"kind":"Name","value":"timeRange"},"value":{"kind":"IntValue","value":"604800"}},{"kind":"Argument","name":{"kind":"Name","value":"numberOfDepartures"},"value":{"kind":"IntValue","value":"200"}},{"kind":"Argument","name":{"kind":"Name","value":"arrivalDeparture"},"value":{"kind":"EnumValue","value":"departures"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"destinationDisplay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"serviceJourney"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pointsOnLink"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"points"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
@@ -1918,19 +1986,19 @@ export function useGetStopPlacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetStopPlacesQueryHookResult = ReturnType<typeof useGetStopPlacesQuery>;
 export type GetStopPlacesLazyQueryHookResult = ReturnType<typeof useGetStopPlacesLazyQuery>;
 export type GetStopPlacesQueryResult = Apollo.QueryResult<GetStopPlacesQuery, GetStopPlacesQueryVariables>;
-export const NearestPlacesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NearestPlaces"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"latitude"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"longitude"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"maximumDistance"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filterByPlaceTypes"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FilterPlaceType"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"multiModalMode"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"MultiModalMode"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nearest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"latitude"},"value":{"kind":"Variable","name":{"kind":"Name","value":"latitude"}}},{"kind":"Argument","name":{"kind":"Name","value":"longitude"},"value":{"kind":"Variable","name":{"kind":"Name","value":"longitude"}}},{"kind":"Argument","name":{"kind":"Name","value":"maximumDistance"},"value":{"kind":"Variable","name":{"kind":"Name","value":"maximumDistance"}}},{"kind":"Argument","name":{"kind":"Name","value":"filterByPlaceTypes"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filterByPlaceTypes"}}},{"kind":"Argument","name":{"kind":"Name","value":"multiModalMode"},"value":{"kind":"Variable","name":{"kind":"Name","value":"multiModalMode"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UseNearestPlaces_EdgeFragment"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UseNearestPlaces_EdgeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"placeAtDistanceEdge"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"distance"}},{"kind":"Field","name":{"kind":"Name","value":"place"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]}}]} as unknown as DocumentNode;
+export const NearestStopPlacesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NearestStopPlaces"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"latitude"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"longitude"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"maximumDistance"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filterByPlaceTypes"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FilterPlaceType"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"multiModalMode"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"MultiModalMode"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nearest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"latitude"},"value":{"kind":"Variable","name":{"kind":"Name","value":"latitude"}}},{"kind":"Argument","name":{"kind":"Name","value":"longitude"},"value":{"kind":"Variable","name":{"kind":"Name","value":"longitude"}}},{"kind":"Argument","name":{"kind":"Name","value":"maximumDistance"},"value":{"kind":"Variable","name":{"kind":"Name","value":"maximumDistance"}}},{"kind":"Argument","name":{"kind":"Name","value":"filterByPlaceTypes"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filterByPlaceTypes"}}},{"kind":"Argument","name":{"kind":"Name","value":"multiModalMode"},"value":{"kind":"Variable","name":{"kind":"Name","value":"multiModalMode"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaceAtDistanceEdgeFragment"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaceAtDistanceEdgeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"placeAtDistanceEdge"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"distance"}},{"kind":"Field","name":{"kind":"Name","value":"place"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
- * __useNearestPlacesQuery__
+ * __useNearestStopPlacesQuery__
  *
- * To run a query within a React component, call `useNearestPlacesQuery` and pass it any options that fit your needs.
- * When your component renders, `useNearestPlacesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useNearestStopPlacesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNearestStopPlacesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useNearestPlacesQuery({
+ * const { data, loading, error } = useNearestStopPlacesQuery({
  *   variables: {
  *      latitude: // value for 'latitude'
  *      longitude: // value for 'longitude'
@@ -1940,17 +2008,46 @@ export const NearestPlacesDocument = {"kind":"Document","definitions":[{"kind":"
  *   },
  * });
  */
-export function useNearestPlacesQuery(baseOptions: Apollo.QueryHookOptions<NearestPlacesQuery, NearestPlacesQueryVariables>) {
+export function useNearestStopPlacesQuery(baseOptions: Apollo.QueryHookOptions<NearestStopPlacesQuery, NearestStopPlacesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<NearestPlacesQuery, NearestPlacesQueryVariables>(NearestPlacesDocument, options);
+        return Apollo.useQuery<NearestStopPlacesQuery, NearestStopPlacesQueryVariables>(NearestStopPlacesDocument, options);
       }
-export function useNearestPlacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NearestPlacesQuery, NearestPlacesQueryVariables>) {
+export function useNearestStopPlacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NearestStopPlacesQuery, NearestStopPlacesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<NearestPlacesQuery, NearestPlacesQueryVariables>(NearestPlacesDocument, options);
+          return Apollo.useLazyQuery<NearestStopPlacesQuery, NearestStopPlacesQueryVariables>(NearestStopPlacesDocument, options);
         }
-export type NearestPlacesQueryHookResult = ReturnType<typeof useNearestPlacesQuery>;
-export type NearestPlacesLazyQueryHookResult = ReturnType<typeof useNearestPlacesLazyQuery>;
-export type NearestPlacesQueryResult = Apollo.QueryResult<NearestPlacesQuery, NearestPlacesQueryVariables>;
+export type NearestStopPlacesQueryHookResult = ReturnType<typeof useNearestStopPlacesQuery>;
+export type NearestStopPlacesLazyQueryHookResult = ReturnType<typeof useNearestStopPlacesLazyQuery>;
+export type NearestStopPlacesQueryResult = Apollo.QueryResult<NearestStopPlacesQuery, NearestStopPlacesQueryVariables>;
+export const StopPlaceWithEstimatedCallsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StopPlaceWithEstimatedCalls"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"StopPlaceWithEstimatedCallsFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StopPlaceWithEstimatedCallsFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"StopPlace"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}},{"kind":"Field","name":{"kind":"Name","value":"estimatedCalls"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"numberOfDepartures"},"value":{"kind":"IntValue","value":"200"}},{"kind":"Argument","name":{"kind":"Name","value":"timeRange"},"value":{"kind":"IntValue","value":"172800"}},{"kind":"Argument","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"},"value":{"kind":"IntValue","value":"20"}},{"kind":"Argument","name":{"kind":"Name","value":"arrivalDeparture"},"value":{"kind":"EnumValue","value":"departures"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aimedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"cancellation"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"destinationDisplay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"expectedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"quay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"serviceJourney"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"journeyPattern"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicCode"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"situations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useStopPlaceWithEstimatedCallsQuery__
+ *
+ * To run a query within a React component, call `useStopPlaceWithEstimatedCallsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStopPlaceWithEstimatedCallsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStopPlaceWithEstimatedCallsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useStopPlaceWithEstimatedCallsQuery(baseOptions: Apollo.QueryHookOptions<StopPlaceWithEstimatedCallsQuery, StopPlaceWithEstimatedCallsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<StopPlaceWithEstimatedCallsQuery, StopPlaceWithEstimatedCallsQueryVariables>(StopPlaceWithEstimatedCallsDocument, options);
+      }
+export function useStopPlaceWithEstimatedCallsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<StopPlaceWithEstimatedCallsQuery, StopPlaceWithEstimatedCallsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<StopPlaceWithEstimatedCallsQuery, StopPlaceWithEstimatedCallsQueryVariables>(StopPlaceWithEstimatedCallsDocument, options);
+        }
+export type StopPlaceWithEstimatedCallsQueryHookResult = ReturnType<typeof useStopPlaceWithEstimatedCallsQuery>;
+export type StopPlaceWithEstimatedCallsLazyQueryHookResult = ReturnType<typeof useStopPlaceWithEstimatedCallsLazyQuery>;
+export type StopPlaceWithEstimatedCallsQueryResult = Apollo.QueryResult<StopPlaceWithEstimatedCallsQuery, StopPlaceWithEstimatedCallsQueryVariables>;
 export const GetStopPlacesWithDeparturesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getStopPlacesWithDepartures"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlaces"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}},{"kind":"Field","name":{"kind":"Name","value":"estimatedCalls"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"numberOfDepartures"},"value":{"kind":"IntValue","value":"200"}},{"kind":"Argument","name":{"kind":"Name","value":"timeRange"},"value":{"kind":"IntValue","value":"172800"}},{"kind":"Argument","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"},"value":{"kind":"IntValue","value":"20"}},{"kind":"Argument","name":{"kind":"Name","value":"arrivalDeparture"},"value":{"kind":"EnumValue","value":"departures"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aimedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"cancellation"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"destinationDisplay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"expectedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"quay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"serviceJourney"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"journeyPattern"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicCode"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"situations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
@@ -2010,3 +2107,33 @@ export function useGetWalkInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetWalkInfoQueryHookResult = ReturnType<typeof useGetWalkInfoQuery>;
 export type GetWalkInfoLazyQueryHookResult = ReturnType<typeof useGetWalkInfoLazyQuery>;
 export type GetWalkInfoQueryResult = Apollo.QueryResult<GetWalkInfoQuery, GetWalkInfoQueryVariables>;
+export const WalkTripDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"WalkTrip"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"from"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"to"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trip"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"from"},"value":{"kind":"Variable","name":{"kind":"Name","value":"from"}}},{"kind":"Argument","name":{"kind":"Name","value":"to"},"value":{"kind":"Variable","name":{"kind":"Name","value":"to"}}},{"kind":"Argument","name":{"kind":"Name","value":"modes"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"directMode"},"value":{"kind":"EnumValue","value":"foot"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"numTripPatterns"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tripPatterns"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"walkDistance"}}]}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useWalkTripQuery__
+ *
+ * To run a query within a React component, call `useWalkTripQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWalkTripQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWalkTripQuery({
+ *   variables: {
+ *      from: // value for 'from'
+ *      to: // value for 'to'
+ *   },
+ * });
+ */
+export function useWalkTripQuery(baseOptions: Apollo.QueryHookOptions<WalkTripQuery, WalkTripQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WalkTripQuery, WalkTripQueryVariables>(WalkTripDocument, options);
+      }
+export function useWalkTripLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WalkTripQuery, WalkTripQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WalkTripQuery, WalkTripQueryVariables>(WalkTripDocument, options);
+        }
+export type WalkTripQueryHookResult = ReturnType<typeof useWalkTripQuery>;
+export type WalkTripLazyQueryHookResult = ReturnType<typeof useWalkTripLazyQuery>;
+export type WalkTripQueryResult = Apollo.QueryResult<WalkTripQuery, WalkTripQueryVariables>;

@@ -1,10 +1,10 @@
-import { number, string, type, is } from 'superstruct'
-import { UseNearestPlaces_EdgeFragment } from '../../../graphql-generated/journey-planner-v3'
+import { number, string, type, is, literal } from 'superstruct'
+import { PlaceAtDistanceEdgeFragment } from '../../../graphql-generated/journey-planner-v3'
 
-interface NearestPlace {
+interface NearestStopPlace {
     id: string
     distance: number
-    type: string
+    type: 'StopPlace'
     latitude: number
     longitude: number
 }
@@ -13,7 +13,7 @@ const EdgeStruct = type({
     node: type({
         distance: number(),
         place: type({
-            __typename: string(),
+            __typename: literal('StopPlace'),
             id: string(),
             latitude: number(),
             longitude: number(),
@@ -21,12 +21,12 @@ const EdgeStruct = type({
     }),
 })
 
-const toEdge = (edgeFragment: UseNearestPlaces_EdgeFragment | null) => {
+const toEdge = (edgeFragment: PlaceAtDistanceEdgeFragment | null) => {
     if (is(edgeFragment, EdgeStruct)) {
         return edgeFragment
     }
-    return undefined
+    return null
 }
 
 export { toEdge, EdgeStruct }
-export type { NearestPlace }
+export type { NearestStopPlace }

@@ -5,7 +5,7 @@ import {
     FormFactor,
     useUseRentalStations_StationsByIdLazyQuery,
     useUseRentalStations_NearbyStationsLazyQuery,
-    UseRentalStations_StationFragment,
+    StationFragment,
 } from '../../../graphql-generated/mobility-v2'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
 
@@ -13,7 +13,7 @@ function useRentalStations(
     excludeHiddenStations = true,
     formFactor: FormFactor | undefined = undefined,
     isDisabled = false,
-): UseRentalStations_StationFragment[] {
+): StationFragment[] {
     const [settings] = useSettings()
 
     const [getNearbyStations, { data: getNearByStationsData }] =
