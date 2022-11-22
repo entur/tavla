@@ -29,7 +29,6 @@ const QRBox = ({ sourceUrl, description }: CustomTile): JSX.Element => {
                     {description}
                 </Paragraph>
             )}
-            <Link className={classes.Link}>{sourceUrl}</Link>
         </div>
     )
 }
