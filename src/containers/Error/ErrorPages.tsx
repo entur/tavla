@@ -155,7 +155,7 @@ function NoAccessToTavler(): JSX.Element {
                 title="Dine tavler venter!"
                 message="Du må logge inn for å se oversikten over tavlene dine. Trykk på knappen nedenfor for å logge inn."
                 image={sikkerhetBomLight}
-                altText="Illustrasjon av en låst bom"
+                altText="Illustrasjon av en bom som er lukket, slik at du ikke kan passere"
                 callbackMessage="Logg inn"
                 callback={callback}
             />
