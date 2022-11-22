@@ -81,10 +81,7 @@ function BoardCard({
         <div className={`board-card ${className ? className : ''}`}>
             <Link to={`/t/${id}`}>
                 <div className="board-card__preview">
-                    <img
-                        src={preview[`${dashboardType}`]}
-                        alt=""
-                    />
+                    <img src={preview[`${dashboardType}`]} alt="" />
                 </div>
             </Link>
 

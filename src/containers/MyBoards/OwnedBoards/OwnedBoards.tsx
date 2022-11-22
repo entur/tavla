@@ -24,10 +24,7 @@ const OwnedBoards = ({ boards, user, preview }: Props): JSX.Element => (
             <div className="add-board-card">
                 <Link to="/">
                     <div className="add-board-card__preview">
-                        <img
-                            src={preview['Chrono']}
-                            alt=""
-                        />
+                        <img src={preview['Chrono']} alt="" />
                         <AddIcon
                             size="3rem"
                             className="add-board-card__preview__icon"
