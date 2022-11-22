@@ -96,6 +96,7 @@ function NoStopsOnTavle(): JSX.Element {
                 title="Nå havnet vi på ville veier."
                 message="Vi finner ingen stoppesteder å vise på denne tavla. Rediger tavla eller prøv et nytt søk."
                 image={sauerLight}
+                altText="Illustrasjon av flere sauer som står på en toglinje"
                 theme={settings.theme}
             />
         </div>
