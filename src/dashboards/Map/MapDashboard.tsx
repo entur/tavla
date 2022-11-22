@@ -6,15 +6,18 @@ import {
     useWalkInfo,
     useMobility,
 } from '../../logic'
+import { useAllStopPlaceIds } from '../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
 import { Map } from '../../components/Map/Map'
 import { useSettings } from '../../settings/SettingsProvider'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { DepartureTag } from './DepartureTag/DepartureTag'
-import './MapDashboard.scss'
+import classes from './MapDashboard.module.scss'
 
 const MapDashboard = (): JSX.Element => {
     const [settings] = useSettings()
+
+    const { allStopPlaceIds } = useAllStopPlaceIds()
 
     const stopPlacesWithDepartures = useStopPlacesWithDepartures()
     const bikeRentalStations = useRentalStations(
@@ -40,13 +43,13 @@ const MapDashboard = (): JSX.Element => {
         HEADER_MARGIN
     return (
         <DashboardWrapper
-            className="map-view"
+            className={classes.MapDashboard}
             stopPlacesWithDepartures={stopPlacesWithDepartures}
             bikeRentalStations={bikeRentalStations}
         >
             <div
                 style={{ height: `calc(100vh - ${headerHeight}px)` }}
-                className="content"
+                className={classes.Content}
             >
                 <Map
                     scooters={scooters}
@@ -59,15 +62,15 @@ const MapDashboard = (): JSX.Element => {
                     zoom={settings.zoom}
                 />
                 {settings.showWeather && (
-                    <div className="weather-display">
-                        <WeatherTile className="weather-tile-map" />
+                    <div className={classes.WeatherDisplay}>
+                        <WeatherTile className={classes.WeatherTileMap} />
                     </div>
                 )}
-                <div className="departure-display">
-                    {stopPlacesWithDepartures?.map((stopPlace) => (
+                <div className={classes.DepartureDisplay}>
+                    {allStopPlaceIds?.map((stopPlaceId) => (
                         <DepartureTag
-                            key={stopPlace.id}
-                            stopPlace={stopPlace}
+                            key={stopPlaceId}
+                            stopPlaceId={stopPlaceId}
                         />
                     ))}
                 </div>

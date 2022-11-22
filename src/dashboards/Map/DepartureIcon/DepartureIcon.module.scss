@@ -1,0 +1,26 @@
+@use 'src/assets/styles/Variables';
+
+.DepartureIcon {
+    color: Variables.$colors-brand-white;
+    width: auto;
+    height: 2rem;
+    border-radius: 4px;
+    align-items: flex-start;
+    text-align: center;
+    display: flex;
+    font-size: Variables.$font-sizes-medium;
+    padding: 0.3rem 0.5625rem 0 0.5625rem;
+
+}
+
+.Icon {
+    font-size: 1.125rem;
+    padding-top: 0.1rem;
+    margin-right: 0.25rem;
+    height: 24px;
+}
+
+.Departure {
+    width: 100%;
+    font-size: 14px;
+}

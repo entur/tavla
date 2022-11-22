@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { colors } from '@entur/tokens'
 import { Label } from '@entur/typography'
-import { DepartureIcon } from '../../../../dashboards/Map/DepartureTag/DepartureIcon/DepartureIcon'
+import { DepartureIcon } from '../../../../dashboards/Map/DepartureIcon/DepartureIcon'
 import { getFeedbackString, getLastUpdated } from '../../../../utils/time'
 import { getIconColor } from '../../../../utils/icon'
 import { IconColorType } from '../../../../types'

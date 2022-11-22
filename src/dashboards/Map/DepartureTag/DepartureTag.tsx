@@ -1,75 +1,115 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { format, isToday } from 'date-fns'
 import { nb } from 'date-fns/locale'
+import { Loader } from '@entur/loader'
 import { colors } from '@entur/tokens'
-import { Heading4 } from '@entur/typography'
-import {
-    StopPlaceWithDepartures,
-    IconColorType,
-    LineData,
-} from '../../../types'
+import { Heading4, Paragraph } from '@entur/typography'
+import { IconColorType } from '../../../types'
 import { getIconColor } from '../../../utils/icon'
 import { TransportModeIcon } from '../../../components/TransportModeIcon/TransportModeIcon'
-import { DepartureIcon } from './DepartureIcon/DepartureIcon'
-import './DepartureTag.scss'
+import { DepartureIcon } from '../DepartureIcon/DepartureIcon'
+import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
+import {
+    Departure,
+    filterHidden,
+    toDeparture,
+} from '../../../logic/use-stop-place-with-estimated-calls/departure'
+import { useSettings } from '../../../settings/SettingsProvider'
+import classes from './DepartureTag.module.scss'
 
-function getDepartureDirection(departure: LineData): string[] {
+function getDepartureDirection(departure: Departure): string[] {
     return departure.route.split(/([\s])/g).slice(1)
 }
 
-function getDepartureNumber(departure: LineData): string {
+function getDepartureNumber(departure: Departure): string {
     return departure.route.split(/[\s]/g)[0] || ''
 }
 
-const DepartureTag = (props: Props): JSX.Element => (
-    <div className="departure-tile">
-        <Heading4
-            className="departure-tile__stop"
-            style={{ color: colors.brand.blue }}
-        >
-            {props.stopPlace.name}
-        </Heading4>
-        <div>
-            {props.stopPlace.departures.slice(0, 2).map((departure) => (
-                <div className="departure-row" key={departure.id}>
-                    <DepartureIcon
-                        icon={
-                            <TransportModeIcon
-                                transportMode={departure.type}
-                                transportSubmode={departure.subType}
-                                color={colors.brand.white}
-                            />
-                        }
-                        color={getIconColor(
-                            departure.type,
-                            IconColorType.DEFAULT,
-                            departure.subType,
+interface Props {
+    stopPlaceId: string
+}
+
+const DepartureTag: React.FC<Props> = ({ stopPlaceId }): JSX.Element => {
+    const [settings] = useSettings()
+    const { stopPlaceWithEstimatedCalls, loading } =
+        useStopPlaceWithEstimatedCalls(stopPlaceId)
+
+    const departures = useMemo(
+        () =>
+            stopPlaceWithEstimatedCalls?.estimatedCalls
+                .map(toDeparture)
+                .filter(filterHidden(stopPlaceId, settings)) ?? [],
+        [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
+    )
+
+    if (loading) {
+        return (
+            <div className={classes.DepartureTag}>
+                <Loader>Laster...</Loader>
+            </div>
+        )
+    }
+
+    if (!stopPlaceWithEstimatedCalls) {
+        return (
+            <div className={classes.DepartureTag}>
+                <Heading4 className={classes.ErrorText}>
+                    Her var det tomt!
+                </Heading4>
+                <Paragraph className={classes.ErrorText}>
+                    Noe gikk galt da vi prøvde å hente informasjon om
+                    stoppestedet.
+                </Paragraph>
+            </div>
+        )
+    }
+
+    return (
+        <div className={classes.DepartureTag}>
+            <Heading4 className={classes.Stop}>
+                {stopPlaceWithEstimatedCalls.name}
+            </Heading4>
+            <div>
+                {departures.slice(0, 2).map((departure) => (
+                    <div className={classes.DepartureRow} key={departure.id}>
+                        <DepartureIcon
+                            icon={
+                                <TransportModeIcon
+                                    transportMode={departure.transportMode}
+                                    transportSubmode={
+                                        departure.transportSubmode
+                                    }
+                                    color={colors.brand.white}
+                                />
+                            }
+                            color={getIconColor(
+                                departure.transportMode,
+                                IconColorType.DEFAULT,
+                                departure.transportSubmode,
+                            )}
+                            routeNumber={getDepartureNumber(departure)}
+                        />
+                        <div className={classes.Direction}>
+                            {getDepartureDirection(departure)}
+                        </div>
+                        <div className={classes.Departure}>
+                            {departure.time}
+                        </div>
+                        {!isToday(departure.departureTime) && (
+                            <Date date={departure.departureTime} />
                         )}
-                        routeNumber={getDepartureNumber(departure)}
-                    />
-                    <div className="departure-row__direction">
-                        {getDepartureDirection(departure)}
                     </div>
-                    <div className="departure-row__departure">
-                        {departure.time}
-                    </div>
-                    {isToday(departure.departureTime) ? null : (
-                        <Date date={departure.departureTime} />
-                    )}
-                </div>
-            ))}
+                ))}
+            </div>
+            <div className={classes.Divider} />
         </div>
-        <div className="divider"></div>
-    </div>
-)
+    )
+}
 
 function Date({ date }: { date: Date }) {
     const formatedDate = format(date, 'd. MMMM', { locale: nb })
 
-    return <div className="departure-row__date">{`(${formatedDate})`}</div>
+    return <div className={classes.Date}>{`(${formatedDate})`}</div>
 }
 
-interface Props {
-    stopPlace: StopPlaceWithDepartures
-}
 export { DepartureTag }
