@@ -26,7 +26,7 @@ const OwnedBoards = ({ boards, user, preview }: Props): JSX.Element => (
                     <div className="add-board-card__preview">
                         <img
                             src={preview['Chrono']}
-                            alt="Illustrasjon av plussikon"
+                            alt=""
                         />
                         <AddIcon
                             size="3rem"

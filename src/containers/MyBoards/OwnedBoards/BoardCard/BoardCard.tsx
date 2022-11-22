@@ -83,7 +83,7 @@ function BoardCard({
                 <div className="board-card__preview">
                     <img
                         src={preview[`${dashboardType}`]}
-                        alt="Bilde av forhåndsvisning av låst tavle"
+                        alt=""
                     />
                 </div>
             </Link>

@@ -37,7 +37,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     preview={dashboardImages.Compact}
                     onChange={updateChoice}
                     className="display-wrapper__display-card"
-                    altText="Bilde av forhåndsvisning av kompakt visning"
+                    altText=""
                 />
                 <RadioCard
                     title="Kronologisk"
@@ -47,7 +47,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     preview={dashboardImages.Chrono}
                     onChange={updateChoice}
                     className="display-wrapper__display-card"
-                    altText="Bilde av forhåndsvisning av kronologisk visning"
+                    altText=""
                 />
                 <RadioCard
                     title="Tidslinje"
@@ -57,7 +57,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     preview={dashboardImages.Timeline}
                     onChange={updateChoice}
                     className="display-wrapper__display-card"
-                    altText="Bilde av forhåndsvisning av tidslinjevisning"
+                    altText=""
                 />
                 <RadioCard
                     title="Holdeplass"
@@ -67,7 +67,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     preview={dashboardImages.BusStop}
                     onChange={updateChoice}
                     className="display-wrapper__display-card"
-                    altText="Bilde av forhåndsvisning av holdeplassvisning"
+                    altText=""
                 />
             </div>
         </div>
