@@ -96,6 +96,7 @@ const ThemeTab = (): JSX.Element => {
                     selected={themeRadioValue === 'default'}
                     onChange={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
+                    altText="Bilde av forhåndsvisning av standard fargevisning"
                 />
                 <RadioCard
                     title="Mørkt"
@@ -104,6 +105,7 @@ const ThemeTab = (): JSX.Element => {
                     selected={themeRadioValue === 'dark'}
                     onChange={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
+                    altText="Bilde av forhåndsvisning av mørk fargevisning"
                 />
                 <RadioCard
                     title="Lyst"
@@ -112,6 +114,7 @@ const ThemeTab = (): JSX.Element => {
                     selected={themeRadioValue === 'light'}
                     onChange={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
+                    altText="Bilde av forhåndsvisning av lys fargevisning"
                 />
                 <RadioCard
                     title="Grått"
@@ -120,6 +123,7 @@ const ThemeTab = (): JSX.Element => {
                     selected={themeRadioValue === 'grey'}
                     onChange={(val): void => switchTheme(val as Theme)}
                     className="theme-tab__theme-card"
+                    altText="Bilde av forhåndsvisning av grå fargevisning"
                 />
             </div>
             <div>
