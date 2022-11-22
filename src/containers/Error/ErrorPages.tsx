@@ -130,6 +130,7 @@ function NoSharedTavlerAvailable(): JSX.Element {
                 title="Her var det tomt!"
                 message="Du har ingen tavleforespørsler for øyeblikket. Andre kan dele sine tavler med deg under «Deling»-fanen på innstillingene til tavla."
                 image={duerLight}
+                altText={''}
             />
         </div>
     )
