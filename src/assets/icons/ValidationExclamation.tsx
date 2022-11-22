@@ -2,7 +2,11 @@ import React from 'react'
 import { Theme } from '../../types'
 import { useThemeColor } from '../../hooks/useThemeColor'
 
-function ValidationExclamation(): JSX.Element {
+interface Props {
+    className?: string
+}
+
+function ValidationExclamation({ className }: Props): JSX.Element {
     const exclamationIconColor = useThemeColor(
         {
             [Theme.DARK]: '#171717',
@@ -22,6 +26,7 @@ function ValidationExclamation(): JSX.Element {
             height="16px"
             viewBox="0 0 16 16"
             enableBackground="new 0 0 16 16"
+            className={className}
         >
             <path
                 id="path-1_1_"

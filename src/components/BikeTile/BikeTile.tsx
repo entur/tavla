@@ -1,22 +1,26 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
-import { Tile } from '../../../components/Tile/Tile'
-import { TileHeader } from '../../../components/TileHeader/TileHeader'
-import { useSettings } from '../../../settings/SettingsProvider'
-import { IconColorType } from '../../../types'
-import { getTranslation } from '../../../utils/utils'
-import { getIconColorType } from '../../../utils/icon'
-import { useWalkInfo, WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
-import { UseRentalStations_StationFragment } from '../../../../graphql-generated/mobility-v2'
-import { ChronoBikeTileRow } from '../ChronoBikeTileRow/ChronoBikeTileRow'
-import classes from './ChronoBikeTile.module.scss'
+import { Tile } from '../Tile/Tile'
+import { TileHeader } from '../TileHeader/TileHeader'
+import { useSettings } from '../../settings/SettingsProvider'
+import { IconColorType } from '../../types'
+import { getTranslation } from '../../utils/utils'
+import { getIconColorType } from '../../utils/icon'
+import { useWalkInfo, WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
+import { UseRentalStations_StationFragment } from '../../../graphql-generated/mobility-v2'
+import { BikeTileRow } from './BikeTileRow'
+import classes from './BikeTile.module.scss'
 
 function getWalkInfo(walkInfos: WalkInfo[], id: string): WalkInfo | undefined {
     return walkInfos.find((walkInfo) => walkInfo.stopId === id)
 }
 
-const ChronoBikeTile = ({ stations }: Props): JSX.Element => {
+interface BikeTileProps {
+    stations: UseRentalStations_StationFragment[]
+}
+
+const BikeTile: React.FC<BikeTileProps> = ({ stations }) => {
     const [settings] = useSettings()
     const [iconColorType, setIconColorType] = useState<IconColorType>(
         IconColorType.CONTRAST,
@@ -43,7 +47,7 @@ const ChronoBikeTile = ({ stations }: Props): JSX.Element => {
     const walkInfo = useWalkInfo(stationDestinations)
 
     return (
-        <Tile className={classes.ChronoBikeTile}>
+        <Tile className={classes.BikeTile}>
             <TileHeader
                 title="Bysykkel"
                 icons={[
@@ -54,7 +58,7 @@ const ChronoBikeTile = ({ stations }: Props): JSX.Element => {
                 ]}
             />
             {stations.map((station) => (
-                <ChronoBikeTileRow
+                <BikeTileRow
                     key={station.id}
                     icon={
                         <BicycleIcon
@@ -79,7 +83,7 @@ const ChronoBikeTile = ({ stations }: Props): JSX.Element => {
                             time:
                                 station.numDocksAvailable === 1
                                     ? '1 lås'
-                                    : `${station.numBikesAvailable} låser`,
+                                    : `${station.numDocksAvailable} låser`,
                             departureTime: new Date(),
                         },
                     ]}
@@ -89,8 +93,4 @@ const ChronoBikeTile = ({ stations }: Props): JSX.Element => {
     )
 }
 
-interface Props {
-    stations: UseRentalStations_StationFragment[]
-}
-
-export { ChronoBikeTile }
+export { BikeTile }

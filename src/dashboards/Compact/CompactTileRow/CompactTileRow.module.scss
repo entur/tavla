@@ -1,0 +1,62 @@
+@use 'src/assets/styles/Variables';
+
+.CompactTileRow {
+    display: flex;
+    border-bottom: 2px solid var(--tavla-border-color);
+    padding: 1rem 0;
+
+    &:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+    }
+}
+
+.Label {
+    margin: 0;
+    margin-bottom: 0.5rem;
+    color: var(--tavla-font-color);
+}
+
+.Icon {
+    min-width: 2rem;
+    margin-right: 1rem;
+    font-size: Variables.$font-sizes-extra-large4;
+}
+
+.Texts {
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.Sublabels {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    font-size: Variables.$font-sizes-extra-large;
+}
+
+.Sublabel {
+    align-items: center;
+    display: flex;
+    font-weight: 400;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+
+    &:first-child {
+        padding-left: 0;
+    }
+}
+
+.Date {
+    color: var(--tavla-label-font-color);
+    margin-left: 0.5rem;
+}
+
+.Divider {
+    border-left: 2px solid var(--tavla-label-font-color);
+}

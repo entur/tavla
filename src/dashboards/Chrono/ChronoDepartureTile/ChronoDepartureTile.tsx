@@ -1,42 +1,14 @@
 import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { HeaderCell, Table, TableHead, TableRow } from '@entur/table'
-import {
-    StopPlaceWithDepartures,
-    LineData,
-    IconColorType,
-} from '../../../types'
+import { StopPlaceWithDepartures } from '../../../types'
 import { ChronoTableRows } from '../ChronoTableRows/ChronoTableRows'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
-import { isNotNullOrUndefined } from '../../../utils/typeguards'
-import { unique } from '../../../utils/array'
-import {
-    getIcon,
-    getIconColorType,
-    getTransportIconIdentifier,
-} from '../../../utils/icon'
+import { getIconColorType, getTransportHeaderIcons } from '../../../utils/icon'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
 import { Tile } from '../../../components/Tile/Tile'
 import classes from './ChronoDepartureTile.module.scss'
-
-function getTransportHeaderIcons(
-    departures: LineData[],
-    iconColorType: IconColorType,
-): JSX.Element[] {
-    const transportModes = unique(
-        departures.map(({ type, subType }) => ({ type, subType })),
-        (a, b) =>
-            getTransportIconIdentifier(a.type, a.subType) ===
-            getTransportIconIdentifier(b.type, b.subType),
-    )
-
-    const transportIcons = transportModes.map(({ type, subType }) => ({
-        icon: getIcon(type, iconColorType, subType),
-    }))
-
-    return transportIcons.map(({ icon }) => icon).filter(isNotNullOrUndefined)
-}
 
 interface ChronoDepartureTileProps {
     stopPlaceWithDepartures: StopPlaceWithDepartures

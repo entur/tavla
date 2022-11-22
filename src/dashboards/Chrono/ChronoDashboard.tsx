@@ -21,11 +21,11 @@ import { isMobileWeb } from '../../utils/utils'
 import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
+import { BikeTile } from '../../components/BikeTile/BikeTile'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { MobileAppQRTile } from '../../components/QRTile/MobileAppQRTile'
 import { ChronoDepartureTile } from './ChronoDepartureTile/ChronoDepartureTile'
 import { MapTile } from './MapTile/MapTile'
-import { ChronoBikeTile } from './ChronoBikeTile/ChronoBikeTile'
 import './ChronoDashboard.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -267,7 +267,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                                         variant="light"
                                     />
                                 ) : null}
-                                <ChronoBikeTile stations={bikeRentalStations} />
+                                <BikeTile stations={bikeRentalStations} />
                             </div>
                         ) : (
                             []

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Heading3 } from '@entur/typography'
-import { TileSubLabel } from '../../../types'
-import { WalkInfo } from '../../../logic/use-walk-info/useWalkInfo'
-import classes from './ChronoBikeTileRow.module.scss'
+import { TileSubLabel } from '../../types'
+import { WalkInfo } from '../../logic/use-walk-info/useWalkInfo'
+import classes from './BikeTileRow.module.scss'
 
 function formatWalkInfo(walkInfo: WalkInfo) {
     if (walkInfo.walkTime / 60 < 1) {
@@ -14,21 +14,21 @@ function formatWalkInfo(walkInfo: WalkInfo) {
     }
 }
 
-interface ChronoBikeTileRowProps {
+interface BikeTileRowProps {
     label: string
     subLabels: TileSubLabel[]
     icon: JSX.Element | null
     walkInfo?: WalkInfo
 }
 
-function ChronoBikeTileRow({
+function BikeTileRow({
     label,
     icon,
     walkInfo,
     subLabels,
-}: ChronoBikeTileRowProps): JSX.Element {
+}: BikeTileRowProps): JSX.Element {
     return (
-        <div className={classes.ChronoBikeTileRow}>
+        <div className={classes.BikeTileRow}>
             <div className={classes.Icon}>{icon}</div>
             <div className={classes.Texts}>
                 <Heading3 className={classes.Label}>{label}</Heading3>
@@ -47,4 +47,4 @@ function ChronoBikeTileRow({
     )
 }
 
-export { ChronoBikeTileRow }
+export { BikeTileRow }
