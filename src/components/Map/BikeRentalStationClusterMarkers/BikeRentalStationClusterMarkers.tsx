@@ -39,11 +39,6 @@ const BikeRentalStationClusterMarkers: React.FC<Props> = ({ zoom, bounds }) => {
         options: {
             radius: 45,
             maxZoom: 18,
-            // This fixes the issue where clusters don't have any bike/space info, but it creates a render loop
-            // reduce: (acc, props) => {
-            //     acc.bikesAvailable += props.bikesAvailable
-            //     acc.spacesAvailable += props.spacesAvailable
-            // },
         },
     })
 
@@ -69,9 +64,7 @@ const BikeRentalStationClusterMarkers: React.FC<Props> = ({ zoom, bounds }) => {
                     >
                         <BikeRentalStationTag
                             bikes={stationCluster.properties.bikesAvailable}
-                            spaces={
-                                stationCluster.properties.spacesAvailable ?? 0
-                            }
+                            spaces={stationCluster.properties.spacesAvailable}
                         />
                     </Marker>
                 )
