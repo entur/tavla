@@ -62,6 +62,7 @@ const AdminPage = (): JSX.Element => {
                     onChange={setCurrentIndex}
                     className="admin__tabs"
                 >
+                    <h1>Rediger tavle</h1>
                     <TabList className="admin__tabs__header">
                         <Tab>Rediger innhold</Tab>
                         <Tab>Velg visning</Tab>

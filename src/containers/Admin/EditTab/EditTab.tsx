@@ -6,6 +6,7 @@ import React, {
     SyntheticEvent,
 } from 'react'
 import {
+    Heading1,
     Heading2,
     Heading3,
     Heading4,
@@ -271,6 +272,7 @@ const EditTab = (): JSX.Element => {
     return (
         <div className="edit-tab">
             <div>
+                <Heading1 aria-label="Rediger tavle">{}</Heading1>
                 <Heading2 className="edit-tab__heading">
                     Viser kollektivtilbud innenfor
                     <div className="edit-tab__input-wrapper">
