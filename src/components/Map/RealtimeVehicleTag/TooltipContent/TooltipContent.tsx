@@ -8,7 +8,7 @@ import { IconColorType } from '../../../../types'
 import { RealtimeVehicle } from '../../../../logic/use-realtime-vehicle-data/types'
 import { TransportMode } from '../../../../../graphql-generated/journey-planner-v3'
 import { TransportModeIcon } from '../../../TransportModeIcon/TransportModeIcon'
-import './TooltipContent.scss'
+import classes from './TooltipContent.module.scss'
 
 interface Props {
     realtimeVehicle: RealtimeVehicle
@@ -29,8 +29,8 @@ const TooltipContent = ({ realtimeVehicle }: Props): JSX.Element => {
     }, [realtimeVehicle.lastUpdated])
 
     return (
-        <div className="map__realtime-vehicle-tag__tooltip-content-wrapper">
-            <div className="map__realtime-vehicle-tag__tooltip-content-first-row">
+        <div className={classes.Wrapper}>
+            <div className={classes.FirstRow}>
                 <DepartureIcon
                     icon={
                         <TransportModeIcon
@@ -47,14 +47,11 @@ const TooltipContent = ({ realtimeVehicle }: Props): JSX.Element => {
                     )}
                     routeNumber={realtimeVehicle.line.publicCode ?? ''}
                 />
-                <div className="map__realtime-vehicle-tag__tooltip-content-front-text">
+                <div className={classes.FrontText}>
                     {realtimeVehicle.line.lineName?.split('=>').pop()?.trim()}
                 </div>
             </div>
-            <Label
-                className="map__realtime-vehicle-tag__tooltip-content-second-row"
-                margin="none"
-            >
+            <Label className={classes.SecondRow} margin="none">
                 {getFeedbackString(lastUpdated)}
             </Label>
         </div>

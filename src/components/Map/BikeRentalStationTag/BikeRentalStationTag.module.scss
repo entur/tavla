@@ -1,0 +1,32 @@
+@use '../../../assets/styles/Variables.scss';
+
+.BicycleTag {
+    background-color: Variables.$colors-transport-default-mobility;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    border-radius: 5px;
+    padding: 0.3125rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+
+}
+
+.Row {
+    display: flex;
+    align-items: center;
+    height: 1.25rem;
+    width: 100%;
+
+}
+
+.Icon {
+    min-width: 1rem;
+    margin-right: 0.25rem;
+    font-size: 1.125rem;
+    padding-top: 0.25rem;
+}
+
+.Amount {
+    width: 100%;
+}
