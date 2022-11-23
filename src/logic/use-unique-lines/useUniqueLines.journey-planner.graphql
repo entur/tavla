@@ -1,0 +1,28 @@
+query UniqueLines($ids: [String]!) @api(name: journey_planner_v3) {
+    stopPlaces(ids: $ids) {
+        id
+        estimatedCalls(
+            numberOfDeparturesPerLineAndDestinationDisplay: 1
+            timeRange: 604800
+            numberOfDepartures: 200
+            arrivalDeparture: departures
+        ) {
+            destinationDisplay {
+                frontText
+            }
+            serviceJourney {
+                line {
+                    id
+                    transportMode
+                    transportSubmode
+                    publicCode
+                }
+                pointsOnLink {
+                    points
+                }
+            }
+        }
+    }
+
+
+}

@@ -1939,6 +1939,13 @@ export type GetStopPlacesWithDeparturesQueryVariables = Exact<{
 
 export type GetStopPlacesWithDeparturesQuery = { __typename?: 'QueryType', stopPlaces: Array<{ __typename?: 'StopPlace', id: string, name: string, description: string | null, latitude: number | null, longitude: number | null, transportMode: Array<TransportMode | null> | null, transportSubmode: Array<TransportSubmode | null> | null, estimatedCalls: Array<{ __typename?: 'EstimatedCall', aimedDepartureTime: DateTime, cancellation: boolean, date: Date | null, expectedDepartureTime: DateTime, destinationDisplay: { __typename?: 'DestinationDisplay', frontText: string | null } | null, quay: { __typename?: 'Quay', id: string, name: string, publicCode: string | null } | null, serviceJourney: { __typename?: 'ServiceJourney', id: string, transportSubmode: TransportSubmode | null, journeyPattern: { __typename?: 'JourneyPattern', line: { __typename?: 'Line', publicCode: string | null, transportMode: TransportMode | null } } | null } | null, situations: Array<{ __typename?: 'PtSituationElement', summary: Array<{ __typename?: 'MultilingualString', value: string }> }> }> } | null> };
 
+export type UniqueLinesQueryVariables = Exact<{
+  ids: Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UniqueLinesQuery = { __typename?: 'QueryType', stopPlaces: Array<{ __typename?: 'StopPlace', id: string, estimatedCalls: Array<{ __typename?: 'EstimatedCall', destinationDisplay: { __typename?: 'DestinationDisplay', frontText: string | null } | null, serviceJourney: { __typename?: 'ServiceJourney', line: { __typename?: 'Line', id: string, transportMode: TransportMode | null, transportSubmode: TransportSubmode | null, publicCode: string | null }, pointsOnLink: { __typename?: 'PointsOnLink', points: string | null } | null } | null }> } | null> };
+
 export type WalkTripQueryVariables = Exact<{
   from: Location;
   to: Location;
@@ -2069,6 +2076,35 @@ export function useGetStopPlacesWithDeparturesLazyQuery(baseOptions?: Apollo.Laz
 export type GetStopPlacesWithDeparturesQueryHookResult = ReturnType<typeof useGetStopPlacesWithDeparturesQuery>;
 export type GetStopPlacesWithDeparturesLazyQueryHookResult = ReturnType<typeof useGetStopPlacesWithDeparturesLazyQuery>;
 export type GetStopPlacesWithDeparturesQueryResult = Apollo.QueryResult<GetStopPlacesWithDeparturesQuery, GetStopPlacesWithDeparturesQueryVariables>;
+export const UniqueLinesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UniqueLines"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlaces"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"estimatedCalls"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"},"value":{"kind":"IntValue","value":"1"}},{"kind":"Argument","name":{"kind":"Name","value":"timeRange"},"value":{"kind":"IntValue","value":"604800"}},{"kind":"Argument","name":{"kind":"Name","value":"numberOfDepartures"},"value":{"kind":"IntValue","value":"200"}},{"kind":"Argument","name":{"kind":"Name","value":"arrivalDeparture"},"value":{"kind":"EnumValue","value":"departures"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"destinationDisplay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"serviceJourney"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pointsOnLink"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"points"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useUniqueLinesQuery__
+ *
+ * To run a query within a React component, call `useUniqueLinesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUniqueLinesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUniqueLinesQuery({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useUniqueLinesQuery(baseOptions: Apollo.QueryHookOptions<UniqueLinesQuery, UniqueLinesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UniqueLinesQuery, UniqueLinesQueryVariables>(UniqueLinesDocument, options);
+      }
+export function useUniqueLinesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UniqueLinesQuery, UniqueLinesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UniqueLinesQuery, UniqueLinesQueryVariables>(UniqueLinesDocument, options);
+        }
+export type UniqueLinesQueryHookResult = ReturnType<typeof useUniqueLinesQuery>;
+export type UniqueLinesLazyQueryHookResult = ReturnType<typeof useUniqueLinesLazyQuery>;
+export type UniqueLinesQueryResult = Apollo.QueryResult<UniqueLinesQuery, UniqueLinesQueryVariables>;
 export const WalkTripDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"WalkTrip"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"from"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"to"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trip"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"from"},"value":{"kind":"Variable","name":{"kind":"Name","value":"from"}}},{"kind":"Argument","name":{"kind":"Name","value":"to"},"value":{"kind":"Variable","name":{"kind":"Name","value":"to"}}},{"kind":"Argument","name":{"kind":"Name","value":"modes"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"directMode"},"value":{"kind":"EnumValue","value":"foot"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"numTripPatterns"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tripPatterns"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"walkDistance"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**

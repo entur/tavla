@@ -11,7 +11,7 @@ import {
     BUFFER_TIME,
 } from '../../constants'
 import { useSettings } from '../../settings/SettingsProvider'
-import { useStopPlacesWithLines } from '../useStopPlacesWithLines'
+import { useUniqueLines } from '../use-unique-lines/useUniqueLines'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
 import { useVehicleReducer, ActionType } from './useRealtimeVehicleReducer'
 import { RealtimeVehicle, toRealtimeVehicle } from './types'
@@ -21,7 +21,7 @@ import { RealtimeVehicle, toRealtimeVehicle } from './types'
  */
 function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
     const [state, dispatch] = useVehicleReducer()
-    const uniqueLines = useStopPlacesWithLines()
+    const { uniqueLines } = useUniqueLines()
     const [settings] = useSettings()
 
     const filterVehicleByLineRefs = useCallback(

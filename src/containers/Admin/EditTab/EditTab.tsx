@@ -25,7 +25,7 @@ import {
     saveToLocalStorage,
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
-import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
+import { useUniqueLines } from '../../../logic/use-unique-lines/useUniqueLines'
 import { useLinesWithRealtimePositions } from '../../../logic/use-lines-with-realtime-positions/useLinesWithRealtimePositions'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { useDebounce } from '../../../hooks/useDebounce'
@@ -78,7 +78,7 @@ const EditTab = (): JSX.Element => {
     const [distance, setDistance] = useState<number>(settings.distance)
 
     const allLinesWithRealtimeData = useLinesWithRealtimePositions()
-    const uniqueLines = useStopPlacesWithLines()
+    const { uniqueLines } = useUniqueLines()
 
     const realtimeLines = useMemo(
         () =>
