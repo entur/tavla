@@ -8,6 +8,7 @@ function GeoLocation({ size = 18, color = '#565659' }: Props): JSX.Element {
             viewBox="0 0 16 16"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
+            role="img"
         >
             <g fill={color} fillRule="evenodd">
                 <path

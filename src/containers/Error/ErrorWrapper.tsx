@@ -11,6 +11,7 @@ interface ErrorWrapperProps {
     message: string
     image: string
     callbackMessage?: string
+    altText?: string
     callback?: (event: React.SyntheticEvent<HTMLButtonElement>) => void
     theme?: Theme
 }
@@ -21,12 +22,13 @@ function ErrorWrapper({
     image,
     callbackMessage,
     callback,
+    altText,
     theme = Theme.DEFAULT,
 }: ErrorWrapperProps): JSX.Element {
     return (
         <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
             <div className="error-wrapper">
-                <img className="style-image" src={`${image}`} />
+                <img className="style-image" src={`${image}`} alt={altText} />
                 <Heading1 className="heading" margin="both">
                     {title}
                 </Heading1>

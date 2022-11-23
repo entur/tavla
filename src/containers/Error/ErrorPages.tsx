@@ -96,6 +96,7 @@ function NoStopsOnTavle(): JSX.Element {
                 title="Nå havnet vi på ville veier."
                 message="Vi finner ingen stoppesteder å vise på denne tavla. Rediger tavla eller prøv et nytt søk."
                 image={sauerLight}
+                altText="Illustrasjon av flere sauer som står på en toglinje"
                 theme={settings.theme}
             />
         </div>
@@ -116,6 +117,7 @@ function NoTavlerAvailable(): JSX.Element {
                 image={duerLight}
                 callbackMessage="Lag en ny tavle"
                 callback={callback}
+                altText=""
             />
         </div>
     )
@@ -128,6 +130,7 @@ function NoSharedTavlerAvailable(): JSX.Element {
                 title="Her var det tomt!"
                 message="Du har ingen tavleforespørsler for øyeblikket. Andre kan dele sine tavler med deg under «Deling»-fanen på innstillingene til tavla."
                 image={duerLight}
+                altText=""
             />
         </div>
     )
@@ -154,6 +157,7 @@ function NoAccessToTavler(): JSX.Element {
                 title="Dine tavler venter!"
                 message="Du må logge inn for å se oversikten over tavlene dine. Trykk på knappen nedenfor for å logge inn."
                 image={sikkerhetBomLight}
+                altText="Illustrasjon av en bom som er lukket, slik at du ikke kan passere"
                 callbackMessage="Logg inn"
                 callback={callback}
             />
