@@ -88,7 +88,7 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
                                     classes.Track,
                                 )}
                             >
-                                Spor
+                                Plattform
                             </HeaderCell>
                         )}
                         {!settings.hideSituations && (

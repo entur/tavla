@@ -57,7 +57,7 @@ function ToggleDetailsPanel(): JSX.Element {
                         }}
                         checked={!settings.hideTracks}
                     >
-                        Spor/plattform
+                        Plattform
                     </FilterChip>
                 </div>
             </div>
