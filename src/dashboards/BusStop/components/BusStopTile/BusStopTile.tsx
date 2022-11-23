@@ -74,7 +74,7 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
                         </HeaderCell>
                         {!settings.hideTracks && (
                             <HeaderCell className={classes.Track}>
-                                Spor
+                                Plattform
                             </HeaderCell>
                         )}
                         {!settings.hideSituations && (
