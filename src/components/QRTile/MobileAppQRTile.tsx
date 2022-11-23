@@ -6,9 +6,7 @@ import classes from './MobileAppQRTile.module.scss'
 
 const MobileAppQRTile = (): JSX.Element => (
     <Tile>
-        <div className={classes.TitleWrapper}>
-            <text className={classes.Title}>Last ned Entur-appen!</text>
-        </div>
+        <div className={classes.TitleWrapper}>Last ned Entur-appen!</div>
         <div className={classes.Flex}>
             <QRBox
                 id="entur-app"
