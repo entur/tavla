@@ -2,13 +2,13 @@ import React from 'react'
 import { ScooterIcon } from '@entur/icons'
 import { ScooterOperatorLogo } from '../../../assets/icons/ScooterOperatorLogo'
 import { Operator } from '../../../../graphql-generated/mobility-v2'
-import './ScooterMarkerTag.scss'
+import classes from './ScooterMarkerTag.module.scss'
 
 const ScooterMarkerTag = ({ pointCount, operator }: Props): JSX.Element =>
     pointCount ? (
-        <div className="cluster-marker">
-            <ScooterIcon className="scooter-icon"></ScooterIcon>
-            <div className="point-count">
+        <div className={classes.ClusterMarker}>
+            <ScooterIcon className={classes.ScooterIcon}></ScooterIcon>
+            <div className={classes.PointCount}>
                 {pointCount < 10 ? pointCount : `${pointCount}+`}
             </div>
         </div>

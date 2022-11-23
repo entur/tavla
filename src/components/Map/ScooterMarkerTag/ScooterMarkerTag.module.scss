@@ -1,6 +1,6 @@
 @use '../../../assets/styles/Variables.scss';
 
-.cluster-marker {
+.ClusterMarker {
     color: var(--tavla-background-color);
     background: #fff;
     border: 2px;
@@ -14,13 +14,13 @@
     height: 1.5rem;
 }
 
-.scooter-icon {
+.ScooterIcon {
     height: 1rem;
     color: Variables.$colors-transport-default-mobility;
     margin: 0.25rem;
 }
 
-.point-count {
+.PointCount {
     font-size: 0.875rem;
     font-weight: 600;
     margin-right: 0.5rem;

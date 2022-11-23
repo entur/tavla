@@ -1,0 +1,38 @@
+@use '../../../assets/styles/Variables.scss';
+
+.CircleOuter {
+    border-radius: 50%;
+    height: 2.5rem;
+    width: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+        transform: scale(1.5);
+    }
+}
+
+.CircleInner {
+    height: 90%;
+    width: 90%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: Variables.$font-sizes-medium;
+}
+
+.Tooltip {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.Visible {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.1s ease-in;
+    margin-bottom: 0.5rem;
+}

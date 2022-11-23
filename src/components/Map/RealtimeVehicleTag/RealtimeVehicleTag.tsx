@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import { Tooltip } from '@entur/tooltip'
 import { colors } from '@entur/tokens'
 import { IconColorType } from '../../../types'
@@ -10,7 +11,7 @@ import {
     TransportMode,
 } from '../../../../graphql-generated/journey-planner-v3'
 import { TooltipContent } from './TooltipContent/TooltipContent'
-import './RealtimeVehicleTag.scss'
+import classes from './RealtimeVehicleTag.module.scss'
 
 interface RealtimeVehicleTagProps {
     realtimeVehicle: RealtimeVehicle
@@ -29,15 +30,15 @@ const RealtimeVehicleTag = ({
         <Tooltip
             placement="top"
             content={<TooltipContent realtimeVehicle={realtimeVehicle} />}
-            className={`map__realtime-vehicle-tag-tooltip ${
-                isHovered ? 'visible' : ''
-            }`}
+            className={classNames(classes.Tooltip, {
+                [classes.Visible]: isHovered,
+            })}
             disableHoverListener={true}
             isOpen={true}
             showCloseButton={false}
         >
             <div
-                className="map__realtime-vehicle-tag-circle-outer"
+                className={classes.CircleOuter}
                 onMouseEnter={() => setHoveredVehicle(realtimeVehicle)}
                 onMouseLeave={() => setHoveredVehicle(undefined)}
                 style={
@@ -76,7 +77,7 @@ const RealtimeVehicleTag = ({
                 }}
             >
                 <div
-                    className="map__realtime-vehicle-tag-circle-inner"
+                    className={classes.CircleInner}
                     style={
                         realtimeVehicle.active
                             ? {

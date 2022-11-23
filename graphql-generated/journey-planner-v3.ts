@@ -1939,14 +1939,6 @@ export type GetStopPlacesWithDeparturesQueryVariables = Exact<{
 
 export type GetStopPlacesWithDeparturesQuery = { __typename?: 'QueryType', stopPlaces: Array<{ __typename?: 'StopPlace', id: string, name: string, description: string | null, latitude: number | null, longitude: number | null, transportMode: Array<TransportMode | null> | null, transportSubmode: Array<TransportSubmode | null> | null, estimatedCalls: Array<{ __typename?: 'EstimatedCall', aimedDepartureTime: DateTime, cancellation: boolean, date: Date | null, expectedDepartureTime: DateTime, destinationDisplay: { __typename?: 'DestinationDisplay', frontText: string | null } | null, quay: { __typename?: 'Quay', id: string, name: string, publicCode: string | null } | null, serviceJourney: { __typename?: 'ServiceJourney', id: string, transportSubmode: TransportSubmode | null, journeyPattern: { __typename?: 'JourneyPattern', line: { __typename?: 'Line', publicCode: string | null, transportMode: TransportMode | null } } | null } | null, situations: Array<{ __typename?: 'PtSituationElement', summary: Array<{ __typename?: 'MultilingualString', value: string }> }> }> } | null> };
 
-export type GetWalkInfoQueryVariables = Exact<{
-  from: Location;
-  to: Location;
-}>;
-
-
-export type GetWalkInfoQuery = { __typename?: 'QueryType', trip: { __typename?: 'Trip', tripPatterns: Array<{ __typename?: 'TripPattern', duration: Long | null, walkDistance: number | null }> } };
-
 export type WalkTripQueryVariables = Exact<{
   from: Location;
   to: Location;
@@ -2077,36 +2069,6 @@ export function useGetStopPlacesWithDeparturesLazyQuery(baseOptions?: Apollo.Laz
 export type GetStopPlacesWithDeparturesQueryHookResult = ReturnType<typeof useGetStopPlacesWithDeparturesQuery>;
 export type GetStopPlacesWithDeparturesLazyQueryHookResult = ReturnType<typeof useGetStopPlacesWithDeparturesLazyQuery>;
 export type GetStopPlacesWithDeparturesQueryResult = Apollo.QueryResult<GetStopPlacesWithDeparturesQuery, GetStopPlacesWithDeparturesQueryVariables>;
-export const GetWalkInfoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getWalkInfo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"from"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"to"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trip"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"from"},"value":{"kind":"Variable","name":{"kind":"Name","value":"from"}}},{"kind":"Argument","name":{"kind":"Name","value":"to"},"value":{"kind":"Variable","name":{"kind":"Name","value":"to"}}},{"kind":"Argument","name":{"kind":"Name","value":"modes"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"directMode"},"value":{"kind":"EnumValue","value":"foot"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"numTripPatterns"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tripPatterns"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"walkDistance"}}]}}]}}]}}]} as unknown as DocumentNode;
-
-/**
- * __useGetWalkInfoQuery__
- *
- * To run a query within a React component, call `useGetWalkInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetWalkInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetWalkInfoQuery({
- *   variables: {
- *      from: // value for 'from'
- *      to: // value for 'to'
- *   },
- * });
- */
-export function useGetWalkInfoQuery(baseOptions: Apollo.QueryHookOptions<GetWalkInfoQuery, GetWalkInfoQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetWalkInfoQuery, GetWalkInfoQueryVariables>(GetWalkInfoDocument, options);
-      }
-export function useGetWalkInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetWalkInfoQuery, GetWalkInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetWalkInfoQuery, GetWalkInfoQueryVariables>(GetWalkInfoDocument, options);
-        }
-export type GetWalkInfoQueryHookResult = ReturnType<typeof useGetWalkInfoQuery>;
-export type GetWalkInfoLazyQueryHookResult = ReturnType<typeof useGetWalkInfoLazyQuery>;
-export type GetWalkInfoQueryResult = Apollo.QueryResult<GetWalkInfoQuery, GetWalkInfoQueryVariables>;
 export const WalkTripDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"WalkTrip"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"from"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"to"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Location"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trip"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"from"},"value":{"kind":"Variable","name":{"kind":"Name","value":"from"}}},{"kind":"Argument","name":{"kind":"Name","value":"to"},"value":{"kind":"Variable","name":{"kind":"Name","value":"to"}}},{"kind":"Argument","name":{"kind":"Name","value":"modes"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"directMode"},"value":{"kind":"EnumValue","value":"foot"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"numTripPatterns"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tripPatterns"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"walkDistance"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**

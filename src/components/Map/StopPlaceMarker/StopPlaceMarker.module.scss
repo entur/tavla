@@ -1,0 +1,41 @@
+@use '../../../assets/styles/Variables.scss';
+
+.StopPlaceMarker {
+    z-index: 2;
+}
+
+.StopPlaceTag {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.25rem;
+}
+
+.IconRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.2rem;
+}
+
+.Icon {
+    font-size: 1.125rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    padding-left: 0.2rem;
+    padding-top: 0.2rem;
+}
+
+.StopPlace {
+    color: Variables.$colors-brand-blue;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    height: auto;
+}
+
+.WalkingDistance {
+    line-height: 1rem;
+    color: Variables.$colors-brand-blue;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    font-size: 0.75rem;
+}
