@@ -18,7 +18,7 @@ function TavlaLogo({
                 <img
                     src={TavlaBlue}
                     className={className}
-                    alt="Logo Entur Tavla"
+                    alt="Logo Entur Tavla og link til landingsside"
                 />
             )
         case Theme.GREY:
@@ -26,7 +26,7 @@ function TavlaLogo({
                 <img
                     src={TavlaBlue}
                     className={className}
-                    alt="Logo Entur Tavla"
+                    alt="Logo Entur Tavla og link til landingsside"
                 />
             )
         case Theme.DARK:
@@ -34,7 +34,7 @@ function TavlaLogo({
                 <img
                     src={TavlaWhite}
                     className={className}
-                    alt="Logo Entur Tavla"
+                    alt="Logo Entur Tavla og link til landingsside"
                 />
             )
         case Theme.DEFAULT:
@@ -42,7 +42,7 @@ function TavlaLogo({
                 <img
                     src={TavlaWhite}
                     className={className}
-                    alt="Logo Entur Tavla"
+                    alt="Logo Entur Tavla og link til landingsside"
                 />
             )
     }
