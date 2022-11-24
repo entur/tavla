@@ -1,16 +1,4 @@
-fragment PlaceAtDistanceEdgeFragment on placeAtDistanceEdge {
-    node {
-        distance
-        place {
-            __typename
-            id
-            latitude
-            longitude
-        }
-    }
-}
-
-query NearestStopPlaces(
+query NearbyStopPlaceIds(
     $latitude: Float!
     $longitude: Float!
     $maximumDistance: Float!
@@ -25,7 +13,11 @@ query NearestStopPlaces(
         multiModalMode: $multiModalMode
     ) {
         edges {
-            ...PlaceAtDistanceEdgeFragment
+            node {
+                place {
+                    id
+                }
+            }
         }
     }
 }

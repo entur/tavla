@@ -19,7 +19,7 @@ import { Button } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { isMobileWeb, getTranslation } from '../../../utils/utils'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearestStopPlaces } from '../../../logic'
+import { useNearbyStopPlaceIds } from '../../../logic/use-nearby-stop-place-ids/useNearbyStopPlaceIds'
 import { getStopPlacesWithLines } from '../../../logic/get-stop-places-with-lines/getStopPlacesWithLines'
 import {
     saveToLocalStorage,
@@ -131,21 +131,13 @@ const EditTab = (): JSX.Element => {
     >(undefined)
     const bikeRentalStations = useRentalStations(false, FormFactor.Bicycle)
 
-    const { nearestStopPlaces } = useNearestStopPlaces(
-        settings.coordinates,
-        debouncedDistance,
-    )
+    const { nearbyStopPlaceIds } = useNearbyStopPlaceIds(debouncedDistance)
 
     const locationName = settings.boardName
 
-    const nearestStopPlaceIds = useMemo(
-        () => nearestStopPlaces.map(({ id }) => id),
-        [nearestStopPlaces],
-    )
-
     useEffect(() => {
         let aborted = false
-        const ids = [...settings.newStops, ...nearestStopPlaceIds]
+        const ids = [...settings.newStops, ...nearbyStopPlaceIds]
 
         getStopPlacesWithLines(
             ids.map((id: string) => id.replace(/-\d+$/, '')),
@@ -165,7 +157,7 @@ const EditTab = (): JSX.Element => {
         return (): void => {
             aborted = true
         }
-    }, [nearestStopPlaces, nearestStopPlaceIds, settings.newStops])
+    }, [nearbyStopPlaceIds, settings.newStops])
 
     const sortedBikeRentalStations = useMemo(
         () =>
@@ -182,7 +174,7 @@ const EditTab = (): JSX.Element => {
     const addNewStop = useCallback(
         (stopId: string) => {
             const numberOfDuplicates = [
-                ...nearestStopPlaceIds,
+                ...nearbyStopPlaceIds,
                 ...settings.newStops,
             ]
                 .map((id) => id.replace(/-\d+$/, ''))
@@ -196,7 +188,7 @@ const EditTab = (): JSX.Element => {
                 newStops: [...settings.newStops, id],
             })
         },
-        [nearestStopPlaceIds, settings.newStops, setSettings],
+        [nearbyStopPlaceIds, settings.newStops, setSettings],
     )
 
     const addNewStation = useCallback(

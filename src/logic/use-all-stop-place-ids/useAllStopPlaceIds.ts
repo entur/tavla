@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { difference, union } from 'lodash'
 import { ApolloError } from '@apollo/client'
-import { useNearestStopPlaces } from '../use-nearest-stop-places/useNearestStopPlaces'
+import { useNearbyStopPlaceIds } from '../use-nearby-stop-place-ids/useNearbyStopPlaceIds'
 import { useSettings } from '../../settings/SettingsProvider'
 
 interface UseAllStopPlaceIds {
@@ -18,18 +18,18 @@ interface UseAllStopPlaceIds {
 function useAllStopPlaceIds(): UseAllStopPlaceIds {
     const [settings] = useSettings()
 
-    const { nearestStopPlaces, loading, error } = useNearestStopPlaces(
-        settings.coordinates,
+    const { nearbyStopPlaceIds, loading, error } = useNearbyStopPlaceIds(
         settings.distance,
     )
 
-    const allStopPlaceIds = useMemo(() => {
-        const nearestStopId = nearestStopPlaces.map((it) => it.id)
-        return difference(
-            union(settings.newStops, nearestStopId),
-            settings.hiddenStops,
-        )
-    }, [nearestStopPlaces, settings.newStops, settings.hiddenStops])
+    const allStopPlaceIds = useMemo(
+        () =>
+            difference(
+                union(settings.newStops, nearbyStopPlaceIds),
+                settings.hiddenStops,
+            ),
+        [nearbyStopPlaceIds, settings.newStops, settings.hiddenStops],
+    )
 
     return {
         allStopPlaceIds,
