@@ -1,12 +1,14 @@
-import { Infer, is, number, string, type } from 'superstruct'
+import { array, Infer, is, number, string, type } from 'superstruct'
 
 const RentalStationStruct = type({
     id: string(),
     name: type({
-        translation: type({
-            language: string(),
-            value: string(),
-        }),
+        translation: array(
+            type({
+                language: string(),
+                value: string(),
+            }),
+        ),
     }),
     lat: number(),
     lon: number(),

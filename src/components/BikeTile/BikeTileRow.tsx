@@ -1,13 +1,13 @@
 import React from 'react'
 import { Heading3 } from '@entur/typography'
 import { BicycleIcon } from '@entur/icons'
-import { StationFragment } from '../../../graphql-generated/mobility-v2'
 import { getTranslation } from '../../utils/utils'
 import { WalkTrip } from '../WalkTrip/WalkTrip'
+import { RentalStation } from '../../logic/use-new-rental-stations/types'
 import classes from './BikeTileRow.module.scss'
 
 interface BikeTileRowProps {
-    station: StationFragment
+    station: RentalStation
     iconColor: string
 }
 

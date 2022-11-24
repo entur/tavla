@@ -1,19 +1,19 @@
 import React, { useMemo } from 'react'
 import { MobilityTile } from '../MobilityTile/MobilityTile'
-import { useRentalStations } from '../../../../logic'
+import { useRentalStations } from '../../../../logic/use-new-rental-stations/useRentalStations'
 import { FormFactor } from '../../../../../graphql-generated/mobility-v2'
 import { RentalCarIcon } from '../../../../assets/icons/RentalCarIcon'
 
 const CarTile = () => {
-    const carRentalStations = useRentalStations(true, FormFactor.Car)
+    const { rentalStations } = useRentalStations([FormFactor.Car])
     const totalNumberOfCars = useMemo(
         () =>
-            carRentalStations?.reduce(
+            rentalStations.reduce(
                 (numberOfCars, station) =>
                     numberOfCars + station.numBikesAvailable,
                 0,
             ),
-        [carRentalStations],
+        [rentalStations],
     )
 
     return (

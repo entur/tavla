@@ -19,7 +19,7 @@ import { Button } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { isMobileWeb, getTranslation } from '../../../utils/utils'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearestStopPlaces, useRentalStations } from '../../../logic'
+import { useNearestStopPlaces } from '../../../logic'
 import { getStopPlacesWithLines } from '../../../logic/get-stop-places-with-lines/getStopPlacesWithLines'
 import {
     saveToLocalStorage,
@@ -27,6 +27,7 @@ import {
 } from '../../../settings/LocalStorage'
 import { useUniqueLines } from '../../../logic/use-unique-lines/useUniqueLines'
 import { useLinesWithRealtimePositions } from '../../../logic/use-lines-with-realtime-positions/useLinesWithRealtimePositions'
+import { useRentalStations } from '../../../logic/use-rental-stations/useRentalStations'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { useDebounce } from '../../../hooks/useDebounce'
 import { toggleValueInList } from '../../../utils/array'

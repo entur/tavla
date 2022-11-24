@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { Marker } from 'react-map-gl'
 import useSupercluster from 'use-supercluster'
 import { BikeRentalStationTag } from '../BikeRentalStationTag/BikeRentalStationTag'
-import { useRentalStations } from '../../../logic'
+import { useRentalStations } from '../../../logic/use-new-rental-stations/useRentalStations'
 import { FormFactor } from '../../../../graphql-generated/mobility-v2'
 import classes from './BikeRentalStationClusterMarkers.module.scss'
 
@@ -12,11 +12,11 @@ interface Props {
 }
 
 const BikeRentalStationClusterMarkers: React.FC<Props> = ({ zoom, bounds }) => {
-    const bikeRentalStations = useRentalStations(true, FormFactor.Bicycle)
+    const { rentalStations } = useRentalStations([FormFactor.Bicycle])
 
     const bikeRentalStationPoints = useMemo(
         () =>
-            bikeRentalStations?.map((bikeRentalStation) => ({
+            rentalStations?.map((bikeRentalStation) => ({
                 type: 'Feature' as const,
                 properties: {
                     cluster: false,
@@ -29,7 +29,7 @@ const BikeRentalStationClusterMarkers: React.FC<Props> = ({ zoom, bounds }) => {
                     coordinates: [bikeRentalStation.lon, bikeRentalStation.lat],
                 },
             })),
-        [bikeRentalStations],
+        [rentalStations],
     )
 
     const { clusters } = useSupercluster({
