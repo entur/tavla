@@ -1,18 +1,23 @@
-import React, { ChangeEvent, useCallback } from 'react'
+import React, { ChangeEvent, useCallback, useMemo } from 'react'
 import { Checkbox, Fieldset } from '@entur/form'
 import { Paragraph } from '@entur/typography'
 import { getTranslation } from '../../../../utils/utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { toggleValueInList } from '../../../../utils/array'
-import { StationFragment } from '../../../../../graphql-generated/mobility-v2'
+import { FormFactor } from '../../../../../graphql-generated/mobility-v2'
+import { byName } from '../../../../logic/use-new-rental-stations/types'
+import { useRentalStations } from '../../../../logic/use-new-rental-stations/useRentalStations'
 import './BikePanel.scss'
 
-interface BikePanelProps {
-    stations: StationFragment[]
-}
-
-function BikePanel({ stations }: BikePanelProps): JSX.Element {
+function BikePanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
+
+    const { rentalStations } = useRentalStations([FormFactor.Bicycle], false)
+
+    const stations = useMemo(
+        () => rentalStations.sort(byName),
+        [rentalStations],
+    )
 
     const onChooseAllPressed = useCallback(() => {
         if (settings.hiddenStations.length > 0) {

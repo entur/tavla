@@ -17,7 +17,7 @@ import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
 import { Button } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
-import { isMobileWeb, getTranslation } from '../../../utils/utils'
+import { isMobileWeb } from '../../../utils/utils'
 import { StopPlaceWithLines } from '../../../types'
 import { useNearbyStopPlaceIds } from '../../../logic/use-nearby-stop-place-ids/useNearbyStopPlaceIds'
 import { getStopPlacesWithLines } from '../../../logic/get-stop-places-with-lines/getStopPlacesWithLines'
@@ -27,12 +27,9 @@ import {
 } from '../../../settings/LocalStorage'
 import { useUniqueLines } from '../../../logic/use-unique-lines/useUniqueLines'
 import { useRealtimePositionLineRefs } from '../../../logic/use-realtime-position-line-refs/useRealtimePositionLineRefs'
-import { useRentalStations } from '../../../logic/use-rental-stations/useRentalStations'
-import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { useDebounce } from '../../../hooks/useDebounce'
 import { toggleValueInList } from '../../../utils/array'
 import { Mode } from '../../../settings/settings'
-import { FormFactor } from '../../../../graphql-generated/mobility-v2'
 import { StopPlacePanel } from './StopPlacePanel/StopPlacePanel'
 import { BikePanelSearch } from './BikeSearch/BikePanelSearch'
 import { StopPlaceSearch } from './StopPlaceSearch/StopPlaceSearch'
@@ -129,7 +126,6 @@ const EditTab = (): JSX.Element => {
     const [stopPlaces, setStopPlaces] = useState<
         StopPlaceWithLines[] | undefined
     >(undefined)
-    const bikeRentalStations = useRentalStations(false, FormFactor.Bicycle)
 
     const { nearbyStopPlaceIds } = useNearbyStopPlaceIds(debouncedDistance)
 
@@ -158,18 +154,6 @@ const EditTab = (): JSX.Element => {
             aborted = true
         }
     }, [nearbyStopPlaceIds, settings.newStops])
-
-    const sortedBikeRentalStations = useMemo(
-        () =>
-            bikeRentalStations.filter(isNotNullOrUndefined).sort((a, b) => {
-                const aName = getTranslation(a.name)
-                const bName = getTranslation(b.name)
-                if (!aName) return 1
-                if (!bName) return -1
-                return aName.localeCompare(bName, 'no')
-            }),
-        [bikeRentalStations],
-    )
 
     const addNewStop = useCallback(
         (stopId: string) => {
@@ -372,7 +356,7 @@ const EditTab = (): JSX.Element => {
                             onSelected={addNewStation}
                         />
                     )}
-                    <BikePanel stations={sortedBikeRentalStations} />
+                    <BikePanel />
                 </div>
                 {/* <div key="mapPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">

@@ -7,7 +7,7 @@ import {
 import { isNotNullOrUndefined } from '../../utils/typeguards'
 import { useAllStationIds } from '../use-all-station-ids/useAllStationIds'
 import { REFRESH_INTERVAL } from '../../constants'
-import { isRentalStation, RentalStation } from './types'
+import { toRentalStation, RentalStation } from './types'
 
 interface UseRentalStations {
     rentalStations: RentalStation[]
@@ -15,12 +15,15 @@ interface UseRentalStations {
     error: ApolloError | undefined
 }
 
-function useRentalStations(formFactor?: FormFactor[]): UseRentalStations {
+function useRentalStations(
+    formFactor?: FormFactor[],
+    excludeHidden: boolean | undefined = true,
+): UseRentalStations {
     const {
         allStationIds,
         loading: allStationIdsLoading,
         error: allStationIdsError,
-    } = useAllStationIds(formFactor)
+    } = useAllStationIds(formFactor, excludeHidden)
 
     const { data, loading, error } = useRentalStationsQuery({
         skip: allStationIdsLoading,
@@ -34,7 +37,7 @@ function useRentalStations(formFactor?: FormFactor[]): UseRentalStations {
     const rentalStations = useMemo(
         () =>
             data?.stationsById
-                ?.map(isRentalStation)
+                ?.map(toRentalStation)
                 .filter(isNotNullOrUndefined) ?? [],
         [data?.stationsById],
     )

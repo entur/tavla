@@ -15,8 +15,12 @@ interface UseAllStationIds {
  * Hook that combines all StationIds from useNearbyStationIds and settings.newStations,
  * and then filters ids from settings.hiddenStations.
  * @param formFactor
+ * @param excludeHidden controls whether to filter ids by settings.hiddenStations
  */
-function useAllStationIds(formFactor?: FormFactor[]): UseAllStationIds {
+function useAllStationIds(
+    formFactor?: FormFactor[],
+    excludeHidden: boolean | undefined = true,
+): UseAllStationIds {
     const [settings] = useSettings()
     const { nearbyStationIds, loading, error } = useNearbyStationIds(formFactor)
 
@@ -24,9 +28,14 @@ function useAllStationIds(formFactor?: FormFactor[]): UseAllStationIds {
         () =>
             difference(
                 union(settings.newStations, nearbyStationIds),
-                settings.hiddenStations,
+                excludeHidden ? settings.hiddenStations : [],
             ),
-        [nearbyStationIds, settings.newStations, settings.hiddenStations],
+        [
+            nearbyStationIds,
+            excludeHidden,
+            settings.newStations,
+            settings.hiddenStations,
+        ],
     )
 
     return {
