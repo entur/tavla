@@ -153,8 +153,8 @@ const ChronoDashboard = (): JSX.Element | null => {
                             data-grid={getDataGrid(
                                 maxWidthCols - 1,
                                 maxWidthCols,
-                                1.8,
-                                1.8,
+                                2,
+                                2,
                                 Infinity,
                             )}
                         >
