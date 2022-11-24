@@ -5,8 +5,8 @@ import { getTranslation } from '../../../../utils/utils'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { toggleValueInList } from '../../../../utils/array'
 import { FormFactor } from '../../../../../graphql-generated/mobility-v2'
-import { byName } from '../../../../logic/use-new-rental-stations/types'
-import { useRentalStations } from '../../../../logic/use-new-rental-stations/useRentalStations'
+import { byName } from '../../../../logic/use-rental-stations/types'
+import { useRentalStations } from '../../../../logic/use-rental-stations/useRentalStations'
 import './BikePanel.scss'
 
 function BikePanel(): JSX.Element {

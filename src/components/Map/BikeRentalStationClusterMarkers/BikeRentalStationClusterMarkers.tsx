@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { Marker } from 'react-map-gl'
 import useSupercluster from 'use-supercluster'
 import { BikeRentalStationTag } from '../BikeRentalStationTag/BikeRentalStationTag'
-import { useRentalStations } from '../../../logic/use-new-rental-stations/useRentalStations'
+import { useRentalStations } from '../../../logic/use-rental-stations/useRentalStations'
 import { FormFactor } from '../../../../graphql-generated/mobility-v2'
 import classes from './BikeRentalStationClusterMarkers.module.scss'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { MobilityTile } from '../MobilityTile/MobilityTile'
 import { useSettings } from '../../../../settings/SettingsProvider'
-import { useRentalStations } from '../../../../logic/use-new-rental-stations/useRentalStations'
+import { useRentalStations } from '../../../../logic/use-rental-stations/useRentalStations'
 import { FormFactor } from '../../../../../graphql-generated/mobility-v2'
 import { CityBikeIcon } from '../../../../assets/icons/CityBikeIcon'
 
