@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useLocation } from 'react-router-dom'
-import { useAllStopPlaceIds } from '../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
+import { useStopPlaceIds } from '../../logic/use-stop-place-ids/useStopPlaceIds'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
 import {
@@ -69,9 +69,9 @@ const CompactDashboard = (): JSX.Element | null => {
         getFromLocalStorage(dashboardKey as string),
     )
 
-    const { allStopPlaceIds } = useAllStopPlaceIds()
+    const { stopPlaceIds } = useStopPlaceIds()
 
-    const numberOfStopPlaces = allStopPlaceIds.length
+    const numberOfStopPlaces = stopPlaceIds.length
 
     const bikeCol = !settings.hiddenModes.includes('bysykkel') ? 1 : 0
     const mapCol = settings.showMap ? 1 : 0
@@ -158,7 +158,7 @@ const CompactDashboard = (): JSX.Element | null => {
                             <WeatherTile className="tile" />
                         </div>
                     )}
-                    {allStopPlaceIds.map((stopPlaceId, index) => (
+                    {stopPlaceIds.map((stopPlaceId, index) => (
                         <div
                             key={stopPlaceId}
                             data-grid={getDataGrid(

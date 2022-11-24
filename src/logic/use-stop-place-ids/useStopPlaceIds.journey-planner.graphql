@@ -1,4 +1,4 @@
-query NearbyStopPlaceIds(
+query StopPlaceIds(
     $latitude: Float!
     $longitude: Float!
     $maximumDistance: Float!

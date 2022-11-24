@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { ApolloError } from '@apollo/client'
 import { uniqBy } from 'lodash'
 import { useSettings } from '../../settings/SettingsProvider'
-import { useAllStopPlaceIds } from '../use-all-stop-place-ids/useAllStopPlaceIds'
+import { useStopPlaceIds } from '../use-stop-place-ids/useStopPlaceIds'
 import { useUniqueLinesQuery } from '../../../graphql-generated/journey-planner-v3'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
 import { toEstimatedCall } from './types'
@@ -17,14 +17,14 @@ interface UseUniqueLines {
 const useUniqueLines = (): UseUniqueLines => {
     const [settings] = useSettings()
     const {
-        allStopPlaceIds,
+        stopPlaceIds,
         loading: allStopPlaceIdsLoading,
         error: allStopPlaceIdsError,
-    } = useAllStopPlaceIds()
+    } = useStopPlaceIds()
 
     const { data, loading, error } = useUniqueLinesQuery({
         variables: {
-            ids: allStopPlaceIds,
+            ids: stopPlaceIds,
         },
         skip: allStopPlaceIdsLoading,
     })

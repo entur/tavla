@@ -1,14 +1,14 @@
-query NearbyStationIds(
+query StationIds(
     $latitude: Float!
     $longitude: Float!
     $range: Int!
-    $formFactor: [FormFactor]
+    $formFactors: [FormFactor]
 ) @api(name: mobility) {
     stations(
         lat: $latitude
         lon: $longitude
         range: $range
-        availableFormFactors: $formFactor
+        availableFormFactors: $formFactors
     ) {
         id
     }

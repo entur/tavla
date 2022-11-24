@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { BusIcon } from '@entur/icons'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { useBusTileQuery } from '../../../../../graphql-generated/journey-planner-v3'
-import { useAllStopPlaceIds } from '../../../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
+import { useStopPlaceIds } from '../../../../logic/use-stop-place-ids/useStopPlaceIds'
 import { REFRESH_INTERVAL } from '../../../../constants'
 import { toDeparture } from '../../../../logic/use-stop-place-with-estimated-calls/departure'
 import { isNotNullOrUndefined } from '../../../../utils/typeguards'
@@ -12,14 +12,13 @@ import { toStopPlaceWithEstimatedCalls } from '../../../../logic/use-stop-place-
 import './BusTile.scss'
 
 function BusTile(): JSX.Element {
-    const { allStopPlaceIds, loading: allStopPLaceIdsLoding } =
-        useAllStopPlaceIds()
+    const { stopPlaceIds, loading: stopPlaceIdsLoading } = useStopPlaceIds()
     const { data } = useBusTileQuery({
         fetchPolicy: 'cache-and-network',
         pollInterval: REFRESH_INTERVAL,
-        skip: allStopPLaceIdsLoding,
+        skip: stopPlaceIdsLoading,
         variables: {
-            ids: allStopPlaceIds,
+            ids: stopPlaceIds,
         },
     })
 

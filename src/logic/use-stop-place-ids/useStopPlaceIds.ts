@@ -1,45 +1,57 @@
 import { useMemo } from 'react'
+import { difference, union } from 'lodash'
 import { ApolloError } from '@apollo/client'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
 import {
     FilterPlaceType,
     MultiModalMode,
-    useNearbyStopPlaceIdsQuery,
+    useStopPlaceIdsQuery,
 } from '../../../graphql-generated/journey-planner-v3'
 import { useSettings } from '../../settings/SettingsProvider'
 
-interface UseNearbyStopPlaceIds {
-    nearbyStopPlaceIds: string[]
+interface UseStopPlaceIds {
+    stopPlaceIds: string[]
     loading: boolean
     error: ApolloError | undefined
 }
 
-function useNearbyStopPlaceIds(distance = 2000): UseNearbyStopPlaceIds {
+interface Options {
+    distance?: number
+    filterHidden?: boolean
+}
+
+function useStopPlaceIds(
+    { distance, filterHidden }: Options = { filterHidden: true },
+): UseStopPlaceIds {
     const [settings] = useSettings()
-    const { data, loading, error } = useNearbyStopPlaceIdsQuery({
+
+    const { data, loading, error } = useStopPlaceIdsQuery({
         variables: {
             latitude: settings.coordinates.latitude,
             longitude: settings.coordinates.longitude,
-            maximumDistance: distance,
+            maximumDistance: distance ?? settings.distance,
             filterByPlaceTypes: [FilterPlaceType.StopPlace],
             multiModalMode: MultiModalMode.Parent,
         },
         fetchPolicy: 'cache-and-network',
     })
 
-    const nearbyStopPlaceIds = useMemo(
-        () =>
+    const stopPlaceIds = useMemo(() => {
+        const nearbyStopPlaceIds =
             data?.nearest?.edges
                 ?.map((edge) => edge?.node?.place?.id)
-                .filter(isNotNullOrUndefined) ?? [],
-        [data?.nearest],
-    )
+                .filter(isNotNullOrUndefined) ?? []
+        return difference(
+            union(settings.newStops, nearbyStopPlaceIds),
+            filterHidden ? settings.hiddenStops : [],
+        )
+    }, [data?.nearest, filterHidden, settings.newStops, settings.hiddenStops])
 
     return {
-        nearbyStopPlaceIds,
+        stopPlaceIds,
         loading,
         error,
     }
 }
 
-export { useNearbyStopPlaceIds }
+export { useStopPlaceIds }

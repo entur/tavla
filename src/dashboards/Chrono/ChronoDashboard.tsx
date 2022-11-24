@@ -16,7 +16,7 @@ import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { BikeTile } from '../../components/BikeTile/BikeTile'
 import { MapTile } from '../../components/MapTile/MapTile'
 import { MobileAppQRTile } from '../../components/QRTile/MobileAppQRTile'
-import { useAllStopPlaceIds } from '../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
+import { useStopPlaceIds } from '../../logic/use-stop-place-ids/useStopPlaceIds'
 import { ChronoDepartureTile } from './ChronoDepartureTile/ChronoDepartureTile'
 import './ChronoDashboard.scss'
 
@@ -69,13 +69,13 @@ const ChronoDashboard = (): JSX.Element | null => {
         getFromLocalStorage(dashboardKey as string),
     )
 
-    const { allStopPlaceIds } = useAllStopPlaceIds()
+    const { stopPlaceIds } = useStopPlaceIds()
 
     const numberOfCustomImages = settings.customImageTiles.filter(
         ({ id }) => !settings.hiddenCustomTileIds.includes(id),
     ).length
 
-    const numberOfStopPlaces = allStopPlaceIds.length
+    const numberOfStopPlaces = stopPlaceIds.length
 
     const maxWidthCols = COLS[breakpoint] || 1
 
@@ -162,7 +162,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                             <WeatherTile className="tile" />
                         </div>
                     )}
-                    {allStopPlaceIds.map((stopPlaceId, index) => (
+                    {stopPlaceIds.map((stopPlaceId, index) => (
                         <div
                             key={stopPlaceId}
                             data-grid={getDataGrid(

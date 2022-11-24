@@ -1,15 +1,15 @@
 import React from 'react'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-import { useAllStopPlaceIds } from '../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
+import { useStopPlaceIds } from '../../logic/use-stop-place-ids/useStopPlaceIds'
 import { TimelineTile } from './TimelineTile/TimelineTile'
 import classes from './TimelineDashboard.module.scss'
 
 const TimelineDashboard = (): JSX.Element | null => {
-    const { allStopPlaceIds } = useAllStopPlaceIds()
+    const { stopPlaceIds } = useStopPlaceIds()
 
     return (
         <DashboardWrapper className={classes.TimelineDashboard}>
-            {allStopPlaceIds.map((stopPlaceId) => (
+            {stopPlaceIds.map((stopPlaceId) => (
                 <TimelineTile key={stopPlaceId} stopPlaceId={stopPlaceId} />
             ))}
         </DashboardWrapper>

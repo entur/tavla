@@ -5,8 +5,8 @@ import {
     useRentalStationsQuery,
 } from '../../../graphql-generated/mobility-v2'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
-import { useAllStationIds } from '../use-all-station-ids/useAllStationIds'
 import { REFRESH_INTERVAL } from '../../constants'
+import { useStationIds } from '../use-station-ids/useStationIds'
 import { toRentalStation, RentalStation } from './types'
 
 interface UseRentalStations {
@@ -16,21 +16,21 @@ interface UseRentalStations {
 }
 
 function useRentalStations(
-    formFactor?: FormFactor[],
-    excludeHidden: boolean | undefined = true,
+    formFactors?: FormFactor[],
+    filterHidden: boolean | undefined = true,
 ): UseRentalStations {
     const {
-        allStationIds,
+        stationIds,
         loading: allStationIdsLoading,
         error: allStationIdsError,
-    } = useAllStationIds(formFactor, excludeHidden)
+    } = useStationIds({ formFactors, filterHidden })
 
     const { data, loading, error } = useRentalStationsQuery({
         skip: allStationIdsLoading,
         fetchPolicy: 'cache-and-network',
         pollInterval: REFRESH_INTERVAL,
         variables: {
-            ids: allStationIds,
+            ids: stationIds,
         },
     })
 

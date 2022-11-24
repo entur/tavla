@@ -1,6 +1,6 @@
 import React from 'react'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-import { useAllStopPlaceIds } from '../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
+import { useStopPlaceIds } from '../../logic/use-stop-place-ids/useStopPlaceIds'
 import { Map } from '../../components/Map/Map'
 import { useSettings } from '../../settings/SettingsProvider'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
@@ -9,7 +9,7 @@ import classes from './MapDashboard.module.scss'
 
 const MapDashboard = (): JSX.Element => {
     const [settings] = useSettings()
-    const { allStopPlaceIds } = useAllStopPlaceIds()
+    const { stopPlaceIds } = useStopPlaceIds()
 
     const HEADER_MARGIN = 16
     //Used to calculate the height of the viewport for the map
@@ -29,7 +29,7 @@ const MapDashboard = (): JSX.Element => {
                     </div>
                 )}
                 <div className={classes.DepartureDisplay}>
-                    {allStopPlaceIds?.map((stopPlaceId) => (
+                    {stopPlaceIds.map((stopPlaceId) => (
                         <DepartureTag
                             key={stopPlaceId}
                             stopPlaceId={stopPlaceId}

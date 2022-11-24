@@ -19,7 +19,7 @@ import { Button } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { isMobileWeb } from '../../../utils/utils'
 import { StopPlaceWithLines } from '../../../types'
-import { useNearbyStopPlaceIds } from '../../../logic/use-nearby-stop-place-ids/useNearbyStopPlaceIds'
+import { useStopPlaceIds } from '../../../logic/use-stop-place-ids/useStopPlaceIds'
 import { getStopPlacesWithLines } from '../../../logic/get-stop-places-with-lines/getStopPlacesWithLines'
 import {
     saveToLocalStorage,
@@ -127,16 +127,18 @@ const EditTab = (): JSX.Element => {
         StopPlaceWithLines[] | undefined
     >(undefined)
 
-    const { nearbyStopPlaceIds } = useNearbyStopPlaceIds(debouncedDistance)
+    const { stopPlaceIds } = useStopPlaceIds({
+        distance: debouncedDistance,
+        filterHidden: false,
+    })
 
     const locationName = settings.boardName
 
     useEffect(() => {
         let aborted = false
-        const ids = [...settings.newStops, ...nearbyStopPlaceIds]
 
         getStopPlacesWithLines(
-            ids.map((id: string) => id.replace(/-\d+$/, '')),
+            stopPlaceIds.map((id: string) => id.replace(/-\d+$/, '')),
         ).then((resultingStopPlaces) => {
             if (aborted) {
                 return
@@ -145,7 +147,7 @@ const EditTab = (): JSX.Element => {
                 resultingStopPlaces.map((s, index) => ({
                     ...s,
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    id: ids[index]!,
+                    id: stopPlaceIds[index]!,
                 })),
             )
         })
@@ -153,14 +155,11 @@ const EditTab = (): JSX.Element => {
         return (): void => {
             aborted = true
         }
-    }, [nearbyStopPlaceIds, settings.newStops])
+    }, [stopPlaceIds, settings.newStops])
 
     const addNewStop = useCallback(
         (stopId: string) => {
-            const numberOfDuplicates = [
-                ...nearbyStopPlaceIds,
-                ...settings.newStops,
-            ]
+            const numberOfDuplicates = [...stopPlaceIds, ...settings.newStops]
                 .map((id) => id.replace(/-\d+$/, ''))
                 .filter((id) => id === stopId).length
 
@@ -172,7 +171,7 @@ const EditTab = (): JSX.Element => {
                 newStops: [...settings.newStops, id],
             })
         },
-        [nearbyStopPlaceIds, settings.newStops, setSettings],
+        [stopPlaceIds, settings.newStops, setSettings],
     )
 
     const addNewStation = useCallback(
