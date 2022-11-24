@@ -26,7 +26,7 @@ import {
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
 import { useUniqueLines } from '../../../logic/use-unique-lines/useUniqueLines'
-import { useLinesWithRealtimePositions } from '../../../logic/use-lines-with-realtime-positions/useLinesWithRealtimePositions'
+import { useRealtimePositionLineRefs } from '../../../logic/use-realtime-position-line-refs/useRealtimePositionLineRefs'
 import { useRentalStations } from '../../../logic/use-rental-stations/useRentalStations'
 import { isNotNullOrUndefined } from '../../../utils/typeguards'
 import { useDebounce } from '../../../hooks/useDebounce'
@@ -78,15 +78,15 @@ const EditTab = (): JSX.Element => {
 
     const [distance, setDistance] = useState<number>(settings.distance)
 
-    const allLinesWithRealtimeData = useLinesWithRealtimePositions()
+    const { realtimePositionLineRefs } = useRealtimePositionLineRefs()
     const { uniqueLines } = useUniqueLines()
 
     const realtimeLines = useMemo(
         () =>
             uniqueLines.filter((line) =>
-                allLinesWithRealtimeData?.includes(line.id),
+                realtimePositionLineRefs?.includes(line.id),
             ),
-        [uniqueLines, allLinesWithRealtimeData],
+        [uniqueLines, realtimePositionLineRefs],
     )
 
     const debouncedZoom = useDebounce(settings.zoom, 200)

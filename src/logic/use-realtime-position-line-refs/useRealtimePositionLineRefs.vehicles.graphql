@@ -1,4 +1,4 @@
-query UseLinesWithRealtimePositions @api(name: vehicles) {
+query RealtimePositionLineRefs @api(name: vehicles) {
     vehicles {
         line {
             lineRef
