@@ -31,7 +31,7 @@ const CompactDepartureTile: React.FC<CompactDepartureTileProps> = ({
     )
 
     const { stopPlaceWithEstimatedCalls, loading } =
-        useStopPlaceWithEstimatedCalls(stopPlaceId)
+        useStopPlaceWithEstimatedCalls({ stopPlaceId })
 
     const departures = useMemo(
         () =>

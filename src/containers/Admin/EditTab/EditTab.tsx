@@ -18,9 +18,7 @@ import { ValidationInfoIcon } from '@entur/icons'
 import { Button } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { isMobileWeb } from '../../../utils/utils'
-import { StopPlaceWithLines } from '../../../types'
 import { useStopPlaceIds } from '../../../logic/use-stop-place-ids/useStopPlaceIds'
-import { getStopPlacesWithLines } from '../../../logic/get-stop-places-with-lines/getStopPlacesWithLines'
 import {
     saveToLocalStorage,
     getFromLocalStorage,
@@ -123,39 +121,12 @@ const EditTab = (): JSX.Element => {
         setSettings,
     ])
 
-    const [stopPlaces, setStopPlaces] = useState<
-        StopPlaceWithLines[] | undefined
-    >(undefined)
-
     const { stopPlaceIds } = useStopPlaceIds({
         distance: debouncedDistance,
         filterHidden: false,
     })
 
     const locationName = settings.boardName
-
-    useEffect(() => {
-        let aborted = false
-
-        getStopPlacesWithLines(
-            stopPlaceIds.map((id: string) => id.replace(/-\d+$/, '')),
-        ).then((resultingStopPlaces) => {
-            if (aborted) {
-                return
-            }
-            setStopPlaces(
-                resultingStopPlaces.map((s, index) => ({
-                    ...s,
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    id: stopPlaceIds[index]!,
-                })),
-            )
-        })
-
-        return (): void => {
-            aborted = true
-        }
-    }, [stopPlaceIds, settings.newStops])
 
     const addNewStop = useCallback(
         (stopId: string) => {
@@ -299,7 +270,7 @@ const EditTab = (): JSX.Element => {
                     <div className="edit-tab__set-stops">
                         <StopPlaceSearch handleAddNewStop={addNewStop} />
                     </div>
-                    <StopPlacePanel stops={stopPlaces} />
+                    <StopPlacePanel distance={debouncedDistance} />
                     <div>
                         <Heading3 className="edit-tab__header--details-in-view">
                             Detaljer i visningen

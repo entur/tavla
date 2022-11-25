@@ -30,7 +30,7 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
     )
 
     const { stopPlaceWithEstimatedCalls, loading } =
-        useStopPlaceWithEstimatedCalls(stopPlaceId)
+        useStopPlaceWithEstimatedCalls({ stopPlaceId })
 
     const departures = useMemo(
         () =>
