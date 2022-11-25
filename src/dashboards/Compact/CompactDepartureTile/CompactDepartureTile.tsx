@@ -15,6 +15,7 @@ import { WalkTrip } from '../../../components/WalkTrip/WalkTrip'
 import { createTileSubLabel } from '../../../utils/utils'
 import { TransportModeIcon } from '../../../components/TransportModeIcon/TransportModeIcon'
 import { ErrorTile } from '../../../components/ErrorTile/ErrorTile'
+import { EmptyStopTile } from '../../../components/EmptyStopTile/EmptyStopTile'
 import classes from './CompactDepartureTile.module.scss'
 
 interface CompactDepartureTileProps {
@@ -56,6 +57,15 @@ const CompactDepartureTile: React.FC<CompactDepartureTileProps> = ({
 
     if (!stopPlaceWithEstimatedCalls) {
         return <ErrorTile className={classes.CompactDepartureTile} />
+    }
+
+    if (!departures.length) {
+        return (
+            <EmptyStopTile
+                className={classes.CompactDepartureTile}
+                title={stopPlaceWithEstimatedCalls.name}
+            />
+        )
     }
 
     return (

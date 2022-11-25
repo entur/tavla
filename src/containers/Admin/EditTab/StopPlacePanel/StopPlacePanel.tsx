@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useMemo } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
 import { Checkbox } from '@entur/form'
 import { Paragraph } from '@entur/typography'
 import { Loader } from '@entur/loader'
@@ -18,11 +18,6 @@ interface StopPlacePanelProps {
 function StopPlacePanel({ stops }: StopPlacePanelProps): JSX.Element {
     const [settings, setSettings] = useSettings()
 
-    const filteredStopPlaces = useMemo(
-        () => stops?.filter(({ lines }) => lines.length) || [],
-        [stops],
-    )
-
     const onChooseAllPressed = useCallback(() => {
         if (settings.hiddenStops.length > 0) {
             setSettings({
@@ -36,7 +31,7 @@ function StopPlacePanel({ stops }: StopPlacePanelProps): JSX.Element {
             })
         } else {
             setSettings({
-                hiddenStops: stops?.map(({ id }) => id) || [],
+                hiddenStops: stops?.map(({ id }) => id),
             })
         }
     }, [
@@ -50,9 +45,7 @@ function StopPlacePanel({ stops }: StopPlacePanelProps): JSX.Element {
         (event: ChangeEvent<HTMLInputElement>) => {
             const checked = event.target.checked
             const stopId = event.target.id
-            const stopPlace = filteredStopPlaces.find(
-                (item) => item.id === stopId,
-            )
+            const stopPlace = stops?.find((item) => item.id === stopId)
 
             const uniqueTransportModes = Array.from(
                 new Set(
@@ -68,12 +61,7 @@ function StopPlacePanel({ stops }: StopPlacePanelProps): JSX.Element {
                 },
             })
         },
-        [
-            filteredStopPlaces,
-            settings.hiddenStopModes,
-            settings.hiddenStops,
-            setSettings,
-        ],
+        [stops, settings.hiddenStopModes, settings.hiddenStops, setSettings],
     )
 
     const onToggleRoute = useCallback(
@@ -101,9 +89,7 @@ function StopPlacePanel({ stops }: StopPlacePanelProps): JSX.Element {
                     mode,
                 ),
             }
-            const stopPlace = filteredStopPlaces.find(
-                (item) => item.id === stopPlaceId,
-            )
+            const stopPlace = stops?.find((item) => item.id === stopPlaceId)
 
             const uniqueTransportModes = Array.from(
                 new Set(
@@ -130,15 +116,10 @@ function StopPlacePanel({ stops }: StopPlacePanelProps): JSX.Element {
                 hiddenStopModes: newHiddenModes,
             })
         },
-        [
-            filteredStopPlaces,
-            settings.hiddenStopModes,
-            settings.hiddenStops,
-            setSettings,
-        ],
+        [stops, settings.hiddenStopModes, settings.hiddenStops, setSettings],
     )
 
-    if (!filteredStopPlaces.length) {
+    if (!stops?.length) {
         return (
             <div className="stop-place-panel">
                 {stops ? (
@@ -171,7 +152,7 @@ function StopPlacePanel({ stops }: StopPlacePanelProps): JSX.Element {
                     </div>
                 </div>
                 {settings
-                    ? filteredStopPlaces.map((stopPlace) => (
+                    ? stops?.map((stopPlace) => (
                           <PanelRow
                               onToggleMode={onToggleMode}
                               onToggleRoute={onToggleRoute}
