@@ -25,7 +25,7 @@ const StopPlaceSearch: React.FC<StopPlaceSearchProps> = ({
                 searchable
                 openOnFocus
                 debounceTimeout={500}
-                label="Nytt stoppested"
+                label="Legg til et stoppested"
                 items={fetchAutocomplete}
                 onChange={onItemSelected}
                 highlightFirstItemOnOpen
