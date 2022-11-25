@@ -92,6 +92,7 @@ const AddNewOwnersInput = ({
                 <TextField
                     label="E-postadressen til brukeren"
                     value={newOwnerInput}
+                    autoComplete="email"
                     onChange={(e) => {
                         setNewOwnerInput(e.currentTarget.value)
                         setInputFeedbackMessageType(inputFeedbackType.CLEAR)
