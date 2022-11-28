@@ -2,10 +2,6 @@ import React from 'react'
 import { FieldValue, Timestamp } from 'firebase/firestore'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
-import {
-    TransportMode,
-    TransportSubmode,
-} from '../graphql-generated/journey-planner-v3'
 import { Settings } from './settings/settings'
 
 export interface Coordinates {
@@ -13,33 +9,11 @@ export interface Coordinates {
     longitude: number
 }
 
-export interface StopPlace {
-    id: string
-    description?: string
-    name: string
-    latitude?: number
-    longitude?: number
-    tariffZones?: Array<{
-        id: string
-    }>
-}
-
-export interface Line {
-    id: string
-    name: string
-    transportMode: TransportMode
-    transportSubmode: TransportSubmode
-    publicCode: string
-    pointsOnLink?: string
-}
-
 export interface DrawableRoute {
     pointsOnLink: string
     mode: string
     lineRef: string
 }
-
-export type StopPlaceWithLines = StopPlace & { lines: Line[] }
 
 export interface TileSubLabel {
     situation?: string
