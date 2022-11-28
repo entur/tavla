@@ -18,7 +18,6 @@ const BikeTile = () => {
         [rentalStations],
     )
 
-
     return (
         <MobilityTile
             icon={<CityBikeIcon />}
