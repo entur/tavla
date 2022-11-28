@@ -73,7 +73,7 @@ const BikePanelSearch: React.FC<BikePanelSearchProps> = ({
             <Dropdown
                 searchable
                 openOnFocus
-                label="Ny bysykkelstasjon"
+                label="Legg til en bysykkelstasjon"
                 items={getItems}
                 onChange={handleOnChange}
                 highlightFirstItemOnOpen

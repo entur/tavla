@@ -145,7 +145,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                             clearable
                             openOnFocus
                             debounceTimeout={500}
-                            label="Avreisested"
+                            label="Søk på avreisested"
                             items={getItems}
                             onChange={onItemSelected}
                             variant={errorMessage ? 'error' : undefined}
