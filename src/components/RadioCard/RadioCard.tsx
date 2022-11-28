@@ -12,6 +12,7 @@ interface RadioCardProps<T> {
     description?: string
     onChange: (value: T) => void
     className?: string
+    altText?: string
 }
 
 function RadioCard<T>({
@@ -22,6 +23,7 @@ function RadioCard<T>({
     preview,
     onChange,
     className,
+    altText,
 }: RadioCardProps<T>): JSX.Element {
     const handleClick = useCallback(
         (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -42,7 +44,7 @@ function RadioCard<T>({
             )}
             onClick={handleClick}
         >
-            <img className="radio-card__preview" src={preview} />
+            <img className="radio-card__preview" src={preview} alt={altText} />
             <div className="radio-card__radio-container">
                 <div className="radio-card__radio-container__header-wrapper">
                     <RadioBox

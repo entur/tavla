@@ -16,6 +16,7 @@ import {
 } from '../../../../logic/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from '../../../../components/WalkTrip/WalkTrip'
 import { ErrorTile } from '../../../../components/ErrorTile/ErrorTile'
+import { EmptyStopTile } from '../../../../components/EmptyStopTile/EmptyStopTile'
 import classes from './BusStopTile.module.scss'
 
 interface Props {
@@ -52,6 +53,15 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
         return <ErrorTile className={classes.BusStopTile} />
     }
 
+    if (!departures.length) {
+        return (
+            <EmptyStopTile
+                className={classes.BusStopTile}
+                title={stopPlaceWithEstimatedCalls.name}
+            />
+        )
+    }
+
     return (
         <Tile className={classes.BusStopTile}>
             <TileHeader
@@ -74,7 +84,7 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
                         </HeaderCell>
                         {!settings.hideTracks && (
                             <HeaderCell className={classes.Track}>
-                                Spor
+                                Plattform
                             </HeaderCell>
                         )}
                         {!settings.hideSituations && (

@@ -15,6 +15,7 @@ function ResizeHandle({ className, size, variant }: Props): JSX.Element | null {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
+            role="img"
         >
             <title>resizekort copy 4</title>
 

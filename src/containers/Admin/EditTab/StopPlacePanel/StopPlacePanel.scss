@@ -50,15 +50,8 @@
         }
 
         &__content {
-            display: grid;
-
-            @media (min-width: 1200px) {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            @media (min-width: 1600px) {
-                grid-template-columns: 1fr 1fr 1fr;
-            }
+            display: flex;
+            flex-direction: column;
         }
 
         &__expandable {
@@ -94,6 +87,7 @@
             color: var(--tavla-font-color);
             display: flex;
             align-items: center;
+            white-space: nowrap;
 
             svg {
                 font-size: 1.5rem;
