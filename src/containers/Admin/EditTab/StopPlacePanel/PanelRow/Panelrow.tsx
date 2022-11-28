@@ -2,6 +2,7 @@ import React, { ChangeEvent, useCallback, useMemo } from 'react'
 import { uniq, uniqBy } from 'lodash'
 import { Checkbox, TravelSwitch } from '@entur/form'
 import type { TravelSwitchProps } from '@entur/form'
+import { Paragraph } from '@entur/typography'
 import { Loader } from '@entur/loader'
 import { ExpandablePanel } from '@entur/expand'
 import { isTransport } from '../../../../../utils/typeguards'
@@ -131,14 +132,20 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
 
     if (loading) {
         return (
-            <div className="stop-place-panel__row__header">
+            <div className="stop-place-panel__row">
                 <Loader>Laster...</Loader>
             </div>
         )
     }
 
     if (!stopPlaceWithEstimatedCalls) {
-        return <div>error</div>
+        return (
+            <div className="stop-place-panel__row">
+                <Paragraph>
+                    Fant ikke informasjon om stoppestedet med id {stopPlaceId}
+                </Paragraph>
+            </div>
+        )
     }
 
     const header = (
