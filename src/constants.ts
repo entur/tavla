@@ -13,7 +13,6 @@ export const EXPIRE_VEHICLE_IN_SECONDS = 600
 export const SWEEP_INTERVAL_MS = 1000
 export const BUFFER_SIZE = 20
 export const BUFFER_TIME = 200
-export const DEFAULT_FETCH_POLICY = 'no-cache'
 
 // Client name for calling the API
 export const CLIENT_NAME = process.env.CLIENT_NAME || ''

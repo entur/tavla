@@ -1,5 +1,6 @@
 import {
     boolean,
+    Describe,
     is,
     nullable,
     number,
@@ -7,7 +8,6 @@ import {
     string,
     type,
 } from 'superstruct'
-import { UseRealtimeVehicleData_VehicleFragment } from '../../../graphql-generated/vehicles-v1'
 
 type Line = {
     lineRef: string
@@ -32,7 +32,7 @@ type RealtimeVehicle = {
 /**
  * Struct used to validate that what we receive from graphql conforms to the type RealtimeVehicle
  */
-const RealtimeVehicleStruct = type({
+const RealtimeVehicleStruct: Describe<RealtimeVehicle> = type({
     vehicleRef: string(),
     line: type({
         lineRef: string(),
@@ -50,9 +50,7 @@ const RealtimeVehicleStruct = type({
     active: optional(boolean()),
 })
 
-function toRealtimeVehicle(
-    vehicleFragment: UseRealtimeVehicleData_VehicleFragment | null,
-): RealtimeVehicle | null {
+function toRealtimeVehicle(vehicleFragment: unknown): RealtimeVehicle | null {
     if (is(vehicleFragment, RealtimeVehicleStruct)) {
         return vehicleFragment
     }
