@@ -27,20 +27,24 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
 
     const departures = useMemo(
         () =>
-            stopPlaceWithEstimatedCalls?.estimatedCalls
-                .map(toDeparture)
-                .filter(
-                    (departure) =>
-                        !settings.hiddenStopModes[stopPlaceId]?.includes(
-                            departure.transportMode,
-                        ),
-                ) ?? [],
-        [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
+            stopPlaceWithEstimatedCalls?.estimatedCalls.map(toDeparture) ?? [],
+        [stopPlaceWithEstimatedCalls?.estimatedCalls],
+    )
+
+    const filteredDepartures = useMemo(
+        () =>
+            departures.filter(
+                (departure) =>
+                    !settings.hiddenStopModes[stopPlaceId]?.includes(
+                        departure.transportMode,
+                    ),
+            ),
+        [departures, settings, stopPlaceId],
     )
 
     const uniqueDepartures = useMemo(
-        () => uniqBy(departures, 'route'),
-        [departures],
+        () => uniqBy(filteredDepartures, 'route'),
+        [filteredDepartures],
     )
 
     const uniqueModes = useMemo(
