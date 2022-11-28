@@ -35,7 +35,7 @@ const EditableBoardTitle = ({ boardName, documentId }: Props): JSX.Element => {
                     defaultValue={boardName}
                     autoFocus={true}
                     onChange={(e) => setNewBoardName(e.currentTarget.value)}
-                    onKeyUp={(e): void => {
+                    onKeyDown={(e): void => {
                         if (e.key === 'Enter') onChangeTitle()
                     }}
                 />
