@@ -6,7 +6,7 @@ import {
     useVehiclesQuery,
 } from '../../../graphql-generated/mobility-v2'
 import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../../constants'
-import { useOperatorIds } from '../use-operators/useOperatorIds'
+import { useOperatorIds } from '../use-operator-ids/useOperatorIds'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
 import { toVehicle, Vehicle } from './Vehicle'
 
