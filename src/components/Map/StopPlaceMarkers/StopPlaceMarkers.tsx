@@ -1,13 +1,13 @@
 import React from 'react'
-import { useAllStopPlaceIds } from '../../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
 import { StopPlaceMarker } from '../StopPlaceMarker/StopPlaceMarker'
+import { useStopPlaceIds } from '../../../logic/use-stop-place-ids/useStopPlaceIds'
 
 const StopPlaceMarkers = () => {
-    const { allStopPlaceIds } = useAllStopPlaceIds()
+    const { stopPlaceIds } = useStopPlaceIds()
 
     return (
         <>
-            {allStopPlaceIds.map((stopPlaceId) => (
+            {stopPlaceIds.map((stopPlaceId) => (
                 <StopPlaceMarker stopPlaceId={stopPlaceId} key={stopPlaceId} />
             ))}
         </>

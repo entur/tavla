@@ -1,12 +1,6 @@
-query getStopPlaces($ids: [String]!) @api(name: journey_planner_v3) {
+query UniqueLines($ids: [String]!) @api(name: journey_planner_v3) {
     stopPlaces(ids: $ids) {
         id
-        name
-        description
-        latitude
-        longitude
-        transportMode
-        transportSubmode
         estimatedCalls(
             numberOfDeparturesPerLineAndDestinationDisplay: 1
             timeRange: 604800
@@ -29,4 +23,6 @@ query getStopPlaces($ids: [String]!) @api(name: journey_planner_v3) {
             }
         }
     }
+
+
 }

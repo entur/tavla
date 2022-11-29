@@ -2,10 +2,6 @@ import React from 'react'
 import { FieldValue, Timestamp } from 'firebase/firestore'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
-import {
-    TransportMode,
-    TransportSubmode,
-} from '../graphql-generated/journey-planner-v3'
 import { Settings } from './settings/settings'
 
 export interface Coordinates {
@@ -13,53 +9,11 @@ export interface Coordinates {
     longitude: number
 }
 
-export interface StopPlace {
-    id: string
-    description?: string
-    name: string
-    latitude?: number
-    longitude?: number
-    tariffZones?: Array<{
-        id: string
-    }>
-}
-
-export interface LineData {
-    id: string
-    type: TransportMode
-    subType?: TransportSubmode
-    time: string
-    departureTime: Date
-    route: string
-    expectedDepartureTime: string
-    situation?: string
-    hasCancellation?: boolean
-    quay?: {
-        id: string
-        name: string
-        publicCode: string
-    }
-}
-export interface Line {
-    id: string
-    name: string
-    transportMode: TransportMode
-    transportSubmode: TransportSubmode
-    publicCode: string
-    pointsOnLink?: string
-}
-
 export interface DrawableRoute {
     pointsOnLink: string
     mode: string
     lineRef: string
 }
-
-export type StopPlaceWithDepartures = StopPlace & {
-    departures: NonEmpty<LineData>
-}
-
-export type StopPlaceWithLines = StopPlace & { lines: Line[] }
 
 export interface TileSubLabel {
     situation?: string
@@ -150,8 +104,6 @@ export interface Viewport {
     maxZoom: number
     minZoom: number
 }
-
-export type NonEmpty<A> = [A, ...A[]]
 
 /* Augment the proptype of @entur/alert ToastProvider with children definition.
  * This should be deleted when @entur/alert updates to @types/react@18.x and updates their definition

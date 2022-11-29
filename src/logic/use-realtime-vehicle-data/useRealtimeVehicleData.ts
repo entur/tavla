@@ -1,17 +1,12 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import {
     BoundingBox,
-    useUseRealtimeVehicleData_VehiclesQuery,
-    useUseRealtimeVehicleData_VehiclesSubscription,
+    useRealtimeVehicleQuery,
+    useRealtimeVehicleSubscription,
 } from '../../../graphql-generated/vehicles-v1'
-import {
-    SWEEP_INTERVAL_MS,
-    DEFAULT_FETCH_POLICY,
-    BUFFER_SIZE,
-    BUFFER_TIME,
-} from '../../constants'
+import { SWEEP_INTERVAL_MS, BUFFER_SIZE, BUFFER_TIME } from '../../constants'
 import { useSettings } from '../../settings/SettingsProvider'
-import { useStopPlacesWithLines } from '../useStopPlacesWithLines'
+import { useUniqueLines } from '../use-unique-lines/useUniqueLines'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
 import { useVehicleReducer, ActionType } from './useRealtimeVehicleReducer'
 import { RealtimeVehicle, toRealtimeVehicle } from './types'
@@ -21,7 +16,7 @@ import { RealtimeVehicle, toRealtimeVehicle } from './types'
  */
 function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
     const [state, dispatch] = useVehicleReducer()
-    const uniqueLines = useStopPlacesWithLines()
+    const { uniqueLines, loading: uniqueLinesLoading } = useUniqueLines()
     const [settings] = useSettings()
 
     const filterVehicleByLineRefs = useCallback(
@@ -31,10 +26,10 @@ function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
         [uniqueLines, settings.hiddenRealtimeDataLineRefs],
     )
 
-    useUseRealtimeVehicleData_VehiclesQuery({
-        fetchPolicy: DEFAULT_FETCH_POLICY,
+    useRealtimeVehicleQuery({
+        fetchPolicy: 'no-cache',
         variables: { boundingBox },
-        skip: !uniqueLines || settings.hideRealtimeData,
+        skip: uniqueLinesLoading || settings.hideRealtimeData,
         onCompleted: ({ vehicles }) => {
             const filteredVehicles =
                 vehicles
@@ -49,9 +44,9 @@ function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
         },
     })
 
-    useUseRealtimeVehicleData_VehiclesSubscription({
-        fetchPolicy: DEFAULT_FETCH_POLICY,
-        skip: !uniqueLines || settings.hideRealtimeData,
+    useRealtimeVehicleSubscription({
+        fetchPolicy: 'no-cache',
+        skip: uniqueLinesLoading || settings.hideRealtimeData,
         variables: {
             boundingBox,
             bufferSize: BUFFER_SIZE,

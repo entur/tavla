@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useLocation } from 'react-router-dom'
-import { useRentalStations, useMobility } from '../../logic'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { BREAKPOINTS } from '../../constants'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
@@ -16,9 +15,8 @@ import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { BikeTile } from '../../components/BikeTile/BikeTile'
 import { MapTile } from '../../components/MapTile/MapTile'
-import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { MobileAppQRTile } from '../../components/QRTile/MobileAppQRTile'
-import { useAllStopPlaceIds } from '../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
+import { useStopPlaceIds } from '../../logic/use-stop-place-ids/useStopPlaceIds'
 import { ChronoDepartureTile } from './ChronoDepartureTile/ChronoDepartureTile'
 import './ChronoDashboard.scss'
 
@@ -71,28 +69,17 @@ const ChronoDashboard = (): JSX.Element | null => {
         getFromLocalStorage(dashboardKey as string),
     )
 
-    const bikeRentalStations = useRentalStations(
-        true,
-        FormFactor.Bicycle,
-        settings.hiddenModes.includes('bysykkel'),
-    )
-    const scooters = useMobility(FormFactor.Scooter)
-
-    const { allStopPlaceIds } = useAllStopPlaceIds()
+    const { stopPlaceIds } = useStopPlaceIds()
 
     const numberOfCustomImages = settings.customImageTiles.filter(
         ({ id }) => !settings.hiddenCustomTileIds.includes(id),
     ).length
 
-    const numberOfStopPlaces = allStopPlaceIds.length
-    const anyBikeRentalStations: number | undefined =
-        bikeRentalStations && bikeRentalStations.length
+    const numberOfStopPlaces = stopPlaceIds.length
 
     const maxWidthCols = COLS[breakpoint] || 1
 
-    const hasData = Boolean(bikeRentalStations?.length || scooters?.length)
-
-    const bikeCol = anyBikeRentalStations ? 1 : 0
+    const bikeCol = !settings.hiddenModes.includes('bysykkel') ? 1 : 0
     const mapCol = settings.showMap ? 1 : 0
     const weatherCol = settings.showWeather ? 1 : 0
 
@@ -175,7 +162,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                             <WeatherTile className="tile" />
                         </div>
                     )}
-                    {allStopPlaceIds.map((stopPlaceId, index) => (
+                    {stopPlaceIds.map((stopPlaceId, index) => (
                         <div
                             key={stopPlaceId}
                             data-grid={getDataGrid(
@@ -191,7 +178,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                             <ChronoDepartureTile stopPlaceId={stopPlaceId} />
                         </div>
                     ))}
-                    {bikeRentalStations && anyBikeRentalStations ? (
+                    {!settings.hiddenModes.includes('bysykkel') && (
                         <div
                             key="city-bike"
                             data-grid={getDataGrid(
@@ -206,12 +193,10 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     variant="light"
                                 />
                             ) : null}
-                            <BikeTile stations={bikeRentalStations} />
+                            <BikeTile />
                         </div>
-                    ) : (
-                        []
                     )}
-                    {hasData && mapCol && (
+                    {mapCol && (
                         <div
                             id="chrono-map-tile"
                             key="map"

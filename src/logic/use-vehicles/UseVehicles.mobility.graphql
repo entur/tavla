@@ -1,0 +1,33 @@
+query Vehicles (
+    $lat: Float!
+    $lon: Float!
+    $range: Int!
+    $operators: [String]
+    $formFactors: [FormFactor]
+) @api(name: mobility) {
+    vehicles(
+        range: $range,
+        operators: $operators,
+        lon: $lon,
+        lat: $lat,
+        count: 100,
+        formFactors: $formFactors,
+        includeReserved: false,
+        includeDisabled: false
+    ) {
+        id
+        lat
+        lon
+        system {
+            operator {
+                id
+                name {
+                    translation {
+                        language
+                        value
+                    }
+                }
+            }
+        }
+    }
+}

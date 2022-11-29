@@ -1,4 +1,4 @@
-query getStopPlacesWithDepartures($ids: [String]!) @api(name: journey_planner_v3) {
+query BusTile($ids: [String!]!) @api(name: journey_planner_v3) {
     stopPlaces(ids: $ids) {
         id
         name
@@ -8,10 +8,11 @@ query getStopPlacesWithDepartures($ids: [String]!) @api(name: journey_planner_v3
         transportMode
         transportSubmode
         estimatedCalls(
-            numberOfDepartures: 200
+            numberOfDepartures: 20
             timeRange: 172800
             numberOfDeparturesPerLineAndDestinationDisplay: 20
             arrivalDeparture: departures
+            whiteListedModes: [bus]
         ) {
             aimedDepartureTime
             cancellation

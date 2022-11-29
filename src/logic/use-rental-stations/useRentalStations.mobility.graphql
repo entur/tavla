@@ -1,0 +1,17 @@
+query RentalStations(
+    $ids: [String!]!
+) @api(name: mobility) {
+    stationsById(ids: $ids) {
+        id
+        name {
+            translation {
+                language
+                value
+            }
+        }
+        lat
+        lon
+        numBikesAvailable
+        numDocksAvailable
+    }
+}

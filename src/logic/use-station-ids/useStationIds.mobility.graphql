@@ -1,0 +1,15 @@
+query StationIds(
+    $latitude: Float!
+    $longitude: Float!
+    $range: Int!
+    $formFactors: [FormFactor]
+) @api(name: mobility) {
+    stations(
+        lat: $latitude
+        lon: $longitude
+        range: $range
+        availableFormFactors: $formFactors
+    ) {
+        id
+    }
+}

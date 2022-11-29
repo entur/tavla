@@ -398,51 +398,40 @@ export type ScooterPanelQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ScooterPanelQuery = { __typename?: 'Query', operators: Array<{ __typename?: 'Operator', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } | null> | null };
 
-export type UseMobility_VehicleFragment = { __typename?: 'Vehicle', id: string, lat: number, lon: number, system: { __typename?: 'System', operator: { __typename?: 'Operator', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } } };
+export type OperatorIdsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type UseMobility_VehiclesQueryVariables = Exact<{
-  lat: Scalars['Float'];
-  lon: Scalars['Float'];
+
+export type OperatorIdsQuery = { __typename?: 'Query', operators: Array<{ __typename?: 'Operator', id: string } | null> | null };
+
+export type RentalStationsQueryVariables = Exact<{
+  ids: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type RentalStationsQuery = { __typename?: 'Query', stationsById: Array<{ __typename?: 'Station', id: string, lat: number, lon: number, numBikesAvailable: number, numDocksAvailable: number | null, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } | null> | null };
+
+export type StationIdsQueryVariables = Exact<{
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
   range: Scalars['Int'];
-  count?: InputMaybe<Scalars['Int']>;
-  operators?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  codespaces?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
   formFactors?: InputMaybe<Array<InputMaybe<FormFactor>> | InputMaybe<FormFactor>>;
-  propulsionTypes?: InputMaybe<Array<InputMaybe<PropulsionType>> | InputMaybe<PropulsionType>>;
-  includeReserved?: InputMaybe<Scalars['Boolean']>;
-  includeDisabled?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
-export type UseMobility_VehiclesQuery = { __typename?: 'Query', vehicles: Array<{ __typename?: 'Vehicle', id: string, lat: number, lon: number, system: { __typename?: 'System', operator: { __typename?: 'Operator', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } } } | null> | null };
+export type StationIdsQuery = { __typename?: 'Query', stations: Array<{ __typename?: 'Station', id: string } | null> | null };
 
-export type UseMobility_OperatorsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UseMobility_OperatorsQuery = { __typename?: 'Query', operators: Array<{ __typename?: 'Operator', id: string } | null> | null };
-
-export type StationFragment = { __typename?: 'Station', id: string, lat: number, lon: number, numBikesAvailable: number, numDocksAvailable: number | null, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } };
-
-export type UseRentalStations_StationsByIdQueryVariables = Exact<{
-  stationIds: Array<Scalars['String']> | Scalars['String'];
-}>;
-
-
-export type UseRentalStations_StationsByIdQuery = { __typename?: 'Query', stationsById: Array<{ __typename?: 'Station', id: string, lat: number, lon: number, numBikesAvailable: number, numDocksAvailable: number | null, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } | null> | null };
-
-export type UseRentalStations_NearbyStationsQueryVariables = Exact<{
+export type VehiclesQueryVariables = Exact<{
   lat: Scalars['Float'];
   lon: Scalars['Float'];
   range: Scalars['Int'];
-  availableFormFactors?: InputMaybe<Array<InputMaybe<FormFactor>> | InputMaybe<FormFactor>>;
+  operators?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  formFactors?: InputMaybe<Array<InputMaybe<FormFactor>> | InputMaybe<FormFactor>>;
 }>;
 
 
-export type UseRentalStations_NearbyStationsQuery = { __typename?: 'Query', stations: Array<{ __typename?: 'Station', id: string } | null> | null };
+export type VehiclesQuery = { __typename?: 'Query', vehicles: Array<{ __typename?: 'Vehicle', id: string, lat: number, lon: number, system: { __typename?: 'System', operator: { __typename?: 'Operator', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } } } | null> | null };
 
 export const BikePanelSearchStationFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"BikePanelSearchStation"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Station"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]} as unknown as DocumentNode;
-export const UseMobility_VehicleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UseMobility_VehicleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Vehicle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lon"}},{"kind":"Field","name":{"kind":"Name","value":"system"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"operator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
-export const StationFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StationFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Station"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lon"}},{"kind":"Field","name":{"kind":"Name","value":"numBikesAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"numDocksAvailable"}}]}}]} as unknown as DocumentNode;
 export const BikePanelSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BikePanelSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lat"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lon"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"range"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stations"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"lon"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lon"}}},{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lat"}}},{"kind":"Argument","name":{"kind":"Name","value":"range"},"value":{"kind":"Variable","name":{"kind":"Name","value":"range"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"BikePanelSearchStation"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"BikePanelSearchStation"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Station"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
@@ -502,130 +491,125 @@ export function useScooterPanelQueryLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type ScooterPanelQueryHookResult = ReturnType<typeof useScooterPanelQuery>;
 export type ScooterPanelQueryLazyQueryHookResult = ReturnType<typeof useScooterPanelQueryLazyQuery>;
 export type ScooterPanelQueryQueryResult = Apollo.QueryResult<ScooterPanelQuery, ScooterPanelQueryVariables>;
-export const UseMobility_VehiclesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UseMobility_Vehicles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lat"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lon"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"range"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"count"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"operators"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"codespaces"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"formFactors"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FormFactor"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"propulsionTypes"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PropulsionType"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"includeReserved"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}},"defaultValue":{"kind":"BooleanValue","value":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"includeDisabled"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}},"defaultValue":{"kind":"BooleanValue","value":false}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"range"},"value":{"kind":"Variable","name":{"kind":"Name","value":"range"}}},{"kind":"Argument","name":{"kind":"Name","value":"propulsionTypes"},"value":{"kind":"Variable","name":{"kind":"Name","value":"propulsionTypes"}}},{"kind":"Argument","name":{"kind":"Name","value":"operators"},"value":{"kind":"Variable","name":{"kind":"Name","value":"operators"}}},{"kind":"Argument","name":{"kind":"Name","value":"codespaces"},"value":{"kind":"Variable","name":{"kind":"Name","value":"codespaces"}}},{"kind":"Argument","name":{"kind":"Name","value":"includeReserved"},"value":{"kind":"Variable","name":{"kind":"Name","value":"includeReserved"}}},{"kind":"Argument","name":{"kind":"Name","value":"lon"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lon"}}},{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lat"}}},{"kind":"Argument","name":{"kind":"Name","value":"count"},"value":{"kind":"Variable","name":{"kind":"Name","value":"count"}}},{"kind":"Argument","name":{"kind":"Name","value":"formFactors"},"value":{"kind":"Variable","name":{"kind":"Name","value":"formFactors"}}},{"kind":"Argument","name":{"kind":"Name","value":"includeDisabled"},"value":{"kind":"Variable","name":{"kind":"Name","value":"includeDisabled"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UseMobility_VehicleFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UseMobility_VehicleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Vehicle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lon"}},{"kind":"Field","name":{"kind":"Name","value":"system"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"operator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
+export const OperatorIdsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"OperatorIds"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"operators"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
 
 /**
- * __useUseMobility_VehiclesQuery__
+ * __useOperatorIdsQuery__
  *
- * To run a query within a React component, call `useUseMobility_VehiclesQuery` and pass it any options that fit your needs.
- * When your component renders, `useUseMobility_VehiclesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useOperatorIdsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOperatorIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUseMobility_VehiclesQuery({
+ * const { data, loading, error } = useOperatorIdsQuery({
  *   variables: {
- *      lat: // value for 'lat'
- *      lon: // value for 'lon'
+ *   },
+ * });
+ */
+export function useOperatorIdsQuery(baseOptions?: Apollo.QueryHookOptions<OperatorIdsQuery, OperatorIdsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OperatorIdsQuery, OperatorIdsQueryVariables>(OperatorIdsDocument, options);
+      }
+export function useOperatorIdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OperatorIdsQuery, OperatorIdsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OperatorIdsQuery, OperatorIdsQueryVariables>(OperatorIdsDocument, options);
+        }
+export type OperatorIdsQueryHookResult = ReturnType<typeof useOperatorIdsQuery>;
+export type OperatorIdsLazyQueryHookResult = ReturnType<typeof useOperatorIdsLazyQuery>;
+export type OperatorIdsQueryResult = Apollo.QueryResult<OperatorIdsQuery, OperatorIdsQueryVariables>;
+export const RentalStationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RentalStations"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stationsById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lon"}},{"kind":"Field","name":{"kind":"Name","value":"numBikesAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"numDocksAvailable"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useRentalStationsQuery__
+ *
+ * To run a query within a React component, call `useRentalStationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRentalStationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRentalStationsQuery({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useRentalStationsQuery(baseOptions: Apollo.QueryHookOptions<RentalStationsQuery, RentalStationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RentalStationsQuery, RentalStationsQueryVariables>(RentalStationsDocument, options);
+      }
+export function useRentalStationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RentalStationsQuery, RentalStationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RentalStationsQuery, RentalStationsQueryVariables>(RentalStationsDocument, options);
+        }
+export type RentalStationsQueryHookResult = ReturnType<typeof useRentalStationsQuery>;
+export type RentalStationsLazyQueryHookResult = ReturnType<typeof useRentalStationsLazyQuery>;
+export type RentalStationsQueryResult = Apollo.QueryResult<RentalStationsQuery, RentalStationsQueryVariables>;
+export const StationIdsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StationIds"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"latitude"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"longitude"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"range"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"formFactors"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FormFactor"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stations"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"latitude"}}},{"kind":"Argument","name":{"kind":"Name","value":"lon"},"value":{"kind":"Variable","name":{"kind":"Name","value":"longitude"}}},{"kind":"Argument","name":{"kind":"Name","value":"range"},"value":{"kind":"Variable","name":{"kind":"Name","value":"range"}}},{"kind":"Argument","name":{"kind":"Name","value":"availableFormFactors"},"value":{"kind":"Variable","name":{"kind":"Name","value":"formFactors"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useStationIdsQuery__
+ *
+ * To run a query within a React component, call `useStationIdsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStationIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStationIdsQuery({
+ *   variables: {
+ *      latitude: // value for 'latitude'
+ *      longitude: // value for 'longitude'
  *      range: // value for 'range'
- *      count: // value for 'count'
- *      operators: // value for 'operators'
- *      codespaces: // value for 'codespaces'
  *      formFactors: // value for 'formFactors'
- *      propulsionTypes: // value for 'propulsionTypes'
- *      includeReserved: // value for 'includeReserved'
- *      includeDisabled: // value for 'includeDisabled'
  *   },
  * });
  */
-export function useUseMobility_VehiclesQuery(baseOptions: Apollo.QueryHookOptions<UseMobility_VehiclesQuery, UseMobility_VehiclesQueryVariables>) {
+export function useStationIdsQuery(baseOptions: Apollo.QueryHookOptions<StationIdsQuery, StationIdsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UseMobility_VehiclesQuery, UseMobility_VehiclesQueryVariables>(UseMobility_VehiclesDocument, options);
+        return Apollo.useQuery<StationIdsQuery, StationIdsQueryVariables>(StationIdsDocument, options);
       }
-export function useUseMobility_VehiclesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UseMobility_VehiclesQuery, UseMobility_VehiclesQueryVariables>) {
+export function useStationIdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<StationIdsQuery, StationIdsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UseMobility_VehiclesQuery, UseMobility_VehiclesQueryVariables>(UseMobility_VehiclesDocument, options);
+          return Apollo.useLazyQuery<StationIdsQuery, StationIdsQueryVariables>(StationIdsDocument, options);
         }
-export type UseMobility_VehiclesQueryHookResult = ReturnType<typeof useUseMobility_VehiclesQuery>;
-export type UseMobility_VehiclesLazyQueryHookResult = ReturnType<typeof useUseMobility_VehiclesLazyQuery>;
-export type UseMobility_VehiclesQueryResult = Apollo.QueryResult<UseMobility_VehiclesQuery, UseMobility_VehiclesQueryVariables>;
-export const UseMobility_OperatorsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UseMobility_Operators"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"operators"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
+export type StationIdsQueryHookResult = ReturnType<typeof useStationIdsQuery>;
+export type StationIdsLazyQueryHookResult = ReturnType<typeof useStationIdsLazyQuery>;
+export type StationIdsQueryResult = Apollo.QueryResult<StationIdsQuery, StationIdsQueryVariables>;
+export const VehiclesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Vehicles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lat"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lon"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"range"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"operators"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"formFactors"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FormFactor"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"range"},"value":{"kind":"Variable","name":{"kind":"Name","value":"range"}}},{"kind":"Argument","name":{"kind":"Name","value":"operators"},"value":{"kind":"Variable","name":{"kind":"Name","value":"operators"}}},{"kind":"Argument","name":{"kind":"Name","value":"lon"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lon"}}},{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lat"}}},{"kind":"Argument","name":{"kind":"Name","value":"count"},"value":{"kind":"IntValue","value":"100"}},{"kind":"Argument","name":{"kind":"Name","value":"formFactors"},"value":{"kind":"Variable","name":{"kind":"Name","value":"formFactors"}}},{"kind":"Argument","name":{"kind":"Name","value":"includeReserved"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"includeDisabled"},"value":{"kind":"BooleanValue","value":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lon"}},{"kind":"Field","name":{"kind":"Name","value":"system"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"operator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
- * __useUseMobility_OperatorsQuery__
+ * __useVehiclesQuery__
  *
- * To run a query within a React component, call `useUseMobility_OperatorsQuery` and pass it any options that fit your needs.
- * When your component renders, `useUseMobility_OperatorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useVehiclesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useVehiclesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUseMobility_OperatorsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useUseMobility_OperatorsQuery(baseOptions?: Apollo.QueryHookOptions<UseMobility_OperatorsQuery, UseMobility_OperatorsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UseMobility_OperatorsQuery, UseMobility_OperatorsQueryVariables>(UseMobility_OperatorsDocument, options);
-      }
-export function useUseMobility_OperatorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UseMobility_OperatorsQuery, UseMobility_OperatorsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UseMobility_OperatorsQuery, UseMobility_OperatorsQueryVariables>(UseMobility_OperatorsDocument, options);
-        }
-export type UseMobility_OperatorsQueryHookResult = ReturnType<typeof useUseMobility_OperatorsQuery>;
-export type UseMobility_OperatorsLazyQueryHookResult = ReturnType<typeof useUseMobility_OperatorsLazyQuery>;
-export type UseMobility_OperatorsQueryResult = Apollo.QueryResult<UseMobility_OperatorsQuery, UseMobility_OperatorsQueryVariables>;
-export const UseRentalStations_StationsByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UseRentalStations_StationsById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"stationIds"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stationsById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"stationIds"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"StationFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StationFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Station"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lat"}},{"kind":"Field","name":{"kind":"Name","value":"lon"}},{"kind":"Field","name":{"kind":"Name","value":"numBikesAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"numDocksAvailable"}}]}}]} as unknown as DocumentNode;
-
-/**
- * __useUseRentalStations_StationsByIdQuery__
- *
- * To run a query within a React component, call `useUseRentalStations_StationsByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useUseRentalStations_StationsByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUseRentalStations_StationsByIdQuery({
- *   variables: {
- *      stationIds: // value for 'stationIds'
- *   },
- * });
- */
-export function useUseRentalStations_StationsByIdQuery(baseOptions: Apollo.QueryHookOptions<UseRentalStations_StationsByIdQuery, UseRentalStations_StationsByIdQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UseRentalStations_StationsByIdQuery, UseRentalStations_StationsByIdQueryVariables>(UseRentalStations_StationsByIdDocument, options);
-      }
-export function useUseRentalStations_StationsByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UseRentalStations_StationsByIdQuery, UseRentalStations_StationsByIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UseRentalStations_StationsByIdQuery, UseRentalStations_StationsByIdQueryVariables>(UseRentalStations_StationsByIdDocument, options);
-        }
-export type UseRentalStations_StationsByIdQueryHookResult = ReturnType<typeof useUseRentalStations_StationsByIdQuery>;
-export type UseRentalStations_StationsByIdLazyQueryHookResult = ReturnType<typeof useUseRentalStations_StationsByIdLazyQuery>;
-export type UseRentalStations_StationsByIdQueryResult = Apollo.QueryResult<UseRentalStations_StationsByIdQuery, UseRentalStations_StationsByIdQueryVariables>;
-export const UseRentalStations_NearbyStationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UseRentalStations_NearbyStations"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lat"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lon"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"range"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"availableFormFactors"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FormFactor"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stations"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"lon"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lon"}}},{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lat"}}},{"kind":"Argument","name":{"kind":"Name","value":"range"},"value":{"kind":"Variable","name":{"kind":"Name","value":"range"}}},{"kind":"Argument","name":{"kind":"Name","value":"availableFormFactors"},"value":{"kind":"Variable","name":{"kind":"Name","value":"availableFormFactors"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
-
-/**
- * __useUseRentalStations_NearbyStationsQuery__
- *
- * To run a query within a React component, call `useUseRentalStations_NearbyStationsQuery` and pass it any options that fit your needs.
- * When your component renders, `useUseRentalStations_NearbyStationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUseRentalStations_NearbyStationsQuery({
+ * const { data, loading, error } = useVehiclesQuery({
  *   variables: {
  *      lat: // value for 'lat'
  *      lon: // value for 'lon'
  *      range: // value for 'range'
- *      availableFormFactors: // value for 'availableFormFactors'
+ *      operators: // value for 'operators'
+ *      formFactors: // value for 'formFactors'
  *   },
  * });
  */
-export function useUseRentalStations_NearbyStationsQuery(baseOptions: Apollo.QueryHookOptions<UseRentalStations_NearbyStationsQuery, UseRentalStations_NearbyStationsQueryVariables>) {
+export function useVehiclesQuery(baseOptions: Apollo.QueryHookOptions<VehiclesQuery, VehiclesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UseRentalStations_NearbyStationsQuery, UseRentalStations_NearbyStationsQueryVariables>(UseRentalStations_NearbyStationsDocument, options);
+        return Apollo.useQuery<VehiclesQuery, VehiclesQueryVariables>(VehiclesDocument, options);
       }
-export function useUseRentalStations_NearbyStationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UseRentalStations_NearbyStationsQuery, UseRentalStations_NearbyStationsQueryVariables>) {
+export function useVehiclesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<VehiclesQuery, VehiclesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UseRentalStations_NearbyStationsQuery, UseRentalStations_NearbyStationsQueryVariables>(UseRentalStations_NearbyStationsDocument, options);
+          return Apollo.useLazyQuery<VehiclesQuery, VehiclesQueryVariables>(VehiclesDocument, options);
         }
-export type UseRentalStations_NearbyStationsQueryHookResult = ReturnType<typeof useUseRentalStations_NearbyStationsQuery>;
-export type UseRentalStations_NearbyStationsLazyQueryHookResult = ReturnType<typeof useUseRentalStations_NearbyStationsLazyQuery>;
-export type UseRentalStations_NearbyStationsQueryResult = Apollo.QueryResult<UseRentalStations_NearbyStationsQuery, UseRentalStations_NearbyStationsQueryVariables>;
+export type VehiclesQueryHookResult = ReturnType<typeof useVehiclesQuery>;
+export type VehiclesLazyQueryHookResult = ReturnType<typeof useVehiclesLazyQuery>;
+export type VehiclesQueryResult = Apollo.QueryResult<VehiclesQuery, VehiclesQueryVariables>;

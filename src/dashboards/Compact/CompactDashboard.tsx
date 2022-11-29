@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useLocation } from 'react-router-dom'
-import { useRentalStations } from '../../logic'
-import { useAllStopPlaceIds } from '../../logic/use-all-stop-place-ids/useAllStopPlaceIds'
+import { useStopPlaceIds } from '../../logic/use-stop-place-ids/useStopPlaceIds'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
 import {
@@ -16,7 +15,6 @@ import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { BikeTile } from '../../components/BikeTile/BikeTile'
 import { MapTile } from '../../components/MapTile/MapTile'
-import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { MobileAppQRTile } from '../../components/QRTile/MobileAppQRTile'
 import { CompactDepartureTile } from './CompactDepartureTile/CompactDepartureTile'
 import './CompactDashboard.scss'
@@ -71,19 +69,11 @@ const CompactDashboard = (): JSX.Element | null => {
         getFromLocalStorage(dashboardKey as string),
     )
 
-    const bikeRentalStations = useRentalStations(
-        true,
-        FormFactor.Bicycle,
-        settings.hiddenModes.includes('bysykkel'),
-    )
+    const { stopPlaceIds } = useStopPlaceIds()
 
-    const { allStopPlaceIds } = useAllStopPlaceIds()
+    const numberOfStopPlaces = stopPlaceIds.length
 
-    const numberOfStopPlaces = allStopPlaceIds.length
-    const anyBikeRentalStations: number | undefined =
-        bikeRentalStations && bikeRentalStations.length
-
-    const bikeCol = anyBikeRentalStations ? 1 : 0
+    const bikeCol = !settings.hiddenModes.includes('bysykkel') ? 1 : 0
     const mapCol = settings.showMap ? 1 : 0
     const weatherCol = settings.showWeather ? 1 : 0
 
@@ -147,8 +137,8 @@ const CompactDashboard = (): JSX.Element | null => {
                             data-grid={getDataGrid(
                                 maxWidthCols - 1,
                                 maxWidthCols,
-                                2,
-                                2,
+                                1.8,
+                                1.8,
                                 Infinity,
                             )}
                         >
@@ -168,7 +158,7 @@ const CompactDashboard = (): JSX.Element | null => {
                             <WeatherTile className="tile" />
                         </div>
                     )}
-                    {allStopPlaceIds.map((stopPlaceId, index) => (
+                    {stopPlaceIds.map((stopPlaceId, index) => (
                         <div
                             key={stopPlaceId}
                             data-grid={getDataGrid(
@@ -184,7 +174,7 @@ const CompactDashboard = (): JSX.Element | null => {
                             <CompactDepartureTile stopPlaceId={stopPlaceId} />
                         </div>
                     ))}
-                    {bikeRentalStations && anyBikeRentalStations && (
+                    {!settings.hiddenModes.includes('bysykkel') && (
                         <div
                             key="city-bike"
                             data-grid={getDataGrid(
@@ -192,14 +182,14 @@ const CompactDashboard = (): JSX.Element | null => {
                                 maxWidthCols,
                             )}
                         >
-                            {!isMobile ? (
+                            {!isMobile && (
                                 <ResizeHandle
                                     size="32"
                                     className="resizeHandle"
                                     variant="light"
                                 />
-                            ) : null}
-                            <BikeTile stations={bikeRentalStations} />
+                            )}
+                            <BikeTile />
                         </div>
                     )}
                     {settings.showMap && (

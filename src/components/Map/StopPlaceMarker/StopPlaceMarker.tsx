@@ -17,7 +17,7 @@ interface Props {
 
 const StopPlaceMarker: React.FC<Props> = ({ className, stopPlaceId }) => {
     const { stopPlaceWithEstimatedCalls, loading } =
-        useStopPlaceWithEstimatedCalls(stopPlaceId)
+        useStopPlaceWithEstimatedCalls({ stopPlaceId })
 
     const uniqueTransportMode = useMemo(
         () =>

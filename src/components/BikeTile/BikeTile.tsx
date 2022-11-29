@@ -1,25 +1,39 @@
 import React, { useMemo } from 'react'
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
+import { Loader } from '@entur/loader'
 import { Tile } from '../Tile/Tile'
 import { TileHeader } from '../TileHeader/TileHeader'
 import { useSettings } from '../../settings/SettingsProvider'
 import { getIconColorType } from '../../utils/icon'
-import { StationFragment } from '../../../graphql-generated/mobility-v2'
+import { FormFactor } from '../../../graphql-generated/mobility-v2'
+import { useRentalStations } from '../../logic/use-rental-stations/useRentalStations'
+import { ErrorTile } from '../ErrorTile/ErrorTile'
 import { BikeTileRow } from './BikeTileRow'
 import classes from './BikeTile.module.scss'
 
-interface BikeTileProps {
-    stations: StationFragment[]
-}
-
-const BikeTile: React.FC<BikeTileProps> = ({ stations }) => {
+const BikeTile: React.FC = () => {
     const [settings] = useSettings()
-
     const iconColor = useMemo(
         () => colors.transport[getIconColorType(settings.theme)].mobility,
         [settings.theme],
     )
+
+    const { rentalStations, loading, error } = useRentalStations([
+        FormFactor.Bicycle,
+    ])
+
+    if (loading) {
+        return (
+            <Tile className={classes.BikeTile}>
+                <Loader>Laster...</Loader>
+            </Tile>
+        )
+    }
+
+    if (error) {
+        return <ErrorTile className={classes.BikeTile} />
+    }
 
     return (
         <Tile className={classes.BikeTile}>
@@ -27,7 +41,7 @@ const BikeTile: React.FC<BikeTileProps> = ({ stations }) => {
                 title="Bysykkel"
                 icons={<BicycleIcon color={iconColor} />}
             />
-            {stations.map((station) => (
+            {rentalStations.map((station) => (
                 <BikeTileRow
                     key={station.id}
                     station={station}

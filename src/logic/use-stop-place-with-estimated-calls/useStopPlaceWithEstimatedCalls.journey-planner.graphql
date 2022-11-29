@@ -1,49 +1,49 @@
-fragment StopPlaceWithEstimatedCallsFragment on StopPlace {
-    id
-    name
-    description
-    latitude
-    longitude
-    transportMode
-    transportSubmode
-    estimatedCalls(
-        numberOfDepartures: 200
-        timeRange: 172800
-        numberOfDeparturesPerLineAndDestinationDisplay: 20
-        arrivalDeparture: departures
-    ) {
-        aimedDepartureTime
-        cancellation
-        date
-        destinationDisplay {
-            frontText
-        }
-        expectedDepartureTime
-        quay {
-            id
-            name
-            publicCode
-        }
-        serviceJourney {
-            id
-            journeyPattern {
-                line {
-                    publicCode
-                    transportMode
+query StopPlaceWithEstimatedCalls(
+    $id: String!
+    $timeRange: Int = 172800
+    $numberOfDeparturesPerLineAndDestinationDisplay: Int = 20
+) @api(name: journey_planner_v3) {
+    stopPlace(id: $id) {
+        id
+        name
+        description
+        latitude
+        longitude
+        transportMode
+        transportSubmode
+        estimatedCalls(
+            numberOfDepartures: 200
+            timeRange: $timeRange
+            numberOfDeparturesPerLineAndDestinationDisplay: $numberOfDeparturesPerLineAndDestinationDisplay
+            arrivalDeparture: departures
+        ) {
+            aimedDepartureTime
+            cancellation
+            date
+            destinationDisplay {
+                frontText
+            }
+            expectedDepartureTime
+            quay {
+                id
+                name
+                publicCode
+            }
+            serviceJourney {
+                id
+                journeyPattern {
+                    line {
+                        publicCode
+                        transportMode
+                    }
+                }
+                transportSubmode
+            }
+            situations {
+                summary {
+                    value
                 }
             }
-            transportSubmode
         }
-        situations {
-            summary {
-                value
-            }
-        }
-    }
-}
-
-query StopPlaceWithEstimatedCalls($id: String!) @api(name: journey_planner_v3) {
-    stopPlace(id: $id) {
-        ...StopPlaceWithEstimatedCallsFragment
     }
 }

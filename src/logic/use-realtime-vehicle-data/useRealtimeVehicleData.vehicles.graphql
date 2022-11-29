@@ -1,4 +1,4 @@
-fragment UseRealtimeVehicleData_VehicleFragment on VehicleUpdate {
+fragment RealtimeVehicleFragment on VehicleUpdate {
     vehicleRef
     line {
         lineName
@@ -13,17 +13,17 @@ fragment UseRealtimeVehicleData_VehicleFragment on VehicleUpdate {
     }
 }
 
-query UseRealtimeVehicleData_VehiclesQuery(
+query RealtimeVehicleQuery(
     $boundingBox: BoundingBox
 ) @api(name: vehicles) {
     vehicles(
         boundingBox: $boundingBox
     ) {
-        ...UseRealtimeVehicleData_VehicleFragment
+        ...RealtimeVehicleFragment
     }
 }
 
-subscription UseRealtimeVehicleData_VehiclesSubscription(
+subscription RealtimeVehicleSubscription(
     $bufferSize: Int
     $bufferTime: Int
     $boundingBox: BoundingBox
@@ -33,6 +33,6 @@ subscription UseRealtimeVehicleData_VehiclesSubscription(
         bufferTime: $bufferTime
         boundingBox: $boundingBox
     ) {
-        ...UseRealtimeVehicleData_VehicleFragment
+        ...RealtimeVehicleFragment
     }
 }

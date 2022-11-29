@@ -31,7 +31,7 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
     )
 
     const { stopPlaceWithEstimatedCalls, loading } =
-        useStopPlaceWithEstimatedCalls(stopPlaceId)
+        useStopPlaceWithEstimatedCalls({ stopPlaceId })
 
     const departures = useMemo(
         () =>

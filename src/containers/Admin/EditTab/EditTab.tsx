@@ -17,21 +17,17 @@ import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
 import { Button } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
-import { isMobileWeb, getTranslation } from '../../../utils/utils'
-import { StopPlaceWithLines } from '../../../types'
-import { useNearestStopPlaces, useRentalStations } from '../../../logic'
-import { getStopPlacesWithLines } from '../../../logic/get-stop-places-with-lines/getStopPlacesWithLines'
+import { isMobileWeb } from '../../../utils/utils'
+import { useStopPlaceIds } from '../../../logic/use-stop-place-ids/useStopPlaceIds'
 import {
     saveToLocalStorage,
     getFromLocalStorage,
 } from '../../../settings/LocalStorage'
-import { useStopPlacesWithLines } from '../../../logic/useStopPlacesWithLines'
-import { useLinesWithRealtimePositions } from '../../../logic/use-lines-with-realtime-positions/useLinesWithRealtimePositions'
-import { isNotNullOrUndefined } from '../../../utils/typeguards'
+import { useUniqueLines } from '../../../logic/use-unique-lines/useUniqueLines'
+import { useRealtimePositionLineRefs } from '../../../logic/use-realtime-position-line-refs/useRealtimePositionLineRefs'
 import { useDebounce } from '../../../hooks/useDebounce'
 import { toggleValueInList } from '../../../utils/array'
 import { Mode } from '../../../settings/settings'
-import { FormFactor } from '../../../../graphql-generated/mobility-v2'
 import { StopPlacePanel } from './StopPlacePanel/StopPlacePanel'
 import { BikePanelSearch } from './BikeSearch/BikePanelSearch'
 import { StopPlaceSearch } from './StopPlaceSearch/StopPlaceSearch'
@@ -77,15 +73,15 @@ const EditTab = (): JSX.Element => {
 
     const [distance, setDistance] = useState<number>(settings.distance)
 
-    const allLinesWithRealtimeData = useLinesWithRealtimePositions()
-    const uniqueLines = useStopPlacesWithLines()
+    const { realtimePositionLineRefs } = useRealtimePositionLineRefs()
+    const { uniqueLines } = useUniqueLines()
 
     const realtimeLines = useMemo(
         () =>
             uniqueLines.filter((line) =>
-                allLinesWithRealtimeData?.includes(line.id),
+                realtimePositionLineRefs?.includes(line.id),
             ),
-        [uniqueLines, allLinesWithRealtimeData],
+        [uniqueLines, realtimePositionLineRefs],
     )
 
     const debouncedZoom = useDebounce(settings.zoom, 200)
@@ -125,65 +121,16 @@ const EditTab = (): JSX.Element => {
         setSettings,
     ])
 
-    const [stopPlaces, setStopPlaces] = useState<
-        StopPlaceWithLines[] | undefined
-    >(undefined)
-    const bikeRentalStations = useRentalStations(false, FormFactor.Bicycle)
-
-    const { nearestStopPlaces } = useNearestStopPlaces(
-        settings.coordinates,
-        debouncedDistance,
-    )
+    const { stopPlaceIds } = useStopPlaceIds({
+        distance: debouncedDistance,
+        filterHidden: false,
+    })
 
     const locationName = settings.boardName
 
-    const nearestStopPlaceIds = useMemo(
-        () => nearestStopPlaces.map(({ id }) => id),
-        [nearestStopPlaces],
-    )
-
-    useEffect(() => {
-        let aborted = false
-        const ids = [...settings.newStops, ...nearestStopPlaceIds]
-
-        getStopPlacesWithLines(
-            ids.map((id: string) => id.replace(/-\d+$/, '')),
-        ).then((resultingStopPlaces) => {
-            if (aborted) {
-                return
-            }
-            setStopPlaces(
-                resultingStopPlaces.map((s, index) => ({
-                    ...s,
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    id: ids[index]!,
-                })),
-            )
-        })
-
-        return (): void => {
-            aborted = true
-        }
-    }, [nearestStopPlaces, nearestStopPlaceIds, settings.newStops])
-
-    const sortedBikeRentalStations = useMemo(
-        () =>
-            bikeRentalStations.filter(isNotNullOrUndefined).sort((a, b) => {
-                const aName = getTranslation(a.name)
-                const bName = getTranslation(b.name)
-                if (!aName) return 1
-                if (!bName) return -1
-                return aName.localeCompare(bName, 'no')
-            }),
-        [bikeRentalStations],
-    )
-
     const addNewStop = useCallback(
         (stopId: string) => {
-            const numberOfDuplicates = [
-                ...nearestStopPlaceIds,
-                ...settings.newStops,
-            ]
+            const numberOfDuplicates = [...stopPlaceIds, ...settings.newStops]
                 .map((id) => id.replace(/-\d+$/, ''))
                 .filter((id) => id === stopId).length
 
@@ -195,7 +142,7 @@ const EditTab = (): JSX.Element => {
                 newStops: [...settings.newStops, id],
             })
         },
-        [nearestStopPlaceIds, settings.newStops, setSettings],
+        [stopPlaceIds, settings.newStops, setSettings],
     )
 
     const addNewStation = useCallback(
@@ -323,7 +270,7 @@ const EditTab = (): JSX.Element => {
                     <div className="edit-tab__set-stops">
                         <StopPlaceSearch handleAddNewStop={addNewStop} />
                     </div>
-                    <StopPlacePanel stops={stopPlaces} />
+                    <StopPlacePanel distance={debouncedDistance} />
                     <div>
                         <Heading3 className="edit-tab__header--details-in-view">
                             Detaljer i visningen
@@ -379,7 +326,7 @@ const EditTab = (): JSX.Element => {
                             onSelected={addNewStation}
                         />
                     )}
-                    <BikePanel stations={sortedBikeRentalStations} />
+                    <BikePanel />
                 </div>
                 {/* <div key="mapPanel" className="edit-tab__tile">
                     <div className="edit-tab__header">

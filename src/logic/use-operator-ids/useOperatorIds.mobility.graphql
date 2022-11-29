@@ -1,0 +1,5 @@
+query OperatorIds @api(name: mobility) {
+    operators {
+        id
+    }
+}
