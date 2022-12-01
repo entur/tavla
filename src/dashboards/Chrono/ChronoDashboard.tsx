@@ -8,14 +8,14 @@ import {
     getFromLocalStorage,
     saveToLocalStorage,
 } from '../../settings/LocalStorage'
-import { QRBox } from '../../components/QRTile/QRBox'
 import { useSettings } from '../../settings/SettingsProvider'
 import { isMobileWeb } from '../../utils/utils'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { BikeTile } from '../../components/BikeTile/BikeTile'
 import { MapTile } from '../../components/MapTile/MapTile'
-import { MobileAppQRTile } from '../../components/QRTile/MobileAppQRTile'
+import { QRTile } from '../../components/QRTile/QRTile'
+import { MobileAppQRTile } from '../../components/MobileAppQRTile/MobileAppQRTile'
 import { useStopPlaceIds } from '../../logic/use-stop-place-ids/useStopPlaceIds'
 import { ChronoDepartureTile } from './ChronoDepartureTile/ChronoDepartureTile'
 import './ChronoDashboard.scss'
@@ -134,21 +134,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                         }
                     }}
                 >
-                    {settings.showMobileAppQrTile && (
-                        <div
-                            key="qr"
-                            data-grid={getDataGrid(
-                                maxWidthCols - 1,
-                                maxWidthCols,
-                                2,
-                                2,
-                                Infinity,
-                            )}
-                        >
-                            <MobileAppQRTile />
-                        </div>
-                    )}
-
                     {settings.showWeather && (
                         <div
                             key="weather"
@@ -186,13 +171,13 @@ const ChronoDashboard = (): JSX.Element | null => {
                                 maxWidthCols,
                             )}
                         >
-                            {!isMobile ? (
+                            {!isMobile && (
                                 <ResizeHandle
                                     size="32"
                                     className="resizeHandle"
                                     variant="light"
                                 />
-                            ) : null}
+                            )}
                             <BikeTile />
                         </div>
                     )}
@@ -215,6 +200,20 @@ const ChronoDashboard = (): JSX.Element | null => {
                             <MapTile />
                         </div>
                     )}
+                    {settings.showMobileAppQrTile && (
+                        <div
+                            key="qr"
+                            data-grid={getDataGrid(
+                                numberOfStopPlaces + bikeCol + weatherCol + 1,
+                                maxWidthCols,
+                                2,
+                                2,
+                                Infinity,
+                            )}
+                        >
+                            <MobileAppQRTile />
+                        </div>
+                    )}
                     {imageTilesToDisplay.length > 0 &&
                         imageTilesToDisplay.map((imageTile, index) => (
                             <div
@@ -230,13 +229,13 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     2,
                                 )}
                             >
-                                {!isMobile ? (
+                                {!isMobile && (
                                     <ResizeHandle
                                         size="32"
                                         className="resizeHandle"
                                         variant="light"
                                     />
-                                ) : null}
+                                )}
                                 <ImageTile {...imageTile} />
                             </div>
                         ))}
@@ -252,20 +251,15 @@ const ChronoDashboard = (): JSX.Element | null => {
                                         numberOfCustomImages +
                                         index,
                                     maxWidthCols,
-                                    10,
-                                    3,
+                                    2,
+                                    2,
                                 )}
                             >
-                                <div className="tile">
-                                    {!isMobile ? (
-                                        <ResizeHandle
-                                            size="32"
-                                            className="resizeHandle"
-                                            variant="light"
-                                        />
-                                    ) : null}
-                                    <QRBox {...qrTile} />
-                                </div>
+                                <QRTile
+                                    title={qrTile.displayName}
+                                    sourceUrl={qrTile.sourceUrl}
+                                    description={qrTile.description}
+                                />
                             </div>
                         ))}
                 </ResponsiveReactGridLayout>
