@@ -1,0 +1,31 @@
+@use '../../assets/styles/Variables.scss';
+
+.WeatherTile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 Variables.$space-extra-large3;
+    justify-content: center;
+    overflow: auto !important;
+    align-items: center;
+    padding: Variables.$space-medium !important;
+    min-height: 150px;
+    z-index: 3;
+    height: 100%;
+}
+
+.IconAndTemperature {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+}
+
+.WeatherDataContainer {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+    padding-top: Variables.$space-extra-large;
+
+    &:first-child {
+        padding-top: Variables.$space-extra-small;
+    }
+}

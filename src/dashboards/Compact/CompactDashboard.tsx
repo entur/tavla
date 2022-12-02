@@ -135,7 +135,7 @@ const CompactDashboard = (): JSX.Element | null => {
                     {settings.showWeather && (
                         <div
                             key="weather"
-                            data-grid={getDataGrid(0, maxWidthCols, 1, 1)}
+                            data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
                         >
                             <ResizeHandle
                                 size="32"

@@ -1,0 +1,30 @@
+@use '../../../assets/styles/Variables.scss';
+
+.TemperatureAndDescription {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 15px;
+
+    &:first-child {
+        margin-top: 1.1rem;
+    }
+}
+
+.Temperature {
+    font-size: 3rem;
+}
+
+.Description {
+    padding-top: Variables.$space-small;
+    font-size: Variables.$font-sizes-extra-large;
+    white-space: nowrap;
+}
+
+.Red {
+    color: Variables.$colors-brand-coral;
+}
+
+.Blue {
+    color: Variables.$colors-validation-sky-contrast;
+}

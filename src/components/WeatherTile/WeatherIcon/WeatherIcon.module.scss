@@ -1,0 +1,18 @@
+.WeatherIcon {
+    position: relative;
+    font-size: 5.5rem;
+
+    &:active {
+        pointer-events: none;
+    }
+}
+
+.Sun {
+    animation: spin 30s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}

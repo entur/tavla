@@ -8,7 +8,10 @@ import {
     SunCloudRainIcon,
     SunIcon,
 } from '@entur/icons'
-import { arrayContains } from '../../utils/array'
+import classes from './WeatherIcon.module.scss'
+
+const contains = (a: string[], b: string[]): boolean =>
+    a.some((v) => b.includes(v))
 
 const getWeatherIconEntur = (APIconName: string): JSX.Element => {
     const stripedAPIIconName = APIconName.replace(
@@ -25,16 +28,14 @@ const getWeatherIconEntur = (APIconName: string): JSX.Element => {
     const sunCloudRain = ['rainshowers']
     const sun = ['clearsky']
 
-    if (arrayContains(weatherConditions, lightning))
-        return <CloudLightningIcon />
-    if (arrayContains(weatherConditions, sunCloudRain))
-        return <SunCloudRainIcon />
-    if (arrayContains(weatherConditions, snow)) return <CloudSnowIcon />
-    if (arrayContains(weatherConditions, rain)) return <CloudRainIcon />
-    if (arrayContains(weatherConditions, sunCloud)) return <SunCloudIcon />
-    if (arrayContains(weatherConditions, cloud)) return <CloudIcon />
-    if (arrayContains(weatherConditions, sun))
-        return <SunIcon className="icon-entur--sun" />
+    if (contains(weatherConditions, lightning)) return <CloudLightningIcon />
+    if (contains(weatherConditions, sunCloudRain)) return <SunCloudRainIcon />
+    if (contains(weatherConditions, snow)) return <CloudSnowIcon />
+    if (contains(weatherConditions, rain)) return <CloudRainIcon />
+    if (contains(weatherConditions, sunCloud)) return <SunCloudIcon />
+    if (contains(weatherConditions, cloud)) return <CloudIcon />
+    if (contains(weatherConditions, sun))
+        return <SunIcon className={classes.Sun} />
     return <div>?</div>
 }
 
@@ -45,7 +46,9 @@ interface WeatherIconProps {
 const WeatherIcon: React.FC<WeatherIconProps> = ({ symbolCode }) => (
     <div>
         {symbolCode ? (
-            <div className="icon-entur">{getWeatherIconEntur(symbolCode)}</div>
+            <div className={classes.WeatherIcon}>
+                {getWeatherIconEntur(symbolCode)}
+            </div>
         ) : (
             '…'
         )}
