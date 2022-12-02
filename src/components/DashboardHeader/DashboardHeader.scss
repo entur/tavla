@@ -21,14 +21,6 @@
         }
     }
 
-    &__clock {
-        &__date {
-            margin-top: 0.75rem;
-            font-size: 1.25rem;
-            display: block;
-        }
-    }
-
     &__resources {
         display: flex;
         justify-content: flex-end;
@@ -61,10 +53,6 @@
 
     @media (max-width: 900px) {
         margin: 0 1rem 1rem;
-
-        &__clock {
-            display: none;
-        }
 
         &__logo-wrapper {
             &__logo {

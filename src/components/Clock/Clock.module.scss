@@ -1,0 +1,22 @@
+.Clock {
+    text-align: right;
+}
+
+.Time {
+    line-height: 2rem;
+    color: var(--tavla-font-color);
+}
+
+.Date {
+    color: var(--tavla-font-color);
+    display: block;
+    font-size: 1.25rem;
+    margin-bottom: 0;
+    margin-top: 0.75rem;
+}
+
+@media (max-width: 900px) {
+    .Clock {
+        display: none;
+    }
+}
