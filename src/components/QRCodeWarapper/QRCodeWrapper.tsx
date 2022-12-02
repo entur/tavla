@@ -1,27 +1,40 @@
 import React from 'react'
 import QRCode from 'react-qr-code'
+import classNames from 'classnames'
 import { colors } from '@entur/tokens'
 import { Paragraph } from '@entur/typography'
-import { CustomTile, Theme } from '../../types'
+import { Theme } from '../../types'
 import { useSettings } from '../../settings/SettingsProvider'
-import classes from './QRBox.module.scss'
+import classes from './QRCodeWrapper.module.scss'
 
-const QRBox = ({ sourceUrl, description }: CustomTile): JSX.Element => {
+interface Props {
+    className?: string
+    sourceUrl: string
+    description?: string
+    size?: number
+}
+
+const QRCodeWrapper: React.FC<Props> = ({
+    className,
+    sourceUrl,
+    description,
+    size = 80,
+}) => {
     const [settings] = useSettings()
 
     return (
-        <div className={classes.Wrapper}>
+        <div className={classNames(classes.Wrapper, className)}>
             <div className={classes.Code}>
                 <QRCode
                     value={sourceUrl}
-                    size={80}
+                    size={size}
                     fgColor={
                         settings.theme !== Theme.DARK
                             ? colors.brand.blue
                             : 'black'
                     }
                     level="L"
-                ></QRCode>
+                />
             </div>
             {description && (
                 <Paragraph className={classes.Description}>
@@ -32,4 +45,4 @@ const QRBox = ({ sourceUrl, description }: CustomTile): JSX.Element => {
     )
 }
 
-export { QRBox }
+export { QRCodeWrapper }

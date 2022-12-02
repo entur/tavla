@@ -15,7 +15,8 @@ import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
 import { ImageTile } from '../../components/ImageTile/ImageTile'
 import { BikeTile } from '../../components/BikeTile/BikeTile'
 import { MapTile } from '../../components/MapTile/MapTile'
-import { MobileAppQRTile } from '../../components/QRTile/MobileAppQRTile'
+import { MobileAppQRTile } from '../../components/MobileAppQRTile/MobileAppQRTile'
+import { QRTile } from '../../components/QRTile/QRTile'
 import { CompactDepartureTile } from './CompactDepartureTile/CompactDepartureTile'
 import './CompactDashboard.scss'
 
@@ -131,20 +132,6 @@ const CompactDashboard = (): JSX.Element | null => {
                         }
                     }}
                 >
-                    {settings.showMobileAppQrTile && (
-                        <div
-                            key="qr"
-                            data-grid={getDataGrid(
-                                maxWidthCols - 1,
-                                maxWidthCols,
-                                1.8,
-                                1.8,
-                                Infinity,
-                            )}
-                        >
-                            <MobileAppQRTile />
-                        </div>
-                    )}
                     {settings.showWeather && (
                         <div
                             key="weather"
@@ -211,6 +198,20 @@ const CompactDashboard = (): JSX.Element | null => {
                             <MapTile />
                         </div>
                     )}
+                    {settings.showMobileAppQrTile && (
+                        <div
+                            key="qr"
+                            data-grid={getDataGrid(
+                                numberOfStopPlaces + bikeCol + weatherCol + 1,
+                                maxWidthCols,
+                                2,
+                                2,
+                                Infinity,
+                            )}
+                        >
+                            <MobileAppQRTile />
+                        </div>
+                    )}
                     {imageTilesToDisplay.length > 0 &&
                         imageTilesToDisplay.map((imageTile, index) => (
                             <div
@@ -226,13 +227,13 @@ const CompactDashboard = (): JSX.Element | null => {
                                     2,
                                 )}
                             >
-                                {!isMobile ? (
+                                {!isMobile && (
                                     <ResizeHandle
                                         size="32"
                                         className="resizeHandle"
                                         variant="light"
                                     />
-                                ) : null}
+                                )}
                                 <ImageTile {...imageTile} />
                             </div>
                         ))}
@@ -248,18 +249,22 @@ const CompactDashboard = (): JSX.Element | null => {
                                         imageTilesToDisplay.length +
                                         index,
                                     maxWidthCols,
-                                    10,
-                                    3,
+                                    4,
+                                    2,
                                 )}
                             >
-                                {!isMobile ? (
+                                {!isMobile && (
                                     <ResizeHandle
                                         size="32"
                                         className="resizeHandle"
                                         variant="light"
                                     />
-                                ) : null}
-                                <div className="tile"></div>
+                                )}
+                                <QRTile
+                                    title={qrTile.displayName}
+                                    sourceUrl={qrTile.sourceUrl}
+                                    description={qrTile.description}
+                                />
                             </div>
                         ))}
                 </ResponsiveReactGridLayout>

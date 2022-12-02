@@ -87,7 +87,7 @@ const DEFAULT_SETTINGS: Settings = {
     permanentlyVisibleRoutesInMap: [],
     scooterDistance: { distance: DEFAULT_DISTANCE, enabled: false },
     showCustomTiles: false,
-    showMobileAppQrTile: true,
+    showMobileAppQrTile: false,
     showIcon: true,
     showMap: false,
     showPrecipitation: true,

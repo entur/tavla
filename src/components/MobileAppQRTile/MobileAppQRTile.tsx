@@ -1,26 +1,22 @@
 import React from 'react'
-import { CustomTileType } from '../../types'
+import { Heading2 } from '@entur/typography'
 import { Tile } from '../Tile/Tile'
-import { QRBox } from './QRBox'
+import { QRCodeWrapper } from '../QRCodeWarapper/QRCodeWrapper'
 import classes from './MobileAppQRTile.module.scss'
 
 const MobileAppQRTile = (): JSX.Element => (
-    <Tile>
-        <div className={classes.TitleWrapper}>Last ned Entur-appen!</div>
+    <Tile className={classes.Tile}>
+        <Heading2 className={classes.Title}>Last ned Entur-appen!</Heading2>
         <div className={classes.Flex}>
-            <QRBox
-                id="entur-app"
+            <QRCodeWrapper
+                className={classes.Code}
                 sourceUrl="https://apps.apple.com/no/app/entur-journey-planner/id1225135707"
                 description="App Store"
-                type={CustomTileType.QR}
-                displayName="entur-app-appstore"
             />
-            <QRBox
-                id="entur-app"
+            <QRCodeWrapper
+                className={classes.Code}
                 sourceUrl="https://play.google.com/store/apps/details?id=no.entur&hl=en&gl=NO"
                 description="Google Play"
-                type={CustomTileType.QR}
-                displayName="entur-app-playstore"
             />
         </div>
     </Tile>
