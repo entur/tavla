@@ -37,7 +37,7 @@ function DashboardHeader(): JSX.Element | null {
                         </span>
                     )}
                 </div>
-                <Clock className="dashboard-header__clock" />
+                <Clock />
             </div>
         </Contrast>
     )
