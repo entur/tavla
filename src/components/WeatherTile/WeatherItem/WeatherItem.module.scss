@@ -1,0 +1,13 @@
+@use '../../../assets/styles/Variables.scss';
+
+.WeatherItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: Variables.$font-sizes-large;
+    margin-right: Variables.$space-large;
+
+    &:last-child {
+        margin-right: 0;
+    }
+}
