@@ -1,4 +1,4 @@
-.close-button {
+.CloseButton {
     align-self: flex-end;
     cursor: pointer;
     display: flex;
@@ -11,8 +11,8 @@
     font-size: inherit;
     font-weight: inherit;
     margin-left: auto;
+}
 
-    .icon {
-        margin-right: 0.5rem;
-    }
+.Icon {
+    margin-right: 0.5rem;
 }
