@@ -251,10 +251,17 @@ const ChronoDashboard = (): JSX.Element | null => {
                                         numberOfCustomImages +
                                         index,
                                     maxWidthCols,
-                                    2,
+                                    4,
                                     2,
                                 )}
                             >
+                                {!isMobile && (
+                                    <ResizeHandle
+                                        size="32"
+                                        className="resizeHandle"
+                                        variant="light"
+                                    />
+                                )}
                                 <QRTile
                                     title={qrTile.displayName}
                                     sourceUrl={qrTile.sourceUrl}
