@@ -8,6 +8,9 @@
 
 .Cell {
     padding: 1rem 0 1rem 0.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .Icon {
