@@ -77,8 +77,8 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
             <Table spacing="large" fixed>
                 <TableHead className={classes.TableHead}>
                     <TableRow>
-                        <HeaderCell className={classes.Icon}> </HeaderCell>
-                        <HeaderCell>Linje</HeaderCell>
+                        <HeaderCell className={classes.Line}>Linje</HeaderCell>
+                        <HeaderCell>Destinasjon</HeaderCell>
                         <HeaderCell className={classes.Departure}>
                             Avgang
                         </HeaderCell>
@@ -101,7 +101,6 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
                             departure={departure}
                             hideSituations={settings.hideSituations}
                             hideTracks={settings.hideTracks}
-                            iconColorType={iconColorType}
                         />
                     ))}
                 </TableBody>

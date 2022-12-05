@@ -8,7 +8,7 @@
     border-bottom: none;
 }
 
-.Icon {
+.Line {
     width: 10%;
 }
 
@@ -25,6 +25,9 @@
 }
 
 @media (max-width: BusStopDashboard.$breakpoint-mobile) {
+    .Line {
+        width: 13%;
+    }
     .Departure {
         width: 22%;
     }
