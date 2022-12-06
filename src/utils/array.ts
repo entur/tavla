@@ -19,9 +19,6 @@ function unique<T>(
     })
 }
 
-const arrayContains = (original: string[], contains: string[]): boolean =>
-    original.some((r) => contains.indexOf(r) >= 0)
-
 function toggleValueInList<T>(list: T[], item: T): T[] {
     if (list.includes(item)) {
         return list.filter((i) => i !== item)
@@ -29,4 +26,4 @@ function toggleValueInList<T>(list: T[], item: T): T[] {
     return [...list, item]
 }
 
-export { filterMap, unique, arrayContains, toggleValueInList }
+export { filterMap, unique, toggleValueInList }

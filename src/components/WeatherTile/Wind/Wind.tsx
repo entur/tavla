@@ -1,5 +1,7 @@
 import React from 'react'
 import { WindIcon } from '@entur/icons'
+import { WeatherItem } from '../WeatherItem/WeatherItem'
+import { WeatherItemValue } from '../WeatherItem/WeatherItemValue'
 
 interface WindProps {
     windSpeed?: number
@@ -9,12 +11,12 @@ interface WindProps {
 const Wind: React.FC<WindProps> = ({ windSpeed, unit }) => {
     const showWind = windSpeed !== undefined && unit !== undefined
     return (
-        <div className="weather-tile__weather-data-container__weather-data">
+        <WeatherItem>
             <WindIcon size={20} />
-            <div className="weather-tile__weather-data-container__weather-data__value">
+            <WeatherItemValue>
                 {showWind ? windSpeed + ' ' + unit : '…'}
-            </div>
-        </div>
+            </WeatherItemValue>
+        </WeatherItem>
     )
 }
 

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import classNames from 'classnames'
 import { Table, TableRow, TableHead, HeaderCell, TableBody } from '@entur/table'
 import { Loader } from '@entur/loader'
 import { useSettings } from '../../../../settings/SettingsProvider'
@@ -77,18 +78,39 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
             <Table spacing="large" fixed>
                 <TableHead className={classes.TableHead}>
                     <TableRow>
-                        <HeaderCell className={classes.Line}>Linje</HeaderCell>
-                        <HeaderCell>Destinasjon</HeaderCell>
-                        <HeaderCell className={classes.Departure}>
+                        <HeaderCell
+                            className={classNames(classes.Line, classes.Cell)}
+                        >
+                            Linje
+                        </HeaderCell>
+                        <HeaderCell className={classNames(classes.Cell)}>
+                            Destinasjon
+                        </HeaderCell>
+                        <HeaderCell
+                            className={classNames(
+                                classes.Departure,
+                                classes.Cell,
+                            )}
+                        >
                             Avgang
                         </HeaderCell>
                         {!settings.hideTracks && (
-                            <HeaderCell className={classes.Track}>
+                            <HeaderCell
+                                className={classNames(
+                                    classes.Track,
+                                    classes.Cell,
+                                )}
+                            >
                                 Plattform
                             </HeaderCell>
                         )}
                         {!settings.hideSituations && (
-                            <HeaderCell className={classes.Situation}>
+                            <HeaderCell
+                                className={classNames(
+                                    classes.Situation,
+                                    classes.Cell,
+                                )}
+                            >
                                 Avvik
                             </HeaderCell>
                         )}

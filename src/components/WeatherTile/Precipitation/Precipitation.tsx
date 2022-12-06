@@ -1,5 +1,7 @@
 import React from 'react'
 import { CloudRainIcon, UmbrellaIcon } from '@entur/icons'
+import { WeatherItem } from '../WeatherItem/WeatherItem'
+import { WeatherItemValue } from '../WeatherItem/WeatherItemValue'
 
 interface PrecipitationProps {
     precipitationAmount?: number
@@ -21,22 +23,22 @@ const Precipitation: React.FC<PrecipitationProps> = ({
 
     return (
         <>
-            <div className="weather-tile__weather-data-container__weather-data">
+            <WeatherItem>
                 <CloudRainIcon size={20} />
-                <div className="weather-tile__weather-data-container__weather-data__value">
+                <WeatherItemValue>
                     {showPrecipitation
                         ? precipitationAmount + ' ' + precipitationUnit
                         : '…'}
-                </div>
-            </div>
-            <div className="weather-tile__weather-data-container__weather-data">
+                </WeatherItemValue>
+            </WeatherItem>
+            <WeatherItem>
                 <UmbrellaIcon size={20} />
-                <div className="weather-tile__weather-data-container__weather-data__value">
+                <WeatherItemValue>
                     {showProbability
                         ? probability + ' ' + probabilityUnit
                         : '…'}
-                </div>
-            </div>
+                </WeatherItemValue>
+            </WeatherItem>
         </>
     )
 }

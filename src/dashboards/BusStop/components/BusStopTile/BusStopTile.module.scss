@@ -8,6 +8,12 @@
     border-bottom: none;
 }
 
+.Cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .Line {
     width: 10%;
 }

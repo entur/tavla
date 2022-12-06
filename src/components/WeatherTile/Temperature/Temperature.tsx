@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import classes from './Temperature.module.scss'
 
 interface TemperatureProps {
     description: string
@@ -13,22 +14,18 @@ const Temperature: React.FC<TemperatureProps> = ({
     const isNegative = (temperature || -1) < 0
 
     return (
-        <div className="weather-tile__icon-and-temperature__temperature-and-description">
+        <div className={classes.TemperatureAndDescription}>
             <div
                 className={classNames(
-                    'weather-tile__icon-and-temperature__temperature-and-description__temperature ',
-                    isNegative
-                        ? 'weather-tile__weather-data-container__weather-data--color-blue'
-                        : 'weather-tile__weather-data-container__weather-data--color-red',
+                    classes.Temperature,
+                    isNegative ? classes.Blue : classes.Red,
                 )}
             >
                 {temperature !== undefined
                     ? Math.round(temperature) + '°'
                     : '…'}
             </div>
-            <div className="weather-tile__icon-and-temperature__temperature-and-description__description">
-                {description}
-            </div>
+            <div className={classes.Description}>{description}</div>
         </div>
     )
 }
