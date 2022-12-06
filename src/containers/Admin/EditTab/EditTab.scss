@@ -207,11 +207,6 @@
         border-bottom: 5px dotted var(--tavla-input-dotted-border-color);
     }
 
-    &__set-stops {
-        display: flex;
-        align-items: flex-start;
-    }
-
     .distance-editor {
         margin-left: 2rem;
         width: auto;
@@ -227,10 +222,6 @@
 
     @media (max-width: 996px) {
         padding: 0;
-
-        &__set-stops {
-            display: block;
-        }
 
         &__expanding-text-field {
             padding: 0;

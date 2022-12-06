@@ -18,7 +18,6 @@ import { ValidationInfoIcon } from '@entur/icons'
 import { Button } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { isMobileWeb } from '../../../utils/utils'
-import { useStopPlaceIds } from '../../../logic/use-stop-place-ids/useStopPlaceIds'
 import {
     saveToLocalStorage,
     getFromLocalStorage,
@@ -121,29 +120,7 @@ const EditTab = (): JSX.Element => {
         setSettings,
     ])
 
-    const { stopPlaceIds } = useStopPlaceIds({
-        distance: debouncedDistance,
-        filterHidden: false,
-    })
-
     const locationName = settings.boardName
-
-    const addNewStop = useCallback(
-        (stopId: string) => {
-            const numberOfDuplicates = [...stopPlaceIds, ...settings.newStops]
-                .map((id) => id.replace(/-\d+$/, ''))
-                .filter((id) => id === stopId).length
-
-            const id = !numberOfDuplicates
-                ? stopId
-                : `${stopId}-${numberOfDuplicates}`
-
-            setSettings({
-                newStops: [...settings.newStops, id],
-            })
-        },
-        [stopPlaceIds, settings.newStops, setSettings],
-    )
 
     const addNewStation = useCallback(
         (stationId: string) => {
@@ -267,9 +244,7 @@ const EditTab = (): JSX.Element => {
                             size="large"
                         />
                     </div>
-                    <div className="edit-tab__set-stops">
-                        <StopPlaceSearch handleAddNewStop={addNewStop} />
-                    </div>
+                    <StopPlaceSearch distance={debouncedDistance} />
                     <StopPlacePanel distance={debouncedDistance} />
                     <div>
                         <Heading3 className="edit-tab__header--details-in-view">

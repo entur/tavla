@@ -1,33 +1,58 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Dropdown } from '@entur/dropdown'
 import {
     AutocompleteItem,
     fetchAutocomplete,
 } from '../../../../logic/geocoder/fetchAutocomplete'
-import './StopPlaceSearch.scss'
+import { useSettings } from '../../../../settings/SettingsProvider'
+import { useStopPlaceIds } from '../../../../logic/use-stop-place-ids/useStopPlaceIds'
+import classes from './StopPlaceSearch.module.scss'
 
 interface StopPlaceSearchProps {
-    handleAddNewStop: (stopId: string) => void
+    distance: number
 }
 
-const StopPlaceSearch: React.FC<StopPlaceSearchProps> = ({
-    handleAddNewStop,
-}) => {
-    const onItemSelected = (item: AutocompleteItem | null): void => {
-        if (item) {
-            handleAddNewStop(item.value)
-        }
-    }
+const StopPlaceSearch: React.FC<StopPlaceSearchProps> = ({ distance }) => {
+    const [settings, setSettings] = useSettings()
+
+    const { stopPlaceIds } = useStopPlaceIds({
+        distance,
+        filterHidden: false,
+    })
+
+    const handleChange = useCallback(
+        (item: AutocompleteItem | null) => {
+            if (item) {
+                const stopId = item.value
+
+                const numberOfDuplicates = [
+                    ...stopPlaceIds,
+                    ...settings.newStops,
+                ]
+                    .map((id) => id.replace(/-\d+$/, ''))
+                    .filter((id) => id === stopId).length
+
+                const id = !numberOfDuplicates
+                    ? stopId
+                    : `${stopId}-${numberOfDuplicates}`
+
+                setSettings({
+                    newStops: [...settings.newStops, id],
+                })
+            }
+        },
+        [stopPlaceIds, settings.newStops, setSettings],
+    )
 
     return (
-        <div className="stop-place-search">
+        <div className={classes.StopPlaceSearch}>
             <Dropdown
                 searchable
                 openOnFocus
                 debounceTimeout={500}
                 label="Legg til et stoppested"
                 items={fetchAutocomplete}
-                onChange={onItemSelected}
+                onChange={handleChange}
                 highlightFirstItemOnOpen
             />
         </div>
