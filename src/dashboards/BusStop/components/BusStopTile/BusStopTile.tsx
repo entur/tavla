@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import classNames from 'classnames'
 import { Table, TableRow, TableHead, HeaderCell, TableBody } from '@entur/table'
 import { Loader } from '@entur/loader'
 import { useSettings } from '../../../../settings/SettingsProvider'
@@ -75,42 +74,21 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
                     longitude: stopPlaceWithEstimatedCalls.longitude,
                 }}
             />
-            <Table spacing="large" fixed>
+            <Table spacing="large">
                 <TableHead className={classes.TableHead}>
-                    <TableRow>
-                        <HeaderCell
-                            className={classNames(classes.Line, classes.Cell)}
-                        >
-                            Linje
-                        </HeaderCell>
-                        <HeaderCell className={classNames(classes.Cell)}>
+                    <TableRow className={classes.TableRow}>
+                        <HeaderCell className={classes.Cell}>Linje</HeaderCell>
+                        <HeaderCell className={classes.Cell}>
                             Destinasjon
                         </HeaderCell>
-                        <HeaderCell
-                            className={classNames(
-                                classes.Departure,
-                                classes.Cell,
-                            )}
-                        >
-                            Avgang
-                        </HeaderCell>
+                        <HeaderCell className={classes.Cell}>Avgang</HeaderCell>
                         {!settings.hideTracks && (
-                            <HeaderCell
-                                className={classNames(
-                                    classes.Track,
-                                    classes.Cell,
-                                )}
-                            >
+                            <HeaderCell className={classes.Cell}>
                                 Plattform
                             </HeaderCell>
                         )}
                         {!settings.hideSituations && (
-                            <HeaderCell
-                                className={classNames(
-                                    classes.Situation,
-                                    classes.Cell,
-                                )}
-                            >
+                            <HeaderCell className={classes.Cell}>
                                 Avvik
                             </HeaderCell>
                         )}
