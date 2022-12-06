@@ -1,47 +1,29 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
 import type { User } from 'firebase/auth'
 import type { DocumentData } from 'firebase/firestore'
-import { AddIcon } from '@entur/icons'
-import { Contrast } from '@entur/layout'
-import { Heading3 } from '@entur/typography'
-import { Board } from '../../../types'
-import { BoardCard } from './BoardCard/BoardCard'
+import { SegmentedChoice, SegmentedControl } from '@entur/form'
+import { GridView } from './GridView/GridView'
+import { ListView } from './ListView/ListView'
 
-const OwnedBoards = ({ boards, user, preview }: Props): JSX.Element => (
-    <Contrast>
-        <div className="my-boards__board-list">
-            {boards.map((board: Board) => (
-                <BoardCard
-                    key={board.id}
-                    id={board.id}
-                    uid={user.uid}
-                    timestamp={board.lastmodified}
-                    created={board.created}
-                    settings={board.data}
-                />
-            ))}
-            <div className="add-board-card">
-                <Link to="/">
-                    <div className="add-board-card__preview">
-                        <img src={preview['Chrono']} alt="" />
-                        <AddIcon
-                            size="3rem"
-                            className="add-board-card__preview__icon"
-                        />
-                    </div>
-                </Link>
-                <div className="add-board-card__text-container">
-                    <span>
-                        <Link to="/">
-                            <Heading3>Lag ny tavle</Heading3>
-                        </Link>
-                    </span>
-                </div>
-            </div>
+const OwnedBoards = ({ boards, user, preview }: Props): JSX.Element => {
+    const [chosenBoardView, setChosenBoardView] = useState('grid')
+    return (
+        <div>
+            <SegmentedControl
+                label="halla"
+                selectedValue={chosenBoardView}
+                onChange={(value) => {
+                    setChosenBoardView(value || 'grid')
+                }}
+            >
+                <SegmentedChoice value="grid">Rutenett</SegmentedChoice>
+                <SegmentedChoice value="list">Liste</SegmentedChoice>
+            </SegmentedControl>
+            <GridView boards={boards} user={user} preview={preview} />
+            <ListView boards={boards} />
         </div>
-    </Contrast>
-)
+    )
+}
 
 interface Props {
     boards: DocumentData
