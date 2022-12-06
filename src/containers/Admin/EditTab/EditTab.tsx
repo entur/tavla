@@ -38,6 +38,7 @@ import { WeatherPanel } from './WeatherPanel/WeatherPanel'
 import './EditTab.scss'
 import { CustomTilePanel } from './CustomTilePanel/CustomTilePanel'
 import { PosterMobilityAlert } from './PosterMobilityAlert'
+import { EditTile } from './EditTile/EditTile'
 
 const isMobile = isMobileWeb()
 
@@ -232,8 +233,8 @@ const EditTab = (): JSX.Element => {
             </div>
             <PosterMobilityAlert />
             <div className="edit-tab__tiles-heading">Mobilitetstilbud</div>
-            <div className="edit-tab__flex-container">
-                <div className="edit-tab__flex-item">
+            <div className="edit-tab__tiles-container">
+                <EditTile>
                     <div className="edit-tab__header">
                         <Heading2>Kollektiv</Heading2>
                         <Switch
@@ -252,10 +253,10 @@ const EditTab = (): JSX.Element => {
                         </Heading3>
                     </div>
                     <ToggleDetailsPanel />
-                </div>
+                </EditTile>
 
                 <div>
-                    <div className=" edit-tab__flex-item">
+                    <EditTile>
                         <div className="edit-tab__header">
                             <Heading2>Sparkesykkel</Heading2>
                             <Switch
@@ -271,8 +272,8 @@ const EditTab = (): JSX.Element => {
                             />
                         </div>
                         <ScooterPanel />
-                    </div>
-                    <div className="edit-tab__flex-item">
+                    </EditTile>
+                    <EditTile>
                         <div className="edit-tab__header">
                             <Heading2>Delebil</Heading2>
                             <Switch
@@ -283,10 +284,10 @@ const EditTab = (): JSX.Element => {
                                 size="large"
                             />
                         </div>
-                    </div>
+                    </EditTile>
                 </div>
 
-                <div className="edit-tab__flex-item">
+                <EditTile>
                     <div className="edit-tab__header">
                         <Heading2>Bysykkel</Heading2>
                         <Switch
@@ -295,42 +296,19 @@ const EditTab = (): JSX.Element => {
                             size="large"
                         />
                     </div>
-                    {!!settings?.coordinates && (
+                    {!!settings.coordinates && (
                         <BikePanelSearch
                             position={settings.coordinates}
                             onSelected={addNewStation}
                         />
                     )}
                     <BikePanel />
-                </div>
-                {/* <div key="mapPanel" className="edit-tab__tile">
-                    <div className="edit-tab__header">
-                        <Heading2>Kart</Heading2>
-                        <Switch
-                            onChange={(
-                                event: React.ChangeEvent<HTMLInputElement>,
-                            ): void => {
-                                setSettings({
-                                    showMap: event.currentTarget.checked,
-                                })
-                            }}
-                            checked={showMap}
-                            size="large"
-                        />
-                    </div>
-                    {settings.showMap && (
-                        <ZoomEditor
-                            zoom={zoom}
-                            onZoomUpdated={setZoom}
-                            scooters={scooters}
-                        />
-                    )}
-                </div> */}
+                </EditTile>
             </div>
             <div className="edit-tab__tiles-heading">Annet</div>
-            <div className="edit-tab__flex-container">
+            <div className="edit-tab__tiles-container">
                 <div>
-                    <div className="edit-tab__flex-item">
+                    <EditTile>
                         <div className="edit-tab__header">
                             <Heading2>
                                 {'Vær '}
@@ -343,8 +321,8 @@ const EditTab = (): JSX.Element => {
                             />
                         </div>
                         <WeatherPanel />
-                    </div>
-                    <div className="edit-tab__flex-item">
+                    </EditTile>
+                    <EditTile>
                         <div className="edit-tab__header">
                             <Heading2>
                                 Bilde og QR
@@ -376,8 +354,8 @@ const EditTab = (): JSX.Element => {
                             />
                         </div>
                         <CustomTilePanel></CustomTilePanel>
-                    </div>
-                    <div className="edit-tab__flex-item">
+                    </EditTile>
+                    <EditTile>
                         <div className="edit-tab__header">
                             <Heading2>
                                 Entur App QR
@@ -408,10 +386,10 @@ const EditTab = (): JSX.Element => {
                                 size="large"
                             />
                         </div>
-                    </div>
+                    </EditTile>
                 </div>
 
-                <div className="edit-tab__flex-item">
+                <EditTile>
                     <div className="edit-tab__header">
                         <Heading2>Sanntidsposisjoner</Heading2>
                         <Switch
@@ -431,8 +409,8 @@ const EditTab = (): JSX.Element => {
                             på knappen øverst til høyre i kollektiv-ruten.
                         </Paragraph>
                     )}
-                </div>
-                <div className="edit-tab__flex-item">
+                </EditTile>
+                <EditTile>
                     <div className="edit-tab__header">
                         <Heading2>Last inn tavler på nytt</Heading2>
                     </div>
@@ -445,7 +423,7 @@ const EditTab = (): JSX.Element => {
                             Last inn tavler på nytt
                         </Button>
                     </div>
-                </div>
+                </EditTile>
             </div>
         </div>
     )

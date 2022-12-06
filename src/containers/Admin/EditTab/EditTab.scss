@@ -7,7 +7,7 @@
         opacity: 0.75;
     }
 
-    &__flex-container {
+    &__tiles-container {
         display: flex;
         flex-direction: row;
         align-items: flex-start;
@@ -15,15 +15,6 @@
         padding-right: 2rem;
         margin-top: 2rem;
         gap: 3rem;
-    }
-
-    &__flex-item {
-        margin-bottom: 3rem;
-        padding: 2rem;
-        background-color: var(--tavla-box-background-color);
-        border-radius: 1rem;
-        flex-grow: 1;
-        flex-basis: 0;
     }
 
     .eds-contrast {
@@ -56,31 +47,6 @@
     /* Firefox */
     .eds-form-control[type='number'] {
         -moz-appearance: textfield;
-    }
-
-    &__tile {
-        padding: 2rem;
-        background-color: var(--tavla-box-background-color);
-        display: block;
-        overflow: auto;
-        border-radius: 1rem;
-        overflow-x: hidden;
-    }
-
-    &__tile-weather {
-        padding: 2rem;
-        background-color: var(--tavla-box-background-color);
-        display: block;
-        border-radius: 1rem;
-        overflow-x: visible;
-    }
-
-    &__tile-refresh {
-        padding: 2rem;
-        background-color: var(--tavla-box-background-color);
-        display: block;
-        border-radius: 1rem;
-        overflow-x: visible;
     }
 
     .eds-checkbox-icon {
@@ -225,11 +191,6 @@
 
         &__expanding-text-field {
             padding: 0;
-        }
-
-        &__tile {
-            display: block;
-            padding: 1rem;
         }
 
         &__input-wrapper {
