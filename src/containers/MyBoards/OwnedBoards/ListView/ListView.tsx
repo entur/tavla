@@ -9,8 +9,10 @@ import {
     HeaderCell,
     TableBody,
 } from '@entur/table'
+import { VerticalDotsIcon } from '@entur/icons'
 import { Board } from '../../../../types'
 import { createTimeString } from '../../../../utils/time'
+import classes from './ListView.module.scss'
 
 const ListView = ({ boards }: Props) => (
     <Contrast>
@@ -35,7 +37,10 @@ const ListView = ({ boards }: Props) => (
                         <DataCell>
                             {`${window.location.host}/t/${board.id}`}
                         </DataCell>
-                        <DataCell>Her skal det komme en meny.knappp</DataCell>
+                        <DataCell>
+                            <div className={classes.Center}>Valg <VerticalDotsIcon />
+                            </div>
+                        </DataCell>
                     </TableRow>
                 ))}
             </TableBody>
