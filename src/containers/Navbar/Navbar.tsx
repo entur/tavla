@@ -61,7 +61,10 @@ const Navbar: React.FC<NavbarProps> = ({ theme }) => {
                     <ul>
                         {onMineTavler && userLoggedIn && (
                             <li>
-                                <TopNavigationItem onClick={logout}>
+                                <TopNavigationItem
+                                    onClick={logout}
+                                    href="/tavler"
+                                >
                                     <span>Logg ut</span>
                                     <LogOutIcon size="20" />
                                 </TopNavigationItem>
