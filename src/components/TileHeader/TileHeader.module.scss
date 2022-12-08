@@ -1,7 +1,8 @@
 .TileHeader {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
+    gap: 1rem;
     margin-bottom: 1rem;
 }
 
@@ -10,7 +11,7 @@
 }
 
 .Icons {
-    font-size: 2rem;
+    font-size: 3rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;

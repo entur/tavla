@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { Table, TableRow, TableHead, HeaderCell, TableBody } from '@entur/table'
 import { Loader } from '@entur/loader'
+import { SubLabel } from '@entur/typography'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { BusStopTableRow } from '../BusStopTableRow/BusStopTableRow'
 import {
@@ -64,32 +65,48 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
 
     return (
         <Tile className={classes.BusStopTile}>
-            <TileHeader
-                title={stopPlaceWithEstimatedCalls.name}
-                icons={getTransportHeaderIcons(departures, iconColorType)}
-            />
-            <WalkTrip
-                coordinates={{
-                    latitude: stopPlaceWithEstimatedCalls.latitude,
-                    longitude: stopPlaceWithEstimatedCalls.longitude,
-                }}
-            />
+            <div className={classes.TileHeader}>
+                <TileHeader
+                    title={stopPlaceWithEstimatedCalls.name}
+                    icons={getTransportHeaderIcons(departures, iconColorType)}
+                />
+                <WalkTrip
+                    coordinates={{
+                        latitude: stopPlaceWithEstimatedCalls.latitude,
+                        longitude: stopPlaceWithEstimatedCalls.longitude,
+                    }}
+                />
+            </div>
             <Table spacing="large">
                 <TableHead className={classes.TableHead}>
                     <TableRow className={classes.TableRow}>
-                        <HeaderCell className={classes.Cell}>Linje</HeaderCell>
+                        <HeaderCell className={classes.Cell}>
+                            Linje
+                            <br />
+                            <SubLabel>Line</SubLabel>
+                        </HeaderCell>
                         <HeaderCell className={classes.Cell}>
                             Destinasjon
+                            <br />
+                            <SubLabel>Destination</SubLabel>
                         </HeaderCell>
-                        <HeaderCell className={classes.Cell}>Avgang</HeaderCell>
+                        <HeaderCell className={classes.Cell}>
+                            Avgang
+                            <br />
+                            <SubLabel>Departure</SubLabel>
+                        </HeaderCell>
                         {!settings.hideTracks && (
                             <HeaderCell className={classes.Cell}>
                                 Plattform
+                                <br />
+                                <SubLabel>Platform</SubLabel>
                             </HeaderCell>
                         )}
                         {!settings.hideSituations && (
                             <HeaderCell className={classes.Cell}>
                                 Avvik
+                                <br />
+                                <SubLabel>Deviations</SubLabel>
                             </HeaderCell>
                         )}
                     </TableRow>
