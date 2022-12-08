@@ -103,7 +103,7 @@ npm run lint
 ## Graphql
 
 This project uses [Graphql Codegen](https://the-guild.dev/graphql/codegen) to generate schema, types and hooks from the endpoints and .graphql-files.
-To generate/update/overwrite run: 
+To generate/update/overwrite run:
 
 ```shell
 npm run graphql-codegen
@@ -119,7 +119,7 @@ To get the most out of these files you should use a plugin or extension in your 
 [name].journey-planner.graphql
 ```
 
-This is a requirement for having graphql-codegen and `.graphqlconfig` pick up file. 
+This is a requirement for having graphql-codegen and `.graphqlconfig` pick up file.
 
 ## Using your own Firebase Project
 
@@ -258,7 +258,7 @@ function Sooon({ history }: Props): JSX.Element {
 }
 
 interface Props {
-    history: any;
+    history: any
 }
 
 export default Sooon
