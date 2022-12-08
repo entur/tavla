@@ -100,6 +100,27 @@ We use ESLint to ensure code quality. Please make sure ESLint is happy with the 
 npm run lint
 ```
 
+## Graphql
+
+This project uses [Graphql Codegen](https://the-guild.dev/graphql/codegen) to generate schema, types and hooks from the endpoints and .graphql-files.
+To generate/update/overwrite run:
+
+```shell
+npm run graphql-codegen
+```
+
+To get the most out of these files you should use a plugin or extension in your editor that helps you write correct graphql. For IntelliJ we recommend using [this plugin](https://plugins.jetbrains.com/plugin/8097-graphql).
+
+### .graphql-files
+
+.graphql-files should be named after which endpoint they point to. For example a query against journey planner should be named:
+
+```
+[name].journey-planner.graphql
+```
+
+This is a requirement for having graphql-codegen and `.graphqlconfig` pick up file.
+
 ## Using your own Firebase Project
 
 We are using Firebase for hosting tavla.entur.no (Firebase Hosting) and we are using Firebase Authentication as our authentication platform. Therefore, if you are thinking of hosting your own fork of Tavla, we would recommend you to do the same.
@@ -216,7 +237,7 @@ src/
 
 Copy the following into `src/dashboards/Sooon/index.tsx`:
 
-```js
+```tsx
 import React from 'react'
 
 import DashboardWrapper from '../../containers/DashboardWrapper'
@@ -237,7 +258,7 @@ function Sooon({ history }: Props): JSX.Element {
 }
 
 interface Props {
-    history: any;
+    history: any
 }
 
 export default Sooon
