@@ -46,45 +46,43 @@ const HeadingAndDistance: React.FC = () => {
     }, [])
 
     return (
-        <div>
-            <Heading2 className={classes.Heading}>
-                Viser kollektivtilbud innenfor
-                <div className={classes.InputWrapper}>
-                    <Tooltip
-                        content={
-                            <div className={classes.TooltipContainer}>
-                                <Heading4 className={classes.TooltipText}>
-                                    Endre på avstanden?
-                                </Heading4>
-                                <SubParagraph className={classes.TooltipText}>
-                                    Klikk på tallet for å skrive en ny verdi.
-                                </SubParagraph>
-                            </div>
-                        }
-                        placement="bottom"
-                        isOpen={showTooltip}
-                        showCloseButton={true}
-                        disableHoverListener={true}
-                        disableFocusListener={true}
-                    >
-                        <TextField
-                            label=""
-                            className={classes.ExpandingTextField}
-                            size="medium"
-                            defaultValue={distance}
-                            onChange={validateInput}
-                            append="m"
-                            type="number"
-                            max={1000}
-                            min={1}
-                            maxLength={4}
-                            minLength={1}
-                        />
-                    </Tooltip>
-                </div>
-                rundt {settings.boardName.split(',')[0]}
-            </Heading2>
-        </div>
+        <Heading2 className={classes.Heading}>
+            Viser kollektivtilbud innenfor
+            <div className={classes.InputWrapper}>
+                <Tooltip
+                    content={
+                        <div className={classes.TooltipContainer}>
+                            <Heading4 className={classes.TooltipText}>
+                                Endre på avstanden?
+                            </Heading4>
+                            <SubParagraph className={classes.TooltipText}>
+                                Klikk på tallet for å skrive en ny verdi.
+                            </SubParagraph>
+                        </div>
+                    }
+                    placement="bottom"
+                    isOpen={showTooltip}
+                    showCloseButton={true}
+                    disableHoverListener={true}
+                    disableFocusListener={true}
+                >
+                    <TextField
+                        label=""
+                        className={classes.TextField}
+                        size="medium"
+                        defaultValue={distance}
+                        onChange={validateInput}
+                        append="m"
+                        type="number"
+                        max={1000}
+                        min={1}
+                        maxLength={4}
+                        minLength={1}
+                    />
+                </Tooltip>
+            </div>
+            rundt {settings.boardName.split(',')[0]}
+        </Heading2>
     )
 }
 

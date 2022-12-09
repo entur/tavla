@@ -47,27 +47,35 @@
     }
 }
 
-.ExpandingTextField {
+// Define .TextField twice because of specificity issues with eds
+.TextField.TextField {
     font-size: inherit;
     color: var(--primary-text-color);
+    background-color: transparent;
+    font-weight: 400;
+    border-color: transparent;
+    -moz-appearance: textfield;
+
+    /* Chrome, Safari, Edge, Opera */
+    ::-webkit-outer-spin-button,
+    ::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    &:focus-within {
+        border-color: transparent;
+    }
+
+    &:hover {
+        background-color: transparent;
+    }
 
     /* Because we can't pass classNames to child components of <TextField>, we need to overwrite
      * the .eds classes. We wrap them in :global to make sure they don't get a new name when
      * imported by the css-loader.
      */
     &:global.eds-form-control-wrapper {
-        background-color: transparent;
-        font-weight: 400;
-        border-color: transparent;
-
-        &:focus-within {
-            --border-color: transparent;
-        }
-
-        &:hover {
-            background-color: transparent;
-        }
-
         .eds-form-control,
         .eds-form-control__append {
             font-size: inherit;

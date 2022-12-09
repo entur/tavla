@@ -1,0 +1,59 @@
+.ScooterPanel {
+    padding-top: 1rem;
+
+    & :global {
+        .eds-filter-chip:not(:first-child) {
+            margin-top: 0.8rem;
+            padding-left: 0.8rem;
+        }
+
+        .eds-chip {
+            background-color: var(--tavla-border-color);
+        }
+
+        .eds-filter-chip__icon {
+            background-color: var(--tavla-background-color);
+        }
+    }
+}
+
+.Container {
+    width: 100%;
+    height: 100%;
+}
+
+.Buttons {
+    display: inline-block;
+    padding-right: 0.5rem;
+    margin-top: 0.8rem;
+}
+
+// Define .NumberInput twice because of specificity issues with eds
+.NumberInput.NumberInput {
+    margin-top: 1rem;
+    border-color: transparent;
+    background-color: var(--tavla-input-background-color);
+
+    &:hover {
+        background-color: var(--tavla-input-background-color);
+        border-color: var(--tavla-input-border-hover-color);
+    }
+
+    -moz-appearance: textfield;
+
+    /* Chrome, Safari, Edge, Opera */
+    ::-webkit-outer-spin-button,
+    ::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+.DistanceWrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.Paragraph {
+    color: var(--tavla-font-color);
+}

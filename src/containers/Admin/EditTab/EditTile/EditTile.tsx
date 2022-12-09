@@ -26,6 +26,7 @@ const EditTile: React.FC<Props> = ({
                 className={classes.Switch}
                 onChange={onChange}
                 checked={checked}
+                size="large"
             />
         </div>
         {children}

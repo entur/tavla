@@ -13,7 +13,7 @@ import { ALL_ACTIVE_OPERATOR_IDS } from '../../../../../constants'
 import { useScooterPanelQuery } from '../../../../../../graphql-generated/mobility-v2'
 import { toggleValueInList } from '../../../../../utils/array'
 import { isNotNullOrUndefined } from '../../../../../utils/typeguards'
-import './ScooterPanel.scss'
+import classes from './ScooterPanel.module.scss'
 
 function ScooterPanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
@@ -79,8 +79,8 @@ function ScooterPanel(): JSX.Element {
     )
 
     return (
-        <div className="scooter-panel">
-            <div className="scooter-panel-distance-wrapper">
+        <div className={classes.ScooterPanel}>
+            <div className={classes.DistanceWrapper}>
                 Velg avstand for visning av sparkesykler:
                 <Switch
                     onChange={() => {
@@ -93,7 +93,7 @@ function ScooterPanel(): JSX.Element {
             <TextField
                 label="Vis sparkesykler innenfor"
                 append="Meter"
-                className="scooter-panel-number-input"
+                className={classes.NumberInput}
                 type="number"
                 min={1}
                 max={1000}
@@ -107,13 +107,10 @@ function ScooterPanel(): JSX.Element {
                 feedback={feedback}
                 disabled={!enabled}
             />
-            <Fieldset className="scooter-panel-fieldset">
-                <div className="scooter-panel__container">
+            <Fieldset>
+                <div className={classes.Container}>
                     {operators.map((operator) => (
-                        <div
-                            key={operator.id}
-                            className="scooter-panel__buttons"
-                        >
+                        <div key={operator.id} className={classes.Buttons}>
                             <FilterChip
                                 id={operator.id}
                                 value={operator.id}
@@ -126,7 +123,7 @@ function ScooterPanel(): JSX.Element {
                                 onChange={onToggleOperator}
                             >
                                 {operator.name.translation[0] && (
-                                    <span className="scooter-panel__eds-paragraph">
+                                    <span className={classes.Paragraph}>
                                         {operator.name.translation[0].value}
                                     </span>
                                 )}
