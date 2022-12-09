@@ -9,15 +9,15 @@ import { GridView } from './GridView/GridView'
 import { ListView } from './ListView/ListView'
 import classes from './OwnedBoards.module.scss'
 
-const OwnedBoards = ({ boards, user, preview }: Props): JSX.Element => {
-    const [chosenBoardView, setChosenBoardView] = useState('grid')
+type BoardViews = 'grid' | 'list'
 
-    const ChosenBoardView = (boardView: string) => {
+const OwnedBoards = ({ boards, user }: Props): JSX.Element => {
+    const [chosenBoardView, setChosenBoardView] = useState<BoardViews>('grid')
+
+    const ChosenBoardView = (boardView: BoardViews) => {
         switch (boardView) {
             case 'grid':
-                return (
-                    <GridView boards={boards} user={user} preview={preview} />
-                )
+                return <GridView boards={boards} user={user} />
             case 'list':
                 return <ListView boards={boards} user={user} />
         }
@@ -43,7 +43,9 @@ const OwnedBoards = ({ boards, user, preview }: Props): JSX.Element => {
                         className={classes.Switch}
                         selectedValue={chosenBoardView}
                         onChange={(value) => {
-                            setChosenBoardView(value || 'grid')
+                            if (value) {
+                                setChosenBoardView(value as BoardViews)
+                            }
                         }}
                     >
                         <SegmentedChoice value="grid">Rutenett</SegmentedChoice>
@@ -59,8 +61,6 @@ const OwnedBoards = ({ boards, user, preview }: Props): JSX.Element => {
 interface Props {
     boards: DocumentData
     user: User
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    preview: Record<string, any>
 }
 
 export { OwnedBoards }
