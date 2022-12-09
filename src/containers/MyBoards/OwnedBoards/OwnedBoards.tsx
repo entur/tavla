@@ -26,16 +26,16 @@ const OwnedBoards = ({ boards, user, preview }: Props): JSX.Element => {
     return (
         <div>
             <Contrast className={classes.Header}>
-                {chosenBoardView == 'list' ? (
-                    <Link to="/">
-                        <div className={classes.NewBoardWrapper}>
-                            <AddIcon />
-                            Lag ny tavle
-                        </div>
-                    </Link>
-                ) : (
-                    <div></div>
-                )}
+                <div>
+                    {chosenBoardView == 'list' && (
+                        <Link to="/">
+                            <div className={classes.NewBoardWrapper}>
+                                <AddIcon />
+                                Lag ny tavle
+                            </div>
+                        </Link>
+                    )}
+                </div>
 
                 <div className={classes.Wrapper}>
                     Velg visningstype:

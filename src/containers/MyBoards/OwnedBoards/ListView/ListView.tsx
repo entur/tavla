@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import type { DocumentData } from 'firebase/firestore'
 import type { User } from 'firebase/auth'
 import copy from 'copy-to-clipboard'
@@ -22,6 +22,19 @@ import classes from './ListView.module.scss'
 
 const ListView = ({ boards, user }: Props) => {
     const { addToast } = useToast()
+
+    const handleCopy = useCallback(
+        (boardId: string) => () => {
+            copy(`${window.location.host}/t/${boardId}`)
+            addToast({
+                title: 'Kopiert',
+                content: 'Linken har nå blitt kopiert til din utklippstavle.',
+                variant: 'success',
+            })
+        },
+        [addToast],
+    )
+
     return (
         <Contrast>
             <Table>
@@ -48,19 +61,7 @@ const ListView = ({ boards, user }: Props) => {
                                     content="Trykk for å kopiere lenken."
                                     placement="top"
                                 >
-                                    <IconButton
-                                        onClick={() => {
-                                            copy(
-                                                `${window.location.host}/t/${board.id}`,
-                                            )
-                                            addToast({
-                                                title: 'Kopiert',
-                                                content:
-                                                    'Linken har nå blitt kopiert til din utklippstavle.',
-                                                variant: 'success',
-                                            })
-                                        }}
-                                    >
+                                    <IconButton onClick={handleCopy(board.id)}>
                                         <CopyIcon />
                                     </IconButton>
                                 </Tooltip>
