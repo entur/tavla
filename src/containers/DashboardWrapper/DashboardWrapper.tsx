@@ -1,6 +1,5 @@
 import React from 'react'
 import classNames from 'classnames'
-import { Contrast } from '@entur/layout'
 import { isDarkOrDefaultTheme } from '../../utils/utils'
 import { useSettings } from '../../settings/SettingsProvider'
 import { EnturLogo } from '../../assets/icons/EnturLogo'
@@ -50,9 +49,7 @@ function DashboardWrapper({
                         />
                     </div>
                 )}
-                <Contrast>
-                    <BottomMenu className="dashboard-wrapper__bottom-menu" />
-                </Contrast>
+                <BottomMenu />
             </div>
         </ThemeContrastWrapper>
     )
