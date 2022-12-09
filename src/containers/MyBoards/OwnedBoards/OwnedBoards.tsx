@@ -19,7 +19,7 @@ const OwnedBoards = ({ boards, user, preview }: Props): JSX.Element => {
                     <GridView boards={boards} user={user} preview={preview} />
                 )
             case 'list':
-                return <ListView boards={boards} />
+                return <ListView boards={boards} user={user} />
         }
     }
 
