@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import classNames from 'classnames'
 import classes from './BottomMenu.module.scss'
 import { SettingsButton } from './buttons/SettingsButton'
@@ -11,7 +11,7 @@ function BottomMenu(): JSX.Element {
     const [showMenu, setShowMenu] = useState(false)
     const [, setPreviousTimeout] = useState<NodeJS.Timeout>()
 
-    const ShowMenuOnMouseMove = () => {
+    const showMenuOnMouseMove = useCallback(() => {
         setShowMenu(true)
 
         const timeoutId = setTimeout(() => {
@@ -24,15 +24,15 @@ function BottomMenu(): JSX.Element {
             if (prev) clearTimeout(prev)
             return timeoutId
         })
-    }
+    }, [])
 
     useEffect(() => {
-        document.addEventListener('mousemove', ShowMenuOnMouseMove)
+        document.addEventListener('mousemove', showMenuOnMouseMove)
 
         return () => {
-            document.removeEventListener('mousemove', ShowMenuOnMouseMove)
+            document.removeEventListener('mousemove', showMenuOnMouseMove)
         }
-    }, [])
+    }, [showMenuOnMouseMove])
 
     return (
         <div
