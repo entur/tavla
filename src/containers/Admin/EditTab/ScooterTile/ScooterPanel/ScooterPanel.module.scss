@@ -28,7 +28,7 @@
     margin-top: 0.8rem;
 }
 
-// Define .NumberInput twice because of specificity issues with eds
+/* Define .NumberInput twice because of specificity issues with eds */
 .NumberInput.NumberInput {
     margin-top: 1rem;
     border-color: transparent;

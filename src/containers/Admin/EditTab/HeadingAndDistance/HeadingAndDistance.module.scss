@@ -47,7 +47,7 @@
     }
 }
 
-// Define .TextField twice because of specificity issues with eds
+/* Define .TextField twice because of specificity issues with eds */
 .TextField.TextField {
     font-size: inherit;
     color: var(--primary-text-color);
