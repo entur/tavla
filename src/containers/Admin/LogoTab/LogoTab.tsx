@@ -30,13 +30,13 @@ const Requirements = (): JSX.Element => (
                 Ha god nok kontrast til bakgrunnen i valgt fargetema. Vi
                 anbefaler å bruke en lys eller hvit logo på de mørke temaene, og
                 farget/sort logo på lys bakgrunn for å sikre krav til universell
-                utforming. Om du er i tvil kan du sjekke kontrasten{' '}
+                utforming. Om du er i tvil kan du sjekke kontrasten i{' '}
                 <Link
                     target="_blank"
                     rel="noopener noreferrer"
                     href="https://webaim.org/resources/contrastchecker"
                 >
-                    her
+                    WebAIM sitt verktøy for kontrastsjekking
                 </Link>
                 .
             </ListItem>
