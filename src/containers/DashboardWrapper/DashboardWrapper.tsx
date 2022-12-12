@@ -28,29 +28,31 @@ function DashboardWrapper({
 
     return (
         <ThemeContrastWrapper
-            className={classNames({
-                [classes.Rotated]: settings.direction === Direction.ROTATED,
-            })}
+            className={classNames(
+                {
+                    [classes.Rotated]: settings.direction === Direction.ROTATED,
+                },
+                classes.DashboardWrapper,
+                className,
+            )}
             useContrast={isDarkOrDefaultTheme(settings.theme)}
         >
             <DashboardHeader />
-            <div className={classNames(classes.DashboardWrapper, className)}>
-                {children}
-                {settings.logo && (
-                    <div className={classes.Byline}>
-                        Tjenesten leveres av{' '}
-                        <EnturLogo
-                            height="24px"
-                            style={
-                                isDarkOrDefaultTheme(settings.theme)
-                                    ? 'white'
-                                    : 'black'
-                            }
-                        />
-                    </div>
-                )}
-                <BottomMenu />
-            </div>
+            {children}
+            {settings.logo && (
+                <div className={classes.Byline}>
+                    Tjenesten leveres av{' '}
+                    <EnturLogo
+                        height="24px"
+                        style={
+                            isDarkOrDefaultTheme(settings.theme)
+                                ? 'white'
+                                : 'black'
+                        }
+                    />
+                </div>
+            )}
+            <BottomMenu />
         </ThemeContrastWrapper>
     )
 }

@@ -5,7 +5,7 @@ import { useSettings } from '../../settings/SettingsProvider'
 import { Clock } from '../Clock/Clock'
 import { TavlaLogo } from '../../assets/icons'
 import { isMobileWeb } from '../../utils/utils'
-import './DashboardHeader.scss'
+import classes from './DashboardHeader.module.scss'
 
 function DashboardHeader(): JSX.Element | null {
     const [settings] = useSettings()
@@ -14,8 +14,8 @@ function DashboardHeader(): JSX.Element | null {
 
     return (
         <Contrast>
-            <div className="dashboard-header">
-                <div className="dashboard-header__logo-wrapper">
+            <div className={classes.DashboardHeader}>
+                <div>
                     <Link to="/">
                         {settings.logo ? (
                             <img
@@ -24,13 +24,13 @@ function DashboardHeader(): JSX.Element | null {
                             />
                         ) : (
                             <TavlaLogo
-                                className="dashboard-header__logo-wrapper__logo"
+                                className={classes.Logo}
                                 theme={settings.theme}
                             />
                         )}
                     </Link>
                     {showBoardDescription && (
-                        <span className="dashboard-header__logo-wrapper__description">
+                        <span className={classes.LogoDescription}>
                             {settings.description
                                 ? settings.description
                                 : 'Finn din rute på entur.no eller i Entur-appen'}
