@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 import classNames from 'classnames'
 import { Contrast } from '@entur/layout'
 import { isDarkOrDefaultTheme } from '../../utils/utils'
@@ -34,6 +35,9 @@ function DashboardWrapper({
             })}
             useContrast={isDarkOrDefaultTheme(settings.theme)}
         >
+            <Helmet>
+                <title>{settings.boardName} - Tavla - Entur</title>
+            </Helmet>
             <DashboardHeader />
             <div className={classNames('dashboard-wrapper', className)}>
                 {children}

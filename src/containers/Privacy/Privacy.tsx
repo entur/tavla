@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 import {
     Heading1,
     Heading2,
@@ -12,6 +13,9 @@ import './Privacy.scss'
 
 const Privacy = (): JSX.Element => (
     <>
+        <Helmet>
+            <title>Personvern - Tavla - Entur</title>
+        </Helmet>
         <Navbar />
         <article className="privacy">
             <Contrast>
