@@ -19,6 +19,7 @@ function BoardOverflowMenu({
     id,
     uid,
     sharedBoard = false,
+    showCopy = true,
 }: Props): JSX.Element {
     const navigate = useNavigate()
     const [removeLockModalOpen, setRemoveLockModalOpen] =
@@ -50,13 +51,14 @@ function BoardOverflowMenu({
                     </span>
                     Rediger tavle
                 </OverflowMenuLink>
-                <OverflowMenuItem onSelect={overflowShareTavle}>
-                    <span aria-hidden>
-                        <CopyIcon inline />
-                    </span>
-                    Kopier lenke
-                </OverflowMenuItem>
-
+                {showCopy && (
+                    <OverflowMenuItem onSelect={overflowShareTavle}>
+                        <span aria-hidden>
+                            <CopyIcon inline />
+                        </span>
+                        Kopier lenke
+                    </OverflowMenuItem>
+                )}
                 {sharedBoard ? (
                     <OverflowMenuItem
                         onSelect={(): void =>
@@ -112,6 +114,7 @@ interface Props {
     id: string
     uid: string
     sharedBoard?: boolean
+    showCopy?: boolean
 }
 
 export { BoardOverflowMenu }

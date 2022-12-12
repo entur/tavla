@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react'
 import type { DocumentData, Timestamp } from 'firebase/firestore'
 import { NotificationBadge } from '@entur/layout'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
-import { ThemeDashboardPreview } from '../../assets/icons/ThemeDashboardPreview'
 import {
     getBoardsForUserOnSnapshot,
     getInvitesForUserOnSnapshot,
     getBoardsByIds,
 } from '../../settings/firebase'
 import { useUser } from '../../UserProvider'
-import { Board, SharedBoard, Theme } from '../../types'
+import { Board, SharedBoard } from '../../types'
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
 import { Navbar } from '../Navbar/Navbar'
@@ -37,7 +36,6 @@ const MyBoards = (): JSX.Element | null => {
     const [currentIndex, setCurrentIndex] = useState<number>(0)
 
     const user = useUser()
-    const preview = ThemeDashboardPreview(Theme.DEFAULT)
 
     const [boards, setBoards] = useState<DocumentData>()
     const [sharedBoards, setSharedBoards] = useState<SharedBoard[]>([])
@@ -174,11 +172,7 @@ const MyBoards = (): JSX.Element | null => {
                     </TabList>
                     <TabPanels>
                         <TabPanel>
-                            <OwnedBoards
-                                boards={boards}
-                                user={user}
-                                preview={preview}
-                            />
+                            <OwnedBoards boards={boards} user={user} />
                         </TabPanel>
                         <TabPanel>
                             <SharedBoards sharedBoards={sharedBoards} />
