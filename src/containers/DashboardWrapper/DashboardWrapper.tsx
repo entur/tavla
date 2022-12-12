@@ -10,7 +10,7 @@ import { useHandleFontScaling } from '../../hooks/useHandleFontScaling'
 import { useThemeHandler } from '../../hooks/useThemeHandler'
 import { DashboardHeader } from '../../components/DashboardHeader/DashboardHeader'
 import { BottomMenu } from './BottomMenu/BottomMenu'
-import './DashboardWrapper.scss'
+import classes from './DashboardWrapper.module.scss'
 
 interface DashboardWrapperProps {
     className: string
@@ -29,15 +29,15 @@ function DashboardWrapper({
     return (
         <ThemeContrastWrapper
             className={classNames({
-                rotated: settings.direction === Direction.ROTATED,
+                [classes.Rotated]: settings.direction === Direction.ROTATED,
             })}
             useContrast={isDarkOrDefaultTheme(settings.theme)}
         >
             <DashboardHeader />
-            <div className={classNames('dashboard-wrapper', className)}>
+            <div className={classNames(classes.DashboardWrapper, className)}>
                 {children}
                 {settings.logo && (
-                    <div className="dashboard-wrapper__byline">
+                    <div className={classes.Byline}>
                         Tjenesten leveres av{' '}
                         <EnturLogo
                             height="24px"

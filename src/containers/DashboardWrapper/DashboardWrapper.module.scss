@@ -1,21 +1,21 @@
-.dashboard-wrapper {
+.DashboardWrapper {
     background-color: var(--tavla-background-color);
     color: var(--tavla-font-color);
     padding: 2rem 4rem;
-
-    &__byline {
-        margin-top: 4.5rem;
-        display: flex;
-        align-items: center;
-        color: var(--tavla-font-color);
-
-        img {
-            padding-left: 0.75rem;
-        }
-    }
 }
 
-.rotated {
+.Byline {
+	margin-top: 4.5rem;
+	display: flex;
+	align-items: center;
+	color: var(--tavla-font-color);
+
+	img {
+		padding-left: 0.75rem;
+	}
+}
+
+.Rotated {
     transform: rotate(-90deg) translate(-100vh);
     transform-origin: top left;
     width: 100vh;
