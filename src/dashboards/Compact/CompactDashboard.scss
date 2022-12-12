@@ -123,19 +123,6 @@
     }
 }
 
-@media (min-width: 996px) {
-    .compact {
-        &__tiles {
-            /*
-            react-grid-layout uses a margin of 32px between all grid-items.
-            This makes the tiles not lign up with the header, so to counteract
-            these margins on the sides and top, this styling is needed.
-            */
-            margin: -2rem;
-        }
-    }
-}
-
 @media (max-width: 1000px) {
     .compact {
         padding: 1rem 1rem 6rem;
