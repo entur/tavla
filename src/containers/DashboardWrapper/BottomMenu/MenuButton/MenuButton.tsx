@@ -1,24 +1,24 @@
 import React from 'react'
 import { Tooltip } from '@entur/tooltip'
-import './MenuButton.scss'
+import classes from './MenuButton.module.scss'
 
 function MenuButton({ title, icon, callback, tooltip }: Props): JSX.Element {
-    const button = (
-        <button onClick={callback} className="bottom_menu_button hvr-float">
-            <div className="iconHolder">{icon}</div>
-            <span className="titleHolder">{title}</span>
+    const btn = (
+        <button onClick={callback} className={classes.MenuButton}>
+            <div>{icon}</div>
+            <span>{title}</span>
         </button>
     )
 
     if (tooltip) {
         return (
             <Tooltip content={tooltip} placement="top">
-                {button}
+                {btn}
             </Tooltip>
         )
     }
 
-    return button
+    return btn
 }
 
 interface Props {
