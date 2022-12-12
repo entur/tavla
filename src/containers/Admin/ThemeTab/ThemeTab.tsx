@@ -11,7 +11,7 @@ import Light from '../../../assets/previews/Light-theme.svg'
 import Entur from '../../../assets/previews/Entur-theme.svg'
 import { DirectionPreview } from '../../../assets/icons/DirectionPreview'
 import { FontSizePreview } from './FontSizePreview/FontSizePreview'
-import './ThemeTab.scss'
+import classes from './ThemeTab.module.scss'
 
 const SCALE_STEP = 0.1
 
@@ -59,23 +59,23 @@ const ThemeTab = (): JSX.Element => {
     )
 
     return (
-        <div className="theme-tab">
-            <Heading2 className="heading">Tilpass utseende</Heading2>
-            <Paragraph className="theme-tab__paragraph">
+        <div className={classes.ThemeTab}>
+            <Heading2 className={classes.Heading}>Tilpass utseende</Heading2>
+            <Paragraph className={classes.Paragraph}>
                 Her kan du endre utseendet på tavlen din. Vær oppmerksom på at
                 tekststørrelse og rotasjon kun vil vises på selve tavla, og ikke
                 på siden hvor du endrer på instillingene. Fargene vil
                 reflekteres både på tavla og i instillingene.
             </Paragraph>
-            <Heading3 className="heading">Velg farger</Heading3>
-            <div className="theme-tab__grid">
+            <Heading3 className={classes.Heading}>Velg farger</Heading3>
+            <div className={classes.Grid}>
                 <RadioCard
                     title="Entur (standard)"
                     value={Theme.DEFAULT}
                     preview={Entur}
                     selected={settings.theme === Theme.DEFAULT}
                     onChange={handleSwitchTheme}
-                    className="theme-tab__theme-card"
+                    className={classes.ThemeCard}
                     altText=""
                 />
                 <RadioCard
@@ -84,7 +84,7 @@ const ThemeTab = (): JSX.Element => {
                     preview={Dark}
                     selected={settings.theme === Theme.DARK}
                     onChange={handleSwitchTheme}
-                    className="theme-tab__theme-card"
+                    className={classes.ThemeCard}
                     altText=""
                 />
                 <RadioCard
@@ -93,7 +93,7 @@ const ThemeTab = (): JSX.Element => {
                     preview={Light}
                     selected={settings.theme === Theme.LIGHT}
                     onChange={handleSwitchTheme}
-                    className="theme-tab__theme-card"
+                    className={classes.ThemeCard}
                     altText=""
                 />
                 <RadioCard
@@ -102,24 +102,24 @@ const ThemeTab = (): JSX.Element => {
                     preview={Grey}
                     selected={settings.theme === Theme.GREY}
                     onChange={handleSwitchTheme}
-                    className="theme-tab__theme-card"
+                    className={classes.ThemeCard}
                     altText=""
                 />
             </div>
             <div>
-                <Heading3 className="heading">Velg rotasjon</Heading3>
-                <Paragraph className="theme-tab__paragraph">
+                <Heading3 className={classes.Heading}>Velg rotasjon</Heading3>
+                <Paragraph className={classes.Paragraph}>
                     Her kan du velge hvilken retning innholdet på tavla skal
                     vises.
                 </Paragraph>
-                <div className="theme-tab__grid">
+                <div className={classes.Grid}>
                     <RadioCard
                         title="Standard"
                         value={Direction.STANDARD}
                         preview={directionPreviewImages.Standard}
                         selected={settings.direction === Direction.STANDARD}
                         onChange={handleSwitchDirection}
-                        className="theme-tab__theme-card"
+                        className={classes.ThemeCard}
                     />
                     <RadioCard
                         title="Rotert"
@@ -127,36 +127,38 @@ const ThemeTab = (): JSX.Element => {
                         preview={directionPreviewImages.Rotated}
                         selected={settings.direction === Direction.ROTATED}
                         onChange={handleSwitchDirection}
-                        className="theme-tab__theme-card"
+                        className={classes.ThemeCard}
                     />
                 </div>
             </div>
             <div>
-                <Heading3 className="heading">Velg tekststørrelse</Heading3>
-                <Paragraph className="theme-tab__paragraph">
+                <Heading3 className={classes.Heading}>
+                    Velg tekststørrelse
+                </Heading3>
+                <Paragraph className={classes.Paragraph}>
                     Her kan du velge hvor stor teksten på tavla skal være.
                     Teksten vil kun gjelde for den samme nettleseren du endrer
                     innstillingen på.
                 </Paragraph>
-                <div className="theme-tab__font-size-buttons">
+                <div className={classes.FontSizeButtons}>
                     <FloatingButton
                         onClick={() =>
                             handleChangeFontSize(FontChangeAction.decrease)
                         }
-                        className="theme-tab__font-size-button"
+                        className={classes.FontSizeButton}
                         aria-label="Mindre"
                     >
                         Mindre
                         <SubtractIcon />
                     </FloatingButton>
-                    <span className="theme-tab__font-size-percentage">
+                    <span className={classes.FontSizePercentage}>
                         {Math.round(settings.fontScale * 100)}%
                     </span>
                     <FloatingButton
                         onClick={() =>
                             handleChangeFontSize(FontChangeAction.increase)
                         }
-                        className="theme-tab__font-size-button"
+                        className={classes.FontSizeButton}
                         aria-label="Større"
                     >
                         Større

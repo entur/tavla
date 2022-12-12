@@ -1,0 +1,53 @@
+.ThemeTab {
+    color: var(--tavla-font-color);
+    width: 100%;
+}
+
+.Paragraph {
+    color: var(--tavla-font-color);
+    max-width: 40rem;
+}
+
+.Heading {
+    color: var(--tavla-font-color);
+}
+
+.Grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+}
+
+.ThemeCard {
+    max-width: 35rem;
+}
+
+.FontSizeButtons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.FontSizeButton {
+    width: 11rem;
+    min-width: 8rem;
+}
+
+.FontSizePercentage {
+    width: 5rem;
+    text-align: center;
+}
+
+@media (max-width: 450px) {
+    .ThemeTab {
+        width: 100%;
+        display: grid;
+        box-sizing: border-box;
+        grid-auto-flow: row;
+        grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    }
+
+    .ThemeCard {
+        margin: 0 0 1rem 0;
+    }
+}
