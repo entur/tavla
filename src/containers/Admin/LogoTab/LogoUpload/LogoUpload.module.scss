@@ -1,0 +1,44 @@
+.Label {
+    color: var(--tavla-label-font-color);
+}
+
+.LogoPreviewImage {
+    max-width: 100%;
+    display: block;
+    border: 0.125rem #d1d3d3 dashed;
+}
+
+.LogoPreviewToolbar {
+    display: flex;
+    margin-top: 0.4rem;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+.ToolbarLink {
+    cursor: pointer;
+
+    &:first-of-type {
+        margin-right: 2rem;
+    }
+}
+
+.Loader {
+    max-width: 100%;
+}
+
+/* :global to overwrite styling from eds */
+.LogoUpload :global {
+    .eds-file-upload__wrapper {
+        width: 100%;
+        margin-top: 5px;
+        margin-bottom: 1rem;
+    }
+
+    .eds-file-upload__dropzone {
+        height: 8rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
