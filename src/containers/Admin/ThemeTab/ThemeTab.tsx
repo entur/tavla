@@ -1,193 +1,171 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useCallback } from 'react'
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { FloatingButton } from '@entur/button'
 import { AddIcon, SubtractIcon } from '@entur/icons'
 import { useSettings } from '../../../settings/SettingsProvider'
-import { Direction, Theme, FontChangeAction } from '../../../types'
+import { Direction, FontChangeAction, Theme } from '../../../types'
 import { RadioCard } from '../../../components/RadioCard/RadioCard'
 import Grey from '../../../assets/previews/Grey-theme.svg'
 import Dark from '../../../assets/previews/Dark-theme.svg'
 import Light from '../../../assets/previews/Light-theme.svg'
 import Entur from '../../../assets/previews/Entur-theme.svg'
 import { DirectionPreview } from '../../../assets/icons/DirectionPreview'
-import './ThemeTab.scss'
 import { FontSizePreview } from './FontSizePreview/FontSizePreview'
+import classes from './ThemeTab.module.scss'
+
+const SCALE_STEP = 0.1
 
 const ThemeTab = (): JSX.Element => {
     const [settings, setSettings] = useSettings()
-    const [themeRadioValue, setThemeRadioValue] = useState<Theme | null>(null)
-    const [fontScale, setFontScale] = useState<number>(settings.fontScale)
-    const [directionRadioValue, setDirectionRadioValue] = useState<Direction>(
-        settings.direction,
-    )
-    const { documentId } = useParams<{ documentId: string }>()
     const directionPreviewImages = DirectionPreview(settings.theme)
 
-    useEffect(() => {
-        if (settings.theme && !themeRadioValue) {
-            setThemeRadioValue(settings.theme)
-        }
-    }, [settings, themeRadioValue])
+    const handleSwitchTheme = useCallback(
+        (value: Theme): void => {
+            setSettings({
+                theme: value,
+            })
+        },
+        [setSettings],
+    )
 
-    const switchTheme = (value: Theme): void => {
-        setThemeRadioValue(value)
-        setSettings({
-            theme: value,
-        })
-    }
+    const handleSwitchDirection = useCallback(
+        (value: Direction): void => {
+            setSettings({
+                direction: value,
+            })
+        },
+        [setSettings],
+    )
 
-    const switchDirection = (value: Direction): void => {
-        setDirectionRadioValue(value)
-        setSettings({
-            direction: value,
-        })
-    }
+    const handleChangeFontSize = useCallback(
+        (action: FontChangeAction) => {
+            let newFontScale = settings.fontScale
 
-    function changeFontSize(action: FontChangeAction) {
-        let newFontScale = fontScale
+            switch (action) {
+                case FontChangeAction.increase:
+                    newFontScale += SCALE_STEP
+                    break
 
-        switch (action) {
-            case FontChangeAction.increase:
-                newFontScale += 0.5
-                break
+                case FontChangeAction.decrease:
+                    newFontScale = newFontScale - SCALE_STEP || SCALE_STEP
+                    break
+            }
 
-            case FontChangeAction.decrease:
-                newFontScale = newFontScale - 0.5 || 0.5
-                break
-
-            default:
-                break
-        }
-
-        setFontScale(newFontScale)
-        setSettings({
-            fontScale: newFontScale,
-        })
-    }
-
-    if (!documentId) {
-        return (
-            <div className="legacy-theme-tab">
-                <Heading2 className="heading">Velg farger</Heading2>
-                <Paragraph className="legacy-theme-tab__eds-paragraph">
-                    Vi har oppgradert tavla. Ønsker du tilgang på denne
-                    funksjonaliteten må du lage en ny tavle.
-                </Paragraph>
-            </div>
-        )
-    }
+            setSettings({
+                fontScale: newFontScale,
+            })
+        },
+        [settings, setSettings],
+    )
 
     return (
-        <div className="theme-tab">
-            <Heading2 className="heading">Tilpass utseende</Heading2>
-            <Paragraph className="theme-tab__paragraph">
+        <div className={classes.ThemeTab}>
+            <Heading2 className={classes.Heading}>Tilpass utseende</Heading2>
+            <Paragraph className={classes.Paragraph}>
                 Her kan du endre utseendet på tavlen din. Vær oppmerksom på at
                 tekststørrelse og rotasjon kun vil vises på selve tavla, og ikke
                 på siden hvor du endrer på instillingene. Fargene vil
                 reflekteres både på tavla og i instillingene.
             </Paragraph>
-            <Heading3 className="heading">Velg farger</Heading3>
-            <div className="theme-tab__grid">
+            <Heading3 className={classes.Heading}>Velg farger</Heading3>
+            <div className={classes.Grid}>
                 <RadioCard
                     title="Entur (standard)"
-                    value="default"
+                    value={Theme.DEFAULT}
                     preview={Entur}
-                    selected={themeRadioValue === 'default'}
-                    onChange={(val): void => switchTheme(val as Theme)}
-                    className="theme-tab__theme-card"
+                    selected={settings.theme === Theme.DEFAULT}
+                    onChange={handleSwitchTheme}
+                    className={classes.ThemeCard}
                     altText=""
                 />
                 <RadioCard
                     title="Mørkt"
-                    value="dark"
+                    value={Theme.DARK}
                     preview={Dark}
-                    selected={themeRadioValue === 'dark'}
-                    onChange={(val): void => switchTheme(val as Theme)}
-                    className="theme-tab__theme-card"
+                    selected={settings.theme === Theme.DARK}
+                    onChange={handleSwitchTheme}
+                    className={classes.ThemeCard}
                     altText=""
                 />
                 <RadioCard
                     title="Lyst"
-                    value="light"
+                    value={Theme.LIGHT}
                     preview={Light}
-                    selected={themeRadioValue === 'light'}
-                    onChange={(val): void => switchTheme(val as Theme)}
-                    className="theme-tab__theme-card"
+                    selected={settings.theme === Theme.LIGHT}
+                    onChange={handleSwitchTheme}
+                    className={classes.ThemeCard}
                     altText=""
                 />
                 <RadioCard
                     title="Grått"
-                    value="grey"
+                    value={Theme.GREY}
                     preview={Grey}
-                    selected={themeRadioValue === 'grey'}
-                    onChange={(val): void => switchTheme(val as Theme)}
-                    className="theme-tab__theme-card"
+                    selected={settings.theme === Theme.GREY}
+                    onChange={handleSwitchTheme}
+                    className={classes.ThemeCard}
                     altText=""
                 />
             </div>
             <div>
-                <Heading3 className="heading">Velg rotasjon</Heading3>
-                <Paragraph className="theme-tab__paragraph">
+                <Heading3 className={classes.Heading}>Velg rotasjon</Heading3>
+                <Paragraph className={classes.Paragraph}>
                     Her kan du velge hvilken retning innholdet på tavla skal
                     vises.
                 </Paragraph>
-                <div className="theme-tab__grid">
+                <div className={classes.Grid}>
                     <RadioCard
                         title="Standard"
                         value={Direction.STANDARD}
                         preview={directionPreviewImages.Standard}
-                        selected={directionRadioValue === Direction.STANDARD}
-                        onChange={(val): void =>
-                            switchDirection(val as Direction)
-                        }
-                        className="theme-tab__theme-card"
+                        selected={settings.direction === Direction.STANDARD}
+                        onChange={handleSwitchDirection}
+                        className={classes.ThemeCard}
                     />
                     <RadioCard
                         title="Rotert"
                         value={Direction.ROTATED}
                         preview={directionPreviewImages.Rotated}
-                        selected={directionRadioValue === Direction.ROTATED}
-                        onChange={(val): void =>
-                            switchDirection(val as Direction)
-                        }
-                        className="theme-tab__theme-card"
+                        selected={settings.direction === Direction.ROTATED}
+                        onChange={handleSwitchDirection}
+                        className={classes.ThemeCard}
                     />
                 </div>
             </div>
             <div>
-                <Heading3 className="heading">Velg tekststørrelse</Heading3>
-                <Paragraph className="theme-tab__paragraph">
+                <Heading3 className={classes.Heading}>
+                    Velg tekststørrelse
+                </Heading3>
+                <Paragraph className={classes.Paragraph}>
                     Her kan du velge hvor stor teksten på tavla skal være.
                     Teksten vil kun gjelde for den samme nettleseren du endrer
                     innstillingen på.
                 </Paragraph>
-                <div className="theme-tab__font-size-buttons">
+                <div className={classes.FontSizeButtons}>
                     <FloatingButton
                         onClick={() =>
-                            changeFontSize(FontChangeAction.decrease)
+                            handleChangeFontSize(FontChangeAction.decrease)
                         }
-                        className="theme-tab__font-size-button"
+                        className={classes.FontSizeButton}
                         aria-label="Mindre"
                     >
                         Mindre
                         <SubtractIcon />
                     </FloatingButton>
-                    <span className="theme-tab__font-size-percentage">
-                        {fontScale * 100}%
+                    <span className={classes.FontSizePercentage}>
+                        {Math.round(settings.fontScale * 100)}%
                     </span>
                     <FloatingButton
                         onClick={() =>
-                            changeFontSize(FontChangeAction.increase)
+                            handleChangeFontSize(FontChangeAction.increase)
                         }
-                        className="theme-tab__font-size-button"
+                        className={classes.FontSizeButton}
                         aria-label="Større"
                     >
                         Større
                         <AddIcon />
                     </FloatingButton>
                 </div>
-                <FontSizePreview fontScale={fontScale} />
+                <FontSizePreview fontScale={settings.fontScale} />
             </div>
         </div>
     )

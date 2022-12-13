@@ -26,6 +26,7 @@ function useStopPlaceIds(
     const [settings] = useSettings()
 
     const { data, loading, error } = useStopPlaceIdsQuery({
+        skip: settings.hiddenModes.includes('kollektiv'),
         variables: {
             latitude: settings.coordinates.latitude,
             longitude: settings.coordinates.longitude,

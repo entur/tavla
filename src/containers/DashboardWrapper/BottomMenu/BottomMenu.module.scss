@@ -1,0 +1,32 @@
+.BottomMenu {
+    padding: 0 2rem;
+    min-height: 6.4rem;
+    width: fit-content;
+    background-color: var(--tavla-button-background-color);
+    border-radius: 10px 10px 0 0;
+    z-index: 5;
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    visibility: hidden;
+    transform: translate(0, 100%);
+    transition: transform 0.3s ease-in, visibility 0.3s;
+}
+
+.HiddenMenu,
+.BottomMenu:hover {
+    visibility: visible;
+    transform: translate(0, 0);
+}
+
+@media (max-width: 900px) {
+    .BottomMenu {
+        justify-content: space-evenly;
+        width: 100%;
+        border-radius: 0;
+    }
+}
