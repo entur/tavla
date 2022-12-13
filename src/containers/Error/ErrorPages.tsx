@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useNavigate, useParams } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { useToast } from '@entur/alert'
@@ -73,6 +74,9 @@ function PageDoesNotExist(): JSX.Element {
     }
     return (
         <>
+            <Helmet>
+                <title>Siden finnes ikke - Tavla - Entur</title>
+            </Helmet>
             <Navbar />
             <div>
                 <ErrorWrapper

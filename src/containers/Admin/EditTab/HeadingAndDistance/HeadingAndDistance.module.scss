@@ -1,0 +1,87 @@
+@use '../../../../assets/styles/Variables.scss';
+
+.Heading {
+    margin-left: 2rem;
+}
+
+.TooltipContainer {
+    font-weight: 500;
+    max-width: 15rem;
+    padding: 0.5rem;
+}
+
+.TooltipText {
+    margin: 0;
+    color: var(--tavla-box-background-color);
+}
+
+.InputWrapper {
+    display: inline-block;
+    position: relative;
+    bottom: Variables.$space-extra-small;
+}
+
+.InputWrapper::after {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    width: 7.5rem;
+    border-bottom: 5px dotted var(--tavla-input-dotted-border-color);
+}
+
+@media (max-width: 996px) {
+    .InputWrapper {
+        padding: 0;
+    }
+
+    .InputWrapper::after {
+        width: 5rem;
+        margin: -1rem 0 0 0.2rem;
+        border-bottom: 5px dotted var(--tavla-input-dotted-border-color);
+    }
+}
+
+@media (min-width: 500px) {
+    .InputWrapper {
+        width: 10rem;
+    }
+}
+
+/* Define .TextField twice because of specificity issues with eds */
+.TextField.TextField {
+    font-size: inherit;
+    color: var(--primary-text-color);
+    background-color: transparent;
+    font-weight: 400;
+    border-color: transparent;
+    -moz-appearance: textfield;
+
+    /* Chrome, Safari, Edge, Opera */
+    ::-webkit-outer-spin-button,
+    ::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    &:focus-within {
+        border-color: transparent;
+    }
+
+    &:hover {
+        background-color: transparent;
+    }
+
+    /* Because we can't pass classNames to child components of <TextField>, we need to overwrite
+     * the .eds classes. We wrap them in :global to make sure they don't get a new name when
+     * imported by the css-loader.
+     */
+    &:global.eds-form-control-wrapper {
+        .eds-form-control,
+        .eds-form-control__append {
+            font-size: inherit;
+            white-space: nowrap;
+            text-align: center;
+            padding: 0;
+        }
+    }
+}

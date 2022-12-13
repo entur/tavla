@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
@@ -55,6 +56,9 @@ const AdminPage = (): JSX.Element => {
         <ThemeContrastWrapper
             useContrast={isDarkOrDefaultTheme(settings.theme)}
         >
+            <Helmet>
+                <title>Adminside - Tavla - Entur</title>
+            </Helmet>
             <Navbar theme={settings.theme} />
             <div className="admin">
                 <Tabs

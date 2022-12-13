@@ -1,6 +1,6 @@
 module.exports = {
     plugins: ['stylelint-scss'],
-    extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
+    extends: ['stylelint-config-standard-scss', 'stylelint-config-prettier'],
     rules: {
         'at-rule-no-unknown': [
             true,
@@ -25,8 +25,21 @@ module.exports = {
                 ],
             },
         ],
+        'selector-pseudo-class-no-unknown': [
+            true,
+            {
+                // global and local are used in css-modules
+                ignorePseudoClasses: ['global', 'local'],
+            },
+        ],
         'no-descending-specificity': [true, { severity: 'warning' }],
         'selector-class-pattern': null,
+        'selector-pseudo-class-no-unknown': [
+            true,
+            {
+                ignorePseudoClasses: ['global'],
+            },
+        ],
         'shorthand-property-no-redundant-values': null,
         'color-function-notation': 'legacy',
         // This should be turned on if we remove all vendor-prefixes

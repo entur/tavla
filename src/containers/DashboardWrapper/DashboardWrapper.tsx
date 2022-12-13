@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 import classNames from 'classnames'
 import { isDarkOrDefaultTheme } from '../../utils/utils'
 import { useSettings } from '../../settings/SettingsProvider'
@@ -37,6 +38,9 @@ function DashboardWrapper({
             )}
             useContrast={isDarkOrDefaultTheme(settings.theme)}
         >
+            <Helmet>
+                <title>{settings.boardName} - Tavla - Entur</title>
+            </Helmet>
             <DashboardHeader />
             {children}
             {settings.logo && (

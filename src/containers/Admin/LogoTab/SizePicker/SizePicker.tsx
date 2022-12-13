@@ -1,16 +1,19 @@
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
 import { RadioGroup, Radio } from '@entur/form'
 import { useSettings } from '../../../../settings/SettingsProvider'
-import './SizePicker.scss'
+import classes from './SizePicker.module.scss'
 
 const SizePicker = (): JSX.Element => {
     const [settings, setSettings] = useSettings()
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        setSettings({
-            logoSize: event.target.value,
-        })
-    }
+    const handleChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>): void => {
+            setSettings({
+                logoSize: event.target.value,
+            })
+        },
+        [setSettings],
+    )
 
     return (
         <RadioGroup
@@ -18,13 +21,13 @@ const SizePicker = (): JSX.Element => {
             label="Størrelse på logo"
             onChange={handleChange}
             value={settings.logoSize}
-            className="eds-label"
+            className={classes.SizePicker}
         >
-            <Radio value="32px">
-                <span className="eds-label__eds-paragraph">32px</span>
+            <Radio className={classes.Radio} value="32px">
+                32px
             </Radio>
-            <Radio value="56px">
-                <span className="eds-label__eds-paragraph">56px</span>
+            <Radio className={classes.Radio} value="56px">
+                56px
             </Radio>
         </RadioGroup>
     )
