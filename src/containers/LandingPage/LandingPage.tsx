@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { Tooltip } from '@entur/tooltip'
@@ -13,6 +13,7 @@ import { Navbar } from '../Navbar/Navbar'
 import { SearchPanel } from './SearchPanel/SearchPanel'
 import { TypographyCarousel } from './TypographyCarousel/TypographyCarousel'
 import './LandingPage.scss'
+import previewScreenshot from '../../assets/images/preview-screenshot.png'
 
 function EnturLink(): JSX.Element {
     return (
@@ -26,6 +27,9 @@ function EnturLink(): JSX.Element {
 }
 
 function LandingPage(): JSX.Element {
+    const [previewImage, setPreviewImage] = useState(
+        'https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media',
+    )
     const navigate = useNavigate()
     const addLocation = useCallback(
         (position: Coordinates, locationName: string): void => {
@@ -41,6 +45,8 @@ function LandingPage(): JSX.Element {
         },
         [navigate],
     )
+
+    const [activeGif, setActiveGif] = useState<boolean>(true)
 
     return (
         <>
@@ -96,12 +102,24 @@ function LandingPage(): JSX.Element {
                                 className="landing-page__article-grid-item"
                             >
                                 <Tooltip
-                                    content="Trykk for å pause animasjonen."
+                                    content="Trykk for å pause og starte animasjonen."
                                     placement="top-left"
                                 >
-                                    <div tabIndex={0}>
+                                    <div
+                                        tabIndex={0}
+                                        onClick={() => {
+                                            setActiveGif(!activeGif)
+                                            activeGif
+                                                ? setPreviewImage(
+                                                      previewScreenshot,
+                                                  )
+                                                : setPreviewImage(
+                                                      'https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media',
+                                                  )
+                                        }}
+                                    >
                                         <img
-                                            src="https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media"
+                                            src={previewImage}
                                             className="landing-page__screenshot"
                                             alt="Skjermbilde av Tavla"
                                         />
