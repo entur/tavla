@@ -10,10 +10,10 @@ import { Coordinates } from '../../types'
 import { DEFAULT_SETTINGS } from '../../settings/settings'
 import { createSettings } from '../../settings/firebase'
 import { Navbar } from '../Navbar/Navbar'
+import previewScreenshot from '../../assets/images/preview-screenshot.png'
 import { SearchPanel } from './SearchPanel/SearchPanel'
 import { TypographyCarousel } from './TypographyCarousel/TypographyCarousel'
 import './LandingPage.scss'
-import previewScreenshot from '../../assets/images/preview-screenshot.png'
 
 function EnturLink(): JSX.Element {
     return (
