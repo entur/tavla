@@ -5,12 +5,12 @@
     -moz-user-select: none; /* Old versions of Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
-    padding-bottom: 5rem;
 
     &__tiles {
         display: block;
         flex-direction: row;
         overflow-x: visible;
+        margin-bottom: 5rem;
 
         .tile {
             width: 100%;

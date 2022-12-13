@@ -5,12 +5,12 @@
     -moz-user-select: none; /* Old versions of Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
-    padding-bottom: 5rem;
 
     &__tiles {
         display: flex;
         flex-direction: column;
         overflow-y: hidden;
+        margin-bottom: 5rem;
 
         .tile {
             width: 100%;
@@ -37,10 +37,6 @@
         position: relative;
         transition: height 200ms ease;
     }
-
-    // .react-grid-layout:last-child {
-    //     margin-bottom: 5rem;
-    // }
 
     .react-grid-item {
         transition: all 200ms ease;
