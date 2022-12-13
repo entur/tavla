@@ -25,6 +25,13 @@ module.exports = {
                 ],
             },
         ],
+        'selector-pseudo-class-no-unknown': [
+            true,
+            {
+                // global and local are used in css-modules
+                ignorePseudoClasses: ['global', 'local'],
+            },
+        ],
         'no-descending-specificity': [true, { severity: 'warning' }],
         'selector-class-pattern': null,
         'shorthand-property-no-redundant-values': null,
