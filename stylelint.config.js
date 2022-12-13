@@ -27,6 +27,12 @@ module.exports = {
         ],
         'no-descending-specificity': [true, { severity: 'warning' }],
         'selector-class-pattern': null,
+        'selector-pseudo-class-no-unknown': [
+            true,
+            {
+                ignorePseudoClasses: ['global'],
+            },
+        ],
         'shorthand-property-no-redundant-values': null,
         'color-function-notation': 'legacy',
         // This should be turned on if we remove all vendor-prefixes
