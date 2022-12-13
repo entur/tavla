@@ -4,11 +4,13 @@
     width: 100%;
     color: white;
     padding: 0;
+    padding-bottom: 2rem;
 }
 
-/* Adds padding to dashboard header */
-.MapDashboard > *:first-child {
-    padding: 0 4rem;
+.Header,
+.Byline {
+    padding-left: 4rem;
+    padding-right: 4rem;
 }
 
 .DepartureDisplay {

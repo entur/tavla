@@ -15,11 +15,16 @@ import classes from './DashboardWrapper.module.scss'
 
 interface DashboardWrapperProps {
     className: string
+    classes?: {
+        Header?: string
+        Byline?: string
+    }
     children: JSX.Element | JSX.Element[]
 }
 
 function DashboardWrapper({
     className,
+    classes: innerClassNames = {},
     children,
 }: DashboardWrapperProps): JSX.Element {
     useThemeHandler()
@@ -41,10 +46,15 @@ function DashboardWrapper({
             <Helmet>
                 <title>{settings.boardName} - Tavla - Entur</title>
             </Helmet>
-            <DashboardHeader />
+            <DashboardHeader className={classNames(innerClassNames.Header)} />
             {children}
             {settings.logo && (
-                <div className={classes.Byline}>
+                <div
+                    className={classNames(
+                        classes.Byline,
+                        innerClassNames.Byline,
+                    )}
+                >
                     Tjenesten leveres av{' '}
                     <EnturLogo
                         height="24px"

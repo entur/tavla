@@ -17,7 +17,10 @@ const MapDashboard = (): JSX.Element => {
         (document?.getElementsByClassName('header')[0]?.clientHeight ?? 0) +
         HEADER_MARGIN
     return (
-        <DashboardWrapper className={classes.MapDashboard}>
+        <DashboardWrapper
+            className={classes.MapDashboard}
+            classes={{ Header: classes.Header, Byline: classes.Byline }}
+        >
             <div
                 style={{ height: `calc(100vh - ${headerHeight}px)` }}
                 className={classes.Content}

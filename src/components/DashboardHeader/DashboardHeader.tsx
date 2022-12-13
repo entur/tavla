@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import classNames from 'classnames'
 import { Contrast } from '@entur/layout'
 import { useSettings } from '../../settings/SettingsProvider'
 import { Clock } from '../Clock/Clock'
@@ -7,14 +8,18 @@ import { TavlaLogo } from '../../assets/icons'
 import { isMobileWeb } from '../../utils/utils'
 import classes from './DashboardHeader.module.scss'
 
-function DashboardHeader(): JSX.Element | null {
+interface Props {
+    className?: string
+}
+
+const DashboardHeader: React.FC<Props> = ({ className }) => {
     const [settings] = useSettings()
 
     const showBoardDescription = !isMobileWeb() && settings.logoSize === '32px'
 
     return (
         <Contrast>
-            <div className={classes.DashboardHeader}>
+            <div className={classNames(classes.DashboardHeader, className)}>
                 <div>
                     <Link to="/">
                         {settings.logo ? (
