@@ -65,7 +65,7 @@ function LandingPage(): JSX.Element {
                                             content="Trykk for å pause og starte animasjonen."
                                             placement="top-left"
                                         >
-                                            <div>
+                                            <div tabIndex={0}>
                                                 <TypographyCarousel />
                                             </div>
                                         </Tooltip>
@@ -95,11 +95,18 @@ function LandingPage(): JSX.Element {
                                 large={6}
                                 className="landing-page__article-grid-item"
                             >
-                                <img
-                                    src="https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media"
-                                    className="landing-page__screenshot"
-                                    alt="Skjermbilde av Tavla"
-                                />
+                                <Tooltip
+                                    content="Trykk for å pause animasjonen."
+                                    placement="top-left"
+                                >
+                                    <div tabIndex={0}>
+                                        <img
+                                            src="https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media"
+                                            className="landing-page__screenshot"
+                                            alt="Skjermbilde av Tavla"
+                                        />
+                                    </div>
+                                </Tooltip>
                             </GridItem>
                             <GridItem
                                 small={12}
@@ -131,6 +138,7 @@ function LandingPage(): JSX.Element {
                                 </Paragraph>
                             </GridItem>
                         </GridContainer>
+
                         <EnturLink />
                     </article>
                 </div>
