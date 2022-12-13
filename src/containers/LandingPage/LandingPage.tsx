@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 import { Heading1, Heading2, Paragraph, Link } from '@entur/typography'
 import { Contrast } from '@entur/layout'
 import { ForwardIcon } from '@entur/icons'
@@ -42,6 +43,9 @@ function LandingPage(): JSX.Element {
 
     return (
         <>
+            <Helmet>
+                <title>Forside - Tavla - Entur</title>
+            </Helmet>
             <Navbar />
             <div className="landing-page">
                 <div className="landing-page__content">

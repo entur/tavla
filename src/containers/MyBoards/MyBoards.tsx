@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import type { DocumentData, Timestamp } from 'firebase/firestore'
 import { NotificationBadge } from '@entur/layout'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
@@ -153,6 +154,9 @@ const MyBoards = (): JSX.Element | null => {
 
     return (
         <ThemeContrastWrapper>
+            <Helmet>
+                <title>Mine tavler - Tavla - Entur</title>
+            </Helmet>
             <Navbar />
             <div className="my-boards">
                 <Tabs index={currentIndex} onChange={setCurrentIndex}>
