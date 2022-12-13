@@ -1,4 +1,4 @@
-.display-wrapper {
+.DisplayWrapper {
     width: 100%;
     display: grid;
     box-sizing: border-box;
@@ -6,20 +6,20 @@
     grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
 }
 
-.heading {
+.Heading {
     color: var(--tavla-font-color);
 }
 
 @media (max-width: 450px) {
-    .display-wrapper {
+    .DisplayWrapper {
         width: 100%;
         display: grid;
         box-sizing: border-box;
         grid-auto-flow: row;
         grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    }
 
-        &__display-card {
-            margin: 0 0 1rem 0;
-        }
+    .DisplayCard {
+        margin: 0 0 1rem 0;
     }
 }
