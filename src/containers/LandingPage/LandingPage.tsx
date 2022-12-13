@@ -61,7 +61,14 @@ function LandingPage(): JSX.Element {
                                         <Heading1>
                                             Lag din egen sanntidstavle for
                                         </Heading1>
-                                        <TypographyCarousel />
+                                        <Tooltip
+                                            content="Trykk for å pause og starte animasjonen."
+                                            placement="top-left"
+                                        >
+                                            <div>
+                                                <TypographyCarousel />
+                                            </div>
+                                        </Tooltip>
                                     </div>
                                 </header>
                                 <div className="landing-page__search-panel">
