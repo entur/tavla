@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { xor } from 'lodash'
 import { Checkbox } from '@entur/form'
 import { DeleteIcon, EditIcon } from '@entur/icons'
 import { useSettings } from '../../../../../../settings/SettingsProvider'
@@ -18,54 +19,39 @@ const CustomTilePanelRow = ({
 }: Props): JSX.Element => {
     const [settings, setSettings] = useSettings()
 
+    const handleToggle = useCallback(() => {
+        setSettings({
+            hiddenCustomTileIds: xor(settings.hiddenCustomTileIds, [id]),
+        })
+    }, [settings, setSettings, id])
+
+    const handleEdit = useCallback(() => {
+        setSelectedTileId(id)
+        setIsOpenModal(true)
+    }, [id, setSelectedTileId, setIsOpenModal])
+
+    const handleDelete = useCallback(() => {
+        setSettings({
+            customImageTiles: settings.customImageTiles.filter(
+                (el) => el.id !== id,
+            ),
+            customQrTiles: settings.customQrTiles.filter((el) => el.id !== id),
+            hiddenCustomTileIds: settings.hiddenCustomTileIds.filter(
+                (el) => el !== id,
+            ),
+        })
+    }, [settings, setSettings, id])
+
     return (
         <div className={classes.Row}>
             <Checkbox
-                onChange={() => {
-                    settings.hiddenCustomTileIds.find(
-                        (hiddenId) => hiddenId === id,
-                    )
-                        ? setSettings({
-                              hiddenCustomTileIds:
-                                  settings.hiddenCustomTileIds.filter(
-                                      (hiddenId) => hiddenId !== id,
-                                  ),
-                          })
-                        : setSettings({
-                              hiddenCustomTileIds: [
-                                  ...settings.hiddenCustomTileIds,
-                                  id,
-                              ],
-                          })
-                }}
+                onChange={handleToggle}
                 checked={!settings.hiddenCustomTileIds.includes(id)}
-            ></Checkbox>
+            />
             <span>{displayName}</span>
             <div className={classes.Icons}>
-                <EditIcon
-                    className={classes.Icon}
-                    onClick={() => {
-                        setSelectedTileId(id)
-                        setIsOpenModal(true)
-                    }}
-                />
-                <DeleteIcon
-                    className={classes.Icon}
-                    onClick={() =>
-                        setSettings({
-                            customImageTiles: settings.customImageTiles.filter(
-                                (el) => el.id !== id,
-                            ),
-                            customQrTiles: settings.customQrTiles.filter(
-                                (el) => el.id !== id,
-                            ),
-                            hiddenCustomTileIds:
-                                settings.hiddenCustomTileIds.filter(
-                                    (el) => el !== id,
-                                ),
-                        })
-                    }
-                />
+                <EditIcon className={classes.Icon} onClick={handleEdit} />
+                <DeleteIcon className={classes.Icon} onClick={handleDelete} />
             </div>
         </div>
     )
