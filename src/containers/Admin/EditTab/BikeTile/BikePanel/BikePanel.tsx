@@ -7,7 +7,7 @@ import { toggleValueInList } from '../../../../../utils/array'
 import { FormFactor } from '../../../../../../graphql-generated/mobility-v2'
 import { byName } from '../../../../../logic/use-rental-stations/types'
 import { useRentalStations } from '../../../../../logic/use-rental-stations/useRentalStations'
-import './BikePanel.scss'
+import classes from './BikePanel.module.scss'
 
 function BikePanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
@@ -46,14 +46,16 @@ function BikePanel(): JSX.Element {
 
     if (!stations.length) {
         return (
-            <Fieldset className="bike-panel">
-                <Paragraph>Det er ingen stasjoner i nærheten.</Paragraph>
+            <Fieldset>
+                <Paragraph className={classes.Paragraph}>
+                    Det er ingen stasjoner i nærheten.
+                </Paragraph>
             </Fieldset>
         )
     }
 
     return (
-        <Fieldset className="bike-panel">
+        <Fieldset>
             <Checkbox
                 id="check-all-stop-places-bike"
                 name="check-all-stop-places-bike"
@@ -69,8 +71,9 @@ function BikePanel(): JSX.Element {
                     name={getTranslation(name) || ''}
                     checked={!settings.hiddenStations.includes(id)}
                     onChange={onToggleStation}
+                    className={classes.Checkbox}
                 >
-                    <span className="bike-panel__eds-paragraph">
+                    <span className={classes.Paragraph}>
                         {getTranslation(name) || ''}
                     </span>
                 </Checkbox>
