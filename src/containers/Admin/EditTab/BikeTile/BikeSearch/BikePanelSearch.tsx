@@ -7,7 +7,7 @@ import {
 } from '../../../../../../graphql-generated/mobility-v2'
 import { Coordinates } from '../../../../../types'
 import { isNotNullOrUndefined } from '../../../../../utils/typeguards'
-import './BikePanelSearch.scss'
+import classes from './BikePanelSearch.module.scss'
 
 const MAX_SEARCH_RANGE = 100_000
 
@@ -69,7 +69,7 @@ const BikePanelSearch: React.FC<BikePanelSearchProps> = ({
     )
 
     return (
-        <div className="bike-search">
+        <div className={classes.BikeSearch}>
             <Dropdown
                 searchable
                 openOnFocus
