@@ -45,17 +45,16 @@ function LandingPage(): JSX.Element {
         },
         [navigate],
     )
-
     const [activeGif, setActiveGif] = useState<boolean>(true)
 
-    function checkActiveGif() {
+    const handleGif = useCallback(() => {
         setActiveGif(!activeGif)
         activeGif
             ? setPreviewImage(previewScreenshot)
             : setPreviewImage(
                   'https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media',
               )
-    }
+    }, [activeGif])
 
     return (
         <>
@@ -116,8 +115,8 @@ function LandingPage(): JSX.Element {
                                 >
                                     <div
                                         tabIndex={0}
-                                        onKeyDown={() => checkActiveGif()}
-                                        onClick={() => checkActiveGif()}
+                                        onKeyDown={() => handleGif()}
+                                        onClick={() => handleGif()}
                                     >
                                         <img
                                             src={previewImage}
