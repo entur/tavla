@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { PrimaryButton } from '@entur/button'
 import { CustomTileModal } from '../../../../../components/CustomTileModal/CustomTileModal'
 import { useSettings } from '../../../../../settings/SettingsProvider'
@@ -12,15 +12,14 @@ const CustomTilePanel = (): JSX.Element => {
         undefined,
     )
 
+    const handleAdd = useCallback(() => {
+        setSelectedTileId(undefined)
+        setIsOpenModal(true)
+    }, [])
+
     return (
         <div>
-            <PrimaryButton
-                className={classes.AddButton}
-                onClick={() => {
-                    setSelectedTileId(undefined)
-                    setIsOpenModal(true)
-                }}
-            >
+            <PrimaryButton className={classes.AddButton} onClick={handleAdd}>
                 Legg til nytt bilde eller QR-boks
             </PrimaryButton>
             {isOpenModal && (
