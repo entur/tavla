@@ -48,6 +48,15 @@ function LandingPage(): JSX.Element {
 
     const [activeGif, setActiveGif] = useState<boolean>(true)
 
+    function checkActiveGif() {
+        setActiveGif(!activeGif)
+        activeGif
+            ? setPreviewImage(previewScreenshot)
+            : setPreviewImage(
+                  'https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media',
+              )
+    }
+
     return (
         <>
             <Helmet>
@@ -71,7 +80,7 @@ function LandingPage(): JSX.Element {
                                             content="Trykk for å pause og starte animasjonen."
                                             placement="top-left"
                                         >
-                                            <div tabIndex={0}>
+                                            <div>
                                                 <TypographyCarousel />
                                             </div>
                                         </Tooltip>
@@ -107,16 +116,8 @@ function LandingPage(): JSX.Element {
                                 >
                                     <div
                                         tabIndex={0}
-                                        onClick={() => {
-                                            setActiveGif(!activeGif)
-                                            activeGif
-                                                ? setPreviewImage(
-                                                      previewScreenshot,
-                                                  )
-                                                : setPreviewImage(
-                                                      'https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media',
-                                                  )
-                                        }}
+                                        onKeyDown={() => checkActiveGif()}
+                                        onClick={() => checkActiveGif()}
                                     >
                                         <img
                                             src={previewImage}

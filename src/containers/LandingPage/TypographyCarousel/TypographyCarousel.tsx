@@ -45,7 +45,12 @@ function TypographyCarousel(): JSX.Element {
     }, [intervalId])
 
     return (
-        <div className="typography-carousel" onClick={handleClick}>
+        <div
+            className="typography-carousel"
+            onClick={handleClick}
+            tabIndex={0}
+            onKeyDown={handleClick}
+        >
             {quotes.map((quote, index) => (
                 <div
                     className={getQuoteClassNames(index, quoteIndex)}
