@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import { FilterChip } from '@entur/chip'
 import { Switch, TravelSwitch } from '@entur/form'
-import { Loader } from '@entur/loader'
 import { Heading3, Label, Paragraph } from '@entur/typography'
 import { ExpandablePanel } from '@entur/expand'
 import { transportModeNameMapper } from '../../../../../utils/utils'
@@ -64,10 +63,6 @@ const RealtimeDataPanel = ({ hiddenLines }: Props): JSX.Element => {
         },
         [settings.hiddenRealtimeDataLineRefs, setSettings],
     )
-
-    if (!realtimeLines) {
-        return <Loader>Laster...</Loader>
-    }
 
     if (realtimeLines.length === 0) {
         return (
