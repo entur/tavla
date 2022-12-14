@@ -119,6 +119,7 @@ const CompactDashboard = (): JSX.Element | null => {
                     isResizable={!isMobile}
                     isDraggable={!isMobile}
                     margin={[32, 32]}
+                    containerPadding={[0, 0]}
                     onBreakpointChange={(newBreakpoint: string) => {
                         setBreakpoint(newBreakpoint)
                     }}

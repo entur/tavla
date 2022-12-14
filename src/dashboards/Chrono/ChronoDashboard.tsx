@@ -121,6 +121,7 @@ const ChronoDashboard = (): JSX.Element | null => {
                     layouts={gridLayouts}
                     isResizable={!isMobile}
                     isDraggable={!isMobile}
+                    containerPadding={[0, 0]}
                     onBreakpointChange={(newBreakpoint: string) => {
                         setBreakpoint(newBreakpoint)
                     }}
