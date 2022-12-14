@@ -49,7 +49,7 @@ function TypographyCarousel(): JSX.Element {
             className="typography-carousel"
             onClick={handleClick}
             tabIndex={0}
-            onKeyDown={handleClick}
+            onKeyPress={handleClick}
         >
             {quotes.map((quote, index) => (
                 <div

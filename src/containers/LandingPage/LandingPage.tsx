@@ -115,7 +115,7 @@ function LandingPage(): JSX.Element {
                                 >
                                     <div
                                         tabIndex={0}
-                                        onKeyDown={() => handleGif()}
+                                        onKeyPress={() => handleGif()}
                                         onClick={() => handleGif()}
                                     >
                                         <img
