@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { xor } from 'lodash'
 import { Checkbox, Fieldset } from '@entur/form'
 import { Paragraph } from '@entur/typography'
 import { getTranslation } from '../../../../../utils/utils'
 import { useSettings } from '../../../../../settings/SettingsProvider'
-import { toggleValueInList } from '../../../../../utils/array'
 import { FormFactor } from '../../../../../../graphql-generated/mobility-v2'
 import { byName } from '../../../../../logic/use-rental-stations/types'
 import { useRentalStations } from '../../../../../logic/use-rental-stations/useRentalStations'
@@ -32,13 +32,9 @@ function BikePanel(): JSX.Element {
     }, [settings.hiddenStations.length, setSettings, stations])
 
     const onToggleStation = useCallback(
-        (event: ChangeEvent<HTMLInputElement>) => {
-            const stationId = event.target.id
+        (stationId: string) => () => {
             setSettings({
-                hiddenStations: toggleValueInList(
-                    settings.hiddenStations,
-                    stationId,
-                ),
+                hiddenStations: xor(settings.hiddenStations, [stationId]),
             })
         },
         [settings.hiddenStations, setSettings],
@@ -57,7 +53,6 @@ function BikePanel(): JSX.Element {
     return (
         <Fieldset>
             <Checkbox
-                id="check-all-stop-places-bike"
                 name="check-all-stop-places-bike"
                 onChange={onChooseAllPressed}
                 checked={!settings.hiddenStations.length}
@@ -67,10 +62,9 @@ function BikePanel(): JSX.Element {
             {stations.map(({ name, id }) => (
                 <Checkbox
                     key={id}
-                    id={id}
                     name={getTranslation(name) || ''}
                     checked={!settings.hiddenStations.includes(id)}
-                    onChange={onToggleStation}
+                    onChange={onToggleStation(id)}
                     className={classes.Checkbox}
                 >
                     <span className={classes.Paragraph}>
