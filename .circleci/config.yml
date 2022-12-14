@@ -31,7 +31,7 @@ commands:
 jobs:
     build:
         docker:
-            - image: cimg/node:14.18
+            - image: cimg/node:18.12
 
         working_directory: ~/Tavla
 
@@ -44,7 +44,7 @@ jobs:
 
     deploy:
         docker:
-            - image: cimg/node:14.18
+            - image: cimg/node:18.12
 
         working_directory: ~/Tavla
 
@@ -65,7 +65,7 @@ jobs:
             - slack/status: *slack-status-prod
     deploy-staging:
         docker:
-            - image: cimg/node:14.18
+            - image: cimg/node:18.12
 
         working_directory: ~/Tavla
 
