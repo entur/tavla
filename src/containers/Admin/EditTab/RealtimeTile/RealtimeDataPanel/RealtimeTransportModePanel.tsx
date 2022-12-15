@@ -76,24 +76,23 @@ const RealtimeTransportModePanel: React.FC<Props> = ({
             >
                 <div className={classes.Lines}>
                     {filteredLines.map(({ id, publicCode, transportMode }) => (
-                        <div key={id}>
-                            <FilterChip
-                                value={id}
-                                onChange={toggleRealtimeDataLineById(id)}
-                                checked={
-                                    !settings.hiddenRealtimeDataLineRefs.includes(
-                                        id,
-                                    )
-                                }
-                            >
-                                {publicCode}
-                                <TransportModeIcon
-                                    // Icons from eds don't concatenate classes correctly. Adding a ' ' fixes this.
-                                    className={' ' + classes.TransportIcon}
-                                    transportMode={transportMode}
-                                />
-                            </FilterChip>
-                        </div>
+                        <FilterChip
+                            key={id}
+                            value={id}
+                            onChange={toggleRealtimeDataLineById(id)}
+                            checked={
+                                !settings.hiddenRealtimeDataLineRefs.includes(
+                                    id,
+                                )
+                            }
+                        >
+                            {publicCode}
+                            <TransportModeIcon
+                                // Icons from eds don't concatenate classes correctly. Adding a ' ' fixes this.
+                                className={' ' + classes.TransportIcon}
+                                transportMode={transportMode}
+                            />
+                        </FilterChip>
                     ))}
                 </div>
             </ExpandablePanel>
