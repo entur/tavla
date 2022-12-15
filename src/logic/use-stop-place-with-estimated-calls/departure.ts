@@ -1,4 +1,4 @@
-import { differenceInMinutes, format, parseISO } from 'date-fns'
+import { compareAsc, differenceInMinutes, format, parseISO } from 'date-fns'
 import {
     TransportMode,
     TransportSubmode,
@@ -66,5 +66,8 @@ const filterHidden =
             departure.transportMode,
         )
 
-export { toDeparture, filterHidden }
+const byDepartureTime = (a: Departure, b: Departure) =>
+    compareAsc(a.departureTime, b.departureTime)
+
+export { toDeparture, filterHidden, byDepartureTime }
 export type { Departure }
