@@ -12,6 +12,7 @@ import { Tile } from '../../../../components/Tile/Tile'
 import { TileHeader } from '../../../../components/TileHeader/TileHeader'
 import { useStopPlaceWithEstimatedCalls } from '../../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
+    byDepartureTime,
     filterHidden,
     toDeparture,
 } from '../../../../logic/use-stop-place-with-estimated-calls/departure'
@@ -38,7 +39,8 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
         () =>
             stopPlaceWithEstimatedCalls?.estimatedCalls
                 .map(toDeparture)
-                .filter(filterHidden(stopPlaceId, settings)) ?? [],
+                .filter(filterHidden(stopPlaceId, settings))
+                .sort(byDepartureTime) ?? [],
         [stopPlaceWithEstimatedCalls?.estimatedCalls, settings, stopPlaceId],
     )
 

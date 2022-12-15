@@ -9,6 +9,7 @@ import { TileHeader } from '../../../components/TileHeader/TileHeader'
 import { Tile } from '../../../components/Tile/Tile'
 import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
+    byDepartureTime,
     filterHidden,
     toDeparture,
 } from '../../../logic/use-stop-place-with-estimated-calls/departure'
@@ -37,7 +38,8 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
         () =>
             stopPlaceWithEstimatedCalls?.estimatedCalls
                 .map(toDeparture)
-                .filter(filterHidden(stopPlaceId, settings)) ?? [],
+                .filter(filterHidden(stopPlaceId, settings))
+                .sort(byDepartureTime) ?? [],
         [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
     )
 
