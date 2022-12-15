@@ -121,7 +121,7 @@ function LandingPage(): JSX.Element {
                                                 handleGif()
                                             }
                                         }}
-                                        onClick={() => handleGif()}
+                                        onClick={handleGif}
                                     >
                                         <img
                                             src={previewImage}
