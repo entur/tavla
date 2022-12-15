@@ -112,7 +112,9 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
                 location.selectedLocationName,
             )
         } else {
-            setErrorMessage('Du må velge et sted for å lage en avgangstavle.')
+            setErrorMessage(
+                'Søket ga ingen resultater. Søk på et navn og velg et stoppested/en bysykkelstasjon fra listen som dukker opp.',
+            )
         }
     }
 

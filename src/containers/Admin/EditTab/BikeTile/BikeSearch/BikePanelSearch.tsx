@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Dropdown } from '@entur/dropdown'
 import { getTranslation } from '../../../../../utils/utils'
 import {
@@ -42,26 +42,41 @@ const BikePanelSearch: React.FC<BikePanelSearchProps> = ({
         },
         fetchPolicy: 'cache-and-network',
     })
+    const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-    const getItems = (query: string): Item[] => {
-        const inputValue = query.trim().toLowerCase()
-        const inputLength = inputValue.length
-        if (!inputLength || !data?.stations) return []
+    const getItems = useCallback(
+        (query: string): Item[] => {
+            const inputValue = query.trim().toLowerCase()
+            const inputLength = inputValue.length
+            if (!inputLength || !data?.stations) {
+                setErrorMessage(null)
+                return []
+            }
 
-        return mapFeaturesToItems(
-            data.stations
-                .filter(isNotNullOrUndefined)
-                .filter((station) =>
-                    getTranslation(station?.name)
-                        ?.toLowerCase()
-                        .match(new RegExp(inputValue)),
-                ),
-        )
-    }
+            const items = mapFeaturesToItems(
+                data.stations
+                    .filter(isNotNullOrUndefined)
+                    .filter((station) =>
+                        getTranslation(station?.name)
+                            ?.toLowerCase()
+                            .match(new RegExp(inputValue)),
+                    ),
+            )
+
+            if (items.length === 0) {
+                setErrorMessage(
+                    'Søket ga ingen resultater. Søk på et navn og velg et stoppested/en bysykkelstasjon fra listen som dukker opp.',
+                )
+            }
+            return items
+        },
+        [data?.stations],
+    )
 
     const handleOnChange = useCallback(
         (item: Item | null): void => {
             if (item) {
+                setErrorMessage(null)
                 onSelected(item.value)
             }
         },
@@ -77,6 +92,8 @@ const BikePanelSearch: React.FC<BikePanelSearchProps> = ({
                 items={getItems}
                 onChange={handleOnChange}
                 highlightFirstItemOnOpen
+                variant={errorMessage ? 'error' : undefined}
+                feedback={errorMessage || ''}
             />
         </div>
     )
