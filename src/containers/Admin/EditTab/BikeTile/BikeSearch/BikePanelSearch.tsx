@@ -88,12 +88,14 @@ const BikePanelSearch: React.FC<BikePanelSearchProps> = ({
             <Dropdown
                 searchable
                 openOnFocus
+                clearable
                 label="Legg til en bysykkelstasjon"
                 items={getItems}
                 onChange={handleOnChange}
                 highlightFirstItemOnOpen
                 variant={errorMessage ? 'error' : undefined}
                 feedback={errorMessage || ''}
+                value=""
             />
         </div>
     )
