@@ -20,9 +20,7 @@ const RealtimeTile: React.FC = () => {
             checked={!settings.hideRealtimeData}
         >
             {!settings.hiddenModes.includes('kollektiv') ? (
-                <RealtimeDataPanel
-                    hiddenLines={settings.hiddenRealtimeDataLineRefs}
-                />
+                <RealtimeDataPanel />
             ) : (
                 <Paragraph>
                     Kollektivdata er skrudd av. Skru det på ved å trykke på

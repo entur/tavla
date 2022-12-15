@@ -1,22 +1,20 @@
 import React, { useCallback, useMemo } from 'react'
+import { uniq, xor } from 'lodash'
 import { FilterChip } from '@entur/chip'
 import { Switch, TravelSwitch } from '@entur/form'
 import { Heading3, Label, Paragraph } from '@entur/typography'
 import { ExpandablePanel } from '@entur/expand'
-import { transportModeNameMapper } from '../../../../../utils/utils'
 import { useSettings } from '../../../../../settings/SettingsProvider'
 import { isTransport } from '../../../../../utils/typeguards'
 import { TransportModeIcon } from '../../../../../components/TransportModeIcon/TransportModeIcon'
 import { useRealtimePositionLineRefs } from '../../../../../logic/use-realtime-position-line-refs/useRealtimePositionLineRefs'
 import { useUniqueLines } from '../../../../../logic/use-unique-lines/useUniqueLines'
+import { TransportMode } from '../../../../../../graphql-generated/journey-planner-v3'
+import { byTransportModeName, transportModeName } from './transportModeName'
 import { PermanentLinesPanel } from './PermanentLinesPanel'
 import './linesPanel.scss'
 
-interface Props {
-    hiddenLines: string[]
-}
-
-const RealtimeDataPanel = ({ hiddenLines }: Props): JSX.Element => {
+const RealtimeDataPanel = (): JSX.Element => {
     const [settings, setSettings] = useSettings()
 
     const { realtimePositionLineRefs } = useRealtimePositionLineRefs()
@@ -25,43 +23,45 @@ const RealtimeDataPanel = ({ hiddenLines }: Props): JSX.Element => {
     const realtimeLines = useMemo(
         () =>
             uniqueLines.filter((line) =>
-                realtimePositionLineRefs?.includes(line.id),
+                realtimePositionLineRefs.includes(line.id),
             ),
         [uniqueLines, realtimePositionLineRefs],
     )
 
     const modes = useMemo(
         () =>
-            [...new Set(realtimeLines?.map((line) => line.transportMode))].sort(
-                (a, b) =>
-                    transportModeNameMapper(a) > transportModeNameMapper(b)
-                        ? 1
-                        : -1,
+            uniq(realtimeLines.map((line) => line.transportMode)).sort(
+                byTransportModeName,
             ),
         [realtimeLines],
     )
 
     const toggleRealtimeDataLineIds = useCallback(
-        (lineId: string) => {
-            if (settings.hiddenRealtimeDataLineRefs.includes(lineId)) {
-                setSettings({
-                    hiddenRealtimeDataLineRefs:
-                        settings.hiddenRealtimeDataLineRefs.filter(
-                            (el) => el !== lineId,
-                        ),
-                    hideRealtimeData: false,
-                })
-            } else {
-                setSettings({
-                    hiddenRealtimeDataLineRefs: [
-                        ...settings.hiddenRealtimeDataLineRefs,
-                        lineId,
-                    ],
-                    hideRealtimeData: false,
-                })
-            }
+        (lineId: string) => () => {
+            setSettings({
+                hiddenRealtimeDataLineRefs: xor(
+                    settings.hiddenRealtimeDataLineRefs,
+                    [lineId],
+                ),
+                hideRealtimeData: false,
+            })
         },
         [settings.hiddenRealtimeDataLineRefs, setSettings],
+    )
+
+    const toggleRealtimeDataLineModes = useCallback(
+        (mode: TransportMode) => () => {
+            setSettings({
+                hiddenRealtimeDataLineRefs: xor(
+                    settings.hiddenRealtimeDataLineRefs,
+                    realtimeLines
+                        .filter((it) => it.transportMode === mode)
+                        .map((it) => it.id),
+                ),
+                hideRealtimeData: false,
+            })
+        },
+        [settings.hiddenRealtimeDataLineRefs, setSettings, realtimeLines],
     )
 
     if (realtimeLines.length === 0) {
@@ -81,7 +81,7 @@ const RealtimeDataPanel = ({ hiddenLines }: Props): JSX.Element => {
                             title={
                                 <div className="expandable-panel__title-wrapper">
                                     <span className="expandable-panel__title-name">
-                                        {transportModeNameMapper(mode)}
+                                        {transportModeName(mode)}
                                     </span>
                                     <span onClick={(e) => e.stopPropagation()}>
                                         <TravelSwitch
@@ -96,71 +96,13 @@ const RealtimeDataPanel = ({ hiddenLines }: Props): JSX.Element => {
                                                 )
                                                 .some(
                                                     ({ id }) =>
-                                                        !hiddenLines.includes(
+                                                        !settings.hiddenRealtimeDataLineRefs.includes(
                                                             id,
                                                         ),
                                                 )}
-                                            onChange={() =>
-                                                realtimeLines
-                                                    .filter(
-                                                        ({ transportMode }) =>
-                                                            transportMode ===
-                                                            mode,
-                                                    )
-                                                    .some(
-                                                        ({ id }) =>
-                                                            !hiddenLines.includes(
-                                                                id,
-                                                            ),
-                                                    )
-                                                    ? setSettings({
-                                                          hiddenRealtimeDataLineRefs:
-                                                              [
-                                                                  ...settings.hiddenRealtimeDataLineRefs,
-                                                                  ...realtimeLines
-                                                                      .filter(
-                                                                          ({
-                                                                              transportMode,
-                                                                          }) =>
-                                                                              transportMode ===
-                                                                              mode,
-                                                                      )
-                                                                      .map(
-                                                                          ({
-                                                                              id,
-                                                                          }) =>
-                                                                              id,
-                                                                      ),
-                                                              ],
-                                                          hideRealtimeData:
-                                                              false,
-                                                      })
-                                                    : setSettings({
-                                                          hiddenRealtimeDataLineRefs:
-                                                              settings.hiddenRealtimeDataLineRefs.filter(
-                                                                  (ref) =>
-                                                                      !realtimeLines
-                                                                          .filter(
-                                                                              ({
-                                                                                  transportMode,
-                                                                              }) =>
-                                                                                  transportMode ===
-                                                                                  mode,
-                                                                          )
-                                                                          .map(
-                                                                              ({
-                                                                                  id,
-                                                                              }) =>
-                                                                                  id,
-                                                                          )
-                                                                          .includes(
-                                                                              ref,
-                                                                          ),
-                                                              ),
-                                                          hideRealtimeData:
-                                                              false,
-                                                      })
-                                            }
+                                            onChange={toggleRealtimeDataLineModes(
+                                                mode,
+                                            )}
                                         />
                                     </span>
                                 </div>
@@ -179,13 +121,11 @@ const RealtimeDataPanel = ({ hiddenLines }: Props): JSX.Element => {
                                             >
                                                 <FilterChip
                                                     value={id}
-                                                    onChange={() =>
-                                                        toggleRealtimeDataLineIds(
-                                                            id,
-                                                        )
-                                                    }
+                                                    onChange={toggleRealtimeDataLineIds(
+                                                        id,
+                                                    )}
                                                     checked={
-                                                        !hiddenLines.includes(
+                                                        !settings.hiddenRealtimeDataLineRefs.includes(
                                                             id,
                                                         )
                                                     }

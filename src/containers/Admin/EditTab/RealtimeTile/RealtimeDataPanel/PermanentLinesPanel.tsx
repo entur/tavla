@@ -3,11 +3,11 @@ import { ExpandablePanel } from '@entur/expand'
 import { ClosedLockIcon } from '@entur/icons'
 import { FilterChip } from '@entur/chip'
 import { DrawableRoute } from '../../../../../types'
-import { transportModeNameMapper } from '../../../../../utils/utils'
 import { filterMap } from '../../../../../utils/array'
 import { Settings } from '../../../../../settings/settings'
 import { Line } from '../../../../../logic/use-unique-lines/line'
 import { TransportModeIcon } from '../../../../../components/TransportModeIcon/TransportModeIcon'
+import { transportModeName } from './transportModeName'
 import './linesPanel.scss'
 
 type PermanentLinesPanelProps = {
@@ -30,8 +30,8 @@ function PermanentLinesPanel({
     )
 
     const sortedLines = filteredLines.sort((a, b) =>
-        transportModeNameMapper(a.transportMode) + a.publicCode >
-        transportModeNameMapper(b.transportMode) + b.publicCode
+        transportModeName(a.transportMode) + a.publicCode >
+        transportModeName(b.transportMode) + b.publicCode
             ? 1
             : -1,
     )
