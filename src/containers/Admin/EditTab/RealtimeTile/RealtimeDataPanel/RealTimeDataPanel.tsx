@@ -72,16 +72,7 @@ const RealtimeDataPanel = (): JSX.Element => {
                     />
                 </div>
                 {settings.showRoutesInMap && (
-                    <PermanentLinesPanel
-                        realtimeLines={realtimeLines}
-                        hiddenRealtimeDataLineRefs={
-                            settings.hiddenRealtimeDataLineRefs
-                        }
-                        permanentlyVisibleRoutesInMap={
-                            settings.permanentlyVisibleRoutesInMap
-                        }
-                        setSettings={setSettings}
-                    />
+                    <PermanentLinesPanel realtimeLines={realtimeLines} />
                 )}
             </div>
         </div>

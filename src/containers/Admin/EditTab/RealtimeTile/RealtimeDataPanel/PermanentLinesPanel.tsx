@@ -1,65 +1,64 @@
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { ExpandablePanel } from '@entur/expand'
 import { ClosedLockIcon } from '@entur/icons'
 import { FilterChip } from '@entur/chip'
-import { DrawableRoute } from '../../../../../types'
-import { filterMap } from '../../../../../utils/array'
-import { Settings } from '../../../../../settings/settings'
 import { Line } from '../../../../../logic/use-unique-lines/line'
 import { TransportModeIcon } from '../../../../../components/TransportModeIcon/TransportModeIcon'
+import { useSettings } from '../../../../../settings/SettingsProvider'
 import { transportModeName } from './transportModeName'
 import './linesPanel.scss'
 
+const byTransportModeNameAndPublicCode = (a: Line, b: Line) =>
+    `${transportModeName(a.transportMode)}${a.publicCode}`.localeCompare(
+        `${transportModeName(b.transportMode)}${b.publicCode}`,
+    )
+
 type PermanentLinesPanelProps = {
     realtimeLines: Line[]
-    hiddenRealtimeDataLineRefs: string[]
-    permanentlyVisibleRoutesInMap: DrawableRoute[]
-    setSettings: (settings: Partial<Settings>) => void
 }
 
-function PermanentLinesPanel({
-    realtimeLines,
-    hiddenRealtimeDataLineRefs,
-    permanentlyVisibleRoutesInMap,
-    setSettings,
-}: PermanentLinesPanelProps) {
-    const filteredLines = filterMap(realtimeLines, (line) =>
-        !hiddenRealtimeDataLineRefs.includes(line.id) && line.pointsOnLink
-            ? { ...line, pointsOnLink: line.pointsOnLink }
-            : undefined,
+function PermanentLinesPanel({ realtimeLines }: PermanentLinesPanelProps) {
+    const [settings, setSettings] = useSettings()
+
+    const filteredLines = useMemo(
+        () =>
+            realtimeLines.filter(
+                (line) =>
+                    !settings.hiddenRealtimeDataLineRefs.includes(line.id),
+            ),
+        [settings.hiddenRealtimeDataLineRefs, realtimeLines],
     )
 
-    const sortedLines = filteredLines.sort((a, b) =>
-        transportModeName(a.transportMode) + a.publicCode >
-        transportModeName(b.transportMode) + b.publicCode
-            ? 1
-            : -1,
+    const sortedLines = useMemo(
+        () => filteredLines.sort(byTransportModeNameAndPublicCode),
+        [filteredLines],
     )
 
-    const handleFilterChipOnChange = (
-        id: string,
-        pointsOnLink: string,
-        transportMode: string,
-    ): void =>
-        permanentlyVisibleRoutesInMap.map(({ lineRef }) => lineRef).includes(id)
-            ? setSettings({
-                  permanentlyVisibleRoutesInMap:
-                      permanentlyVisibleRoutesInMap.filter(
-                          (route) => route.lineRef !== id,
-                      ),
-                  hideRealtimeData: false,
-              })
-            : setSettings({
-                  permanentlyVisibleRoutesInMap: [
-                      ...permanentlyVisibleRoutesInMap,
-                      {
-                          lineRef: id,
-                          pointsOnLink,
-                          mode: transportMode,
-                      },
-                  ],
-                  hideRealtimeData: false,
-              })
+    const handleFilterChipOnChange = useCallback(
+        (line: Line) => () =>
+            settings.permanentlyVisibleRoutesInMap
+                .map(({ lineRef }) => lineRef)
+                .includes(line.id)
+                ? setSettings({
+                      permanentlyVisibleRoutesInMap:
+                          settings.permanentlyVisibleRoutesInMap.filter(
+                              (route) => route.lineRef !== line.id,
+                          ),
+                      hideRealtimeData: false,
+                  })
+                : setSettings({
+                      permanentlyVisibleRoutesInMap: [
+                          ...settings.permanentlyVisibleRoutesInMap,
+                          {
+                              lineRef: line.id,
+                              pointsOnLink: line.pointsOnLink,
+                              mode: line.transportMode,
+                          },
+                      ],
+                      hideRealtimeData: false,
+                  }),
+        [settings.permanentlyVisibleRoutesInMap, setSettings],
+    )
 
     return (
         <div className="expandable-panel__wrapper">
@@ -75,36 +74,28 @@ function PermanentLinesPanel({
                 defaultOpen={filteredLines.length > 0}
             >
                 <div className="realtime-detail-panel__container">
-                    {sortedLines.map(
-                        ({ id, publicCode, transportMode, pointsOnLink }) => (
-                            <div
-                                className="realtime-detail-panel__buttons"
-                                key={id}
+                    {sortedLines.map((line) => (
+                        <div
+                            className="realtime-detail-panel__buttons"
+                            key={line.id}
+                        >
+                            <FilterChip
+                                value={line.id}
+                                checked={settings.permanentlyVisibleRoutesInMap
+                                    .map(
+                                        (drawableRoute) =>
+                                            drawableRoute.lineRef,
+                                    )
+                                    .includes(line.id)}
+                                onChange={handleFilterChipOnChange(line)}
                             >
-                                <FilterChip
-                                    value={id}
-                                    checked={permanentlyVisibleRoutesInMap
-                                        ?.map(
-                                            (drawableRoute) =>
-                                                drawableRoute.lineRef,
-                                        )
-                                        .includes(id)}
-                                    onChange={() =>
-                                        handleFilterChipOnChange(
-                                            id,
-                                            pointsOnLink,
-                                            transportMode,
-                                        )
-                                    }
-                                >
-                                    {publicCode}
-                                    <TransportModeIcon
-                                        transportMode={transportMode}
-                                    />
-                                </FilterChip>
-                            </div>
-                        ),
-                    )}
+                                {line.publicCode}
+                                <TransportModeIcon
+                                    transportMode={line.transportMode}
+                                />
+                            </FilterChip>
+                        </div>
+                    ))}
                 </div>
             </ExpandablePanel>
         </div>
