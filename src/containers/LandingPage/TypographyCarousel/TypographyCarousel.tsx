@@ -47,9 +47,12 @@ function TypographyCarousel(): JSX.Element {
     return (
         <div
             className="typography-carousel"
-            onClick={handleClick}
             tabIndex={0}
-            onKeyPress={handleClick}
+            onKeyDown={(event) => {
+                if (event.code === 'Enter') {
+                    handleClick()
+                }
+            }}
         >
             {quotes.map((quote, index) => (
                 <div

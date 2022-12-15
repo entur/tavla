@@ -56,6 +56,8 @@ function LandingPage(): JSX.Element {
               )
     }, [activeGif])
 
+    //keycode = 32
+
     return (
         <>
             <Helmet>
@@ -93,7 +95,6 @@ function LandingPage(): JSX.Element {
                             </GridItem>
                         </GridContainer>
                     </Contrast>
-
                     <div className="landing-page__main-image-container">
                         <img
                             src="https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Fjernbanetorget.webp?alt=media"
@@ -115,7 +116,11 @@ function LandingPage(): JSX.Element {
                                 >
                                     <div
                                         tabIndex={0}
-                                        onKeyPress={() => handleGif()}
+                                        onKeyDown={(event) => {
+                                            if (event.code === 'Enter') {
+                                                handleGif()
+                                            }
+                                        }}
                                         onClick={() => handleGif()}
                                     >
                                         <img
