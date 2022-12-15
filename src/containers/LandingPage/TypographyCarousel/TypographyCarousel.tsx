@@ -53,6 +53,7 @@ function TypographyCarousel(): JSX.Element {
                     handleClick()
                 }
             }}
+            onClick={handleClick}
         >
             {quotes.map((quote, index) => (
                 <div
