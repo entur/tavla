@@ -9,6 +9,7 @@ import { TransportMode } from '../../../../../../graphql-generated/journey-plann
 import { Line } from '../../../../../logic/use-unique-lines/line'
 import { useSettings } from '../../../../../settings/SettingsProvider'
 import { transportModeName } from './transportModeName'
+import classes from './RealtimeTransportModePanel.module.scss'
 
 interface Props {
     mode: TransportMode
@@ -50,11 +51,11 @@ const RealtimeTransportModePanel: React.FC<Props> = ({
     }, [settings.hiddenRealtimeDataLineRefs, setSettings, filteredLines])
 
     return (
-        <div className="expandable-panel__wrapper">
+        <div className={classes.RealtimeTransportModePanel}>
             <ExpandablePanel
                 title={
-                    <div className="expandable-panel__title-wrapper">
-                        <span className="expandable-panel__title-name">
+                    <div className={classes.Title}>
+                        <span className={classes.Name}>
                             {transportModeName(mode)}
                         </span>
                         <span onClick={(e) => e.stopPropagation()}>
@@ -73,12 +74,9 @@ const RealtimeTransportModePanel: React.FC<Props> = ({
                     </div>
                 }
             >
-                <div className="realtime-detail-panel__container">
+                <div className={classes.Lines}>
                     {filteredLines.map(({ id, publicCode, transportMode }) => (
-                        <div
-                            className="realtime-detail-panel__buttons"
-                            key={id}
-                        >
+                        <div key={id}>
                             <FilterChip
                                 value={id}
                                 onChange={toggleRealtimeDataLineById(id)}
@@ -90,6 +88,8 @@ const RealtimeTransportModePanel: React.FC<Props> = ({
                             >
                                 {publicCode}
                                 <TransportModeIcon
+                                    // Icons from eds don't concatenate classes correctly. Adding a ' ' fixes this.
+                                    className={' ' + classes.TransportIcon}
                                     transportMode={transportMode}
                                 />
                             </FilterChip>
