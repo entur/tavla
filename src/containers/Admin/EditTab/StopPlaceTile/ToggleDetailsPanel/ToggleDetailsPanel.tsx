@@ -2,7 +2,7 @@ import React from 'react'
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
-import { useSettings } from '../../../../settings/SettingsProvider'
+import { useSettings } from '../../../../../settings/SettingsProvider'
 import './ToggleDetailsPanel.scss'
 
 function ToggleDetailsPanel(): JSX.Element {
