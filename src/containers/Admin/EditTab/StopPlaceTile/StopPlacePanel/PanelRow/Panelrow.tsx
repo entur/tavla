@@ -1,16 +1,14 @@
 import React, { ChangeEvent, useCallback, useMemo } from 'react'
 import { uniq, uniqBy, xor } from 'lodash'
-import { Checkbox, TravelSwitch } from '@entur/form'
-import type { TravelSwitchProps } from '@entur/form'
+import { Checkbox } from '@entur/form'
 import { Paragraph } from '@entur/typography'
 import { Loader } from '@entur/loader'
 import { ExpandablePanel } from '@entur/expand'
-import { isTransport } from '../../../../../../utils/typeguards'
-import { TransportMode } from '../../../../../../../graphql-generated/journey-planner-v3'
 import { useSettings } from '../../../../../../settings/SettingsProvider'
 import { useStopPlaceWithEstimatedCalls } from '../../../../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { toDeparture } from '../../../../../../logic/use-stop-place-with-estimated-calls/departure'
 import { RouteCheckbox } from './RouteCheckbox'
+import { TransportModeSwitch } from './TransportModeSwitch'
 
 interface Props {
     stopPlaceId: string
@@ -74,43 +72,6 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
         ],
     )
 
-    const onToggleMode = useCallback(
-        (mode: TransportMode): void => {
-            const newHiddenModes = {
-                ...settings.hiddenStopModes,
-                [stopPlaceId]: xor(
-                    settings.hiddenStopModes[stopPlaceId] || [],
-                    [mode],
-                ),
-            }
-
-            const allModesUnchecked =
-                uniqueModes.length === newHiddenModes[stopPlaceId]?.length
-
-            if (allModesUnchecked) {
-                setSettings({
-                    hiddenStops: [...settings.hiddenStops, stopPlaceId],
-                    hiddenStopModes: newHiddenModes,
-                })
-                return
-            }
-
-            setSettings({
-                hiddenStops: settings.hiddenStops.filter(
-                    (id) => id !== stopPlaceId,
-                ),
-                hiddenStopModes: newHiddenModes,
-            })
-        },
-        [
-            settings.hiddenStopModes,
-            settings.hiddenStops,
-            stopPlaceId,
-            uniqueModes.length,
-            setSettings,
-        ],
-    )
-
     if (loading) {
         return (
             <div className="stop-place-panel__row">
@@ -150,34 +111,14 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
                 className="admin__travel-switch"
                 onClick={(event): void => event.stopPropagation()}
             >
-                {uniqueModes.map((mode) => {
-                    const props: Partial<TravelSwitchProps> = {
-                        size: 'large',
-                        onChange: (): void => onToggleMode(mode),
-                        checked:
-                            !settings.hiddenStopModes[
-                                stopPlaceWithEstimatedCalls.id
-                            ]?.includes(mode),
-                    }
-
-                    if (isTransport(mode)) {
-                        return (
-                            <TravelSwitch
-                                {...props}
-                                transport={mode}
-                                key={mode}
-                            />
-                        )
-                    } else if (mode === 'coach') {
-                        return (
-                            <TravelSwitch {...props} transport="bus" key={mode}>
-                                Coach
-                            </TravelSwitch>
-                        )
-                    } else {
-                        return null
-                    }
-                })}
+                {uniqueModes.map((mode) => (
+                    <TransportModeSwitch
+                        key={mode}
+                        stopPlaceId={stopPlaceId}
+                        mode={mode}
+                        numberOfModes={uniqueModes.length}
+                    />
+                ))}
             </span>
         </div>
     )
