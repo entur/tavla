@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
@@ -7,6 +7,24 @@ import './ToggleDetailsPanel.scss'
 
 function ToggleDetailsPanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
+
+    const handleToggleHideSituations = useCallback(() => {
+        setSettings({
+            hideSituations: !settings.hideSituations,
+        })
+    }, [settings, setSettings])
+
+    const handleToggleHideWalkInfo = useCallback(() => {
+        setSettings({
+            hideWalkInfo: !settings.hideWalkInfo,
+        })
+    }, [settings, setSettings])
+
+    const handleToggleHideTracks = useCallback(() => {
+        setSettings({
+            hideTracks: !settings.hideTracks,
+        })
+    }, [settings, setSettings])
 
     return (
         <Fieldset className="toggle-detail-panel">
@@ -18,13 +36,7 @@ function ToggleDetailsPanel(): JSX.Element {
                 <div className="toggle-detail-panel__buttons">
                     <FilterChip
                         value="avviksinfo"
-                        onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>,
-                        ): void => {
-                            setSettings({
-                                hideSituations: !event.currentTarget.checked,
-                            })
-                        }}
+                        onChange={handleToggleHideSituations}
                         checked={!settings.hideSituations}
                     >
                         Avviksinfo
@@ -33,13 +45,7 @@ function ToggleDetailsPanel(): JSX.Element {
                 <div className="toggle-detail-panel__buttons">
                     <FilterChip
                         value="gangavstand"
-                        onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>,
-                        ): void => {
-                            setSettings({
-                                hideWalkInfo: !event.currentTarget.checked,
-                            })
-                        }}
+                        onChange={handleToggleHideWalkInfo}
                         checked={!settings.hideWalkInfo}
                     >
                         Gangavstand
@@ -48,13 +54,7 @@ function ToggleDetailsPanel(): JSX.Element {
                 <div className="toggle-detail-panel__buttons">
                     <FilterChip
                         value="sporinfo"
-                        onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>,
-                        ): void => {
-                            setSettings({
-                                hideTracks: !event.currentTarget.checked,
-                            })
-                        }}
+                        onChange={handleToggleHideTracks}
                         checked={!settings.hideTracks}
                     >
                         Plattform
