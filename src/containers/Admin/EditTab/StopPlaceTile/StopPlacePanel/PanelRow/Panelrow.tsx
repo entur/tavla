@@ -10,6 +10,7 @@ import { TransportMode } from '../../../../../../../graphql-generated/journey-pl
 import { useSettings } from '../../../../../../settings/SettingsProvider'
 import { useStopPlaceWithEstimatedCalls } from '../../../../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { toDeparture } from '../../../../../../logic/use-stop-place-with-estimated-calls/departure'
+import { RouteCheckbox } from './RouteCheckbox'
 
 interface Props {
     stopPlaceId: string
@@ -71,21 +72,6 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
             settings.hiddenStopModes,
             uniqueModes,
         ],
-    )
-
-    const onToggleRoute = useCallback(
-        (route: string) => {
-            const newHiddenRoutes = {
-                ...settings.hiddenRoutes,
-                [stopPlaceId]: xor(settings.hiddenRoutes[stopPlaceId] || [], [
-                    route,
-                ]),
-            }
-            setSettings({
-                hiddenRoutes: newHiddenRoutes,
-            })
-        },
-        [settings.hiddenRoutes, stopPlaceId, setSettings],
     )
 
     const onToggleMode = useCallback(
@@ -217,25 +203,13 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
                 title={header}
             >
                 <div className="stop-place-panel__row__content">
-                    {uniqueDepartures.map(({ route }) => {
-                        const routeId = `${stopPlaceWithEstimatedCalls.id}-${route}`
-
-                        return (
-                            <Checkbox
-                                key={`checkbox-${routeId}`}
-                                className="stop-place-panel__route"
-                                name={route}
-                                onChange={() => onToggleRoute(route)}
-                                checked={
-                                    !settings.hiddenRoutes[
-                                        stopPlaceWithEstimatedCalls.id
-                                    ]?.includes(route)
-                                }
-                            >
-                                {route}
-                            </Checkbox>
-                        )
-                    })}
+                    {uniqueDepartures.map(({ route }) => (
+                        <RouteCheckbox
+                            key={route}
+                            route={route}
+                            stopPlaceId={stopPlaceWithEstimatedCalls?.id}
+                        />
+                    ))}
                 </div>
             </ExpandablePanel>
         </div>

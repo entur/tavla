@@ -77,25 +77,6 @@
         }
     }
 
-    &__route {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin-bottom: 0.5rem;
-
-        .eds-checkbox__label {
-            color: var(--tavla-font-color);
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-
-            svg {
-                font-size: 1.5rem;
-                margin-right: 0.5rem;
-            }
-        }
-    }
-
     &__header,
     &__row:not(:last-child) {
         border-bottom: 0.125rem solid var(--tavla-border-color);
