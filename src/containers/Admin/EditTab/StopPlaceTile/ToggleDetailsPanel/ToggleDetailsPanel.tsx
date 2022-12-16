@@ -3,7 +3,7 @@ import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
 import { useSettings } from '../../../../../settings/SettingsProvider'
-import './ToggleDetailsPanel.scss'
+import classes from './ToggleDetailsPanel.module.scss'
 
 function ToggleDetailsPanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
@@ -27,14 +27,15 @@ function ToggleDetailsPanel(): JSX.Element {
     }, [settings, setSettings])
 
     return (
-        <Fieldset className="toggle-detail-panel">
-            <div className="toggle-detail-panel__container">
+        <Fieldset className={classes.ToggleDetailsPanel}>
+            <div className={classes.Container}>
                 <Label>
                     Obs! Noen av detaljene kan ikke vises i alle visningstyper.
                 </Label>
                 <br />
-                <div className="toggle-detail-panel__buttons">
+                <div className={classes.Buttons}>
                     <FilterChip
+                        className={classes.FilterChip}
                         value="avviksinfo"
                         onChange={handleToggleHideSituations}
                         checked={!settings.hideSituations}
@@ -42,8 +43,9 @@ function ToggleDetailsPanel(): JSX.Element {
                         Avviksinfo
                     </FilterChip>
                 </div>
-                <div className="toggle-detail-panel__buttons">
+                <div className={classes.Buttons}>
                     <FilterChip
+                        className={classes.FilterChip}
                         value="gangavstand"
                         onChange={handleToggleHideWalkInfo}
                         checked={!settings.hideWalkInfo}
@@ -51,8 +53,9 @@ function ToggleDetailsPanel(): JSX.Element {
                         Gangavstand
                     </FilterChip>
                 </div>
-                <div className="toggle-detail-panel__buttons">
+                <div className={classes.Buttons}>
                     <FilterChip
+                        className={classes.FilterChip}
                         value="sporinfo"
                         onChange={handleToggleHideTracks}
                         checked={!settings.hideTracks}
