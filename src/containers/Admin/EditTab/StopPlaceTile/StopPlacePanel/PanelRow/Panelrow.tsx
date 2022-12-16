@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback, useMemo } from 'react'
-import { uniq, uniqBy } from 'lodash'
+import { uniq, uniqBy, xor } from 'lodash'
 import { Checkbox, TravelSwitch } from '@entur/form'
 import type { TravelSwitchProps } from '@entur/form'
 import { Paragraph } from '@entur/typography'
@@ -10,7 +10,6 @@ import { TransportMode } from '../../../../../../../graphql-generated/journey-pl
 import { useSettings } from '../../../../../../settings/SettingsProvider'
 import { useStopPlaceWithEstimatedCalls } from '../../../../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { toDeparture } from '../../../../../../logic/use-stop-place-with-estimated-calls/departure'
-import { toggleValueInList } from '../../../../../../utils/array'
 
 interface Props {
     stopPlaceId: string
@@ -58,10 +57,7 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
             const checked = event.target.checked
 
             setSettings({
-                hiddenStops: toggleValueInList(
-                    settings.hiddenStops,
-                    stopPlaceId,
-                ),
+                hiddenStops: xor(settings.hiddenStops, [stopPlaceId]),
                 hiddenStopModes: {
                     ...settings.hiddenStopModes,
                     [stopPlaceId]: !checked ? uniqueModes : [],
@@ -81,10 +77,9 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
         (route: string) => {
             const newHiddenRoutes = {
                 ...settings.hiddenRoutes,
-                [stopPlaceId]: toggleValueInList(
-                    settings.hiddenRoutes[stopPlaceId] || [],
+                [stopPlaceId]: xor(settings.hiddenRoutes[stopPlaceId] || [], [
                     route,
-                ),
+                ]),
             }
             setSettings({
                 hiddenRoutes: newHiddenRoutes,
@@ -97,9 +92,9 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
         (mode: TransportMode): void => {
             const newHiddenModes = {
                 ...settings.hiddenStopModes,
-                [stopPlaceId]: toggleValueInList(
+                [stopPlaceId]: xor(
                     settings.hiddenStopModes[stopPlaceId] || [],
-                    mode,
+                    [mode],
                 ),
             }
 
