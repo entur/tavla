@@ -77,6 +77,7 @@ function PermanentLinesPanel({ realtimeLines }: PermanentLinesPanelProps) {
                     {sortedLines.map((line) => (
                         <div key={line.id}>
                             <FilterChip
+                                className={classes.FilterChip}
                                 value={line.id}
                                 checked={settings.permanentlyVisibleRoutesInMap
                                     .map(

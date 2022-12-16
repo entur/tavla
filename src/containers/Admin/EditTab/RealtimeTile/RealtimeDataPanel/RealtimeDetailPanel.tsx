@@ -8,9 +8,9 @@ import { useUniqueLines } from '../../../../../logic/use-unique-lines/useUniqueL
 import { byTransportModeName } from './transportModeName'
 import { PermanentLinesPanel } from './PermanentLinesPanel'
 import { RealtimeTransportModePanel } from './RealtimeTransportModePanel'
-import './linesPanel.scss'
+import classes from './RealtimeDetailPanel.module.scss'
 
-const RealtimeDataPanel = (): JSX.Element => {
+const RealtimeDetailPanel = (): JSX.Element => {
     const [settings, setSettings] = useSettings()
 
     const { realtimePositionLineRefs } = useRealtimePositionLineRefs()
@@ -41,7 +41,7 @@ const RealtimeDataPanel = (): JSX.Element => {
         )
     }
     return (
-        <div className="realtime-detail-panel">
+        <div className={classes.RealtimeDetailPanel}>
             <div className="realtime-detail-panel__realtime-selection-panel">
                 {modes.map((mode) => (
                     <RealtimeTransportModePanel
@@ -57,8 +57,8 @@ const RealtimeDataPanel = (): JSX.Element => {
                     Pek på et posisjonsikon for å se ruten i kartet. Trykk på
                     posisjonsikonet for å vise ruten permanent.
                 </Label>
-                <div className="realtime-detail-panel__route-display-selection">
-                    <span className="realtime-detail-panel__route-display-selection-info-text">
+                <div className={classes.RouteDisplaySelection}>
+                    <span className={classes.InfoText}>
                         Vis rutelinjer i kartet
                     </span>
                     <Switch
@@ -79,4 +79,4 @@ const RealtimeDataPanel = (): JSX.Element => {
     )
 }
 
-export { RealtimeDataPanel }
+export { RealtimeDetailPanel }

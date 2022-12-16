@@ -77,6 +77,7 @@ const RealtimeTransportModePanel: React.FC<Props> = ({
                 <div className={classes.Lines}>
                     {filteredLines.map(({ id, publicCode, transportMode }) => (
                         <FilterChip
+                            className={classes.FilterChip}
                             key={id}
                             value={id}
                             onChange={toggleRealtimeDataLineById(id)}
