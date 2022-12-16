@@ -23,8 +23,8 @@ const StopPlaceTile: React.FC = () => {
             onChange={handleChange}
             checked={!settings.hiddenModes.includes('kollektiv')}
         >
-            <StopPlaceSearch distance={settings.distance} />
-            <StopPlacePanel distance={settings.distance} />
+            <StopPlaceSearch />
+            <StopPlacePanel />
             <div>
                 <Heading3 className={classes.DetailsInView}>
                     Detaljer i visningen

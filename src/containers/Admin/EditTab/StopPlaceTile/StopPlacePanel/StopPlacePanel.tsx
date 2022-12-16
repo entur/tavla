@@ -7,15 +7,11 @@ import { useStopPlaceIds } from '../../../../../logic/use-stop-place-ids/useStop
 import { PanelRow } from './PanelRow/Panelrow'
 import './StopPlacePanel.scss'
 
-interface StopPlacePanelProps {
-    distance: number
-}
-
-function StopPlacePanel({ distance }: StopPlacePanelProps): JSX.Element {
+function StopPlacePanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
 
     const { stopPlaceIds, loading } = useStopPlaceIds({
-        distance,
+        distance: settings.distance,
         filterHidden: false,
     })
 
