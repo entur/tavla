@@ -6,7 +6,7 @@ import { Line } from '../../../../../logic/use-unique-lines/line'
 import { TransportModeIcon } from '../../../../../components/TransportModeIcon/TransportModeIcon'
 import { useSettings } from '../../../../../settings/SettingsProvider'
 import { transportModeName } from './transportModeName'
-import './linesPanel.scss'
+import classes from './PermanentLinePanel.module.scss'
 
 const byTransportModeNameAndPublicCode = (a: Line, b: Line) =>
     `${transportModeName(a.transportMode)}${a.publicCode}`.localeCompare(
@@ -61,11 +61,11 @@ function PermanentLinesPanel({ realtimeLines }: PermanentLinesPanelProps) {
     )
 
     return (
-        <div className="expandable-panel__wrapper">
+        <div className={classes.PermanentLinePanel}>
             <ExpandablePanel
                 title={
-                    <div className="expandable-panel__title-wrapper">
-                        <span className="expandable-panel__title-icon">
+                    <div className={classes.Title}>
+                        <span className={classes.Icon}>
                             <ClosedLockIcon />
                         </span>
                         <span>Permanente rutelinjer</span>
@@ -73,12 +73,9 @@ function PermanentLinesPanel({ realtimeLines }: PermanentLinesPanelProps) {
                 }
                 defaultOpen={filteredLines.length > 0}
             >
-                <div className="realtime-detail-panel__container">
+                <div className={classes.Lines}>
                     {sortedLines.map((line) => (
-                        <div
-                            className="realtime-detail-panel__buttons"
-                            key={line.id}
-                        >
+                        <div key={line.id}>
                             <FilterChip
                                 value={line.id}
                                 checked={settings.permanentlyVisibleRoutesInMap
@@ -91,6 +88,8 @@ function PermanentLinesPanel({ realtimeLines }: PermanentLinesPanelProps) {
                             >
                                 {line.publicCode}
                                 <TransportModeIcon
+                                    // Icons from eds don't concatenate classes correctly. Adding a ' ' fixes this.
+                                    className={' ' + classes.TransportIcon}
                                     transportMode={line.transportMode}
                                 />
                             </FilterChip>
