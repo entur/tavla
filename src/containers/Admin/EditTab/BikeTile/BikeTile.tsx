@@ -14,26 +14,13 @@ const BikeTile: React.FC = () => {
         })
     }, [settings, setSettings])
 
-    const addNewStation = useCallback(
-        (stationId: string) => {
-            if (settings.newStations.includes(stationId)) return
-            setSettings({
-                newStations: [...settings.newStations, stationId],
-            })
-        },
-        [settings.newStations, setSettings],
-    )
-
     return (
         <EditTile
             title="Bysykkel"
             onChange={handleChange}
             checked={!settings.hiddenModes.includes('bysykkel')}
         >
-            <BikePanelSearch
-                position={settings.coordinates}
-                onSelected={addNewStation}
-            />
+            <BikePanelSearch />
             <BikePanel />
         </EditTile>
     )

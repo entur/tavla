@@ -10,7 +10,7 @@ interface Line {
     transportMode: TransportMode
     transportSubmode: TransportSubmode
     publicCode: string
-    pointsOnLink?: string
+    pointsOnLink: string
 }
 
 function toLine(estimatedCall: EstimatedCall): Line {

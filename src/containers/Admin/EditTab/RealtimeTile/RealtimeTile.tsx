@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { Paragraph } from '@entur/typography'
 import { EditTile } from '../EditTile/EditTile'
 import { useSettings } from '../../../../settings/SettingsProvider'
-import { RealtimeDataPanel } from './RealtimeDataPanel/RealTimeDataPanel'
+import { RealtimeDetailPanel } from './RealtimeDetailPanel/RealtimeDetailPanel'
 
 const RealtimeTile: React.FC = () => {
     const [settings, setSettings] = useSettings()
@@ -20,9 +20,7 @@ const RealtimeTile: React.FC = () => {
             checked={!settings.hideRealtimeData}
         >
             {!settings.hiddenModes.includes('kollektiv') ? (
-                <RealtimeDataPanel
-                    hiddenLines={settings.hiddenRealtimeDataLineRefs}
-                />
+                <RealtimeDetailPanel />
             ) : (
                 <Paragraph>
                     Kollektivdata er skrudd av. Skru det på ved å trykke på

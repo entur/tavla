@@ -1,4 +1,3 @@
-import { TransportMode } from '../../graphql-generated/journey-planner-v3'
 import { TranslatedString } from '../../graphql-generated/mobility-v2'
 import { Theme, TileSubLabel } from '../types'
 import { Departure } from '../logic/use-stop-place-with-estimated-calls/departure'
@@ -16,23 +15,6 @@ export function createTileSubLabel({
         hasCancellation: cancellation,
         time,
         departureTime,
-    }
-}
-
-export const transportModeNameMapper = (mode: TransportMode): string => {
-    switch (mode) {
-        case 'bus':
-            return 'Buss'
-        case 'water':
-            return 'Båt'
-        case 'tram':
-            return 'Trikk'
-        case 'rail':
-            return 'Tog'
-        case 'metro':
-            return 'T-bane'
-        default:
-            return 'Buss'
     }
 }
 
