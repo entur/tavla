@@ -50,7 +50,7 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
     const handleSubmit = (actionType: ActionType) => {
-        if (!sourceUrl.includes('.com' || '.no')) {
+        if (!sourceUrl.endsWith('.no')) {
             setErrorMessage(
                 'nå er det feil med urlen husk å skriv på riktig format',
             )
