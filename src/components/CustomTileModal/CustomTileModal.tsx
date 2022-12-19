@@ -103,7 +103,7 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
             className="custom-tile-modal"
         >
             <TextField
-                label="Navn på boks"
+                label="Navn på boks (obligatorisk)"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 variant={
@@ -129,7 +129,9 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
             )}
             <TextField
                 label={`Lenkeadresse til ${
-                    tileType === 'image' ? 'bildet' : 'QR-koden'
+                    tileType === 'image'
+                        ? 'bildet (obligatorisk)'
+                        : 'QR-koden (obligatorisk)'
                 }`}
                 value={sourceUrl}
                 onChange={(e) => setSourceUrl(e.target.value)}
