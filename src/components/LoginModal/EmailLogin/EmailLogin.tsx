@@ -41,7 +41,9 @@ const EmailLogin: React.FC<EmailLoginProps> = ({ setModalType, onDismiss }) => {
 
         signInWithEmailAndPassword(auth, email, password).catch((error) => {
             if (password == '') {
-                setPasswordError('Fyll inn passord')
+                setPasswordError(
+                    'Du må skrive inn passordet ditt for å logge inn',
+                )
             }
             if (error.code === 'auth/invalid-email') {
                 setEmailError('E-posten er ikke gyldig')
