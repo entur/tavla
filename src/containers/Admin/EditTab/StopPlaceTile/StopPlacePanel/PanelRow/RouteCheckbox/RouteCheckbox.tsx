@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
 import { Checkbox } from '@entur/form'
-import { useSettings } from '../../../../../../settings/SettingsProvider'
+import { useSettings } from '../../../../../../../settings/SettingsProvider'
 import classes from './RouteCheckbox.module.scss'
 
 interface Props {

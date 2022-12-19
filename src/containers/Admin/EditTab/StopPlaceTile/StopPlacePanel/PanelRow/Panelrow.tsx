@@ -8,8 +8,8 @@ import { ExpandablePanel } from '@entur/expand'
 import { useSettings } from '../../../../../../settings/SettingsProvider'
 import { useStopPlaceWithEstimatedCalls } from '../../../../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { toDeparture } from '../../../../../../logic/use-stop-place-with-estimated-calls/departure'
-import { RouteCheckbox } from './RouteCheckbox'
-import { TransportModeSwitch } from './TransportModeSwitch'
+import { RouteCheckbox } from './RouteCheckbox/RouteCheckbox'
+import { TransportModeSwitch } from './TransportModeSwitch/TransportModeSwitch'
 import classes from './PanelRow.module.scss'
 
 interface Props {

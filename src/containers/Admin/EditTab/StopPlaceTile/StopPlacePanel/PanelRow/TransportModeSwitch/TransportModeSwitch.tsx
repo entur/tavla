@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
 import { TravelSwitch } from '@entur/form'
-import { TransportMode } from '../../../../../../../graphql-generated/journey-planner-v3'
-import { isTransport } from '../../../../../../utils/typeguards'
-import { useSettings } from '../../../../../../settings/SettingsProvider'
+import { TransportMode } from '../../../../../../../../graphql-generated/journey-planner-v3'
+import { isTransport } from '../../../../../../../utils/typeguards'
+import { useSettings } from '../../../../../../../settings/SettingsProvider'
 
 interface Props {
     className?: string
