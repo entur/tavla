@@ -6,8 +6,8 @@ import { useSettings } from '../../../../../settings/SettingsProvider'
 import { useRealtimePositionLineRefs } from '../../../../../logic/use-realtime-position-line-refs/useRealtimePositionLineRefs'
 import { useUniqueLines } from '../../../../../logic/use-unique-lines/useUniqueLines'
 import { byTransportModeName } from './transportModeName'
-import { PermanentLinesPanel } from './PermanentLinesPanel'
-import { RealtimeTransportModePanel } from './RealtimeTransportModePanel'
+import { PermanentLinesPanel } from './PermanentLinePanel/PermanentLinesPanel'
+import { RealtimeTransportModePanel } from './RealtimeTransportModePanel/RealtimeTransportModePanel'
 import classes from './RealtimeDetailPanel.module.scss'
 
 const RealtimeDetailPanel = (): JSX.Element => {
