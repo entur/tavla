@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Modal } from '@entur/modal'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
