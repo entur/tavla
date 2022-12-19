@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Modal } from '@entur/modal'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
@@ -45,11 +45,21 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
     const [displayHeader, setDisplayHeader] = useState(
         selectedItem?.displayHeader ?? '',
     )
+    const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
     const handleSubmit = (actionType: ActionType) => {
-        setIsSubmitAttempted(true)
+        if (!sourceUrl.includes('.com' || '.no')) {
+            setErrorMessage(
+                'nå er det feil med urlen husk å skriv på riktig format',
+            )
+            return
+        } else {
+            setErrorMessage(null)
+            setIsSubmitAttempted(true)
+        }
+
         if (!displayName || !sourceUrl) return
         if (tileType === CustomTileType.QR) {
             setSettings({
@@ -132,10 +142,20 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
                     tileType === 'image' ? 'bildet' : 'QR-koden'
                 }`}
                 value={sourceUrl}
-                onChange={(e) => setSourceUrl(e.target.value)}
-                variant={isSubmitAttempted && !sourceUrl ? 'error' : undefined}
+                onChange={(e) => {
+                    setSourceUrl(e.target.value)
+                }}
+                variant={
+                    (isSubmitAttempted && !sourceUrl) || errorMessage
+                        ? 'error'
+                        : undefined
+                }
                 placeholder="F.eks. tavla.entur.no"
-                feedback="Vennligst fyll ut dette feltet"
+                feedback={
+                    errorMessage
+                        ? 'Lenkeadressen er ugyldig. Skriv inn en nettadresse på formatet nettside.no eller www.nettside.no.'
+                        : 'Vennligst fyll ut dette feltet'
+                }
             />
             {tileType === CustomTileType.Image && (
                 <TextField
