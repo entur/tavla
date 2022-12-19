@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useCallback, useMemo } from 'react'
+import classNames from 'classnames'
 import { uniq, uniqBy, xor } from 'lodash'
 import { Checkbox } from '@entur/form'
 import { Paragraph } from '@entur/typography'
@@ -9,6 +10,7 @@ import { useStopPlaceWithEstimatedCalls } from '../../../../../../logic/use-stop
 import { toDeparture } from '../../../../../../logic/use-stop-place-with-estimated-calls/departure'
 import { RouteCheckbox } from './RouteCheckbox'
 import { TransportModeSwitch } from './TransportModeSwitch'
+import classes from './PanelRow.module.scss'
 
 interface Props {
     stopPlaceId: string
@@ -74,7 +76,7 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
 
     if (loading) {
         return (
-            <div className="stop-place-panel__row">
+            <div className={classes.PanelRow}>
                 <Loader>Laster...</Loader>
             </div>
         )
@@ -82,7 +84,7 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
 
     if (!stopPlaceWithEstimatedCalls) {
         return (
-            <div className="stop-place-panel__row">
+            <div className={classes.PanelRow}>
                 <Paragraph>
                     Fant ikke informasjon om stoppestedet med id {stopPlaceId}
                 </Paragraph>
@@ -91,28 +93,28 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
     }
 
     const header = (
-        <div className="stop-place-panel__row__header">
-            <span className="admin__checkbox-and-stopplace">
-                <span onClick={(event): void => event.stopPropagation()}>
-                    <Checkbox
-                        id={stopPlaceWithEstimatedCalls.id}
-                        className="stop-place-panel__row__checkbox"
-                        checked={
-                            !settings.hiddenStops.includes(
-                                stopPlaceWithEstimatedCalls.id,
-                            )
-                        }
-                        onChange={onToggleStop}
-                    />
-                </span>
-                <span>{stopPlaceWithEstimatedCalls.name}</span>
+        <div className={classes.Header}>
+            <span onClick={(event): void => event.stopPropagation()}>
+                <Checkbox
+                    id={stopPlaceWithEstimatedCalls.id}
+                    checked={
+                        !settings.hiddenStops.includes(
+                            stopPlaceWithEstimatedCalls.id,
+                        )
+                    }
+                    onChange={onToggleStop}
+                />
+            </span>
+            <span className={classes.HeaderText}>
+                {stopPlaceWithEstimatedCalls.name}
             </span>
             <span
-                className="admin__travel-switch"
+                className={classes.TravelSwitch}
                 onClick={(event): void => event.stopPropagation()}
             >
                 {uniqueModes.map((mode) => (
                     <TransportModeSwitch
+                        className={classes.TransportModeSwitch}
                         key={mode}
                         stopPlaceId={stopPlaceId}
                         mode={mode}
@@ -125,25 +127,16 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
 
     if (!departures.length) {
         return (
-            <div
-                key={stopPlaceWithEstimatedCalls.id}
-                className="stop-place-panel__row stop-place-panel__row__empty"
-            >
+            <div className={classNames(classes.PanelRow, classes.Empty)}>
                 {header}
             </div>
         )
     }
 
     return (
-        <div
-            key={stopPlaceWithEstimatedCalls.id}
-            className="stop-place-panel__row"
-        >
-            <ExpandablePanel
-                className="stop-place-panel__row__expandable"
-                title={header}
-            >
-                <div className="stop-place-panel__row__content">
+        <div className={classes.PanelRow}>
+            <ExpandablePanel className={classes.Expandable} title={header}>
+                <div className={classes.Content}>
                     {uniqueDepartures.map(({ route }) => (
                         <RouteCheckbox
                             key={route}

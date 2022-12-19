@@ -6,12 +6,14 @@ import { isTransport } from '../../../../../../utils/typeguards'
 import { useSettings } from '../../../../../../settings/SettingsProvider'
 
 interface Props {
+    className?: string
     stopPlaceId: string
     mode: TransportMode
     numberOfModes: number
 }
 
 const TransportModeSwitch: React.FC<Props> = ({
+    className,
     stopPlaceId,
     mode,
     numberOfModes,
@@ -60,6 +62,7 @@ const TransportModeSwitch: React.FC<Props> = ({
 
     return (
         <TravelSwitch
+            className={className}
             transport={isCoach ? 'bus' : mode}
             size="large"
             onChange={onToggleMode}

@@ -5,7 +5,7 @@ import { Loader } from '@entur/loader'
 import { useSettings } from '../../../../../settings/SettingsProvider'
 import { useStopPlaceIds } from '../../../../../logic/use-stop-place-ids/useStopPlaceIds'
 import { PanelRow } from './PanelRow/Panelrow'
-import './StopPlacePanel.scss'
+import classes from './StopPlacePanel.module.scss'
 
 function StopPlacePanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
@@ -40,7 +40,7 @@ function StopPlacePanel(): JSX.Element {
 
     if (loading) {
         return (
-            <div className="stop-place-panel">
+            <div className={classes.StopPlacePanel}>
                 <Loader>Laster...</Loader>
             </div>
         )
@@ -48,19 +48,16 @@ function StopPlacePanel(): JSX.Element {
 
     if (!stopPlaceIds.length) {
         return (
-            <div className="stop-place-panel">
+            <div className={classes.StopPlacePanel}>
                 <Paragraph>Det er ingen stoppesteder i nærheten.</Paragraph>
             </div>
         )
     }
 
     return (
-        <div className="stop-place-panel">
-            <div className="stop-place-panel__header">
-                <div
-                    className="stop-place-panel__checkall"
-                    onClick={(event): void => event.stopPropagation()}
-                >
+        <div className={classes.StopPlacePanel}>
+            <div className={classes.Header}>
+                <div onClick={(event): void => event.stopPropagation()}>
                     <Checkbox
                         id="check-all-stop-places"
                         name="check-all-stop-places"
