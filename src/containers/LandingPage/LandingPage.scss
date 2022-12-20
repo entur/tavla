@@ -115,15 +115,12 @@ $max-width: 86rem;
 }
 
 .screenreader-text {
-    height: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   
-    &:focus {
-      color: yellow;
-      display: inline-block;
-      height: auto;
-      width: auto;
-      position: static;
-      margin: auto;
-    }
+  &:focus {
+    color: yellow;
+    margin: auto;
   }
-  
+}
