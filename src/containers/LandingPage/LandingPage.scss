@@ -118,21 +118,20 @@ $max-width: 86rem;
     color: #181c56;
 
     &:focus {
-    background: #ffca28;
-    color: #181c56;
-    display: block;
-    text-align: center;
-    padding: 1em;
-    margin: 0 auto;
-    outline: none;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 30;
-  }
+        background: #ffca28;
+        color: #181c56;
+        display: block;
+        text-align: center;
+        padding: 1em;
+        margin: 0 auto;
+        outline: none;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 30;
+    }
 
-  &:visited{
-    display: none;
-  }
-  
+    &:visited {
+        display: none;
+    }
 }
