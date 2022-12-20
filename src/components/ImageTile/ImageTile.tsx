@@ -1,7 +1,7 @@
 import React from 'react'
 import { Heading3, Paragraph } from '@entur/typography'
 import { CustomTile } from '../../types'
-import './ImageTile.scss'
+import classes from './ImageTile.module.scss'
 
 const ImageTile = ({
     sourceUrl,
@@ -9,11 +9,11 @@ const ImageTile = ({
     displayHeader,
 }: CustomTile): JSX.Element => (
     <div
-        className="image-tile"
+        className={classes.ImageTile}
         style={{ backgroundImage: `url("${sourceUrl}")` }}
     >
         {(displayHeader || description) && (
-            <div className="image-tile__info-box">
+            <div className={classes.InfoBox}>
                 {displayHeader && (
                     <Heading3>{displayHeader.toUpperCase()}</Heading3>
                 )}
