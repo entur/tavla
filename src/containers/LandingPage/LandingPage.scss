@@ -123,4 +123,9 @@ $max-width: 86rem;
     color: yellow;
     margin: auto;
   }
+
+  &:visited{
+    display: none;
+  }
+  
 }
