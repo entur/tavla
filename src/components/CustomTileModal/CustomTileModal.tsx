@@ -45,18 +45,16 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
     const [displayHeader, setDisplayHeader] = useState(
         selectedItem?.displayHeader ?? '',
     )
-    const [errorMessage, setErrorMessage] = useState<string | null>(null)
+    const [errorMessage, setErrorMessage] = useState<boolean>(false)
 
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
     const handleSubmit = (actionType: ActionType) => {
         if (!sourceUrl.endsWith('.no')) {
-            setErrorMessage(
-                'nå er det feil med urlen husk å skriv på riktig format',
-            )
+            setErrorMessage(true)
             return
         } else {
-            setErrorMessage(null)
+            setErrorMessage(false)
             setIsSubmitAttempted(true)
         }
 
