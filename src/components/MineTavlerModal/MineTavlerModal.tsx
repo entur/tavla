@@ -11,7 +11,7 @@ import { LoginCase } from '../LoginModal/login-modal-types'
 import { CloseButton } from '../CloseButton/CloseButton'
 import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
-import './MineTavlerModal.scss'
+import classes from './MineTavlerModal.module.scss'
 
 const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const navigate = useNavigate()
@@ -68,18 +68,24 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
 
     return (
         <Modal
+            className={classes.MineTavlerModal}
             size="small"
             open={open}
             title=""
             onDismiss={onDismiss}
-            className="mine-tavler-modal"
         >
             <CloseButton onClick={onDismiss} />
-            <div className="centered">
-                <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
+            <div className={classes.Centered}>
+                <img
+                    className={classes.Image}
+                    src={sikkerhetBom}
+                    srcSet={`${retinaSikkerhetBom} 2x`}
+                />
             </div>
-            <Heading3 margin="none">Vil du låse tavla først?</Heading3>
-            <Paragraph>
+            <Heading3 className={classes.Heading} margin="none">
+                Vil du låse tavla først?
+            </Heading3>
+            <Paragraph className={classes.Paragraph}>
                 Denne avgangstavla er ulåst. Hvis du vil lagre den til senere og
                 gjøre så bare du kan redigere den, bør du først låse den til din
                 konto.
@@ -90,7 +96,6 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
                         width="fluid"
                         type="submit"
                         onClick={(): void => handleLockingTavle(true)}
-                        className="modal-submit"
                     >
                         Ja, lås tavla til min konto
                     </PrimaryButton>
