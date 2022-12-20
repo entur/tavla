@@ -43,12 +43,21 @@ function LandingPage(): JSX.Element {
 
     return (
         <>
+            <div className="skip-to-content">
+                <a
+                    id="skip-nav"
+                    className="screenreader-text"
+                    href="#main-content"
+                >
+                    Gå til hovedinnhold
+                </a>
+            </div>
             <Helmet>
                 <title>Forside - Tavla - Entur</title>
             </Helmet>
             <Navbar />
             <div className="landing-page">
-                <div className="landing-page__content">
+                <div className="landing-page__content" id="main-content">
                     <Contrast className="landing-page__contrast">
                         <GridContainer
                             spacing="medium"

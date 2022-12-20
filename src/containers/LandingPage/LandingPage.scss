@@ -113,3 +113,17 @@ $max-width: 86rem;
         }
     }
 }
+
+.screenreader-text {
+    height: 10px;
+  
+    &:focus {
+      color: yellow;
+      display: inline-block;
+      height: auto;
+      width: auto;
+      position: static;
+      margin: auto;
+    }
+  }
+  
