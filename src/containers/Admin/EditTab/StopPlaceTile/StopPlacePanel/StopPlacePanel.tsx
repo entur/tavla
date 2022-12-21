@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import { Checkbox } from '@entur/form'
 import { Paragraph } from '@entur/typography'
-import { Loader } from '@entur/loader'
 import { useSettings } from '../../../../../settings/SettingsProvider'
 import { useStopPlaceIds } from '../../../../../logic/use-stop-place-ids/useStopPlaceIds'
+import { Loader } from '../../../../../components/Loader/Loader'
 import { PanelRow } from './PanelRow/Panelrow'
 import './StopPlacePanel.scss'
 
@@ -45,7 +45,7 @@ function StopPlacePanel({ distance }: StopPlacePanelProps): JSX.Element {
     if (loading) {
         return (
             <div className="stop-place-panel">
-                <Loader>Laster...</Loader>
+                <Loader />
             </div>
         )
     }

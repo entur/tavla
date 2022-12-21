@@ -3,7 +3,6 @@ import { uniq, uniqBy } from 'lodash'
 import { Checkbox, TravelSwitch } from '@entur/form'
 import type { TravelSwitchProps } from '@entur/form'
 import { Paragraph } from '@entur/typography'
-import { Loader } from '@entur/loader'
 import { ExpandablePanel } from '@entur/expand'
 import { isTransport } from '../../../../../../utils/typeguards'
 import { TransportMode } from '../../../../../../../graphql-generated/journey-planner-v3'
@@ -11,6 +10,7 @@ import { useSettings } from '../../../../../../settings/SettingsProvider'
 import { useStopPlaceWithEstimatedCalls } from '../../../../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { toDeparture } from '../../../../../../logic/use-stop-place-with-estimated-calls/departure'
 import { toggleValueInList } from '../../../../../../utils/array'
+import { Loader } from '../../../../../../components/Loader/Loader'
 
 interface Props {
     stopPlaceId: string
@@ -133,7 +133,7 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
     if (loading) {
         return (
             <div className="stop-place-panel__row">
-                <Loader>Laster...</Loader>
+                <Loader />
             </div>
         )
     }

@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
-import { Loader } from '@entur/loader'
 import { Tile } from '../Tile/Tile'
 import { TileHeader } from '../TileHeader/TileHeader'
 import { useSettings } from '../../settings/SettingsProvider'
@@ -9,6 +8,7 @@ import { getIconColorType } from '../../utils/icon'
 import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { useRentalStations } from '../../logic/use-rental-stations/useRentalStations'
 import { ErrorTile } from '../ErrorTile/ErrorTile'
+import { Loader } from '../Loader/Loader'
 import { BikeTileRow } from './BikeTileRow'
 import classes from './BikeTile.module.scss'
 
@@ -26,7 +26,7 @@ const BikeTile: React.FC = () => {
     if (loading) {
         return (
             <Tile className={classes.BikeTile}>
-                <Loader>Laster...</Loader>
+                <Loader />
             </Tile>
         )
     }
