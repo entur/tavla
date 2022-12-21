@@ -9,7 +9,10 @@ interface SituationInfoProps {
 }
 
 const SituationInfo = ({ departure }: SituationInfoProps) => {
-    const situation = departure.situations[0]?.summary[0]?.value
+    const situation =
+        departure.situations[0]?.summary[0]?.value ||
+        departure.situations[0]?.description[0]?.value
+
     if (!situation) return null
 
     return (

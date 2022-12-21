@@ -40,6 +40,9 @@ query StopPlaceWithEstimatedCalls(
                 transportSubmode
             }
             situations {
+                description {
+                    value
+                }
                 summary {
                     value
                 }
