@@ -71,6 +71,11 @@ const ChronoDashboard = (): JSX.Element | null => {
 
     const { stopPlaceIds } = useStopPlaceIds()
 
+    const isLocked = useMemo(
+        () => settings.owners.length > 0,
+        [settings.owners],
+    )
+
     const numberOfCustomImages = settings.customImageTiles.filter(
         ({ id }) => !settings.hiddenCustomTileIds.includes(id),
     ).length
@@ -85,7 +90,7 @@ const ChronoDashboard = (): JSX.Element | null => {
 
     const imageTilesToDisplay = useMemo(
         () =>
-            settings.showCustomTiles
+            settings.showCustomTiles && isLocked
                 ? settings.customImageTiles.filter(
                       ({ id }) => !settings.hiddenCustomTileIds.includes(id),
                   )
@@ -94,12 +99,13 @@ const ChronoDashboard = (): JSX.Element | null => {
             settings.customImageTiles,
             settings.showCustomTiles,
             settings.hiddenCustomTileIds,
+            isLocked,
         ],
     )
 
     const qrTilesToDisplay = useMemo(
         () =>
-            settings.showCustomTiles
+            settings.showCustomTiles && isLocked
                 ? settings.customQrTiles.filter(
                       ({ id }) => !settings.hiddenCustomTileIds.includes(id),
                   )
@@ -108,6 +114,7 @@ const ChronoDashboard = (): JSX.Element | null => {
             settings.showCustomTiles,
             settings.customQrTiles,
             settings.hiddenCustomTileIds,
+            isLocked,
         ],
     )
 
