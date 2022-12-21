@@ -8,15 +8,11 @@ import { useSettings } from '../../../../../settings/SettingsProvider'
 import { useStopPlaceIds } from '../../../../../logic/use-stop-place-ids/useStopPlaceIds'
 import classes from './StopPlaceSearch.module.scss'
 
-interface StopPlaceSearchProps {
-    distance: number
-}
-
-const StopPlaceSearch: React.FC<StopPlaceSearchProps> = ({ distance }) => {
+const StopPlaceSearch: React.FC = () => {
     const [settings, setSettings] = useSettings()
 
     const { stopPlaceIds } = useStopPlaceIds({
-        distance,
+        distance: settings.distance,
         filterHidden: false,
     })
 
