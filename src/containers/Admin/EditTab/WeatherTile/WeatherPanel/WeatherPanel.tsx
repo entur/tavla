@@ -68,7 +68,7 @@ function WeatherPanel(): JSX.Element {
 
     return (
         <Fieldset className="weather-panel">
-            <div className="legendWraper">
+            <div className="infoWrapeer">
                 <legend>Velg værinformasjon</legend>
                 <div className="weather-panel__container">
                     <Label>Se været i området for den neste timen.</Label>
