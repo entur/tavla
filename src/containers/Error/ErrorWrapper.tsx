@@ -4,7 +4,7 @@ import { Heading1 } from '@entur/typography'
 import { Theme } from '../../types'
 import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
 import { isDarkOrDefaultTheme } from '../../utils/utils'
-import './ErrorWrapper.scss'
+import classes from './ErrorWrapper.module.scss'
 
 interface ErrorWrapperProps {
     title: string
@@ -27,17 +27,21 @@ function ErrorWrapper({
 }: ErrorWrapperProps): JSX.Element {
     return (
         <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
-            <div className="error-wrapper">
-                <img className="style-image" src={`${image}`} alt={altText} />
-                <Heading1 className="heading" margin="both">
+            <div className={classes.ErrorWrapper}>
+                <img
+                    className={classes.StyleImage}
+                    src={`${image}`}
+                    alt={altText}
+                />
+                <Heading1 className={classes.Heading} margin="both">
                     {title}
                 </Heading1>
-                <div className="main-text">{message}</div>
+                <div className={classes.MainText}>{message}</div>
                 {callback && (
                     <PrimaryButton
                         size="medium"
                         onClick={callback}
-                        className="primary-button"
+                        className={classes.PrimaryButton}
                     >
                         {callbackMessage}
                     </PrimaryButton>
