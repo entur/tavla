@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { Table, TableRow, TableHead, HeaderCell, TableBody } from '@entur/table'
-import { Loader } from '@entur/loader'
 import { SubLabel } from '@entur/typography'
 import { useSettings } from '../../../../settings/SettingsProvider'
 import { BusStopTableRow } from '../BusStopTableRow/BusStopTableRow'
@@ -19,6 +18,7 @@ import {
 import { WalkTrip } from '../../../../components/WalkTrip/WalkTrip'
 import { ErrorTile } from '../../../../components/ErrorTile/ErrorTile'
 import { EmptyStopTile } from '../../../../components/EmptyStopTile/EmptyStopTile'
+import { Loader } from '../../../../components/Loader/Loader'
 import classes from './BusStopTile.module.scss'
 
 interface Props {
@@ -47,7 +47,7 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
     if (loading) {
         return (
             <Tile className={classes.BusStopTile}>
-                <Loader>Laster</Loader>
+                <Loader />
             </Tile>
         )
     }

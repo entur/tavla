@@ -3,11 +3,11 @@ import classNames from 'classnames'
 import { uniq, uniqBy, xor } from 'lodash'
 import { Checkbox } from '@entur/form'
 import { Paragraph } from '@entur/typography'
-import { Loader } from '@entur/loader'
 import { ExpandablePanel } from '@entur/expand'
 import { useSettings } from '../../../../../../settings/SettingsProvider'
 import { useStopPlaceWithEstimatedCalls } from '../../../../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { toDeparture } from '../../../../../../logic/use-stop-place-with-estimated-calls/departure'
+import { Loader } from '../../../../../../components/Loader/Loader'
 import { RouteCheckbox } from './RouteCheckbox/RouteCheckbox'
 import { TransportModeSwitch } from './TransportModeSwitch/TransportModeSwitch'
 import classes from './PanelRow.module.scss'
@@ -77,7 +77,7 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
     if (loading) {
         return (
             <div className={classes.PanelRow}>
-                <Loader>Laster...</Loader>
+                <Loader />
             </div>
         )
     }

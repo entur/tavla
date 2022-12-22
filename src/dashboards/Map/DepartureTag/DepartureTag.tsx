@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { format, isToday } from 'date-fns'
 import { nb } from 'date-fns/locale'
-import { Loader } from '@entur/loader'
 import { colors } from '@entur/tokens'
 import { Heading4, Paragraph } from '@entur/typography'
 import { IconColorType } from '../../../types'
@@ -15,6 +14,7 @@ import {
     toDeparture,
 } from '../../../logic/use-stop-place-with-estimated-calls/departure'
 import { useSettings } from '../../../settings/SettingsProvider'
+import { Loader } from '../../../components/Loader/Loader'
 import classes from './DepartureTag.module.scss'
 
 function getDepartureDirection(departure: Departure): string[] {
@@ -45,7 +45,7 @@ const DepartureTag: React.FC<Props> = ({ stopPlaceId }): JSX.Element => {
     if (loading) {
         return (
             <div className={classes.DepartureTag}>
-                <Loader>Laster...</Loader>
+                <Loader />
             </div>
         )
     }
