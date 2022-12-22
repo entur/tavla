@@ -1,0 +1,56 @@
+@use '../../assets/styles/Variables.scss';
+
+.Navbar {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: Variables.$space-medium 4rem;
+    color: var(--tavla-font-color);
+}
+
+.Logo {
+    height: 32px;
+}
+
+.List {
+    display: flex;
+    flex-direction: row;
+}
+
+.Element {
+    list-style-type: none;
+}
+
+.Link {
+    display: flex;
+    justify-content: center;
+
+    &::after {
+        display: none;
+    }
+}
+
+.Icon {
+    margin-left: 0.5rem;
+}
+
+@media (max-width: Variables.$breakpoints-large) {
+    .Navbar {
+        padding: Variables.$space-small Variables.$space-medium;
+    }
+
+    .Link {
+        padding: 0;
+        min-width: unset;
+        margin-left: 1rem;
+    }
+
+    .Icon {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .Text {
+        display: none;
+    }
+}
