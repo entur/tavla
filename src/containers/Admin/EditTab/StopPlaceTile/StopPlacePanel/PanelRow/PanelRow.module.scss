@@ -1,0 +1,56 @@
+@use '../../../../../../assets/styles/Variables.scss';
+
+.PanelRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &:not(:last-child) {
+        border-bottom: 0.125rem solid var(--tavla-border-color);
+    }
+
+    & :global {
+        .eds-expandable-panel__trigger,
+        .eds-expandable-panel__trigger:hover {
+            background: none;
+            padding-left: 0;
+            box-shadow: none;
+        }
+    }
+}
+
+.Empty {
+    padding: 1rem 1.5rem 1rem 0;
+}
+
+.Header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.HeaderText {
+    color: var(--tavla-font-color);
+    font-size: Variables.$font-sizes-large;
+    font-weight: 600;
+    -webkit-font-smoothing: antialiased;
+}
+
+.TransportModeSwitch {
+    margin-left: 1rem;
+}
+
+.Content {
+    display: flex;
+    flex-direction: column;
+}
+
+.Expandable {
+    flex: 1;
+}
+
+.TravelSwitch {
+    display: flex;
+    flex-wrap: wrap;
+}

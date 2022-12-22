@@ -5,17 +5,13 @@ import { useSettings } from '../../../../../settings/SettingsProvider'
 import { useStopPlaceIds } from '../../../../../logic/use-stop-place-ids/useStopPlaceIds'
 import { Loader } from '../../../../../components/Loader/Loader'
 import { PanelRow } from './PanelRow/Panelrow'
-import './StopPlacePanel.scss'
+import classes from './StopPlacePanel.module.scss'
 
-interface StopPlacePanelProps {
-    distance: number
-}
-
-function StopPlacePanel({ distance }: StopPlacePanelProps): JSX.Element {
+function StopPlacePanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
 
     const { stopPlaceIds, loading } = useStopPlaceIds({
-        distance,
+        distance: settings.distance,
         filterHidden: false,
     })
 
@@ -44,7 +40,7 @@ function StopPlacePanel({ distance }: StopPlacePanelProps): JSX.Element {
 
     if (loading) {
         return (
-            <div className="stop-place-panel">
+            <div className={classes.StopPlacePanel}>
                 <Loader />
             </div>
         )
@@ -52,19 +48,16 @@ function StopPlacePanel({ distance }: StopPlacePanelProps): JSX.Element {
 
     if (!stopPlaceIds.length) {
         return (
-            <div className="stop-place-panel">
+            <div className={classes.StopPlacePanel}>
                 <Paragraph>Det er ingen stoppesteder i nærheten.</Paragraph>
             </div>
         )
     }
 
     return (
-        <div className="stop-place-panel">
-            <div className="stop-place-panel__header">
-                <div
-                    className="stop-place-panel__checkall"
-                    onClick={(event): void => event.stopPropagation()}
-                >
+        <div className={classes.StopPlacePanel}>
+            <div className={classes.Header}>
+                <div onClick={(event): void => event.stopPropagation()}>
                     <Checkbox
                         id="check-all-stop-places"
                         name="check-all-stop-places"

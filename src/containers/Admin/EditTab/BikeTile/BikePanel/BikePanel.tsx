@@ -52,6 +52,9 @@ function BikePanel(): JSX.Element {
 
     return (
         <Fieldset>
+            <legend className={classes.LegendWrapper}>
+                Velg stasjoner i nærheten
+            </legend>
             <Checkbox
                 name="check-all-stop-places-bike"
                 onChange={onChooseAllPressed}

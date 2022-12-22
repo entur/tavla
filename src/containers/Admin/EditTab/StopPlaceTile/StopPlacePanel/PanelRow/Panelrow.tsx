@@ -1,16 +1,16 @@
 import React, { ChangeEvent, useCallback, useMemo } from 'react'
-import { uniq, uniqBy } from 'lodash'
-import { Checkbox, TravelSwitch } from '@entur/form'
-import type { TravelSwitchProps } from '@entur/form'
+import classNames from 'classnames'
+import { uniq, uniqBy, xor } from 'lodash'
+import { Checkbox } from '@entur/form'
 import { Paragraph } from '@entur/typography'
 import { ExpandablePanel } from '@entur/expand'
-import { isTransport } from '../../../../../../utils/typeguards'
-import { TransportMode } from '../../../../../../../graphql-generated/journey-planner-v3'
 import { useSettings } from '../../../../../../settings/SettingsProvider'
 import { useStopPlaceWithEstimatedCalls } from '../../../../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { toDeparture } from '../../../../../../logic/use-stop-place-with-estimated-calls/departure'
-import { toggleValueInList } from '../../../../../../utils/array'
 import { Loader } from '../../../../../../components/Loader/Loader'
+import { RouteCheckbox } from './RouteCheckbox/RouteCheckbox'
+import { TransportModeSwitch } from './TransportModeSwitch/TransportModeSwitch'
+import classes from './PanelRow.module.scss'
 
 interface Props {
     stopPlaceId: string
@@ -58,10 +58,7 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
             const checked = event.target.checked
 
             setSettings({
-                hiddenStops: toggleValueInList(
-                    settings.hiddenStops,
-                    stopPlaceId,
-                ),
+                hiddenStops: xor(settings.hiddenStops, [stopPlaceId]),
                 hiddenStopModes: {
                     ...settings.hiddenStopModes,
                     [stopPlaceId]: !checked ? uniqueModes : [],
@@ -77,62 +74,9 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
         ],
     )
 
-    const onToggleRoute = useCallback(
-        (route: string) => {
-            const newHiddenRoutes = {
-                ...settings.hiddenRoutes,
-                [stopPlaceId]: toggleValueInList(
-                    settings.hiddenRoutes[stopPlaceId] || [],
-                    route,
-                ),
-            }
-            setSettings({
-                hiddenRoutes: newHiddenRoutes,
-            })
-        },
-        [settings.hiddenRoutes, stopPlaceId, setSettings],
-    )
-
-    const onToggleMode = useCallback(
-        (mode: TransportMode): void => {
-            const newHiddenModes = {
-                ...settings.hiddenStopModes,
-                [stopPlaceId]: toggleValueInList(
-                    settings.hiddenStopModes[stopPlaceId] || [],
-                    mode,
-                ),
-            }
-
-            const allModesUnchecked =
-                uniqueModes.length === newHiddenModes[stopPlaceId]?.length
-
-            if (allModesUnchecked) {
-                setSettings({
-                    hiddenStops: [...settings.hiddenStops, stopPlaceId],
-                    hiddenStopModes: newHiddenModes,
-                })
-                return
-            }
-
-            setSettings({
-                hiddenStops: settings.hiddenStops.filter(
-                    (id) => id !== stopPlaceId,
-                ),
-                hiddenStopModes: newHiddenModes,
-            })
-        },
-        [
-            settings.hiddenStopModes,
-            settings.hiddenStops,
-            stopPlaceId,
-            uniqueModes.length,
-            setSettings,
-        ],
-    )
-
     if (loading) {
         return (
-            <div className="stop-place-panel__row">
+            <div className={classes.PanelRow}>
                 <Loader />
             </div>
         )
@@ -140,7 +84,7 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
 
     if (!stopPlaceWithEstimatedCalls) {
         return (
-            <div className="stop-place-panel__row">
+            <div className={classes.PanelRow}>
                 <Paragraph>
                     Fant ikke informasjon om stoppestedet med id {stopPlaceId}
                 </Paragraph>
@@ -149,98 +93,57 @@ const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
     }
 
     const header = (
-        <div className="stop-place-panel__row__header">
-            <span className="admin__checkbox-and-stopplace">
-                <span onClick={(event): void => event.stopPropagation()}>
-                    <Checkbox
-                        id={stopPlaceWithEstimatedCalls.id}
-                        className="stop-place-panel__row__checkbox"
-                        checked={
-                            !settings.hiddenStops.includes(
-                                stopPlaceWithEstimatedCalls.id,
-                            )
-                        }
-                        onChange={onToggleStop}
-                    />
-                </span>
-                <span>{stopPlaceWithEstimatedCalls.name}</span>
+        <div className={classes.Header}>
+            <span onClick={(event): void => event.stopPropagation()}>
+                <Checkbox
+                    id={stopPlaceWithEstimatedCalls.id}
+                    checked={
+                        !settings.hiddenStops.includes(
+                            stopPlaceWithEstimatedCalls.id,
+                        )
+                    }
+                    onChange={onToggleStop}
+                />
+            </span>
+            <span className={classes.HeaderText}>
+                {stopPlaceWithEstimatedCalls.name}
             </span>
             <span
-                className="admin__travel-switch"
+                className={classes.TravelSwitch}
                 onClick={(event): void => event.stopPropagation()}
             >
-                {uniqueModes.map((mode) => {
-                    const props: Partial<TravelSwitchProps> = {
-                        size: 'large',
-                        onChange: (): void => onToggleMode(mode),
-                        checked:
-                            !settings.hiddenStopModes[
-                                stopPlaceWithEstimatedCalls.id
-                            ]?.includes(mode),
-                    }
-
-                    if (isTransport(mode)) {
-                        return (
-                            <TravelSwitch
-                                {...props}
-                                transport={mode}
-                                key={mode}
-                            />
-                        )
-                    } else if (mode === 'coach') {
-                        return (
-                            <TravelSwitch {...props} transport="bus" key={mode}>
-                                Coach
-                            </TravelSwitch>
-                        )
-                    } else {
-                        return null
-                    }
-                })}
+                {uniqueModes.map((mode) => (
+                    <TransportModeSwitch
+                        className={classes.TransportModeSwitch}
+                        key={mode}
+                        stopPlaceId={stopPlaceId}
+                        mode={mode}
+                        numberOfModes={uniqueModes.length}
+                    />
+                ))}
             </span>
         </div>
     )
 
     if (!departures.length) {
         return (
-            <div
-                key={stopPlaceWithEstimatedCalls.id}
-                className="stop-place-panel__row stop-place-panel__row__empty"
-            >
+            <div className={classNames(classes.PanelRow, classes.Empty)}>
                 {header}
             </div>
         )
     }
 
     return (
-        <div
-            key={stopPlaceWithEstimatedCalls.id}
-            className="stop-place-panel__row"
-        >
-            <ExpandablePanel
-                className="stop-place-panel__row__expandable"
-                title={header}
-            >
-                <div className="stop-place-panel__row__content">
-                    {uniqueDepartures.map(({ route }) => {
-                        const routeId = `${stopPlaceWithEstimatedCalls.id}-${route}`
-
-                        return (
-                            <Checkbox
-                                key={`checkbox-${routeId}`}
-                                className="stop-place-panel__route"
-                                name={route}
-                                onChange={() => onToggleRoute(route)}
-                                checked={
-                                    !settings.hiddenRoutes[
-                                        stopPlaceWithEstimatedCalls.id
-                                    ]?.includes(route)
-                                }
-                            >
-                                {route}
-                            </Checkbox>
-                        )
-                    })}
+        <div className={classes.PanelRow}>
+            <ExpandablePanel className={classes.Expandable} title={header}>
+                <div className={classes.Content}>
+                    {uniqueDepartures.map(({ route }) => (
+                        <RouteCheckbox
+                            key={route}
+                            route={route}
+                            stopPlaceId={stopPlaceWithEstimatedCalls?.id}
+                        />
+                    ))}
                 </div>
             </ExpandablePanel>
         </div>

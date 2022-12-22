@@ -109,6 +109,9 @@ function ScooterPanel(): JSX.Element {
             />
             <Fieldset>
                 <div className={classes.Container}>
+                    <legend className={classes.LegendWrapper}>
+                        Velg radius for sparkesyker
+                    </legend>
                     {operators.map((operator) => (
                         <div key={operator.id} className={classes.Buttons}>
                             <FilterChip
