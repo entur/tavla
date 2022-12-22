@@ -5,13 +5,13 @@ import React, {
     useMemo,
     useState,
 } from 'react'
+import { xor } from 'lodash'
 import { Fieldset, Switch, TextField } from '@entur/form'
 import type { VariantType } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { useSettings } from '../../../../../settings/SettingsProvider'
 import { ALL_ACTIVE_OPERATOR_IDS } from '../../../../../constants'
 import { useScooterPanelQuery } from '../../../../../../graphql-generated/mobility-v2'
-import { toggleValueInList } from '../../../../../utils/array'
 import { isNotNullOrUndefined } from '../../../../../utils/typeguards'
 import classes from './ScooterPanel.module.scss'
 
@@ -60,10 +60,9 @@ function ScooterPanel(): JSX.Element {
     const onToggleOperator = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             setSettings({
-                hiddenMobilityOperators: toggleValueInList(
-                    settings.hiddenMobilityOperators,
+                hiddenMobilityOperators: xor(settings.hiddenMobilityOperators, [
                     event.target.id,
-                ),
+                ]),
             })
         },
         [settings.hiddenMobilityOperators, setSettings],
