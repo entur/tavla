@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import isUrlHttp from 'is-url'
 import { Modal } from '@entur/modal'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
@@ -49,12 +50,10 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
 
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
-    const urlPattern = new RegExp(
-        '(https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,})',
-    )
+    const urlPattern = new RegExp('^((http|https):\/\/)?www.([A-z]+).([A-z]{2,})')
 
     const handleSubmit = (actionType: ActionType) => {
-        if (!sourceUrl.match(urlPattern)) {
+        if (!urlPattern.test(sourceUrl)) {
             setErrorMessage(true)
             return
         } else {
@@ -157,7 +156,7 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
                 placeholder="F.eks. tavla.entur.no"
                 feedback={
                     errorMessage
-                        ? 'Lenkeadressen er ugyldig. Skriv inn en nettadresse på formatet www.nettside.no.'
+                        ? 'Lenkeadressen er ugyldig. Skriv inn en nettadresse på formatet www.nettside.no. eller http(s)://www.nettside.no'
                         : 'Vennligst fyll ut dette feltet'
                 }
             />
