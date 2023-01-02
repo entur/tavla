@@ -1,0 +1,46 @@
+@use 'src/assets/styles/Variables.scss';
+
+.FloatingButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 10;
+
+    @media (max-width: Variables.$breakpoints-large) {
+        flex-direction: column;
+        position: relative;
+        gap: 0;
+        bottom: 0;
+        right: 0;
+    }
+}
+
+.Button {
+    min-width: 9.5rem;
+    width: fit-content;
+    border: 2px solid var(--floating-button-background);
+    color: var(--floating-button-font-color);
+    background: var(--tavla-background-color);
+    margin-top: 1rem;
+    padding: 2rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    font-size: 1rem;
+    appearance: none;
+    font-family: inherit;
+    border-radius: 0.25rem;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    @media (max-width: Variables.$breakpoints-large) {
+        width: 100%;
+    }
+}

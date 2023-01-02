@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@entur/button'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { LockModal } from '../../../components/LockModal/LockModal'
-import './LockAndViewButtons.scss'
+import classes from './LockAndViewButtons.module.scss'
 
 const LockAndViewButtons = (): JSX.Element => {
     const navigate = useNavigate()
@@ -23,16 +23,20 @@ const LockAndViewButtons = (): JSX.Element => {
 
     return (
         <>
-            <div className="admin__floating-buttons">
+            <div className={classes.FloatingButtons}>
                 {showLockButton && (
-                    <Button
-                        variant="secondary"
+                    <button
+                        className={classes.Button}
                         onClick={(): void => setLockModalOpen(true)}
                     >
                         Lås tavle til konto
-                    </Button>
+                    </button>
                 )}
-                <Button variant="primary" onClick={goToDash}>
+                <Button
+                    className={classes.Button}
+                    variant="primary"
+                    onClick={goToDash}
+                >
                     Se avgangstavla
                 </Button>
             </div>
