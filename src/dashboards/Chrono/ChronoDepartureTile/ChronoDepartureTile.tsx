@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { HeaderCell, Table, TableHead, TableRow } from '@entur/table'
-import { Loader } from '@entur/loader'
 import { ChronoTableRows } from '../ChronoTableRows/ChronoTableRows'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { getIconColorType, getTransportHeaderIcons } from '../../../utils/icon'
@@ -16,6 +15,7 @@ import {
 import { WalkTrip } from '../../../components/WalkTrip/WalkTrip'
 import { ErrorTile } from '../../../components/ErrorTile/ErrorTile'
 import { EmptyStopTile } from '../../../components/EmptyStopTile/EmptyStopTile'
+import { Loader } from '../../../components/Loader/Loader'
 import classes from './ChronoDepartureTile.module.scss'
 
 interface ChronoDepartureTileProps {
@@ -46,7 +46,7 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
     if (loading) {
         return (
             <Tile className={classes.ChronoDepartureTile}>
-                <Loader>Laster</Loader>
+                <Loader />
             </Tile>
         )
     }

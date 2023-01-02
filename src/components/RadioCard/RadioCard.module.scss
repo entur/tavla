@@ -1,0 +1,60 @@
+.RadioCard {
+    padding: 1rem;
+    margin: 1.5rem 1.5rem 1.5rem 0;
+    border: 2px solid var(--tavla-border-color);
+    border-radius: 0.3rem;
+    background-color: var(--tavla-background-color);
+
+    &:hover {
+        background-color: var(--tavla-selected-color);
+        cursor: pointer;
+
+        .Radio {
+            border: 2px solid var(--tavla-background-color);
+        }
+    }
+}
+
+.Selected {
+    background-color: var(--tavla-selected-color);
+}
+
+.Preview {
+    width: 100%;
+}
+
+.RadioContainer {
+    margin-top: 1rem;
+}
+
+.HeaderWrapper {
+    margin-bottom: 0.5rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.Radio {
+    height: 2rem;
+    width: 2rem;
+    border: 2px solid var(--tavla-border-color);
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.Checked {
+    background-color: var(--tavla-background-color);
+    border-color: var(--tavla-background-color);
+}
+
+.Title {
+    color: var(--tavla-font-color);
+}
+
+.Description {
+    margin-left: 3rem;
+    color: var(--tavla-font-color);
+}

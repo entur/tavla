@@ -1,0 +1,12 @@
+.AddButton {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    background: var(--floating-button-primary-background);
+    color: var(--floating-button-primary-font-color);
+    border: none;
+
+    &:hover {
+        filter: brightness(0.95);
+    }
+}

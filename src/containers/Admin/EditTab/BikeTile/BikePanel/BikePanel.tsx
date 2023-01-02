@@ -1,13 +1,13 @@
-import React, { ChangeEvent, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { xor } from 'lodash'
 import { Checkbox, Fieldset } from '@entur/form'
 import { Paragraph } from '@entur/typography'
 import { getTranslation } from '../../../../../utils/utils'
 import { useSettings } from '../../../../../settings/SettingsProvider'
-import { toggleValueInList } from '../../../../../utils/array'
 import { FormFactor } from '../../../../../../graphql-generated/mobility-v2'
 import { byName } from '../../../../../logic/use-rental-stations/types'
 import { useRentalStations } from '../../../../../logic/use-rental-stations/useRentalStations'
-import './BikePanel.scss'
+import classes from './BikePanel.module.scss'
 
 function BikePanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
@@ -32,13 +32,9 @@ function BikePanel(): JSX.Element {
     }, [settings.hiddenStations.length, setSettings, stations])
 
     const onToggleStation = useCallback(
-        (event: ChangeEvent<HTMLInputElement>) => {
-            const stationId = event.target.id
+        (stationId: string) => () => {
             setSettings({
-                hiddenStations: toggleValueInList(
-                    settings.hiddenStations,
-                    stationId,
-                ),
+                hiddenStations: xor(settings.hiddenStations, [stationId]),
             })
         },
         [settings.hiddenStations, setSettings],
@@ -46,16 +42,20 @@ function BikePanel(): JSX.Element {
 
     if (!stations.length) {
         return (
-            <Fieldset className="bike-panel">
-                <Paragraph>Det er ingen stasjoner i nærheten.</Paragraph>
+            <Fieldset>
+                <Paragraph className={classes.Paragraph}>
+                    Det er ingen stasjoner i nærheten.
+                </Paragraph>
             </Fieldset>
         )
     }
 
     return (
-        <Fieldset className="bike-panel">
+        <Fieldset>
+            <legend className={classes.LegendWrapper}>
+                Velg stasjoner i nærheten
+            </legend>
             <Checkbox
-                id="check-all-stop-places-bike"
                 name="check-all-stop-places-bike"
                 onChange={onChooseAllPressed}
                 checked={!settings.hiddenStations.length}
@@ -65,12 +65,12 @@ function BikePanel(): JSX.Element {
             {stations.map(({ name, id }) => (
                 <Checkbox
                     key={id}
-                    id={id}
                     name={getTranslation(name) || ''}
                     checked={!settings.hiddenStations.includes(id)}
-                    onChange={onToggleStation}
+                    onChange={onToggleStation(id)}
+                    className={classes.Checkbox}
                 >
-                    <span className="bike-panel__eds-paragraph">
+                    <span className={classes.Paragraph}>
                         {getTranslation(name) || ''}
                     </span>
                 </Checkbox>

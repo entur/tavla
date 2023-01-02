@@ -1,4 +1,4 @@
-.image-tile {
+.ImageTile {
     width: 100%;
     height: 100%;
     margin-bottom: 1rem;
@@ -11,18 +11,16 @@
     align-items: center;
     justify-content: end;
 
-    &__info-box {
-        max-width: 90%;
-        width: fit-content;
-        border-radius: 0.5rem;
-        background-color: var(--tavla-box-background-color);
-        padding: 0 1rem;
-        margin-bottom: 1rem;
+    @media (max-width: 1000px) {
+        min-height: 20rem;
     }
 }
 
-@media (max-width: 1000px) {
-    .image-tile {
-        min-height: 20rem;
-    }
+.InfoBox {
+    max-width: 90%;
+    width: fit-content;
+    border-radius: 0.5rem;
+    background-color: var(--tavla-box-background-color);
+    padding: 0 1rem;
+    margin-bottom: 1rem;
 }

@@ -1,6 +1,7 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { Tooltip } from '@entur/tooltip'
 import { Heading1, Heading2, Paragraph, Link } from '@entur/typography'
 import { Contrast } from '@entur/layout'
 import { ForwardIcon } from '@entur/icons'
@@ -9,6 +10,7 @@ import { Coordinates } from '../../types'
 import { DEFAULT_SETTINGS } from '../../settings/settings'
 import { createSettings } from '../../settings/firebase'
 import { Navbar } from '../Navbar/Navbar'
+import previewScreenshot from '../../assets/images/preview-screenshot.png'
 import { SearchPanel } from './SearchPanel/SearchPanel'
 import { TypographyCarousel } from './TypographyCarousel/TypographyCarousel'
 import './LandingPage.scss'
@@ -25,6 +27,9 @@ function EnturLink(): JSX.Element {
 }
 
 function LandingPage(): JSX.Element {
+    const [previewImage, setPreviewImage] = useState(
+        'https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media',
+    )
     const navigate = useNavigate()
     const addLocation = useCallback(
         (position: Coordinates, locationName: string): void => {
@@ -40,15 +45,36 @@ function LandingPage(): JSX.Element {
         },
         [navigate],
     )
+    const [activeGif, setActiveGif] = useState<boolean>(true)
+
+    const handleGif = useCallback(() => {
+        setActiveGif(!activeGif)
+        activeGif
+            ? setPreviewImage(previewScreenshot)
+            : setPreviewImage(
+                  'https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media',
+              )
+    }, [activeGif])
+
+    //keycode = 32
 
     return (
         <>
+            <div className="skip-to-content">
+                <a
+                    id="skip-nav"
+                    className="screenreader-text"
+                    href="#main-content"
+                >
+                    Gå til hovedinnhold
+                </a>
+            </div>
             <Helmet>
                 <title>Forside - Tavla - Entur</title>
             </Helmet>
             <Navbar />
             <div className="landing-page">
-                <div className="landing-page__content">
+                <div className="landing-page__content" id="main-content">
                     <Contrast className="landing-page__contrast">
                         <GridContainer
                             spacing="medium"
@@ -60,7 +86,14 @@ function LandingPage(): JSX.Element {
                                         <Heading1>
                                             Lag din egen sanntidstavle for
                                         </Heading1>
-                                        <TypographyCarousel />
+                                        <Tooltip
+                                            content="Trykk for å pause og starte animasjonen."
+                                            placement="top-left"
+                                        >
+                                            <div>
+                                                <TypographyCarousel />
+                                            </div>
+                                        </Tooltip>
                                     </div>
                                 </header>
                                 <div className="landing-page__search-panel">
@@ -71,7 +104,6 @@ function LandingPage(): JSX.Element {
                             </GridItem>
                         </GridContainer>
                     </Contrast>
-
                     <div className="landing-page__main-image-container">
                         <img
                             src="https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Fjernbanetorget.webp?alt=media"
@@ -87,11 +119,26 @@ function LandingPage(): JSX.Element {
                                 large={6}
                                 className="landing-page__article-grid-item"
                             >
-                                <img
-                                    src="https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media"
-                                    className="landing-page__screenshot"
-                                    alt="Skjermbilde av Tavla"
-                                />
+                                <Tooltip
+                                    content="Trykk for å pause og starte animasjonen."
+                                    placement="top-left"
+                                >
+                                    <div
+                                        tabIndex={0}
+                                        onKeyDown={(event) => {
+                                            if (event.code === 'Enter') {
+                                                handleGif()
+                                            }
+                                        }}
+                                        onClick={handleGif}
+                                    >
+                                        <img
+                                            src={previewImage}
+                                            className="landing-page__screenshot"
+                                            alt="Skjermbilde av Tavla"
+                                        />
+                                    </div>
+                                </Tooltip>
                             </GridItem>
                             <GridItem
                                 small={12}
@@ -123,6 +170,7 @@ function LandingPage(): JSX.Element {
                                 </Paragraph>
                             </GridItem>
                         </GridContainer>
+
                         <EnturLink />
                     </article>
                 </div>
