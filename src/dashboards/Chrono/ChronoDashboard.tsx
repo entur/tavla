@@ -177,7 +177,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                     >
                         {settings.showMobileAppQrTile && (
                             <div
-                                tabIndex={0}
                                 key="qr"
                                 data-grid={getDataGrid(
                                     maxWidthCols - 1,
@@ -193,7 +192,6 @@ const ChronoDashboard = (): JSX.Element | null => {
 
                         {settings.showWeather && (
                             <div
-                                tabIndex={0}
                                 key="weather"
                                 data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
                             >
@@ -207,7 +205,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                         )}
                         {allStopPlaceIds.map((stopPlaceId, index) => (
                             <div
-                                tabIndex={0}
                                 key={stopPlaceId}
                                 data-grid={getDataGrid(
                                     weatherCol + index,
@@ -226,7 +223,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                         ))}
                         {bikeRentalStations && anyBikeRentalStations ? (
                             <div
-                                tabIndex={0}
                                 key="city-bike"
                                 data-grid={getDataGrid(
                                     numberOfStopPlaces + weatherCol,
@@ -247,7 +243,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                         )}
                         {hasData && mapCol ? (
                             <div
-                                tabIndex={0}
                                 id="chrono-map-tile"
                                 key="map"
                                 data-grid={getDataGrid(

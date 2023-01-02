@@ -74,7 +74,7 @@ const TimelineTile: React.FC<Props> = ({ stopPlaceId }) => {
     }
 
     return (
-        <Tile className={classes.TimelineTile}>
+        <Tile className={classes.TimelineTile} >
             <TileHeader
                 title={stopPlaceWithEstimatedCalls.name}
                 icons={getTransportHeaderIcons(departures, iconColorType)}
