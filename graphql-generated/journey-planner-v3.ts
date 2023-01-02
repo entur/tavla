@@ -234,9 +234,9 @@ export type EstimatedCall = {
   expectedArrivalTime: Scalars['DateTime'];
   /** Expected time of departure from quay. Updated with real time information if available. Will be null if an actualDepartureTime exists */
   expectedDepartureTime: Scalars['DateTime'];
-  /** Whether vehicle may be alighted at quay according to the planned data. If the cancellation flag is set, alighting is not possible, even if this field is set to true. */
+  /** Whether vehicle may be alighted at quay. */
   forAlighting: Scalars['Boolean'];
-  /** Whether vehicle may be boarded at quay according to the planned data. If the cancellation flag is set, boarding is not possible, even if this field is set to true. */
+  /** Whether vehicle may be boarded at quay. */
   forBoarding: Scalars['Boolean'];
   notices: Array<Notice>;
   occupancyStatus: OccupancyStatus;
@@ -734,7 +734,7 @@ export type PtSituationElement = {
   lines: Array<Maybe<Line>>;
   /** Priority of this situation  */
   priority: Maybe<Scalars['Int']>;
-  quays: Array<Maybe<Quay>>;
+  quays: Array<Quay>;
   /**
    * Authority that reported this situation
    * @deprecated Not yet officially supported. May be removed or renamed.
@@ -747,6 +747,7 @@ export type PtSituationElement = {
   severity: Maybe<Severity>;
   /** Operator's internal id for this situation */
   situationNumber: Maybe<Scalars['String']>;
+  stopPlaces: Array<StopPlace>;
   /** Summary of situation in all different translations available */
   summary: Array<MultilingualString>;
   /** Period this situation is in effect */
@@ -1078,10 +1079,12 @@ export type QueryTypeTripArgs = {
   includePlannedCancellations?: InputMaybe<Scalars['Boolean']>;
   itineraryFilters?: InputMaybe<ItineraryFilters>;
   locale?: InputMaybe<Locale>;
+  maximumAdditionalTransfers?: InputMaybe<Scalars['Int']>;
   maximumTransfers?: InputMaybe<Scalars['Int']>;
   modes?: InputMaybe<Modes>;
   numTripPatterns?: InputMaybe<Scalars['Int']>;
   pageCursor?: InputMaybe<Scalars['String']>;
+  relaxTransitSearchGeneralizedCostAtDestination?: InputMaybe<Scalars['Float']>;
   searchWindow?: InputMaybe<Scalars['Int']>;
   timetableView?: InputMaybe<Scalars['Boolean']>;
   to: Location;
@@ -1258,6 +1261,8 @@ export type RoutingParameters = {
   includedPlannedCancellations: Maybe<Scalars['Boolean']>;
   /** @deprecated Parking is specified by modes */
   kissAndRide: Maybe<Scalars['Boolean']>;
+  /** Maximum number of transfers allowed in addition to the result with least number of transfers */
+  maxAdditionalTransfers: Maybe<Scalars['Int']>;
   /** This is the maximum duration in seconds for a direct street search. This is a performance limit and should therefore be set high. Use filters to limit what is presented to the client. */
   maxDirectStreetDuration: Maybe<Scalars['Int']>;
   /** The maximum slope of streets for wheelchair trips. */
@@ -1414,6 +1419,8 @@ export type StopPlace = PlaceInterface & {
   parent: Maybe<StopPlace>;
   /** Returns all quays that are children of this stop place */
   quays: Maybe<Array<Maybe<Quay>>>;
+  /** Get all situations active for the stop place. Situations affecting individual quays are not returned, and should be fetched directly from the quay. */
+  situations: Array<PtSituationElement>;
   tariffZones: Array<Maybe<TariffZone>>;
   timeZone: Maybe<Scalars['String']>;
   /** The transport modes of quays under this stop place. */
@@ -1512,10 +1519,14 @@ export type TimetabledPassingTime = {
   /** Scheduled time of departure from quay */
   departure: Maybe<TimeAndDayOffset>;
   destinationDisplay: Maybe<DestinationDisplay>;
+  /** Earliest possible departure time for a service journey with a service window. */
+  earliestDepartureTime: Maybe<TimeAndDayOffset>;
   /** Whether vehicle may be alighted at quay. */
   forAlighting: Maybe<Scalars['Boolean']>;
   /** Whether vehicle may be boarded at quay. */
   forBoarding: Maybe<Scalars['Boolean']>;
+  /** Latest possible (planned) arrival time for a service journey with a service window. */
+  latestArrivalTime: Maybe<TimeAndDayOffset>;
   notices: Array<Notice>;
   quay: Maybe<Quay>;
   /** Whether vehicle will only stop on request. */
@@ -1928,7 +1939,7 @@ export type StopPlaceWithEstimatedCallsQueryVariables = Exact<{
 }>;
 
 
-export type StopPlaceWithEstimatedCallsQuery = { __typename?: 'QueryType', stopPlace: { __typename?: 'StopPlace', id: string, name: string, description: string | null, latitude: number | null, longitude: number | null, transportMode: Array<TransportMode | null> | null, transportSubmode: Array<TransportSubmode | null> | null, estimatedCalls: Array<{ __typename?: 'EstimatedCall', aimedDepartureTime: DateTime, cancellation: boolean, date: Date | null, expectedDepartureTime: DateTime, destinationDisplay: { __typename?: 'DestinationDisplay', frontText: string | null } | null, quay: { __typename?: 'Quay', id: string, name: string, publicCode: string | null } | null, serviceJourney: { __typename?: 'ServiceJourney', id: string, transportSubmode: TransportSubmode | null, journeyPattern: { __typename?: 'JourneyPattern', line: { __typename?: 'Line', publicCode: string | null, transportMode: TransportMode | null } } | null } | null, situations: Array<{ __typename?: 'PtSituationElement', summary: Array<{ __typename?: 'MultilingualString', value: string }> }> }> } | null };
+export type StopPlaceWithEstimatedCallsQuery = { __typename?: 'QueryType', stopPlace: { __typename?: 'StopPlace', id: string, name: string, description: string | null, latitude: number | null, longitude: number | null, transportMode: Array<TransportMode | null> | null, transportSubmode: Array<TransportSubmode | null> | null, estimatedCalls: Array<{ __typename?: 'EstimatedCall', aimedDepartureTime: DateTime, cancellation: boolean, date: Date | null, expectedDepartureTime: DateTime, destinationDisplay: { __typename?: 'DestinationDisplay', frontText: string | null } | null, quay: { __typename?: 'Quay', id: string, name: string, publicCode: string | null } | null, serviceJourney: { __typename?: 'ServiceJourney', id: string, transportSubmode: TransportSubmode | null, journeyPattern: { __typename?: 'JourneyPattern', line: { __typename?: 'Line', publicCode: string | null, transportMode: TransportMode | null } } | null } | null, situations: Array<{ __typename?: 'PtSituationElement', description: Array<{ __typename?: 'MultilingualString', value: string }>, summary: Array<{ __typename?: 'MultilingualString', value: string }> }> }> } | null };
 
 export type UniqueLinesQueryVariables = Exact<{
   ids: Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>;
@@ -2008,7 +2019,7 @@ export function useStopPlaceIdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type StopPlaceIdsQueryHookResult = ReturnType<typeof useStopPlaceIdsQuery>;
 export type StopPlaceIdsLazyQueryHookResult = ReturnType<typeof useStopPlaceIdsLazyQuery>;
 export type StopPlaceIdsQueryResult = Apollo.QueryResult<StopPlaceIdsQuery, StopPlaceIdsQueryVariables>;
-export const StopPlaceWithEstimatedCallsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StopPlaceWithEstimatedCalls"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"timeRange"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}},"defaultValue":{"kind":"IntValue","value":"172800"}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}},"defaultValue":{"kind":"IntValue","value":"20"}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}},{"kind":"Field","name":{"kind":"Name","value":"estimatedCalls"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"numberOfDepartures"},"value":{"kind":"IntValue","value":"200"}},{"kind":"Argument","name":{"kind":"Name","value":"timeRange"},"value":{"kind":"Variable","name":{"kind":"Name","value":"timeRange"}}},{"kind":"Argument","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"},"value":{"kind":"Variable","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"}}},{"kind":"Argument","name":{"kind":"Name","value":"arrivalDeparture"},"value":{"kind":"EnumValue","value":"departures"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aimedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"cancellation"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"destinationDisplay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"expectedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"quay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"serviceJourney"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"journeyPattern"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicCode"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"situations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
+export const StopPlaceWithEstimatedCallsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StopPlaceWithEstimatedCalls"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"timeRange"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}},"defaultValue":{"kind":"IntValue","value":"172800"}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}},"defaultValue":{"kind":"IntValue","value":"20"}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}},{"kind":"Field","name":{"kind":"Name","value":"estimatedCalls"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"numberOfDepartures"},"value":{"kind":"IntValue","value":"200"}},{"kind":"Argument","name":{"kind":"Name","value":"timeRange"},"value":{"kind":"Variable","name":{"kind":"Name","value":"timeRange"}}},{"kind":"Argument","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"},"value":{"kind":"Variable","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"}}},{"kind":"Argument","name":{"kind":"Name","value":"arrivalDeparture"},"value":{"kind":"EnumValue","value":"departures"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aimedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"cancellation"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"destinationDisplay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"expectedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"quay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"serviceJourney"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"journeyPattern"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicCode"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"situations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
  * __useStopPlaceWithEstimatedCallsQuery__

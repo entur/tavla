@@ -1349,7 +1349,7 @@
           },
           {
             "name": "forAlighting",
-            "description": "Whether vehicle may be alighted at quay according to the planned data. If the cancellation flag is set, alighting is not possible, even if this field is set to true.",
+            "description": "Whether vehicle may be alighted at quay.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1365,7 +1365,7 @@
           },
           {
             "name": "forBoarding",
-            "description": "Whether vehicle may be boarded at quay according to the planned data. If the cancellation flag is set, boarding is not possible, even if this field is set to true.",
+            "description": "Whether vehicle may be boarded at quay.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4684,9 +4684,13 @@
                 "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Quay",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Quay",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -4757,6 +4761,30 @@
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "stopPlaces",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "StopPlace",
+                    "ofType": null
+                  }
+                }
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -7128,6 +7156,18 @@
                 "deprecationReason": null
               },
               {
+                "name": "maximumAdditionalTransfers",
+                "description": "Maximum number of additional transfers compared to the best number of transfers allowed. Note! The best way to reduce the number of transfers is to set the `transferPenalty` parameter.",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": "5",
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "maximumTransfers",
                 "description": "Maximum number of transfers. Note! The best way to reduce the number of transfers is to set the `transferPenalty` parameter.",
                 "type": {
@@ -7172,6 +7212,18 @@
                   "ofType": null
                 },
                 "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "relaxTransitSearchGeneralizedCostAtDestination",
+                "description": "Whether non-optimal transit paths at the destination should be returned.\nLet c be the existing minimum pareto optimal generalized-cost to beat. Then a trip with\ncost c' is accepted if the following is true:\n`c' < Math.round(c * relaxTransitSearchGeneralizedCostAtDestination)`.\n\nIf the value is less than 0.0 a normal '<' comparison is performed.\nValues greater than 2.0 are not supported, due to performance reasons.\n",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                },
+                "defaultValue": "-1",
                 "isDeprecated": false,
                 "deprecationReason": null
               },
@@ -8332,6 +8384,18 @@
             "deprecationReason": "Parking is specified by modes"
           },
           {
+            "name": "maxAdditionalTransfers",
+            "description": "Maximum number of transfers allowed in addition to the result with least number of transfers",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "maxDirectStreetDuration",
             "description": "This is the maximum duration in seconds for a direct street search. This is a performance limit and should therefore be set high. Use filters to limit what is presented to the client.",
             "args": [],
@@ -9372,6 +9436,30 @@
             "deprecationReason": null
           },
           {
+            "name": "situations",
+            "description": "Get all situations active for the stop place. Situations affecting individual quays are not returned, and should be fetched directly from the quay.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "PtSituationElement",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "tariffZones",
             "description": null,
             "args": [],
@@ -9754,6 +9842,18 @@
             "deprecationReason": null
           },
           {
+            "name": "earliestDepartureTime",
+            "description": "Earliest possible departure time for a service journey with a service window.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "TimeAndDayOffset",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "forAlighting",
             "description": "Whether vehicle may be alighted at quay.",
             "args": [],
@@ -9772,6 +9872,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "latestArrivalTime",
+            "description": "Latest possible (planned) arrival time for a service journey with a service window.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "TimeAndDayOffset",
               "ofType": null
             },
             "isDeprecated": false,
@@ -11480,7 +11592,7 @@
               "name": "Duration",
               "ofType": null
             },
-            "defaultValue": "\"PT1H\"",
+            "defaultValue": "\"PT5M\"",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -11492,7 +11604,7 @@
               "name": "Duration",
               "ofType": null
             },
-            "defaultValue": "\"PT0S\"",
+            "defaultValue": "\"PT20M\"",
             "isDeprecated": false,
             "deprecationReason": null
           },

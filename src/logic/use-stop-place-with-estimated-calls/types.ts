@@ -16,6 +16,11 @@ import {
 } from '../../utils/structs'
 
 const SituationStruct = type({
+    description: array(
+        type({
+            value: string(),
+        }),
+    ),
     summary: array(
         type({
             value: string(),
