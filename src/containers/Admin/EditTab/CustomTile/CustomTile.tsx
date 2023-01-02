@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { SubParagraph } from '@entur/typography'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
@@ -10,11 +10,31 @@ import classes from './CustomTile.module.scss'
 const CustomTile: React.FC = () => {
     const [settings, setSettings] = useSettings()
 
+    const isLocked = useMemo(
+        () => settings.owners.length > 0,
+        [settings.owners],
+    )
+
     const handleChange = useCallback(() => {
         setSettings({
             showCustomTiles: !settings.showCustomTiles,
         })
     }, [setSettings, settings])
+
+    if (!isLocked) {
+        return (
+            <EditTile
+                title={<>Bilde og QR</>}
+                onChange={() => ({})}
+                checked={false}
+            >
+                <SubParagraph>
+                    Tavla må være låst til din konto før man kan legge til Bilde
+                    og QR tiles.
+                </SubParagraph>
+            </EditTile>
+        )
+    }
 
     return (
         <EditTile
@@ -25,7 +45,7 @@ const CustomTile: React.FC = () => {
                         content={
                             <SubParagraph className={classes.TooltipContent}>
                                 Tilgjengelig i visningstyper kompakt og
-                                kronologisk.
+                                kronologisk, og når tavla er låst.
                             </SubParagraph>
                         }
                         placement="top"
