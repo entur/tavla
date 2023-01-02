@@ -49,8 +49,12 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
 
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
+    const urlPattern = new RegExp(
+        '(https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,})',
+    )
+
     const handleSubmit = (actionType: ActionType) => {
-        if (!sourceUrl.endsWith('.no') || !sourceUrl.endsWith('.com')) {
+        if (!sourceUrl.match(urlPattern)) {
             setErrorMessage(true)
             return
         } else {
@@ -153,7 +157,7 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
                 placeholder="F.eks. tavla.entur.no"
                 feedback={
                     errorMessage
-                        ? 'Lenkeadressen er ugyldig. Skriv inn en nettadresse på formatet nettside.no eller www.nettside.no.'
+                        ? 'Lenkeadressen er ugyldig. Skriv inn en nettadresse på formatet www.nettside.no.'
                         : 'Vennligst fyll ut dette feltet'
                 }
             />
