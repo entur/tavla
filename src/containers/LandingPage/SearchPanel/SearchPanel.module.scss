@@ -1,0 +1,23 @@
+@use '../../../assets/styles/Variables.scss';
+
+.SearchPanel {
+    width: 100%;
+}
+
+.SearchContainer {
+    display: flex;
+    position: relative;
+    min-width: 55%;
+}
+
+@media (max-width: Variables.$breakpoints-large) {
+    .SearchContainer {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+.InputContainer {
+    margin-right: 2rem;
+    width: 100%;
+}
