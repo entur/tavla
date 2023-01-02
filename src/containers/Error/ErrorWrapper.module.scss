@@ -1,0 +1,34 @@
+.ErrorWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 2rem 5rem 0 5rem;
+    color: var(--tavla-font-color);
+}
+
+.StyleImage {
+    padding-bottom: 2rem;
+    width: 25rem;
+    max-width: 100%;
+    min-width: 15rem;
+}
+
+.Heading {
+    color: var(--tavla-font-color);
+}
+
+.MainText {
+    max-width: 27rem;
+    text-align: center;
+}
+
+.PrimaryButton {
+    margin: 3rem;
+    background-color: var(--tavla-button-background-color);
+    color: var(--tavla-font-color);
+
+    &:hover {
+        background-color: var(--tavla-hover-color);
+    }
+}
