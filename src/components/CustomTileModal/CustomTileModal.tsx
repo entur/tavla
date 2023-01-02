@@ -4,7 +4,7 @@ import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
 import { useSettings } from '../../settings/SettingsProvider'
 import { CustomTileType } from '../../types'
-import './CustomTileModel.scss'
+import classes from './CustomTileModal.module.scss'
 
 interface CustomTileModalProps {
     setIsOpen: (isOpen: boolean) => void
@@ -100,7 +100,7 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
                     : 'Legg til bilde- eller QR-boks'
             } `}
             onDismiss={() => setIsOpen(false)}
-            className="custom-tile-modal"
+            className={classes.CustomTileModal}
         >
             <TextField
                 label="Navn på boks (obligatorisk)"
@@ -153,10 +153,11 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
                         : 'Beskrivelse til QR-koden'
                 } (valgfri)`}
                 value={description}
+                className={classes.ImageText}
                 onChange={(e) => setDescription(e.target.value)}
             />
 
-            <div className="custom-tile-modal__buttons">
+            <div className={classes.ButtonsContainer}>
                 <SecondaryButton onClick={() => setIsOpen(false)}>
                     Avbryt
                 </SecondaryButton>
