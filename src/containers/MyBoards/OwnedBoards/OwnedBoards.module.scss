@@ -5,7 +5,8 @@
 .Header {
     display: flex;
     justify-content: space-between;
-    height: 4.5rem;
+    height: fit-content;
+    padding: 2rem 0;
 }
 
 .Wrapper {
@@ -25,9 +26,9 @@
     background-color: var(--tavla-background-color);
     position: relative;
     width: 100%;
-    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
-    margin: 1rem 0 1rem 0;
-    border-radius: 0.3rem;
+    padding: 0.5rem 1.5rem;
+    margin: 1rem 0;
+    border-radius: 0.25rem;
     color: var(--tavla-font-color);
 
     &:hover {

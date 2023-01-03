@@ -13,7 +13,6 @@ import { useToast } from '@entur/alert'
 import { RemoveLockModal } from '../../../../../components/OverflowModals/RemoveLockModal'
 import { DeleteTavleModal } from '../../../../../components/OverflowModals/DeleteTavleModal'
 import { RemoveSelfFromTavleModal } from '../../../../../components/OverflowModals/RemoveSelfFromTavleModal'
-import '../BoardCard.scss'
 
 function BoardOverflowMenu({
     id,
@@ -44,7 +43,7 @@ function BoardOverflowMenu({
 
     return (
         <>
-            <OverflowMenu className="board-card__text-container__top-wrapper__overflow">
+            <OverflowMenu>
                 <OverflowMenuLink onSelect={overflowEditTavle}>
                     <span aria-hidden>
                         <ConfigurationIcon inline />

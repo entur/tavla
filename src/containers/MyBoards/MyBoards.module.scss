@@ -1,0 +1,110 @@
+.MyBoards {
+    padding: 2rem 4rem;
+}
+
+// .my-boards {
+//     margin-left: auto;
+//     margin-right: auto;
+//     justify-content: center;
+//     padding: 2rem 4rem;
+//     background-color: var(--tavla-background-color);
+
+//     &__title {
+//         color: var(--tavla-font-color);
+//     }
+
+//     &__board-list {
+//         display: grid;
+//         box-sizing: border-box;
+//         grid-auto-flow: row;
+//         grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
+//         grid-auto-rows: 1fr;
+//     }
+
+//     .eds-tab {
+//         background-color: var(--tavla-button-background-color);
+//         color: var(--tavla-font-color);
+//         border-color: var(--tavla-button-background-color);
+//         width: 12rem;
+//     }
+
+//     .eds-tab-panels {
+//         padding: 1rem 0;
+//     }
+
+//     .eds-tab:hover {
+//         background-color: var(--tavla-hover-color);
+//         border-color: var(--tavla-hover-color);
+//         color: var(--tavla-font-color);
+//     }
+
+//     .eds-tab::after {
+//         background-color: var(--tavla-button-background-color);
+//     }
+
+//     .eds-tab[aria-selected='true'] {
+//         background-color: var(--tavla-background-color);
+//         color: var(--tavla-font-color);
+//         border-color: var(--tavla-button-background-color);
+//     }
+
+//     .eds-tab-list::after {
+//         background-color: var(--tavla-button-background-color);
+//         z-index: -1;
+//     }
+
+//     .eds-tab-list {
+//         overflow: visible;
+//     }
+
+//     .eds-tab[aria-selected='true']::after {
+//         background-color: var(--tavla-background-color);
+//     }
+
+//     .eds-tab-panel:focus,
+//     .eds-tab:focus {
+//         outline: none;
+//     }
+// }
+
+// .add-board-card {
+//     margin: 0 1.5rem 1.5rem 0;
+//     background-color: var(--tavla-background-color);
+
+//     &__preview {
+//         position: relative;
+//         width: 100%;
+//         padding: 1rem;
+//         margin: 1.5rem 1.5rem 1.25rem 0;
+//         border: 2px solid var(--tavla-border-color);
+//         border-radius: 0.3rem;
+//         color: var(--tavla-font-color);
+
+//         &:hover {
+//             background-color: var(--tavla-selected-color);
+//             border-color: var(--tavla-input-border-hover-color);
+//             cursor: pointer;
+//         }
+
+//         img {
+//             width: 100%;
+//             visibility: hidden;
+//         }
+
+//         &__icon {
+//             position: absolute;
+//             top: calc(50% - 1.5rem);
+//             left: calc(50% - 1.5rem);
+//         }
+//     }
+// }
+
+// @media (max-width: 500px) {
+//     .my-boards {
+//         padding: 1rem;
+
+//         &__board-list {
+//             grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+//         }
+//     }
+// }

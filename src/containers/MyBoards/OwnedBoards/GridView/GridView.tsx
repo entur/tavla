@@ -8,24 +8,24 @@ import { Heading3 } from '@entur/typography'
 import { Board, Theme } from '../../../../types'
 import { BoardCard } from '../BoardCard/BoardCard'
 import { ThemeDashboardPreview } from '../../../../assets/icons/ThemeDashboardPreview'
+import classes from './GridView.module.scss'
 
 const GridView = ({ boards, user }: Props) => {
     const preview = ThemeDashboardPreview(Theme.DEFAULT)
 
     return (
-        <Contrast>
-            <div className="my-boards__board-list">
-                {boards.map((board: Board) => (
-                    <BoardCard
-                        key={board.id}
-                        id={board.id}
-                        uid={user.uid}
-                        timestamp={board.lastmodified}
-                        created={board.created}
-                        settings={board.data}
-                    />
-                ))}
-                <div className="add-board-card">
+        <Contrast className={classes.GridView}>
+            {boards.map((board: Board) => (
+                <BoardCard
+                    key={board.id}
+                    id={board.id}
+                    uid={user.uid}
+                    timestamp={board.lastmodified}
+                    created={board.created}
+                    settings={board.data}
+                />
+            ))}
+            {/* <div className="add-board-card">
                     <Link to="/">
                         <div className="add-board-card__preview">
                             <img src={preview['Chrono']} alt="" />
@@ -43,7 +43,7 @@ const GridView = ({ boards, user }: Props) => {
                         </span>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </Contrast>
     )
 }
