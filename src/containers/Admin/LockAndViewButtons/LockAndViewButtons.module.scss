@@ -12,7 +12,7 @@
     @media (max-width: Variables.$breakpoints-large) {
         flex-direction: column;
         position: relative;
-        gap: 0;
+        gap: 1rem;
         bottom: 0;
         right: 0;
     }
@@ -24,20 +24,25 @@
     border: 2px solid var(--floating-button-background);
     color: var(--floating-button-font-color);
     background: var(--tavla-background-color);
-    margin-top: 1rem;
     padding: 2rem 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 3rem;
     font-size: 1rem;
-    appearance: none;
     font-family: inherit;
     border-radius: 0.25rem;
     cursor: pointer;
 
-    &:hover {
-        background-color: rgba(255, 255, 255, 0.2);
+    &:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.125rem var(--floating-button-background),
+            0 0 0 0.25rem var(--tavla-font-color);
+    }
+
+    &_primary {
+        background: var(--floating-button-primary-background);
+        color: var(--floating-button-primary-font-color);
     }
 
     @media (max-width: Variables.$breakpoints-large) {

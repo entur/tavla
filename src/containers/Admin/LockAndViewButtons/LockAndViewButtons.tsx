@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Button } from '@entur/button'
+import classNames from 'classnames'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { LockModal } from '../../../components/LockModal/LockModal'
 import classes from './LockAndViewButtons.module.scss'
@@ -32,13 +32,15 @@ const LockAndViewButtons = (): JSX.Element => {
                         Lås tavle til konto
                     </button>
                 )}
-                <Button
-                    className={classes.Button}
-                    variant="primary"
+                <button
+                    className={classNames(
+                        classes.Button,
+                        classes.Button_primary,
+                    )}
                     onClick={goToDash}
                 >
                     Se avgangstavla
-                </Button>
+                </button>
             </div>
             <LockModal
                 open={lockModalOpen}
