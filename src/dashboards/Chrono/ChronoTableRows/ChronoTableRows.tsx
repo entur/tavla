@@ -45,25 +45,18 @@ function ChronoTableRows({
                                 </div>
                             </DataCell>
                             <DataCell className={classes.DataCell}>
-                                <Heading3
-                                    as="div"
-                                    className={classes.Label}
-                                    tabIndex={0}
-                                >
+                                <Heading3 as="div" className={classes.Label}>
                                     {data.route}
                                 </Heading3>
                             </DataCell>
                             <DataCell className={classes.DataCell}>
-                                <div className={classes.Sublabel} tabIndex={0}>
+                                <div className={classes.Sublabel}>
                                     {subLabel.time}
                                 </div>
                             </DataCell>
                             {!hideTracks && (
                                 <DataCell className={classes.DataCell}>
-                                    <div
-                                        className={classes.Sublabel}
-                                        tabIndex={0}
-                                    >
+                                    <div className={classes.Sublabel}>
                                         {data.quay?.publicCode || '-'}
                                     </div>
                                 </DataCell>

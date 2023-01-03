@@ -8,7 +8,7 @@ interface TileProps {
 }
 
 const Tile: React.FC<TileProps> = ({ className, children }) => (
-    <div className={classNames(classes.Tile, className)} tabIndex={0}>{children}</div>
+    <div className={classNames(classes.Tile, className)}>{children}</div>
 )
 
 export { Tile }

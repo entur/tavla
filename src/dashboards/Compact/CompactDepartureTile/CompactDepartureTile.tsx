@@ -75,22 +75,31 @@ const CompactDepartureTile: React.FC<CompactDepartureTileProps> = ({
                 if (!firstLine) return
 
                 return (
-                    <CompactTileRow
-                        key={key}
-                        label={key}
-                        subLabels={lines.map(createTileSubLabel)}
-                        icon={
-                            <TransportModeIcon
-                                transportMode={firstLine.transportMode}
-                                iconColorType={iconColorType}
-                                transportSubmode={firstLine.transportSubmode}
-                            />
-                        }
-                        hideSituations={settings.hideSituations}
-                        hideTracks={settings.hideTracks}
-                        platform={firstLine.quay?.publicCode}
-                        type={firstLine.transportMode}
-                    />
+                    // eslint-disable-next-line react/jsx-key
+                    <div>
+                        <p tabIndex={0} className={classes.uuText}>
+                            Linje {key} går om {lines[0]?.time} ,{' '}
+                            {lines[1]?.time} og {lines[2]?.time}{' '}
+                        </p>
+                        <CompactTileRow
+                            key={key}
+                            label={key}
+                            subLabels={lines.map(createTileSubLabel)}
+                            icon={
+                                <TransportModeIcon
+                                    transportMode={firstLine.transportMode}
+                                    iconColorType={iconColorType}
+                                    transportSubmode={
+                                        firstLine.transportSubmode
+                                    }
+                                />
+                            }
+                            hideSituations={settings.hideSituations}
+                            hideTracks={settings.hideTracks}
+                            platform={firstLine.quay?.publicCode}
+                            type={firstLine.transportMode}
+                        />
+                    </div>
                 )
             })}
         </Tile>
