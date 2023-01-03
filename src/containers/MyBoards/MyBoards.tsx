@@ -171,7 +171,7 @@ const MyBoards = (): JSX.Element | null => {
                                         // Uses inline style as classnames are not applied correctly
                                         style={{ display: 'inline-block' }}
                                     >
-                                        10
+                                        {sharedBoards.length}
                                     </NotificationBadge>
                                 </>
                             ) : null}
