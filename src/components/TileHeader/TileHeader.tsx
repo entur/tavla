@@ -8,7 +8,7 @@ interface TileHeaderProps {
 }
 
 const TileHeader: React.FC<TileHeaderProps> = ({ title, icons }) => (
-    <header className={classes.TileHeader}>
+    <header className={classes.TileHeader} tabIndex={0}>
         <Heading2 className={classes.Heading}>{title}</Heading2>
         <div className={classes.Icons}>{icons}</div>
     </header>
