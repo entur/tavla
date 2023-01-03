@@ -164,12 +164,16 @@ const MyBoards = (): JSX.Element | null => {
                         <Tab>
                             Invitasjoner
                             {sharedBoards.length > 0 ? (
-                                <NotificationBadge
-                                    variant="info"
-                                    style={{ position: 'absolute', top: -10 }}
-                                >
-                                    {sharedBoards.length}
-                                </NotificationBadge>
+                                <>
+                                    {' '}
+                                    <NotificationBadge
+                                        variant="info"
+                                        // Uses inline style as classnames are not applied correctly
+                                        style={{ display: 'inline-block' }}
+                                    >
+                                        10
+                                    </NotificationBadge>
+                                </>
                             ) : null}
                         </Tab>
                     </TabList>
