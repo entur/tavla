@@ -6,7 +6,7 @@ import { fetchAutocomplete } from '../../../logic/geocoder/fetchAutocomplete'
 import { fetchReverse } from '../../../logic/geocoder/fetchReverse'
 import { useLocationPermission } from '../../../hooks/useLocationPermission'
 import { Coordinates } from '../../../types'
-import './SearchPanel.scss'
+import classes from './SearchPanel.module.scss'
 
 const YOUR_POSITION = 'Posisjonen din'
 
@@ -136,28 +136,24 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
     }
 
     return (
-        <form className="search-panel" onSubmit={handleGoToBoard}>
-            <div className="search-container">
-                <div className="input-container">
-                    <div className="input-spinner-container">
-                        <Dropdown
-                            searchable
-                            clearable
-                            openOnFocus
-                            debounceTimeout={500}
-                            label="Søk på avreisested"
-                            items={getItems}
-                            onChange={onItemSelected}
-                            variant={errorMessage ? 'error' : undefined}
-                            feedback={errorMessage || ''}
-                            highlightFirstItemOnOpen
-                        />
-                    </div>
+        <form className={classes.SearchPanel} onSubmit={handleGoToBoard}>
+            <div className={classes.SearchContainer}>
+                <div className={classes.InputContainer}>
+                    <Dropdown
+                        searchable
+                        openOnFocus
+                        debounceTimeout={500}
+                        label="Søk på avreisested"
+                        items={getItems}
+                        onChange={onItemSelected}
+                        variant={errorMessage ? 'error' : undefined}
+                        feedback={errorMessage || ''}
+                        highlightFirstItemOnOpen
+                    />
                 </div>
                 <Button
                     variant="primary"
                     size="medium"
-                    className="search-panel__submit-button"
                     type="submit"
                     loading={isLoadingYourLocation}
                     disabled={isLoadingYourLocation}
