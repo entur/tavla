@@ -13,12 +13,12 @@ import { Navbar } from '../Navbar/Navbar'
 import previewScreenshot from '../../assets/images/preview-screenshot.png'
 import { SearchPanel } from './SearchPanel/SearchPanel'
 import { TypographyCarousel } from './TypographyCarousel/TypographyCarousel'
-import './LandingPage.scss'
+import classes from './LandingPage.module.scss'
 
 function EnturLink(): JSX.Element {
     return (
-        <div className="landing-page__link-wrapper">
-            <Link href="https://entur.no" className="landing-page__entur-link">
+        <div className={classes.LinkWrapper}>
+            <Link href="https://entur.no" className={classes.EnturLink}>
                 Planlegg din neste reise her
             </Link>
             <ForwardIcon style={{ marginLeft: 5 }} />
@@ -56,14 +56,12 @@ function LandingPage(): JSX.Element {
               )
     }, [activeGif])
 
-    //keycode = 32
-
     return (
         <>
             <div className="skip-to-content">
                 <a
                     id="skip-nav"
-                    className="screenreader-text"
+                    className={classes.ScreenreaderText}
                     href="#main-content"
                 >
                     Gå til hovedinnhold
@@ -73,16 +71,16 @@ function LandingPage(): JSX.Element {
                 <title>Forside - Tavla - Entur</title>
             </Helmet>
             <Navbar />
-            <div className="landing-page">
+            <div className={classes.LandingPage}>
                 <div className="landing-page__content" id="main-content">
-                    <Contrast className="landing-page__contrast">
+                    <Contrast className={classes.Contrast}>
                         <GridContainer
                             spacing="medium"
-                            className="landing-page__header-grid"
+                            className={classes.HeaderGrid}
                         >
                             <GridItem small={12} medium={8}>
-                                <header>
-                                    <div className="landing-page__carousel">
+                                <header className={classes.CarouselGridHeader}>
+                                    <div className={classes.Carousel}>
                                         <Heading1>
                                             Lag din egen sanntidstavle for
                                         </Heading1>
@@ -96,7 +94,7 @@ function LandingPage(): JSX.Element {
                                         </Tooltip>
                                     </div>
                                 </header>
-                                <div className="landing-page__search-panel">
+                                <div className={classes.SearchPanel}>
                                     <SearchPanel
                                         handleCoordinatesSelected={addLocation}
                                     />
@@ -104,20 +102,20 @@ function LandingPage(): JSX.Element {
                             </GridItem>
                         </GridContainer>
                     </Contrast>
-                    <div className="landing-page__main-image-container">
+                    <div className={classes.MainImageContainer}>
                         <img
                             src="https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Fjernbanetorget.webp?alt=media"
-                            className="landing-page__cover-photo"
+                            className={classes.CoverPhoto}
                             alt="Folk og kollektivtrafikk i landskap"
                         />
                     </div>
 
-                    <article>
+                    <article className={classes.Article}>
                         <GridContainer spacing="extraLarge">
                             <GridItem
                                 small={12}
                                 large={6}
-                                className="landing-page__article-grid-item"
+                                className={classes.ArticleGridItem}
                             >
                                 <Tooltip
                                     content="Trykk for å pause og starte animasjonen."
@@ -134,7 +132,7 @@ function LandingPage(): JSX.Element {
                                     >
                                         <img
                                             src={previewImage}
-                                            className="landing-page__screenshot"
+                                            className={classes.Screenshot}
                                             alt="Skjermbilde av Tavla"
                                         />
                                     </div>
@@ -143,7 +141,7 @@ function LandingPage(): JSX.Element {
                             <GridItem
                                 small={12}
                                 large={6}
-                                className="landing-page__article-grid-item"
+                                className={classes.ArticleGridItem}
                             >
                                 <Heading2>Avgangstavla med dine behov</Heading2>
                                 <Paragraph>

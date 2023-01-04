@@ -1,0 +1,128 @@
+@use 'src/assets/styles/Variables.scss';
+
+$max-width: 86rem;
+
+.LandingPage {
+    color: Variables.$colors-brand-blue;
+    background-color: white;
+    padding-bottom: Variables.$space-extra-large9;
+}
+
+.HeaderGrid {
+    max-width: $max-width;
+    margin: auto;
+    padding: Variables.$space-medium;
+}
+
+.Carousel {
+    display: flex;
+    flex-direction: column;
+
+    > h1 {
+        font-weight: Variables.$font-weights-body;
+    }
+}
+
+.CoverPhoto {
+    padding: Variables.$space-medium;
+    width: 100%;
+    max-width: $max-width;
+}
+
+.LinkWrapper {
+    display: flex;
+    align-items: center;
+    padding: Variables.$space-extra-large3 Variables.$space-large;
+    text-align: right;
+    font-size: 1.25rem;
+
+    svg {
+        font-size: Variables.$font-sizes-extra-large;
+    }
+}
+
+.ArticleGridItem {
+    padding: 0 Variables.$space-default;
+}
+
+.Screenshot {
+    max-width: 100%;
+    cursor: pointer;
+}
+
+.CarouselGridHeader {
+    margin: Variables.$space-extra-large auto;
+}
+
+.Contrast {
+    overflow: visible;
+}
+
+.SearchPanel {
+    max-width: $max-width;
+    margin: Variables.$space-extra-large auto;
+}
+
+.MainImageContainer {
+    background: linear-gradient(
+        Variables.$colors-brand-blue 0%,
+        Variables.$colors-brand-blue 50%,
+        Variables.$colors-brand-white 50%,
+        Variables.$colors-brand-white 100%
+    );
+
+    > img {
+        display: block;
+        margin: auto;
+    }
+}
+
+.Article {
+    max-width: $max-width;
+    margin: Variables.$space-extra-large8 auto;
+}
+
+.EnturLink {
+    background-image: linear-gradient(
+        120deg,
+        Variables.$colors-brand-coral,
+        Variables.$colors-brand-coral
+    );
+    font-size: Variables.$font-sizes-extra-large;
+    font-weight: Variables.$font-weights-body;
+}
+
+.ScreenreaderText {
+    color: #181c56;
+
+    &:focus {
+        background: #ffca28;
+        color: #181c56;
+        display: block;
+        text-align: center;
+        padding: 1em;
+        margin: 0 auto;
+        outline: none;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 30;
+    }
+
+    &:visited {
+        display: none;
+    }
+}
+
+@media (max-width: Variables.$breakpoints-large) {
+    .HeaderGrid {
+        padding: Variables.$space-medium;
+    }
+    .MainImageContainer {
+        display: none;
+    }
+    .LinkWrapper {
+        padding: Variables.$space-extra-large3 Variables.$space-medium;
+        font-size: Variables.$font-sizes-large;
+    }
+}
