@@ -6,6 +6,7 @@ import { TileHeader } from '../TileHeader/TileHeader'
 import { useSettings } from '../../settings/SettingsProvider'
 import { getIconColorType } from '../../utils/icon'
 import { StationFragment } from '../../../graphql-generated/mobility-v2'
+import { getTranslation } from '../../utils/utils'
 import { BikeTileRow } from './BikeTileRow'
 import classes from './BikeTile.module.scss'
 
@@ -28,11 +29,20 @@ const BikeTile: React.FC<BikeTileProps> = ({ stations }) => {
                 icons={<BicycleIcon color={iconColor} />}
             />
             {stations.map((station) => (
-                <BikeTileRow
-                    key={station.id}
-                    station={station}
-                    iconColor={iconColor}
-                />
+                // eslint-disable-next-line react/jsx-key
+                <div>
+                    <p tabIndex={0} className={classes.uuText}>
+                        {' '}
+                        På {getTranslation(station.name)} er det{' '}
+                        {station.numBikesAvailable} sykler ledig og{' '}
+                        {station.numDocksAvailable} låser ledig.
+                    </p>
+                    <BikeTileRow
+                        key={station.id}
+                        station={station}
+                        iconColor={iconColor}
+                    />
+                </div>
             ))}
         </Tile>
     )
