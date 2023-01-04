@@ -51,7 +51,6 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
     if (!stopPlaceWithEstimatedCalls) {
         return <ErrorTile className={classes.BusStopTile} />
     }
-
     return (
         <Tile className={classes.BusStopTile}>
             <TileHeader
@@ -64,6 +63,15 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
                     longitude: stopPlaceWithEstimatedCalls.longitude,
                 }}
             />
+            <p tabIndex={0} className={classes.UuText}>
+                Neste avganger fra {stopPlaceWithEstimatedCalls.name} er{' '}
+                {departures[0]?.transportMode} {departures[0]?.route} om{' '}
+                {departures[0]?.time}, {departures[1]?.transportMode}{' '}
+                {departures[1]?.route} om {departures[1]?.time} og{' '}
+                {departures[2]?.transportMode} {departures[2]?.route} om{' '}
+                {departures[2]?.time}
+            </p>
+
             <Table spacing="large" fixed>
                 <TableHead className={classes.TableHead}>
                     <TableRow>
