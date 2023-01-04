@@ -6,7 +6,6 @@ import { TileSubLabel } from '../../../types'
 import { SubLabelIcon } from '../../../components/SubLabelIcon/SubLabelIcon'
 import { PlatformInfo } from './PlatformInfo/PlatformInfo'
 import classes from './CompactTileRow.module.scss'
-import { DepartureIcon } from '../../Map/DepartureTag/DepartureIcon/DepartureIcon'
 
 interface CompactTileRowProps {
     label: string
@@ -66,7 +65,9 @@ function CompactTileRow({
 
                                     {showDate && (
                                         <>
-                                        <Date date={subLabel.departureTime} />
+                                            <Date
+                                                date={subLabel.departureTime}
+                                            />
                                         </>
                                     )}
                                 </div>

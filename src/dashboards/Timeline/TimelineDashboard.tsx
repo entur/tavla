@@ -14,7 +14,7 @@ const TimelineDashboard = (): JSX.Element | null => {
             stopPlacesWithDepartures={[{} as StopPlaceWithDepartures]}
         >
             {allStopPlaceIds.map((stopPlaceId) => (
-                <TimelineTile key={stopPlaceId} stopPlaceId={stopPlaceId}  />
+                <TimelineTile key={stopPlaceId} stopPlaceId={stopPlaceId} />
             ))}
         </DashboardWrapper>
     )
