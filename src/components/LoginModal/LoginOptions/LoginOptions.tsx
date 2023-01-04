@@ -6,6 +6,7 @@ import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
 import { CloseButton } from '../../CloseButton/CloseButton'
 import { LoginCase, ModalType } from '../login-modal-types'
+import classes from '../LoginModal.module.scss'
 
 const description: Record<LoginCase, string> = {
     [LoginCase.mytables]:
@@ -44,17 +45,19 @@ const LoginOptions: React.FC<LoginOptionsProps> = ({
         <>
             <CloseButton onClick={handleDismiss} />
             <div>
-                <div className="centered">
-                    <img
-                        src={sikkerhetBom}
-                        srcSet={`${retinaSikkerhetBom} 2x`}
-                    />
-                </div>
+                <img
+                    src={sikkerhetBom}
+                    srcSet={`${retinaSikkerhetBom} 2x`}
+                    className={classes.Image}
+                />
                 <Heading3 margin="bottom">Logg inn for å fortsette</Heading3>
-                <Paragraph style={{ textAlign: 'center' }}>
+                <Paragraph className={classes.Paragraph}>
                     {description[loginCase]}
                 </Paragraph>
-                <GridContainer spacing="small">
+                <GridContainer
+                    spacing="small"
+                    className={classes.GridContainer}
+                >
                     <GridItem small={12}>
                         <PrimaryButton
                             width="fluid"

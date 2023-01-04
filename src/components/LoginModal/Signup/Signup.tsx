@@ -12,6 +12,7 @@ import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
 import { CloseButton } from '../../CloseButton/CloseButton'
 import { ModalType } from '../login-modal-types'
 import { useFormFields } from '../../../hooks/useFormFields'
+import classes from '../LoginModal.module.scss'
 
 // eslint-disable-next-line
 const EMAIL_REGEX =
@@ -85,22 +86,24 @@ const Signup: React.FC<SignupProps> = ({ setModalType, onDismiss }) => {
 
     return (
         <>
-            <div className="modal-header">
+            <div className={classes.ModalHeader}>
                 <BackArrowIcon
                     size={30}
                     onClick={(): void =>
                         setModalType(ModalType.LoginOptionsModal)
                     }
-                    className="go-to"
+                    className={classes.GoTo}
                 />
                 <CloseButton onClick={handleClose} />
             </div>
-            <div className="centered">
-                <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
-            </div>
+            <img
+                src={sikkerhetBom}
+                srcSet={`${retinaSikkerhetBom} 2x`}
+                className={classes.Image}
+            />
             <Heading2 margin="none">Lag en ny konto</Heading2>
 
-            <GridContainer spacing="medium">
+            <GridContainer spacing="medium" className={classes.GridContainer}>
                 <GridItem small={12}>
                     <TextField
                         label="E-post"
@@ -155,22 +158,19 @@ const Signup: React.FC<SignupProps> = ({ setModalType, onDismiss }) => {
                         width="fluid"
                         type="submit"
                         onClick={handleSubmit}
-                        className="modal-submit"
+                        className={classes.ModalSubmit}
                     >
                         Lag konto
                     </PrimaryButton>
                 </GridItem>
             </GridContainer>
 
-            <div className="centered">
-                <Link
-                    onClick={(): void =>
-                        setModalType(ModalType.LoginEmailModal)
-                    }
-                >
-                    Jeg har allerede en konto
-                </Link>
-            </div>
+            <Link
+                onClick={(): void => setModalType(ModalType.LoginEmailModal)}
+                className={classes.BottomLink}
+            >
+                Jeg har allerede en konto
+            </Link>
         </>
     )
 }

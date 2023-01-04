@@ -9,8 +9,8 @@ import { LoginOptions } from './LoginOptions/LoginOptions'
 import { Signup } from './Signup/Signup'
 import { ResetPassword } from './ResetPassword/ResetPassword'
 import { EmailSent } from './EmailSent/EmailSent'
-import './LoginModal.scss'
 import { LoginCase, ModalType } from './login-modal-types'
+import classes from './LoginModal.module.scss'
 
 interface LoginModalProps {
     open: boolean
@@ -55,7 +55,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
             open={open}
             size="small"
             title=""
-            className="login-modal"
+            className={classes.LoginModal}
         >
             {modalType === ModalType.LoginOptionsModal && (
                 <LoginOptions
