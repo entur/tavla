@@ -7,13 +7,13 @@ import { BackArrowIcon, ClosedLockIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Link } from '@entur/typography'
 import { SmallExpandableAlertBox } from '@entur/alert'
-import { auth } from '../../../UserProvider'
-import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
-import { CloseButton } from '../../CloseButton/CloseButton'
+import { auth } from '../../../../UserProvider'
+import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
+import { CloseButton } from '../../../CloseButton/CloseButton'
 import { ModalType } from '../login-modal-types'
-import { useFormFields } from '../../../hooks/useFormFields'
-import classes from '../LoginModal.module.scss'
+import { useFormFields } from '../../../../hooks/useFormFields'
+import classes from '../../AccountModals.module.scss'
 
 export interface UserLogin {
     email: string
@@ -85,7 +85,7 @@ const EmailLogin: React.FC<EmailLoginProps> = ({ setModalType, onDismiss }) => {
                     onClick={(): void =>
                         setModalType(ModalType.LoginOptionsModal)
                     }
-                    className={classes.GoTo}
+                    className={classes.BackButton}
                 />
                 <CloseButton onClick={handleClose} />
             </div>

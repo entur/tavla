@@ -2,15 +2,15 @@ import React, { useCallback, useEffect, useState } from 'react'
 import type { User } from 'firebase/auth'
 import { useToast } from '@entur/alert'
 import { Modal } from '@entur/modal'
-import { useUser } from '../../UserProvider'
-import { usePrevious } from '../../hooks/usePrevious'
+import { useUser } from '../../../UserProvider'
+import { usePrevious } from '../../../hooks/usePrevious'
+import classes from '../AccountModals.module.scss'
 import { EmailLogin } from './EmailLogin/EmailLogin'
 import { LoginOptions } from './LoginOptions/LoginOptions'
 import { Signup } from './Signup/Signup'
 import { ResetPassword } from './ResetPassword/ResetPassword'
 import { EmailSent } from './EmailSent/EmailSent'
 import { LoginCase, ModalType } from './login-modal-types'
-import classes from './LoginModal.module.scss'
 
 interface LoginModalProps {
     open: boolean
@@ -55,7 +55,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
             open={open}
             size="small"
             title=""
-            className={classes.LoginModal}
+            className={classes.Modal}
         >
             {modalType === ModalType.LoginOptionsModal && (
                 <LoginOptions

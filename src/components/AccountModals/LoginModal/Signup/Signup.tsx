@@ -6,13 +6,13 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { BackArrowIcon, ClosedLockIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading2, Link } from '@entur/typography'
-import { auth } from '../../../UserProvider'
-import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
-import { CloseButton } from '../../CloseButton/CloseButton'
+import { auth } from '../../../../UserProvider'
+import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
+import { CloseButton } from '../../../CloseButton/CloseButton'
 import { ModalType } from '../login-modal-types'
-import { useFormFields } from '../../../hooks/useFormFields'
-import classes from '../LoginModal.module.scss'
+import { useFormFields } from '../../../../hooks/useFormFields'
+import classes from '../../AccountModals.module.scss'
 
 // eslint-disable-next-line
 const EMAIL_REGEX =
@@ -92,7 +92,7 @@ const Signup: React.FC<SignupProps> = ({ setModalType, onDismiss }) => {
                     onClick={(): void =>
                         setModalType(ModalType.LoginOptionsModal)
                     }
-                    className={classes.GoTo}
+                    className={classes.BackButton}
                 />
                 <CloseButton onClick={handleClose} />
             </div>

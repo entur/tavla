@@ -4,36 +4,34 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { useToast } from '@entur/alert'
-import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
-import { removeFromOwners } from '../../settings/FirestoreStorage'
-import { CloseButton } from '../CloseButton/CloseButton'
-import './OverflowModals.scss'
+import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
+import { deleteTavle } from '../../../settings/FirestoreStorage'
+import { CloseButton } from '../../CloseButton/CloseButton'
+import classes from '../AccountModals.module.scss'
 
-interface RemoveLockModalProps {
+interface DeleteTavleModalProps {
     open: boolean
     onDismiss: () => void
     id: string
-    uid: string
 }
 
-const RemoveLockModal: React.FC<RemoveLockModalProps> = ({
+const DeleteTavleModal: React.FC<DeleteTavleModalProps> = ({
     open,
     onDismiss,
     id,
-    uid,
 }) => {
     const { addToast } = useToast()
-    const handleRemoveLockedTavle = useCallback(async () => {
-        await removeFromOwners(id, uid)
+    const handleDelete = useCallback(() => {
+        deleteTavle(id)
         addToast({
-            title: 'Tavla ble fjernet fra din konto.',
+            title: 'Avgangstavla ble slettet.',
             content:
-                'Avgangstavla er ikke lenger låst til din konto. Den eksisterer fortsatt og er fra nå tilgjengelig for andre å redigere.',
+                'Tavla ble slettet permanent og er dermed ikke lenger tilgjengelig.',
             variant: 'success',
         })
         onDismiss()
-    }, [id, uid, onDismiss, addToast])
+    }, [id, onDismiss, addToast])
 
     return (
         <Modal
@@ -41,27 +39,28 @@ const RemoveLockModal: React.FC<RemoveLockModalProps> = ({
             open={open}
             title=""
             onDismiss={onDismiss}
-            className="overflow-modal"
+            className={classes.Modal}
         >
             <CloseButton onClick={onDismiss} />
-            <div className="centered">
-                <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
-            </div>
-            <Heading3 margin="none">Låse opp avgangstavle?</Heading3>
-            <Paragraph>
-                Er du sikker på at du vil låse opp denne tavla? Tavla vil
-                fortsatt eksistere, men ikke lenger være knyttet til din konto
-                eller vises i oversikten på Mine Tavler.
+            <img
+                src={sikkerhetBom}
+                srcSet={`${retinaSikkerhetBom} 2x`}
+                className={classes.Image}
+            />
+            <Heading3 margin="none">Slette avgangstavle?</Heading3>
+            <Paragraph className={classes.Paragraph}>
+                Er du sikker på at du vil slette denne tavla? Tavla vil være
+                borte for godt og ikke mulig å finne tilbake til.
             </Paragraph>
-            <GridContainer spacing="medium">
+            <GridContainer spacing="medium" className={classes.GridContainer}>
                 <GridItem small={12}>
                     <PrimaryButton
                         width="fluid"
                         type="submit"
-                        onClick={handleRemoveLockedTavle}
+                        onClick={handleDelete}
                         className="modal-submit"
                     >
-                        Ja, lås opp tavla
+                        Ja, slett tavle for godt
                     </PrimaryButton>
                 </GridItem>
                 <GridItem small={12}>
@@ -78,4 +77,4 @@ const RemoveLockModal: React.FC<RemoveLockModalProps> = ({
     )
 }
 
-export { RemoveLockModal }
+export { DeleteTavleModal }

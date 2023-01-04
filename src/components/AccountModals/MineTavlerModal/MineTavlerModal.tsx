@@ -4,14 +4,14 @@ import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
-import { useUser } from '../../UserProvider'
-import { useSettings } from '../../settings/SettingsProvider'
+import { useUser } from '../../../UserProvider'
+import { useSettings } from '../../../settings/SettingsProvider'
 import { LoginModal } from '../LoginModal/LoginModal'
 import { LoginCase } from '../LoginModal/login-modal-types'
-import { CloseButton } from '../CloseButton/CloseButton'
-import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
-import classes from './MineTavlerModal.module.scss'
+import { CloseButton } from '../../CloseButton/CloseButton'
+import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
+import classes from '../AccountModals.module.scss'
 
 const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
     const navigate = useNavigate()
@@ -68,29 +68,25 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
 
     return (
         <Modal
-            className={classes.MineTavlerModal}
+            className={classes.Modal}
             size="small"
             open={open}
             title=""
             onDismiss={onDismiss}
         >
             <CloseButton onClick={onDismiss} />
-            <div className={classes.Centered}>
-                <img
-                    className={classes.Image}
-                    src={sikkerhetBom}
-                    srcSet={`${retinaSikkerhetBom} 2x`}
-                />
-            </div>
-            <Heading3 className={classes.Heading} margin="none">
-                Vil du låse tavla først?
-            </Heading3>
+            <img
+                src={sikkerhetBom}
+                srcSet={`${retinaSikkerhetBom} 2x`}
+                className={classes.Image}
+            />
+            <Heading3 margin="none">Vil du låse tavla først?</Heading3>
             <Paragraph className={classes.Paragraph}>
                 Denne avgangstavla er ulåst. Hvis du vil lagre den til senere og
                 gjøre så bare du kan redigere den, bør du først låse den til din
                 konto.
             </Paragraph>
-            <GridContainer spacing="medium">
+            <GridContainer spacing="medium" className={classes.GridContainer}>
                 <GridItem small={12}>
                     <PrimaryButton
                         width="fluid"
