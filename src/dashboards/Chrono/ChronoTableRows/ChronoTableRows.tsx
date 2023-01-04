@@ -24,6 +24,14 @@ function ChronoTableRows({
 }: ChronoTableRowsProps): JSX.Element {
     return (
         <TableBody>
+            <p tabIndex={0} className={classes.UuText}>
+                {' '}
+                Buss {visibleDepartures[0]?.route} går om{' '}
+                {visibleDepartures[0]?.time} , {visibleDepartures[1]?.route} går
+                om {visibleDepartures[1]?.time} og {visibleDepartures[2]?.route}{' '}
+                går om {visibleDepartures[2]?.time}
+            </p>
+
             {visibleDepartures.map((data, index) => {
                 const subLabel = createTileSubLabel(data)
                 const previousRow = visibleDepartures[index - 1]
