@@ -87,7 +87,7 @@ module.exports = async (env, args) => ({
                 ? {}
                 : {
                       'Content-Security-Policy':
-                          "child-src 'self' blob:;default-src 'self'; script-src 'self' 'unsafe-inline' https://apis.google.com https://*.googleapis.com blob:; connect-src 'self' ws://localhost:9090/ws wss://*.entur.io https://api.met.no https://stats.g.doubleclick.net https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com https://*.entur.io https://*.entur.org https://*.cloudfunctions.net https://*.googleapis.com; style-src 'self' 'unsafe-inline'; img-src https: 'self' blob: data: https://www.google.no https://www.google.com https://*.googleapis.com; object-src 'none'; frame-ancestors https:; manifest-src 'self' blob:; frame-src https://entur-tavla-staging.firebaseapp.com/ https://entur-tavla-prod.firebaseapp.com/",
+                          "child-src 'self' blob:;default-src 'self'; script-src 'self' 'unsafe-inline' https://apis.google.com https://*.googleapis.com blob:; connect-src 'self' ws://localhost:9090/ws wss://*.entur.io https://api.met.no https://stats.g.doubleclick.net https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com https://*.entur.io https://*.entur.org https://*.cloudfunctions.net https://*.googleapis.com; style-src 'self' 'unsafe-inline'; img-src https: 'self' blob: data: https://www.google.no https://www.google.com https://*.googleapis.com; object-src 'none'; frame-ancestors https:; frame-src https://entur-tavla-staging.firebaseapp.com/ https://entur-tavla-prod.firebaseapp.com/",
                       'Permissions-Policy': 'geolocation=(self)',
                   },
     },
@@ -101,11 +101,7 @@ module.exports = async (env, args) => ({
             path: path.join(__dirname, `.env.${resolveEnv(env)}`),
         }),
         new CopyPlugin({
-            patterns: [
-                { from: 'sw.js' },
-                { from: 'manifest.json' },
-                { from: 'public/images/', to: 'images' },
-            ],
+            patterns: [{ from: 'public/images/', to: 'images' }],
         }),
         ...(args.mode === 'production'
             ? [
