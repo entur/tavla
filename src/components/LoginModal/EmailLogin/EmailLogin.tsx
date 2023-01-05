@@ -40,7 +40,7 @@ const EmailLogin: React.FC<EmailLoginProps> = ({ setModalType, onDismiss }) => {
         setUserDeactivatedError(undefined)
 
         signInWithEmailAndPassword(auth, email, password).catch((error) => {
-            if (password == '') {
+            if (password === '') {
                 setPasswordError(
                     'Du må skrive inn passordet ditt for å logge inn',
                 )

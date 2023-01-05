@@ -68,7 +68,6 @@
         "firebase": "9.15.0",
         "google-polyline": "1.0.3",
         "graphql": "16.6.0",
-        "is-url": "1.2.4",
         "lodash": "4.17.21",
         "mapbox-gl": "2.11.1",
         "react": "18.2.0",
