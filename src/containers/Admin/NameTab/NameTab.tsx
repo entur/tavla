@@ -6,7 +6,6 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { useUser } from '../../../UserProvider'
 import { LoginModal } from '../../../components/AccountModals/LoginModal/LoginModal'
 import { LoginCase } from '../../../components/AccountModals/LoginModal/login-modal-types'
-import './NameTab.scss'
 import { CustomURL } from './CustomURL/CustomURL'
 
 const NameTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
@@ -34,9 +33,9 @@ const NameTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
 
     if (!documentId) {
         return (
-            <div className="name-page">
-                <Heading2 className="heading">Legg til Tavla-lenke</Heading2>
-                <Paragraph className="name-page__paragraph">
+            <div>
+                <Heading2>Legg til Tavla-lenke</Heading2>
+                <Paragraph>
                     Vi har oppgradert tavla. Ønsker du tilgang på denne
                     funksjonaliteten må du lage en ny tavle.
                 </Paragraph>
@@ -45,14 +44,14 @@ const NameTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
     }
 
     return (
-        <div className="name-page">
+        <div>
             <LoginModal
                 onDismiss={handleDismiss}
                 open={open}
                 loginCase={LoginCase.link}
             />
-            <Heading2 className="heading">Lag egen Tavla-lenke</Heading2>
-            <GridContainer spacing="extraLarge" className="name-grid">
+            <Heading2>Lag egen Tavla-lenke</Heading2>
+            <GridContainer spacing="extraLarge">
                 <GridItem small={12} medium={12} large={6}>
                     <CustomURL />
                 </GridItem>
