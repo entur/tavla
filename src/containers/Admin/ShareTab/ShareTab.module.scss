@@ -1,0 +1,71 @@
+.SharePage {
+    margin: 0 1.5rem 1.5rem 0;
+    background-color: var(--tavla-background-color);
+}
+
+.GridContainer {
+    padding-top: 2rem;
+    padding-bottom: 5rem;
+}
+
+.Heading {
+    margin-top: 0;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+}
+
+.Title {
+    display: flex;
+    width: fit-content;
+    max-width: 80%;
+    word-break: break-word;
+}
+
+.EditTitleInput {
+    background-color: var(--tavla-button-background-color);
+    color: inherit;
+    font-family: var(--eds-font-family);
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 2.75rem;
+    border-style: none;
+    border-radius: 0.3rem;
+    outline: none;
+}
+
+.EditTitleButton {
+    margin-left: 0.5rem;
+}
+
+.Link {
+    color: var(--tavla-font-color);
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.Icon {
+    size: 1rem;
+    margin-right: 0.75rem;
+    color: var(--tavla-icon-color);
+    vertical-align: middle;
+}
+
+.Description {
+    word-break: break-word;
+}
+
+.InputArea {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 3rem;
+    gap: 0.75rem;
+}
+
+.InputField {
+    flex: 1;
+}
+
+.SubmitButton {
+    align-self: flex-start;
+    float: right;
+}
