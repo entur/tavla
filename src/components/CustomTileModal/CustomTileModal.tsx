@@ -51,7 +51,6 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
 
     // eslint-disable-next-line prettier/prettier
     const urlPattern = new RegExp(
-        // eslint-disable-next-line no-useless-escape
         '^(https?://)?(www)+.([A-z0-9]+).([A-z]{2,})',
     )
 
