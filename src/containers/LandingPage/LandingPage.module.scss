@@ -17,32 +17,24 @@ $max-width: 86rem;
 .Carousel {
     display: flex;
     flex-direction: column;
-
-    > h1 {
-        font-weight: Variables.$font-weights-body;
-    }
+    margin: Variables.$space-extra-large auto;
 }
 
-.CoverPhoto {
-    padding: Variables.$space-medium;
-    width: 100%;
-    max-width: $max-width;
+.CarouselHeader {
+    font-weight: Variables.$font-weights-body;
 }
 
 .LinkWrapper {
     display: flex;
     align-items: center;
-    padding: Variables.$space-extra-large3 Variables.$space-large;
+    padding: Variables.$space-extra-large3 0.5rem;
     text-align: right;
     font-size: 1.25rem;
-
-    svg {
-        font-size: Variables.$font-sizes-extra-large;
-    }
 }
 
-.ArticleGridItem {
-    padding: 0 Variables.$space-default;
+.LinkIcon {
+    font-size: Variables.$font-sizes-extra-large;
+    margin-left: 0.25rem;
 }
 
 .Screenshot {
@@ -50,36 +42,35 @@ $max-width: 86rem;
     cursor: pointer;
 }
 
-.CarouselGridHeader {
-    margin: Variables.$space-extra-large auto;
-}
-
 .Contrast {
     overflow: visible;
+    padding-bottom: Variables.$space-extra-large;
 }
 
-.SearchPanel {
-    max-width: $max-width;
-    margin: Variables.$space-extra-large auto;
-}
-
-.MainImageContainer {
+.CoverPhotoContainer {
     background: linear-gradient(
         Variables.$colors-brand-blue 0%,
         Variables.$colors-brand-blue 50%,
         Variables.$colors-brand-white 50%,
         Variables.$colors-brand-white 100%
     );
-
-    > img {
-        display: block;
-        margin: auto;
+    @media (max-width: Variables.$breakpoints-large) {
+        display: none;
     }
+}
+
+.CoverPhoto {
+    padding: Variables.$space-medium;
+    width: 100%;
+    max-width: $max-width;
+    display: block;
+    margin: auto;
 }
 
 .Article {
     max-width: $max-width;
     margin: Variables.$space-extra-large8 auto;
+    padding: 0 Variables.$space-default;
 }
 
 .EnturLink {
@@ -111,18 +102,5 @@ $max-width: 86rem;
 
     &:visited {
         display: none;
-    }
-}
-
-@media (max-width: Variables.$breakpoints-large) {
-    .HeaderGrid {
-        padding: Variables.$space-medium;
-    }
-    .MainImageContainer {
-        display: none;
-    }
-    .LinkWrapper {
-        padding: Variables.$space-extra-large3 Variables.$space-medium;
-        font-size: Variables.$font-sizes-large;
     }
 }
