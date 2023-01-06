@@ -1,4 +1,10 @@
 
 .Footer {
-    color: var(--tavla-font-color)
+    background-color: var(--tavla-background-color);
+    
+}
+
+.Link, Link:visited, Link:active {
+    color: var(--tavla-font-color);
+    margin: 1rem;
 }
