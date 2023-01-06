@@ -10,7 +10,7 @@ import { CarTile } from './components/CarTile/CarTile'
 import { PosterFooter } from './components/PosterFooter/PosterFooter'
 import { ScooterTile } from './components/ScooterTile/ScooterTile'
 import { BikeTile } from './components/BikeTile/BikeTile'
-import './Poster.scss'
+import classes from './Poster.module.scss'
 
 const Poster = (): JSX.Element => {
     useReloadTavleOnUpdate()
@@ -25,24 +25,22 @@ const Poster = (): JSX.Element => {
     return (
         <div
             className={classNames({
-                'poster-rotated': isRotated,
+                [classes.Rotated]: isRotated,
             })}
         >
-            <div className={classNames('poster')}>
-                <div className="poster-header">
-                    <EnturLogo className="poster-header-logo" />
+            <div className={classes.Poster}>
+                <div className={classes.Header}>
+                    <EnturLogo className={classes.HeaderLogo} />
                 </div>
-                <div className="poster-content-wrapper">
-                    <div className="poster-heading-wrapper">
-                        <h1 className="poster-heading">Skal du videre?</h1>
+                <div className={classes.Content}>
+                    <div className={classes.HeadingWrapper}>
+                        <h1 className={classes.Heading}>Skal du videre?</h1>
                         <LastUpdated />
                     </div>
                     {hideBusTile ? null : <BusTile />}
                     <div
-                        className={classNames({
-                            'poster-mobility-tiles-wrapper': true,
-                            'poster-mobility-tiles-wrapper--listed':
-                                hideBusTile,
+                        className={classNames(classes.MobilityTiles, {
+                            [classes.MobilityTilesList]: hideBusTile,
                         })}
                     >
                         {hideBikeTile ? null : <BikeTile />}
