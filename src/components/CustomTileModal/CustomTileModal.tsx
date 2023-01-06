@@ -49,7 +49,7 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
 
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
-    const urlPattern = /(https?:\/\/)?www+\.([A-z0-9]+)\.([A-z]{2,})/
+    const urlPattern = /(https?:\/\/)?www\.([A-z0-9]+)\.([A-z]{2,})/
 
     const handleSubmit = (actionType: ActionType) => {
         if (!urlPattern.test(sourceUrl)) {
