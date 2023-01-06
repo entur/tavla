@@ -10,6 +10,7 @@ import { isDarkOrDefaultTheme } from '../../utils/utils'
 import { useThemeHandler } from '../../hooks/useThemeHandler'
 import { Loader } from '../../components/Loader/Loader'
 import { Navbar } from '../Navbar/Navbar'
+import { Footer } from '../../components/Footer/Footer'
 import { LogoTab } from './LogoTab/LogoTab'
 import { EditTab } from './EditTab/EditTab'
 import { ThemeTab } from './ThemeTab/ThemeTab'
@@ -18,7 +19,6 @@ import { NameTab } from './NameTab/NameTab'
 import { LockAndViewButtons } from './LockAndViewButtons/LockAndViewButtons'
 import { ShareTab } from './ShareTab/ShareTab'
 import './AdminPage.scss'
-import { Footer } from '../../components/Footer/Footer'
 
 const AdminPage = (): JSX.Element => {
     const [settings] = useSettings()
@@ -108,7 +108,7 @@ const AdminPage = (): JSX.Element => {
                 </Tabs>
                 <LockAndViewButtons />
             </div>
-            <Footer/>
+            <Footer />
         </ThemeContrastWrapper>
     )
 }

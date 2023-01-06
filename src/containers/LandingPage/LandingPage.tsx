@@ -6,6 +6,7 @@ import { Heading1, Heading2, Paragraph, Link } from '@entur/typography'
 import { Contrast } from '@entur/layout'
 import { ForwardIcon } from '@entur/icons'
 import { GridContainer, GridItem } from '@entur/grid'
+import { Footer } from '../../components/Footer/Footer'
 import { Coordinates } from '../../types'
 import { DEFAULT_SETTINGS } from '../../settings/settings'
 import { createSettings } from '../../settings/firebase'
@@ -14,7 +15,6 @@ import previewScreenshot from '../../assets/images/preview-screenshot.png'
 import { SearchPanel } from './SearchPanel/SearchPanel'
 import { TypographyCarousel } from './TypographyCarousel/TypographyCarousel'
 import './LandingPage.scss'
-import { Footer } from '../../components/Footer/Footer'
 
 function EnturLink(): JSX.Element {
     return (

@@ -1,3 +1,5 @@
+@use 'src/assets/styles/Variables';
+
 .Footer {
     background-color: var(--tavla-background-color);
     padding: 1rem;
@@ -15,5 +17,3 @@ Link:active {
 .Icon {
     margin-left: 0.5rem;
 }
-
-
