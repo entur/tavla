@@ -13,13 +13,23 @@ interface UseStopPlaceWithEstimatedCalls {
     error: ApolloError | undefined
 }
 
-function useStopPlaceWithEstimatedCalls(
-    stopPlaceId: string,
-): UseStopPlaceWithEstimatedCalls {
+interface Options {
+    stopPlaceId: string
+    timeRange?: number
+    numberOfDeparturesPerLineAndDestinationDisplay?: number
+}
+
+function useStopPlaceWithEstimatedCalls({
+    stopPlaceId,
+    timeRange,
+    numberOfDeparturesPerLineAndDestinationDisplay,
+}: Options): UseStopPlaceWithEstimatedCalls {
     const { data, loading, error } = useStopPlaceWithEstimatedCallsQuery({
         pollInterval: REFRESH_INTERVAL,
         variables: {
             id: stopPlaceId,
+            timeRange,
+            numberOfDeparturesPerLineAndDestinationDisplay,
         },
     })
 

@@ -1,0 +1,29 @@
+@use '../../assets/styles/Variables.scss';
+
+.Privacy {
+    background-color: white;
+    overflow: auto;
+}
+
+.Heading {
+    background-color: Variables.$colors-brand-blue;
+    padding: 2rem 3rem;
+    margin-left: 1rem;
+}
+
+.Body {
+    max-width: 1000px;
+    color: Variables.$colors-brand-blue;
+    background-color: white;
+    padding: 2rem 4rem;
+}
+
+@media (max-width: 1000px) {
+    .Heading {
+        padding: 0;
+    }
+
+    .Body {
+        padding: 1rem;
+    }
+}

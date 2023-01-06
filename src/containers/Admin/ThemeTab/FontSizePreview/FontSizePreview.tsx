@@ -1,24 +1,17 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { Fragment } from 'react'
 import { SubwayIcon } from '@entur/icons'
 import { colors } from '@entur/tokens'
 import { Paragraph } from '@entur/typography'
 import { IconColorType } from '../../../../types'
-import './FontSizePreview.scss'
+import classes from './FontSizePreview.module.scss'
 
 type Props = {
     fontScale: number
 }
 
-const FontSizePreview = ({ fontScale }: Props) => {
-    const { documentId: boardId } = useParams<{ documentId: string }>()
-    const [baseFontSize, setBaseFontSize] = useState(16)
+const BASE_FONT_SIZE = 16
 
-    useEffect(() => {
-        const updatedFontSize = fontScale * 16
-        setBaseFontSize(updatedFontSize)
-    }, [boardId, fontScale])
-
+const FontSizePreview: React.FC<Props> = ({ fontScale }) => {
     const subLabels = [
         { time: 'Nå' },
         { time: '4 min' },
@@ -29,27 +22,28 @@ const FontSizePreview = ({ fontScale }: Props) => {
 
     return (
         <div>
-            <Paragraph className="introductoryText">
+            <Paragraph className={classes.IntroductoryText}>
                 Forhåndsvisning av tekstørrelsen:
             </Paragraph>
-            <div className="tilePreview" style={{ fontSize: baseFontSize }}>
-                <div className="tilePreview__tileRow">
-                    <div className="tilePreview__icon">
+            <div
+                className={classes.FontSizePreview}
+                style={{ fontSize: fontScale * BASE_FONT_SIZE }}
+            >
+                <div className={classes.TileRow}>
+                    <div className={classes.Icon}>
                         <SubwayIcon
                             color={
                                 colors.transport[IconColorType.CONTRAST].metro
                             }
                         />
                     </div>
-                    <div className="tilePreview__texts">
-                        <div className="tilePreview__label">
-                            1 Bergkrystallen
-                        </div>
-                        <div className="tilePreview__platform-info">Spor 1</div>
-                        <div className="tilePreview__sublabels">
-                            {subLabels.map((subLabel, index) => (
-                                <Fragment key={index}>
-                                    <div className="tilePreview__sublabel">
+                    <div className={classes.Texts}>
+                        <div className={classes.Label}>1 Bergkrystallen</div>
+                        <div className={classes.PlatformInfo}>Spor 1</div>
+                        <div className={classes.Sublabels}>
+                            {subLabels.map((subLabel) => (
+                                <Fragment key={subLabel.time}>
+                                    <div className={classes.Sublabel}>
                                         {subLabel.time}
                                     </div>
                                 </Fragment>

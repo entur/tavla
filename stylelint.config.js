@@ -1,6 +1,6 @@
 module.exports = {
     plugins: ['stylelint-scss'],
-    extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
+    extends: ['stylelint-config-standard-scss', 'stylelint-config-prettier'],
     rules: {
         'at-rule-no-unknown': [
             true,
@@ -23,6 +23,13 @@ module.exports = {
                     'function',
                     'use',
                 ],
+            },
+        ],
+        'selector-pseudo-class-no-unknown': [
+            true,
+            {
+                // global and local are used in css-modules
+                ignorePseudoClasses: ['global', 'local'],
             },
         ],
         'no-descending-specificity': [true, { severity: 'warning' }],

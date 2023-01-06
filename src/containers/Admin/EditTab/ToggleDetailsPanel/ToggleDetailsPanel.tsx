@@ -10,6 +10,7 @@ function ToggleDetailsPanel(): JSX.Element {
 
     return (
         <Fieldset className="toggle-detail-panel">
+            <legend>Velg detaljer</legend>
             <div className="toggle-detail-panel__container">
                 <Label>
                     Obs! Noen av detaljene kan ikke vises i alle visningstyper.
@@ -57,7 +58,7 @@ function ToggleDetailsPanel(): JSX.Element {
                         }}
                         checked={!settings.hideTracks}
                     >
-                        Spor/plattform
+                        Plattform
                     </FilterChip>
                 </div>
             </div>

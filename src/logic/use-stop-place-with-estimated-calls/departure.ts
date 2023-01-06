@@ -1,4 +1,4 @@
-import { differenceInMinutes, format, parseISO } from 'date-fns'
+import { compareAsc, differenceInMinutes, format, parseISO } from 'date-fns'
 import {
     TransportMode,
     TransportSubmode,
@@ -13,6 +13,8 @@ interface Departure {
     transportSubmode: TransportSubmode
     time: string
     departureTime: Date
+    publicCode: string
+    frontText: string
     route: string
     situations: EstimatedCall['situations']
     cancellation: boolean
@@ -40,6 +42,8 @@ function toDeparture(estimatedCall: EstimatedCall): Departure {
         transportSubmode: estimatedCall.serviceJourney.transportSubmode,
         time: formatTime(minuteDiff, departureTime),
         departureTime,
+        publicCode: line.publicCode || '',
+        frontText: estimatedCall.destinationDisplay.frontText,
         route: `${line.publicCode || ''} ${
             estimatedCall.destinationDisplay.frontText
         }`.trim(),
@@ -62,5 +66,8 @@ const filterHidden =
             departure.transportMode,
         )
 
-export { toDeparture, filterHidden }
+const byDepartureTime = (a: Departure, b: Departure) =>
+    compareAsc(a.departureTime, b.departureTime)
+
+export { toDeparture, filterHidden, byDepartureTime }
 export type { Departure }

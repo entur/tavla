@@ -1,0 +1,67 @@
+@use '../../../assets/styles/Variables.scss';
+
+.DepartureTag {
+    position: relative;
+    background-color: white;
+    color: Variables.$colors-brand-blue;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius: 1rem;
+    width: 376px;
+    height: auto;
+    box-shadow: 0 20px 25px -10px rgba(0, 0, 0, 0.1);
+}
+
+.Stop {
+    margin: 1rem 1.5rem 0.5rem 1.5rem;
+    font-size: 1.25rem;
+    color: Variables.$colors-brand-blue;
+}
+
+.DepartureRow {
+    display: flex;
+    align-items: center;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-top: 0.5rem;
+}
+
+.Date {
+    color: Variables.$colors-greys-grey30;
+    margin-left: 0.5rem;
+}
+
+.Direction {
+    flex: 1;
+    display: flex;
+    justify-self: left;
+    padding-left: 0.5625rem;
+    line-height: normal;
+    font-weight: 500;
+}
+
+.Departure {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    max-width: 3.25rem;
+    padding-left: 0.5rem;
+    font-weight: 600;
+}
+
+.Divider {
+    content: '';
+    position: absolute;
+    bottom: 4.5rem;
+    left: 1.4rem;
+    right: 1.4rem;
+    height: 1px;
+    background-color: Variables.$colors-greys-grey30;
+}
+
+.ErrorText {
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+    color: Variables.$colors-greys-grey20;
+}

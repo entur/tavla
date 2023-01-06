@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { HeaderCell, Table, TableHead, TableRow } from '@entur/table'
-import { Loader } from '@entur/loader'
 import { ChronoTableRows } from '../ChronoTableRows/ChronoTableRows'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { getIconColorType, getTransportHeaderIcons } from '../../../utils/icon'
@@ -9,11 +8,14 @@ import { TileHeader } from '../../../components/TileHeader/TileHeader'
 import { Tile } from '../../../components/Tile/Tile'
 import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
+    byDepartureTime,
     filterHidden,
     toDeparture,
 } from '../../../logic/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from '../../../components/WalkTrip/WalkTrip'
 import { ErrorTile } from '../../../components/ErrorTile/ErrorTile'
+import { EmptyStopTile } from '../../../components/EmptyStopTile/EmptyStopTile'
+import { Loader } from '../../../components/Loader/Loader'
 import classes from './ChronoDepartureTile.module.scss'
 
 interface ChronoDepartureTileProps {
@@ -30,26 +32,36 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
     )
 
     const { stopPlaceWithEstimatedCalls, loading } =
-        useStopPlaceWithEstimatedCalls(stopPlaceId)
+        useStopPlaceWithEstimatedCalls({ stopPlaceId })
 
     const departures = useMemo(
         () =>
             stopPlaceWithEstimatedCalls?.estimatedCalls
                 .map(toDeparture)
-                .filter(filterHidden(stopPlaceId, settings)) ?? [],
+                .filter(filterHidden(stopPlaceId, settings))
+                .sort(byDepartureTime) ?? [],
         [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
     )
 
     if (loading) {
         return (
             <Tile className={classes.ChronoDepartureTile}>
-                <Loader>Laster</Loader>
+                <Loader />
             </Tile>
         )
     }
 
     if (!stopPlaceWithEstimatedCalls) {
         return <ErrorTile className={classes.ChronoDepartureTile} />
+    }
+
+    if (!departures.length) {
+        return (
+            <EmptyStopTile
+                className={classes.ChronoDepartureTile}
+                title={stopPlaceWithEstimatedCalls.name}
+            />
+        )
     }
 
     return (
@@ -88,7 +100,7 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
                                     classes.Track,
                                 )}
                             >
-                                Spor
+                                Plattform
                             </HeaderCell>
                         )}
                         {!settings.hideSituations && (

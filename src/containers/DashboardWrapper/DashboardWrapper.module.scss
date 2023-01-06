@@ -1,0 +1,23 @@
+.DashboardWrapper {
+    background-color: var(--tavla-background-color);
+    color: var(--tavla-font-color);
+    padding: 0 4rem 2rem 4rem;
+}
+
+.Byline {
+    margin-top: 5rem;
+    display: flex;
+    align-items: center;
+    color: var(--tavla-font-color);
+
+    img {
+        padding-left: 0.75rem;
+    }
+}
+
+.Rotated {
+    transform: rotate(-90deg) translate(-100vh);
+    transform-origin: top left;
+    width: 100vh;
+    height: 100vw;
+}

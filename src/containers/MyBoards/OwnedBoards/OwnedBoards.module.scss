@@ -1,0 +1,38 @@
+.Switch {
+    width: 15rem;
+}
+
+.Header {
+    display: flex;
+    justify-content: space-between;
+    height: fit-content;
+    padding: 2rem 0;
+}
+
+.Wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    font-size: medium;
+}
+
+.NewBoardWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    font-size: medium;
+    background-color: var(--tavla-background-color);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0 1.5rem;
+    border-radius: 0.25rem;
+    color: var(--tavla-font-color);
+
+    &:hover {
+        background-color: var(--tavla-selected-color);
+        cursor: pointer;
+    }
+}

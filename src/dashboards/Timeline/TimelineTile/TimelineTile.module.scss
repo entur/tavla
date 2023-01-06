@@ -1,10 +1,7 @@
 .TimelineTile {
     overflow: hidden;
     position: relative;
-
-    &:last-child {
-        margin-bottom: 5rem;
-    }
+    margin-bottom: 2rem;
 }
 
 .Track {

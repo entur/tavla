@@ -1,0 +1,17 @@
+.Label {
+    color: var(--tavla-label-font-color);
+}
+
+.Paragraph {
+    color: var(--tavla-font-color);
+}
+
+.LogoGrid {
+    padding-bottom: 5rem;
+}
+
+@media (min-width: 1600px) {
+    .LogoGrid {
+        gap: 8rem;
+    }
+}

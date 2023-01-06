@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
-import { Loader } from '@entur/loader'
 import { LockedTavle } from '../Error/ErrorPages'
 import { useUser } from '../../UserProvider'
 import { useSettings } from '../../settings/SettingsProvider'
 import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
 import { isDarkOrDefaultTheme } from '../../utils/utils'
 import { useThemeHandler } from '../../hooks/useThemeHandler'
+import { Loader } from '../../components/Loader/Loader'
 import { Navbar } from '../Navbar/Navbar'
 import { LogoTab } from './LogoTab/LogoTab'
 import { EditTab } from './EditTab/EditTab'
@@ -55,6 +56,9 @@ const AdminPage = (): JSX.Element => {
         <ThemeContrastWrapper
             useContrast={isDarkOrDefaultTheme(settings.theme)}
         >
+            <Helmet>
+                <title>Adminside - Tavla - Entur</title>
+            </Helmet>
             <Navbar theme={settings.theme} />
             <div className="admin">
                 <Tabs

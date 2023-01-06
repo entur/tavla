@@ -25,6 +25,7 @@ function ValidationCheck(): JSX.Element {
             height="2rem"
             viewBox="0 0 16 16"
             enableBackground="new 0 0 16 16"
+            role="img"
         >
             <path
                 id="path-1_1_"

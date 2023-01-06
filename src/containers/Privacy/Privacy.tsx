@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 import {
     Heading1,
     Heading2,
@@ -8,19 +9,20 @@ import {
 } from '@entur/typography'
 import { Contrast } from '@entur/layout'
 import { Navbar } from '../Navbar/Navbar'
-import './Privacy.scss'
+import classes from './Privacy.module.scss'
 
 const Privacy = (): JSX.Element => (
     <>
+        <Helmet>
+            <title>Personvern - Tavla - Entur</title>
+        </Helmet>
         <Navbar />
-        <article className="privacy">
+        <article className={classes.Privacy}>
             <Contrast>
-                <div className="privacy__header">
-                    <Heading1>Personvern</Heading1>
-                </div>
+                <Heading1 className={classes.Heading}>Personvern</Heading1>
             </Contrast>
 
-            <div className="privacy__body">
+            <div className={classes.Body}>
                 <Heading2>Tilganger</Heading2>
                 <Paragraph>
                     For at reiseplanleggeren skal fungere optimalt trenger den

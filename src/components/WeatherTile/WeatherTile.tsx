@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import classNames from 'classnames'
 import { useWeather } from '../../logic'
 import { createAbortController } from '../../utils/utils'
 import { useSettings } from '../../settings/SettingsProvider'
-import { Temperature } from './Temperature'
-import { WeatherIcon } from './WeatherIcon'
-import { Wind } from './Wind'
-import { Precipitation } from './Precipitation'
-import './WeatherTile.scss'
+import { Tile } from '../Tile/Tile'
+import { Temperature } from './Temperature/Temperature'
+import { WeatherIcon } from './WeatherIcon/WeatherIcon'
+import { Wind } from './Wind/Wind'
+import { Precipitation } from './Precipitation/Precipitation'
+import classes from './WeatherTile.module.scss'
 
 const getWeatherDescriptionFromApi = async (
     iconName: string,
@@ -56,9 +58,9 @@ function WeatherTile(props: WeatherTileProps): JSX.Element {
     }, [weatherData])
 
     return (
-        <div className={'weather-tile ' + props.className}>
+        <Tile className={classNames(classes.WeatherTile, props.className)}>
             {(settings.showIcon || settings.showTemperature) && (
-                <div className="weather-tile__icon-and-temperature">
+                <div className={classes.IconAndTemperature}>
                     {settings.showIcon && (
                         <WeatherIcon
                             symbolCode={
@@ -79,7 +81,7 @@ function WeatherTile(props: WeatherTileProps): JSX.Element {
                 </div>
             )}
             {(settings.showWind || settings.showPrecipitation) && (
-                <div className="weather-tile__weather-data-container">
+                <div className={classes.WeatherDataContainer}>
                     {settings.showWind && (
                         <Wind
                             windSpeed={
@@ -112,7 +114,7 @@ function WeatherTile(props: WeatherTileProps): JSX.Element {
                 Været er {weatherData?.data.instant.details.air_temperature}{' '}
                 grader og {description}
             </p>
-        </div>
+        </Tile>
     )
 }
 

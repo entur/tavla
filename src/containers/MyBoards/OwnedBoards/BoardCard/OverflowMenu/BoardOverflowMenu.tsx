@@ -13,12 +13,12 @@ import { useToast } from '@entur/alert'
 import { RemoveLockModal } from '../../../../../components/OverflowModals/RemoveLockModal'
 import { DeleteTavleModal } from '../../../../../components/OverflowModals/DeleteTavleModal'
 import { RemoveSelfFromTavleModal } from '../../../../../components/OverflowModals/RemoveSelfFromTavleModal'
-import '../BoardCard.scss'
 
 function BoardOverflowMenu({
     id,
     uid,
     sharedBoard = false,
+    showCopy = true,
 }: Props): JSX.Element {
     const navigate = useNavigate()
     const [removeLockModalOpen, setRemoveLockModalOpen] =
@@ -43,20 +43,21 @@ function BoardOverflowMenu({
 
     return (
         <>
-            <OverflowMenu className="board-card__text-container__top-wrapper__overflow">
+            <OverflowMenu>
                 <OverflowMenuLink onSelect={overflowEditTavle}>
                     <span aria-hidden>
                         <ConfigurationIcon inline />
                     </span>
                     Rediger tavle
                 </OverflowMenuLink>
-                <OverflowMenuItem onSelect={overflowShareTavle}>
-                    <span aria-hidden>
-                        <CopyIcon inline />
-                    </span>
-                    Kopier lenke
-                </OverflowMenuItem>
-
+                {showCopy && (
+                    <OverflowMenuItem onSelect={overflowShareTavle}>
+                        <span aria-hidden>
+                            <CopyIcon inline />
+                        </span>
+                        Kopier lenke
+                    </OverflowMenuItem>
+                )}
                 {sharedBoard ? (
                     <OverflowMenuItem
                         onSelect={(): void =>
@@ -112,6 +113,7 @@ interface Props {
     id: string
     uid: string
     sharedBoard?: boolean
+    showCopy?: boolean
 }
 
 export { BoardOverflowMenu }

@@ -10,7 +10,7 @@ import { useSettings } from '../../settings/SettingsProvider'
 import { CloseButton } from '../CloseButton/CloseButton'
 import { LoginModal } from '../LoginModal/LoginModal'
 import { LoginCase } from '../LoginModal/login-modal-types'
-import './LockModal.scss'
+import classes from './LockModal.module.scss'
 
 interface LockModalProps {
     open: boolean
@@ -51,18 +51,24 @@ const LockModal: React.FC<LockModalProps> = ({ open, onDismiss }) => {
 
     return (
         <Modal
+            className={classes.LockModal}
             size="small"
             open={open}
             title=""
             onDismiss={onDismiss}
-            className="lock-modal"
         >
             <CloseButton onClick={onDismiss} />
-            <div className="centered">
-                <img src={Check} srcSet={`${retinaCheck} 2x`} />
+            <div className={classes.Centered}>
+                <img
+                    className={classes.Image}
+                    src={Check}
+                    srcSet={`${retinaCheck} 2x`}
+                />
             </div>
-            <Heading3 margin="none">Tavla er låst til din konto</Heading3>
-            <Paragraph>
+            <Heading3 className={classes.Heading} margin="none">
+                Tavla er låst til din konto
+            </Heading3>
+            <Paragraph className={classes.Paragraph}>
                 Fra nå av kan bare du redigere denne tavla. Hvis du ikke vil ha
                 tavla lagret lenger, kan du slette den fra oversikten over dine
                 tavler.
@@ -70,10 +76,10 @@ const LockModal: React.FC<LockModalProps> = ({ open, onDismiss }) => {
             <GridContainer spacing="medium">
                 <GridItem small={12}>
                     <PrimaryButton
+                        className={classes.SubmitButton}
                         width="fluid"
                         type="submit"
                         onClick={onDismiss}
-                        className="modal-submit"
                     >
                         Se avgangstavla
                     </PrimaryButton>

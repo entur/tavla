@@ -1,80 +1,52 @@
-import { useEffect } from 'react'
-import { useSettings } from '../../settings/SettingsProvider'
-import { REFRESH_INTERVAL } from '../../constants'
+import { useMemo } from 'react'
+import { ApolloError } from '@apollo/client'
 import {
     FormFactor,
-    useUseRentalStations_StationsByIdLazyQuery,
-    useUseRentalStations_NearbyStationsLazyQuery,
-    StationFragment,
+    useRentalStationsQuery,
 } from '../../../graphql-generated/mobility-v2'
 import { isNotNullOrUndefined } from '../../utils/typeguards'
+import { REFRESH_INTERVAL } from '../../constants'
+import { useStationIds } from '../use-station-ids/useStationIds'
+import { toRentalStation, RentalStation } from './types'
+
+interface UseRentalStations {
+    rentalStations: RentalStation[]
+    loading: boolean
+    error: ApolloError | undefined
+}
 
 function useRentalStations(
-    excludeHiddenStations = true,
-    formFactor: FormFactor | undefined = undefined,
-    isDisabled = false,
-): StationFragment[] {
-    const [settings] = useSettings()
+    formFactors?: FormFactor[],
+    filterHidden: boolean | undefined = true,
+): UseRentalStations {
+    const {
+        stationIds,
+        loading: allStationIdsLoading,
+        error: allStationIdsError,
+    } = useStationIds({ formFactors, filterHidden })
 
-    const [getNearbyStations, { data: getNearByStationsData }] =
-        useUseRentalStations_NearbyStationsLazyQuery()
+    const { data, loading, error } = useRentalStationsQuery({
+        skip: allStationIdsLoading,
+        fetchPolicy: 'cache-and-network',
+        pollInterval: REFRESH_INTERVAL,
+        variables: {
+            ids: stationIds,
+        },
+    })
 
-    const [getStationsById, { data: getStationsByIdData }] =
-        useUseRentalStations_StationsByIdLazyQuery()
+    const rentalStations = useMemo(
+        () =>
+            data?.stationsById
+                ?.map(toRentalStation)
+                .filter(isNotNullOrUndefined) ?? [],
+        [data?.stationsById],
+    )
 
-    useEffect(() => {
-        if (isDisabled) return
-        getNearbyStations({
-            fetchPolicy: 'cache-and-network',
-            variables: {
-                lat: settings.coordinates.latitude,
-                lon: settings.coordinates.longitude,
-                range: settings.distance,
-                availableFormFactors: formFactor,
-            },
-        }).finally()
-    }, [
-        settings.coordinates,
-        settings.distance,
-        isDisabled,
-        getNearbyStations,
-        formFactor,
-    ])
-
-    useEffect(() => {
-        if (!getNearByStationsData || isDisabled) return
-        const nearbyStationIds =
-            getNearByStationsData?.stations
-                ?.filter(isNotNullOrUndefined)
-                .map((station) => station.id) ?? []
-
-        const stationsToFetch = excludeHiddenStations
-            ? nearbyStationIds.filter(
-                  (stationId) => !settings.hiddenStations.includes(stationId),
-              )
-            : nearbyStationIds
-
-        const uniqueStationsToFetch = [
-            ...new Set([...stationsToFetch, ...settings.newStations]),
-        ]
-
-        getStationsById({
-            fetchPolicy: 'cache-and-network',
-            pollInterval: REFRESH_INTERVAL,
-            variables: {
-                stationIds: uniqueStationsToFetch,
-            },
-        }).finally()
-    }, [
-        settings.hiddenStations,
-        settings.newStations,
-        isDisabled,
-        excludeHiddenStations,
-        getStationsById,
-        getNearByStationsData,
-    ])
-
-    return getStationsByIdData?.stationsById?.filter(isNotNullOrUndefined) ?? []
+    return {
+        rentalStations,
+        loading: loading || allStationIdsLoading,
+        error: error || allStationIdsError,
+    }
 }
 
 export { useRentalStations }

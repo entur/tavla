@@ -1,0 +1,26 @@
+.ImageTile {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--tavla-box-background-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+
+    @media (max-width: 1000px) {
+        min-height: 20rem;
+    }
+}
+
+.InfoBox {
+    max-width: 90%;
+    width: fit-content;
+    border-radius: 0.5rem;
+    background-color: var(--tavla-box-background-color);
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+}

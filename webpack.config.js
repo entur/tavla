@@ -75,11 +75,6 @@ module.exports = async (env, args) => ({
                     filename: 'assets/[hash][ext][query]',
                 },
             },
-            {
-                test: /\.graphql$/,
-                exclude: /node_modules/,
-                loader: 'graphql-tag/loader',
-            },
         ],
     },
     devServer: {

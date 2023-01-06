@@ -1,0 +1,55 @@
+@use '../../assets/styles/Variables.scss';
+
+.MapDashboard {
+    width: 100%;
+    color: white;
+    padding: 0;
+    padding-bottom: 2rem;
+}
+
+.Header,
+.Byline {
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
+.DepartureDisplay {
+    width: 100%;
+    display: flex;
+    position: absolute;
+    height: auto;
+    bottom: 1.5rem;
+    align-items: center;
+    justify-content: left;
+    overflow-x: scroll;
+    z-index: 3;
+}
+
+.Content {
+    max-width: 100%;
+}
+
+.WeatherDisplay {
+    position: absolute;
+    width: min-content;
+    top: 9rem;
+    right: 0;
+}
+
+.WeatherTileMap {
+    position: relative;
+    background-color: white;
+    color: Variables.$colors-brand-blue;
+    padding: 2rem 0;
+    margin: 0 1rem;
+    border-radius: 1rem;
+    min-height: 100px;
+    min-width: 100px;
+    box-shadow: 0 20px 25px -10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1000px) {
+    .Content {
+        margin-bottom: 6rem;
+    }
+}

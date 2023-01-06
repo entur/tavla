@@ -10,7 +10,7 @@ import { TavlaLogo } from '../../assets/icons'
 import { LoginModal } from '../../components/LoginModal/LoginModal'
 import { LoginCase } from '../../components/LoginModal/login-modal-types'
 import { Theme } from '../../types'
-import './Navbar.scss'
+import classes from './Navbar.module.scss'
 
 interface NavbarProps {
     theme?: Theme
@@ -48,58 +48,89 @@ const Navbar: React.FC<NavbarProps> = ({ theme }) => {
 
     return (
         <Contrast>
-            <nav className="navbar">
-                <div className="navbar__left">
+            <nav className={classes.Navbar}>
+                <div>
                     <Link to="/">
-                        <TavlaLogo
-                            className="landing-page__logo"
-                            theme={theme}
-                        />
+                        <TavlaLogo className={classes.Logo} theme={theme} />
                     </Link>
                 </div>
-                <div className="navbar__right">
-                    <ul>
+                <div>
+                    <ul className={classes.List}>
                         {onMineTavler && userLoggedIn && (
-                            <li>
-                                <TopNavigationItem onClick={logout}>
-                                    <span>Logg ut</span>
-                                    <LogOutIcon size="20" />
+                            <li className={classes.Element}>
+                                <TopNavigationItem
+                                    className={classes.Link}
+                                    onClick={logout}
+                                    href="/tavler"
+                                >
+                                    <span className={classes.Text}>
+                                        Logg ut
+                                    </span>
+                                    <LogOutIcon
+                                        className={classes.Icon}
+                                        size="20"
+                                    />
                                 </TopNavigationItem>
                             </li>
                         )}
                         {onMineTavler && !userLoggedIn && (
-                            <li>
-                                <TopNavigationItem onClick={login}>
-                                    <span>Logg inn</span>
-                                    <UserIcon size="20" />
+                            <li className={classes.Element}>
+                                <TopNavigationItem
+                                    className={classes.Link}
+                                    onClick={login}
+                                >
+                                    <span className={classes.Text}>
+                                        Logg inn
+                                    </span>
+                                    <UserIcon
+                                        className={classes.Icon}
+                                        size="20"
+                                    />
                                 </TopNavigationItem>
                             </li>
                         )}
                         {!onMineTavler && (
-                            <li>
-                                <TopNavigationItem as={Link} to="/tavler">
-                                    <span>Mine tavler</span>
-                                    <UserIcon size="20" />
+                            <li className={classes.Element}>
+                                <TopNavigationItem
+                                    className={classes.Link}
+                                    as={Link}
+                                    to="/tavler"
+                                >
+                                    <span className={classes.Text}>
+                                        Mine tavler
+                                    </span>
+                                    <UserIcon
+                                        className={classes.Icon}
+                                        size="20"
+                                    />
                                 </TopNavigationItem>
                             </li>
                         )}
-                        <li>
+                        <li className={classes.Element}>
                             <TopNavigationItem
+                                className={classes.Link}
                                 as={Link}
                                 to="/privacy"
                                 active={location.pathname === '/privacy'}
                             >
-                                <span>Personvern</span>
-                                <PrivacyIcon size="20" />
+                                <span className={classes.Text}>Personvern</span>
+                                <PrivacyIcon
+                                    className={classes.Icon}
+                                    size="20"
+                                />
                             </TopNavigationItem>
                         </li>
-                        <li>
+                        <li className={classes.Element}>
                             <TopNavigationItem
+                                className={classes.Link}
                                 as="a"
                                 href="https://github.com/entur/tavla"
                             >
-                                <span>GitHub</span>
-                                <GithubIcon size="20" />
+                                <span className={classes.Text}>GitHub</span>
+                                <GithubIcon
+                                    className={classes.Icon}
+                                    size="20"
+                                />
                             </TopNavigationItem>
                         </li>
                     </ul>

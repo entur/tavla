@@ -72,6 +72,7 @@ $max-width: 86rem;
 
     &__screenshot {
         max-width: 100%;
+        cursor: pointer;
     }
 
     article {
@@ -81,10 +82,6 @@ $max-width: 86rem;
 
     &__article-grid-item {
         padding: 0 Variables.$space-default;
-    }
-
-    &__logo {
-        height: 32px;
     }
 
     &__cover-photo {
@@ -111,5 +108,27 @@ $max-width: 86rem;
         &__link-wrapper {
             padding: Variables.$space-extra-large3 Variables.$space-medium;
         }
+    }
+}
+
+.screenreader-text {
+    color: #181c56;
+
+    &:focus {
+        background: #ffca28;
+        color: #181c56;
+        display: block;
+        text-align: center;
+        padding: 1em;
+        margin: 0 auto;
+        outline: none;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 30;
+    }
+
+    &:visited {
+        display: none;
     }
 }

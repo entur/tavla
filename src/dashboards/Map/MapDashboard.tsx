@@ -1,38 +1,16 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
-import {
-    useStopPlacesWithDepartures,
-    useRentalStations,
-    useWalkInfo,
-    useMobility,
-} from '../../logic'
+import { useStopPlaceIds } from '../../logic/use-stop-place-ids/useStopPlaceIds'
 import { Map } from '../../components/Map/Map'
 import { useSettings } from '../../settings/SettingsProvider'
 import { WeatherTile } from '../../components/WeatherTile/WeatherTile'
-import { FormFactor } from '../../../graphql-generated/mobility-v2'
 import { DepartureTag } from './DepartureTag/DepartureTag'
-import './MapDashboard.scss'
+import classes from './MapDashboard.module.scss'
 
 const MapDashboard = (): JSX.Element => {
     const [settings] = useSettings()
+    const { stopPlaceIds } = useStopPlaceIds()
 
-    const stopPlacesWithDepartures = useStopPlacesWithDepartures()
-    const bikeRentalStations = useRentalStations(
-        true,
-        FormFactor.Bicycle,
-        settings.hiddenModes.includes('bysykkel'),
-    )
-
-    const walkInfoDestinations = useMemo(() => {
-        if (!stopPlacesWithDepartures) return []
-        return stopPlacesWithDepartures.map((dep) => ({
-            ...dep,
-            place: dep.id,
-        }))
-    }, [stopPlacesWithDepartures])
-    const walkTimes = useWalkInfo(walkInfoDestinations)
-
-    const scooters = useMobility(FormFactor.Scooter)
     const HEADER_MARGIN = 16
     //Used to calculate the height of the viewport for the map
     const headerHeight =
@@ -40,34 +18,24 @@ const MapDashboard = (): JSX.Element => {
         HEADER_MARGIN
     return (
         <DashboardWrapper
-            className="map-view"
-            stopPlacesWithDepartures={stopPlacesWithDepartures}
-            bikeRentalStations={bikeRentalStations}
+            className={classes.MapDashboard}
+            classes={{ Header: classes.Header, Byline: classes.Byline }}
         >
             <div
                 style={{ height: `calc(100vh - ${headerHeight}px)` }}
-                className="content"
+                className={classes.Content}
             >
-                <Map
-                    scooters={scooters}
-                    bikeRentalStations={bikeRentalStations}
-                    stopPlaces={stopPlacesWithDepartures}
-                    walkTimes={walkTimes}
-                    interactive
-                    latitude={settings.coordinates.latitude}
-                    longitude={settings.coordinates.longitude}
-                    zoom={settings.zoom}
-                />
+                <Map />
                 {settings.showWeather && (
-                    <div className="weather-display">
-                        <WeatherTile className="weather-tile-map" />
+                    <div className={classes.WeatherDisplay}>
+                        <WeatherTile className={classes.WeatherTileMap} />
                     </div>
                 )}
-                <div className="departure-display">
-                    {stopPlacesWithDepartures?.map((stopPlace) => (
+                <div className={classes.DepartureDisplay}>
+                    {stopPlaceIds.map((stopPlaceId) => (
                         <DepartureTag
-                            key={stopPlace.id}
-                            stopPlace={stopPlace}
+                            key={stopPlaceId}
+                            stopPlaceId={stopPlaceId}
                         />
                     ))}
                 </div>

@@ -1,7 +1,0 @@
-query UseLinesWithRealtimePositions @api(name: vehicles) {
-    vehicles {
-        line {
-            lineRef
-        }
-    }
-}

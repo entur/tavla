@@ -1,0 +1,24 @@
+@use '../../../../assets/styles/Variables.scss';
+
+.Line {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.Route {
+    margin: 0;
+    margin-top: 0.25rem;
+    font-size: 1.5rem;
+    line-height: 2.25rem;
+    font-weight: 600;
+    color: var(--primary-text-color);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.Time,
+.Track {
+    font-size: 1.25rem;
+    font-weight: 400;
+}

@@ -1,0 +1,7 @@
+query RealtimePositionLineRefs @api(name: vehicles) {
+    vehicles {
+        line {
+            lineRef
+        }
+    }
+}

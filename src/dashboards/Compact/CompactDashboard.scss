@@ -10,6 +10,7 @@
         display: block;
         flex-direction: row;
         overflow-x: visible;
+        margin-bottom: 5rem;
 
         .tile {
             width: 100%;
@@ -43,10 +44,6 @@
     .react-grid-layout {
         position: relative;
         transition: height 200ms ease;
-    }
-
-    .react-grid-layout:last-child {
-        margin-bottom: 5rem;
     }
 
     .react-grid-item {
@@ -120,19 +117,6 @@
 
     .react-grid-item:hover > .resizeHandle {
         opacity: 1;
-    }
-}
-
-@media (min-width: 996px) {
-    .compact {
-        &__tiles {
-            /*
-            react-grid-layout uses a margin of 32px between all grid-items.
-            This makes the tiles not lign up with the header, so to counteract
-            these margins on the sides and top, this styling is needed.
-            */
-            margin: -2rem;
-        }
     }
 }
 

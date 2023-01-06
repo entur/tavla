@@ -1,6 +1,5 @@
 import React, { Fragment, useMemo } from 'react'
 import { groupBy } from 'lodash'
-import { Loader } from '@entur/loader'
 import { getIconColorType, getTransportHeaderIcons } from '../../../utils/icon'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { Tick } from '../Tick/Tick'
@@ -18,6 +17,7 @@ import { TimelineWalkMarker } from '../TimelineWalkMarker/TimelineWalkMarker'
 import { Mode } from '../../../../graphql-generated/journey-planner-v3'
 import { TimelineDeparture } from '../TimelineDeparture/TimelineDeparture'
 import { ErrorTile } from '../../../components/ErrorTile/ErrorTile'
+import { Loader } from '../../../components/Loader/Loader'
 import classes from './TimelineTile.module.scss'
 
 const MODE_ORDER = ['rail', 'metro', 'tram', 'bus', 'water', 'air']
@@ -41,7 +41,7 @@ const TimelineTile: React.FC<Props> = ({ stopPlaceId }) => {
     )
 
     const { stopPlaceWithEstimatedCalls, loading } =
-        useStopPlaceWithEstimatedCalls(stopPlaceId)
+        useStopPlaceWithEstimatedCalls({ stopPlaceId })
 
     const departures = useMemo(
         () =>
@@ -59,7 +59,7 @@ const TimelineTile: React.FC<Props> = ({ stopPlaceId }) => {
     if (loading) {
         return (
             <Tile className={classes.TimelineTile}>
-                <Loader>Laster</Loader>
+                <Loader />
             </Tile>
         )
     }

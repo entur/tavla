@@ -1,0 +1,27 @@
+.RealtimeDetailPanel {
+    & :global {
+        .eds-expandable-panel__content,
+        .eds-expandable-panel__trigger,
+        .eds-expandable-panel__trigger:hover {
+            background: none;
+            box-shadow: none;
+        }
+
+        .eds-chip {
+            background-color: var(--tavla-border-color);
+        }
+
+        .eds-filter-chip__icon {
+            background-color: var(--tavla-background-color);
+        }
+    }
+}
+
+.RouteDisplaySelection {
+    display: flex;
+    align-items: center;
+}
+
+.InfoText {
+    margin-right: 1rem;
+}

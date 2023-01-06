@@ -1,0 +1,28 @@
+@use '../../../../../../assets/styles/Variables.scss';
+
+.Row {
+    -webkit-font-smoothing: antialiased;
+    align-items: center;
+    display: flex;
+    font-size: Variables.$font-sizes-large;
+    font-weight: 600;
+    height: 3rem;
+    justify-content: space-between;
+
+    &:not(:last-child) {
+        border-bottom: 0.125rem solid var(--tavla-border-color);
+    }
+}
+
+.Icons {
+    display: flex;
+    align-items: center;
+}
+
+.Icon {
+    cursor: pointer;
+
+    &:not(:last-child) {
+        margin-right: 1rem;
+    }
+}

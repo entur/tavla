@@ -177,100 +177,100 @@ export type VehicleUpdate = {
   vehicleRef: Maybe<Scalars['String']>;
 };
 
-export type UseLinesWithRealtimePositionsQueryVariables = Exact<{ [key: string]: never; }>;
+export type RealtimePositionLineRefsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UseLinesWithRealtimePositionsQuery = { __typename?: 'Query', vehicles: Array<{ __typename?: 'VehicleUpdate', line: { __typename?: 'Line', lineRef: string | null } | null } | null> | null };
+export type RealtimePositionLineRefsQuery = { __typename?: 'Query', vehicles: Array<{ __typename?: 'VehicleUpdate', line: { __typename?: 'Line', lineRef: string | null } | null } | null> | null };
 
-export type UseRealtimeVehicleData_VehicleFragment = { __typename?: 'VehicleUpdate', vehicleRef: string | null, mode: VehicleModeEnumeration | null, lastUpdated: DateTime | null, lastUpdatedEpochSecond: number | null, line: { __typename?: 'Line', lineName: string | null, lineRef: string | null } | null, location: { __typename?: 'Location', latitude: number, longitude: number } | null };
+export type RealtimeVehicleFragment = { __typename?: 'VehicleUpdate', vehicleRef: string | null, mode: VehicleModeEnumeration | null, lastUpdated: DateTime | null, lastUpdatedEpochSecond: number | null, line: { __typename?: 'Line', lineName: string | null, lineRef: string | null } | null, location: { __typename?: 'Location', latitude: number, longitude: number } | null };
 
-export type UseRealtimeVehicleData_VehiclesQueryVariables = Exact<{
+export type RealtimeVehicleQueryVariables = Exact<{
   boundingBox?: InputMaybe<BoundingBox>;
 }>;
 
 
-export type UseRealtimeVehicleData_VehiclesQuery = { __typename?: 'Query', vehicles: Array<{ __typename?: 'VehicleUpdate', vehicleRef: string | null, mode: VehicleModeEnumeration | null, lastUpdated: DateTime | null, lastUpdatedEpochSecond: number | null, line: { __typename?: 'Line', lineName: string | null, lineRef: string | null } | null, location: { __typename?: 'Location', latitude: number, longitude: number } | null } | null> | null };
+export type RealtimeVehicleQuery = { __typename?: 'Query', vehicles: Array<{ __typename?: 'VehicleUpdate', vehicleRef: string | null, mode: VehicleModeEnumeration | null, lastUpdated: DateTime | null, lastUpdatedEpochSecond: number | null, line: { __typename?: 'Line', lineName: string | null, lineRef: string | null } | null, location: { __typename?: 'Location', latitude: number, longitude: number } | null } | null> | null };
 
-export type UseRealtimeVehicleData_VehiclesSubscriptionVariables = Exact<{
+export type RealtimeVehicleSubscriptionVariables = Exact<{
   bufferSize?: InputMaybe<Scalars['Int']>;
   bufferTime?: InputMaybe<Scalars['Int']>;
   boundingBox?: InputMaybe<BoundingBox>;
 }>;
 
 
-export type UseRealtimeVehicleData_VehiclesSubscription = { __typename?: 'Subscription', vehicleUpdates: Array<{ __typename?: 'VehicleUpdate', vehicleRef: string | null, mode: VehicleModeEnumeration | null, lastUpdated: DateTime | null, lastUpdatedEpochSecond: number | null, line: { __typename?: 'Line', lineName: string | null, lineRef: string | null } | null, location: { __typename?: 'Location', latitude: number, longitude: number } | null } | null> | null };
+export type RealtimeVehicleSubscription = { __typename?: 'Subscription', vehicleUpdates: Array<{ __typename?: 'VehicleUpdate', vehicleRef: string | null, mode: VehicleModeEnumeration | null, lastUpdated: DateTime | null, lastUpdatedEpochSecond: number | null, line: { __typename?: 'Line', lineName: string | null, lineRef: string | null } | null, location: { __typename?: 'Location', latitude: number, longitude: number } | null } | null> | null };
 
-export const UseRealtimeVehicleData_VehicleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UseRealtimeVehicleData_VehicleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"VehicleUpdate"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicleRef"}},{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lineName"}},{"kind":"Field","name":{"kind":"Name","value":"lineRef"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mode"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdated"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedEpochSecond"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]} as unknown as DocumentNode;
-export const UseLinesWithRealtimePositionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UseLinesWithRealtimePositions"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"vehicles"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lineRef"}}]}}]}}]}}]} as unknown as DocumentNode;
+export const RealtimeVehicleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RealtimeVehicleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"VehicleUpdate"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicleRef"}},{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lineName"}},{"kind":"Field","name":{"kind":"Name","value":"lineRef"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mode"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdated"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedEpochSecond"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]} as unknown as DocumentNode;
+export const RealtimePositionLineRefsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RealtimePositionLineRefs"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"vehicles"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lineRef"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
- * __useUseLinesWithRealtimePositionsQuery__
+ * __useRealtimePositionLineRefsQuery__
  *
- * To run a query within a React component, call `useUseLinesWithRealtimePositionsQuery` and pass it any options that fit your needs.
- * When your component renders, `useUseLinesWithRealtimePositionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRealtimePositionLineRefsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRealtimePositionLineRefsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUseLinesWithRealtimePositionsQuery({
+ * const { data, loading, error } = useRealtimePositionLineRefsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useUseLinesWithRealtimePositionsQuery(baseOptions?: Apollo.QueryHookOptions<UseLinesWithRealtimePositionsQuery, UseLinesWithRealtimePositionsQueryVariables>) {
+export function useRealtimePositionLineRefsQuery(baseOptions?: Apollo.QueryHookOptions<RealtimePositionLineRefsQuery, RealtimePositionLineRefsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UseLinesWithRealtimePositionsQuery, UseLinesWithRealtimePositionsQueryVariables>(UseLinesWithRealtimePositionsDocument, options);
+        return Apollo.useQuery<RealtimePositionLineRefsQuery, RealtimePositionLineRefsQueryVariables>(RealtimePositionLineRefsDocument, options);
       }
-export function useUseLinesWithRealtimePositionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UseLinesWithRealtimePositionsQuery, UseLinesWithRealtimePositionsQueryVariables>) {
+export function useRealtimePositionLineRefsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RealtimePositionLineRefsQuery, RealtimePositionLineRefsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UseLinesWithRealtimePositionsQuery, UseLinesWithRealtimePositionsQueryVariables>(UseLinesWithRealtimePositionsDocument, options);
+          return Apollo.useLazyQuery<RealtimePositionLineRefsQuery, RealtimePositionLineRefsQueryVariables>(RealtimePositionLineRefsDocument, options);
         }
-export type UseLinesWithRealtimePositionsQueryHookResult = ReturnType<typeof useUseLinesWithRealtimePositionsQuery>;
-export type UseLinesWithRealtimePositionsLazyQueryHookResult = ReturnType<typeof useUseLinesWithRealtimePositionsLazyQuery>;
-export type UseLinesWithRealtimePositionsQueryResult = Apollo.QueryResult<UseLinesWithRealtimePositionsQuery, UseLinesWithRealtimePositionsQueryVariables>;
-export const UseRealtimeVehicleData_VehiclesQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UseRealtimeVehicleData_VehiclesQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"boundingBox"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"BoundingBox"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"vehicles"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"boundingBox"},"value":{"kind":"Variable","name":{"kind":"Name","value":"boundingBox"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UseRealtimeVehicleData_VehicleFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UseRealtimeVehicleData_VehicleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"VehicleUpdate"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicleRef"}},{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lineName"}},{"kind":"Field","name":{"kind":"Name","value":"lineRef"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mode"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdated"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedEpochSecond"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]} as unknown as DocumentNode;
+export type RealtimePositionLineRefsQueryHookResult = ReturnType<typeof useRealtimePositionLineRefsQuery>;
+export type RealtimePositionLineRefsLazyQueryHookResult = ReturnType<typeof useRealtimePositionLineRefsLazyQuery>;
+export type RealtimePositionLineRefsQueryResult = Apollo.QueryResult<RealtimePositionLineRefsQuery, RealtimePositionLineRefsQueryVariables>;
+export const RealtimeVehicleQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RealtimeVehicleQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"boundingBox"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"BoundingBox"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"vehicles"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"boundingBox"},"value":{"kind":"Variable","name":{"kind":"Name","value":"boundingBox"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RealtimeVehicleFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RealtimeVehicleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"VehicleUpdate"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicleRef"}},{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lineName"}},{"kind":"Field","name":{"kind":"Name","value":"lineRef"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mode"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdated"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedEpochSecond"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]} as unknown as DocumentNode;
 
 /**
- * __useUseRealtimeVehicleData_VehiclesQuery__
+ * __useRealtimeVehicleQuery__
  *
- * To run a query within a React component, call `useUseRealtimeVehicleData_VehiclesQuery` and pass it any options that fit your needs.
- * When your component renders, `useUseRealtimeVehicleData_VehiclesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRealtimeVehicleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRealtimeVehicleQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUseRealtimeVehicleData_VehiclesQuery({
+ * const { data, loading, error } = useRealtimeVehicleQuery({
  *   variables: {
  *      boundingBox: // value for 'boundingBox'
  *   },
  * });
  */
-export function useUseRealtimeVehicleData_VehiclesQuery(baseOptions?: Apollo.QueryHookOptions<UseRealtimeVehicleData_VehiclesQuery, UseRealtimeVehicleData_VehiclesQueryVariables>) {
+export function useRealtimeVehicleQuery(baseOptions?: Apollo.QueryHookOptions<RealtimeVehicleQuery, RealtimeVehicleQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UseRealtimeVehicleData_VehiclesQuery, UseRealtimeVehicleData_VehiclesQueryVariables>(UseRealtimeVehicleData_VehiclesQueryDocument, options);
+        return Apollo.useQuery<RealtimeVehicleQuery, RealtimeVehicleQueryVariables>(RealtimeVehicleQueryDocument, options);
       }
-export function useUseRealtimeVehicleData_VehiclesQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UseRealtimeVehicleData_VehiclesQuery, UseRealtimeVehicleData_VehiclesQueryVariables>) {
+export function useRealtimeVehicleQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RealtimeVehicleQuery, RealtimeVehicleQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UseRealtimeVehicleData_VehiclesQuery, UseRealtimeVehicleData_VehiclesQueryVariables>(UseRealtimeVehicleData_VehiclesQueryDocument, options);
+          return Apollo.useLazyQuery<RealtimeVehicleQuery, RealtimeVehicleQueryVariables>(RealtimeVehicleQueryDocument, options);
         }
-export type UseRealtimeVehicleData_VehiclesQueryHookResult = ReturnType<typeof useUseRealtimeVehicleData_VehiclesQuery>;
-export type UseRealtimeVehicleData_VehiclesQueryLazyQueryHookResult = ReturnType<typeof useUseRealtimeVehicleData_VehiclesQueryLazyQuery>;
-export type UseRealtimeVehicleData_VehiclesQueryQueryResult = Apollo.QueryResult<UseRealtimeVehicleData_VehiclesQuery, UseRealtimeVehicleData_VehiclesQueryVariables>;
-export const UseRealtimeVehicleData_VehiclesSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"UseRealtimeVehicleData_VehiclesSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"bufferSize"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"bufferTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"boundingBox"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"BoundingBox"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"vehicles"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicleUpdates"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"bufferSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"bufferSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"bufferTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"bufferTime"}}},{"kind":"Argument","name":{"kind":"Name","value":"boundingBox"},"value":{"kind":"Variable","name":{"kind":"Name","value":"boundingBox"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UseRealtimeVehicleData_VehicleFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UseRealtimeVehicleData_VehicleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"VehicleUpdate"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicleRef"}},{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lineName"}},{"kind":"Field","name":{"kind":"Name","value":"lineRef"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mode"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdated"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedEpochSecond"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]} as unknown as DocumentNode;
+export type RealtimeVehicleQueryHookResult = ReturnType<typeof useRealtimeVehicleQuery>;
+export type RealtimeVehicleQueryLazyQueryHookResult = ReturnType<typeof useRealtimeVehicleQueryLazyQuery>;
+export type RealtimeVehicleQueryQueryResult = Apollo.QueryResult<RealtimeVehicleQuery, RealtimeVehicleQueryVariables>;
+export const RealtimeVehicleSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"RealtimeVehicleSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"bufferSize"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"bufferTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"boundingBox"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"BoundingBox"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"vehicles"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicleUpdates"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"bufferSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"bufferSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"bufferTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"bufferTime"}}},{"kind":"Argument","name":{"kind":"Name","value":"boundingBox"},"value":{"kind":"Variable","name":{"kind":"Name","value":"boundingBox"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RealtimeVehicleFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RealtimeVehicleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"VehicleUpdate"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vehicleRef"}},{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lineName"}},{"kind":"Field","name":{"kind":"Name","value":"lineRef"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mode"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdated"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedEpochSecond"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}}]}}]} as unknown as DocumentNode;
 
 /**
- * __useUseRealtimeVehicleData_VehiclesSubscription__
+ * __useRealtimeVehicleSubscription__
  *
- * To run a query within a React component, call `useUseRealtimeVehicleData_VehiclesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useUseRealtimeVehicleData_VehiclesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRealtimeVehicleSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useRealtimeVehicleSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUseRealtimeVehicleData_VehiclesSubscription({
+ * const { data, loading, error } = useRealtimeVehicleSubscription({
  *   variables: {
  *      bufferSize: // value for 'bufferSize'
  *      bufferTime: // value for 'bufferTime'
@@ -278,9 +278,9 @@ export const UseRealtimeVehicleData_VehiclesSubscriptionDocument = {"kind":"Docu
  *   },
  * });
  */
-export function useUseRealtimeVehicleData_VehiclesSubscription(baseOptions?: Apollo.SubscriptionHookOptions<UseRealtimeVehicleData_VehiclesSubscription, UseRealtimeVehicleData_VehiclesSubscriptionVariables>) {
+export function useRealtimeVehicleSubscription(baseOptions?: Apollo.SubscriptionHookOptions<RealtimeVehicleSubscription, RealtimeVehicleSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<UseRealtimeVehicleData_VehiclesSubscription, UseRealtimeVehicleData_VehiclesSubscriptionVariables>(UseRealtimeVehicleData_VehiclesSubscriptionDocument, options);
+        return Apollo.useSubscription<RealtimeVehicleSubscription, RealtimeVehicleSubscriptionVariables>(RealtimeVehicleSubscriptionDocument, options);
       }
-export type UseRealtimeVehicleData_VehiclesSubscriptionHookResult = ReturnType<typeof useUseRealtimeVehicleData_VehiclesSubscription>;
-export type UseRealtimeVehicleData_VehiclesSubscriptionSubscriptionResult = Apollo.SubscriptionResult<UseRealtimeVehicleData_VehiclesSubscription>;
+export type RealtimeVehicleSubscriptionHookResult = ReturnType<typeof useRealtimeVehicleSubscription>;
+export type RealtimeVehicleSubscriptionSubscriptionResult = Apollo.SubscriptionResult<RealtimeVehicleSubscription>;

@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { capitalize } from 'lodash'
 import { Heading2 } from '@entur/typography'
 import { useCounter } from '../../hooks/useCounter'
-import './Clock.scss'
+import classes from './Clock.module.scss'
 
 interface ClockProps {
     className?: string
@@ -26,25 +26,11 @@ function Clock({ className }: ClockProps): JSX.Element {
     }).format(now)
 
     return (
-        <div className={classNames('clock', className)}>
-            <Heading2
-                margin="none"
-                className={classNames(
-                    'clock__time',
-                    !!className && `${className}__time`,
-                )}
-                as="span"
-            >
+        <div className={classNames(classes.Clock, className)}>
+            <Heading2 margin="none" className={classes.Time} as="span">
                 {time}
             </Heading2>
-            <span
-                className={classNames(
-                    'clock__date',
-                    !!className && `${className}__date`,
-                )}
-            >
-                {capitalize(date)}
-            </span>
+            <span className={classes.Date}>{capitalize(date)}</span>
         </div>
     )
 }

@@ -2,40 +2,25 @@
 
 .BusStopTile {
     max-height: 80vh;
+    margin-bottom: 2rem;
+}
+
+.TileHeader {
+    padding-bottom: 2rem;
 }
 
 .TableHead {
     border-bottom: none;
 }
 
-.Icon {
-    width: 10%;
+.Cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.Departure {
-    width: 18%;
-}
-
-.Track {
-    width: 18%;
-}
-
-.Situation {
-    width: 30%;
-}
-
-@media (max-width: BusStopDashboard.$breakpoint-mobile) {
-    .Departure {
-        width: 22%;
-    }
-
-    .Track {
-        width: 13%;
-    }
-
-    .Situation {
-        width: 11%;
-    }
+.Cell:last-child {
+    width: 100%;
 }
 
 .UuText {

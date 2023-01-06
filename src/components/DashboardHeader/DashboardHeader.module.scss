@@ -1,0 +1,20 @@
+.DashboardHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 2rem 0;
+    overflow: hidden;
+}
+
+.LogoDescription {
+    margin-bottom: 0;
+    margin-top: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--tavla-font-color);
+    display: block;
+}
+
+.Logo {
+    height: 2rem;
+}

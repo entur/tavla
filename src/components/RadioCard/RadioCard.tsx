@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import classNames from 'classnames'
 import { Heading3, Paragraph } from '@entur/typography'
-import { RadioBox } from './RadioBox/RadioBox'
-import './RadioCard.scss'
+import { ValidationCheck } from '../../assets/icons/ValidationCheck'
+import classes from './RadioCard.module.scss'
 
 interface RadioCardProps<T> {
     title: string
@@ -12,6 +12,7 @@ interface RadioCardProps<T> {
     description?: string
     onChange: (value: T) => void
     className?: string
+    altText?: string
 }
 
 function RadioCard<T>({
@@ -22,6 +23,7 @@ function RadioCard<T>({
     preview,
     onChange,
     className,
+    altText,
 }: RadioCardProps<T>): JSX.Element {
     const handleClick = useCallback(
         (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -34,29 +36,29 @@ function RadioCard<T>({
     return (
         <div
             className={classNames(
-                'radio-card',
+                classes.RadioCard,
                 {
-                    'radio-card__selected': selected,
+                    [classes.Selected]: selected,
                 },
                 className,
             )}
             onClick={handleClick}
         >
-            <img className="radio-card__preview" src={preview} />
-            <div className="radio-card__radio-container">
-                <div className="radio-card__radio-container__header-wrapper">
-                    <RadioBox
-                        className="radio-card__radio-container__header-wrapper__radio-element"
-                        selected={selected}
-                    />
-                    <Heading3
-                        className="radio-card__radio-container__header-wrapper__title"
-                        margin="none"
+            <img className={classes.Preview} src={preview} alt={altText} />
+            <div className={classes.RadioContainer}>
+                <div className={classes.HeaderWrapper}>
+                    <div
+                        className={classNames(classes.Radio, {
+                            [classes.Checked]: selected,
+                        })}
                     >
+                        {selected ? <ValidationCheck /> : null}
+                    </div>
+                    <Heading3 className={classes.Title} margin="none">
                         {title}
                     </Heading3>
                 </div>
-                <Paragraph className="radio-card__radio-container__description">
+                <Paragraph className={classes.Description}>
                     {description}
                 </Paragraph>
             </div>

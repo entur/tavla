@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { groupBy } from 'lodash'
-import { Loader } from '@entur/loader'
 import { CompactTileRow } from '../CompactTileRow/CompactTileRow'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { getIconColorType, getTransportHeaderIcons } from '../../../utils/icon'
@@ -15,6 +14,8 @@ import { WalkTrip } from '../../../components/WalkTrip/WalkTrip'
 import { createTileSubLabel } from '../../../utils/utils'
 import { TransportModeIcon } from '../../../components/TransportModeIcon/TransportModeIcon'
 import { ErrorTile } from '../../../components/ErrorTile/ErrorTile'
+import { EmptyStopTile } from '../../../components/EmptyStopTile/EmptyStopTile'
+import { Loader } from '../../../components/Loader/Loader'
 import classes from './CompactDepartureTile.module.scss'
 
 interface CompactDepartureTileProps {
@@ -31,7 +32,7 @@ const CompactDepartureTile: React.FC<CompactDepartureTileProps> = ({
     )
 
     const { stopPlaceWithEstimatedCalls, loading } =
-        useStopPlaceWithEstimatedCalls(stopPlaceId)
+        useStopPlaceWithEstimatedCalls({ stopPlaceId })
 
     const departures = useMemo(
         () =>
@@ -49,13 +50,22 @@ const CompactDepartureTile: React.FC<CompactDepartureTileProps> = ({
     if (loading) {
         return (
             <Tile className={classes.CompactDepartureTile}>
-                <Loader>Laster</Loader>
+                <Loader />
             </Tile>
         )
     }
 
     if (!stopPlaceWithEstimatedCalls) {
         return <ErrorTile className={classes.CompactDepartureTile} />
+    }
+
+    if (!departures.length) {
+        return (
+            <EmptyStopTile
+                className={classes.CompactDepartureTile}
+                title={stopPlaceWithEstimatedCalls.name}
+            />
+        )
     }
 
     return (

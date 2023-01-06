@@ -27,6 +27,7 @@ function ValidationExclamation({ className }: Props): JSX.Element {
             viewBox="0 0 16 16"
             enableBackground="new 0 0 16 16"
             className={className}
+            role="img"
         >
             <path
                 id="path-1_1_"
