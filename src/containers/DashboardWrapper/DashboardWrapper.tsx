@@ -12,6 +12,7 @@ import { useThemeHandler } from '../../hooks/useThemeHandler'
 import { DashboardHeader } from '../../components/DashboardHeader/DashboardHeader'
 import { BottomMenu } from './BottomMenu/BottomMenu'
 import classes from './DashboardWrapper.module.scss'
+import { Footer } from '../../components/Footer/Footer'
 
 interface DashboardWrapperProps {
     className: string
@@ -67,6 +68,7 @@ function DashboardWrapper({
                 </div>
             )}
             <BottomMenu />
+            <Footer />
         </ThemeContrastWrapper>
     )
 }

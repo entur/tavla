@@ -14,6 +14,7 @@ import previewScreenshot from '../../assets/images/preview-screenshot.png'
 import { SearchPanel } from './SearchPanel/SearchPanel'
 import { TypographyCarousel } from './TypographyCarousel/TypographyCarousel'
 import './LandingPage.scss'
+import { Footer } from '../../components/Footer/Footer'
 
 function EnturLink(): JSX.Element {
     return (
@@ -175,6 +176,7 @@ function LandingPage(): JSX.Element {
                     </article>
                 </div>
             </div>
+            <Footer/>
         </>
     )
 }
