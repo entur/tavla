@@ -50,9 +50,7 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
     // eslint-disable-next-line prettier/prettier
-    const urlPattern = new RegExp(
-        '^(https?://)?(www)+.([A-z0-9]+).([A-z]{2,})',
-    )
+    const urlPattern = new RegExp('^(https?://)?(www)+.([A-z0-9]+).([A-z]{2,})')
 
     const handleSubmit = (actionType: ActionType) => {
         if (!urlPattern.test(sourceUrl)) {
