@@ -1,4 +1,4 @@
-.Compact {
+.GridDashboard {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
@@ -30,6 +30,7 @@
             -o-user-select: none;
             user-select: none;
         }
+
         .react-grid-item.cssTransforms {
             transition-property: transform;
         }
@@ -72,7 +73,7 @@
 }
 
 @media (max-width: 1000px) {
-    .Compact {
+    .GridDashboard {
         padding: 1rem 1rem 6rem;
         overflow: auto;
     }
