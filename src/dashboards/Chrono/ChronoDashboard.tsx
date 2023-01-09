@@ -18,7 +18,7 @@ import { QRTile } from '../../components/QRTile/QRTile'
 import { MobileAppQRTile } from '../../components/MobileAppQRTile/MobileAppQRTile'
 import { useStopPlaceIds } from '../../logic/use-stop-place-ids/useStopPlaceIds'
 import { ChronoDepartureTile } from './ChronoDepartureTile/ChronoDepartureTile'
-import './ChronoDashboard.scss'
+import classes from './ChronoDashboard.module.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -119,8 +119,8 @@ const ChronoDashboard = (): JSX.Element | null => {
     )
 
     return (
-        <DashboardWrapper className="chrono">
-            <div className="chrono__tiles">
+        <DashboardWrapper className={classes.Chrono}>
+            <div className={classes.Tiles}>
                 <ResponsiveReactGridLayout
                     key={breakpoint}
                     breakpoints={BREAKPOINTS}
@@ -128,6 +128,16 @@ const ChronoDashboard = (): JSX.Element | null => {
                     layouts={gridLayouts}
                     isResizable={!isMobile}
                     isDraggable={!isMobile}
+                    draggableCancel={`.${classes.ResizeHandle}`}
+                    resizeHandle={
+                        <span>
+                            <ResizeHandle
+                                size="32"
+                                variant="light"
+                                className={classes.ResizeHandle}
+                            />
+                        </span>
+                    }
                     containerPadding={[0, 0]}
                     onBreakpointChange={(newBreakpoint: string) => {
                         setBreakpoint(newBreakpoint)
@@ -147,11 +157,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                             key="weather"
                             data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
                         >
-                            <ResizeHandle
-                                size="32"
-                                className="resizeHandle"
-                                variant="light"
-                            />
                             <WeatherTile className="tile" />
                         </div>
                     )}
@@ -163,11 +168,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                                 maxWidthCols,
                             )}
                         >
-                            <ResizeHandle
-                                size="32"
-                                className="resizeHandle"
-                                variant="light"
-                            />
                             <ChronoDepartureTile stopPlaceId={stopPlaceId} />
                         </div>
                     ))}
@@ -179,13 +179,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                                 maxWidthCols,
                             )}
                         >
-                            {!isMobile && (
-                                <ResizeHandle
-                                    size="32"
-                                    className="resizeHandle"
-                                    variant="light"
-                                />
-                            )}
                             <BikeTile />
                         </div>
                     )}
@@ -198,13 +191,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                                 maxWidthCols,
                             )}
                         >
-                            {!isMobile && (
-                                <ResizeHandle
-                                    size="32"
-                                    className="resizeHandle"
-                                    variant="dark"
-                                />
-                            )}
                             <MapTile />
                         </div>
                     )}
@@ -237,13 +223,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     2,
                                 )}
                             >
-                                {!isMobile && (
-                                    <ResizeHandle
-                                        size="32"
-                                        className="resizeHandle"
-                                        variant="light"
-                                    />
-                                )}
                                 <ImageTile {...imageTile} />
                             </div>
                         ))}
@@ -263,13 +242,6 @@ const ChronoDashboard = (): JSX.Element | null => {
                                     2,
                                 )}
                             >
-                                {!isMobile && (
-                                    <ResizeHandle
-                                        size="32"
-                                        className="resizeHandle"
-                                        variant="light"
-                                    />
-                                )}
                                 <QRTile
                                     title={qrTile.displayName}
                                     sourceUrl={qrTile.sourceUrl}

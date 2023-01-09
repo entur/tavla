@@ -18,7 +18,7 @@ import { MapTile } from '../../components/MapTile/MapTile'
 import { MobileAppQRTile } from '../../components/MobileAppQRTile/MobileAppQRTile'
 import { QRTile } from '../../components/QRTile/QRTile'
 import { CompactDepartureTile } from './CompactDepartureTile/CompactDepartureTile'
-import './CompactDashboard.scss'
+import classes from './CompactDashboard.module.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -116,8 +116,8 @@ const CompactDashboard = (): JSX.Element | null => {
     )
 
     return (
-        <DashboardWrapper className="compact">
-            <div className="compact__tiles">
+        <DashboardWrapper className={classes.Compact}>
+            <div className={classes.Tiles}>
                 <ResponsiveReactGridLayout
                     key={breakpoint}
                     breakpoints={BREAKPOINTS}
@@ -125,6 +125,16 @@ const CompactDashboard = (): JSX.Element | null => {
                     layouts={gridLayouts}
                     isResizable={!isMobile}
                     isDraggable={!isMobile}
+                    draggableCancel={`.${classes.ResizeHandle}`}
+                    resizeHandle={
+                        <span>
+                            <ResizeHandle
+                                size="32"
+                                variant="light"
+                                className={classes.ResizeHandle}
+                            />
+                        </span>
+                    }
                     margin={[32, 32]}
                     containerPadding={[0, 0]}
                     onBreakpointChange={(newBreakpoint: string) => {
@@ -145,12 +155,7 @@ const CompactDashboard = (): JSX.Element | null => {
                             key="weather"
                             data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
                         >
-                            <ResizeHandle
-                                size="32"
-                                className="resizeHandle"
-                                variant="light"
-                            />
-                            <WeatherTile className="tile" />
+                            <WeatherTile />
                         </div>
                     )}
                     {stopPlaceIds.map((stopPlaceId, index) => (
@@ -161,11 +166,6 @@ const CompactDashboard = (): JSX.Element | null => {
                                 maxWidthCols,
                             )}
                         >
-                            <ResizeHandle
-                                size="32"
-                                className="resizeHandle"
-                                variant="light"
-                            />
                             <CompactDepartureTile stopPlaceId={stopPlaceId} />
                         </div>
                     ))}
@@ -177,13 +177,6 @@ const CompactDashboard = (): JSX.Element | null => {
                                 maxWidthCols,
                             )}
                         >
-                            {!isMobile && (
-                                <ResizeHandle
-                                    size="32"
-                                    className="resizeHandle"
-                                    variant="light"
-                                />
-                            )}
                             <BikeTile />
                         </div>
                     )}
@@ -196,13 +189,6 @@ const CompactDashboard = (): JSX.Element | null => {
                                 maxWidthCols,
                             )}
                         >
-                            {!isMobile && (
-                                <ResizeHandle
-                                    size="32"
-                                    className="resizeHandle"
-                                    variant="dark"
-                                />
-                            )}
                             <MapTile />
                         </div>
                     )}
@@ -235,13 +221,6 @@ const CompactDashboard = (): JSX.Element | null => {
                                     2,
                                 )}
                             >
-                                {!isMobile && (
-                                    <ResizeHandle
-                                        size="32"
-                                        className="resizeHandle"
-                                        variant="light"
-                                    />
-                                )}
                                 <ImageTile {...imageTile} />
                             </div>
                         ))}
@@ -261,13 +240,6 @@ const CompactDashboard = (): JSX.Element | null => {
                                     2,
                                 )}
                             >
-                                {!isMobile && (
-                                    <ResizeHandle
-                                        size="32"
-                                        className="resizeHandle"
-                                        variant="light"
-                                    />
-                                )}
                                 <QRTile
                                     title={qrTile.displayName}
                                     sourceUrl={qrTile.sourceUrl}
