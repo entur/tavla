@@ -110,7 +110,7 @@ function WeatherTile(props: WeatherTileProps): JSX.Element {
                     )}
                 </div>
             )}
-            <p tabIndex={0} className="uu-text">
+            <p tabIndex={0} className={classes.UuText}>
                 Været er {weatherData?.data.instant.details.air_temperature}{' '}
                 grader og {description}
             </p>
