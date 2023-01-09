@@ -41,7 +41,8 @@ const Content = (): JSX.Element => {
                         <Route path="/privacy" element={<Privacy />} />
                         <Route path="*" element={<PageDoesNotExist />} />
                     </Routes>
-                    <Footer />
+                    <Homefooter/>
+                    {/* <Footer /> */}
                 </ToastProvider>
             </div>
         </ApolloProvider>
