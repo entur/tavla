@@ -9,7 +9,7 @@ import { REFRESH_INTERVAL } from '../../../../constants'
 import { toDeparture } from '../../../../logic/use-stop-place-with-estimated-calls/departure'
 import { isNotNullOrUndefined } from '../../../../utils/typeguards'
 import { toStopPlaceWithEstimatedCalls } from '../../../../logic/use-stop-place-with-estimated-calls/types'
-import './BusTile.scss'
+import classes from './BusTile.module.scss'
 
 function BusTile(): JSX.Element {
     const { stopPlaceIds, loading: stopPlaceIdsLoading } = useStopPlaceIds()
@@ -45,18 +45,18 @@ function BusTile(): JSX.Element {
         [data?.stopPlaces, numberOfLines],
     )
 
-    const rowClass = classNames('poster-bus-tile-row', {
-        'poster-bus-tile-row--only-bus': onlyBusShowing,
+    const rowClass = classNames(classes.BusTileRow, {
+        [classes.BusTileRowOnlyBus]: onlyBusShowing,
     })
 
-    const routeClass = classNames('poster-bus-tile-route', {
-        'poster-bus-tile-route--only-bus': onlyBusShowing,
+    const routeClass = classNames(classes.BusRoute, {
+        [classes.BusRouteOnlyBus]: onlyBusShowing,
     })
 
     return (
         <>
-            <div className="poster-next-bus">Neste buss</div>
-            <div className="poster-bus-tile">
+            <div className={classes.NextBus}>Neste buss</div>
+            <div className={classes.BusTile}>
                 {busDepartures.map((departure) => {
                     const routeNumber = departure.route.split(' ')[0]
                     const routeDestination = departure.route
@@ -67,15 +67,13 @@ function BusTile(): JSX.Element {
                     return (
                         <div key={departure.id} className={rowClass}>
                             <div className={routeClass}>
-                                <BusIcon className="poster-bus-tile-icon" />
+                                <BusIcon className={classes.Icon} />
                                 <span>{routeNumber}</span>
                             </div>
-                            <p className="poster-bus-tile-destination">
+                            <p className={classes.Destination}>
                                 {routeDestination}
                             </p>
-                            <p className="poster-bus-tile-time">
-                                {departure.time}
-                            </p>
+                            <p className={classes.Time}>{departure.time}</p>
                         </div>
                     )
                 })}

@@ -14,14 +14,14 @@ import { PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
 import { Privacy } from './Privacy/Privacy'
 import { MyBoards } from './MyBoards/MyBoards'
-import './styles.scss'
+import classes from './App.module.scss'
 
 const Content = (): JSX.Element => {
     useUpdateManifest()
 
     return (
         <ApolloProvider client={apolloClient}>
-            <div className={classNames('themeBackground')}>
+            <div className={classNames(classes.ThemeBackground)}>
                 <ToastProvider>
                     <Routes>
                         <Route path="/" element={<LandingPage />} />
