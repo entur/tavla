@@ -10,7 +10,6 @@ import { useReloadTavleOnUpdate } from '../../hooks/useReloadTavleOnUpdate'
 import { useHandleFontScaling } from '../../hooks/useHandleFontScaling'
 import { useThemeHandler } from '../../hooks/useThemeHandler'
 import { DashboardHeader } from '../../components/DashboardHeader/DashboardHeader'
-import { Footer } from '../../components/Footer/Footer'
 import { BottomMenu } from './BottomMenu/BottomMenu'
 import classes from './DashboardWrapper.module.scss'
 

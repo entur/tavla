@@ -9,13 +9,13 @@ import { apolloClient } from '../apollo-client'
 import { DashboardResolver } from '../dashboards/DashboardResolver'
 import { ToastProvider } from '../types'
 import { useUpdateManifest } from '../hooks/useUpdateManifest'
+import { Footer } from '../components/Footer/Footer'
 import { AdminPage } from './Admin/AdminPage'
 import { PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
 import { Privacy } from './Privacy/Privacy'
 import { MyBoards } from './MyBoards/MyBoards'
 import './styles.scss'
-import { Footer } from '../components/Footer/Footer'
 
 const Content = (): JSX.Element => {
     useUpdateManifest()
