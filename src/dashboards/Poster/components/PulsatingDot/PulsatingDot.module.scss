@@ -1,0 +1,37 @@
+.PulsatingDot {
+    height: 50px;
+    width: 50px;
+}
+
+.OuterCircle {
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+    animation: pulsate 1s ease-out;
+    animation-iteration-count: infinite;
+    background-color: var(--tavla-success-font-color);
+}
+
+.InnerCircle {
+    background-color: var(--tavla-success-font-color, 0.3);
+    position: relative;
+    border-radius: 100%;
+    top: -75%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+}
+
+@keyframes pulsate {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

@@ -17,7 +17,7 @@ import { DashboardPickerTab } from './DashboardPickerTab/DashboardPickerTab'
 import { NameTab } from './NameTab/NameTab'
 import { LockAndViewButtons } from './LockAndViewButtons/LockAndViewButtons'
 import { ShareTab } from './ShareTab/ShareTab'
-import './AdminPage.scss'
+import classes from './AdminPage.module.scss'
 
 const AdminPage = (): JSX.Element => {
     const [settings] = useSettings()
@@ -60,21 +60,23 @@ const AdminPage = (): JSX.Element => {
                 <title>Adminside - Tavla - Entur</title>
             </Helmet>
             <Navbar theme={settings.theme} />
-            <div className="admin">
-                <Tabs
-                    index={currentIndex}
-                    onChange={setCurrentIndex}
-                    className="admin__tabs"
-                >
-                    <TabList className="admin__tabs__header">
-                        <Tab>Rediger innhold</Tab>
-                        <Tab>Velg visning</Tab>
-                        <Tab>Tilpass utseende</Tab>
-                        <Tab>Last opp logo {lockIcon}</Tab>
-                        <Tab>Endre lenke {lockIcon}</Tab>
-                        <Tab>Deling {lockIconShareTab}</Tab>
+            <div className={classes.Admin}>
+                <Tabs index={currentIndex} onChange={setCurrentIndex}>
+                    <TabList className={classes.TabList}>
+                        <Tab className={classes.Tab}>Rediger innhold</Tab>
+                        <Tab className={classes.Tab}>Velg visning</Tab>
+                        <Tab className={classes.Tab}>Tilpass utseende</Tab>
+                        <Tab className={classes.Tab}>
+                            Last opp logo {lockIcon}
+                        </Tab>
+                        <Tab className={classes.Tab}>
+                            Endre lenke {lockIcon}
+                        </Tab>
+                        <Tab className={classes.Tab}>
+                            Deling {lockIconShareTab}
+                        </Tab>
                     </TabList>
-                    <TabPanels className="admin__tabs__tab-panels">
+                    <TabPanels>
                         <TabPanel>
                             <EditTab />
                         </TabPanel>

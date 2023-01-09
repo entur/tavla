@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { NumberDisplay } from '../NumberDisplay/NumberDisplay'
 import { useSettings } from '../../../../settings/SettingsProvider'
-import './MobilityTile.scss'
+import classes from './MobilityTile.module.scss'
 
 interface MobilityTileProps {
     icon: React.ReactNode
@@ -20,21 +20,17 @@ const MobilityTile: React.FC<MobilityTileProps> = ({
     const [settings] = useSettings()
     const vertical = settings.hiddenModes.includes('kollektiv')
 
-    const mobilityTileClass = classNames('poster-mobility-tile', {
-        'poster-mobility-tile--listed': vertical,
+    const mobilityTileClass = classNames(classes.MobilityTile, {
+        [classes.MobilityTileList]: vertical,
     })
 
     return (
         <div className={mobilityTileClass}>
-            <div className="poster-mobility-tile-description">
-                <h2 className="poster-mobility-tile-description-heading">
-                    {header}
-                </h2>
-                <h3 className="poster-mobility-tile-description-area">
-                    {description}
-                </h3>
+            <div className={classes.MobilityDescription}>
+                <h2 className={classes.Heading}>{header}</h2>
+                <h3 className={classes.Area}>{description}</h3>
             </div>
-            <div className="poster-mobility-tile-vehicles-box">
+            <div className={classes.VehiclesBox}>
                 {icon}
                 <NumberDisplay numberOfVehicles={numberOfVehicles} />
             </div>

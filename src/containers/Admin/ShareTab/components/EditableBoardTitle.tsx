@@ -4,6 +4,7 @@ import { CheckIcon, CloseIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading2 } from '@entur/typography'
 import { updateSingleSettingsField } from '../../../../settings/firebase'
+import classes from '../ShareTab.module.scss'
 
 const EditableBoardTitle = ({ boardName, documentId }: Props): JSX.Element => {
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
@@ -29,9 +30,9 @@ const EditableBoardTitle = ({ boardName, documentId }: Props): JSX.Element => {
 
     if (titleEditMode) {
         return (
-            <span className="share-page__title">
+            <span className={classes.Title}>
                 <input
-                    className="share-page__title--input"
+                    className={classes.EditTitleInput}
                     defaultValue={boardName}
                     autoFocus={true}
                     onChange={(e) => setNewBoardName(e.currentTarget.value)}
@@ -42,7 +43,7 @@ const EditableBoardTitle = ({ boardName, documentId }: Props): JSX.Element => {
                 <Tooltip placement="bottom" content="Lagre navn">
                     <IconButton
                         onClick={onChangeTitle}
-                        className="share-page__title__button"
+                        className={classes.EditTitleButton}
                     >
                         <CheckIcon />
                     </IconButton>
@@ -50,7 +51,7 @@ const EditableBoardTitle = ({ boardName, documentId }: Props): JSX.Element => {
                 <Tooltip placement="bottom" content="Avbryt">
                     <IconButton
                         onClick={() => setTitleEditMode(false)}
-                        className="share-page__title__button"
+                        className={classes.EditTitleButton}
                     >
                         <CloseIcon />
                     </IconButton>
@@ -60,12 +61,12 @@ const EditableBoardTitle = ({ boardName, documentId }: Props): JSX.Element => {
     }
 
     return (
-        <Heading2 className="share-page__title" margin="none" as="span">
+        <Heading2 className={classes.Title} margin="none" as="span">
             {boardName}
             <Tooltip placement="bottom" content="Endre navn">
                 <IconButton
                     onClick={() => setTitleEditMode(true)}
-                    className="share-page__title__button"
+                    className={classes.EditTitleButton}
                 >
                     <EditIcon size={20} />
                 </IconButton>
