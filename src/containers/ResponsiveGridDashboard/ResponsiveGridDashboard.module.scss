@@ -1,0 +1,80 @@
+.GridDashboard {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+
+    /* Global styling is used here to modify react-grid-layout styling */
+    & :global {
+        .react-grid-layout {
+            position: relative;
+            transition: height 200ms ease;
+        }
+
+        .react-grid-item {
+            transition: all 200ms ease;
+            transition-property: left, top;
+            z-index: 1;
+        }
+
+        .react-grid-item.react-grid-placeholder {
+            background: var(--tavla-border-color);
+            opacity: 0.2;
+            transition-duration: 100ms;
+            z-index: 2;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+
+        .react-grid-item.cssTransforms {
+            transition-property: transform;
+        }
+
+        .react-grid-item.resizing {
+            z-index: 1;
+            will-change: width, height;
+        }
+
+        .react-grid-item.react-draggable-dragging {
+            transition: none;
+            z-index: 3;
+            will-change: transform;
+        }
+
+        .react-grid-item.dropping {
+            visibility: hidden;
+        }
+    }
+}
+
+.Tiles {
+    display: block;
+    overflow-x: visible;
+    margin-bottom: 5rem;
+}
+
+.ResizeHandle {
+    position: absolute;
+    bottom: 0.3rem;
+    right: 0.3rem;
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.3s;
+    cursor: nwse-resize;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 1000px) {
+    .GridDashboard {
+        padding: 1rem 1rem 6rem;
+        overflow: auto;
+    }
+}
