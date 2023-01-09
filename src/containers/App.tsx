@@ -15,6 +15,7 @@ import { LandingPage } from './LandingPage/LandingPage'
 import { Privacy } from './Privacy/Privacy'
 import { MyBoards } from './MyBoards/MyBoards'
 import classes from './App.module.scss'
+import { Homefooter } from '../components/HomeFooter/HomeFooter'
 
 const Content = (): JSX.Element => {
     useUpdateManifest()
