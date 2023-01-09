@@ -1,0 +1,40 @@
+@use '../../assets/styles/Variables.scss';
+
+.Modal {
+    padding: 0.8rem 1.5rem 1.5rem;
+    text-align: center;
+    height: fit-content;
+}
+
+.GridContainer {
+    padding: 10%;
+}
+
+.Paragraph {
+    padding: 0 1rem;
+    margin: 0;
+}
+
+.Image {
+    width: 45%;
+    margin: 0 auto;
+}
+
+.ModalHeader {
+    display: flex;
+    align-items: center;
+}
+
+.BottomLink {
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 3rem;
+}
+
+.ModalSubmit {
+    margin-top: 1rem;
+}
+
+.BackButton {
+    cursor: pointer;
+}

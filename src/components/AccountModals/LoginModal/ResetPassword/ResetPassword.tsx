@@ -6,12 +6,13 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { BackArrowIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
-import { auth } from '../../../UserProvider'
-import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
-import { CloseButton } from '../../CloseButton/CloseButton'
+import { auth } from '../../../../UserProvider'
+import sikkerhetBom from '../../../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../../../assets/images/sikkerhet_bom@2x.png'
+import { CloseButton } from '../../../CloseButton/CloseButton'
 import { ModalType } from '../login-modal-types'
-import { useFormFields } from '../../../hooks/useFormFields'
+import { useFormFields } from '../../../../hooks/useFormFields'
+import classes from '../../AccountModals.module.scss'
 
 export interface UserResetPassword {
     email: string
@@ -59,25 +60,27 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
 
     return (
         <>
-            <div className="modal-header">
+            <div className={classes.ModalHeader}>
                 <BackArrowIcon
                     size={30}
                     onClick={(): void =>
                         setModalType(ModalType.LoginEmailModal)
                     }
-                    className="go-to"
+                    className={classes.BackButton}
                 />
                 <CloseButton onClick={handleClose} />
             </div>
-            <div className="centered">
-                <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
-            </div>
+            <img
+                src={sikkerhetBom}
+                srcSet={`${retinaSikkerhetBom} 2x`}
+                className={classes.Image}
+            />
             <Heading3 margin="none">Glemt passord</Heading3>
-            <Paragraph>
+            <Paragraph className={classes.Paragraph}>
                 Skriv inn e-postadressen som du registrerte profilen din på, så
                 sender vi deg en lenke der du kan lage et nytt passord.
             </Paragraph>
-            <GridContainer spacing="medium">
+            <GridContainer spacing="medium" className={classes.GridContainer}>
                 <GridItem small={12}>
                     <TextField
                         label="E-post"
@@ -96,7 +99,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                         width="fluid"
                         type="button"
                         onClick={handleReset}
-                        className="modal-submit"
+                        className={classes.ModalSubmit}
                     >
                         Send nytt passord
                     </PrimaryButton>

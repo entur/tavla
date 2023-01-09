@@ -6,6 +6,7 @@ import { Tooltip } from '@entur/tooltip'
 import { addNewInviteToBoard } from '../../../../settings/firebase'
 import { useUser } from '../../../../UserProvider'
 import { BoardOwnersData, Invite } from '../../../../types'
+import classes from '../ShareTab.module.scss'
 
 const EMAIL_REGEX =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -87,8 +88,8 @@ const AddNewOwnersInput = ({
     }
 
     return (
-        <div className="share-page__input-area">
-            <div className="share-page__input-area__input-field">
+        <div className={classes.InputArea}>
+            <div className={classes.InputField}>
                 <TextField
                     label="E-postadressen til brukeren"
                     value={newOwnerInput}
@@ -110,7 +111,7 @@ const AddNewOwnersInput = ({
                     feedback={inputFeedbackMessage}
                 />
             </div>
-            <div className="share-page__input-area__submit-button">
+            <div className={classes.SubmitButton}>
                 <Tooltip content="Legg til eier" placement="top">
                     <SecondarySquareButton
                         onClick={onAddOwnerRequestToBoard}

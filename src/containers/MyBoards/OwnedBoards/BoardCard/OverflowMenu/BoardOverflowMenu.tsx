@@ -10,9 +10,9 @@ import {
 } from '@entur/icons'
 import { OverflowMenu, OverflowMenuItem, OverflowMenuLink } from '@entur/menu'
 import { useToast } from '@entur/alert'
-import { RemoveLockModal } from '../../../../../components/OverflowModals/RemoveLockModal'
-import { DeleteTavleModal } from '../../../../../components/OverflowModals/DeleteTavleModal'
-import { RemoveSelfFromTavleModal } from '../../../../../components/OverflowModals/RemoveSelfFromTavleModal'
+import { RemoveLockModal } from '../../../../../components/AccountModals/RemoveLockModal/RemoveLockModal'
+import { DeleteTavleModal } from '../../../../../components/AccountModals/DeleteTavleModal/DeleteTavleModal'
+import { RemoveSelfFromTavleModal } from '../../../../../components/AccountModals/RemoveSelfFromTavleModal/RemoveSelfFromTavleModal'
 
 function BoardOverflowMenu({
     id,

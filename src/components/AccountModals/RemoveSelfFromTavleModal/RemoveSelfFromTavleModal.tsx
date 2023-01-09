@@ -4,11 +4,11 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { useToast } from '@entur/alert'
-import sikkerhetBom from '../../assets/images/sikkerhet_bom.png'
-import retinaSikkerhetBom from '../../assets/images/sikkerhet_bom@2x.png'
-import { removeFromOwners } from '../../settings/FirestoreStorage'
-import { CloseButton } from '../CloseButton/CloseButton'
-import './OverflowModals.scss'
+import sikkerhetBom from '../../../assets/images/sikkerhet_bom.png'
+import retinaSikkerhetBom from '../../../assets/images/sikkerhet_bom@2x.png'
+import { removeFromOwners } from '../../../settings/FirestoreStorage'
+import { CloseButton } from '../../CloseButton/CloseButton'
+import classes from '../AccountModals.module.scss'
 
 interface RemoveSelfFromTavleModalProps {
     open: boolean
@@ -45,19 +45,21 @@ const RemoveSelfFromTavleModal: React.FC<RemoveSelfFromTavleModalProps> = ({
             open={open}
             title=""
             onDismiss={onDismiss}
-            className="overflow-modal"
+            className={classes.Modal}
         >
             <CloseButton onClick={onDismiss} />
-            <div className="centered">
-                <img src={sikkerhetBom} srcSet={`${retinaSikkerhetBom} 2x`} />
-            </div>
+            <img
+                src={sikkerhetBom}
+                srcSet={`${retinaSikkerhetBom} 2x`}
+                className={classes.Image}
+            />
             <Heading3 margin="none">Forlate avgangstavle?</Heading3>
-            <Paragraph>
+            <Paragraph className={classes.Paragraph}>
                 Er du sikker på at du vil forlate denne tavla? Tilgangen for
                 andre tavla eventuelt er delt med vil ikke endres, men du selv
                 vil ikke lenger ha mulighet til å gjøre endringer i den.
             </Paragraph>
-            <GridContainer spacing="medium">
+            <GridContainer spacing="medium" className={classes.GridContainer}>
                 <GridItem small={12}>
                     <PrimaryButton
                         width="fluid"

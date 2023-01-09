@@ -4,12 +4,13 @@ import { useToast } from '@entur/alert'
 import { IconButton } from '@entur/button'
 import { LinkIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
+import classes from '../ShareTab.module.scss'
 
 const BoardLink = ({ boardID }: Props): JSX.Element => {
     const { addToast } = useToast()
 
     return (
-        <div className="share-page__link">
+        <div className={classes.Link}>
             <Tooltip placement="bottom-right" content="Kopier lenke">
                 <IconButton
                     className="share-page__link__button"
@@ -23,8 +24,8 @@ const BoardLink = ({ boardID }: Props): JSX.Element => {
                         })
                     }}
                 >
-                    <LinkIcon className="share-page__link__icon" />
-                    <span className="share-page__link__description">
+                    <LinkIcon className={classes.Icon} />
+                    <span className={classes.Description}>
                         {`${window.location.host}/t/${boardID}`}
                     </span>
                 </IconButton>
