@@ -176,7 +176,6 @@ function LandingPage(): JSX.Element {
                     </article>
                 </div>
             </div>
-            <Footer />
         </>
     )
 }

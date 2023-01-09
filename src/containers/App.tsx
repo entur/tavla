@@ -15,6 +15,7 @@ import { LandingPage } from './LandingPage/LandingPage'
 import { Privacy } from './Privacy/Privacy'
 import { MyBoards } from './MyBoards/MyBoards'
 import './styles.scss'
+import { Footer } from '../components/Footer/Footer'
 
 const Content = (): JSX.Element => {
     useUpdateManifest()
@@ -39,6 +40,7 @@ const Content = (): JSX.Element => {
                         <Route path="/privacy" element={<Privacy />} />
                         <Route path="*" element={<PageDoesNotExist />} />
                     </Routes>
+                    <Footer />
                 </ToastProvider>
             </div>
         </ApolloProvider>

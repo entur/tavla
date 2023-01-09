@@ -108,7 +108,6 @@ const AdminPage = (): JSX.Element => {
                 </Tabs>
                 <LockAndViewButtons />
             </div>
-            <Footer />
         </ThemeContrastWrapper>
     )
 }

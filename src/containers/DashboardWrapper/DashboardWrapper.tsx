@@ -68,7 +68,6 @@ function DashboardWrapper({
                 </div>
             )}
             <BottomMenu />
-            <Footer />
         </ThemeContrastWrapper>
     )
 }
