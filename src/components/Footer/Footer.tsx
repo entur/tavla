@@ -11,10 +11,8 @@ const Footer: React.FC = () => (
             className={classes.Link}
             aria-label="Tilgjengelighetserklæring (bokmål)"
         >
-            <div>
-                Tilgjengelighetserklæring (bokmål)
-                <ExternalIcon className={classes.Icon} />
-            </div>
+            Tilgjengelighetserklæring (bokmål)
+            <ExternalIcon className={classes.Icon} />
         </a>
         <a
             href="https://uustatus.no/nn/erklaringer/publisert/9fd7ca5e-7d93-4dac-8c4b-9b0b75502627"
@@ -23,10 +21,8 @@ const Footer: React.FC = () => (
             className={classes.Link}
             aria-label="Tilgjengelighetserklæring (nynorsk)"
         >
-            <div>
-                Tilgjengelighetserklæring (nynorsk)
-                <ExternalIcon className={classes.Icon} />
-            </div>
+            Tilgjengelighetserklæring (nynorsk)
+            <ExternalIcon className={classes.Icon} />
         </a>
     </div>
 )
