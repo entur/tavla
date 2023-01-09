@@ -1,0 +1,34 @@
+.Admin {
+    background-color: var(--tavla-background-color);
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    padding: 2rem 4rem 6rem;
+    color: var(--tavla-font-color);
+    @media (max-width: 1000px) {
+        .admin {
+            padding: 1rem;
+        }
+    }
+}
+
+.Tab {
+    width: 12rem;
+    min-height: 3rem;
+    height: auto;
+    flex: 1;
+}
+
+@media (max-width: 1000px) {
+    .Admin {
+        padding: 1rem;
+    }
+
+    .TabList {
+        mask-image: linear-gradient(
+            to right,
+            rgba(0, 0, 0, 1) 85%,
+            rgba(0, 0, 0, 0) 100%
+        );
+    }
+}

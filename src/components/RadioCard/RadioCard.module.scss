@@ -1,7 +1,7 @@
 .RadioCard {
     padding: 1rem;
     margin: 1.5rem 1.5rem 1.5rem 0;
-    border: 2px solid var(--tavla-border-color);
+    border: 2px solid var(--tavla-checkbox-hover-color);
     border-radius: 0.3rem;
     background-color: var(--tavla-background-color);
 
@@ -37,7 +37,7 @@
 .Radio {
     height: 2rem;
     width: 2rem;
-    border: 2px solid var(--tavla-border-color);
+    border: 2px solid var(--tavla-checkbox-hover-color);
     border-radius: 1.5rem;
     display: flex;
     align-items: center;

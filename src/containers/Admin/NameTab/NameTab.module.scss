@@ -1,0 +1,16 @@
+@use 'src/assets/styles/Variables';
+
+.InputArea {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.InputField {
+    flex: 1;
+}
+
+.CustomURL {
+    padding-top: Variables.$space-extra-large;
+    padding-bottom: Variables.$space-extra-large;
+}

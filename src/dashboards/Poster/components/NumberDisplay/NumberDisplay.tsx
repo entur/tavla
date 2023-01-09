@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import './NumberDisplay.scss'
+import classes from './NumberDisplay.module.scss'
 
 const NumberDisplay = ({
     numberOfVehicles,
@@ -10,7 +10,7 @@ const NumberDisplay = ({
     return (
         <span
             className={classNames({
-                'poster-number-long': isLargeNumber,
+                [classes.LongNumber]: isLargeNumber,
             })}
         >
             {isLargeNumber ? '99+' : numberOfVehicles.toString()}

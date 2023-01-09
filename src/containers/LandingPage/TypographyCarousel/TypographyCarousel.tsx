@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import cx from 'classnames'
-import './TypographyCarousel.scss'
+import classes from './TypographyCarousel.module.scss'
 
 function getQuoteClassNames(index: number, active: number): string {
-    return cx('typography-carousel__quote', {
-        'typography-carousel__quote--active': index === active,
-        'typography-carousel__quote--active-out':
+    return cx(classes.Quote, {
+        [classes.Active]: index === active,
+        [classes.ActiveOut]:
             index + 1 === active || (active === 0 && index === 4),
     })
 }
@@ -46,7 +46,7 @@ function TypographyCarousel(): JSX.Element {
 
     return (
         <div
-            className="typography-carousel"
+            className={classes.TypographyCarousel}
             tabIndex={0}
             onKeyDown={(event) => {
                 if (event.code === 'Enter') {

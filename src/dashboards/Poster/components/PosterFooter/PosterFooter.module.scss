@@ -1,0 +1,22 @@
+.Footer {
+    background-color: var(--tavla-box-background-color);
+    display: flex;
+    justify-content: space-between;
+    padding: 4rem 6rem 0 6rem;
+}
+
+.FooterHeading {
+    font-size: 2.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem;
+    font-weight: 600;
+}
+
+.FooterDescription {
+    font-size: 2rem;
+    line-height: 3rem;
+}
+
+.AppImage {
+    height: 17rem;
+}

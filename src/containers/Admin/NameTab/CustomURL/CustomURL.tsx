@@ -17,7 +17,7 @@ import {
     userIsOwner,
 } from '../../../../settings/firebase'
 import { useUser } from '../../../../UserProvider'
-import '../NameTab.scss'
+import classes from '../NameTab.module.scss'
 
 enum inputFeedback {
     ID_UNAVAILABLE = 'Ikke ledig: Denne Tavla-lenken er dessverre i bruk.',
@@ -107,7 +107,7 @@ const CustomURL = (): JSX.Element => {
 
     const Requirements = (): JSX.Element => (
         <>
-            <Label className="label">Krav til Tavla-lenke</Label>
+            <Label>Krav til Tavla-lenke</Label>
             <UnorderedList>
                 <ListItem>Tavla-lenken må bestå av minst seks tegn.</ListItem>
                 <ListItem>
@@ -122,21 +122,21 @@ const CustomURL = (): JSX.Element => {
     )
 
     return (
-        <div className="custom-url">
-            <Paragraph className="name-page__paragraph">
+        <div className={classes.CustomURL}>
+            <Paragraph>
                 Her kan du lage en selvbestemt lenke til tavla di. Dette gjør
                 det både lettere for deg óg andre å ha tilgang til tavla di.
             </Paragraph>
-            <Paragraph className="name-page__paragraph">
+            <Paragraph>
                 <EmphasizedText>
                     Obs, den gamle Tavla-lenken din vil slettes hvis du setter
                     en ny.
                 </EmphasizedText>
             </Paragraph>
             <Requirements />
-            <div className="input-area">
-                <Paragraph className="prepend">tavla.entur.no/t/</Paragraph>
-                <div className="input-field">
+            <div className={classes.InputArea}>
+                <Paragraph margin="none">tavla.entur.no/t/</Paragraph>
+                <div className={classes.InputField}>
                     <TextField
                         label="Ønsket lenkeadresse"
                         value={customUrlInput}
@@ -151,7 +151,7 @@ const CustomURL = (): JSX.Element => {
                         feedback={feedbackMessage}
                     />
                 </div>
-                <div className="submit-button">
+                <div>
                     <Tooltip content="Sett Tavla-lenke" placement="top">
                         <SecondarySquareButton
                             onClick={tryAddCustomUrl}

@@ -27,7 +27,6 @@ const SharedWithRows = ({
                         <Tooltip placement="bottom" content={tooltipTextRemove}>
                             <IconButton
                                 onClick={() => onRemove(user)}
-                                className="share-page__title__button"
                                 disabled={userEmailsBeingRemoved.includes(
                                     user.email,
                                 )}
