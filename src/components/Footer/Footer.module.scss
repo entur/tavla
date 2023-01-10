@@ -1,17 +1,69 @@
-.Footer {
-    background-color: var(--tavla-background-color);
-    padding: 1rem;
-    display: flex;
-    margin-left: 2rem;
+.HomeFooter {
+    background-color: (var(--tavla-background-color));
+    padding: 4rem 4rem 2rem;
+    margin: 0 auto;
+    max-width: 80rem;
+} 
+
+.GridContainer {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+@media only screen and (max-width: 600px) {
+    .GridContainer {display: block}
+  }
+
+.GridItem {
+    color: var(--tavla-font-color);
+    margin-right: 1rem;
+}
+
+.FooterH2 {
+    font-size: 1.5rem;
+    line-height: 2.25rem;
+}
+
+.FooterH3 {
+    font-size: 0.75rem;
 }
 
 .Link,
 .Link:visited,
 .Link:active {
-    color: var(--tavla-font-color);
-    margin: 1rem;
+    color: (var(--tavla-font-color));
 }
 
 .Icon {
-    margin-left: 0.5rem;
+    margin-left: 0.5em;
+}
+
+.RoundIcon {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: white;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    margin-right: 0.75rem;
+    padding: 0.5rem;
+}
+
+.IconWrapper {
+    margin-top: 2rem;
+    display: flex;
+}
+
+.ContactLink,
+.ContactLink:active,
+.ContactLink:visited {
+    background-image: linear-gradient(120deg, white, white);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 0.125rem;
+    color: inherit;
+    color: white;
+    font-size: 0.75rem;
+    position: relative;
+    text-decoration: none;
 }

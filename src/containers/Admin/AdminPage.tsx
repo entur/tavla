@@ -61,6 +61,7 @@ const AdminPage = (): JSX.Element => {
             </Helmet>
             <Navbar theme={settings.theme} />
             <div className={classes.Admin}>
+                <h1 aria-label="Rediger tavle"></h1>
                 <Tabs index={currentIndex} onChange={setCurrentIndex}>
                     <TabList className={classes.TabList}>
                         <Tab className={classes.Tab}>Rediger innhold</Tab>
