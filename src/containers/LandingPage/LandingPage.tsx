@@ -11,10 +11,10 @@ import { DEFAULT_SETTINGS } from '../../settings/settings'
 import { createSettings } from '../../settings/firebase'
 import { Navbar } from '../Navbar/Navbar'
 import previewScreenshot from '../../assets/images/preview-screenshot.png'
+import { HomeFooter } from '../../components/HomeFooter/HomeFooter'
 import { SearchPanel } from './SearchPanel/SearchPanel'
 import { TypographyCarousel } from './TypographyCarousel/TypographyCarousel'
 import classes from './LandingPage.module.scss'
-import { HomeFooter } from '../../components/HomeFooter/HomeFooter'
 
 function EnturLink(): JSX.Element {
     return (
