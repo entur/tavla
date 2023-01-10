@@ -1,0 +1,17 @@
+.Footer {
+    background-color: var(--tavla-background-color);
+    padding: 1rem;
+    display: flex;
+    margin-left: 2rem;
+}
+
+.Link,
+.Link:visited,
+.Link:active {
+    color: var(--tavla-font-color);
+    margin: 1rem;
+}
+
+.Icon {
+    margin-left: 0.5rem;
+}
