@@ -4,6 +4,8 @@ const { execSync } = require('child_process')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const postcssPresetEnv = require('postcss-preset-env')
+const postcssImport = require('postcss-import')
+const postcssUrl = require('postcss-url')
 const CopyPlugin = require('copy-webpack-plugin')
 const { SourceMapDevToolPlugin } = require('webpack')
 
@@ -61,7 +63,13 @@ module.exports = async (env, args) => ({
                         loader: 'postcss-loader',
                         options: {
                             postcssOptions: {
-                                plugins: [() => postcssPresetEnv()],
+                                plugins: [
+                                    postcssImport(), // Inlines @import rules, needed for cascade layer polyfill
+                                    postcssPresetEnv({
+                                        features: { 'cascade-layers': true },
+                                    }),
+                                    postcssUrl(), // Rebases asset urls, needed after @import inlining
+                                ],
                             },
                         },
                     },
