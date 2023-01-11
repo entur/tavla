@@ -18,6 +18,7 @@ import { NameTab } from './NameTab/NameTab'
 import { LockAndViewButtons } from './LockAndViewButtons/LockAndViewButtons'
 import { ShareTab } from './ShareTab/ShareTab'
 import classes from './AdminPage.module.scss'
+import { Footer } from '../../components/Footer/Footer'
 
 const AdminPage = (): JSX.Element => {
     const [settings] = useSettings()
@@ -110,6 +111,7 @@ const AdminPage = (): JSX.Element => {
                 </Tabs>
                 <LockAndViewButtons />
             </div>
+            <Footer />
         </ThemeContrastWrapper>
     )
 }

@@ -1,3 +1,8 @@
+.Border {
+    border-top: var(--tavla-font-color) solid 1px;
+    min-width: 100px;
+    margin-bottom: 0;
+}
 .HomeFooter {
     background-color: (var(--tavla-background-color));
     padding: 4rem 4rem 2rem;
@@ -27,12 +32,6 @@
     font-size: 0.75rem;
 }
 
-.Link,
-.Link:visited,
-.Link:active {
-    color: (var(--tavla-font-color));
-}
-
 .Icon {
     margin-left: 0.5em;
 }
@@ -41,9 +40,9 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: white;
+    background: var(--tavla-font-color);
     border-radius: 50%;
-    color: #fff;
+    color: var(--tavla-font-color);
     display: flex;
     margin-right: 0.75rem;
     padding: 0.5rem;
@@ -54,15 +53,15 @@
     display: flex;
 }
 
-.ContactLink,
-.ContactLink:active,
-.ContactLink:visited {
-    background-image: linear-gradient(120deg, white, white);
+.FooterLink,
+.FooterLink:active,
+.FooterLink:visited {
+    background-image: linear-gradient(120deg, var(--tavla-font-color), var(--tavla-font-color));
     background-position: 0 100%;
     background-repeat: no-repeat;
     background-size: 100% 0.125rem;
     color: inherit;
-    color: white;
+    color: var(--tavla-font-color);
     font-size: 0.75rem;
     position: relative;
     text-decoration: none;
