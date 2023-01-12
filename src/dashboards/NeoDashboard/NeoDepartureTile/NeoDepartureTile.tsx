@@ -10,6 +10,7 @@ import {
 } from '../../../logic/use-stop-place-with-estimated-calls/departure'
 import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { useSettings } from '../../../settings/SettingsProvider'
+import classes from './NeoDepartureTile.module.scss'
 
 const NeoDepartureTile: React.FC<{ stopPlaceId: string }> = ({
     stopPlaceId,
@@ -40,9 +41,26 @@ const NeoDepartureTile: React.FC<{ stopPlaceId: string }> = ({
     }
 
     return (
-        <Tile>
-            <div>Header</div>
-            <div>{departures.map((dep) => dep.frontText)}</div>
+        <Tile className={classes.NeoTile}>
+            <h2>{stopPlaceWithEstimatedCalls.name}</h2>
+            <table className={classes.DepartureTable}>
+                <thead>
+                    <tr>
+                        <th>Linje</th>
+                        <th>Destinasjon</th>
+                        <th>Avgang</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {departures.map((departure) => (
+                        <tr key={departure.id}>
+                            <td>{departure.publicCode}</td>
+                            <td>{departure.frontText}</td>
+                            <td>{departure.time}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </Tile>
     )
 }
