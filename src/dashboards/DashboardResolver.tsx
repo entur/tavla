@@ -6,6 +6,7 @@ import { ChronoDashboard } from './Chrono/ChronoDashboard'
 import { MapDashboard } from './Map/MapDashboard'
 import { BusStopDashboard } from './BusStop/BusStopDashboard'
 import { CompactDashboard } from './Compact/CompactDashboard'
+import { NeoDashboard } from './NeoDashboard/NeoDashboard'
 import { Poster } from './Poster/Poster'
 
 const DashboardResolver: React.FC = () => {
@@ -26,6 +27,8 @@ const DashboardResolver: React.FC = () => {
             return <CompactDashboard />
         case DashboardTypes.Poster:
             return <Poster />
+        case DashboardTypes.Neo:
+            return <NeoDashboard />
     }
 }
 
