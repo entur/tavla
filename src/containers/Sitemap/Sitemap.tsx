@@ -1,7 +1,7 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { Contrast } from '@entur/layout'
-import { Heading1, Heading2, Heading3, Paragraph } from '@entur/typography'
+import { Heading1, Heading2, Heading3, Link, Paragraph } from '@entur/typography'
 import { Navbar } from '../Navbar/Navbar'
 import classes from './Sitemap.module.scss'
 
@@ -25,20 +25,20 @@ const Sitemap: React.FC = () => (
                 <Heading2 className={classes.SitemapHeader}>Innhold</Heading2>
                 <ul className={classes.SiteMap}>
                     <li className={classes.SitemapItem}>
-                        <a href="/privacy" className={classes.MapLink}>
+                        <Link href="/privacy" className={classes.MapLink}>
                             Mine tavler
-                        </a>
+                        </Link>
                     </li>
 
                     <li className={classes.SitemapItem}>
-                        <a href="/privacy" className={classes.MapLink}>
+                        <Link href="/privacy" className={classes.MapLink}>
                             Personvern
-                        </a>
+                        </Link>
                     </li>
                     <li className={classes.SitemapItem}>
-                        <a href="/nettstedkart" className={classes.MapLink}>
+                        <Link href="/nettstedkart" className={classes.MapLink}>
                             Nettstedkart
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </div>
