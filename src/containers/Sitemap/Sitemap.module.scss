@@ -2,11 +2,6 @@
     margin: 5rem 10rem;
 }
 
-.Title {
-    font-size: 2.5rem;
-    line-height: 3.75rem;
-}
-
 .LeadParagraph {
     margin-top: 12px;
     margin-bottom: 32px;
@@ -18,22 +13,17 @@
     margin: 3rem 0;
 }
 
-.LittleText {
-    font-size: 1rem;
-    line-height: 1.5rem;
-}
-
 .MapLink {
     background-image: linear-gradient(120deg, white, white);
     background-position: 0 100%;
     background-repeat: no-repeat;
     background-size: 100% 0.125rem;
-    color: inherit;
-    color: white;
     color: white;
     font-size: inherit;
     position: relative;
     text-decoration: none;
+    margin-left: 0.5rem;
+    top: -10px;
 }
 
 .SitemapItem {
@@ -42,11 +32,6 @@
     padding-bottom: 2rem;
     top: -10px;
     position: relative;
-
-    a {
-        margin-left: 0.5rem;
-        top: -10px;
-    }
 
     &::before {
         content: '';
