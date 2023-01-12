@@ -12,25 +12,39 @@ const Sitemap: React.FC = () => {
             </Helmet>
             <Navbar />
             <div className={classes.Wrapper}>
-                <div className={classes.SitemapHeader}>
+                <div>
                     <h1 className={classes.Title}>Nettstedkart</h1>
                     <p className={classes.LeadParagraph}>
                         I listen under kan du se hvordan nettsiden er bygd opp
                         og hvor sidene ligger i forhold til hverandre.
                     </p>
+                    <p className={classes.LittleText}>
+                        Scroll nedover siden eller bruk den innbygde
+                        søkefunksjonen i nettleseren (⌘+F) for å finne det du
+                        leter etter.
+                    </p>
                     <div className={classes.MapWrapper}>
-                        <p className={classes.LittleText}>
-                            Scroll nedover siden eller bruk den innbygde
-                            søkefunksjonen i nettleseren (⌘+F) for å finne det
-                            du leter etter.
-                        </p>
+                        <h2 className={classes.SitemapHeader}>Innhold</h2>
+                        <ul className={classes.SiteMap}>
+                            <li className={classes.SitemapItem}>
+                                <a href="/privacy" className={classes.MapLink}>
+                                    Mine tavler
+                                </a>
+                            </li>
 
-                        <h2>Innhold</h2>
-                        <ul>
-                            <li>Mine tavler</li>
-                            <ul></ul>
-                            <li>Personvern</li>
-                            <li>Nettstedkart</li>
+                            <li className={classes.SitemapItem}>
+                                <a href="/privacy" className={classes.MapLink}>
+                                    Personvern
+                                </a>
+                            </li>
+                            <li className={classes.SitemapItem}>
+                                <a
+                                    href="/nettstedkart"
+                                    className={classes.MapLink}
+                                >
+                                    Nettstedkart
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
