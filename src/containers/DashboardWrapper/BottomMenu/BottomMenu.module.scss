@@ -18,7 +18,8 @@
 }
 
 .HiddenMenu,
-.BottomMenu:hover {
+.BottomMenu:hover,
+.BottomMenu:focus {
     visibility: visible;
     transform: translate(0, 0);
 }
