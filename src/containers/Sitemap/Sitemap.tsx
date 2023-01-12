@@ -1,7 +1,13 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { Contrast } from '@entur/layout'
-import { Heading1, Heading2, Heading3, Link, Paragraph } from '@entur/typography'
+import {
+    Heading1,
+    Heading2,
+    Heading3,
+    Link,
+    Paragraph,
+} from '@entur/typography'
 import { Navbar } from '../Navbar/Navbar'
 import classes from './Sitemap.module.scss'
 
