@@ -23,8 +23,8 @@
     line-height: 1.5rem;
 }
 
-.MapLink{
-    background-image: linear-gradient(120deg,white,white);
+.MapLink {
+    background-image: linear-gradient(120deg, white, white);
     background-position: 0 100%;
     background-repeat: no-repeat;
     background-size: 100% 0.125rem;
@@ -42,28 +42,28 @@
     padding-bottom: 2rem;
     top: -10px;
     position: relative;
-  
+
     a {
-      margin-left: 0.5rem;
-      top: -10px;
+        margin-left: 0.5rem;
+        top: -10px;
     }
-  
+
     &::before {
-      content: '';
-      height: 0.5rem;
-      width: 0.5rem;
-      border-radius: 100%;
-      border: 2px solid white;
-      background-color: var(--tavla-background-color);
-      display: inline-block;
-      position: relative;
-      right: 5px;
-      top: -10px;
+        content: '';
+        height: 0.5rem;
+        width: 0.5rem;
+        border-radius: 100%;
+        border: 2px solid white;
+        background-color: var(--tavla-background-color);
+        display: inline-block;
+        position: relative;
+        right: 5px;
+        top: -10px;
     }
-  
+
     &:last-child {
-      padding-bottom: 0;
-      border-left: 0;
-      padding-left: 2px;
+        padding-bottom: 0;
+        border-left: 0;
+        padding-left: 2px;
     }
-  }
+}
