@@ -15,6 +15,7 @@ import { LandingPage } from './LandingPage/LandingPage'
 import { Privacy } from './Privacy/Privacy'
 import { MyBoards } from './MyBoards/MyBoards'
 import classes from './App.module.scss'
+import { Sitemap } from './Sitemap/Sitemap'
 
 const Content = (): JSX.Element => {
     useUpdateManifest()
@@ -37,6 +38,7 @@ const Content = (): JSX.Element => {
                         <Route path="/tavler" element={<MyBoards />} />
                         <Route path="/privacy" element={<Privacy />} />
                         <Route path="*" element={<PageDoesNotExist />} />
+                        <Route path="/nettstedkart" element={<Sitemap />} />
                     </Routes>
                 </ToastProvider>
             </div>

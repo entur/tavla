@@ -52,7 +52,9 @@ const Footer: React.FC = () => (
                 <div className={classes.FlexItem}>
                     <Heading3>Om siden</Heading3>
                     <Paragraph className={classes.FooterInfoText}>
-                        <Link aria-label="Nettstedkart">Nettstedkart</Link>
+                        <Link aria-label="Nettstedkart" href="/nettstedkart">
+                            Nettstedkart
+                        </Link>
                     </Paragraph>
                     <Paragraph className={classes.FooterInfoText}>
                         <Link href="/privacy">Personvern</Link>
