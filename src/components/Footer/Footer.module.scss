@@ -1,7 +1,8 @@
 .Border {
-    border-top: var(--tavla-font-color) solid 1px;
+    border-top: white solid 1px;
     min-width: 100px;
     margin-bottom: 0;
+    background-color: #181c56;
 }
 
 .HomeFooter {
@@ -37,7 +38,7 @@
 .RoundIcon {
     border-radius: 50%;
     display: flex;
-    background-color: var(--primary-text-color);
+    background-color: white;
     margin-right: 0.75rem;
     padding: 0.5rem;
 }

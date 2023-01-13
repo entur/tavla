@@ -156,7 +156,9 @@ function LandingPage(): JSX.Element {
                     <EnturLink />
                 </article>
             </div>
-            <Footer />
+            <Contrast>
+                <Footer />
+            </Contrast>
         </>
     )
 }

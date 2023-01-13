@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
+import { Contrast } from '@entur/layout'
 import { LockedTavle } from '../Error/ErrorPages'
 import { useUser } from '../../UserProvider'
 import { useSettings } from '../../settings/SettingsProvider'
@@ -111,7 +112,9 @@ const AdminPage = (): JSX.Element => {
                 </Tabs>
                 <LockAndViewButtons />
             </div>
-            <Footer />
+            <Contrast>
+                <Footer />
+            </Contrast>
         </ThemeContrastWrapper>
     )
 }

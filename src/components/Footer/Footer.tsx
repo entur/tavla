@@ -5,8 +5,7 @@ import { EnturLogo } from '../../assets/icons/EnturLogo'
 import classes from './Footer.module.scss'
 
 const Footer: React.FC = () => (
-    <>
-        <div className={classes.Border} />
+    <div className={classes.Border}>
         <div className={classes.HomeFooter}>
             <div>
                 <EnturLogo />
@@ -26,23 +25,17 @@ const Footer: React.FC = () => (
                             href="https://www.facebook.com/entur.org/"
                             className={classes.RoundIcon}
                         >
-                            <FacebookIcon
-                                size={20}
-                                color="var(--tavla-background-color)"
-                            />
+                            <FacebookIcon size={20} color="#181c56" />
                         </a>
                         <a
                             href="https://twitter.com/Entur_AS"
                             className={classes.RoundIcon}
                         >
-                            <TwitterIcon
-                                size={20}
-                                color="var(--tavla-background-color)"
-                            />
+                            <TwitterIcon size={20} color="#181c56" />
                         </a>
                     </div>
                 </div>
-                <div className={classes.GridItem}>
+                <div className={classes.FlexItem}>
                     <Heading3>Kontakt</Heading3>
                     <div>
                         <Paragraph className={classes.FooterInfoText}>
@@ -56,7 +49,7 @@ const Footer: React.FC = () => (
                         </Paragraph>
                     </div>
                 </div>
-                <div className={classes.GridItem}>
+                <div className={classes.FlexItem}>
                     <Heading3>Om siden</Heading3>
                     <Paragraph className={classes.FooterInfoText}>
                         <Link aria-label="Nettstedkart">Nettstedkart</Link>
@@ -89,7 +82,7 @@ const Footer: React.FC = () => (
                 </div>
             </div>
         </div>
-    </>
+    </div>
 )
 
 export { Footer }
