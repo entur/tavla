@@ -22,7 +22,7 @@ const Sitemap: React.FC = () => (
                 nettleseren (⌘+F) for å finne det du leter etter.
             </Paragraph>
             <Heading2 className={classes.SitemapHeader}>Innhold</Heading2>
-            <ul className={classes.SiteMap}>
+            <ul>
                 <li className={classes.SitemapItem}>
                     <Link href="/privacy" className={classes.MapLink}>
                         Mine tavler
