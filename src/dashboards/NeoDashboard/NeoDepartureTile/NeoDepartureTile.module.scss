@@ -13,8 +13,21 @@
         border-top: 2px solid var(--tavla-border-color);
     }
 
+    & td {
+        padding: 0.5rem 0;
+    }
+
     & th {
         border-top: 2px solid var(--tavla-hover-color);
         border-bottom: 2px solid var(--tavla-hover-color);
     }
+}
+
+.RouteNumber {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+    border-radius: 0.25rem;
 }
