@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
+import { Contrast } from '@entur/layout'
 import { LockedTavle } from '../Error/ErrorPages'
 import { useUser } from '../../UserProvider'
 import { useSettings } from '../../settings/SettingsProvider'
@@ -10,6 +11,7 @@ import { isDarkOrDefaultTheme } from '../../utils/utils'
 import { useThemeHandler } from '../../hooks/useThemeHandler'
 import { Loader } from '../../components/Loader/Loader'
 import { Navbar } from '../Navbar/Navbar'
+import { Footer } from '../../components/Footer/Footer'
 import { LogoTab } from './LogoTab/LogoTab'
 import { EditTab } from './EditTab/EditTab'
 import { ThemeTab } from './ThemeTab/ThemeTab'
@@ -61,6 +63,7 @@ const AdminPage = (): JSX.Element => {
             </Helmet>
             <Navbar theme={settings.theme} />
             <div className={classes.Admin}>
+                <h1 aria-label="Rediger tavle"></h1>
                 <Tabs index={currentIndex} onChange={setCurrentIndex}>
                     <TabList className={classes.TabList}>
                         <Tab className={classes.Tab}>Rediger innhold</Tab>
@@ -109,6 +112,9 @@ const AdminPage = (): JSX.Element => {
                 </Tabs>
                 <LockAndViewButtons />
             </div>
+            <Contrast>
+                <Footer />
+            </Contrast>
         </ThemeContrastWrapper>
     )
 }

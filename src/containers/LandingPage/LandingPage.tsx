@@ -11,6 +11,7 @@ import { DEFAULT_SETTINGS } from '../../settings/settings'
 import { createSettings } from '../../settings/firebase'
 import { Navbar } from '../Navbar/Navbar'
 import previewScreenshot from '../../assets/images/preview-screenshot.png'
+import { Footer } from '../../components/Footer/Footer'
 import { SearchPanel } from './SearchPanel/SearchPanel'
 import { TypographyCarousel } from './TypographyCarousel/TypographyCarousel'
 import classes from './LandingPage.module.scss'
@@ -155,6 +156,9 @@ function LandingPage(): JSX.Element {
                     <EnturLink />
                 </article>
             </div>
+            <Contrast>
+                <Footer />
+            </Contrast>
         </>
     )
 }
