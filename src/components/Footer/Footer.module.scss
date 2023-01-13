@@ -5,15 +5,15 @@
 }
 
 .HomeFooter {
-    background-color: (var(--tavla-background-color));
     padding: 4rem 4rem 2rem;
     margin: 0 auto;
     max-width: 80rem;
 }
 
-.GridContainer {
-    display: grid;
-    grid-template-columns: auto auto auto;
+.FlexContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 @media only screen and (max-width: 600px) {
     .GridContainer {
@@ -21,18 +21,13 @@
     }
 }
 
-.GridItem {
-    color: var(--tavla-font-color);
+.FlexItem {
     margin-right: 1rem;
 }
 
-.FooterH2 {
-    font-size: 1.5rem;
-    line-height: 2.25rem;
-}
-
-.FooterH3 {
+.FooterInfoText {
     font-size: 0.75rem;
+    margin: 1rem 0;
 }
 
 .Icon {
@@ -40,13 +35,9 @@
 }
 
 .RoundIcon {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background: var(--tavla-font-color);
     border-radius: 50%;
-    color: var(--tavla-font-color);
     display: flex;
+    background-color: var(--primary-text-color);
     margin-right: 0.75rem;
     padding: 0.5rem;
 }
@@ -56,20 +47,4 @@
     display: flex;
 }
 
-.FooterLink,
-.FooterLink:active,
-.FooterLink:visited {
-    background-image: linear-gradient(
-        120deg,
-        var(--tavla-font-color),
-        var(--tavla-font-color)
-    );
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    background-size: 100% 0.125rem;
-    color: inherit;
-    color: var(--tavla-font-color);
-    font-size: 0.75rem;
-    position: relative;
-    text-decoration: none;
-}
+
