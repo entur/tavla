@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
 import { ErrorCode } from 'react-dropzone'
 import type { FileRejection } from 'react-dropzone'
 import { FileUpload } from '@entur/fileupload'
