@@ -9,6 +9,7 @@ import { apolloClient } from '../apollo-client'
 import { DashboardResolver } from '../dashboards/DashboardResolver'
 import { ToastProvider } from '../types'
 import { useUpdateManifest } from '../hooks/useUpdateManifest'
+import { Footer } from '../components/Footer/Footer'
 import { AdminPage } from './Admin/AdminPage'
 import { PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
@@ -41,6 +42,7 @@ const Content = (): JSX.Element => {
                         <Route path="*" element={<PageDoesNotExist />} />
                         <Route path="/nettstedkart" element={<Sitemap />} />
                     </Routes>
+                    <Footer />
                 </ToastProvider>
             </div>
         </ApolloProvider>
