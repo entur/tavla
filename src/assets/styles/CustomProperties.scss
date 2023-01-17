@@ -32,6 +32,7 @@
     --tavla-input-dotted-border-color: #ff5959;
     --tavla-failure-font-color: #d31b1b;
     --tavla-success-font-color: #1a8e60;
+    --primary-text-color: var(--tavla-font-color);
 }
 
 .default-theme {
@@ -61,6 +62,7 @@
     --tavla-input-dotted-border-color: #ff5959;
     --tavla-failure-font-color: #ff9494;
     --tavla-success-font-color: #5ac39a;
+    --primary-text-color: var(--tavla-font-color);
 }
 
 .dark-theme {
@@ -94,6 +96,7 @@
     --tavla-input-dotted-border-color: #ff5959;
     --tavla-failure-font-color: #ff9494;
     --tavla-success-font-color: #5ac39a;
+    --primary-text-color: var(--tavla-font-color);
 }
 
 .light-theme {
@@ -127,6 +130,7 @@
     --tavla-input-dotted-border-color: #ff5959;
     --tavla-failure-font-color: #d31b1b;
     --tavla-success-font-color: #1a8e60;
+    --primary-text-color: var(--tavla-font-color);
 }
 
 .grey-theme {
@@ -158,4 +162,5 @@
     --tavla-input-dotted-border-color: #ff5959;
     --tavla-failure-font-color: #d31b1b;
     --tavla-success-font-color: #1a8e60;
+    --primary-text-color: var(--tavla-font-color);
 }
