@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import type { DocumentData, Timestamp } from 'firebase/firestore'
-import { NotificationBadge } from '@entur/layout'
+import { Contrast, NotificationBadge } from '@entur/layout'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 import {
     getBoardsForUserOnSnapshot,
@@ -11,11 +11,10 @@ import {
 import { useUser } from '../../UserProvider'
 import { Board, SharedBoard } from '../../types'
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
-import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
 import { Navbar } from '../Navbar/Navbar'
 import { SharedBoards } from './SharedBoards/SharedBoards'
 import { OwnedBoards } from './OwnedBoards/OwnedBoards'
-import './MyBoards.scss'
+import classes from './MyBoards.module.scss'
 
 function sortBoard(boards: Board[]): Board[] {
     return boards.sort((n1: Board, n2: Board) => {
@@ -153,24 +152,28 @@ const MyBoards = (): JSX.Element | null => {
     }
 
     return (
-        <ThemeContrastWrapper>
+        <Contrast>
             <Helmet>
                 <title>Mine tavler - Tavla - Entur</title>
             </Helmet>
             <Navbar />
-            <div className="my-boards">
+            <div className={classes.MyBoards}>
                 <Tabs index={currentIndex} onChange={setCurrentIndex}>
                     <TabList>
                         <Tab>Mine tavler</Tab>
                         <Tab>
                             Invitasjoner
                             {sharedBoards.length > 0 ? (
-                                <NotificationBadge
-                                    variant="info"
-                                    style={{ position: 'absolute', top: -10 }}
-                                >
-                                    {sharedBoards.length}
-                                </NotificationBadge>
+                                <>
+                                    {' '}
+                                    <NotificationBadge
+                                        variant="info"
+                                        // Uses inline style as classnames are not applied correctly
+                                        style={{ display: 'inline-block' }}
+                                    >
+                                        {sharedBoards.length}
+                                    </NotificationBadge>
+                                </>
                             ) : null}
                         </Tab>
                     </TabList>
@@ -184,7 +187,7 @@ const MyBoards = (): JSX.Element | null => {
                     </TabPanels>
                 </Tabs>
             </div>
-        </ThemeContrastWrapper>
+        </Contrast>
     )
 }
 

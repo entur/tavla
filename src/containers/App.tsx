@@ -13,11 +13,12 @@ import { PageDoesNotExist } from './Error/ErrorPages'
 import { LandingPage } from './LandingPage/LandingPage'
 import { Privacy } from './Privacy/Privacy'
 import { MyBoards } from './MyBoards/MyBoards'
-import './styles.scss'
+import { Sitemap } from './Sitemap/Sitemap'
+import classes from './App.module.scss'
 
 const Content = (): JSX.Element => (
     <ApolloProvider client={apolloClient}>
-        <div className={classNames('themeBackground')}>
+        <div className={classNames(classes.ThemeBackground)}>
             <ToastProvider>
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
@@ -33,6 +34,7 @@ const Content = (): JSX.Element => (
                     </Route>
                     <Route path="/tavler" element={<MyBoards />} />
                     <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/nettstedkart" element={<Sitemap />} />
                     <Route path="*" element={<PageDoesNotExist />} />
                 </Routes>
             </ToastProvider>

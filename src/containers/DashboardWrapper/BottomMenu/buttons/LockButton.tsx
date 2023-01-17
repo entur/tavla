@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { OpenedLockIcon } from '@entur/icons'
-import { LockModal } from '../../../../components/LockModal/LockModal'
+import { LockModal } from '../../../../components/AccountModals/LockModal/LockModal'
 import { MenuButton } from '../MenuButton/MenuButton'
 import { useSettings } from '../../../../settings/SettingsProvider'
 

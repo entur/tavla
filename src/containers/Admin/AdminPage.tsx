@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
+import { Contrast } from '@entur/layout'
 import { LockedTavle } from '../Error/ErrorPages'
 import { useUser } from '../../UserProvider'
 import { useSettings } from '../../settings/SettingsProvider'
@@ -10,6 +11,7 @@ import { isDarkOrDefaultTheme } from '../../utils/utils'
 import { useThemeHandler } from '../../hooks/useThemeHandler'
 import { Loader } from '../../components/Loader/Loader'
 import { Navbar } from '../Navbar/Navbar'
+import { Footer } from '../../components/Footer/Footer'
 import { LogoTab } from './LogoTab/LogoTab'
 import { EditTab } from './EditTab/EditTab'
 import { ThemeTab } from './ThemeTab/ThemeTab'
@@ -17,7 +19,7 @@ import { DashboardPickerTab } from './DashboardPickerTab/DashboardPickerTab'
 import { NameTab } from './NameTab/NameTab'
 import { LockAndViewButtons } from './LockAndViewButtons/LockAndViewButtons'
 import { ShareTab } from './ShareTab/ShareTab'
-import './AdminPage.scss'
+import classes from './AdminPage.module.scss'
 
 const AdminPage = (): JSX.Element => {
     const [settings] = useSettings()
@@ -60,21 +62,24 @@ const AdminPage = (): JSX.Element => {
                 <title>Adminside - Tavla - Entur</title>
             </Helmet>
             <Navbar theme={settings.theme} />
-            <div className="admin">
-                <Tabs
-                    index={currentIndex}
-                    onChange={setCurrentIndex}
-                    className="admin__tabs"
-                >
-                    <TabList className="admin__tabs__header">
-                        <Tab>Rediger innhold</Tab>
-                        <Tab>Velg visning</Tab>
-                        <Tab>Tilpass utseende</Tab>
-                        <Tab>Last opp logo {lockIcon}</Tab>
-                        <Tab>Endre lenke {lockIcon}</Tab>
-                        <Tab>Deling {lockIconShareTab}</Tab>
+            <div className={classes.Admin}>
+                <h1 aria-label="Rediger tavle"></h1>
+                <Tabs index={currentIndex} onChange={setCurrentIndex}>
+                    <TabList className={classes.TabList}>
+                        <Tab className={classes.Tab}>Rediger innhold</Tab>
+                        <Tab className={classes.Tab}>Velg visning</Tab>
+                        <Tab className={classes.Tab}>Tilpass utseende</Tab>
+                        <Tab className={classes.Tab}>
+                            Last opp logo {lockIcon}
+                        </Tab>
+                        <Tab className={classes.Tab}>
+                            Endre lenke {lockIcon}
+                        </Tab>
+                        <Tab className={classes.Tab}>
+                            Deling {lockIconShareTab}
+                        </Tab>
                     </TabList>
-                    <TabPanels className="admin__tabs__tab-panels">
+                    <TabPanels>
                         <TabPanel>
                             <EditTab />
                         </TabPanel>
@@ -107,6 +112,9 @@ const AdminPage = (): JSX.Element => {
                 </Tabs>
                 <LockAndViewButtons />
             </div>
+            <Contrast>
+                <Footer />
+            </Contrast>
         </ThemeContrastWrapper>
     )
 }

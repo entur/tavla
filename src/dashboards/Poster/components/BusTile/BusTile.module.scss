@@ -1,0 +1,64 @@
+@use 'src/assets/styles/Variables.scss';
+
+.NextBus {
+    font-size: 3.5rem;
+    font-weight: 600;
+    padding: 2.5rem 0 2.5rem 0;
+}
+
+.BusTile {
+    border-radius: 12px;
+    background-color: Variables.$colors-blues-blue20;
+    justify-content: space-between;
+    font-size: 3rem;
+    width: 100%;
+    margin-bottom: 6rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 2rem 1.5rem 2rem;
+    line-height: 1.2;
+}
+
+.BusTileRow {
+    margin: 0.5rem 0 0.5rem 0;
+    display: flex;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.BusTileRowOnlyBus {
+    margin: 1rem 0 1rem 0;
+}
+
+.BusRoute {
+    display: flex;
+    align-items: center;
+    background-color: #c5044e;
+    border-radius: 10px;
+    padding: 0 1rem 0 1rem;
+}
+
+.BusRouteOnlyBus {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.Icon {
+    font-size: 4rem;
+    display: inline-block;
+    color: inherit;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.Destination {
+    margin: auto auto auto 1.5rem;
+    white-space: nowrap;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+}
+
+.Time {
+    margin: auto 0 auto auto;
+    font-weight: bold;
+    white-space: nowrap;
+}

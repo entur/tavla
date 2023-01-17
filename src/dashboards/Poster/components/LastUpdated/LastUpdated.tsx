@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { PulsatingDot } from '../PulsatingDot/PulsatingDot'
-import './LastUpdated.scss'
+import classes from './LastUpdated.module.scss'
 
 const getTimeString = (): string => {
     const options: Intl.DateTimeFormatOptions = {
@@ -25,17 +25,12 @@ const LastUpdated = (): JSX.Element => {
         }
     }, [])
 
-    // todo: investigate Contrast wrapper component
-    // <Contrast className="heading-wrapper">
-
     return (
-        <div className="poster-last-updated">
+        <div className={classes.LastUpdated}>
             <div>
                 <PulsatingDot />
             </div>
-            <h3 className="poster-last-updated-heading">
-                Sist oppdatert {currentTime}
-            </h3>
+            <h3 className={classes.Heading}>Sist oppdatert {currentTime}</h3>
         </div>
     )
 }

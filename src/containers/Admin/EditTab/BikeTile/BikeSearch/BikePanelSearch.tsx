@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Dropdown } from '@entur/dropdown'
 import { getTranslation } from '../../../../../utils/utils'
 import {
@@ -36,14 +36,18 @@ const BikePanelSearch: React.FC = () => {
         },
         fetchPolicy: 'cache-and-network',
     })
+    const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
     const getItems = useCallback(
         (query: string): Item[] => {
             const inputValue = query.trim().toLowerCase()
             const inputLength = inputValue.length
-            if (!inputLength || !data?.stations) return []
+            if (!inputLength || !data?.stations) {
+                setErrorMessage(null)
+                return []
+            }
 
-            return mapFeaturesToItems(
+            const items = mapFeaturesToItems(
                 data.stations
                     .filter(isNotNullOrUndefined)
                     .filter((station) =>
@@ -52,6 +56,13 @@ const BikePanelSearch: React.FC = () => {
                             .match(new RegExp(inputValue)),
                     ),
             )
+
+            if (items.length === 0) {
+                setErrorMessage(
+                    'Søket ga ingen resultater. Søk på et navn og velg et stoppested/en bysykkelstasjon fra listen som dukker opp.',
+                )
+            }
+            return items
         },
         [data?.stations],
     )
@@ -69,6 +80,8 @@ const BikePanelSearch: React.FC = () => {
     const handleOnChange = useCallback(
         (item: Item | null): void => {
             if (item) {
+                setErrorMessage(null)
+
                 addNewStation(item.value)
             }
         },
@@ -80,10 +93,14 @@ const BikePanelSearch: React.FC = () => {
             <Dropdown
                 searchable
                 openOnFocus
+                clearable
                 label="Legg til en bysykkelstasjon"
                 items={getItems}
                 onChange={handleOnChange}
                 highlightFirstItemOnOpen
+                variant={errorMessage ? 'error' : undefined}
+                feedback={errorMessage || ''}
+                value=""
             />
         </div>
     )

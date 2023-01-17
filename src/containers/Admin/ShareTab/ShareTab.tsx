@@ -14,15 +14,15 @@ import {
     getOwnersDataByBoardIdAsOwner,
 } from '../../../settings/firebase'
 import { BoardOwnersData, Invite } from '../../../types'
-import { LoginModal } from '../../../components/LoginModal/LoginModal'
-import { LoginCase } from '../../../components/LoginModal/login-modal-types'
-import { RemoveSelfFromTavleModal } from '../../../components/OverflowModals/RemoveSelfFromTavleModal'
-import { NeedToBeOwnerModal } from '../../../components/OverflowModals/NeedToBeOwnerModal'
+import { LoginModal } from '../../../components/AccountModals/LoginModal/LoginModal'
+import { LoginCase } from '../../../components/AccountModals/LoginModal/login-modal-types'
+import { RemoveSelfFromTavleModal } from '../../../components/AccountModals/RemoveSelfFromTavleModal/RemoveSelfFromTavleModal'
+import { NeedToBeOwnerModal } from '../../../components/AccountModals/NeedToBeOwnerModal/NeedToBeOwnerModal'
 import { EditableBoardTitle } from './components/EditableBoardTitle'
 import { BoardLink } from './components/BoardLink'
 import { AddNewOwnersInput } from './components/AddNewOwnersInput'
 import { BoardOwnersList } from './components/BoardOwnersList'
-import './ShareTab.scss'
+import classes from './ShareTab.module.scss'
 
 const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
     const user = useUser()
@@ -127,9 +127,9 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
 
     if (!documentId) {
         return (
-            <div className="share-page">
-                <Heading2 className="heading">Del din tavle med andre</Heading2>
-                <Paragraph className="share-page__paragraph">
+            <div className={classes.SharePage}>
+                <Heading2>Del din tavle med andre</Heading2>
+                <Paragraph>
                     Vi har oppgradert tavla. Ønsker du tilgang på denne
                     funksjonaliteten må du lage en ny tavle.
                 </Paragraph>
@@ -138,13 +138,16 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
     }
 
     return (
-        <div className="share-page">
-            <Heading2 className="heading">Del tavla med andre</Heading2>
+        <div className={classes.SharePage}>
+            <Heading2>Del tavla med andre</Heading2>
             <Paragraph>
                 Denne siden lar deg dele den låste tavla di med andre, slik at
-                dere kan samarbeide på&nbsp;den.
+                dere kan samarbeide på den.
             </Paragraph>
-            <GridContainer spacing="extraLarge" className="share-grid">
+            <GridContainer
+                spacing="extraLarge"
+                className={classes.GridContainer}
+            >
                 <GridItem
                     small={12}
                     medium={12}
@@ -169,13 +172,17 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
                     )}
                 </GridItem>
                 <GridItem small={12} medium={12} large={6}>
-                    <Heading3>Legg til eier av tavla</Heading3>
+                    <Heading3 className={classes.Heading}>
+                        Legg til eier av tavla
+                    </Heading3>
                     <AddNewOwnersInput
                         documentId={documentId}
                         ownersData={ownersData}
                         invites={invites}
                     />
-                    <Heading3>Andre personer med tilgang</Heading3>
+                    <Heading3 className={classes.Heading}>
+                        Andre personer med tilgang
+                    </Heading3>
                     <BoardOwnersList
                         documentId={documentId}
                         ownersData={ownersData}

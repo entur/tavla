@@ -4,7 +4,7 @@ import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
 import { useSettings } from '../../settings/SettingsProvider'
 import { CustomTileType } from '../../types'
-import './CustomTileModel.scss'
+import classes from './CustomTileModal.module.scss'
 
 interface CustomTileModalProps {
     setIsOpen: (isOpen: boolean) => void
@@ -45,11 +45,21 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
     const [displayHeader, setDisplayHeader] = useState(
         selectedItem?.displayHeader ?? '',
     )
+    const [errorMessage, setErrorMessage] = useState<boolean>(false)
 
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
+    const urlPattern = /^(https?:\/\/)?www\.([A-z0-9]+)\.([A-z]{2,})/
+
     const handleSubmit = (actionType: ActionType) => {
-        setIsSubmitAttempted(true)
+        if (!urlPattern.test(sourceUrl)) {
+            setErrorMessage(true)
+            return
+        } else {
+            setErrorMessage(false)
+            setIsSubmitAttempted(true)
+        }
+
         if (!displayName || !sourceUrl) return
         if (tileType === CustomTileType.QR) {
             setSettings({
@@ -100,7 +110,7 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
                     : 'Legg til bilde- eller QR-boks'
             } `}
             onDismiss={() => setIsOpen(false)}
-            className="custom-tile-modal"
+            className={classes.CustomTileModal}
         >
             <TextField
                 label="Navn på boks (obligatorisk)"
@@ -134,10 +144,20 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
                         : 'QR-koden (obligatorisk)'
                 }`}
                 value={sourceUrl}
-                onChange={(e) => setSourceUrl(e.target.value)}
-                variant={isSubmitAttempted && !sourceUrl ? 'error' : undefined}
+                onChange={(e) => {
+                    setSourceUrl(e.target.value)
+                }}
+                variant={
+                    (isSubmitAttempted && !sourceUrl) || errorMessage
+                        ? 'error'
+                        : undefined
+                }
                 placeholder="F.eks. tavla.entur.no"
-                feedback="Vennligst fyll ut dette feltet"
+                feedback={
+                    errorMessage
+                        ? 'Lenkeadressen er ugyldig. Skriv inn en nettadresse på formatet www.nettside.no. eller http(s)://www.nettside.no'
+                        : 'Vennligst fyll ut dette feltet'
+                }
             />
             {tileType === CustomTileType.Image && (
                 <TextField
@@ -153,10 +173,11 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
                         : 'Beskrivelse til QR-koden'
                 } (valgfri)`}
                 value={description}
+                className={classes.ImageText}
                 onChange={(e) => setDescription(e.target.value)}
             />
 
-            <div className="custom-tile-modal__buttons">
+            <div className={classes.ButtonsContainer}>
                 <SecondaryButton onClick={() => setIsOpen(false)}>
                     Avbryt
                 </SecondaryButton>

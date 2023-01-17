@@ -1,16 +1,16 @@
 import React from 'react'
 import Images from '../../../../assets/images/app_images_cropped.png'
-import './PosterFooter.scss'
+import classes from './PosterFooter.module.scss'
 
 const PosterFooter = (): JSX.Element => (
-    <div className="poster-footer">
+    <div className={classes.Footer}>
         <div>
-            <h2 className="poster-footer-heading">Last ned Entur-appen!</h2>
-            <h3 className="poster-footer-description">
+            <h2 className={classes.FooterHeading}>Last ned Entur-appen!</h2>
+            <h3 className={classes.FooterDescription}>
                 Her finner du kollektiv- og mobilitetstilbud i hele Norge.
             </h3>
         </div>
-        <img src={Images} className="poster-footer-app-image" />
+        <img src={Images} className={classes.AppImage} />
     </div>
 )
 

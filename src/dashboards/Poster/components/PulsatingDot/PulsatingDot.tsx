@@ -1,10 +1,10 @@
 import React from 'react'
-import './PulsatingDot.scss'
+import classes from './PulsatingDot.module.scss'
 
 const PulsatingDot = (): JSX.Element => (
-    <div className="pulsating-dot">
-        <div className="pulsating-dot-outer-circle"></div>
-        <div className="pulsating-dot-inner-circle"></div>
+    <div className={classes.PulsatingDot}>
+        <div className={classes.OuterCircle}></div>
+        <div className={classes.InnerCircle}></div>
     </div>
 )
 

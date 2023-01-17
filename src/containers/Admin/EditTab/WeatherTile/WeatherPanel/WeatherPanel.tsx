@@ -3,7 +3,7 @@ import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
 import { useSettings } from '../../../../../settings/SettingsProvider'
-import './WeatherPanel.scss'
+import classes from './WeatherPanel.module.scss'
 
 interface weatherSetting {
     name: string
@@ -67,27 +67,20 @@ function WeatherPanel(): JSX.Element {
     )
 
     return (
-        <Fieldset className="weather-panel">
-            <div className="infoWrapeer">
-                <legend>Velg værinformasjon</legend>
-                <div className="weather-panel__container">
-                    <Label>Se været i området for den neste timen.</Label>
-                </div>
-                <br />
-                {weatherSettings.map((object) => (
-                    <div key={object.value} className="scooter-panel__buttons">
-                        <FilterChip
-                            value={object.value}
-                            checked={object.checked}
-                            onChange={onToggle}
-                        >
-                            <span className="weather-panel__eds-paragraph">
-                                {object.name}
-                            </span>
-                        </FilterChip>
-                    </div>
-                ))}
-            </div>
+        <Fieldset>
+            <legend>Velg værinformasjon</legend>
+            <Label>Se været i området for den neste timen.</Label>
+            {weatherSettings.map((object) => (
+                <FilterChip
+                    key={object.value}
+                    value={object.value}
+                    checked={object.checked}
+                    onChange={onToggle}
+                    className={classes.FilterChip}
+                >
+                    {object.name}
+                </FilterChip>
+            ))}
         </Fieldset>
     )
 }
