@@ -45,18 +45,20 @@ const NeoDepartureTile: React.FC<{ stopPlaceId: string }> = ({
 
     return (
         <Tile className={classes.NeoTile}>
-            <h2>{stopPlaceWithEstimatedCalls.name}</h2>
+            <h2 className={classes.Heading}>
+                {stopPlaceWithEstimatedCalls.name}
+            </h2>
             <table className={classes.DepartureTable}>
                 <thead>
-                    <tr>
+                    <tr className={classes.TableHeader}>
                         <th>Linje</th>
-                        <th>Destinasjon</th>
+                        <th></th>
                         <th>Avgang</th>
                     </tr>
                 </thead>
                 <tbody>
                     {departures.map((departure) => (
-                        <tr key={departure.id}>
+                        <tr key={departure.id} className={classes.TableRow}>
                             <td>
                                 <span
                                     className={classes.RouteNumber}

@@ -2,6 +2,11 @@
     overflow: hidden;
 }
 
+.Heading {
+    font-weight: 600;
+    font-size: 2.5rem;
+}
+
 .DepartureTable {
     width: 100%;
     text-align: left;
@@ -9,18 +14,23 @@
     line-height: 1.5;
     border-collapse: collapse;
 
-    & tr {
-        border-top: 2px solid var(--tavla-border-color);
-    }
-
     & td {
         padding: 0.5rem 0;
     }
 
     & th {
-        border-top: 2px solid var(--tavla-hover-color);
-        border-bottom: 2px solid var(--tavla-hover-color);
+        color: var(--tavla-label-font-color);
+        font-size: 1.5rem;
     }
+}
+
+.TableHeader {
+    border-top: none;
+    border-bottom: 2px solid var(--tavla-hover-color);
+}
+
+.TableRow {
+    border-top: 2px solid var(--tavla-border-color);
 }
 
 .RouteNumber {
@@ -30,4 +40,5 @@
     gap: 0.5rem;
     padding: 0 0.5rem;
     border-radius: 0.25rem;
+    color: #fff;
 }
