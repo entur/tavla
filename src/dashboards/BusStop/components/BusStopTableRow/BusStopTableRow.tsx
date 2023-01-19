@@ -19,7 +19,9 @@ function BusStopTableRow({
         <TableRow>
             <DataCell className={classes.Line}>{departure.publicCode}</DataCell>
             <DataCell className={classes.Route}>{departure.frontText}</DataCell>
-            <DataCell className={classes.Time}>{departure.time}</DataCell>
+            <DataCell className={classes.Time}>
+                {departure.displayTime}
+            </DataCell>
             {!hideTracks && (
                 <DataCell className={classes.Track}>
                     {departure.quay?.publicCode || '-'}

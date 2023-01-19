@@ -31,8 +31,8 @@ function ChronoTableRows({
                 return (
                     <Fragment key={data.id}>
                         <NewDayTableRow
-                            currentDate={data.departureTime}
-                            previousDate={previousRow?.departureTime}
+                            currentDate={data.expectedDepartureTime}
+                            previousDate={previousRow?.expectedDepartureTime}
                         />
                         <TableRow className={classes.ChronoTableRow}>
                             <DataCell>
@@ -51,7 +51,7 @@ function ChronoTableRows({
                             </DataCell>
                             <DataCell className={classes.DataCell}>
                                 <div className={classes.Sublabel}>
-                                    {subLabel.time}
+                                    {subLabel.displayTime}
                                 </div>
                             </DataCell>
                             {!hideTracks && (
