@@ -20,4 +20,16 @@
 .Track {
     font-size: 1.25rem;
     font-weight: 400;
+    text-align: center;
+}
+
+.DelayedTime {
+    display: block;
+    color: var(--tavla-failure-font-color);
+}
+
+.OutdatedTime {
+    display: block;
+    text-decoration: line-through;
+    font-size: 1rem;
 }

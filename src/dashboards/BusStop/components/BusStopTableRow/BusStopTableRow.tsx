@@ -20,7 +20,18 @@ function BusStopTableRow({
             <DataCell className={classes.Line}>{departure.publicCode}</DataCell>
             <DataCell className={classes.Route}>{departure.frontText}</DataCell>
             <DataCell className={classes.Time}>
-                {departure.displayTime}
+                {!departure.delayed ? (
+                    departure.displayTime
+                ) : (
+                    <>
+                        <span className={classes.DelayedTime}>
+                            {departure.formattedExpectedDepartureTime}
+                        </span>
+                        <span className={classes.OutdatedTime}>
+                            {departure.formattedAimedDepartureTime}
+                        </span>
+                    </>
+                )}
             </DataCell>
             {!hideTracks && (
                 <DataCell className={classes.Track}>
