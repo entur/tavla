@@ -11,10 +11,12 @@
     border-bottom: none;
 }
 
-.Cell {
+// Triple selector to overwrite Entur component
+.Cell.Cell.Cell {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--tavla-font-color);
 }
 
 .Cell:last-child {
