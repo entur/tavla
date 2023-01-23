@@ -16,7 +16,7 @@ function BusStopTableRow({
     hideTracks,
 }: Props): JSX.Element {
     return (
-        <TableRow>
+        <TableRow className={classes.TableRow}>
             <DataCell className={classes.Line}>{departure.publicCode}</DataCell>
             <DataCell className={classes.Route}>{departure.frontText}</DataCell>
             <DataCell className={classes.Time}>{departure.time}</DataCell>

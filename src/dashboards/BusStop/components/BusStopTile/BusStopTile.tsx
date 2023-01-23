@@ -85,30 +85,38 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
                         <HeaderCell className={classes.Cell}>
                             Linje
                             <br />
-                            <SubLabel>Line</SubLabel>
+                            <SubLabel className={classes.Cell}>Line</SubLabel>
                         </HeaderCell>
                         <HeaderCell className={classes.Cell}>
                             Destinasjon
                             <br />
-                            <SubLabel>Destination</SubLabel>
+                            <SubLabel className={classes.Cell}>
+                                Destination
+                            </SubLabel>
                         </HeaderCell>
                         <HeaderCell className={classes.Cell}>
                             Avgang
                             <br />
-                            <SubLabel>Departure</SubLabel>
+                            <SubLabel className={classes.Cell}>
+                                Departure
+                            </SubLabel>
                         </HeaderCell>
                         {!settings.hideTracks && (
                             <HeaderCell className={classes.Cell}>
                                 Plattform
                                 <br />
-                                <SubLabel>Platform</SubLabel>
+                                <SubLabel className={classes.Cell}>
+                                    Platform
+                                </SubLabel>
                             </HeaderCell>
                         )}
                         {!settings.hideSituations && (
                             <HeaderCell className={classes.Cell}>
                                 Avvik
                                 <br />
-                                <SubLabel>Deviations</SubLabel>
+                                <SubLabel className={classes.Cell}>
+                                    Deviations
+                                </SubLabel>
                             </HeaderCell>
                         )}
                     </TableRow>
