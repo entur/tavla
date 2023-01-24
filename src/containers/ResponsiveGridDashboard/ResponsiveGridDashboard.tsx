@@ -16,6 +16,7 @@ import { BikeTile } from '../../components/BikeTile/BikeTile'
 import { MapTile } from '../../components/MapTile/MapTile'
 import { MobileAppQRTile } from '../../components/MobileAppQRTile/MobileAppQRTile'
 import { QRTile } from '../../components/QRTile/QRTile'
+import { Loader } from '../../components/Loader/Loader'
 import classes from './ResponsiveGridDashboard.module.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -68,7 +69,7 @@ const ResponsiveGridDashboard: React.FC<{
         getFromLocalStorage(dashboardKey as string),
     )
 
-    const { stopPlaceIds } = useStopPlaceIds()
+    const { stopPlaceIds, loading } = useStopPlaceIds()
 
     const isLocked = useMemo(
         () => settings.owners.length > 0,
@@ -112,6 +113,10 @@ const ResponsiveGridDashboard: React.FC<{
             isLocked,
         ],
     )
+
+    if (loading) {
+        return <Loader />
+    }
 
     return (
         <DashboardWrapper className={classes.GridDashboard}>
