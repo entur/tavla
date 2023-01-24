@@ -17,6 +17,7 @@ import { MapTile } from '../../components/MapTile/MapTile'
 import { MobileAppQRTile } from '../../components/MobileAppQRTile/MobileAppQRTile'
 import { QRTile } from '../../components/QRTile/QRTile'
 import classes from './ResponsiveGridDashboard.module.scss'
+import { OpeningHoursTile } from '../../components/OpeningHoursTile/OpeningHoursTile'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
@@ -242,6 +243,12 @@ const ResponsiveGridDashboard: React.FC<{
                                 />
                             </div>
                         ))}
+                    <div
+                        key="opening-hours"
+                        data-grid={getDataGrid(2, maxWidthCols, 2, 1)}
+                    >
+                        <OpeningHoursTile />
+                    </div>
                 </ResponsiveReactGridLayout>
             </div>
         </DashboardWrapper>

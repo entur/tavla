@@ -12,6 +12,7 @@ import { RealtimeTile } from './RealtimeTile/RealtimeTile'
 import { ReloadTile } from './ReloadTile/ReloadTile'
 import { HeadingAndDistance } from './HeadingAndDistance/HeadingAndDistance'
 import classes from './EditTab.module.scss'
+import { OpeningHours } from '../OpeningHours/OpeningHours'
 
 const EditTab = (): JSX.Element => (
     <div className={classes.EditTab}>
@@ -32,6 +33,7 @@ const EditTab = (): JSX.Element => (
                 <WeatherTile />
                 <CustomTile />
                 <MobileAppTile />
+                <OpeningHours />
             </div>
             <RealtimeTile />
             <ReloadTile />

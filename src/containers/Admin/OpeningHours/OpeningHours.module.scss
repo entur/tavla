@@ -1,0 +1,34 @@
+.Header {
+    display: flex;
+    justify-content: space-between;
+  
+}
+.OpeningHoursElement {
+   display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    
+}
+
+.DayPicker {
+    background-color: white;
+    color: black;
+    max-height: 12rem;
+    width: 15rem;
+    overflow-y: 'auto';
+    border-radius: 0.25rem;
+    
+}
+
+.TimePicker  {
+    margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    &:disabled{
+        background-color: red;
+
+    }
+}
+
+
