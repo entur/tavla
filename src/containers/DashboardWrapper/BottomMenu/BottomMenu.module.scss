@@ -19,7 +19,7 @@
 
 .HiddenMenu,
 .BottomMenu:hover,
-.BottomMenu:focus {
+.BottomMenu:focus-within {
     visibility: visible;
     transform: translate(0, 0);
 }

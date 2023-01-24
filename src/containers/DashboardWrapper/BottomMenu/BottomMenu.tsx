@@ -32,7 +32,7 @@ function BottomMenu(): JSX.Element {
 
         return () => {
             document.removeEventListener('mousemove', showMenuOnMouseMove)
-            document.removeEventListener('keypress', showMenuOnMouseMove)
+            document.removeEventListener('keydown', showMenuOnMouseMove)
         }
     }, [showMenuOnMouseMove])
 
