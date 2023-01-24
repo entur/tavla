@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useStopPlaceIds } from '../../logic/use-stop-place-ids/useStopPlaceIds'
 import { DashboardWrapper } from '../DashboardWrapper/DashboardWrapper'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
@@ -60,13 +60,12 @@ const ResponsiveGridDashboard: React.FC<{
     TileComponent: React.FC<{ stopPlaceId: string }>
 }> = ({ TileComponent }) => {
     const [settings] = useSettings()
-    const location = useLocation()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
 
-    const dashboardKey = location.key
+    const { documentId } = useParams<{ documentId: string }>()
 
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
-        getFromLocalStorage(dashboardKey as string),
+        getFromLocalStorage(documentId as string),
     )
 
     const { stopPlaceIds, loading } = useStopPlaceIds()
@@ -146,7 +145,7 @@ const ResponsiveGridDashboard: React.FC<{
                     ): void => {
                         if (numberOfStopPlaces > 0) {
                             setGridLayouts(layouts)
-                            saveToLocalStorage(dashboardKey as string, layouts)
+                            saveToLocalStorage(documentId as string, layouts)
                         }
                     }}
                 >
