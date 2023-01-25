@@ -7,3 +7,13 @@
 .Paragraph {
     color: var(--tavla-font-color);
 }
+
+.InputGroup {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.TextFieldWrapper {
+    width: 100%;
+}
