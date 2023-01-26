@@ -25,7 +25,7 @@ function BusStopTableRow({
                 ) : (
                     <>
                         <span className={classes.DelayedTime}>
-                            {departure.formattedExpectedDepartureTime}
+                            {departure.displayTime}
                         </span>
                         <span className={classes.OutdatedTime}>
                             {departure.formattedAimedDepartureTime}
