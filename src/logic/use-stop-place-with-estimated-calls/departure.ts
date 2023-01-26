@@ -8,11 +8,14 @@ import { EstimatedCall } from './types'
 
 interface Departure {
     id: string
-    expectedDepartureTime: EstimatedCall['expectedDepartureTime']
+    aimedDepartureTime: Date
+    expectedDepartureTime: Date
+    formattedAimedDepartureTime: string
+    formattedExpectedDepartureTime: string
+    delayed: boolean
     transportMode: TransportMode
     transportSubmode: TransportSubmode
-    time: string
-    departureTime: Date
+    displayTime: string
     publicCode: string
     frontText: string
     route: string
@@ -32,16 +35,29 @@ function formatTime(minDiff: number, departureTime: Date): string {
  */
 function toDeparture(estimatedCall: EstimatedCall): Departure {
     const line = estimatedCall.serviceJourney.journeyPattern.line
-    const departureTime = parseISO(estimatedCall.expectedDepartureTime)
-    const minuteDiff = differenceInMinutes(departureTime, new Date())
+    const aimedDepartureTime = parseISO(estimatedCall.aimedDepartureTime)
+    const expectedDepartureTime = parseISO(estimatedCall.expectedDepartureTime)
+
+    const delayed =
+        differenceInMinutes(expectedDepartureTime, aimedDepartureTime) > 1
+
+    const timeUntilDeparture = differenceInMinutes(
+        expectedDepartureTime,
+        new Date(),
+    )
+
+    const displayTime = formatTime(timeUntilDeparture, expectedDepartureTime)
 
     return {
         id: `${estimatedCall.date}::${estimatedCall.aimedDepartureTime}::${estimatedCall.serviceJourney.id}`,
-        expectedDepartureTime: estimatedCall.expectedDepartureTime,
+        aimedDepartureTime,
+        expectedDepartureTime,
+        formattedAimedDepartureTime: format(aimedDepartureTime, 'HH:mm'),
+        formattedExpectedDepartureTime: format(expectedDepartureTime, 'HH:mm'),
+        delayed,
+        displayTime,
         transportMode: line.transportMode,
         transportSubmode: estimatedCall.serviceJourney.transportSubmode,
-        time: formatTime(minuteDiff, departureTime),
-        departureTime,
         publicCode: line.publicCode || '',
         frontText: estimatedCall.destinationDisplay.frontText,
         route: `${line.publicCode || ''} ${
@@ -67,7 +83,7 @@ const filterHidden =
         )
 
 const byDepartureTime = (a: Departure, b: Departure) =>
-    compareAsc(a.departureTime, b.departureTime)
+    compareAsc(a.expectedDepartureTime, b.expectedDepartureTime)
 
 export { toDeparture, filterHidden, byDepartureTime }
 export type { Departure }

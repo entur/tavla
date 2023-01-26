@@ -5,16 +5,16 @@ import { Departure } from '../logic/use-stop-place-with-estimated-calls/departur
 export function createTileSubLabel({
     situations,
     cancellation,
-    time,
-    departureTime,
+    displayTime,
+    expectedDepartureTime,
 }: Departure): TileSubLabel {
     const situation = situations[0]?.summary[0]?.value
     return {
         situation,
         hasSituation: Boolean(situation),
         hasCancellation: cancellation,
-        time,
-        departureTime,
+        displayTime,
+        expectedDepartureTime,
     }
 }
 

@@ -1,8 +1,8 @@
 import differenceInSeconds from 'date-fns/differenceInSeconds'
 import parseISO from 'date-fns/parseISO'
 
-function timeUntil(time: string): number {
-    return differenceInSeconds(parseISO(time), new Date())
+function timeUntil(time: Date): number {
+    return differenceInSeconds(time, new Date())
 }
 
 const getLastUpdated = (lastUpdated: string): number =>

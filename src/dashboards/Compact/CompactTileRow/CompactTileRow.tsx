@@ -42,20 +42,23 @@ function CompactTileRow({
                         const isLastDepartureOfDay =
                             nextLabel &&
                             !isSameDay(
-                                nextLabel.departureTime,
-                                subLabel.departureTime,
+                                nextLabel.expectedDepartureTime,
+                                subLabel.expectedDepartureTime,
                             )
 
                         const showDate =
-                            index === 0 && !isToday(subLabel.departureTime)
+                            index === 0 &&
+                            !isToday(subLabel.expectedDepartureTime)
 
-                        const isoDate = formatISO(subLabel.departureTime)
+                        const isoDate = formatISO(
+                            subLabel.expectedDepartureTime,
+                        )
 
                         return (
                             <Fragment key={index}>
                                 <div className={classes.Sublabel}>
                                     <time dateTime={isoDate}>
-                                        {subLabel.time}
+                                        {subLabel.displayTime}
                                     </time>
 
                                     <SubLabelIcon
@@ -64,7 +67,11 @@ function CompactTileRow({
                                     />
 
                                     {showDate && (
-                                        <Date date={subLabel.departureTime} />
+                                        <Date
+                                            date={
+                                                subLabel.expectedDepartureTime
+                                            }
+                                        />
                                     )}
                                 </div>
                                 {isLastDepartureOfDay && <Divider />}

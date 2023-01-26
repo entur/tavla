@@ -93,10 +93,10 @@ const DepartureTag: React.FC<Props> = ({ stopPlaceId }): JSX.Element => {
                             {getDepartureDirection(departure)}
                         </div>
                         <div className={classes.Departure}>
-                            {departure.time}
+                            {departure.displayTime}
                         </div>
-                        {!isToday(departure.departureTime) && (
-                            <Date date={departure.departureTime} />
+                        {!isToday(departure.expectedDepartureTime) && (
+                            <Date date={departure.expectedDepartureTime} />
                         )}
                     </div>
                 ))}

@@ -40,7 +40,12 @@ function BusTile(): JSX.Element {
                         .filter(isNotNullOrUndefined)
                         .map(toDeparture),
                 )
-                .sort((a, b) => compareAsc(a.departureTime, b.departureTime))
+                .sort((a, b) =>
+                    compareAsc(
+                        a.expectedDepartureTime,
+                        b.expectedDepartureTime,
+                    ),
+                )
                 .slice(0, numberOfLines) ?? [],
         [data?.stopPlaces, numberOfLines],
     )
@@ -73,7 +78,9 @@ function BusTile(): JSX.Element {
                             <p className={classes.Destination}>
                                 {routeDestination}
                             </p>
-                            <p className={classes.Time}>{departure.time}</p>
+                            <p className={classes.Time}>
+                                {departure.displayTime}
+                            </p>
                         </div>
                     )
                 })}
