@@ -1,34 +1,27 @@
-.Header {
+.HeaderWrapper {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-  
 }
-.OpeningHoursElement {
-   display: flex;
+
+.ListWrapper {
+    margin-top: 3rem;
+}
+.List {
+    list-style:none;
+    padding-inline-start: 0;
+}
+.ListRow {
+    display: flex;
     flex-direction: row;
     margin-top: 1rem;
-    
+    align-items: center;
 }
 
-.DayPicker {
-    background-color: white;
-    color: black;
-    max-height: 12rem;
-    width: 15rem;
-    overflow-y: 'auto';
-    border-radius: 0.25rem;
-    
-}
-
-.TimePicker  {
+.TextField {
     margin: 0 1rem;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    &:disabled{
-        background-color: red;
-
-    }
 }
 
-
+.DeleteButton {
+    margin-right: 1rem;
+}

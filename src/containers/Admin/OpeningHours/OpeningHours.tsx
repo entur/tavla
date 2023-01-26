@@ -1,135 +1,126 @@
 import React, { useState } from 'react'
-import { Multiselect } from 'multiselect-react-dropdown'
-import { TimePicker } from '@entur/datepicker'
-import { AddIcon, CheckIcon, DeleteIcon } from '@entur/icons'
+import { AddIcon, DeleteIcon } from '@entur/icons'
 import { IconButton } from '@entur/button'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
 import { Tile } from '../../../components/Tile/Tile'
 import classes from './OpeningHours.module.scss'
-import { Checkbox, Switch } from '@entur/form'
+import { Checkbox, TextField } from '@entur/form'
+import { Switch } from '@entur/form'
+import '@entur/form/dist/styles.css'
 
 const OpeningHours: React.FC = () => {
-    const [startTimeHour, setStartTimeHour] = useState([0, 0])
-    const [stopTimeHour, setStopTimeHour] = useState([0, 0])
+    const [simpleDayTimeList, setSimpleDayTimeList] = useState<
+        SimpleDayTimeType[]
+    >([{ day: '', openingHours: '', isClosed: false }])
 
-    const [closedDays, setClosedDays] = useState<boolean | undefined>(false)
-
-    const [chosenDayss, setChosenDayss] = useState([])
-
-    const [daysTimePair, setDaysTimePair] = useState<number[][][]>()
-
-    const weekdays = [
-        { name: 'Mandag', id: 1 },
-        { name: 'Tirsdag', id: 2 },
-        { name: 'Onsdag', id: 3 },
-        { name: 'Torsdag', id: 4 },
-        { name: 'Fredag', id: 5 },
-        { name: 'Lørdag', id: 6 },
-        { name: 'Søndag', id: 7 },
-    ]
-
-    type DagTidObject = {
-        dager?: number[]
-        startTid: number[]
-        sluttTid: number[]
-        open?: boolean
+    type SimpleDayTimeType = {
+        day: string
+        openingHours: string
+        isClosed?: boolean
     }
 
-    function setDagTidObject(listElement: any) {
-        const exampleList = [
-            [
-                [1, 2, 3],
-                [9, 0],
-                [16, 0],
-            ],
-            [
-                [6, 7],
-                [10, 30],
-                [15, 30],
-            ],
-        ]
-        setDaysTimePair(exampleList)
+    function addEmptyListElement() {
+        const obj: SimpleDayTimeType[] = [{ day: '', openingHours: '' }]
+        const newList = [...simpleDayTimeList, ...obj]
+        setSimpleDayTimeList(newList)
     }
 
-    function addNewListElement() {
-        var ul = document.getElementById('liste')
-        var newElement = document.createElement('li')
-        newElement.setAttribute('className', classes.OpeningHoursElement)
-        newElement.appendChild(document.createTextNode('hei'))
-        ul?.appendChild(newElement)
+    function updateDayTimeListDay(e: any, index: any) {
+        const newList = simpleDayTimeList.map((innerElement, innerIndex) =>
+            index !== innerIndex
+                ? innerElement
+                : {
+                      ...innerElement,
+                      day: e.target.value,
+                  },
+        )
+        setSimpleDayTimeList(newList)
+    }
+
+    function updateDayTimeListHours(e: any, index: any) {
+        const newList = simpleDayTimeList.map((innerElement, innerIndex) =>
+            index !== innerIndex
+                ? innerElement
+                : {
+                      ...innerElement,
+                      openingHours: e.target.value,
+                  },
+        )
+        setSimpleDayTimeList(newList)
+    }
+
+    function removeRow(index: any) {
+        const filteredList = simpleDayTimeList.filter(
+            (i) => i !== simpleDayTimeList[index],
+        )
+        setSimpleDayTimeList(filteredList)
+    }
+
+    function makeClosed(checked: boolean, index: any) {
+        const newList = simpleDayTimeList.map((innerElement, innerIndex) =>
+            index !== innerIndex
+                ? innerElement
+                : {
+                      ...innerElement,
+                      isClosed: checked,
+                      openingHours: '',
+                  },
+        )
+        setSimpleDayTimeList(newList)
     }
 
     return (
-        <Tile>
-            <div className={classes.Header}>
-                <TileHeader title="Åpningstider" /> <Switch size="large" />
+        <Tile className={classes.OpeningHourTile}>
+            <div className={classes.HeaderWrapper}>
+                <TileHeader title="Åpningstider" />
+                <Switch size='large'/>
             </div>
-            <div>
-                <ul>
-                    {daysTimePair?.map((listeElement) => (
-                        <li>{listeElement}</li>
+            <div className={classes.ListWrapper}>
+                <ul className={classes.List}>
+                    {simpleDayTimeList.map((element, index: number) => (
+                        // eslint-disable-next-line react/jsx-key
+                        <li className={classes.ListRow}>
+                            <IconButton
+                                className={classes.DeleteButton}
+                                onClick={() => removeRow(index)}
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+                            <TextField
+                                className={classes.TextField}
+                                label="Dag"
+                                type="text"
+                                value={element.day}
+                                onChange={(e) => {
+                                    updateDayTimeListDay(e, index)
+                                }}
+                            ></TextField>
+                            :
+                            <TextField
+                                className={classes.TextField}
+                                label="Åpningstider"
+                                onChange={(e) => {
+                                    updateDayTimeListHours(e, index)
+                                }}
+                                type="text"
+                            ></TextField>
+                            <div className={classes.ClosedWrapper}>
+                                <Checkbox
+                                    title="Stengt"
+                                    onChange={(e) =>
+                                        makeClosed(e.target.checked, index)
+                                    }
+                                >
+                                    Stengt
+                                </Checkbox>
+                            </div>
+                        </li>
                     ))}
                 </ul>
-
-                <ul id="liste">
-                    <li className={classes.OpeningHoursElement}>
-                        <Multiselect
-                            avoidHighlightFirstOption
-                            className={classes.DayPicker}
-                            displayValue="name"
-                            options={weekdays}
-                            placeholder="Dager"
-                            hidePlaceholder
-                            onSelect={(selected) => {
-                                setChosenDayss(
-                                    selected.map((i: any) => {
-                                        setDagTidObject(selected)
-                                        return i.id
-                                    }),
-                                )
-                            }}
-                            onRemove={(selected) => {
-                                setChosenDayss(
-                                    selected.map((i: any) => {
-                                        setDagTidObject(i)
-                                        return i.id
-                                    }),
-                                )
-                            }}
-                        />
-                        <TimePicker
-                            className={classes.TimePicker}
-                            label="Åpner"
-                            selectedTime={null}
-                            onChange={(time) => {
-                                setStartTimeHour([time.hour, time.minute])
-                            }}
-                            disabled={closedDays}
-                        />
-                        <TimePicker
-                            className={classes.TimePicker}
-                            label="Stenger"
-                            selectedTime={null}
-                            onChange={(time) => {
-                                console.log(time.minute)
-                                setStopTimeHour([time.hour, time.minute])
-                            }}
-                            disabled={closedDays}
-                        />
-                        <Checkbox
-                            onClick={() => {
-                                setStartTimeHour([0, 0])
-                                setStopTimeHour([0, 0])
-                                setClosedDays(!closedDays)
-                            }}
-                        >
-                            Stengt
-                        </Checkbox>
-                    </li>
-                </ul>
-                <IconButton>
-                    <AddIcon onClick={() => setDagTidObject} />
+                <IconButton onClick={() => addEmptyListElement()} size="medium">
+                    <AddIcon />
                 </IconButton>
+                <div></div>
             </div>
         </Tile>
     )
