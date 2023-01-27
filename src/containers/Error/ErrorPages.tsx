@@ -157,6 +157,7 @@ function NoAccessToTavler(): JSX.Element {
     return (
         <div>
             {loginModal}
+            <Navbar />
             <ErrorWrapper
                 title="Dine tavler venter!"
                 message="Du må logge inn for å se oversikten over tavlene dine. Trykk på knappen nedenfor for å logge inn."
