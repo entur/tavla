@@ -14,7 +14,7 @@ import { ModalType } from '../login-modal-types'
 import { useFormFields } from '../../../../hooks/useFormFields'
 import classes from '../../AccountModals.module.scss'
 
-export interface UserResetPassword {
+interface UserResetPassword {
     email: string
 }
 

@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useStopPlaceIds } from '../../logic/use-stop-place-ids/useStopPlaceIds'
 import { DashboardWrapper } from '../DashboardWrapper/DashboardWrapper'
 import { ResizeHandle } from '../../assets/icons/ResizeHandle'
@@ -17,6 +17,7 @@ import { MapTile } from '../../components/MapTile/MapTile'
 import { MobileAppQRTile } from '../../components/MobileAppQRTile/MobileAppQRTile'
 import { QRTile } from '../../components/QRTile/QRTile'
 import { OpeningHoursTile } from '../../components/OpeningHoursTile/OpeningHoursTile'
+import { Loader } from '../../components/Loader/Loader'
 import classes from './ResponsiveGridDashboard.module.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -60,16 +61,15 @@ const ResponsiveGridDashboard: React.FC<{
     TileComponent: React.FC<{ stopPlaceId: string }>
 }> = ({ TileComponent }) => {
     const [settings] = useSettings()
-    const location = useLocation()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
 
-    const dashboardKey = location.key
+    const { documentId } = useParams<{ documentId: string }>()
 
     const [gridLayouts, setGridLayouts] = useState<Layouts | undefined>(
-        getFromLocalStorage(dashboardKey as string),
+        getFromLocalStorage(documentId as string),
     )
 
-    const { stopPlaceIds } = useStopPlaceIds()
+    const { stopPlaceIds, loading } = useStopPlaceIds()
 
     const isLocked = useMemo(
         () => settings.owners.length > 0,
@@ -114,6 +114,10 @@ const ResponsiveGridDashboard: React.FC<{
         ],
     )
 
+    if (loading) {
+        return <Loader />
+    }
+
     return (
         <DashboardWrapper className={classes.GridDashboard}>
             <div className={classes.Tiles}>
@@ -142,7 +146,7 @@ const ResponsiveGridDashboard: React.FC<{
                     ): void => {
                         if (numberOfStopPlaces > 0) {
                             setGridLayouts(layouts)
-                            saveToLocalStorage(dashboardKey as string, layouts)
+                            saveToLocalStorage(documentId as string, layouts)
                         }
                     }}
                 >

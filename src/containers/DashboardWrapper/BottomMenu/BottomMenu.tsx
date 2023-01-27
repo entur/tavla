@@ -28,9 +28,11 @@ function BottomMenu(): JSX.Element {
 
     useEffect(() => {
         document.addEventListener('mousemove', showMenuOnMouseMove)
+        document.addEventListener('keydown', showMenuOnMouseMove)
 
         return () => {
             document.removeEventListener('mousemove', showMenuOnMouseMove)
+            document.removeEventListener('keydown', showMenuOnMouseMove)
         }
     }, [showMenuOnMouseMove])
 

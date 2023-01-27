@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { Contrast } from '@entur/layout'
 import { useSettings } from '../../settings/SettingsProvider'
 import { Clock } from '../Clock/Clock'
-import { TavlaLogo } from '../../assets/icons'
+import { TavlaLogo } from '../../assets/icons/TavlaLogo'
 import { isMobileWeb } from '../../utils/utils'
 import classes from './DashboardHeader.module.scss'
 

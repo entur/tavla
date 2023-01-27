@@ -3,4 +3,7 @@
     text-transform: capitalize;
     width: max-content;
     white-space: nowrap;
+
+    // Important used to overwrite Entur design system
+    border-color: var(--tavla-border-color) !important;
 }

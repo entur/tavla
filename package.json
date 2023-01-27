@@ -55,7 +55,7 @@
         "@entur/travel": "5.0.22",
         "@entur/typography": "1.7.3",
         "@habx/apollo-multi-endpoint-link": "2.9.0",
-        "@sentry/react": "7.26.0",
+        "@sentry/react": "7.32.0",
         "@splitbee/web": "0.3.0",
         "@types/react-helmet": "6.1.6",
         "@types/supercluster": "7.1.0",

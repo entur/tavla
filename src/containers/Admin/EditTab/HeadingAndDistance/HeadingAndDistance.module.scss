@@ -50,7 +50,7 @@
 /* Define .TextField twice because of specificity issues with eds */
 .TextField.TextField {
     font-size: inherit;
-    color: var(--primary-text-color);
+    color: var(--tavla-font-color);
     background-color: transparent;
     font-weight: 400;
     border-color: transparent;
