@@ -5,6 +5,7 @@ import {
     Direction,
     DrawableRoute,
     Theme,
+    DayTimeType
 } from '../types'
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../constants'
 import { TransportMode } from '../../graphql-generated/journey-planner-v3'
@@ -53,6 +54,7 @@ interface Settings {
     showWind: boolean
     theme: Theme
     zoom: number
+    dayTimeList: DayTimeType[]
 }
 
 const DEFAULT_SETTINGS: Settings = {
@@ -97,6 +99,8 @@ const DEFAULT_SETTINGS: Settings = {
     showWind: true,
     theme: Theme.DEFAULT,
     zoom: DEFAULT_ZOOM,
+    dayTimeList: [],
+
 }
 export { DEFAULT_SETTINGS }
 export type { Settings, Mode }

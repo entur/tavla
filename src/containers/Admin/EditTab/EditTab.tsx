@@ -1,5 +1,6 @@
 import React from 'react'
 import { Heading4 } from '@entur/typography'
+import { OpeningHours } from '../OpeningHours/OpeningHours'
 import { PosterMobilityAlert } from './PosterMobilityAlert'
 import { StopPlaceTile } from './StopPlaceTile/StopPlaceTile'
 import { WeatherTile } from './WeatherTile/WeatherTile'
@@ -12,7 +13,6 @@ import { RealtimeTile } from './RealtimeTile/RealtimeTile'
 import { ReloadTile } from './ReloadTile/ReloadTile'
 import { HeadingAndDistance } from './HeadingAndDistance/HeadingAndDistance'
 import classes from './EditTab.module.scss'
-import { OpeningHours } from '../OpeningHours/OpeningHours'
 
 const EditTab = (): JSX.Element => (
     <div className={classes.EditTab}>

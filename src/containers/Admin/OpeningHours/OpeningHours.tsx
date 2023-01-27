@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { AddIcon, DeleteIcon } from '@entur/icons'
 import { IconButton } from '@entur/button'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
@@ -7,8 +7,11 @@ import classes from './OpeningHours.module.scss'
 import { Checkbox, TextField } from '@entur/form'
 import { Switch } from '@entur/form'
 import '@entur/form/dist/styles.css'
+import { useSettings } from '../../../settings/SettingsProvider'
 
 const OpeningHours: React.FC = () => {
+    const [settings, setSettings] = useSettings()
+
     const [simpleDayTimeList, setSimpleDayTimeList] = useState<
         SimpleDayTimeType[]
     >([{ day: '', openingHours: '', isClosed: false }])
@@ -18,6 +21,11 @@ const OpeningHours: React.FC = () => {
         openingHours: string
         isClosed?: boolean
     }
+    const handleChange = useCallback(() => {
+        setSettings({
+            dayTimeList: simpleDayTimeList,
+        })
+    }, [settings, setSettings])
 
     function addEmptyListElement() {
         const obj: SimpleDayTimeType[] = [{ day: '', openingHours: '' }]
@@ -69,11 +77,15 @@ const OpeningHours: React.FC = () => {
         setSimpleDayTimeList(newList)
     }
 
+    function submitOpeningHours() {
+        setSettings({ dayTimeList: simpleDayTimeList })
+    }
+
     return (
         <Tile className={classes.OpeningHourTile}>
             <div className={classes.HeaderWrapper}>
                 <TileHeader title="Åpningstider" />
-                <Switch size='large'/>
+                <Switch size="large" />
             </div>
             <div className={classes.ListWrapper}>
                 <ul className={classes.List}>
@@ -122,6 +134,7 @@ const OpeningHours: React.FC = () => {
                 </IconButton>
                 <div></div>
             </div>
+            <button onClick={() => submitOpeningHours()}>Submit</button>
         </Tile>
     )
 }

@@ -105,6 +105,12 @@ export interface Viewport {
     minZoom: number
 }
 
+export interface DayTimeType {
+    day: string
+    openingHours: string
+    isClosed?: boolean
+}
+
 /* Augment the proptype of @entur/alert ToastProvider with children definition.
  * This should be deleted when @entur/alert updates to @types/react@18.x and updates their definition
  */
