@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { AddIcon, DeleteIcon } from '@entur/icons'
-import { IconButton } from '@entur/button'
+import { Button, IconButton } from '@entur/button'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
 import { Tile } from '../../../components/Tile/Tile'
 import classes from './OpeningHours.module.scss'
@@ -8,6 +8,7 @@ import { Checkbox, TextField } from '@entur/form'
 import { Switch } from '@entur/form'
 import '@entur/form/dist/styles.css'
 import { useSettings } from '../../../settings/SettingsProvider'
+import { useToast } from '@entur/alert'
 
 const OpeningHours: React.FC = () => {
     const [settings, setSettings] = useSettings()
@@ -79,7 +80,14 @@ const OpeningHours: React.FC = () => {
 
     function submitOpeningHours() {
         setSettings({ dayTimeList: simpleDayTimeList })
+
+        addToast({
+            content: 'Åpningstidene er nå satt',
+            variant: 'success',
+        })
     }
+
+    const { addToast } = useToast()
 
     return (
         <Tile className={classes.OpeningHourTile}>
@@ -134,7 +142,14 @@ const OpeningHours: React.FC = () => {
                 </IconButton>
                 <div></div>
             </div>
-            <button onClick={() => submitOpeningHours()}>Submit</button>
+            <Button
+                variant="primary"
+                size="medium"
+                className={classes.SubmitButton}
+                onClick={() => submitOpeningHours()}
+            >
+                Lagre
+            </Button>
         </Tile>
     )
 }
