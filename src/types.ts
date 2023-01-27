@@ -105,7 +105,7 @@ export interface Viewport {
     minZoom: number
 }
 
-export interface DayTimeType {
+export interface OpeningHours {
     day: string
     openingHours: string
     isClosed?: boolean

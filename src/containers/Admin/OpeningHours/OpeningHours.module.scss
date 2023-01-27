@@ -7,10 +7,12 @@
 .ListWrapper {
     margin-top: 3rem;
 }
+
 .List {
-    list-style:none;
+    list-style: none;
     padding-inline-start: 0;
 }
+
 .ListRow {
     display: flex;
     flex-direction: row;
@@ -22,11 +24,9 @@
     margin: 0 1rem;
 }
 
-.DeleteButton {
-    margin-right: 1rem;
-}
-
-.SubmitButton {
-    margin-top: 1rem;
-    left: 23rem;
+.ButtonsWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }

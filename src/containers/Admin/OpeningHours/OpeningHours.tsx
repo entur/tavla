@@ -1,32 +1,25 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { AddIcon, DeleteIcon } from '@entur/icons'
 import { Button, IconButton } from '@entur/button'
-import { TileHeader } from '../../../components/TileHeader/TileHeader'
-import { Tile } from '../../../components/Tile/Tile'
-import classes from './OpeningHours.module.scss'
-import { Checkbox, TextField } from '@entur/form'
-import { Switch } from '@entur/form'
-import '@entur/form/dist/styles.css'
-import { useSettings } from '../../../settings/SettingsProvider'
+import { Checkbox, TextField, Switch } from '@entur/form'
 import { useToast } from '@entur/alert'
+import { Tile } from '../../../components/Tile/Tile'
+import { useSettings } from '../../../settings/SettingsProvider'
+import { TileHeader } from '../../../components/TileHeader/TileHeader'
+import classes from './OpeningHours.module.scss'
 
 const OpeningHours: React.FC = () => {
     const [settings, setSettings] = useSettings()
 
     const [simpleDayTimeList, setSimpleDayTimeList] = useState<
         SimpleDayTimeType[]
-    >([{ day: '', openingHours: '', isClosed: false }])
+    >(settings.openingHours)
 
     type SimpleDayTimeType = {
         day: string
         openingHours: string
         isClosed?: boolean
     }
-    const handleChange = useCallback(() => {
-        setSettings({
-            dayTimeList: simpleDayTimeList,
-        })
-    }, [settings, setSettings])
 
     function addEmptyListElement() {
         const obj: SimpleDayTimeType[] = [{ day: '', openingHours: '' }]
@@ -34,7 +27,10 @@ const OpeningHours: React.FC = () => {
         setSimpleDayTimeList(newList)
     }
 
-    function updateDayTimeListDay(e: any, index: any) {
+    function updateDayTimeListDay(
+        e: React.ChangeEvent<HTMLInputElement>,
+        index: number,
+    ) {
         const newList = simpleDayTimeList.map((innerElement, innerIndex) =>
             index !== innerIndex
                 ? innerElement
@@ -46,7 +42,10 @@ const OpeningHours: React.FC = () => {
         setSimpleDayTimeList(newList)
     }
 
-    function updateDayTimeListHours(e: any, index: any) {
+    function updateDayTimeListHours(
+        e: React.ChangeEvent<HTMLInputElement>,
+        index: number,
+    ) {
         const newList = simpleDayTimeList.map((innerElement, innerIndex) =>
             index !== innerIndex
                 ? innerElement
@@ -58,28 +57,27 @@ const OpeningHours: React.FC = () => {
         setSimpleDayTimeList(newList)
     }
 
-    function removeRow(index: any) {
+    function removeRow(index: number) {
         const filteredList = simpleDayTimeList.filter(
             (i) => i !== simpleDayTimeList[index],
         )
         setSimpleDayTimeList(filteredList)
     }
 
-    function makeClosed(checked: boolean, index: any) {
+    function makeClosed(checked: boolean, index: number) {
         const newList = simpleDayTimeList.map((innerElement, innerIndex) =>
             index !== innerIndex
                 ? innerElement
                 : {
                       ...innerElement,
                       isClosed: checked,
-                      openingHours: '',
                   },
         )
         setSimpleDayTimeList(newList)
     }
 
     function submitOpeningHours() {
-        setSettings({ dayTimeList: simpleDayTimeList })
+        setSettings({ openingHours: simpleDayTimeList })
 
         addToast({
             content: 'Åpningstidene er nå satt',
@@ -89,17 +87,24 @@ const OpeningHours: React.FC = () => {
 
     const { addToast } = useToast()
 
+    function handleShowOpeningHours() {
+        setSettings({ showOpeningHours: !settings.showOpeningHours })
+    }
+
     return (
         <Tile className={classes.OpeningHourTile}>
             <div className={classes.HeaderWrapper}>
                 <TileHeader title="Åpningstider" />
-                <Switch size="large" />
+                <Switch
+                    size="large"
+                    onChange={handleShowOpeningHours}
+                    checked={settings.showOpeningHours}
+                />
             </div>
             <div className={classes.ListWrapper}>
                 <ul className={classes.List}>
                     {simpleDayTimeList.map((element, index: number) => (
-                        // eslint-disable-next-line react/jsx-key
-                        <li className={classes.ListRow}>
+                        <li className={classes.ListRow} key={index}>
                             <IconButton
                                 className={classes.DeleteButton}
                                 onClick={() => removeRow(index)}
@@ -119,13 +124,16 @@ const OpeningHours: React.FC = () => {
                             <TextField
                                 className={classes.TextField}
                                 label="Åpningstider"
+                                value={element.openingHours}
                                 onChange={(e) => {
                                     updateDayTimeListHours(e, index)
                                 }}
                                 type="text"
+                                disabled={element.isClosed}
                             ></TextField>
                             <div className={classes.ClosedWrapper}>
                                 <Checkbox
+                                    checked={element.isClosed}
                                     title="Stengt"
                                     onChange={(e) =>
                                         makeClosed(e.target.checked, index)
@@ -137,19 +145,23 @@ const OpeningHours: React.FC = () => {
                         </li>
                     ))}
                 </ul>
-                <IconButton onClick={() => addEmptyListElement()} size="medium">
-                    <AddIcon />
-                </IconButton>
-                <div></div>
+                <div className={classes.ButtonsWrapper}>
+                    <IconButton
+                        onClick={() => addEmptyListElement()}
+                        size="medium"
+                    >
+                        <AddIcon />
+                    </IconButton>
+                    <Button
+                        variant="primary"
+                        size="medium"
+                        className={classes.SubmitButton}
+                        onClick={() => submitOpeningHours()}
+                    >
+                        Lagre
+                    </Button>
+                </div>
             </div>
-            <Button
-                variant="primary"
-                size="medium"
-                className={classes.SubmitButton}
-                onClick={() => submitOpeningHours()}
-            >
-                Lagre
-            </Button>
         </Tile>
     )
 }
