@@ -56,6 +56,7 @@ interface Settings {
     theme: Theme
     zoom: number
     openingHours: OpeningHours[]
+    openingHoursLocation: string
 }
 
 const DEFAULT_SETTINGS: Settings = {
@@ -102,6 +103,7 @@ const DEFAULT_SETTINGS: Settings = {
     theme: Theme.DEFAULT,
     zoom: DEFAULT_ZOOM,
     openingHours: [],
+    openingHoursLocation: '',
 }
 export { DEFAULT_SETTINGS }
 export type { Settings, Mode }

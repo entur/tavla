@@ -10,7 +10,7 @@ import classes from './OpeningHours.module.scss'
 
 const OpeningHours: React.FC = () => {
     const [settings, setSettings] = useSettings()
-
+    const [location, setLocation] = useState('')
     const [simpleDayTimeList, setSimpleDayTimeList] = useState<
         SimpleDayTimeType[]
     >(settings.openingHours)
@@ -20,6 +20,7 @@ const OpeningHours: React.FC = () => {
         openingHours: string
         isClosed?: boolean
     }
+    const { addToast } = useToast()
 
     function addEmptyListElement() {
         const obj: SimpleDayTimeType[] = [{ day: '', openingHours: '' }]
@@ -78,6 +79,7 @@ const OpeningHours: React.FC = () => {
 
     function submitOpeningHours() {
         setSettings({ openingHours: simpleDayTimeList })
+        setSettings({ openingHoursLocation: location })
 
         addToast({
             content: 'Åpningstidene er nå satt',
@@ -85,16 +87,28 @@ const OpeningHours: React.FC = () => {
         })
     }
 
-    const { addToast } = useToast()
-
     function handleShowOpeningHours() {
         setSettings({ showOpeningHours: !settings.showOpeningHours })
+    }
+
+    function addLocation(e: React.ChangeEvent<HTMLInputElement>) {
+        setLocation(e.target.value)
     }
 
     return (
         <Tile className={classes.OpeningHourTile}>
             <div className={classes.HeaderWrapper}>
-                <TileHeader title="Åpningstider" />
+                <TileHeader title="Åpningstider for" />
+                <div className={classes.InputWrapper}>
+                    <TextField
+                        label=""
+                        className={classes.TextFieldLocation}
+                        size="medium"
+                        type="text"
+                        defaultValue={settings.openingHoursLocation}
+                        onChange={(e) => addLocation(e)}
+                    />
+                </div>
                 <Switch
                     size="large"
                     onChange={handleShowOpeningHours}

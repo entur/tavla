@@ -6,10 +6,12 @@ import classes from './OpeningHoursTile.module.scss'
 
 const OpeningHoursTile: React.FC = () => {
     const [settings] = useSettings()
+    const location: string = settings.openingHoursLocation
+    const title: string = 'Åpningstider for ' + location
 
     return (
         <Tile className={classes.OpeningHoursTile}>
-            <TileHeader title="Åpningstider" />
+            <TileHeader title={title} />
             {settings.openingHours.map((element, i) => (
                 <p key={i}>
                     <span className={classes.Day}>{element.day} : </span>
