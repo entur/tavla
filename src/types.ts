@@ -1,9 +1,9 @@
 import React from 'react'
 import { FieldValue, Timestamp } from 'firebase/firestore'
+import { TimeValue } from '@react-types/datepicker'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
 import { Settings } from './settings/settings'
-
 export interface Coordinates {
     latitude: number
     longitude: number
@@ -107,7 +107,8 @@ export interface Viewport {
 
 export interface OpeningHours {
     day: string
-    openingHours: string
+    opens: string
+    closes: string
     isClosed?: boolean
 }
 

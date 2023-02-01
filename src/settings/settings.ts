@@ -55,8 +55,8 @@ interface Settings {
     showOpeningHours: boolean
     theme: Theme
     zoom: number
-    openingHours: OpeningHours[]
     openingHoursLocation: string
+    openingHoursList: OpeningHours[]
 }
 
 const DEFAULT_SETTINGS: Settings = {
@@ -102,8 +102,8 @@ const DEFAULT_SETTINGS: Settings = {
     showOpeningHours: false,
     theme: Theme.DEFAULT,
     zoom: DEFAULT_ZOOM,
-    openingHours: [],
     openingHoursLocation: '',
+    openingHoursList: [],
 }
 export { DEFAULT_SETTINGS }
 export type { Settings, Mode }

@@ -3,6 +3,8 @@ import { AddIcon, DeleteIcon } from '@entur/icons'
 import { Button, IconButton } from '@entur/button'
 import { Checkbox, TextField, Switch } from '@entur/form'
 import { useToast } from '@entur/alert'
+import { TimePicker, nativeDateToTimeValue } from '@entur/datepicker'
+import type {} from '@entur/datepicker'
 import { Tile } from '../../../components/Tile/Tile'
 import { useSettings } from '../../../settings/SettingsProvider'
 import { TileHeader } from '../../../components/TileHeader/TileHeader'
@@ -11,28 +13,70 @@ import classes from './OpeningHours.module.scss'
 const OpeningHours: React.FC = () => {
     const [settings, setSettings] = useSettings()
     const [location, setLocation] = useState('')
-    const [simpleDayTimeList, setSimpleDayTimeList] = useState<
-        SimpleDayTimeType[]
-    >(settings.openingHours)
+    const [openingHoursList, setOpeningHoursList] = useState<
+        OpeningHoursType[]
+    >(settings.openingHoursList)
 
-    type SimpleDayTimeType = {
+    function updateOpenTimeField(date: any, index?: number) {
+        //splitt opp date fra xx:xx:xx til xx:xx
+        const splitted = date.toString().split(':')
+        console.log(splitted[0] + ':' + splitted[1])
+        const newList = openingHoursList?.map((innerElement, innerIndex) =>
+            index !== innerIndex
+                ? innerElement
+                : {
+                      ...innerElement,
+                      opens: splitted[0] + ':' + splitted[1],
+                  },
+        )
+    }
+
+    //her tar man inn en STRING og får man en TIME tilbake
+    function convertHourStringTotTimeValue(time: string) {
+        const timeList = time.split(':')
+        const timeInDateValue = new Date(
+            Number(timeList[0]),
+            Number(timeList[1]),
+        )
+
+        return nativeDateToTimeValue(timeInDateValue)
+    }
+
+    function updateCloseTimeField(date: string, index?: number) {
+        //splitt opp date fra xx:xx:xx til xx:xx
+        const splitted = date.toString().split(':')
+        const newList = openingHoursList?.map((innerElement, innerIndex) =>
+            index !== innerIndex
+                ? innerElement
+                : {
+                      ...innerElement,
+                      closes: splitted[0] + ':' + splitted[1],
+                  },
+        )
+    }
+
+    type OpeningHoursType = {
         day: string
-        openingHours: string
+        opens: string
+        closes: string
         isClosed?: boolean
     }
+
     const { addToast } = useToast()
 
     function addEmptyListElement() {
-        const obj: SimpleDayTimeType[] = [{ day: '', openingHours: '' }]
-        const newList = [...simpleDayTimeList, ...obj]
-        setSimpleDayTimeList(newList)
+        const obj: OpeningHoursType[] = [
+            { day: '', opens: '', closes: '', isClosed: false },
+        ]
+        const newList = [...openingHoursList, ...obj]
+        setOpeningHoursList(newList)
     }
 
-    function updateDayTimeListDay(
+    function updateDayField(
         e: React.ChangeEvent<HTMLInputElement>,
         index: number,
     ) {
-        const newList = simpleDayTimeList.map((innerElement, innerIndex) =>
+        const newList = openingHoursList.map((innerElement, innerIndex) =>
             index !== innerIndex
                 ? innerElement
                 : {
@@ -40,33 +84,18 @@ const OpeningHours: React.FC = () => {
                       day: e.target.value,
                   },
         )
-        setSimpleDayTimeList(newList)
-    }
-
-    function updateDayTimeListHours(
-        e: React.ChangeEvent<HTMLInputElement>,
-        index: number,
-    ) {
-        const newList = simpleDayTimeList.map((innerElement, innerIndex) =>
-            index !== innerIndex
-                ? innerElement
-                : {
-                      ...innerElement,
-                      openingHours: e.target.value,
-                  },
-        )
-        setSimpleDayTimeList(newList)
+        setOpeningHoursList(newList)
     }
 
     function removeRow(index: number) {
-        const filteredList = simpleDayTimeList.filter(
-            (i) => i !== simpleDayTimeList[index],
+        const filteredList = openingHoursList.filter(
+            (i) => i !== openingHoursList[index],
         )
-        setSimpleDayTimeList(filteredList)
+        setOpeningHoursList(filteredList)
     }
 
-    function makeClosed(checked: boolean, index: number) {
-        const newList = simpleDayTimeList.map((innerElement, innerIndex) =>
+    function makeClosed(checked: boolean, index?: number) {
+        const newList = openingHoursList.map((innerElement, innerIndex) =>
             index !== innerIndex
                 ? innerElement
                 : {
@@ -74,11 +103,12 @@ const OpeningHours: React.FC = () => {
                       isClosed: checked,
                   },
         )
-        setSimpleDayTimeList(newList)
+        setOpeningHoursList(newList)
     }
 
     function submitOpeningHours() {
-        setSettings({ openingHours: simpleDayTimeList })
+        console.log(openingHoursList)
+        setSettings({ openingHoursList })
         setSettings({ openingHoursLocation: location })
 
         addToast({
@@ -117,7 +147,7 @@ const OpeningHours: React.FC = () => {
             </div>
             <div className={classes.ListWrapper}>
                 <ul className={classes.List}>
-                    {simpleDayTimeList.map((element, index: number) => (
+                    {openingHoursList.map((element, index: number) => (
                         <li className={classes.ListRow} key={index}>
                             <IconButton
                                 className={classes.DeleteButton}
@@ -131,23 +161,44 @@ const OpeningHours: React.FC = () => {
                                 type="text"
                                 value={element.day}
                                 onChange={(e) => {
-                                    updateDayTimeListDay(e, index)
+                                    updateDayField(e, index)
                                 }}
                             ></TextField>
                             :
-                            <TextField
-                                className={classes.TextField}
-                                label="Åpningstider"
-                                value={element.openingHours}
-                                onChange={(e) => {
-                                    updateDayTimeListHours(e, index)
-                                }}
-                                type="text"
+                            <TimePicker
+                                selectedTime={null}
+                                onChange={(e) =>
+                                    updateOpenTimeField(e.toString(), index)
+                                }
+                                label="Åpner"
+                                value={
+                                    element.opens
+                                        ? convertHourStringTotTimeValue(
+                                              element.opens,
+                                          )
+                                        : undefined
+                                }
                                 disabled={element.isClosed}
-                            ></TextField>
+                            />
+                            <TimePicker
+                                selectedTime={null}
+                                onChange={(e) =>
+                                    updateCloseTimeField(e.toString(), index)
+                                }
+                                label="Stenger"
+                                value={
+                                    element.closes
+                                        ? convertHourStringTotTimeValue(
+                                              element.closes,
+                                          )
+                                        : undefined
+                                }
+                                disabled={element.isClosed}
+                            />
                             <div className={classes.ClosedWrapper}>
                                 <Checkbox
                                     checked={element.isClosed}
+                                    value={element.opens}
                                     title="Stengt"
                                     onChange={(e) =>
                                         makeClosed(e.target.checked, index)
@@ -159,23 +210,29 @@ const OpeningHours: React.FC = () => {
                         </li>
                     ))}
                 </ul>
-                <div className={classes.ButtonsWrapper}>
-                    <IconButton
-                        onClick={() => addEmptyListElement()}
-                        size="medium"
-                    >
-                        <AddIcon />
-                    </IconButton>
-                    <Button
-                        variant="primary"
-                        size="medium"
-                        className={classes.SubmitButton}
-                        onClick={() => submitOpeningHours()}
-                    >
-                        Lagre
-                    </Button>
-                </div>
             </div>
+            <div className={classes.ButtonsWrapper}>
+                <IconButton onClick={() => addEmptyListElement()} size="medium">
+                    <AddIcon />
+                </IconButton>
+                <Button
+                    variant="primary"
+                    size="medium"
+                    className={classes.SubmitButton}
+                    onClick={() => submitOpeningHours()}
+                >
+                    Lagre
+                </Button>
+            </div>
+            {openingHoursList && (
+                <>
+                    {' '}
+                    Åpner:{' '}
+                    {openingHoursList[1]?.opens +
+                        'and closes: ' +
+                        openingHoursList[1]?.closes}{' '}
+                </>
+            )}
         </Tile>
     )
 }

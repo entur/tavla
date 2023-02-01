@@ -9,13 +9,15 @@ const OpeningHoursTile: React.FC = () => {
     const location: string = settings.openingHoursLocation
     const title: string = 'Åpningstider for ' + location
 
+    console.log(settings.openingHoursList)
+
     return (
         <Tile className={classes.OpeningHoursTile}>
             <TileHeader title={title} />
-            {settings.openingHours.map((element, i) => (
+            {settings.openingHoursList.map((element, i) => (
                 <p key={i}>
                     <span className={classes.Day}>{element.day} : </span>
-                    {element.isClosed ? 'Stengt' : element.openingHours}
+                    {element.isClosed ? 'Stengt' : element.opens}
                 </p>
             ))}
         </Tile>
