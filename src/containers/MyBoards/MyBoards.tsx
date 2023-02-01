@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { useSearchParams } from 'react-router-dom'
 import type { DocumentData, Timestamp } from 'firebase/firestore'
 import { Contrast, NotificationBadge } from '@entur/layout'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
@@ -33,7 +34,18 @@ const filterSharedBoards = (boards: SharedBoard[]): SharedBoard[] =>
     boards.filter((board) => !board.isScheduledForDelete)
 
 const MyBoards = (): JSX.Element | null => {
-    const [currentIndex, setCurrentIndex] = useState<number>(0)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const currentIndex = useMemo(
+        () => Number(searchParams.get('tab')) || 0,
+        [searchParams],
+    )
+
+    const switchTab = useCallback(
+        (value: number) => {
+            setSearchParams({ tab: value.toString() }, { replace: true })
+        },
+        [setSearchParams],
+    )
 
     const user = useUser()
 
@@ -158,7 +170,7 @@ const MyBoards = (): JSX.Element | null => {
             </Helmet>
             <Navbar />
             <div className={classes.MyBoards}>
-                <Tabs index={currentIndex} onChange={setCurrentIndex}>
+                <Tabs index={currentIndex} onChange={switchTab}>
                     <TabList>
                         <Tab>Tavler</Tab>
                         <Tab>

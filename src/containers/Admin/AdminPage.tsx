@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { useSearchParams } from 'react-router-dom'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
 import { Contrast } from '@entur/layout'
@@ -26,7 +27,18 @@ const AdminPage = (): JSX.Element => {
     const user = useUser()
     useThemeHandler()
 
-    const [currentIndex, setCurrentIndex] = useState<number>(0)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const currentIndex = useMemo(
+        () => Number(searchParams.get('tab')) || 0,
+        [searchParams],
+    )
+
+    const switchTab = useCallback(
+        (value: number) => {
+            setSearchParams({ tab: value.toString() }, { replace: true })
+        },
+        [setSearchParams],
+    )
 
     const [lockShareTab, setLockShareTab] = useState<boolean>(
         !user || user.isAnonymous || !settings.owners.includes(user.uid),
@@ -64,7 +76,7 @@ const AdminPage = (): JSX.Element => {
             <Navbar theme={settings.theme} />
             <div className={classes.Admin}>
                 <h1 aria-label="Rediger tavle"></h1>
-                <Tabs index={currentIndex} onChange={setCurrentIndex}>
+                <Tabs index={currentIndex} onChange={switchTab}>
                     <TabList className={classes.TabList}>
                         <Tab className={classes.Tab}>Rediger innhold</Tab>
                         <Tab className={classes.Tab}>Velg visning</Tab>
@@ -92,19 +104,19 @@ const AdminPage = (): JSX.Element => {
                         <TabPanel>
                             <LogoTab
                                 tabIndex={currentIndex}
-                                setTabIndex={setCurrentIndex}
+                                setTabIndex={switchTab}
                             />
                         </TabPanel>
                         <TabPanel>
                             <NameTab
                                 tabIndex={currentIndex}
-                                setTabIndex={setCurrentIndex}
+                                setTabIndex={switchTab}
                             />
                         </TabPanel>
                         <TabPanel>
                             <ShareTab
                                 tabIndex={currentIndex}
-                                setTabIndex={setCurrentIndex}
+                                setTabIndex={switchTab}
                                 locked={lockShareTab}
                             />
                         </TabPanel>
