@@ -42,3 +42,19 @@
         padding-left: 2px;
     }
 }
+
+.SitemapChildren {
+    padding-left: 1.875rem;
+}
+
+.SitemapChildren::before {
+    content: '';
+    height: 10px;
+    width: 2rem;
+    border-radius: 0 0 0 2rem;
+    border-bottom: 2px solid white;
+    border-left: 2px solid white;
+    display: inline-block;
+    position: relative;
+    right: 2rem;
+}

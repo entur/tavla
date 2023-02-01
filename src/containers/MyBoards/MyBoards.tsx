@@ -160,7 +160,7 @@ const MyBoards = (): JSX.Element | null => {
             <div className={classes.MyBoards}>
                 <Tabs index={currentIndex} onChange={setCurrentIndex}>
                     <TabList>
-                        <Tab>Mine tavler</Tab>
+                        <Tab>Tavler</Tab>
                         <Tab>
                             Invitasjoner
                             {sharedBoards.length > 0 ? (

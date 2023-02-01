@@ -1,7 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { Contrast } from '@entur/layout'
-import { Heading1, Heading2, Link, Paragraph } from '@entur/typography'
+import {
+    Heading1,
+    Heading2,
+    Link as EnturLink,
+    Paragraph,
+} from '@entur/typography'
 import { Navbar } from '../Navbar/Navbar'
 import classes from './Sitemap.module.scss'
 
@@ -24,20 +30,43 @@ const Sitemap: React.FC = () => (
             <Heading2 className={classes.SitemapHeader}>Innhold</Heading2>
             <ul>
                 <li className={classes.SitemapItem}>
-                    <Link href="/privacy" className={classes.MapLink}>
+                    <EnturLink
+                        to="/tavler"
+                        className={classes.MapLink}
+                        as={Link}
+                    >
                         Mine tavler
-                    </Link>
+                    </EnturLink>
+                    <ul className={classes.SitemapChildren}>
+                        <li className={classes.SitemapItem}>
+                            <EnturLink
+                                to="/tavler"
+                                className={classes.MapLink}
+                                as={Link}
+                            >
+                                Tavler
+                            </EnturLink>
+                        </li>
+                        <li className={classes.SitemapItem}>
+                            <EnturLink
+                                to="/tavler"
+                                className={classes.MapLink}
+                                as={Link}
+                            >
+                                Invitasjoner
+                            </EnturLink>
+                        </li>
+                    </ul>
                 </li>
 
                 <li className={classes.SitemapItem}>
-                    <Link href="/privacy" className={classes.MapLink}>
+                    <EnturLink
+                        to="/privacy"
+                        className={classes.MapLink}
+                        as={Link}
+                    >
                         Personvern
-                    </Link>
-                </li>
-                <li className={classes.SitemapItem}>
-                    <Link href="/nettstedkart" className={classes.MapLink}>
-                        Nettstedkart
-                    </Link>
+                    </EnturLink>
                 </li>
             </ul>
         </div>
