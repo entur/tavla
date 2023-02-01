@@ -72,22 +72,6 @@ const Navbar: React.FC<NavbarProps> = ({ theme }) => {
                                 </TopNavigationItem>
                             </li>
                         )}
-                        {!userLoggedIn && (
-                            <li className={classes.Element}>
-                                <TopNavigationItem
-                                    className={classes.Link}
-                                    onClick={login}
-                                >
-                                    <span className={classes.Text}>
-                                        Logg inn
-                                    </span>
-                                    <UserIcon
-                                        className={classes.Icon}
-                                        size="20"
-                                    />
-                                </TopNavigationItem>
-                            </li>
-                        )}
                         <li className={classes.Element}>
                             <TopNavigationItem
                                 className={classes.Link}
@@ -115,8 +99,8 @@ const Navbar: React.FC<NavbarProps> = ({ theme }) => {
                                 />
                             </TopNavigationItem>
                         </li>
-                        {userLoggedIn && (
-                            <li className={classes.Element}>
+                        <li className={classes.Element}>
+                            {userLoggedIn ? (
                                 <TopNavigationItem
                                     className={classes.Link}
                                     onClick={logout}
@@ -129,8 +113,21 @@ const Navbar: React.FC<NavbarProps> = ({ theme }) => {
                                         size="20"
                                     />
                                 </TopNavigationItem>
-                            </li>
-                        )}
+                            ) : (
+                                <TopNavigationItem
+                                    className={classes.Link}
+                                    onClick={login}
+                                >
+                                    <span className={classes.Text}>
+                                        Logg inn
+                                    </span>
+                                    <UserIcon
+                                        className={classes.Icon}
+                                        size="20"
+                                    />
+                                </TopNavigationItem>
+                            )}
+                        </li>
                     </ul>
                 </div>
                 {!userLoggedIn && (
