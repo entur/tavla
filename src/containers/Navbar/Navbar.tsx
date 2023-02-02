@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Link, useLocation, useMatch } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { useToast } from '@entur/alert'
 import { TopNavigationItem } from '@entur/menu'
@@ -22,7 +22,6 @@ const Navbar: React.FC<NavbarProps> = ({ theme }) => {
     const user = useUser()
     const userLoggedIn = user && !user.isAnonymous
     const { addToast } = useToast()
-    const onMineTavler = useMatch('/tavler')
 
     const login = useCallback(
         (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
@@ -56,40 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme }) => {
                 </div>
                 <div>
                     <ul className={classes.List}>
-                        {onMineTavler && userLoggedIn && (
-                            <li className={classes.Element}>
-                                <TopNavigationItem
-                                    className={classes.Link}
-                                    onClick={logout}
-                                    href="/tavler"
-                                >
-                                    <span className={classes.Text}>
-                                        Logg ut
-                                    </span>
-                                    <LogOutIcon
-                                        className={classes.Icon}
-                                        size="20"
-                                    />
-                                </TopNavigationItem>
-                            </li>
-                        )}
-                        {onMineTavler && !userLoggedIn && (
-                            <li className={classes.Element}>
-                                <TopNavigationItem
-                                    className={classes.Link}
-                                    onClick={login}
-                                >
-                                    <span className={classes.Text}>
-                                        Logg inn
-                                    </span>
-                                    <UserIcon
-                                        className={classes.Icon}
-                                        size="20"
-                                    />
-                                </TopNavigationItem>
-                            </li>
-                        )}
-                        {!onMineTavler && (
+                        {userLoggedIn && (
                             <li className={classes.Element}>
                                 <TopNavigationItem
                                     className={classes.Link}
@@ -132,6 +98,35 @@ const Navbar: React.FC<NavbarProps> = ({ theme }) => {
                                     size="20"
                                 />
                             </TopNavigationItem>
+                        </li>
+                        <li className={classes.Element}>
+                            {userLoggedIn ? (
+                                <TopNavigationItem
+                                    className={classes.Link}
+                                    onClick={logout}
+                                >
+                                    <span className={classes.Text}>
+                                        Logg ut
+                                    </span>
+                                    <LogOutIcon
+                                        className={classes.Icon}
+                                        size="20"
+                                    />
+                                </TopNavigationItem>
+                            ) : (
+                                <TopNavigationItem
+                                    className={classes.Link}
+                                    onClick={login}
+                                >
+                                    <span className={classes.Text}>
+                                        Logg inn
+                                    </span>
+                                    <UserIcon
+                                        className={classes.Icon}
+                                        size="20"
+                                    />
+                                </TopNavigationItem>
+                            )}
                         </li>
                     </ul>
                 </div>
