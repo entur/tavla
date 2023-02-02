@@ -5,6 +5,7 @@
 .Heading {
     font-weight: 600;
     font-size: 2.5rem;
+    margin: 1rem 0;
 }
 
 .DepartureTable {
@@ -26,11 +27,11 @@
 
 .TableHeader {
     border-top: none;
-    border-bottom: 2px solid var(--tavla-hover-color);
+    border-bottom: 4px solid var(--tavla-hover-color);
 }
 
 .TableRow {
-    border-top: 2px solid var(--tavla-border-color);
+    border-top: 2px solid var(--tavla-hover-color);
 }
 
 .RouteNumber {
