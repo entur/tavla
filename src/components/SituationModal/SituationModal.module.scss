@@ -1,4 +1,6 @@
-@media (max-width: 1000px) {
+@use 'src/assets/styles/Variables.scss';
+
+@media (max-width: Variables.$breakpoints-medium) {
     .SituationModal {
         margin: 1rem;
         align-self: center;

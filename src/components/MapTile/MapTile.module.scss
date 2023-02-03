@@ -1,3 +1,5 @@
+@use 'src/assets/styles/Variables.scss';
+
 .MapTile {
     height: inherit;
     width: inherit;
@@ -8,7 +10,7 @@
     overflow-x: hidden;
     padding-top: 0;
 
-    @media (max-width: 1000px) {
+    @media (max-width: Variables.$breakpoints-medium) {
         height: 39.375rem;
     }
 }
