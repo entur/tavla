@@ -1,4 +1,4 @@
-@use '../../../../assets/styles/Variables.scss';
+@use 'src/assets/styles/Variables.scss';
 
 .Heading {
     margin-left: 2rem;
@@ -19,6 +19,7 @@
     display: inline-block;
     position: relative;
     bottom: Variables.$space-extra-small;
+    width: 10rem;
 }
 
 .InputWrapper::after {
@@ -29,7 +30,7 @@
     border-bottom: 5px dotted var(--tavla-input-dotted-border-color);
 }
 
-@media (max-width: 996px) {
+@media (max-width: Variables.$breakpoints-medium) {
     .InputWrapper {
         padding: 0;
     }
@@ -38,12 +39,6 @@
         width: 5rem;
         margin: -1rem 0 0 0.2rem;
         border-bottom: 5px dotted var(--tavla-input-dotted-border-color);
-    }
-}
-
-@media (min-width: 500px) {
-    .InputWrapper {
-        width: 10rem;
     }
 }
 

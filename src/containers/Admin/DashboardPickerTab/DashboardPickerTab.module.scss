@@ -1,3 +1,5 @@
+@use 'src/assets/styles/Variables.scss';
+
 .DisplayWrapper {
     width: 100%;
     display: grid;
@@ -10,13 +12,9 @@
     color: var(--tavla-font-color);
 }
 
-@media (max-width: 450px) {
+@media (max-width: Variables.$breakpoints-medium) {
     .DisplayWrapper {
-        width: 100%;
-        display: grid;
-        box-sizing: border-box;
-        grid-auto-flow: row;
-        grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+        grid-template-columns: 1fr;
     }
 
     .DisplayCard {
