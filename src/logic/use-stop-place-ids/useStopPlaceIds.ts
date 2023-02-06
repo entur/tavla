@@ -18,10 +18,11 @@ interface UseStopPlaceIds {
 interface Options {
     distance?: number
     filterHidden?: boolean
+    numberOfStations?: number
 }
 
 function useStopPlaceIds(
-    { distance, filterHidden }: Options = { filterHidden: true },
+    { distance, filterHidden, numberOfStations }: Options = { filterHidden: true },
 ): UseStopPlaceIds {
     const [settings] = useSettings()
 
@@ -33,6 +34,7 @@ function useStopPlaceIds(
             maximumDistance: distance ?? settings.distance,
             filterByPlaceTypes: [FilterPlaceType.StopPlace],
             multiModalMode: MultiModalMode.Parent,
+            numberOfStations,
         },
         fetchPolicy: 'cache-and-network',
     })

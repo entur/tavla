@@ -4,6 +4,7 @@ query StopPlaceIds(
     $maximumDistance: Float!
     $filterByPlaceTypes: [FilterPlaceType]
     $multiModalMode: MultiModalMode
+    $numberOfStations: Int
 ) @api(name: journey_planner_v3) {
     nearest(
         latitude: $latitude
@@ -11,6 +12,7 @@ query StopPlaceIds(
         maximumDistance: $maximumDistance
         filterByPlaceTypes: $filterByPlaceTypes
         multiModalMode: $multiModalMode
+        first: $numberOfStations
     ) {
         edges {
             node {

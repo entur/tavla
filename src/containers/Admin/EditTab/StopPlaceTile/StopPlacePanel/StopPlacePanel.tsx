@@ -2,17 +2,24 @@ import React, { useCallback } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
 import { useStopPlaceIds } from 'logic/use-stop-place-ids/useStopPlaceIds'
 import { Loader } from 'components/Loader/Loader'
-import { Paragraph } from '@entur/typography'
+import { DashboardTypes } from 'src/types'
 import { Checkbox } from '@entur/form'
+import { Paragraph } from '@entur/typography'
 import { PanelRow } from './PanelRow/Panelrow'
 import classes from './StopPlacePanel.module.scss'
 
 function StopPlacePanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
+    let numberOfStations
+
+    if (settings.dashboard == DashboardTypes.NewBusStop) {
+        numberOfStations = 1
+    }
 
     const { stopPlaceIds, loading } = useStopPlaceIds({
         distance: settings.distance,
         filterHidden: false,
+        numberOfStations,
     })
 
     const onChooseAllPressed = useCallback(() => {
