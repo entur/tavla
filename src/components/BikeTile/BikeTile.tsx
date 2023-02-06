@@ -11,8 +11,9 @@ import { ErrorTile } from '../ErrorTile/ErrorTile'
 import { Loader } from '../Loader/Loader'
 import { BikeTileRow } from './BikeTileRow'
 import classes from './BikeTile.module.scss'
+import classNames from 'classnames'
 
-const BikeTile: React.FC = () => {
+const BikeTile: React.FC<{ className?: string }> = ({ className }) => {
     const [settings] = useSettings()
     const iconColor = useMemo(
         () => colors.transport[getIconColorType(settings.theme)].mobility,
@@ -25,18 +26,18 @@ const BikeTile: React.FC = () => {
 
     if (loading) {
         return (
-            <Tile className={classes.BikeTile}>
+            <Tile className={classNames(classes.BikeTile, className)}>
                 <Loader />
             </Tile>
         )
     }
 
     if (error) {
-        return <ErrorTile className={classes.BikeTile} />
+        return <ErrorTile className={classNames(classes.BikeTile, className)} />
     }
 
     return (
-        <Tile className={classes.BikeTile}>
+        <Tile className={classNames(classes.BikeTile, className)}>
             <TileHeader
                 title="Bysykkel"
                 icons={<BicycleIcon color={iconColor} />}

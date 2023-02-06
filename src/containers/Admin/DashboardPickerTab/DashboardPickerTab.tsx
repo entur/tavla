@@ -83,6 +83,26 @@ const DashboardPickerTab = (): JSX.Element => {
                     className={classes.DisplayCard}
                     altText=""
                 />
+                <RadioCard
+                    title="Holdeplass"
+                    description="Her får avgangene full bredde med god plass til å vise avviksmeldinger. Egner seg godt for når man er interessert i ett eller få stopp."
+                    value={DashboardTypes.BusStop}
+                    selected={settings.dashboard === DashboardTypes.BusStop}
+                    preview={dashboardImages.BusStop}
+                    onChange={handleChange}
+                    className={classes.DisplayCard}
+                    altText=""
+                />
+                <RadioCard
+                    title="Ny Holdeplassvisning"
+                    description="....."
+                    value={DashboardTypes.NewBusStop}
+                    selected={settings.dashboard === DashboardTypes.NewBusStop}
+                    preview={dashboardImages.BusStop}
+                    onChange={handleChange}
+                    className={classes.DisplayCard}
+                    altText=""
+                />
             </div>
         </div>
     )

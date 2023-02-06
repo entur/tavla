@@ -8,6 +8,7 @@ import { BusStopDashboard } from './BusStop/BusStopDashboard'
 import { CompactDashboard } from './Compact/CompactDashboard'
 import { Poster } from './Poster/Poster'
 import { ResponsiveDashboard } from './Responsive/ResponsiveDashboard'
+import { NewBusStop } from './NewBusStop/NewBusStop'
 
 const DashboardResolver: React.FC = () => {
     const [settings] = useSettings()
@@ -29,6 +30,8 @@ const DashboardResolver: React.FC = () => {
             return <Poster />
         case DashboardTypes.Responsive:
             return <ResponsiveDashboard />
+        case DashboardTypes.NewBusStop:
+            return <NewBusStop />
     }
 }
 

@@ -17,13 +17,16 @@ import { SubLabel } from '@entur/typography'
 import { Table, TableRow, TableHead, HeaderCell, TableBody } from '@entur/table'
 import { BusStopTableRow } from '../BusStopTableRow/BusStopTableRow'
 import classes from './BusStopTile.module.scss'
+import { PropulsionType } from '../../../../../graphql-generated/mobility-v2'
 
 interface Props {
     stopPlaceId: string
+    deviationUnder?: boolean
 }
 
-const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
+const BusStopTile = ({ stopPlaceId, deviationUnder }: Props): JSX.Element => {
     const [settings] = useSettings()
+
     const iconColorType = useMemo(
         () => getIconColorType(settings.theme),
         [settings.theme],
@@ -125,6 +128,7 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
                             departure={departure}
                             hideSituations={settings.hideSituations}
                             hideTracks={settings.hideTracks}
+                            deviationUnder={true}
                         />
                     ))}
                 </TableBody>
