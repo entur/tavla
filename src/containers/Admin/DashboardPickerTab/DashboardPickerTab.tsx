@@ -5,13 +5,10 @@ import { DashboardTypes } from 'src/types'
 import { ThemeDashboardPreview } from 'assets/icons/ThemeDashboardPreview'
 import { Heading2 } from '@entur/typography'
 import classes from './DashboardPickerTab.module.scss'
-import { useStopPlaceIds } from '../../../logic/use-stop-place-ids/useStopPlaceIds'
-import { BusStopTile } from '../../../dashboards/BusStop/components/BusStopTile/BusStopTile'
 
 const DashboardPickerTab = (): JSX.Element => {
     const [settings, setSettings] = useSettings()
     const dashboardImages = ThemeDashboardPreview(settings.theme)
-    const { stopPlaceIds } = useStopPlaceIds()
 
     const handleChange = useCallback(
         (value: DashboardTypes) => {

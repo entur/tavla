@@ -7,6 +7,7 @@ import { ToggleDetailsPanel } from './ToggleDetailsPanel/ToggleDetailsPanel'
 import { StopPlaceSearch } from './StopPlaceSearch/StopPlaceSearch'
 import { StopPlacePanel } from './StopPlacePanel/StopPlacePanel'
 import classes from './StopPlaceTile.module.scss'
+import { DashboardTypes } from '../../../../types'
 
 const StopPlaceTile: React.FC = () => {
     const [settings, setSettings] = useSettings()
@@ -23,7 +24,11 @@ const StopPlaceTile: React.FC = () => {
             onChange={handleChange}
             checked={!settings.hiddenModes.includes('kollektiv')}
         >
-            <StopPlaceSearch />
+            {settings.dashboard == DashboardTypes.NewBusStop ? (
+                <></>
+            ) : (
+                <StopPlaceSearch />
+            )}
             <StopPlacePanel />
             <div>
                 <Heading3 className={classes.DetailsInView}>

@@ -65,14 +65,18 @@ function StopPlacePanel(): JSX.Element {
         <div className={classes.StopPlacePanel}>
             <div className={classes.Header}>
                 <div onClick={(event): void => event.stopPropagation()}>
-                    <Checkbox
-                        id="check-all-stop-places"
-                        name="check-all-stop-places"
-                        onChange={onChooseAllPressed}
-                        checked={!settings.hiddenStops.length}
-                    >
-                        Velg alle
-                    </Checkbox>
+                    {numberOfStations ? (
+                        <></>
+                    ) : (
+                        <Checkbox
+                            id="check-all-stop-places"
+                            name="check-all-stop-places"
+                            onChange={onChooseAllPressed}
+                            checked={!settings.hiddenStops.length}
+                        >
+                            Velg alle
+                        </Checkbox>
+                    )}
                 </div>
             </div>
             {stopPlaceIds.map((stopPlaceId) => (
