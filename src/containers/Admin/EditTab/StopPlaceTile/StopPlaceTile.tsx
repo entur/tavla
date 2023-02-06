@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
+import { DashboardTypes } from 'src/types'
 import { Heading3 } from '@entur/typography'
-import { EditTile } from '../EditTile/EditTile'
 import { ToggleDetailsPanel } from './ToggleDetailsPanel/ToggleDetailsPanel'
 import { StopPlaceSearch } from './StopPlaceSearch/StopPlaceSearch'
 import { StopPlacePanel } from './StopPlacePanel/StopPlacePanel'
 import classes from './StopPlaceTile.module.scss'
-import { DashboardTypes } from '../../../../types'
+import { EditTile } from '../EditTile/EditTile'
 
 const StopPlaceTile: React.FC = () => {
     const [settings, setSettings] = useSettings()

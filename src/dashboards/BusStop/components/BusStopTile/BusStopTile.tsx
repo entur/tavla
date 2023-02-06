@@ -26,7 +26,7 @@ interface Props {
 
 const BusStopTile = ({ stopPlaceId, deviationUnder }: Props): JSX.Element => {
     const [settings] = useSettings()
-
+    
     const iconColorType = useMemo(
         () => getIconColorType(settings.theme),
         [settings.theme],
@@ -109,8 +109,8 @@ const BusStopTile = ({ stopPlaceId, deviationUnder }: Props): JSX.Element => {
                                     Platform
                                 </SubLabel>
                             </HeaderCell>
-                        )}
-                        {!settings.hideSituations && (
+                        )} 
+                        {!deviationUnder && (
                             <HeaderCell className={classes.Cell}>
                                 Avvik
                                 <br />
