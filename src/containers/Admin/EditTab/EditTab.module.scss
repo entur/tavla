@@ -1,3 +1,5 @@
+@use 'src/assets/styles/Variables.scss';
+
 .TilesHeading {
     margin: 2rem 2rem 0 2rem;
     font-size: 1.3rem;
@@ -63,7 +65,7 @@
         }
     }
 
-    @media (max-width: 996px) {
+    @media (max-width: Variables.$breakpoints-medium) {
         padding: 0;
 
         .eds-h3 {
@@ -76,7 +78,7 @@
     }
 }
 
-@media (min-width: 996px) {
+@media (min-width: Variables.$breakpoints-medium) {
     .EditTab {
         margin-left: -2rem;
         margin-right: -2rem;

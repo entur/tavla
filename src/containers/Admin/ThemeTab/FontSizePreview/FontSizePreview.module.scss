@@ -4,22 +4,8 @@
     flex: none;
     padding: 2rem;
     overflow: scroll;
-
-    @media (max-width: 480px) {
-        width: 100%;
-    }
-    @media (min-width: 480px) and (max-width: 768px) {
-        width: 100%;
-    }
-    @media (min-width: 768px) and (max-width: 996px) {
-        width: 50%;
-    }
-    @media (min-width: 996px) and (max-width: 1200px) {
-        width: 50%;
-    }
-    @media (min-width: 1200px) {
-        width: 33%;
-    }
+    width: fit-content;
+    max-width: 100%;
 }
 
 .TileRow {

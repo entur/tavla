@@ -22,6 +22,7 @@ $max-width: 86rem;
 
 .CarouselHeader {
     font-weight: Variables.$font-weights-body;
+    white-space: nowrap;
 }
 
 .LinkWrapper {
@@ -54,7 +55,7 @@ $max-width: 86rem;
         Variables.$colors-brand-white 50%,
         Variables.$colors-brand-white 100%
     );
-    @media (max-width: Variables.$breakpoints-large) {
+    @media (max-width: Variables.$breakpoints-medium) {
         display: none;
     }
 }

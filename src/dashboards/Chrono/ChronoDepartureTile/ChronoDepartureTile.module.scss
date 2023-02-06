@@ -1,3 +1,5 @@
+@use 'src/assets/styles/Variables.scss';
+
 .ChronoDepartureTile {
     height: 100%;
 }
@@ -35,7 +37,7 @@
     width: 11%;
 }
 
-@media (min-width: 480px) {
+@media (min-width: Variables.$breakpoints-medium) {
     .Track {
         width: 10%;
     }

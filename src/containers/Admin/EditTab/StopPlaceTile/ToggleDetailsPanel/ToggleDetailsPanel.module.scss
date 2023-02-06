@@ -8,11 +8,6 @@
             background-color: var(--tavla-background-color);
         }
     }
-
-    @media (max-width: 1000px) {
-        display: flex;
-        flex-direction: column;
-    }
 }
 
 .Container {
@@ -29,10 +24,4 @@
 .FilterChip:not(:first-child) {
     margin-top: 0.8rem;
     padding-left: 0.8rem;
-
-    @media (max-width: 1000px) {
-        margin-left: 0;
-        margin-top: 0.75rem;
-        margin-bottom: 0;
-    }
 }

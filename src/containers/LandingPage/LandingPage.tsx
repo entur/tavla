@@ -106,7 +106,7 @@ function LandingPage(): JSX.Element {
 
                 <article className={classes.Article}>
                     <GridContainer spacing="extraLarge">
-                        <GridItem small={12} large={6}>
+                        <GridItem small={12} medium={6}>
                             <Tooltip
                                 content="Trykk for å pause og starte animasjonen."
                                 placement="top-left"
@@ -128,7 +128,7 @@ function LandingPage(): JSX.Element {
                                 </div>
                             </Tooltip>
                         </GridItem>
-                        <GridItem small={12} large={6}>
+                        <GridItem small={12} medium={6}>
                             <Heading2>Avgangstavla med dine behov</Heading2>
                             <Paragraph>
                                 Tavla er en nettside som viser avgangene til all

@@ -1,3 +1,5 @@
+@use 'src/assets/styles/Variables.scss';
+
 .GridDashboard {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -72,7 +74,7 @@
     }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: Variables.$breakpoints-medium) {
     .GridDashboard {
         padding: 1rem 1rem 6rem;
         overflow: auto;

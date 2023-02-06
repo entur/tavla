@@ -1,4 +1,4 @@
-@use '../../assets/styles/Variables.scss';
+@use 'src/assets/styles/Variables.scss';
 
 .MapDashboard {
     width: 100%;
@@ -48,7 +48,7 @@
     box-shadow: 0 20px 25px -10px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: Variables.$breakpoints-large) {
     .Content {
         margin-bottom: 6rem;
     }
