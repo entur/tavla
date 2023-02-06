@@ -17,12 +17,14 @@ interface Options {
     stopPlaceId: string
     timeRange?: number
     numberOfDeparturesPerLineAndDestinationDisplay?: number
+    numberOfDepartures?: number
 }
 
 function useStopPlaceWithEstimatedCalls({
     stopPlaceId,
     timeRange,
     numberOfDeparturesPerLineAndDestinationDisplay,
+    numberOfDepartures,
 }: Options): UseStopPlaceWithEstimatedCalls {
     const { data, loading, error } = useStopPlaceWithEstimatedCallsQuery({
         pollInterval: REFRESH_INTERVAL,
@@ -30,6 +32,7 @@ function useStopPlaceWithEstimatedCalls({
             id: stopPlaceId,
             timeRange,
             numberOfDeparturesPerLineAndDestinationDisplay,
+            numberOfDepartures,
         },
     })
 
