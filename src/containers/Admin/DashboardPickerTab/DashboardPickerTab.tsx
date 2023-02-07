@@ -96,7 +96,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     altText=""
                 />
                 <RadioCard
-                    title="Enkelt Holdeplassvisning"
+                    title="Enkel holdeplassvisning"
                     description="Her får du avgangene med avviksmeldinger for én holdeplass. I tillegg vises bysykler og vær."
                     value={DashboardTypes.NewBusStop}
                     selected={settings.dashboard === DashboardTypes.NewBusStop}
