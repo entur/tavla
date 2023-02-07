@@ -84,7 +84,7 @@ module.exports = async (env, args) => ({
                 ],
             },
             {
-                test: /\.(svg|png|jpe?g|gif|eot|webp|woff2?)$/,
+                test: /\.(svg|png|jpe?g|gif|eot|webp|webm|woff2?)$/,
                 type: 'asset',
                 generator: {
                     filename: 'assets/[hash][ext][query]',

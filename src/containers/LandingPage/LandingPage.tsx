@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { Coordinates } from 'src/types'
 import { DEFAULT_SETTINGS } from 'settings/settings'
 import { createSettings } from 'settings/firebase'
-import previewScreenshot from 'assets/images/preview-screenshot.png'
 import { Footer } from 'components/Footer/Footer'
+import previewVideo from 'assets/videos/tavler.webm'
 import { Tooltip } from '@entur/tooltip'
 import { Heading1, Heading2, Paragraph, Link } from '@entur/typography'
 import { Contrast } from '@entur/layout'
@@ -27,10 +27,12 @@ function EnturLink(): JSX.Element {
     )
 }
 
+function toggleVideo(video: HTMLVideoElement) {
+    if (video.paused) video.play()
+    else video.pause()
+}
+
 function LandingPage(): JSX.Element {
-    const [previewImage, setPreviewImage] = useState(
-        'https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media',
-    )
     const navigate = useNavigate()
     const addLocation = useCallback(
         (position: Coordinates, locationName: string): void => {
@@ -46,16 +48,6 @@ function LandingPage(): JSX.Element {
         },
         [navigate],
     )
-    const [activeGif, setActiveGif] = useState<boolean>(true)
-
-    const handleGif = useCallback(() => {
-        setActiveGif(!activeGif)
-        activeGif
-            ? setPreviewImage(previewScreenshot)
-            : setPreviewImage(
-                  'https://firebasestorage.googleapis.com/v0/b/entur-tavla-prod.appspot.com/o/public%2Ffarger.gif?alt=media',
-              )
-    }, [activeGif])
 
     return (
         <>
@@ -111,21 +103,25 @@ function LandingPage(): JSX.Element {
                                 content="Trykk for å pause og starte animasjonen."
                                 placement="top-left"
                             >
-                                <div
+                                <video
+                                    src={previewVideo}
+                                    width="800px"
+                                    height="482px"
+                                    className={classes.Preview}
+                                    autoPlay={true}
+                                    loop={true}
+                                    playsInline={true}
                                     tabIndex={0}
-                                    onKeyDown={(event) => {
-                                        if (event.code === 'Enter') {
-                                            handleGif()
+                                    onClick={(e) =>
+                                        toggleVideo(e.currentTarget)
+                                    }
+                                    onKeyDown={(e) => {
+                                        if (e.key === ' ') {
+                                            e.preventDefault()
+                                            toggleVideo(e.currentTarget)
                                         }
                                     }}
-                                    onClick={handleGif}
-                                >
-                                    <img
-                                        src={previewImage}
-                                        className={classes.Screenshot}
-                                        alt="Skjermbilde av Tavla"
-                                    />
-                                </div>
+                                />
                             </Tooltip>
                         </GridItem>
                         <GridItem small={12} medium={6}>
