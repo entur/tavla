@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { useSettings } from '../settings/SettingsProvider'
-import { Theme } from '../types'
+import { useSettings } from 'settings/SettingsProvider'
+import { Theme } from 'src/types'
 
 function useThemeHandler() {
     const [settings] = useSettings()

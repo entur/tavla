@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
+import { useSettings } from 'settings/SettingsProvider'
 import { SubParagraph } from '@entur/typography'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
 import { EditTile } from '../EditTile/EditTile'
-import { useSettings } from '../../../../settings/SettingsProvider'
 import classes from './MobileAppTile.module.scss'
 
 const MobileAppTile: React.FC = () => {

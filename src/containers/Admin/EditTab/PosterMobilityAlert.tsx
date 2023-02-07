@@ -1,7 +1,7 @@
 import React from 'react'
+import { useSettings } from 'settings/SettingsProvider'
+import { DashboardTypes } from 'src/types'
 import { ToastAlertBox } from '@entur/alert'
-import { useSettings } from '../../../settings/SettingsProvider'
-import { DashboardTypes } from '../../../types'
 
 function PosterMobilityAlert(): JSX.Element {
     const [settings] = useSettings()

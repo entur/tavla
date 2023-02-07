@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import { capitalize } from 'lodash'
+import { useCounter } from 'hooks/useCounter'
 import { Heading2 } from '@entur/typography'
-import { useCounter } from '../../hooks/useCounter'
 import classes from './Clock.module.scss'
 
 interface ClockProps {

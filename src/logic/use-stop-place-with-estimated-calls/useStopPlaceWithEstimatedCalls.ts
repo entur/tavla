@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { ApolloError } from '@apollo/client'
-import { useStopPlaceWithEstimatedCallsQuery } from '../../../graphql-generated/journey-planner-v3'
+import { useStopPlaceWithEstimatedCallsQuery } from 'graphql-generated/journey-planner-v3'
 import { REFRESH_INTERVAL } from '../../constants'
 import {
     StopPlaceWithEstimatedCalls,

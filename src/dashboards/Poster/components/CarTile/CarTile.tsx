@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
+import { useRentalStations } from 'logic/use-rental-stations/useRentalStations'
+import { FormFactor } from 'graphql-generated/mobility-v2'
+import { RentalCarIcon } from 'assets/icons/RentalCarIcon'
 import { MobilityTile } from '../MobilityTile/MobilityTile'
-import { useRentalStations } from '../../../../logic/use-rental-stations/useRentalStations'
-import { FormFactor } from '../../../../../graphql-generated/mobility-v2'
-import { RentalCarIcon } from '../../../../assets/icons/RentalCarIcon'
 
 const CarTile = () => {
     const { rentalStations } = useRentalStations([FormFactor.Car])

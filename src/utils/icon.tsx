@@ -1,14 +1,14 @@
 import React from 'react'
 import { uniqWith } from 'lodash'
-import { colors } from '@entur/tokens'
-import { IconColorType, Theme } from '../types'
+import { IconColorType, Theme } from 'src/types'
 import {
     Mode,
     TransportMode,
     TransportSubmode,
-} from '../../graphql-generated/journey-planner-v3'
-import { Departure } from '../logic/use-stop-place-with-estimated-calls/departure'
-import { TransportModeIcon } from '../components/TransportModeIcon/TransportModeIcon'
+} from 'graphql-generated/journey-planner-v3'
+import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
+import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { colors } from '@entur/tokens'
 import { isNotNullOrUndefined } from './typeguards'
 
 function isSubModeAirportLink(subMode?: string): boolean {

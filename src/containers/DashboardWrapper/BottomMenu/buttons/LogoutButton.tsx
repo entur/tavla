@@ -1,10 +1,10 @@
 import React from 'react'
 import { signOut } from 'firebase/auth'
+import { useUser } from 'src/UserProvider'
 import { useToast } from '@entur/alert'
 import { LogOutIcon } from '@entur/icons'
 import { auth } from '../../../../firebase-init'
 import { MenuButton } from '../MenuButton/MenuButton'
-import { useUser } from '../../../../UserProvider'
 
 const LogoutButton = () => {
     const { addToast } = useToast()

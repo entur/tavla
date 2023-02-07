@@ -1,7 +1,7 @@
 import React from 'react'
-import { ValidationExclamation } from '../../../../assets/icons/ValidationExclamation'
-import { ValidationError } from '../../../../assets/icons/ValidationError'
-import { Departure } from '../../../../logic/use-stop-place-with-estimated-calls/departure'
+import { ValidationExclamation } from 'assets/icons/ValidationExclamation'
+import { ValidationError } from 'assets/icons/ValidationError'
+import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
 import classes from './SituationInfo.module.scss'
 
 interface SituationInfoProps {

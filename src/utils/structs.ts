@@ -3,7 +3,7 @@ import { isValid, parse, parseISO } from 'date-fns'
 import {
     TransportMode,
     TransportSubmode,
-} from '../../graphql-generated/journey-planner-v3'
+} from 'graphql-generated/journey-planner-v3'
 import { Date as JPDate, DateTime } from '../../types/JourneyPlannerV3'
 
 const TransportModeEnumStruct = enums(Object.values(TransportMode))

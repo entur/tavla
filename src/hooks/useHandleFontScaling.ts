@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useSettings } from '../settings/SettingsProvider'
+import { useSettings } from 'settings/SettingsProvider'
 
 function useHandleFontScaling() {
     const [settings] = useSettings()
