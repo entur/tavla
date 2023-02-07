@@ -3,27 +3,23 @@
     display: flex;
     flex-direction: row;
     max-height: 40rem;
-    background-color: red;
 }
 
 .RightPriceTile {
     width: 33%;
     margin-left: 0.5rem;
-    background-color: yellow;
-    height: fit-content;
-}
-
-.LeftTile {
-    width: 67%;
-    height: 100%;
-
+    display: flex;
+    flex-direction: column;
 }
 
 .NewWeatherTile {
-    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     margin-bottom: 0.5rem;
+    justify-content: center;
 }
 
 .BikeTile {
-    height: auto;
+    overflow: scroll;
 }

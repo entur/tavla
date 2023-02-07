@@ -25,7 +25,6 @@ const getWeatherDescriptionFromApi = async (
 
 interface WeatherTileProps {
     className?: string
-    hideExtraData?: boolean
 }
 
 const IN_THREE_HOURS = 3
@@ -83,7 +82,7 @@ function WeatherTile(props: WeatherTileProps): JSX.Element {
             )}
             {(settings.showWind || settings.showPrecipitation) && (
                 <div className={classes.WeatherDataContainer}>
-                    {settings.showWind && !props.hideExtraData && (
+                    {settings.showWind && (
                         <Wind
                             windSpeed={
                                 weatherData?.data.instant.details.wind_speed
@@ -91,7 +90,7 @@ function WeatherTile(props: WeatherTileProps): JSX.Element {
                             unit={weather?.meta.units.wind_speed}
                         />
                     )}
-                    {settings.showPrecipitation && !props.hideExtraData && (
+                    {settings.showPrecipitation && (
                         <Precipitation
                             precipitationAmount={
                                 weatherData?.data.next_1_hours.details

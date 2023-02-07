@@ -4,6 +4,7 @@ import { getIconColorType } from 'utils/icon'
 import { useRentalStations } from 'logic/use-rental-stations/useRentalStations'
 import { useSettings } from 'settings/SettingsProvider'
 import { FormFactor } from 'graphql-generated/mobility-v2'
+import classNames from 'classnames'
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
 import { TileHeader } from '../TileHeader/TileHeader'
@@ -11,7 +12,6 @@ import { ErrorTile } from '../ErrorTile/ErrorTile'
 import { Loader } from '../Loader/Loader'
 import { BikeTileRow } from './BikeTileRow'
 import classes from './BikeTile.module.scss'
-import classNames from 'classnames'
 
 const BikeTile: React.FC<{ className?: string }> = ({ className }) => {
     const [settings] = useSettings()

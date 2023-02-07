@@ -10,11 +10,8 @@ import classes from './StopPlacePanel.module.scss'
 
 function StopPlacePanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
-    let numberOfStations
-
-    if (settings.dashboard == DashboardTypes.NewBusStop) {
-        numberOfStations = 1
-    }
+    const numberOfStations =
+        settings.dashboard === DashboardTypes.NewBusStop ? 1 : undefined
 
     const { stopPlaceIds, loading } = useStopPlaceIds({
         distance: settings.distance,

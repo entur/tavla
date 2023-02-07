@@ -22,7 +22,9 @@ interface Options {
 }
 
 function useStopPlaceIds(
-    { distance, filterHidden, numberOfStations }: Options = { filterHidden: true },
+    { distance, filterHidden, numberOfStations }: Options = {
+        filterHidden: true,
+    },
 ): UseStopPlaceIds {
     const [settings] = useSettings()
 
