@@ -1,9 +1,9 @@
 import React from 'react'
+import { getTranslation } from 'utils/utils'
+import { RentalStation } from 'logic/use-rental-stations/types'
 import { Heading3 } from '@entur/typography'
 import { BicycleIcon } from '@entur/icons'
-import { getTranslation } from '../../utils/utils'
 import { WalkTrip } from '../WalkTrip/WalkTrip'
-import { RentalStation } from '../../logic/use-rental-stations/types'
 import classes from './BikeTileRow.module.scss'
 
 interface BikeTileRowProps {

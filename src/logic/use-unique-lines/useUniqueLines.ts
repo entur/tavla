@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import { ApolloError } from '@apollo/client'
 import { uniqBy } from 'lodash'
-import { useSettings } from '../../settings/SettingsProvider'
+import { useSettings } from 'settings/SettingsProvider'
+import { useUniqueLinesQuery } from 'graphql-generated/journey-planner-v3'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 import { useStopPlaceIds } from '../use-stop-place-ids/useStopPlaceIds'
-import { useUniqueLinesQuery } from '../../../graphql-generated/journey-planner-v3'
-import { isNotNullOrUndefined } from '../../utils/typeguards'
 import { toEstimatedCall } from './types'
 import { Line, toLine } from './line'
 

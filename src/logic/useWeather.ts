@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
+import { useSettings } from 'settings/SettingsProvider'
 import { REFRESH_INTERVAL } from '../constants'
-import { useSettings } from '../settings/SettingsProvider'
 
 async function getWeather(
     latitude: number,

@@ -9,7 +9,7 @@
     right: 2rem;
     z-index: 10;
 
-    @media (max-width: Variables.$breakpoints-large) {
+    @media (max-width: Variables.$breakpoints-medium) {
         flex-direction: column;
         position: relative;
         gap: 1rem;
@@ -45,7 +45,7 @@
         color: var(--floating-button-primary-font-color);
     }
 
-    @media (max-width: Variables.$breakpoints-large) {
+    @media (max-width: Variables.$breakpoints-medium) {
         width: 100%;
     }
 }

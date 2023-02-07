@@ -1,4 +1,4 @@
-@use '../../../assets/styles/Variables.scss';
+@use 'assets/styles/Variables.scss';
 
 .ChronoTableRow {
     border-bottom: 2px solid var(--tavla-border-color) !important;
@@ -16,6 +16,7 @@
 }
 
 .Label {
+    color: var(--tavla-font-color);
     margin: 0;
     padding-right: 0.25rem;
     overflow: hidden;
@@ -45,13 +46,13 @@
     width: 0.875rem;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: Variables.$breakpoints-large) {
     .ChronoTableRow {
         padding: 0.5rem;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: Variables.$breakpoints-medium) {
     .Sublabel {
         font-size: Variables.$font-sizes-large;
     }

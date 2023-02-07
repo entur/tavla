@@ -1,4 +1,4 @@
-@use '../../assets/styles/Variables.scss';
+@use 'assets/styles/Variables.scss';
 
 .Privacy {
     background-color: white;
@@ -18,7 +18,7 @@
     padding: 2rem 4rem;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: Variables.$breakpoints-medium) {
     .Heading {
         padding: 0;
     }

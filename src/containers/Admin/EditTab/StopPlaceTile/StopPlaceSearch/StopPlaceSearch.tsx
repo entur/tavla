@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
-import { Dropdown } from '@entur/dropdown'
 import {
     AutocompleteItem,
     fetchAutocomplete,
-} from '../../../../../logic/geocoder/fetchAutocomplete'
-import { useSettings } from '../../../../../settings/SettingsProvider'
-import { useStopPlaceIds } from '../../../../../logic/use-stop-place-ids/useStopPlaceIds'
+} from 'logic/geocoder/fetchAutocomplete'
+import { useSettings } from 'settings/SettingsProvider'
+import { useStopPlaceIds } from 'logic/use-stop-place-ids/useStopPlaceIds'
+import { Dropdown } from '@entur/dropdown'
 import classes from './StopPlaceSearch.module.scss'
 
 const StopPlaceSearch: React.FC = () => {

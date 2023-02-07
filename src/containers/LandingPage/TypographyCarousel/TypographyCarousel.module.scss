@@ -5,7 +5,7 @@
     margin-bottom: 7rem;
     overflow: hidden;
     cursor: pointer;
-    @media (max-width: Variables.$breakpoints-large) {
+    @media (max-width: Variables.$breakpoints-medium) {
         margin-bottom: 3rem;
     }
 }

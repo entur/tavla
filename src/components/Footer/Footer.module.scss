@@ -1,17 +1,44 @@
-.Footer {
-    background-color: var(--tavla-background-color);
-    padding: 1rem;
-    display: flex;
-    margin-left: 2rem;
+.Border {
+    border-top: white solid 1px;
+    min-width: 100px;
+    margin-bottom: 0;
+    background-color: #181c56;
 }
 
-.Link,
-.Link:visited,
-.Link:active {
-    color: var(--tavla-font-color);
-    margin: 1rem;
+.HomeFooter {
+    padding: 4rem 4rem 2rem;
+    margin: 0 auto;
+    max-width: 80rem;
+}
+
+.FlexContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.FlexItem {
+    margin-right: 1rem;
+}
+
+.FooterInfoText {
+    font-size: 0.75rem;
+    margin: 1rem 0;
 }
 
 .Icon {
-    margin-left: 0.5rem;
+    margin-left: 0.5em;
+}
+
+.RoundIcon {
+    border-radius: 50%;
+    display: flex;
+    background-color: white;
+    margin-right: 0.75rem;
+    padding: 0.5rem;
+}
+
+.IconWrapper {
+    margin-top: 2rem;
+    display: flex;
 }

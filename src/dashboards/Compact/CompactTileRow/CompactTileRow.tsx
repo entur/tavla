@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
 import { format, isSameDay, isToday, formatISO } from 'date-fns'
 import { nb } from 'date-fns/locale'
+import { TileSubLabel } from 'src/types'
+import { SubLabelIcon } from 'components/SubLabelIcon/SubLabelIcon'
 import { Heading3 } from '@entur/typography'
-import { TileSubLabel } from '../../../types'
-import { SubLabelIcon } from '../../../components/SubLabelIcon/SubLabelIcon'
 import { PlatformInfo } from './PlatformInfo/PlatformInfo'
 import classes from './CompactTileRow.module.scss'
 
@@ -42,20 +42,23 @@ function CompactTileRow({
                         const isLastDepartureOfDay =
                             nextLabel &&
                             !isSameDay(
-                                nextLabel.departureTime,
-                                subLabel.departureTime,
+                                nextLabel.expectedDepartureTime,
+                                subLabel.expectedDepartureTime,
                             )
 
                         const showDate =
-                            index === 0 && !isToday(subLabel.departureTime)
+                            index === 0 &&
+                            !isToday(subLabel.expectedDepartureTime)
 
-                        const isoDate = formatISO(subLabel.departureTime)
+                        const isoDate = formatISO(
+                            subLabel.expectedDepartureTime,
+                        )
 
                         return (
                             <Fragment key={index}>
                                 <div className={classes.Sublabel}>
                                     <time dateTime={isoDate}>
-                                        {subLabel.time}
+                                        {subLabel.displayTime}
                                     </time>
 
                                     <SubLabelIcon
@@ -64,7 +67,11 @@ function CompactTileRow({
                                     />
 
                                     {showDate && (
-                                        <Date date={subLabel.departureTime} />
+                                        <Date
+                                            date={
+                                                subLabel.expectedDepartureTime
+                                            }
+                                        />
                                     )}
                                 </div>
                                 {isLastDepartureOfDay && <Divider />}

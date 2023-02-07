@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react'
+import { useSettings } from 'settings/SettingsProvider'
+import { CustomTileType } from 'src/types'
 import { Modal } from '@entur/modal'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
-import { useSettings } from '../../settings/SettingsProvider'
-import { CustomTileType } from '../../types'
 import classes from './CustomTileModal.module.scss'
 
 interface CustomTileModalProps {

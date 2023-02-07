@@ -1,12 +1,9 @@
 import { useMemo } from 'react'
 import { ApolloError } from '@apollo/client'
 import { difference, union } from 'lodash'
-import {
-    FormFactor,
-    useStationIdsQuery,
-} from '../../../graphql-generated/mobility-v2'
-import { useSettings } from '../../settings/SettingsProvider'
-import { isNotNullOrUndefined } from '../../utils/typeguards'
+import { FormFactor, useStationIdsQuery } from 'graphql-generated/mobility-v2'
+import { useSettings } from 'settings/SettingsProvider'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 
 interface UseNearbyStationIds {
     stationIds: string[]

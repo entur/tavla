@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from 'react'
+import { useSettings } from 'settings/SettingsProvider'
 import { SubParagraph } from '@entur/typography'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
 import { EditTile } from '../EditTile/EditTile'
-import { useSettings } from '../../../../settings/SettingsProvider'
 import { CustomTilePanel } from './CustomTilePanel/CustomTilePanel'
 import classes from './CustomTile.module.scss'
 

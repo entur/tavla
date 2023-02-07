@@ -1,3 +1,5 @@
+@use 'src/assets/styles/Variables.scss';
+
 .Admin {
     background-color: var(--tavla-background-color);
     margin-left: auto;
@@ -5,11 +7,6 @@
     justify-content: center;
     padding: 2rem 4rem 6rem;
     color: var(--tavla-font-color);
-    @media (max-width: 1000px) {
-        .admin {
-            padding: 1rem;
-        }
-    }
 }
 
 .Tab {
@@ -19,7 +16,7 @@
     flex: 1;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: Variables.$breakpoints-medium) {
     .Admin {
         padding: 1rem;
     }

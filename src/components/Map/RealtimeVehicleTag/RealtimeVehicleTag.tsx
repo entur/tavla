@@ -1,15 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
-import { Tooltip } from '@entur/tooltip'
+import { IconColorType } from 'src/types'
+import { RealtimeVehicle } from 'logic/use-realtime-vehicle-data/types'
+import { useSettings } from 'settings/SettingsProvider'
+import { getIconColor } from 'utils/icon'
+import { Mode, TransportMode } from 'graphql-generated/journey-planner-v3'
 import { colors } from '@entur/tokens'
-import { IconColorType } from '../../../types'
-import { RealtimeVehicle } from '../../../logic/use-realtime-vehicle-data/types'
-import { useSettings } from '../../../settings/SettingsProvider'
-import { getIconColor } from '../../../utils/icon'
-import {
-    Mode,
-    TransportMode,
-} from '../../../../graphql-generated/journey-planner-v3'
+import { Tooltip } from '@entur/tooltip'
 import { TooltipContent } from './TooltipContent/TooltipContent'
 import classes from './RealtimeVehicleTag.module.scss'
 

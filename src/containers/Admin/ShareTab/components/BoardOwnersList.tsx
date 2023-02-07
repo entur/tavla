@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
+import { useUser } from 'src/UserProvider'
+import type { BoardOwnersData, Invite } from 'src/types'
+import { removeSentBoardInviteAsOwner } from 'settings/firebase'
+import { removeFromOwners } from 'settings/FirestoreStorage'
 import { Table, TableHead, TableRow, HeaderCell, TableBody } from '@entur/table'
-import { useUser } from '../../../../UserProvider'
-import type { BoardOwnersData, Invite } from '../../../../types'
-import { removeSentBoardInviteAsOwner } from '../../../../settings/firebase'
-import { removeFromOwners } from '../../../../settings/FirestoreStorage'
 import { SharedWithRows } from './SharedWithRows'
 
 const BoardOwnersList = ({

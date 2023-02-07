@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
+import { MineTavlerModal } from 'components/AccountModals/MineTavlerModal/MineTavlerModal'
 import { UserIcon } from '@entur/icons'
-import { MineTavlerModal } from '../../../../components/AccountModals/MineTavlerModal/MineTavlerModal'
 import { MenuButton } from '../MenuButton/MenuButton'
 
 const BoardsButton = () => {

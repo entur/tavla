@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
+    copySettingsToNewId,
+    setIdToBeDeleted,
+    userIsOwner,
+} from 'settings/firebase'
+import { useUser } from 'src/UserProvider'
+import {
     Label,
     Paragraph,
     EmphasizedText,
@@ -11,12 +17,6 @@ import { TextField } from '@entur/form'
 import { SecondarySquareButton } from '@entur/button'
 import { CheckIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import {
-    copySettingsToNewId,
-    setIdToBeDeleted,
-    userIsOwner,
-} from '../../../../settings/firebase'
-import { useUser } from '../../../../UserProvider'
 import classes from '../NameTab.module.scss'
 
 enum inputFeedback {

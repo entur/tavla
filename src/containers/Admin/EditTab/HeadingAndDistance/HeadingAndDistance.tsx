@@ -1,13 +1,10 @@
 import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react'
+import { useSettings } from 'settings/SettingsProvider'
+import { getFromLocalStorage, saveToLocalStorage } from 'settings/LocalStorage'
+import { useDebounce } from 'hooks/useDebounce'
 import { Heading2, Heading4, SubParagraph } from '@entur/typography'
 import { Tooltip } from '@entur/tooltip'
 import { TextField } from '@entur/form'
-import { useSettings } from '../../../../settings/SettingsProvider'
-import {
-    getFromLocalStorage,
-    saveToLocalStorage,
-} from '../../../../settings/LocalStorage'
-import { useDebounce } from '../../../../hooks/useDebounce'
 import classes from './HeadingAndDistance.module.scss'
 
 const HeadingAndDistance: React.FC = () => {

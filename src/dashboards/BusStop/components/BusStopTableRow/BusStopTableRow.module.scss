@@ -1,4 +1,9 @@
-@use '../../../../assets/styles/Variables.scss';
+@use 'assets/styles/Variables.scss';
+
+.TableRow {
+    // Important used to overwrite Entur component
+    border-color: var(--tavla-border-color) !important;
+}
 
 .Line {
     font-size: 1.5rem;
@@ -11,7 +16,6 @@
     font-size: 1.5rem;
     line-height: 2.25rem;
     font-weight: 600;
-    color: var(--primary-text-color);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -21,4 +25,16 @@
 .Track {
     font-size: 1.25rem;
     font-weight: 400;
+    text-align: center;
+}
+
+.DelayedTime {
+    display: block;
+    color: var(--tavla-failure-font-color);
+}
+
+.OutdatedTime {
+    display: block;
+    text-decoration: line-through;
+    font-size: 1rem;
 }

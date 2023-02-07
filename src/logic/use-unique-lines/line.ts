@@ -1,7 +1,7 @@
 import {
     TransportMode,
     TransportSubmode,
-} from '../../../graphql-generated/journey-planner-v3'
+} from 'graphql-generated/journey-planner-v3'
 import { EstimatedCall } from './types'
 
 interface Line {

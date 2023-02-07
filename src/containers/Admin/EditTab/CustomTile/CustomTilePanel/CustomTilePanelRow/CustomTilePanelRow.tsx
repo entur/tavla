@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
+import { useSettings } from 'settings/SettingsProvider'
+import { CustomTile } from 'src/types'
 import { Checkbox } from '@entur/form'
 import { DeleteIcon, EditIcon } from '@entur/icons'
-import { useSettings } from '../../../../../../settings/SettingsProvider'
-import { CustomTile } from '../../../../../../types'
 import classes from './CustomTilePanelRow.module.scss'
 
 interface Props extends CustomTile {

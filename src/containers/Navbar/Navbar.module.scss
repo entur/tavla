@@ -1,4 +1,4 @@
-@use '../../assets/styles/Variables.scss';
+@use 'assets/styles/Variables.scss';
 
 .Navbar {
     align-items: center;
@@ -34,7 +34,7 @@
     margin-left: 0.5rem;
 }
 
-@media (max-width: Variables.$breakpoints-large) {
+@media (max-width: Variables.$breakpoints-medium) {
     .Navbar {
         padding: Variables.$space-small Variables.$space-medium;
     }

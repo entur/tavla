@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
+import { getIconColor, getIconColorType } from 'utils/icon'
+import { useSettings } from 'settings/SettingsProvider'
+import { Mode } from 'graphql-generated/journey-planner-v3'
 import { colors } from '@entur/tokens'
 import { LegBone } from '@entur/travel'
-import { useSettings } from '../../../settings/SettingsProvider'
-import { getIconColor, getIconColorType } from '../../../utils/icon'
-import { Mode } from '../../../../graphql-generated/journey-planner-v3'
 import { TICKS, ZOOM } from '../utils'
 import classes from './Tick.module.scss'
 

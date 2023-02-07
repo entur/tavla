@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
+import { IconColorType } from 'src/types'
 import { SubwayIcon } from '@entur/icons'
 import { colors } from '@entur/tokens'
 import { Paragraph } from '@entur/typography'
-import { IconColorType } from '../../../../types'
 import classes from './FontSizePreview.module.scss'
 
 type Props = {

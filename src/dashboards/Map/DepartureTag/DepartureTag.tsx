@@ -1,20 +1,20 @@
 import React, { useMemo } from 'react'
 import { format, isToday } from 'date-fns'
 import { nb } from 'date-fns/locale'
-import { colors } from '@entur/tokens'
-import { Heading4, Paragraph } from '@entur/typography'
-import { IconColorType } from '../../../types'
-import { getIconColor } from '../../../utils/icon'
-import { TransportModeIcon } from '../../../components/TransportModeIcon/TransportModeIcon'
-import { DepartureIcon } from '../DepartureIcon/DepartureIcon'
-import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
+import { IconColorType } from 'src/types'
+import { getIconColor } from 'utils/icon'
+import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { useStopPlaceWithEstimatedCalls } from 'logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
     Departure,
     filterHidden,
     toDeparture,
-} from '../../../logic/use-stop-place-with-estimated-calls/departure'
-import { useSettings } from '../../../settings/SettingsProvider'
-import { Loader } from '../../../components/Loader/Loader'
+} from 'logic/use-stop-place-with-estimated-calls/departure'
+import { useSettings } from 'settings/SettingsProvider'
+import { Loader } from 'components/Loader/Loader'
+import { Heading4, Paragraph } from '@entur/typography'
+import { colors } from '@entur/tokens'
+import { DepartureIcon } from '../DepartureIcon/DepartureIcon'
 import classes from './DepartureTag.module.scss'
 
 function getDepartureDirection(departure: Departure): string[] {
@@ -93,10 +93,10 @@ const DepartureTag: React.FC<Props> = ({ stopPlaceId }): JSX.Element => {
                             {getDepartureDirection(departure)}
                         </div>
                         <div className={classes.Departure}>
-                            {departure.time}
+                            {departure.displayTime}
                         </div>
-                        {!isToday(departure.departureTime) && (
-                            <Date date={departure.departureTime} />
+                        {!isToday(departure.expectedDepartureTime) && (
+                            <Date date={departure.expectedDepartureTime} />
                         )}
                     </div>
                 ))}

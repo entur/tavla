@@ -7,8 +7,8 @@ import React, {
 } from 'react'
 import { Outlet, useMatch, useNavigate } from 'react-router-dom'
 import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
-import { useUser } from '../UserProvider'
-import { Loader } from '../components/Loader/Loader'
+import { useUser } from 'src/UserProvider'
+import { Loader } from 'components/Loader/Loader'
 import { getSettingsReference } from './firebase'
 import { DEFAULT_SETTINGS, Settings } from './settings'
 import {

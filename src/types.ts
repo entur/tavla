@@ -17,8 +17,8 @@ export interface DrawableRoute {
 
 export interface TileSubLabel {
     situation?: string
-    time: string
-    departureTime: Date
+    displayTime: string
+    expectedDepartureTime: Date
     hasCancellation?: boolean
     hasSituation?: boolean
 }

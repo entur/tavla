@@ -14,8 +14,21 @@
         "strict": true,
         "downlevelIteration": true,
         "skipLibCheck": true,
-        "noUncheckedIndexedAccess": true
+        "noUncheckedIndexedAccess": true,
+        "baseUrl": ".",
+        "paths": {
+            "src/*": ["src/*"],
+            "components/*": ["src/components/*"],
+            "assets/*": ["src/assets/*"],
+            "hooks/*": ["src/hooks/*"],
+            "utils/*": ["src/utils/*"],
+            "containers/*": ["src/containers/*"],
+            "dashboards/*": ["src/dashboards/*"],
+            "logic/*": ["src/logic/*"],
+            "settings/*": ["src/settings/*"],
+            "graphql-generated/*": ["graphql-generated/*"]
+        }
     },
-    "include": ["types", "./src/**/*", "sw.js", "graphql-generated"],
+    "include": ["types", "./src/**/*", "graphql-generated"],
     "exclude": ["node_modules"]
 }

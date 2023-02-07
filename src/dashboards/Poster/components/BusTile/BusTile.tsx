@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react'
 import { compareAsc } from 'date-fns'
 import classNames from 'classnames'
+import { useSettings } from 'settings/SettingsProvider'
+import { useBusTileQuery } from 'graphql-generated/journey-planner-v3'
+import { useStopPlaceIds } from 'logic/use-stop-place-ids/useStopPlaceIds'
+import { toDeparture } from 'logic/use-stop-place-with-estimated-calls/departure'
+import { isNotNullOrUndefined } from 'utils/typeguards'
+import { toStopPlaceWithEstimatedCalls } from 'logic/use-stop-place-with-estimated-calls/types'
 import { BusIcon } from '@entur/icons'
-import { useSettings } from '../../../../settings/SettingsProvider'
-import { useBusTileQuery } from '../../../../../graphql-generated/journey-planner-v3'
-import { useStopPlaceIds } from '../../../../logic/use-stop-place-ids/useStopPlaceIds'
 import { REFRESH_INTERVAL } from '../../../../constants'
-import { toDeparture } from '../../../../logic/use-stop-place-with-estimated-calls/departure'
-import { isNotNullOrUndefined } from '../../../../utils/typeguards'
-import { toStopPlaceWithEstimatedCalls } from '../../../../logic/use-stop-place-with-estimated-calls/types'
 import classes from './BusTile.module.scss'
 
 function BusTile(): JSX.Element {
@@ -40,7 +40,12 @@ function BusTile(): JSX.Element {
                         .filter(isNotNullOrUndefined)
                         .map(toDeparture),
                 )
-                .sort((a, b) => compareAsc(a.departureTime, b.departureTime))
+                .sort((a, b) =>
+                    compareAsc(
+                        a.expectedDepartureTime,
+                        b.expectedDepartureTime,
+                    ),
+                )
                 .slice(0, numberOfLines) ?? [],
         [data?.stopPlaces, numberOfLines],
     )
@@ -73,7 +78,9 @@ function BusTile(): JSX.Element {
                             <p className={classes.Destination}>
                                 {routeDestination}
                             </p>
-                            <p className={classes.Time}>{departure.time}</p>
+                            <p className={classes.Time}>
+                                {departure.displayTime}
+                            </p>
                         </div>
                     )
                 })}

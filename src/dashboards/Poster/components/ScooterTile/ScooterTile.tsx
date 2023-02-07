@@ -1,9 +1,9 @@
 import React from 'react'
-import { ScooterIcon } from '../../../../assets/icons/ScooterIcon'
+import { ScooterIcon } from 'assets/icons/ScooterIcon'
+import { useSettings } from 'settings/SettingsProvider'
+import { useVehicles } from 'logic/use-vehicles/useVehicles'
+import { FormFactor } from 'graphql-generated/mobility-v2'
 import { MobilityTile } from '../MobilityTile/MobilityTile'
-import { useSettings } from '../../../../settings/SettingsProvider'
-import { useVehicles } from '../../../../logic/use-vehicles/useVehicles'
-import { FormFactor } from '../../../../../graphql-generated/mobility-v2'
 
 const ScooterTile = (): JSX.Element => {
     const [settings] = useSettings()

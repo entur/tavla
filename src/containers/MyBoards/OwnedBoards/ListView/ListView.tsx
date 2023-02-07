@@ -2,6 +2,8 @@ import React, { useCallback } from 'react'
 import type { DocumentData } from 'firebase/firestore'
 import type { User } from 'firebase/auth'
 import copy from 'copy-to-clipboard'
+import { Board } from 'src/types'
+import { createTimeString } from 'utils/time'
 import { Contrast } from '@entur/layout'
 import {
     Table,
@@ -15,8 +17,6 @@ import { CopyIcon, ExternalIcon } from '@entur/icons'
 import { IconButton } from '@entur/button'
 import { useToast } from '@entur/alert'
 import { Tooltip } from '@entur/tooltip'
-import { Board } from '../../../../types'
-import { createTimeString } from '../../../../utils/time'
 import { BoardOverflowMenu } from '../BoardCard/OverflowMenu/BoardOverflowMenu'
 import classes from './ListView.module.scss'
 

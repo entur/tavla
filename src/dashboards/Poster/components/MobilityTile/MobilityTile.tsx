@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
+import { useSettings } from 'settings/SettingsProvider'
 import { NumberDisplay } from '../NumberDisplay/NumberDisplay'
-import { useSettings } from '../../../../settings/SettingsProvider'
 import classes from './MobilityTile.module.scss'
 
 interface MobilityTileProps {

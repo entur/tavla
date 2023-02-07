@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useNavigate, useParams } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
+import { LoginModal } from 'components/AccountModals/LoginModal/LoginModal'
+import { LoginCase } from 'components/AccountModals/LoginModal/login-modal-types'
+import { auth, useUser } from 'src/UserProvider'
+import { useSettings } from 'settings/SettingsProvider'
+import sikkerhetBomLight from 'assets/images/sikkerhet_bom_light@2x.png'
+import duerLight from 'assets/images/duer@2x.png'
+import sauerLight from 'assets/images/sauer_lag@2x.png'
 import { useToast } from '@entur/alert'
-import { LoginModal } from '../../components/AccountModals/LoginModal/LoginModal'
-import { LoginCase } from '../../components/AccountModals/LoginModal/login-modal-types'
-import { auth, useUser } from '../../UserProvider'
-import { useSettings } from '../../settings/SettingsProvider'
-import sikkerhetBomLight from '../../assets/images/sikkerhet_bom_light@2x.png'
-import duerLight from '../../assets/images/duer@2x.png'
-import sauerLight from '../../assets/images/sauer_lag@2x.png'
 import { Navbar } from '../Navbar/Navbar'
 import { ErrorWrapper } from './ErrorWrapper'
 
@@ -157,6 +157,7 @@ function NoAccessToTavler(): JSX.Element {
     return (
         <div>
             {loginModal}
+            <Navbar />
             <ErrorWrapper
                 title="Dine tavler venter!"
                 message="Du må logge inn for å se oversikten over tavlene dine. Trykk på knappen nedenfor for å logge inn."

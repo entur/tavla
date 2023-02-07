@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
+import { useSettings } from 'settings/SettingsProvider'
 import { EditTile } from '../EditTile/EditTile'
-import { useSettings } from '../../../../settings/SettingsProvider'
 import { ScooterPanel } from './ScooterPanel/ScooterPanel'
 
 const ScooterTile: React.FC = () => {

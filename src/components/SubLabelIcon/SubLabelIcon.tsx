@@ -1,9 +1,9 @@
 import React from 'react'
-import { TileSubLabel } from '../../types'
+import { TileSubLabel } from 'src/types'
+import { ValidationExclamation } from 'assets/icons/ValidationExclamation'
+import { ValidationError } from 'assets/icons/ValidationError'
+import { isMobileWeb } from 'utils/utils'
 import { SituationModal } from '../SituationModal/SituationModal'
-import { ValidationExclamation } from '../../assets/icons/ValidationExclamation'
-import { ValidationError } from '../../assets/icons/ValidationError'
-import { isMobileWeb } from '../../utils/utils'
 import classes from './SubLabelIcon.module.scss'
 
 const isMobile = isMobileWeb()

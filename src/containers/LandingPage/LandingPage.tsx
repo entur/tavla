@@ -1,16 +1,17 @@
 import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { Coordinates } from 'src/types'
+import { DEFAULT_SETTINGS } from 'settings/settings'
+import { createSettings } from 'settings/firebase'
+import previewScreenshot from 'assets/images/preview-screenshot.png'
+import { Footer } from 'components/Footer/Footer'
 import { Tooltip } from '@entur/tooltip'
 import { Heading1, Heading2, Paragraph, Link } from '@entur/typography'
 import { Contrast } from '@entur/layout'
 import { ForwardIcon } from '@entur/icons'
 import { GridContainer, GridItem } from '@entur/grid'
-import { Coordinates } from '../../types'
-import { DEFAULT_SETTINGS } from '../../settings/settings'
-import { createSettings } from '../../settings/firebase'
 import { Navbar } from '../Navbar/Navbar'
-import previewScreenshot from '../../assets/images/preview-screenshot.png'
 import { SearchPanel } from './SearchPanel/SearchPanel'
 import { TypographyCarousel } from './TypographyCarousel/TypographyCarousel'
 import classes from './LandingPage.module.scss'
@@ -105,7 +106,7 @@ function LandingPage(): JSX.Element {
 
                 <article className={classes.Article}>
                     <GridContainer spacing="extraLarge">
-                        <GridItem small={12} large={6}>
+                        <GridItem small={12} medium={6}>
                             <Tooltip
                                 content="Trykk for å pause og starte animasjonen."
                                 placement="top-left"
@@ -127,7 +128,7 @@ function LandingPage(): JSX.Element {
                                 </div>
                             </Tooltip>
                         </GridItem>
-                        <GridItem small={12} large={6}>
+                        <GridItem small={12} medium={6}>
                             <Heading2>Avgangstavla med dine behov</Heading2>
                             <Paragraph>
                                 Tavla er en nettside som viser avgangene til all
@@ -155,6 +156,9 @@ function LandingPage(): JSX.Element {
                     <EnturLink />
                 </article>
             </div>
+            <Contrast>
+                <Footer />
+            </Contrast>
         </>
     )
 }

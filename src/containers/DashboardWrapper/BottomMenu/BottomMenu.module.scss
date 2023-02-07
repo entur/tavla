@@ -1,3 +1,5 @@
+@use 'src/assets/styles/Variables.scss';
+
 .BottomMenu {
     padding: 0 2rem;
     min-height: 6.4rem;
@@ -18,12 +20,13 @@
 }
 
 .HiddenMenu,
-.BottomMenu:hover {
+.BottomMenu:hover,
+.BottomMenu:focus-within {
     visibility: visible;
     transform: translate(0, 0);
 }
 
-@media (max-width: 900px) {
+@media (max-width: Variables.$breakpoints-medium) {
     .BottomMenu {
         justify-content: space-evenly;
         width: 100%;

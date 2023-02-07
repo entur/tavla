@@ -1,8 +1,10 @@
+@use 'src/assets/styles/Variables.scss';
+
 .TimelineDashboard {
     user-select: none;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: Variables.$breakpoints-large) {
     .TimelineDashboard {
         padding: 1rem;
         overflow: hidden;

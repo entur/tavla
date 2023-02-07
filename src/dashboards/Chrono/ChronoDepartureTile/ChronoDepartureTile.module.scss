@@ -1,3 +1,5 @@
+@use 'src/assets/styles/Variables.scss';
+
 .ChronoDepartureTile {
     height: 100%;
 }
@@ -6,11 +8,13 @@
     border-bottom: none;
 }
 
-.Cell {
+// Triple selector to overwrite Entur design system styling
+.Cell.Cell.Cell {
     padding: 1rem 0 1rem 0.1rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--tavla-font-color);
 }
 
 .Icon {
@@ -33,7 +37,7 @@
     width: 11%;
 }
 
-@media (min-width: 480px) {
+@media (min-width: Variables.$breakpoints-medium) {
     .Track {
         width: 10%;
     }

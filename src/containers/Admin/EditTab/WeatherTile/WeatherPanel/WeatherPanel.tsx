@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useCallback } from 'react'
+import { useSettings } from 'settings/SettingsProvider'
 import { Fieldset } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
-import { useSettings } from '../../../../../settings/SettingsProvider'
 import classes from './WeatherPanel.module.scss'
 
 interface weatherSetting {

@@ -1,24 +1,24 @@
-import React, { useState, useEffect, FormEvent } from 'react'
+import React, { useState, FormEvent, useCallback } from 'react'
+import { useSettings } from 'settings/SettingsProvider'
 import { Heading3, Paragraph } from '@entur/typography'
 import { TextField } from '@entur/form'
-import { useSettings } from '../../../../settings/SettingsProvider'
-import { useDebounce } from '../../../../hooks/useDebounce'
+import type { VariantType } from '@entur/form'
+import { SecondarySquareButton } from '@entur/button'
+import { CheckIcon } from '@entur/icons'
 import classes from './Description.module.scss'
 
 const Description = (): JSX.Element => {
     const [settings, setSettings] = useSettings()
 
     const [value, setValue] = useState(settings.description)
+    const [inputVariant, setInputVariant] = useState<VariantType | undefined>()
 
-    const debouncedValue = useDebounce(value, 300)
-
-    useEffect(() => {
-        if (debouncedValue && settings.description !== debouncedValue) {
-            setSettings({
-                description: debouncedValue,
-            })
-        }
-    }, [settings.description, debouncedValue, setSettings])
+    const setDescription = useCallback(() => {
+        setInputVariant('success')
+        setSettings({
+            description: value,
+        })
+    }, [setSettings, value])
 
     return (
         <>
@@ -32,16 +32,36 @@ const Description = (): JSX.Element => {
                 ligger i nærheten av eller henvise til andre kanaler. Maks 80
                 tegn.
             </Paragraph>
-            <TextField
-                label="Beskrivelse av avgangstavla"
-                value={value}
-                onChange={(event: FormEvent<HTMLInputElement>): void =>
-                    setValue(event.currentTarget.value)
-                }
-                maxLength={80}
-                disabled={settings.logoSize === '56px'}
-                placeholder="Eks. «Kollektivanganger fra Thon Hotel Oslofjord»."
-            />
+            <div className={classes.InputGroup}>
+                <span className={classes.TextFieldWrapper}>
+                    <TextField
+                        variant={inputVariant}
+                        feedback="Beskrivelse endret"
+                        label="Beskrivelse av avgangstavla"
+                        value={value}
+                        onChange={(
+                            event: FormEvent<HTMLInputElement>,
+                        ): void => {
+                            setInputVariant(undefined)
+                            setValue(event.currentTarget.value)
+                        }}
+                        onKeyDown={(event) => {
+                            if (event.key === 'Enter') {
+                                setDescription()
+                            }
+                        }}
+                        maxLength={80}
+                        disabled={settings.logoSize === '56px'}
+                        placeholder="Eks. «Kollektivanganger fra Thon Hotel Oslofjord»."
+                    />
+                </span>
+                <SecondarySquareButton
+                    onClick={setDescription}
+                    aria-label="Sett beskrivelse av avgangstavla"
+                >
+                    <CheckIcon />
+                </SecondarySquareButton>
+            </div>
         </>
     )
 }

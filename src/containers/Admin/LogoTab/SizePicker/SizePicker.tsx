@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useCallback } from 'react'
+import { useSettings } from 'settings/SettingsProvider'
 import { RadioGroup, Radio } from '@entur/form'
-import { useSettings } from '../../../../settings/SettingsProvider'
 import classes from './SizePicker.module.scss'
 
 const SizePicker = (): JSX.Element => {

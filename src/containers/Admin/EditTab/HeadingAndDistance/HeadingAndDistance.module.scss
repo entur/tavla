@@ -1,4 +1,4 @@
-@use '../../../../assets/styles/Variables.scss';
+@use 'assets/styles/Variables.scss';
 
 .Heading {
     margin-left: 2rem;
@@ -19,6 +19,7 @@
     display: inline-block;
     position: relative;
     bottom: Variables.$space-extra-small;
+    width: 10rem;
 }
 
 .InputWrapper::after {
@@ -29,7 +30,7 @@
     border-bottom: 5px dotted var(--tavla-input-dotted-border-color);
 }
 
-@media (max-width: 996px) {
+@media (max-width: Variables.$breakpoints-medium) {
     .InputWrapper {
         padding: 0;
     }
@@ -41,16 +42,10 @@
     }
 }
 
-@media (min-width: 500px) {
-    .InputWrapper {
-        width: 10rem;
-    }
-}
-
 /* Define .TextField twice because of specificity issues with eds */
 .TextField.TextField {
     font-size: inherit;
-    color: var(--primary-text-color);
+    color: var(--tavla-font-color);
     background-color: transparent;
     font-weight: 400;
     border-color: transparent;

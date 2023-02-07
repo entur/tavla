@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
+import { LockModal } from 'components/AccountModals/LockModal/LockModal'
+import { useSettings } from 'settings/SettingsProvider'
 import { OpenedLockIcon } from '@entur/icons'
-import { LockModal } from '../../../../components/AccountModals/LockModal/LockModal'
 import { MenuButton } from '../MenuButton/MenuButton'
-import { useSettings } from '../../../../settings/SettingsProvider'
 
 const LockButton = () => {
     const [modalOpen, setModalOpen] = useState(false)

@@ -3,8 +3,8 @@ import { ApolloError } from '@apollo/client'
 import {
     FormFactor,
     useRentalStationsQuery,
-} from '../../../graphql-generated/mobility-v2'
-import { isNotNullOrUndefined } from '../../utils/typeguards'
+} from 'graphql-generated/mobility-v2'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 import { REFRESH_INTERVAL } from '../../constants'
 import { useStationIds } from '../use-station-ids/useStationIds'
 import { toRentalStation, RentalStation } from './types'

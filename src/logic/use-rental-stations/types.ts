@@ -1,5 +1,5 @@
 import { array, Infer, is, number, string, type } from 'superstruct'
-import { getTranslation } from '../../utils/utils'
+import { getTranslation } from 'utils/utils'
 
 const RentalStationStruct = type({
     id: string(),

@@ -1,20 +1,20 @@
-import { TranslatedString } from '../../graphql-generated/mobility-v2'
-import { Theme, TileSubLabel } from '../types'
-import { Departure } from '../logic/use-stop-place-with-estimated-calls/departure'
+import { TranslatedString } from 'graphql-generated/mobility-v2'
+import { Theme, TileSubLabel } from 'src/types'
+import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
 
 export function createTileSubLabel({
     situations,
     cancellation,
-    time,
-    departureTime,
+    displayTime,
+    expectedDepartureTime,
 }: Departure): TileSubLabel {
     const situation = situations[0]?.summary[0]?.value
     return {
         situation,
         hasSituation: Boolean(situation),
         hasCancellation: cancellation,
-        time,
-        departureTime,
+        displayTime,
+        expectedDepartureTime,
     }
 }
 
