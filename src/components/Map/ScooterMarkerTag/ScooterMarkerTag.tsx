@@ -1,7 +1,7 @@
 import React from 'react'
+import { ScooterOperatorLogo } from 'assets/icons/ScooterOperatorLogo'
+import { Operator } from 'graphql-generated/mobility-v2'
 import { ScooterIcon } from '@entur/icons'
-import { ScooterOperatorLogo } from '../../../assets/icons/ScooterOperatorLogo'
-import { Operator } from '../../../../graphql-generated/mobility-v2'
 import classes from './ScooterMarkerTag.module.scss'
 
 const ScooterMarkerTag = ({ pointCount, operator }: Props): JSX.Element =>

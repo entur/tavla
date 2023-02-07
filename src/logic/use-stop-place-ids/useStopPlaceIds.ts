@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
 import { difference, union } from 'lodash'
 import { ApolloError } from '@apollo/client'
-import { isNotNullOrUndefined } from '../../utils/typeguards'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 import {
     FilterPlaceType,
     MultiModalMode,
     useStopPlaceIdsQuery,
-} from '../../../graphql-generated/journey-planner-v3'
-import { useSettings } from '../../settings/SettingsProvider'
+} from 'graphql-generated/journey-planner-v3'
+import { useSettings } from 'settings/SettingsProvider'
 
 interface UseStopPlaceIds {
     stopPlaceIds: string[]

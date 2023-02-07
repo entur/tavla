@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { updateSingleSettingsField } from 'settings/firebase'
 import { IconButton } from '@entur/button'
 import { CheckIcon, CloseIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading2 } from '@entur/typography'
-import { updateSingleSettingsField } from '../../../../settings/firebase'
 import classes from '../ShareTab.module.scss'
 
 const EditableBoardTitle = ({ boardName, documentId }: Props): JSX.Element => {

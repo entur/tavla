@@ -1,6 +1,6 @@
 import React from 'react'
-import { Theme } from '../../types'
-import { useThemeColor } from '../../hooks/useThemeColor'
+import { Theme } from 'src/types'
+import { useThemeColor } from 'hooks/useThemeColor'
 
 interface Props {
     className?: string

@@ -1,4 +1,4 @@
-import { TransportMode } from '../../../../../../graphql-generated/journey-planner-v3'
+import { TransportMode } from 'graphql-generated/journey-planner-v3'
 
 const transportModeName = (mode: TransportMode): string => {
     switch (mode) {

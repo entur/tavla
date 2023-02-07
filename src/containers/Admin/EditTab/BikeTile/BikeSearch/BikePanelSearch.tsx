@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react'
-import { Dropdown } from '@entur/dropdown'
-import { getTranslation } from '../../../../../utils/utils'
+import { getTranslation } from 'utils/utils'
 import {
     BikePanelSearchStationFragment,
     useBikePanelSearchQuery,
-} from '../../../../../../graphql-generated/mobility-v2'
-import { isNotNullOrUndefined } from '../../../../../utils/typeguards'
-import { useSettings } from '../../../../../settings/SettingsProvider'
+} from 'graphql-generated/mobility-v2'
+import { isNotNullOrUndefined } from 'utils/typeguards'
+import { useSettings } from 'settings/SettingsProvider'
+import { Dropdown } from '@entur/dropdown'
 import classes from './BikePanelSearch.module.scss'
 
 const MAX_SEARCH_RANGE = 100_000

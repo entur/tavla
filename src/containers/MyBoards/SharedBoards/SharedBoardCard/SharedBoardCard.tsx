@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import type { Timestamp } from 'firebase/firestore'
-import { Button } from '@entur/button'
-import { ClockIcon, UserIcon } from '@entur/icons'
+import { ThemeDashboardPreview } from 'assets/icons/ThemeDashboardPreview'
+import type { Theme } from 'src/types'
+import { useUser } from 'src/UserProvider'
+import { answerBoardInvitation } from 'settings/firebase'
+import { createTimeString } from 'utils/time'
 import { Heading3 } from '@entur/typography'
-import { ThemeDashboardPreview } from '../../../../assets/icons/ThemeDashboardPreview'
-import type { Theme } from '../../../../types'
-import { useUser } from '../../../../UserProvider'
-import { answerBoardInvitation } from '../../../../settings/firebase'
-import { createTimeString } from '../../../../utils/time'
+import { ClockIcon, UserIcon } from '@entur/icons'
+import { Button } from '@entur/button'
 
 interface SharedBoardCardProps {
     id: string

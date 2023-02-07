@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo } from 'react'
+import { Line } from 'logic/use-unique-lines/line'
+import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { useSettings } from 'settings/SettingsProvider'
 import { ExpandablePanel } from '@entur/expand'
 import { ClosedLockIcon } from '@entur/icons'
 import { FilterChip } from '@entur/chip'
-import { Line } from '../../../../../../logic/use-unique-lines/line'
-import { TransportModeIcon } from '../../../../../../components/TransportModeIcon/TransportModeIcon'
-import { useSettings } from '../../../../../../settings/SettingsProvider'
 import { transportModeName } from '../transportModeName'
 import classes from './PermanentLinePanel.module.scss'
 

@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom'
 import React from 'react'
 import type { DocumentData } from 'firebase/firestore'
 import type { User } from 'firebase/auth'
+import { Board } from 'src/types'
+import { AddBoardIcon } from 'assets/icons/AddBoardIcon'
 import { Contrast } from '@entur/layout'
 import { Heading3 } from '@entur/typography'
-import { Board } from '../../../../types'
 import { BoardCard } from '../BoardCard/BoardCard'
-import { AddBoardIcon } from '../../../../assets/icons/AddBoardIcon'
 import classes from './GridView.module.scss'
 
 const GridView = ({ boards, user }: Props) => (

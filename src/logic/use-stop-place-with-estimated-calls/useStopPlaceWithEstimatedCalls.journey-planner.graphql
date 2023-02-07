@@ -2,6 +2,7 @@ query StopPlaceWithEstimatedCalls(
     $id: String!
     $timeRange: Int = 172800
     $numberOfDeparturesPerLineAndDestinationDisplay: Int = 20
+    $numberOfDepartures: Int = 200
 ) @api(name: journey_planner_v3) {
     stopPlace(id: $id) {
         id
@@ -12,7 +13,7 @@ query StopPlaceWithEstimatedCalls(
         transportMode
         transportSubmode
         estimatedCalls(
-            numberOfDepartures: 200
+            numberOfDepartures: $numberOfDepartures
             timeRange: $timeRange
             numberOfDeparturesPerLineAndDestinationDisplay: $numberOfDeparturesPerLineAndDestinationDisplay
             arrivalDeparture: departures

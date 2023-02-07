@@ -1,23 +1,23 @@
 import React, { Fragment, useMemo } from 'react'
+import { Tile } from 'components/Tile/Tile'
+import { TileHeader } from 'components/TileHeader/TileHeader'
+import { WalkTrip } from 'components/WalkTrip/WalkTrip'
+import { ErrorTile } from 'components/ErrorTile/ErrorTile'
+import { Loader } from 'components/Loader/Loader'
 import { groupBy } from 'lodash'
-import { getIconColorType, getTransportHeaderIcons } from '../../../utils/icon'
-import { useSettings } from '../../../settings/SettingsProvider'
-import { Tick } from '../Tick/Tick'
-import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
-import { Tile } from '../../../components/Tile/Tile'
-import { TileHeader } from '../../../components/TileHeader/TileHeader'
-import { WalkTrip } from '../../../components/WalkTrip/WalkTrip'
+import { getIconColorType, getTransportHeaderIcons } from 'utils/icon'
+import { useSettings } from 'settings/SettingsProvider'
+import { useStopPlaceWithEstimatedCalls } from 'logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
     Departure,
     filterHidden,
     toDeparture,
-} from '../../../logic/use-stop-place-with-estimated-calls/departure'
+} from 'logic/use-stop-place-with-estimated-calls/departure'
+import { Mode } from 'graphql-generated/journey-planner-v3'
+import { Tick } from '../Tick/Tick'
 import { TICKS } from '../utils'
 import { TimelineWalkMarker } from '../TimelineWalkMarker/TimelineWalkMarker'
-import { Mode } from '../../../../graphql-generated/journey-planner-v3'
 import { TimelineDeparture } from '../TimelineDeparture/TimelineDeparture'
-import { ErrorTile } from '../../../components/ErrorTile/ErrorTile'
-import { Loader } from '../../../components/Loader/Loader'
 import classes from './TimelineTile.module.scss'
 
 const MODE_ORDER = ['rail', 'metro', 'tram', 'bus', 'water', 'air']

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSettings } from '../settings/SettingsProvider'
+import { useSettings } from 'settings/SettingsProvider'
 
 const useReloadTavleOnUpdate = () => {
     const [settings] = useSettings()

@@ -1,24 +1,21 @@
 import React, { useMemo } from 'react'
-import { Table, TableRow, TableHead, HeaderCell, TableBody } from '@entur/table'
-import { SubLabel } from '@entur/typography'
-import { useSettings } from '../../../../settings/SettingsProvider'
-import { BusStopTableRow } from '../BusStopTableRow/BusStopTableRow'
-import {
-    getIconColorType,
-    getTransportHeaderIcons,
-} from '../../../../utils/icon'
-import { Tile } from '../../../../components/Tile/Tile'
-import { TileHeader } from '../../../../components/TileHeader/TileHeader'
-import { useStopPlaceWithEstimatedCalls } from '../../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
+import { Tile } from 'components/Tile/Tile'
+import { useSettings } from 'settings/SettingsProvider'
+import { getIconColorType, getTransportHeaderIcons } from 'utils/icon'
+import { TileHeader } from 'components/TileHeader/TileHeader'
+import { useStopPlaceWithEstimatedCalls } from 'logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
     byDepartureTime,
     filterHidden,
     toDeparture,
-} from '../../../../logic/use-stop-place-with-estimated-calls/departure'
-import { WalkTrip } from '../../../../components/WalkTrip/WalkTrip'
-import { ErrorTile } from '../../../../components/ErrorTile/ErrorTile'
-import { EmptyStopTile } from '../../../../components/EmptyStopTile/EmptyStopTile'
-import { Loader } from '../../../../components/Loader/Loader'
+} from 'logic/use-stop-place-with-estimated-calls/departure'
+import { WalkTrip } from 'components/WalkTrip/WalkTrip'
+import { ErrorTile } from 'components/ErrorTile/ErrorTile'
+import { EmptyStopTile } from 'components/EmptyStopTile/EmptyStopTile'
+import { Loader } from 'components/Loader/Loader'
+import { SubLabel } from '@entur/typography'
+import { Table, TableRow, TableHead, HeaderCell, TableBody } from '@entur/table'
+import { BusStopTableRow } from '../BusStopTableRow/BusStopTableRow'
 import classes from './BusStopTile.module.scss'
 
 interface Props {
@@ -33,7 +30,7 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
     )
 
     const { stopPlaceWithEstimatedCalls, loading } =
-        useStopPlaceWithEstimatedCalls({ stopPlaceId })
+        useStopPlaceWithEstimatedCalls({ stopPlaceId, numberOfDepartures: 20 })
 
     const departures = useMemo(
         () =>

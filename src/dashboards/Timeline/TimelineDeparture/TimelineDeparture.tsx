@@ -1,10 +1,10 @@
 import React from 'react'
-import { timeUntil } from '../../../utils/time'
+import { timeUntil } from 'utils/time'
+import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { useCounter } from 'hooks/useCounter'
+import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
+import { IconColorType } from 'src/types'
 import { competitorPosition } from '../utils'
-import { TransportModeIcon } from '../../../components/TransportModeIcon/TransportModeIcon'
-import { Departure } from '../../../logic/use-stop-place-with-estimated-calls/departure'
-import { IconColorType } from '../../../types'
-import { useCounter } from '../../../hooks/useCounter'
 import classes from './TimelineDeparture.module.scss'
 
 interface Props {

@@ -1,6 +1,6 @@
-import { TranslatedString } from '../../graphql-generated/mobility-v2'
-import { Theme, TileSubLabel } from '../types'
-import { Departure } from '../logic/use-stop-place-with-estimated-calls/departure'
+import { TranslatedString } from 'graphql-generated/mobility-v2'
+import { Theme, TileSubLabel } from 'src/types'
+import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
 
 export function createTileSubLabel({
     situations,

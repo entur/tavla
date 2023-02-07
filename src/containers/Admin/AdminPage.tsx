@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { useSearchParams } from 'react-router-dom'
+import { useUser } from 'src/UserProvider'
+import { useSettings } from 'settings/SettingsProvider'
+import { isDarkOrDefaultTheme } from 'utils/utils'
+import { useThemeHandler } from 'hooks/useThemeHandler'
+import { Loader } from 'components/Loader/Loader'
+import { Footer } from 'components/Footer/Footer'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@entur/tab'
 import { ClosedLockIcon } from '@entur/icons'
 import { Contrast } from '@entur/layout'
 import { LockedTavle } from '../Error/ErrorPages'
-import { useUser } from '../../UserProvider'
-import { useSettings } from '../../settings/SettingsProvider'
 import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
-import { isDarkOrDefaultTheme } from '../../utils/utils'
-import { useThemeHandler } from '../../hooks/useThemeHandler'
-import { Loader } from '../../components/Loader/Loader'
 import { Navbar } from '../Navbar/Navbar'
-import { Footer } from '../../components/Footer/Footer'
 import { LogoTab } from './LogoTab/LogoTab'
 import { EditTab } from './EditTab/EditTab'
 import { ThemeTab } from './ThemeTab/ThemeTab'
@@ -26,7 +27,18 @@ const AdminPage = (): JSX.Element => {
     const user = useUser()
     useThemeHandler()
 
-    const [currentIndex, setCurrentIndex] = useState<number>(0)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const currentIndex = useMemo(
+        () => Number(searchParams.get('tab')) || 0,
+        [searchParams],
+    )
+
+    const switchTab = useCallback(
+        (value: number) => {
+            setSearchParams({ tab: value.toString() }, { replace: true })
+        },
+        [setSearchParams],
+    )
 
     const [lockShareTab, setLockShareTab] = useState<boolean>(
         !user || user.isAnonymous || !settings.owners.includes(user.uid),
@@ -64,7 +76,7 @@ const AdminPage = (): JSX.Element => {
             <Navbar theme={settings.theme} />
             <div className={classes.Admin}>
                 <h1 aria-label="Rediger tavle"></h1>
-                <Tabs index={currentIndex} onChange={setCurrentIndex}>
+                <Tabs index={currentIndex} onChange={switchTab}>
                     <TabList className={classes.TabList}>
                         <Tab className={classes.Tab}>Rediger innhold</Tab>
                         <Tab className={classes.Tab}>Velg visning</Tab>
@@ -92,19 +104,19 @@ const AdminPage = (): JSX.Element => {
                         <TabPanel>
                             <LogoTab
                                 tabIndex={currentIndex}
-                                setTabIndex={setCurrentIndex}
+                                setTabIndex={switchTab}
                             />
                         </TabPanel>
                         <TabPanel>
                             <NameTab
                                 tabIndex={currentIndex}
-                                setTabIndex={setCurrentIndex}
+                                setTabIndex={switchTab}
                             />
                         </TabPanel>
                         <TabPanel>
                             <ShareTab
                                 tabIndex={currentIndex}
-                                setTabIndex={setCurrentIndex}
+                                setTabIndex={switchTab}
                                 locked={lockShareTab}
                             />
                         </TabPanel>

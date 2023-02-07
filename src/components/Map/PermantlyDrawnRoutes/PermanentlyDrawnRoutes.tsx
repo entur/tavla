@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react'
 import polyline from 'google-polyline'
-import { useSettings } from '../../../settings/SettingsProvider'
-import { DrawableRoute, IconColorType } from '../../../types'
-import { getIconColor } from '../../../utils/icon'
-import { TransportMode } from '../../../../graphql-generated/journey-planner-v3'
+import { useSettings } from 'settings/SettingsProvider'
+import { DrawableRoute, IconColorType } from 'src/types'
+import { getIconColor } from 'utils/icon'
+import { TransportMode } from 'graphql-generated/journey-planner-v3'
+import { useUniqueLines } from 'logic/use-unique-lines/useUniqueLines'
+import { Line } from 'logic/use-unique-lines/line'
 import { LineOverlay } from '../RealtimeVehicleTag/LineOverlay/LineOverlay'
-import { useUniqueLines } from '../../../logic/use-unique-lines/useUniqueLines'
-import { Line } from '../../../logic/use-unique-lines/line'
 
 const PermanentlyDrawnRoutes: React.FC = () => {
     const [settings] = useSettings()

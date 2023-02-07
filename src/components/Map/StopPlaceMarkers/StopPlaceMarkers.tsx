@@ -1,6 +1,6 @@
 import React from 'react'
+import { useStopPlaceIds } from 'logic/use-stop-place-ids/useStopPlaceIds'
 import { StopPlaceMarker } from '../StopPlaceMarker/StopPlaceMarker'
-import { useStopPlaceIds } from '../../../logic/use-stop-place-ids/useStopPlaceIds'
 
 const StopPlaceMarkers = () => {
     const { stopPlaceIds } = useStopPlaceIds()

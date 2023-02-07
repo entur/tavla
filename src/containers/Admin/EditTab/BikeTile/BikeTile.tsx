@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
-import { useSettings } from '../../../../settings/SettingsProvider'
+import { useSettings } from 'settings/SettingsProvider'
 import { EditTile } from '../EditTile/EditTile'
 import { BikePanelSearch } from './BikeSearch/BikePanelSearch'
 import { BikePanel } from './BikePanel/BikePanel'

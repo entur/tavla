@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
+import { RadioCard } from 'components/RadioCard/RadioCard'
+import { useSettings } from 'settings/SettingsProvider'
+import { DashboardTypes } from 'src/types'
+import { ThemeDashboardPreview } from 'assets/icons/ThemeDashboardPreview'
 import { Heading2 } from '@entur/typography'
-import { RadioCard } from '../../../components/RadioCard/RadioCard'
-import { useSettings } from '../../../settings/SettingsProvider'
-import { DashboardTypes } from '../../../types'
-import { ThemeDashboardPreview } from '../../../assets/icons/ThemeDashboardPreview'
 import classes from './DashboardPickerTab.module.scss'
 
 const DashboardPickerTab = (): JSX.Element => {

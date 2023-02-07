@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
+import { useSettings } from 'settings/SettingsProvider'
+import { TavlaLogo } from 'assets/icons/TavlaLogo'
+import { isMobileWeb } from 'utils/utils'
 import { Contrast } from '@entur/layout'
-import { useSettings } from '../../settings/SettingsProvider'
 import { Clock } from '../Clock/Clock'
-import { TavlaLogo } from '../../assets/icons/TavlaLogo'
-import { isMobileWeb } from '../../utils/utils'
 import classes from './DashboardHeader.module.scss'
 
 interface Props {

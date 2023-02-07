@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { useSettings } from '../settings/SettingsProvider'
-import { DashboardTypes } from '../types'
+import { useSettings } from 'settings/SettingsProvider'
+import { DashboardTypes } from 'src/types'
 import { TimelineDashboard } from './Timeline/TimelineDashboard'
 import { ChronoDashboard } from './Chrono/ChronoDashboard'
 import { MapDashboard } from './Map/MapDashboard'

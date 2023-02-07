@@ -13,7 +13,7 @@ import {
     DateTimeStruct,
     TransportModeEnumStruct,
     TransportSubmodeEnumStruct,
-} from '../../utils/structs'
+} from 'utils/structs'
 
 const SituationStruct = type({
     description: array(

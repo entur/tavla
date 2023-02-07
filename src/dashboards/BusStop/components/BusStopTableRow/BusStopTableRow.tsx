@@ -1,7 +1,7 @@
 import React from 'react'
+import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
 import { DataCell, TableRow } from '@entur/table'
 import { SituationInfo } from '../SituationInfo/SituationInfo'
-import { Departure } from '../../../../logic/use-stop-place-with-estimated-calls/departure'
 import classes from './BusStopTableRow.module.scss'
 
 interface Props {
