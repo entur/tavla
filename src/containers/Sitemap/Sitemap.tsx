@@ -73,7 +73,7 @@ const Sitemap: React.FC = () => {
                                 className={classes.MapLink}
                                 as={Link}
                             >
-                                Rediger
+                                Administrer tavle
                             </EnturLink>
                             <ul className={classes.SitemapChildren}>
                                 <li className={classes.SitemapItem}>
