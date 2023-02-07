@@ -1,11 +1,11 @@
 import React, { Dispatch, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import type { User } from 'firebase/auth'
-import { Heading2, Paragraph } from '@entur/typography'
+import { useUser } from 'src/UserProvider'
+import { LoginModal } from 'components/AccountModals/LoginModal/LoginModal'
+import { LoginCase } from 'components/AccountModals/LoginModal/login-modal-types'
 import { GridContainer, GridItem } from '@entur/grid'
-import { useUser } from '../../../UserProvider'
-import { LoginModal } from '../../../components/AccountModals/LoginModal/LoginModal'
-import { LoginCase } from '../../../components/AccountModals/LoginModal/login-modal-types'
+import { Heading2, Paragraph } from '@entur/typography'
 import { CustomURL } from './CustomURL/CustomURL'
 
 const NameTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {

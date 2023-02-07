@@ -1,10 +1,10 @@
 import React, { useState, FormEvent, useCallback } from 'react'
+import { useSettings } from 'settings/SettingsProvider'
 import { Heading3, Paragraph } from '@entur/typography'
 import { TextField } from '@entur/form'
 import type { VariantType } from '@entur/form'
 import { SecondarySquareButton } from '@entur/button'
 import { CheckIcon } from '@entur/icons'
-import { useSettings } from '../../../../settings/SettingsProvider'
 import classes from './Description.module.scss'
 
 const Description = (): JSX.Element => {

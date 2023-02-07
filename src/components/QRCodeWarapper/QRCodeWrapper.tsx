@@ -1,10 +1,10 @@
 import React from 'react'
 import QRCode from 'react-qr-code'
 import classNames from 'classnames'
+import { Theme } from 'src/types'
+import { useSettings } from 'settings/SettingsProvider'
 import { colors } from '@entur/tokens'
 import { Paragraph } from '@entur/typography'
-import { Theme } from '../../types'
-import { useSettings } from '../../settings/SettingsProvider'
 import classes from './QRCodeWrapper.module.scss'
 
 interface Props {

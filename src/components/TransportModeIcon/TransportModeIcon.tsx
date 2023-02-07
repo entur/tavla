@@ -1,5 +1,11 @@
 import React from 'react'
 import {
+    TransportMode,
+    TransportSubmode,
+} from 'graphql-generated/journey-planner-v3'
+import { IconColorType } from 'src/types'
+import { getIconColor, getTransportIconIdentifier } from 'utils/icon'
+import {
     BicycleIcon,
     BusIcon,
     CarferryIcon,
@@ -9,12 +15,6 @@ import {
     TrainIcon,
     TramIcon,
 } from '@entur/icons'
-import {
-    TransportMode,
-    TransportSubmode,
-} from '../../../graphql-generated/journey-planner-v3'
-import { IconColorType } from '../../types'
-import { getIconColor, getTransportIconIdentifier } from '../../utils/icon'
 
 interface Props {
     transportMode: TransportMode

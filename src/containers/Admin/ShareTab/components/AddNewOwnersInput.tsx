@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
+import { addNewInviteToBoard } from 'settings/firebase'
+import { useUser } from 'src/UserProvider'
+import { BoardOwnersData, Invite } from 'src/types'
 import { SecondarySquareButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { addNewInviteToBoard } from '../../../../settings/firebase'
-import { useUser } from '../../../../UserProvider'
-import { BoardOwnersData, Invite } from '../../../../types'
 import classes from '../ShareTab.module.scss'
 
 const EMAIL_REGEX =

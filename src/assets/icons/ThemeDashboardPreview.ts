@@ -1,3 +1,4 @@
+import { Theme } from 'src/types'
 import CompactDark from '../previews/previewDark/Kompakt-dark.svg'
 import ChronoDark from '../previews/previewDark/Kronologisk-dark.svg'
 import TimelineDark from '../previews/previewDark/Tidslinje-dark.svg'
@@ -18,7 +19,6 @@ import ChronoGrey from '../previews/previewGrey/Kronologisk-grey.svg'
 import TimelineGrey from '../previews/previewGrey/Tidslinje-grey.svg'
 import MapGrey from '../previews/previewGrey/Kart-grey.svg'
 import BusStopGrey from '../previews/previewGrey/Holdeplass-gray.svg'
-import { Theme } from '../../types'
 
 function ThemeDashboardPreview(
     theme: Theme,

@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
+import { useSettings } from 'settings/SettingsProvider'
 import { Heading2, Paragraph } from '@entur/typography'
 import { Button } from '@entur/button'
 import { useToast } from '@entur/alert'
-import { useSettings } from '../../../../settings/SettingsProvider'
 import classes from './ReloadTile.module.scss'
 
 const ReloadTile: React.FC = () => {

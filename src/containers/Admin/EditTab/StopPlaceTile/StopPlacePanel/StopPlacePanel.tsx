@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
-import { Checkbox } from '@entur/form'
+import { useSettings } from 'settings/SettingsProvider'
+import { useStopPlaceIds } from 'logic/use-stop-place-ids/useStopPlaceIds'
+import { Loader } from 'components/Loader/Loader'
 import { Paragraph } from '@entur/typography'
-import { useSettings } from '../../../../../settings/SettingsProvider'
-import { useStopPlaceIds } from '../../../../../logic/use-stop-place-ids/useStopPlaceIds'
-import { Loader } from '../../../../../components/Loader/Loader'
+import { Checkbox } from '@entur/form'
 import { PanelRow } from './PanelRow/Panelrow'
 import classes from './StopPlacePanel.module.scss'
 

@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useSettings } from 'settings/SettingsProvider'
+import { useUser } from 'src/UserProvider'
 import { ConfigurationIcon } from '@entur/icons'
 import { MenuButton } from '../MenuButton/MenuButton'
-import { useSettings } from '../../../../settings/SettingsProvider'
-import { useUser } from '../../../../UserProvider'
 
 const SettingsButton = () => {
     const [settings] = useSettings()

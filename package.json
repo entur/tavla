@@ -14,10 +14,12 @@
     "scripts": {
         "test": "tsc --noEmit",
         "eslint": "eslint src functions/src --ext 'js,jsx,ts,tsx'",
+        "eslint:fix": "eslint --fix src functions/src --ext 'js,jsx,ts,tsx'",
         "stylelint": "stylelint \"src/**/*.scss\"",
         "format": "prettier . --write",
         "format:check": "prettier . --check",
         "lint": "npm run eslint && npm run stylelint && npm run format:check",
+        "lint:fix": "npm run eslint:fix && npm run stylelint && npm run format:check",
         "graphql-codegen": "graphql-codegen",
         "start": "webpack serve",
         "local": "cd functions && npm run build && cd .. && webpack serve --env development",

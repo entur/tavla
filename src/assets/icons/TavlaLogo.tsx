@@ -1,5 +1,5 @@
 import React from 'react'
-import { Theme } from '../../types'
+import { Theme } from 'src/types'
 import TavlaWhite from '../logos/Tavla-white.svg'
 import TavlaBlue from '../logos/Tavla-blue.svg'
 

@@ -2,7 +2,7 @@ import { Infer, is, string, type } from 'superstruct'
 import {
     TransportModeEnumStruct,
     TransportSubmodeEnumStruct,
-} from '../../utils/structs'
+} from 'utils/structs'
 
 const EstimatedCallStruct = type({
     destinationDisplay: type({

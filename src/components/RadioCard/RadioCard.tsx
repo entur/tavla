@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import classNames from 'classnames'
+import { ValidationCheck } from 'assets/icons/ValidationCheck'
 import { Heading3, Paragraph } from '@entur/typography'
-import { ValidationCheck } from '../../assets/icons/ValidationCheck'
 import classes from './RadioCard.module.scss'
 
 interface RadioCardProps<T> {

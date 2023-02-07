@@ -34,6 +34,21 @@ module.exports = async (env, args) => ({
     },
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.graphql'],
+        alias: {
+            src: path.resolve(__dirname, 'src/'),
+            components: path.resolve(__dirname, 'src/components/'),
+            assets: path.resolve(__dirname, 'src/assets/'),
+            hooks: path.resolve(__dirname, 'src/hooks/'),
+            utils: path.resolve(__dirname, 'src/utils/'),
+            containers: path.resolve(__dirname, 'src/containers/'),
+            dashboards: path.resolve(__dirname, 'src/dashboards/'),
+            logic: path.resolve(__dirname, 'src/logic/'),
+            settings: path.resolve(__dirname, 'src/settings/'),
+            ['graphql-generated']: path.resolve(
+                __dirname,
+                'graphql-generated/',
+            ),
+        },
     },
     module: {
         rules: [

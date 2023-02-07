@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
+import { Tile } from 'components/Tile/Tile'
 import { Paragraph } from '@entur/typography'
-import { Tile } from '../Tile/Tile'
 import { TileHeader } from '../TileHeader/TileHeader'
 
 interface Props {

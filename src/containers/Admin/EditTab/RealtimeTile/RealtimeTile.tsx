@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
+import { useSettings } from 'settings/SettingsProvider'
 import { Paragraph } from '@entur/typography'
 import { EditTile } from '../EditTile/EditTile'
-import { useSettings } from '../../../../settings/SettingsProvider'
 import { RealtimeDetailPanel } from './RealtimeDetailPanel/RealtimeDetailPanel'
 
 const RealtimeTile: React.FC = () => {

@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { EnturLogo } from 'assets/icons/EnturLogo'
 import { ExternalIcon, FacebookIcon, TwitterIcon } from '@entur/icons'
 import { Heading3, Link as EnturLink, Paragraph } from '@entur/typography'
-import { EnturLogo } from '../../assets/icons/EnturLogo'
 import classes from './Footer.module.scss'
 
 const Footer: React.FC = () => {

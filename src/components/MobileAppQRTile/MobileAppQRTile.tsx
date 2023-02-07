@@ -1,6 +1,6 @@
 import React from 'react'
+import { Tile } from 'components/Tile/Tile'
 import { Heading2 } from '@entur/typography'
-import { Tile } from '../Tile/Tile'
 import { QRCodeWrapper } from '../QRCodeWarapper/QRCodeWrapper'
 import classes from './MobileAppQRTile.module.scss'
 

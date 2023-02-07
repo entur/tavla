@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
+import { useSettings } from 'settings/SettingsProvider'
 import { SubParagraph } from '@entur/typography'
 import { ValidationInfoIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { EditTile } from '../EditTile/EditTile'
-import { useSettings } from '../../../../settings/SettingsProvider'
 import { WeatherPanel } from './WeatherPanel/WeatherPanel'
 import classes from './WeatherTile.module.scss'
 

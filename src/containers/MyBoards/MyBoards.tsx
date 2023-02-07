@@ -2,15 +2,15 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useSearchParams } from 'react-router-dom'
 import type { DocumentData, Timestamp } from 'firebase/firestore'
-import { Contrast, NotificationBadge } from '@entur/layout'
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 import {
     getBoardsForUserOnSnapshot,
     getInvitesForUserOnSnapshot,
     getBoardsByIds,
-} from '../../settings/firebase'
-import { useUser } from '../../UserProvider'
-import { Board, SharedBoard } from '../../types'
+} from 'settings/firebase'
+import { useUser } from 'src/UserProvider'
+import { Board, SharedBoard } from 'src/types'
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
+import { Contrast, NotificationBadge } from '@entur/layout'
 import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
 import { Navbar } from '../Navbar/Navbar'
 import { SharedBoards } from './SharedBoards/SharedBoards'

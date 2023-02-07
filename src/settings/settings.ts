@@ -5,9 +5,9 @@ import {
     Direction,
     DrawableRoute,
     Theme,
-} from '../types'
+} from 'src/types'
+import { TransportMode } from 'graphql-generated/journey-planner-v3'
 import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from '../constants'
-import { TransportMode } from '../../graphql-generated/journey-planner-v3'
 
 type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel' | 'delebil'
 

@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import { ApolloError } from '@apollo/client'
 import { uniq } from 'lodash'
-import { useRealtimePositionLineRefsQuery } from '../../../graphql-generated/vehicles-v1'
-import { isNotNullOrUndefined } from '../../utils/typeguards'
+import { useRealtimePositionLineRefsQuery } from 'graphql-generated/vehicles-v1'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 
 interface UseRealtimePositionLineRefs {
     realtimePositionLineRefs: string[]

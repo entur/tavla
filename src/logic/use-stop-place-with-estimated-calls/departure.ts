@@ -2,8 +2,8 @@ import { compareAsc, differenceInMinutes, format, parseISO } from 'date-fns'
 import {
     TransportMode,
     TransportSubmode,
-} from '../../../graphql-generated/journey-planner-v3'
-import { Settings } from '../../settings/settings'
+} from 'graphql-generated/journey-planner-v3'
+import { Settings } from 'settings/settings'
 import { EstimatedCall } from './types'
 
 interface Departure {

@@ -1,4 +1,4 @@
-import { useSettings } from '../settings/SettingsProvider'
+import { useSettings } from 'settings/SettingsProvider'
 
 const useThemeColor = (
     color: { [key: string]: string },
