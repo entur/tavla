@@ -16,6 +16,12 @@ commands:
         steps:
             - run: echo $FIREBASE_DEPLOY_CREDENTIALS_STAGING > /tmp/serviceaccount.staging.json
             - run: echo $FIREBASE_DEPLOY_CREDENTIALS_PROD > /tmp/serviceaccount.prod.json
+
+parameters:
+  action:
+    type: enum
+    enum: [build, deploy-staging, deploy-prod]
+    default: build
 jobs:
     build:
         docker:
