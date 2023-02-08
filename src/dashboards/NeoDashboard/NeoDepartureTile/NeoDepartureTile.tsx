@@ -51,7 +51,9 @@ const NeoDepartureTile: React.FC<{ stopPlaceId: string }> = ({
             <table className={classes.DepartureTable}>
                 <thead>
                     <tr className={classes.TableHeader}>
-                        <th>Linje</th>
+                        <th className={classes.RouteNumberTableHeader}>
+                            Linje
+                        </th>
                         <th></th>
                         <th>Avgang</th>
                     </tr>
@@ -76,8 +78,10 @@ const NeoDepartureTile: React.FC<{ stopPlaceId: string }> = ({
                                     {departure.publicCode}
                                 </span>
                             </td>
-                            <td>{departure.frontText}</td>
-                            <td>{departure.time}</td>
+                            <td className={classes.LineName}>
+                                {departure.frontText}
+                            </td>
+                            <td>{departure.displayTime}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -16,7 +16,7 @@
     border-collapse: collapse;
 
     & td {
-        padding: 0.5rem 0;
+        padding: 1rem;
     }
 
     & th {
@@ -34,12 +34,24 @@
     border-top: 2px solid var(--tavla-hover-color);
 }
 
+.RouteNumberTableHeader {
+    width: 0;
+}
+
 .RouteNumber {
-    width: fit-content;
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0 0.5rem;
     border-radius: 0.25rem;
     color: #fff;
+}
+
+.LineName {
+    max-width: 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
