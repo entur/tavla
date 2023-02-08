@@ -18,10 +18,10 @@ commands:
             - run: echo $FIREBASE_DEPLOY_CREDENTIALS_PROD > /tmp/serviceaccount.prod.json
 
 parameters:
-  action:
-    type: enum
-    enum: [build, deploy-staging, deploy-prod]
-    default: build
+    action:
+        type: enum
+        enum: [build, deploy-staging, deploy-prod]
+        default: build
 jobs:
     build:
         docker:
@@ -76,17 +76,17 @@ jobs:
 workflows:
     version: 2
     build:
-      when:
-        equal: [ build, << pipeline.parameters.action >> ]
-      jobs:
-        - build
+        when:
+            equal: [build, << pipeline.parameters.action >>]
+        jobs:
+            - build
     deploy-staging:
-      when:
-        equal: [ deploy-staging, << pipeline.parameters.action >> ]
-      jobs:
-        - deploy-staging
+        when:
+            equal: [deploy-staging, << pipeline.parameters.action >>]
+        jobs:
+            - deploy-staging
     deploy-prod:
-      when:
-        equal: [ deploy-prod, << pipeline.parameters.action >> ]
-      jobs:
-        - deploy
+        when:
+            equal: [deploy-prod, << pipeline.parameters.action >>]
+        jobs:
+            - deploy
