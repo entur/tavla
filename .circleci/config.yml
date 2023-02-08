@@ -30,6 +30,8 @@ jobs:
         working_directory: ~/Tavla
 
         steps:
+            - checkout
+            - add_ssh_keys: *ssh-fingerprint
             - run: npm test
             - run: npm run lint
 
@@ -92,20 +94,23 @@ workflows:
             - test
     build:
         when:
-            equal: [build, << pipeline.parameters.action >>]
-            and: [master, << pipeline.git.branch >>]
+          and:
+            - equal: [build, << pipeline.parameters.action >>]
+            - equal: [master, << pipeline.git.branch >>]
         jobs:
             - test
             - build
     deploy-staging:
         when:
-            equal: [deploy-staging, << pipeline.parameters.action >>]
-            and: [master, << pipeline.git.branch >>]
+          and:
+            - equal: [deploy-staging, << pipeline.parameters.action >>]
+            - equal: [master, << pipeline.git.branch >>]
         jobs:
             - deploy-staging
     deploy-prod:
         when:
-            equal: [deploy-prod, << pipeline.parameters.action >>]
-            and: [master, << pipeline.git.branch >>]
+          and:
+            - equal: [deploy-prod, << pipeline.parameters.action >>]
+            - equal: [master, << pipeline.git.branch >>]
         jobs:
             - deploy
