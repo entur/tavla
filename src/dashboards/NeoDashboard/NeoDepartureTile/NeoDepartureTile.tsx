@@ -3,7 +3,6 @@ import { EmptyStopTile } from '../../../components/EmptyStopTile/EmptyStopTile'
 import { ErrorTile } from '../../../components/ErrorTile/ErrorTile'
 import { Loader } from '../../../components/Loader/Loader'
 import { Tile } from '../../../components/Tile/Tile'
-import { TransportModeIcon } from '../../../components/TransportModeIcon/TransportModeIcon'
 import {
     byDepartureTime,
     filterHidden,
@@ -11,8 +10,7 @@ import {
 } from '../../../logic/use-stop-place-with-estimated-calls/departure'
 import { useStopPlaceWithEstimatedCalls } from '../../../logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { useSettings } from '../../../settings/SettingsProvider'
-import { IconColorType } from '../../../types'
-import { getIconColor } from '../../../utils/icon'
+import { NeoDepartureTableRow } from './NeoDepartureTable/NeoDepartureTableRow'
 import classes from './NeoDepartureTile.module.scss'
 
 const NeoDepartureTile: React.FC<{ stopPlaceId: string }> = ({
@@ -60,29 +58,10 @@ const NeoDepartureTile: React.FC<{ stopPlaceId: string }> = ({
                 </thead>
                 <tbody>
                     {departures.map((departure) => (
-                        <tr key={departure.id} className={classes.TableRow}>
-                            <td>
-                                <span
-                                    className={classes.RouteNumber}
-                                    style={{
-                                        backgroundColor: getIconColor(
-                                            departure.transportMode,
-                                            IconColorType.DEFAULT,
-                                        ),
-                                    }}
-                                >
-                                    <TransportModeIcon
-                                        transportMode={departure.transportMode}
-                                        color="white"
-                                    />
-                                    {departure.publicCode}
-                                </span>
-                            </td>
-                            <td className={classes.LineName}>
-                                {departure.frontText}
-                            </td>
-                            <td>{departure.displayTime}</td>
-                        </tr>
+                        <NeoDepartureTableRow
+                            departure={departure}
+                            key={departure.id}
+                        />
                     ))}
                 </tbody>
             </table>

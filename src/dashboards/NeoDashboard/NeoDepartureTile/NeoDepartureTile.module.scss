@@ -30,9 +30,6 @@
     border-bottom: 4px solid var(--tavla-hover-color);
 }
 
-.TableRow {
-    border-top: 2px solid var(--tavla-hover-color);
-}
 
 .RouteNumberTableHeader {
     width: 0;
@@ -48,10 +45,3 @@
     color: #fff;
 }
 
-.LineName {
-    max-width: 0;
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
