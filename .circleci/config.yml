@@ -32,6 +32,7 @@ jobs:
         steps:
             - checkout
             - add_ssh_keys: *ssh-fingerprint
+            - run: npm install
             - run: npm test
             - run: npm run lint
 
@@ -94,23 +95,23 @@ workflows:
             - test
     build:
         when:
-          and:
-            - equal: [build, << pipeline.parameters.action >>]
-            - equal: [master, << pipeline.git.branch >>]
+            and:
+                - equal: [build, << pipeline.parameters.action >>]
+                - equal: [master, << pipeline.git.branch >>]
         jobs:
             - test
             - build
     deploy-staging:
         when:
-          and:
-            - equal: [deploy-staging, << pipeline.parameters.action >>]
-            - equal: [master, << pipeline.git.branch >>]
+            and:
+                - equal: [deploy-staging, << pipeline.parameters.action >>]
+                - equal: [master, << pipeline.git.branch >>]
         jobs:
             - deploy-staging
     deploy-prod:
         when:
-          and:
-            - equal: [deploy-prod, << pipeline.parameters.action >>]
-            - equal: [master, << pipeline.git.branch >>]
+            and:
+                - equal: [deploy-prod, << pipeline.parameters.action >>]
+                - equal: [master, << pipeline.git.branch >>]
         jobs:
             - deploy
