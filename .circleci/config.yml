@@ -88,18 +88,10 @@ jobs:
                       npm run deploy:staging
 workflows:
     version: 2
-    test:
-        when:
-            equal: [build, << pipeline.parameters.action >>]
-        jobs:
-            - test
     build:
         when:
-            and:
-                - equal: [build, << pipeline.parameters.action >>]
-                - equal: [master, << pipeline.git.branch >>]
+           equal: [build, << pipeline.parameters.action >>]
         jobs:
-            - test
             - build
     deploy-staging:
         when:
