@@ -90,7 +90,7 @@ workflows:
     version: 2
     build:
         when:
-           equal: [build, << pipeline.parameters.action >>]
+            equal: [build, << pipeline.parameters.action >>]
         jobs:
             - build
     deploy-staging:
