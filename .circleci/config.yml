@@ -78,15 +78,18 @@ workflows:
     build:
         when:
             equal: [build, << pipeline.parameters.action >>]
+            and: [master, << pipeline.git.branch >>]
         jobs:
             - build
     deploy-staging:
         when:
             equal: [deploy-staging, << pipeline.parameters.action >>]
+            and: [master, << pipeline.git.branch >>]
         jobs:
             - deploy-staging
     deploy-prod:
         when:
             equal: [deploy-prod, << pipeline.parameters.action >>]
+            and: [master, << pipeline.git.branch >>]
         jobs:
             - deploy
