@@ -44,6 +44,26 @@ const DashboardPickerTab = (): JSX.Element => {
                     altText=""
                 />
                 <RadioCard
+                    title="Holdeplass"
+                    description="Her får avgangene full bredde med god plass til å vise avviksmeldinger. Egner seg godt for når man er interessert i ett eller få stopp."
+                    value={DashboardTypes.BusStop}
+                    selected={settings.dashboard === DashboardTypes.BusStop}
+                    preview={dashboardImages.BusStop}
+                    onChange={handleChange}
+                    className={classes.DisplayCard}
+                    altText=""
+                />
+                <RadioCard
+                    title="Responsiv"
+                    description="Avgangene fyller ut skjermen automatisk i et rutenett basert på skjermstørrelse. Denne visningen, kombinert med tekststørrelse-instillingen i Tilpass Utseende fanen, egner seg for skjermer av ulike størrelser."
+                    value={DashboardTypes.Responsive}
+                    selected={settings.dashboard === DashboardTypes.Responsive}
+                    preview={dashboardImages.Chrono}
+                    onChange={handleChange}
+                    className={classes.DisplayCard}
+                    altText=""
+                />
+                <RadioCard
                     title="Tidslinje"
                     description="Avgangene vises i en visualisert fremstilling. Viser ikke bysykkel, spor/plattform eller avvik."
                     value={DashboardTypes.Timeline}
@@ -59,16 +79,6 @@ const DashboardPickerTab = (): JSX.Element => {
                     value={DashboardTypes.Map}
                     selected={settings.dashboard === DashboardTypes.Map}
                     preview={dashboardImages.Map}
-                    onChange={handleChange}
-                    className={classes.DisplayCard}
-                    altText=""
-                />
-                <RadioCard
-                    title="Holdeplass"
-                    description="Her får avgangene full bredde med god plass til å vise avviksmeldinger. Egner seg godt for når man er interessert i ett eller få stopp."
-                    value={DashboardTypes.BusStop}
-                    selected={settings.dashboard === DashboardTypes.BusStop}
-                    preview={dashboardImages.BusStop}
                     onChange={handleChange}
                     className={classes.DisplayCard}
                     altText=""

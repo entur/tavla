@@ -1,0 +1,13 @@
+.TableHeader {
+    border-bottom: 4px solid var(--tavla-hover-color);
+    color: var(--tavla-label-font-color);
+    font-size: 1.5rem;
+}
+
+.HeaderDestination {
+    padding-left: 1rem;
+}
+
+.HeaderDepartureTime {
+    text-align: right;
+}

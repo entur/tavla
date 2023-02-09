@@ -1,4 +1,4 @@
-.Neo {
+.Responsive {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(37.5rem, 1fr));
     min-height: 0;
@@ -6,7 +6,7 @@
     flex: 1 0 0;
 }
 
-.NeoWrapper {
+.ResponsiveWrapper {
     height: 100vh;
     display: flex;
     flex-direction: column;
