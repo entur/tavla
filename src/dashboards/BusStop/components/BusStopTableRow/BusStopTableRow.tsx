@@ -1,6 +1,6 @@
 import React from 'react'
 import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
-import { SituationInfo } from 'src/components/SituationInfo/SituationInfo'
+import { SituationInfo } from 'components/SituationInfo/SituationInfo'
 import { DataCell, TableRow } from '@entur/table'
 import classes from './BusStopTableRow.module.scss'
 

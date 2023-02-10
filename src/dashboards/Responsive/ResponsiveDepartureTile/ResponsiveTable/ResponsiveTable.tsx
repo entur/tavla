@@ -1,5 +1,5 @@
 import React from 'react'
-import { Departure } from 'src/logic/use-stop-place-with-estimated-calls/departure'
+import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
 import { ResponsiveTableHeader } from './ResponsiveTableHeader/ResponsiveTableHeader'
 import { ResponsiveTableRow } from './ResponsiveTableRow/ResponsiveTableRow'
 import classes from './ResponsiveTable.module.scss'

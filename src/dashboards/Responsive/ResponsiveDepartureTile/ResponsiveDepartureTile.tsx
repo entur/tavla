@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react'
-import { EmptyStopTile } from 'src/components/EmptyStopTile/EmptyStopTile'
-import { ErrorTile } from 'src/components/ErrorTile/ErrorTile'
-import { Loader } from 'src/components/Loader/Loader'
-import { Tile } from 'src/components/Tile/Tile'
+import { EmptyStopTile } from 'components/EmptyStopTile/EmptyStopTile'
+import { ErrorTile } from 'components/ErrorTile/ErrorTile'
+import { Loader } from 'components/Loader/Loader'
+import { Tile } from 'components/Tile/Tile'
 import {
     byDepartureTime,
     filterHidden,
     toDeparture,
-} from 'src/logic/use-stop-place-with-estimated-calls/departure'
-import { useStopPlaceWithEstimatedCalls } from 'src/logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
-import { useSettings } from 'src/settings/SettingsProvider'
+} from 'logic/use-stop-place-with-estimated-calls/departure'
+import { useStopPlaceWithEstimatedCalls } from 'logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
+import { useSettings } from 'settings/SettingsProvider'
 import { ResponsiveTable } from './ResponsiveTable/ResponsiveTable'
 import classes from './ResponsiveDepartureTile.module.scss'
 

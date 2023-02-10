@@ -17,7 +17,6 @@
         "noUncheckedIndexedAccess": true,
         "baseUrl": ".",
         "paths": {
-            "src/*": ["src/*"],
             "components/*": ["src/components/*"],
             "assets/*": ["src/assets/*"],
             "hooks/*": ["src/hooks/*"],
@@ -26,7 +25,8 @@
             "dashboards/*": ["src/dashboards/*"],
             "logic/*": ["src/logic/*"],
             "settings/*": ["src/settings/*"],
-            "graphql-generated/*": ["graphql-generated/*"]
+            "graphql-generated/*": ["graphql-generated/*"],
+            "src/*": ["src/*"]
         }
     },
     "include": ["types", "./src/**/*", "graphql-generated"],

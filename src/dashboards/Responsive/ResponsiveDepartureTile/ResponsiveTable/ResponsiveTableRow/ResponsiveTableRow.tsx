@@ -1,9 +1,9 @@
 import React from 'react'
-import { SituationInfo } from 'src/components/SituationInfo/SituationInfo'
-import { TransportModeIcon } from 'src/components/TransportModeIcon/TransportModeIcon'
-import { Departure } from 'src/logic/use-stop-place-with-estimated-calls/departure'
+import { SituationInfo } from 'components/SituationInfo/SituationInfo'
+import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
 import { IconColorType } from 'src/types'
-import { getIconColor } from 'src/utils/icon'
+import { getIconColor } from 'utils/icon'
 import classes from './ResponsiveTableRow.module.scss'
 
 const ResponsiveTableRow: React.FC<{ departure: Departure }> = ({

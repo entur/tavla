@@ -1,6 +1,6 @@
 import React from 'react'
-import { DashboardWrapper } from 'src/containers/DashboardWrapper/DashboardWrapper'
-import { useStopPlaceIds } from 'src/logic/use-stop-place-ids/useStopPlaceIds'
+import { DashboardWrapper } from 'containers/DashboardWrapper/DashboardWrapper'
+import { useStopPlaceIds } from 'logic/use-stop-place-ids/useStopPlaceIds'
 import { ResponsiveDepartureTile } from './ResponsiveDepartureTile/ResponsiveDepartureTile'
 import classes from './ResponsiveDashboard.module.scss'
 
