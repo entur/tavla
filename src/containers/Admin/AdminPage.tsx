@@ -21,6 +21,7 @@ import { NameTab } from './NameTab/NameTab'
 import { LockAndViewButtons } from './LockAndViewButtons/LockAndViewButtons'
 import { ShareTab } from './ShareTab/ShareTab'
 import classes from './AdminPage.module.scss'
+import { AdminDashboardResolver } from 'src/dashboards/DashboardResolver'
 
 const AdminPage = (): JSX.Element => {
     const [settings] = useSettings()
@@ -92,9 +93,7 @@ const AdminPage = (): JSX.Element => {
                         </Tab>
                     </TabList>
                     <TabPanels>
-                        <TabPanel>
-                            <EditTab />
-                        </TabPanel>
+                        <TabPanel>{AdminDashboardResolver()}</TabPanel>
                         <TabPanel>
                             <DashboardPickerTab />
                         </TabPanel>

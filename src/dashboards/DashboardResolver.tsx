@@ -7,6 +7,11 @@ import { MapDashboard } from './Map/MapDashboard'
 import { BusStopDashboard } from './BusStop/BusStopDashboard'
 import { CompactDashboard } from './Compact/CompactDashboard'
 import { Poster } from './Poster/Poster'
+import { AdminTimeline } from './AdminTimeline'
+import { AdminChrono } from './AdminChrono'
+import { AdminMap } from './AdminMap'
+import { AdminBusStop } from './AdminBusStop'
+import { AdminCompact } from './AdminCompact'
 
 const DashboardResolver: React.FC = () => {
     const [settings] = useSettings()
@@ -29,4 +34,21 @@ const DashboardResolver: React.FC = () => {
     }
 }
 
-export { DashboardResolver }
+function AdminDashboardResolver() {
+    const [settings] = useSettings()
+
+    switch (settings.dashboard) {
+        case DashboardTypes.Timeline:
+            return <AdminTimeline />
+        case DashboardTypes.Chrono:
+            return <AdminChrono />
+        case DashboardTypes.Map:
+            return <AdminMap />
+        case DashboardTypes.BusStop:
+            return <AdminBusStop />
+        case DashboardTypes.Compact:
+            return <AdminCompact />
+    }
+}
+
+export { DashboardResolver, AdminDashboardResolver }
