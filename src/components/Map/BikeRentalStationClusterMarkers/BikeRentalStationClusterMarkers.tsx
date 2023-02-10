@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { Marker } from 'react-map-gl'
+import { useSettings } from 'src/settings/SettingsProvider'
 import useSupercluster from 'use-supercluster'
 import { useRentalStations } from 'logic/use-rental-stations/useRentalStations'
 import { FormFactor } from 'graphql-generated/mobility-v2'
@@ -12,7 +13,10 @@ interface Props {
 }
 
 const BikeRentalStationClusterMarkers: React.FC<Props> = ({ zoom, bounds }) => {
+    const [settings] = useSettings()
     const { rentalStations } = useRentalStations([FormFactor.Bicycle])
+
+    const bikesEnabled = !settings.hiddenModes.includes('bysykkel')
 
     const bikeRentalStationPoints = useMemo(
         () =>
@@ -72,6 +76,9 @@ const BikeRentalStationClusterMarkers: React.FC<Props> = ({ zoom, bounds }) => {
         [clusters],
     )
 
+    if (!bikesEnabled) {
+        return null
+    }
     return <>{markers}</>
 }
 

@@ -16,6 +16,8 @@ interface Props {
 const ScooterClusterMarkers: React.FC<Props> = ({ zoom, bounds }) => {
     const [settings] = useSettings()
 
+    const scooterEnabled = !settings.hiddenModes.includes('sparkesykkel')
+
     const distance = settings.scooterDistance.enabled
         ? settings.scooterDistance.distance
         : settings.distance
@@ -85,6 +87,9 @@ const ScooterClusterMarkers: React.FC<Props> = ({ zoom, bounds }) => {
             }),
         [clusters],
     )
+    if (!scooterEnabled) {
+        return null
+    }
 
     return <>{markers}</>
 }
