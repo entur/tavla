@@ -18,7 +18,9 @@ export const functions = getFunctions(firebaseApp, 'europe-west3')
 export const db = getFirestore(firebaseApp)
 export const storage = getStorage(firebaseApp)
 if (process.env.FIREBASE_ENV === 'local') {
-    connectAuthEmulator(auth, 'http://localhost:9099')
+    connectAuthEmulator(auth, 'http://localhost:9099', {
+        disableWarnings: true,
+    })
     connectFunctionsEmulator(functions, 'localhost', 5001)
     connectFirestoreEmulator(db, 'localhost', 8080)
     connectStorageEmulator(storage, 'localhost', 9199)

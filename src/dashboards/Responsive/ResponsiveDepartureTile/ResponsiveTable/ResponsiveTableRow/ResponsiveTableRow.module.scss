@@ -1,0 +1,40 @@
+.TableRow {
+    border-bottom: 2px solid var(--tavla-hover-color);
+
+    & td {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+}
+
+.RouteNumber {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+    border-radius: 0.25rem;
+    color: #fff;
+}
+
+.DepartureName {
+    max-width: 0;
+    width: 100%;
+    padding-left: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.Situation {
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.DepartureTime {
+    white-space: nowrap;
+    text-align: right;
+}

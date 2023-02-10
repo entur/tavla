@@ -22,7 +22,7 @@
         "lint:fix": "npm run eslint:fix && npm run stylelint && npm run format:check",
         "graphql-codegen": "graphql-codegen",
         "start": "webpack serve",
-        "local": "cd functions && npm run build && cd .. && webpack serve --env development",
+        "local": "webpack serve --env development",
         "clean": "rm -rf dist/",
         "build:prod": "npm run clean && webpack --mode production --env prod",
         "build:staging": "npm run clean && webpack --mode production --env staging",
