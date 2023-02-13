@@ -29,9 +29,7 @@ const DashboardPickerTab = (): JSX.Element => {
                     value={DashboardTypes.Compact}
                     selected={settings.dashboard === DashboardTypes.Compact}
                     preview={dashboardImages.Compact}
-                    onChange={(value?) => {
-                        handleChange(value)
-                    }}
+                    onChange={handleChange}
                     className={classes.DisplayCard}
                     altText=""
                 />
@@ -97,7 +95,7 @@ const DashboardPickerTab = (): JSX.Element => {
                 />
                 <RadioCard
                     title="Enkel holdeplassvisning"
-                    description="Her får du avgangene med avviksmeldinger for én holdeplass. I tillegg vises bysykler og vær."
+                    description="Her får du avgangene med avviksmeldinger for én holdeplass. Dette er den nærmeste holdeplassen fra valgt sted. I tillegg vises bysykler og vær."
                     value={DashboardTypes.NewBusStop}
                     selected={settings.dashboard === DashboardTypes.NewBusStop}
                     preview={dashboardImages.BusStop}

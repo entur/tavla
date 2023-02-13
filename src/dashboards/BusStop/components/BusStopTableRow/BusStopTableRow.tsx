@@ -26,15 +26,13 @@ function BusStopTableRow({
             <DataCell className={classes.Line}>{departure.publicCode}</DataCell>
             <DataCell className={classes.Route}>
                 {departure.frontText} <br></br>
-                {deviationUnder ? (
+                {deviationUnder && (
                     <span className={classes.DeviationUnder}>
                         <SituationInfo
                             departure={departure}
                             shortVersion={true}
                         />
                     </span>
-                ) : (
-                    <></>
                 )}
             </DataCell>
             <DataCell className={classes.Time}>

@@ -24,9 +24,7 @@ const StopPlaceTile: React.FC = () => {
             onChange={handleChange}
             checked={!settings.hiddenModes.includes('kollektiv')}
         >
-            {settings.dashboard == DashboardTypes.NewBusStop ? (
-                <></>
-            ) : (
+            {settings.dashboard !== DashboardTypes.NewBusStop && (
                 <StopPlaceSearch />
             )}
             <StopPlacePanel />
