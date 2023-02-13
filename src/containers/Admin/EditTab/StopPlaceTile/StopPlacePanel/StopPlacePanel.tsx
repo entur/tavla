@@ -61,10 +61,11 @@ function StopPlacePanel(): JSX.Element {
     return (
         <div className={classes.StopPlacePanel}>
             <div className={classes.Header}>
+                {numberOfStations && (
+                    <>Kun nærmeste holdeplass vises i denne visningstypen</>
+                )}
                 <div onClick={(event): void => event.stopPropagation()}>
-                    {numberOfStations ? (
-                        <></>
-                    ) : (
+                    {!numberOfStations && (
                         <Checkbox
                             id="check-all-stop-places"
                             name="check-all-stop-places"
