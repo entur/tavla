@@ -44,16 +44,6 @@ const DashboardPickerTab = (): JSX.Element => {
                     altText=""
                 />
                 <RadioCard
-                    title="Holdeplass"
-                    description="Her får avgangene full bredde med god plass til å vise avviksmeldinger. Egner seg godt for når man er interessert i ett eller få stopp."
-                    value={DashboardTypes.BusStop}
-                    selected={settings.dashboard === DashboardTypes.BusStop}
-                    preview={dashboardImages.BusStop}
-                    onChange={handleChange}
-                    className={classes.DisplayCard}
-                    altText=""
-                />
-                <RadioCard
                     title="Responsiv"
                     description="Avgangene fyller ut skjermen automatisk i et rutenett basert på skjermstørrelse. Denne visningen, kombinert med tekststørrelse-instillingen i Tilpass Utseende fanen, egner seg for skjermer av ulike størrelser."
                     value={DashboardTypes.Responsive}
@@ -96,8 +86,10 @@ const DashboardPickerTab = (): JSX.Element => {
                 <RadioCard
                     title="Enkel holdeplassvisning"
                     description="Her får du avgangene med avviksmeldinger for én holdeplass. Dette er den nærmeste holdeplassen fra valgt sted. I tillegg vises bysykler og vær."
-                    value={DashboardTypes.NewBusStop}
-                    selected={settings.dashboard === DashboardTypes.NewBusStop}
+                    value={DashboardTypes.SimpleBusStop}
+                    selected={
+                        settings.dashboard === DashboardTypes.SimpleBusStop
+                    }
                     preview={dashboardImages.BusStop}
                     onChange={handleChange}
                     className={classes.DisplayCard}

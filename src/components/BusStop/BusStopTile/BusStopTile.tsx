@@ -114,10 +114,10 @@ const BusStopTile = ({
                                 </SubLabel>
                             </HeaderCell>
                         )}
-                        {!deviationUnder && (
+                        {!deviationUnder && !settings.hideSituations &&(
                             <HeaderCell className={classes.Cell}>
                                 Avvik
-                                <br />F
+                                <br />
                                 <SubLabel className={classes.Cell}>
                                     Deviations
                                 </SubLabel>
@@ -132,7 +132,7 @@ const BusStopTile = ({
                             departure={departure}
                             hideSituations={settings.hideSituations}
                             hideTracks={settings.hideTracks}
-                            deviationUnder={true}
+                            deviationUnder={deviationUnder}
                         />
                     ))}
                 </TableBody>

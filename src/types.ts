@@ -48,7 +48,7 @@ export enum DashboardTypes {
     Compact = 'Compact',
     Poster = 'Poster',
     Responsive = 'Responsive',
-    NewBusStop = 'NewBusStop',
+    SimpleBusStop = 'SimpleBusStop',
 }
 
 export enum IconColorType {

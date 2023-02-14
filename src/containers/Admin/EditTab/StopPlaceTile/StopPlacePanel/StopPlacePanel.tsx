@@ -11,7 +11,7 @@ import classes from './StopPlacePanel.module.scss'
 function StopPlacePanel(): JSX.Element {
     const [settings, setSettings] = useSettings()
     const numberOfStations =
-        settings.dashboard === DashboardTypes.NewBusStop ? 1 : undefined
+        settings.dashboard === DashboardTypes.SimpleBusStop ? 1 : undefined
 
     const { stopPlaceIds, loading } = useStopPlaceIds({
         distance: settings.distance,

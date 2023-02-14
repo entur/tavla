@@ -30,7 +30,7 @@ const DashboardResolver: React.FC = () => {
             return <Poster />
         case DashboardTypes.Responsive:
             return <ResponsiveDashboard />
-        case DashboardTypes.NewBusStop:
+        case DashboardTypes.SimpleBusStop:
             return <SimpleBusStopDashboard />
     }
 }
