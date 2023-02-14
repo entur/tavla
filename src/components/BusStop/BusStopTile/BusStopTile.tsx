@@ -114,7 +114,7 @@ const BusStopTile = ({
                                 </SubLabel>
                             </HeaderCell>
                         )}
-                        {!deviationUnder && !settings.hideSituations &&(
+                        {!deviationUnder && !settings.hideSituations && (
                             <HeaderCell className={classes.Cell}>
                                 Avvik
                                 <br />
