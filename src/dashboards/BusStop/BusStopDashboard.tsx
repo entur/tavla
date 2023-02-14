@@ -1,7 +1,7 @@
 import React from 'react'
 import { DashboardWrapper } from 'containers/DashboardWrapper/DashboardWrapper'
 import { useStopPlaceIds } from 'logic/use-stop-place-ids/useStopPlaceIds'
-import { BusStopTile } from './components/BusStopTile/BusStopTile'
+import { BusStopTile } from '../../components/BusStop/BusStopTile/BusStopTile'
 import classes from './BusStopDashboard.module.scss'
 
 const BusStopDashboard = (): JSX.Element | null => {
@@ -15,7 +15,10 @@ const BusStopDashboard = (): JSX.Element | null => {
                         key={stopPlaceId}
                         className={classes.BusStopTileWrapper}
                     >
-                        <BusStopTile stopPlaceId={stopPlaceId} />
+                        <BusStopTile
+                            stopPlaceId={stopPlaceId}
+                            className={classes.BusStopTile}
+                        />
                     </div>
                 ))}
             </div>

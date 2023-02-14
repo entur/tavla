@@ -6,7 +6,7 @@ import { WeatherIcon } from '../../components/WeatherTile/WeatherIcon/WeatherIco
 import { DashboardWrapper } from '../../containers/DashboardWrapper/DashboardWrapper'
 import { useWeather } from '../../logic'
 import { useStopPlaceIds } from '../../logic/use-stop-place-ids/useStopPlaceIds'
-import { BusStopTile } from '../BusStop/components/BusStopTile/BusStopTile'
+import { BusStopTile } from '../../components/BusStop/BusStopTile/BusStopTile'
 import classes from './SimpleBusStopDashboard.module.scss'
 
 const SimpleBusStopDashboard = (): JSX.Element => {
@@ -24,6 +24,7 @@ const SimpleBusStopDashboard = (): JSX.Element => {
                         stopPlaceId={stopPlaceId}
                         deviationUnder={true}
                         key={stopPlaceId}
+                        className={classes.SimpleStopTile}
                     />
                 ))}
                 <div className={classes.RightPriceTile}>

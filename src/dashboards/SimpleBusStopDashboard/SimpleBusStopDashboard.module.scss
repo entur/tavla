@@ -2,8 +2,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    max-height: 40rem;
-
+    max-height: 80vh;
 }
 
 .RightPriceTile {
@@ -19,4 +18,8 @@
     align-items: center;
     margin-bottom: 0.5rem;
     justify-content: center;
+}
+
+.SimpleStopTile {
+    height: 100%;
 }
