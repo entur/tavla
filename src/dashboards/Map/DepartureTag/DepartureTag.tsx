@@ -32,7 +32,10 @@ interface Props {
 const DepartureTag: React.FC<Props> = ({ stopPlaceId }): JSX.Element => {
     const [settings] = useSettings()
     const { stopPlaceWithEstimatedCalls, loading } =
-        useStopPlaceWithEstimatedCalls({ stopPlaceId })
+        useStopPlaceWithEstimatedCalls({
+            stopPlaceId,
+            hiddenStopModes: settings.hiddenStopModes,
+        })
 
     const departures = useMemo(
         () =>

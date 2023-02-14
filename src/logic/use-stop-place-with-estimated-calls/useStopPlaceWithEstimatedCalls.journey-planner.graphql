@@ -3,6 +3,7 @@ query StopPlaceWithEstimatedCalls(
     $timeRange: Int = 172800
     $numberOfDeparturesPerLineAndDestinationDisplay: Int = 20
     $numberOfDepartures: Int = 200
+    $whiteListedModes: [TransportMode]
 ) @api(name: journey_planner_v3) {
     stopPlace(id: $id) {
         id
@@ -17,6 +18,7 @@ query StopPlaceWithEstimatedCalls(
             timeRange: $timeRange
             numberOfDeparturesPerLineAndDestinationDisplay: $numberOfDeparturesPerLineAndDestinationDisplay
             arrivalDeparture: departures
+            whiteListedModes: $whiteListedModes
         ) {
             aimedDepartureTime
             cancellation

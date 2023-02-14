@@ -70,17 +70,14 @@ function toDeparture(estimatedCall: EstimatedCall): Departure {
 }
 
 /**
- * Create higher-order function that filters departures based on settings.hiddenRoutes and settings.hiddenStopModes
+ * Create higher-order function that filters departures based on settings.hiddenRoutes
  * @param stopPlaceId
  * @param settings
  */
 const filterHidden =
     (stopPlaceId: string, settings: Settings) =>
     (departure: Departure): boolean =>
-        !settings.hiddenRoutes[stopPlaceId]?.includes(departure.route) &&
-        !settings.hiddenStopModes[stopPlaceId]?.includes(
-            departure.transportMode,
-        )
+        !settings.hiddenRoutes[stopPlaceId]?.includes(departure.route)
 
 const byDepartureTime = (a: Departure, b: Departure) =>
     compareAsc(a.expectedDepartureTime, b.expectedDepartureTime)

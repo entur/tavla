@@ -1,6 +1,10 @@
 import { useMemo } from 'react'
 import { ApolloError } from '@apollo/client'
-import { useStopPlaceWithEstimatedCallsQuery } from 'graphql-generated/journey-planner-v3'
+import {
+    TransportMode,
+    useStopPlaceWithEstimatedCallsQuery,
+} from 'graphql-generated/journey-planner-v3'
+import { xor } from 'lodash'
 import { REFRESH_INTERVAL } from '../../constants'
 import {
     StopPlaceWithEstimatedCalls,
@@ -18,6 +22,7 @@ interface Options {
     timeRange?: number
     numberOfDeparturesPerLineAndDestinationDisplay?: number
     numberOfDepartures?: number
+    hiddenStopModes?: { [stopPlaceId: string]: TransportMode[] }
 }
 
 function useStopPlaceWithEstimatedCalls({
@@ -25,7 +30,16 @@ function useStopPlaceWithEstimatedCalls({
     timeRange,
     numberOfDeparturesPerLineAndDestinationDisplay,
     numberOfDepartures,
+    hiddenStopModes,
 }: Options): UseStopPlaceWithEstimatedCalls {
+    const whiteListedModes = useMemo(() => {
+        // In API, empty list means to fetch departures for all modes
+        if (!hiddenStopModes || !hiddenStopModes[stopPlaceId]) return []
+
+        const TransportModeValues = Object.values(TransportMode)
+        return xor(TransportModeValues, hiddenStopModes[stopPlaceId])
+    }, [hiddenStopModes, stopPlaceId])
+
     const { data, loading, error } = useStopPlaceWithEstimatedCallsQuery({
         pollInterval: REFRESH_INTERVAL,
         variables: {
@@ -33,6 +47,7 @@ function useStopPlaceWithEstimatedCalls({
             timeRange,
             numberOfDeparturesPerLineAndDestinationDisplay,
             numberOfDepartures,
+            whiteListedModes,
         },
     })
 
