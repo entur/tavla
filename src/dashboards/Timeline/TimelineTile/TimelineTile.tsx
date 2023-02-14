@@ -41,7 +41,10 @@ const TimelineTile: React.FC<Props> = ({ stopPlaceId }) => {
     )
 
     const { stopPlaceWithEstimatedCalls, loading } =
-        useStopPlaceWithEstimatedCalls({ stopPlaceId })
+        useStopPlaceWithEstimatedCalls({
+            stopPlaceId,
+            hiddenStopModes: settings.hiddenStopModes,
+        })
 
     const departures = useMemo(
         () =>
