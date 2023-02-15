@@ -15,7 +15,7 @@ const ReloadTile: React.FC = () => {
         setSettings({
             pageRefreshedAt: new Date().getTime(),
         })
-        if (oldRefreshTime === settings.pageRefreshedAt) {
+        if (oldRefreshTime !== settings.pageRefreshedAt) {
             addToast({
                 content: 'Alle tavlene er lastet inn på nytt',
                 variant: 'success',
