@@ -37,7 +37,11 @@ const BusStopTile = ({
     )
 
     const { stopPlaceWithEstimatedCalls, loading } =
-        useStopPlaceWithEstimatedCalls({ stopPlaceId, numberOfDepartures: 20 })
+        useStopPlaceWithEstimatedCalls({
+            stopPlaceId,
+            numberOfDepartures: 20,
+            hiddenStopModes: settings.hiddenStopModes,
+        })
 
     const departures = useMemo(
         () =>
