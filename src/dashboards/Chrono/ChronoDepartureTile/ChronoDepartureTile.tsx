@@ -34,7 +34,7 @@ const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
     const { stopPlaceWithEstimatedCalls, loading } =
         useStopPlaceWithEstimatedCalls({
             stopPlaceId,
-            numberOfDepartures: 20,
+            numberOfDeparturesPerLineAndDestinationDisplay: 20,
             hiddenStopModes: settings.hiddenStopModes,
         })
 
