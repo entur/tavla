@@ -7,7 +7,13 @@ import { LoginModal } from 'components/AccountModals/LoginModal/LoginModal'
 import { LoginCase } from 'components/AccountModals/LoginModal/login-modal-types'
 import { Theme } from 'src/types'
 import { Contrast } from '@entur/layout'
-import { GithubIcon, LogOutIcon, PrivacyIcon, UserIcon } from '@entur/icons'
+import {
+    ExternalIcon,
+    GithubIcon,
+    LogOutIcon,
+    PrivacyIcon,
+    UserIcon,
+} from '@entur/icons'
 import { TopNavigationItem } from '@entur/menu'
 import { useToast } from '@entur/alert'
 import classes from './Navbar.module.scss'
@@ -88,6 +94,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme }) => {
                         </li>
                         <li className={classes.Element}>
                             <TopNavigationItem
+                                target="_blank"
                                 className={classes.Link}
                                 as="a"
                                 href="https://github.com/entur/tavla"
@@ -97,6 +104,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme }) => {
                                     className={classes.Icon}
                                     size="20"
                                 />
+                                <ExternalIcon />
                             </TopNavigationItem>
                         </li>
                         <li className={classes.Element}>
