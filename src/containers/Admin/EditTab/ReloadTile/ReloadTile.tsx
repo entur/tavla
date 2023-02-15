@@ -4,7 +4,6 @@ import { Heading2, Paragraph } from '@entur/typography'
 import { Button } from '@entur/button'
 import { useToast } from '@entur/alert'
 import classes from './ReloadTile.module.scss'
-import { SettingsButton } from 'containers/DashboardWrapper/BottomMenu/buttons/SettingsButton'
 
 const ReloadTile: React.FC = () => {
     const [settings, setSettings] = useSettings()
@@ -22,7 +21,7 @@ const ReloadTile: React.FC = () => {
                 variant: 'success',
             })
         }
-    }, [addToast, setSettings])
+    }, [addToast, setSettings, oldRefreshTime, settings.pageRefreshedAt])
 
     return (
         <div className={classes.ReloadTile}>
