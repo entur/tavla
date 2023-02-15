@@ -2,7 +2,7 @@
   "projects": {
     "vehicles": {
       "name": "vehicles-v1",
-      "schemaPath": "graphql-schemas/vehicles-v1.json",
+      "schemaPath": ["graphql-schemas/vehicles-v1.json", "graphql-schemas/ApiDirective.graphql"],
       "includes": [
         "graphql-schemas/ApiDirective.graphql",
         "src/**/*.vehicles.graphql"
@@ -10,7 +10,7 @@
     },
     "journey-planner-v3": {
       "name": "journey-planner-v3",
-      "schemaPath": "graphql-schemas/journey-planner-v3.json",
+      "schemaPath": ["graphql-schemas/journey-planner-v3.json", "graphql-schemas/ApiDirective.graphql"],
       "includes": [
         "graphql-schemas/ApiDirective.graphql",
         "src/**/*.journey-planner.graphql"
@@ -18,7 +18,7 @@
     },
     "mobility-v2": {
       "name": "mobility-v2",
-      "schemaPath": "graphql-schemas/mobility-v2.json",
+      "schemaPath": ["graphql-schemas/mobility-v2.json", "graphql-schemas/ApiDirective.graphql"],
       "includes": [
         "graphql-schemas/ApiDirective.graphql",
         "src/**/*.mobility.graphql"
