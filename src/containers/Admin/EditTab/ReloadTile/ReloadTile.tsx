@@ -4,19 +4,24 @@ import { Heading2, Paragraph } from '@entur/typography'
 import { Button } from '@entur/button'
 import { useToast } from '@entur/alert'
 import classes from './ReloadTile.module.scss'
+import { SettingsButton } from 'containers/DashboardWrapper/BottomMenu/buttons/SettingsButton'
 
 const ReloadTile: React.FC = () => {
-    const [, setSettings] = useSettings()
+    const [settings, setSettings] = useSettings()
     const { addToast } = useToast()
+
+    const oldRefreshTime = settings.pageRefreshedAt
 
     const handleClick = useCallback(() => {
         setSettings({
             pageRefreshedAt: new Date().getTime(),
         })
-        addToast({
-            content: 'Alle tavlene er lastet inn på nytt',
-            variant: 'success',
-        })
+        if (oldRefreshTime === settings.pageRefreshedAt) {
+            addToast({
+                content: 'Alle tavlene er lastet inn på nytt',
+                variant: 'success',
+            })
+        }
     }, [addToast, setSettings])
 
     return (
