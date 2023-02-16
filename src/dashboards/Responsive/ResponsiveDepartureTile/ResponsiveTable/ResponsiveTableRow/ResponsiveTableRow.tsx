@@ -45,7 +45,21 @@ const ResponsiveTableRow: React.FC<{ departure: Departure }> = ({
                     </div>
                 )}
             </td>
-            <td className={classes.DepartureTime}>{departure.displayTime}</td>
+
+            {!departure.delayed ? (
+                <td className={classes.DepartureTime}>
+                    {departure.displayTime}
+                </td>
+            ) : (
+                <td className={classes.DepartureTime}>
+                    <span className={classes.DelayedTime}>
+                        {departure.displayTime}
+                    </span>
+                    <span className={classes.OutdatedTime}>
+                        {departure.formattedAimedDepartureTime}
+                    </span>
+                </td>
+            )}
         </tr>
     )
 }
