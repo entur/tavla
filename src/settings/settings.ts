@@ -40,6 +40,7 @@ interface Settings {
     newStops: string[]
     owners: string[]
     pageRefreshedAt: number
+    lastActive: number
     permanentlyVisibleRoutesInMap: DrawableRoute[]
     scooterDistance: { distance: number; enabled: boolean }
     showCustomTiles: boolean
@@ -84,6 +85,7 @@ const DEFAULT_SETTINGS: Settings = {
     newStops: [],
     owners: [],
     pageRefreshedAt: 0,
+    lastActive: 0,
     permanentlyVisibleRoutesInMap: [],
     scooterDistance: { distance: DEFAULT_DISTANCE, enabled: false },
     showCustomTiles: false,
