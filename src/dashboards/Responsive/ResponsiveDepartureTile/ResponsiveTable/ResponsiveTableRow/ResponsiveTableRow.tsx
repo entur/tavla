@@ -13,7 +13,7 @@ const ResponsiveTableRow: React.FC<{ departure: Departure }> = ({
     const [settings] = useSettings()
     const iconColor = getIconColor(
         departure.transportMode,
-        settings.theme == Theme.DEFAULT || Theme.DARK
+        settings.theme == Theme.DEFAULT || settings.theme == Theme.DARK
             ? IconColorType.CONTRAST
             : IconColorType.DEFAULT,
     )
