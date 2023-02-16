@@ -6,9 +6,15 @@ import classes from './SituationInfo.module.scss'
 
 interface SituationInfoProps {
     departure: Departure
+    shortVersion?: boolean
 }
-
-const SituationInfo = ({ departure }: SituationInfoProps) => {
+function getVersionOfSituation(situ: string) {
+    if (situ.length > 40) {
+        return situ.substring(0, 40) + '...'
+    }
+    return situ
+}
+const SituationInfo = ({ departure, shortVersion }: SituationInfoProps) => {
     const situation =
         departure.situations[0]?.summary[0]?.value ||
         departure.situations[0]?.description[0]?.value
@@ -24,7 +30,7 @@ const SituationInfo = ({ departure }: SituationInfoProps) => {
                     <ValidationExclamation />
                 )}
             </span>
-            {situation}
+            {shortVersion ? getVersionOfSituation(situation) : situation}
         </>
     )
 }

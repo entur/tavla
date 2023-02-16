@@ -20,9 +20,10 @@ import classes from './BusStopTile.module.scss'
 
 interface Props {
     stopPlaceId: string
+    deviationUnder?: boolean
 }
 
-const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
+const BusStopTile = ({ stopPlaceId, deviationUnder }: Props): JSX.Element => {
     const [settings] = useSettings()
     const iconColorType = useMemo(
         () => getIconColorType(settings.theme),
@@ -111,7 +112,7 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
                                 </SubLabel>
                             </HeaderCell>
                         )}
-                        {!settings.hideSituations && (
+                        {deviationUnder && !settings.hideSituations && (
                             <HeaderCell className={classes.Cell}>
                                 Avvik
                                 <br />
@@ -129,6 +130,7 @@ const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
                             departure={departure}
                             hideSituations={settings.hideSituations}
                             hideTracks={settings.hideTracks}
+                            deviationUnder={deviationUnder}
                         />
                     ))}
                 </TableBody>

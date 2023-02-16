@@ -8,16 +8,32 @@ interface Props {
     departure: Departure
     hideSituations: boolean | undefined
     hideTracks: boolean | undefined
+    deviationUnder?: boolean
 }
 
 function BusStopTableRow({
     departure,
     hideSituations,
     hideTracks,
+    deviationUnder,
 }: Props): JSX.Element {
+    if (deviationUnder) {
+        hideSituations = true
+    }
     return (
         <TableRow className={classes.TableRow}>
             <DataCell className={classes.Line}>{departure.publicCode}</DataCell>
+            <DataCell className={classes.Route}>
+                {departure.frontText} <br></br>
+                {deviationUnder && (
+                    <span className={classes.DeviationUnder}>
+                        <SituationInfo
+                            departure={departure}
+                            shortVersion={true}
+                        />
+                    </span>
+                )}
+            </DataCell>
             <DataCell className={classes.Route}>{departure.frontText}</DataCell>
             <DataCell className={classes.Time}>
                 {!departure.delayed ? (
