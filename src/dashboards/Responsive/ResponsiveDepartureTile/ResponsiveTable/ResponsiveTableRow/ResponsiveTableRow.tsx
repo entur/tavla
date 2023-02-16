@@ -39,9 +39,11 @@ const ResponsiveTableRow: React.FC<{ departure: Departure }> = ({
             </td>
             <td className={classes.DepartureName}>
                 {departure.frontText}
-                <div className={classes.Situation}>
-                    <SituationInfo departure={departure} />
-                </div>
+                {!settings.hideSituations && (
+                    <div className={classes.Situation}>
+                        <SituationInfo departure={departure} />
+                    </div>
+                )}
             </td>
             <td className={classes.DepartureTime}>{departure.displayTime}</td>
         </tr>
