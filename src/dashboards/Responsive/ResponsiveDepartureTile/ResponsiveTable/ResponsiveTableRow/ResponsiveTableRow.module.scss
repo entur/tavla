@@ -1,5 +1,5 @@
 .TableRow {
-    border-bottom: 2px solid var(--tavla-hover-color);
+    border-bottom: 2px solid var(--tavla-checkbox-color);
 
     & td {
         padding-top: 1rem;
@@ -12,9 +12,9 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0 0.5rem;
-    border-radius: 0.25rem;
-    color: #fff;
+    padding: 0.375rem 0.875rem;
+    border-radius: 0.5rem;
+    color: var(--tavla-background-color);
 }
 
 .DepartureName {
@@ -24,11 +24,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 400;
 }
 
 .Situation {
-    font-size: 1.5rem;
-    font-weight: 400;
+    font-size: 1.125rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -37,4 +37,8 @@
 .DepartureTime {
     white-space: nowrap;
     text-align: right;
+}
+
+.PublicCode {
+    font-size: 1.625rem;
 }

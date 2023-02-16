@@ -4,14 +4,19 @@ import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIco
 import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
 import { IconColorType } from 'src/types'
 import { getIconColor } from 'utils/icon'
+import { isDarkOrDefaultTheme } from 'utils/utils'
+import { useSettings } from 'settings/SettingsProvider'
 import classes from './ResponsiveTableRow.module.scss'
 
 const ResponsiveTableRow: React.FC<{ departure: Departure }> = ({
     departure,
 }) => {
+    const [settings] = useSettings()
     const iconColor = getIconColor(
         departure.transportMode,
-        IconColorType.DEFAULT,
+        isDarkOrDefaultTheme(settings.theme)
+            ? IconColorType.CONTRAST
+            : IconColorType.DEFAULT,
     )
 
     return (
@@ -25,9 +30,11 @@ const ResponsiveTableRow: React.FC<{ departure: Departure }> = ({
                 >
                     <TransportModeIcon
                         transportMode={departure.transportMode}
-                        color="white"
+                        color="inherit"
                     />
-                    {departure.publicCode}
+                    <span className={classes.PublicCode}>
+                        {departure.publicCode}
+                    </span>
                 </span>
             </td>
             <td className={classes.DepartureName}>
