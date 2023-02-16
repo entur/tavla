@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
 import { Heading2, Paragraph } from '@entur/typography'
 import { Button } from '@entur/button'
@@ -9,19 +9,23 @@ const ReloadTile: React.FC = () => {
     const [settings, setSettings] = useSettings()
     const { addToast } = useToast()
 
-    const oldRefreshTime = settings.pageRefreshedAt
+    const [firstLoad, setFirstLoad] = useState(true)
 
-    const handleClick = useCallback(() => {
-        setSettings({
-            pageRefreshedAt: new Date().getTime(),
-        })
-        if (oldRefreshTime !== settings.pageRefreshedAt) {
+    useEffect(() => {
+        if (!firstLoad) {
             addToast({
                 content: 'Alle tavlene er lastet inn på nytt',
                 variant: 'success',
             })
         }
-    }, [addToast, setSettings, oldRefreshTime, settings.pageRefreshedAt])
+        setFirstLoad(false)
+    }, [settings.pageRefreshedAt, addToast])
+
+    const handleClick = useCallback(() => {
+        setSettings({
+            pageRefreshedAt: new Date().getTime(),
+        })
+    }, [setSettings])
 
     return (
         <div className={classes.ReloadTile}>
