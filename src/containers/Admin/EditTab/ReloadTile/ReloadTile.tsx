@@ -9,21 +9,19 @@ const ReloadTile: React.FC = () => {
     const [settings, setSettings] = useSettings()
     const { addToast } = useToast()
 
-    const [firstLoad, setFirstLoad] = useState(true)
+    const [initialPageRefreshed, setInitialPageRefreshed] = useState(
+        settings.pageRefreshedAt,
+    )
 
     useEffect(() => {
-        if (!firstLoad) {
+        if (initialPageRefreshed !== settings.pageRefreshedAt) {
             addToast({
                 content: 'Alle tavlene er lastet inn på nytt',
                 variant: 'success',
             })
+            setInitialPageRefreshed(settings.pageRefreshedAt)
         }
-        if (firstLoad) {
-            setFirstLoad(false)
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [settings.pageRefreshedAt, addToast])
+    }, [settings.pageRefreshedAt, addToast, initialPageRefreshed])
 
     const handleClick = useCallback(() => {
         setSettings({
