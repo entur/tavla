@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
 import { Heading2, Paragraph } from '@entur/typography'
 import { Button } from '@entur/button'
@@ -6,18 +6,28 @@ import { useToast } from '@entur/alert'
 import classes from './ReloadTile.module.scss'
 
 const ReloadTile: React.FC = () => {
-    const [, setSettings] = useSettings()
+    const [settings, setSettings] = useSettings()
     const { addToast } = useToast()
+
+    const [initialPageRefreshed, setInitialPageRefreshed] = useState(
+        settings.pageRefreshedAt,
+    )
+
+    useEffect(() => {
+        if (initialPageRefreshed !== settings.pageRefreshedAt) {
+            addToast({
+                content: 'Alle tavlene er lastet inn på nytt',
+                variant: 'success',
+            })
+            setInitialPageRefreshed(settings.pageRefreshedAt)
+        }
+    }, [settings.pageRefreshedAt, addToast, initialPageRefreshed])
 
     const handleClick = useCallback(() => {
         setSettings({
             pageRefreshedAt: new Date().getTime(),
         })
-        addToast({
-            content: 'Alle tavlene er lastet inn på nytt',
-            variant: 'success',
-        })
-    }, [addToast, setSettings])
+    }, [setSettings])
 
     return (
         <div className={classes.ReloadTile}>
