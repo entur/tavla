@@ -18,7 +18,10 @@ const ReloadTile: React.FC = () => {
                 variant: 'success',
             })
         }
-        setFirstLoad(false)
+        if (firstLoad) {
+            setFirstLoad(false)
+        }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [settings.pageRefreshedAt, addToast])
 
