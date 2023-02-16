@@ -19,6 +19,7 @@ const ReloadTile: React.FC = () => {
             })
         }
         setFirstLoad(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [settings.pageRefreshedAt, addToast])
 
     const handleClick = useCallback(() => {
