@@ -8,11 +8,11 @@ interface SituationInfoProps {
     departure: Departure
     shortVersion?: boolean
 }
-function getVersionOfSituation(situ: string) {
-    if (situ.length > 40) {
-        return situ.substring(0, 40) + '...'
+function getVersionOfSituation(situation: string) {
+    if (situation.length > 40) {
+        return situation.substring(0, 40) + '...'
     }
-    return situ
+    return situation
 }
 const SituationInfo = ({ departure, shortVersion }: SituationInfoProps) => {
     const situation =
