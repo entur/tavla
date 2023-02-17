@@ -1,10 +1,5 @@
 .TableRow {
     border-bottom: 2px solid var(--tavla-checkbox-color);
-
-    & td {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
 }
 
 .RouteNumber {
@@ -20,7 +15,7 @@
 .DepartureName {
     max-width: 0;
     width: 100%;
-    padding-left: 1rem;
+    padding: 1rem 0 1rem 1rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -41,4 +36,15 @@
 
 .PublicCode {
     font-size: 1.625rem;
+}
+
+.DelayedTime {
+    display: block;
+    color: var(--tavla-failure-font-color);
+}
+
+.OutdatedTime {
+    display: block;
+    text-decoration: line-through;
+    font-size: 1.5rem;
 }
