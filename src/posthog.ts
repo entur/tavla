@@ -1,4 +1,4 @@
-import posthog from 'posthog-js'
+import { posthog } from 'posthog-js'
 
 export function initalizePosthog() {
     if (process.env.POSTHOG_TOKEN) {
