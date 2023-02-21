@@ -14,3 +14,5 @@ jobs:
               run: yarn run format:check
             - name: Eslint
               run: yarn run eslint
+            - name: Stylelint
+              run: yarn run stylelint
