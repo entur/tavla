@@ -1,5 +1,5 @@
 import React from 'react'
-import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
+import { Departure } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { SituationInfo } from 'components/SituationInfo/SituationInfo'
 import { DateDisplay } from 'components/DateDisplay'
 import { differenceInCalendarDays } from 'date-fns'

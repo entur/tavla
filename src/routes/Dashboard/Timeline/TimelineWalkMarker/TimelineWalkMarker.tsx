@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { Coordinates } from 'src/types'
-import { useWalkTrip } from 'logic/use-walk-trip/useWalkTrip'
+import { useWalkTrip } from 'hooks/use-walk-trip/useWalkTrip'
 import { WalkingIcon } from '@entur/icons'
 import { competitorPosition } from '../utils'
 import classes from './TimelineWalkMarker.module.scss'

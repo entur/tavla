@@ -2,9 +2,9 @@ import React, { useCallback } from 'react'
 import {
     AutocompleteItem,
     fetchAutocomplete,
-} from 'logic/geocoder/fetchAutocomplete'
+} from 'utils/geocoder/fetchAutocomplete'
 import { useSettings } from 'settings/SettingsProvider'
-import { useStopPlaceIds } from 'logic/use-stop-place-ids/useStopPlaceIds'
+import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { Dropdown } from '@entur/dropdown'
 import classes from './StopPlaceSearch.module.scss'
 
