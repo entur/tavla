@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { Navbar } from 'src/containers/Navbar/Navbar'
 import { Contrast } from '@entur/layout'
 import {
     Heading1,
@@ -8,10 +9,9 @@ import {
     Link as EnturLink,
     Paragraph,
 } from '@entur/typography'
-import { Navbar } from '../Navbar/Navbar'
 import classes from './Sitemap.module.scss'
 
-const Sitemap: React.FC = () => {
+function Sitemap() {
     const [searchParams] = useSearchParams()
     const documentId = useMemo(
         () => searchParams.get('documentId'),

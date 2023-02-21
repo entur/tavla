@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Helmet } from 'react-helmet'
 import { useNavigate, useParams } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { LoginModal } from 'components/AccountModals/LoginModal/LoginModal'
@@ -63,31 +62,6 @@ function LockedTavle(): JSX.Element {
                 theme={settings.theme}
             />
         </div>
-    )
-}
-
-function PageDoesNotExist(): JSX.Element {
-    const navigate = useNavigate()
-    const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
-        event.preventDefault()
-        navigate(`/`)
-    }
-    return (
-        <>
-            <Helmet>
-                <title>Siden finnes ikke - Tavla - Entur</title>
-            </Helmet>
-            <Navbar />
-            <div>
-                <ErrorWrapper
-                    title="Her var det tomt!"
-                    message="Det finnes ingen tavle på denne url-en. Du kan lage en avgangstavle ved å trykke på knappen nedenfor."
-                    image={duerLight}
-                    callbackMessage="Gå tilbake"
-                    callback={callback}
-                />
-            </div>
-        </>
     )
 }
 
@@ -172,7 +146,6 @@ function NoAccessToTavler(): JSX.Element {
 
 export {
     LockedTavle,
-    PageDoesNotExist,
     NoTavlerAvailable,
     NoStopsOnTavle,
     NoSharedTavlerAvailable,
