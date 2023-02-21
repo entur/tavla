@@ -67,6 +67,7 @@
         "google-polyline": "1.0.3",
         "graphql": "16.6.0",
         "lodash": "4.17.21",
+        "posthog-js": "1.45.1",
         "react": "18.2.0",
         "react-app-polyfill": "3.0.0",
         "react-dom": "18.2.0",
