@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useParams } from 'react-router-dom'
-import { useStopPlaceIds } from 'logic/use-stop-place-ids/useStopPlaceIds'
+import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { ResizeHandle } from 'assets/icons/ResizeHandle'
 import { getFromLocalStorage, saveToLocalStorage } from 'settings/LocalStorage'
 import { useSettings } from 'settings/SettingsProvider'
