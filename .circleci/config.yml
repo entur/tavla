@@ -1,0 +1,109 @@
+version: 2.1
+aliases:
+    - &ssh-fingerprint
+      fingerprints:
+          - “ab:f2:26:09:86:b8:d3:28:be:bd:5b:86:7d:70:3e:ce”
+    - &filter-only-master
+      branches:
+          only:
+              - master
+    - &filter-only-release
+      branches:
+          only:
+              - /release-.*/
+commands:
+    setup-service-accounts:
+        steps:
+            - run: echo $FIREBASE_DEPLOY_CREDENTIALS_STAGING > /tmp/serviceaccount.staging.json
+            - run: echo $FIREBASE_DEPLOY_CREDENTIALS_PROD > /tmp/serviceaccount.prod.json
+
+parameters:
+    action:
+        type: enum
+        enum: [none,build, deploy-staging, deploy-prod]
+        default: none
+jobs:
+    test:
+        docker:
+            - image: cimg/node:18.12
+
+        working_directory: ~/Tavla
+
+        steps:
+            - checkout
+            - add_ssh_keys: *ssh-fingerprint
+            - run: npm install
+            - run: npm test
+            - run: npm run lint
+
+    build:
+        docker:
+            - image: cimg/node:18.12
+
+        working_directory: ~/Tavla
+
+        steps:
+            - checkout
+            - add_ssh_keys: *ssh-fingerprint
+            - run: npm ci --verbose
+            - run: npm test
+            - run: npm run lint
+
+    deploy:
+        docker:
+            - image: cimg/node:18.12
+
+        working_directory: ~/Tavla
+
+        steps:
+            - setup-service-accounts
+            - checkout
+            - add_ssh_keys: *ssh-fingerprint
+            - run: npm ci
+            - run: &install-cf
+                  name: Install functions
+                  working_directory: ~/Tavla/functions
+                  command: npm ci
+            - run:
+                  name: Deploy web
+                  command:
+                      GOOGLE_APPLICATION_CREDENTIALS="/tmp/serviceaccount.prod.json"
+                      npm run deploy:prod
+    deploy-staging:
+        docker:
+            - image: cimg/node:18.12
+
+        working_directory: ~/Tavla
+
+        steps:
+            - setup-service-accounts
+            - checkout
+            - add_ssh_keys: *ssh-fingerprint
+            - run: npm ci
+            - run: *install-cf
+            - run:
+                  name: Deploy web staging
+                  command:
+                      GOOGLE_APPLICATION_CREDENTIALS="/tmp/serviceaccount.staging.json"
+                      npm run deploy:staging
+workflows:
+    version: 2
+    build:
+        when:
+            equal: [build, << pipeline.parameters.action >>]
+        jobs:
+            - build
+    deploy-staging:
+        when:
+            and:
+                - equal: [deploy-staging, << pipeline.parameters.action >>]
+                - equal: [master, << pipeline.git.branch >>]
+        jobs:
+            - deploy-staging
+    deploy-prod:
+        when:
+            and:
+                - equal: [deploy-prod, << pipeline.parameters.action >>]
+                - equal: [master, << pipeline.git.branch >>]
+        jobs:
+            - deploy
