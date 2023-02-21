@@ -7,8 +7,8 @@ import { useStopPlaceIds } from 'logic/use-stop-place-ids/useStopPlaceIds'
 import { toDeparture } from 'logic/use-stop-place-with-estimated-calls/departure'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { toStopPlaceWithEstimatedCalls } from 'logic/use-stop-place-with-estimated-calls/types'
+import { REFRESH_INTERVAL } from 'src/constants'
 import { BusIcon } from '@entur/icons'
-import { REFRESH_INTERVAL } from '../../../../constants'
 import classes from './BusTile.module.scss'
 
 function BusTile(): JSX.Element {

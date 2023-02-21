@@ -9,10 +9,13 @@ import {
 } from 'settings/firebase'
 import { useUser } from 'src/UserProvider'
 import { Board, SharedBoard } from 'src/types'
+import {
+    NoAccessToTavler,
+    NoTavlerAvailable,
+} from 'containers/Error/ErrorPages'
+import { Navbar } from 'containers/Navbar/Navbar'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 import { Contrast, NotificationBadge } from '@entur/layout'
-import { NoTavlerAvailable, NoAccessToTavler } from '../Error/ErrorPages'
-import { Navbar } from '../Navbar/Navbar'
 import { SharedBoards } from './SharedBoards/SharedBoards'
 import { OwnedBoards } from './OwnedBoards/OwnedBoards'
 import classes from './MyBoards.module.scss'

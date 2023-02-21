@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DepartureIcon } from 'dashboards/Map/DepartureIcon/DepartureIcon'
+import { DepartureIcon } from 'src/routes/Dashboard/Map/DepartureIcon/DepartureIcon'
 import { getFeedbackString, getLastUpdated } from 'utils/time'
 import { getIconColor } from 'utils/icon'
 import { IconColorType } from 'src/types'
