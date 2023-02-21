@@ -6,7 +6,7 @@ import {
 } from 'graphql-generated/vehicles-v1'
 import { useSettings } from 'settings/SettingsProvider'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import { SWEEP_INTERVAL_MS, BUFFER_SIZE, BUFFER_TIME } from '../../constants'
+import { SWEEP_INTERVAL_MS, BUFFER_SIZE, BUFFER_TIME } from 'utils/constants'
 import { useUniqueLines } from '../use-unique-lines/useUniqueLines'
 import { useVehicleReducer, ActionType } from './useRealtimeVehicleReducer'
 import { RealtimeVehicle, toRealtimeVehicle } from './types'
