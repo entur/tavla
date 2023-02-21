@@ -5,7 +5,7 @@ import {
     useRentalStationsQuery,
 } from 'graphql-generated/mobility-v2'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import { REFRESH_INTERVAL } from '../../constants'
+import { REFRESH_INTERVAL } from 'utils/constants'
 import { useStationIds } from '../use-station-ids/useStationIds'
 import { toRentalStation, RentalStation } from './types'
 
