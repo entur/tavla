@@ -12,7 +12,7 @@ import { MapTile } from 'components/MapTile/MapTile'
 import { MobileAppQRTile } from 'components/MobileAppQRTile/MobileAppQRTile'
 import { QRTile } from 'components/QRTile/QRTile'
 import { Loader } from 'components/Loader/Loader'
-import { BREAKPOINTS } from '../../constants'
+import { BREAKPOINTS } from 'utils/constants'
 import { DashboardWrapper } from '../DashboardWrapper/DashboardWrapper'
 import classes from './ResponsiveGridDashboard.module.scss'
 
