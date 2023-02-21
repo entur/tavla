@@ -5,7 +5,7 @@ import {
     useStopPlaceWithEstimatedCallsQuery,
 } from 'graphql-generated/journey-planner-v3'
 import { xor } from 'lodash'
-import { REFRESH_INTERVAL } from '../../constants'
+import { REFRESH_INTERVAL } from 'utils/constants'
 import {
     StopPlaceWithEstimatedCalls,
     toStopPlaceWithEstimatedCalls,

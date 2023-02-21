@@ -9,10 +9,10 @@ import { xor } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
 import { useScooterPanelQuery } from 'graphql-generated/mobility-v2'
 import { isNotNullOrUndefined } from 'utils/typeguards'
+import { ALL_ACTIVE_OPERATOR_IDS } from 'utils/constants'
 import { Fieldset, Switch, TextField } from '@entur/form'
 import type { VariantType } from '@entur/form'
 import { FilterChip } from '@entur/chip'
-import { ALL_ACTIVE_OPERATOR_IDS } from '../../../../../constants'
 import classes from './ScooterPanel.module.scss'
 
 function ScooterPanel(): JSX.Element {
