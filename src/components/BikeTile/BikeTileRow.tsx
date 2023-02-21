@@ -1,6 +1,6 @@
 import React from 'react'
 import { getTranslation } from 'utils/utils'
-import { RentalStation } from 'logic/use-rental-stations/types'
+import { RentalStation } from 'hooks/use-rental-stations/types'
 import { Heading3 } from '@entur/typography'
 import { BicycleIcon } from '@entur/icons'
 import { WalkTrip } from '../WalkTrip/WalkTrip'

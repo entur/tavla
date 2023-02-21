@@ -7,12 +7,12 @@ import { Loader } from 'components/Loader/Loader'
 import { groupBy } from 'lodash'
 import { getIconColorType, getTransportHeaderIcons } from 'utils/icon'
 import { useSettings } from 'settings/SettingsProvider'
-import { useStopPlaceWithEstimatedCalls } from 'logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
+import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
     Departure,
     filterHidden,
     toDeparture,
-} from 'logic/use-stop-place-with-estimated-calls/departure'
+} from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { Mode } from 'graphql-generated/journey-planner-v3'
 import { Tick } from '../Tick/Tick'
 import { TICKS } from '../utils'

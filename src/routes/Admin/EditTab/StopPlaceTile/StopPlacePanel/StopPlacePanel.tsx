@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
-import { useStopPlaceIds } from 'logic/use-stop-place-ids/useStopPlaceIds'
+import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { Loader } from 'components/Loader/Loader'
 import { Paragraph } from '@entur/typography'
 import { Checkbox } from '@entur/form'
