@@ -1,7 +1,7 @@
 import React from 'react'
 import type { SharedBoard } from 'src/types'
+import { NoSharedTavlerAvailable } from 'containers/Error/ErrorPages'
 import { Contrast } from '@entur/layout'
-import { NoSharedTavlerAvailable } from '../../Error/ErrorPages'
 import { SharedBoardCard } from './SharedBoardCard/SharedBoardCard'
 
 const SharedBoards = ({ sharedBoards }: Props): JSX.Element => {
