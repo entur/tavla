@@ -20,7 +20,7 @@ commands:
 parameters:
     action:
         type: enum
-        enum: [none,build, deploy-staging, deploy-prod]
+        enum: [none, build, deploy-staging, deploy-prod]
         default: none
 jobs:
     test:
