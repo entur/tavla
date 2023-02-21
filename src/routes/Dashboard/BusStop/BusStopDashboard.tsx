@@ -1,6 +1,6 @@
 import React from 'react'
 import { DashboardWrapper } from 'containers/DashboardWrapper/DashboardWrapper'
-import { useStopPlaceIds } from 'logic/use-stop-place-ids/useStopPlaceIds'
+import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { BusStopTile } from './components/BusStopTile/BusStopTile'
 
 const BusStopDashboard = (): JSX.Element | null => {

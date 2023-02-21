@@ -1,7 +1,7 @@
 import React from 'react'
 import { SituationInfo } from 'components/SituationInfo/SituationInfo'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
-import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
+import { Departure } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { IconColorType } from 'src/types'
 import { getIconColor } from 'utils/icon'
 import { isDarkOrDefaultTheme } from 'utils/utils'

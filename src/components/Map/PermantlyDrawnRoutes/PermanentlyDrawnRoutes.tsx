@@ -4,8 +4,8 @@ import { useSettings } from 'settings/SettingsProvider'
 import { DrawableRoute, IconColorType } from 'src/types'
 import { getIconColor } from 'utils/icon'
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
-import { useUniqueLines } from 'logic/use-unique-lines/useUniqueLines'
-import { Line } from 'logic/use-unique-lines/line'
+import { useUniqueLines } from 'hooks/use-unique-lines/useUniqueLines'
+import { Line } from 'hooks/use-unique-lines/line'
 import { LineOverlay } from '../RealtimeVehicleTag/LineOverlay/LineOverlay'
 
 const PermanentlyDrawnRoutes: React.FC = () => {
