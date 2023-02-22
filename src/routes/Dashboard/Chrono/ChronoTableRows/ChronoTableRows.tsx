@@ -1,15 +1,14 @@
 import React, { Fragment } from 'react'
-import { IconColorType } from 'src/types'
+import { Departure, IconColorType } from 'src/types'
 import { createTileSubLabel } from 'utils/utils'
 import { NewDayTableRow } from 'components/NewDayTableRow/NewDayTableRow'
 import { SubLabelIcon } from 'components/SubLabelIcon/SubLabelIcon'
-import { Departure } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
 import { DataCell, TableBody, TableRow } from '@entur/table'
 import { Heading3 } from '@entur/typography'
 import classes from './ChronoTableRows.module.scss'
 
-interface ChronoTableRowsProps {
+type ChronoTableRowsProps = {
     visibleDepartures: Departure[]
     hideSituations: boolean
     hideTracks: boolean

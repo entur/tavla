@@ -1,6 +1,6 @@
 import { number, type } from 'superstruct'
 
-interface WalkTrip {
+type WalkTrip = {
     duration: number
     walkDistance: number
 }

@@ -1,7 +1,7 @@
 /*
- Partial interface for Feature from the geocoder endpoint. Only describes the properties we use
+ Partial type for Feature from the geocoder endpoint. Only describes the properties we use
  */
-interface Feature {
+type Feature = {
     geometry: {
         coordinates: [number, number]
     }
@@ -12,7 +12,7 @@ interface Feature {
     }
 }
 
-interface GeocoderResults {
+type GeocoderResults = {
     features: Feature[]
 }
 

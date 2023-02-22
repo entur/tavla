@@ -1,21 +1,26 @@
 import React from 'react'
 import { FieldValue, Timestamp } from 'firebase/firestore'
+import {
+    TransportMode,
+    TransportSubmode,
+} from 'graphql-generated/journey-planner-v3'
+import { EstimatedCall } from 'hooks/use-stop-place-with-estimated-calls/types'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
 import { Settings } from './settings/settings'
 
-export interface Coordinates {
+export type Coordinates = {
     latitude: number
     longitude: number
 }
 
-export interface DrawableRoute {
+export type DrawableRoute = {
     pointsOnLink: string
     mode: string
     lineRef: string
 }
 
-export interface TileSubLabel {
+export type TileSubLabel = {
     situation?: string
     displayTime: string
     expectedDepartureTime: Date
@@ -60,7 +65,7 @@ export enum CustomTileType {
     Image = 'image',
 }
 
-export interface CustomTile {
+export type CustomTile = {
     id: string
     type: CustomTileType
     displayName: string
@@ -68,19 +73,19 @@ export interface CustomTile {
     description?: string
     displayHeader?: string
 }
-export interface BoardOwnersData {
+export type BoardOwnersData = {
     uid: string
     email: string
 }
 
-export interface Board {
+export type Board = {
     data: Settings
     id: string
     lastmodified: Timestamp
     created: Timestamp
 }
 
-export interface SharedBoard {
+export type SharedBoard = {
     id: string
     boardName: string
     sharedBy: string
@@ -90,13 +95,13 @@ export interface SharedBoard {
     timeIssued: Timestamp
 }
 
-export interface Invite {
+export type Invite = {
     receiver: string
     sender: string
     timeIssued: FieldValue
     boardId?: string
 }
-export interface Viewport {
+export type Viewport = {
     latitude: number
     longitude: number
     width: string
@@ -104,6 +109,40 @@ export interface Viewport {
     zoom: number
     maxZoom: number
     minZoom: number
+}
+
+export type UserLogin = {
+    email: string
+    password: string
+}
+
+export type EnturLogoStyle = 'white' | 'black' | 'contrast'
+
+export type Departure = {
+    id: string
+    aimedDepartureTime: Date
+    expectedDepartureTime: Date
+    formattedAimedDepartureTime: string
+    formattedExpectedDepartureTime: string
+    delayed: boolean
+    transportMode: TransportMode
+    transportSubmode: TransportSubmode
+    displayTime: string
+    publicCode: string
+    frontText: string
+    route: string
+    situations: EstimatedCall['situations']
+    cancellation: boolean
+    quay: EstimatedCall['quay']
+}
+
+export type Line = {
+    id: string
+    name: string
+    transportMode: TransportMode
+    transportSubmode: TransportSubmode
+    publicCode: string
+    pointsOnLink: string
 }
 
 /* Augment the proptype of @entur/alert ToastProvider with children definition.

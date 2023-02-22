@@ -4,8 +4,14 @@ import { Operator } from 'graphql-generated/mobility-v2'
 import { ScooterIcon } from '@entur/icons'
 import classes from './ScooterMarkerTag.module.scss'
 
-const ScooterMarkerTag = ({ pointCount, operator }: Props): JSX.Element =>
-    pointCount ? (
+function ScooterMarkerTag({
+    pointCount,
+    operator,
+}: {
+    pointCount: number
+    operator: Operator | null
+}) {
+    return pointCount ? (
         <div className={classes.ClusterMarker}>
             <ScooterIcon className={classes.ScooterIcon}></ScooterIcon>
             <div className={classes.PointCount}>
@@ -15,10 +21,6 @@ const ScooterMarkerTag = ({ pointCount, operator }: Props): JSX.Element =>
     ) : (
         <ScooterOperatorLogo operator={operator} size={24} />
     )
-
-interface Props {
-    pointCount: number
-    operator: Operator | null
 }
 
 export { ScooterMarkerTag }

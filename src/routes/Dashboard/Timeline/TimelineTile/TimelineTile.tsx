@@ -9,11 +9,11 @@ import { getIconColorType, getTransportHeaderIcons } from 'utils/icon'
 import { useSettings } from 'settings/SettingsProvider'
 import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
-    Departure,
     filterHidden,
     toDeparture,
 } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { Mode } from 'graphql-generated/journey-planner-v3'
+import { Departure } from 'src/types'
 import { Tick } from '../Tick/Tick'
 import { TICKS } from '../utils'
 import { TimelineWalkMarker } from '../TimelineWalkMarker/TimelineWalkMarker'
@@ -29,11 +29,7 @@ function orderDepartures(a: Departure, b: Departure): number {
     )
 }
 
-interface Props {
-    stopPlaceId: string
-}
-
-const TimelineTile: React.FC<Props> = ({ stopPlaceId }) => {
+function TimelineTile({ stopPlaceId }: { stopPlaceId: string }) {
     const [settings] = useSettings()
     const iconColorType = useMemo(
         () => getIconColorType(settings.theme),

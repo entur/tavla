@@ -18,11 +18,7 @@ import { Table, TableRow, TableHead, HeaderCell, TableBody } from '@entur/table'
 import { BusStopTableRow } from '../BusStopTableRow/BusStopTableRow'
 import classes from './BusStopTile.module.scss'
 
-interface Props {
-    stopPlaceId: string
-}
-
-const BusStopTile = ({ stopPlaceId }: Props): JSX.Element => {
+function BusStopTile({ stopPlaceId }: { stopPlaceId: string }) {
     const [settings] = useSettings()
     const iconColorType = useMemo(
         () => getIconColorType(settings.theme),

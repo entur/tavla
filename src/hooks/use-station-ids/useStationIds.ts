@@ -5,20 +5,18 @@ import { FormFactor, useStationIdsQuery } from 'graphql-generated/mobility-v2'
 import { useSettings } from 'settings/SettingsProvider'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 
-interface UseNearbyStationIds {
-    stationIds: string[]
-    loading: boolean
-    error: ApolloError | undefined
-}
-
-interface Options {
+type Options = {
     formFactors?: FormFactor[]
     filterHidden?: boolean
 }
 
 function useStationIds(
     { formFactors, filterHidden }: Options = { filterHidden: true },
-): UseNearbyStationIds {
+): {
+    stationIds: string[]
+    loading: boolean
+    error: ApolloError | undefined
+} {
     const [settings] = useSettings()
 
     const { data, loading, error } = useStationIdsQuery({

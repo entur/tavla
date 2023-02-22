@@ -6,20 +6,15 @@ import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
 import classes from './CustomTileModal.module.scss'
 
-interface CustomTileModalProps {
-    setIsOpen: (isOpen: boolean) => void
-    selectedTileId?: string
-}
+type ActionType = 'Update' | 'AddNew'
 
-enum ActionType {
-    Update = 'Update',
-    AddNew = 'AddNew',
-}
-
-const CustomTileModal: React.FC<CustomTileModalProps> = ({
+function CustomTileModal({
     setIsOpen,
     selectedTileId,
-}): JSX.Element => {
+}: {
+    setIsOpen: (isOpen: boolean) => void
+    selectedTileId?: string
+}) {
     const [settings, setSettings] = useSettings()
 
     const selectedItem = useMemo(
@@ -64,7 +59,7 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
         if (tileType === CustomTileType.QR) {
             setSettings({
                 customQrTiles: [
-                    ...(actionType === ActionType.Update
+                    ...(actionType === 'Update'
                         ? settings.customQrTiles.filter(
                               ({ id }) => id !== selectedTileId,
                           )
@@ -82,7 +77,7 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
         if (tileType === CustomTileType.Image) {
             setSettings({
                 customImageTiles: [
-                    ...(actionType === ActionType.Update
+                    ...(actionType === 'Update'
                         ? settings.customImageTiles.filter(
                               ({ id }) => id !== selectedTileId,
                           )
@@ -183,11 +178,7 @@ const CustomTileModal: React.FC<CustomTileModalProps> = ({
                 </SecondaryButton>
                 <PrimaryButton
                     onClick={() =>
-                        handleSubmit(
-                            selectedTileId
-                                ? ActionType.Update
-                                : ActionType.AddNew,
-                        )
+                        handleSubmit(selectedTileId ? 'Update' : 'AddNew')
                     }
                     type="button"
                 >

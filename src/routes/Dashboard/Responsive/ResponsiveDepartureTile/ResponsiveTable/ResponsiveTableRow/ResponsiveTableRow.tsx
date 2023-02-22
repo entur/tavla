@@ -1,8 +1,7 @@
 import React from 'react'
 import { SituationInfo } from 'components/SituationInfo/SituationInfo'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
-import { Departure } from 'hooks/use-stop-place-with-estimated-calls/departure'
-import { IconColorType } from 'src/types'
+import { Departure, IconColorType } from 'src/types'
 import { getIconColor } from 'utils/icon'
 import { isDarkOrDefaultTheme } from 'utils/utils'
 import { useSettings } from 'settings/SettingsProvider'
@@ -10,9 +9,7 @@ import { differenceInCalendarDays } from 'date-fns'
 import { DateDisplay } from 'components/DateDisplay'
 import classes from './ResponsiveTableRow.module.scss'
 
-const ResponsiveTableRow: React.FC<{ departure: Departure }> = ({
-    departure,
-}) => {
+function ResponsiveTableRow({ departure }: { departure: Departure }) {
     const [settings] = useSettings()
     const iconColor = getIconColor(
         departure.transportMode,

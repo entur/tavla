@@ -39,20 +39,18 @@ const getWeatherIconEntur = (APIconName: string): JSX.Element => {
     return <div>?</div>
 }
 
-interface WeatherIconProps {
-    symbolCode?: string
+function WeatherIcon({ symbolCode }: { symbolCode?: string }) {
+    return (
+        <div>
+            {symbolCode ? (
+                <div className={classes.WeatherIcon}>
+                    {getWeatherIconEntur(symbolCode)}
+                </div>
+            ) : (
+                '…'
+            )}
+        </div>
+    )
 }
-
-const WeatherIcon: React.FC<WeatherIconProps> = ({ symbolCode }) => (
-    <div>
-        {symbolCode ? (
-            <div className={classes.WeatherIcon}>
-                {getWeatherIconEntur(symbolCode)}
-            </div>
-        ) : (
-            '…'
-        )}
-    </div>
-)
 
 export { WeatherIcon }

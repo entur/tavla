@@ -1,12 +1,8 @@
 import React from 'react'
 import classes from './WeatherItemValue.module.scss'
 
-interface Props {
-    children: React.ReactNode
+function WeatherItemValue({ children }: { children: React.ReactNode }) {
+    return <div className={classes.WeatherItemValue}>{children}</div>
 }
-
-const WeatherItemValue: React.FC<Props> = ({ children }) => (
-    <div className={classes.WeatherItemValue}>{children}</div>
-)
 
 export { WeatherItemValue }

@@ -4,11 +4,12 @@ import { uniqBy } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
 import { useUniqueLinesQuery } from 'graphql-generated/journey-planner-v3'
 import { isNotNullOrUndefined } from 'utils/typeguards'
+import { Line } from 'src/types'
 import { useStopPlaceIds } from '../use-stop-place-ids/useStopPlaceIds'
 import { toEstimatedCall } from './types'
-import { Line, toLine } from './line'
+import { toLine } from './line'
 
-interface UseUniqueLines {
+type UseUniqueLines = {
     uniqueLines: Line[]
     loading: boolean
     error: ApolloError | undefined

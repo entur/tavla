@@ -9,20 +9,18 @@ import {
 } from 'graphql-generated/journey-planner-v3'
 import { useSettings } from 'settings/SettingsProvider'
 
-interface UseStopPlaceIds {
-    stopPlaceIds: string[]
-    loading: boolean
-    error: ApolloError | undefined
-}
-
-interface Options {
+type Options = {
     distance?: number
     filterHidden?: boolean
 }
 
 function useStopPlaceIds(
     { distance, filterHidden }: Options = { filterHidden: true },
-): UseStopPlaceIds {
+): {
+    stopPlaceIds: string[]
+    loading: boolean
+    error: ApolloError | undefined
+} {
     const [settings] = useSettings()
 
     const { data, loading, error } = useStopPlaceIdsQuery({

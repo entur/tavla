@@ -1,22 +1,20 @@
 import React from 'react'
-import { Departure } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { SituationInfo } from 'components/SituationInfo/SituationInfo'
 import { DateDisplay } from 'components/DateDisplay'
 import { differenceInCalendarDays } from 'date-fns'
+import { Departure } from 'src/types'
 import { DataCell, TableRow } from '@entur/table'
 import classes from './BusStopTableRow.module.scss'
-
-interface Props {
-    departure: Departure
-    hideSituations: boolean | undefined
-    hideTracks: boolean | undefined
-}
 
 function BusStopTableRow({
     departure,
     hideSituations,
     hideTracks,
-}: Props): JSX.Element {
+}: {
+    departure: Departure
+    hideSituations: boolean | undefined
+    hideTracks: boolean | undefined
+}) {
     const departsToday =
         differenceInCalendarDays(
             departure.expectedDepartureTime,

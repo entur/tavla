@@ -3,13 +3,11 @@ import { ApolloError } from '@apollo/client'
 import { useOperatorIdsQuery } from 'graphql-generated/mobility-v2'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 
-interface UseOperatorIds {
+function useOperatorIds(): {
     operatorIds: string[]
     loading: boolean
     error?: ApolloError
-}
-
-function useOperatorIds(): UseOperatorIds {
+} {
     const { data, loading, error } = useOperatorIdsQuery({
         fetchPolicy: 'cache-and-network',
     })

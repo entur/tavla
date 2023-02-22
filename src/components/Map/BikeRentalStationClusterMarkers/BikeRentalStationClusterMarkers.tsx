@@ -6,12 +6,13 @@ import { FormFactor } from 'graphql-generated/mobility-v2'
 import { BikeRentalStationTag } from '../BikeRentalStationTag/BikeRentalStationTag'
 import classes from './BikeRentalStationClusterMarkers.module.scss'
 
-interface Props {
+function BikeRentalStationClusterMarkers({
+    zoom,
+    bounds,
+}: {
     zoom: number
     bounds: [number, number, number, number]
-}
-
-const BikeRentalStationClusterMarkers: React.FC<Props> = ({ zoom, bounds }) => {
+}) {
     const { rentalStations } = useRentalStations([FormFactor.Bicycle])
 
     const bikeRentalStationPoints = useMemo(

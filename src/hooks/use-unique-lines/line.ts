@@ -1,17 +1,5 @@
-import {
-    TransportMode,
-    TransportSubmode,
-} from 'graphql-generated/journey-planner-v3'
+import { Line } from 'src/types'
 import { EstimatedCall } from './types'
-
-interface Line {
-    id: string
-    name: string
-    transportMode: TransportMode
-    transportSubmode: TransportSubmode
-    publicCode: string
-    pointsOnLink: string
-}
 
 function toLine(estimatedCall: EstimatedCall): Line {
     return {
@@ -25,4 +13,3 @@ function toLine(estimatedCall: EstimatedCall): Line {
 }
 
 export { toLine }
-export type { Line }

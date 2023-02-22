@@ -4,13 +4,11 @@ import { uniq } from 'lodash'
 import { useRealtimePositionLineRefsQuery } from 'graphql-generated/vehicles-v1'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 
-interface UseRealtimePositionLineRefs {
+function useRealtimePositionLineRefs(): {
     realtimePositionLineRefs: string[]
     loading: boolean
     error?: ApolloError
-}
-
-function useRealtimePositionLineRefs(): UseRealtimePositionLineRefs {
+} {
     const { data, loading, error } = useRealtimePositionLineRefsQuery({
         fetchPolicy: 'cache-and-network',
     })
