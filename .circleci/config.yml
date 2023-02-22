@@ -20,8 +20,8 @@ commands:
 parameters:
     action:
         type: enum
-        enum: [build, deploy-staging, deploy-prod]
-        default: build
+        enum: [none, build, deploy-staging, deploy-prod]
+        default: none
 jobs:
     test:
         docker:
