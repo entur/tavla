@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
-import { Tile } from 'components/Tile/Tile'
 import { useWeather } from 'hooks/useWeather'
 import { createAbortController } from 'utils/utils'
 import { useSettings } from 'settings/SettingsProvider'
+import { Tile } from 'components/Tile'
 import { Temperature } from './Temperature/Temperature'
 import { WeatherIcon } from './WeatherIcon/WeatherIcon'
 import { Wind } from './Wind/Wind'
@@ -25,7 +25,7 @@ const getWeatherDescriptionFromApi = async (
 
 const WEATHER_TIMESERIES_FORMATTING = 3
 
-function WeatherTile(props: { className?: string }): JSX.Element {
+function WeatherTile({ className }: { className?: string }) {
     const weather = useWeather()
     const [settings] = useSettings()
 
@@ -54,7 +54,7 @@ function WeatherTile(props: { className?: string }): JSX.Element {
     }, [weatherData])
 
     return (
-        <Tile className={classNames(classes.WeatherTile, props.className)}>
+        <Tile className={classNames(classes.WeatherTile, className)}>
             {(settings.showIcon || settings.showTemperature) && (
                 <div className={classes.IconAndTemperature}>
                     {settings.showIcon && (

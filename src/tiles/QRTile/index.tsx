@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
-import { Tile } from 'components/Tile/Tile'
+import { QRCodeWrapper } from 'components/QRCodeWarapper/QRCodeWrapper'
+import { Tile } from 'components/Tile'
 import { Heading2 } from '@entur/typography'
-import { QRCodeWrapper } from '../QRCodeWarapper/QRCodeWrapper'
 import classes from './QRTile.module.scss'
 
 function QRTile({

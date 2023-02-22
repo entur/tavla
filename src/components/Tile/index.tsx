@@ -6,8 +6,8 @@ function Tile({
     className,
     children,
 }: {
-    children: React.ReactNode
     className?: string
+    children: React.ReactNode
 }) {
     return <div className={classNames(classes.Tile, className)}>{children}</div>
 }

@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
-import { EmptyStopTile } from 'components/EmptyStopTile/EmptyStopTile'
-import { ErrorTile } from 'components/ErrorTile/ErrorTile'
+import { EmptyStopTile } from 'tiles/EmptyStopTile'
+import { ErrorTile } from 'tiles/ErrorTile'
 import { Loader } from 'components/Loader/Loader'
-import { Tile } from 'components/Tile/Tile'
+import { Tile } from 'components/Tile'
 import {
     byDepartureTime,
     filterHidden,
