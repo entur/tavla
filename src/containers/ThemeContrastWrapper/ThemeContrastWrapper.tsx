@@ -1,17 +1,15 @@
 import React from 'react'
 import { Contrast } from '@entur/layout'
 
-interface Props {
-    children: React.ReactNode
-    useContrast?: boolean
-    className?: string
-}
-
-const ThemeContrastWrapper = ({
+function ThemeContrastWrapper({
     children,
     useContrast = false,
     className,
-}: Props): JSX.Element => {
+}: {
+    children: React.ReactNode
+    useContrast?: boolean
+    className?: string
+}) {
     if (useContrast) {
         return <Contrast className={className}>{children}</Contrast>
     } else {

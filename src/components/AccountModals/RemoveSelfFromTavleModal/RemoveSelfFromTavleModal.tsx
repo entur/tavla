@@ -10,21 +10,19 @@ import { useToast } from '@entur/alert'
 import { CloseButton } from '../../CloseButton/CloseButton'
 import classes from '../AccountModals.module.scss'
 
-interface RemoveSelfFromTavleModalProps {
-    open: boolean
-    onDismiss: () => void
-    id: string
-    uid: string
-    forceRefresh?: boolean
-}
-
-const RemoveSelfFromTavleModal: React.FC<RemoveSelfFromTavleModalProps> = ({
+function RemoveSelfFromTavleModal({
     open,
     onDismiss,
     id,
     uid,
     forceRefresh = false,
-}) => {
+}: {
+    open: boolean
+    onDismiss: () => void
+    id: string
+    uid: string
+    forceRefresh?: boolean
+}) {
     const { addToast } = useToast()
 
     const handleRemoveSelfFromTavle = useCallback(async () => {

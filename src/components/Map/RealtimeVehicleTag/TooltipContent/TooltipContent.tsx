@@ -10,10 +10,11 @@ import { colors } from '@entur/tokens'
 import { TransportModeIcon } from '../../../TransportModeIcon/TransportModeIcon'
 import classes from './TooltipContent.module.scss'
 
-interface Props {
+function TooltipContent({
+    realtimeVehicle,
+}: {
     realtimeVehicle: RealtimeVehicle
-}
-const TooltipContent = ({ realtimeVehicle }: Props): JSX.Element => {
+}) {
     const [lastUpdated, setLastUpdated] = useState(
         getLastUpdated(realtimeVehicle.lastUpdated),
     )

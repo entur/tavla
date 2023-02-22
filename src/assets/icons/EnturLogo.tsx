@@ -1,27 +1,17 @@
 import React from 'react'
-import EnturWhite from '../logos/Enturlogo_white.svg'
-import EnturBlack from '../logos/Enturlogo_black.svg'
-import EnturContrast from '../logos/Enturlogo_contrast.svg'
+import { enturLogo } from 'utils/utils'
+import { EnturLogoStyle } from 'src/types'
 
-function EnturLogo({ className, style, height }: Props): JSX.Element {
-    const enturLogo = () => {
-        switch (style) {
-            case 'black':
-                return EnturBlack
-            case 'white':
-                return EnturWhite
-            default:
-                return EnturContrast
-        }
-    }
-
-    return <img src={enturLogo()} height={height} className={className} />
-}
-
-interface Props {
+function EnturLogo({
+    className,
+    style,
+    height,
+}: {
     className?: string
-    style?: 'white' | 'black' | 'contrast'
+    style?: EnturLogoStyle
     height?: string
+}): JSX.Element {
+    return <img src={enturLogo(style)} height={height} className={className} />
 }
 
 export { EnturLogo }

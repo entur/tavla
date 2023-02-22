@@ -2,13 +2,14 @@ import React from 'react'
 import classNames from 'classnames'
 import classes from './Tile.module.scss'
 
-interface TileProps {
+function Tile({
+    className,
+    children,
+}: {
     children: React.ReactNode
     className?: string
+}) {
+    return <div className={classNames(classes.Tile, className)}>{children}</div>
 }
-
-const Tile: React.FC<TileProps> = ({ className, children }) => (
-    <div className={classNames(classes.Tile, className)}>{children}</div>
-)
 
 export { Tile }

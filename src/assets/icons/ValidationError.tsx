@@ -2,11 +2,7 @@ import React from 'react'
 import { Theme } from 'src/types'
 import { useThemeColor } from 'hooks/useThemeColor'
 
-interface Props {
-    className?: string
-}
-
-function ValidationError({ className }: Props): JSX.Element {
+function ValidationError({ className }: { className?: string }) {
     const crossIconColor = useThemeColor(
         {
             [Theme.DARK]: '#000000',

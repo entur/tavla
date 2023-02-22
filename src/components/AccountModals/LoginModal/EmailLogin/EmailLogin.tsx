@@ -5,6 +5,7 @@ import { auth } from 'settings/UserProvider'
 import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
 import { useFormFields } from 'hooks/useFormFields'
+import { UserLogin } from 'src/types'
 import { TextField } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
 import { BackArrowIcon, ClosedLockIcon, EmailIcon } from '@entur/icons'
@@ -15,17 +16,13 @@ import { CloseButton } from '../../../CloseButton/CloseButton'
 import { ModalType } from '../login-modal-types'
 import classes from '../../AccountModals.module.scss'
 
-export interface UserLogin {
-    email: string
-    password: string
-}
-
-interface EmailLoginProps {
+function EmailLogin({
+    setModalType,
+    onDismiss,
+}: {
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
-}
-
-const EmailLogin: React.FC<EmailLoginProps> = ({ setModalType, onDismiss }) => {
+}) {
     const [inputs, handleInputsChange] = useFormFields<UserLogin>({
         email: '',
         password: '',

@@ -1,14 +1,10 @@
 import React from 'react'
 import { ValidationExclamation } from 'assets/icons/ValidationExclamation'
 import { ValidationError } from 'assets/icons/ValidationError'
-import { Departure } from 'hooks/use-stop-place-with-estimated-calls/departure'
+import { Departure } from 'src/types'
 import classes from './SituationInfo.module.scss'
 
-interface SituationInfoProps {
-    departure: Departure
-}
-
-const SituationInfo = ({ departure }: SituationInfoProps) => {
+function SituationInfo({ departure }: { departure: Departure }) {
     const situation =
         departure.situations[0]?.summary[0]?.value ||
         departure.situations[0]?.description[0]?.value

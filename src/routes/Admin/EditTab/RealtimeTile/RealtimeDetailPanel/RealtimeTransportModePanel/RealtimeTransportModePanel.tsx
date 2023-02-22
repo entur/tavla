@@ -3,23 +3,21 @@ import { xor } from 'lodash'
 import { isTransport } from 'utils/typeguards'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
-import { Line } from 'hooks/use-unique-lines/line'
 import { useSettings } from 'settings/SettingsProvider'
+import { Line } from 'src/types'
 import { FilterChip } from '@entur/chip'
 import { TravelSwitch } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
 import { transportModeName } from '../transportModeName'
 import classes from './RealtimeTransportModePanel.module.scss'
 
-interface Props {
-    mode: TransportMode
-    realtimeLines: Line[]
-}
-
-const RealtimeTransportModePanel: React.FC<Props> = ({
+function RealtimeTransportModePanel({
     mode,
     realtimeLines,
-}) => {
+}: {
+    mode: TransportMode
+    realtimeLines: Line[]
+}) {
     const [settings, setSettings] = useSettings()
 
     const filteredLines = useMemo(

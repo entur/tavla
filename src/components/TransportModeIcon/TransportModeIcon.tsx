@@ -16,21 +16,19 @@ import {
     TramIcon,
 } from '@entur/icons'
 
-interface Props {
-    transportMode: TransportMode
-    iconColorType?: IconColorType
-    transportSubmode?: TransportSubmode
-    color?: string
-    className?: string
-}
-
-const TransportModeIcon: React.FC<Props> = ({
+function TransportModeIcon({
     transportMode,
     iconColorType = IconColorType.CONTRAST,
     transportSubmode,
     color,
     className,
-}) => {
+}: {
+    transportMode: TransportMode
+    iconColorType?: IconColorType
+    transportSubmode?: TransportSubmode
+    color?: string
+    className?: string
+}) {
     const colorToUse =
         color ?? getIconColor(transportMode, iconColorType, transportSubmode)
 

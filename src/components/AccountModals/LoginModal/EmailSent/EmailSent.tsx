@@ -9,12 +9,13 @@ import { CloseButton } from '../../../CloseButton/CloseButton'
 import { ModalType } from '../login-modal-types'
 import classes from '../../AccountModals.module.scss'
 
-interface EmailSentProps {
+function EmailSent({
+    setModalType,
+    onDismiss,
+}: {
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
-}
-
-const EmailSent: React.FC<EmailSentProps> = ({ setModalType, onDismiss }) => {
+}) {
     const handleClose = (): void => {
         setModalType(ModalType.LoginOptionsModal)
         onDismiss()

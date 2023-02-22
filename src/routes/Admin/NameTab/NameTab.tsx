@@ -8,7 +8,13 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { Heading2, Paragraph } from '@entur/typography'
 import { CustomURL } from './CustomURL/CustomURL'
 
-const NameTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
+function NameTab({
+    tabIndex,
+    setTabIndex,
+}: {
+    tabIndex: number
+    setTabIndex: Dispatch<number>
+}) {
     const [open, setOpen] = useState<boolean>(false)
     const user = useUser()
 
@@ -58,11 +64,6 @@ const NameTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
             </GridContainer>
         </div>
     )
-}
-
-interface Props {
-    tabIndex: number
-    setTabIndex: Dispatch<number>
 }
 
 export { NameTab }

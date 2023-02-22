@@ -11,7 +11,7 @@ import { DEFAULT_DISTANCE, DEFAULT_ZOOM } from 'utils/constants'
 
 type Mode = 'bysykkel' | 'kollektiv' | 'sparkesykkel' | 'delebil'
 
-interface Settings {
+type Settings = {
     boardName: string
     coordinates: Coordinates
     customImageTiles: CustomTile[]

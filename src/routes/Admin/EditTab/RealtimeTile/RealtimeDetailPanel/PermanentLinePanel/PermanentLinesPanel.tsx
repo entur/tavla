@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
-import { Line } from 'hooks/use-unique-lines/line'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
 import { useSettings } from 'settings/SettingsProvider'
+import { Line } from 'src/types'
 import { ExpandablePanel } from '@entur/expand'
 import { ClosedLockIcon } from '@entur/icons'
 import { FilterChip } from '@entur/chip'

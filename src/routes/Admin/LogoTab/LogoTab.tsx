@@ -17,12 +17,13 @@ import { SizePicker } from './SizePicker/SizePicker'
 import { Description } from './Description/Description'
 import classes from './LogoTab.module.scss'
 
-interface Props {
+function LogoTab({
+    tabIndex,
+    setTabIndex,
+}: {
     tabIndex: number
     setTabIndex: Dispatch<number>
-}
-
-const LogoTab = ({ tabIndex, setTabIndex }: Props): JSX.Element => {
+}) {
     const [open, setOpen] = useState<boolean>(false)
     const user = useUser()
 

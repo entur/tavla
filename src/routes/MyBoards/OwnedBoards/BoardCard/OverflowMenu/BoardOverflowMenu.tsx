@@ -19,7 +19,12 @@ function BoardOverflowMenu({
     uid,
     sharedBoard = false,
     showCopy = true,
-}: Props): JSX.Element {
+}: {
+    id: string
+    uid: string
+    sharedBoard?: boolean
+    showCopy?: boolean
+}) {
     const navigate = useNavigate()
     const [removeLockModalOpen, setRemoveLockModalOpen] =
         useState<boolean>(false)
@@ -107,13 +112,6 @@ function BoardOverflowMenu({
             />
         </>
     )
-}
-
-interface Props {
-    id: string
-    uid: string
-    sharedBoard?: boolean
-    showCopy?: boolean
 }
 
 export { BoardOverflowMenu }

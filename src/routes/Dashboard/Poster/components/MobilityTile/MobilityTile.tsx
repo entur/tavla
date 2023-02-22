@@ -4,19 +4,19 @@ import { useSettings } from 'settings/SettingsProvider'
 import { NumberDisplay } from '../NumberDisplay/NumberDisplay'
 import classes from './MobilityTile.module.scss'
 
-interface MobilityTileProps {
+type MobilityTileProps = {
     icon: React.ReactNode
     numberOfVehicles: number
     header: string
     description: string
 }
 
-const MobilityTile: React.FC<MobilityTileProps> = ({
+function MobilityTile({
     header,
     description,
     numberOfVehicles,
     icon,
-}: MobilityTileProps) => {
+}: MobilityTileProps) {
     const [settings] = useSettings()
     const vertical = settings.hiddenModes.includes('kollektiv')
 

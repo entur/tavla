@@ -8,15 +8,13 @@ import classes from './SubLabelIcon.module.scss'
 
 const isMobile = isMobileWeb()
 
-interface SubLabelIconProps {
-    subLabel: TileSubLabel
-    hideSituations?: boolean
-}
-
 function SubLabelIcon({
     subLabel,
     hideSituations,
-}: SubLabelIconProps): JSX.Element | null {
+}: {
+    subLabel: TileSubLabel
+    hideSituations?: boolean
+}) {
     if (!hideSituations && subLabel?.situation)
         if (isMobile)
             return (
