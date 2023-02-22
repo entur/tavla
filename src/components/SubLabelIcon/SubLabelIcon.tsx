@@ -14,7 +14,7 @@ function SubLabelIcon({
 }: {
     subLabel: TileSubLabel
     hideSituations?: boolean
-}){
+}) {
     if (!hideSituations && subLabel?.situation)
         if (isMobile)
             return (

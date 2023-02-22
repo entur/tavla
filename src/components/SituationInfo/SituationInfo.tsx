@@ -1,8 +1,8 @@
 import React from 'react'
 import { ValidationExclamation } from 'assets/icons/ValidationExclamation'
 import { ValidationError } from 'assets/icons/ValidationError'
-import classes from './SituationInfo.module.scss'
 import { Departure } from 'src/types'
+import classes from './SituationInfo.module.scss'
 
 function SituationInfo({ departure }: { departure: Departure }) {
     const situation =

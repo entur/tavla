@@ -19,7 +19,7 @@ function MineTavlerModal({
 }: {
     open: boolean
     onDismiss: () => void
-}){
+}) {
     const navigate = useNavigate()
     const user = useUser()
     const [settings, setSettings] = useSettings()

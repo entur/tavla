@@ -5,7 +5,7 @@ import { useCounter } from 'hooks/useCounter'
 import { Heading2 } from '@entur/typography'
 import classes from './Clock.module.scss'
 
-function Clock({ className }: { className?: string }){
+function Clock({ className }: { className?: string }) {
     // This insures that the Clock-component is updated once every second.
     useCounter()
 

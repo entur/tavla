@@ -7,7 +7,7 @@ function PositionPin({
 }: {
     className?: string
     size?: number | string
-}){
+}) {
     return <img src={Pin} width={size} height={size} className={className} />
 }
 

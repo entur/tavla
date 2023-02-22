@@ -4,12 +4,12 @@ import { isTransport } from 'utils/typeguards'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
 import { useSettings } from 'settings/SettingsProvider'
+import { Line } from 'src/types'
 import { FilterChip } from '@entur/chip'
 import { TravelSwitch } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
 import { transportModeName } from '../transportModeName'
 import classes from './RealtimeTransportModePanel.module.scss'
-import { Line } from 'src/types'
 
 function RealtimeTransportModePanel({
     mode,

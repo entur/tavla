@@ -4,10 +4,10 @@ import { uniqBy } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
 import { useUniqueLinesQuery } from 'graphql-generated/journey-planner-v3'
 import { isNotNullOrUndefined } from 'utils/typeguards'
+import { Line } from 'src/types'
 import { useStopPlaceIds } from '../use-stop-place-ids/useStopPlaceIds'
 import { toEstimatedCall } from './types'
 import { toLine } from './line'
-import { Line } from 'src/types'
 
 type UseUniqueLines = {
     uniqueLines: Line[]
