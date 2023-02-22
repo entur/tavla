@@ -17,7 +17,7 @@
         "noUncheckedIndexedAccess": true,
         "baseUrl": ".",
         "paths": {
-			"routes/*": ["src/routes/*"],
+            "routes/*": ["src/routes/*"],
             "components/*": ["src/components/*"],
             "scenarios/*": ["src/scenarios/*"],
             "tiles/*": ["src/tiles/*"],
