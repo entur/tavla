@@ -16,7 +16,7 @@ export type Coordinates = {
 
 export type DrawableRoute = {
     pointsOnLink: string
-    mode: string
+    mode: string 
     lineRef: string
 }
 
