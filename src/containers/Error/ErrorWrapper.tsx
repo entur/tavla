@@ -6,7 +6,7 @@ import { Heading1 } from '@entur/typography'
 import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
 import classes from './ErrorWrapper.module.scss'
 
-interface ErrorWrapperProps {
+type ErrorWrapperProps = {
     title: string
     message: string
     image: string

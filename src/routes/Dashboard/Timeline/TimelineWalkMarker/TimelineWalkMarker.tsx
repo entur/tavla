@@ -6,12 +6,13 @@ import { WalkingIcon } from '@entur/icons'
 import { competitorPosition } from '../utils'
 import classes from './TimelineWalkMarker.module.scss'
 
-interface Props {
+function TimelineWalkMarker({
+    className,
+    coordinates,
+}: {
     coordinates: Coordinates
     className?: string
-}
-
-const TimelineWalkMarker: React.FC<Props> = ({ className, coordinates }) => {
+}) {
     const { walkTrip } = useWalkTrip(coordinates)
 
     if (!walkTrip) return null

@@ -4,12 +4,13 @@ import { useSettings } from 'settings/SettingsProvider'
 import { Checkbox } from '@entur/form'
 import classes from './RouteCheckbox.module.scss'
 
-interface Props {
+function RouteCheckbox({
+    route,
+    stopPlaceId,
+}: {
     route: string
     stopPlaceId: string
-}
-
-const RouteCheckbox: React.FC<Props> = ({ route, stopPlaceId }) => {
+}) {
     const [settings, setSettings] = useSettings()
 
     const onToggleRoute = useCallback(() => {

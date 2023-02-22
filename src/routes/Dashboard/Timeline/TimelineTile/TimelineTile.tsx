@@ -29,11 +29,7 @@ function orderDepartures(a: Departure, b: Departure): number {
     )
 }
 
-interface Props {
-    stopPlaceId: string
-}
-
-const TimelineTile: React.FC<Props> = ({ stopPlaceId }) => {
+function TimelineTile({ stopPlaceId }: { stopPlaceId: string }) {
     const [settings] = useSettings()
     const iconColorType = useMemo(
         () => getIconColorType(settings.theme),

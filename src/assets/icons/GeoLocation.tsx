@@ -1,6 +1,12 @@
 import React from 'react'
 
-function GeoLocation({ size = 18, color = '#565659' }: Props): JSX.Element {
+function GeoLocation({
+    size = 18,
+    color = '#565659',
+}: {
+    color?: string
+    size?: number | string
+}): JSX.Element {
     return (
         <svg
             width={size}
@@ -19,11 +25,6 @@ function GeoLocation({ size = 18, color = '#565659' }: Props): JSX.Element {
             </g>
         </svg>
     )
-}
-
-interface Props {
-    color?: string
-    size?: number | string
 }
 
 export { GeoLocation }

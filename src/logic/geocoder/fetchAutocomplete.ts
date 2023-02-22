@@ -4,7 +4,7 @@ import { GeocoderResults } from './types'
 
 const endpoint = process.env.GEOCODER_HOST ?? 'https://api.entur.io/geocoder/v1'
 
-interface AutocompleteItem {
+type AutocompleteItem = {
     value: string
     label: string
     coordinates?: Coordinates

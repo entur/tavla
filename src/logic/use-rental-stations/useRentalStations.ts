@@ -9,7 +9,7 @@ import { REFRESH_INTERVAL } from '../../constants'
 import { useStationIds } from '../use-station-ids/useStationIds'
 import { toRentalStation, RentalStation } from './types'
 
-interface UseRentalStations {
+type UseRentalStations = {
     rentalStations: RentalStation[]
     loading: boolean
     error: ApolloError | undefined

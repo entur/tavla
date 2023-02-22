@@ -11,15 +11,13 @@ import { ExpandablePanel } from '@entur/expand'
 import { transportModeName } from '../transportModeName'
 import classes from './RealtimeTransportModePanel.module.scss'
 
-interface Props {
-    mode: TransportMode
-    realtimeLines: Line[]
-}
-
-const RealtimeTransportModePanel: React.FC<Props> = ({
+function RealtimeTransportModePanel({
     mode,
     realtimeLines,
-}) => {
+}: {
+    mode: TransportMode
+    realtimeLines: Line[]
+}) {
     const [settings, setSettings] = useSettings()
 
     const filteredLines = useMemo(

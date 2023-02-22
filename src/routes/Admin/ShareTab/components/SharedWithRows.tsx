@@ -5,14 +5,14 @@ import { CloseIcon, LoadingIcon } from '@entur/icons'
 import { TableRow, DataCell } from '@entur/table'
 import { Tooltip } from '@entur/tooltip'
 
-const SharedWithRows = ({
+function SharedWithRows({
     users,
     currentUserEmail,
     onRemove,
     statusText,
     tooltipTextRemove,
     userEmailsBeingRemoved,
-}: Props): JSX.Element => {
+}: Props) {
     const ownersFiltered = users.filter(
         (user) => user.email !== currentUserEmail,
     )
@@ -45,7 +45,7 @@ const SharedWithRows = ({
     )
 }
 
-interface Props {
+type Props = {
     users: BoardOwnersData[]
     currentUserEmail: string
     statusText: string

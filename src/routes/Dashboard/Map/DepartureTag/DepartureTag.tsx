@@ -25,11 +25,7 @@ function getDepartureNumber(departure: Departure): string {
     return departure.route.split(/[\s]/g)[0] || ''
 }
 
-interface Props {
-    stopPlaceId: string
-}
-
-const DepartureTag: React.FC<Props> = ({ stopPlaceId }): JSX.Element => {
+function DepartureTag({ stopPlaceId }: { stopPlaceId: string }) {
     const [settings] = useSettings()
     const { stopPlaceWithEstimatedCalls, loading } =
         useStopPlaceWithEstimatedCalls({

@@ -1,7 +1,15 @@
 import React from 'react'
 import { colors } from '@entur/tokens'
 
-function ResizeHandle({ className, size, variant }: Props): JSX.Element | null {
+function ResizeHandle({
+    className,
+    size,
+    variant,
+}: {
+    className?: string
+    size?: string
+    variant?: 'light' | 'dark'
+}): JSX.Element | null {
     const color =
         variant === 'light'
             ? colors.blues.blue60
@@ -57,12 +65,6 @@ function ResizeHandle({ className, size, variant }: Props): JSX.Element | null {
             </g>
         </svg>
     )
-}
-
-interface Props {
-    className?: string
-    size?: string
-    variant?: 'light' | 'dark'
 }
 
 export { ResizeHandle }

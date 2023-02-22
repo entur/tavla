@@ -15,17 +15,15 @@ import { CloseButton } from '../../../CloseButton/CloseButton'
 import { ModalType } from '../login-modal-types'
 import classes from '../../AccountModals.module.scss'
 
-export interface UserLogin {
+export type UserLogin = {
     email: string
     password: string
 }
 
-interface EmailLoginProps {
+const EmailLogin: React.FC<{
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
-}
-
-const EmailLogin: React.FC<EmailLoginProps> = ({ setModalType, onDismiss }) => {
+}> = ({ setModalType, onDismiss }) => {
     const [inputs, handleInputsChange] = useFormFields<UserLogin>({
         email: '',
         password: '',

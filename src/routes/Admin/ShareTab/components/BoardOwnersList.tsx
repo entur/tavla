@@ -6,11 +6,15 @@ import { removeFromOwners } from 'settings/FirestoreStorage'
 import { Table, TableHead, TableRow, HeaderCell, TableBody } from '@entur/table'
 import { SharedWithRows } from './SharedWithRows'
 
-const BoardOwnersList = ({
+function BoardOwnersList({
     documentId,
     ownersData,
     invites,
-}: Props): JSX.Element => {
+}: {
+    documentId: string
+    ownersData: BoardOwnersData[]
+    invites: Invite[]
+}) {
     const user = useUser()
 
     const ownersDataFiltered = ownersData.filter(
@@ -106,12 +110,6 @@ const BoardOwnersList = ({
             </TableBody>
         </Table>
     )
-}
-
-interface Props {
-    documentId: string
-    ownersData: BoardOwnersData[]
-    invites: Invite[]
 }
 
 export { BoardOwnersList }

@@ -2,9 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import classes from './NumberDisplay.module.scss'
 
-const NumberDisplay = ({
-    numberOfVehicles,
-}: NumberDisplayProps): JSX.Element => {
+function NumberDisplay({ numberOfVehicles }: { numberOfVehicles: number }) {
     const isLargeNumber = numberOfVehicles > 99
 
     return (
@@ -16,10 +14,6 @@ const NumberDisplay = ({
             {isLargeNumber ? '99+' : numberOfVehicles.toString()}
         </span>
     )
-}
-
-interface NumberDisplayProps {
-    numberOfVehicles: number
 }
 
 export { NumberDisplay }

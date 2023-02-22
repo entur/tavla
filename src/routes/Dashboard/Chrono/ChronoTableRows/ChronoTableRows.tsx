@@ -9,7 +9,7 @@ import { DataCell, TableBody, TableRow } from '@entur/table'
 import { Heading3 } from '@entur/typography'
 import classes from './ChronoTableRows.module.scss'
 
-interface ChronoTableRowsProps {
+type ChronoTableRowsProps = {
     visibleDepartures: Departure[]
     hideSituations: boolean
     hideTracks: boolean

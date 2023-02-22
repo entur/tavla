@@ -9,13 +9,13 @@ import {
 } from 'graphql-generated/journey-planner-v3'
 import { useSettings } from 'settings/SettingsProvider'
 
-interface UseStopPlaceIds {
+type UseStopPlaceIds = {
     stopPlaceIds: string[]
     loading: boolean
     error: ApolloError | undefined
 }
 
-interface Options {
+type Options = {
     distance?: number
     filterHidden?: boolean
 }

@@ -6,20 +6,18 @@ import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
 import classes from './CustomTileModal.module.scss'
 
-interface CustomTileModalProps {
-    setIsOpen: (isOpen: boolean) => void
-    selectedTileId?: string
-}
-
 enum ActionType {
     Update = 'Update',
     AddNew = 'AddNew',
 }
 
-const CustomTileModal: React.FC<CustomTileModalProps> = ({
+function CustomTileModal({
     setIsOpen,
     selectedTileId,
-}): JSX.Element => {
+}: {
+    setIsOpen: (isOpen: boolean) => void
+    selectedTileId?: string
+}) {
     const [settings, setSettings] = useSettings()
 
     const selectedItem = useMemo(

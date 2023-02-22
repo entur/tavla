@@ -12,11 +12,7 @@ import { LineOverlay } from '../RealtimeVehicleTag/LineOverlay/LineOverlay'
 import { RealtimeVehicleTag } from '../RealtimeVehicleTag/RealtimeVehicleTag'
 import classes from './RealtimeVehicleMarkers.module.scss'
 
-interface Props {
-    boundingBox: BoundingBox
-}
-
-const RealtimeVehicleMarkers: React.FC<Props> = ({ boundingBox }) => {
+function RealtimeVehicleMarkers({ boundingBox }: { boundingBox: BoundingBox }) {
     const [settings] = useSettings()
     const realtimeVehicles = useRealtimeVehicleData(boundingBox)
 

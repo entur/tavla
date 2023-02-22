@@ -7,7 +7,7 @@ import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../../constants'
 import { useOperatorIds } from '../use-operator-ids/useOperatorIds'
 import { toVehicle, Vehicle } from './Vehicle'
 
-interface UseVehicles {
+type UseVehicles = {
     vehicles: Vehicle[]
     loading: boolean
     error?: ApolloError

@@ -27,11 +27,15 @@ enum inputFeedbackType {
     CLEAR = 'info',
 }
 
-const AddNewOwnersInput = ({
+function AddNewOwnersInput({
     documentId,
     ownersData,
     invites,
-}: Props): JSX.Element => {
+}: {
+    documentId: string
+    ownersData: BoardOwnersData[]
+    invites: Invite[]
+}) {
     const user = useUser()
 
     const [newOwnerInput, setNewOwnerInput] = useState<string>('')
@@ -123,12 +127,6 @@ const AddNewOwnersInput = ({
             </div>
         </div>
     )
-}
-
-interface Props {
-    documentId: string
-    ownersData: BoardOwnersData[]
-    invites: Invite[]
 }
 
 export { AddNewOwnersInput }

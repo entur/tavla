@@ -14,19 +14,17 @@ import { CloseButton } from '../../../CloseButton/CloseButton'
 import { ModalType } from '../login-modal-types'
 import classes from '../../AccountModals.module.scss'
 
-interface UserResetPassword {
+type UserResetPassword = {
     email: string
 }
 
-interface ResetPasswordProps {
-    setModalType: Dispatch<SetStateAction<ModalType>>
-    onDismiss: (user?: User) => void
-}
-
-const ResetPassword: React.FC<ResetPasswordProps> = ({
+function ResetPassword({
     setModalType,
     onDismiss,
-}) => {
+}: {
+    setModalType: Dispatch<SetStateAction<ModalType>>
+    onDismiss: (user?: User) => void
+}) {
     const [inputs, handleInputsChange] = useFormFields<UserResetPassword>({
         email: '',
     })

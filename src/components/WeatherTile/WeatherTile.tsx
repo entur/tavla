@@ -23,13 +23,9 @@ const getWeatherDescriptionFromApi = async (
     return weatherData[weatherNameMatch.toString()].desc_nb
 }
 
-interface WeatherTileProps {
-    className?: string
-}
-
 const IN_THREE_HOURS = 3
 
-function WeatherTile(props: WeatherTileProps): JSX.Element {
+function WeatherTile(props: { className?: string }): JSX.Element {
     const weather = useWeather()
     const [settings] = useSettings()
 

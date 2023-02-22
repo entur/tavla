@@ -18,13 +18,7 @@ import { HeaderCell, Table, TableHead, TableRow } from '@entur/table'
 import { ChronoTableRows } from '../ChronoTableRows/ChronoTableRows'
 import classes from './ChronoDepartureTile.module.scss'
 
-interface ChronoDepartureTileProps {
-    stopPlaceId: string
-}
-
-const ChronoDepartureTile: React.FC<ChronoDepartureTileProps> = ({
-    stopPlaceId,
-}) => {
+function ChronoDepartureTile({ stopPlaceId }: { stopPlaceId: string }) {
     const [settings] = useSettings()
     const iconColorType = useMemo(
         () => getIconColorType(settings.theme),

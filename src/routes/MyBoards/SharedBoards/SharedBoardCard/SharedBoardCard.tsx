@@ -10,7 +10,7 @@ import { Heading3 } from '@entur/typography'
 import { ClockIcon, UserIcon } from '@entur/icons'
 import { Button } from '@entur/button'
 
-interface SharedBoardCardProps {
+type SharedBoardCardProps = {
     id: string
     boardName: string
     sharedBy: string
@@ -19,14 +19,14 @@ interface SharedBoardCardProps {
     timeIssued: Timestamp
 }
 
-const SharedBoardCard: React.FC<SharedBoardCardProps> = ({
+function SharedBoardCard({
     id,
     sharedBy,
     boardName,
     theme,
     dashboard,
     timeIssued,
-}) => {
+}: SharedBoardCardProps) {
     const user = useUser()
     const preview = ThemeDashboardPreview(theme)
     const dashboardType = dashboard || 'Chrono'

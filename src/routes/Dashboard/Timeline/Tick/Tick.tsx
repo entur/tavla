@@ -7,17 +7,15 @@ import { LegBone } from '@entur/travel'
 import { TICKS, ZOOM } from '../utils'
 import classes from './Tick.module.scss'
 
-interface TickProps {
-    minutes: number
-    mode: Mode
-    index: number
-}
-
-const Tick: React.FC<TickProps> = ({
+function Tick({
     minutes,
     mode,
     index,
-}: TickProps): JSX.Element => {
+}: {
+    minutes: number
+    mode: Mode
+    index: number
+}) {
     const [settings] = useSettings()
 
     const color = useMemo(() => {

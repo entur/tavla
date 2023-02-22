@@ -6,17 +6,17 @@ import { Checkbox } from '@entur/form'
 import { DeleteIcon, EditIcon } from '@entur/icons'
 import classes from './CustomTilePanelRow.module.scss'
 
-interface Props extends CustomTile {
+type Props = CustomTile & {
     setSelectedTileId: (id: string) => void
     setIsOpenModal: (isOpen: boolean) => void
 }
 
-const CustomTilePanelRow = ({
+function CustomTilePanelRow({
     id,
     displayName,
     setSelectedTileId,
     setIsOpenModal,
-}: Props): JSX.Element => {
+}: Props) {
     const [settings, setSettings] = useSettings()
 
     const handleToggle = useCallback(() => {

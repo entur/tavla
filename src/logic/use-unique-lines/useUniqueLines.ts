@@ -8,7 +8,7 @@ import { useStopPlaceIds } from '../use-stop-place-ids/useStopPlaceIds'
 import { toEstimatedCall } from './types'
 import { Line, toLine } from './line'
 
-interface UseUniqueLines {
+type UseUniqueLines = {
     uniqueLines: Line[]
     loading: boolean
     error: ApolloError | undefined

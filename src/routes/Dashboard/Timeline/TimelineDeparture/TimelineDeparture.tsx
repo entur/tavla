@@ -7,12 +7,13 @@ import { IconColorType } from 'src/types'
 import { competitorPosition } from '../utils'
 import classes from './TimelineDeparture.module.scss'
 
-interface Props {
+function TimelineDeparture({
+    departure,
+    iconColorType,
+}: {
     departure: Departure
     iconColorType: IconColorType
-}
-
-const TimelineDeparture: React.FC<Props> = ({ departure, iconColorType }) => {
+}) {
     // useCounter forces the component to rerender every second
     useCounter()
     const waitTime = timeUntil(departure.expectedDepartureTime)

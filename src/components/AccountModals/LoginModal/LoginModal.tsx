@@ -12,17 +12,15 @@ import { ResetPassword } from './ResetPassword/ResetPassword'
 import { EmailSent } from './EmailSent/EmailSent'
 import { LoginCase, ModalType } from './login-modal-types'
 
-interface LoginModalProps {
-    open: boolean
-    onDismiss: (user?: User) => void
-    loginCase: LoginCase
-}
-
-const LoginModal: React.FC<LoginModalProps> = ({
+function LoginModal({
     open,
     onDismiss,
     loginCase,
-}) => {
+}: {
+    open: boolean
+    onDismiss: (user?: User) => void
+    loginCase: LoginCase
+}) {
     const user = useUser()
     const { addToast } = useToast()
     const [modalType, setModalType] = useState<ModalType>(

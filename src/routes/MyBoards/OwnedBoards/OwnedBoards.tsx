@@ -11,7 +11,7 @@ import classes from './OwnedBoards.module.scss'
 
 type BoardViews = 'grid' | 'list'
 
-const OwnedBoards = ({ boards, user }: Props): JSX.Element => {
+function OwnedBoards({ boards, user }: { boards: DocumentData; user: User }) {
     const [chosenBoardView, setChosenBoardView] = useState<BoardViews>('grid')
 
     const ChosenBoardView = (boardView: BoardViews) => {
@@ -56,11 +56,6 @@ const OwnedBoards = ({ boards, user }: Props): JSX.Element => {
             {ChosenBoardView(chosenBoardView)}
         </div>
     )
-}
-
-interface Props {
-    boards: DocumentData
-    user: User
 }
 
 export { OwnedBoards }

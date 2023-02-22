@@ -165,11 +165,11 @@ export const uploadLogo = async (
     documentId: string | undefined,
 ): Promise<void> => {
     const token = await auth.currentUser?.getIdToken()
-    interface ResponseData {
+    type ResponseData = {
         uploadToken: string | undefined
     }
 
-    interface UploadData {
+    type UploadData = {
         imageUid: string | undefined
         token: string | undefined
     }
@@ -351,7 +351,7 @@ export const answerBoardInvitation = async (
 ): Promise<void> => {
     if (!user) return Promise.reject(new Error('Not logged in.'))
 
-    interface UploadData {
+    type UploadData = {
         boardId: string
     }
 
@@ -376,7 +376,7 @@ export const answerBoardInvitation = async (
 export const getOwnersDataByBoardIdAsOwner = async (
     boardId: string,
 ): Promise<BoardOwnersData[]> => {
-    interface UploadData {
+    type UploadData = {
         boardId: string
     }
 

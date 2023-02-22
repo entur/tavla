@@ -4,7 +4,7 @@ import { uniq } from 'lodash'
 import { useRealtimePositionLineRefsQuery } from 'graphql-generated/vehicles-v1'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 
-interface UseRealtimePositionLineRefs {
+type UseRealtimePositionLineRefs = {
     realtimePositionLineRefs: string[]
     loading: boolean
     error?: ApolloError

@@ -14,7 +14,7 @@ import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapp
 import { BottomMenu } from './BottomMenu/BottomMenu'
 import classes from './DashboardWrapper.module.scss'
 
-interface DashboardWrapperProps {
+type DashboardWrapperProps = {
     className: string
     classes?: {
         Header?: string

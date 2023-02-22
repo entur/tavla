@@ -6,7 +6,7 @@ import {
 import { Settings } from 'settings/settings'
 import { EstimatedCall } from './types'
 
-interface Departure {
+type Departure = {
     id: string
     aimedDepartureTime: Date
     expectedDepartureTime: Date

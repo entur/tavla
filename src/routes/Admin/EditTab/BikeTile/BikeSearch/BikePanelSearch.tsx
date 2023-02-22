@@ -11,7 +11,7 @@ import classes from './BikePanelSearch.module.scss'
 
 const MAX_SEARCH_RANGE = 100_000
 
-interface Item {
+type Item = {
     value: string
     label: string
 }
@@ -25,7 +25,7 @@ function mapFeaturesToItems(
     }))
 }
 
-const BikePanelSearch: React.FC = () => {
+function BikePanelSearch() {
     const [settings, setSettings] = useSettings()
 
     const { data } = useBikePanelSearchQuery({

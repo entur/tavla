@@ -24,7 +24,15 @@ import { AddNewOwnersInput } from './components/AddNewOwnersInput'
 import { BoardOwnersList } from './components/BoardOwnersList'
 import classes from './ShareTab.module.scss'
 
-const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
+function ShareTab({
+    tabIndex,
+    setTabIndex,
+    locked,
+}: {
+    tabIndex: number
+    setTabIndex: Dispatch<number>
+    locked: boolean
+}) {
     const user = useUser()
     const [settings] = useSettings()
 
@@ -210,12 +218,6 @@ const ShareTab = ({ tabIndex, setTabIndex, locked }: Props): JSX.Element => {
             />
         </div>
     )
-}
-
-interface Props {
-    tabIndex: number
-    setTabIndex: Dispatch<number>
-    locked: boolean
 }
 
 export { ShareTab }

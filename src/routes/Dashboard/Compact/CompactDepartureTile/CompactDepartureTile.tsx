@@ -18,13 +18,7 @@ import { Loader } from 'components/Loader/Loader'
 import { CompactTileRow } from '../CompactTileRow/CompactTileRow'
 import classes from './CompactDepartureTile.module.scss'
 
-interface CompactDepartureTileProps {
-    stopPlaceId: string
-}
-
-const CompactDepartureTile: React.FC<CompactDepartureTileProps> = ({
-    stopPlaceId,
-}) => {
+function CompactDepartureTile({ stopPlaceId }: { stopPlaceId: string }) {
     const [settings] = useSettings()
     const iconColorType = useMemo(
         () => getIconColorType(settings.theme),

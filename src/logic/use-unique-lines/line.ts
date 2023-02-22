@@ -4,7 +4,7 @@ import {
 } from 'graphql-generated/journey-planner-v3'
 import { EstimatedCall } from './types'
 
-interface Line {
+type Line = {
     id: string
     name: string
     transportMode: TransportMode

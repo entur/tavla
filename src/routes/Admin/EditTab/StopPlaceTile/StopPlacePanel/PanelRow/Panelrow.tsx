@@ -12,11 +12,7 @@ import { RouteCheckbox } from './RouteCheckbox/RouteCheckbox'
 import { TransportModeSwitch } from './TransportModeSwitch/TransportModeSwitch'
 import classes from './PanelRow.module.scss'
 
-interface Props {
-    stopPlaceId: string
-}
-
-const PanelRow = ({ stopPlaceId }: Props): JSX.Element => {
+function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
     const [settings, setSettings] = useSettings()
 
     const { stopPlaceWithEstimatedCalls, loading } =

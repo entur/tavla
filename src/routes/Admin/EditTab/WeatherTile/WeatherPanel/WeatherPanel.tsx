@@ -5,7 +5,7 @@ import { FilterChip } from '@entur/chip'
 import { Label } from '@entur/typography'
 import classes from './WeatherPanel.module.scss'
 
-interface weatherSetting {
+type weatherSetting = {
     name: string
     value: string
     checked: boolean

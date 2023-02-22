@@ -6,7 +6,13 @@ import { Tooltip } from '@entur/tooltip'
 import { Heading2 } from '@entur/typography'
 import classes from '../ShareTab.module.scss'
 
-const EditableBoardTitle = ({ boardName, documentId }: Props): JSX.Element => {
+function EditableBoardTitle({
+    boardName,
+    documentId,
+}: {
+    documentId: string
+    boardName: string
+}) {
     const [titleEditMode, setTitleEditMode] = useState<boolean>(false)
     const [newBoardName, setNewBoardName] = useState<string>(boardName)
 
@@ -73,11 +79,6 @@ const EditableBoardTitle = ({ boardName, documentId }: Props): JSX.Element => {
             </Tooltip>
         </Heading2>
     )
-}
-
-interface Props {
-    documentId: string
-    boardName: string
 }
 
 export { EditableBoardTitle }

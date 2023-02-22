@@ -20,7 +20,7 @@ import { Tooltip } from '@entur/tooltip'
 import { BoardOverflowMenu } from '../BoardCard/OverflowMenu/BoardOverflowMenu'
 import classes from './ListView.module.scss'
 
-const ListView = ({ boards, user }: Props) => {
+function ListView({ boards, user }: { boards: DocumentData; user: User }) {
     const { addToast } = useToast()
 
     const handleCopy = useCallback(
@@ -96,8 +96,5 @@ const ListView = ({ boards, user }: Props) => {
         </Contrast>
     )
 }
-interface Props {
-    boards: DocumentData
-    user: User
-}
+
 export { ListView }

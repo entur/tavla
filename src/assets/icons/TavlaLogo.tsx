@@ -3,15 +3,13 @@ import { Theme } from 'src/types'
 import TavlaWhite from '../logos/Tavla-white.svg'
 import TavlaBlue from '../logos/Tavla-blue.svg'
 
-interface TavlaLogoProps {
-    className?: string
-    theme?: Theme
-}
-
 function TavlaLogo({
     className,
     theme = Theme.DEFAULT,
-}: TavlaLogoProps): JSX.Element {
+}: {
+    className?: string
+    theme?: Theme
+}): JSX.Element {
     switch (theme) {
         case Theme.LIGHT:
             return (

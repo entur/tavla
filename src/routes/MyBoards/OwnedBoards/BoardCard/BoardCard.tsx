@@ -110,7 +110,7 @@ function BoardCard({
     )
 }
 
-interface Props {
+type Props = {
     settings: Settings
     id: string
     uid: string

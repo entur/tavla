@@ -43,12 +43,12 @@ function useWeather(): Properties | undefined {
     return weather
 }
 
-interface Properties {
+type Properties = {
     meta: MetaDetails
     timeseries: TimeseriesPoint[]
 }
 
-interface MetaDetails {
+type MetaDetails = {
     units: {
         air_pressure_at_sea_level: string
         air_temperature: string
@@ -73,7 +73,7 @@ interface MetaDetails {
     }
 }
 
-interface TimeseriesPoint {
+type TimeseriesPoint = {
     time: Date
     data: {
         instant: {
@@ -102,7 +102,7 @@ interface TimeseriesPoint {
     }
 }
 
-interface WeatherDetailsInstant {
+type WeatherDetailsInstant = {
     air_pressure_at_sea_level: number
     air_temperature: number
     cloud_area_fraction: number
@@ -118,7 +118,7 @@ interface WeatherDetailsInstant {
     wind_speed_of_gust: number
 }
 
-interface WeatherDetailsFuture {
+type WeatherDetailsFuture = {
     air_temperature_max: number
     air_temperature_min: number
     precipitation_amount: number

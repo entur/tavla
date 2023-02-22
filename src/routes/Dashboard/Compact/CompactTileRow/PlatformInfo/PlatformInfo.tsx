@@ -1,12 +1,13 @@
 import React from 'react'
 import classes from './PlatformInfo.module.scss'
 
-interface Props {
+function PlatformInfo({
+    platform,
+    type,
+}: {
     platform: string | null
     type?: string
-}
-
-function PlatformInfo({ platform, type }: Props): JSX.Element | null {
+}): JSX.Element | null {
     if (!platform || !type) {
         return null
     }

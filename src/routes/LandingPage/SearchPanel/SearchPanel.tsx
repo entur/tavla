@@ -10,7 +10,7 @@ import classes from './SearchPanel.module.scss'
 
 const YOUR_POSITION = 'Posisjonen din'
 
-interface Item {
+type Item = {
     value: string
     label: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,12 +27,12 @@ function getErrorMessage(error: GeolocationPositionError): string {
     }
 }
 
-interface Location {
+type Location = {
     hasLocation: boolean
     selectedLocationName: string | null
 }
 
-const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
+function SearchPanel({ handleCoordinatesSelected }: Props) {
     const [{ denied }, refreshLocationPermission] = useLocationPermission()
     const [isLoadingYourLocation, setIsLoadingYourLocation] = useState(false)
     const [showPositionInList, setShowPositionInList] = useState(true)
@@ -169,7 +169,7 @@ const SearchPanel = ({ handleCoordinatesSelected }: Props): JSX.Element => {
 
 const MemoizedSearchPanel = memo(SearchPanel)
 
-interface Props {
+type Props = {
     handleCoordinatesSelected: (
         choseCoord: Coordinates,
         locationName: string,

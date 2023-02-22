@@ -4,18 +4,18 @@ import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
 import { Settings } from './settings/settings'
 
-export interface Coordinates {
+export type Coordinates = {
     latitude: number
     longitude: number
 }
 
-export interface DrawableRoute {
+export type DrawableRoute = {
     pointsOnLink: string
     mode: string
     lineRef: string
 }
 
-export interface TileSubLabel {
+export type TileSubLabel = {
     situation?: string
     displayTime: string
     expectedDepartureTime: Date
@@ -60,7 +60,7 @@ export enum CustomTileType {
     Image = 'image',
 }
 
-export interface CustomTile {
+export type CustomTile = {
     id: string
     type: CustomTileType
     displayName: string
@@ -68,19 +68,19 @@ export interface CustomTile {
     description?: string
     displayHeader?: string
 }
-export interface BoardOwnersData {
+export type BoardOwnersData = {
     uid: string
     email: string
 }
 
-export interface Board {
+export type Board = {
     data: Settings
     id: string
     lastmodified: Timestamp
     created: Timestamp
 }
 
-export interface SharedBoard {
+export type SharedBoard = {
     id: string
     boardName: string
     sharedBy: string
@@ -90,13 +90,13 @@ export interface SharedBoard {
     timeIssued: Timestamp
 }
 
-export interface Invite {
+export type Invite = {
     receiver: string
     sender: string
     timeIssued: FieldValue
     boardId?: string
 }
-export interface Viewport {
+export type Viewport = {
     latitude: number
     longitude: number
     width: string
@@ -105,6 +105,8 @@ export interface Viewport {
     maxZoom: number
     minZoom: number
 }
+
+export type EnturLogoStyle = 'white' | 'black' | 'contrast'
 
 /* Augment the proptype of @entur/alert ToastProvider with children definition.
  * This should be deleted when @entur/alert updates to @types/react@18.x and updates their definition

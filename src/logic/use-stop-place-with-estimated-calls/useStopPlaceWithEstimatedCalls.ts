@@ -11,13 +11,13 @@ import {
     toStopPlaceWithEstimatedCalls,
 } from './types'
 
-interface UseStopPlaceWithEstimatedCalls {
+type UseStopPlaceWithEstimatedCalls = {
     stopPlaceWithEstimatedCalls: StopPlaceWithEstimatedCalls | null
     loading: boolean
     error: ApolloError | undefined
 }
 
-interface Options {
+type Options = {
     stopPlaceId: string
     timeRange?: number
     numberOfDeparturesPerLineAndDestinationDisplay?: number
