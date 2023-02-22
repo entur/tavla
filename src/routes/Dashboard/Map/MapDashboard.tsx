@@ -1,13 +1,13 @@
 import React from 'react'
-import { WeatherTile } from 'components/WeatherTile/WeatherTile'
+import { WeatherTile } from 'tiles/WeatherTile'
 import { DashboardWrapper } from 'containers/DashboardWrapper/DashboardWrapper'
 import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
-import { Map } from 'components/Map/Map'
+import { Map } from 'components/Map'
 import { useSettings } from 'settings/SettingsProvider'
 import { DepartureTag } from './DepartureTag/DepartureTag'
 import classes from './MapDashboard.module.scss'
 
-const MapDashboard = (): JSX.Element => {
+function MapDashboard() {
     const [settings] = useSettings()
     const { stopPlaceIds } = useStopPlaceIds()
 

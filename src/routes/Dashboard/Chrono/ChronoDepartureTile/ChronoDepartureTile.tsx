@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
 import classNames from 'classnames'
-import { Tile } from 'components/Tile/Tile'
+import { Tile } from 'components/Tile'
 import { useSettings } from 'settings/SettingsProvider'
 import { getIconColorType, getTransportHeaderIcons } from 'utils/icon'
-import { TileHeader } from 'components/TileHeader/TileHeader'
+import { TileHeader } from 'components/TileHeader'
 import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
     byDepartureTime,
@@ -11,8 +11,8 @@ import {
     toDeparture,
 } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from 'components/WalkTrip/WalkTrip'
-import { ErrorTile } from 'components/ErrorTile/ErrorTile'
-import { EmptyStopTile } from 'components/EmptyStopTile/EmptyStopTile'
+import { ErrorTile } from 'tiles/ErrorTile'
+import { EmptyStopTile } from 'tiles/EmptyStopTile'
 import { Loader } from 'components/Loader/Loader'
 import { HeaderCell, Table, TableHead, TableRow } from '@entur/table'
 import { ChronoTableRows } from '../ChronoTableRows/ChronoTableRows'
