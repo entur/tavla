@@ -5,7 +5,7 @@ import {
     setIdToBeDeleted,
     userIsOwner,
 } from 'settings/firebase'
-import { useUser } from 'src/UserProvider'
+import { useUser } from 'settings/UserProvider'
 import {
     Label,
     Paragraph,

@@ -7,7 +7,7 @@ import {
     getInvitesForUserOnSnapshot,
     getBoardsByIds,
 } from 'settings/firebase'
-import { useUser } from 'src/UserProvider'
+import { useUser } from 'settings/UserProvider'
 import { Board, SharedBoard } from 'src/types'
 import {
     NoAccessToTavler,

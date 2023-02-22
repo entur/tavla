@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Check from 'assets/images/check.png'
 import retinaCheck from 'assets/images/check@2x.png'
-import { useUser } from 'src/UserProvider'
+import { useUser } from 'settings/UserProvider'
 import { useSettings } from 'settings/SettingsProvider'
 import { Heading3, Paragraph } from '@entur/typography'
 import { Modal } from '@entur/modal'

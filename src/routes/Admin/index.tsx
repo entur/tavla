@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useSearchParams } from 'react-router-dom'
-import { useUser } from 'src/UserProvider'
+import { useUser } from 'settings/UserProvider'
 import { useSettings } from 'settings/SettingsProvider'
 import { isDarkOrDefaultTheme } from 'utils/utils'
 import { useThemeHandler } from 'hooks/useThemeHandler'
