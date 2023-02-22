@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
-import { auth, useUser } from 'src/UserProvider'
+import { auth, useUser } from 'settings/UserProvider'
 import { TavlaLogo } from 'assets/icons/TavlaLogo'
 import { LoginModal } from 'components/AccountModals/LoginModal/LoginModal'
 import { LoginCase } from 'components/AccountModals/LoginModal/login-modal-types'

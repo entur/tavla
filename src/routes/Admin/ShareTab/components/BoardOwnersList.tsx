@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useUser } from 'src/UserProvider'
+import { useUser } from 'settings/UserProvider'
 import type { BoardOwnersData, Invite } from 'src/types'
 import { removeSentBoardInviteAsOwner } from 'settings/firebase'
 import { removeFromOwners } from 'settings/FirestoreStorage'
