@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
-import { Tile } from 'components/Tile/Tile'
+import { Tile } from 'components/Tile'
+import { TileHeader } from 'components/TileHeader'
 import { Paragraph } from '@entur/typography'
-import { TileHeader } from '../TileHeader/TileHeader'
 
 function EmptyStopTile({
     className,

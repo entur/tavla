@@ -3,25 +3,16 @@ import classNames from 'classnames'
 import { useSettings } from 'settings/SettingsProvider'
 import { useWalkTrip } from 'hooks/use-walk-trip/useWalkTrip'
 import { Coordinates } from 'src/types'
-import { WalkTrip as WalkTripType } from 'hooks/use-walk-trip/types'
+import { formatWalkTrip } from 'utils/formatting'
 import classes from './WalkTrip.module.scss'
 
-function formatWalkTrip(walkTrip: WalkTripType) {
-    if (walkTrip.duration / 60 < 1) {
-        return `Mindre enn 1 min å gå (${Math.ceil(walkTrip.walkDistance)} m)`
-    } else {
-        return `${Math.ceil(walkTrip.duration / 60)} min å gå (${Math.ceil(
-            walkTrip.walkDistance,
-        )} m)`
-    }
-}
-
-interface Props {
+function WalkTrip({
+    className,
+    coordinates,
+}: {
     className?: string
     coordinates: Coordinates
-}
-
-const WalkTrip: React.FC<Props> = ({ className, coordinates }) => {
+}) {
     const [settings] = useSettings()
     const { walkTrip } = useWalkTrip(coordinates)
 

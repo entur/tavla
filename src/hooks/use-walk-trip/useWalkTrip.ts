@@ -3,8 +3,8 @@ import { is } from 'superstruct'
 import { ApolloError } from '@apollo/client'
 import { useSettings } from 'settings/SettingsProvider'
 import { useWalkTripQuery } from 'graphql-generated/journey-planner-v3'
-import { Coordinates } from 'src/types'
-import { TripPatternStruct, WalkTrip } from './types'
+import { Coordinates, WalkTrip } from 'src/types'
+import { TripPatternStruct } from './types'
 
 type UseWalkTrip = {
     walkTrip: WalkTrip | undefined
