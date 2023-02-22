@@ -36,8 +36,12 @@ module.exports = async (env, args) => ({
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.graphql'],
         alias: {
             src: path.resolve(__dirname, 'src/'),
+            routes: path.resolve(__dirname, 'src/routes/'),
             components: path.resolve(__dirname, 'src/components/'),
+            scenarios: path.resolve(__dirname, 'src/scenarios/'),
+            tiles: path.resolve(__dirname, 'src/tiles/'),
             assets: path.resolve(__dirname, 'src/assets/'),
+            types: path.resolve(__dirname, 'src/types/'),
             hooks: path.resolve(__dirname, 'src/hooks/'),
             utils: path.resolve(__dirname, 'src/utils/'),
             containers: path.resolve(__dirname, 'src/containers/'),
