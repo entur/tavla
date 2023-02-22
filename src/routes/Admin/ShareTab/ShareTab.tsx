@@ -4,7 +4,7 @@ import type { User } from 'firebase/auth'
 import type { DocumentData, DocumentSnapshot } from 'firebase/firestore'
 import type { FirebaseError } from 'firebase/app'
 import { useSettings } from 'settings/SettingsProvider'
-import { useUser } from 'src/UserProvider'
+import { useUser } from 'settings/UserProvider'
 import {
     getBoardOnSnapshot,
     getInvitesForBoardOnSnapshot,

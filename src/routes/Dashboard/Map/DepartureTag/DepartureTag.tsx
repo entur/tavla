@@ -4,12 +4,12 @@ import { nb } from 'date-fns/locale'
 import { IconColorType } from 'src/types'
 import { getIconColor } from 'utils/icon'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
-import { useStopPlaceWithEstimatedCalls } from 'logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
+import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
     Departure,
     filterHidden,
     toDeparture,
-} from 'logic/use-stop-place-with-estimated-calls/departure'
+} from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { useSettings } from 'settings/SettingsProvider'
 import { Loader } from 'components/Loader/Loader'
 import { Heading4, Paragraph } from '@entur/typography'

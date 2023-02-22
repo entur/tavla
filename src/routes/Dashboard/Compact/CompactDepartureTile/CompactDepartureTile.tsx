@@ -4,11 +4,11 @@ import { Tile } from 'components/Tile/Tile'
 import { useSettings } from 'settings/SettingsProvider'
 import { getIconColorType, getTransportHeaderIcons } from 'utils/icon'
 import { TileHeader } from 'components/TileHeader/TileHeader'
-import { useStopPlaceWithEstimatedCalls } from 'logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
+import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
     filterHidden,
     toDeparture,
-} from 'logic/use-stop-place-with-estimated-calls/departure'
+} from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from 'components/WalkTrip/WalkTrip'
 import { createTileSubLabel } from 'utils/utils'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'

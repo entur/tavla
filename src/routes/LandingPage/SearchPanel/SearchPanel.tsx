@@ -1,6 +1,6 @@
 import React, { memo, useState, useEffect } from 'react'
-import { fetchAutocomplete } from 'logic/geocoder/fetchAutocomplete'
-import { fetchReverse } from 'logic/geocoder/fetchReverse'
+import { fetchAutocomplete } from 'utils/geocoder/fetchAutocomplete'
+import { fetchReverse } from 'utils/geocoder/fetchReverse'
 import { useLocationPermission } from 'hooks/useLocationPermission'
 import { Coordinates } from 'src/types'
 import { PositionIcon } from '@entur/icons'

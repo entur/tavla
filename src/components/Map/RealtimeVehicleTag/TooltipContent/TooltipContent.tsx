@@ -3,7 +3,7 @@ import { DepartureIcon } from 'src/routes/Dashboard/Map/DepartureIcon/DepartureI
 import { getFeedbackString, getLastUpdated } from 'utils/time'
 import { getIconColor } from 'utils/icon'
 import { IconColorType } from 'src/types'
-import { RealtimeVehicle } from 'logic/use-realtime-vehicle-data/types'
+import { RealtimeVehicle } from 'hooks/use-realtime-vehicle-data/types'
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
 import { Label } from '@entur/typography'
 import { colors } from '@entur/tokens'

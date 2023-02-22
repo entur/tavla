@@ -1,9 +1,9 @@
 import React from 'react'
 import { Operator } from 'graphql-generated/mobility-v2'
+import { ALL_ACTIVE_OPERATOR_IDS } from 'utils/constants'
 import Voi from '../logos/Voi.svg'
 import Tier from '../logos/Tier.svg'
 import Bolt from '../logos/Bolt.svg'
-import { ALL_ACTIVE_OPERATOR_IDS } from '../../constants'
 
 function ScooterOperatorLogo({
     operator,

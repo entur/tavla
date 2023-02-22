@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { Tile } from 'components/Tile/Tile'
-import { useWeather } from 'src/logic'
+import { useWeather } from 'hooks/useWeather'
 import { createAbortController } from 'utils/utils'
 import { useSettings } from 'settings/SettingsProvider'
 import { Temperature } from './Temperature/Temperature'

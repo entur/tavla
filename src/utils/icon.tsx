@@ -6,7 +6,7 @@ import {
     TransportMode,
     TransportSubmode,
 } from 'graphql-generated/journey-planner-v3'
-import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
+import { Departure } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
 import { colors } from '@entur/tokens'
 import { isNotNullOrUndefined } from './typeguards'

@@ -7,8 +7,8 @@ import {
     byDepartureTime,
     filterHidden,
     toDeparture,
-} from 'logic/use-stop-place-with-estimated-calls/departure'
-import { useStopPlaceWithEstimatedCalls } from 'logic/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
+} from 'hooks/use-stop-place-with-estimated-calls/departure'
+import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { useSettings } from 'settings/SettingsProvider'
 import { ResponsiveTable } from './ResponsiveTable/ResponsiveTable'
 import classes from './ResponsiveDepartureTile.module.scss'

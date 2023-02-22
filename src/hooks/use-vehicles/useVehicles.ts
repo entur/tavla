@@ -3,7 +3,7 @@ import { ApolloError } from '@apollo/client'
 import { useSettings } from 'settings/SettingsProvider'
 import { FormFactor, useVehiclesQuery } from 'graphql-generated/mobility-v2'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from '../../constants'
+import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from 'utils/constants'
 import { useOperatorIds } from '../use-operator-ids/useOperatorIds'
 import { toVehicle, Vehicle } from './Vehicle'
 

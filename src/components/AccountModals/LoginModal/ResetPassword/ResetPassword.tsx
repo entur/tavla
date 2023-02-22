@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react'
 import type { User } from 'firebase/auth'
 import { sendPasswordResetEmail } from 'firebase/auth'
-import { auth } from 'src/UserProvider'
+import { auth } from 'settings/UserProvider'
 import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
 import { useFormFields } from 'hooks/useFormFields'

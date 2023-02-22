@@ -1,9 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import { useSettings } from 'settings/SettingsProvider'
-import { useWalkTrip } from 'logic/use-walk-trip/useWalkTrip'
+import { useWalkTrip } from 'hooks/use-walk-trip/useWalkTrip'
 import { Coordinates } from 'src/types'
-import { WalkTrip as WalkTripType } from 'logic/use-walk-trip/types'
+import { WalkTrip as WalkTripType } from 'hooks/use-walk-trip/types'
 import classes from './WalkTrip.module.scss'
 
 function formatWalkTrip(walkTrip: WalkTripType) {

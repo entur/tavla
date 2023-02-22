@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { IconColorType } from 'src/types'
-import { RealtimeVehicle } from 'logic/use-realtime-vehicle-data/types'
+import { RealtimeVehicle } from 'hooks/use-realtime-vehicle-data/types'
 import { useSettings } from 'settings/SettingsProvider'
 import { getIconColor } from 'utils/icon'
 import { Mode, TransportMode } from 'graphql-generated/journey-planner-v3'

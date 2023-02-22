@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import type { User } from 'firebase/auth'
-import { useUser } from 'src/UserProvider'
+import { useUser } from 'settings/UserProvider'
 import { usePrevious } from 'hooks/usePrevious'
 import { useToast } from '@entur/alert'
 import { Modal } from '@entur/modal'

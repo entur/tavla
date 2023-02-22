@@ -26,7 +26,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import type { User } from 'firebase/auth'
 import { signInWithCustomToken } from 'firebase/auth'
 import { BoardOwnersData } from 'src/types'
-import { auth, db, functions, storage } from '../firebase-init'
+import { auth, db, functions, storage } from './firebase-init'
 import { FieldTypes } from './FirestoreStorage'
 import { Settings } from './settings'
 

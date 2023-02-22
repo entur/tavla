@@ -1,9 +1,9 @@
 import React from 'react'
 import { signOut } from 'firebase/auth'
-import { useUser } from 'src/UserProvider'
+import { useUser } from 'settings/UserProvider'
+import { auth } from 'settings/firebase-init'
 import { useToast } from '@entur/alert'
 import { LogOutIcon } from '@entur/icons'
-import { auth } from '../../../../firebase-init'
 import { MenuButton } from '../MenuButton/MenuButton'
 
 const LogoutButton = () => {

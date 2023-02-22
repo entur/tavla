@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { Line } from 'logic/use-unique-lines/line'
+import { Line } from 'hooks/use-unique-lines/line'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
 import { useSettings } from 'settings/SettingsProvider'
 import { ExpandablePanel } from '@entur/expand'
