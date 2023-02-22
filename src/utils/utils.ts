@@ -1,5 +1,5 @@
 import { TranslatedString } from 'graphql-generated/mobility-v2'
-import { EnturLogoStyle, Theme, TileSubLabel  } from 'src/types'
+import { EnturLogoStyle, Theme, TileSubLabel } from 'src/types'
 import EnturBlack from 'assets/logos/EnturBlack.svg'
 import EnturWhite from 'assets/logos/EnturWhite.svg'
 import EnturContrast from 'assets/logos/EnturContrast.svg'
