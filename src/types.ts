@@ -151,3 +151,8 @@ export type Line = {
 export const ToastProvider = _ToastProvider as React.FC<
     ToastProviderProps & { children: React.ReactNode }
 >
+
+export type WalkTrip = {
+    duration: number
+    walkDistance: number
+}
