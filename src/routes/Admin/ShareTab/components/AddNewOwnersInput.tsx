@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { addNewInviteToBoard } from 'settings/firebase'
-import { useUser } from 'src/UserProvider'
+import { useUser } from 'settings/UserProvider'
 import { BoardOwnersData, Invite } from 'src/types'
 import { SecondarySquareButton } from '@entur/button'
 import { TextField } from '@entur/form'

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useUser } from 'src/UserProvider'
+import { useUser } from 'settings/UserProvider'
 import { useSettings } from 'settings/SettingsProvider'
 import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
