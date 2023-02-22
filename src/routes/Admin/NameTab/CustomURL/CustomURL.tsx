@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
     copySettingsToNewId,
-    setIdToBeDeleted,
+    updateFirebaseSettings,
     userIsOwner,
 } from 'settings/firebase'
 import { useUser } from 'settings/UserProvider'
@@ -82,7 +82,9 @@ const CustomURL = (): JSX.Element => {
                 documentId ?? '',
             )
             if (successfulCopy) {
-                setIdToBeDeleted(currentDoc)
+                updateFirebaseSettings(currentDoc, {
+                    isScheduledForDelete: true,
+                })
                 handleNewIdVisuals()
             } else {
                 handleFailedInputVisuals(inputFeedback.ID_UNAVAILABLE)

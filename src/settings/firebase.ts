@@ -27,7 +27,6 @@ import type { User } from 'firebase/auth'
 import { signInWithCustomToken } from 'firebase/auth'
 import { BoardOwnersData } from 'src/types'
 import { auth, db, functions, storage } from './firebase-init'
-import { FieldTypes } from './FirestoreStorage'
 import { Settings } from './settings'
 
 const SETTINGS_COLLECTION = 'settings'
@@ -49,19 +48,9 @@ export const userIsOwner = async (
     }
 }
 
-export const updateSingleSettingsField = async (
+export const updateFirebaseSettings = async (
     docId: string,
-    fieldId: string,
-    fieldValue: FieldTypes,
-): Promise<void> =>
-    updateDoc(doc(collection(db, SETTINGS_COLLECTION), docId), {
-        [fieldId]: fieldValue,
-        lastmodified: serverTimestamp(),
-    })
-
-export const updateMultipleSettingsFields = async (
-    docId: string,
-    settings: Settings,
+    settings: Partial<Settings>,
 ): Promise<void> =>
     updateDoc(doc(collection(db, SETTINGS_COLLECTION), docId), {
         ...settings,
@@ -82,6 +71,13 @@ export const removeFromArray = async (
         [fieldId]: arrayRemove(fieldValue),
         lastmodified: serverTimestamp(),
     })
+
+export const removeFromOwners = async (
+    docId: string,
+    uid: string,
+): Promise<void> => {
+    await removeFromArray(docId, 'owners', uid)
+}
 
 export const createSettings = async (
     settings: Settings,
@@ -150,9 +146,6 @@ export const copySubCollectionToId = async (
         setDoc(doc(toSubCollectionRef, inviteDoc.id), inviteDoc.data())
     })
 }
-
-export const setIdToBeDeleted = (docId: string): Promise<void> =>
-    updateSingleSettingsField(docId, 'isScheduledForDelete', true)
 
 export const deleteDocument = async (docId: string): Promise<void> =>
     deleteDoc(doc(collection(db, SETTINGS_COLLECTION), docId))

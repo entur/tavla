@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { updateSingleSettingsField } from 'settings/firebase'
+import { updateFirebaseSettings } from 'settings/firebase'
 import { IconButton } from '@entur/button'
 import { CheckIcon, CloseIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
@@ -24,11 +24,9 @@ function EditableBoardTitle({
         setTitleEditMode(false)
         if (newBoardName === boardName) return
         try {
-            await updateSingleSettingsField(
-                documentId,
-                'boardName',
-                newBoardName,
-            )
+            await updateFirebaseSettings(documentId, {
+                boardName: newBoardName,
+            })
         } catch {
             throw new Error('Could not change board name.')
         }

@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import type { Timestamp } from 'firebase/firestore'
 import classNames from 'classnames'
 import { ThemeDashboardPreview } from 'assets/icons/ThemeDashboardPreview'
-import { persistSingleField } from 'settings/FirestoreStorage'
 import { createTimeString } from 'utils/time'
 import { Settings } from 'settings/settings'
+import { updateFirebaseSettings } from 'settings/firebase'
 import { LinkIcon, ClockIcon } from '@entur/icons'
 import { Heading3 } from '@entur/typography'
 import { BoardOverflowMenu } from './OverflowMenu/BoardOverflowMenu'
@@ -43,7 +43,7 @@ function BoardCard({
             if (newTitle == settings.boardName) return
 
             setBoardTitle(newTitle)
-            persistSingleField(id, 'boardName', newTitle)
+            updateFirebaseSettings(id, { boardName: newTitle })
         },
         [id, settings.boardName],
     )

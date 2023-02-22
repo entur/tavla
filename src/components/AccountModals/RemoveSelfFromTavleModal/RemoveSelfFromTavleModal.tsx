@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
-import { removeFromOwners } from 'settings/FirestoreStorage'
+import { removeFromArray } from 'settings/firebase'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -26,7 +26,7 @@ function RemoveSelfFromTavleModal({
     const { addToast } = useToast()
 
     const handleRemoveSelfFromTavle = useCallback(async () => {
-        await removeFromOwners(id, uid)
+        await removeFromArray(id, 'owners', uid)
         addToast({
             title: 'Du ble fjernet fra tavla.',
             content:

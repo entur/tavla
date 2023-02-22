@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { useUser } from 'settings/UserProvider'
 import type { BoardOwnersData, Invite } from 'src/types'
-import { removeSentBoardInviteAsOwner } from 'settings/firebase'
-import { removeFromOwners } from 'settings/FirestoreStorage'
+import {
+    removeFromOwners,
+    removeSentBoardInviteAsOwner,
+} from 'settings/firebase'
 import { Table, TableHead, TableRow, HeaderCell, TableBody } from '@entur/table'
 import { SharedWithRows } from './SharedWithRows'
 
