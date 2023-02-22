@@ -9,7 +9,7 @@ function ResizeHandle({
     className?: string
     size?: string
     variant?: 'light' | 'dark'
-}): JSX.Element | null {
+}){
     const color =
         variant === 'light'
             ? colors.blues.blue60

@@ -6,16 +6,6 @@ import { Heading1 } from '@entur/typography'
 import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
 import classes from './ErrorWrapper.module.scss'
 
-type ErrorWrapperProps = {
-    title: string
-    message: string
-    image: string
-    callbackMessage?: string
-    altText?: string
-    callback?: (event: React.SyntheticEvent<HTMLButtonElement>) => void
-    theme?: Theme
-}
-
 function ErrorWrapper({
     title,
     message,
@@ -24,7 +14,15 @@ function ErrorWrapper({
     callback,
     altText,
     theme = Theme.DEFAULT,
-}: ErrorWrapperProps): JSX.Element {
+}: {
+    title: string
+    message: string
+    image: string
+    callbackMessage?: string
+    altText?: string
+    callback?: (event: React.SyntheticEvent<HTMLButtonElement>) => void
+    theme?: Theme
+}) {
     return (
         <ThemeContrastWrapper useContrast={isDarkOrDefaultTheme(theme)}>
             <div className={classes.ErrorWrapper}>

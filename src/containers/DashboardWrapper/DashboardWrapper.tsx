@@ -14,20 +14,18 @@ import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapp
 import { BottomMenu } from './BottomMenu/BottomMenu'
 import classes from './DashboardWrapper.module.scss'
 
-type DashboardWrapperProps = {
+function DashboardWrapper({
+    className,
+    classes: innerClassNames = {},
+    children,
+}: {
     className: string
     classes?: {
         Header?: string
         Byline?: string
     }
     children: JSX.Element | JSX.Element[]
-}
-
-function DashboardWrapper({
-    className,
-    classes: innerClassNames = {},
-    children,
-}: DashboardWrapperProps): JSX.Element {
+}) {
     useThemeHandler()
     useHandleFontScaling()
     useReloadTavleOnUpdate()

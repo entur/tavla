@@ -1,5 +1,10 @@
 import React from 'react'
 import { FieldValue, Timestamp } from 'firebase/firestore'
+import {
+    TransportMode,
+    TransportSubmode,
+} from 'graphql-generated/journey-planner-v3'
+import { EstimatedCall } from 'hooks/use-stop-place-with-estimated-calls/types'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
 import { Settings } from './settings/settings'
@@ -106,7 +111,39 @@ export type Viewport = {
     minZoom: number
 }
 
+export type UserLogin = {
+    email: string
+    password: string
+}
+
 export type EnturLogoStyle = 'white' | 'black' | 'contrast'
+
+export type Departure = {
+    id: string
+    aimedDepartureTime: Date
+    expectedDepartureTime: Date
+    formattedAimedDepartureTime: string
+    formattedExpectedDepartureTime: string
+    delayed: boolean
+    transportMode: TransportMode
+    transportSubmode: TransportSubmode
+    displayTime: string
+    publicCode: string
+    frontText: string
+    route: string
+    situations: EstimatedCall['situations']
+    cancellation: boolean
+    quay: EstimatedCall['quay']
+}
+
+export type Line = {
+    id: string
+    name: string
+    transportMode: TransportMode
+    transportSubmode: TransportSubmode
+    publicCode: string
+    pointsOnLink: string
+}
 
 /* Augment the proptype of @entur/alert ToastProvider with children definition.
  * This should be deleted when @entur/alert updates to @types/react@18.x and updates their definition

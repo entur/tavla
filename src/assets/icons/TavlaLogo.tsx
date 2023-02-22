@@ -9,7 +9,7 @@ function TavlaLogo({
 }: {
     className?: string
     theme?: Theme
-}): JSX.Element {
+}) {
     switch (theme) {
         case Theme.LIGHT:
             return (

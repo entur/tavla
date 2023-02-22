@@ -8,7 +8,7 @@ function Spinner({
     color?: string
     size?: number | string
     spin?: boolean
-}): JSX.Element {
+}){
     return (
         <svg
             className={spin ? 'spinner' : ''}

@@ -1,28 +1,7 @@
 import { compareAsc, differenceInMinutes, format, parseISO } from 'date-fns'
-import {
-    TransportMode,
-    TransportSubmode,
-} from 'graphql-generated/journey-planner-v3'
 import { Settings } from 'settings/settings'
+import { Departure } from 'src/types'
 import { EstimatedCall } from './types'
-
-type Departure = {
-    id: string
-    aimedDepartureTime: Date
-    expectedDepartureTime: Date
-    formattedAimedDepartureTime: string
-    formattedExpectedDepartureTime: string
-    delayed: boolean
-    transportMode: TransportMode
-    transportSubmode: TransportSubmode
-    displayTime: string
-    publicCode: string
-    frontText: string
-    route: string
-    situations: EstimatedCall['situations']
-    cancellation: boolean
-    quay: EstimatedCall['quay']
-}
 
 function formatTime(minDiff: number, departureTime: Date): string {
     if (minDiff > 15) return format(departureTime, 'HH:mm')
@@ -83,4 +62,3 @@ const byDepartureTime = (a: Departure, b: Departure) =>
     compareAsc(a.expectedDepartureTime, b.expectedDepartureTime)
 
 export { toDeparture, filterHidden, byDepartureTime }
-export type { Departure }

@@ -9,16 +9,14 @@ import { REFRESH_INTERVAL } from 'utils/constants'
 import { useStationIds } from '../use-station-ids/useStationIds'
 import { toRentalStation, RentalStation } from './types'
 
-type UseRentalStations = {
-    rentalStations: RentalStation[]
-    loading: boolean
-    error: ApolloError | undefined
-}
-
 function useRentalStations(
     formFactors?: FormFactor[],
     filterHidden: boolean | undefined = true,
-): UseRentalStations {
+): {
+    rentalStations: RentalStation[]
+    loading: boolean
+    error: ApolloError | undefined
+} {
     const {
         stationIds,
         loading: allStationIdsLoading,

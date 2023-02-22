@@ -1,8 +1,8 @@
 import React from 'react'
 import { ValidationExclamation } from 'assets/icons/ValidationExclamation'
 import { ValidationError } from 'assets/icons/ValidationError'
-import { Departure } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import classes from './SituationInfo.module.scss'
+import { Departure } from 'src/types'
 
 function SituationInfo({ departure }: { departure: Departure }) {
     const situation =

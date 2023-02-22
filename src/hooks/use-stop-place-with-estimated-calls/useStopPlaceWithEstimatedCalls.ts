@@ -11,27 +11,23 @@ import {
     toStopPlaceWithEstimatedCalls,
 } from './types'
 
-type UseStopPlaceWithEstimatedCalls = {
-    stopPlaceWithEstimatedCalls: StopPlaceWithEstimatedCalls | null
-    loading: boolean
-    error: ApolloError | undefined
-}
-
-type Options = {
-    stopPlaceId: string
-    timeRange?: number
-    numberOfDeparturesPerLineAndDestinationDisplay?: number
-    numberOfDepartures?: number
-    hiddenStopModes?: { [stopPlaceId: string]: TransportMode[] }
-}
-
 function useStopPlaceWithEstimatedCalls({
     stopPlaceId,
     timeRange,
     numberOfDeparturesPerLineAndDestinationDisplay,
     numberOfDepartures,
     hiddenStopModes,
-}: Options): UseStopPlaceWithEstimatedCalls {
+}: {
+    stopPlaceId: string
+    timeRange?: number
+    numberOfDeparturesPerLineAndDestinationDisplay?: number
+    numberOfDepartures?: number
+    hiddenStopModes?: { [stopPlaceId: string]: TransportMode[] }
+}): {
+    stopPlaceWithEstimatedCalls: StopPlaceWithEstimatedCalls | null
+    loading: boolean
+    error: ApolloError | undefined
+} {
     const whiteListedModes = useMemo(() => {
         // In API, empty list means to fetch departures for all modes
         if (!hiddenStopModes || !hiddenStopModes[stopPlaceId]) return []

@@ -14,10 +14,6 @@ import { CloseButton } from '../../../CloseButton/CloseButton'
 import { ModalType } from '../login-modal-types'
 import classes from '../../AccountModals.module.scss'
 
-type UserResetPassword = {
-    email: string
-}
-
 function ResetPassword({
     setModalType,
     onDismiss,
@@ -25,7 +21,9 @@ function ResetPassword({
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
 }) {
-    const [inputs, handleInputsChange] = useFormFields<UserResetPassword>({
+    const [inputs, handleInputsChange] = useFormFields<{
+        email: string
+    }>({
         email: '',
     })
 

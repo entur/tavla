@@ -7,7 +7,7 @@ function PositionPin({
 }: {
     className?: string
     size?: number | string
-}): JSX.Element | null {
+}){
     return <img src={Pin} width={size} height={size} className={className} />
 }
 

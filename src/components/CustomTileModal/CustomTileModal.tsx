@@ -6,10 +6,7 @@ import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Radio, RadioGroup, TextArea, TextField } from '@entur/form'
 import classes from './CustomTileModal.module.scss'
 
-enum ActionType {
-    Update = 'Update',
-    AddNew = 'AddNew',
-}
+type ActionType = 'Update' | 'AddNew'
 
 function CustomTileModal({
     setIsOpen,
@@ -62,7 +59,7 @@ function CustomTileModal({
         if (tileType === CustomTileType.QR) {
             setSettings({
                 customQrTiles: [
-                    ...(actionType === ActionType.Update
+                    ...(actionType === 'Update'
                         ? settings.customQrTiles.filter(
                               ({ id }) => id !== selectedTileId,
                           )
@@ -80,7 +77,7 @@ function CustomTileModal({
         if (tileType === CustomTileType.Image) {
             setSettings({
                 customImageTiles: [
-                    ...(actionType === ActionType.Update
+                    ...(actionType === 'Update'
                         ? settings.customImageTiles.filter(
                               ({ id }) => id !== selectedTileId,
                           )
@@ -181,11 +178,7 @@ function CustomTileModal({
                 </SecondaryButton>
                 <PrimaryButton
                     onClick={() =>
-                        handleSubmit(
-                            selectedTileId
-                                ? ActionType.Update
-                                : ActionType.AddNew,
-                        )
+                        handleSubmit(selectedTileId ? 'Update' : 'AddNew')
                     }
                     type="button"
                 >
