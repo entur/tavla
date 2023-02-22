@@ -5,19 +5,17 @@ import { isTransport } from 'utils/typeguards'
 import { useSettings } from 'settings/SettingsProvider'
 import { TravelSwitch } from '@entur/form'
 
-interface Props {
-    className?: string
-    stopPlaceId: string
-    mode: TransportMode
-    numberOfModes: number
-}
-
-const TransportModeSwitch: React.FC<Props> = ({
+function TransportModeSwitch({
     className,
     stopPlaceId,
     mode,
     numberOfModes,
-}) => {
+}: {
+    className?: string
+    stopPlaceId: string
+    mode: TransportMode
+    numberOfModes: number
+}) {
     const [settings, setSettings] = useSettings()
 
     const onToggleMode = useCallback((): void => {

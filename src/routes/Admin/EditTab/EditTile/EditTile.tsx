@@ -4,7 +4,7 @@ import { Heading2 } from '@entur/typography'
 import { Switch } from '@entur/form'
 import classes from './EditTile.module.scss'
 
-interface Props {
+type Props = {
     className?: string
     children?: React.ReactNode
     title: React.ReactNode

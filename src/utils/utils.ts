@@ -1,6 +1,8 @@
 import { TranslatedString } from 'graphql-generated/mobility-v2'
-import { Theme, TileSubLabel } from 'src/types'
-import { Departure } from 'hooks/use-stop-place-with-estimated-calls/departure'
+import { Departure, EnturLogoStyle, Theme, TileSubLabel } from 'src/types'
+import EnturBlack from 'assets/logos/EnturBlack.svg'
+import EnturWhite from 'assets/logos/EnturWhite.svg'
+import EnturContrast from 'assets/logos/EnturContrast.svg'
 
 export function createTileSubLabel({
     situations,
@@ -36,6 +38,17 @@ export function getTranslation(
     )
     if (!match) return null
     return match.value
+}
+
+export function enturLogo(style?: EnturLogoStyle) {
+    switch (style) {
+        case 'black':
+            return EnturBlack
+        case 'white':
+            return EnturWhite
+        default:
+            return EnturContrast
+    }
 }
 
 export function createAbortController():

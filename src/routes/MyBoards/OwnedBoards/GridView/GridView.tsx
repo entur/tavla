@@ -9,32 +9,29 @@ import { Heading3 } from '@entur/typography'
 import { BoardCard } from '../BoardCard/BoardCard'
 import classes from './GridView.module.scss'
 
-const GridView = ({ boards, user }: Props) => (
-    <Contrast className={classes.GridView}>
-        {boards.map((board: Board) => (
-            <BoardCard
-                key={board.id}
-                id={board.id}
-                uid={user.uid}
-                timestamp={board.lastmodified}
-                created={board.created}
-                settings={board.data}
-            />
-        ))}
-        <div>
-            <Link to="/">
-                <div className={classes.AddBoard}>
-                    <AddBoardIcon className={classes.AddIcon} />
-                </div>
-            </Link>
-            <Heading3>Lag ny tavle</Heading3>
-        </div>
-    </Contrast>
-)
-
-interface Props {
-    boards: DocumentData
-    user: User
+function GridView({ boards, user }: { boards: DocumentData; user: User }) {
+    return (
+        <Contrast className={classes.GridView}>
+            {boards.map((board: Board) => (
+                <BoardCard
+                    key={board.id}
+                    id={board.id}
+                    uid={user.uid}
+                    timestamp={board.lastmodified}
+                    created={board.created}
+                    settings={board.data}
+                />
+            ))}
+            <div>
+                <Link to="/">
+                    <div className={classes.AddBoard}>
+                        <AddBoardIcon className={classes.AddIcon} />
+                    </div>
+                </Link>
+                <Heading3>Lag ny tavle</Heading3>
+            </div>
+        </Contrast>
+    )
 }
 
 export { GridView }

@@ -10,17 +10,15 @@ import { useToast } from '@entur/alert'
 import { CloseButton } from '../../CloseButton/CloseButton'
 import classes from '../AccountModals.module.scss'
 
-interface DeleteTavleModalProps {
-    open: boolean
-    onDismiss: () => void
-    id: string
-}
-
-const DeleteTavleModal: React.FC<DeleteTavleModalProps> = ({
+function DeleteTavleModal({
     open,
     onDismiss,
     id,
-}) => {
+}: {
+    open: boolean
+    onDismiss: () => void
+    id: string
+}) {
     const { addToast } = useToast()
     const handleDelete = useCallback(() => {
         deleteTavle(id)

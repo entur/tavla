@@ -13,7 +13,13 @@ import { LoginCase } from '../LoginModal/login-modal-types'
 import { CloseButton } from '../../CloseButton/CloseButton'
 import classes from '../AccountModals.module.scss'
 
-const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
+function MineTavlerModal({
+    open,
+    onDismiss,
+}: {
+    open: boolean
+    onDismiss: () => void
+}) {
     const navigate = useNavigate()
     const user = useUser()
     const [settings, setSettings] = useSettings()
@@ -108,11 +114,6 @@ const MineTavlerModal = ({ open, onDismiss }: Props): JSX.Element | null => {
             </GridContainer>
         </Modal>
     )
-}
-
-interface Props {
-    open: boolean
-    onDismiss: () => void
 }
 
 export { MineTavlerModal }

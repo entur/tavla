@@ -7,7 +7,7 @@ import { Heading3 } from '@entur/typography'
 import { PlatformInfo } from './PlatformInfo/PlatformInfo'
 import classes from './CompactTileRow.module.scss'
 
-interface CompactTileRowProps {
+type CompactTileRowProps = {
     label: string
     subLabels: TileSubLabel[]
     icon: JSX.Element | null

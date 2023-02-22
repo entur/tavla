@@ -23,19 +23,15 @@ const getWeatherDescriptionFromApi = async (
     return weatherData[weatherNameMatch.toString()].desc_nb
 }
 
-interface WeatherTileProps {
-    className?: string
-}
+const WEATHER_TIMESERIES_FORMATTING = 3
 
-const IN_THREE_HOURS = 3
-
-function WeatherTile(props: WeatherTileProps): JSX.Element {
+function WeatherTile(props: { className?: string }): JSX.Element {
     const weather = useWeather()
     const [settings] = useSettings()
 
     const [description, setDescription] = useState('')
 
-    const weatherData = weather?.timeseries[IN_THREE_HOURS]
+    const weatherData = weather?.timeseries[WEATHER_TIMESERIES_FORMATTING]
 
     useEffect(() => {
         const abortController = createAbortController()

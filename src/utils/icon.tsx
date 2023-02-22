@@ -1,12 +1,11 @@
 import React from 'react'
 import { uniqWith } from 'lodash'
-import { IconColorType, Theme } from 'src/types'
+import { Departure, IconColorType, Theme } from 'src/types'
 import {
     Mode,
     TransportMode,
     TransportSubmode,
 } from 'graphql-generated/journey-planner-v3'
-import { Departure } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
 import { colors } from '@entur/tokens'
 import { isNotNullOrUndefined } from './typeguards'

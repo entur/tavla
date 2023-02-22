@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react'
 import { format, isToday } from 'date-fns'
 import { nb } from 'date-fns/locale'
-import { IconColorType } from 'src/types'
+import { Departure, IconColorType } from 'src/types'
 import { getIconColor } from 'utils/icon'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
 import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
-    Departure,
     filterHidden,
     toDeparture,
 } from 'hooks/use-stop-place-with-estimated-calls/departure'
@@ -25,11 +24,7 @@ function getDepartureNumber(departure: Departure): string {
     return departure.route.split(/[\s]/g)[0] || ''
 }
 
-interface Props {
-    stopPlaceId: string
-}
-
-const DepartureTag: React.FC<Props> = ({ stopPlaceId }): JSX.Element => {
+function DepartureTag({ stopPlaceId }: { stopPlaceId: string }) {
     const [settings] = useSettings()
     const { stopPlaceWithEstimatedCalls, loading } =
         useStopPlaceWithEstimatedCalls({

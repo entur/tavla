@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-interface LocationPermission {
+type LocationPermission = {
     granted: boolean
     prompt: boolean
     denied: boolean

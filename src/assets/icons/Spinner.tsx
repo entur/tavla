@@ -4,7 +4,11 @@ function Spinner({
     size = 25,
     color = '#565659',
     spin = true,
-}: Props): JSX.Element {
+}: {
+    color?: string
+    size?: number | string
+    spin?: boolean
+}) {
     return (
         <svg
             className={spin ? 'spinner' : ''}
@@ -21,12 +25,6 @@ function Spinner({
             />
         </svg>
     )
-}
-
-interface Props {
-    color?: string
-    size?: number | string
-    spin?: boolean
 }
 
 export { Spinner }

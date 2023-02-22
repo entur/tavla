@@ -6,7 +6,7 @@ import { useWalkTripQuery } from 'graphql-generated/journey-planner-v3'
 import { Coordinates } from 'src/types'
 import { TripPatternStruct, WalkTrip } from './types'
 
-interface UseWalkTrip {
+type UseWalkTrip = {
     walkTrip: WalkTrip | undefined
     loading: boolean
     error: ApolloError | undefined

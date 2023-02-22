@@ -6,7 +6,7 @@ import { LinkIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import classes from '../ShareTab.module.scss'
 
-const BoardLink = ({ boardID }: Props): JSX.Element => {
+function BoardLink({ boardID }: { boardID: string }): JSX.Element {
     const { addToast } = useToast()
 
     return (
@@ -32,10 +32,6 @@ const BoardLink = ({ boardID }: Props): JSX.Element => {
             </Tooltip>
         </div>
     )
-}
-
-interface Props {
-    boardID: string
 }
 
 export { BoardLink }

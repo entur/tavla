@@ -1,22 +1,22 @@
 import React from 'react'
 import { CanvasOverlay } from 'react-map-gl'
 
-interface RouteToDraw {
+type RouteToDraw = {
     points: Array<[number, number]>
     color: string
 }
-interface RedrawArgs {
+type RedrawArgs = {
     width: number
     height: number
     ctx: CanvasRenderingContext2D
     project: (point: [number, number]) => [number, number]
 }
 
-interface Props {
+function LineOverlay({
+    routes,
+}: {
     routes: RouteToDraw[]
-}
-
-const LineOverlay = ({ routes }: Props): JSX.Element | null => {
+}): JSX.Element | null {
     const redraw = ({ width, height, ctx, project }: RedrawArgs): void => {
         ctx.clearRect(0, 0, width, height)
         ctx.lineWidth = 4

@@ -4,7 +4,7 @@ import { NoSharedTavlerAvailable } from 'containers/Error/ErrorPages'
 import { Contrast } from '@entur/layout'
 import { SharedBoardCard } from './SharedBoardCard/SharedBoardCard'
 
-const SharedBoards = ({ sharedBoards }: Props): JSX.Element => {
+function SharedBoards({ sharedBoards }: { sharedBoards: SharedBoard[] }) {
     if (!sharedBoards.length) {
         return <NoSharedTavlerAvailable />
     }
@@ -26,10 +26,6 @@ const SharedBoards = ({ sharedBoards }: Props): JSX.Element => {
             </div>
         </Contrast>
     )
-}
-
-interface Props {
-    sharedBoards: SharedBoard[]
 }
 
 export { SharedBoards }

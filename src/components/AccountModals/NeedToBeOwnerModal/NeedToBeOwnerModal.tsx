@@ -10,17 +10,15 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { CloseButton } from '../../CloseButton/CloseButton'
 import classes from '../AccountModals.module.scss'
 
-interface NeedToBeOwnerModalProps {
-    open: boolean
-    onDismiss: (goToFirstTab?: boolean) => void
-    uid: string | undefined
-}
-
-const NeedToBeOwnerModal: React.FC<NeedToBeOwnerModalProps> = ({
+function NeedToBeOwnerModal({
     open,
     onDismiss,
     uid,
-}) => {
+}: {
+    open: boolean
+    onDismiss: (goToFirstTab?: boolean) => void
+    uid: string | undefined
+}) {
     const { addToast } = useToast()
     const [settings, setSettings] = useSettings()
 
