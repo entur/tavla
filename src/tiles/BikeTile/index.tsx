@@ -1,18 +1,18 @@
 import React, { useMemo } from 'react'
-import { Tile } from 'components/Tile/Tile'
 import { getIconColorType } from 'utils/icon'
 import { useRentalStations } from 'hooks/use-rental-stations/useRentalStations'
 import { useSettings } from 'settings/SettingsProvider'
 import { FormFactor } from 'graphql-generated/mobility-v2'
+import { Tile } from 'components/Tile'
+import { TileHeader } from 'components/TileHeader'
+import { ErrorTile } from 'tiles/ErrorTile'
 import { colors } from '@entur/tokens'
 import { BicycleIcon } from '@entur/icons'
-import { TileHeader } from '../TileHeader/TileHeader'
-import { ErrorTile } from '../ErrorTile/ErrorTile'
-import { Loader } from '../Loader/Loader'
-import { BikeTileRow } from './BikeTileRow'
+import { Loader } from '@entur/loader'
 import classes from './BikeTile.module.scss'
+import { BikeTileRow } from './components/BikeTileRow'
 
-const BikeTile: React.FC = () => {
+function BikeTile() {
     const [settings] = useSettings()
     const iconColor = useMemo(
         () => colors.transport[getIconColorType(settings.theme)].mobility,

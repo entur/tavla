@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
 import { groupBy } from 'lodash'
-import { Tile } from 'components/Tile/Tile'
+import { Tile } from 'components/Tile'
 import { useSettings } from 'settings/SettingsProvider'
 import { getIconColorType, getTransportHeaderIcons } from 'utils/icon'
-import { TileHeader } from 'components/TileHeader/TileHeader'
+import { TileHeader } from 'components/TileHeader'
 import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
     filterHidden,
@@ -12,8 +12,8 @@ import {
 import { WalkTrip } from 'components/WalkTrip/WalkTrip'
 import { createTileSubLabel } from 'utils/utils'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
-import { ErrorTile } from 'components/ErrorTile/ErrorTile'
-import { EmptyStopTile } from 'components/EmptyStopTile/EmptyStopTile'
+import { ErrorTile } from 'tiles/ErrorTile'
+import { EmptyStopTile } from 'tiles/EmptyStopTile'
 import { Loader } from 'components/Loader/Loader'
 import { CompactTileRow } from '../CompactTileRow/CompactTileRow'
 import classes from './CompactDepartureTile.module.scss'

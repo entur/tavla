@@ -11,7 +11,7 @@ import { ScooterClusterMarkers } from './ScooterClusterMarkers/ScooterClusterMar
 import { StopPlaceMarkers } from './StopPlaceMarkers/StopPlaceMarkers'
 import { RealtimeVehicleMarkers } from './RealtimeVehicleMarkers/RealtimeVehicleMarkers'
 
-const Map: React.FC = () => {
+function Map() {
     const [settings] = useSettings()
 
     const [viewport, setViewPort] = useState<Viewport>({
