@@ -5,13 +5,13 @@ import TavlaBlue from '../logos/Tavla-blue.svg'
 
 function TavlaLogo({
     className,
-    theme = Theme.DEFAULT,
+    theme = 'default',
 }: {
     className?: string
     theme?: Theme
 }) {
     switch (theme) {
-        case Theme.LIGHT:
+        case 'light':
             return (
                 <img
                     src={TavlaBlue}
@@ -19,7 +19,7 @@ function TavlaLogo({
                     alt="Logo Entur Tavla og link til landingsside"
                 />
             )
-        case Theme.GREY:
+        case 'grey':
             return (
                 <img
                     src={TavlaBlue}
@@ -27,7 +27,7 @@ function TavlaLogo({
                     alt="Logo Entur Tavla og link til landingsside"
                 />
             )
-        case Theme.DARK:
+        case 'dark':
             return (
                 <img
                     src={TavlaWhite}
@@ -35,7 +35,7 @@ function TavlaLogo({
                     alt="Logo Entur Tavla og link til landingsside"
                 />
             )
-        case Theme.DEFAULT:
+        case 'default':
             return (
                 <img
                     src={TavlaWhite}

@@ -61,9 +61,9 @@ const DEFAULT_SETTINGS: Settings = {
     coordinates: { latitude: 59.91750312241921, longitude: 10.727442837962354 },
     customImageTiles: [],
     customQrTiles: [],
-    dashboard: DashboardTypes.Compact,
+    dashboard: 'Compact',
     description: '',
-    direction: Direction.STANDARD,
+    direction: 'standard',
     distance: DEFAULT_DISTANCE,
     fontScale: 1,
     hiddenCustomTileIds: [],
@@ -97,7 +97,7 @@ const DEFAULT_SETTINGS: Settings = {
     showTemperature: true,
     showWeather: false,
     showWind: true,
-    theme: Theme.DEFAULT,
+    theme: 'default',
     zoom: DEFAULT_ZOOM,
 }
 export { DEFAULT_SETTINGS }

@@ -6,7 +6,6 @@ import { BoundingBox } from 'graphql-generated/vehicles-v1'
 import { RealtimeVehicle } from 'hooks/use-realtime-vehicle-data/types'
 import { getIconColor } from 'utils/icon'
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
-import { IconColorType } from 'src/types'
 import { useSettings } from 'settings/SettingsProvider'
 import { LineOverlay } from '../RealtimeVehicleTag/LineOverlay/LineOverlay'
 import { RealtimeVehicleTag } from '../RealtimeVehicleTag/RealtimeVehicleTag'
@@ -63,7 +62,7 @@ function RealtimeVehicleMarkers({ boundingBox }: { boundingBox: BoundingBox }) {
                         points: coords,
                         color: getIconColor(
                             hoveredVehicle.mode?.toLowerCase() as TransportMode,
-                            IconColorType.DEFAULT,
+                            'default',
                         ),
                     },
                 ]}

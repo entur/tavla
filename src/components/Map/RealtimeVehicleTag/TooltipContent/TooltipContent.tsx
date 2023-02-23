@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { DepartureIcon } from 'src/routes/Dashboard/Map/DepartureIcon/DepartureIcon'
 import { getFeedbackString, getLastUpdated } from 'utils/time'
 import { getIconColor } from 'utils/icon'
-import { IconColorType } from 'src/types'
 import { RealtimeVehicle } from 'hooks/use-realtime-vehicle-data/types'
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
 import { Label } from '@entur/typography'
@@ -43,7 +42,7 @@ function TooltipContent({
                     }
                     color={getIconColor(
                         realtimeVehicle.mode.toLowerCase() as TransportMode,
-                        IconColorType.DEFAULT,
+                        'default',
                         undefined,
                     )}
                     routeNumber={realtimeVehicle.line.publicCode ?? ''}

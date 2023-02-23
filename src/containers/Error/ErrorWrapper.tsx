@@ -13,7 +13,7 @@ function ErrorWrapper({
     callbackMessage,
     callback,
     altText,
-    theme = Theme.DEFAULT,
+    theme = 'default',
 }: {
     title: string
     message: string

@@ -18,7 +18,7 @@ import {
 
 function TransportModeIcon({
     transportMode,
-    iconColorType = IconColorType.CONTRAST,
+    iconColorType = 'contrast',
     transportSubmode,
     color,
     className,
