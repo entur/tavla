@@ -1,12 +1,11 @@
 import React from 'react'
-import { Theme } from 'src/types'
 import { useThemeColor } from 'hooks/useThemeColor'
 
 interface Props {
     className?: string
 }
 
-function ValidationExclamation({ className }: Props): JSX.Element {
+function ValidationExclamation({ className }: Props) {
     const exclamationIconColor = useThemeColor(
         {
             ['dark']: '#171717',

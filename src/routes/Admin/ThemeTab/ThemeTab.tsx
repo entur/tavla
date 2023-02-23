@@ -71,7 +71,7 @@ const ThemeTab = (): JSX.Element => {
             <div className={classes.Grid}>
                 <RadioCard
                     title="Entur (standard)"
-                    value='default'
+                    value="default"
                     preview={Entur}
                     selected={settings.theme === 'default'}
                     onChange={handleSwitchTheme}
@@ -80,7 +80,7 @@ const ThemeTab = (): JSX.Element => {
                 />
                 <RadioCard
                     title="Mørkt"
-                    value={'dark'}
+                    value="dark"
                     preview={Dark}
                     selected={settings.theme === 'dark'}
                     onChange={handleSwitchTheme}
@@ -89,7 +89,7 @@ const ThemeTab = (): JSX.Element => {
                 />
                 <RadioCard
                     title="Lyst"
-                    value={'light'}
+                    value="light"
                     preview={Light}
                     selected={settings.theme === 'light'}
                     onChange={handleSwitchTheme}
@@ -98,7 +98,7 @@ const ThemeTab = (): JSX.Element => {
                 />
                 <RadioCard
                     title="Grått"
-                    value={'grey'}
+                    value="grey"
                     preview={Grey}
                     selected={settings.theme === 'grey'}
                     onChange={handleSwitchTheme}
@@ -115,7 +115,7 @@ const ThemeTab = (): JSX.Element => {
                 <div className={classes.Grid}>
                     <RadioCard
                         title="Standard"
-                        value={'standard'}
+                        value="standard"
                         preview={directionPreviewImages.Standard}
                         selected={settings.direction === 'standard'}
                         onChange={handleSwitchDirection}
@@ -123,7 +123,7 @@ const ThemeTab = (): JSX.Element => {
                     />
                     <RadioCard
                         title="Rotert"
-                        value={'rotated'}
+                        value="rotated"
                         preview={directionPreviewImages.Rotated}
                         selected={settings.direction === 'rotated'}
                         onChange={handleSwitchDirection}

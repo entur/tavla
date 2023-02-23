@@ -6,7 +6,7 @@ import { ThemeDashboardPreview } from 'assets/icons/ThemeDashboardPreview'
 import { Heading2 } from '@entur/typography'
 import classes from './DashboardPickerTab.module.scss'
 
-const DashboardPickerTab = (): JSX.Element => {
+function DashboardPickerTab() {
     const [settings, setSettings] = useSettings()
     const dashboardImages = ThemeDashboardPreview(settings.theme)
 
@@ -26,7 +26,7 @@ const DashboardPickerTab = (): JSX.Element => {
                 <RadioCard
                     title="Kompakt (standard)"
                     description="Alle avgangene til en linje vises på en samlet rad. Ikke egnet for linjer som varierer spor/plattform."
-                    value={'Compact'}
+                    value="Compact"
                     selected={settings.dashboard === 'Compact'}
                     preview={dashboardImages.Compact}
                     onChange={handleChange}
@@ -36,7 +36,7 @@ const DashboardPickerTab = (): JSX.Element => {
                 <RadioCard
                     title="Kronologisk"
                     description="Avgangene vises i en kronologisk rekkefølge. Egner seg godt for linjer som varierer spor/plattform."
-                    value={'Chrono'}
+                    value="Chrono"
                     selected={settings.dashboard === 'Chrono'}
                     preview={dashboardImages.Chrono}
                     onChange={handleChange}
@@ -46,7 +46,7 @@ const DashboardPickerTab = (): JSX.Element => {
                 <RadioCard
                     title="Holdeplass"
                     description="Her får avgangene full bredde med god plass til å vise avviksmeldinger. Egner seg godt for når man er interessert i ett eller få stopp."
-                    value={'BusStop'}
+                    value="BusStop"
                     selected={settings.dashboard === 'BusStop'}
                     preview={dashboardImages.BusStop}
                     onChange={handleChange}
@@ -56,7 +56,7 @@ const DashboardPickerTab = (): JSX.Element => {
                 <RadioCard
                     title="Responsiv"
                     description="Avgangene fyller ut skjermen automatisk i et rutenett basert på skjermstørrelse. Denne visningen, kombinert med tekststørrelse-instillingen i Tilpass Utseende fanen, egner seg for skjermer av ulike størrelser."
-                    value={'Responsive'}
+                    value="Responsive"
                     selected={settings.dashboard === 'Responsive'}
                     preview={dashboardImages.Chrono}
                     onChange={handleChange}
@@ -66,7 +66,7 @@ const DashboardPickerTab = (): JSX.Element => {
                 <RadioCard
                     title="Tidslinje"
                     description="Avgangene vises i en visualisert fremstilling. Viser ikke bysykkel, spor/plattform eller avvik."
-                    value={'Timeline'}
+                    value="Timeline"
                     selected={settings.dashboard === 'Timeline'}
                     preview={dashboardImages.Timeline}
                     onChange={handleChange}
@@ -76,7 +76,7 @@ const DashboardPickerTab = (): JSX.Element => {
                 <RadioCard
                     title="Kart"
                     description="Avgangene vises i et kart."
-                    value={'Map'}
+                    value="Map"
                     selected={settings.dashboard === 'Map'}
                     preview={dashboardImages.Map}
                     onChange={handleChange}
