@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { format, isToday } from 'date-fns'
 import { nb } from 'date-fns/locale'
-import { Departure, IconColorType } from 'src/types'
+import { Departure } from 'src/types'
 import { getIconColor } from 'utils/icon'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
 import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
@@ -82,7 +82,7 @@ function DepartureTag({ stopPlaceId }: { stopPlaceId: string }) {
                             }
                             color={getIconColor(
                                 departure.transportMode,
-                                IconColorType.DEFAULT,
+                                'default',
                                 departure.transportSubmode,
                             )}
                             routeNumber={getDepartureNumber(departure)}

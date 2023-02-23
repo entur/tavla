@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import polyline from 'google-polyline'
 import { useSettings } from 'settings/SettingsProvider'
-import { DrawableRoute, IconColorType, Line } from 'src/types'
+import { DrawableRoute, Line } from 'src/types'
 import { getIconColor } from 'utils/icon'
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
 import { useUniqueLines } from 'hooks/use-unique-lines/useUniqueLines'
@@ -25,7 +25,7 @@ function PermanentlyDrawnRoutes() {
                     points: polyline.decode(pointsOnLink),
                     color: getIconColor(
                         mode.toLowerCase() as TransportMode,
-                        IconColorType.DEFAULT,
+                        'default',
                     ),
                 })),
         [

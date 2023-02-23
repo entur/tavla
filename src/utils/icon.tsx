@@ -50,12 +50,12 @@ function getTransportHeaderIcons(
 }
 
 function getIconColorType(theme: Theme | undefined): IconColorType {
-    if (!theme) return IconColorType.CONTRAST
-    const defaultThemes = [Theme.LIGHT, Theme.GREY]
+    if (!theme) return 'contrast'
+    const defaultThemes = ['light', 'grey']
     if (defaultThemes.includes(theme)) {
-        return IconColorType.DEFAULT
+        return 'default'
     }
-    return IconColorType.CONTRAST
+    return 'contrast'
 }
 
 function getIconColor(

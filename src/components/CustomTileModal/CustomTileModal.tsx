@@ -26,7 +26,7 @@ function CustomTileModal({
     )
 
     const [tileType, setTileType] = useState<CustomTileType>(
-        selectedItem ? selectedItem.type : CustomTileType.Image,
+        selectedItem ? selectedItem.type : 'image',
     )
     const [displayName, setDisplayName] = useState(
         selectedItem ? selectedItem.displayName : '',
@@ -56,7 +56,7 @@ function CustomTileModal({
         }
 
         if (!displayName || !sourceUrl) return
-        if (tileType === CustomTileType.QR) {
+        if (tileType === 'qr') {
             setSettings({
                 customQrTiles: [
                     ...(actionType === 'Update'
@@ -74,7 +74,7 @@ function CustomTileModal({
                 ],
             })
         }
-        if (tileType === CustomTileType.Image) {
+        if (tileType === 'image') {
             setSettings({
                 customImageTiles: [
                     ...(actionType === 'Update'
@@ -128,8 +128,8 @@ function CustomTileModal({
                     }}
                     value={tileType}
                 >
-                    <Radio value={CustomTileType.Image}>Bilde</Radio>
-                    <Radio value={CustomTileType.QR}>QR-kode</Radio>
+                    <Radio value="image">Bilde</Radio>
+                    <Radio value="qr">QR-kode</Radio>
                 </RadioGroup>
             )}
             <TextField
@@ -154,7 +154,7 @@ function CustomTileModal({
                         : 'Vennligst fyll ut dette feltet'
                 }
             />
-            {tileType === CustomTileType.Image && (
+            {tileType === 'image' && (
                 <TextField
                     label="Overskrift til bildet (valgfri)"
                     value={displayHeader}

@@ -20,7 +20,7 @@ const Poster = (): JSX.Element => {
     const hideScooterTile = settings.hiddenModes.includes('sparkesykkel')
     const hideBikeTile = settings.hiddenModes.includes('bysykkel')
     const hideCarTile = settings.hiddenModes.includes('delebil')
-    const isRotated = settings.direction === Direction.ROTATED
+    const isRotated = settings.direction === 'rotated'
 
     return (
         <div

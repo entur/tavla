@@ -36,7 +36,7 @@ function DashboardWrapper({
         <ThemeContrastWrapper
             className={classNames(
                 {
-                    [classes.Rotated]: settings.direction === Direction.ROTATED,
+                    [classes.Rotated]: settings.direction === 'rotated',
                 },
                 classes.DashboardWrapper,
                 className,

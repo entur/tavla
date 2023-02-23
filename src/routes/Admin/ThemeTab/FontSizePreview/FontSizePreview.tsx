@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { IconColorType } from 'src/types'
 import { SubwayIcon } from '@entur/icons'
 import { colors } from '@entur/tokens'
 import { Paragraph } from '@entur/typography'
@@ -32,9 +31,7 @@ const FontSizePreview: React.FC<Props> = ({ fontScale }) => {
                 <div className={classes.TileRow}>
                     <div className={classes.Icon}>
                         <SubwayIcon
-                            color={
-                                colors.transport[IconColorType.CONTRAST].metro
-                            }
+                            color={colors.transport['contrast'].metro}
                         />
                     </div>
                     <div className={classes.Texts}>

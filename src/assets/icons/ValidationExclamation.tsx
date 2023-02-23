@@ -9,8 +9,8 @@ interface Props {
 function ValidationExclamation({ className }: Props): JSX.Element {
     const exclamationIconColor = useThemeColor(
         {
-            [Theme.DARK]: '#171717',
-            [Theme.DEFAULT]: '#292c6a',
+            ['dark']: '#171717',
+            ['default']: '#292c6a',
         },
         'black',
     )

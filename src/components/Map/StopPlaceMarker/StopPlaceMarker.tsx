@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import { uniq } from 'lodash'
 import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { getIconColor } from 'utils/icon'
-import { IconColorType } from 'src/types'
 import { colors } from '@entur/tokens'
 import { WalkTrip } from '../../WalkTrip/WalkTrip'
 import { TransportModeIcon } from '../../TransportModeIcon/TransportModeIcon'
@@ -48,7 +47,7 @@ const StopPlaceMarker: React.FC<Props> = ({ className, stopPlaceId }) => {
                             style={{
                                 backgroundColor: getIconColor(
                                     transportMode,
-                                    IconColorType.DEFAULT,
+                                    'default',
                                     undefined,
                                 ),
                             }}
