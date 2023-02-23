@@ -25,6 +25,8 @@ const SettingsProvider: React.FC = () => {
 
     useEffect(() => {
         if (!documentId) return
+
+        // Returns cleanup function
         return onSnapshot(
             getSettingsReference(documentId),
             (documentSnapshot: DocumentSnapshot) => {

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useUser } from 'settings/UserProvider'
 import type { BoardOwnersData, Invite } from 'src/types'
 import {
-    removeFromOwners,
+    removeFromFirebaseArray,
     removeSentBoardInviteAsOwner,
 } from 'settings/firebase'
 import { Table, TableHead, TableRow, HeaderCell, TableBody } from '@entur/table'
@@ -43,7 +43,11 @@ function BoardOwnersList({
             )
             if (!ownersUids.includes(user?.uid ?? ''))
                 throw new Error('You are not an owner of this board.')
-            await removeFromOwners(documentId, userToRemove.uid)
+            await removeFromFirebaseArray(
+                documentId,
+                'owners',
+                userToRemove.uid,
+            )
         } catch (error) {
             throw new Error(
                 'Write error: could not remove owner from board. ' + error,

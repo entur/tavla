@@ -34,20 +34,6 @@ const SETTINGS_COLLECTION = 'settings'
 export const getSettingsReference = (id: string): DocumentReference =>
     doc(collection(db, SETTINGS_COLLECTION), id)
 
-export const userIsOwner = async (
-    boardId: string,
-    userUID: string | undefined,
-): Promise<boolean> => {
-    try {
-        const documentRef: DocumentReference = getSettingsReference(boardId)
-        const document = await getDoc(documentRef)
-        const settings: DocumentData | undefined = document.data()
-        return settings?.owners?.includes(userUID) as boolean
-    } catch {
-        return false
-    }
-}
-
 export const updateFirebaseSettings = async (
     docId: string,
     settings: Partial<Settings>,
@@ -57,9 +43,9 @@ export const updateFirebaseSettings = async (
         lastmodified: serverTimestamp(),
     })
 
-export const removeFromArray = async (
+export const removeFromFirebaseArray = async (
     docId: string,
-    fieldId: string,
+    fieldId: keyof Settings,
     fieldValue:
         | string
         | number
@@ -71,13 +57,6 @@ export const removeFromArray = async (
         [fieldId]: arrayRemove(fieldValue),
         lastmodified: serverTimestamp(),
     })
-
-export const removeFromOwners = async (
-    docId: string,
-    uid: string,
-): Promise<void> => {
-    await removeFromArray(docId, 'owners', uid)
-}
 
 export const createSettings = async (
     settings: Settings,

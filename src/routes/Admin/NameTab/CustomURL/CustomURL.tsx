@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import {
-    copySettingsToNewId,
-    updateFirebaseSettings,
-    userIsOwner,
-} from 'settings/firebase'
+import { copySettingsToNewId, updateFirebaseSettings } from 'settings/firebase'
 import { useUser } from 'settings/UserProvider'
+import { useSettings } from 'settings/SettingsProvider'
 import {
     Label,
     Paragraph,
@@ -36,6 +33,7 @@ enum inputFeedbackType {
 
 const CustomURL = (): JSX.Element => {
     const user = useUser()
+    const [settings] = useSettings()
 
     const [customUrlInput, setCustomUrlInput] = useState('')
     const [feedbackMessage, setFeedbackMessage] = useState(
@@ -74,7 +72,7 @@ const CustomURL = (): JSX.Element => {
         }
 
         try {
-            const isOwner = await userIsOwner(currentDoc, user?.uid)
+            const isOwner = user?.uid && settings.owners.includes(user.uid)
             if (!isOwner) throw new Error()
 
             const successfulCopy = await copySettingsToNewId(
