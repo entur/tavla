@@ -5,24 +5,39 @@ import { REFRESH_INTERVAL } from 'utils/constants'
 async function getWeather(
     latitude: number,
     longitude: number,
-): Promise<Properties> {
+): Promise<Weather> {
     const url = `https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=${latitude}&lon=${longitude}`
-    const weather = await fetch(url).then((response) => {
-        if (!response.ok) {
-            throw new Error(response.statusText)
-        }
-        return response.json()
-    })
+    const res = await fetch(url)
+    // .then((response) => {
+    //     if (!response.ok) {
+    //         throw new Error(response.statusText)
+    //     }
+    //     return response.json()
+    // })
+
+    const weather = await res.json()
+    const weatherIcon =
+        weather.properties.timeseries[0].data.next_1_hours.summary.symbol_code
+
+    const weatherNameMatch = weatherIcon.match(/.+?(?=_|$)/)
+    if (!weatherNameMatch)
+        return Promise.reject('No REGEX match found for ' + weatherIcon)
+    const descriptionUrl = `https://api.met.no/weatherapi/weathericon/2.0/legends`
+    const response = await fetch(descriptionUrl)
+    const weatherData = await response.json()
+
+    const description = weatherData[weatherNameMatch.toString()].desc_nb
 
     return {
         meta: weather.properties.meta,
         timeseries: weather.properties.timeseries,
+        description,
     }
 }
 
-function useWeather(): Properties | undefined {
+function useWeather(): Weather | undefined {
     const [settings] = useSettings()
-    const [weather, setWeather] = useState<Properties | undefined>()
+    const [weather, setWeather] = useState<Weather | undefined>()
 
     useEffect(() => {
         getWeather(
@@ -43,9 +58,10 @@ function useWeather(): Properties | undefined {
     return weather
 }
 
-type Properties = {
+type Weather = {
     meta: MetaDetails
     timeseries: TimeseriesPoint[]
+    description: string
 }
 
 type MetaDetails = {
