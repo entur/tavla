@@ -13,18 +13,18 @@ function DirectionPreview(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Record<string, any> {
     switch (theme) {
-        case Theme.DARK:
+        case 'dark':
             return {
                 Standard: DarkStandard,
                 Rotated: DarkRotated,
             }
 
-        case Theme.GREY:
+        case 'grey':
             return {
                 Standard: GreyStandard,
                 Rotated: GreyRotated,
             }
-        case Theme.LIGHT:
+        case 'light':
             return {
                 Standard: LightStandard,
                 Rotated: LightRotated,

@@ -28,42 +28,27 @@ export type TileSubLabel = {
     hasSituation?: boolean
 }
 
-export enum Theme {
-    DEFAULT = 'default',
-    DARK = 'dark',
-    LIGHT = 'light',
-    GREY = 'grey',
-}
+export type Theme = 'default' | 'dark' | 'light' | 'grey'
 
-export enum Direction {
-    STANDARD = 'standard',
-    ROTATED = 'rotated',
-}
+export type Direction = 'standard' | 'rotated'
 
 export enum FontChangeAction {
     increase = 1,
     decrease,
 }
 
-export enum DashboardTypes {
-    Timeline = 'Timeline',
-    Chrono = 'Chrono',
-    Map = 'Map',
-    BusStop = 'BusStop',
-    Compact = 'Compact',
-    Poster = 'Poster',
-    Responsive = 'Responsive',
-}
+export type DashboardTypes =
+    | 'Timeline'
+    | 'Chrono'
+    | 'Map'
+    | 'BusStop'
+    | 'Compact'
+    | 'Poster'
+    | 'Responsive'
 
-export enum IconColorType {
-    DEFAULT = 'default',
-    CONTRAST = 'contrast',
-}
+export type IconColorType = 'default' | 'contrast'
 
-export enum CustomTileType {
-    QR = 'qr',
-    Image = 'image',
-}
+export type CustomTileType = 'qr' | 'image'
 
 export type CustomTile = {
     id: string

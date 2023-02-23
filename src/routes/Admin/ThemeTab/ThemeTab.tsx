@@ -71,36 +71,36 @@ const ThemeTab = (): JSX.Element => {
             <div className={classes.Grid}>
                 <RadioCard
                     title="Entur (standard)"
-                    value={Theme.DEFAULT}
+                    value="default"
                     preview={Entur}
-                    selected={settings.theme === Theme.DEFAULT}
+                    selected={settings.theme === 'default'}
                     onChange={handleSwitchTheme}
                     className={classes.ThemeCard}
                     altText=""
                 />
                 <RadioCard
                     title="Mørkt"
-                    value={Theme.DARK}
+                    value="dark"
                     preview={Dark}
-                    selected={settings.theme === Theme.DARK}
+                    selected={settings.theme === 'dark'}
                     onChange={handleSwitchTheme}
                     className={classes.ThemeCard}
                     altText=""
                 />
                 <RadioCard
                     title="Lyst"
-                    value={Theme.LIGHT}
+                    value="light"
                     preview={Light}
-                    selected={settings.theme === Theme.LIGHT}
+                    selected={settings.theme === 'light'}
                     onChange={handleSwitchTheme}
                     className={classes.ThemeCard}
                     altText=""
                 />
                 <RadioCard
                     title="Grått"
-                    value={Theme.GREY}
+                    value="grey"
                     preview={Grey}
-                    selected={settings.theme === Theme.GREY}
+                    selected={settings.theme === 'grey'}
                     onChange={handleSwitchTheme}
                     className={classes.ThemeCard}
                     altText=""
@@ -115,17 +115,17 @@ const ThemeTab = (): JSX.Element => {
                 <div className={classes.Grid}>
                     <RadioCard
                         title="Standard"
-                        value={Direction.STANDARD}
+                        value="standard"
                         preview={directionPreviewImages.Standard}
-                        selected={settings.direction === Direction.STANDARD}
+                        selected={settings.direction === 'standard'}
                         onChange={handleSwitchDirection}
                         className={classes.ThemeCard}
                     />
                     <RadioCard
                         title="Rotert"
-                        value={Direction.ROTATED}
+                        value="rotated"
                         preview={directionPreviewImages.Rotated}
-                        selected={settings.direction === Direction.ROTATED}
+                        selected={settings.direction === 'rotated'}
                         onChange={handleSwitchDirection}
                         className={classes.ThemeCard}
                     />

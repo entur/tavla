@@ -25,7 +25,7 @@ export const isMobileWeb = (): boolean =>
     navigator.userAgent.indexOf('IEMobile') !== -1
 
 export function isDarkOrDefaultTheme(theme?: Theme): boolean {
-    return !theme || theme === Theme.DARK || theme === Theme.DEFAULT
+    return !theme || theme === 'dark' || theme === 'default'
 }
 
 export function getTranslation(

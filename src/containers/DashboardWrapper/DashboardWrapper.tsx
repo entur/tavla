@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import { isDarkOrDefaultTheme } from 'utils/utils'
 import { useSettings } from 'settings/SettingsProvider'
 import { EnturLogo } from 'assets/icons/EnturLogo'
-import { Direction } from 'src/types'
 import { useReloadTavleOnUpdate } from 'hooks/useReloadTavleOnUpdate'
 import { useHandleFontScaling } from 'hooks/useHandleFontScaling'
 import { useThemeHandler } from 'hooks/useThemeHandler'
@@ -36,7 +35,7 @@ function DashboardWrapper({
         <ThemeContrastWrapper
             className={classNames(
                 {
-                    [classes.Rotated]: settings.direction === Direction.ROTATED,
+                    [classes.Rotated]: settings.direction === 'rotated',
                 },
                 classes.DashboardWrapper,
                 className,
