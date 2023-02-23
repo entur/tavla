@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { useSettings } from 'settings/SettingsProvider'
-import { DashboardTypes } from 'src/types'
 import { TimelineDashboard } from './Timeline/TimelineDashboard'
 import { ChronoDashboard } from './Chrono/ChronoDashboard'
 import { MapDashboard } from './Map/MapDashboard'
@@ -13,21 +12,21 @@ const DashboardResolver: React.FC = () => {
     const [settings] = useSettings()
 
     switch (settings.dashboard) {
-        case DashboardTypes.Timeline:
+        case 'Timeline':
             return <TimelineDashboard />
-        case DashboardTypes.Chrono:
+        case 'Chrono':
             return <ChronoDashboard />
-        case DashboardTypes.Map:
+        case 'Map':
             return <MapDashboard />
-        case DashboardTypes.BusStop:
+        case 'BusStop':
             return <BusStopDashboard />
         // @ts-ignore '' was the old default value. Have the check here instead of allowing new tavles with '' after change to enum
         case '':
-        case DashboardTypes.Compact:
+        case 'Compact':
             return <CompactDashboard />
-        case DashboardTypes.Poster:
+        case 'Poster':
             return <Poster />
-        case DashboardTypes.Responsive:
+        case 'Responsive':
             return <ResponsiveDashboard />
     }
 }

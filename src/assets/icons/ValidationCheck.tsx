@@ -1,15 +1,14 @@
 import React from 'react'
-import { Theme } from 'src/types'
 import { useThemeColor } from 'hooks/useThemeColor'
 import { colors } from '@entur/tokens'
 
-function ValidationCheck(): JSX.Element {
+function ValidationCheck() {
     const checkIconColor = colors.validation.mintContrast
 
     const backgroundIconColor = useThemeColor(
         {
-            [Theme.DARK]: '#000',
-            [Theme.DEFAULT]: colors.brand.blue,
+            ['dark']: '#000',
+            ['default']: colors.brand.blue,
         },
         colors.brand.white,
     )

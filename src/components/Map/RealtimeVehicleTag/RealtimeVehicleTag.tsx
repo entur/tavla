@@ -1,6 +1,5 @@
 import React from 'react'
 import classNames from 'classnames'
-import { IconColorType } from 'src/types'
 import { RealtimeVehicle } from 'hooks/use-realtime-vehicle-data/types'
 import { useSettings } from 'settings/SettingsProvider'
 import { getIconColor } from 'utils/icon'
@@ -83,7 +82,7 @@ const RealtimeVehicleTag = ({
                                           | TransportMode
                                           | Mode
                                           | 'ferry',
-                                      IconColorType.DEFAULT,
+                                      'default',
                                       undefined,
                                   ),
                               }

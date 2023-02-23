@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 import { EnturLogo } from 'assets/icons/EnturLogo'
 import { useSettings } from 'settings/SettingsProvider'
-import { Direction } from 'src/types'
 import { useReloadTavleOnUpdate } from 'hooks/useReloadTavleOnUpdate'
 import { LastUpdated } from './components/LastUpdated/LastUpdated'
 import { BusTile } from './components/BusTile/BusTile'
@@ -20,7 +19,7 @@ const Poster = (): JSX.Element => {
     const hideScooterTile = settings.hiddenModes.includes('sparkesykkel')
     const hideBikeTile = settings.hiddenModes.includes('bysykkel')
     const hideCarTile = settings.hiddenModes.includes('delebil')
-    const isRotated = settings.direction === Direction.ROTATED
+    const isRotated = settings.direction === 'rotated'
 
     return (
         <div

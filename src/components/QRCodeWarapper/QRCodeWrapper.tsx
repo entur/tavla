@@ -1,7 +1,6 @@
 import React from 'react'
 import QRCode from 'react-qr-code'
 import classNames from 'classnames'
-import { Theme } from 'src/types'
 import { useSettings } from 'settings/SettingsProvider'
 import { colors } from '@entur/tokens'
 import { Paragraph } from '@entur/typography'
@@ -29,9 +28,7 @@ const QRCodeWrapper: React.FC<Props> = ({
                     value={sourceUrl}
                     size={size}
                     fgColor={
-                        settings.theme !== Theme.DARK
-                            ? colors.brand.blue
-                            : 'black'
+                        settings.theme !== 'dark' ? colors.brand.blue : 'black'
                     }
                     level="L"
                 />

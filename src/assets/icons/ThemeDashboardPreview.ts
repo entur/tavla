@@ -25,7 +25,7 @@ function ThemeDashboardPreview(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Record<string, any> {
     switch (theme) {
-        case Theme.DARK:
+        case 'dark':
             return {
                 Timeline: TimelineDark,
                 Chrono: ChronoDark,
@@ -33,7 +33,7 @@ function ThemeDashboardPreview(
                 Map: MapDark,
                 BusStop: BusStopDark,
             }
-        case Theme.GREY:
+        case 'grey':
             return {
                 Timeline: TimelineGrey,
                 Chrono: ChronoGrey,
@@ -41,7 +41,7 @@ function ThemeDashboardPreview(
                 Map: MapGrey,
                 BusStop: BusStopGrey,
             }
-        case Theme.LIGHT:
+        case 'light':
             return {
                 Timeline: TimelineLight,
                 Chrono: ChronoLight,
@@ -49,7 +49,7 @@ function ThemeDashboardPreview(
                 Map: MapLight,
                 BusStop: BusStopLight,
             }
-        case Theme.DEFAULT:
+        case 'default':
             return {
                 Timeline: TimelineDefault,
                 Chrono: ChronoDefault,
