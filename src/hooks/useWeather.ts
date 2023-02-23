@@ -8,12 +8,6 @@ async function getWeather(
 ): Promise<Weather> {
     const url = `https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=${latitude}&lon=${longitude}`
     const res = await fetch(url)
-    // .then((response) => {
-    //     if (!response.ok) {
-    //         throw new Error(response.statusText)
-    //     }
-    //     return response.json()
-    // })
 
     const weather = await res.json()
     const weatherIcon =
