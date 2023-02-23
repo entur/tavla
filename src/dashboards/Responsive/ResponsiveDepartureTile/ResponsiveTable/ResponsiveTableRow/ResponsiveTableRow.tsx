@@ -6,6 +6,8 @@ import { IconColorType } from 'src/types'
 import { getIconColor } from 'utils/icon'
 import { isDarkOrDefaultTheme } from 'utils/utils'
 import { useSettings } from 'settings/SettingsProvider'
+import { differenceInCalendarDays } from 'date-fns'
+import { DateDisplay } from 'components/DateDisplay'
 import classes from './ResponsiveTableRow.module.scss'
 
 const ResponsiveTableRow: React.FC<{ departure: Departure }> = ({
@@ -18,6 +20,12 @@ const ResponsiveTableRow: React.FC<{ departure: Departure }> = ({
             ? IconColorType.CONTRAST
             : IconColorType.DEFAULT,
     )
+
+    const departsToday =
+        differenceInCalendarDays(
+            departure.expectedDepartureTime,
+            Date.now(),
+        ) === 0
 
     return (
         <tr className={classes.TableRow}>
@@ -49,6 +57,12 @@ const ResponsiveTableRow: React.FC<{ departure: Departure }> = ({
             {!departure.delayed ? (
                 <td className={classes.DepartureTime}>
                     {departure.displayTime}
+                    {!departsToday && (
+                        <DateDisplay
+                            date={departure.expectedDepartureTime}
+                            className={classes.Date}
+                        />
+                    )}
                 </td>
             ) : (
                 <td className={classes.DepartureTime}>
