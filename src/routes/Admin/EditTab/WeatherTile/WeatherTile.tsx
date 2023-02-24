@@ -7,7 +7,7 @@ import { EditTile } from '../EditTile/EditTile'
 import { WeatherPanel } from './WeatherPanel/WeatherPanel'
 import classes from './WeatherTile.module.scss'
 
-const WeatherTile: React.FC = () => {
+function WeatherTile() {
     const [settings, setSettings] = useSettings()
 
     useEffect(() => {

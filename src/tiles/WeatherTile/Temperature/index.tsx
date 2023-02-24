@@ -2,15 +2,13 @@ import React from 'react'
 import classNames from 'classnames'
 import classes from './Temperature.module.scss'
 
-interface TemperatureProps {
-    description: string
-    temperature?: number
-}
-
-const Temperature: React.FC<TemperatureProps> = ({
+function Temperature({
     description,
     temperature,
-}) => {
+}: {
+    description: string
+    temperature?: number
+}) {
     const isNegative = (temperature || -1) < 0
 
     return (
