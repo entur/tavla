@@ -1,6 +1,8 @@
 import React from 'react'
 import { Departure } from 'logic/use-stop-place-with-estimated-calls/departure'
 import { SituationInfo } from 'components/SituationInfo/SituationInfo'
+import { DateDisplay } from 'components/DateDisplay'
+import { differenceInCalendarDays } from 'date-fns'
 import { DataCell, TableRow } from '@entur/table'
 import classes from './BusStopTableRow.module.scss'
 
@@ -15,24 +17,33 @@ function BusStopTableRow({
     hideSituations,
     hideTracks,
 }: Props): JSX.Element {
+    const departsToday =
+        differenceInCalendarDays(
+            departure.expectedDepartureTime,
+            Date.now(),
+        ) === 0
+
     return (
         <TableRow className={classes.TableRow}>
             <DataCell className={classes.Line}>{departure.publicCode}</DataCell>
             <DataCell className={classes.Route}>{departure.frontText}</DataCell>
-            <DataCell className={classes.Time}>
-                {!departure.delayed ? (
-                    departure.displayTime
-                ) : (
-                    <>
-                        <span className={classes.DelayedTime}>
-                            {departure.displayTime}
-                        </span>
-                        <span className={classes.OutdatedTime}>
-                            {departure.formattedAimedDepartureTime}
-                        </span>
-                    </>
-                )}
-            </DataCell>
+            {!departure.delayed ? (
+                <DataCell className={classes.Time}>
+                    {departure.displayTime}
+                    {!departsToday && (
+                        <DateDisplay date={departure.expectedDepartureTime} />
+                    )}
+                </DataCell>
+            ) : (
+                <DataCell className={classes.Time}>
+                    <span className={classes.DelayedTime}>
+                        {departure.displayTime}
+                    </span>
+                    <span className={classes.OutdatedTime}>
+                        {departure.formattedAimedDepartureTime}
+                    </span>
+                </DataCell>
+            )}
             {!hideTracks && (
                 <DataCell className={classes.Track}>
                     {departure.quay?.publicCode || '-'}

@@ -21,11 +21,19 @@
     text-overflow: ellipsis;
 }
 
+.Time {
+    text-align: left;
+}
+
+.Track {
+    text-align: center;
+}
+
 .Time,
 .Track {
     font-size: 1.25rem;
     font-weight: 400;
-    text-align: center;
+    white-space: nowrap;
 }
 
 .DelayedTime {
