@@ -34,6 +34,12 @@
     text-align: right;
 }
 
+.DateDisplay {
+    font-weight: 200;
+    font-size: 1.5rem;
+    color: var(--tavla-sub-font-color);
+}
+
 .PublicCode {
     font-size: 1.625rem;
 }
@@ -46,10 +52,5 @@
 .OutdatedTime {
     display: block;
     text-decoration: line-through;
-    font-size: 1.5rem;
-}
-
-.Date {
-    font-weight: 200;
     font-size: 1.5rem;
 }
