@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { updateFirebaseSettings } from 'settings/firebase'
 import { IconButton } from '@entur/button'
 import { CheckIcon, CloseIcon, EditIcon } from '@entur/icons'
@@ -20,7 +20,7 @@ function EditableBoardTitle({
         setNewBoardName(boardName)
     }, [boardName])
 
-    const onChangeTitle = async () => {
+    const onChangeTitle = useCallback(async () => {
         setTitleEditMode(false)
         if (newBoardName === boardName) return
         try {
@@ -30,7 +30,7 @@ function EditableBoardTitle({
         } catch {
             throw new Error('Could not change board name.')
         }
-    }
+    }, [boardName, documentId, newBoardName])
 
     if (titleEditMode) {
         return (

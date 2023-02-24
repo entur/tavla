@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { copySettingsToNewId, updateFirebaseSettings } from 'settings/firebase'
 import { useUser } from 'settings/UserProvider'
@@ -31,7 +31,7 @@ enum inputFeedbackType {
     CLEAR = 'info',
 }
 
-const CustomURL = (): JSX.Element => {
+function CustomURL() {
     const user = useUser()
     const [settings] = useSettings()
 
@@ -46,23 +46,35 @@ const CustomURL = (): JSX.Element => {
     const { documentId } = useParams<{ documentId: string }>()
     const [currentDoc, setCurrentDoc] = useState(documentId as string)
 
-    const handleCustomUrlChange = (
-        event: React.ChangeEvent<HTMLInputElement>,
-    ): void => {
-        if (event.currentTarget.value.match(/[^A-Za-z0-9_-]/g)) {
-            event.currentTarget.value = event.currentTarget.value.replace(
-                /[^A-Za-z0-9_-]/g,
-                '',
-            )
-        }
-        setCustomUrlInput(event.target.value)
-        if (feedbackMessage) {
+    const handleCustomUrlChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            if (event.currentTarget.value.match(/[^A-Za-z0-9_-]/g)) {
+                event.currentTarget.value = event.currentTarget.value.replace(
+                    /[^A-Za-z0-9_-]/g,
+                    '',
+                )
+            }
+            setCustomUrlInput(event.target.value)
             setFeedbackMessage(inputFeedback.NOTHING)
             setFeedbackMessageType(inputFeedbackType.CLEAR)
-        }
-    }
+        },
+        [],
+    )
 
-    const tryAddCustomUrl = async () => {
+    const handleNewIdVisuals = useCallback(() => {
+        setFeedbackMessageType(inputFeedbackType.SUCCESS)
+        setFeedbackMessage(inputFeedback.ID_SET)
+        setCurrentDoc(customUrlInput)
+        history.replaceState({}, '', customUrlInput)
+        setCustomUrlInput('')
+    }, [customUrlInput])
+
+    const handleFailedInputVisuals = useCallback((feedback: inputFeedback) => {
+        setFeedbackMessageType(inputFeedbackType.FAILURE)
+        setFeedbackMessage(feedback)
+    }, [])
+
+    const tryAddCustomUrl = useCallback(async () => {
         if (!customUrlInput) {
             handleFailedInputVisuals(inputFeedback.EMPTY_STRING)
             return
@@ -90,36 +102,15 @@ const CustomURL = (): JSX.Element => {
         } catch {
             handleFailedInputVisuals(inputFeedback.NOT_OWNER)
         }
-    }
-
-    const handleNewIdVisuals = () => {
-        setFeedbackMessageType(inputFeedbackType.SUCCESS)
-        setFeedbackMessage(inputFeedback.ID_SET)
-        setCurrentDoc(customUrlInput)
-        history.replaceState({}, '', customUrlInput)
-        setCustomUrlInput('')
-    }
-
-    const handleFailedInputVisuals = (feedback: inputFeedback) => {
-        setFeedbackMessageType(inputFeedbackType.FAILURE)
-        setFeedbackMessage(feedback)
-    }
-
-    const Requirements = (): JSX.Element => (
-        <>
-            <Label>Krav til Tavla-lenke</Label>
-            <UnorderedList>
-                <ListItem>Tavla-lenken må bestå av minst seks tegn.</ListItem>
-                <ListItem>
-                    Tavla-lenken kan kun bestå av bokstaver, tall, understrek
-                    «_» og bindestrek&nbsp;«-».
-                </ListItem>
-                <ListItem>
-                    Tavla-lenken kan ikke inneholde æ, ø eller å.
-                </ListItem>
-            </UnorderedList>
-        </>
-    )
+    }, [
+        currentDoc,
+        customUrlInput,
+        documentId,
+        handleNewIdVisuals,
+        settings.owners,
+        user?.uid,
+        handleFailedInputVisuals,
+    ])
 
     return (
         <div className={classes.CustomURL}>
@@ -133,7 +124,17 @@ const CustomURL = (): JSX.Element => {
                     en ny.
                 </EmphasizedText>
             </Paragraph>
-            <Requirements />
+            <Label>Krav til Tavla-lenke</Label>
+            <UnorderedList>
+                <ListItem>Tavla-lenken må bestå av minst seks tegn.</ListItem>
+                <ListItem>
+                    Tavla-lenken kan kun bestå av bokstaver, tall, understrek
+                    «_» og bindestrek&nbsp;«-».
+                </ListItem>
+                <ListItem>
+                    Tavla-lenken kan ikke inneholde æ, ø eller å.
+                </ListItem>
+            </UnorderedList>
             <div className={classes.InputArea}>
                 <Paragraph margin="none">tavla.entur.no/t/</Paragraph>
                 <div className={classes.InputField}>

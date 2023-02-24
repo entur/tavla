@@ -10,19 +10,17 @@ import { useToast } from '@entur/alert'
 import { CloseButton } from '../../CloseButton/CloseButton'
 import classes from '../AccountModals.module.scss'
 
-interface RemoveLockModalProps {
-    open: boolean
-    onDismiss: () => void
-    id: string
-    uid: string
-}
-
-const RemoveLockModal: React.FC<RemoveLockModalProps> = ({
+function RemoveLockModal({
     open,
     onDismiss,
     id,
     uid,
-}) => {
+}: {
+    open: boolean
+    onDismiss: () => void
+    id: string
+    uid: string
+}) {
     const { addToast } = useToast()
     const handleRemoveLockedTavle = useCallback(async () => {
         await removeFromFirebaseArray(id, 'owners', uid)

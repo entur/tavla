@@ -16,7 +16,7 @@ type SettingsSetter = (settings: Partial<Settings>) => void
 
 const SettingsContext = createContext<[Settings, SettingsSetter] | null>(null)
 
-const SettingsProvider: React.FC = () => {
+function SettingsProvider() {
     const [settings, setLocalSettings] = useState<Settings | null>(null)
     const navigate = useNavigate()
     const user = useUser()
