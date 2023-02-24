@@ -6,7 +6,7 @@ async function getWeather(
     latitude: number,
     longitude: number,
 ): Promise<Weather> {
-    const url = `https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=${latitude}&lon=${longitude}`
+    const url = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latitude}&lon=${longitude}`
     const res = await fetch(url)
 
     const weather = await res.json()
