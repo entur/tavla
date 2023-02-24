@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
-import { CustomTileModal } from 'tiles/CustomTileModal'
+import { CustomTileModal } from 'tiles/dashboard/CustomTileModal'
 import { PrimaryButton } from '@entur/button'
 import { CustomTilePanelRow } from './CustomTilePanelRow/CustomTilePanelRow'
 import classes from './CustomTilePanel.module.scss'
 
-const CustomTilePanel = (): JSX.Element => {
+function CustomTilePanel() {
     const [settings] = useSettings()
     const [isOpenModal, setIsOpenModal] = useState(false)
     const [selectedTileId, setSelectedTileId] = useState<string | undefined>(

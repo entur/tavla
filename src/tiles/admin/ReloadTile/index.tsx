@@ -5,7 +5,7 @@ import { Button } from '@entur/button'
 import { useToast } from '@entur/alert'
 import classes from './ReloadTile.module.scss'
 
-const ReloadTile: React.FC = () => {
+function ReloadTile() {
     const [settings, setSettings] = useSettings()
     const { addToast } = useToast()
 

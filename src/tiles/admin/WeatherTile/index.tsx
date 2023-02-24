@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
+import { EditTile } from 'components/EditTile'
 import { SubParagraph } from '@entur/typography'
 import { ValidationInfoIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { EditTile } from '../EditTile/EditTile'
-import { WeatherPanel } from './WeatherPanel/WeatherPanel'
 import classes from './WeatherTile.module.scss'
+import { WeatherPanel } from './components/WeatherPanel'
 
-const WeatherTile: React.FC = () => {
+function WeatherTile() {
     const [settings, setSettings] = useSettings()
 
     useEffect(() => {

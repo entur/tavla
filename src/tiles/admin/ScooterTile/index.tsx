@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
-import { EditTile } from '../EditTile/EditTile'
-import { ScooterPanel } from './ScooterPanel/ScooterPanel'
+import { EditTile } from 'components/EditTile'
+import { ScooterPanel } from './components/ScooterPanel'
 
-const ScooterTile: React.FC = () => {
+function ScooterTile() {
     const [settings, setSettings] = useSettings()
 
     const handleChange = useCallback(() => {

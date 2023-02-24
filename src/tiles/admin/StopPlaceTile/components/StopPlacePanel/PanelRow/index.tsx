@@ -8,8 +8,8 @@ import { Loader } from 'components/Loader/Loader'
 import { ExpandablePanel } from '@entur/expand'
 import { Paragraph } from '@entur/typography'
 import { Checkbox } from '@entur/form'
-import { RouteCheckbox } from './RouteCheckbox/RouteCheckbox'
-import { TransportModeSwitch } from './TransportModeSwitch/TransportModeSwitch'
+import { RouteCheckbox } from './RouteCheckbox'
+import { TransportModeSwitch } from './TransportModeSwitch'
 import classes from './PanelRow.module.scss'
 
 function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {

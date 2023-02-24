@@ -15,7 +15,7 @@ import type { VariantType } from '@entur/form'
 import { FilterChip } from '@entur/chip'
 import classes from './ScooterPanel.module.scss'
 
-function ScooterPanel(): JSX.Element {
+function ScooterPanel() {
     const [settings, setSettings] = useSettings()
     const [enabled, setEnabled] = useState(settings.scooterDistance.enabled)
     const [variant, setVariant] = useState<VariantType>('info')

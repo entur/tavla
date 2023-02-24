@@ -2,7 +2,7 @@ import React from 'react'
 import { useSettings } from 'settings/SettingsProvider'
 import { ToastAlertBox } from '@entur/alert'
 
-function PosterMobilityAlert(): JSX.Element {
+function PosterMobilityAlert() {
     const [settings] = useSettings()
 
     if (settings.hiddenModes.length === 0 && settings.dashboard === 'Poster') {

@@ -12,9 +12,9 @@ import {
 import { WalkTrip } from 'components/WalkTrip/WalkTrip'
 import { createTileSubLabel } from 'utils/utils'
 import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
-import { ErrorTile } from 'tiles/ErrorTile'
-import { EmptyStopTile } from 'tiles/EmptyStopTile'
 import { Loader } from 'components/Loader/Loader'
+import { EmptyStopTile } from 'tiles/dashboard/EmptyStopTile'
+import { ErrorTile } from 'tiles/dashboard/ErrorTile'
 import { CompactTileRow } from '../CompactTileRow/CompactTileRow'
 import classes from './CompactDepartureTile.module.scss'
 

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
-import { EditTile } from '../EditTile/EditTile'
+import { EditTile } from 'components/EditTile'
 
 const CarSharingTile = () => {
     const [settings, setSettings] = useSettings()

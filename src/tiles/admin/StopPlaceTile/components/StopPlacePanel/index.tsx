@@ -4,8 +4,8 @@ import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { Loader } from 'components/Loader/Loader'
 import { Paragraph } from '@entur/typography'
 import { Checkbox } from '@entur/form'
-import { PanelRow } from './PanelRow/Panelrow'
 import classes from './StopPlacePanel.module.scss'
+import { PanelRow } from './PanelRow'
 
 function StopPlacePanel(): JSX.Element {
     const [settings, setSettings] = useSettings()

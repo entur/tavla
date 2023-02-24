@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
+import { EditTile } from 'components/EditTile'
 import { SubParagraph } from '@entur/typography'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
-import { EditTile } from '../EditTile/EditTile'
 import classes from './MobileAppTile.module.scss'
 
-const MobileAppTile: React.FC = () => {
+function MobileAppTile() {
     const [settings, setSettings] = useSettings()
 
     const handleChange = useCallback(() => {

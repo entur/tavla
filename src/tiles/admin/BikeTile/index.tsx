@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
-import { EditTile } from '../EditTile/EditTile'
-import { BikePanelSearch } from './BikeSearch/BikePanelSearch'
-import { BikePanel } from './BikePanel/BikePanel'
+import { EditTile } from 'components/EditTile'
+import { BikePanelSearch } from './components/BikeSearch/BikePanelSearch'
+import { BikePanel } from './components/BikePanel/BikePanel'
 
-const BikeTile: React.FC = () => {
+function BikeTile() {
     const [settings, setSettings] = useSettings()
 
     const handleChange = useCallback(() => {

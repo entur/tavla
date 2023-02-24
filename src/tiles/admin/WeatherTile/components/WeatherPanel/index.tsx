@@ -11,7 +11,7 @@ type weatherSetting = {
     checked: boolean
 }
 
-function WeatherPanel(): JSX.Element {
+function WeatherPanel() {
     const [settings, setSettings] = useSettings()
 
     const weatherSettings: weatherSetting[] = [

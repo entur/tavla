@@ -1,13 +1,13 @@
 import React, { useCallback, useMemo } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
+import { EditTile } from 'components/EditTile'
 import { SubParagraph } from '@entur/typography'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
-import { EditTile } from '../EditTile/EditTile'
-import { CustomTilePanel } from './CustomTilePanel/CustomTilePanel'
 import classes from './CustomTile.module.scss'
+import { CustomTilePanel } from './components/CustomTilePanel'
 
-const CustomTile: React.FC = () => {
+function CustomTile() {
     const [settings, setSettings] = useSettings()
 
     const isLocked = useMemo(

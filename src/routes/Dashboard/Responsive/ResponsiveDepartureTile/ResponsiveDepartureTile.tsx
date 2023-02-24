@@ -1,6 +1,4 @@
 import React, { useMemo } from 'react'
-import { EmptyStopTile } from 'tiles/EmptyStopTile'
-import { ErrorTile } from 'tiles/ErrorTile'
 import { Loader } from 'components/Loader/Loader'
 import { Tile } from 'components/Tile'
 import {
@@ -10,12 +8,12 @@ import {
 } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { useSettings } from 'settings/SettingsProvider'
+import { ErrorTile } from 'tiles/dashboard/ErrorTile'
+import { EmptyStopTile } from 'tiles/dashboard/EmptyStopTile'
 import { ResponsiveTable } from './ResponsiveTable/ResponsiveTable'
 import classes from './ResponsiveDepartureTile.module.scss'
 
-const ResponsiveDepartureTile: React.FC<{ stopPlaceId: string }> = ({
-    stopPlaceId,
-}) => {
+function ResponsiveDepartureTile({ stopPlaceId }: { stopPlaceId: string }) {
     const [settings] = useSettings()
 
     const { stopPlaceWithEstimatedCalls, loading } =
