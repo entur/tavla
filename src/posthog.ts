@@ -1,6 +1,6 @@
 import { posthog } from 'posthog-js'
 
-export function initalizePosthog() {
+function initalizePosthog() {
     if (process.env.POSTHOG_TOKEN) {
         posthog.init(process.env.POSTHOG_TOKEN, {
             api_host: 'https://eu.posthog.com',
@@ -12,6 +12,8 @@ export function initalizePosthog() {
     }
 }
 
-export function logPageViews() {
-    posthog?.capture('$pageview')
+function logPageViews() {
+    posthog.capture('$pageview')
 }
+
+export { initalizePosthog, logPageViews }
