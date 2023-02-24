@@ -1,14 +1,9 @@
 import React from 'react'
 import { WindIcon } from '@entur/icons'
-import { WeatherItem } from '../WeatherItem/WeatherItem'
-import { WeatherItemValue } from '../WeatherItem/WeatherItemValue'
+import { WeatherItem } from '../WeatherItem'
+import { WeatherItemValue } from '../WeatherItemValue'
 
-interface WindProps {
-    windSpeed?: number
-    unit?: string
-}
-
-const Wind: React.FC<WindProps> = ({ windSpeed, unit }) => {
+function Wind({ windSpeed, unit }: { windSpeed?: number; unit?: string }) {
     const showWind = windSpeed !== undefined && unit !== undefined
     return (
         <WeatherItem>

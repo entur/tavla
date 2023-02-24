@@ -1,27 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { useWeather } from 'hooks/useWeather'
-import { createAbortController } from 'utils/utils'
 import { useSettings } from 'settings/SettingsProvider'
 import { Tile } from 'components/Tile'
-import { Temperature } from './Temperature/Temperature'
-import { WeatherIcon } from './WeatherIcon/WeatherIcon'
-import { Wind } from './Wind/Wind'
-import { Precipitation } from './Precipitation/Precipitation'
+import { Temperature } from './Temperature'
+import { WeatherIcon } from './WeatherIcon'
+import { Wind } from './Wind'
+import { Precipitation } from './Precipitation'
 import classes from './WeatherTile.module.scss'
-
-const getWeatherDescriptionFromApi = async (
-    iconName: string,
-    signal?: AbortSignal,
-): Promise<string> => {
-    const weatherNameMatch = iconName.match(/.+?(?=_|$)/)
-    if (!weatherNameMatch)
-        return Promise.reject('No REGEX match found for ' + iconName)
-    const url = `https://api.met.no/weatherapi/weathericon/2.0/legends`
-    const response = await fetch(url, { signal })
-    const weatherData = await response.json()
-    return weatherData[weatherNameMatch.toString()].desc_nb
-}
 
 const WEATHER_TIMESERIES_FORMATTING = 3
 
@@ -29,29 +15,7 @@ function WeatherTile({ className }: { className?: string }) {
     const weather = useWeather()
     const [settings] = useSettings()
 
-    const [description, setDescription] = useState('')
-
     const weatherData = weather?.timeseries[WEATHER_TIMESERIES_FORMATTING]
-
-    useEffect(() => {
-        const abortController = createAbortController()
-
-        if (weatherData) {
-            getWeatherDescriptionFromApi(
-                weatherData.data.next_1_hours.summary.symbol_code,
-                abortController.signal,
-            )
-                .then(setDescription)
-                .catch((error) => {
-                    if (error.name === 'AbortError') return
-                    setDescription('')
-                    throw error
-                })
-        }
-        return () => {
-            abortController.abort()
-        }
-    }, [weatherData])
 
     return (
         <Tile className={classNames(classes.WeatherTile, className)}>
@@ -67,7 +31,7 @@ function WeatherTile({ className }: { className?: string }) {
                     )}
                     {settings.showTemperature && (
                         <Temperature
-                            description={description}
+                            description={weather?.description ?? ''}
                             temperature={
                                 weatherData?.data.instant.details
                                     .air_temperature
