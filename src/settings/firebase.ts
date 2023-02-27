@@ -27,77 +27,60 @@ import type { User } from 'firebase/auth'
 import { signInWithCustomToken } from 'firebase/auth'
 import { BoardOwnersData } from 'src/types'
 import { auth, db, functions, storage } from './firebase-init'
-import { FieldTypes } from './FirestoreStorage'
 import { Settings } from './settings'
 
 const SETTINGS_COLLECTION = 'settings'
 
-export const getSettingsReference = (id: string): DocumentReference =>
-    doc(collection(db, SETTINGS_COLLECTION), id)
-
-export const userIsOwner = async (
-    boardId: string,
-    userUID: string | undefined,
-): Promise<boolean> => {
-    try {
-        const documentRef: DocumentReference = getSettingsReference(boardId)
-        const document = await getDoc(documentRef)
-        const settings: DocumentData | undefined = document.data()
-        return settings?.owners?.includes(userUID) as boolean
-    } catch {
-        return false
-    }
+export function getSettingsReference(id: string): DocumentReference {
+    return doc(collection(db, SETTINGS_COLLECTION), id)
 }
 
-export const updateSingleSettingsField = async (
+export async function updateFirebaseSettings(
     docId: string,
-    fieldId: string,
-    fieldValue: FieldTypes,
-): Promise<void> =>
-    updateDoc(doc(collection(db, SETTINGS_COLLECTION), docId), {
-        [fieldId]: fieldValue,
-        lastmodified: serverTimestamp(),
-    })
-
-export const updateMultipleSettingsFields = async (
-    docId: string,
-    settings: Settings,
-): Promise<void> =>
-    updateDoc(doc(collection(db, SETTINGS_COLLECTION), docId), {
+    settings: Partial<Settings>,
+): Promise<void> {
+    return updateDoc(doc(collection(db, SETTINGS_COLLECTION), docId), {
         ...settings,
         lastmodified: serverTimestamp(),
     })
+}
 
-export const removeFromArray = async (
+export async function removeFromFirebaseArray(
     docId: string,
-    fieldId: string,
+    fieldId: keyof Settings,
     fieldValue:
         | string
         | number
         | string[]
         | GeoPoint
         | { [key: string]: string[] },
-): Promise<void> =>
-    updateDoc(doc(collection(db, SETTINGS_COLLECTION), docId), {
+): Promise<void> {
+    return updateDoc(doc(collection(db, SETTINGS_COLLECTION), docId), {
         [fieldId]: arrayRemove(fieldValue),
         lastmodified: serverTimestamp(),
     })
+}
 
-export const createSettings = async (
+export async function createSettings(
     settings: Settings,
-): Promise<DocumentReference> =>
-    addDoc(collection(db, SETTINGS_COLLECTION), settings)
+): Promise<DocumentReference> {
+    return addDoc(collection(db, SETTINGS_COLLECTION), settings)
+}
 
-export const createSettingsWithId = async (
+export async function createSettingsWithId(
     settings: Settings,
     docId: string,
-): Promise<void> =>
-    await setDoc(doc(collection(db, SETTINGS_COLLECTION), docId), settings)
+): Promise<void> {
+    return await setDoc(
+        doc(collection(db, SETTINGS_COLLECTION), docId),
+        settings,
+    )
+}
 
-export const copySettingsToNewId = async (
+export async function copySettingsToNewId(
     newDocId: string,
     currentDocId: string,
-): Promise<boolean> => {
+): Promise<boolean> {
     const currentDocRef: DocumentReference = getSettingsReference(currentDocId)
     const newDocRef: DocumentReference = getSettingsReference(newDocId)
 
@@ -126,11 +109,11 @@ export const copySettingsToNewId = async (
     }
 }
 
-export const copySubCollectionToId = async (
+export async function copySubCollectionToId(
     subCollectionId: string,
     fromParentDocId: string,
     toParentDocId: string,
-): Promise<void> => {
+): Promise<void> {
     const fromSubCollectionRef = collection(
         db,
         SETTINGS_COLLECTION,
@@ -151,19 +134,17 @@ export const copySubCollectionToId = async (
     })
 }
 
-export const setIdToBeDeleted = (docId: string): Promise<void> =>
-    updateSingleSettingsField(docId, 'isScheduledForDelete', true)
+export async function deleteDocument(docId: string): Promise<void> {
+    return deleteDoc(doc(collection(db, SETTINGS_COLLECTION), docId))
+}
 
-export const deleteDocument = async (docId: string): Promise<void> =>
-    deleteDoc(doc(collection(db, SETTINGS_COLLECTION), docId))
-
-export const uploadLogo = async (
+export async function uploadLogo(
     image: File,
     onProgress: (progress: number) => void,
     onFinished: (url: string) => void,
     onError: () => void,
     documentId: string | undefined,
-): Promise<void> => {
+): Promise<void> {
     const token = await auth.currentUser?.getIdToken()
     type ResponseData = {
         uploadToken: string | undefined
@@ -212,25 +193,25 @@ export const uploadLogo = async (
     )
 }
 
-export const getBoardOnSnapshot = (
+export function getBoardOnSnapshot(
     boardID: string | undefined,
     observer: {
         next: (documentSnapshot: DocumentSnapshot) => void
         error: () => void
     },
-): (() => void) => {
+): () => void {
     const documentReference = getSettingsReference(boardID ?? '')
 
     return onSnapshot(documentReference, observer)
 }
 
-export const getBoardsForUserOnSnapshot = (
+export function getBoardsForUserOnSnapshot(
     user: User | null | undefined,
     observer: {
         next: (querySnapshot: QuerySnapshot) => void
         error: () => void
     },
-): (() => void) => {
+): () => void {
     const boardsQuery = query(
         collection(db, SETTINGS_COLLECTION),
         where('owners', 'array-contains', user?.uid ?? ''),
@@ -238,18 +219,21 @@ export const getBoardsForUserOnSnapshot = (
     return onSnapshot(boardsQuery, observer)
 }
 
-export const getBoardsByIds = (
+export function getBoardsByIds(
     boardIds: string[],
-): Promise<Array<DocumentSnapshot<DocumentData>>> =>
-    Promise.all(boardIds.map((id) => getDoc(doc(db, SETTINGS_COLLECTION, id))))
+): Promise<Array<DocumentSnapshot<DocumentData>>> {
+    return Promise.all(
+        boardIds.map((id) => getDoc(doc(db, SETTINGS_COLLECTION, id))),
+    )
+}
 
-export const getInvitesForUserOnSnapshot = (
+export function getInvitesForUserOnSnapshot(
     userEmail: string | null,
     observer: {
         next: (querySnapshot: QuerySnapshot) => void
         error: () => void
     },
-): (() => void) => {
+): () => void {
     const invitesQuery = query(
         collectionGroup(db, 'invites'),
         where('receiver', '==', userEmail),
@@ -257,24 +241,24 @@ export const getInvitesForUserOnSnapshot = (
     return onSnapshot(invitesQuery, observer)
 }
 
-export const getInvitesForBoardOnSnapshot = (
+export function getInvitesForBoardOnSnapshot(
     parentDocId: string | undefined,
     observer: {
         next: (querySnapshot: QuerySnapshot) => void
         error: () => void
     },
-): (() => void) => {
+): () => void {
     const invitesQuery = query(
         collection(db, SETTINGS_COLLECTION + '/' + parentDocId + '/invites'),
     )
     return onSnapshot(invitesQuery, observer)
 }
 
-export const addNewInviteToBoard = async (
+export async function addNewInviteToBoard(
     parentDocId: string,
     receiver: string,
     sender: string | undefined,
-): Promise<boolean> => {
+): Promise<boolean> {
     try {
         await addDoc(
             collection(
@@ -293,10 +277,10 @@ export const addNewInviteToBoard = async (
     }
 }
 
-export const removeRecievedBoardInvite = async (
+export async function removeRecievedBoardInvite(
     parentDocId: string,
     user: User | null | undefined,
-): Promise<void> => {
+): Promise<void> {
     if (!user) return Promise.reject(new Error('Not logged in.'))
     const userInviteQuery = query(
         collection(
@@ -311,11 +295,11 @@ export const removeRecievedBoardInvite = async (
     })
 }
 
-export const removeSentBoardInviteAsOwner = async (
+export async function removeSentBoardInviteAsOwner(
     parentDocId: string,
     currentUser: User | null | undefined,
     emailToRemove: string,
-): Promise<void> => {
+): Promise<void> {
     if (!currentUser) return Promise.reject(new Error('Not logged in.'))
 
     const settingsDoc = await getDoc(
@@ -344,11 +328,11 @@ export const removeSentBoardInviteAsOwner = async (
     })
 }
 
-export const answerBoardInvitation = async (
+export async function answerBoardInvitation(
     boardId: string,
     user: User | null | undefined,
     accept: boolean,
-): Promise<void> => {
+): Promise<void> {
     if (!user) return Promise.reject(new Error('Not logged in.'))
 
     type UploadData = {
@@ -373,9 +357,9 @@ export const answerBoardInvitation = async (
     }
 }
 
-export const getOwnersDataByBoardIdAsOwner = async (
+export async function getOwnersDataByBoardIdAsOwner(
     boardId: string,
-): Promise<BoardOwnersData[]> => {
+): Promise<BoardOwnersData[]> {
     type UploadData = {
         boardId: string
     }
