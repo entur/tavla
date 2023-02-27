@@ -60,7 +60,7 @@ const ResponsiveTableRow: React.FC<{ departure: Departure }> = ({
                     {!departsToday && (
                         <DateDisplay
                             date={departure.expectedDepartureTime}
-                            className={classes.Date}
+                            className={classes.DateDisplay}
                         />
                     )}
                 </td>

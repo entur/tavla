@@ -31,7 +31,10 @@ function BusStopTableRow({
                 <DataCell className={classes.Time}>
                     {departure.displayTime}
                     {!departsToday && (
-                        <DateDisplay date={departure.expectedDepartureTime} />
+                        <DateDisplay
+                            className={classes.DateDisplay}
+                            date={departure.expectedDepartureTime}
+                        />
                     )}
                 </DataCell>
             ) : (
