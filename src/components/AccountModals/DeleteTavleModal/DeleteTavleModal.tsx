@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
-import { deleteTavle } from 'settings/FirestoreStorage'
+import { deleteDocument } from 'settings/firebase'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -21,7 +21,7 @@ function DeleteTavleModal({
 }) {
     const { addToast } = useToast()
     const handleDelete = useCallback(() => {
-        deleteTavle(id)
+        deleteDocument(id)
         addToast({
             title: 'Avgangstavla ble slettet.',
             content:
