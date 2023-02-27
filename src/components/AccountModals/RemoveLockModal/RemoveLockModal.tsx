@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
-import { removeFromOwners } from 'settings/FirestoreStorage'
+import { removeFromFirebaseArray } from 'settings/firebase'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -10,22 +10,20 @@ import { useToast } from '@entur/alert'
 import { CloseButton } from '../../CloseButton/CloseButton'
 import classes from '../AccountModals.module.scss'
 
-interface RemoveLockModalProps {
-    open: boolean
-    onDismiss: () => void
-    id: string
-    uid: string
-}
-
-const RemoveLockModal: React.FC<RemoveLockModalProps> = ({
+function RemoveLockModal({
     open,
     onDismiss,
     id,
     uid,
-}) => {
+}: {
+    open: boolean
+    onDismiss: () => void
+    id: string
+    uid: string
+}) {
     const { addToast } = useToast()
     const handleRemoveLockedTavle = useCallback(async () => {
-        await removeFromOwners(id, uid)
+        await removeFromFirebaseArray(id, 'owners', uid)
         addToast({
             title: 'Tavla ble fjernet fra din konto.',
             content:
