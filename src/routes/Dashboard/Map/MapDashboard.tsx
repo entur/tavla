@@ -1,9 +1,9 @@
 import React from 'react'
-import { WeatherTile } from 'tiles/WeatherTile'
 import { DashboardWrapper } from 'containers/DashboardWrapper/DashboardWrapper'
 import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { Map } from 'components/Map'
 import { useSettings } from 'settings/SettingsProvider'
+import { WeatherTile } from 'tiles/dashboard/WeatherTile'
 import { DepartureTag } from './DepartureTag/DepartureTag'
 import classes from './MapDashboard.module.scss'
 
