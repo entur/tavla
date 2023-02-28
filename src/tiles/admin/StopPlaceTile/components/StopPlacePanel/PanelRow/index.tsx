@@ -8,6 +8,8 @@ import { Loader } from 'components/Loader/Loader'
 import { ExpandablePanel } from '@entur/expand'
 import { Paragraph } from '@entur/typography'
 import { Checkbox } from '@entur/form'
+import { IconButton } from '@entur/button'
+import { CloseSmallIcon } from '@entur/icons'
 import { RouteCheckbox } from './RouteCheckbox'
 import { TransportModeSwitch } from './TransportModeSwitch'
 import classes from './PanelRow.module.scss'
@@ -48,6 +50,13 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
         () => uniq(departures.map((it) => it.transportMode)),
         [departures],
     )
+
+    function handleRemoveStopPlaceFromPanel() {
+        const newList = settings.newStops.filter(
+            (itemId) => itemId != stopPlaceId,
+        )
+        setSettings({ newStops: newList })
+    }
 
     const onToggleStop = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -142,6 +151,11 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
                     ))}
                 </div>
             </ExpandablePanel>
+            {settings.newStops.includes(stopPlaceId) && (
+                <IconButton onClick={handleRemoveStopPlaceFromPanel}>
+                    <CloseSmallIcon />
+                </IconButton>
+            )}
         </div>
     )
 }
