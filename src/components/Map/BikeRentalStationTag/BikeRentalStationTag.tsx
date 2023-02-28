@@ -9,7 +9,7 @@ function BikeRentalStationTag({
 }: {
     bikes: number
     spaces: number
-}): JSX.Element {
+}) {
     return (
         <div className={classes.BicycleTag}>
             <div className={classes.Row}>

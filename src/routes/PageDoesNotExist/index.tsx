@@ -5,7 +5,7 @@ import duerLight from 'assets/images/duer@2x.png'
 import { ErrorWrapper } from 'src/containers/Error/ErrorWrapper'
 import { Navbar } from 'src/containers/Navbar/Navbar'
 
-function PageDoesNotExist(): JSX.Element {
+function PageDoesNotExist() {
     const navigate = useNavigate()
     const callback = useCallback(
         (event: React.SyntheticEvent<HTMLButtonElement>): void => {
