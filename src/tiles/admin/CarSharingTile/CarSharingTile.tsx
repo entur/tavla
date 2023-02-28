@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
-import { EditTile } from 'components/EditTile'
+import { AdminTile } from 'components/AdminTile'
 
 const CarSharingTile = () => {
     const [settings, setSettings] = useSettings()
@@ -13,7 +13,7 @@ const CarSharingTile = () => {
     }, [settings, setSettings])
 
     return (
-        <EditTile
+        <AdminTile
             title="Delebil"
             onChange={handleChange}
             checked={!settings.hiddenModes.includes('delebil')}

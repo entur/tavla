@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
-import { EditTile } from 'components/EditTile'
+import { AdminTile } from 'components/AdminTile'
 import { SubParagraph } from '@entur/typography'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
@@ -23,7 +23,7 @@ function CustomTile() {
 
     if (!isLocked) {
         return (
-            <EditTile
+            <AdminTile
                 title={<>Bilde og QR</>}
                 onChange={() => ({})}
                 checked={false}
@@ -32,12 +32,12 @@ function CustomTile() {
                     Tavla må være låst til din konto før man kan legge til Bilde
                     og QR tiles.
                 </SubParagraph>
-            </EditTile>
+            </AdminTile>
         )
     }
 
     return (
-        <EditTile
+        <AdminTile
             title={
                 <>
                     Bilde og QR
@@ -60,7 +60,7 @@ function CustomTile() {
             checked={settings.showCustomTiles}
         >
             <CustomTilePanel />
-        </EditTile>
+        </AdminTile>
     )
 }
 

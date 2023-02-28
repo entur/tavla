@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
-import { EditTile } from 'components/EditTile'
+import { AdminTile } from 'components/AdminTile'
 import { SubParagraph } from '@entur/typography'
 import { Tooltip } from '@entur/tooltip'
 import { ValidationInfoIcon } from '@entur/icons'
@@ -16,7 +16,7 @@ function MobileAppTile() {
     }, [settings, setSettings])
 
     return (
-        <EditTile
+        <AdminTile
             title={
                 <>
                     Entur App QR

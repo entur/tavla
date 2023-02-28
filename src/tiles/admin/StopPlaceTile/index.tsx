@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
-import { EditTile } from 'components/EditTile'
+import { AdminTile } from 'components/AdminTile'
 import { Heading3 } from '@entur/typography'
 import { ToggleDetailsPanel } from './components/ToggleDetailsPanel'
 import { StopPlaceSearch } from './components/StopPlaceSearch'
@@ -18,7 +18,7 @@ function StopPlaceTile() {
     }, [settings, setSettings])
 
     return (
-        <EditTile
+        <AdminTile
             title="Kollektiv"
             onChange={handleChange}
             checked={!settings.hiddenModes.includes('kollektiv')}
@@ -31,7 +31,7 @@ function StopPlaceTile() {
                 </Heading3>
             </div>
             <ToggleDetailsPanel />
-        </EditTile>
+        </AdminTile>
     )
 }
 

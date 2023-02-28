@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
-import { EditTile } from 'components/EditTile'
+import { AdminTile } from 'components/AdminTile'
 import { SubParagraph } from '@entur/typography'
 import { ValidationInfoIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
@@ -50,7 +50,7 @@ function WeatherTile() {
     }
 
     return (
-        <EditTile
+        <AdminTile
             title={
                 <>
                     Vær
@@ -80,7 +80,7 @@ function WeatherTile() {
             checked={settings.showWeather}
         >
             <WeatherPanel />
-        </EditTile>
+        </AdminTile>
     )
 }
 

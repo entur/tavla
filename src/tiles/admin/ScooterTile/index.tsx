@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
-import { EditTile } from 'components/EditTile'
+import { AdminTile } from 'components/AdminTile'
 import { ScooterPanel } from './components/ScooterPanel'
 
 function ScooterTile() {
@@ -14,13 +14,13 @@ function ScooterTile() {
     }, [settings, setSettings])
 
     return (
-        <EditTile
+        <AdminTile
             title="Sparkesykkel"
             onChange={handleChange}
             checked={!settings.hiddenModes.includes('sparkesykkel')}
         >
             <ScooterPanel />
-        </EditTile>
+        </AdminTile>
     )
 }
 

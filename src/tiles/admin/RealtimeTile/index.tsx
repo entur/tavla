@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
-import { EditTile } from 'components/EditTile'
+import { AdminTile } from 'components/AdminTile'
 import { Paragraph } from '@entur/typography'
 import { RealtimeDetailPanel } from './components/RealtimeDetailPanel/RealtimeDetailPanel'
 
@@ -14,7 +14,7 @@ function RealtimeTile() {
     }, [settings, setSettings])
 
     return (
-        <EditTile
+        <AdminTile
             title="Sanntidsposisjoner"
             onChange={handleChange}
             checked={!settings.hideRealtimeData}
@@ -27,7 +27,7 @@ function RealtimeTile() {
                     knappen øverst til høyre i kollektiv-ruten.
                 </Paragraph>
             )}
-        </EditTile>
+        </AdminTile>
     )
 }
 

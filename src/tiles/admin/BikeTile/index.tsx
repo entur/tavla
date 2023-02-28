@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { xor } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
-import { EditTile } from 'components/EditTile'
+import { AdminTile } from 'components/AdminTile'
 import { BikePanelSearch } from './components/BikeSearch/BikePanelSearch'
 import { BikePanel } from './components/BikePanel/BikePanel'
 
@@ -15,14 +15,14 @@ function BikeTile() {
     }, [settings, setSettings])
 
     return (
-        <EditTile
+        <AdminTile
             title="Bysykkel"
             onChange={handleChange}
             checked={!settings.hiddenModes.includes('bysykkel')}
         >
             <BikePanelSearch />
             <BikePanel />
-        </EditTile>
+        </AdminTile>
     )
 }
 

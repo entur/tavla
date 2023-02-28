@@ -2,9 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import { Heading2 } from '@entur/typography'
 import { Switch } from '@entur/form'
-import classes from './EditTile.module.scss'
+import classes from './AdminTile.module.scss'
 
-function EditTile({
+function AdminTile({
     className,
     children,
     title,
@@ -18,7 +18,7 @@ function EditTile({
     checked: boolean
 }) {
     return (
-        <div className={classNames(classes.EditTile, className)}>
+        <div className={classNames(classes.AdminTile, className)}>
             <div className={classes.Header}>
                 <Heading2 className={classes.Heading}>{title}</Heading2>
                 <Switch
@@ -32,3 +32,5 @@ function EditTile({
         </div>
     )
 }
+
+export { AdminTile }
