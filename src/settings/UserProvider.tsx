@@ -29,9 +29,7 @@ function useFirebaseAuthentication(): User | null | undefined {
 
 const UserContext = createContext<User | null | undefined>(null)
 
-const UserProvider: React.FC<{ children: React.ReactNode }> = ({
-    children,
-}) => {
+function UserProvider({ children }: { children: React.ReactNode }) {
     const user = useFirebaseAuthentication()
     return <UserContext.Provider value={user}>{children}</UserContext.Provider>
 }

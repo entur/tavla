@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useUser } from 'settings/UserProvider'
 import { useSettings } from 'settings/SettingsProvider'
@@ -33,6 +33,29 @@ function MineTavlerModal({
         }
     }, [isLocked, navigate])
 
+    const handleLockingTavle = useCallback(
+        (lock: boolean): void => {
+            if (
+                lock &&
+                user &&
+                !user.isAnonymous &&
+                settings &&
+                !settings.owners?.includes(user.uid) &&
+                open
+            ) {
+                const newOwnersList = settings.owners
+                    ? [...settings.owners, user.uid]
+                    : [user.uid]
+                setSettings({
+                    owners: newOwnersList,
+                })
+            }
+
+            navigate('/tavler')
+        },
+        [navigate, open, setSettings, settings, user],
+    )
+
     if (user === undefined || isLocked) {
         return null
     }
@@ -50,26 +73,6 @@ function MineTavlerModal({
     if (user && !user.isAnonymous && !documentId && open) {
         navigate('/tavler')
         return null
-    }
-
-    const handleLockingTavle = (lock: boolean): void => {
-        if (
-            lock &&
-            user &&
-            !user.isAnonymous &&
-            settings &&
-            !settings.owners?.includes(user.uid) &&
-            open
-        ) {
-            const newOwnersList = settings.owners
-                ? [...settings.owners, user.uid]
-                : [user.uid]
-            setSettings({
-                owners: newOwnersList,
-            })
-        }
-
-        navigate('/tavler')
     }
 
     return (

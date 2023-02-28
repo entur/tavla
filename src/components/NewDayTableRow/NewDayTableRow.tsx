@@ -5,15 +5,13 @@ import { DataCell, TableRow } from '@entur/table'
 import { Heading4 } from '@entur/typography'
 import classes from './NewDayTableRow.module.scss'
 
-type NewDayTableRowProps = {
-    currentDate: Date
-    previousDate?: Date
-}
-
-const NewDayTableRow: React.FC<NewDayTableRowProps> = ({
+function NewDayTableRow({
     currentDate,
     previousDate,
-}) => {
+}: {
+    currentDate: Date
+    previousDate?: Date
+}) {
     const isNewDay = previousDate && !isSameDay(previousDate, currentDate)
 
     if (!isNewDay) {

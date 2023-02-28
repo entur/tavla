@@ -13,7 +13,7 @@ import classes from './LogoUpload.module.scss'
 const UPLOAD_ZONE_TEXT =
     'Slipp logofilen din her eller klikk for å velge fil å laste opp'
 
-const LogoUpload = (): JSX.Element => {
+function LogoUpload() {
     const [settings, setSettings] = useSettings()
     const [error, setError] = useState<string>()
     const [uploadVisible, setUploadVisible] = useState(!settings.logo)
@@ -32,22 +32,18 @@ const LogoUpload = (): JSX.Element => {
             setError(undefined)
             setProgress(0)
 
-            const handleFinished = (imageUrl: string): void => {
-                setSettings({ logo: imageUrl })
-                setUploadVisible(false)
-                setProgress(undefined)
-            }
-
-            const handleError = (): void => {
-                setError('Filopplastingen var ikke vellykket')
-                setProgress(undefined)
-            }
-
             uploadLogo(
                 file,
                 setProgress,
-                handleFinished,
-                handleError,
+                (imageUrl: string): void => {
+                    setSettings({ logo: imageUrl })
+                    setUploadVisible(false)
+                    setProgress(undefined)
+                },
+                (): void => {
+                    setError('Filopplastingen var ikke vellykket')
+                    setProgress(undefined)
+                },
                 documentId,
             ).finally()
         },

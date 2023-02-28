@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
 import duerLight from 'assets/images/duer@2x.png'
 import { ErrorWrapper } from 'src/containers/Error/ErrorWrapper'
 import { Navbar } from 'src/containers/Navbar/Navbar'
 
-function PageDoesNotExist(): JSX.Element {
+function PageDoesNotExist() {
     const navigate = useNavigate()
-    const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
-        event.preventDefault()
-        navigate(`/`)
-    }
+    const callback = useCallback(
+        (event: React.SyntheticEvent<HTMLButtonElement>): void => {
+            event.preventDefault()
+            navigate(`/`)
+        },
+        [navigate],
+    )
     return (
         <>
             <Helmet>

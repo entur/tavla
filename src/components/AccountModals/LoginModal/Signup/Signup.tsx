@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import type { User } from 'firebase/auth'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from 'settings/UserProvider'
@@ -14,14 +14,8 @@ import { CloseButton } from '../../../CloseButton/CloseButton'
 import { ModalType } from '../login-modal-types'
 import classes from '../../AccountModals.module.scss'
 
-// eslint-disable-next-line
 const EMAIL_REGEX =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
-interface SignupProps {
-    setModalType: Dispatch<SetStateAction<ModalType>>
-    onDismiss: (user?: User) => void
-}
 
 interface UserSignUp {
     email: string
@@ -29,7 +23,13 @@ interface UserSignUp {
     repeatPassword: string
 }
 
-const Signup: React.FC<SignupProps> = ({ setModalType, onDismiss }) => {
+function Signup({
+    setModalType,
+    onDismiss,
+}: {
+    setModalType: Dispatch<SetStateAction<ModalType>>
+    onDismiss: (user?: User) => void
+}) {
     const [inputs, handleInputsChange] = useFormFields<UserSignUp>({
         email: '',
         password: '',
@@ -40,7 +40,7 @@ const Signup: React.FC<SignupProps> = ({ setModalType, onDismiss }) => {
     const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(true)
     const [emailError, setEmailError] = useState<string>()
 
-    const handleSubmit = (): void => {
+    const handleSubmit = useCallback((): void => {
         const { email, password } = inputs
 
         if (inputs.password.length >= 8) {
@@ -77,12 +77,12 @@ const Signup: React.FC<SignupProps> = ({ setModalType, onDismiss }) => {
                 setEmailError(undefined)
             }
         })
-    }
+    }, [inputs])
 
-    const handleClose = (): void => {
+    const handleClose = useCallback((): void => {
         setModalType(ModalType.LoginOptionsModal)
         onDismiss()
-    }
+    }, [onDismiss, setModalType])
 
     return (
         <>

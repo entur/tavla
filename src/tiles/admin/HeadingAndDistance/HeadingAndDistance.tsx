@@ -7,7 +7,7 @@ import { Tooltip } from '@entur/tooltip'
 import { TextField } from '@entur/form'
 import classes from './HeadingAndDistance.module.scss'
 
-const HeadingAndDistance: React.FC = () => {
+function HeadingAndDistance() {
     const [settings, setSettings] = useSettings()
 
     const [distance, setDistance] = useState<number>(settings.distance)

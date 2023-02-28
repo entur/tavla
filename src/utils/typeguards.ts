@@ -4,8 +4,8 @@ function isNotNullOrUndefined<T>(thing: T | undefined | null): thing is T {
     return thing !== undefined && thing !== null
 }
 
-const isTransport = (mode: string): mode is TravelSwitchProps['transport'] =>
-    [
+function isTransport(mode: string): mode is TravelSwitchProps['transport'] {
+    return [
         'bus',
         'rail',
         'water',
@@ -17,5 +17,6 @@ const isTransport = (mode: string): mode is TravelSwitchProps['transport'] =>
         'airportLinkRail',
         'airportLinkBus',
     ].includes(mode)
+}
 
 export { isNotNullOrUndefined, isTransport }

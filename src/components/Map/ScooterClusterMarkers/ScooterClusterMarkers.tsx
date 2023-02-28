@@ -8,12 +8,13 @@ import { useSettings } from 'settings/SettingsProvider'
 import { ScooterMarkerTag } from '../ScooterMarkerTag/ScooterMarkerTag'
 import classes from './ScooterClusterMarkers.module.scss'
 
-interface Props {
+function ScooterClusterMarkers({
+    zoom,
+    bounds,
+}: {
     zoom: number
     bounds: [number, number, number, number]
-}
-
-const ScooterClusterMarkers: React.FC<Props> = ({ zoom, bounds }) => {
+}) {
     const [settings] = useSettings()
 
     const distance = settings.scooterDistance.enabled

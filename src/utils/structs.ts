@@ -10,11 +10,13 @@ const TransportModeEnumStruct = enums(Object.values(TransportMode))
 const TransportSubmodeEnumStruct = enums(Object.values(TransportSubmode))
 
 // Time structs
-const isDateTime = (str: unknown): str is DateTime =>
-    is(str, string()) && isValid(parseISO(str))
+function isDateTime(str: unknown): str is DateTime {
+    return is(str, string()) && isValid(parseISO(str))
+}
 
-const isDate = (str: unknown): str is JPDate =>
-    is(str, string()) && isValid(parse(str, 'yyyy-mm-dd', new Date()))
+function isDate(str: unknown): str is JPDate {
+    return is(str, string()) && isValid(parse(str, 'yyyy-mm-dd', new Date()))
+}
 
 const DateTimeStruct = define<DateTime>('DateTime', isDateTime)
 const DateStruct = define<JPDate>('Date', isDate)

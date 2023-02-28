@@ -15,7 +15,7 @@ type UseUniqueLines = {
     error: ApolloError | undefined
 }
 
-const useUniqueLines = (): UseUniqueLines => {
+function useUniqueLines(): UseUniqueLines {
     const [settings] = useSettings()
     const {
         stopPlaceIds,

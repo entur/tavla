@@ -10,10 +10,11 @@ import {
 } from '@entur/icons'
 import classes from './WeatherIcon.module.scss'
 
-const contains = (a: string[], b: string[]): boolean =>
-    a.some((v) => b.includes(v))
+function contains(a: string[], b: string[]): boolean {
+    return a.some((v) => b.includes(v))
+}
 
-const getWeatherIconEntur = (APIconName: string): JSX.Element => {
+function getWeatherIconEntur(APIconName: string) {
     const stripedAPIIconName = APIconName.replace(
         /heavy|light|showers|_|day|night/g,
         '',

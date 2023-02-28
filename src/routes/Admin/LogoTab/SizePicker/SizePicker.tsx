@@ -3,7 +3,7 @@ import { useSettings } from 'settings/SettingsProvider'
 import { RadioGroup, Radio } from '@entur/form'
 import classes from './SizePicker.module.scss'
 
-const SizePicker = (): JSX.Element => {
+function SizePicker() {
     const [settings, setSettings] = useSettings()
 
     const handleChange = useCallback(

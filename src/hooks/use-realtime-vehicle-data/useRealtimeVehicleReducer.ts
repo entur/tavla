@@ -24,15 +24,19 @@ const initialState: State = {
     vehicles: {},
 }
 
-const getCurrentEpochSeconds = () => Math.floor(Date.now() / 1000)
+function getCurrentEpochSeconds() {
+    return Math.floor(Date.now() / 1000)
+}
 
-const isVehicleActive = (vehicle: RealtimeVehicle, now: number) =>
-    vehicle.lastUpdatedEpochSecond + INACTIVE_VEHICLE_IN_SECONDS > now
+function isVehicleActive(vehicle: RealtimeVehicle, now: number) {
+    return vehicle.lastUpdatedEpochSecond + INACTIVE_VEHICLE_IN_SECONDS > now
+}
 
-const isVehicleExpired = (vehicle: RealtimeVehicle, now: number) =>
-    vehicle.lastUpdatedEpochSecond + EXPIRE_VEHICLE_IN_SECONDS < now
+function isVehicleExpired(vehicle: RealtimeVehicle, now: number) {
+    return vehicle.lastUpdatedEpochSecond + EXPIRE_VEHICLE_IN_SECONDS < now
+}
 
-const hydrate = (payload: RealtimeVehicle[]) => {
+function hydrate(payload: RealtimeVehicle[]) {
     const now = getCurrentEpochSeconds()
     const vehicles = payload.reduce(
         (acc: Record<string, RealtimeVehicle>, vehicle: RealtimeVehicle) => {
@@ -54,7 +58,7 @@ const hydrate = (payload: RealtimeVehicle[]) => {
     }
 }
 
-const update = (state: State, payload: RealtimeVehicle[]) => {
+function update(state: State, payload: RealtimeVehicle[]) {
     if (payload.length === 0) {
         return state
     }
@@ -83,7 +87,7 @@ const update = (state: State, payload: RealtimeVehicle[]) => {
     }
 }
 
-const sweep = (state: State) => {
+function sweep(state: State) {
     const now = getCurrentEpochSeconds()
     const vehicles = Object.values(state.vehicles).reduce(
         (acc: Record<string, RealtimeVehicle>, vehicle: RealtimeVehicle) => {
@@ -105,20 +109,24 @@ const sweep = (state: State) => {
     }
 }
 
-const reducerFactory = () => (state: State, action: Action) => {
-    switch (action.type) {
-        case ActionType.HYDRATE:
-            return hydrate(action?.payload as RealtimeVehicle[])
-        case ActionType.UPDATE:
-            return update(state, action?.payload as RealtimeVehicle[])
-        case ActionType.SWEEP:
-            return sweep(state)
+function reducerFactory() {
+    return (state: State, action: Action) => {
+        switch (action.type) {
+            case ActionType.HYDRATE:
+                return hydrate(action?.payload as RealtimeVehicle[])
+            case ActionType.UPDATE:
+                return update(state, action?.payload as RealtimeVehicle[])
+            case ActionType.SWEEP:
+                return sweep(state)
+        }
     }
 }
 
-const useVehicleReducer = (): [
+function useVehicleReducer(): [
     { vehicles: Record<string, RealtimeVehicle> },
     Dispatch<Action>,
-] => useReducer(reducerFactory(), initialState)
+] {
+    return useReducer(reducerFactory(), initialState)
+}
 
 export { useVehicleReducer }

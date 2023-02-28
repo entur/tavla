@@ -5,7 +5,7 @@ import { FormFactor } from 'graphql-generated/mobility-v2'
 import { CityBikeIcon } from 'assets/icons/CityBikeIcon'
 import { MobilityTile } from '../MobilityTile/MobilityTile'
 
-const BikeTile = () => {
+function BikeTile() {
     const [settings] = useSettings()
     const { rentalStations } = useRentalStations([FormFactor.Bicycle])
     const totalNumberOfBikes = useMemo(

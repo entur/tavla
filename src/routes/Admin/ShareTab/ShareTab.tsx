@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect, useState } from 'react'
+import React, { Dispatch, useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import type { User } from 'firebase/auth'
 import type { DocumentData, DocumentSnapshot } from 'firebase/firestore'
@@ -50,17 +50,23 @@ function ShareTab({
 
     const { documentId } = useParams<{ documentId: string }>()
 
-    const handleDismissLoginModal = (newUser: User | undefined): void => {
-        if (!newUser || newUser.isAnonymous) {
-            setLoginModalOpen(false)
-            setTabIndex(0)
-        }
-    }
+    const handleDismissLoginModal = useCallback(
+        (newUser: User | undefined): void => {
+            if (!newUser || newUser.isAnonymous) {
+                setLoginModalOpen(false)
+                setTabIndex(0)
+            }
+        },
+        [setTabIndex],
+    )
 
-    const handleDismissNeedToBeOwnerModal = (goToFirstTab = false): void => {
-        setNeedToBeOwnerModalOpen(false)
-        if (goToFirstTab) setTabIndex(0)
-    }
+    const handleDismissNeedToBeOwnerModal = useCallback(
+        (goToFirstTab = false): void => {
+            setNeedToBeOwnerModalOpen(false)
+            if (goToFirstTab) setTabIndex(0)
+        },
+        [setTabIndex],
+    )
 
     useEffect(() => {
         if (tabIndex === 5 && user && user.isAnonymous) {

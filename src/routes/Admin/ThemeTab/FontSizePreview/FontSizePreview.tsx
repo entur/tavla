@@ -4,13 +4,9 @@ import { colors } from '@entur/tokens'
 import { Paragraph } from '@entur/typography'
 import classes from './FontSizePreview.module.scss'
 
-type Props = {
-    fontScale: number
-}
-
 const BASE_FONT_SIZE = 16
 
-const FontSizePreview: React.FC<Props> = ({ fontScale }) => {
+function FontSizePreview({ fontScale }: { fontScale: number }) {
     const subLabels = [
         { time: 'Nå' },
         { time: '4 min' },
