@@ -1,0 +1,22 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: yarn install
+      - name: Clean & Build
+        run: yarn run build:staging
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_DEPLOY_CREDENTIALS_STAGING }}"
+          projectId: entur-tavla-staging
+          channelId: live
