@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { addNewInviteToBoard } from 'settings/firebase'
 import { useUser } from 'settings/UserProvider'
 import { BoardOwnersData, Invite } from 'src/types'
@@ -50,7 +50,7 @@ function AddNewOwnersInput({
         (owner: BoardOwnersData) => owner.email,
     )
 
-    const onAddOwnerRequestToBoard = async () => {
+    const onAddOwnerRequestToBoard = useCallback(async () => {
         if (!newOwnerInput.match(EMAIL_REGEX)) {
             setInputFeedbackMessageType(inputFeedbackType.FAILURE)
             setInputFeedbackMessage(inputFeedback.NOT_VALID_EMAIL)
@@ -89,7 +89,7 @@ function AddNewOwnersInput({
                 )
             }
         }
-    }
+    }, [documentId, invites, newOwnerInput, owners, user])
 
     return (
         <div className={classes.InputArea}>

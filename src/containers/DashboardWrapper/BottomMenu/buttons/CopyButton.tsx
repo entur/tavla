@@ -4,7 +4,7 @@ import { useToast } from '@entur/alert'
 import { CopyIcon } from '@entur/icons'
 import { MenuButton } from '../MenuButton/MenuButton'
 
-const CopyButton = () => {
+function CopyButton() {
     const { addToast } = useToast()
 
     return (

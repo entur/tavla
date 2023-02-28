@@ -53,9 +53,11 @@ const COLS: { [key: string]: number } = {
     xxs: 1,
 }
 
-const ResponsiveGridDashboard: React.FC<{
+function ResponsiveGridDashboard({
+    TileComponent,
+}: {
     TileComponent: React.FC<{ stopPlaceId: string }>
-}> = ({ TileComponent }) => {
+}) {
     const [settings] = useSettings()
     const [breakpoint, setBreakpoint] = useState<string>(getDefaultBreakpoint())
 

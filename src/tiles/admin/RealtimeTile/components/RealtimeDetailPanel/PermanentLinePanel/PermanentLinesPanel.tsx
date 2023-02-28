@@ -8,10 +8,11 @@ import { FilterChip } from '@entur/chip'
 import { transportModeName } from '../transportModeName'
 import classes from './PermanentLinePanel.module.scss'
 
-const byTransportModeNameAndPublicCode = (a: Line, b: Line) =>
-    `${transportModeName(a.transportMode)}${a.publicCode}`.localeCompare(
+function byTransportModeNameAndPublicCode(a: Line, b: Line) {
+    return `${transportModeName(a.transportMode)}${a.publicCode}`.localeCompare(
         `${transportModeName(b.transportMode)}${b.publicCode}`,
     )
+}
 
 type PermanentLinesPanelProps = {
     realtimeLines: Line[]

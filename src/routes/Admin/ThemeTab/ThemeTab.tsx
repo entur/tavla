@@ -15,7 +15,7 @@ import classes from './ThemeTab.module.scss'
 
 const SCALE_STEP = 0.1
 
-const ThemeTab = (): JSX.Element => {
+function ThemeTab() {
     const [settings, setSettings] = useSettings()
     const directionPreviewImages = DirectionPreview(settings.theme)
 

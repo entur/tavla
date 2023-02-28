@@ -5,7 +5,7 @@ import { useUser } from 'settings/UserProvider'
 import { ConfigurationIcon } from '@entur/icons'
 import { MenuButton } from '../MenuButton/MenuButton'
 
-const SettingsButton = () => {
+function SettingsButton() {
     const [settings] = useSettings()
     const navigate = useNavigate()
     const user = useUser()

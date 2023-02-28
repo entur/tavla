@@ -5,7 +5,7 @@ import { useVehicles } from 'hooks/use-vehicles/useVehicles'
 import { FormFactor } from 'graphql-generated/mobility-v2'
 import { MobilityTile } from '../MobilityTile/MobilityTile'
 
-const ScooterTile = (): JSX.Element => {
+function ScooterTile() {
     const [settings] = useSettings()
 
     const distance = settings.scooterDistance.enabled

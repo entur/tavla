@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction, useCallback } from 'react'
 import type { User } from 'firebase/auth'
 import Check from 'assets/images/check.png'
 import retinaCheck from 'assets/images/check@2x.png'
@@ -16,10 +16,10 @@ function EmailSent({
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
 }) {
-    const handleClose = (): void => {
+    const handleClose = useCallback((): void => {
         setModalType(ModalType.LoginOptionsModal)
         onDismiss()
-    }
+    }, [onDismiss, setModalType])
     return (
         <>
             <CloseButton onClick={handleClose} />

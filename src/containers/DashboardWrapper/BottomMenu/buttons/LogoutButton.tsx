@@ -6,7 +6,7 @@ import { useToast } from '@entur/alert'
 import { LogOutIcon } from '@entur/icons'
 import { MenuButton } from '../MenuButton/MenuButton'
 
-const LogoutButton = () => {
+function LogoutButton() {
     const { addToast } = useToast()
     const user = useUser()
 

@@ -1,9 +1,9 @@
 import { useSettings } from 'settings/SettingsProvider'
 
-const useThemeColor = (
+function useThemeColor(
     color: { [key: string]: string },
     fallback: string,
-): string => {
+): string {
     const [settings] = useSettings()
     return color[settings.theme] || fallback
 }

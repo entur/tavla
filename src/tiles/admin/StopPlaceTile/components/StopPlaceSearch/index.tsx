@@ -8,7 +8,7 @@ import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { Dropdown } from '@entur/dropdown'
 import classes from './StopPlaceSearch.module.scss'
 
-const StopPlaceSearch: React.FC = () => {
+function StopPlaceSearch() {
     const [settings, setSettings] = useSettings()
 
     const { stopPlaceIds } = useStopPlaceIds({

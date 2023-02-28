@@ -3,7 +3,7 @@ import { xor } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
 import { AdminTile } from 'components/AdminTile'
 
-const CarSharingTile = () => {
+function CarSharingTile() {
     const [settings, setSettings] = useSettings()
 
     const handleChange = useCallback(() => {

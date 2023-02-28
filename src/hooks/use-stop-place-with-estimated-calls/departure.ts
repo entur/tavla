@@ -53,12 +53,13 @@ function toDeparture(estimatedCall: EstimatedCall): Departure {
  * @param stopPlaceId
  * @param settings
  */
-const filterHidden =
-    (stopPlaceId: string, settings: Settings) =>
-    (departure: Departure): boolean =>
+function filterHidden(stopPlaceId: string, settings: Settings) {
+    return (departure: Departure): boolean =>
         !settings.hiddenRoutes[stopPlaceId]?.includes(departure.route)
+}
 
-const byDepartureTime = (a: Departure, b: Departure) =>
-    compareAsc(a.expectedDepartureTime, b.expectedDepartureTime)
+function byDepartureTime(a: Departure, b: Departure) {
+    return compareAsc(a.expectedDepartureTime, b.expectedDepartureTime)
+}
 
 export { toDeparture, filterHidden, byDepartureTime }

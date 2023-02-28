@@ -3,7 +3,7 @@ import { MineTavlerModal } from 'components/AccountModals/MineTavlerModal/MineTa
 import { UserIcon } from '@entur/icons'
 import { MenuButton } from '../MenuButton/MenuButton'
 
-const BoardsButton = () => {
+function BoardsButton() {
     const [modalOpen, setModalOpen] = useState(false)
 
     return (

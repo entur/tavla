@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import type { User } from 'firebase/auth'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from 'settings/UserProvider'
@@ -32,7 +32,7 @@ function EmailLogin({
     const [passwordError, setPasswordError] = useState<string>()
     const [userDeactivatedError, setUserDeactivatedError] = useState<string>()
 
-    const signIn = (email: string, password: string): void => {
+    const signIn = useCallback((email: string, password: string): void => {
         setEmailError(undefined)
         setPasswordError(undefined)
         setUserDeactivatedError(undefined)
@@ -67,17 +67,20 @@ function EmailLogin({
                 console.error(error)
             }
         })
-    }
+    }, [])
 
-    const handleSubmit = (event: React.FormEvent): void => {
-        event.preventDefault()
-        signIn(inputs.email, inputs.password)
-    }
+    const handleSubmit = useCallback(
+        (event: React.FormEvent): void => {
+            event.preventDefault()
+            signIn(inputs.email, inputs.password)
+        },
+        [inputs.email, inputs.password, signIn],
+    )
 
-    const handleClose = (): void => {
+    const handleClose = useCallback((): void => {
         setModalType(ModalType.LoginOptionsModal)
         onDismiss()
-    }
+    }, [onDismiss, setModalType])
 
     return (
         <>

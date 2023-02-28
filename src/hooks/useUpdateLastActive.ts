@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
 
-const useUpdateLastActive = () => {
+function useUpdateLastActive() {
     const [settings, setSettings] = useSettings()
 
     const updateLastActive = useCallback(() => {

@@ -8,7 +8,7 @@ import { CompactDashboard } from './Compact/CompactDashboard'
 import { Poster } from './Poster/Poster'
 import { ResponsiveDashboard } from './Responsive/ResponsiveDashboard'
 
-const DashboardResolver: React.FC = () => {
+function DashboardResolver() {
     const [settings] = useSettings()
 
     switch (settings.dashboard) {

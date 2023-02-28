@@ -22,36 +22,42 @@ function ScooterPanel() {
     const [feedback, setFeedback] = useState<string | undefined>()
 
     const [, setTimeoutId] = useState<NodeJS.Timeout | undefined>()
-    const debounceSetScooterDistance = (distance: number) => {
-        const id = setTimeout(() => {
-            setSettings({
-                scooterDistance: {
-                    distance,
-                    enabled,
-                },
+    const debounceSetScooterDistance = useCallback(
+        (distance: number) => {
+            const id = setTimeout(() => {
+                setSettings({
+                    scooterDistance: {
+                        distance,
+                        enabled,
+                    },
+                })
+            }, 1000)
+
+            setTimeoutId((prevId) => {
+                if (prevId) {
+                    clearTimeout(prevId)
+                }
+                return id
             })
-        }, 1000)
+        },
+        [setSettings, enabled],
+    )
 
-        setTimeoutId((prevId) => {
-            if (prevId) {
-                clearTimeout(prevId)
+    const handleDistanceInput = useCallback(
+        (e: SyntheticEvent<HTMLInputElement>) => {
+            if (e.currentTarget.validity.valid) {
+                setVariant('info')
+                setFeedback(undefined)
+
+                const value = Number(e.currentTarget.value) || 1
+                debounceSetScooterDistance(value)
+            } else {
+                setVariant('error')
+                setFeedback('Must be a number between 1 and 1000')
             }
-            return id
-        })
-    }
-
-    const handleDistanceInput = (e: SyntheticEvent<HTMLInputElement>) => {
-        if (e.currentTarget.validity.valid) {
-            setVariant('info')
-            setFeedback(undefined)
-
-            const value = Number(e.currentTarget.value) || 1
-            debounceSetScooterDistance(value)
-        } else {
-            setVariant('error')
-            setFeedback('Must be a number between 1 and 1000')
-        }
-    }
+        },
+        [debounceSetScooterDistance],
+    )
 
     const { data } = useScooterPanelQuery({
         fetchPolicy: 'cache-and-network',

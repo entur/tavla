@@ -5,8 +5,9 @@ function timeUntil(time: Date): number {
     return differenceInSeconds(time, new Date())
 }
 
-const getLastUpdated = (lastUpdated: string): number =>
-    differenceInSeconds(new Date(), parseISO(lastUpdated))
+function getLastUpdated(lastUpdated: string): number {
+    return differenceInSeconds(new Date(), parseISO(lastUpdated))
+}
 
 const DAYS = [
     'søndag',
@@ -46,7 +47,7 @@ function createTimeString(date: Date): string {
     return `${dateString} ${yearString} ${timeString}`
 }
 
-const getFeedbackString = (lastUpdated: number): string => {
+function getFeedbackString(lastUpdated: number): string {
     if (lastUpdated < 60) return `${lastUpdated} sekunder siden`
     if (lastUpdated < 120) return '> 1 minutt siden'
     return ` > ${Math.floor(lastUpdated / 60)} minutter siden`

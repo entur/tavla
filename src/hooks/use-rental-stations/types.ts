@@ -19,10 +19,11 @@ const RentalStationStruct = type({
 
 type RentalStation = Infer<typeof RentalStationStruct>
 
-const toRentalStation = (obj: unknown): RentalStation | null =>
-    is(obj, RentalStationStruct) ? obj : null
+function toRentalStation(obj: unknown): RentalStation | null {
+    return is(obj, RentalStationStruct) ? obj : null
+}
 
-const byName = (a: RentalStation, b: RentalStation): number => {
+function byName(a: RentalStation, b: RentalStation): number {
     const aName = getTranslation(a.name)
     const bName = getTranslation(b.name)
     if (!aName) return 1
