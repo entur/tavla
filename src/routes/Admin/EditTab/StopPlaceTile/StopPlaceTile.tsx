@@ -8,7 +8,7 @@ import { StopPlaceSearch } from './StopPlaceSearch/StopPlaceSearch'
 import { StopPlacePanel } from './StopPlacePanel/StopPlacePanel'
 import classes from './StopPlaceTile.module.scss'
 
-const StopPlaceTile: React.FC = () => {
+function StopPlaceTile() {
     const [settings, setSettings] = useSettings()
 
     const handleChange = useCallback(() => {

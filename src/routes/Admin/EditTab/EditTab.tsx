@@ -13,30 +13,34 @@ import { ReloadTile } from './ReloadTile/ReloadTile'
 import { HeadingAndDistance } from './HeadingAndDistance/HeadingAndDistance'
 import classes from './EditTab.module.scss'
 
-const EditTab = (): JSX.Element => (
-    <div className={classes.EditTab}>
-        <HeadingAndDistance />
-        <PosterMobilityAlert />
-        <Heading4 className={classes.TilesHeading}>Mobilitetstilbud</Heading4>
-        <div className={classes.TilesContainer}>
-            <StopPlaceTile />
-            <div>
-                <ScooterTile />
-                <CarSharingTile />
+function EditTab() {
+    return (
+        <div className={classes.EditTab}>
+            <HeadingAndDistance />
+            <PosterMobilityAlert />
+            <Heading4 className={classes.TilesHeading}>
+                Mobilitetstilbud
+            </Heading4>
+            <div className={classes.TilesContainer}>
+                <StopPlaceTile />
+                <div>
+                    <ScooterTile />
+                    <CarSharingTile />
+                </div>
+                <BikeTile />
             </div>
-            <BikeTile />
-        </div>
-        <Heading4 className={classes.TilesHeading}>Annet</Heading4>
-        <div className={classes.TilesContainer}>
-            <div>
-                <WeatherTile />
-                <CustomTile />
-                <MobileAppTile />
+            <Heading4 className={classes.TilesHeading}>Annet</Heading4>
+            <div className={classes.TilesContainer}>
+                <div>
+                    <WeatherTile />
+                    <CustomTile />
+                    <MobileAppTile />
+                </div>
+                <RealtimeTile />
+                <ReloadTile />
             </div>
-            <RealtimeTile />
-            <ReloadTile />
         </div>
-    </div>
-)
+    )
+}
 
 export { EditTab }

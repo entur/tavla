@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useMemo } from 'react'
+import React, { ChangeEvent, useCallback, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { uniq, uniqBy, xor } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
@@ -8,12 +8,16 @@ import { Loader } from 'components/Loader/Loader'
 import { ExpandablePanel } from '@entur/expand'
 import { Paragraph } from '@entur/typography'
 import { Checkbox } from '@entur/form'
+import { CloseSmallIcon } from '@entur/icons'
+import { IconButton } from '@entur/button'
 import { RouteCheckbox } from './RouteCheckbox/RouteCheckbox'
 import { TransportModeSwitch } from './TransportModeSwitch/TransportModeSwitch'
 import classes from './PanelRow.module.scss'
 
 function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
+    const [closeRow] = useState(false)
     const [settings, setSettings] = useSettings()
+    const [hideStopPlace, setHideStopPlace] = useState(false)
 
     const { stopPlaceWithEstimatedCalls, loading } =
         useStopPlaceWithEstimatedCalls({
@@ -130,19 +134,34 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
     }
 
     return (
-        <div className={classes.PanelRow}>
-            <ExpandablePanel className={classes.Expandable} title={header}>
-                <div className={classes.Content}>
-                    {uniqueDepartures.map(({ route }) => (
-                        <RouteCheckbox
-                            key={route}
-                            route={route}
-                            stopPlaceId={stopPlaceWithEstimatedCalls?.id}
-                        />
-                    ))}
+        <>
+            {!hideStopPlace && (
+                <div className={classes.PanelRow}>
+                    <ExpandablePanel
+                        className={classes.Expandable}
+                        title={header}
+                    >
+                        <div className={classes.Content}>
+                            {!closeRow &&
+                                uniqueDepartures.map(({ route }) => (
+                                    <>
+                                        <RouteCheckbox
+                                            key={route}
+                                            route={route}
+                                            stopPlaceId={
+                                                stopPlaceWithEstimatedCalls?.id
+                                            }
+                                        />
+                                    </>
+                                ))}
+                        </div>
+                    </ExpandablePanel>
+                    <IconButton onClick={() => setHideStopPlace(true)}>
+                        <CloseSmallIcon key={stopPlaceId} />
+                    </IconButton>
                 </div>
-            </ExpandablePanel>
-        </div>
+            )}
+        </>
     )
 }
 

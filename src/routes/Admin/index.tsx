@@ -22,7 +22,7 @@ import { LockAndViewButtons } from './LockAndViewButtons/LockAndViewButtons'
 import { ShareTab } from './ShareTab/ShareTab'
 import classes from './AdminPage.module.scss'
 
-const AdminPage = (): JSX.Element => {
+function AdminPage() {
     const [settings] = useSettings()
     const user = useUser()
     useThemeHandler()
