@@ -10,9 +10,9 @@ import {
     toDeparture,
 } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from 'components/WalkTrip/WalkTrip'
-import { ErrorTile } from 'tiles/ErrorTile'
-import { EmptyStopTile } from 'tiles/EmptyStopTile'
 import { Loader } from 'components/Loader/Loader'
+import { ErrorTile } from 'tiles/dashboard/ErrorTile'
+import { EmptyStopTile } from 'tiles/dashboard/EmptyStopTile'
 import { SubLabel } from '@entur/typography'
 import { Table, TableRow, TableHead, HeaderCell, TableBody } from '@entur/table'
 import { BusStopTableRow } from '../BusStopTableRow/BusStopTableRow'
