@@ -37,14 +37,14 @@ function BoardOverflowMenu({
     }, [id, navigate])
 
     const { addToast } = useToast()
-    const overflowShareTavle = (): void => {
+    const overflowShareTavle = useCallback((): void => {
         copy(`${window.location.host}/t/${id}`)
         addToast({
             title: 'Kopiert',
             content: 'Linken har nå blitt kopiert til din utklippstavle.',
             variant: 'success',
         })
-    }
+    }, [addToast, id])
 
     return (
         <>

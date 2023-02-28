@@ -4,7 +4,7 @@ import { useSettings } from 'settings/SettingsProvider'
 import { OpenedLockIcon } from '@entur/icons'
 import { MenuButton } from '../MenuButton/MenuButton'
 
-const LockButton = () => {
+function LockButton() {
     const [modalOpen, setModalOpen] = useState(false)
     const [settings] = useSettings()
 

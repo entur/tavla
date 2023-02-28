@@ -15,11 +15,11 @@ interface RealtimeVehicleTagProps {
     isHovered: boolean
 }
 
-const RealtimeVehicleTag = ({
+function RealtimeVehicleTag({
     realtimeVehicle,
     setHoveredVehicle,
     isHovered,
-}: RealtimeVehicleTagProps): JSX.Element => {
+}: RealtimeVehicleTagProps) {
     const [settings, setSettings] = useSettings()
 
     return (

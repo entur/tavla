@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react'
+import React, { memo, useState, useEffect, useCallback } from 'react'
 import { fetchAutocomplete } from 'utils/geocoder/fetchAutocomplete'
 import { fetchReverse } from 'utils/geocoder/fetchReverse'
 import { useLocationPermission } from 'hooks/useLocationPermission'
@@ -52,90 +52,108 @@ function SearchPanel({ handleCoordinatesSelected }: Props) {
 
     const [chosenCoord, setChosenCoord] = useState<Coordinates | null>(null)
 
-    const getAddressFromPosition = (position: Coordinates): void => {
-        setChosenCoord(position)
-        fetchReverse(position).then((locationName) => {
-            if (locationName) {
+    const getAddressFromPosition = useCallback(
+        (position: Coordinates): void => {
+            setChosenCoord(position)
+            fetchReverse(position).then((locationName) => {
+                if (locationName) {
+                    setLocation({
+                        hasLocation: true,
+                        selectedLocationName: locationName,
+                    })
+                }
+                setIsLoadingYourLocation(false)
+            })
+        },
+        [],
+    )
+
+    const handleSuccessLocation = useCallback(
+        (data: GeolocationPosition): void => {
+            refreshLocationPermission()
+            const position = {
+                latitude: data.coords.latitude,
+                longitude: data.coords.longitude,
+            }
+            getAddressFromPosition(position)
+        },
+        [getAddressFromPosition, refreshLocationPermission],
+    )
+
+    const handleDeniedLocation = useCallback(
+        (error: GeolocationPositionError): void => {
+            refreshLocationPermission()
+            setErrorMessage(getErrorMessage(error))
+            setLocation({
+                hasLocation: false,
+                selectedLocationName: null,
+            })
+            setIsLoadingYourLocation(false)
+        },
+        [refreshLocationPermission],
+    )
+
+    const onItemSelected = useCallback(
+        (item: Item | null): void => {
+            if (!item) return
+            setErrorMessage(null)
+            if (item.value === YOUR_POSITION) {
+                setIsLoadingYourLocation(true)
+                navigator.geolocation.getCurrentPosition(
+                    handleSuccessLocation,
+                    handleDeniedLocation,
+                    { maximumAge: 60000, timeout: 7500 },
+                )
+            } else {
+                setChosenCoord(item.coordinates || null)
                 setLocation({
                     hasLocation: true,
-                    selectedLocationName: locationName,
+                    selectedLocationName: item.label,
                 })
             }
-            setIsLoadingYourLocation(false)
-        })
-    }
+        },
+        [handleDeniedLocation, handleSuccessLocation],
+    )
 
-    const handleSuccessLocation = (data: GeolocationPosition): void => {
-        refreshLocationPermission()
-        const position = {
-            latitude: data.coords.latitude,
-            longitude: data.coords.longitude,
-        }
-        getAddressFromPosition(position)
-    }
+    const handleGoToBoard = useCallback(
+        (event: React.FormEvent<HTMLFormElement>): void => {
+            event.preventDefault()
 
-    const handleDeniedLocation = (error: GeolocationPositionError): void => {
-        refreshLocationPermission()
-        setErrorMessage(getErrorMessage(error))
-        setLocation({
-            hasLocation: false,
-            selectedLocationName: null,
-        })
-        setIsLoadingYourLocation(false)
-    }
+            if (chosenCoord && location.selectedLocationName) {
+                handleCoordinatesSelected(
+                    chosenCoord,
+                    location.selectedLocationName,
+                )
+            } else {
+                setErrorMessage(
+                    'Søket ga ingen resultater. Søk på et navn og velg et stoppested/en bysykkelstasjon fra listen som dukker opp.',
+                )
+            }
+        },
+        [chosenCoord, handleCoordinatesSelected, location.selectedLocationName],
+    )
 
-    const onItemSelected = (item: Item | null): void => {
-        if (!item) return
-        setErrorMessage(null)
-        if (item.value === YOUR_POSITION) {
-            setIsLoadingYourLocation(true)
-            navigator.geolocation.getCurrentPosition(
-                handleSuccessLocation,
-                handleDeniedLocation,
-                { maximumAge: 60000, timeout: 7500 },
-            )
-        } else {
-            setChosenCoord(item.coordinates || null)
-            setLocation({
-                hasLocation: true,
-                selectedLocationName: item.label,
-            })
-        }
-    }
+    const getItems = useCallback(
+        async (query: string): Promise<Item[]> => {
+            const defaultSuggestions = showPositionInList
+                ? [
+                      {
+                          value: YOUR_POSITION,
+                          label: YOUR_POSITION,
+                          icons: [PositionIcon],
+                      },
+                  ]
+                : []
 
-    const handleGoToBoard = (event: React.FormEvent<HTMLFormElement>): void => {
-        event.preventDefault()
+            if (!query) {
+                return defaultSuggestions
+            }
 
-        if (chosenCoord && location.selectedLocationName) {
-            handleCoordinatesSelected(
-                chosenCoord,
-                location.selectedLocationName,
-            )
-        } else {
-            setErrorMessage(
-                'Søket ga ingen resultater. Søk på et navn og velg et stoppested/en bysykkelstasjon fra listen som dukker opp.',
-            )
-        }
-    }
-
-    const getItems = async (query: string): Promise<Item[]> => {
-        const defaultSuggestions = showPositionInList
-            ? [
-                  {
-                      value: YOUR_POSITION,
-                      label: YOUR_POSITION,
-                      icons: [PositionIcon],
-                  },
-              ]
-            : []
-
-        if (!query) {
-            return defaultSuggestions
-        }
-
-        const suggestedFeatures = await fetchAutocomplete(query)
-        return [...defaultSuggestions, ...suggestedFeatures]
-    }
+            const suggestedFeatures = await fetchAutocomplete(query)
+            return [...defaultSuggestions, ...suggestedFeatures]
+        },
+        [showPositionInList],
+    )
 
     return (
         <form className={classes.SearchPanel} onSubmit={handleGoToBoard}>

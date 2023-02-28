@@ -30,13 +30,15 @@ function sortBoard(boards: Board[]): Board[] {
     })
 }
 
-const filterBoards = (boards: Board[]): Board[] =>
-    boards.filter((board) => !board.data.isScheduledForDelete)
+function filterBoards(boards: Board[]): Board[] {
+    return boards.filter((board) => !board.data.isScheduledForDelete)
+}
 
-const filterSharedBoards = (boards: SharedBoard[]): SharedBoard[] =>
-    boards.filter((board) => !board.isScheduledForDelete)
+function filterSharedBoards(boards: SharedBoard[]): SharedBoard[] {
+    return boards.filter((board) => !board.isScheduledForDelete)
+}
 
-const MyBoards = (): JSX.Element | null => {
+function MyBoards() {
     const [searchParams, setSearchParams] = useSearchParams()
     const currentIndex = useMemo(
         () => Number(searchParams.get('tab')) || 0,

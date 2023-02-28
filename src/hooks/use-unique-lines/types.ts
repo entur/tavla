@@ -23,7 +23,7 @@ const EstimatedCallStruct = type({
 
 type EstimatedCall = Infer<typeof EstimatedCallStruct>
 
-const toEstimatedCall = (obj: unknown) => {
+function toEstimatedCall(obj: unknown) {
     if (is(obj, EstimatedCallStruct)) {
         return obj
     }

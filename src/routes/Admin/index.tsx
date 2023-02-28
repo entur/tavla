@@ -22,7 +22,7 @@ import { ShareTab } from './ShareTab/ShareTab'
 import classes from './AdminPage.module.scss'
 import { EditTab } from './EditTab'
 
-const AdminPage = (): JSX.Element => {
+function AdminPage() {
     const [settings] = useSettings()
     const user = useUser()
     useThemeHandler()

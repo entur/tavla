@@ -3,7 +3,7 @@ import { DashboardWrapper } from 'containers/DashboardWrapper/DashboardWrapper'
 import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { BusStopTile } from './components/BusStopTile/BusStopTile'
 
-const BusStopDashboard = (): JSX.Element | null => {
+function BusStopDashboard() {
     const { stopPlaceIds } = useStopPlaceIds()
 
     return (

@@ -2,7 +2,7 @@ import React from 'react'
 import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { StopPlaceMarker } from '../StopPlaceMarker/StopPlaceMarker'
 
-const StopPlaceMarkers = () => {
+function StopPlaceMarkers() {
     const { stopPlaceIds } = useStopPlaceIds()
 
     return (

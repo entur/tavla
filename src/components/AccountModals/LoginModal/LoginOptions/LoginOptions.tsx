@@ -25,17 +25,15 @@ const description: Record<LoginCase, string> = {
         'Logg inn for å få tilgang på ekstra funksjonalitet, som å se dine tavler eller last opp logo.',
 }
 
-interface LoginOptionsProps {
-    setModalType: Dispatch<SetStateAction<ModalType>>
-    loginCase: LoginCase
-    onDismiss: () => void
-}
-
-const LoginOptions: React.FC<LoginOptionsProps> = ({
+function LoginOptions({
     setModalType,
     loginCase,
     onDismiss,
-}) => {
+}: {
+    setModalType: Dispatch<SetStateAction<ModalType>>
+    loginCase: LoginCase
+    onDismiss: () => void
+}) {
     const handleDismiss = useCallback(() => {
         setModalType(ModalType.LoginOptionsModal)
         onDismiss()

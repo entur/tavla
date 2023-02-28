@@ -5,13 +5,7 @@ import { PrimaryButton } from '@entur/button'
 import { Paragraph } from '@entur/typography'
 import classes from './SituationModal.module.scss'
 
-interface SituationModalProps {
-    situationMessage: string
-}
-
-const SituationModal: React.FC<SituationModalProps> = ({
-    situationMessage,
-}) => {
+function SituationModal({ situationMessage }: { situationMessage: string }) {
     const [isOpen, setOpen] = React.useState<boolean>(false)
 
     return (

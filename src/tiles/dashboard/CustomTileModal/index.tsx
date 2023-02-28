@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
 import { CustomTileType } from 'src/types'
 import { Modal } from '@entur/modal'
@@ -44,57 +44,70 @@ function CustomTileModal({
 
     const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
-    const urlPattern = /^(https?:\/\/)?www\.([A-z0-9]+)\.([A-z]{2,})/
+    const handleSubmit = useCallback(
+        (actionType: ActionType) => {
+            const urlPattern = /^(https?:\/\/)?www\.([A-z0-9]+)\.([A-z]{2,})/
+            if (!urlPattern.test(sourceUrl)) {
+                setErrorMessage(true)
+                return
+            } else {
+                setErrorMessage(false)
+                setIsSubmitAttempted(true)
+            }
 
-    const handleSubmit = (actionType: ActionType) => {
-        if (!urlPattern.test(sourceUrl)) {
-            setErrorMessage(true)
-            return
-        } else {
-            setErrorMessage(false)
-            setIsSubmitAttempted(true)
-        }
-
-        if (!displayName || !sourceUrl) return
-        if (tileType === 'qr') {
-            setSettings({
-                customQrTiles: [
-                    ...(actionType === 'Update'
-                        ? settings.customQrTiles.filter(
-                              ({ id }) => id !== selectedTileId,
-                          )
-                        : settings.customQrTiles),
-                    {
-                        id: String(Date.now()),
-                        displayName,
-                        sourceUrl,
-                        description,
-                        type: tileType,
-                    },
-                ],
-            })
-        }
-        if (tileType === 'image') {
-            setSettings({
-                customImageTiles: [
-                    ...(actionType === 'Update'
-                        ? settings.customImageTiles.filter(
-                              ({ id }) => id !== selectedTileId,
-                          )
-                        : settings.customImageTiles),
-                    {
-                        id: String(Date.now()),
-                        displayName,
-                        sourceUrl,
-                        description,
-                        displayHeader,
-                        type: tileType,
-                    },
-                ],
-            })
-        }
-        setIsOpen(false)
-    }
+            if (!displayName || !sourceUrl) return
+            if (tileType === 'qr') {
+                setSettings({
+                    customQrTiles: [
+                        ...(actionType === 'Update'
+                            ? settings.customQrTiles.filter(
+                                  ({ id }) => id !== selectedTileId,
+                              )
+                            : settings.customQrTiles),
+                        {
+                            id: String(Date.now()),
+                            displayName,
+                            sourceUrl,
+                            description,
+                            type: tileType,
+                        },
+                    ],
+                })
+            }
+            if (tileType === 'image') {
+                setSettings({
+                    customImageTiles: [
+                        ...(actionType === 'Update'
+                            ? settings.customImageTiles.filter(
+                                  ({ id }) => id !== selectedTileId,
+                              )
+                            : settings.customImageTiles),
+                        {
+                            id: String(Date.now()),
+                            displayName,
+                            sourceUrl,
+                            description,
+                            displayHeader,
+                            type: tileType,
+                        },
+                    ],
+                })
+            }
+            setIsOpen(false)
+        },
+        [
+            description,
+            displayHeader,
+            displayName,
+            selectedTileId,
+            setIsOpen,
+            setSettings,
+            settings.customImageTiles,
+            settings.customQrTiles,
+            sourceUrl,
+            tileType,
+        ],
+    )
 
     return (
         <Modal

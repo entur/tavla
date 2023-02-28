@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect, useState } from 'react'
+import React, { Dispatch, useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import type { User } from 'firebase/auth'
 import { useUser } from 'settings/UserProvider'
@@ -30,12 +30,15 @@ function NameTab({
         }
     }, [user, tabIndex, setTabIndex])
 
-    const handleDismiss = (newUser: User | undefined): void => {
-        if (!newUser || newUser.isAnonymous) {
-            setOpen(false)
-            setTabIndex(0)
-        }
-    }
+    const handleDismiss = useCallback(
+        (newUser: User | undefined): void => {
+            if (!newUser || newUser.isAnonymous) {
+                setOpen(false)
+                setTabIndex(0)
+            }
+        },
+        [setTabIndex],
+    )
 
     if (!documentId) {
         return (

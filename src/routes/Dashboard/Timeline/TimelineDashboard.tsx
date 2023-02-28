@@ -4,7 +4,7 @@ import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { TimelineTile } from './TimelineTile/TimelineTile'
 import classes from './TimelineDashboard.module.scss'
 
-const TimelineDashboard = (): JSX.Element | null => {
+function TimelineDashboard() {
     const { stopPlaceIds } = useStopPlaceIds()
 
     return (

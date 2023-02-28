@@ -9,12 +9,13 @@ import { WalkTrip } from '../../WalkTrip/WalkTrip'
 import { TransportModeIcon } from '../../TransportModeIcon/TransportModeIcon'
 import classes from './StopPlaceMarker.module.scss'
 
-interface Props {
+function StopPlaceMarker({
+    className,
+    stopPlaceId,
+}: {
     stopPlaceId: string
     className?: string
-}
-
-const StopPlaceMarker: React.FC<Props> = ({ className, stopPlaceId }) => {
+}) {
     const { stopPlaceWithEstimatedCalls, loading } =
         useStopPlaceWithEstimatedCalls({ stopPlaceId })
 
