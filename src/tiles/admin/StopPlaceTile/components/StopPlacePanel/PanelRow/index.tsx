@@ -8,6 +8,8 @@ import { Loader } from 'components/Loader/Loader'
 import { ExpandablePanel } from '@entur/expand'
 import { Paragraph } from '@entur/typography'
 import { Checkbox } from '@entur/form'
+import { IconButton } from '@entur/button'
+import { CloseSmallIcon } from '@entur/icons'
 import { RouteCheckbox } from './RouteCheckbox'
 import { TransportModeSwitch } from './TransportModeSwitch'
 import classes from './PanelRow.module.scss'
@@ -48,6 +50,13 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
         () => uniq(departures.map((it) => it.transportMode)),
         [departures],
     )
+
+    function handleCloseStopPlaceRow() {
+        const newList = settings.newStops.filter(
+            (itemId) => itemId != stopPlaceId,
+        )
+        setSettings({ newStops: newList })
+    }
 
     const onToggleStop = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -130,19 +139,30 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
     }
 
     return (
-        <div className={classes.PanelRow}>
-            <ExpandablePanel className={classes.Expandable} title={header}>
-                <div className={classes.Content}>
-                    {uniqueDepartures.map(({ route }) => (
-                        <RouteCheckbox
-                            key={route}
-                            route={route}
-                            stopPlaceId={stopPlaceWithEstimatedCalls?.id}
-                        />
-                    ))}
-                </div>
-            </ExpandablePanel>
-        </div>
+        <>
+            <div className={classes.PanelRow}>
+                <ExpandablePanel className={classes.Expandable} title={header}>
+                    <div className={classes.Content}>
+                        {uniqueDepartures.map(({ route }) => (
+                            <RouteCheckbox
+                                key={route}
+                                route={route}
+                                stopPlaceId={stopPlaceWithEstimatedCalls?.id}
+                            />
+                        ))}
+                    </div>
+                </ExpandablePanel>
+                {settings.newStops.includes(stopPlaceId) && (
+                    <IconButton
+                        onClick={() => {
+                            handleCloseStopPlaceRow()
+                        }}
+                    >
+                        <CloseSmallIcon />
+                    </IconButton>
+                )}
+            </div>
+        </>
     )
 }
 
