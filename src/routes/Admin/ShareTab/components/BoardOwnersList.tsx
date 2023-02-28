@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useUser } from 'settings/UserProvider'
 import type { BoardOwnersData, Invite } from 'src/types'
-import { removeSentBoardInviteAsOwner } from 'settings/firebase'
-import { removeFromOwners } from 'settings/FirestoreStorage'
+import {
+    removeFromFirebaseArray,
+    removeSentBoardInviteAsOwner,
+} from 'settings/firebase'
 import { Table, TableHead, TableRow, HeaderCell, TableBody } from '@entur/table'
 import { SharedWithRows } from './SharedWithRows'
 
@@ -28,58 +30,64 @@ function BoardOwnersList({
         string[]
     >([])
 
-    const onRemoveOwnerFromBoard = async (
-        userToRemove: BoardOwnersData,
-    ): Promise<void> => {
-        try {
-            setUserEmailsBeingRemoved([
-                ...userEmailsBeingRemoved,
-                userToRemove.email,
-            ])
-            const ownersUids: string[] = ownersData.map(
-                (owner: BoardOwnersData) => owner.uid,
-            )
-            if (!ownersUids.includes(user?.uid ?? ''))
-                throw new Error('You are not an owner of this board.')
-            await removeFromOwners(documentId, userToRemove.uid)
-        } catch (error) {
-            throw new Error(
-                'Write error: could not remove owner from board. ' + error,
-            )
-        } finally {
-            setUserEmailsBeingRemoved(
-                userEmailsBeingRemoved.filter(
-                    (email) => email !== userToRemove.email,
-                ),
-            )
-        }
-    }
+    const onRemoveOwnerFromBoard = useCallback(
+        async (userToRemove: BoardOwnersData) => {
+            try {
+                setUserEmailsBeingRemoved([
+                    ...userEmailsBeingRemoved,
+                    userToRemove.email,
+                ])
+                const ownersUids: string[] = ownersData.map(
+                    (owner: BoardOwnersData) => owner.uid,
+                )
+                if (!ownersUids.includes(user?.uid ?? ''))
+                    throw new Error('You are not an owner of this board.')
+                await removeFromFirebaseArray(
+                    documentId,
+                    'owners',
+                    userToRemove.uid,
+                )
+            } catch (error) {
+                throw new Error(
+                    'Write error: could not remove owner from board. ' + error,
+                )
+            } finally {
+                setUserEmailsBeingRemoved(
+                    userEmailsBeingRemoved.filter(
+                        (email) => email !== userToRemove.email,
+                    ),
+                )
+            }
+        },
+        [documentId, ownersData, user?.uid, userEmailsBeingRemoved],
+    )
 
-    const onRemoveInviteFromBoard = async (
-        userToRemove: BoardOwnersData,
-    ): Promise<void> => {
-        try {
-            setUserEmailsBeingRemoved([
-                ...userEmailsBeingRemoved,
-                userToRemove.email,
-            ])
-            await removeSentBoardInviteAsOwner(
-                documentId,
-                user,
-                userToRemove.email,
-            )
-        } catch (error) {
-            throw new Error(
-                'Write error: could not remove invite from board. ' + error,
-            )
-        } finally {
-            setUserEmailsBeingRemoved(
-                userEmailsBeingRemoved.filter(
-                    (email) => email !== userToRemove.email,
-                ),
-            )
-        }
-    }
+    const onRemoveInviteFromBoard = useCallback(
+        async (userToRemove: BoardOwnersData) => {
+            try {
+                setUserEmailsBeingRemoved([
+                    ...userEmailsBeingRemoved,
+                    userToRemove.email,
+                ])
+                await removeSentBoardInviteAsOwner(
+                    documentId,
+                    user,
+                    userToRemove.email,
+                )
+            } catch (error) {
+                throw new Error(
+                    'Write error: could not remove invite from board. ' + error,
+                )
+            } finally {
+                setUserEmailsBeingRemoved(
+                    userEmailsBeingRemoved.filter(
+                        (email) => email !== userToRemove.email,
+                    ),
+                )
+            }
+        },
+        [documentId, user, userEmailsBeingRemoved],
+    )
 
     return (
         <Table>

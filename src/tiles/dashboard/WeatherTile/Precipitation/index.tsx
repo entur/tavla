@@ -1,7 +1,7 @@
 import React from 'react'
 import { CloudRainIcon, UmbrellaIcon } from '@entur/icons'
-import { WeatherItem } from '../WeatherItem/WeatherItem'
-import { WeatherItemValue } from '../WeatherItem/WeatherItemValue'
+import { WeatherItem } from '../WeatherItem'
+import { WeatherItemValue } from '../WeatherItemValue'
 
 function Precipitation({
     precipitationAmount,

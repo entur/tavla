@@ -9,84 +9,70 @@ import { Outlet, useMatch, useNavigate } from 'react-router-dom'
 import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
 import { Loader } from 'components/Loader/Loader'
 import { useUser } from './UserProvider'
-import { getSettingsReference } from './firebase'
+import { getSettingsReference, updateFirebaseSettings } from './firebase'
 import { DEFAULT_SETTINGS, Settings } from './settings'
-import {
-    FieldTypes,
-    persistMultipleFields,
-    persistSingleField,
-} from './FirestoreStorage'
 
 type SettingsSetter = (settings: Partial<Settings>) => void
 
 const SettingsContext = createContext<[Settings, SettingsSetter] | null>(null)
 
-const SettingsProvider: React.FC = () => {
+function SettingsProvider() {
     const [settings, setLocalSettings] = useState<Settings | null>(null)
     const navigate = useNavigate()
     const user = useUser()
-    const onAdmin = useMatch('/admin/*')
     const documentId = useMatch<'documentId', string>('/:page/:documentId')
         ?.params.documentId
 
     useEffect(() => {
-        if (documentId) {
-            return onSnapshot(
-                getSettingsReference(documentId),
-                (documentSnapshot: DocumentSnapshot) => {
-                    if (!documentSnapshot.exists()) {
-                        navigate('/')
-                        return
-                    }
+        if (!documentId) return
 
-                    const data = documentSnapshot.data() as Settings
+        // Returns cleanup function
+        return onSnapshot(
+            getSettingsReference(documentId),
+            (documentSnapshot: DocumentSnapshot) => {
+                if (!documentSnapshot.exists()) {
+                    navigate('/')
+                    return
+                }
 
-                    const settingsWithDefaults: Settings = {
-                        ...DEFAULT_SETTINGS,
-                        ...data,
-                    }
+                const data = documentSnapshot.data() as Settings
 
-                    // The fields under are added if missing, and if the tavle is not locked.
-                    // If a tavle is locked by a user, you are not allowed to write to
-                    // tavle unless you are logged in as the user who locked tavla, so we need
-                    // to check if you have edit access.
-                    const editAccess =
-                        user &&
-                        (!data.owners?.length || data.owners.includes(user.uid))
+                // Default values are added to fields if missing
+                const settingsWithDefaults: Settings = {
+                    ...DEFAULT_SETTINGS,
+                    ...data,
+                }
 
-                    if (editAccess) {
-                        Object.entries(DEFAULT_SETTINGS).forEach(
-                            ([key, value]) => {
-                                if (data[key as keyof Settings] === undefined) {
-                                    persistSingleField(
-                                        documentId,
-                                        key,
-                                        value as FieldTypes,
-                                    )
-                                }
-                            },
-                        )
-                    }
+                // Stores settings locally on initial load
+                setLocalSettings(settingsWithDefaults)
 
-                    setLocalSettings((prevSettings) =>
-                        prevSettings && !!onAdmin
-                            ? prevSettings
-                            : settingsWithDefaults,
-                    )
-                },
-            )
-        }
-    }, [onAdmin, user, documentId, navigate])
+                // If a tavle is locked by a user, you are not allowed to write to
+                // tavle unless you are logged in as the user who locked tavla, so we need
+                // to check if you have edit access.
+                const editAccess =
+                    user &&
+                    (!data.owners?.length || data.owners.includes(user.uid))
+
+                if (!editAccess) return
+
+                if (
+                    Object.keys(data).length !==
+                    Object.keys(settingsWithDefaults).length
+                ) {
+                    updateFirebaseSettings(documentId, settingsWithDefaults)
+                }
+            },
+        )
+    }, [user, documentId, navigate])
 
     const setSettings = useCallback(
         (newSettings: Partial<Settings>) => {
-            const mergedSettings = { ...settings, ...newSettings } as Settings
-            setLocalSettings(mergedSettings)
+            setLocalSettings((s) => ({ ...s, ...newSettings } as Settings))
             if (documentId) {
-                persistMultipleFields(documentId, mergedSettings)
+                updateFirebaseSettings(documentId, newSettings)
             }
         },
-        [settings, documentId],
+        [documentId],
     )
 
     if (settings === null) {
