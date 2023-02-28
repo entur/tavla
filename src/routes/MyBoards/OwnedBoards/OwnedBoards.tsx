@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 import type { User } from 'firebase/auth'
 import type { DocumentData } from 'firebase/firestore'
@@ -14,14 +14,17 @@ type BoardViews = 'grid' | 'list'
 function OwnedBoards({ boards, user }: { boards: DocumentData; user: User }) {
     const [chosenBoardView, setChosenBoardView] = useState<BoardViews>('grid')
 
-    const ChosenBoardView = (boardView: BoardViews) => {
-        switch (boardView) {
-            case 'grid':
-                return <GridView boards={boards} user={user} />
-            case 'list':
-                return <ListView boards={boards} user={user} />
-        }
-    }
+    const ChosenBoardView = useCallback(
+        (boardView: BoardViews) => {
+            switch (boardView) {
+                case 'grid':
+                    return <GridView boards={boards} user={user} />
+                case 'list':
+                    return <ListView boards={boards} user={user} />
+            }
+        },
+        [boards, user],
+    )
 
     return (
         <div>

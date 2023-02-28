@@ -4,7 +4,7 @@ import { FormFactor } from 'graphql-generated/mobility-v2'
 import { RentalCarIcon } from 'assets/icons/RentalCarIcon'
 import { MobilityTile } from '../MobilityTile/MobilityTile'
 
-const CarTile = () => {
+function CarTile() {
     const { rentalStations } = useRentalStations([FormFactor.Car])
     const totalNumberOfCars = useMemo(
         () =>

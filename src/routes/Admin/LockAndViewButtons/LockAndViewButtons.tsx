@@ -5,7 +5,7 @@ import { useSettings } from 'settings/SettingsProvider'
 import { LockModal } from 'components/AccountModals/LockModal/LockModal'
 import classes from './LockAndViewButtons.module.scss'
 
-const LockAndViewButtons = (): JSX.Element => {
+function LockAndViewButtons() {
     const navigate = useNavigate()
     const [settings] = useSettings()
     const { documentId } = useParams<{ documentId: string }>()

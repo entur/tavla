@@ -5,7 +5,7 @@ import { ExternalIcon, FacebookIcon, TwitterIcon } from '@entur/icons'
 import { Heading3, Link as EnturLink, Paragraph } from '@entur/typography'
 import classes from './Footer.module.scss'
 
-const Footer: React.FC = () => {
+function Footer() {
     const { documentId } = useParams<{ documentId: string }>()
     const nettstedKarturl = useMemo(
         () => '/nettstedkart' + (documentId ? `?documentId=${documentId}` : ''),

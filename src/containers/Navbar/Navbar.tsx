@@ -18,11 +18,7 @@ import { TopNavigationItem } from '@entur/menu'
 import { useToast } from '@entur/alert'
 import classes from './Navbar.module.scss'
 
-interface NavbarProps {
-    theme?: Theme
-}
-
-const Navbar: React.FC<NavbarProps> = ({ theme }) => {
+function Navbar({ theme }: { theme?: Theme }) {
     const location = useLocation()
     const [displayLoginModal, setDisplayLoginModal] = useState<boolean>(false)
     const user = useUser()

@@ -10,7 +10,7 @@ import { PermanentLinesPanel } from './PermanentLinePanel/PermanentLinesPanel'
 import { RealtimeTransportModePanel } from './RealtimeTransportModePanel/RealtimeTransportModePanel'
 import classes from './RealtimeDetailPanel.module.scss'
 
-const RealtimeDetailPanel = (): JSX.Element => {
+function RealtimeDetailPanel() {
     const [settings, setSettings] = useSettings()
 
     const { realtimePositionLineRefs } = useRealtimePositionLineRefs()

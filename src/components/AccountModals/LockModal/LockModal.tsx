@@ -12,12 +12,13 @@ import { LoginModal } from '../LoginModal/LoginModal'
 import { LoginCase } from '../LoginModal/login-modal-types'
 import classes from '../AccountModals.module.scss'
 
-interface LockModalProps {
+function LockModal({
+    open,
+    onDismiss,
+}: {
     open: boolean
     onDismiss: () => void
-}
-
-const LockModal: React.FC<LockModalProps> = ({ open, onDismiss }) => {
+}) {
     const user = useUser()
     const [settings, setSettings] = useSettings()
 

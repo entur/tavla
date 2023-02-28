@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
 import { AdminTile } from 'components/AdminTile'
 import { SubParagraph } from '@entur/typography'
@@ -28,26 +28,34 @@ function WeatherTile() {
         setSettings,
     ])
 
-    const handleWeatherSettingsChange = (
-        event: React.ChangeEvent<HTMLInputElement>,
-    ): void => {
-        !(
-            settings.showIcon ||
-            settings.showTemperature ||
-            settings.showWind ||
-            settings.showPrecipitation
-        ) && !settings.showWeather
-            ? setSettings({
-                  showWeather: event.currentTarget.checked,
-                  showIcon: true,
-                  showTemperature: true,
-                  showWind: true,
-                  showPrecipitation: true,
-              })
-            : setSettings({
-                  showWeather: event.currentTarget.checked,
-              })
-    }
+    const handleWeatherSettingsChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>): void => {
+            !(
+                settings.showIcon ||
+                settings.showTemperature ||
+                settings.showWind ||
+                settings.showPrecipitation
+            ) && !settings.showWeather
+                ? setSettings({
+                      showWeather: event.currentTarget.checked,
+                      showIcon: true,
+                      showTemperature: true,
+                      showWind: true,
+                      showPrecipitation: true,
+                  })
+                : setSettings({
+                      showWeather: event.currentTarget.checked,
+                  })
+        },
+        [
+            setSettings,
+            settings.showIcon,
+            settings.showTemperature,
+            settings.showPrecipitation,
+            settings.showWeather,
+            settings.showWind,
+        ],
+    )
 
     return (
         <AdminTile

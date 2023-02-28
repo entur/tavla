@@ -4,7 +4,7 @@ import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { ResponsiveDepartureTile } from './ResponsiveDepartureTile/ResponsiveDepartureTile'
 import classes from './ResponsiveDashboard.module.scss'
 
-const ResponsiveDashboard = () => {
+function ResponsiveDashboard() {
     const { stopPlaceIds } = useStopPlaceIds()
 
     return (

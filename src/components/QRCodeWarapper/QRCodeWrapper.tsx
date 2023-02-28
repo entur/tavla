@@ -6,19 +6,17 @@ import { colors } from '@entur/tokens'
 import { Paragraph } from '@entur/typography'
 import classes from './QRCodeWrapper.module.scss'
 
-interface Props {
+function QRCodeWrapper({
+    className,
+    sourceUrl,
+    description,
+    size,
+}: {
     className?: string
     sourceUrl: string
     description?: string
     size?: number
-}
-
-const QRCodeWrapper: React.FC<Props> = ({
-    className,
-    sourceUrl,
-    description,
-    size = 80,
-}) => {
+}) {
     const [settings] = useSettings()
 
     return (

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import type { User } from 'firebase/auth'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { auth } from 'settings/UserProvider'
@@ -29,7 +29,7 @@ function ResetPassword({
 
     const [emailError, setEmailError] = useState<string>()
 
-    const handleReset = (): void => {
+    const handleReset = useCallback((): void => {
         const actionCodeSettings = {
             url: window.location.href,
         }
@@ -47,12 +47,12 @@ function ResetPassword({
                     setEmailError('For mange forsøk, prøv igjen senere.')
                 }
             })
-    }
+    }, [inputs.email, setModalType])
 
-    const handleClose = (): void => {
+    const handleClose = useCallback((): void => {
         setModalType(ModalType.LoginOptionsModal)
         onDismiss()
-    }
+    }, [onDismiss, setModalType])
 
     return (
         <>

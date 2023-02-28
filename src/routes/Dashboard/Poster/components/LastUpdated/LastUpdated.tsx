@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { PulsatingDot } from '../PulsatingDot/PulsatingDot'
 import classes from './LastUpdated.module.scss'
 
-const getTimeString = (): string => {
+function getTimeString(): string {
     const options: Intl.DateTimeFormatOptions = {
         hour: '2-digit',
         minute: '2-digit',
@@ -12,7 +12,7 @@ const getTimeString = (): string => {
     return formatter.format(new Date())
 }
 
-const LastUpdated = (): JSX.Element => {
+function LastUpdated() {
     const [currentTime, setCurrentTime] = useState(getTimeString())
 
     useEffect(() => {

@@ -8,11 +8,7 @@ import { Contrast } from '@entur/layout'
 import { Clock } from '../Clock/Clock'
 import classes from './DashboardHeader.module.scss'
 
-interface Props {
-    className?: string
-}
-
-const DashboardHeader: React.FC<Props> = ({ className }) => {
+function DashboardHeader({ className }: { className?: string }) {
     const [settings] = useSettings()
 
     const showBoardDescription = !isMobileWeb() && settings.logoSize === '32px'

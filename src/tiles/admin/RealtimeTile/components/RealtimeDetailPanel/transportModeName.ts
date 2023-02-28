@@ -1,6 +1,6 @@
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
 
-const transportModeName = (mode: TransportMode): string => {
+function transportModeName(mode: TransportMode): string {
     switch (mode) {
         case 'bus':
             return 'Buss'
@@ -17,7 +17,8 @@ const transportModeName = (mode: TransportMode): string => {
     }
 }
 
-const byTransportModeName = (a: TransportMode, b: TransportMode) =>
-    transportModeName(a).localeCompare(transportModeName(b))
+function byTransportModeName(a: TransportMode, b: TransportMode) {
+    return transportModeName(a).localeCompare(transportModeName(b))
+}
 
 export { transportModeName, byTransportModeName }

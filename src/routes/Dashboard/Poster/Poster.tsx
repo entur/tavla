@@ -11,7 +11,7 @@ import { ScooterTile } from './components/ScooterTile/ScooterTile'
 import { BikeTile } from './components/BikeTile/BikeTile'
 import classes from './Poster.module.scss'
 
-const Poster = (): JSX.Element => {
+function Poster() {
     useReloadTavleOnUpdate()
     const [settings] = useSettings()
 

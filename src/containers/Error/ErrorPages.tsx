@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { LoginModal } from 'components/AccountModals/LoginModal/LoginModal'
@@ -12,7 +12,7 @@ import { useToast } from '@entur/alert'
 import { Navbar } from '../Navbar/Navbar'
 import { ErrorWrapper } from './ErrorWrapper'
 
-function LockedTavle(): JSX.Element {
+function LockedTavle() {
     const [settings] = useSettings()
     const user = useUser()
     const userLoggedin = Boolean(user && !user.isAnonymous)
@@ -83,10 +83,13 @@ function NoStopsOnTavle(): JSX.Element {
 
 function NoTavlerAvailable(): JSX.Element {
     const navigate = useNavigate()
-    const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
-        event.preventDefault()
-        navigate(`/`)
-    }
+    const callback = useCallback(
+        (event: React.SyntheticEvent<HTMLButtonElement>): void => {
+            event.preventDefault()
+            navigate(`/`)
+        },
+        [navigate],
+    )
     return (
         <div>
             <ErrorWrapper
@@ -116,10 +119,13 @@ function NoSharedTavlerAvailable(): JSX.Element {
 
 function NoAccessToTavler(): JSX.Element {
     const [displayLogin, setDisplayLogin] = useState<boolean>(false)
-    const callback = (event: React.SyntheticEvent<HTMLButtonElement>): void => {
-        event.preventDefault()
-        setDisplayLogin(true)
-    }
+    const callback = useCallback(
+        (event: React.SyntheticEvent<HTMLButtonElement>): void => {
+            event.preventDefault()
+            setDisplayLogin(true)
+        },
+        [],
+    )
     const loginModal = (
         <LoginModal
             open={displayLogin}

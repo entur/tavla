@@ -7,7 +7,7 @@ import { SecondarySquareButton } from '@entur/button'
 import { CheckIcon } from '@entur/icons'
 import classes from './Description.module.scss'
 
-const Description = (): JSX.Element => {
+function Description() {
     const [settings, setSettings] = useSettings()
 
     const [value, setValue] = useState(settings.description)

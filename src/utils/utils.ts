@@ -20,9 +20,12 @@ export function createTileSubLabel({
     }
 }
 
-export const isMobileWeb = (): boolean =>
-    typeof window.orientation !== 'undefined' ||
-    navigator.userAgent.indexOf('IEMobile') !== -1
+export function isMobileWeb(): boolean {
+    return (
+        typeof window.orientation !== 'undefined' ||
+        navigator.userAgent.indexOf('IEMobile') !== -1
+    )
+}
 
 export function isDarkOrDefaultTheme(theme?: Theme): boolean {
     return !theme || theme === 'dark' || theme === 'default'

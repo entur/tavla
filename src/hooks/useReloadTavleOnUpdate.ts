@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
 
-const useReloadTavleOnUpdate = () => {
+function useReloadTavleOnUpdate() {
     const [settings] = useSettings()
     const [tavleOpenedAt] = useState(new Date().getTime())
 

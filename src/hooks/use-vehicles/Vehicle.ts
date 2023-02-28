@@ -21,7 +21,9 @@ const VehicleStruct = type({
 
 type Vehicle = Infer<typeof VehicleStruct>
 
-const toVehicle = (obj: unknown) => (is(obj, VehicleStruct) ? obj : null)
+function toVehicle(obj: unknown) {
+    return is(obj, VehicleStruct) ? obj : null
+}
 
 export { toVehicle }
 export type { Vehicle }

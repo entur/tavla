@@ -1,6 +1,8 @@
 import React from 'react'
 import { Loader as EnturLoader } from '@entur/loader'
 
-const Loader: React.FC = () => <EnturLoader>Laster...</EnturLoader>
+function Loader() {
+    return <EnturLoader>Laster...</EnturLoader>
+}
 
 export { Loader }
