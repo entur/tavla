@@ -51,7 +51,7 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
         [departures],
     )
 
-    function handleCloseStopPlaceRow() {
+    function handleRemoveStopPlaceFromPanel() {
         const newList = settings.newStops.filter(
             (itemId) => itemId != stopPlaceId,
         )
@@ -139,30 +139,24 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
     }
 
     return (
-        <>
-            <div className={classes.PanelRow}>
-                <ExpandablePanel className={classes.Expandable} title={header}>
-                    <div className={classes.Content}>
-                        {uniqueDepartures.map(({ route }) => (
-                            <RouteCheckbox
-                                key={route}
-                                route={route}
-                                stopPlaceId={stopPlaceWithEstimatedCalls?.id}
-                            />
-                        ))}
-                    </div>
-                </ExpandablePanel>
-                {settings.newStops.includes(stopPlaceId) && (
-                    <IconButton
-                        onClick={() => {
-                            handleCloseStopPlaceRow()
-                        }}
-                    >
-                        <CloseSmallIcon />
-                    </IconButton>
-                )}
-            </div>
-        </>
+        <div className={classes.PanelRow}>
+            <ExpandablePanel className={classes.Expandable} title={header}>
+                <div className={classes.Content}>
+                    {uniqueDepartures.map(({ route }) => (
+                        <RouteCheckbox
+                            key={route}
+                            route={route}
+                            stopPlaceId={stopPlaceWithEstimatedCalls?.id}
+                        />
+                    ))}
+                </div>
+            </ExpandablePanel>
+            {settings.newStops.includes(stopPlaceId) && (
+                <IconButton onClick={handleRemoveStopPlaceFromPanel}>
+                    <CloseSmallIcon />
+                </IconButton>
+            )}
+        </div>
     )
 }
 
