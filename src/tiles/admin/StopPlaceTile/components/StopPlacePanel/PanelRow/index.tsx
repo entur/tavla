@@ -17,7 +17,7 @@ import classes from './PanelRow.module.scss'
 function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
     const [closeRow] = useState(false)
     const [settings, setSettings] = useSettings()
-    const [hideStopPlace, setHideStopPlace] = useState(false)
+    const [removeStopPlace, setRemoveStopPlace] = useState(false)
 
     const { stopPlaceWithEstimatedCalls, loading } =
         useStopPlaceWithEstimatedCalls({
@@ -92,6 +92,12 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
         )
     }
 
+    function handleRemoveStopPlace() {
+        setRemoveStopPlace(true)
+        const hiddenStopPlaceList = [...settings.hiddenStops, stopPlaceId]
+        setSettings({ hiddenStops: hiddenStopPlaceList })
+    }
+
     const header = (
         <div className={classes.Header}>
             <span onClick={(event): void => event.stopPropagation()}>
@@ -133,9 +139,11 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
         )
     }
 
+    console.log('dette er settings hiden:' + settings.hiddenStops)
+    console.log('dette er hidemode i state i koden: ' + removeStopPlace)
     return (
         <>
-            {!hideStopPlace && (
+            {!removeStopPlace && (
                 <div className={classes.PanelRow}>
                     <ExpandablePanel
                         className={classes.Expandable}
@@ -156,7 +164,7 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
                                 ))}
                         </div>
                     </ExpandablePanel>
-                    <IconButton onClick={() => setHideStopPlace(true)}>
+                    <IconButton onClick={() => handleRemoveStopPlace()}>
                         <CloseSmallIcon key={stopPlaceId} />
                     </IconButton>
                 </div>

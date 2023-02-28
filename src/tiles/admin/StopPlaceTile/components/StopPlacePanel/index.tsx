@@ -69,11 +69,9 @@ function StopPlacePanel(): JSX.Element {
                 </div>
             </div>
             {stopPlaceIds.map((stopPlaceId) => (
-                <>
-                    <div>
-                        <PanelRow stopPlaceId={stopPlaceId} key={stopPlaceId} />
-                    </div>
-                </>
+                <div>
+                    <PanelRow stopPlaceId={stopPlaceId} key={stopPlaceId} />
+                </div>
             ))}
         </div>
     )
