@@ -1,0 +1,7 @@
+@use 'assets/styles/Variables.scss';
+
+.WeatherItemValue {
+    padding-top: Variables.$space-small;
+    font-size: Variables.$font-sizes-medium;
+    white-space: nowrap;
+}
