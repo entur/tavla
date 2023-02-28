@@ -11,9 +11,9 @@ import {
     toDeparture,
 } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from 'components/WalkTrip/WalkTrip'
-import { ErrorTile } from 'tiles/ErrorTile'
-import { EmptyStopTile } from 'tiles/EmptyStopTile'
 import { Loader } from 'components/Loader/Loader'
+import { ErrorTile } from 'tiles/dashboard/ErrorTile'
+import { EmptyStopTile } from 'tiles/dashboard/EmptyStopTile'
 import { HeaderCell, Table, TableHead, TableRow } from '@entur/table'
 import { ChronoTableRows } from '../ChronoTableRows/ChronoTableRows'
 import classes from './ChronoDepartureTile.module.scss'
