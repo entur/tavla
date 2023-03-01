@@ -4,7 +4,7 @@ import { useUser } from 'settings/UserProvider'
 import { auth } from 'settings/firebase-init'
 import { useToast } from '@entur/alert'
 import { LogOutIcon } from '@entur/icons'
-import { MenuButton } from '../MenuButton/MenuButton'
+import { MenuButton } from './MenuButton'
 
 function LogoutButton() {
     const { addToast } = useToast()

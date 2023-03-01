@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useSettings } from 'settings/SettingsProvider'
 import { useUser } from 'settings/UserProvider'
 import { ConfigurationIcon } from '@entur/icons'
-import { MenuButton } from '../MenuButton/MenuButton'
+import { MenuButton } from './MenuButton'
 
 function SettingsButton() {
     const [settings] = useSettings()
