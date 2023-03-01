@@ -4206,6 +4206,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/types@npm:7.22.0":
+  version: 7.22.0
+  resolution: "@sentry/types@npm:7.22.0"
+  checksum: eec788104d3a8ed8b8bf57d95e6c1ec8ec48212a94914e4e1d8bc110fe6b88825ce2a299439d10bd2f0c69778afedabcc6cbf38c4850345e6954d8bc3be0060b
+  languageName: node
+  linkType: hard
+
 "@sentry/types@npm:7.32.0":
   version: 7.32.0
   resolution: "@sentry/types@npm:7.32.0"
@@ -8381,6 +8388,13 @@ __metadata:
   version: 4.2.3
   resolution: "fecha@npm:4.2.3"
   checksum: f94e2fb3acf5a7754165d04549460d3ae6c34830394d20c552197e3e000035d69732d74af04b9bed3283bf29fe2a9ebdcc0085e640b0be3cc3658b9726265e31
+  languageName: node
+  linkType: hard
+
+"fflate@npm:^0.4.1":
+  version: 0.4.8
+  resolution: "fflate@npm:0.4.8"
+  checksum: 29d8cbe44d5e7f53e7f5a160ac7f9cc025480c7b3bfd85c5f898cbe20dfa2dad4732daa534982664bf30b35896a90af44ea33ede5d94c5ffd1b8b0c0a0a56ca2
   languageName: node
   linkType: hard
 
@@ -13003,6 +13017,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"posthog-js@npm:1.45.1":
+  version: 1.45.1
+  resolution: "posthog-js@npm:1.45.1"
+  dependencies:
+    "@sentry/types": 7.22.0
+    fflate: ^0.4.1
+    rrweb-snapshot: ^1.1.14
+  checksum: 7581ebbc87f307b515a1bebaaab1b0ebcf8eec95245fb31f7043736e737988d924237e2b51a52ec22be3f24fa74a84ce18d382f60bbeaeda7f010d6b9ef7220e
+  languageName: node
+  linkType: hard
+
 "potpack@npm:^2.0.0":
   version: 2.0.0
   resolution: "potpack@npm:2.0.0"
@@ -14227,6 +14252,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rrweb-snapshot@npm:^1.1.14":
+  version: 1.1.14
+  resolution: "rrweb-snapshot@npm:1.1.14"
+  checksum: 2e9a30233b542824bbca46af5588d1d7c909efafa00b38fb79d59637af17ec0f3fbe60ed37c4195448804a22aea0f47531da25a42af6ac9dc6281c3c6e5693db
+  languageName: node
+  linkType: hard
+
 "run-async@npm:^2.4.0":
   version: 2.4.1
   resolution: "run-async@npm:2.4.1"
@@ -15441,6 +15473,7 @@ __metadata:
     postcss: 8.4.20
     postcss-loader: 7.0.2
     postcss-preset-env: 7.8.3
+    posthog-js: 1.45.1
     prettier: 2.8.1
     react: 18.2.0
     react-app-polyfill: 3.0.0
