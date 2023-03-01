@@ -24,6 +24,26 @@ function ResponsiveTableRow({ departure }: { departure: Departure }) {
 
     return (
         <tr className={classes.TableRow}>
+            {!departure.delayed ? (
+                <td className={classes.DepartureTime}>
+                    {departure.displayTime}
+                    {!departsToday && (
+                        <DateDisplay
+                            date={departure.expectedDepartureTime}
+                            className={classes.DateDisplay}
+                        />
+                    )}
+                </td>
+            ) : (
+                <td className={classes.DepartureTime}>
+                    <span className={classes.DelayedTime}>
+                        {departure.displayTime}
+                    </span>
+                    <span className={classes.OutdatedTime}>
+                        {departure.formattedAimedDepartureTime}
+                    </span>
+                </td>
+            )}
             <td>
                 <span
                     className={classes.RouteNumber}
@@ -48,27 +68,9 @@ function ResponsiveTableRow({ departure }: { departure: Departure }) {
                     </div>
                 )}
             </td>
-
-            {!departure.delayed ? (
-                <td className={classes.DepartureTime}>
-                    {departure.displayTime}
-                    {!departsToday && (
-                        <DateDisplay
-                            date={departure.expectedDepartureTime}
-                            className={classes.DateDisplay}
-                        />
-                    )}
-                </td>
-            ) : (
-                <td className={classes.DepartureTime}>
-                    <span className={classes.DelayedTime}>
-                        {departure.displayTime}
-                    </span>
-                    <span className={classes.OutdatedTime}>
-                        {departure.formattedAimedDepartureTime}
-                    </span>
-                </td>
-            )}
+            <td className={classes.Platform}>
+                {!settings.hideTracks && <div>{departure.quay.publicCode}</div>}
+            </td>
         </tr>
     )
 }
