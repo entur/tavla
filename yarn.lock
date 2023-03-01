@@ -1772,22 +1772,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/chip@npm:0.6.15":
-  version: 0.6.15
-  resolution: "@entur/chip@npm:0.6.15"
-  dependencies:
-    "@entur/form": ^5.4.12
-    "@entur/tokens": ^3.4.3
-    "@entur/utils": ^0.4.8
-    classnames: ^2.3.1
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: f7e88b0a7c0adb1e43dac77862371e7db0bd512fc819405056bc25cfbe69c505b6f1bb6de3a7cbe973dcb07d49e06658f91a2b6ef83c90f86790f6d9a8588cc6
-  languageName: node
-  linkType: hard
-
-"@entur/chip@npm:^0.6.15":
+"@entur/chip@npm:0.6.22, @entur/chip@npm:^0.6.15":
   version: 0.6.22
   resolution: "@entur/chip@npm:0.6.22"
   dependencies:
@@ -15413,7 +15398,7 @@ __metadata:
     "@entur/a11y": 0.2.52
     "@entur/alert": 0.11.15
     "@entur/button": 2.10.7
-    "@entur/chip": 0.6.15
+    "@entur/chip": 0.6.22
     "@entur/dropdown": 3.0.25
     "@entur/expand": 3.3.28
     "@entur/fileupload": 0.3.57
