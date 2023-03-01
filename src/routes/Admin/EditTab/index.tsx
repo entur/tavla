@@ -16,7 +16,6 @@ import { PosterMobilityAlert } from './components/PosterMobilityAlert'
 function EditTab() {
     return (
         <div className={classes.EditTab}>
-            PREVIEW BRANCH MEGA TEST
             <HeadingAndDistance />
             <PosterMobilityAlert />
             <Heading4 className={classes.TilesHeading}>

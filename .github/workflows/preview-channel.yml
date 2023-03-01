@@ -1,11 +1,10 @@
 name: Deploy to Preview Channel
 
-on:
-    pull_request
+on: pull_request
 
 jobs:
     deploy-preview-channel:
-        if: contains(github.head_ref, 'preview')
+        if: startsWith(github.head_ref, 'preview')
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
