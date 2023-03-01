@@ -1,5 +1,5 @@
 import React from 'react'
-import { ResponsiveGridDashboard } from 'containers/ResponsiveGridDashboard/ResponsiveGridDashboard'
+import { ResponsiveGridDashboard } from 'scenarios/ResponsiveGridDashboard'
 import { CompactDepartureTile } from './CompactDepartureTile/CompactDepartureTile'
 
 function CompactDashboard() {
