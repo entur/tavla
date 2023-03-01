@@ -2,8 +2,8 @@ import React, { useCallback } from 'react'
 import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
 import duerLight from 'assets/images/duer@2x.png'
-import { ErrorWrapper } from 'src/containers/Error/ErrorWrapper'
 import { Navbar } from 'scenarios/Navbar'
+import { ErrorWrapper } from 'scenarios/ErrorPages/components/ErrorWrapper'
 
 function PageDoesNotExist() {
     const navigate = useNavigate()
