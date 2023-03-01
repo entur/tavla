@@ -1825,24 +1825,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/expand@npm:3.3.28":
-  version: 3.3.28
-  resolution: "@entur/expand@npm:3.3.28"
-  dependencies:
-    "@entur/icons": ^5.4.0
-    "@entur/tokens": ^3.4.3
-    "@entur/typography": ^1.7.3
-    "@entur/utils": ^0.4.8
-    classnames: ^2.3.1
-    react-collapse: ^5.1.0
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 65e2a491feb6e22da81b96d4376169ba2b790249e297d28aae03b6d809e8da17560f18959bbd5eddf7622ab3cfcffb205939bbac49335403b584bcf342323365
-  languageName: node
-  linkType: hard
-
-"@entur/expand@npm:^3.3.28":
+"@entur/expand@npm:3.3.35, @entur/expand@npm:^3.3.28":
   version: 3.3.35
   resolution: "@entur/expand@npm:3.3.35"
   dependencies:
@@ -15415,7 +15398,7 @@ __metadata:
     "@entur/button": 2.10.7
     "@entur/chip": 0.6.15
     "@entur/dropdown": 3.0.25
-    "@entur/expand": 3.3.28
+    "@entur/expand": 3.3.35
     "@entur/fileupload": 0.3.57
     "@entur/form": 5.4.12
     "@entur/grid": 0.3.17
