@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
 import duerLight from 'assets/images/duer@2x.png'
 import { ErrorWrapper } from 'src/containers/Error/ErrorWrapper'
-import { Navbar } from 'src/containers/Navbar/Navbar'
+import { Navbar } from 'scenarios/Navbar'
 
 function PageDoesNotExist() {
     const navigate = useNavigate()

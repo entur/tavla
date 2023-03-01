@@ -8,8 +8,8 @@ import { useSettings } from 'settings/SettingsProvider'
 import sikkerhetBomLight from 'assets/images/sikkerhet_bom_light@2x.png'
 import duerLight from 'assets/images/duer@2x.png'
 import sauerLight from 'assets/images/sauer_lag@2x.png'
+import { Navbar } from 'scenarios/Navbar'
 import { useToast } from '@entur/alert'
-import { Navbar } from '../Navbar/Navbar'
 import { ErrorWrapper } from './ErrorWrapper'
 
 function LockedTavle() {

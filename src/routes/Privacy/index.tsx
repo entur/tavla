@@ -1,6 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { Navbar } from 'src/containers/Navbar/Navbar'
+import { Navbar } from 'scenarios/Navbar'
 import {
     Heading1,
     Heading2,
