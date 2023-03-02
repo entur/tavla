@@ -4,9 +4,9 @@ import classNames from 'classnames'
 import { uniq } from 'lodash'
 import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { getIconColor } from 'utils/icon'
+import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { colors } from '@entur/tokens'
 import { WalkTrip } from '../../WalkTrip/WalkTrip'
-import { TransportModeIcon } from '../../TransportModeIcon/TransportModeIcon'
 import classes from './StopPlaceMarker.module.scss'
 
 function StopPlaceMarker({

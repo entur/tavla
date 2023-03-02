@@ -3,7 +3,7 @@ import { format, isToday } from 'date-fns'
 import { nb } from 'date-fns/locale'
 import { Departure } from 'src/types'
 import { getIconColor } from 'utils/icon'
-import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
     filterHidden,

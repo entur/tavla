@@ -11,7 +11,7 @@ import {
 } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { WalkTrip } from 'components/WalkTrip/WalkTrip'
 import { createTileSubLabel } from 'utils/utils'
-import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { Loader } from 'components/Loader/Loader'
 import { EmptyStopTile } from 'tiles/dashboard/EmptyStopTile'
 import { ErrorTile } from 'tiles/dashboard/ErrorTile'

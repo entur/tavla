@@ -1,6 +1,6 @@
 import React from 'react'
 import { timeUntil } from 'utils/time'
-import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { useCounter } from 'hooks/useCounter'
 import { Departure, IconColorType } from 'src/types'
 import { competitorPosition } from '../utils'
