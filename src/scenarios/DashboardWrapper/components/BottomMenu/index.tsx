@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import classNames from 'classnames'
+import { SettingsButton } from '../SettingsButton'
+import { LockButton } from '../LockButton'
+import { CopyButton } from '../CopyButton'
+import { LogoutButton } from '../LogoutButton'
+import { BoardsButton } from '../BoardsButton'
 import classes from './BottomMenu.module.scss'
-import { SettingsButton } from './buttons/SettingsButton'
-import { LockButton } from './buttons/LockButton'
-import { CopyButton } from './buttons/CopyButton'
-import { LogoutButton } from './buttons/LogoutButton'
-import { BoardsButton } from './buttons/BoardsButton'
 
 function BottomMenu(): JSX.Element {
     const [showMenu, setShowMenu] = useState(false)

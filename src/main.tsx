@@ -4,7 +4,7 @@ import 'react-app-polyfill/stable'
 import { init } from '@sentry/react'
 import splitbee from '@splitbee/web'
 import './main.scss'
-import { App } from './containers/App'
+import { App } from './App'
 import { initalizePosthog } from './posthog'
 
 if (process.env.SENTRY_DSN) {

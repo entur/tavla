@@ -9,8 +9,8 @@ import { useHandleFontScaling } from 'hooks/useHandleFontScaling'
 import { useThemeHandler } from 'hooks/useThemeHandler'
 import { DashboardHeader } from 'components/DashboardHeader/DashboardHeader'
 import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
-import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
-import { BottomMenu } from './BottomMenu/BottomMenu'
+import { ThemeContrastWrapper } from 'components/ThemeContrastWrapper'
+import { BottomMenu } from './components/BottomMenu'
 import classes from './DashboardWrapper.module.scss'
 
 function DashboardWrapper({

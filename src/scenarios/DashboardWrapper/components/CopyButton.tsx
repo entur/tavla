@@ -2,7 +2,7 @@ import React from 'react'
 import copy from 'copy-to-clipboard'
 import { useToast } from '@entur/alert'
 import { CopyIcon } from '@entur/icons'
-import { MenuButton } from '../MenuButton/MenuButton'
+import { MenuButton } from './MenuButton'
 
 function CopyButton() {
     const { addToast } = useToast()

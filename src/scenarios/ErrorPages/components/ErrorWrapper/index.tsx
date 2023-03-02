@@ -1,9 +1,9 @@
 import React from 'react'
 import { Theme } from 'src/types'
 import { isDarkOrDefaultTheme } from 'utils/utils'
+import { ThemeContrastWrapper } from 'components/ThemeContrastWrapper'
 import { PrimaryButton } from '@entur/button'
 import { Heading1 } from '@entur/typography'
-import { ThemeContrastWrapper } from '../ThemeContrastWrapper/ThemeContrastWrapper'
 import classes from './ErrorWrapper.module.scss'
 
 function ErrorWrapper({
