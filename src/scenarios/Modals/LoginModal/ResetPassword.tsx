@@ -11,8 +11,8 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { BackArrowIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
-import { ModalType } from '../login-modal-types'
-import classes from '../../AccountModals.module.scss'
+import classes from '../Modals.module.scss'
+import { ModalType } from './login-modal-types'
 
 function ResetPassword({
     setModalType,

@@ -5,8 +5,8 @@ import { CloseButton } from 'components/CloseButton'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
-import { LoginCase, ModalType } from '../login-modal-types'
-import classes from '../../AccountModals.module.scss'
+import classes from '../Modals.module.scss'
+import { LoginCase, ModalType } from './login-modal-types'
 
 const description: Record<LoginCase, string> = {
     [LoginCase.mytables]:

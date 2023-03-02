@@ -8,7 +8,7 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { useToast } from '@entur/alert'
-import classes from '../AccountModals.module.scss'
+import classes from './Modals.module.scss'
 
 function DeleteTavleModal({
     open,

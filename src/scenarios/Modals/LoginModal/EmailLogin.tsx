@@ -1,83 +1,81 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import type { User } from 'firebase/auth'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from 'settings/UserProvider'
 import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
 import { useFormFields } from 'hooks/useFormFields'
+import { UserLogin } from 'src/types'
 import { CloseButton } from 'components/CloseButton'
 import { TextField } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
 import { BackArrowIcon, ClosedLockIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
-import { Heading2, Link } from '@entur/typography'
-import { ModalType } from '../login-modal-types'
-import classes from '../../AccountModals.module.scss'
+import { Heading3, Link } from '@entur/typography'
+import { SmallExpandableAlertBox } from '@entur/alert'
+import classes from '../Modals.module.scss'
+import { ModalType } from './login-modal-types'
 
-const EMAIL_REGEX =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
-interface UserSignUp {
-    email: string
-    password: string
-    repeatPassword: string
-}
-
-function Signup({
+function EmailLogin({
     setModalType,
     onDismiss,
 }: {
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
 }) {
-    const [inputs, handleInputsChange] = useFormFields<UserSignUp>({
+    const [inputs, handleInputsChange] = useFormFields<UserLogin>({
         email: '',
         password: '',
-        repeatPassword: '',
     })
 
-    const [isPasswordMatch, setIsPasswordMatch] = useState(true)
-    const [isPasswordLongEnough, setIsPasswordLongEnough] = useState(true)
     const [emailError, setEmailError] = useState<string>()
+    const [passwordError, setPasswordError] = useState<string>()
+    const [userDeactivatedError, setUserDeactivatedError] = useState<string>()
 
-    const handleSubmit = useCallback((): void => {
-        const { email, password } = inputs
+    const signIn = useCallback((email: string, password: string): void => {
+        setEmailError(undefined)
+        setPasswordError(undefined)
+        setUserDeactivatedError(undefined)
 
-        if (inputs.password.length >= 8) {
-            setIsPasswordLongEnough(true)
-        } else {
-            setIsPasswordLongEnough(false)
-        }
-        if (email.match(EMAIL_REGEX)) {
-            setEmailError(undefined)
-        } else {
-            setEmailError('Dette er ikke en gyldig e-post.')
-        }
-        if (inputs.password !== inputs.repeatPassword) {
-            setIsPasswordMatch(false)
-        } else {
-            setIsPasswordMatch(true)
-        }
-
-        const valid =
-            inputs.password.length >= 8 &&
-            email.match(EMAIL_REGEX) &&
-            inputs.password === inputs.repeatPassword
-
-        if (!valid) {
-            return
-        }
-
-        createUserWithEmailAndPassword(auth, email, password).catch((error) => {
-            if (error.code === 'auth/email-already-in-use') {
-                setEmailError('Denne e-posten er allerede registrert.')
-            } else if (error.code === 'auth/invalid-email') {
-                setEmailError('Dette er ikke en gyldig e-post.')
+        signInWithEmailAndPassword(auth, email, password).catch((error) => {
+            if (password === '') {
+                setPasswordError(
+                    'Du må skrive inn passordet ditt for å logge inn',
+                )
+            }
+            if (error.code === 'auth/invalid-email') {
+                setEmailError('E-posten er ikke gyldig')
+            } else if (error.code === 'auth/user-disabled') {
+                setUserDeactivatedError('Brukerkontoen er deaktivert.')
+            } else if (error.code === 'auth/too-many-requests') {
+                setUserDeactivatedError(
+                    'Tilgang til denne brukerkontoen har blitt ' +
+                        'midlertidig deaktivert på grunn av mange ' +
+                        'mislykkede påloggingsforsøk. Du kan få ' +
+                        'tilgang igjen ved å tilbakestille passordet ' +
+                        'ditt, (følg «Jeg har glemt passord») ' +
+                        'eller du kan prøve igjen senere.',
+                )
+            } else if (
+                error.code === 'auth/user-not-found' ||
+                error.code === 'auth/wrong-password'
+            ) {
+                setEmailError('Feil brukernavn eller passord.')
+                setPasswordError('Feil brukernavn eller passord.')
             } else {
-                setEmailError(undefined)
+                // eslint-disable-next-line no-console
+                console.error(error)
             }
         })
-    }, [inputs])
+    }, [])
+
+    const handleSubmit = useCallback(
+        (event: React.FormEvent): void => {
+            event.preventDefault()
+            signIn(inputs.email, inputs.password)
+        },
+        [inputs.email, inputs.password, signIn],
+    )
 
     const handleClose = useCallback((): void => {
         setModalType(ModalType.LoginOptionsModal)
@@ -101,9 +99,18 @@ function Signup({
                 srcSet={`${retinaSikkerhetBom} 2x`}
                 className={classes.Image}
             />
-            <Heading2 margin="none">Lag en ny konto</Heading2>
-
+            <Heading3 margin="none">Logg inn med e-post</Heading3>
             <GridContainer spacing="medium" className={classes.GridContainer}>
+                {userDeactivatedError && (
+                    <GridItem small={12}>
+                        <SmallExpandableAlertBox
+                            title="Konto deaktivert"
+                            variant="error"
+                        >
+                            {userDeactivatedError}
+                        </SmallExpandableAlertBox>
+                    </GridItem>
+                )}
                 <GridItem small={12}>
                     <TextField
                         label="E-post"
@@ -117,16 +124,11 @@ function Signup({
                         placeholder="F.eks. ola.nordmann@entur.no"
                     />
                 </GridItem>
-
                 <GridItem small={12}>
                     <TextField
                         label="Passord"
-                        variant={isPasswordLongEnough ? undefined : 'error'}
-                        feedback={
-                            !isPasswordLongEnough
-                                ? 'Passord må ha minst 8 tegn.'
-                                : undefined
-                        }
+                        variant={passwordError ? 'error' : undefined}
+                        feedback={passwordError}
                         type="password"
                         value={inputs.password}
                         onChange={handleInputsChange}
@@ -135,24 +137,6 @@ function Signup({
                         placeholder="Minst 8 tegn"
                     />
                 </GridItem>
-
-                <GridItem small={12}>
-                    <TextField
-                        label="Gjenta passord"
-                        feedback={
-                            !isPasswordMatch
-                                ? 'Passordene må være like.'
-                                : undefined
-                        }
-                        variant={isPasswordMatch ? undefined : 'error'}
-                        type="password"
-                        value={inputs.repeatPassword}
-                        onChange={handleInputsChange}
-                        id="repeatPassword"
-                        prepend={<ClosedLockIcon inline />}
-                    />
-                </GridItem>
-
                 <GridItem small={12}>
                     <PrimaryButton
                         width="fluid"
@@ -160,19 +144,18 @@ function Signup({
                         onClick={handleSubmit}
                         className={classes.ModalSubmit}
                     >
-                        Lag konto
+                        Logg inn
                     </PrimaryButton>
                 </GridItem>
             </GridContainer>
-
             <Link
-                onClick={(): void => setModalType(ModalType.LoginEmailModal)}
+                onClick={(): void => setModalType(ModalType.ResetPasswordModal)}
                 className={classes.BottomLink}
             >
-                Jeg har allerede en konto
+                Jeg har glemt passord
             </Link>
         </>
     )
 }
 
-export { Signup }
+export { EmailLogin }

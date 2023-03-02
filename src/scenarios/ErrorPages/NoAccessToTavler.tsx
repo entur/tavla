@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
-import { LoginCase } from 'components/AccountModals/LoginModal/login-modal-types'
-import { LoginModal } from 'components/AccountModals/LoginModal/LoginModal'
+import { LoginCase } from 'scenarios/Modals/LoginModal/login-modal-types'
+import { LoginModal } from 'scenarios/Modals/LoginModal'
 import { Navbar } from 'scenarios/Navbar'
 import sikkerhetBomLight from 'assets/images/sikkerhet_bom_light@2x.png'
 import { ErrorWrapper } from './components/ErrorWrapper'

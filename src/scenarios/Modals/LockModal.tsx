@@ -8,9 +8,9 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { Modal } from '@entur/modal'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
-import { LoginModal } from '../LoginModal/LoginModal'
-import { LoginCase } from '../LoginModal/login-modal-types'
-import classes from '../AccountModals.module.scss'
+import { LoginModal } from './LoginModal'
+import { LoginCase } from './LoginModal/login-modal-types'
+import classes from './Modals.module.scss'
 
 function LockModal({
     open,
