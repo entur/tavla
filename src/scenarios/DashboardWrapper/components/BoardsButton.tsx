@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { MineTavlerModal } from 'components/AccountModals/MineTavlerModal/MineTavlerModal'
 import { UserIcon } from '@entur/icons'
-import { MenuButton } from '../MenuButton/MenuButton'
+import { MenuButton } from './MenuButton'
 
 function BoardsButton() {
     const [modalOpen, setModalOpen] = useState(false)

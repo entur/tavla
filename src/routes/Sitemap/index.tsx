@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { Navbar } from 'src/containers/Navbar/Navbar'
+import { Navbar } from 'scenarios/Navbar'
 import { Contrast } from '@entur/layout'
 import {
     Heading1,

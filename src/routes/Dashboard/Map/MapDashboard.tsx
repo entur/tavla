@@ -1,5 +1,5 @@
 import React from 'react'
-import { DashboardWrapper } from 'containers/DashboardWrapper/DashboardWrapper'
+import { DashboardWrapper } from 'scenarios/DashboardWrapper'
 import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { Map } from 'components/Map'
 import { useSettings } from 'settings/SettingsProvider'

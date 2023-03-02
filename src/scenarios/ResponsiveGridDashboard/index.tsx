@@ -13,7 +13,7 @@ import { MobileAppQRTile } from 'tiles/dashboard/MobileAppQRTile'
 import { QRTile } from 'tiles/dashboard/QRTile'
 import { Loader } from 'components/Loader/Loader'
 import { BREAKPOINTS } from 'utils/constants'
-import { DashboardWrapper } from '../DashboardWrapper/DashboardWrapper'
+import { DashboardWrapper } from 'scenarios/DashboardWrapper'
 import classes from './ResponsiveGridDashboard.module.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)

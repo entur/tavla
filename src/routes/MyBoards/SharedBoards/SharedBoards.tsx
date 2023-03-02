@@ -1,6 +1,6 @@
 import React from 'react'
 import type { SharedBoard } from 'src/types'
-import { NoSharedTavlerAvailable } from 'containers/Error/ErrorPages'
+import { NoSharedTavlerAvailable } from 'scenarios/ErrorPages/NoSharedTavlerAvailable'
 import { Contrast } from '@entur/layout'
 import { SharedBoardCard } from './SharedBoardCard/SharedBoardCard'
 
