@@ -3,7 +3,7 @@ import { Marker } from 'react-map-gl'
 import useSupercluster from 'use-supercluster'
 import { useRentalStations } from 'hooks/use-rental-stations/useRentalStations'
 import { FormFactor } from 'graphql-generated/mobility-v2'
-import { BikeRentalStationTag } from '../BikeRentalStationTag/BikeRentalStationTag'
+import { BikeRentalStationTag } from '../BikeRentalStationTag'
 import classes from './BikeRentalStationClusterMarkers.module.scss'
 
 function BikeRentalStationClusterMarkers({

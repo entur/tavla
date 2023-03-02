@@ -6,7 +6,7 @@ import { getIconColor } from 'utils/icon'
 import { Mode, TransportMode } from 'graphql-generated/journey-planner-v3'
 import { colors } from '@entur/tokens'
 import { Tooltip } from '@entur/tooltip'
-import { TooltipContent } from './TooltipContent/TooltipContent'
+import { TooltipContent } from '../TooltipContent'
 import classes from './RealtimeVehicleTag.module.scss'
 
 interface RealtimeVehicleTagProps {

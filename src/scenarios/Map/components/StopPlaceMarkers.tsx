@@ -1,6 +1,6 @@
 import React from 'react'
 import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
-import { StopPlaceMarker } from '../StopPlaceMarker/StopPlaceMarker'
+import { StopPlaceMarker } from './StopPlaceMarker'
 
 function StopPlaceMarkers() {
     const { stopPlaceIds } = useStopPlaceIds()
