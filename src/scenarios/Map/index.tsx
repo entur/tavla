@@ -5,14 +5,16 @@ import { PositionPin } from 'assets/icons/PositionPin'
 import { Viewport } from 'src/types'
 import { useSettings } from 'settings/SettingsProvider'
 import { useDebounce } from 'hooks/useDebounce'
+import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { PermanentlyDrawnRoutes } from './components/PermanentlyDrawnRoutes'
 import { BikeRentalStationClusterMarkers } from './components/BikeRentalStationClusterMarkers'
 import { ScooterClusterMarkers } from './components/ScooterClusterMarkers'
-import { StopPlaceMarkers } from './components/StopPlaceMarkers'
 import { RealtimeVehicleMarkers } from './components/RealtimeVehicleMarkers'
+import { StopPlaceMarker } from './components/StopPlaceMarker'
 
 function Map() {
     const [settings] = useSettings()
+    const { stopPlaceIds } = useStopPlaceIds()
 
     const [viewport, setViewPort] = useState<Viewport>({
         latitude: settings.coordinates.latitude,
@@ -72,7 +74,13 @@ function Map() {
             />
             <PermanentlyDrawnRoutes />
             <ScooterClusterMarkers zoom={viewport.zoom} bounds={bounds} />
-            <StopPlaceMarkers />
+            {stopPlaceIds.map((stopPlaceId) => (
+                <StopPlaceMarker
+                    stopPlaceId={stopPlaceId}
+                    key={stopPlaceId}
+                    hideWalkInfo={settings.hideWalkInfo}
+                />
+            ))}
             <BikeRentalStationClusterMarkers
                 zoom={viewport.zoom}
                 bounds={bounds}

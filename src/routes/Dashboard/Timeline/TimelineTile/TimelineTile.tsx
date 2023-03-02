@@ -1,8 +1,8 @@
 import React, { Fragment, useMemo } from 'react'
 import { Tile } from 'components/Tile'
 import { TileHeader } from 'components/TileHeader'
-import { WalkTrip } from 'components/WalkTrip/WalkTrip'
 import { Loader } from 'components/Loader'
+import { WalkTrip } from 'components/WalkTrip'
 import { groupBy } from 'lodash'
 import { getIconColorType, getTransportHeaderIcons } from 'utils/icon'
 import { useSettings } from 'settings/SettingsProvider'
@@ -78,7 +78,10 @@ function TimelineTile({ stopPlaceId }: { stopPlaceId: string }) {
                 title={stopPlaceWithEstimatedCalls.name}
                 icons={getTransportHeaderIcons(departures, iconColorType)}
             />
-            <WalkTrip coordinates={coordinates} />
+            <WalkTrip
+                coordinates={coordinates}
+                hideWalkInfo={settings.hideWalkInfo}
+            />
             <TimelineWalkMarker coordinates={coordinates} />
             {Object.entries(groupedDepartures).map(([mode, lines]) => (
                 <Fragment key={mode}>
