@@ -7,8 +7,8 @@ import { RealtimeVehicle } from 'hooks/use-realtime-vehicle-data/types'
 import { getIconColor } from 'utils/icon'
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
 import { useSettings } from 'settings/SettingsProvider'
-import { LineOverlay } from '../RealtimeVehicleTag/LineOverlay/LineOverlay'
-import { RealtimeVehicleTag } from '../RealtimeVehicleTag/RealtimeVehicleTag'
+import { LineOverlay } from '../LineOverlay'
+import { RealtimeVehicleTag } from '../RealtimeVehicleTag'
 import classes from './RealtimeVehicleMarkers.module.scss'
 
 function RealtimeVehicleMarkers({ boundingBox }: { boundingBox: BoundingBox }) {

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { RadioCard } from 'components/RadioCard/RadioCard'
+import { RadioCard } from 'components/RadioCard'
 import { useSettings } from 'settings/SettingsProvider'
 import { DashboardTypes } from 'src/types'
 import { ThemeDashboardPreview } from 'assets/icons/ThemeDashboardPreview'

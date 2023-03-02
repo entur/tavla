@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { Map } from 'components/Map'
+import { Map } from 'scenarios/Map'
 import classes from './MapTile.module.scss'
 
 function MapTile({ className }: { className?: string }) {

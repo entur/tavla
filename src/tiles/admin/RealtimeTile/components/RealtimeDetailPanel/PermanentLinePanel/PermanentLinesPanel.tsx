@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { useSettings } from 'settings/SettingsProvider'
 import { Line } from 'src/types'
 import { ExpandablePanel } from '@entur/expand'

@@ -4,9 +4,9 @@ import { getFeedbackString, getLastUpdated } from 'utils/time'
 import { getIconColor } from 'utils/icon'
 import { RealtimeVehicle } from 'hooks/use-realtime-vehicle-data/types'
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
+import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { Label } from '@entur/typography'
 import { colors } from '@entur/tokens'
-import { TransportModeIcon } from '../../../TransportModeIcon/TransportModeIcon'
 import classes from './TooltipContent.module.scss'
 
 function TooltipContent({

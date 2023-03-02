@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { xor } from 'lodash'
 import { isTransport } from 'utils/typeguards'
-import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
 import { useSettings } from 'settings/SettingsProvider'
 import { Line } from 'src/types'

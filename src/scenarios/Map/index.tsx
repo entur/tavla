@@ -5,11 +5,11 @@ import { PositionPin } from 'assets/icons/PositionPin'
 import { Viewport } from 'src/types'
 import { useSettings } from 'settings/SettingsProvider'
 import { useDebounce } from 'hooks/useDebounce'
-import { PermanentlyDrawnRoutes } from './PermantlyDrawnRoutes/PermanentlyDrawnRoutes'
-import { BikeRentalStationClusterMarkers } from './BikeRentalStationClusterMarkers/BikeRentalStationClusterMarkers'
-import { ScooterClusterMarkers } from './ScooterClusterMarkers/ScooterClusterMarkers'
-import { StopPlaceMarkers } from './StopPlaceMarkers/StopPlaceMarkers'
-import { RealtimeVehicleMarkers } from './RealtimeVehicleMarkers/RealtimeVehicleMarkers'
+import { PermanentlyDrawnRoutes } from './components/PermanentlyDrawnRoutes'
+import { BikeRentalStationClusterMarkers } from './components/BikeRentalStationClusterMarkers'
+import { ScooterClusterMarkers } from './components/ScooterClusterMarkers'
+import { StopPlaceMarkers } from './components/StopPlaceMarkers'
+import { RealtimeVehicleMarkers } from './components/RealtimeVehicleMarkers'
 
 function Map() {
     const [settings] = useSettings()

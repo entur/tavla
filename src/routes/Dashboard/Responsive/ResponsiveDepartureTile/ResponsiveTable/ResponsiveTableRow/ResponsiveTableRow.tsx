@@ -1,6 +1,6 @@
 import React from 'react'
-import { SituationInfo } from 'components/SituationInfo/SituationInfo'
-import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { SituationInfo } from 'components/SituationInfo'
+import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { Departure } from 'src/types'
 import { getIconColor } from 'utils/icon'
 import { isDarkOrDefaultTheme } from 'utils/utils'

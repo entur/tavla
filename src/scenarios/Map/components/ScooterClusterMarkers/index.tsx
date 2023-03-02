@@ -5,7 +5,7 @@ import type { ClusterProperties } from 'supercluster'
 import { FormFactor } from 'graphql-generated/mobility-v2'
 import { useVehicles } from 'hooks/use-vehicles/useVehicles'
 import { useSettings } from 'settings/SettingsProvider'
-import { ScooterMarkerTag } from '../ScooterMarkerTag/ScooterMarkerTag'
+import { ScooterMarkerTag } from '../ScooterMarkerTag'
 import classes from './ScooterClusterMarkers.module.scss'
 
 function ScooterClusterMarkers({

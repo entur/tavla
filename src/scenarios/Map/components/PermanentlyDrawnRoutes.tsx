@@ -5,7 +5,7 @@ import { DrawableRoute, Line } from 'src/types'
 import { getIconColor } from 'utils/icon'
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
 import { useUniqueLines } from 'hooks/use-unique-lines/useUniqueLines'
-import { LineOverlay } from '../RealtimeVehicleTag/LineOverlay/LineOverlay'
+import { LineOverlay } from './LineOverlay'
 
 function PermanentlyDrawnRoutes() {
     const [settings] = useSettings()

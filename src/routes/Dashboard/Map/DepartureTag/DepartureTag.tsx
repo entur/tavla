@@ -3,14 +3,14 @@ import { format, isToday } from 'date-fns'
 import { nb } from 'date-fns/locale'
 import { Departure } from 'src/types'
 import { getIconColor } from 'utils/icon'
-import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import {
     filterHidden,
     toDeparture,
 } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { useSettings } from 'settings/SettingsProvider'
-import { Loader } from 'components/Loader/Loader'
+import { Loader } from 'components/Loader'
 import { Heading4, Paragraph } from '@entur/typography'
 import { colors } from '@entur/tokens'
 import { DepartureIcon } from '../DepartureIcon/DepartureIcon'

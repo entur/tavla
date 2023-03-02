@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
 import { Direction, FontChangeAction, Theme } from 'src/types'
-import { RadioCard } from 'components/RadioCard/RadioCard'
+import { RadioCard } from 'components/RadioCard'
 import Grey from 'assets/previews/Grey-theme.svg'
 import Dark from 'assets/previews/Dark-theme.svg'
 import Light from 'assets/previews/Light-theme.svg'
