@@ -1,12 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
-import { QrNew } from 'assets/icons/QrNew'
+import QrCodeApp from 'assets/images/qr_code_entur_app.svg'
 import classes from './QRCodeWrapper.module.scss'
 
 function QRCodeWrapper({ className }: { className?: string }) {
     return (
         <div className={classNames(classes.Wrapper, className)}>
-            <QrNew />
+            <img src={QrCodeApp} height={250} className={className} />
         </div>
     )
 }
