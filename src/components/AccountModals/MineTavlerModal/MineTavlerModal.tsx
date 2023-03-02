@@ -10,7 +10,7 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { LoginModal } from '../LoginModal/LoginModal'
 import { LoginCase } from '../LoginModal/login-modal-types'
-import { CloseButton } from '../../CloseButton/CloseButton'
+import { CloseButton } from '../../CloseButton'
 import classes from '../AccountModals.module.scss'
 
 function MineTavlerModal({

@@ -5,7 +5,7 @@ import retinaCheck from 'assets/images/check@2x.png'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
-import { CloseButton } from '../../../CloseButton/CloseButton'
+import { CloseButton } from '../../../CloseButton'
 import { ModalType } from '../login-modal-types'
 import classes from '../../AccountModals.module.scss'
 

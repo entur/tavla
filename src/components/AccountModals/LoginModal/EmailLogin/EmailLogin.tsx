@@ -12,7 +12,7 @@ import { BackArrowIcon, ClosedLockIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Link } from '@entur/typography'
 import { SmallExpandableAlertBox } from '@entur/alert'
-import { CloseButton } from '../../../CloseButton/CloseButton'
+import { CloseButton } from '../../../CloseButton'
 import { ModalType } from '../login-modal-types'
 import classes from '../../AccountModals.module.scss'
 

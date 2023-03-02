@@ -10,7 +10,7 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { BackArrowIcon, ClosedLockIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading2, Link } from '@entur/typography'
-import { CloseButton } from '../../../CloseButton/CloseButton'
+import { CloseButton } from '../../../CloseButton'
 import { ModalType } from '../login-modal-types'
 import classes from '../../AccountModals.module.scss'
 

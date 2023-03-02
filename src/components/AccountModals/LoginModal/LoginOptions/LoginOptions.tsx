@@ -4,7 +4,7 @@ import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
-import { CloseButton } from '../../../CloseButton/CloseButton'
+import { CloseButton } from '../../../CloseButton'
 import { LoginCase, ModalType } from '../login-modal-types'
 import classes from '../../AccountModals.module.scss'
 

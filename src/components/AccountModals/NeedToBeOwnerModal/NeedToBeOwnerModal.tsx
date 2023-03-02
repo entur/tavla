@@ -7,7 +7,7 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { PrimaryButton } from '@entur/button'
 import { useToast } from '@entur/alert'
 import { GridContainer, GridItem } from '@entur/grid'
-import { CloseButton } from '../../CloseButton/CloseButton'
+import { CloseButton } from '../../CloseButton'
 import classes from '../AccountModals.module.scss'
 
 function NeedToBeOwnerModal({
