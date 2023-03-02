@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { useSettings } from 'settings/SettingsProvider'
 import { TavlaLogo } from 'assets/icons/TavlaLogo'
-import { Clock } from 'components/Clock/Clock'
+import { Clock } from 'components/Clock'
 import { Contrast } from '@entur/layout'
 import classes from './DashboardHeader.module.scss'
 
