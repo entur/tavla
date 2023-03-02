@@ -1,6 +1,9 @@
 name: Linting and Formatting
 
-on: push
+on:
+    push:
+        branches-ignore:
+            - master
 
 jobs:
     linting_and_formatting:
