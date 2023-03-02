@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
 import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
-import { Loader } from 'components/Loader/Loader'
+import { Loader } from 'components/Loader'
 import { Paragraph } from '@entur/typography'
 import { Checkbox } from '@entur/form'
 import classes from './StopPlacePanel.module.scss'

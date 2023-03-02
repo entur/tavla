@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Loader } from 'components/Loader/Loader'
+import { Loader } from 'components/Loader'
 import { Tile } from 'components/Tile'
 import {
     byDepartureTime,

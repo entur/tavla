@@ -10,7 +10,7 @@ import {
     toDeparture,
 } from 'hooks/use-stop-place-with-estimated-calls/departure'
 import { useSettings } from 'settings/SettingsProvider'
-import { Loader } from 'components/Loader/Loader'
+import { Loader } from 'components/Loader'
 import { Heading4, Paragraph } from '@entur/typography'
 import { colors } from '@entur/tokens'
 import { DepartureIcon } from '../DepartureIcon/DepartureIcon'
