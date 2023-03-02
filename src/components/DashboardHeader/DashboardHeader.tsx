@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { useSettings } from 'settings/SettingsProvider'
 import { TavlaLogo } from 'assets/icons/TavlaLogo'
-import { isMobileWeb } from 'utils/utils'
 import { Contrast } from '@entur/layout'
 import { Clock } from '../Clock/Clock'
 import classes from './DashboardHeader.module.scss'
@@ -11,7 +10,7 @@ import classes from './DashboardHeader.module.scss'
 function DashboardHeader({ className }: { className?: string }) {
     const [settings] = useSettings()
 
-    const showBoardDescription = !isMobileWeb() && settings.logoSize === '32px'
+    const showBoardDescription = settings.logoSize === '32px'
 
     return (
         <Contrast>
