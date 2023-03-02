@@ -151,7 +151,7 @@ function ResponsiveGridDashboard({
                     {settings.showWeather && (
                         <div
                             key="weather"
-                            data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
+                            data-grid={getDataGrid(2, maxWidthCols, 2, 1)}
                         >
                             <WeatherTile />
                         </div>
@@ -196,9 +196,8 @@ function ResponsiveGridDashboard({
                             data-grid={getDataGrid(
                                 numberOfStopPlaces + bikeCol + weatherCol + 1,
                                 maxWidthCols,
-                                2,
-                                2,
-                                Infinity,
+                                3,
+                                3,
                             )}
                         >
                             <MobileAppQRTile />
@@ -238,11 +237,7 @@ function ResponsiveGridDashboard({
                                     2,
                                 )}
                             >
-                                <QRTile
-                                    title={qrTile.displayName}
-                                    sourceUrl={qrTile.sourceUrl}
-                                    description={qrTile.description}
-                                />
+                                <QRTile title={qrTile.displayName} />
                             </div>
                         ))}
                 </ResponsiveReactGridLayout>

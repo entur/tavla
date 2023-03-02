@@ -5,26 +5,11 @@ import { Tile } from 'components/Tile'
 import { Heading2 } from '@entur/typography'
 import classes from './QRTile.module.scss'
 
-function QRTile({
-    className,
-    title,
-    sourceUrl,
-    description,
-}: {
-    className?: string
-    title: string
-    sourceUrl: string
-    description?: string
-}) {
+function QRTile({ className, title }: { className?: string; title: string }) {
     return (
         <Tile className={classNames(classes.Tile, className)}>
             <Heading2 className={classes.Title}>{title}</Heading2>
-            <QRCodeWrapper
-                className={classes.Code}
-                sourceUrl={sourceUrl}
-                description={description}
-                size={110}
-            />
+            <QRCodeWrapper className={classes.Code} />
         </Tile>
     )
 }
