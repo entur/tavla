@@ -1,5 +1,5 @@
 import React from 'react'
-import { SituationInfo } from 'components/SituationInfo/SituationInfo'
+import { SituationInfo } from 'components/SituationInfo'
 import { DateDisplay } from 'components/DateDisplay'
 import { differenceInCalendarDays } from 'date-fns'
 import { Departure } from 'src/types'
