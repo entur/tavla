@@ -2,12 +2,12 @@ import React, { useCallback } from 'react'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
 import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import { useSettings } from 'settings/SettingsProvider'
+import { CloseButton } from 'components/CloseButton'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { PrimaryButton } from '@entur/button'
 import { useToast } from '@entur/alert'
 import { GridContainer, GridItem } from '@entur/grid'
-import { CloseButton } from '../../CloseButton'
 import classes from '../AccountModals.module.scss'
 
 function NeedToBeOwnerModal({
