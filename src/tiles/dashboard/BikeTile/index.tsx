@@ -46,6 +46,7 @@ function BikeTile() {
                     key={station.id}
                     station={station}
                     iconColor={iconColor}
+                    hideWalkInfo={settings.hideWalkInfo}
                 />
             ))}
         </Tile>

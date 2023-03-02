@@ -9,7 +9,7 @@ import {
     filterHidden,
     toDeparture,
 } from 'hooks/use-stop-place-with-estimated-calls/departure'
-import { WalkTrip } from 'components/WalkTrip/WalkTrip'
+import { WalkTrip } from 'components/WalkTrip'
 import { createTileSubLabel } from 'utils/utils'
 import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { Loader } from 'components/Loader'
@@ -76,6 +76,7 @@ function CompactDepartureTile({ stopPlaceId }: { stopPlaceId: string }) {
                     latitude: stopPlaceWithEstimatedCalls.latitude,
                     longitude: stopPlaceWithEstimatedCalls.longitude,
                 }}
+                hideWalkInfo={settings.hideWalkInfo}
             />
             {Object.entries(groupedDepartures).map(([key, lines]) => {
                 const firstLine = lines[0]

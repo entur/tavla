@@ -1,17 +1,20 @@
 import React from 'react'
 import { getTranslation } from 'utils/utils'
 import { RentalStation } from 'hooks/use-rental-stations/types'
-import { WalkTrip } from 'components/WalkTrip/WalkTrip'
+import { WalkTrip } from 'components/WalkTrip'
 import { Heading3 } from '@entur/typography'
 import { BicycleIcon } from '@entur/icons'
 import classes from './BikeTileRow.module.scss'
 
-interface BikeTileRowProps {
+function BikeTileRow({
+    station,
+    iconColor,
+    hideWalkInfo,
+}: {
     station: RentalStation
     iconColor: string
-}
-
-function BikeTileRow({ station, iconColor }: BikeTileRowProps): JSX.Element {
+    hideWalkInfo: boolean
+}): JSX.Element {
     return (
         <div className={classes.BikeTileRow}>
             <div className={classes.Icon}>
@@ -27,6 +30,7 @@ function BikeTileRow({ station, iconColor }: BikeTileRowProps): JSX.Element {
                         latitude: station.lat,
                         longitude: station.lon,
                     }}
+                    hideWalkInfo={hideWalkInfo}
                 />
                 <div className={classes.Sublabels}>
                     <div>

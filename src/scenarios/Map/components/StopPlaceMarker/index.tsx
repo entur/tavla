@@ -5,16 +5,18 @@ import { uniq } from 'lodash'
 import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
 import { getIconColor } from 'utils/icon'
 import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
-import { WalkTrip } from 'components/WalkTrip/WalkTrip'
+import { WalkTrip } from 'components/WalkTrip'
 import { colors } from '@entur/tokens'
 import classes from './StopPlaceMarker.module.scss'
 
 function StopPlaceMarker({
     className,
     stopPlaceId,
+    hideWalkInfo,
 }: {
     stopPlaceId: string
     className?: string
+    hideWalkInfo: boolean
 }) {
     const { stopPlaceWithEstimatedCalls, loading } =
         useStopPlaceWithEstimatedCalls({ stopPlaceId })
@@ -69,6 +71,7 @@ function StopPlaceMarker({
                         longitude: stopPlaceWithEstimatedCalls.longitude,
                         latitude: stopPlaceWithEstimatedCalls.latitude,
                     }}
+                    hideWalkInfo={hideWalkInfo}
                 />
             </div>
         </Marker>
