@@ -151,7 +151,7 @@ function ResponsiveGridDashboard({
                     {settings.showWeather && (
                         <div
                             key="weather"
-                            data-grid={getDataGrid(2, maxWidthCols, 2, 1)}
+                            data-grid={getDataGrid(0, maxWidthCols, 2, 1)}
                         >
                             <WeatherTile />
                         </div>
