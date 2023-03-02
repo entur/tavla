@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Departure, IconColorType } from 'src/types'
 import { createTileSubLabel } from 'utils/utils'
-import { NewDayTableRow } from 'components/NewDayTableRow/NewDayTableRow'
+import { NewDayTableRow } from 'components/NewDayTableRow'
 import { SubLabelIcon } from 'components/SubLabelIcon'
 import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { DataCell, TableBody, TableRow } from '@entur/table'
