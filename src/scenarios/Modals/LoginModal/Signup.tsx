@@ -6,13 +6,13 @@ import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
 import { useFormFields } from 'hooks/useFormFields'
 import { CloseButton } from 'components/CloseButton'
+import { ModalType } from 'src/types'
 import { TextField } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
 import { BackArrowIcon, ClosedLockIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading2, Link } from '@entur/typography'
-import { ModalType } from '../login-modal-types'
-import classes from '../../AccountModals.module.scss'
+import classes from '../Modals.module.scss'
 
 const EMAIL_REGEX =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

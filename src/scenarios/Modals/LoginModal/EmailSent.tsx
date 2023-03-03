@@ -3,11 +3,11 @@ import type { User } from 'firebase/auth'
 import Check from 'assets/images/check.png'
 import retinaCheck from 'assets/images/check@2x.png'
 import { CloseButton } from 'components/CloseButton'
+import { ModalType } from 'src/types'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
-import { ModalType } from '../login-modal-types'
-import classes from '../../AccountModals.module.scss'
+import classes from '../Modals.module.scss'
 
 function EmailSent({
     setModalType,

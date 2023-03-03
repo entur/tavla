@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import copy from 'copy-to-clipboard'
-import { RemoveLockModal } from 'components/AccountModals/RemoveLockModal/RemoveLockModal'
-import { DeleteTavleModal } from 'components/AccountModals/DeleteTavleModal/DeleteTavleModal'
-import { RemoveSelfFromTavleModal } from 'components/AccountModals/RemoveSelfFromTavleModal/RemoveSelfFromTavleModal'
+import { RemoveLockModal } from 'scenarios/Modals/RemoveLockModal'
+import { DeleteTavleModal } from 'scenarios/Modals/DeleteTavleModal'
+import { RemoveSelfFromTavleModal } from 'scenarios/Modals/RemoveSelfFromTavleModal'
 import {
     ConfigurationIcon,
     OpenedLockIcon,

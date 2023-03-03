@@ -5,13 +5,13 @@ import { useSettings } from 'settings/SettingsProvider'
 import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
 import { CloseButton } from 'components/CloseButton'
+import { LoginCase } from 'src/types'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
-import { LoginModal } from '../LoginModal/LoginModal'
-import { LoginCase } from '../LoginModal/login-modal-types'
-import classes from '../AccountModals.module.scss'
+import classes from './Modals.module.scss'
+import { LoginModal } from './LoginModal'
 
 function MineTavlerModal({
     open,

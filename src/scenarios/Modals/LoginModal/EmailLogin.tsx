@@ -5,7 +5,7 @@ import { auth } from 'settings/UserProvider'
 import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
 import { useFormFields } from 'hooks/useFormFields'
-import { UserLogin } from 'src/types'
+import { ModalType, UserLogin } from 'src/types'
 import { CloseButton } from 'components/CloseButton'
 import { TextField } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
@@ -13,8 +13,7 @@ import { BackArrowIcon, ClosedLockIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Link } from '@entur/typography'
 import { SmallExpandableAlertBox } from '@entur/alert'
-import { ModalType } from '../login-modal-types'
-import classes from '../../AccountModals.module.scss'
+import classes from '../Modals.module.scss'
 
 function EmailLogin({
     setModalType,

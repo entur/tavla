@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { MineTavlerModal } from 'components/AccountModals/MineTavlerModal/MineTavlerModal'
+import { MineTavlerModal } from 'scenarios/Modals/MineTavlerModal'
 import { UserIcon } from '@entur/icons'
 import { MenuButton } from './MenuButton'
 

@@ -10,11 +10,10 @@ import {
     getInvitesForBoardOnSnapshot,
     getOwnersDataByBoardIdAsOwner,
 } from 'settings/firebase'
-import { BoardOwnersData, Invite } from 'src/types'
-import { LoginModal } from 'components/AccountModals/LoginModal/LoginModal'
-import { LoginCase } from 'components/AccountModals/LoginModal/login-modal-types'
-import { RemoveSelfFromTavleModal } from 'components/AccountModals/RemoveSelfFromTavleModal/RemoveSelfFromTavleModal'
-import { NeedToBeOwnerModal } from 'components/AccountModals/NeedToBeOwnerModal/NeedToBeOwnerModal'
+import { BoardOwnersData, Invite, LoginCase } from 'src/types'
+import { LoginModal } from 'scenarios/Modals/LoginModal'
+import { RemoveSelfFromTavleModal } from 'scenarios/Modals/RemoveSelfFromTavleModal'
+import { NeedToBeOwnerModal } from 'scenarios/Modals/NeedToBeOwnerModal'
 import { NegativeButton } from '@entur/button'
 import { GridContainer, GridItem } from '@entur/grid'
 import { Heading2, Heading3, Paragraph } from '@entur/typography'

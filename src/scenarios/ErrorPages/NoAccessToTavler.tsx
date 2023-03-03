@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
-import { LoginCase } from 'components/AccountModals/LoginModal/login-modal-types'
-import { LoginModal } from 'components/AccountModals/LoginModal/LoginModal'
+import { LoginModal } from 'scenarios/Modals/LoginModal'
 import { Navbar } from 'scenarios/Navbar'
 import sikkerhetBomLight from 'assets/images/sikkerhet_bom_light@2x.png'
+import { LoginCase } from 'src/types'
 import { ErrorWrapper } from './components/ErrorWrapper'
 
 function NoAccessToTavler(): JSX.Element {

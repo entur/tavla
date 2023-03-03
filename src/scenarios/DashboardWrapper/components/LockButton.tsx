@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { LockModal } from 'components/AccountModals/LockModal/LockModal'
+import { LockModal } from 'scenarios/Modals/LockModal'
 import { useSettings } from 'settings/SettingsProvider'
 import { OpenedLockIcon } from '@entur/icons'
 import { MenuButton } from './MenuButton'

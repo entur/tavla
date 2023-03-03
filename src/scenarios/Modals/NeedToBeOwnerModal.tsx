@@ -8,7 +8,7 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { PrimaryButton } from '@entur/button'
 import { useToast } from '@entur/alert'
 import { GridContainer, GridItem } from '@entur/grid'
-import classes from '../AccountModals.module.scss'
+import classes from './Modals.module.scss'
 
 function NeedToBeOwnerModal({
     open,

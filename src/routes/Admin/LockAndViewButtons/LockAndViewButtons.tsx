@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import classNames from 'classnames'
 import { useSettings } from 'settings/SettingsProvider'
-import { LockModal } from 'components/AccountModals/LockModal/LockModal'
+import { LockModal } from 'scenarios/Modals/LockModal'
 import classes from './LockAndViewButtons.module.scss'
 
 function LockAndViewButtons() {

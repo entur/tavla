@@ -2,11 +2,11 @@ import React, { Dispatch, SetStateAction, useCallback } from 'react'
 import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
 import { CloseButton } from 'components/CloseButton'
+import { LoginCase, ModalType } from 'src/types'
 import { Heading3, Paragraph } from '@entur/typography'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
-import { LoginCase, ModalType } from '../login-modal-types'
-import classes from '../../AccountModals.module.scss'
+import classes from '../Modals.module.scss'
 
 const description: Record<LoginCase, string> = {
     [LoginCase.mytables]:
