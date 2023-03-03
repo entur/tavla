@@ -14,6 +14,7 @@ import { CustomQRTile } from 'tiles/dashboard/CustomQRTile'
 import { Loader } from 'components/Loader'
 import { BREAKPOINTS } from 'utils/constants'
 import { DashboardWrapper } from 'scenarios/DashboardWrapper'
+import { QRWrapper } from 'components/QRWrapper'
 import classes from './ResponsiveGridDashboard.module.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -200,7 +201,10 @@ function ResponsiveGridDashboard({
                                 3,
                             )}
                         >
-                            <MobileAppQRTile size="15rem" />
+                            {' '}
+                            <QRWrapper title="Last ned Entur-appen">
+                                <MobileAppQRTile size="15rem" />
+                            </QRWrapper>
                         </div>
                     )}
                     {imageTilesToDisplay.length > 0 &&
@@ -237,11 +241,12 @@ function ResponsiveGridDashboard({
                                     3,
                                 )}
                             >
-                                <CustomQRTile
-                                    title={qrTile.displayName}
-                                    sourceUrl={qrTile.sourceUrl}
-                                    description={qrTile.description}
-                                />
+                                <QRWrapper title={qrTile.displayName}>
+                                    <CustomQRTile
+                                        sourceUrl={qrTile.sourceUrl}
+                                        description={qrTile.description}
+                                    />
+                                </QRWrapper>
                             </div>
                         ))}
                 </ResponsiveReactGridLayout>
