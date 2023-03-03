@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import { Outlet, useMatch, useNavigate } from 'react-router-dom'
 import { DocumentSnapshot, onSnapshot } from 'firebase/firestore'
-import { Loader } from 'components/Loader/Loader'
+import { Loader } from 'components/Loader'
 import { useUser } from './UserProvider'
 import { getSettingsReference, updateFirebaseSettings } from './firebase'
 import { DEFAULT_SETTINGS, Settings } from './settings'

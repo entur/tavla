@@ -6,7 +6,7 @@ import {
     TransportMode,
     TransportSubmode,
 } from 'graphql-generated/journey-planner-v3'
-import { TransportModeIcon } from 'components/TransportModeIcon/TransportModeIcon'
+import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { colors } from '@entur/tokens'
 import { isNotNullOrUndefined } from './typeguards'
 

@@ -1,8 +1,8 @@
 import React, { Dispatch, useCallback, useEffect, useState } from 'react'
 import type { User } from 'firebase/auth'
 import { useUser } from 'settings/UserProvider'
-import { LoginModal } from 'components/AccountModals/LoginModal/LoginModal'
-import { LoginCase } from 'components/AccountModals/LoginModal/login-modal-types'
+import { LoginModal } from 'scenarios/Modals/LoginModal'
+import { LoginCase } from 'src/types'
 import { GridContainer, GridItem } from '@entur/grid'
 import {
     Heading2,

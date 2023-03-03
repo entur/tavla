@@ -1,7 +1,7 @@
 import React from 'react'
 import { DashboardWrapper } from 'scenarios/DashboardWrapper'
 import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
-import { Map } from 'components/Map'
+import { Map } from 'scenarios/Map'
 import { useSettings } from 'settings/SettingsProvider'
 import { WeatherTile } from 'tiles/dashboard/WeatherTile'
 import { DepartureTag } from './DepartureTag/DepartureTag'

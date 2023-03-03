@@ -9,8 +9,8 @@ import {
     filterHidden,
     toDeparture,
 } from 'hooks/use-stop-place-with-estimated-calls/departure'
-import { WalkTrip } from 'components/WalkTrip/WalkTrip'
-import { Loader } from 'components/Loader/Loader'
+import { Loader } from 'components/Loader'
+import { WalkTrip } from 'components/WalkTrip'
 import { ErrorTile } from 'tiles/dashboard/ErrorTile'
 import { EmptyStopTile } from 'tiles/dashboard/EmptyStopTile'
 import { SubLabel } from '@entur/typography'
@@ -74,6 +74,7 @@ function BusStopTile({ stopPlaceId }: { stopPlaceId: string }) {
                         latitude: stopPlaceWithEstimatedCalls.latitude,
                         longitude: stopPlaceWithEstimatedCalls.longitude,
                     }}
+                    hideWalkInfo={settings.hideWalkInfo}
                 />
             </div>
             <Table spacing="large">
