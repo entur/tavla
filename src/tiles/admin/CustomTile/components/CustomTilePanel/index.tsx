@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
-import { CustomTileModal } from 'tiles/dashboard/CustomTileModal'
+import { CustomTileModal } from 'tiles/admin/CustomTileModal'
 import { PrimaryButton } from '@entur/button'
 import { CustomTilePanelRow } from './CustomTilePanelRow/CustomTilePanelRow'
 import classes from './CustomTilePanel.module.scss'

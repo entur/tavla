@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { WidthProvider, Responsive, Layouts, Layout } from 'react-grid-layout'
 import { useParams } from 'react-router-dom'
+import QRCode from 'react-qr-code'
 import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
 import { ResizeHandle } from 'assets/icons/ResizeHandle'
 import { getFromLocalStorage, saveToLocalStorage } from 'settings/LocalStorage'
@@ -9,11 +10,12 @@ import { WeatherTile } from 'tiles/dashboard/WeatherTile'
 import { ImageTile } from 'tiles/dashboard/ImageTile'
 import { BikeTile } from 'tiles/dashboard/BikeTile'
 import { MapTile } from 'tiles/dashboard/MapTile'
-import { MobileAppQRTile } from 'tiles/dashboard/MobileAppQRTile'
-import { QRTile } from 'tiles/dashboard/QRTile'
 import { Loader } from 'components/Loader'
 import { BREAKPOINTS } from 'utils/constants'
 import { DashboardWrapper } from 'scenarios/DashboardWrapper'
+import { QRWrapper } from 'components/QRWrapper'
+import { QrCodeEnturApp } from 'assets/icons/QrCodeEnturApp'
+import { colors } from '@entur/tokens'
 import classes from './ResponsiveGridDashboard.module.scss'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -196,12 +198,20 @@ function ResponsiveGridDashboard({
                             data-grid={getDataGrid(
                                 numberOfStopPlaces + bikeCol + weatherCol + 1,
                                 maxWidthCols,
-                                2,
-                                2,
-                                Infinity,
+                                3,
+                                3,
                             )}
                         >
-                            <MobileAppQRTile />
+                            <QRWrapper title="Last ned Entur-appen">
+                                <QrCodeEnturApp
+                                    size="15rem"
+                                    color={
+                                        settings.theme !== 'dark'
+                                            ? colors.brand.blue
+                                            : 'black'
+                                    }
+                                />
+                            </QRWrapper>
                         </div>
                     )}
                     {imageTilesToDisplay.length > 0 &&
@@ -234,15 +244,21 @@ function ResponsiveGridDashboard({
                                         imageTilesToDisplay.length +
                                         index,
                                     maxWidthCols,
-                                    4,
-                                    2,
+                                    3,
+                                    3,
                                 )}
                             >
-                                <QRTile
-                                    title={qrTile.displayName}
-                                    sourceUrl={qrTile.sourceUrl}
-                                    description={qrTile.description}
-                                />
+                                <QRWrapper title={qrTile.displayName}>
+                                    <QRCode
+                                        value={qrTile.sourceUrl}
+                                        fgColor={
+                                            settings.theme !== 'dark'
+                                                ? colors.brand.blue
+                                                : 'black'
+                                        }
+                                        level="L"
+                                    />
+                                </QRWrapper>
                             </div>
                         ))}
                 </ResponsiveReactGridLayout>
