@@ -1,10 +1,9 @@
-import type {
-    DocumentData,
+import type { DocumentData } from 'firebase/firestore'
+import {
     DocumentReference,
     GeoPoint,
     QuerySnapshot,
-} from 'firebase/firestore'
-import {
+    runTransaction,
     addDoc,
     arrayRemove,
     collection,
@@ -30,6 +29,7 @@ import { auth, db, functions, storage } from './firebase-init'
 import { Settings } from './settings'
 
 const SETTINGS_COLLECTION = 'settings'
+const INVITES_COLLECTION = 'invites'
 
 export function getSettingsReference(id: string): DocumentReference {
     return doc(collection(db, SETTINGS_COLLECTION), id)
@@ -85,53 +85,52 @@ export async function copySettingsToNewId(
     const newDocRef: DocumentReference = getSettingsReference(newDocId)
 
     try {
-        const copyFromDocument = await getDoc(currentDocRef)
-        if (!copyFromDocument.exists()) return false
-        const settings = copyFromDocument.data() as Settings
+        const inviteDocs = await getDocs(
+            collection(
+                db,
+                SETTINGS_COLLECTION,
+                currentDocId,
+                INVITES_COLLECTION,
+            ),
+        )
+        await runTransaction(db, async (transaction) => {
+            // Get data
+            const currentDoc = await transaction.get(currentDocRef)
+            const newDoc = await transaction.get(newDocRef)
 
-        const copyToDocument = await getDoc(newDocRef)
+            const currentSettings = currentDoc.data() as Settings
+            const newSettings = newDoc.data() as Settings
 
-        if (copyToDocument.exists()) {
-            if (copyToDocument.data().isScheduledForDelete) {
-                await deleteDoc(newDocRef)
-                await createSettingsWithId(settings, newDocId)
-                await copySubCollectionToId('invites', currentDocId, newDocId)
-                return true
-            }
-            return false
-        } else {
-            await createSettingsWithId(settings, newDocId)
-            await copySubCollectionToId('invites', currentDocId, newDocId)
-            return true
-        }
+            if (newDoc.exists() && !newSettings.isScheduledForDelete)
+                throw 'Board is already in use'
+
+            // Set data
+            if (newDoc.exists()) transaction.delete(newDocRef)
+
+            transaction.set(newDocRef, currentSettings)
+            transaction.update(currentDocRef, { isScheduledForDelete: true })
+        })
+
+        await runTransaction(db, async (transaction) => {
+            inviteDocs.docs.forEach((d) => {
+                transaction.set(
+                    doc(
+                        db,
+                        SETTINGS_COLLECTION,
+                        newDocId,
+                        INVITES_COLLECTION,
+                        d.id,
+                    ),
+                    d.data(),
+                )
+                transaction.delete(d.ref)
+            })
+        })
     } catch {
         return false
     }
-}
 
-export async function copySubCollectionToId(
-    subCollectionId: string,
-    fromParentDocId: string,
-    toParentDocId: string,
-): Promise<void> {
-    const fromSubCollectionRef = collection(
-        db,
-        SETTINGS_COLLECTION,
-        fromParentDocId,
-        subCollectionId,
-    )
-    const toSubCollectionRef = collection(
-        db,
-        SETTINGS_COLLECTION,
-        toParentDocId,
-        subCollectionId,
-    )
-
-    const fromSubcollectionDocs = await getDocs(fromSubCollectionRef)
-
-    fromSubcollectionDocs.docs.forEach((inviteDoc) => {
-        setDoc(doc(toSubCollectionRef, inviteDoc.id), inviteDoc.data())
-    })
+    return true
 }
 
 export async function deleteDocument(docId: string): Promise<void> {
