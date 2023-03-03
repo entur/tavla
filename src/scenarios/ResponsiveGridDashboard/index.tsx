@@ -202,7 +202,6 @@ function ResponsiveGridDashboard({
                                 3,
                             )}
                         >
-                            {' '}
                             <QRWrapper title="Last ned Entur-appen">
                                 <QrCodeEnturApp
                                     size="15rem"
