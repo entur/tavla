@@ -10,7 +10,7 @@ import { ImageTile } from 'tiles/dashboard/ImageTile'
 import { BikeTile } from 'tiles/dashboard/BikeTile'
 import { MapTile } from 'tiles/dashboard/MapTile'
 import { MobileAppQRTile } from 'tiles/dashboard/MobileAppQRTile'
-import { QRTile } from 'tiles/dashboard/QRTile'
+import { CustomQRTile } from 'tiles/dashboard/CustomQRTile'
 import { Loader } from 'components/Loader/Loader'
 import { BREAKPOINTS } from 'utils/constants'
 import { DashboardWrapper } from 'scenarios/DashboardWrapper'
@@ -200,7 +200,7 @@ function ResponsiveGridDashboard({
                                 3,
                             )}
                         >
-                            <MobileAppQRTile />
+                            <MobileAppQRTile size="15rem" />
                         </div>
                     )}
                     {imageTilesToDisplay.length > 0 &&
@@ -233,11 +233,15 @@ function ResponsiveGridDashboard({
                                         imageTilesToDisplay.length +
                                         index,
                                     maxWidthCols,
-                                    4,
-                                    2,
+                                    3,
+                                    3,
                                 )}
                             >
-                                <QRTile title={qrTile.displayName} />
+                                <CustomQRTile
+                                    title={qrTile.displayName}
+                                    sourceUrl={qrTile.sourceUrl}
+                                    description={qrTile.description}
+                                />
                             </div>
                         ))}
                 </ResponsiveReactGridLayout>
