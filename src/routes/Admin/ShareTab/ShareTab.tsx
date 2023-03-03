@@ -10,9 +10,8 @@ import {
     getInvitesForBoardOnSnapshot,
     getOwnersDataByBoardIdAsOwner,
 } from 'settings/firebase'
-import { BoardOwnersData, Invite } from 'src/types'
+import { BoardOwnersData, Invite, LoginCase } from 'src/types'
 import { LoginModal } from 'scenarios/Modals/LoginModal'
-import { LoginCase } from 'scenarios/Modals/LoginModal/login-modal-types'
 import { RemoveSelfFromTavleModal } from 'scenarios/Modals/RemoveSelfFromTavleModal'
 import { NeedToBeOwnerModal } from 'scenarios/Modals/NeedToBeOwnerModal'
 import { NegativeButton } from '@entur/button'

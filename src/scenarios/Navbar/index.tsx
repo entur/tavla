@@ -4,8 +4,7 @@ import { signOut } from 'firebase/auth'
 import { auth, useUser } from 'settings/UserProvider'
 import { TavlaLogo } from 'assets/icons/TavlaLogo'
 import { LoginModal } from 'scenarios/Modals/LoginModal'
-import { LoginCase } from 'scenarios/Modals/LoginModal/login-modal-types'
-import { Theme } from 'src/types'
+import { LoginCase, Theme } from 'src/types'
 import { Contrast } from '@entur/layout'
 import {
     ExternalIcon,

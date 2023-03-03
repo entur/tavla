@@ -6,13 +6,13 @@ import sikkerhetBom from 'assets/images/sikkerhet_bom.png'
 import retinaSikkerhetBom from 'assets/images/sikkerhet_bom@2x.png'
 import { useFormFields } from 'hooks/useFormFields'
 import { CloseButton } from 'components/CloseButton'
+import { ModalType } from 'src/types'
 import { TextField } from '@entur/form'
 import { GridContainer, GridItem } from '@entur/grid'
 import { BackArrowIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
 import classes from '../Modals.module.scss'
-import { ModalType } from './login-modal-types'
 
 function ResetPassword({
     setModalType,

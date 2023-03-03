@@ -4,12 +4,12 @@ import retinaCheck from 'assets/images/check@2x.png'
 import { useUser } from 'settings/UserProvider'
 import { useSettings } from 'settings/SettingsProvider'
 import { CloseButton } from 'components/CloseButton'
+import { LoginCase } from 'src/types'
 import { Heading3, Paragraph } from '@entur/typography'
 import { Modal } from '@entur/modal'
 import { GridContainer, GridItem } from '@entur/grid'
 import { PrimaryButton } from '@entur/button'
 import { LoginModal } from './LoginModal'
-import { LoginCase } from './LoginModal/login-modal-types'
 import classes from './Modals.module.scss'
 
 function LockModal({
