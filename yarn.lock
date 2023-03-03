@@ -4240,13 +4240,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@splitbee/web@npm:0.3.0":
-  version: 0.3.0
-  resolution: "@splitbee/web@npm:0.3.0"
-  checksum: 2714124ced793af98cd869f46e51f1ddeb140ec2e081fb6d97a512f48797a3a8a219fd7cba1efa436aa0eba76e2d59aad254064d885743eccc5188fd3f143a78
-  languageName: node
-  linkType: hard
-
 "@tootallnate/once@npm:1":
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
@@ -15457,7 +15450,6 @@ __metadata:
     "@habx/apollo-multi-endpoint-link": 2.9.0
     "@sentry/react": 7.32.0
     "@sentry/webpack-plugin": 1.20.0
-    "@splitbee/web": 0.3.0
     "@types/google-polyline": 1.0.0
     "@types/node": 16.11.28
     "@types/react": 18.0.26
