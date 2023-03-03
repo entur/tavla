@@ -5,7 +5,7 @@ function timeUntil(time: Date): number {
     return differenceInSeconds(time, new Date())
 }
 
-function getLastUpdated(lastUpdated: string): number {
+function timeSince(lastUpdated: string): number {
     return differenceInSeconds(new Date(), parseISO(lastUpdated))
 }
 
@@ -50,7 +50,7 @@ function createTimeString(date: Date): string {
 function getFeedbackString(lastUpdated: number): string {
     if (lastUpdated < 60) return `${lastUpdated} sekunder siden`
     if (lastUpdated < 120) return '> 1 minutt siden'
-    return ` > ${Math.floor(lastUpdated / 60)} minutter siden`
+    return `> ${Math.floor(lastUpdated / 60)} minutter siden`
 }
 
-export { timeUntil, getLastUpdated, createTimeString, getFeedbackString }
+export { timeUntil, timeSince, createTimeString, getFeedbackString }
