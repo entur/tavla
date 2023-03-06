@@ -1,19 +1,7 @@
 import React from 'react'
-import { useThemeColor } from 'hooks/useThemeColor'
+import classes from './ValidationExclamation.module.scss'
 
-interface Props {
-    className?: string
-}
-
-function ValidationExclamation({ className }: Props) {
-    const exclamationIconColor = useThemeColor(
-        {
-            ['dark']: '#171717',
-            ['default']: '#292c6a',
-        },
-        'black',
-    )
-
+function ValidationExclamation({ className }: { className?: string }) {
     return (
         <svg
             version="1.1"
@@ -40,7 +28,7 @@ function ValidationExclamation({ className }: Props) {
                 id="Icon-Fill"
                 fillRule="evenodd"
                 clipRule="evenodd"
-                fill={exclamationIconColor}
+                className={classes.Exclamation}
                 d="M8.0050001,10.5c0.4832487,0,0.875,0.3917503,0.875,0.875
 	s-0.3917513,0.875-0.875,0.875s-0.875-0.3917503-0.875-0.875S7.5217509,10.5,8.0050001,10.5z M8.6999998,4v5.1000004H7.3000002V4
 	H8.6999998z"
