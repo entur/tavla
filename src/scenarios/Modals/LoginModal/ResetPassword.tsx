@@ -21,9 +21,7 @@ function ResetPassword({
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
 }) {
-    const [inputs, handleInputsChange] = useFormFields<{
-        email: string
-    }>({
+    const [formFields, setFormFields] = useFormFields({
         email: '',
     })
 
@@ -34,7 +32,7 @@ function ResetPassword({
             url: window.location.href,
         }
 
-        sendPasswordResetEmail(auth, inputs.email, actionCodeSettings)
+        sendPasswordResetEmail(auth, formFields.email, actionCodeSettings)
             .then(() => {
                 setModalType(ModalType.EmailSentModal)
             })
@@ -47,7 +45,7 @@ function ResetPassword({
                     setEmailError('For mange forsøk, prøv igjen senere.')
                 }
             })
-    }, [inputs.email, setModalType])
+    }, [formFields.email, setModalType])
 
     const handleClose = useCallback((): void => {
         setModalType(ModalType.LoginOptionsModal)
@@ -83,8 +81,8 @@ function ResetPassword({
                         variant={emailError ? 'error' : undefined}
                         feedback={emailError}
                         type="text"
-                        value={inputs.email}
-                        onChange={handleInputsChange}
+                        value={formFields.email}
+                        onChange={setFormFields}
                         id="email"
                         prepend={<EmailIcon inline />}
                         placeholder="F.eks. ola.nordmann@entur.no"

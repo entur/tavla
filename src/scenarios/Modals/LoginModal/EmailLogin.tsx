@@ -12,7 +12,7 @@ import { GridContainer, GridItem } from '@entur/grid'
 import { BackArrowIcon, ClosedLockIcon, EmailIcon } from '@entur/icons'
 import { PrimaryButton } from '@entur/button'
 import { Heading3, Link } from '@entur/typography'
-import { SmallExpandableAlertBox } from '@entur/alert'
+import { SmallExpandableAlertBox, useToast } from '@entur/alert'
 import classes from '../Modals.module.scss'
 
 function EmailLogin({
@@ -22,7 +22,8 @@ function EmailLogin({
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
 }) {
-    const [inputs, handleInputsChange] = useFormFields<UserLogin>({
+    const { addToast } = useToast()
+    const [formFields, setFormFields] = useFormFields<UserLogin>({
         email: '',
         password: '',
     })
@@ -31,49 +32,60 @@ function EmailLogin({
     const [passwordError, setPasswordError] = useState<string>()
     const [userDeactivatedError, setUserDeactivatedError] = useState<string>()
 
-    const signIn = useCallback((email: string, password: string): void => {
-        setEmailError(undefined)
-        setPasswordError(undefined)
-        setUserDeactivatedError(undefined)
+    const signIn = useCallback(
+        (email: string, password: string): void => {
+            setEmailError(undefined)
+            setPasswordError(undefined)
+            setUserDeactivatedError(undefined)
 
-        signInWithEmailAndPassword(auth, email, password).catch((error) => {
-            if (password === '') {
-                setPasswordError(
-                    'Du må skrive inn passordet ditt for å logge inn',
-                )
-            }
-            if (error.code === 'auth/invalid-email') {
-                setEmailError('E-posten er ikke gyldig')
-            } else if (error.code === 'auth/user-disabled') {
-                setUserDeactivatedError('Brukerkontoen er deaktivert.')
-            } else if (error.code === 'auth/too-many-requests') {
-                setUserDeactivatedError(
-                    'Tilgang til denne brukerkontoen har blitt ' +
-                        'midlertidig deaktivert på grunn av mange ' +
-                        'mislykkede påloggingsforsøk. Du kan få ' +
-                        'tilgang igjen ved å tilbakestille passordet ' +
-                        'ditt, (følg «Jeg har glemt passord») ' +
-                        'eller du kan prøve igjen senere.',
-                )
-            } else if (
-                error.code === 'auth/user-not-found' ||
-                error.code === 'auth/wrong-password'
-            ) {
-                setEmailError('Feil brukernavn eller passord.')
-                setPasswordError('Feil brukernavn eller passord.')
-            } else {
-                // eslint-disable-next-line no-console
-                console.error(error)
-            }
-        })
-    }, [])
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    addToast({
+                        title: 'Logget inn',
+                        content: 'Du har nå logget inn på din konto.',
+                        variant: 'success',
+                    })
+                })
+                .catch((error) => {
+                    if (password === '') {
+                        setPasswordError(
+                            'Du må skrive inn passordet ditt for å logge inn',
+                        )
+                    }
+                    if (error.code === 'auth/invalid-email') {
+                        setEmailError('E-posten er ikke gyldig')
+                    } else if (error.code === 'auth/user-disabled') {
+                        setUserDeactivatedError('Brukerkontoen er deaktivert.')
+                    } else if (error.code === 'auth/too-many-requests') {
+                        setUserDeactivatedError(
+                            'Tilgang til denne brukerkontoen har blitt ' +
+                                'midlertidig deaktivert på grunn av mange ' +
+                                'mislykkede påloggingsforsøk. Du kan få ' +
+                                'tilgang igjen ved å tilbakestille passordet ' +
+                                'ditt, (følg «Jeg har glemt passord») ' +
+                                'eller du kan prøve igjen senere.',
+                        )
+                    } else if (
+                        error.code === 'auth/user-not-found' ||
+                        error.code === 'auth/wrong-password'
+                    ) {
+                        setEmailError('Feil brukernavn eller passord.')
+                        setPasswordError('Feil brukernavn eller passord.')
+                    } else {
+                        // eslint-disable-next-line no-console
+                        console.error(error)
+                    }
+                })
+        },
+        [addToast],
+    )
 
     const handleSubmit = useCallback(
         (event: React.FormEvent): void => {
             event.preventDefault()
-            signIn(inputs.email, inputs.password)
+            signIn(formFields.email, formFields.password)
         },
-        [inputs.email, inputs.password, signIn],
+        [formFields.email, formFields.password, signIn],
     )
 
     const handleClose = useCallback((): void => {
@@ -116,8 +128,8 @@ function EmailLogin({
                         variant={emailError ? 'error' : undefined}
                         feedback={emailError}
                         type="text"
-                        value={inputs.email}
-                        onChange={handleInputsChange}
+                        value={formFields.email}
+                        onChange={setFormFields}
                         id="email"
                         prepend={<EmailIcon inline />}
                         placeholder="F.eks. ola.nordmann@entur.no"
@@ -129,8 +141,8 @@ function EmailLogin({
                         variant={passwordError ? 'error' : undefined}
                         feedback={passwordError}
                         type="password"
-                        value={inputs.password}
-                        onChange={handleInputsChange}
+                        value={formFields.password}
+                        onChange={setFormFields}
                         id="password"
                         prepend={<ClosedLockIcon inline />}
                         placeholder="Minst 8 tegn"
