@@ -30,7 +30,7 @@ function Signup({
     setModalType: Dispatch<SetStateAction<ModalType>>
     onDismiss: (user?: User) => void
 }) {
-    const [inputs, handleInputsChange] = useFormFields<UserSignUp>({
+    const [formFields, setFormFields] = useFormFields<UserSignUp>({
         email: '',
         password: '',
         repeatPassword: '',
@@ -41,9 +41,9 @@ function Signup({
     const [emailError, setEmailError] = useState<string>()
 
     const handleSubmit = useCallback((): void => {
-        const { email, password } = inputs
+        const { email, password } = formFields
 
-        if (inputs.password.length >= 8) {
+        if (formFields.password.length >= 8) {
             setIsPasswordLongEnough(true)
         } else {
             setIsPasswordLongEnough(false)
@@ -53,16 +53,16 @@ function Signup({
         } else {
             setEmailError('Dette er ikke en gyldig e-post.')
         }
-        if (inputs.password !== inputs.repeatPassword) {
+        if (formFields.password !== formFields.repeatPassword) {
             setIsPasswordMatch(false)
         } else {
             setIsPasswordMatch(true)
         }
 
         const valid =
-            inputs.password.length >= 8 &&
+            formFields.password.length >= 8 &&
             email.match(EMAIL_REGEX) &&
-            inputs.password === inputs.repeatPassword
+            formFields.password === formFields.repeatPassword
 
         if (!valid) {
             return
@@ -77,7 +77,7 @@ function Signup({
                 setEmailError(undefined)
             }
         })
-    }, [inputs])
+    }, [formFields])
 
     const handleClose = useCallback((): void => {
         setModalType(ModalType.LoginOptionsModal)
@@ -110,8 +110,8 @@ function Signup({
                         variant={emailError ? 'error' : undefined}
                         feedback={emailError}
                         type="text"
-                        value={inputs.email}
-                        onChange={handleInputsChange}
+                        value={formFields.email}
+                        onChange={setFormFields}
                         id="email"
                         prepend={<EmailIcon inline />}
                         placeholder="F.eks. ola.nordmann@entur.no"
@@ -128,8 +128,8 @@ function Signup({
                                 : undefined
                         }
                         type="password"
-                        value={inputs.password}
-                        onChange={handleInputsChange}
+                        value={formFields.password}
+                        onChange={setFormFields}
                         id="password"
                         prepend={<ClosedLockIcon inline />}
                         placeholder="Minst 8 tegn"
@@ -146,8 +146,8 @@ function Signup({
                         }
                         variant={isPasswordMatch ? undefined : 'error'}
                         type="password"
-                        value={inputs.repeatPassword}
-                        onChange={handleInputsChange}
+                        value={formFields.repeatPassword}
+                        onChange={setFormFields}
                         id="repeatPassword"
                         prepend={<ClosedLockIcon inline />}
                     />

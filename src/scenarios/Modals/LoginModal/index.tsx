@@ -1,9 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import type { User } from 'firebase/auth'
-import { useUser } from 'settings/UserProvider'
-import { usePrevious } from 'hooks/usePrevious'
 import { LoginCase, ModalType } from 'src/types'
-import { useToast } from '@entur/alert'
 import { Modal } from '@entur/modal'
 import classes from '../Modals.module.scss'
 import { EmailLogin } from './EmailLogin'
@@ -21,26 +18,9 @@ function LoginModal({
     onDismiss: (user?: User) => void
     loginCase: LoginCase
 }) {
-    const user = useUser()
-    const { addToast } = useToast()
     const [modalType, setModalType] = useState<ModalType>(
         ModalType.LoginOptionsModal,
     )
-
-    const isLoggedIn = user && !user.isAnonymous
-    const prevIsLoggedIn = usePrevious(isLoggedIn)
-
-    useEffect(() => {
-        if (user && isLoggedIn && !prevIsLoggedIn && open) {
-            setModalType(ModalType.LoginOptionsModal)
-            addToast({
-                title: 'Logget inn',
-                content: 'Du har nå logget inn på din konto.',
-                variant: 'success',
-            })
-            onDismiss(user)
-        }
-    }, [isLoggedIn, open, onDismiss, addToast, prevIsLoggedIn, user])
 
     const handleDismiss = useCallback(() => {
         setModalType(ModalType.LoginOptionsModal)
