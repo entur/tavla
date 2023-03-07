@@ -1,25 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { capitalize } from 'lodash'
-import { useCounter } from 'hooks/useCounter'
 import { Heading2 } from '@entur/typography'
 import classes from './Clock.module.scss'
 
 function Clock({ className }: { className?: string }) {
-    // This insures that the Clock-component is updated once every second.
-    useCounter()
+    const [currentTime, setCurrentTime] = useState(Date.now())
 
-    const now = new Date()
+    useEffect(() => {
+        const intervalId = setInterval(() => setCurrentTime(Date.now()), 1000)
+
+        return () => clearInterval(intervalId)
+    }, [])
 
     const time = new Intl.DateTimeFormat('no-NB', {
         timeStyle: 'short',
-    }).format(now)
+    }).format(currentTime)
 
     const date = new Intl.DateTimeFormat('no-NB', {
         weekday: 'long',
         day: '2-digit',
         month: 'long',
-    }).format(now)
+    }).format(currentTime)
 
     return (
         <div className={classNames(classes.Clock, className)}>

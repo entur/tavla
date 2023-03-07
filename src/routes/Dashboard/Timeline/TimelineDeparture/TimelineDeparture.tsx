@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { timeUntil } from 'utils/time'
 import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
-import { useCounter } from 'hooks/useCounter'
 import { Departure, IconColorType } from 'src/types'
 import { competitorPosition } from '../utils'
 import classes from './TimelineDeparture.module.scss'
@@ -13,9 +12,19 @@ function TimelineDeparture({
     departure: Departure
     iconColorType: IconColorType
 }) {
-    // useCounter forces the component to rerender every second
-    useCounter()
-    const waitTime = timeUntil(departure.expectedDepartureTime)
+    const [waitTime, setWaitTime] = useState(
+        timeUntil(departure.expectedDepartureTime),
+    )
+
+    useEffect(() => {
+        const intervalId = setInterval(
+            () => setWaitTime(timeUntil(departure.expectedDepartureTime)),
+            1000,
+        )
+
+        return () => clearInterval(intervalId)
+    }, [departure.expectedDepartureTime])
+
     return (
         <div
             className={classes.Departure}
