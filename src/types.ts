@@ -5,6 +5,8 @@ import {
     TransportSubmode,
 } from 'graphql-generated/journey-planner-v3'
 import { EstimatedCall } from 'hooks/use-stop-place-with-estimated-calls/types'
+import { WalkTripStruct } from 'hooks/useWalkTrip/structs'
+import { Infer } from 'superstruct'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
 import { Settings } from './settings/settings'
@@ -137,10 +139,7 @@ export const ToastProvider = _ToastProvider as React.FC<
     ToastProviderProps & { children: React.ReactNode }
 >
 
-export type WalkTrip = {
-    duration: number
-    walkDistance: number
-}
+export type WalkTrip = Infer<typeof WalkTripStruct>
 
 enum LoginCase {
     lock = 'lock',

@@ -1,8 +1,8 @@
 import { number, type } from 'superstruct'
 
-const TripPatternStruct = type({
+const WalkTripStruct = type({
     duration: number(),
     walkDistance: number(),
 })
 
-export { TripPatternStruct }
+export { WalkTripStruct }

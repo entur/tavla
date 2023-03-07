@@ -3,6 +3,7 @@ import { Departure, EnturLogoStyle, Theme, TileSubLabel } from 'src/types'
 import EnturBlack from 'assets/logos/EnturBlack.svg'
 import EnturWhite from 'assets/logos/EnturWhite.svg'
 import EnturContrast from 'assets/logos/EnturContrast.svg'
+import { is, Struct } from 'superstruct'
 
 export function createTileSubLabel({
     situations,
@@ -62,4 +63,8 @@ export function createAbortController():
             abort: () => undefined,
         }
     }
+}
+
+export function toStruct<T>(obj: unknown, struct: Struct<T>): T | undefined {
+    return is(obj, struct) ? obj : undefined
 }
