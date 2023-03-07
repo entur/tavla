@@ -1,22 +1,7 @@
 import React from 'react'
-import { useThemeColor } from 'hooks/useThemeColor'
+import classes from './ValidationError.module.scss'
 
 function ValidationError({ className }: { className?: string }) {
-    const crossIconColor = useThemeColor(
-        {
-            ['dark']: '#000000',
-            ['default']: '292c6a',
-        },
-        '#ffffff',
-    )
-    const backgroundIconColor = useThemeColor(
-        {
-            ['dark']: '#FF9494',
-            ['default']: '#FF9494',
-        },
-        '#d31b1b',
-    )
-
     return (
         <svg
             version="1.1"
@@ -33,17 +18,17 @@ function ValidationError({ className }: { className?: string }) {
         >
             <path
                 id="path-1_1_"
+                className={classes.Background}
                 fillRule="evenodd"
                 clipRule="evenodd"
-                fill={backgroundIconColor}
                 d="M8,1C4.1500001,1,1,4.1500001,1,8s3.1500001,7,7,7
 	s7-3.1499996,7-7S11.8500004,1,8,1L8,1z"
             />
             <path
                 id="Icon-Fill"
+                className={classes.Cross}
                 fillRule="evenodd"
                 clipRule="evenodd"
-                fill={crossIconColor}
                 d="M10.0504799,4.9595709l0.9899492,0.9899492
 	L8.9885712,7.9995708l2.0518579,2.050909l-0.9899492,0.9899492l-2.050909-2.0518579l-2.0500507,2.0518579l-0.9899492-0.9899492
 	l2.0499997-2.050909L4.9595709,5.9495201l0.9899492-0.9899492l2.0500507,2.0499997L10.0504799,4.9595709z"
