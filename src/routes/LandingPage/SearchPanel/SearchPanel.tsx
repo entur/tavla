@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useCallback } from 'react'
+import React, { memo, useState, useCallback } from 'react'
 import { fetchAutocomplete } from 'utils/geocoder/fetchAutocomplete'
 import { fetchReverse } from 'utils/geocoder/fetchReverse'
 import { useLocationPermission } from 'hooks/useLocationPermission'
@@ -27,39 +27,32 @@ function getErrorMessage(error: GeolocationPositionError): string {
     }
 }
 
-type Location = {
-    hasLocation: boolean
-    selectedLocationName: string | null
-}
-
 function SearchPanel({ handleCoordinatesSelected }: Props) {
-    const [{ denied }, refreshLocationPermission] = useLocationPermission()
-    const [isLoadingYourLocation, setIsLoadingYourLocation] = useState(false)
-    const [showPositionInList, setShowPositionInList] = useState(true)
-
-    useEffect(() => {
-        if (denied) {
-            setShowPositionInList(false)
-        }
-    }, [denied])
+    const locationPermission = useLocationPermission()
+    const showPositionInList =
+        locationPermission === 'granted' || locationPermission === 'prompt'
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-    const [location, setLocation] = useState<Location>({
-        hasLocation: false,
-        selectedLocationName: null,
-    })
+    const [location, setLocation] = useState<{
+        name: string
+        coords?: Coordinates
+    } | null>()
 
-    const [chosenCoord, setChosenCoord] = useState<Coordinates | null>(null)
+    const [isLoadingYourLocation, setIsLoadingYourLocation] = useState(false)
 
-    const getAddressFromPosition = useCallback(
-        (position: Coordinates): void => {
-            setChosenCoord(position)
-            fetchReverse(position).then((locationName) => {
-                if (locationName) {
+    const handleSuccessLocation = useCallback(
+        (data: GeolocationPosition): void => {
+            const coords = {
+                latitude: data.coords.latitude,
+                longitude: data.coords.longitude,
+            }
+
+            fetchReverse(coords).then((name) => {
+                if (name) {
                     setLocation({
-                        hasLocation: true,
-                        selectedLocationName: locationName,
+                        name,
+                        coords,
                     })
                 }
                 setIsLoadingYourLocation(false)
@@ -68,34 +61,22 @@ function SearchPanel({ handleCoordinatesSelected }: Props) {
         [],
     )
 
-    const handleSuccessLocation = useCallback(
-        (data: GeolocationPosition): void => {
-            refreshLocationPermission()
-            const position = {
-                latitude: data.coords.latitude,
-                longitude: data.coords.longitude,
-            }
-            getAddressFromPosition(position)
-        },
-        [getAddressFromPosition, refreshLocationPermission],
-    )
-
     const handleDeniedLocation = useCallback(
         (error: GeolocationPositionError): void => {
-            refreshLocationPermission()
             setErrorMessage(getErrorMessage(error))
-            setLocation({
-                hasLocation: false,
-                selectedLocationName: null,
-            })
+            setLocation(null)
             setIsLoadingYourLocation(false)
         },
-        [refreshLocationPermission],
+        [],
     )
 
     const onItemSelected = useCallback(
         (item: Item | null): void => {
-            if (!item) return
+            if (!item) {
+                setLocation(null)
+                return
+            }
+
             setErrorMessage(null)
             if (item.value === YOUR_POSITION) {
                 setIsLoadingYourLocation(true)
@@ -105,10 +86,9 @@ function SearchPanel({ handleCoordinatesSelected }: Props) {
                     { maximumAge: 60000, timeout: 7500 },
                 )
             } else {
-                setChosenCoord(item.coordinates || null)
                 setLocation({
-                    hasLocation: true,
-                    selectedLocationName: item.label,
+                    name: item.label,
+                    coords: item.coordinates,
                 })
             }
         },
@@ -119,18 +99,16 @@ function SearchPanel({ handleCoordinatesSelected }: Props) {
         (event: React.FormEvent<HTMLFormElement>): void => {
             event.preventDefault()
 
-            if (chosenCoord && location.selectedLocationName) {
-                handleCoordinatesSelected(
-                    chosenCoord,
-                    location.selectedLocationName,
-                )
-            } else {
+            if (!location) setErrorMessage('Ingen stoppested valgt.')
+            else if (!location.coords)
                 setErrorMessage(
                     'Søket ga ingen resultater. Søk på et navn og velg et stoppested/en bysykkelstasjon fra listen som dukker opp.',
                 )
+            else {
+                handleCoordinatesSelected(location.coords, location.name)
             }
         },
-        [chosenCoord, handleCoordinatesSelected, location.selectedLocationName],
+        [handleCoordinatesSelected, location],
     )
 
     const getItems = useCallback(
@@ -160,6 +138,7 @@ function SearchPanel({ handleCoordinatesSelected }: Props) {
             <div className={classes.SearchContainer}>
                 <div className={classes.InputContainer}>
                     <Dropdown
+                        clearable
                         searchable
                         openOnFocus
                         debounceTimeout={500}
