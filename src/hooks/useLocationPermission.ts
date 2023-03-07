@@ -1,33 +1,26 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-type LocationPermission = {
-    granted: boolean
-    prompt: boolean
-    denied: boolean
-}
+export function useLocationPermission() {
+    const [permission, setPermission] = useState<PermissionState | undefined>()
 
-export function useLocationPermission(): [LocationPermission, () => void] {
-    const [someNumber, setSomeNumber] = useState(0)
+    function onPermissionUpdate(ev: Event) {
+        setPermission((ev.currentTarget as PermissionStatus).state)
+    }
 
-    const forceUpdate = useCallback((): void => {
-        setSomeNumber(someNumber + 1)
-    }, [someNumber])
+    useEffect(() => {
+        navigator.permissions.query({ name: 'geolocation' }).then((status) => {
+            setPermission(status.state)
+            status.addEventListener('change', onPermissionUpdate)
+        })
 
-    const [permission, setPermission] = useState<PermissionState | void>()
+        return () => {
+            navigator.permissions
+                .query({ name: 'geolocation' })
+                .then((status) => {
+                    status.removeEventListener('change', onPermissionUpdate)
+                })
+        }
+    }, [])
 
-    useEffect((): void => {
-        if (!navigator || !navigator.permissions) return
-        navigator.permissions
-            .query({ name: 'geolocation' })
-            .then((perm) => setPermission(perm.state))
-    }, [someNumber])
-
-    return [
-        {
-            granted: permission === 'granted',
-            prompt: permission === 'prompt',
-            denied: permission === 'denied',
-        },
-        forceUpdate,
-    ]
+    return permission
 }
