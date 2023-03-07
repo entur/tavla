@@ -7,6 +7,7 @@ import {
 import { EstimatedCall } from 'hooks/use-stop-place-with-estimated-calls/types'
 import { WalkTripStruct } from 'hooks/useWalkTrip/structs'
 import { Infer } from 'superstruct'
+import { VehicleStruct } from 'hooks/useVehicles/structs'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
 import { Settings } from './settings/settings'
@@ -140,6 +141,8 @@ export const ToastProvider = _ToastProvider as React.FC<
 >
 
 export type WalkTrip = Infer<typeof WalkTripStruct>
+
+export type Vehicle = Infer<typeof VehicleStruct>
 
 enum LoginCase {
     lock = 'lock',

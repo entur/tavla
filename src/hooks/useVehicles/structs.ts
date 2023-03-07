@@ -1,4 +1,4 @@
-import { array, Infer, is, number, string, type } from 'superstruct'
+import { array, number, string, type } from 'superstruct'
 
 const VehicleStruct = type({
     id: string(),
@@ -19,11 +19,4 @@ const VehicleStruct = type({
     }),
 })
 
-type Vehicle = Infer<typeof VehicleStruct>
-
-function toVehicle(obj: unknown) {
-    return is(obj, VehicleStruct) ? obj : null
-}
-
-export { toVehicle }
-export type { Vehicle }
+export { VehicleStruct }
