@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { DepartureIcon } from 'src/routes/Dashboard/Map/DepartureIcon/DepartureIcon'
-import { getFeedbackString, getLastUpdated } from 'utils/time'
+import { getFeedbackString, timeSince } from 'utils/time'
 import { getIconColor } from 'utils/icon'
 import { RealtimeVehicle } from 'hooks/use-realtime-vehicle-data/types'
 import { TransportMode } from 'graphql-generated/journey-planner-v3'
@@ -15,12 +15,12 @@ function TooltipContent({
     realtimeVehicle: RealtimeVehicle
 }) {
     const [lastUpdated, setLastUpdated] = useState(
-        getLastUpdated(realtimeVehicle.lastUpdated),
+        timeSince(realtimeVehicle.lastUpdated),
     )
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setLastUpdated(getLastUpdated(realtimeVehicle.lastUpdated))
+            setLastUpdated(timeSince(realtimeVehicle.lastUpdated))
         }, 1000)
 
         return () => {
