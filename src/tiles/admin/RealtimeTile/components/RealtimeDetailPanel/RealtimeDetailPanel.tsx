@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { uniq } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
-import { useRealtimePositionLineRefs } from 'hooks/use-realtime-position-line-refs/useRealtimePositionLineRefs'
+import { useRealtimePositionLineRefs } from 'hooks/useRealtimePositionLineRefs'
 import { useUniqueLines } from 'hooks/useUniqueLines'
 import { Heading3, Label, Paragraph } from '@entur/typography'
 import { Switch } from '@entur/form'
