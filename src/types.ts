@@ -8,6 +8,7 @@ import { EstimatedCall } from 'hooks/use-stop-place-with-estimated-calls/types'
 import { WalkTripStruct } from 'hooks/useWalkTrip/structs'
 import { Infer } from 'superstruct'
 import { VehicleStruct } from 'hooks/useVehicles/structs'
+import { LineDataStruct } from 'hooks/useUniqueLines/structs'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
 import { Settings } from './settings/settings'
@@ -124,15 +125,6 @@ export type Departure = {
     quay: EstimatedCall['quay']
 }
 
-export type Line = {
-    id: string
-    name: string
-    transportMode: TransportMode
-    transportSubmode: TransportSubmode
-    publicCode: string
-    pointsOnLink: string
-}
-
 /* Augment the proptype of @entur/alert ToastProvider with children definition.
  * This should be deleted when @entur/alert updates to @types/react@18.x and updates their definition
  */
@@ -143,6 +135,17 @@ export const ToastProvider = _ToastProvider as React.FC<
 export type WalkTrip = Infer<typeof WalkTripStruct>
 
 export type Vehicle = Infer<typeof VehicleStruct>
+
+export type LineData = Infer<typeof LineDataStruct>
+
+export type Line = {
+    id: string
+    name: string
+    transportMode: TransportMode
+    transportSubmode: TransportSubmode
+    publicCode: string
+    pointsOnLink: string
+}
 
 enum LoginCase {
     lock = 'lock',

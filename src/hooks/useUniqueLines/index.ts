@@ -4,15 +4,26 @@ import { uniqBy } from 'lodash'
 import { useSettings } from 'settings/SettingsProvider'
 import { useUniqueLinesQuery } from 'graphql-generated/journey-planner-v3'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import { Line } from 'src/types'
+import { Line, LineData } from 'src/types'
+import { toStruct } from 'utils/utils'
 import { useStopPlaceIds } from '../use-stop-place-ids/useStopPlaceIds'
-import { toEstimatedCall } from './types'
-import { toLine } from './line'
+import { LineDataStruct } from './structs'
 
 type UseUniqueLines = {
     uniqueLines: Line[]
     loading: boolean
     error: ApolloError | undefined
+}
+
+function toLine(data: LineData): Line {
+    return {
+        id: data.serviceJourney.line.id,
+        name: `${data.serviceJourney.line.publicCode} ${data.destinationDisplay.frontText}`,
+        transportMode: data.serviceJourney.line.transportMode,
+        transportSubmode: data.serviceJourney.line.transportSubmode,
+        publicCode: data.serviceJourney.line.publicCode,
+        pointsOnLink: data.serviceJourney.pointsOnLink.points,
+    }
 }
 
 function useUniqueLines(): UseUniqueLines {
@@ -34,7 +45,7 @@ function useUniqueLines(): UseUniqueLines {
         const lines = data?.stopPlaces
             .filter(isNotNullOrUndefined)
             .flatMap((sp) => sp.estimatedCalls)
-            .map(toEstimatedCall)
+            .map((ec) => toStruct(ec, LineDataStruct))
             .filter(isNotNullOrUndefined)
             .map(toLine)
             .filter(

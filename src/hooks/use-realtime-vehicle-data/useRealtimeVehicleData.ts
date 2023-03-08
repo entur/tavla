@@ -7,7 +7,7 @@ import {
 import { useSettings } from 'settings/SettingsProvider'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { SWEEP_INTERVAL_MS, BUFFER_SIZE, BUFFER_TIME } from 'utils/constants'
-import { useUniqueLines } from '../use-unique-lines/useUniqueLines'
+import { useUniqueLines } from '../useUniqueLines'
 import { useVehicleReducer, ActionType } from './useRealtimeVehicleReducer'
 import { RealtimeVehicle, toRealtimeVehicle } from './types'
 

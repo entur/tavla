@@ -1,10 +1,10 @@
-import { Infer, is, string, type } from 'superstruct'
+import { string, type } from 'superstruct'
 import {
     TransportModeEnumStruct,
     TransportSubmodeEnumStruct,
 } from 'utils/structs'
 
-const EstimatedCallStruct = type({
+const LineDataStruct = type({
     destinationDisplay: type({
         frontText: string(),
     }),
@@ -21,14 +21,4 @@ const EstimatedCallStruct = type({
     }),
 })
 
-type EstimatedCall = Infer<typeof EstimatedCallStruct>
-
-function toEstimatedCall(obj: unknown) {
-    if (is(obj, EstimatedCallStruct)) {
-        return obj
-    }
-    return null
-}
-
-export { toEstimatedCall }
-export type { EstimatedCall }
+export { LineDataStruct }
