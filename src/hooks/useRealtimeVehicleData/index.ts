@@ -7,9 +7,11 @@ import {
 import { useSettings } from 'settings/SettingsProvider'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { SWEEP_INTERVAL_MS, BUFFER_SIZE, BUFFER_TIME } from 'utils/constants'
+import { toStruct } from 'utils/utils'
+import { RealtimeVehicle } from 'src/types'
 import { useUniqueLines } from '../useUniqueLines'
 import { useVehicleReducer, ActionType } from './useRealtimeVehicleReducer'
-import { RealtimeVehicle, toRealtimeVehicle } from './types'
+import { RealtimeVehicleStruct } from './structs'
 
 /**
  * Hook to query and subscribe to remote vehicle data
@@ -33,7 +35,7 @@ function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
         onCompleted: ({ vehicles }) => {
             const filteredVehicles =
                 vehicles
-                    ?.map(toRealtimeVehicle)
+                    ?.map((vehicle) => toStruct(vehicle, RealtimeVehicleStruct))
                     .filter(isNotNullOrUndefined)
                     .filter(filterVehicleByLineRefs) ?? []
 
@@ -55,7 +57,7 @@ function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
         onData: (options) => {
             const vehicles = options.data.data?.vehicleUpdates ?? []
             const filteredVehicles = vehicles
-                .map(toRealtimeVehicle)
+                .map((vehicle) => toStruct(vehicle, RealtimeVehicleStruct))
                 .filter(isNotNullOrUndefined)
                 .filter(filterVehicleByLineRefs)
 

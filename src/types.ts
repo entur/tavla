@@ -13,6 +13,7 @@ import {
     StopPlaceWithEstimatedCallsStruct,
 } from 'hooks/useStopPlaceWithEstimatedCalls/structs'
 import { RentalStationStruct } from 'hooks/useRentalStations/structs'
+import { RealtimeVehicleStruct } from 'hooks/useRealtimeVehicleData/structs'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
 import { Settings } from './settings/settings'
@@ -147,6 +148,8 @@ export type Vehicle = Infer<typeof VehicleStruct>
 export type LineData = Infer<typeof LineDataStruct>
 
 export type RentalStation = Infer<typeof RentalStationStruct>
+
+export type RealtimeVehicle = Infer<typeof RealtimeVehicleStruct>
 
 export type Line = {
     id: string
