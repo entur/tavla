@@ -35,7 +35,7 @@ function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
         onCompleted: ({ vehicles }) => {
             const filteredVehicles =
                 vehicles
-                    ?.map((vehicle) => toStruct(vehicle, RealtimeVehicleStruct))
+                    ?.map(toStruct(RealtimeVehicleStruct))
                     .filter(isNotNullOrUndefined)
                     .filter(filterVehicleByLineRefs) ?? []
 
@@ -57,7 +57,7 @@ function useRealtimeVehicleData(boundingBox: BoundingBox): RealtimeVehicle[] {
         onData: (options) => {
             const vehicles = options.data.data?.vehicleUpdates ?? []
             const filteredVehicles = vehicles
-                .map((vehicle) => toStruct(vehicle, RealtimeVehicleStruct))
+                .map(toStruct(RealtimeVehicleStruct))
                 .filter(isNotNullOrUndefined)
                 .filter(filterVehicleByLineRefs)
 

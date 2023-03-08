@@ -47,9 +47,7 @@ function useStopPlaceWithEstimatedCalls({
     })
 
     const stopPlaceWithEstimatedCalls = useMemo(
-        () =>
-            toStruct(data?.stopPlace, StopPlaceWithEstimatedCallsStruct) ??
-            null,
+        () => toStruct(StopPlaceWithEstimatedCallsStruct)(data?.stopPlace),
         [data?.stopPlace],
     )
 

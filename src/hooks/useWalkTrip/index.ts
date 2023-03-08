@@ -7,7 +7,7 @@ import { toStruct } from 'utils/utils'
 import { WalkTripStruct } from './structs'
 
 type UseWalkTrip = {
-    walkTrip: WalkTrip | undefined
+    walkTrip: WalkTrip | null
     loading: boolean
     error: ApolloError | undefined
 }
@@ -30,7 +30,7 @@ function useWalkTrip(coordinates: Coordinates): UseWalkTrip {
 
     const walkTrip = useMemo(() => {
         const tripPattern = data?.trip.tripPatterns[0]
-        return toStruct(tripPattern, WalkTripStruct)
+        return toStruct(WalkTripStruct)(tripPattern)
     }, [data?.trip])
 
     return {

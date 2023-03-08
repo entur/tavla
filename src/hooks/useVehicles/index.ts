@@ -52,7 +52,7 @@ function useVehicles(
     const vehicles = useMemo(
         () =>
             data?.vehicles
-                ?.map((vehicle) => toStruct(vehicle, VehicleStruct))
+                ?.map(toStruct(VehicleStruct))
                 .filter(isNotNullOrUndefined) ?? [],
         [data?.vehicles],
     )

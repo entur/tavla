@@ -75,8 +75,8 @@ export function createAbortController():
     }
 }
 
-export function toStruct<T>(obj: unknown, struct: Struct<T>): T | undefined {
-    return is(obj, struct) ? obj : undefined
+export function toStruct<T>(struct: Struct<T>): (obj: unknown) => T | null {
+    return (obj: unknown) => (is(obj, struct) ? obj : null)
 }
 
 /**

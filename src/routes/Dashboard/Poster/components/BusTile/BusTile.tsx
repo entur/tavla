@@ -33,9 +33,7 @@ function BusTile(): JSX.Element {
     const busDepartures = useMemo(
         () =>
             data?.stopPlaces
-                ?.map((stopPlace) =>
-                    toStruct(stopPlace, StopPlaceWithEstimatedCallsStruct),
-                )
+                ?.map(toStruct(StopPlaceWithEstimatedCallsStruct))
                 .filter(isNotNullOrUndefined)
                 .flatMap((stopPlace) =>
                     stopPlace?.estimatedCalls

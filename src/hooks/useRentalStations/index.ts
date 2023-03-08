@@ -37,7 +37,7 @@ function useRentalStations(
     const rentalStations = useMemo(
         () =>
             data?.stationsById
-                ?.map((station) => toStruct(station, RentalStationStruct))
+                ?.map(toStruct(RentalStationStruct))
                 .filter(isNotNullOrUndefined) ?? [],
         [data?.stationsById],
     )

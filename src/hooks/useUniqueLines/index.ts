@@ -45,7 +45,7 @@ function useUniqueLines(): UseUniqueLines {
         const lines = data?.stopPlaces
             .filter(isNotNullOrUndefined)
             .flatMap((sp) => sp.estimatedCalls)
-            .map((ec) => toStruct(ec, LineDataStruct))
+            .map(toStruct(LineDataStruct))
             .filter(isNotNullOrUndefined)
             .map(toLine)
             .filter(
