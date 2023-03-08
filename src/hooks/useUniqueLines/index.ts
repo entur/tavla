@@ -6,7 +6,7 @@ import { useUniqueLinesQuery } from 'graphql-generated/journey-planner-v3'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { Line, LineData } from 'src/types'
 import { toStruct } from 'utils/utils'
-import { useStopPlaceIds } from '../use-stop-place-ids/useStopPlaceIds'
+import { useStopPlaceIds } from '../useStopPlaceIds'
 import { LineDataStruct } from './structs'
 
 type UseUniqueLines = {

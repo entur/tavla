@@ -1,6 +1,6 @@
 import React from 'react'
 import { DashboardWrapper } from 'scenarios/DashboardWrapper'
-import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
+import { useStopPlaceIds } from 'hooks/useStopPlaceIds'
 import { TimelineTile } from './TimelineTile/TimelineTile'
 import classes from './TimelineDashboard.module.scss'
 
