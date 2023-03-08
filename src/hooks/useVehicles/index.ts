@@ -6,7 +6,7 @@ import { isNotNullOrUndefined } from 'utils/typeguards'
 import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from 'utils/constants'
 import { Vehicle } from 'src/types'
 import { toStruct } from 'utils/utils'
-import { useOperatorIds } from '../use-operator-ids/useOperatorIds'
+import { useOperatorIds } from '../useOperatorIds'
 import { VehicleStruct } from './structs'
 
 type UseVehicles = {
