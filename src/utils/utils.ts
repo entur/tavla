@@ -3,6 +3,7 @@ import {
     Departure,
     EnturLogoStyle,
     EstimatedCall,
+    RentalStation,
     Theme,
     TileSubLabel,
 } from 'src/types'
@@ -131,6 +132,16 @@ export function filterHiddenRoutes(stopPlaceId: string, settings: Settings) {
         !settings.hiddenRoutes[stopPlaceId]?.includes(departure.route)
 }
 
+// Ordering functions
+
 export function byDepartureTime(a: Departure, b: Departure) {
     return compareAsc(a.expectedDepartureTime, b.expectedDepartureTime)
+}
+
+export function byName(a: RentalStation, b: RentalStation): number {
+    const aName = getTranslation(a.name)
+    const bName = getTranslation(b.name)
+    if (!aName) return 1
+    if (!bName) return -1
+    return aName.localeCompare(bName, 'no')
 }

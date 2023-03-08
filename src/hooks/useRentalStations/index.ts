@@ -6,8 +6,10 @@ import {
 } from 'graphql-generated/mobility-v2'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { REFRESH_INTERVAL } from 'utils/constants'
+import { RentalStation } from 'src/types'
+import { toStruct } from 'utils/utils'
 import { useStationIds } from '../useStationIds'
-import { toRentalStation, RentalStation } from './types'
+import { RentalStationStruct } from './structs'
 
 function useRentalStations(
     formFactors?: FormFactor[],
@@ -35,7 +37,7 @@ function useRentalStations(
     const rentalStations = useMemo(
         () =>
             data?.stationsById
-                ?.map(toRentalStation)
+                ?.map((station) => toStruct(station, RentalStationStruct))
                 .filter(isNotNullOrUndefined) ?? [],
         [data?.stationsById],
     )

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useSettings } from 'settings/SettingsProvider'
-import { useRentalStations } from 'hooks/use-rental-stations/useRentalStations'
+import { useRentalStations } from 'hooks/useRentalStations'
 import { FormFactor } from 'graphql-generated/mobility-v2'
 import { CityBikeIcon } from 'assets/icons/CityBikeIcon'
 import { MobilityTile } from '../MobilityTile/MobilityTile'
