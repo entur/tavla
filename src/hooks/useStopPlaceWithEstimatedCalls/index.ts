@@ -6,10 +6,9 @@ import {
 } from 'graphql-generated/journey-planner-v3'
 import { xor } from 'lodash'
 import { REFRESH_INTERVAL } from 'utils/constants'
-import {
-    StopPlaceWithEstimatedCalls,
-    toStopPlaceWithEstimatedCalls,
-} from './types'
+import { StopPlaceWithEstimatedCalls } from 'src/types'
+import { toStruct } from 'utils/utils'
+import { StopPlaceWithEstimatedCallsStruct } from './structs'
 
 function useStopPlaceWithEstimatedCalls({
     stopPlaceId,
@@ -48,7 +47,9 @@ function useStopPlaceWithEstimatedCalls({
     })
 
     const stopPlaceWithEstimatedCalls = useMemo(
-        () => toStopPlaceWithEstimatedCalls(data?.stopPlace) ?? null,
+        () =>
+            toStruct(data?.stopPlace, StopPlaceWithEstimatedCallsStruct) ??
+            null,
         [data?.stopPlace],
     )
 

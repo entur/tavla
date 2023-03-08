@@ -4,12 +4,8 @@ import { Tile } from 'components/Tile'
 import { useSettings } from 'settings/SettingsProvider'
 import { getIconColorType, getTransportHeaderIcons } from 'utils/icon'
 import { TileHeader } from 'components/TileHeader'
-import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
-import {
-    byDepartureTime,
-    filterHidden,
-    toDeparture,
-} from 'hooks/use-stop-place-with-estimated-calls/departure'
+import { useStopPlaceWithEstimatedCalls } from 'hooks/useStopPlaceWithEstimatedCalls'
+import { byDepartureTime, filterHiddenRoutes, toDeparture } from 'utils/utils'
 import { Loader } from 'components/Loader'
 import { WalkTrip } from 'components/WalkTrip'
 import { ErrorTile } from 'tiles/dashboard/ErrorTile'
@@ -36,7 +32,7 @@ function ChronoDepartureTile({ stopPlaceId }: { stopPlaceId: string }) {
         () =>
             stopPlaceWithEstimatedCalls?.estimatedCalls
                 .map(toDeparture)
-                .filter(filterHidden(stopPlaceId, settings))
+                .filter(filterHiddenRoutes(stopPlaceId, settings))
                 .sort(byDepartureTime) ?? [],
         [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
     )

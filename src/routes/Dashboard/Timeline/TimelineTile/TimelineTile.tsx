@@ -6,14 +6,11 @@ import { WalkTrip } from 'components/WalkTrip'
 import { groupBy } from 'lodash'
 import { getIconColorType, getTransportHeaderIcons } from 'utils/icon'
 import { useSettings } from 'settings/SettingsProvider'
-import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
-import {
-    filterHidden,
-    toDeparture,
-} from 'hooks/use-stop-place-with-estimated-calls/departure'
+import { useStopPlaceWithEstimatedCalls } from 'hooks/useStopPlaceWithEstimatedCalls'
 import { Mode } from 'graphql-generated/journey-planner-v3'
 import { Departure } from 'src/types'
 import { ErrorTile } from 'tiles/dashboard/ErrorTile'
+import { filterHiddenRoutes, toDeparture } from 'utils/utils'
 import { Tick } from '../Tick/Tick'
 import { TICKS } from '../utils'
 import { TimelineWalkMarker } from '../TimelineWalkMarker/TimelineWalkMarker'
@@ -46,7 +43,7 @@ function TimelineTile({ stopPlaceId }: { stopPlaceId: string }) {
         () =>
             stopPlaceWithEstimatedCalls?.estimatedCalls
                 .map(toDeparture)
-                .filter(filterHidden(stopPlaceId, settings)) ?? [],
+                .filter(filterHiddenRoutes(stopPlaceId, settings)) ?? [],
         [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
     )
 

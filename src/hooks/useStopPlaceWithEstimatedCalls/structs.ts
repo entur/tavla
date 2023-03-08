@@ -1,13 +1,4 @@
-import {
-    array,
-    boolean,
-    number,
-    string,
-    type,
-    Infer,
-    is,
-    nullable,
-} from 'superstruct'
+import { array, boolean, number, string, type, nullable } from 'superstruct'
 import {
     DateStruct,
     DateTimeStruct,
@@ -65,20 +56,4 @@ const StopPlaceWithEstimatedCallsStruct = type({
     estimatedCalls: array(EstimatedCallStruct),
 })
 
-type EstimatedCall = Infer<typeof EstimatedCallStruct>
-
-type StopPlaceWithEstimatedCalls = Infer<
-    typeof StopPlaceWithEstimatedCallsStruct
->
-
-function toStopPlaceWithEstimatedCalls(
-    obj: unknown,
-): StopPlaceWithEstimatedCalls | null {
-    if (is(obj, StopPlaceWithEstimatedCallsStruct)) {
-        return obj
-    }
-    return null
-}
-
-export { toStopPlaceWithEstimatedCalls }
-export type { StopPlaceWithEstimatedCalls, EstimatedCall }
+export { EstimatedCallStruct, StopPlaceWithEstimatedCallsStruct }

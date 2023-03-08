@@ -1,15 +1,11 @@
 import React, { useMemo } from 'react'
 import { Loader } from 'components/Loader'
 import { Tile } from 'components/Tile'
-import {
-    byDepartureTime,
-    filterHidden,
-    toDeparture,
-} from 'hooks/use-stop-place-with-estimated-calls/departure'
-import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
+import { useStopPlaceWithEstimatedCalls } from 'hooks/useStopPlaceWithEstimatedCalls'
 import { useSettings } from 'settings/SettingsProvider'
 import { ErrorTile } from 'tiles/dashboard/ErrorTile'
 import { EmptyStopTile } from 'tiles/dashboard/EmptyStopTile'
+import { byDepartureTime, filterHiddenRoutes, toDeparture } from 'utils/utils'
 import { ResponsiveTable } from './ResponsiveTable/ResponsiveTable'
 import classes from './ResponsiveDepartureTile.module.scss'
 
@@ -27,7 +23,7 @@ function ResponsiveDepartureTile({ stopPlaceId }: { stopPlaceId: string }) {
         () =>
             stopPlaceWithEstimatedCalls?.estimatedCalls
                 .map(toDeparture)
-                .filter(filterHidden(stopPlaceId, settings))
+                .filter(filterHiddenRoutes(stopPlaceId, settings))
                 .sort(byDepartureTime) ?? [],
         [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
     )

@@ -11,7 +11,7 @@ import { toRentalStation, RentalStation } from './types'
 
 function useRentalStations(
     formFactors?: FormFactor[],
-    filterHidden: boolean | undefined = true,
+    filterHiddenRoutes: boolean | undefined = true,
 ): {
     rentalStations: RentalStation[]
     loading: boolean
@@ -21,7 +21,7 @@ function useRentalStations(
         stationIds,
         loading: allStationIdsLoading,
         error: allStationIdsError,
-    } = useStationIds({ formFactors, filterHidden })
+    } = useStationIds({ formFactors, filterHiddenRoutes })
 
     const { data, loading, error } = useRentalStationsQuery({
         skip: allStationIdsLoading,
