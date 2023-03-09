@@ -8,8 +8,9 @@ import { xor } from 'lodash'
 import { REFRESH_INTERVAL } from 'utils/constants'
 import {
     StopPlaceWithEstimatedCalls,
-    toStopPlaceWithEstimatedCalls,
-} from './types'
+    StopPlaceWithEstimatedCallsStruct,
+} from 'types/structs'
+import { toStruct } from 'utils/utils'
 
 function useStopPlaceWithEstimatedCalls({
     stopPlaceId,
@@ -48,7 +49,7 @@ function useStopPlaceWithEstimatedCalls({
     })
 
     const stopPlaceWithEstimatedCalls = useMemo(
-        () => toStopPlaceWithEstimatedCalls(data?.stopPlace) ?? null,
+        () => toStruct(StopPlaceWithEstimatedCallsStruct)(data?.stopPlace),
         [data?.stopPlace],
     )
 

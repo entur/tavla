@@ -7,11 +7,11 @@ import { isNotNullOrUndefined } from 'utils/typeguards'
 
 type Options = {
     formFactors?: FormFactor[]
-    filterHidden?: boolean
+    filterHiddenRoutes?: boolean
 }
 
 function useStationIds(
-    { formFactors, filterHidden }: Options = { filterHidden: true },
+    { formFactors, filterHiddenRoutes }: Options = { filterHiddenRoutes: true },
 ): {
     stationIds: string[]
     loading: boolean
@@ -37,11 +37,11 @@ function useStationIds(
 
         return difference(
             union(settings.newStations, nearby),
-            filterHidden ? settings.hiddenStations : [],
+            filterHiddenRoutes ? settings.hiddenStations : [],
         )
     }, [
         data?.stations,
-        filterHidden,
+        filterHiddenRoutes,
         settings.newStations,
         settings.hiddenStations,
     ])

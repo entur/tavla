@@ -3,11 +3,11 @@ import { compareAsc } from 'date-fns'
 import classNames from 'classnames'
 import { useSettings } from 'settings/SettingsProvider'
 import { useBusTileQuery } from 'graphql-generated/journey-planner-v3'
-import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
-import { toDeparture } from 'hooks/use-stop-place-with-estimated-calls/departure'
+import { useStopPlaceIds } from 'hooks/useStopPlaceIds'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import { toStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/types'
 import { REFRESH_INTERVAL } from 'src/utils/constants'
+import { toDeparture, toStruct } from 'utils/utils'
+import { StopPlaceWithEstimatedCallsStruct } from 'types/structs'
 import { BusIcon } from '@entur/icons'
 import classes from './BusTile.module.scss'
 
@@ -33,7 +33,7 @@ function BusTile(): JSX.Element {
     const busDepartures = useMemo(
         () =>
             data?.stopPlaces
-                ?.map(toStopPlaceWithEstimatedCalls)
+                ?.map(toStruct(StopPlaceWithEstimatedCallsStruct))
                 .filter(isNotNullOrUndefined)
                 .flatMap((stopPlace) =>
                     stopPlace?.estimatedCalls

@@ -3,6 +3,11 @@ import { Departure, EnturLogoStyle, Theme, TileSubLabel } from 'src/types'
 import EnturBlack from 'assets/logos/EnturBlack.svg'
 import EnturWhite from 'assets/logos/EnturWhite.svg'
 import EnturContrast from 'assets/logos/EnturContrast.svg'
+import { is, Struct } from 'superstruct'
+import { compareAsc, differenceInMinutes, format, parseISO } from 'date-fns'
+import { Settings } from 'settings/settings'
+import { EstimatedCall, RentalStation } from 'types/structs'
+import { formatDepartureTime } from './formatting'
 
 export function createTileSubLabel({
     situations,
@@ -62,4 +67,75 @@ export function createAbortController():
             abort: () => undefined,
         }
     }
+}
+
+export function toStruct<T>(struct: Struct<T>): (obj: unknown) => T | null {
+    return (obj: unknown) => (is(obj, struct) ? obj : null)
+}
+
+/**
+ * Map EstimatedCall to Departure. Departure is similar to the old LineData-type.
+ * @param estimatedCall
+ */
+export function toDeparture(estimatedCall: EstimatedCall): Departure {
+    const line = estimatedCall.serviceJourney.journeyPattern.line
+    const aimedDepartureTime = parseISO(estimatedCall.aimedDepartureTime)
+    const expectedDepartureTime = parseISO(estimatedCall.expectedDepartureTime)
+
+    const delayed =
+        differenceInMinutes(expectedDepartureTime, aimedDepartureTime) > 1
+
+    const timeUntilDeparture = differenceInMinutes(
+        expectedDepartureTime,
+        new Date(),
+    )
+
+    const displayTime = formatDepartureTime(
+        timeUntilDeparture,
+        expectedDepartureTime,
+    )
+
+    return {
+        id: `${estimatedCall.date}::${estimatedCall.aimedDepartureTime}::${estimatedCall.serviceJourney.id}`,
+        aimedDepartureTime,
+        expectedDepartureTime,
+        formattedAimedDepartureTime: format(aimedDepartureTime, 'HH:mm'),
+        formattedExpectedDepartureTime: format(expectedDepartureTime, 'HH:mm'),
+        delayed,
+        displayTime,
+        transportMode: line.transportMode,
+        transportSubmode: estimatedCall.serviceJourney.transportSubmode,
+        publicCode: line.publicCode || '',
+        frontText: estimatedCall.destinationDisplay.frontText,
+        route: `${line.publicCode || ''} ${
+            estimatedCall.destinationDisplay.frontText
+        }`.trim(),
+        situations: estimatedCall.situations,
+        cancellation: estimatedCall.cancellation,
+        quay: estimatedCall.quay,
+    }
+}
+
+/**
+ * Create higher-order function that filters departures based on settings.hiddenRoutes
+ * @param stopPlaceId
+ * @param settings
+ */
+export function filterHiddenRoutes(stopPlaceId: string, settings: Settings) {
+    return (departure: Departure): boolean =>
+        !settings.hiddenRoutes[stopPlaceId]?.includes(departure.route)
+}
+
+// Ordering functions
+
+export function byDepartureTime(a: Departure, b: Departure) {
+    return compareAsc(a.expectedDepartureTime, b.expectedDepartureTime)
+}
+
+export function byName(a: RentalStation, b: RentalStation): number {
+    const aName = getTranslation(a.name)
+    const bName = getTranslation(b.name)
+    if (!aName) return 1
+    if (!bName) return -1
+    return aName.localeCompare(bName, 'no')
 }

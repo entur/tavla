@@ -4,7 +4,7 @@ import {
     TransportMode,
     TransportSubmode,
 } from 'graphql-generated/journey-planner-v3'
-import { EstimatedCall } from 'hooks/use-stop-place-with-estimated-calls/types'
+import { EstimatedCall } from 'types/structs'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
 import { Settings } from './settings/settings'
@@ -116,19 +116,8 @@ export type Departure = {
     publicCode: string
     frontText: string
     route: string
-    situations: EstimatedCall['situations']
     cancellation: boolean
-    quay: EstimatedCall['quay']
-}
-
-export type Line = {
-    id: string
-    name: string
-    transportMode: TransportMode
-    transportSubmode: TransportSubmode
-    publicCode: string
-    pointsOnLink: string
-}
+} & Pick<EstimatedCall, 'quay' | 'situations'>
 
 /* Augment the proptype of @entur/alert ToastProvider with children definition.
  * This should be deleted when @entur/alert updates to @types/react@18.x and updates their definition
@@ -137,9 +126,13 @@ export const ToastProvider = _ToastProvider as React.FC<
     ToastProviderProps & { children: React.ReactNode }
 >
 
-export type WalkTrip = {
-    duration: number
-    walkDistance: number
+export type Line = {
+    id: string
+    name: string
+    transportMode: TransportMode
+    transportSubmode: TransportSubmode
+    publicCode: string
+    pointsOnLink: string
 }
 
 enum LoginCase {

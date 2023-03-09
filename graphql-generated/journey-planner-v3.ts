@@ -1,10 +1,10 @@
-import { Coordinates } from '../types/JourneyPlannerV3';
-import { Date } from '../types/JourneyPlannerV3';
-import { DateTime } from '../types/JourneyPlannerV3';
-import { DoubleFunction } from '../types/JourneyPlannerV3';
-import { LocalTime } from '../types/JourneyPlannerV3';
-import { Long } from '../types/JourneyPlannerV3';
-import { Time } from '../types/JourneyPlannerV3';
+import { Coordinates } from '../src/types/JourneyPlannerV3';
+import { Date } from '../src/types/JourneyPlannerV3';
+import { DateTime } from '../src/types/JourneyPlannerV3';
+import { DoubleFunction } from '../src/types/JourneyPlannerV3';
+import { LocalTime } from '../src/types/JourneyPlannerV3';
+import { Long } from '../src/types/JourneyPlannerV3';
+import { Time } from '../src/types/JourneyPlannerV3';
 import { DocumentNode } from 'graphql';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -40,6 +40,50 @@ export enum AbsoluteDirection {
   Southwest = 'southwest',
   West = 'west'
 }
+
+export type AffectedLine = {
+  __typename?: 'AffectedLine';
+  line: Maybe<Line>;
+};
+
+export type AffectedServiceJourney = {
+  __typename?: 'AffectedServiceJourney';
+  datedServiceJourney: Maybe<DatedServiceJourney>;
+  operatingDay: Maybe<Scalars['Date']>;
+  serviceJourney: Maybe<ServiceJourney>;
+};
+
+export type AffectedStopPlace = {
+  __typename?: 'AffectedStopPlace';
+  quay: Maybe<Quay>;
+  stopConditions: Array<StopCondition>;
+  stopPlace: Maybe<StopPlace>;
+};
+
+export type AffectedStopPlaceOnLine = {
+  __typename?: 'AffectedStopPlaceOnLine';
+  line: Maybe<Line>;
+  quay: Maybe<Quay>;
+  stopConditions: Array<StopCondition>;
+  stopPlace: Maybe<StopPlace>;
+};
+
+export type AffectedStopPlaceOnServiceJourney = {
+  __typename?: 'AffectedStopPlaceOnServiceJourney';
+  datedServiceJourney: Maybe<DatedServiceJourney>;
+  operatingDay: Maybe<Scalars['Date']>;
+  quay: Maybe<Quay>;
+  serviceJourney: Maybe<ServiceJourney>;
+  stopConditions: Array<StopCondition>;
+  stopPlace: Maybe<StopPlace>;
+};
+
+export type AffectedUnknown = {
+  __typename?: 'AffectedUnknown';
+  description: Maybe<Scalars['String']>;
+};
+
+export type Affects = AffectedLine | AffectedServiceJourney | AffectedStopPlace | AffectedStopPlaceOnLine | AffectedStopPlaceOnServiceJourney | AffectedUnknown;
 
 export enum AlternativeLegsFilter {
   NoFilter = 'noFilter',
@@ -724,34 +768,49 @@ export type PtSituationElement = {
   __typename?: 'PtSituationElement';
   /** Advice of situation in all different translations available */
   advice: Array<MultilingualString>;
-  /** Get affected authority for this situation element */
+  /** Get all affected entities for the situation */
+  affects: Array<Affects>;
+  /**
+   * Get affected authority for this situation element
+   * @deprecated Use affects instead
+   */
   authority: Maybe<Authority>;
+  /** Timestamp for when the situation was created. */
+  creationTime: Maybe<Scalars['DateTime']>;
   /** Description of situation in all different translations available */
   description: Array<MultilingualString>;
   id: Scalars['ID'];
   /** Optional links to more information. */
   infoLinks: Maybe<Array<InfoLink>>;
+  /** @deprecated Use affects instead */
   lines: Array<Maybe<Line>>;
+  /** Codespace of the data source. */
+  participant: Maybe<Scalars['String']>;
   /** Priority of this situation  */
   priority: Maybe<Scalars['Int']>;
+  /** @deprecated Use affects instead */
   quays: Array<Quay>;
   /**
-   * Authority that reported this situation
+   * Authority that reported this situation. Always returns the first agency in the codespace
    * @deprecated Not yet officially supported. May be removed or renamed.
    */
   reportAuthority: Maybe<Authority>;
   /** ReportType of this situation */
   reportType: Maybe<ReportType>;
+  /** @deprecated Use affects instead */
   serviceJourneys: Array<Maybe<ServiceJourney>>;
   /** Severity of this situation  */
   severity: Maybe<Severity>;
   /** Operator's internal id for this situation */
   situationNumber: Maybe<Scalars['String']>;
+  /** @deprecated Use affects instead */
   stopPlaces: Array<StopPlace>;
   /** Summary of situation in all different translations available */
   summary: Array<MultilingualString>;
   /** Period this situation is in effect */
   validityPeriod: Maybe<ValidityPeriod>;
+  /** Timestamp when the situation element was updated. */
+  versionedAtTime: Maybe<Scalars['DateTime']>;
 };
 
 export enum PurchaseWhen {
@@ -885,7 +944,7 @@ export type QueryType = {
   /** Input type for executing a travel search for a trip between two locations. Returns trip patterns describing suggested alternatives for the trip. */
   trip: Trip;
   /**
-   * Input type for executing a travel search for a trip between three or more locations. Returns trip patterns describing suggested alternatives for the trip.
+   * Via trip search. Find trip patterns traveling via one or more intermediate (via) locations.
    * @deprecated This API is under development, expect the contract to change
    */
   viaTrip: ViaTrip;
@@ -1036,7 +1095,7 @@ export type QueryTypeSituationArgs = {
 
 
 export type QueryTypeSituationsArgs = {
-  authorities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  codespaces?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   severities?: InputMaybe<Array<InputMaybe<Severity>>>;
 };
 
@@ -1074,9 +1133,11 @@ export type QueryTypeTripArgs = {
   dateTime?: InputMaybe<Scalars['DateTime']>;
   debugItineraryFilter?: InputMaybe<Scalars['Boolean']>;
   extraSearchCoachReluctance?: InputMaybe<Scalars['Float']>;
+  filters?: InputMaybe<Array<TripFilterInput>>;
   from: Location;
   ignoreRealtimeUpdates?: InputMaybe<Scalars['Boolean']>;
   includePlannedCancellations?: InputMaybe<Scalars['Boolean']>;
+  includeRealtimeCancellations?: InputMaybe<Scalars['Boolean']>;
   itineraryFilters?: InputMaybe<ItineraryFilters>;
   locale?: InputMaybe<Locale>;
   maximumAdditionalTransfers?: InputMaybe<Scalars['Int']>;
@@ -1107,9 +1168,9 @@ export type QueryTypeViaTripArgs = {
   numTripPatterns?: InputMaybe<Scalars['Int']>;
   pageCursor?: InputMaybe<Scalars['String']>;
   searchWindow: Scalars['Duration'];
+  segments?: InputMaybe<Array<ViaSegmentInput>>;
   to: Location;
-  viaLocations: Array<ViaLocation>;
-  viaRequests?: InputMaybe<Array<ViaRequest>>;
+  via: Array<ViaLocationInput>;
   wheelchairAccessible?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -1405,6 +1466,19 @@ export enum Severity {
   VerySlight = 'verySlight'
 }
 
+export enum StopCondition {
+  /** Situation applies when stop is the destination of the leg. */
+  Destination = 'destination',
+  /** Situation applies when transfering to another leg at the stop. */
+  ExceptionalStop = 'exceptionalStop',
+  /** Situation applies when passing the stop, without stopping. */
+  NotStopping = 'notStopping',
+  /** Situation applies when at the stop, and the stop requires a request to stop. */
+  RequestStop = 'requestStop',
+  /** Situation applies when stop is the startpoint of the leg. */
+  StartPoint = 'startPoint'
+}
+
 /** Named place where public transport may be accessed. May be a building complex (e.g. a station) or an on-street location. */
 export type StopPlace = PlaceInterface & {
   __typename?: 'StopPlace';
@@ -1487,6 +1561,16 @@ export enum StreetMode {
   /** Walk to a scooter rental point, ride a scooter to a scooter rental drop-off point, and walk the rest of the way. This can include scooter rental at fixed locations or free-floating services. */
   ScooterRental = 'scooter_rental'
 }
+
+/** Input format for specifying which modes will be allowed for this search. If this element is not present, it will default to all to foot. */
+export type StreetModes = {
+  /** The mode used to get from the origin to the access stops in the transit network the transit network (first-mile). If the element is not present or null,only transit that can be immediately boarded from the origin will be used. */
+  accessMode?: InputMaybe<StreetMode>;
+  /** The mode used to get from the origin to the destination directly, without using the transit network. If the element is not present or null,direct travel without using transit will be disallowed. */
+  directMode?: InputMaybe<StreetMode>;
+  /** The mode used to get from the egress stops in the transit network tothe destination (last-mile). If the element is not present or null,only transit that can immediately arrive at the origin will be used. */
+  egressMode?: InputMaybe<StreetMode>;
+};
 
 /** A system notice is used to tag elements with system information for debugging or other system related purpose. One use-case is to run a routing search with 'itineraryFilters.debug: true'. This will then tag itineraries instead of removing them from the result. This make it possible to inspect the itinerary-filter-chain. A SystemNotice only have english text, because the primary user are technical staff, like testers and developers. */
 export type SystemNotice = {
@@ -1749,6 +1833,26 @@ export type TripMessageStringsArgs = {
   language?: InputMaybe<Scalars['String']>;
 };
 
+/** A collection of selectors for what lines/trips should be included in / excluded from search */
+export type TripFilterInput = {
+  /** A list of selectors for what lines/trips should be excluded during the search. If line/trip matches with at least one selector it will be excluded. */
+  not?: InputMaybe<Array<TripFilterSelectInput>>;
+  /** A list of selectors for what lines/trips should be allowed during search. In order to be accepted a trip/line has to match with at least one selector. An empty list means that everything should be allowed.  */
+  select?: InputMaybe<Array<TripFilterSelectInput>>;
+};
+
+/** A list of selectors for filter allow-list / exclude-list. An empty list means that everything is allowed. A trip/line will match with selectors if it matches with all non-empty lists. The `select` is always applied first, then `not`. If only `not` not is present, the exclude is applied to the existing set of lines.  */
+export type TripFilterSelectInput = {
+  /** Set of ids for authorities that should be included in/excluded from search */
+  authorities?: InputMaybe<Array<Scalars['ID']>>;
+  /** Set of ids for lines that should be included in/excluded from search */
+  lines?: InputMaybe<Array<Scalars['ID']>>;
+  /** Set of ids for service journeys that should be included in/excluded from search */
+  serviceJourneys?: InputMaybe<Array<Scalars['ID']>>;
+  /** The allowed modes for the transit part of the trip. Use an empty list to disallow transit for this search. If the element is not present or null, it will default to all transport modes. */
+  transportModes?: InputMaybe<Array<TransportModes>>;
+};
+
 /** List of legs constituting a suggested sequence of rides and links for a specific trip. */
 export type TripPattern = {
   __typename?: 'TripPattern';
@@ -1826,8 +1930,17 @@ export enum VertexType {
   Transit = 'transit'
 }
 
-/** Input format for specifying a location through either a place reference (id), coordinates or both. If both place and coordinates are provided the place ref will be used if found, coordinates will only be used if place is not known. */
-export type ViaLocation = {
+/** An acceptable combination of trip patterns between two segments of the via search */
+export type ViaConnection = {
+  __typename?: 'ViaConnection';
+  /** The index of the trip pattern in the segment before the via point */
+  from: Maybe<Scalars['Int']>;
+  /** The index of the trip pattern in the segment after the via point */
+  to: Maybe<Scalars['Int']>;
+};
+
+/** Input format for specifying a location through either a place reference (id), coordinates or both. If both place and coordinates are provided the place ref will be used if found, coordinates will only be used if place is not known. The location also contain information about the minimum and maximum time the user is willing to stay at the via location. */
+export type ViaLocationInput = {
   /** Coordinates for the location. This can be used alone or as fallback if the place id is not found. */
   coordinates?: InputMaybe<InputCoordinates>;
   /** The maximum time the user wants to stay in the via location before continuing his journey */
@@ -1840,20 +1953,29 @@ export type ViaLocation = {
   place?: InputMaybe<Scalars['String']>;
 };
 
-export type ViaRequest = {
-  /** The set of access/egress/direct/transit modes to be used for this search. Note that this only works at the Line level. If individual ServiceJourneys have modes that differ from the Line mode, this will NOT be accounted for. */
-  modes?: InputMaybe<Modes>;
+export type ViaSegmentInput = {
+  /** A list of filters for which trips should be included. A trip will be included if it matches with at least one filter. An empty list of filters means that all trips should be included. */
+  filters?: InputMaybe<Array<TripFilterInput>>;
+  /** The set of access/egress/direct modes to be used for this search. */
+  modes?: InputMaybe<StreetModes>;
 };
 
-/** Description of a travel between three or more places. */
+/** Description of a trip via one or more intermediate locations. For example from A, via B, then C to D. */
 export type ViaTrip = {
   __typename?: 'ViaTrip';
   /** A list of routing errors, and fields which caused them */
   routingErrors: Array<RoutingError>;
-  /** A list of lists of which indices of the next segment the trip pattern can be combined with */
-  tripPatternCombinations: Array<Array<Array<Scalars['Int']>>>;
-  /** A list of lists of the trip patterns for each segment of the journey */
-  tripPatterns: Array<Array<TripPattern>>;
+  /** A list of the acceptable combinations of the trip patterns in this segment and the next segment. */
+  tripPatternCombinations: Array<Array<ViaConnection>>;
+  /** A list of segments of the via search. The first segment is from the start location to the first entry in the locations list and the last is from the last entry in the locations list to the end location. */
+  tripPatternsPerSegment: Array<ViaTripPatternSegment>;
+};
+
+/** A segment of the via search. The first segment is from the start location to the first entry in the locations list and the last is from the last entry in the locations list to the end location. */
+export type ViaTripPatternSegment = {
+  __typename?: 'ViaTripPatternSegment';
+  /** A list of trip patterns for this segment of the search */
+  tripPatterns: Array<TripPattern>;
 };
 
 export enum WheelchairBoarding {
@@ -1914,13 +2036,6 @@ export type QuayAtDistanceEdge = {
   node: Maybe<QuayAtDistance>;
 };
 
-export type BusTileQueryVariables = Exact<{
-  ids: Array<Scalars['String']> | Scalars['String'];
-}>;
-
-
-export type BusTileQuery = { __typename?: 'QueryType', stopPlaces: Array<{ __typename?: 'StopPlace', id: string, name: string, description: string | null, latitude: number | null, longitude: number | null, transportMode: Array<TransportMode | null> | null, transportSubmode: Array<TransportSubmode | null> | null, estimatedCalls: Array<{ __typename?: 'EstimatedCall', aimedDepartureTime: DateTime, cancellation: boolean, date: Date, expectedDepartureTime: DateTime, destinationDisplay: { __typename?: 'DestinationDisplay', frontText: string | null } | null, quay: { __typename?: 'Quay', id: string, name: string, publicCode: string | null }, serviceJourney: { __typename?: 'ServiceJourney', id: string, transportSubmode: TransportSubmode | null, journeyPattern: { __typename?: 'JourneyPattern', line: { __typename?: 'Line', publicCode: string | null, transportMode: TransportMode | null } } | null }, situations: Array<{ __typename?: 'PtSituationElement', summary: Array<{ __typename?: 'MultilingualString', value: string }> }> }> } | null> };
-
 export type StopPlaceIdsQueryVariables = Exact<{
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
@@ -1958,36 +2073,14 @@ export type WalkTripQueryVariables = Exact<{
 
 export type WalkTripQuery = { __typename?: 'QueryType', trip: { __typename?: 'Trip', tripPatterns: Array<{ __typename?: 'TripPattern', duration: Long | null, walkDistance: number | null }> } };
 
+export type BusTileQueryVariables = Exact<{
+  ids: Array<Scalars['String']> | Scalars['String'];
+}>;
 
-export const BusTileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BusTile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlaces"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}},{"kind":"Field","name":{"kind":"Name","value":"estimatedCalls"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"numberOfDepartures"},"value":{"kind":"IntValue","value":"20"}},{"kind":"Argument","name":{"kind":"Name","value":"timeRange"},"value":{"kind":"IntValue","value":"172800"}},{"kind":"Argument","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"},"value":{"kind":"IntValue","value":"20"}},{"kind":"Argument","name":{"kind":"Name","value":"arrivalDeparture"},"value":{"kind":"EnumValue","value":"departures"}},{"kind":"Argument","name":{"kind":"Name","value":"whiteListedModes"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"bus"}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aimedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"cancellation"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"destinationDisplay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"expectedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"quay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"serviceJourney"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"journeyPattern"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicCode"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"situations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
-/**
- * __useBusTileQuery__
- *
- * To run a query within a React component, call `useBusTileQuery` and pass it any options that fit your needs.
- * When your component renders, `useBusTileQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useBusTileQuery({
- *   variables: {
- *      ids: // value for 'ids'
- *   },
- * });
- */
-export function useBusTileQuery(baseOptions: Apollo.QueryHookOptions<BusTileQuery, BusTileQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BusTileQuery, BusTileQueryVariables>(BusTileDocument, options);
-      }
-export function useBusTileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BusTileQuery, BusTileQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BusTileQuery, BusTileQueryVariables>(BusTileDocument, options);
-        }
-export type BusTileQueryHookResult = ReturnType<typeof useBusTileQuery>;
-export type BusTileLazyQueryHookResult = ReturnType<typeof useBusTileLazyQuery>;
-export type BusTileQueryResult = Apollo.QueryResult<BusTileQuery, BusTileQueryVariables>;
+export type BusTileQuery = { __typename?: 'QueryType', stopPlaces: Array<{ __typename?: 'StopPlace', id: string, name: string, description: string | null, latitude: number | null, longitude: number | null, transportMode: Array<TransportMode | null> | null, transportSubmode: Array<TransportSubmode | null> | null, estimatedCalls: Array<{ __typename?: 'EstimatedCall', aimedDepartureTime: DateTime, cancellation: boolean, date: Date, expectedDepartureTime: DateTime, destinationDisplay: { __typename?: 'DestinationDisplay', frontText: string | null } | null, quay: { __typename?: 'Quay', id: string, name: string, publicCode: string | null }, serviceJourney: { __typename?: 'ServiceJourney', id: string, transportSubmode: TransportSubmode | null, journeyPattern: { __typename?: 'JourneyPattern', line: { __typename?: 'Line', publicCode: string | null, transportMode: TransportMode | null } } | null }, situations: Array<{ __typename?: 'PtSituationElement', summary: Array<{ __typename?: 'MultilingualString', value: string }> }> }> } | null> };
+
+
 export const StopPlaceIdsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StopPlaceIds"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"latitude"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"longitude"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"maximumDistance"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filterByPlaceTypes"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FilterPlaceType"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"multiModalMode"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"MultiModalMode"}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nearest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"latitude"},"value":{"kind":"Variable","name":{"kind":"Name","value":"latitude"}}},{"kind":"Argument","name":{"kind":"Name","value":"longitude"},"value":{"kind":"Variable","name":{"kind":"Name","value":"longitude"}}},{"kind":"Argument","name":{"kind":"Name","value":"maximumDistance"},"value":{"kind":"Variable","name":{"kind":"Name","value":"maximumDistance"}}},{"kind":"Argument","name":{"kind":"Name","value":"filterByPlaceTypes"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filterByPlaceTypes"}}},{"kind":"Argument","name":{"kind":"Name","value":"multiModalMode"},"value":{"kind":"Variable","name":{"kind":"Name","value":"multiModalMode"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"place"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
@@ -2113,3 +2206,32 @@ export function useWalkTripLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<W
 export type WalkTripQueryHookResult = ReturnType<typeof useWalkTripQuery>;
 export type WalkTripLazyQueryHookResult = ReturnType<typeof useWalkTripLazyQuery>;
 export type WalkTripQueryResult = Apollo.QueryResult<WalkTripQuery, WalkTripQueryVariables>;
+export const BusTileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BusTile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlaces"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}},{"kind":"Field","name":{"kind":"Name","value":"estimatedCalls"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"numberOfDepartures"},"value":{"kind":"IntValue","value":"20"}},{"kind":"Argument","name":{"kind":"Name","value":"timeRange"},"value":{"kind":"IntValue","value":"172800"}},{"kind":"Argument","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"},"value":{"kind":"IntValue","value":"20"}},{"kind":"Argument","name":{"kind":"Name","value":"arrivalDeparture"},"value":{"kind":"EnumValue","value":"departures"}},{"kind":"Argument","name":{"kind":"Name","value":"whiteListedModes"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"bus"}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aimedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"cancellation"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"destinationDisplay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"expectedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"quay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"serviceJourney"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"journeyPattern"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicCode"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"situations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useBusTileQuery__
+ *
+ * To run a query within a React component, call `useBusTileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBusTileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBusTileQuery({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useBusTileQuery(baseOptions: Apollo.QueryHookOptions<BusTileQuery, BusTileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BusTileQuery, BusTileQueryVariables>(BusTileDocument, options);
+      }
+export function useBusTileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BusTileQuery, BusTileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BusTileQuery, BusTileQueryVariables>(BusTileDocument, options);
+        }
+export type BusTileQueryHookResult = ReturnType<typeof useBusTileQuery>;
+export type BusTileLazyQueryHookResult = ReturnType<typeof useBusTileLazyQuery>;
+export type BusTileQueryResult = Apollo.QueryResult<BusTileQuery, BusTileQueryVariables>;

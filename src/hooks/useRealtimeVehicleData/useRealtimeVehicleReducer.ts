@@ -3,7 +3,7 @@ import {
     EXPIRE_VEHICLE_IN_SECONDS,
     INACTIVE_VEHICLE_IN_SECONDS,
 } from 'utils/constants'
-import { RealtimeVehicle } from './types'
+import { RealtimeVehicle } from 'types/structs'
 
 export type State = {
     vehicles: Record<string, RealtimeVehicle>

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Marker } from 'react-map-gl'
 import useSupercluster from 'use-supercluster'
-import { useRentalStations } from 'hooks/use-rental-stations/useRentalStations'
+import { useRentalStations } from 'hooks/useRentalStations'
 import { FormFactor } from 'graphql-generated/mobility-v2'
 import { BikeRentalStationTag } from '../BikeRentalStationTag'
 import classes from './BikeRentalStationClusterMarkers.module.scss'

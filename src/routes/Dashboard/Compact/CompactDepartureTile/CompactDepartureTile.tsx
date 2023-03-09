@@ -4,13 +4,13 @@ import { Tile } from 'components/Tile'
 import { useSettings } from 'settings/SettingsProvider'
 import { getIconColorType, getTransportHeaderIcons } from 'utils/icon'
 import { TileHeader } from 'components/TileHeader'
-import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
+import { useStopPlaceWithEstimatedCalls } from 'hooks/useStopPlaceWithEstimatedCalls'
 import {
-    filterHidden,
+    filterHiddenRoutes,
     toDeparture,
-} from 'hooks/use-stop-place-with-estimated-calls/departure'
+    createTileSubLabel,
+} from 'utils/utils'
 import { WalkTrip } from 'components/WalkTrip'
-import { createTileSubLabel } from 'utils/utils'
 import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
 import { Loader } from 'components/Loader'
 import { EmptyStopTile } from 'tiles/dashboard/EmptyStopTile'
@@ -35,7 +35,7 @@ function CompactDepartureTile({ stopPlaceId }: { stopPlaceId: string }) {
         () =>
             stopPlaceWithEstimatedCalls?.estimatedCalls
                 .map(toDeparture)
-                .filter(filterHidden(stopPlaceId, settings)) ?? [],
+                .filter(filterHiddenRoutes(stopPlaceId, settings)) ?? [],
         [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
     )
 

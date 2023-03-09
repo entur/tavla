@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { getIconColorType } from 'utils/icon'
-import { useRentalStations } from 'hooks/use-rental-stations/useRentalStations'
+import { useRentalStations } from 'hooks/useRentalStations'
 import { useSettings } from 'settings/SettingsProvider'
 import { FormFactor } from 'graphql-generated/mobility-v2'
 import { Tile } from 'components/Tile'

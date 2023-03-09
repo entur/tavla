@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
-import { is } from 'superstruct'
 import { ApolloError } from '@apollo/client'
 import { useSettings } from 'settings/SettingsProvider'
 import { useWalkTripQuery } from 'graphql-generated/journey-planner-v3'
-import { Coordinates, WalkTrip } from 'src/types'
-import { TripPatternStruct } from './types'
+import { Coordinates } from 'src/types'
+import { toStruct } from 'utils/utils'
+import { WalkTripStruct, WalkTrip } from 'types/structs'
 
 type UseWalkTrip = {
-    walkTrip: WalkTrip | undefined
+    walkTrip: WalkTrip | null
     loading: boolean
     error: ApolloError | undefined
 }
@@ -30,10 +30,7 @@ function useWalkTrip(coordinates: Coordinates): UseWalkTrip {
 
     const walkTrip = useMemo(() => {
         const tripPattern = data?.trip.tripPatterns[0]
-        if (is(tripPattern, TripPatternStruct)) {
-            return tripPattern
-        }
-        return undefined
+        return toStruct(WalkTripStruct)(tripPattern)
     }, [data?.trip])
 
     return {

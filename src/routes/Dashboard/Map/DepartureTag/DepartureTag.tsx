@@ -4,13 +4,10 @@ import { nb } from 'date-fns/locale'
 import { Departure } from 'src/types'
 import { getIconColor } from 'utils/icon'
 import { TransportModeIcon } from 'assets/icons/TransportModeIcon'
-import { useStopPlaceWithEstimatedCalls } from 'hooks/use-stop-place-with-estimated-calls/useStopPlaceWithEstimatedCalls'
-import {
-    filterHidden,
-    toDeparture,
-} from 'hooks/use-stop-place-with-estimated-calls/departure'
+import { useStopPlaceWithEstimatedCalls } from 'hooks/useStopPlaceWithEstimatedCalls'
 import { useSettings } from 'settings/SettingsProvider'
 import { Loader } from 'components/Loader'
+import { filterHiddenRoutes, toDeparture } from 'utils/utils'
 import { Heading4, Paragraph } from '@entur/typography'
 import { colors } from '@entur/tokens'
 import { DepartureIcon } from '../DepartureIcon/DepartureIcon'
@@ -36,7 +33,7 @@ function DepartureTag({ stopPlaceId }: { stopPlaceId: string }) {
         () =>
             stopPlaceWithEstimatedCalls?.estimatedCalls
                 .map(toDeparture)
-                .filter(filterHidden(stopPlaceId, settings)) ?? [],
+                .filter(filterHiddenRoutes(stopPlaceId, settings)) ?? [],
         [stopPlaceWithEstimatedCalls?.estimatedCalls, stopPlaceId, settings],
     )
 

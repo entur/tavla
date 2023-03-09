@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { useWalkTrip } from 'hooks/use-walk-trip/useWalkTrip'
+import { useWalkTrip } from 'hooks/useWalkTrip'
 import { Coordinates } from 'src/types'
 import { formatWalkTrip } from 'utils/formatting'
 import classes from './WalkTrip.module.scss'

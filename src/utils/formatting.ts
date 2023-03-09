@@ -1,4 +1,5 @@
-import { WalkTrip } from 'src/types'
+import { format } from 'date-fns'
+import { WalkTrip } from 'types/structs'
 
 export function formatWalkTrip(walkTrip: WalkTrip) {
     if (walkTrip.duration / 60 < 1) {
@@ -8,4 +9,12 @@ export function formatWalkTrip(walkTrip: WalkTrip) {
             walkTrip.walkDistance,
         )} m)`
     }
+}
+
+export function formatDepartureTime(
+    minDiff: number,
+    departureTime: Date,
+): string {
+    if (minDiff > 15) return format(departureTime, 'HH:mm')
+    return minDiff < 1 ? 'Nå' : `${minDiff} min`
 }

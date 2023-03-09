@@ -382,22 +382,6 @@ export type VehicleTypeCapacity = {
   vehicleType: VehicleType;
 };
 
-export type BikePanelSearchStationFragment = { __typename?: 'Station', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } };
-
-export type BikePanelSearchQueryVariables = Exact<{
-  lat: Scalars['Float'];
-  lon: Scalars['Float'];
-  range: Scalars['Int'];
-}>;
-
-
-export type BikePanelSearchQuery = { __typename?: 'Query', stations: Array<{ __typename?: 'Station', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } | null> | null };
-
-export type ScooterPanelQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ScooterPanelQuery = { __typename?: 'Query', operators: Array<{ __typename?: 'Operator', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } | null> | null };
-
 export type OperatorIdsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -431,66 +415,23 @@ export type VehiclesQueryVariables = Exact<{
 
 export type VehiclesQuery = { __typename?: 'Query', vehicles: Array<{ __typename?: 'Vehicle', id: string, lat: number, lon: number, system: { __typename?: 'System', operator: { __typename?: 'Operator', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } } } | null> | null };
 
+export type BikePanelSearchStationFragment = { __typename?: 'Station', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } };
+
+export type BikePanelSearchQueryVariables = Exact<{
+  lat: Scalars['Float'];
+  lon: Scalars['Float'];
+  range: Scalars['Int'];
+}>;
+
+
+export type BikePanelSearchQuery = { __typename?: 'Query', stations: Array<{ __typename?: 'Station', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } | null> | null };
+
+export type ScooterPanelQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ScooterPanelQuery = { __typename?: 'Query', operators: Array<{ __typename?: 'Operator', id: string, name: { __typename?: 'TranslatedString', translation: Array<{ __typename?: 'Translation', language: string, value: string } | null> } } | null> | null };
+
 export const BikePanelSearchStationFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"BikePanelSearchStation"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Station"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]} as unknown as DocumentNode;
-export const BikePanelSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BikePanelSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lat"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lon"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"range"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stations"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"lon"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lon"}}},{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lat"}}},{"kind":"Argument","name":{"kind":"Name","value":"range"},"value":{"kind":"Variable","name":{"kind":"Name","value":"range"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"BikePanelSearchStation"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"BikePanelSearchStation"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Station"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]} as unknown as DocumentNode;
-
-/**
- * __useBikePanelSearchQuery__
- *
- * To run a query within a React component, call `useBikePanelSearchQuery` and pass it any options that fit your needs.
- * When your component renders, `useBikePanelSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useBikePanelSearchQuery({
- *   variables: {
- *      lat: // value for 'lat'
- *      lon: // value for 'lon'
- *      range: // value for 'range'
- *   },
- * });
- */
-export function useBikePanelSearchQuery(baseOptions: Apollo.QueryHookOptions<BikePanelSearchQuery, BikePanelSearchQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BikePanelSearchQuery, BikePanelSearchQueryVariables>(BikePanelSearchDocument, options);
-      }
-export function useBikePanelSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BikePanelSearchQuery, BikePanelSearchQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BikePanelSearchQuery, BikePanelSearchQueryVariables>(BikePanelSearchDocument, options);
-        }
-export type BikePanelSearchQueryHookResult = ReturnType<typeof useBikePanelSearchQuery>;
-export type BikePanelSearchLazyQueryHookResult = ReturnType<typeof useBikePanelSearchLazyQuery>;
-export type BikePanelSearchQueryResult = Apollo.QueryResult<BikePanelSearchQuery, BikePanelSearchQueryVariables>;
-export const ScooterPanelQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ScooterPanelQuery"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"operators"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
-
-/**
- * __useScooterPanelQuery__
- *
- * To run a query within a React component, call `useScooterPanelQuery` and pass it any options that fit your needs.
- * When your component renders, `useScooterPanelQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useScooterPanelQuery({
- *   variables: {
- *   },
- * });
- */
-export function useScooterPanelQuery(baseOptions?: Apollo.QueryHookOptions<ScooterPanelQuery, ScooterPanelQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ScooterPanelQuery, ScooterPanelQueryVariables>(ScooterPanelQueryDocument, options);
-      }
-export function useScooterPanelQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ScooterPanelQuery, ScooterPanelQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ScooterPanelQuery, ScooterPanelQueryVariables>(ScooterPanelQueryDocument, options);
-        }
-export type ScooterPanelQueryHookResult = ReturnType<typeof useScooterPanelQuery>;
-export type ScooterPanelQueryLazyQueryHookResult = ReturnType<typeof useScooterPanelQueryLazyQuery>;
-export type ScooterPanelQueryQueryResult = Apollo.QueryResult<ScooterPanelQuery, ScooterPanelQueryVariables>;
 export const OperatorIdsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"OperatorIds"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"operators"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
 
 /**
@@ -613,3 +554,62 @@ export function useVehiclesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<V
 export type VehiclesQueryHookResult = ReturnType<typeof useVehiclesQuery>;
 export type VehiclesLazyQueryHookResult = ReturnType<typeof useVehiclesLazyQuery>;
 export type VehiclesQueryResult = Apollo.QueryResult<VehiclesQuery, VehiclesQueryVariables>;
+export const BikePanelSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BikePanelSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lat"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lon"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"range"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stations"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"lon"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lon"}}},{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lat"}}},{"kind":"Argument","name":{"kind":"Name","value":"range"},"value":{"kind":"Variable","name":{"kind":"Name","value":"range"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"BikePanelSearchStation"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"BikePanelSearchStation"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Station"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useBikePanelSearchQuery__
+ *
+ * To run a query within a React component, call `useBikePanelSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBikePanelSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBikePanelSearchQuery({
+ *   variables: {
+ *      lat: // value for 'lat'
+ *      lon: // value for 'lon'
+ *      range: // value for 'range'
+ *   },
+ * });
+ */
+export function useBikePanelSearchQuery(baseOptions: Apollo.QueryHookOptions<BikePanelSearchQuery, BikePanelSearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BikePanelSearchQuery, BikePanelSearchQueryVariables>(BikePanelSearchDocument, options);
+      }
+export function useBikePanelSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BikePanelSearchQuery, BikePanelSearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BikePanelSearchQuery, BikePanelSearchQueryVariables>(BikePanelSearchDocument, options);
+        }
+export type BikePanelSearchQueryHookResult = ReturnType<typeof useBikePanelSearchQuery>;
+export type BikePanelSearchLazyQueryHookResult = ReturnType<typeof useBikePanelSearchLazyQuery>;
+export type BikePanelSearchQueryResult = Apollo.QueryResult<BikePanelSearchQuery, BikePanelSearchQueryVariables>;
+export const ScooterPanelQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ScooterPanelQuery"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"mobility"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"operators"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"translation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useScooterPanelQuery__
+ *
+ * To run a query within a React component, call `useScooterPanelQuery` and pass it any options that fit your needs.
+ * When your component renders, `useScooterPanelQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useScooterPanelQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useScooterPanelQuery(baseOptions?: Apollo.QueryHookOptions<ScooterPanelQuery, ScooterPanelQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ScooterPanelQuery, ScooterPanelQueryVariables>(ScooterPanelQueryDocument, options);
+      }
+export function useScooterPanelQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ScooterPanelQuery, ScooterPanelQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ScooterPanelQuery, ScooterPanelQueryVariables>(ScooterPanelQueryDocument, options);
+        }
+export type ScooterPanelQueryHookResult = ReturnType<typeof useScooterPanelQuery>;
+export type ScooterPanelQueryLazyQueryHookResult = ReturnType<typeof useScooterPanelQueryLazyQuery>;
+export type ScooterPanelQueryQueryResult = Apollo.QueryResult<ScooterPanelQuery, ScooterPanelQueryVariables>;

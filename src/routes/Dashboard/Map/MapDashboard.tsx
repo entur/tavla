@@ -1,6 +1,6 @@
 import React from 'react'
 import { DashboardWrapper } from 'scenarios/DashboardWrapper'
-import { useStopPlaceIds } from 'hooks/use-stop-place-ids/useStopPlaceIds'
+import { useStopPlaceIds } from 'hooks/useStopPlaceIds'
 import { Map } from 'scenarios/Map'
 import { useSettings } from 'settings/SettingsProvider'
 import { WeatherTile } from 'tiles/dashboard/WeatherTile'

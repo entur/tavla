@@ -1,3 +1,6 @@
+/* eslint-disable import/no-default-export */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 declare module '*.png' {
     const value: any
     export default value
