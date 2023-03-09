@@ -4,16 +4,7 @@ import {
     TransportMode,
     TransportSubmode,
 } from 'graphql-generated/journey-planner-v3'
-import { WalkTripStruct } from 'hooks/useWalkTrip/structs'
-import { Infer } from 'superstruct'
-import { VehicleStruct } from 'hooks/useVehicles/structs'
-import { LineDataStruct } from 'hooks/useUniqueLines/structs'
-import {
-    EstimatedCallStruct,
-    StopPlaceWithEstimatedCallsStruct,
-} from 'hooks/useStopPlaceWithEstimatedCalls/structs'
-import { RentalStationStruct } from 'hooks/useRentalStations/structs'
-import { RealtimeVehicleStruct } from 'hooks/useRealtimeVehicleData/structs'
+import { EstimatedCall } from 'types/structs'
 import { ToastProvider as _ToastProvider } from '@entur/alert'
 import { ToastProviderProps } from '@entur/alert/dist/ToastProvider'
 import { Settings } from './settings/settings'
@@ -112,12 +103,6 @@ export type UserLogin = {
 
 export type EnturLogoStyle = 'white' | 'black' | 'contrast'
 
-export type EstimatedCall = Infer<typeof EstimatedCallStruct>
-
-export type StopPlaceWithEstimatedCalls = Infer<
-    typeof StopPlaceWithEstimatedCallsStruct
->
-
 export type Departure = {
     id: string
     aimedDepartureTime: Date
@@ -140,16 +125,6 @@ export type Departure = {
 export const ToastProvider = _ToastProvider as React.FC<
     ToastProviderProps & { children: React.ReactNode }
 >
-
-export type WalkTrip = Infer<typeof WalkTripStruct>
-
-export type Vehicle = Infer<typeof VehicleStruct>
-
-export type LineData = Infer<typeof LineDataStruct>
-
-export type RentalStation = Infer<typeof RentalStationStruct>
-
-export type RealtimeVehicle = Infer<typeof RealtimeVehicleStruct>
 
 export type Line = {
     id: string

@@ -30,13 +30,14 @@ const config: CodegenConfig = {
             config: {
                 ...generatorConfig,
                 scalars: {
-                    Coordinates: '../types/JourneyPlannerV3#Coordinates',
-                    Date: '../types/JourneyPlannerV3#Date',
-                    DateTime: '../types/JourneyPlannerV3#DateTime',
-                    LocalTime: '../types/JourneyPlannerV3#LocalTime',
-                    Time: '../types/JourneyPlannerV3#Time',
-                    Long: '../types/JourneyPlannerV3#Long',
-                    DoubleFunction: '../types/JourneyPlannerV3#DoubleFunction',
+                    Coordinates: '../src/types/JourneyPlannerV3#Coordinates',
+                    Date: '../src/types/JourneyPlannerV3#Date',
+                    DateTime: '../src/types/JourneyPlannerV3#DateTime',
+                    LocalTime: '../src/types/JourneyPlannerV3#LocalTime',
+                    Time: '../src/types/JourneyPlannerV3#Time',
+                    Long: '../src/types/JourneyPlannerV3#Long',
+                    DoubleFunction:
+                        '../src/types/JourneyPlannerV3#DoubleFunction',
                 },
             },
         },
@@ -55,7 +56,7 @@ const config: CodegenConfig = {
             config: {
                 ...generatorConfig,
                 scalars: {
-                    DateTime: '../types/VehiclesV1#DateTime',
+                    DateTime: '../src/types/VehiclesV1#DateTime',
                 },
             },
         },

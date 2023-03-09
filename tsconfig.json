@@ -10,7 +10,7 @@
         "jsx": "react",
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
-        "typeRoots": ["./types", "node_modules/@types"],
+        "typeRoots": ["./src/types", "node_modules/@types"],
         "strict": true,
         "downlevelIteration": true,
         "skipLibCheck": true,
@@ -33,6 +33,6 @@
             "src/*": ["src/*"]
         }
     },
-    "include": ["types", "./src/**/*", "graphql-generated"],
+    "include": ["./src/**/*", "graphql-generated"],
     "exclude": ["node_modules"]
 }

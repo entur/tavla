@@ -2,9 +2,9 @@ import { useMemo } from 'react'
 import { ApolloError } from '@apollo/client'
 import { useSettings } from 'settings/SettingsProvider'
 import { useWalkTripQuery } from 'graphql-generated/journey-planner-v3'
-import { Coordinates, WalkTrip } from 'src/types'
+import { Coordinates } from 'src/types'
 import { toStruct } from 'utils/utils'
-import { WalkTripStruct } from './structs'
+import { WalkTripStruct, WalkTrip } from 'types/structs'
 
 type UseWalkTrip = {
     walkTrip: WalkTrip | null

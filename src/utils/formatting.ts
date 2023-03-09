@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { WalkTrip } from 'src/types'
+import { WalkTrip } from 'types/structs'
 
 export function formatWalkTrip(walkTrip: WalkTrip) {
     if (walkTrip.duration / 60 < 1) {

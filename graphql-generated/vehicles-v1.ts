@@ -1,4 +1,4 @@
-import { DateTime } from '../types/VehiclesV1';
+import { DateTime } from '../src/types/VehiclesV1';
 import { DocumentNode } from 'graphql';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;

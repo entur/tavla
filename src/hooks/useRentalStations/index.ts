@@ -6,10 +6,9 @@ import {
 } from 'graphql-generated/mobility-v2'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { REFRESH_INTERVAL } from 'utils/constants'
-import { RentalStation } from 'src/types'
 import { toStruct } from 'utils/utils'
+import { RentalStationStruct, RentalStation } from 'types/structs'
 import { useStationIds } from '../useStationIds'
-import { RentalStationStruct } from './structs'
 
 function useRentalStations(
     formFactors?: FormFactor[],

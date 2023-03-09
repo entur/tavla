@@ -8,10 +8,9 @@ import { useSettings } from 'settings/SettingsProvider'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { SWEEP_INTERVAL_MS, BUFFER_SIZE, BUFFER_TIME } from 'utils/constants'
 import { toStruct } from 'utils/utils'
-import { RealtimeVehicle } from 'src/types'
+import { RealtimeVehicleStruct, RealtimeVehicle } from 'types/structs'
 import { useUniqueLines } from '../useUniqueLines'
 import { useVehicleReducer, ActionType } from './useRealtimeVehicleReducer'
-import { RealtimeVehicleStruct } from './structs'
 
 /**
  * Hook to query and subscribe to remote vehicle data

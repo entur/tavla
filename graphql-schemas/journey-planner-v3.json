@@ -66,6 +66,365 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "AffectedLine",
+        "description": null,
+        "fields": [
+          {
+            "name": "line",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Line",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "AffectedServiceJourney",
+        "description": null,
+        "fields": [
+          {
+            "name": "datedServiceJourney",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "DatedServiceJourney",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "operatingDay",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Date",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "serviceJourney",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ServiceJourney",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "AffectedStopPlace",
+        "description": null,
+        "fields": [
+          {
+            "name": "quay",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Quay",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "stopConditions",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "StopCondition",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "stopPlace",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "StopPlace",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "AffectedStopPlaceOnLine",
+        "description": null,
+        "fields": [
+          {
+            "name": "line",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Line",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "quay",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Quay",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "stopConditions",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "StopCondition",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "stopPlace",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "StopPlace",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "AffectedStopPlaceOnServiceJourney",
+        "description": null,
+        "fields": [
+          {
+            "name": "datedServiceJourney",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "DatedServiceJourney",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "operatingDay",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Date",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "quay",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Quay",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "serviceJourney",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ServiceJourney",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "stopConditions",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "StopCondition",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "stopPlace",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "StopPlace",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "AffectedUnknown",
+        "description": null,
+        "fields": [
+          {
+            "name": "description",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "UNION",
+        "name": "Affects",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AffectedLine",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "AffectedServiceJourney",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "AffectedStopPlace",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "AffectedStopPlaceOnLine",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "AffectedStopPlaceOnServiceJourney",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "AffectedUnknown",
+            "ofType": null
+          }
+        ]
+      },
+      {
         "kind": "ENUM",
         "name": "AlternativeLegsFilter",
         "description": null,
@@ -4582,12 +4941,48 @@
             "deprecationReason": null
           },
           {
+            "name": "affects",
+            "description": "Get all affected entities for the situation",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "UNION",
+                    "name": "Affects",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "authority",
             "description": "Get affected authority for this situation element",
             "args": [],
             "type": {
               "kind": "OBJECT",
               "name": "Authority",
+              "ofType": null
+            },
+            "isDeprecated": true,
+            "deprecationReason": "Use affects instead"
+          },
+          {
+            "name": "creationTime",
+            "description": "Timestamp for when the situation was created.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4670,6 +5065,18 @@
                 }
               }
             },
+            "isDeprecated": true,
+            "deprecationReason": "Use affects instead"
+          },
+          {
+            "name": "participant",
+            "description": "Codespace of the data source.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -4706,12 +5113,12 @@
                 }
               }
             },
-            "isDeprecated": false,
-            "deprecationReason": null
+            "isDeprecated": true,
+            "deprecationReason": "Use affects instead"
           },
           {
             "name": "reportAuthority",
-            "description": "Authority that reported this situation",
+            "description": "Authority that reported this situation. Always returns the first agency in the codespace",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -4750,8 +5157,8 @@
                 }
               }
             },
-            "isDeprecated": false,
-            "deprecationReason": null
+            "isDeprecated": true,
+            "deprecationReason": "Use affects instead"
           },
           {
             "name": "severity",
@@ -4798,8 +5205,8 @@
                 }
               }
             },
-            "isDeprecated": false,
-            "deprecationReason": null
+            "isDeprecated": true,
+            "deprecationReason": "Use affects instead"
           },
           {
             "name": "summary",
@@ -4832,6 +5239,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "ValidityPeriod",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "versionedAtTime",
+            "description": "Timestamp when the situation element was updated.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6720,8 +7139,8 @@
             "description": "Get all active situations.",
             "args": [
               {
-                "name": "authorities",
-                "description": "Filter by reporting authorities.",
+                "name": "codespaces",
+                "description": "Filter by reporting source.",
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -7104,6 +7523,26 @@
                 "deprecationReason": null
               },
               {
+                "name": "filters",
+                "description": "A list of filters for which trips should be included. A trip will be included if it matches with at least one filter. An empty list of filters means that all trips should be included. If a search include this parameter, \"whiteListed\", \"banned\" & \"modes.transportModes\" filters will be ignored.",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "TripFilterInput",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "from",
                 "description": "The start location",
                 "type": {
@@ -7134,6 +7573,18 @@
               {
                 "name": "includePlannedCancellations",
                 "description": "When true, service journeys cancelled in scheduled route data will be included during this search.",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                },
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "includeRealtimeCancellations",
+                "description": "When true, service journeys cancelled by real-time updates will be included during this search.",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Boolean",
@@ -7205,7 +7656,7 @@
               },
               {
                 "name": "numTripPatterns",
-                "description": "The maximum number of trip patterns to return. Note! This reduce the number of trip patterns AFTER the OTP travel search is done in a post-filtering process. There is little performance gain in reducing the number of trip patterns returned. The post-filtering will reduce the number of trip-patterns down to this size. It does not make the search faster, as it did in OTP1. See also the trip meta-data on how to implement paging.",
+                "description": "The maximum number of trip patterns to return. Note! This reduce the number of trip patterns AFTER the OTP travel search is done in a post-filtering process. There is little/no performance gain in reducing the number of trip patterns returned. See also the trip meta-data on how to implement paging.",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -7229,13 +7680,13 @@
               },
               {
                 "name": "relaxTransitSearchGeneralizedCostAtDestination",
-                "description": "Whether non-optimal transit paths at the destination should be returned.\nLet c be the existing minimum pareto optimal generalized-cost to beat. Then a trip with\ncost c' is accepted if the following is true:\n`c' < Math.round(c * relaxTransitSearchGeneralizedCostAtDestination)`.\n\nIf the value is less than 0.0 a normal '<' comparison is performed.\nValues greater than 2.0 are not supported, due to performance reasons.\n",
+                "description": "Whether non-optimal transit paths at the destination should be returned. Let c be the\nexisting minimum pareto optimal generalized-cost to beat. Then a trip with cost c' is\naccepted if the following is true:\n\n`c' < Math.round(c * relaxTransitSearchGeneralizedCostAtDestination)`\n\nThe parameter is optional. If not set, a normal comparison is performed.\n\nValues less than 1.0 is not allowed, and values greater than 2.0 are not\nsupported, due to performance reasons.\n",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Float",
                   "ofType": null
                 },
-                "defaultValue": "-1",
+                "defaultValue": "null",
                 "isDeprecated": false,
                 "deprecationReason": null
               },
@@ -7265,7 +7716,7 @@
               },
               {
                 "name": "to",
-                "description": "The end location",
+                "description": "The destination location",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -7365,7 +7816,7 @@
               },
               {
                 "name": "wheelchairAccessible",
-                "description": "Whether the trip must be wheelchair accessible. Supported for the street part to the search, not implemented for the transit jet.",
+                "description": "Whether the trip must be wheelchair accessible. Supported for the street part to the search, not implemented for the transit yet.",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Boolean",
@@ -7402,7 +7853,7 @@
           },
           {
             "name": "viaTrip",
-            "description": "Input type for executing a travel search for a trip between three or more locations. Returns trip patterns describing suggested alternatives for the trip.",
+            "description": "Via trip search. Find trip patterns traveling via one or more intermediate (via) locations.",
             "args": [
               {
                 "name": "dateTime",
@@ -7446,7 +7897,7 @@
               },
               {
                 "name": "numTripPatterns",
-                "description": "The maximum number of trip patterns per part of the search to return. Note! This reduces the number of trip patterns AFTER the OTP travel search is done in a post-filtering process. There is little performance gain in reducing the number of trip patterns returned. The post-filtering will reduce the number of trip-patterns down to this size. It does not make the search faster, as it did in OTP1. See also the trip meta-data on how to implement paging.",
+                "description": "The maximum number of trip patterns segment to return. Note! This reduces the number of trip patterns AFTER the OTP travel search is done in a post-filtering process. There is little/no performance gain in reducing the number of trip patterns returned. See also the trip meta-data on how to implement paging.",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -7485,8 +7936,28 @@
                 "deprecationReason": null
               },
               {
+                "name": "segments",
+                "description": "The requests for the individual segments of the search. The first segment is from the start location(`from`) to the first entry in the `via` locations list and the last is from the last entry in the `via` locations list to the end location(`to`). Note that the list must have length of exactly one greater than the `via` field.",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "ViaSegmentInput",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "to",
-                "description": "The end location",
+                "description": "The destination location",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -7501,8 +7972,8 @@
                 "deprecationReason": null
               },
               {
-                "name": "viaLocations",
-                "description": "The locations needed to be visited along hte route.",
+                "name": "via",
+                "description": "The locations needed to be visited along the route.",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -7514,7 +7985,7 @@
                       "name": null,
                       "ofType": {
                         "kind": "INPUT_OBJECT",
-                        "name": "ViaLocation",
+                        "name": "ViaLocationInput",
                         "ofType": null
                       }
                     }
@@ -7525,28 +7996,8 @@
                 "deprecationReason": null
               },
               {
-                "name": "viaRequests",
-                "description": "The requests for the individual parts of the search. Note that the list must have length of exactly one greater than the viaLocations field.",
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "ViaRequest",
-                      "ofType": null
-                    }
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
                 "name": "wheelchairAccessible",
-                "description": "Whether the trip must be wheelchair accessible. Supported for the street part to the search, not implemented for the transit jet.",
+                "description": "Whether the trip must be wheelchair accessible. Supported for the street part to the search, not implemented for the transit yet.",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Boolean",
@@ -9196,6 +9647,47 @@
         "possibleTypes": null
       },
       {
+        "kind": "ENUM",
+        "name": "StopCondition",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "destination",
+            "description": "Situation applies when stop is the destination of the leg.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "exceptionalStop",
+            "description": "Situation applies when transfering to another leg at the stop.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "notStopping",
+            "description": "Situation applies when passing the stop, without stopping.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "requestStop",
+            "description": "Situation applies when at the stop, and the stop requires a request to stop.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "startPoint",
+            "description": "Situation applies when stop is the startpoint of the leg.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "StopPlace",
         "description": "Named place where public transport may be accessed. May be a building complex (e.g. a station) or an on-street location.",
@@ -9669,6 +10161,53 @@
             "deprecationReason": null
           }
         ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "StreetModes",
+        "description": "Input format for specifying which modes will be allowed for this search. If this element is not present, it will default to all to foot.",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "accessMode",
+            "description": "The mode used to get from the origin to the access stops in the transit network the transit network (first-mile). If the element is not present or null,only transit that can be immediately boarded from the origin will be used.",
+            "type": {
+              "kind": "ENUM",
+              "name": "StreetMode",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "directMode",
+            "description": "The mode used to get from the origin to the destination directly, without using the transit network. If the element is not present or null,direct travel without using transit will be disallowed.",
+            "type": {
+              "kind": "ENUM",
+              "name": "StreetMode",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "egressMode",
+            "description": "The mode used to get from the egress stops in the transit network tothe destination (last-mile). If the element is not present or null,only transit that can immediately arrive at the origin will be used.",
+            "type": {
+              "kind": "ENUM",
+              "name": "StreetMode",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
         "possibleTypes": null
       },
       {
@@ -11227,6 +11766,148 @@
         "possibleTypes": null
       },
       {
+        "kind": "INPUT_OBJECT",
+        "name": "TripFilterInput",
+        "description": "A collection of selectors for what lines/trips should be included in / excluded from search",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "not",
+            "description": "A list of selectors for what lines/trips should be excluded during the search. If line/trip matches with at least one selector it will be excluded.",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TripFilterSelectInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "select",
+            "description": "A list of selectors for what lines/trips should be allowed during search. In order to be accepted a trip/line has to match with at least one selector. An empty list means that everything should be allowed. ",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TripFilterSelectInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TripFilterSelectInput",
+        "description": "A list of selectors for filter allow-list / exclude-list. An empty list means that everything is allowed. A trip/line will match with selectors if it matches with all non-empty lists. The `select` is always applied first, then `not`. If only `not` not is present, the exclude is applied to the existing set of lines. ",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "authorities",
+            "description": "Set of ids for authorities that should be included in/excluded from search",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lines",
+            "description": "Set of ids for lines that should be included in/excluded from search",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "serviceJourneys",
+            "description": "Set of ids for service journeys that should be included in/excluded from search",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "transportModes",
+            "description": "The allowed modes for the transit part of the trip. Use an empty list to disallow transit for this search. If the element is not present or null, it will default to all transport modes.",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TransportModes",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "TripPattern",
         "description": "List of legs constituting a suggested sequence of rides and links for a specific trip.",
@@ -11603,9 +12284,44 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "ViaConnection",
+        "description": "An acceptable combination of trip patterns between two segments of the via search",
+        "fields": [
+          {
+            "name": "from",
+            "description": "The index of the trip pattern in the segment before the via point",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "to",
+            "description": "The index of the trip pattern in the segment after the via point",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "INPUT_OBJECT",
-        "name": "ViaLocation",
-        "description": "Input format for specifying a location through either a place reference (id), coordinates or both. If both place and coordinates are provided the place ref will be used if found, coordinates will only be used if place is not known.",
+        "name": "ViaLocationInput",
+        "description": "Input format for specifying a location through either a place reference (id), coordinates or both. If both place and coordinates are provided the place ref will be used if found, coordinates will only be used if place is not known. The location also contain information about the minimum and maximum time the user is willing to stay at the via location.",
         "fields": null,
         "inputFields": [
           {
@@ -11628,7 +12344,7 @@
               "name": "Duration",
               "ofType": null
             },
-            "defaultValue": "\"PT5M\"",
+            "defaultValue": "\"PT1H\"",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -11640,7 +12356,7 @@
               "name": "Duration",
               "ofType": null
             },
-            "defaultValue": "\"PT20M\"",
+            "defaultValue": "\"PT5M\"",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -11675,16 +12391,36 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "ViaRequest",
+        "name": "ViaSegmentInput",
         "description": null,
         "fields": null,
         "inputFields": [
           {
+            "name": "filters",
+            "description": "A list of filters for which trips should be included. A trip will be included if it matches with at least one filter. An empty list of filters means that all trips should be included.",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TripFilterInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "modes",
-            "description": "The set of access/egress/direct/transit modes to be used for this search. Note that this only works at the Line level. If individual ServiceJourneys have modes that differ from the Line mode, this will NOT be accounted for.",
+            "description": "The set of access/egress/direct modes to be used for this search.",
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "Modes",
+              "name": "StreetModes",
               "ofType": null
             },
             "defaultValue": null,
@@ -11699,7 +12435,7 @@
       {
         "kind": "OBJECT",
         "name": "ViaTrip",
-        "description": "Description of a travel between three or more places.",
+        "description": "Description of a trip via one or more intermediate locations. For example from A, via B, then C to D.",
         "fields": [
           {
             "name": "routingErrors",
@@ -11727,46 +12463,7 @@
           },
           {
             "name": "tripPatternCombinations",
-            "description": "A list of lists of which indices of the next segment the trip pattern can be combined with",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "LIST",
-                    "name": null,
-                    "ofType": {
-                      "kind": "NON_NULL",
-                      "name": null,
-                      "ofType": {
-                        "kind": "LIST",
-                        "name": null,
-                        "ofType": {
-                          "kind": "NON_NULL",
-                          "name": null,
-                          "ofType": {
-                            "kind": "SCALAR",
-                            "name": "Int"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tripPatterns",
-            "description": "A list of lists of the trip patterns for each segment of the journey",
+            "description": "A list of the acceptable combinations of the trip patterns in this segment and the next segment.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -11785,10 +12482,69 @@
                       "name": null,
                       "ofType": {
                         "kind": "OBJECT",
-                        "name": "TripPattern",
+                        "name": "ViaConnection",
                         "ofType": null
                       }
                     }
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tripPatternsPerSegment",
+            "description": "A list of segments of the via search. The first segment is from the start location to the first entry in the locations list and the last is from the last entry in the locations list to the end location.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ViaTripPatternSegment",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ViaTripPatternSegment",
+        "description": "A segment of the via search. The first segment is from the start location to the first entry in the locations list and the last is from the last entry in the locations list to the end location.",
+        "fields": [
+          {
+            "name": "tripPatterns",
+            "description": "A list of trip patterns for this segment of the search",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "TripPattern",
+                    "ofType": null
                   }
                 }
               }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { getTranslation } from 'utils/utils'
 import { WalkTrip } from 'components/WalkTrip'
-import { RentalStation } from 'src/types'
+import { RentalStation } from 'types/structs'
 import { Heading3 } from '@entur/typography'
 import { BicycleIcon } from '@entur/icons'
 import classes from './BikeTileRow.module.scss'

@@ -1,18 +1,12 @@
 import { TranslatedString } from 'graphql-generated/mobility-v2'
-import {
-    Departure,
-    EnturLogoStyle,
-    EstimatedCall,
-    RentalStation,
-    Theme,
-    TileSubLabel,
-} from 'src/types'
+import { Departure, EnturLogoStyle, Theme, TileSubLabel } from 'src/types'
 import EnturBlack from 'assets/logos/EnturBlack.svg'
 import EnturWhite from 'assets/logos/EnturWhite.svg'
 import EnturContrast from 'assets/logos/EnturContrast.svg'
 import { is, Struct } from 'superstruct'
 import { compareAsc, differenceInMinutes, format, parseISO } from 'date-fns'
 import { Settings } from 'settings/settings'
+import { EstimatedCall, RentalStation } from 'types/structs'
 import { formatDepartureTime } from './formatting'
 
 export function createTileSubLabel({

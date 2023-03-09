@@ -7,7 +7,7 @@ import { useStopPlaceIds } from 'hooks/useStopPlaceIds'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { REFRESH_INTERVAL } from 'src/utils/constants'
 import { toDeparture, toStruct } from 'utils/utils'
-import { StopPlaceWithEstimatedCallsStruct } from 'hooks/useStopPlaceWithEstimatedCalls/structs'
+import { StopPlaceWithEstimatedCallsStruct } from 'types/structs'
 import { BusIcon } from '@entur/icons'
 import classes from './BusTile.module.scss'
 

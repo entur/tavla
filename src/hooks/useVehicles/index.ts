@@ -4,10 +4,9 @@ import { useSettings } from 'settings/SettingsProvider'
 import { FormFactor, useVehiclesQuery } from 'graphql-generated/mobility-v2'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { REFRESH_INTERVAL, ALL_ACTIVE_OPERATOR_IDS } from 'utils/constants'
-import { Vehicle } from 'src/types'
 import { toStruct } from 'utils/utils'
+import { VehicleStruct, Vehicle } from 'types/structs'
 import { useOperatorIds } from '../useOperatorIds'
-import { VehicleStruct } from './structs'
 
 type UseVehicles = {
     vehicles: Vehicle[]
