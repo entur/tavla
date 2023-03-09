@@ -1,8 +1,11 @@
 import React, { useCallback, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { copySettingsToNewId, updateFirebaseSettings } from 'settings/firebase'
-import { useUser } from 'settings/UserProvider'
-import { useSettings } from 'settings/SettingsProvider'
+import {
+    generatePath,
+    useLocation,
+    useNavigate,
+    useParams,
+} from 'react-router-dom'
+import { copySettingsToNewId } from 'settings/firebase'
 import {
     Label,
     Paragraph,
@@ -11,6 +14,7 @@ import {
     ListItem,
 } from '@entur/typography'
 import { TextField } from '@entur/form'
+import type { VariantType } from '@entur/form'
 import { SecondarySquareButton } from '@entur/button'
 import { CheckIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
@@ -22,95 +26,85 @@ enum inputFeedback {
     EMPTY_STRING = 'Tomt felt: Tavle-lenken kan ikke være tom.',
     TOO_SHORT = 'For kort: Tavle-lenken må være på minst seks tegn.',
     NOT_OWNER = 'Du har ikke rettigheter til å endre tavlelenken.',
+    INVALID_STRING = 'Ugyldig navn: Lenken må bestå av karakterene a-z, A-Z, 0-9, _ eller -',
     NOTHING = '',
 }
 
-enum inputFeedbackType {
-    SUCCESS = 'success',
-    FAILURE = 'error',
-    CLEAR = 'info',
+function isValidCustomURL(url: string): [boolean, inputFeedback] {
+    const validInputRegex = /^[A-Za-z0-9_-]*$/g
+    if (!url.match(validInputRegex)) {
+        return [false, inputFeedback.INVALID_STRING]
+    } else if (url.length === 0) {
+        return [false, inputFeedback.EMPTY_STRING]
+    } else if (url.length < 6) {
+        return [false, inputFeedback.TOO_SHORT]
+    } else {
+        return [true, inputFeedback.NOTHING]
+    }
+}
+
+async function setCustomURL(
+    customUrl: string,
+    currentUrl: string,
+): Promise<[boolean, inputFeedback]> {
+    const [isValid, feedback] = isValidCustomURL(customUrl)
+    if (!isValid) return [false, feedback]
+
+    try {
+        const successfulCopy = await copySettingsToNewId(customUrl, currentUrl)
+
+        if (successfulCopy) {
+            return [true, inputFeedback.ID_SET]
+        } else {
+            return [false, inputFeedback.ID_UNAVAILABLE]
+        }
+    } catch {
+        return [false, inputFeedback.NOT_OWNER]
+    }
 }
 
 function CustomURL() {
-    const user = useUser()
-    const [settings] = useSettings()
+    const { documentId } = useParams<{ documentId: string }>()
+    const navigate = useNavigate()
+    const location = useLocation()
 
     const [customUrlInput, setCustomUrlInput] = useState('')
-    const [feedbackMessage, setFeedbackMessage] = useState(
+    const [feedbackMessage, setFeedbackMessage] = useState<inputFeedback>(
         inputFeedback.NOTHING,
     )
-    const [feedbackMessageType, setFeedbackMessageType] = useState(
-        inputFeedbackType.CLEAR,
-    )
+    const [inputVariant, setInputVariant] = useState<VariantType | undefined>()
 
-    const { documentId } = useParams<{ documentId: string }>()
-    const [currentDoc, setCurrentDoc] = useState(documentId as string)
-
-    const handleCustomUrlChange = useCallback(
+    const onUrlInputChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
-            if (event.currentTarget.value.match(/[^A-Za-z0-9_-]/g)) {
-                event.currentTarget.value = event.currentTarget.value.replace(
-                    /[^A-Za-z0-9_-]/g,
-                    '',
-                )
-            }
-            setCustomUrlInput(event.target.value)
-            setFeedbackMessage(inputFeedback.NOTHING)
-            setFeedbackMessageType(inputFeedbackType.CLEAR)
+            const value = event.target.value
+            const [isValid, feedback] = isValidCustomURL(value)
+
+            setCustomUrlInput(value)
+            setInputVariant(isValid ? undefined : 'error')
+            setFeedbackMessage(feedback)
         },
         [],
     )
 
-    const handleNewIdVisuals = useCallback(() => {
-        setFeedbackMessageType(inputFeedbackType.SUCCESS)
-        setFeedbackMessage(inputFeedback.ID_SET)
-        setCurrentDoc(customUrlInput)
-        history.replaceState({}, '', customUrlInput)
-        setCustomUrlInput('')
-    }, [customUrlInput])
-
-    const handleFailedInputVisuals = useCallback((feedback: inputFeedback) => {
-        setFeedbackMessageType(inputFeedbackType.FAILURE)
-        setFeedbackMessage(feedback)
-    }, [])
-
     const tryAddCustomUrl = useCallback(async () => {
-        if (!customUrlInput) {
-            handleFailedInputVisuals(inputFeedback.EMPTY_STRING)
-            return
-        } else if (customUrlInput.length < 6) {
-            handleFailedInputVisuals(inputFeedback.TOO_SHORT)
-            return
-        }
+        if (!documentId) return
 
-        try {
-            const isOwner = user?.uid && settings.owners.includes(user.uid)
-            if (!isOwner) throw new Error()
+        const [wasSuccessful, feedback] = await setCustomURL(
+            customUrlInput,
+            documentId,
+        )
 
-            const successfulCopy = await copySettingsToNewId(
+        setInputVariant(wasSuccessful ? 'success' : 'error')
+        setFeedbackMessage(feedback)
+
+        if (wasSuccessful) {
+            const newPath = generatePath('/admin/:customUrlInput', {
                 customUrlInput,
-                documentId ?? '',
-            )
-            if (successfulCopy) {
-                updateFirebaseSettings(currentDoc, {
-                    isScheduledForDelete: true,
-                })
-                handleNewIdVisuals()
-            } else {
-                handleFailedInputVisuals(inputFeedback.ID_UNAVAILABLE)
-            }
-        } catch {
-            handleFailedInputVisuals(inputFeedback.NOT_OWNER)
+            })
+
+            navigate(newPath + location.search, { replace: true })
         }
-    }, [
-        currentDoc,
-        customUrlInput,
-        documentId,
-        handleNewIdVisuals,
-        settings.owners,
-        user?.uid,
-        handleFailedInputVisuals,
-    ])
+    }, [customUrlInput, documentId, location.search, navigate])
 
     return (
         <div className={classes.CustomURL}>
@@ -141,14 +135,14 @@ function CustomURL() {
                     <TextField
                         label="Ønsket lenkeadresse"
                         value={customUrlInput}
-                        onChange={handleCustomUrlChange}
+                        onChange={onUrlInputChange}
                         onKeyDown={(
                             e: React.KeyboardEvent<HTMLInputElement>,
                         ) => {
                             if (e.key === 'Enter') tryAddCustomUrl()
                         }}
                         maxLength={80}
-                        variant={feedbackMessageType}
+                        variant={inputVariant}
                         feedback={feedbackMessage}
                     />
                 </div>
@@ -157,6 +151,7 @@ function CustomURL() {
                         <SecondarySquareButton
                             onClick={tryAddCustomUrl}
                             aria-label="Sett Tavla-lenke"
+                            disabled={!isValidCustomURL(customUrlInput)[0]}
                         >
                             <CheckIcon />
                         </SecondarySquareButton>
