@@ -44,7 +44,7 @@
         "@entur/chip": "0.6.23",
         "@entur/dropdown": "3.0.25",
         "@entur/expand": "3.3.36",
-        "@entur/fileupload": "0.3.57",
+        "@entur/fileupload": "0.3.67",
         "@entur/form": "5.4.12",
         "@entur/grid": "0.3.17",
         "@entur/icons": "5.4.0",
