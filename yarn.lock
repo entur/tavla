@@ -2118,17 +2118,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/layout@npm:2.1.14":
-  version: 2.1.14
-  resolution: "@entur/layout@npm:2.1.14"
+"@entur/layout@npm:2.1.24":
+  version: 2.1.24
+  resolution: "@entur/layout@npm:2.1.24"
   dependencies:
-    "@entur/typography": ^1.7.3
-    "@entur/utils": ^0.4.8
+    "@entur/icons": ^6.0.1
+    "@entur/tokens": ^3.8.1
+    "@entur/typography": ^1.7.12
+    "@entur/utils": ^0.5.5
     classnames: ^2.3.1
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: b08565eb8c7f3ca4adf8861162177c37bca83e8086cd2046bb282dddf35613ad6438d3e64fc6d6c1362dffb145a99b0f0be32efa7d3768f946de2bb2aaf1a3cc
+  checksum: 65e6591d2679f6ba382318a0d62c19353736a094785dfb4000714f057de413424913ad1024215fd58ec5f556dfdaa3c377db7681072263d0c9f28e49f4621491
   languageName: node
   linkType: hard
 
@@ -16882,7 +16884,7 @@ __metadata:
     "@entur/form": 5.4.12
     "@entur/grid": 0.3.17
     "@entur/icons": 5.4.0
-    "@entur/layout": 2.1.14
+    "@entur/layout": 2.1.24
     "@entur/loader": 0.4.15
     "@entur/menu": 4.1.20
     "@entur/modal": 1.6.17
