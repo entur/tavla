@@ -142,13 +142,15 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
         <div className={classes.PanelRow}>
             <ExpandablePanel className={classes.Expandable} title={header}>
                 <div className={classes.Content}>
-                    {uniqueDepartures.map(({ route }) => (
-                        <RouteCheckbox
-                            key={route}
-                            route={route}
-                            stopPlaceId={stopPlaceWithEstimatedCalls?.id}
-                        />
-                    ))}
+                    {uniqueDepartures
+                        .sort((a, b) => (a.route > b.route ? 1 : -1))
+                        .map(({ route }) => (
+                            <RouteCheckbox
+                                key={route}
+                                route={route}
+                                stopPlaceId={stopPlaceWithEstimatedCalls?.id}
+                            />
+                        ))}
                 </div>
             </ExpandablePanel>
             {settings.newStops.includes(stopPlaceId) && (
