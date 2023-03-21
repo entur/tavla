@@ -2118,7 +2118,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/layout@npm:2.1.24":
+"@entur/layout@npm:2.1.24, @entur/layout@npm:^2.1.24":
   version: 2.1.24
   resolution: "@entur/layout@npm:2.1.24"
   dependencies:
@@ -2247,24 +2247,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/modal@npm:1.6.17":
-  version: 1.6.17
-  resolution: "@entur/modal@npm:1.6.17"
+"@entur/modal@npm:1.6.27":
+  version: 1.6.27
+  resolution: "@entur/modal@npm:1.6.27"
   dependencies:
-    "@entur/a11y": ^0.2.52
-    "@entur/button": ^2.10.7
-    "@entur/icons": ^5.4.0
-    "@entur/layout": ^2.1.14
-    "@entur/tokens": ^3.4.3
-    "@entur/typography": ^1.7.3
-    "@entur/utils": ^0.4.8
+    "@entur/a11y": ^0.2.60
+    "@entur/button": ^3.0.1
+    "@entur/icons": ^6.0.1
+    "@entur/layout": ^2.1.24
+    "@entur/tokens": ^3.8.1
+    "@entur/typography": ^1.7.12
+    "@entur/utils": ^0.5.5
     "@reach/dialog": ^0.16.0
     classnames: ^2.3.1
-    react-focus-lock: ^2.5.2
+    react-focus-lock: ^2.9.1
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: b782e28f9333e7194868fe33d292719372a3430647b665cd9dc34f2f99dfd2635cb3446e90ae17c523a197938f7c41072aafcf9ac56307f79e77e1a18410be02
+  checksum: 72d406581207cf54c662b1d091d6dc682e2c3beb4b745efd7f2852bc8b9736a21c3f8fca8d94b24f8196103401d6068f17638970fa0ae5499d958a4d6a9ac8ff
   languageName: node
   linkType: hard
 
@@ -14928,7 +14928,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-focus-lock@npm:^2.5.2":
+"react-focus-lock@npm:^2.5.2, react-focus-lock@npm:^2.9.1":
   version: 2.9.4
   resolution: "react-focus-lock@npm:2.9.4"
   dependencies:
@@ -16887,7 +16887,7 @@ __metadata:
     "@entur/layout": 2.1.24
     "@entur/loader": 0.4.15
     "@entur/menu": 4.1.20
-    "@entur/modal": 1.6.17
+    "@entur/modal": 1.6.27
     "@entur/tab": 0.4.35
     "@entur/table": 4.5.30
     "@entur/tokens": 3.4.3
