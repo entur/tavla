@@ -1982,6 +1982,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/expand@npm:^3.3.38":
+  version: 3.3.38
+  resolution: "@entur/expand@npm:3.3.38"
+  dependencies:
+    "@entur/icons": ^6.0.1
+    "@entur/tokens": ^3.8.1
+    "@entur/typography": ^1.7.12
+    "@entur/utils": ^0.5.5
+    classnames: ^2.3.1
+    react-collapse: ^5.1.0
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 72c450a38d870d60a98985477cd25905f2dcf4c76a62af07802985e72cf1751aeabb1c2e2e986efb0f6a4c89032c5183fc4dd404b0bbb1368eeba291439f78cd
+  languageName: node
+  linkType: hard
+
 "@entur/fileupload@npm:0.3.67":
   version: 0.3.67
   resolution: "@entur/fileupload@npm:0.3.67"
@@ -2049,6 +2066,23 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: bdb9cfe5b512ae425e01c5407f801cc3b36a225ddc842a49bea85950eab4412dd706d6d93fefc82bf4797fcfa8be6007de96233a14e52345d0df0df4e51c5131
+  languageName: node
+  linkType: hard
+
+"@entur/form@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "@entur/form@npm:6.1.0"
+  dependencies:
+    "@entur/icons": ^6.0.1
+    "@entur/tokens": ^3.8.1
+    "@entur/tooltip": ^2.6.9
+    "@entur/typography": ^1.7.12
+    "@entur/utils": ^0.5.5
+    classnames: ^2.3.1
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 68c755e32c2389861da65b9cd2aadc65d3dec3ebb1318306df6cb964d0efd0744576463ef6b3da21a1a7743485e526aaa1ab0c8fee13c7c43c1c89d3fe20b43d
   languageName: node
   linkType: hard
 
@@ -2283,21 +2317,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/table@npm:4.5.30":
-  version: 4.5.30
-  resolution: "@entur/table@npm:4.5.30"
+"@entur/table@npm:4.5.42":
+  version: 4.5.42
+  resolution: "@entur/table@npm:4.5.42"
   dependencies:
-    "@entur/button": ^2.10.7
-    "@entur/expand": ^3.3.28
-    "@entur/form": ^5.4.12
-    "@entur/utils": ^0.4.8
+    "@entur/button": ^3.0.1
+    "@entur/expand": ^3.3.38
+    "@entur/form": ^6.1.0
+    "@entur/icons": ^6.0.1
+    "@entur/tokens": ^3.8.1
+    "@entur/tooltip": ^2.6.9
+    "@entur/utils": ^0.5.5
     "@types/lodash.get": ^4.4.6
     classnames: ^2.3.1
     lodash.get: ^4.4.2
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: f735687e55fb9fe8b4428e0330dd9fa65ca214c0fdecc04b2eb472b80cd0f2be1c291e8177441e45f669a7e47f3a2ea20489db31c4ea9c1eac1c428d70b9f15a
+  checksum: 5b408424c10716cc37ae04a70f039313d125b458197b560f8cde066776040aac0d3d5580eaacb5eb7224b6c2cfaacdc6d1099a5168843a58e93a1bdfdbc4635c
   languageName: node
   linkType: hard
 
@@ -2380,6 +2417,25 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 2c5d70c595ff5b7aa9063f5681dbf1441ad2b40fce9d1bda44a24c0745243aa6591b5ed373112864623a4b4ccd2b787f119f0113bf6395bce3823fc9e4188ae6
+  languageName: node
+  linkType: hard
+
+"@entur/tooltip@npm:^2.6.9":
+  version: 2.6.9
+  resolution: "@entur/tooltip@npm:2.6.9"
+  dependencies:
+    "@entur/button": ^3.0.1
+    "@entur/icons": ^6.0.1
+    "@entur/layout": ^2.1.24
+    "@entur/tokens": ^3.8.1
+    "@entur/utils": ^0.5.5
+    "@popperjs/core": ^2.10.1
+    classnames: ^2.3.1
+    react-popper: ~2.2.5
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: f992c9f5fc399b7ad5c51e4ecd8d396678fad4dbcdcae34ab12f3c90cff009c47468c2e2e7cb8d4640950b7cda83aa9b2391bef26b63f2f1fc2f56d76bee42e5
   languageName: node
   linkType: hard
 
@@ -16889,7 +16945,7 @@ __metadata:
     "@entur/menu": 4.1.20
     "@entur/modal": 1.6.27
     "@entur/tab": 0.4.35
-    "@entur/table": 4.5.30
+    "@entur/table": 4.5.42
     "@entur/tokens": 3.4.3
     "@entur/tooltip": 2.5.24
     "@entur/travel": 5.0.22
