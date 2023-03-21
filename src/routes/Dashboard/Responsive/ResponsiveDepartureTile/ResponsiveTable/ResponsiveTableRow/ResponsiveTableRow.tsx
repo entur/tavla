@@ -40,6 +40,11 @@ function ResponsiveTableRow({ departure }: { departure: Departure }) {
                     </span>
                 </span>
             </td>
+            {!settings.hideTracks && (
+                <td className={classes.Platform}>
+                    {departure.quay.publicCode || '-'}
+                </td>
+            )}
             <td className={classes.DepartureName}>
                 {departure.frontText}
                 {!settings.hideSituations && (
