@@ -143,7 +143,11 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
             <ExpandablePanel className={classes.Expandable} title={header}>
                 <div className={classes.Content}>
                     {uniqueDepartures
-                        .sort((a, b) => (a.route > b.route ? 1 : -1))
+                        .sort((a, b) =>
+                            a.route.localeCompare(b.route, 'no-NB', {
+                                numeric: true,
+                            }),
+                        )
                         .map(({ route }) => (
                             <RouteCheckbox
                                 key={route}
