@@ -1,0 +1,1 @@
+self.__RSC_SERVER_MANIFEST={}
