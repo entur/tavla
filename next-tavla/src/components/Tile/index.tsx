@@ -52,7 +52,7 @@ function Tile({ id }: { id: string }) {
 
 async function getStopPlaceData(id: string) {
   const query = {
-    query: stopPlaceQuery.loc.source.body,
+    query: stopPlaceQuery,
     variables: { stopPlaceId: id },
   };
   return await fetch(
