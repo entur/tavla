@@ -9,10 +9,16 @@
 }
 
 .tileTable {
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  margin-top: 1rem;
 }
 
 .tableRow {
-  display: contents;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  border-bottom: 2px solid black;
+  padding: 0.25rem 0;
+}
+
+.tableRow:first-child {
+  border-bottom: 4px solid black;
 }
