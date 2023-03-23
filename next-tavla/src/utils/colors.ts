@@ -1,4 +1,4 @@
-import { type transportMode } from "~/types/transport";
+import { type transportMode } from "@/types/transport";
 
 type transportLineColors = { [line: string]: string };
 
