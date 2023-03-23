@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { tableData, TileTable } from "../TileTable";
 import stopPlaceQuery from "@/graphql/stopPlaceQuery.graphql";
-import styles from "./styles.css";
+import classes from "./styles.module.css";
+import { StopPlaceData } from "@/types/stopPlace";
+import { getRelativeTimeString } from "@/utils/time";
 
-function Tile({ id }: { id: string }) {
-  const [data, setData] = useState(undefined);
+export function Tile({ id }: { id: string }) {
+  const [data, setData] = useState<StopPlaceData | undefined>(undefined);
 
   useEffect(() => {
     getStopPlaceData(id).then(setData);
@@ -24,28 +25,22 @@ function Tile({ id }: { id: string }) {
   }
 
   return (
-    <div className="tile">
+    <div className={classes.tile}>
       <h3>{data.name}</h3>
-      <div className="overflow-hidden">
-        <TileTable
-          options={{
-            destination: "short",
-            departure: "absolute",
-            line: "outlined",
-          }}
-          columnOrder={["line", "destination", "departure"]}
-          tableData={data.estimatedCalls.map((call) => {
-            return {
-              lineNumber: call.serviceJourney.line.publicCode,
-              departure: call.expectedDepartureTime,
-              destination: call.destinationDisplay.frontText,
-              transportMode: call.serviceJourney.transportMode,
-              vendor: call.serviceJourney.line.authority.name,
-              presentationColor: call.serviceJourney.line.presentation.colour,
-            } as tableData;
-          })}
-        />
-      </div>
+      <ul className={classes.tileTable}>
+        <li className={classes.tableRow}>
+          <div>Linje</div>
+          <div>Destinasjon</div>
+          <div>Avgang</div>
+        </li>
+        {data.estimatedCalls.map((departure) => (
+          <li className={classes.tableRow}>
+            <div>{departure.serviceJourney.line.publicCode}</div>
+            <div>{departure.destinationDisplay.frontText}</div>
+            <div>{getRelativeTimeString(departure.expectedDepartureTime)}</div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -70,7 +65,5 @@ async function getStopPlaceData(id: string) {
     .then((res) => {
       return res.json();
     })
-    .then((jsonRes) => jsonRes.data.stopPlace);
+    .then((jsonRes) => jsonRes.data.stopPlace as StopPlaceData);
 }
-
-export { Tile };
