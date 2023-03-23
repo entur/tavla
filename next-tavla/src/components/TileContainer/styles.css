@@ -1,0 +1,7 @@
+.tile-container {
+  display: grid;
+  gap: 10px;
+  height: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(50vmin, 1fr));
+  overflow: hidden;
+}
