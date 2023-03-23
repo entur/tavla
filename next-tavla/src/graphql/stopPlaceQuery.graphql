@@ -1,0 +1,25 @@
+query stopPlaceName($stopPlaceId: String!) {
+  stopPlace(id: $stopPlaceId) {
+    name
+    estimatedCalls {
+      destinationDisplay {
+        frontText
+      }
+      expectedDepartureTime
+      serviceJourney {
+        transportMode
+        transportSubmode
+        line {
+          publicCode
+          authority {
+            name
+          }
+          presentation {
+            textColour
+            colour
+          }
+        }
+      }
+    }
+  }
+}
