@@ -1,14 +1,15 @@
 .tile-table {
   width: 100%;
   font-size: 1rem;
+  display: grid;
 }
 
-thead tr {
+.tile-table thead tr {
   border-bottom: 4px solid #54568c;
   font-weight: 500;
 }
 
-tbody tr {
+.tile-table tbody tr {
   border-bottom: 2px solid #54568c;
 }
 

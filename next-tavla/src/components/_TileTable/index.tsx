@@ -1,4 +1,4 @@
-import styles from "./styles.css";
+import classes from "./styles.module.css";
 
 export type tableData = {
   lineNumber: string;
@@ -29,9 +29,12 @@ function TileTable({
   const uniqOptions: columnType[] = columnOrder;
   const gridTemplate = gridTemplateColumns(uniqOptions);
   return (
-    <table className="tile-table">
+    <table className={classes["tile-table"]}>
       <thead>
-        <tr style={{ gridTemplateColumns: gridTemplate }} className="tile-row">
+        <tr
+          className={classes["tile-row"]}
+          style={{ gridTemplateColumns: gridTemplate }}
+        >
           {uniqOptions.map((option: columnType) => (
             <th className="header-text" key={option}>
               {getColumnTitle(option)}
@@ -43,8 +46,8 @@ function TileTable({
         {tableData.map((entry: tableData) => (
           <tr
             key={entry.lineNumber + entry.destination + entry.departure}
+            className={classes["tile-row"]}
             style={{ gridTemplateColumns: gridTemplate }}
-            className="tile-row"
           >
             {uniqOptions.map((option) => TableEntry(option, entry))}
           </tr>
