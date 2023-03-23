@@ -32,22 +32,24 @@ export function Tile({ id }: { id: string }) {
       <ul className={classes.tileTable}>
         <li className={classes.tableRow}>
           <div>Linje</div>
-          <div>Destinasjon</div>
+          <div style={{flex: 3}}>Destinasjon</div>
           <div>Avgang</div>
         </li>
         {data.estimatedCalls.map((departure) => (
           <li className={classes.tableRow}>
-            <TransportIcon
-              transportMode={
-                departure.serviceJourney.transportMode as transportMode
-              }
-              line={departure.serviceJourney.line.publicCode}
-              vendor={departure.serviceJourney.line.authority.name}
-              presentationColor={
-                departure.serviceJourney.line.presentation.colour
-              }
-            />
-            <div>{departure.destinationDisplay.frontText}</div>
+            <div>
+              <TransportIcon
+                transportMode={
+                  departure.serviceJourney.transportMode as transportMode
+                }
+                line={departure.serviceJourney.line.publicCode}
+                vendor={departure.serviceJourney.line.authority.name}
+                presentationColor={
+                  departure.serviceJourney.line.presentation.colour
+                }
+              />
+            </div>
+            <div style={{flex: 3}}>{departure.destinationDisplay.frontText}</div>
             <div>{getRelativeTimeString(departure.expectedDepartureTime)}</div>
           </li>
         ))}

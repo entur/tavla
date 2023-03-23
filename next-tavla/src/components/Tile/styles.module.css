@@ -13,10 +13,15 @@
 }
 
 .tableRow {
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
   border-bottom: 2px solid black;
   padding: 0.25rem 0;
+}
+
+.tableRow > * {
+  flex: 1;
 }
 
 .tableRow:first-child {
