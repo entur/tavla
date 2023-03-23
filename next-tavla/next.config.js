@@ -4,10 +4,10 @@ const nextConfig = {
     appDir: true,
   },
   webpack: (config) => {
+    config.resolve.extensions.push(".graphql");
     config.module.rules.push({
-      test: /\.(graphql|gql)$/,
-      exclude: /node_modules/,
-      loader: "graphql-tag/loader",
+      test: /\.graphql$/,
+      type: "asset/source",
     });
     return config;
   },
