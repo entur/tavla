@@ -3,6 +3,8 @@ import stopPlaceQuery from "@/graphql/stopPlaceQuery.graphql";
 import classes from "./styles.module.css";
 import { StopPlaceData } from "@/types/stopPlace";
 import { getRelativeTimeString } from "@/utils/time";
+import { TransportIcon } from "../TransportIcon";
+import { transportMode } from "@/types/transport";
 
 export function Tile({ id }: { id: string }) {
   const [data, setData] = useState<StopPlaceData | undefined>(undefined);
@@ -35,7 +37,16 @@ export function Tile({ id }: { id: string }) {
         </li>
         {data.estimatedCalls.map((departure) => (
           <li className={classes.tableRow}>
-            <div>{departure.serviceJourney.line.publicCode}</div>
+            <TransportIcon
+              transportMode={
+                departure.serviceJourney.transportMode as transportMode
+              }
+              line={departure.serviceJourney.line.publicCode}
+              vendor={departure.serviceJourney.line.authority.name}
+              presentationColor={
+                departure.serviceJourney.line.presentation.colour
+              }
+            />
             <div>{departure.destinationDisplay.frontText}</div>
             <div>{getRelativeTimeString(departure.expectedDepartureTime)}</div>
           </li>
@@ -59,7 +70,6 @@ async function getStopPlaceData(id: string) {
       },
       body: JSON.stringify(query),
       method: "POST",
-      mode: "cors",
     }
   )
     .then((res) => {
