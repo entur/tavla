@@ -49,7 +49,7 @@ export function Tile({
         {data.estimatedCalls.map((departure) => (
           <li className={classes.tableRow}>
             {uniqueColumns.map((column: Column) =>
-              getColumn(column, departure, flexWeights[column])
+              getColumn(column, departure)
             )}
           </li>
         ))}
@@ -80,15 +80,17 @@ async function getStopPlaceData(id: string) {
     .then((jsonRes) => jsonRes.data.stopPlace as StopPlaceData);
 }
 
-function getColumn(column: Column, departure: Departure, flex: number) {
+function getColumn(column: Column, departure: Departure) {
   switch (column) {
     case "destination":
       return (
-        <div style={{ flex }}>{departure.destinationDisplay.frontText}</div>
+        <div style={{ flex: flexWeights[column] }}>
+          {departure.destinationDisplay.frontText}
+        </div>
       );
     case "line":
       return (
-        <div style={{ flex }}>
+        <div style={{ flex: flexWeights[column] }}>
           <TransportIcon
             transportMode={
               departure.serviceJourney.transportMode as transportMode
@@ -103,7 +105,7 @@ function getColumn(column: Column, departure: Departure, flex: number) {
       );
     case "time":
       return (
-        <div style={{ flex }}>
+        <div style={{ flex: flexWeights[column] }}>
           {getRelativeTimeString(departure.expectedDepartureTime)}
         </div>
       );
