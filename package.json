@@ -57,7 +57,7 @@
         "@entur/tokens": "3.4.3",
         "@entur/tooltip": "2.5.24",
         "@entur/travel": "5.0.22",
-        "@entur/typography": "1.7.3",
+        "@entur/typography": "1.7.13",
         "@habx/apollo-multi-endpoint-link": "2.9.0",
         "@sentry/react": "7.32.0",
         "@types/react-helmet": "6.1.6",
