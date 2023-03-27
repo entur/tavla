@@ -14,7 +14,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/icons@npm:^6.0.1":
+"@entur/icons@npm:6.0.1":
   version: 6.0.1
   resolution: "@entur/icons@npm:6.0.1"
   dependencies:
@@ -271,6 +271,13 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: e60b153664572116dfea673c5bda7778dbff150498f44f998e34b5886d8afc47f16799280e4b6e241c0472aef1bc36add771c569c68fc5125fc2ae519a3eb9ac
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:4.14.191":
+  version: 4.14.191
+  resolution: "@types/lodash@npm:4.14.191"
+  checksum: ba0d5434e10690869f32d5ea49095250157cae502f10d57de0a723fd72229ce6c6a4979576f0f13e0aa9fbe3ce2457bfb9fa7d4ec3d6daba56730a51906d1491
   languageName: node
   linkType: hard
 
@@ -1847,7 +1854,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.21":
+"lodash@npm:4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -2601,12 +2608,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tavla@workspace:."
   dependencies:
-    "@entur/icons": ^6.0.1
+    "@entur/icons": 6.0.1
+    "@types/lodash": 4.14.191
     "@types/node": 18.15.5
     "@types/react": 18.0.28
     eslint: 8.36.0
     eslint-config-next: 13.2.4
-    lodash: ^4.17.21
+    lodash: 4.17.21
     next: 13.2.4
     react: 18.2.0
     react-dom: 18.2.0
