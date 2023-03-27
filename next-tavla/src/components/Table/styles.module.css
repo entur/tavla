@@ -11,8 +11,13 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding: 0.25rem 0;
 }
 
 .table tr {
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid lightgray;
+}
+
+.table thead tr {
+  border-bottom: 4px solid white;
 }
