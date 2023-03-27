@@ -7,23 +7,3 @@
   border-radius: 0.5rem;
   overflow: hidden;
 }
-
-.tileTable {
-  margin-top: 1rem;
-}
-
-.tableRow {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  border-bottom: 2px solid black;
-  padding: 0.25rem 0;
-}
-
-.tableRow > * {
-  flex: 1;
-}
-
-.tableRow:first-child {
-  border-bottom: 4px solid black;
-}
