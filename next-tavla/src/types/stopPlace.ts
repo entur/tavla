@@ -9,6 +9,7 @@ export type Departure = {
   };
   expectedDepartureTime: string;
   serviceJourney: {
+    id: string,
     transportMode: string;
     transportSubmode: string;
     line: {

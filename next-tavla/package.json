@@ -9,16 +9,18 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build-start": "next build && next start"
   },
   "dependencies": {
-    "@entur/icons": "^6.0.1",
-    "lodash": "^4.17.21",
+    "@entur/icons": "6.0.1",
+    "lodash": "4.17.21",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@types/lodash": "4.14.191",
     "@types/node": "18.15.5",
     "@types/react": "18.0.28",
     "eslint": "8.36.0",

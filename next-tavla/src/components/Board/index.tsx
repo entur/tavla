@@ -1,14 +1,10 @@
-import { Tile } from "../Tile";
+import { Tile } from "@/components/Tile";
 import classes from "./styles.module.css";
 
 function Board({ id }: { id: string }) {
   return (
     <div className={classes.board}>
-      <Tile stopPlaceID="NSR:StopPlace:337" />
-      <Tile
-        stopPlaceID="NSR:StopPlace:58366"
-        columns={["time", "line", "destination"]}
-      />
+      <Tile stopPlaceID="NSR:StopPlace:58366" />
     </div>
   );
 }
