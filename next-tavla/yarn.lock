@@ -14,28 +14,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/icons@npm:6.0.1":
-  version: 6.0.1
-  resolution: "@entur/icons@npm:6.0.1"
-  dependencies:
-    "@entur/tokens": ^3.8.1
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    sass: ^1.58.0
-  checksum: 1b5f65fde3303cf13365a17c7010af286a5189f2161a69c3b6f6ef1b7e15e83ed069c1d022ebd0c0c6451f6c72a61b01e6a561bac434e625b2200a38b6c62472
-  languageName: node
-  linkType: hard
-
-"@entur/tokens@npm:^3.8.1":
-  version: 3.8.1
-  resolution: "@entur/tokens@npm:3.8.1"
-  dependencies:
-    hex-rgb: ^4.3.0
-  checksum: e13a014ee647c623c290783415194c50a27ff2b154cfd4583e118c18d682083307f8df227de1f82e94217e28e4f63ad2c00da815631ab9ad694ad4cd89d82a17
-  languageName: node
-  linkType: hard
-
 "@eslint-community/eslint-utils@npm:^4.2.0":
   version: 4.3.0
   resolution: "@eslint-community/eslint-utils@npm:4.3.0"
@@ -1460,13 +1438,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hex-rgb@npm:^4.3.0":
-  version: 4.3.0
-  resolution: "hex-rgb@npm:4.3.0"
-  checksum: e654648db8647446f0111c68690d9b340eb192a93c8b2c6789a2b8deb5c20e757515ae209c5ae67074acfddf8575f9fc645d4ffaa0596d859457b08e180d791d
-  languageName: node
-  linkType: hard
-
 "ignore@npm:^5.2.0":
   version: 5.2.4
   resolution: "ignore@npm:5.2.4"
@@ -2608,7 +2579,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tavla@workspace:."
   dependencies:
-    "@entur/icons": 6.0.1
     "@types/lodash": 4.14.191
     "@types/node": 18.15.5
     "@types/react": 18.0.28
