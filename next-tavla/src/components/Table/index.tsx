@@ -57,6 +57,56 @@ function Table({
             </DepartureContext.Provider>
           </tr>
         ))}
+        <tr>
+          <TransportIcon vendor="undefined" line="1" transportMode="metro" />
+        </tr>
+        <tr>
+          <TransportIcon vendor="undefined" line="1" transportMode="bus" />
+        </tr>
+        <tr>
+          <TransportIcon vendor="undefined" line="1" transportMode="plane" />
+        </tr>
+        <tr>
+          <TransportIcon
+            vendor="undefined"
+            line="1"
+            transportMode="helicopter"
+          />
+        </tr>
+        <tr>
+          <TransportIcon vendor="undefined" line="1" transportMode="tram" />
+        </tr>
+        <tr>
+          <TransportIcon
+            vendor="undefined"
+            line="1"
+            transportMode="funicular"
+          />
+        </tr>
+        <tr>
+          <TransportIcon vendor="undefined" line="1" transportMode="cableway" />
+        </tr>
+        <tr>
+          <TransportIcon vendor="undefined" line="1" transportMode="taxi" />
+        </tr>
+        <tr>
+          <TransportIcon vendor="undefined" line="1" transportMode="bicycle" />
+        </tr>
+        <tr>
+          <TransportIcon vendor="undefined" line="1" transportMode="walk" />
+        </tr>
+        <tr>
+          <TransportIcon vendor="undefined" line="1" transportMode="rail" />
+        </tr>
+        <tr>
+          <TransportIcon vendor="undefined" line="1" transportMode="ferry" />
+        </tr>
+        <tr>
+          <TransportIcon vendor="undefined" line="1" transportMode="carferry" />
+        </tr>
+        <tr>
+          <TransportIcon vendor="undefined" line="1" transportMode="mobility" />
+        </tr>
       </tbody>
     </table>
   );
