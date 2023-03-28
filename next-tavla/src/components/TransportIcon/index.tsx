@@ -8,8 +8,8 @@ function TransportIcon({
   transportMode,
   presentationColor,
 }: {
-  line: string;
-  vendor: string;
+  line?: string;
+  vendor?: string;
   transportMode: transportMode;
   presentationColor?: string;
 }) {

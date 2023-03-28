@@ -6,6 +6,7 @@ import { DepartureContext } from "./contexts";
 import { Time } from "./Time";
 import { Destination } from "./Destination";
 import { Line } from "./Line";
+import { TransportIcon } from "../TransportIcon";
 
 const headerOptions: Record<Column, { name: string; size: number }> = {
   destination: {
@@ -58,54 +59,46 @@ function Table({
           </tr>
         ))}
         <tr>
-          <TransportIcon vendor="undefined" line="1" transportMode="metro" />
+          <TransportIcon line="1" transportMode="metro" />
         </tr>
         <tr>
-          <TransportIcon vendor="undefined" line="1" transportMode="bus" />
+          <TransportIcon line="1" transportMode="bus" />
         </tr>
         <tr>
-          <TransportIcon vendor="undefined" line="1" transportMode="plane" />
+          <TransportIcon line="1" transportMode="plane" />
         </tr>
         <tr>
-          <TransportIcon
-            vendor="undefined"
-            line="1"
-            transportMode="helicopter"
-          />
+          <TransportIcon line="1" transportMode="helicopter" />
         </tr>
         <tr>
-          <TransportIcon vendor="undefined" line="1" transportMode="tram" />
+          <TransportIcon line="1" transportMode="tram" />
         </tr>
         <tr>
-          <TransportIcon
-            vendor="undefined"
-            line="1"
-            transportMode="funicular"
-          />
+          <TransportIcon line="1" transportMode="funicular" />
         </tr>
         <tr>
-          <TransportIcon vendor="undefined" line="1" transportMode="cableway" />
+          <TransportIcon line="1" transportMode="cableway" />
         </tr>
         <tr>
-          <TransportIcon vendor="undefined" line="1" transportMode="taxi" />
+          <TransportIcon line="1" transportMode="taxi" />
         </tr>
         <tr>
-          <TransportIcon vendor="undefined" line="1" transportMode="bicycle" />
+          <TransportIcon line="1" transportMode="bicycle" />
         </tr>
         <tr>
-          <TransportIcon vendor="undefined" line="1" transportMode="walk" />
+          <TransportIcon line="1" transportMode="walk" />
         </tr>
         <tr>
-          <TransportIcon vendor="undefined" line="1" transportMode="rail" />
+          <TransportIcon line="1" transportMode="rail" />
         </tr>
         <tr>
-          <TransportIcon vendor="undefined" line="1" transportMode="ferry" />
+          <TransportIcon line="1" transportMode="ferry" />
         </tr>
         <tr>
-          <TransportIcon vendor="undefined" line="1" transportMode="carferry" />
+          <TransportIcon line="1" transportMode="carferry" />
         </tr>
         <tr>
-          <TransportIcon vendor="undefined" line="1" transportMode="mobility" />
+          <TransportIcon line="1" transportMode="mobility" />
         </tr>
       </tbody>
     </table>
