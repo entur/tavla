@@ -1,14 +1,13 @@
 import { Departure } from "@/types/stopPlace";
-import { Column } from "@/types/tile";
+import { TColumn } from "@/types/tile";
 import React from "react";
 import classes from "./styles.module.css";
 import { DepartureContext } from "./contexts";
 import { Time } from "./Time";
 import { Destination } from "./Destination";
 import { Line } from "./Line";
-import { TransportIcon } from "../TransportIcon";
 
-const headerOptions: Record<Column, { name: string; size: number }> = {
+const headerOptions: Record<TColumn, { name: string; size: number }> = {
   destination: {
     name: "Destinasjon",
     size: 3,
@@ -23,7 +22,7 @@ const headerOptions: Record<Column, { name: string; size: number }> = {
   },
 };
 
-const columnComponents: Record<Column, () => JSX.Element> = {
+const columnComponents: Record<TColumn, () => JSX.Element> = {
   destination: Destination,
   line: Line,
   time: Time,
@@ -33,7 +32,7 @@ function Table({
   columns,
   departures,
 }: {
-  columns: Column[];
+  columns: TColumn[];
   departures: Departure[];
 }) {
   return (
@@ -58,48 +57,6 @@ function Table({
             </DepartureContext.Provider>
           </tr>
         ))}
-        <tr>
-          <TransportIcon line="1" transportMode="metro" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="bus" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="plane" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="helicopter" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="tram" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="funicular" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="cableway" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="taxi" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="bicycle" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="walk" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="rail" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="ferry" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="carferry" />
-        </tr>
-        <tr>
-          <TransportIcon line="1" transportMode="mobility" />
-        </tr>
       </tbody>
     </table>
   );

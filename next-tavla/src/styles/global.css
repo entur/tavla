@@ -20,7 +20,7 @@
 }
 
 html {
-  font-size: 3vw;
+  font-size: 3vmin;
 }
 
 h3 {
@@ -28,15 +28,25 @@ h3 {
 }
 
 .tag-text {
-  font-size: 1.5vw;
+  font-size: 0.5rem;
   color: white;
 }
 
 .header-text {
-  font-size: 1.5vw;
+  font-size: 0.5rem;
   color: #aeb7e2;
 }
 
 .overflow-hidden {
+  overflow: hidden;
+}
+
+.tile {
+  height: 100%;
+  width: 100%;
+  background-color: #292b6a;
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
   overflow: hidden;
 }
