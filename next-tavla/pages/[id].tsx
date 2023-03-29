@@ -1,8 +1,12 @@
 import { Board } from "@/components/Board";
 import { firebase, TSettings } from "@/types/settings";
 
-export async function getServerSideProps({ params }) {
-  const { id }: { id: string } = params;
+export async function getServerSideProps({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const { id } = params;
 
   const settings: TSettings | undefined = firebase[id];
 
