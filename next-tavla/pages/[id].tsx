@@ -1,17 +1,29 @@
 import { Board } from "@/components/Board";
-import { useRouter } from "next/router";
+import { firebase, TSettings } from "@/types/settings";
 
-function Tavle() {
-  const router = useRouter();
+export async function getServerSideProps({ params }) {
+  const { id }: { id: string } = params;
 
-  const { id } = router.query;
-  if (!id || typeof id !== "string") {
-    return null;
+  const settings: TSettings | undefined = firebase[id];
+
+  if (!settings) {
+    return {
+      notFound: true,
+    };
   }
+
+  return {
+    props: {
+      settings,
+    },
+  };
+}
+
+function Tavle({ settings }: { settings: TSettings }) {
   return (
     <div className="root">
       <div className="root-container">
-        <Board id={id} />
+        <Board settings={settings} />
       </div>
     </div>
   );
