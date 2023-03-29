@@ -1,7 +1,7 @@
 query stopPlaceName($stopPlaceId: String!) {
   stopPlace(id: $stopPlaceId) {
     name
-    estimatedCalls {
+    estimatedCalls(numberOfDepartures: 20) {
       destinationDisplay {
         frontText
       }

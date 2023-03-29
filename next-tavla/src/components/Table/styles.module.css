@@ -1,7 +1,7 @@
 .table {
   background-color: #292b6a;
   text-align: left;
-  height: auto;
+  height: 100%;
   border-collapse: collapse;
   width: 100%;
   table-layout: fixed;
