@@ -1,4 +1,4 @@
-import { firebase, TSettings } from "@/types/settings";
+import { TSettings } from "@/types/settings";
 import { initializeApp } from "firebase/app";
 import {
   getDoc,
