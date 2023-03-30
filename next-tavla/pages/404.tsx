@@ -1,5 +1,12 @@
+import { Header } from "@/components/Header";
+
 function NotFoundPage() {
-  return <div className="root">Tavlen kunne ikke hentes!</div>;
+  return (
+    <div className="root">
+      <Header />
+      <p className="pl-2">Tavlen kunne ikke hentes!</p>
+    </div>
+  );
 }
 
 export default NotFoundPage;

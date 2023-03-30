@@ -1,4 +1,5 @@
 import { Board } from "@/components/Board";
+import { Header } from "@/components/Header";
 import { TSettings } from "@/types/settings";
 import { getBoardSettings } from "@/utils/firebase";
 
@@ -24,14 +25,15 @@ export async function getServerSideProps({
   };
 }
 
-function Tavle({ settings }: { settings: TSettings }) {
+function BoardPage({ settings }: { settings: TSettings }) {
   return (
     <div className="root">
       <div className="root-container">
+		<Header/>
         <Board settings={settings} />
       </div>
     </div>
   );
 }
 
-export default Tavle;
+export default BoardPage;
