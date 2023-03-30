@@ -5,6 +5,7 @@ query stopPlaceName($stopPlaceId: String!) {
       destinationDisplay {
         frontText
       }
+      aimedDepartureTime
       expectedDepartureTime
       serviceJourney {
         id

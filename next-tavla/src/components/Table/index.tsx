@@ -36,36 +36,37 @@ function Table({
   departures: TDeparture[];
 }) {
   const divRef = useRef<HTMLDivElement>(null);
-  const [numberOfRows, setNumberOfRows] = useState<number>(0);
+  const [numberOfRows, setNumberOfRows] = useState<number>(departures.length);
 
   useEffect(() => {
-    setNumberOfRows(departures.length);
-  }, [departures.length]);
-
-  useEffect(() => {
-    if (
-      divRef.current &&
-      divRef.current.scrollHeight > divRef.current.clientHeight
-    ) {
-      setNumberOfRows((old) => old - 1);
-    }
-  }, [departures.length, numberOfRows]);
+    if (!divRef.current) return;
+    const rowHeight = divRef.current.scrollHeight / (departures.length + 1); // Plus one for header
+    setNumberOfRows(Math.floor(divRef.current.clientHeight / rowHeight - 1));
+  }, [departures]);
 
   return (
-    <div style={{ height: "100%", overflow: 'hidden' }} ref={divRef}>
+    <div style={{ height: "100%", overflow: "hidden" }} ref={divRef}>
       <table className={classes.table}>
         <thead>
           <tr>
             {columns.map((col) => (
-              <th style={{ width: `${headerOptions[col].size}%` }} key={col}>
+              <th
+                style={{
+                  width: `${headerOptions[col].size}%`,
+                }}
+                key={col}
+              >
                 {headerOptions[col].name}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {departures.slice(0, numberOfRows).map((departure) => (
-            <tr key={departure.serviceJourney.id}>
+          {departures.map((departure, i) => (
+            <tr
+              key={`${departure.serviceJourney.id}_${departure.aimedDepartureTime}`}
+              style={{ visibility: i >= numberOfRows ? "hidden" : "visible" }}
+            >
               <DepartureContext.Provider value={departure}>
                 {columns.map((col) => {
                   const Component = columnComponents[col];
