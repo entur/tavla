@@ -14,7 +14,8 @@ function Destination() {
             id: "situation:1231231",
             description: [
               {
-                value: "veldig forsinket, personalet har forsovet seg",
+                value:
+                  "veldig forsinket, personalet har forsovet seg veldig forsinket, personalet har forsovet seg veldig forsinket, personalet har forsovet seg veldig forsinket, personalet har forsovet seg personalet har forsovet seg veldig forsinket, personalet har forsovet seg",
                 language: "no",
               },
             ],
