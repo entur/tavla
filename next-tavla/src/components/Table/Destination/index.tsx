@@ -11,6 +11,7 @@ function Destination() {
     Math.random() * 2 > 1
       ? [
           {
+            id: "situation:1231231",
             description: [
               {
                 value: "veldig forsinket, personalet har forsovet seg",

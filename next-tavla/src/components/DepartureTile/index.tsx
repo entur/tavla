@@ -81,5 +81,5 @@ async function getStopPlaceData(id: string) {
     .then((res) => {
       return res.json();
     })
-    .then((jsonRes) => jsonRes.data.stopPlace as StopPlaceData);
+    .then((jsonRes) => jsonRes.data.stopPlace as TStopPlaceData);
 }

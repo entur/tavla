@@ -1,4 +1,4 @@
-import { Departure } from "@/types/stopPlace";
+import { TDeparture } from "@/types/stopPlace";
 import { TColumn } from "@/types/tile";
 import React from "react";
 import classes from "./styles.module.css";
@@ -33,7 +33,7 @@ function Table({
   departures,
 }: {
   columns: TColumn[];
-  departures: Departure[];
+  departures: TDeparture[];
 }) {
   return (
     <table className={classes.table}>
