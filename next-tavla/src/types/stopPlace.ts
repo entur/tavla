@@ -28,6 +28,7 @@ export type TDeparture = {
 };
 
 export type TSituation = {
+  id: string;
   description: TSituationText[];
   summary: TSituationText[];
   severity: TSituationSeverity;

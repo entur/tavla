@@ -23,6 +23,7 @@ query stopPlaceName($stopPlaceId: String!) {
       }
       cancellation
       situations {
+		id
         description {
           value
           language
