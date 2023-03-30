@@ -1,3 +1,6 @@
+import "@entur/tokens/dist/styles.css"
+import "@/styles/themes/default.css"
+import "@/styles/themes/dark.css"
 import "@/styles/global.css";
 import "@/styles/reset.css";
 import "@/styles/fonts.css";

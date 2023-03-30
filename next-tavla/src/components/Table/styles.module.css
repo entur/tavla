@@ -1,5 +1,4 @@
 .table {
-  background-color: #292b6a;
   text-align: left;
   height: 100%;
   border-collapse: collapse;
@@ -15,9 +14,9 @@
 }
 
 .table tr {
-  border-bottom: 2px solid lightgray;
+  border-bottom: 2px solid var(--table-border-color);
 }
 
 .table thead tr {
-  border-bottom: 4px solid white;
+  border-bottom: 4px solid var(--table-border-color);
 }

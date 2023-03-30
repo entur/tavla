@@ -27,7 +27,7 @@ export async function getServerSideProps({
 
 function BoardPage({ settings }: { settings: TSettings }) {
   return (
-    <div className="root">
+    <div className="root" data-theme={settings.theme}>
       <div className="root-container">
 		<Header/>
         <Board settings={settings} />
