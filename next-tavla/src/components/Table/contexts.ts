@@ -1,6 +1,6 @@
-import { Departure } from "@/types/stopPlace";
+import { TDeparture } from "@/types/stopPlace";
 import React from "react";
 
-const DepartureContext = React.createContext<Departure | undefined>(undefined);
+const DepartureContext = React.createContext<TDeparture | undefined>(undefined);
 
 export { DepartureContext };
