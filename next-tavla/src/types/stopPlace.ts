@@ -1,15 +1,15 @@
-export type StopPlaceData = {
+export type TStopPlaceData = {
   name: string;
-  estimatedCalls: Departure[];
+  estimatedCalls: TDeparture[];
 };
 
-export type Departure = {
+export type TDeparture = {
   destinationDisplay: {
     frontText: string;
   };
   expectedDepartureTime: string;
   serviceJourney: {
-    id: string,
+    id: string;
     transportMode: string;
     transportSubmode: string;
     line: {
@@ -23,4 +23,27 @@ export type Departure = {
       };
     };
   };
+  cancellation: boolean;
+  situations: TSituation[];
 };
+
+export type TSituation = {
+  description: TSituationText[];
+  summary: TSituationText[];
+  severity: TSituationSeverity;
+};
+
+type TSituationText = {
+  value: string;
+  language: string;
+};
+
+type TSituationSeverity =
+  | "unknown"
+  | "noImpact"
+  | "verySlight"
+  | "slight"
+  | "normal"
+  | "severe"
+  | "verySevere"
+  | "undefined";

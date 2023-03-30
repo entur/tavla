@@ -21,6 +21,18 @@ query stopPlaceName($stopPlaceId: String!) {
           }
         }
       }
+      cancellation
+      situations {
+        description {
+          value
+          language
+        }
+        summary {
+          value
+          language
+        }
+        severity
+      }
     }
   }
 }
