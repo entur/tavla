@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { TStopPlaceData } from "@/types/stopPlace";
 import { TDepartureTile } from "@/types/tile";
 import { uniq } from "lodash";
@@ -24,26 +24,6 @@ export function DepartureTile({
     };
   }, [placeId]);
 
-  const tableRef = useRef<HTMLDivElement | null>(null);
-  const [updateNumberOfRows, setUpdateNumberOfRows] = useState(true);
-  const [numberOfRows, setNumberOfRows] = useState(0);
-
-  useEffect(() => {
-    if (!updateNumberOfRows) return;
-    if (!data) return;
-    if (!tableRef.current) return;
-    if (numberOfRows >= data.stopPlace.estimatedCalls.length) return;
-
-    const element = tableRef.current;
-
-    if (element.scrollHeight === element.clientHeight) {
-      setNumberOfRows(numberOfRows + 1);
-    } else {
-      setNumberOfRows(numberOfRows - 1);
-      setUpdateNumberOfRows(false);
-    }
-  }, [updateNumberOfRows, data, numberOfRows]);
-
   if (!data) {
     return <div className="tile">Data not found</div>;
   }
@@ -51,12 +31,10 @@ export function DepartureTile({
   return (
     <div className="tile" style={{ display: "flex", flexDirection: "column" }}>
       <h3>{data.stopPlace.name}</h3>
-      <div style={{ overflow: "hidden", height: "100%" }} ref={tableRef}>
-        <Table
-          columns={uniqueColumns}
-          departures={data.stopPlace.estimatedCalls}
-        />
-      </div>
+      <Table
+        columns={uniqueColumns}
+        departures={data.stopPlace.estimatedCalls}
+      />
     </div>
   );
 }
