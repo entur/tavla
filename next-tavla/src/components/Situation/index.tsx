@@ -7,7 +7,9 @@ function Situation({ situation }: { situation: TSituation }) {
   return (
     <div className={classes.situation}>
       <ValidationExclamation className={classes.validation} />
-      {situation.description.find((desc) => desc.language === "no")?.value}
+      <div className={classes.situationText}>
+        {situation.description.find((desc) => desc.language === "no")?.value}
+      </div>
     </div>
   );
 }
