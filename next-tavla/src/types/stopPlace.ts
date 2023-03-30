@@ -9,6 +9,7 @@ export type TDeparture = {
   destinationDisplay: {
     frontText: string;
   };
+  aimedDepartureTime: string;
   expectedDepartureTime: string;
   serviceJourney: {
     id: string;
