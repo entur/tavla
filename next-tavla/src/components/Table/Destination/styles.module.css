@@ -1,0 +1,4 @@
+.destination {
+  display: flex;
+  flex-direction: column;
+}

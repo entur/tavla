@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import stopPlaceQuery from "@/graphql/stopPlaceQuery.graphql";
-import { StopPlaceData } from "@/types/stopPlace";
+import { TStopPlaceData } from "@/types/stopPlace";
 import { TDepartureTile } from "@/types/tile";
 import { uniq } from "lodash";
 import { Table } from "@/components/Table";
@@ -9,7 +9,7 @@ export function DepartureTile({
   placeId,
   columns = ["line", "destination", "time"],
 }: TDepartureTile) {
-  const [data, setData] = useState<StopPlaceData | undefined>(undefined);
+  const [data, setData] = useState<TStopPlaceData | undefined>(undefined);
   const uniqueColumns = uniq(columns);
 
   useEffect(() => {
