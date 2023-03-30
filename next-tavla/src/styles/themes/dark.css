@@ -1,0 +1,7 @@
+[data-theme="dark"] {
+  --primary-background-color: var(--colors-misc-black);
+  --secondary-background-color: var(--colors-greys-grey);
+  --primary-text-color: var(--colors-brand-white);
+
+  --table-border-color: var(--colors-greys-grey10);
+}

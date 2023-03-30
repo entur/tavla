@@ -13,6 +13,7 @@
     "build-start": "next build && next start"
   },
   "dependencies": {
+    "@entur/tokens": "^3.8.1",
     "@firebase/database-types": "^0.10.4",
     "firebase": "^9.18.0",
     "lodash": "4.17.21",

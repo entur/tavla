@@ -14,6 +14,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/tokens@npm:^3.8.1":
+  version: 3.8.1
+  resolution: "@entur/tokens@npm:3.8.1"
+  dependencies:
+    hex-rgb: ^4.3.0
+  checksum: e13a014ee647c623c290783415194c50a27ff2b154cfd4583e118c18d682083307f8df227de1f82e94217e28e4f63ad2c00da815631ab9ad694ad4cd89d82a17
+  languageName: node
+  linkType: hard
+
 "@eslint-community/eslint-utils@npm:^4.2.0":
   version: 4.3.0
   resolution: "@eslint-community/eslint-utils@npm:4.3.0"
@@ -2147,6 +2156,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hex-rgb@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "hex-rgb@npm:4.3.0"
+  checksum: e654648db8647446f0111c68690d9b340eb192a93c8b2c6789a2b8deb5c20e757515ae209c5ae67074acfddf8575f9fc645d4ffaa0596d859457b08e180d791d
+  languageName: node
+  linkType: hard
+
 "http-parser-js@npm:>=0.5.1":
   version: 0.5.8
   resolution: "http-parser-js@npm:0.5.8"
@@ -3413,6 +3429,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tavla@workspace:."
   dependencies:
+    "@entur/tokens": ^3.8.1
     "@firebase/database-types": ^0.10.4
     "@types/lodash": 4.14.191
     "@types/node": 18.15.5
