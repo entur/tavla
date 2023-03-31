@@ -4,4 +4,5 @@
   --primary-text-color: var(--colors-brand-white);
 
   --table-border-color: var(--colors-blues-blue30);
+  --table-situation: var(--colors-validation-canary-contrast);
 }
