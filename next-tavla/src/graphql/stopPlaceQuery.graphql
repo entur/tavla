@@ -23,7 +23,7 @@ query stopPlaceName($stopPlaceId: String!) {
       }
       cancellation
       situations {
-		id
+        id
         description {
           value
           language
@@ -32,7 +32,6 @@ query stopPlaceName($stopPlaceId: String!) {
           value
           language
         }
-        severity
       }
     }
   }

@@ -15,12 +15,11 @@ function Destination() {
             description: [
               {
                 value:
-                  "veldig forsinket, personalet har forsovet seg veldig forsinket, personalet har forsovet seg veldig forsinket, personalet har forsovet seg veldig forsinket, personalet har forsovet seg personalet har forsovet seg veldig forsinket, personalet har forsovet seg",
+                  "veldig forsinket, personalet har forsovet seg veldig forsinket, personalet er dessverre veldig forsinket forsovet seg veldig forsinket,personalet har forsovet seg veldig forsinket, personalet har forsovet seg personalet har forsovet seg veldig forsinket, personalet har forsovet seg",
                 language: "no",
               },
             ],
             summary: [{ value: "forsinket", language: "no" }],
-            severity: "slight",
           },
         ]
       : departure.situations;

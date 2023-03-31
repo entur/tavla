@@ -31,20 +31,9 @@ export type TSituation = {
   id: string;
   description: TSituationText[];
   summary: TSituationText[];
-  severity: TSituationSeverity;
 };
 
 type TSituationText = {
   value: string;
   language: string;
 };
-
-type TSituationSeverity =
-  | "unknown"
-  | "noImpact"
-  | "verySlight"
-  | "slight"
-  | "normal"
-  | "severe"
-  | "verySevere"
-  | "undefined";
