@@ -4,12 +4,18 @@ import { SVGProps } from "react";
 import classes from "./styles.module.css";
 
 function Situation({ situation }: { situation: TSituation }) {
+  // The order of priority should be according to some setting.
+  const situationText =
+    situation.description.find((desc) => desc.language === "no")?.value ??
+    situation.summary.find((summary) => summary.language === "no")?.value ??
+    null;
+
+  if (!situationText) return null;
+
   return (
     <div className={classes.situation}>
       <ValidationExclamation className={classes.validation} />
-      <div className={classes.situationText}>
-        {situation.description.find((desc) => desc.language === "no")?.value}
-      </div>
+      <div className={classes.situationText}>{situationText}</div>
     </div>
   );
 }
