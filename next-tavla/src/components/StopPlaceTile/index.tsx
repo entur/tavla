@@ -5,7 +5,7 @@ import { Table } from "@/components/Table";
 import { stopPlaceQuery } from "@/graphql/queries/stopPlace";
 import { usePoll } from "@/hooks/usePoll";
 
-export function DepartureTile({
+export function StopPlaceTile({
   placeId,
   columns = ["line", "destination", "time"],
 }: TDepartureTile) {

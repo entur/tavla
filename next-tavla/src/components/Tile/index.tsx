@@ -1,11 +1,14 @@
 import { TTile } from "@/types/tile";
-import { DepartureTile } from "../DepartureTile";
+import { StopPlaceTile } from "../StopPlaceTile";
 import { MapTile } from "../MapTile";
+import { QuayTile } from "../QuayTile";
 
 function Tile({ tileSpec }: { tileSpec: TTile }) {
   switch (tileSpec.type) {
     case "departure":
-      return <DepartureTile {...tileSpec} />;
+      return <StopPlaceTile {...tileSpec} />;
+    case "quay":
+      return <QuayTile {...tileSpec} />;
     case "map":
       return <MapTile {...tileSpec} />;
   }

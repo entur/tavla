@@ -1,4 +1,4 @@
-import { TSituation } from "@/types/stopPlace";
+import { TSituation } from "@/types/graphql";
 import { SVGProps } from "react";
 
 import classes from "./styles.module.css";
