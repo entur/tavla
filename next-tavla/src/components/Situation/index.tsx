@@ -14,7 +14,9 @@ function Situation({ situation }: { situation: TSituation }) {
 
   return (
     <div className={classes.situation}>
-      <ValidationExclamation className={classes.validation} />
+      <div className={classes.validation}>
+        <ValidationExclamation />
+      </div>
       <div className={classes.situationText}>{situationText}</div>
     </div>
   );

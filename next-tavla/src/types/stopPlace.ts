@@ -1,6 +1,8 @@
 export type TStopPlaceData = {
-  name: string;
-  estimatedCalls: TDeparture[];
+  stopPlace: {
+    name: string;
+    estimatedCalls: TDeparture[];
+  };
 };
 
 export type TDeparture = {
