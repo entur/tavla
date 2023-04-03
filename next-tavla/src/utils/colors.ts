@@ -4,9 +4,7 @@ type transportLineColors = { [line: string]: string };
 
 type transportTypeColor = string | transportLineColors;
 
-type transportTypeColors = {
-  [tm in transportMode]: transportTypeColor;
-};
+type transportTypeColors = Record<transportMode, transportTypeColor>;
 
 export const defaultColors: transportTypeColors = {
   metro: "#f08901",

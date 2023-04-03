@@ -1,4 +1,4 @@
-import { TDeparture } from "@/types/stopPlace";
+import { TDeparture } from "@/types/graphql";
 import { TColumn } from "@/types/tile";
 import React, { useEffect, useRef, useState } from "react";
 import classes from "./styles.module.css";

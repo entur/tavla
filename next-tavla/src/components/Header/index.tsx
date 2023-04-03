@@ -1,4 +1,3 @@
-import Image from "next/image";
 import TavlaLogo from "@/assets/logos/Tavla-white.svg";
 import classes from "./styles.module.css";
 
