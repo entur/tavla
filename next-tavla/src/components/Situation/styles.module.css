@@ -3,7 +3,6 @@
   font-size: 0.5rem;
   display: flex;
   align-items: center;
-  gap: 0.1rem;
 }
 
 .situationText {
@@ -13,5 +12,7 @@
 
 .validation {
   fill: var(--table-situation);
-  min-width: fit-content;
+  display: flex;
+  align-items: center;
+  margin-right: 0.1rem;
 }
