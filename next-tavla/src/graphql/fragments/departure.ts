@@ -1,4 +1,4 @@
-import { gql } from "./utils";
+import { gql } from "../utils";
 
 const departureFragment = gql`
   fragment departure on EstimatedCall {

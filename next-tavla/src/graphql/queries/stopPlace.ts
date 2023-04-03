@@ -1,6 +1,6 @@
-import { createQuery, gql } from "./utils";
-import { departureFragment } from "./departureFragment";
-import { TStopPlaceData } from "@/types/stopPlace";
+import { createQuery, gql } from "../utils";
+import { departureFragment } from "../fragments/departure";
+import { TStopPlaceData } from "@/types/graphql";
 
 const stopPlaceQuery = createQuery<TStopPlaceData, { stopPlaceId: string }>(
   gql`

@@ -1,28 +1,22 @@
-import { useEffect, useState } from "react";
-import { TStopPlaceData } from "@/types/stopPlace";
+import { useCallback } from "react";
 import { TDepartureTile } from "@/types/tile";
 import { uniq } from "lodash";
 import { Table } from "@/components/Table";
-import { stopPlaceQuery } from "@/graphql/stopPlaceQuery";
+import { stopPlaceQuery } from "@/graphql/queries/stopPlace";
+import { usePoll } from "@/hooks/usePoll";
 
 export function DepartureTile({
   placeId,
   columns = ["line", "destination", "time"],
 }: TDepartureTile) {
-  const [data, setData] = useState<TStopPlaceData | undefined>(undefined);
   const uniqueColumns = uniq(columns);
 
-  useEffect(() => {
-    stopPlaceQuery({ stopPlaceId: placeId }).then(setData);
+  const stopPlaceCallbackQuery = useCallback(
+    () => stopPlaceQuery({ stopPlaceId: placeId }),
+    [placeId]
+  );
 
-    const interval = setInterval(async () => {
-      stopPlaceQuery({ stopPlaceId: placeId }).then(setData);
-    }, 30000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [placeId]);
+  const data = usePoll(stopPlaceCallbackQuery);
 
   if (!data) {
     return <div className="tile">Data not found</div>;
