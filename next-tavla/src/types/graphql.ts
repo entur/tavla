@@ -1,3 +1,12 @@
+export type TQuayData = {
+  quay: {
+    name: string;
+    description?: string;
+    publicCode?: string;
+    estimatedCalls: TDeparture[];
+  };
+};
+
 export type TStopPlaceData = {
   stopPlace: {
     name: string;
