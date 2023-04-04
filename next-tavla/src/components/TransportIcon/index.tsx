@@ -8,10 +8,10 @@ function TransportIcon({
   transportMode,
   presentationColor,
 }: {
-  line?: string;
+  line?: string | null;
   vendor?: string;
   transportMode: transportMode;
-  presentationColor?: string;
+  presentationColor?: string | null;
 }) {
   return (
     <div

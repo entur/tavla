@@ -19,6 +19,10 @@ export function StopPlaceTile({
   const data = usePoll(stopPlaceCallbackQuery);
 
   if (!data) {
+    return <div className="tile">Loading data</div>;
+  }
+
+  if (!data.stopPlace) {
     return <div className="tile">Data not found</div>;
   }
 

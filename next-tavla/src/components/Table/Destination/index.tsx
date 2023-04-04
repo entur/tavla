@@ -27,7 +27,7 @@ function Destination() {
   return (
     <td>
       <div className={classes.destination}>
-        <div>{departure.destinationDisplay.frontText}</div>
+        <div>{departure.destinationDisplay?.frontText}</div>
         {situations.map((situation) => (
           <Situation key={situation.id} situation={situation} />
         ))}

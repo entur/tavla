@@ -1,8 +1,8 @@
 import { createQuery, gql } from "../utils";
 import { departureFragment } from "../fragments/departure";
-import { TQuayData } from "@/types/graphql";
+import { TGetQuay, TGetQuayVariables } from "@/types/graphql";
 
-const quayQuery = createQuery<TQuayData, { quayId: string }>(
+const quayQuery = createQuery<TGetQuay, TGetQuayVariables>(
   gql`
     ${departureFragment}
     query getQuay($quayId: String!) {
