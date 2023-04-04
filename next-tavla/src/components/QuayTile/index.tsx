@@ -20,6 +20,10 @@ export function QuayTile({
   const data = usePoll(quayCallbackQuery);
 
   if (!data) {
+    return <div className="tile">Loading data</div>;
+  }
+
+  if (!data.quay) {
     return <div className="tile">Data not found</div>;
   }
 

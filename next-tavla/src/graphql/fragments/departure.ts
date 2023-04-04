@@ -1,10 +1,13 @@
 import { gql } from "../utils";
+import { situationFragment } from "./situation";
 
 const departureFragment = gql`
+  ${situationFragment}
   fragment departure on EstimatedCall {
     destinationDisplay {
       frontText
     }
+    aimedDepartureTime
     expectedDepartureTime
     serviceJourney {
       id
@@ -23,15 +26,7 @@ const departureFragment = gql`
     }
     cancellation
     situations {
-      id
-      description {
-        value
-        language
-      }
-      summary {
-        value
-        language
-      }
+      ...situation
     }
   }
 `;

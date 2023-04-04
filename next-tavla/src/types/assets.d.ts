@@ -1,30 +1,30 @@
 declare module "*.png" {
-  const value: any;
+  const value: string;
   export default value;
 }
 
 declare module "*.jpg" {
-  const value: any;
+  const value: string;
   export default value;
 }
 
 declare module "*.gif" {
-  const value: any;
+  const value: string;
   export default value;
 }
 
 declare module "*.webp" {
-  const value: any;
+  const value: string;
   export default value;
 }
 
 declare module "*.webm" {
-  const value: any;
+  const value: string;
   export default value;
 }
 
 declare module "*.svg" {
-  const value: any;
+  const value: string;
   export default value;
 }
 

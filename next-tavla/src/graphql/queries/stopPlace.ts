@@ -1,11 +1,11 @@
 import { createQuery, gql } from "../utils";
 import { departureFragment } from "../fragments/departure";
-import { TStopPlaceData } from "@/types/graphql";
+import { TGetStopPlace, TGetStopPlaceVariables } from "@/types/graphql";
 
-const stopPlaceQuery = createQuery<TStopPlaceData, { stopPlaceId: string }>(
+const stopPlaceQuery = createQuery<TGetStopPlace, TGetStopPlaceVariables>(
   gql`
     ${departureFragment}
-    query stopPlaceName($stopPlaceId: String!) {
+    query getStopPlace($stopPlaceId: String!) {
       stopPlace(id: $stopPlaceId) {
         name
         estimatedCalls(numberOfDepartures: 20) {

@@ -3,7 +3,9 @@ export function getRelativeTimeString(timestamp: string) {
   if (timeDiff < 60_000) return "Nå";
   else if (timeDiff < 900_000) return Math.floor(timeDiff / 60_000) + " min";
   else
-    return Intl.DateTimeFormat("no-NB", { timeStyle: "short" }).format(
-      Date.parse(timestamp)
-    );
+    return Intl.DateTimeFormat("no-NB", {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(Date.parse(timestamp));
 }

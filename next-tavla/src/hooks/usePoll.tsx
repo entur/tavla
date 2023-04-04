@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function usePoll<T>(func: () => Promise<T>, ms: number = 30000) {
+function usePoll<T>(func: () => Promise<T>, ms = 30000) {
   const [data, setData] = useState<T | undefined>();
 
   useEffect(() => {

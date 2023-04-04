@@ -9,22 +9,30 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "generate": "graphql-codegen",
     "lint": "next lint",
     "build-start": "next build && next start"
   },
   "dependencies": {
-    "@entur/tokens": "^3.8.1",
-    "@firebase/database-types": "^0.10.4",
-    "firebase": "^9.18.0",
+    "@entur/tokens": "3.8.1",
+    "@firebase/database-types": "0.10.4",
+    "firebase": "9.18.0",
+    "graphql": "16.6.0",
     "lodash": "4.17.21",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "3.2.2",
+    "@graphql-codegen/import-types-preset": "2.2.6",
+    "@graphql-codegen/typescript": "3.0.2",
+    "@graphql-codegen/typescript-operations": "3.0.2",
     "@types/lodash": "4.14.191",
     "@types/node": "18.15.5",
     "@types/react": "18.0.28",
+    "@typescript-eslint/eslint-plugin": "5.57.1",
+    "@typescript-eslint/parser": "5.57.1",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "typescript": "5.0.2"

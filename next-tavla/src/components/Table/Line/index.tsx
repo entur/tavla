@@ -11,8 +11,8 @@ function Line() {
       <TransportIcon
         transportMode={departure.serviceJourney.transportMode as transportMode}
         line={departure.serviceJourney.line.publicCode}
-        vendor={departure.serviceJourney.line.authority.name}
-        presentationColor={departure.serviceJourney.line.presentation.colour}
+        vendor={departure.serviceJourney.line.authority?.name}
+        presentationColor={departure.serviceJourney.line.presentation?.colour}
       />
     </td>
   );

@@ -39,9 +39,9 @@ const thirdPartyVendorColors: thirdPartyVendors = {
 
 export function getTransportModeColor(
   transportMode: keyof transportTypeColors,
-  vendor?: string,
-  line?: string,
-  presentationColor?: string
+  vendor?: string | null,
+  line?: string | null,
+  presentationColor?: string | null
 ) {
   const presentationColorHex = presentationColor
     ? "#" + presentationColor
