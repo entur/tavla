@@ -5,4 +5,6 @@
 
   --table-border-color: var(--colors-blues-blue30);
   --table-situation: var(--colors-validation-canary-contrast);
+
+  --table-time-deviation: var(--colors-validation-lava-contrast);
 }
