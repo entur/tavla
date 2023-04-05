@@ -5,10 +5,16 @@ import { TGetStopPlace, TGetStopPlaceVariables } from "@/types/graphql";
 const stopPlaceQuery = createQuery<TGetStopPlace, TGetStopPlaceVariables>(
   gql`
     ${departureFragment}
-    query getStopPlace($stopPlaceId: String!) {
+    query getStopPlace(
+      $stopPlaceId: String!
+      $whitelistedTransportModes: [TransportMode]
+    ) {
       stopPlace(id: $stopPlaceId) {
         name
-        estimatedCalls(numberOfDepartures: 20) {
+        estimatedCalls(
+          numberOfDepartures: 20
+          whiteListedModes: $whitelistedTransportModes
+        ) {
           ...departure
         }
       }

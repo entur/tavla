@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { TDepartureTile } from "@/types/tile";
+import { TStopPlaceTile } from "@/types/tile";
 import { uniq } from "lodash";
 import { Table } from "@/components/Table";
 import { stopPlaceQuery } from "@/graphql/queries/stopPlace";
@@ -7,13 +7,18 @@ import { usePoll } from "@/hooks/usePoll";
 
 export function StopPlaceTile({
   placeId,
+  whitelistedTransportModes,
   columns = ["line", "destination", "time"],
-}: TDepartureTile) {
+}: TStopPlaceTile) {
   const uniqueColumns = uniq(columns);
 
   const stopPlaceCallbackQuery = useCallback(
-    () => stopPlaceQuery({ stopPlaceId: placeId }),
-    [placeId]
+    () =>
+      stopPlaceQuery({
+        stopPlaceId: placeId,
+        whitelistedTransportModes: whitelistedTransportModes,
+      }),
+    [placeId, whitelistedTransportModes]
   );
 
   const data = usePoll(stopPlaceCallbackQuery);

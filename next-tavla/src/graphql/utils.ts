@@ -12,7 +12,7 @@ const endpoints: Record<endpointNames, string> = {
   ["vehicles"]: "",
 };
 
-export function createQuery<T, V extends Record<string, string>>(
+export function createQuery<T, V>(
   query: string,
   endpoint: endpointNames = "journey-planner"
 ): (variables: V) => Promise<T> {
