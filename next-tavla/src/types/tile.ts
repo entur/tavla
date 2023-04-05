@@ -1,3 +1,5 @@
+import { TTransportMode } from "./graphql/schema";
+
 export type TColumn = "line" | "time" | "destination";
 
 type TBaseTile = {
@@ -9,8 +11,9 @@ export type TQuayTile = {
   columns?: TColumn[];
 } & TBaseTile;
 
-export type TDepartureTile = {
+export type TStopPlaceTile = {
   type: "departure";
+  whitelistedTransportModes?: TTransportMode[];
   columns?: TColumn[];
 } & TBaseTile;
 
@@ -18,4 +21,4 @@ export type TMapTile = {
   type: "map";
 } & TBaseTile;
 
-export type TTile = TDepartureTile | TMapTile | TQuayTile;
+export type TTile = TStopPlaceTile | TMapTile | TQuayTile;

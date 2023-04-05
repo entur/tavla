@@ -15,6 +15,7 @@ const sharedConfig = {
   avoidOptionals: {
     field: true,
   },
+  enumsAsTypes: true,
 };
 
 const config: CodegenConfig = {

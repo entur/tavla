@@ -13,6 +13,7 @@ export type TGetQuay = { __typename?: 'QueryType', quay: { __typename?: 'Quay', 
 
 export type TGetStopPlaceVariables = Types.Exact<{
   stopPlaceId: Types.Scalars['String'];
+  whitelistedTransportModes?: Types.InputMaybe<Array<Types.InputMaybe<Types.TTransportMode>> | Types.InputMaybe<Types.TTransportMode>>;
 }>;
 
 

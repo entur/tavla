@@ -20,16 +20,15 @@ export type Scalars = {
   Time: Time;
 };
 
-export enum TAbsoluteDirection {
-  East = 'east',
-  North = 'north',
-  Northeast = 'northeast',
-  Northwest = 'northwest',
-  South = 'south',
-  Southeast = 'southeast',
-  Southwest = 'southwest',
-  West = 'west'
-}
+export type TAbsoluteDirection =
+  | 'east'
+  | 'north'
+  | 'northeast'
+  | 'northwest'
+  | 'south'
+  | 'southeast'
+  | 'southwest'
+  | 'west';
 
 export type TAffectedLine = {
   __typename?: 'AffectedLine';
@@ -75,21 +74,19 @@ export type TAffectedUnknown = {
 
 export type TAffects = TAffectedLine | TAffectedServiceJourney | TAffectedStopPlace | TAffectedStopPlaceOnLine | TAffectedStopPlaceOnServiceJourney | TAffectedUnknown;
 
-export enum TAlternativeLegsFilter {
-  NoFilter = 'noFilter',
-  SameAuthority = 'sameAuthority',
-  SameLine = 'sameLine',
-  SameMode = 'sameMode'
-}
+export type TAlternativeLegsFilter =
+  | 'noFilter'
+  | 'sameAuthority'
+  | 'sameLine'
+  | 'sameMode';
 
-export enum TArrivalDeparture {
+export type TArrivalDeparture =
   /** Only show arrivals */
-  Arrivals = 'arrivals',
+  | 'arrivals'
   /** Show both arrivals and departures */
-  Both = 'both',
+  | 'both'
   /** Only show departures */
-  Departures = 'departures'
-}
+  | 'departures';
 
 /** Authority involved in public transportation. An organisation under which the responsibility of organising the transport service in a certain area is placed. */
 export type TAuthority = {
@@ -106,13 +103,12 @@ export type TAuthority = {
   url: Maybe<Scalars['String']>;
 };
 
-export enum TBicycleOptimisationMethod {
-  Flat = 'flat',
-  Greenways = 'greenways',
-  Quick = 'quick',
-  Safe = 'safe',
-  Triangle = 'triangle'
-}
+export type TBicycleOptimisationMethod =
+  | 'flat'
+  | 'greenways'
+  | 'quick'
+  | 'safe'
+  | 'triangle';
 
 export type TBikePark = TPlaceInterface & {
   __typename?: 'BikePark';
@@ -137,14 +133,13 @@ export type TBikeRentalStation = TPlaceInterface & {
   spacesAvailable: Maybe<Scalars['Int']>;
 };
 
-export enum TBikesAllowed {
+export type TBikesAllowed =
   /** The vehicle being used on this particular trip can accommodate at least one bicycle. */
-  Allowed = 'allowed',
+  | 'allowed'
   /** There is no bike information for the trip. */
-  NoInformation = 'noInformation',
+  | 'noInformation'
   /** No bicycles are allowed on this trip. */
-  NotAllowed = 'notAllowed'
-}
+  | 'notAllowed';
 
 export type TBookingArrangement = {
   __typename?: 'BookingArrangement';
@@ -164,13 +159,12 @@ export type TBookingArrangement = {
   minimumBookingPeriod: Maybe<Scalars['String']>;
 };
 
-export enum TBookingMethod {
-  CallDriver = 'callDriver',
-  CallOffice = 'callOffice',
-  Online = 'online',
-  PhoneAtStop = 'phoneAtStop',
-  Text = 'text'
-}
+export type TBookingMethod =
+  | 'callDriver'
+  | 'callOffice'
+  | 'online'
+  | 'phoneAtStop'
+  | 'text';
 
 export type TBranding = {
   __typename?: 'Branding';
@@ -237,13 +231,12 @@ export type TDestinationDisplay = {
   via: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-export enum TDirectionType {
-  Anticlockwise = 'anticlockwise',
-  Clockwise = 'clockwise',
-  Inbound = 'inbound',
-  Outbound = 'outbound',
-  Unknown = 'unknown'
-}
+export type TDirectionType =
+  | 'anticlockwise'
+  | 'clockwise'
+  | 'inbound'
+  | 'outbound'
+  | 'unknown';
 
 /** List of visits to quays as part of vehicle journeys. Updated with real time information where available */
 export type TEstimatedCall = {
@@ -290,18 +283,17 @@ export type TEstimatedCall = {
   timingPoint: Scalars['Boolean'];
 };
 
-export enum TFilterPlaceType {
+export type TFilterPlaceType =
   /** Bicycle rent stations */
-  BicycleRent = 'bicycleRent',
+  | 'bicycleRent'
   /** Bike parks */
-  BikePark = 'bikePark',
+  | 'bikePark'
   /** Car parks */
-  CarPark = 'carPark',
+  | 'carPark'
   /** Quay */
-  Quay = 'quay',
+  | 'quay'
   /** StopPlace */
-  StopPlace = 'stopPlace'
-}
+  | 'stopPlace';
 
 /** Additional (optional) grouping of lines for particular purposes such as e.g. fare harmonisation or public presentation. */
 export type TGroupOfLines = {
@@ -343,11 +335,10 @@ export type TInputCoordinates = {
   longitude: Scalars['Float'];
 };
 
-export enum TInputField {
-  DateTime = 'dateTime',
-  From = 'from',
-  To = 'to'
-}
+export type TInputField =
+  | 'dateTime'
+  | 'from'
+  | 'to';
 
 export type TInputPlaceIds = {
   /** Bike parks to include by id. */
@@ -392,23 +383,21 @@ export type TInterchange = {
   toServiceJourney: Maybe<TServiceJourney>;
 };
 
-export enum TInterchangePriority {
-  Allowed = 'allowed',
-  NotAllowed = 'notAllowed',
-  Preferred = 'preferred',
-  Recommended = 'recommended'
-}
+export type TInterchangePriority =
+  | 'allowed'
+  | 'notAllowed'
+  | 'preferred'
+  | 'recommended';
 
-export enum TInterchangeWeighting {
+export type TInterchangeWeighting =
   /** Third highest priority interchange. */
-  InterchangeAllowed = 'interchangeAllowed',
+  | 'interchangeAllowed'
   /** Interchange not allowed. */
-  NoInterchange = 'noInterchange',
+  | 'noInterchange'
   /** Highest priority interchange. */
-  PreferredInterchange = 'preferredInterchange',
+  | 'preferredInterchange'
   /** Second highest priority interchange. */
-  RecommendedInterchange = 'recommendedInterchange'
-}
+  | 'recommendedInterchange';
 
 /** Parameters for the OTP Itinerary Filter Chain. These parameters SHOULD be configured on the server side and should not be used by the client. They are made available here to be able to experiment and tune the server. */
 export type TItineraryFilters = {
@@ -568,10 +557,9 @@ export type TLine = {
   url: Maybe<Scalars['String']>;
 };
 
-export enum TLocale {
-  No = 'no',
-  Us = 'us'
-}
+export type TLocale =
+  | 'no'
+  | 'us';
 
 /** Input format for specifying a location through either a place reference (id), coordinates or both. If both place and coordinates are provided the place ref will be used if found, coordinates will only be used if place is not known. */
 export type TLocation = {
@@ -583,24 +571,23 @@ export type TLocation = {
   place?: InputMaybe<Scalars['String']>;
 };
 
-export enum TMode {
-  Air = 'air',
-  Bicycle = 'bicycle',
-  Bus = 'bus',
-  Cableway = 'cableway',
-  Car = 'car',
-  Coach = 'coach',
-  Foot = 'foot',
-  Funicular = 'funicular',
-  Lift = 'lift',
-  Metro = 'metro',
-  Monorail = 'monorail',
-  Rail = 'rail',
-  Scooter = 'scooter',
-  Tram = 'tram',
-  Trolleybus = 'trolleybus',
-  Water = 'water'
-}
+export type TMode =
+  | 'air'
+  | 'bicycle'
+  | 'bus'
+  | 'cableway'
+  | 'car'
+  | 'coach'
+  | 'foot'
+  | 'funicular'
+  | 'lift'
+  | 'metro'
+  | 'monorail'
+  | 'rail'
+  | 'scooter'
+  | 'tram'
+  | 'trolleybus'
+  | 'water';
 
 /** Input format for specifying which modes will be allowed for this search. If this element is not present, it will default to accessMode/egressMode/directMode of foot and all transport modes will be allowed. */
 export type TModes = {
@@ -614,14 +601,13 @@ export type TModes = {
   transportModes?: InputMaybe<Array<InputMaybe<TTransportModes>>>;
 };
 
-export enum TMultiModalMode {
+export type TMultiModalMode =
   /** Both multiModal parents and their mono modal child stop places. */
-  All = 'all',
+  | 'all'
   /** Only mono modal children stop places, not their multi modal parent stop */
-  Child = 'child',
+  | 'child'
   /** Multi modal parent stop places without their mono modal children. */
-  Parent = 'parent'
-}
+  | 'parent';
 
 /** Text with language */
 export type TMultilingualString = {
@@ -637,20 +623,19 @@ export type TNotice = {
   text: Maybe<Scalars['String']>;
 };
 
-export enum TOccupancyStatus {
+export type TOccupancyStatus =
   /** The vehicle or carriage has a few seats available. */
-  FewSeatsAvailable = 'fewSeatsAvailable',
+  | 'fewSeatsAvailable'
   /** The vehicle or carriage is considered full by most measures, but may still be allowing passengers to board. */
-  Full = 'full',
+  | 'full'
   /** The vehicle or carriage has a large number of seats available. */
-  ManySeatsAvailable = 'manySeatsAvailable',
+  | 'manySeatsAvailable'
   /** The vehicle or carriage doesn't have any occupancy data available. */
-  NoData = 'noData',
+  | 'noData'
   /** The vehicle or carriage has no seats or standing room available. */
-  NotAcceptingPassengers = 'notAcceptingPassengers',
+  | 'notAcceptingPassengers'
   /** The vehicle or carriage only has standing room available. */
-  StandingRoomOnly = 'standingRoomOnly'
-}
+  | 'standingRoomOnly';
 
 /** Organisation providing public transport services. */
 export type TOperator = {
@@ -803,13 +788,12 @@ export type TPtSituationElement = {
   versionedAtTime: Maybe<Scalars['DateTime']>;
 };
 
-export enum TPurchaseWhen {
-  AdvanceAndDayOfTravel = 'advanceAndDayOfTravel',
-  DayOfTravelOnly = 'dayOfTravelOnly',
-  Other = 'other',
-  TimeOfTravelOnly = 'timeOfTravelOnly',
-  UntilPreviousDay = 'untilPreviousDay'
-}
+export type TPurchaseWhen =
+  | 'advanceAndDayOfTravel'
+  | 'dayOfTravelOnly'
+  | 'other'
+  | 'timeOfTravelOnly'
+  | 'untilPreviousDay';
 
 /** A place such as platform, stance, or quayside where passengers have access to PT vehicles. */
 export type TQuay = TPlaceInterface & {
@@ -1162,34 +1146,32 @@ export type TQueryTypeViaTripArgs = {
   wheelchairAccessible?: InputMaybe<Scalars['Boolean']>;
 };
 
-export enum TRealtimeState {
+export type TRealtimeState =
   /** The service journey has been added using a real-time update, i.e. the service journey was not present in the regular time table. */
-  Added = 'Added',
+  | 'Added'
   /** The service journey has been canceled by a real-time update. */
-  Canceled = 'canceled',
+  | 'canceled'
   /** The service journey information has been updated and resulted in a different journey pattern compared to the journey pattern of the scheduled service journey. */
-  Modified = 'modified',
+  | 'modified'
   /** The service journey information comes from the regular time table, i.e. no real-time update has been applied. */
-  Scheduled = 'scheduled',
+  | 'scheduled'
   /** The service journey information has been updated, but the journey pattern stayed the same as the journey pattern of the scheduled service journey. */
-  Updated = 'updated'
-}
+  | 'updated';
 
-export enum TRelativeDirection {
-  CircleClockwise = 'circleClockwise',
-  CircleCounterclockwise = 'circleCounterclockwise',
-  Continue = 'continue',
-  Depart = 'depart',
-  Elevator = 'elevator',
-  HardLeft = 'hardLeft',
-  HardRight = 'hardRight',
-  Left = 'left',
-  Right = 'right',
-  SlightlyLeft = 'slightlyLeft',
-  SlightlyRight = 'slightlyRight',
-  UturnLeft = 'uturnLeft',
-  UturnRight = 'uturnRight'
-}
+export type TRelativeDirection =
+  | 'circleClockwise'
+  | 'circleCounterclockwise'
+  | 'continue'
+  | 'depart'
+  | 'elevator'
+  | 'hardLeft'
+  | 'hardRight'
+  | 'left'
+  | 'right'
+  | 'slightlyLeft'
+  | 'slightlyRight'
+  | 'uturnLeft'
+  | 'uturnRight';
 
 export type TRentalVehicle = TPlaceInterface & {
   __typename?: 'RentalVehicle';
@@ -1210,12 +1192,11 @@ export type TRentalVehicleType = {
   vehicleTypeId: Scalars['String'];
 };
 
-export enum TReportType {
+export type TReportType =
   /** Indicates a general info-message that should not affect trip. */
-  General = 'general',
+  | 'general'
   /** Indicates an incident that may affect trip. */
-  Incident = 'incident'
-}
+  | 'incident';
 
 /** Description of the reason, why the planner did not return any results */
 export type TRoutingError = {
@@ -1228,24 +1209,23 @@ export type TRoutingError = {
   inputField: Maybe<TInputField>;
 };
 
-export enum TRoutingErrorCode {
+export type TRoutingErrorCode =
   /** The specified location is not close to any streets or transit stops */
-  LocationNotFound = 'locationNotFound',
+  | 'locationNotFound'
   /** No stops are reachable from the location specified. You can try searching using a different access or egress mode */
-  NoStopsInRange = 'noStopsInRange',
+  | 'noStopsInRange'
   /** No transit connection was found between the origin and destination withing the operating day or the next day */
-  NoTransitConnection = 'noTransitConnection',
+  | 'noTransitConnection'
   /** Transit connection was found, but it was outside the search window, see metadata for the next search window */
-  NoTransitConnectionInSearchWindow = 'noTransitConnectionInSearchWindow',
+  | 'noTransitConnectionInSearchWindow'
   /** The coordinates are outside the bounds of the data currently loaded into the system */
-  OutsideBounds = 'outsideBounds',
+  | 'outsideBounds'
   /** The date specified is outside the range of data currently loaded into the system */
-  OutsideServicePeriod = 'outsideServicePeriod',
+  | 'outsideServicePeriod'
   /** An unknown error happened during the search. The details have been logged to the server logs */
-  SystemError = 'systemError',
+  | 'systemError'
   /** The origin and destination are so close to each other, that walking is always better, but no direct mode was specified for the search */
-  WalkingBetterThanTransit = 'walkingBetterThanTransit'
-}
+  | 'walkingBetterThanTransit';
 
 /** The default parameters used in travel searches. */
 export type TRoutingParameters = {
@@ -1375,12 +1355,11 @@ export type TServerInfo = {
   version: Maybe<Scalars['String']>;
 };
 
-export enum TServiceAlteration {
-  Cancellation = 'cancellation',
-  ExtraJourney = 'extraJourney',
-  Planned = 'planned',
-  Replaced = 'replaced'
-}
+export type TServiceAlteration =
+  | 'cancellation'
+  | 'extraJourney'
+  | 'planned'
+  | 'replaced';
 
 /** A planned vehicle journey with passengers. */
 export type TServiceJourney = {
@@ -1435,37 +1414,35 @@ export type TServiceJourneyQuaysArgs = {
   last?: InputMaybe<Scalars['Int']>;
 };
 
-export enum TSeverity {
+export type TSeverity =
   /** Situation has no impact on trips. */
-  NoImpact = 'noImpact',
+  | 'noImpact'
   /** Situation has an impact on trips (default). */
-  Normal = 'normal',
+  | 'normal'
   /** Situation has a severe impact on trips. */
-  Severe = 'severe',
+  | 'severe'
   /** Situation has a slight impact on trips. */
-  Slight = 'slight',
+  | 'slight'
   /** Severity is undefined. */
-  Undefined = 'undefined',
+  | 'undefined'
   /** Situation has unknown impact on trips. */
-  Unknown = 'unknown',
+  | 'unknown'
   /** Situation has a very severe impact on trips. */
-  VerySevere = 'verySevere',
+  | 'verySevere'
   /** Situation has a very slight impact on trips. */
-  VerySlight = 'verySlight'
-}
+  | 'verySlight';
 
-export enum TStopCondition {
+export type TStopCondition =
   /** Situation applies when stop is the destination of the leg. */
-  Destination = 'destination',
+  | 'destination'
   /** Situation applies when transfering to another leg at the stop. */
-  ExceptionalStop = 'exceptionalStop',
+  | 'exceptionalStop'
   /** Situation applies when passing the stop, without stopping. */
-  NotStopping = 'notStopping',
+  | 'notStopping'
   /** Situation applies when at the stop, and the stop requires a request to stop. */
-  RequestStop = 'requestStop',
+  | 'requestStop'
   /** Situation applies when stop is the startpoint of the leg. */
-  StartPoint = 'startPoint'
-}
+  | 'startPoint';
 
 /** Named place where public transport may be accessed. May be a building complex (e.g. a station) or an on-street location. */
 export type TStopPlace = TPlaceInterface & {
@@ -1529,26 +1506,25 @@ export type TStopToStopGeometry = {
   toQuay: Maybe<TQuay>;
 };
 
-export enum TStreetMode {
+export type TStreetMode =
   /** Bike only. This can be used as access/egress, but transfers will still be walk only. */
-  Bicycle = 'bicycle',
+  | 'bicycle'
   /** Bike to a bike parking area, then walk the rest of the way. Direct mode and access mode only. */
-  BikePark = 'bike_park',
+  | 'bike_park'
   /** Walk to a bike rental point, bike to a bike rental drop-off point, and walk the rest of the way. This can include bike rental at fixed locations or free-floating services. */
-  BikeRental = 'bike_rental',
+  | 'bike_rental'
   /** Car only. Direct mode only. */
-  Car = 'car',
+  | 'car'
   /** Start in the car, drive to a parking area, and walk the rest of the way. Direct mode and access mode only. */
-  CarPark = 'car_park',
+  | 'car_park'
   /** Walk to a pickup point along the road, drive to a drop-off point along the road, and walk the rest of the way. This can include various taxi-services or kiss & ride. */
-  CarPickup = 'car_pickup',
+  | 'car_pickup'
   /** Walk to an eligible pickup area for flexible transportation, ride to an eligible drop-off area and then walk the rest of the way. */
-  Flexible = 'flexible',
+  | 'flexible'
   /** Walk only */
-  Foot = 'foot',
+  | 'foot'
   /** Walk to a scooter rental point, ride a scooter to a scooter rental drop-off point, and walk the rest of the way. This can include scooter rental at fixed locations or free-floating services. */
-  ScooterRental = 'scooter_rental'
-}
+  | 'scooter_rental';
 
 /** A combination of street mode and corresponding duration */
 export type TStreetModeDurationInput = {
@@ -1619,21 +1595,20 @@ export type TTransitGeneralizedCostFilterParams = {
   intervalRelaxFactor: Scalars['Float'];
 };
 
-export enum TTransportMode {
-  Air = 'air',
-  Bus = 'bus',
-  Cableway = 'cableway',
-  Coach = 'coach',
-  Funicular = 'funicular',
-  Lift = 'lift',
-  Metro = 'metro',
-  Monorail = 'monorail',
-  Rail = 'rail',
-  Tram = 'tram',
-  Trolleybus = 'trolleybus',
-  Unknown = 'unknown',
-  Water = 'water'
-}
+export type TTransportMode =
+  | 'air'
+  | 'bus'
+  | 'cableway'
+  | 'coach'
+  | 'funicular'
+  | 'lift'
+  | 'metro'
+  | 'monorail'
+  | 'rail'
+  | 'tram'
+  | 'trolleybus'
+  | 'unknown'
+  | 'water';
 
 /** Used to specify board and alight slack for a given modes. */
 export type TTransportModeSlack = {
@@ -1657,120 +1632,119 @@ export type TTransportModes = {
   transportSubModes?: InputMaybe<Array<InputMaybe<TTransportSubmode>>>;
 };
 
-export enum TTransportSubmode {
-  SchengenAreaFlight = 'SchengenAreaFlight',
-  AirportBoatLink = 'airportBoatLink',
-  AirportLinkBus = 'airportLinkBus',
-  AirportLinkRail = 'airportLinkRail',
-  AirshipService = 'airshipService',
-  AllFunicularServices = 'allFunicularServices',
-  AllHireVehicles = 'allHireVehicles',
-  AllTaxiServices = 'allTaxiServices',
-  BikeTaxi = 'bikeTaxi',
-  BlackCab = 'blackCab',
-  CableCar = 'cableCar',
-  CableFerry = 'cableFerry',
-  CanalBarge = 'canalBarge',
-  CarTransportRailService = 'carTransportRailService',
-  ChairLift = 'chairLift',
-  CharterTaxi = 'charterTaxi',
-  CityTram = 'cityTram',
-  CommunalTaxi = 'communalTaxi',
-  CommuterCoach = 'commuterCoach',
-  CrossCountryRail = 'crossCountryRail',
-  DedicatedLaneBus = 'dedicatedLaneBus',
-  DemandAndResponseBus = 'demandAndResponseBus',
-  DomesticCharterFlight = 'domesticCharterFlight',
-  DomesticFlight = 'domesticFlight',
-  DomesticScheduledFlight = 'domesticScheduledFlight',
-  DragLift = 'dragLift',
-  ExpressBus = 'expressBus',
-  Funicular = 'funicular',
-  HelicopterService = 'helicopterService',
-  HighFrequencyBus = 'highFrequencyBus',
-  HighSpeedPassengerService = 'highSpeedPassengerService',
-  HighSpeedRail = 'highSpeedRail',
-  HighSpeedVehicleService = 'highSpeedVehicleService',
-  HireCar = 'hireCar',
-  HireCycle = 'hireCycle',
-  HireMotorbike = 'hireMotorbike',
-  HireVan = 'hireVan',
-  IntercontinentalCharterFlight = 'intercontinentalCharterFlight',
-  IntercontinentalFlight = 'intercontinentalFlight',
-  International = 'international',
-  InternationalCarFerry = 'internationalCarFerry',
-  InternationalCharterFlight = 'internationalCharterFlight',
-  InternationalCoach = 'internationalCoach',
-  InternationalFlight = 'internationalFlight',
-  InternationalPassengerFerry = 'internationalPassengerFerry',
-  InterregionalRail = 'interregionalRail',
-  Lift = 'lift',
-  Local = 'local',
-  LocalBus = 'localBus',
-  LocalCarFerry = 'localCarFerry',
-  LocalPassengerFerry = 'localPassengerFerry',
-  LocalTram = 'localTram',
-  LongDistance = 'longDistance',
-  Metro = 'metro',
-  MiniCab = 'miniCab',
-  MobilityBus = 'mobilityBus',
-  MobilityBusForRegisteredDisabled = 'mobilityBusForRegisteredDisabled',
-  NationalCarFerry = 'nationalCarFerry',
-  NationalCoach = 'nationalCoach',
-  NationalPassengerFerry = 'nationalPassengerFerry',
-  NightBus = 'nightBus',
-  NightRail = 'nightRail',
-  PostBoat = 'postBoat',
-  PostBus = 'postBus',
-  RackAndPinionRailway = 'rackAndPinionRailway',
-  RailReplacementBus = 'railReplacementBus',
-  RailShuttle = 'railShuttle',
-  RailTaxi = 'railTaxi',
-  RegionalBus = 'regionalBus',
-  RegionalCarFerry = 'regionalCarFerry',
-  RegionalCoach = 'regionalCoach',
-  RegionalPassengerFerry = 'regionalPassengerFerry',
-  RegionalRail = 'regionalRail',
-  RegionalTram = 'regionalTram',
-  ReplacementRailService = 'replacementRailService',
-  RiverBus = 'riverBus',
-  RoadFerryLink = 'roadFerryLink',
-  RoundTripCharterFlight = 'roundTripCharterFlight',
-  ScheduledFerry = 'scheduledFerry',
-  SchoolAndPublicServiceBus = 'schoolAndPublicServiceBus',
-  SchoolBoat = 'schoolBoat',
-  SchoolBus = 'schoolBus',
-  SchoolCoach = 'schoolCoach',
-  ShortHaulInternationalFlight = 'shortHaulInternationalFlight',
-  ShuttleBus = 'shuttleBus',
-  ShuttleCoach = 'shuttleCoach',
-  ShuttleFerryService = 'shuttleFerryService',
-  ShuttleFlight = 'shuttleFlight',
-  ShuttleTram = 'shuttleTram',
-  SightseeingBus = 'sightseeingBus',
-  SightseeingCoach = 'sightseeingCoach',
-  SightseeingFlight = 'sightseeingFlight',
-  SightseeingService = 'sightseeingService',
-  SightseeingTram = 'sightseeingTram',
-  SleeperRailService = 'sleeperRailService',
-  SpecialCoach = 'specialCoach',
-  SpecialNeedsBus = 'specialNeedsBus',
-  SpecialTrain = 'specialTrain',
-  StreetCableCar = 'streetCableCar',
-  SuburbanRailway = 'suburbanRailway',
-  Telecabin = 'telecabin',
-  TelecabinLink = 'telecabinLink',
-  TouristCoach = 'touristCoach',
-  TouristRailway = 'touristRailway',
-  TrainFerry = 'trainFerry',
-  TrainTram = 'trainTram',
-  Tube = 'tube',
-  Undefined = 'undefined',
-  UndefinedFunicular = 'undefinedFunicular',
-  Unknown = 'unknown',
-  UrbanRailway = 'urbanRailway',
-  WaterTaxi = 'waterTaxi'
-}
+export type TTransportSubmode =
+  | 'SchengenAreaFlight'
+  | 'airportBoatLink'
+  | 'airportLinkBus'
+  | 'airportLinkRail'
+  | 'airshipService'
+  | 'allFunicularServices'
+  | 'allHireVehicles'
+  | 'allTaxiServices'
+  | 'bikeTaxi'
+  | 'blackCab'
+  | 'cableCar'
+  | 'cableFerry'
+  | 'canalBarge'
+  | 'carTransportRailService'
+  | 'chairLift'
+  | 'charterTaxi'
+  | 'cityTram'
+  | 'communalTaxi'
+  | 'commuterCoach'
+  | 'crossCountryRail'
+  | 'dedicatedLaneBus'
+  | 'demandAndResponseBus'
+  | 'domesticCharterFlight'
+  | 'domesticFlight'
+  | 'domesticScheduledFlight'
+  | 'dragLift'
+  | 'expressBus'
+  | 'funicular'
+  | 'helicopterService'
+  | 'highFrequencyBus'
+  | 'highSpeedPassengerService'
+  | 'highSpeedRail'
+  | 'highSpeedVehicleService'
+  | 'hireCar'
+  | 'hireCycle'
+  | 'hireMotorbike'
+  | 'hireVan'
+  | 'intercontinentalCharterFlight'
+  | 'intercontinentalFlight'
+  | 'international'
+  | 'internationalCarFerry'
+  | 'internationalCharterFlight'
+  | 'internationalCoach'
+  | 'internationalFlight'
+  | 'internationalPassengerFerry'
+  | 'interregionalRail'
+  | 'lift'
+  | 'local'
+  | 'localBus'
+  | 'localCarFerry'
+  | 'localPassengerFerry'
+  | 'localTram'
+  | 'longDistance'
+  | 'metro'
+  | 'miniCab'
+  | 'mobilityBus'
+  | 'mobilityBusForRegisteredDisabled'
+  | 'nationalCarFerry'
+  | 'nationalCoach'
+  | 'nationalPassengerFerry'
+  | 'nightBus'
+  | 'nightRail'
+  | 'postBoat'
+  | 'postBus'
+  | 'rackAndPinionRailway'
+  | 'railReplacementBus'
+  | 'railShuttle'
+  | 'railTaxi'
+  | 'regionalBus'
+  | 'regionalCarFerry'
+  | 'regionalCoach'
+  | 'regionalPassengerFerry'
+  | 'regionalRail'
+  | 'regionalTram'
+  | 'replacementRailService'
+  | 'riverBus'
+  | 'roadFerryLink'
+  | 'roundTripCharterFlight'
+  | 'scheduledFerry'
+  | 'schoolAndPublicServiceBus'
+  | 'schoolBoat'
+  | 'schoolBus'
+  | 'schoolCoach'
+  | 'shortHaulInternationalFlight'
+  | 'shuttleBus'
+  | 'shuttleCoach'
+  | 'shuttleFerryService'
+  | 'shuttleFlight'
+  | 'shuttleTram'
+  | 'sightseeingBus'
+  | 'sightseeingCoach'
+  | 'sightseeingFlight'
+  | 'sightseeingService'
+  | 'sightseeingTram'
+  | 'sleeperRailService'
+  | 'specialCoach'
+  | 'specialNeedsBus'
+  | 'specialTrain'
+  | 'streetCableCar'
+  | 'suburbanRailway'
+  | 'telecabin'
+  | 'telecabinLink'
+  | 'touristCoach'
+  | 'touristRailway'
+  | 'trainFerry'
+  | 'trainTram'
+  | 'tube'
+  | 'undefined'
+  | 'undefinedFunicular'
+  | 'unknown'
+  | 'urbanRailway'
+  | 'waterTaxi';
 
 /** How much the factors safety, slope and distance are weighted relative to each other when routing bicycle legs. In total all three values need to add up to 1. */
 export type TTriangleFactors = {
@@ -1919,12 +1893,11 @@ export type TValidityPeriod = {
   startTime: Maybe<Scalars['DateTime']>;
 };
 
-export enum TVertexType {
-  BikePark = 'bikePark',
-  BikeShare = 'bikeShare',
-  Normal = 'normal',
-  Transit = 'transit'
-}
+export type TVertexType =
+  | 'bikePark'
+  | 'bikeShare'
+  | 'normal'
+  | 'transit';
 
 /** An acceptable combination of trip patterns between two segments of the via search */
 export type TViaConnection = {
@@ -1974,14 +1947,13 @@ export type TViaTripPatternSegment = {
   tripPatterns: Array<TTripPattern>;
 };
 
-export enum TWheelchairBoarding {
+export type TWheelchairBoarding =
   /** There is no accessibility information for the stopPlace/quay. */
-  NoInformation = 'noInformation',
+  | 'noInformation'
   /** Wheelchair boarding/alighting is not possible at this stop. */
-  NotPossible = 'notPossible',
+  | 'notPossible'
   /** Boarding wheelchair-accessible serviceJourneys is possible at this stopPlace/quay. */
-  Possible = 'possible'
-}
+  | 'possible';
 
 export type TDebugOutput = {
   __typename?: 'debugOutput';
