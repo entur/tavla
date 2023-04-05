@@ -1,4 +1,4 @@
-import { transportMode } from "@/types/transport";
+import { TTransportMode } from "@/types/graphql/schema";
 import { getTransportModeColor } from "@/utils/colors";
 import { SVGProps } from "react";
 
@@ -10,9 +10,10 @@ function TransportIcon({
 }: {
   line?: string | null;
   vendor?: string;
-  transportMode: transportMode;
+  transportMode?: TTransportMode | null;
   presentationColor?: string | null;
 }) {
+  transportMode = transportMode ? transportMode : "unknown";
   return (
     <div
       style={{
@@ -36,40 +37,38 @@ function TransportIcon({
   );
 }
 
-function getTransportIcon(transportMode: transportMode) {
+function getTransportIcon(transportMode: TTransportMode) {
   switch (transportMode) {
     case "metro":
       return <MetroIcon fill="white" />;
     case "bus":
       return <BusIcon fill="white" />;
-    case "plane":
+    case "air":
       return <PlaneIcon fill="white" />;
-    case "helicopter":
-      return <HelicopterIcon fill="white" />;
     case "tram":
       return <TramIcon fill="white" />;
     case "funicular":
       return <FunicularIcon fill="white" />;
     case "cableway":
       return <CablewayIcon fill="white" />;
-    case "taxi":
-      return <TaxiIcon fill="white" />;
-    case "bicycle":
-      return <BicycleIcon fill="white" />;
-    case "walk":
-      return <WalkIcon fill="white" />;
     case "rail":
       return <RailIcon fill="white" />;
-    case "ferry":
+    case "coach":
+      return <BusIcon fill="white" />;
+    case "lift":
+      return <CablewayIcon fill="white" />;
+    case "monorail":
+      return <RailIcon fill="white" />;
+    case "trolleybus":
+      return <BusIcon fill="white" />;
+    case "water":
       return <FerryIcon fill="white" />;
-    case "carferry":
-      return <CarferryIcon fill="white" />;
-    case "mobility":
-      return <MobilityIcon fill="white" />;
+    default:
+      return <UnknownIcon fill="white" />;
   }
 }
 
-function MetroIcon(props: SVGProps<SVGSVGElement>) {
+export function MetroIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +88,7 @@ function MetroIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function BusIcon(props: SVGProps<SVGSVGElement>) {
+export function BusIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +107,7 @@ function BusIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function PlaneIcon(props: SVGProps<SVGSVGElement>) {
+export function PlaneIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +126,7 @@ function PlaneIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function HelicopterIcon(props: SVGProps<SVGSVGElement>) {
+export function HelicopterIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +145,7 @@ function HelicopterIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function TramIcon(props: SVGProps<SVGSVGElement>) {
+export function TramIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -165,7 +164,7 @@ function TramIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function FunicularIcon(props: SVGProps<SVGSVGElement>) {
+export function FunicularIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -184,7 +183,7 @@ function FunicularIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function CablewayIcon(props: SVGProps<SVGSVGElement>) {
+export function CablewayIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -203,7 +202,7 @@ function CablewayIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function TaxiIcon(props: SVGProps<SVGSVGElement>) {
+export function TaxiIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -222,7 +221,7 @@ function TaxiIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function BicycleIcon(props: SVGProps<SVGSVGElement>) {
+export function BicycleIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -242,7 +241,7 @@ function BicycleIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function WalkIcon(props: SVGProps<SVGSVGElement>) {
+export function WalkIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -260,7 +259,7 @@ function WalkIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function RailIcon(props: SVGProps<SVGSVGElement>) {
+export function RailIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -281,7 +280,7 @@ function RailIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function FerryIcon(props: SVGProps<SVGSVGElement>) {
+export function FerryIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -296,7 +295,7 @@ function FerryIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function CarferryIcon(props: SVGProps<SVGSVGElement>) {
+export function CarferryIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -316,7 +315,7 @@ function CarferryIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function MobilityIcon(props: SVGProps<SVGSVGElement>) {
+export function MobilityIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -331,6 +330,20 @@ function MobilityIcon(props: SVGProps<SVGSVGElement>) {
         clipRule="evenodd"
         d="M12.5 11c-.019 0-.036.005-.055.005l-2.224-7.68A.45.45 0 0 0 9.79 3H7.5v.8h1.95a.1.1 0 0 1 .097.072l1.53 5.281a.1.1 0 0 1-.02.093l-2.398 2.819a.1.1 0 0 1-.076.035H4.94A1.496 1.496 0 0 0 2 12.5a1.496 1.496 0 0 0 2.94.4H8.79a.45.45 0 0 0 .343-.159l2.224-2.615.324 1.12c-.41.267-.682.728-.682 1.254a1.5 1.5 0 1 0 1.5-1.5zm-9 2.2a.7.7 0 1 1 .002-1.402A.7.7 0 0 1 3.5 13.2zm9 0a.7.7 0 1 1 .002-1.402.7.7 0 0 1-.002 1.402z"
       />
+    </svg>
+  );
+}
+
+export function UnknownIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 16 16"
+      {...props}
+    >
+      <path d="M8 1C4.15 1 1 4.15 1 8s3.15 7 7 7 7-3.15 7-7-3.15-7-7-7zm0 3c1.405 0 2.61 1.205 2.61 2.61 0 1.134-.786 2.138-1.829 2.482l-.082.023v.74H7.301V8.518c0-.355.262-.647.603-.694L8 7.818c.632 0 1.21-.577 1.21-1.209S8.631 5.4 8 5.4c-.39 0-.833.292-1.086.698l-.07.125-.313.625-1.252-.625.313-.627C6.049 4.682 6.999 4 8 4zm.006 6.88a.875.875 0 110 1.75.875.875 0 010-1.75z"></path>
     </svg>
   );
 }
