@@ -16,7 +16,7 @@ export function StopPlaceTile({
     () =>
       stopPlaceQuery({
         stopPlaceId: placeId,
-        whitelistedTransportModes: whitelistedTransportModes,
+        whitelistedTransportModes,
       }),
     [placeId, whitelistedTransportModes]
   );
