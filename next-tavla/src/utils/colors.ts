@@ -1,29 +1,50 @@
-import { type transportMode } from "@/types/transport";
+import { colors as EnturColors } from "@entur/tokens";
+import { TTransportMode } from "@/types/graphql/schema";
+import { TTheme } from "@/types/settings";
 
-type transportLineColors = { [line: string]: string };
+type TTransportLineColors = { [line: string]: string };
 
-type transportTypeColor = string | transportLineColors;
+type TTransportTypeColor = string | TTransportLineColors;
 
-type transportTypeColors = Record<transportMode, transportTypeColor>;
+type TTransportTypeColors = Record<TTransportMode, TTransportTypeColor>;
 
-export const defaultColors: transportTypeColors = {
-  metro: "#f08901",
-  bus: "#ff6392",
-  plane: "#fbafea",
-  helicopter: "#e258c3",
-  tram: "#b482fb",
-  funicular: "#a476e5",
-  cableway: "#a476e5",
-  taxi: "#949494",
-  bicycle: "#949494",
-  walk: "#949494",
-  rail: "#42a5f5",
-  ferry: "#6fdfff",
-  carferry: "#6fdfff",
-  mobility: "#00db9b",
+export const colors: {
+  default: TTransportTypeColors;
+  contrast: TTransportTypeColors;
+} = {
+  default: {
+    metro: EnturColors.transport.default.metro,
+    bus: EnturColors.transport.default.bus,
+    tram: EnturColors.transport.default.tram,
+    funicular: EnturColors.transport.default.funicular,
+    cableway: EnturColors.transport.default.cableway,
+    rail: EnturColors.transport.default.train,
+    air: EnturColors.transport.default.plane,
+    coach: EnturColors.transport.default.bus,
+    lift: EnturColors.transport.default.cableway,
+    monorail: EnturColors.transport.default.tram,
+    trolleybus: EnturColors.transport.default.bus,
+    unknown: EnturColors.transport.default.walk,
+    water: EnturColors.transport.default.ferry,
+  },
+  contrast: {
+    metro: EnturColors.transport.contrast.metro,
+    bus: EnturColors.transport.contrast.bus,
+    tram: EnturColors.transport.contrast.tram,
+    funicular: EnturColors.transport.contrast.funicular,
+    cableway: EnturColors.transport.contrast.cableway,
+    rail: EnturColors.transport.contrast.train,
+    air: EnturColors.transport.contrast.plane,
+    coach: EnturColors.transport.contrast.bus,
+    lift: EnturColors.transport.contrast.cableway,
+    monorail: EnturColors.transport.contrast.tram,
+    trolleybus: EnturColors.transport.contrast.bus,
+    unknown: EnturColors.transport.contrast.walk,
+    water: EnturColors.transport.contrast.ferry,
+  },
 };
 
-type thirdPartyVendors = { [vendor: string]: Partial<transportTypeColors> };
+type thirdPartyVendors = { [vendor: string]: Partial<TTransportTypeColors> };
 
 const thirdPartyVendorColors: thirdPartyVendors = {
   Ruter: {
@@ -38,17 +59,21 @@ const thirdPartyVendorColors: thirdPartyVendors = {
 };
 
 export function getTransportModeColor(
-  transportMode: keyof transportTypeColors,
+  transportMode: TTransportMode,
   vendor?: string | null,
   line?: string | null,
-  presentationColor?: string | null
+  presentationColor?: string | null,
+  theme?: TTheme
 ) {
+  const themeLookupKey = isThemeContrast(theme) ? "default" : "contrast";
+
   const presentationColorHex = presentationColor
     ? "#" + presentationColor
     : null;
+
   // if a non-valid transportMode is provided, a grey color is set as fallback
   const fallbackColor =
-    presentationColorHex ?? defaultColors[transportMode] ?? "#949494";
+    presentationColorHex ?? colors[themeLookupKey][transportMode] ?? "#949494";
 
   // specific color spec exists for given vendor
   if (vendor && thirdPartyVendorColors[vendor]) {
@@ -62,4 +87,13 @@ export function getTransportModeColor(
   }
   // no specific color was found, return fallback
   return fallbackColor;
+}
+
+export function isThemeContrast(theme?: TTheme) {
+  switch (theme) {
+    case "dark":
+      return true;
+    default:
+      return true;
+  }
 }
