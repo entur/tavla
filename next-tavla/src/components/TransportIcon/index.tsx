@@ -13,7 +13,7 @@ function TransportIcon({
   transportMode?: TTransportMode | null;
   presentationColor?: string | null;
 }) {
-  transportMode = transportMode ? transportMode : "unknown";
+  const mode = transportMode ? transportMode : "unknown";
   return (
     <div
       style={{
@@ -25,14 +25,14 @@ function TransportIcon({
         padding: "5px",
         borderRadius: "5px",
         backgroundColor: getTransportModeColor(
-          transportMode,
+          mode,
           vendor,
           line,
           presentationColor
         ) as string,
       }}
     >
-      {getTransportIcon(transportMode)} {line}
+      {getTransportIcon(mode)} {line}
     </div>
   );
 }
