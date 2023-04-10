@@ -2455,17 +2455,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/typography@npm:1.7.3":
-  version: 1.7.3
-  resolution: "@entur/typography@npm:1.7.3"
+"@entur/typography@npm:1.7.15":
+  version: 1.7.15
+  resolution: "@entur/typography@npm:1.7.15"
   dependencies:
-    "@entur/utils": ^0.4.8
+    "@entur/tokens": ^3.8.1
+    "@entur/utils": ^0.8.0
     classnames: ^2.3.1
     normalize-scss: ^7.0.1
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: c55a269c1765bc1795e8a65f40ac5cdeb10b709949a3d0421738f9ec5edfcf51e171d878d668dcf76511d19e9c1835b6a7cbb87b09b64f5026cdd85677a90a13
+  checksum: c22d703c45cb71f06eed6d8b6f5226d87e55c9c1dbb85606d633baee9e9d33dcff779d57333a4aa9560445fe8352eeb032b4e5ac4d509b79853c766545ff434b
   languageName: node
   linkType: hard
 
@@ -2535,6 +2536,18 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 2e39e614fa6281636278f28d0288d04541915e1e4f7c941fe45d306e91f13b545cd8d26dee7f8600d7516daf91d1ac0fb472e89db8cea6959f3f4723cbbcbeff
+  languageName: node
+  linkType: hard
+
+"@entur/utils@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "@entur/utils@npm:0.8.0"
+  dependencies:
+    tiny-warning: ^1.0.3
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: b6c42eb97631778d61d642d3b159f2f39a2e81a8ef980d054ca2234d7eb54de50e091bf3c1868f5cb838ee260bb1979b7adad4297cc466c2a68a830e19ac9f4e
   languageName: node
   linkType: hard
 
@@ -16994,7 +17007,7 @@ __metadata:
     "@entur/tokens": 3.4.3
     "@entur/tooltip": 2.5.24
     "@entur/travel": 5.0.22
-    "@entur/typography": 1.7.3
+    "@entur/typography": 1.7.15
     "@graphql-codegen/cli": 2.16.1
     "@graphql-codegen/core": 2.6.8
     "@graphql-codegen/introspection": 2.2.3
