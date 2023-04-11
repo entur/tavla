@@ -14,10 +14,8 @@ const departureFragment = gql`
       transportMode
       transportSubmode
       line {
+        id
         publicCode
-        authority {
-          name
-        }
         presentation {
           textColour
           colour

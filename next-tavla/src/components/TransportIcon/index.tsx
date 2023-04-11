@@ -1,17 +1,15 @@
 import { TTransportMode } from "@/types/graphql/schema";
-import { getTransportModeColor } from "@/utils/colors";
+import { TColors } from "@/utils/colors";
 import { SVGProps } from "react";
 
 function TransportIcon({
-  line,
-  vendor,
   transportMode,
-  presentationColor,
+  publicCode,
+  presentation,
 }: {
-  line?: string | null;
-  vendor?: string;
-  transportMode?: TTransportMode | null;
-  presentationColor?: string | null;
+  transportMode: TTransportMode | null;
+  publicCode: string | null;
+  presentation: TColors;
 }) {
   const mode = transportMode ? transportMode : "unknown";
   return (
@@ -24,15 +22,12 @@ function TransportIcon({
         height: "100%",
         padding: "5px",
         borderRadius: "5px",
-        backgroundColor: getTransportModeColor(
-          mode,
-          vendor,
-          line,
-          presentationColor
-        ) as string,
+        backgroundColor: presentation.backgroundColor,
+        fill: presentation.color,
+        color: presentation.color,
       }}
     >
-      {getTransportIcon(mode)} {line}
+      {getTransportIcon(mode)} {publicCode}
     </div>
   );
 }
@@ -40,31 +35,31 @@ function TransportIcon({
 function getTransportIcon(transportMode: TTransportMode) {
   switch (transportMode) {
     case "metro":
-      return <MetroIcon fill="white" />;
+      return <MetroIcon />;
     case "bus":
-      return <BusIcon fill="white" />;
+      return <BusIcon />;
     case "air":
-      return <PlaneIcon fill="white" />;
+      return <PlaneIcon />;
     case "tram":
-      return <TramIcon fill="white" />;
+      return <TramIcon />;
     case "funicular":
-      return <FunicularIcon fill="white" />;
+      return <FunicularIcon />;
     case "cableway":
-      return <CablewayIcon fill="white" />;
+      return <CablewayIcon />;
     case "rail":
-      return <RailIcon fill="white" />;
+      return <RailIcon />;
     case "coach":
-      return <BusIcon fill="white" />;
+      return <BusIcon />;
     case "lift":
-      return <CablewayIcon fill="white" />;
+      return <CablewayIcon />;
     case "monorail":
-      return <RailIcon fill="white" />;
+      return <RailIcon />;
     case "trolleybus":
-      return <BusIcon fill="white" />;
+      return <BusIcon />;
     case "water":
-      return <FerryIcon fill="white" />;
+      return <FerryIcon />;
     default:
-      return <UnknownIcon fill="white" />;
+      return <UnknownIcon />;
   }
 }
 
