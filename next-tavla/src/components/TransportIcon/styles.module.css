@@ -1,0 +1,9 @@
+.transportIcon {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: fit-content;
+  height: 100%;
+  padding: 5px;
+  border-radius: 5px;
+}

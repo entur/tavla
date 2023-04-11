@@ -3,7 +3,7 @@
   height: 100%;
   min-height: 100vh;
   box-sizing: inherit;
-  color: var(--primary-font-color);
+  color: var(--primary-text-color);
   background-color: var(--primary-background-color);
 
   font-family: Nationale, Arial, Gotham Rounded, -apple-system,

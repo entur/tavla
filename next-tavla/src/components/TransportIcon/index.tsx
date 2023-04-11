@@ -1,6 +1,7 @@
 import { TTransportMode } from "@/types/graphql/schema";
 import { TColors } from "@/utils/colors";
 import { SVGProps } from "react";
+import classes from "./styles.module.css";
 
 function TransportIcon({
   transportMode,
@@ -14,14 +15,8 @@ function TransportIcon({
   const mode = transportMode ? transportMode : "unknown";
   return (
     <div
+      className={classes.transportIcon}
       style={{
-        display: "flex",
-        justifyContent: "space-evenly",
-        alignItems: "center",
-        width: "fit-content",
-        height: "100%",
-        padding: "5px",
-        borderRadius: "5px",
         backgroundColor: presentation.backgroundColor,
         fill: presentation.color,
         color: presentation.color,
