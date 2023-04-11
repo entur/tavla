@@ -1,10 +1,7 @@
 [data-theme="dark"] {
   --primary-background-color: var(--colors-misc-black);
   --secondary-background-color: var(--colors-greys-grey);
-  --primary-text-color: var(--colors-brand-white);
 
   --table-border-color: var(--colors-greys-grey10);
-  --table-situation: var(--colors-validation-canary);
-
-  --table-time-deviation: var(--colors-validation-lava-contrast);
+  --table-situation-color: var(--colors-validation-canary);
 }

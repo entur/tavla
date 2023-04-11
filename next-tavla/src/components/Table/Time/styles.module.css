@@ -9,5 +9,5 @@
 }
 
 .expectedDepartureTime {
-  color: var(--table-time-deviation);
+  color: var(--table-time-deviation-color);
 }

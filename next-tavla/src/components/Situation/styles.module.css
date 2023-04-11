@@ -1,5 +1,5 @@
 .situation {
-  color: var(--table-situation);
+  color: var(--table-situation-color);
   font-size: 0.5rem;
   display: flex;
   align-items: center;
@@ -11,7 +11,7 @@
 }
 
 .validation {
-  fill: var(--table-situation);
+  fill: var(--table-situation-color);
   display: flex;
   align-items: center;
   margin-right: 0.1rem;
