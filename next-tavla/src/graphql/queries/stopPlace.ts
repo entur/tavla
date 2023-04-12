@@ -8,12 +8,14 @@ const stopPlaceQuery = createQuery<TGetStopPlace, TGetStopPlaceVariables>(
     query getStopPlace(
       $stopPlaceId: String!
       $whitelistedTransportModes: [TransportMode]
+      $whitelistedLines: [ID!]
     ) {
       stopPlace(id: $stopPlaceId) {
         name
         estimatedCalls(
           numberOfDepartures: 20
           whiteListedModes: $whitelistedTransportModes
+          whiteListed: { lines: $whitelistedLines }
         ) {
           ...departure
         }

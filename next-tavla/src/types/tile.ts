@@ -9,12 +9,15 @@ type TBaseTile = {
 export type TQuayTile = {
   type: "quay";
   columns?: TColumn[];
+  whitelistedLines?: string[];
+  whitelistedTransportModes?: TTransportMode[];
 } & TBaseTile;
 
 export type TStopPlaceTile = {
   type: "departure";
-  whitelistedTransportModes?: TTransportMode[];
   columns?: TColumn[];
+  whitelistedLines?: string[];
+  whitelistedTransportModes?: TTransportMode[];
 } & TBaseTile;
 
 export type TMapTile = {

@@ -9,12 +9,19 @@ import classes from "./styles.module.css";
 export function QuayTile({
   placeId,
   columns = ["line", "destination", "time"],
+  whitelistedLines,
+  whitelistedTransportModes,
 }: TQuayTile) {
   const uniqueColumns = uniq(columns);
 
   const quayCallbackQuery = useCallback(
-    () => quayQuery({ quayId: placeId }),
-    [placeId]
+    () =>
+      quayQuery({
+        quayId: placeId,
+        whitelistedLines,
+        whitelistedTransportModes,
+      }),
+    [placeId, whitelistedLines, whitelistedTransportModes]
   );
 
   const data = usePoll(quayCallbackQuery);
