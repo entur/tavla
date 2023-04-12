@@ -6,6 +6,8 @@ export type TSituation = { __typename?: 'PtSituationElement', id: string, descri
 
 export type TGetQuayVariables = Types.Exact<{
   quayId: Types.Scalars['String'];
+  whitelistedTransportModes?: Types.InputMaybe<Array<Types.InputMaybe<Types.TTransportMode>> | Types.InputMaybe<Types.TTransportMode>>;
+  whitelistedLines?: Types.InputMaybe<Array<Types.Scalars['ID']> | Types.Scalars['ID']>;
 }>;
 
 
@@ -14,6 +16,7 @@ export type TGetQuay = { __typename?: 'QueryType', quay: { __typename?: 'Quay', 
 export type TGetStopPlaceVariables = Types.Exact<{
   stopPlaceId: Types.Scalars['String'];
   whitelistedTransportModes?: Types.InputMaybe<Array<Types.InputMaybe<Types.TTransportMode>> | Types.InputMaybe<Types.TTransportMode>>;
+  whitelistedLines?: Types.InputMaybe<Array<Types.Scalars['ID']> | Types.Scalars['ID']>;
 }>;
 
 

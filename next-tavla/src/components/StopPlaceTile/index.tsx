@@ -8,8 +8,9 @@ import classes from "./styles.module.css";
 
 export function StopPlaceTile({
   placeId,
-  whitelistedTransportModes,
   columns = ["line", "destination", "time"],
+  whitelistedLines,
+  whitelistedTransportModes,
 }: TStopPlaceTile) {
   const uniqueColumns = uniq(columns);
 
@@ -18,8 +19,9 @@ export function StopPlaceTile({
       stopPlaceQuery({
         stopPlaceId: placeId,
         whitelistedTransportModes,
+        whitelistedLines,
       }),
-    [placeId, whitelistedTransportModes]
+    [placeId, whitelistedTransportModes, whitelistedLines]
   );
 
   const data = usePoll(stopPlaceCallbackQuery);
