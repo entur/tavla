@@ -4,6 +4,7 @@ import { uniq } from "lodash";
 import { Table } from "@/components/Table";
 import { stopPlaceQuery } from "@/graphql/queries/stopPlace";
 import { usePoll } from "@/hooks/usePoll";
+import classes from "./styles.module.css";
 
 export function StopPlaceTile({
   placeId,
@@ -32,7 +33,7 @@ export function StopPlaceTile({
   }
 
   return (
-    <div className="tile" style={{ display: "flex", flexDirection: "column" }}>
+    <div className={classes.stopPlaceTile}>
       <h3>{data.stopPlace.name}</h3>
       <Table
         columns={uniqueColumns}

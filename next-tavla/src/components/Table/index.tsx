@@ -1,6 +1,6 @@
 import { TDeparture } from "@/types/graphql";
 import { TColumn } from "@/types/tile";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import classes from "./styles.module.css";
 import { DepartureContext } from "./contexts";
 import { Time } from "./Time";
@@ -35,17 +35,8 @@ function Table({
   columns: TColumn[];
   departures: TDeparture[];
 }) {
-  const divRef = useRef<HTMLDivElement>(null);
-  const [numberOfRows, setNumberOfRows] = useState<number>(departures.length);
-
-  useEffect(() => {
-    if (!divRef.current) return;
-    const rowHeight = divRef.current.scrollHeight / (departures.length + 1); // Plus one for header
-    setNumberOfRows(Math.floor(divRef.current.clientHeight / rowHeight - 1));
-  }, [departures]);
-
   return (
-    <div style={{ height: "100%", overflow: "hidden" }} ref={divRef}>
+    <div className={classes.container}>
       <table className={classes.table}>
         <thead>
           <tr>
@@ -62,10 +53,9 @@ function Table({
           </tr>
         </thead>
         <tbody>
-          {departures.map((departure, i) => (
+          {departures.map((departure) => (
             <tr
               key={`${departure.serviceJourney.id}_${departure.aimedDepartureTime}`}
-              style={{ visibility: i >= numberOfRows ? "hidden" : "visible" }}
             >
               <DepartureContext.Provider value={departure}>
                 {columns.map((col) => {

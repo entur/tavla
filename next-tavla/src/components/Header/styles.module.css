@@ -1,3 +1,8 @@
 .header {
   padding: 1rem;
 }
+
+.logo {
+  height: auto;
+  width: 7rem;
+}
