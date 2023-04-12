@@ -1,0 +1,5 @@
+.stopPlaceTile {
+  composes: tile from global;
+  display: flex;
+  flex-direction: column;
+}

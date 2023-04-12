@@ -1,3 +1,8 @@
+.container {
+  height: 100%;
+  overflow: hidden;
+}
+
 .table {
   text-align: left;
   height: 100%;

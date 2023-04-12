@@ -28,7 +28,7 @@ export function QuayTile({
   }
 
   return (
-    <div className="tile" style={{ display: "flex", flexDirection: "column" }}>
+    <div className={classes.quayTile}>
       <div className={classes.heading}>
         <h3>{data.quay.name}</h3>
         <h4>
