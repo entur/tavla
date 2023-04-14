@@ -7087,16 +7087,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shared@file:../../shared::locator=tavla%40workspace%3Aapps%2Ftavla":
-  version: 0.0.0
-  resolution: "shared@file:../../shared#../../shared::hash=047e0b&locator=tavla%40workspace%3Aapps%2Ftavla"
-  dependencies:
-    react: ^18.2.0
-  checksum: adb2292f67d60735ffb80e234999c47e3f11bea5022f40cad3b6fcc6650500ba6f2a2a09de484a56735e63044865702fab2b5ab07804cff6067c0be0a111c6b2
-  languageName: node
-  linkType: hard
-
-"shared@workspace:shared":
+"shared@workspace:^, shared@workspace:shared":
   version: 0.0.0-use.local
   resolution: "shared@workspace:shared"
   dependencies:
@@ -7473,7 +7464,7 @@ __metadata:
     prettier: ^2.8.7
     react: 18.2.0
     react-dom: 18.2.0
-    shared: ../../shared
+    shared: "workspace:^"
     typescript: 5.0.2
   languageName: unknown
   linkType: soft
