@@ -1,0 +1,10 @@
+{
+	"name": "next-tavla",
+	"packageManager": "yarn@3.5.0",
+	"private": true,
+	"workspaces": [
+		"shared",
+		"apps/tavla",
+		"apps/admin"
+	]
+}

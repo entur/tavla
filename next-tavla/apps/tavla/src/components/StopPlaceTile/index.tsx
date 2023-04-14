@@ -4,6 +4,7 @@ import { uniq } from "lodash";
 import { Table } from "@/components/Table";
 import { stopPlaceQuery } from "@/graphql/queries/stopPlace";
 import { usePoll } from "@/hooks/usePoll";
+import { Test } from "@shared/test";
 import classes from "./styles.module.css";
 
 export function StopPlaceTile({
@@ -37,6 +38,7 @@ export function StopPlaceTile({
   return (
     <div className={classes.stopPlaceTile}>
       <h3>{data.stopPlace.name}</h3>
+      <Test name="hello" />
       <Table
         columns={uniqueColumns}
         departures={data.stopPlace.estimatedCalls}

@@ -16,6 +16,7 @@ const nextConfig = {
     return config;
   },
   output: "standalone",
+  transpilePackages: ["shared"],
 };
 
 module.exports = nextConfig;
