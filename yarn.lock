@@ -2302,18 +2302,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/tab@npm:0.4.35":
-  version: 0.4.35
-  resolution: "@entur/tab@npm:0.4.35"
+"@entur/tab@npm:0.4.47":
+  version: 0.4.47
+  resolution: "@entur/tab@npm:0.4.47"
   dependencies:
-    "@entur/tokens": ^3.4.3
-    "@entur/utils": ^0.4.8
+    "@entur/tokens": ^3.8.1
+    "@entur/utils": ^0.9.0
     "@reach/tabs": ^0.15.0
     classnames: ^2.3.1
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: bb21953382fb331a275aef4a4cef912dcdbd98d18c0149620fc01d8a44e044dc052103076e53fdbea502e85b7e28f80464cd197a88c92097c4abfe583d17df7c
+  checksum: 21fb58f9f32c07c6c1085c840da4466ffea719df83d9f94692e20b51ae2eea367c409d815b293dfd323f9fa2bc2f17a9befaba21003a78ba471b9bf742bce4b8
   languageName: node
   linkType: hard
 
@@ -2535,6 +2535,18 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 2e39e614fa6281636278f28d0288d04541915e1e4f7c941fe45d306e91f13b545cd8d26dee7f8600d7516daf91d1ac0fb472e89db8cea6959f3f4723cbbcbeff
+  languageName: node
+  linkType: hard
+
+"@entur/utils@npm:^0.9.0":
+  version: 0.9.0
+  resolution: "@entur/utils@npm:0.9.0"
+  dependencies:
+    tiny-warning: ^1.0.3
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 732fb95f5af49871a14a146a47864236a56ca22d2aecf50a63350908f67e6598df64c23aa249d8d0dc7e684251f2ef47b7abc092f6e482619575b87c43c19910
   languageName: node
   linkType: hard
 
@@ -16989,7 +17001,7 @@ __metadata:
     "@entur/loader": 0.4.15
     "@entur/menu": 4.1.20
     "@entur/modal": 1.6.27
-    "@entur/tab": 0.4.35
+    "@entur/tab": 0.4.47
     "@entur/table": 4.5.42
     "@entur/tokens": 3.4.3
     "@entur/tooltip": 2.5.24
