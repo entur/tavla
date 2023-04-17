@@ -1,10 +1,7 @@
 {
   "name": "shared",
   "packageManager": "yarn@3.5.0",
-  "main": "./dist/test.jsx",
-  "types": "./dist/test.d.ts",
   "scripts": {
-    "build": "npx tsc",
     "prepack": "yarn build"
   },
   "dependencies": {
