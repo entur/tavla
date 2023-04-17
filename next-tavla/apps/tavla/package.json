@@ -6,13 +6,13 @@
     "chrome > 47"
   ],
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 9090",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 9090",
     "generate": "graphql-codegen",
     "lint": "next lint",
     "fix": "next lint --fix",
-    "build-start": "next build && next start"
+    "build-start": "yarn build && yarn start"
   },
   "dependencies": {
     "@entur/tokens": "3.8.1",
@@ -20,9 +20,11 @@
     "firebase": "9.18.0",
     "graphql": "16.6.0",
     "lodash": "4.17.21",
+    "mapbox-gl": "2.14.1",
     "next": "13.2.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-map-gl": "7.0.23"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "3.2.2",
@@ -36,13 +38,13 @@
     "@typescript-eslint/parser": "5.57.1",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.7",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "prettier": "2.8.7",
     "typescript": "5.0.2"
   },
   "packageManager": "yarn@3.5.0",
   "engines": {
-    "yarn": "^3.5.0"
+    "yarn": "3.5.0"
   }
 }
