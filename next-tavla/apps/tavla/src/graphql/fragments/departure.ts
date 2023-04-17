@@ -4,6 +4,9 @@ import { situationFragment } from "./situation";
 const departureFragment = gql`
   ${situationFragment}
   fragment departure on EstimatedCall {
+    quay {
+      publicCode
+    }
     destinationDisplay {
       frontText
     }

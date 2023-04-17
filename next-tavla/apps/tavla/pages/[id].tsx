@@ -29,7 +29,7 @@ function BoardPage({ settings }: { settings: TSettings }) {
   return (
     <div className="root" data-theme={settings.theme}>
       <div className="root-container">
-        <Header />
+        <Header theme={settings.theme} />
         <Board settings={settings} />
       </div>
     </div>
