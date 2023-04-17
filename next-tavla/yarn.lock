@@ -686,7 +686,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/tokens@npm:3.8.1":
+"@entur/tokens@npm:3.8.1, @entur/tokens@npm:^3.8.1":
   version: 3.8.1
   resolution: "@entur/tokens@npm:3.8.1"
   dependencies:
@@ -2850,6 +2850,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "admin@workspace:apps/admin"
   dependencies:
+    "@entur/tokens": ^3.8.1
     "@types/node": 18.15.11
     "@types/react": 18.0.35
     "@types/react-dom": 18.0.11
