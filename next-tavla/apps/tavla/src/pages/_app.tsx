@@ -1,8 +1,8 @@
 import "mapbox-gl/dist/mapbox-gl.css";
 import "@entur/tokens/dist/styles.css";
-import "@/styles/themes/default.css";
-import "@/styles/themes/dark.css";
-import "@/styles/themes/light.css";
+import "@shared/styles/themes/default.css";
+import "@shared/styles/themes/dark.css";
+import "@shared/styles/themes/light.css";
 import "@shared/styles/global.css";
 import "@shared/styles/reset.css";
 import "@shared/styles/fonts.css";
