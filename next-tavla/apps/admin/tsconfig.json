@@ -21,6 +21,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"],
-  "references": [{ "path": "../../shared" }]
+  "exclude": ["node_modules"]
 }

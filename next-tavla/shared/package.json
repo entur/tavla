@@ -1,9 +1,6 @@
 {
   "name": "shared",
   "packageManager": "yarn@3.5.0",
-  "scripts": {
-    "prepack": "yarn build"
-  },
   "dependencies": {
     "react": "18.2.0"
   }
