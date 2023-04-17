@@ -1,3 +1,4 @@
+import "mapbox-gl/dist/mapbox-gl.css";
 import "@entur/tokens/dist/styles.css";
 import "@/styles/themes/default.css";
 import "@/styles/themes/dark.css";

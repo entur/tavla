@@ -22,6 +22,9 @@ export type TStopPlaceTile = {
 
 export type TMapTile = {
   type: "map";
+  longitude: number;
+  latitude: number;
+  zoom: number;
 } & TBaseTile;
 
 export type TTile = TStopPlaceTile | TMapTile | TQuayTile;
