@@ -6784,7 +6784,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:18.2.0, react@npm:^18.2.0":
+"react@npm:18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:
@@ -7087,11 +7087,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shared@workspace:^, shared@workspace:shared":
+"shared@workspace:shared":
   version: 0.0.0-use.local
   resolution: "shared@workspace:shared"
   dependencies:
-    react: ^18.2.0
+    react: 18.2.0
   languageName: unknown
   linkType: soft
 
@@ -7464,7 +7464,6 @@ __metadata:
     prettier: ^2.8.7
     react: 18.2.0
     react-dom: 18.2.0
-    shared: "workspace:^"
     typescript: 5.0.2
   languageName: unknown
   linkType: soft
