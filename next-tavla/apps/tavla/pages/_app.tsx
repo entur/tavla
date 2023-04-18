@@ -3,10 +3,10 @@ import "@entur/tokens/dist/styles.css";
 import "@/styles/themes/default.css";
 import "@/styles/themes/dark.css";
 import "@/styles/themes/light.css";
-import "@/styles/global.css";
-import "@/styles/reset.css";
-import "@/styles/fonts.css";
-import "@/styles/spacing.css";
+import "@shared/styles/global.css";
+import "@shared/styles/reset.css";
+import "@shared/styles/fonts.css";
+import "@shared/styles/spacing.css";
 import Head from "next/head";
 import type { AppProps } from "next/app";
 
