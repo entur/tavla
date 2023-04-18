@@ -4,7 +4,6 @@
 	"private": true,
 	"workspaces": [
 		"shared",
-		"apps/tavla",
-		"apps/admin"
+		"tavla"
 	]
 }
