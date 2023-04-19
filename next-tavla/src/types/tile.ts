@@ -1,6 +1,6 @@
 import { TTransportMode } from "./graphql/schema";
 
-export type TColumn = "line" | "time" | "destination";
+export type TColumn = "line" | "time" | "destination" | "platform";
 
 type TBaseTile = {
   placeId: string;

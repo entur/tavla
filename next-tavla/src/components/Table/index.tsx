@@ -6,6 +6,7 @@ import { DepartureContext } from "./contexts";
 import { Time } from "./Time";
 import { Destination } from "./Destination";
 import { Line } from "./Line";
+import { Platform } from "./Platform";
 
 const headerOptions: Record<TColumn, { name: string; size: number }> = {
   destination: {
@@ -20,12 +21,17 @@ const headerOptions: Record<TColumn, { name: string; size: number }> = {
     name: "Avgang",
     size: 1,
   },
+  platform: {
+    name: "Plattform",
+    size: 1,
+  },
 };
 
 const columnComponents: Record<TColumn, () => JSX.Element> = {
   destination: Destination,
   line: Line,
   time: Time,
+  platform: Platform,
 };
 
 function Table({
