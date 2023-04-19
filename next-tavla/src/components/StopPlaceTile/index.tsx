@@ -8,7 +8,7 @@ import classes from "./styles.module.css";
 
 export function StopPlaceTile({
   placeId,
-  columns = ["line", "destination", "time"],
+  columns = ["line", "platform", "destination", "time"],
   whitelistedLines,
   whitelistedTransportModes,
 }: TStopPlaceTile) {
