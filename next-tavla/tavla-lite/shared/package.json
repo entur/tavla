@@ -1,7 +1,0 @@
-{
-  "name": "shared",
-  "packageManager": "yarn@3.5.0",
-  "dependencies": {
-    "react": "18.2.0"
-  }
-}
