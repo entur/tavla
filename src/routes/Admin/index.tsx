@@ -21,6 +21,7 @@ import { LockAndViewButtons } from './LockAndViewButtons/LockAndViewButtons'
 import { ShareTab } from './ShareTab/ShareTab'
 import classes from './AdminPage.module.scss'
 import { EditTab } from './EditTab'
+import { LiteSettings } from './LiteSettings'
 
 function AdminPage() {
     const [settings] = useSettings()
@@ -90,6 +91,7 @@ function AdminPage() {
                         <Tab className={classes.Tab}>
                             Deling {lockIconShareTab}
                         </Tab>
+                        <Tab className={classes.Tab}>Lite</Tab>
                     </TabList>
                     <TabPanels>
                         <TabPanel>
@@ -119,6 +121,9 @@ function AdminPage() {
                                 setTabIndex={switchTab}
                                 locked={lockShareTab}
                             />
+                        </TabPanel>
+                        <TabPanel>
+                            <LiteSettings />
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
