@@ -9,6 +9,7 @@ import {
 } from '@dnd-kit/sortable'
 import { DndContext, type DragEndEvent } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
+import { set } from 'lodash'
 import { TColumn, TTile } from './types/tile'
 import { TSettings } from './types/settings'
 import { getFirebaseSettings, setFirebaseSettings } from './utils/firebase'
@@ -55,35 +56,69 @@ function LiteSettings({
     initialSettings: TSettings
     documentId: string
 }) {
+    const [settings, setSettings] = useState(initialSettings)
+
+    const setColumns = (tileIndex: number, newColumns: TColumn[]) => {
+        const newSettings = settings
+        set(newSettings, `tiles[${tileIndex}].columns`, newColumns)
+        setSettings(newSettings)
+    }
+
     return (
         <div>
             <Settings
                 initialSettings={initialSettings}
                 documentId={documentId}
             />
-            <LiteTilesManager tiles={initialSettings.tiles} />
+            <LiteTilesManager
+                tiles={initialSettings.tiles}
+                setColumn={setColumns}
+            />
         </div>
     )
 }
 
-function LiteTilesManager({ tiles }: { tiles: TTile[] }) {
+function LiteTilesManager({
+    tiles,
+    setColumn,
+}: {
+    tiles: TTile[]
+    setColumn: (tileIndex: number, newColumns: TColumn[]) => void
+}) {
     const tilesWithId = tiles.map((tile: TTile, index: number) => ({
         id: index,
         tile,
     }))
     return (
         <DndContext>
-            {tilesWithId.map((tile) => (
-                <LiteTile key={tile.id} tile={tile.tile} />
+            {tilesWithId.map((tile, index) => (
+                <LiteTile
+                    key={tile.id}
+                    tile={tile.tile}
+                    index={index}
+                    setColumn={setColumn}
+                />
             ))}
         </DndContext>
     )
 }
 
-function LiteTile({ tile }: { tile: TTile }) {
+function LiteTile({
+    tile,
+    index,
+    setColumn,
+}: {
+    tile: TTile
+    index: number
+    setColumn: (tileIndex: number, newColumns: TColumn[]) => void
+}) {
     const [columns, setColumns] = useState(
         tile.type !== 'map' ? tile?.columns ?? [] : [],
     )
+
+    useEffect(() => {
+        setColumn(index, columns)
+    }, [index, columns, setColumn])
 
     const handleColumnSwap = (event: DragEndEvent) => {
         const { active, over } = event
