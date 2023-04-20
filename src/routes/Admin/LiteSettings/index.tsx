@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Theme } from 'src/types'
-import { useSortable } from '@dnd-kit/sortable'
-import { DndContext } from '@dnd-kit/core'
+import {
+    arrayMove,
+    horizontalListSortingStrategy,
+    SortableContext,
+    useSortable,
+} from '@dnd-kit/sortable'
+import { DndContext, type DragEndEvent } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
-import { TTile } from './types/tile'
+import { TColumn, TTile } from './types/tile'
 import { TSettings } from './types/settings'
 import { getFirebaseSettings, setFirebaseSettings } from './utils/firebase'
 
@@ -76,9 +81,24 @@ function LiteTilesManager({ tiles }: { tiles: TTile[] }) {
 }
 
 function LiteTile({ tile }: { tile: TTile }) {
-    if (tile.type === 'map') return null
+    const [columns, setColumns] = useState(
+        tile.type !== 'map' ? tile?.columns ?? [] : [],
+    )
+
+    const handleColumnSwap = (event: DragEndEvent) => {
+        const { active, over } = event
+
+        if (active && over && active.id !== over.id) {
+            setColumns((newColumns) => {
+                const oldIndex = newColumns.indexOf(active.id as TColumn)
+                const newIndex = newColumns.indexOf(over.id as TColumn)
+                return arrayMove(newColumns, oldIndex, newIndex)
+            })
+        }
+    }
+
     return (
-        <DndContext>
+        <DndContext onDragEnd={handleColumnSwap}>
             <div
                 style={{
                     height: '100%',
@@ -91,9 +111,14 @@ function LiteTile({ tile }: { tile: TTile }) {
             >
                 {tile.placeId}
                 <div style={{ display: 'flex', height: '500px', gap: '10px' }}>
-                    {tile?.columns?.map((column) => (
-                        <LiteTileColumn key={column} column={column} />
-                    ))}
+                    <SortableContext
+                        items={columns}
+                        strategy={horizontalListSortingStrategy}
+                    >
+                        {columns.map((column: string) => (
+                            <LiteTileColumn key={column} column={column} />
+                        ))}
+                    </SortableContext>
                 </div>
             </div>
         </DndContext>
@@ -113,7 +138,8 @@ function LiteTileColumn({ column }: { column: string }) {
         <div
             ref={setNodeRef}
             style={{
-                backgroundColor: '#aeb7e2',
+                color: 'white',
+                backgroundColor: '#292b6a',
                 flex: 1,
                 padding: '1rem',
                 borderRadius: '0.5rem',
