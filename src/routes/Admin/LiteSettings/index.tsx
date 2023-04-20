@@ -1,19 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { doc, getDoc, setDoc } from 'firebase/firestore' // Replace with Lite maybe
-import { db } from 'src/settings/firebase-init'
 import { Theme } from 'src/types'
 import { TSettings } from './types/settings'
-
-async function getFirebaseSettings(documentId: string) {
-    return getDoc(doc(db, 'settings-v2', documentId)).then(
-        (document) => document.data() as TSettings | undefined,
-    )
-}
-
-async function setFirebaseSettings(documentId: string, settings: TSettings) {
-    return setDoc(doc(db, 'settings-v2', documentId), settings)
-}
+import { getFirebaseSettings, setFirebaseSettings } from './utils/firebase'
 
 function LiteSettingsLoader() {
     const { documentId } = useParams<{ documentId: string }>()
