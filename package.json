@@ -39,6 +39,7 @@
     "dependencies": {
         "@apollo/client": "3.7.2",
         "@dnd-kit/core": "6.0.8",
+        "@dnd-kit/sortable": "7.0.2",
         "@entur/a11y": "0.2.52",
         "@entur/alert": "0.11.15",
         "@entur/button": "2.10.7",
