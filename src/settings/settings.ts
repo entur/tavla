@@ -54,6 +54,7 @@ type Settings = {
     showWind: boolean
     theme: Theme
     zoom: number
+    liteAccess: boolean
 }
 
 const DEFAULT_SETTINGS: Settings = {
@@ -99,6 +100,7 @@ const DEFAULT_SETTINGS: Settings = {
     showWind: true,
     theme: 'default',
     zoom: DEFAULT_ZOOM,
+    liteAccess: false,
 }
 export { DEFAULT_SETTINGS }
 export type { Settings, Mode }

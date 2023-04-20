@@ -91,7 +91,9 @@ function AdminPage() {
                         <Tab className={classes.Tab}>
                             Deling {lockIconShareTab}
                         </Tab>
-                        <Tab className={classes.Tab}>Lite</Tab>
+                        {settings.liteAccess && (
+                            <Tab className={classes.Tab}>Lite</Tab>
+                        )}
                     </TabList>
                     <TabPanels>
                         <TabPanel>
@@ -122,9 +124,11 @@ function AdminPage() {
                                 locked={lockShareTab}
                             />
                         </TabPanel>
-                        <TabPanel>
-                            <LiteSettings />
-                        </TabPanel>
+                        {settings.liteAccess && (
+                            <TabPanel>
+                                <LiteSettings />
+                            </TabPanel>
+                        )}
                     </TabPanels>
                 </Tabs>
                 <LockAndViewButtons />
