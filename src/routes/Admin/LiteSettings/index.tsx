@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Theme } from 'src/types'
+import { useSortable } from '@dnd-kit/sortable'
+import { DndContext } from '@dnd-kit/core'
+import { CSS } from '@dnd-kit/utilities'
+import { TTile } from './types/tile'
 import { TSettings } from './types/settings'
 import { getFirebaseSettings, setFirebaseSettings } from './utils/firebase'
 
@@ -39,6 +43,90 @@ function LiteSettingsLoader() {
     return <LiteSettings initialSettings={settings} documentId={documentId} />
 }
 
+function LiteSettings({
+    initialSettings,
+    documentId,
+}: {
+    initialSettings: TSettings
+    documentId: string
+}) {
+    return (
+        <div>
+            <Settings
+                initialSettings={initialSettings}
+                documentId={documentId}
+            />
+            <LiteTilesManager tiles={initialSettings.tiles} />
+        </div>
+    )
+}
+
+function LiteTilesManager({ tiles }: { tiles: TTile[] }) {
+    const tilesWithId = tiles.map((tile: TTile, index: number) => ({
+        id: index,
+        tile,
+    }))
+    return (
+        <DndContext>
+            {tilesWithId.map((tile) => (
+                <LiteTile key={tile.id} tile={tile.tile} />
+            ))}
+        </DndContext>
+    )
+}
+
+function LiteTile({ tile }: { tile: TTile }) {
+    if (tile.type === 'map') return null
+    return (
+        <DndContext>
+            <div
+                style={{
+                    height: '100%',
+                    width: '100%',
+                    padding: '1rem',
+                    borderRadius: '0.5rem',
+                    backgroundColor: 'white',
+                    color: 'black',
+                }}
+            >
+                {tile.placeId}
+                <div style={{ display: 'flex', height: '500px', gap: '10px' }}>
+                    {tile?.columns?.map((column) => (
+                        <LiteTileColumn key={column} column={column} />
+                    ))}
+                </div>
+            </div>
+        </DndContext>
+    )
+}
+
+function LiteTileColumn({ column }: { column: string }) {
+    const { attributes, listeners, setNodeRef, transform, transition } =
+        useSortable({ id: column })
+
+    const positionStyle = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    }
+
+    return (
+        <div
+            ref={setNodeRef}
+            style={{
+                backgroundColor: '#aeb7e2',
+                flex: 1,
+                padding: '1rem',
+                borderRadius: '0.5rem',
+                ...positionStyle,
+            }}
+            {...attributes}
+            {...listeners}
+        >
+            {column}
+        </div>
+    )
+}
+
 const themes: Record<Theme, string> = {
     default: 'Entur',
     dark: 'Mørk',
@@ -46,7 +134,7 @@ const themes: Record<Theme, string> = {
     grey: 'Grå',
 }
 
-function LiteSettings({
+function Settings({
     initialSettings,
     documentId,
 }: {
