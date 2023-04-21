@@ -16,7 +16,7 @@
     "main": "lib/index.js",
     "dependencies": {
         "cors": "2.8.5",
-        "firebase-admin": "11.5.0",
+        "firebase-admin": "11.7.0",
         "firebase-functions": "4.3.0"
     },
     "devDependencies": {
