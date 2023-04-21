@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Theme } from 'src/types'
 import {
@@ -9,8 +9,8 @@ import {
 } from '@dnd-kit/sortable'
 import { DndContext, type DragEndEvent } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
-import { set } from 'lodash'
-import { TColumn, TTile } from './types/tile'
+import { cloneDeep, set } from 'lodash'
+import { TColumn, TStopPlaceTile, TTile } from './types/tile'
 import { TSettings } from './types/settings'
 import { getFirebaseSettings, setFirebaseSettings } from './utils/firebase'
 
@@ -58,32 +58,35 @@ function LiteSettings({
 }) {
     const [settings, setSettings] = useState(initialSettings)
 
-    const setColumns = (tileIndex: number, newColumns: TColumn[]) => {
-        const newSettings = settings
-        set(newSettings, `tiles[${tileIndex}].columns`, newColumns)
-        setSettings(newSettings)
+    const setTile = (tileIndex: number, newTile: TTile) => {
+        let newSettings = cloneDeep(settings)
+        setSettings(set(newSettings, `tiles[${tileIndex}]`, newTile))
     }
 
     return (
         <div>
-            <Settings
+            <ThemeSettings
                 initialSettings={initialSettings}
                 documentId={documentId}
             />
-            <LiteTilesManager
-                tiles={initialSettings.tiles}
-                setColumn={setColumns}
-            />
+            <LiteTilesManager tiles={initialSettings.tiles} setTile={setTile} />
+            <button
+                onClick={() => {
+                    setFirebaseSettings(documentId, settings)
+                }}
+            >
+                Save
+            </button>
         </div>
     )
 }
 
 function LiteTilesManager({
     tiles,
-    setColumn,
+    setTile,
 }: {
     tiles: TTile[]
-    setColumn: (tileIndex: number, newColumns: TColumn[]) => void
+    setTile: (tileIndex: number, newTile: TTile) => void
 }) {
     const tilesWithId = tiles.map((tile: TTile, index: number) => ({
         id: index,
@@ -91,34 +94,45 @@ function LiteTilesManager({
     }))
     return (
         <DndContext>
-            {tilesWithId.map((tile, index) => (
-                <LiteTile
-                    key={tile.id}
-                    tile={tile.tile}
-                    index={index}
-                    setColumn={setColumn}
-                />
-            ))}
+            {tilesWithId.map((tile, index) => {
+                const setIndexedTile = useCallback(
+                    (tile: TTile) => {
+                        setTile(index, tile)
+                    },
+                    [index],
+                )
+                //
+                switch (tile.tile.type) {
+                    case 'stop_place':
+                        return (
+                            <LiteStopPlaceTile
+                                key={tile.id}
+                                tile={tile.tile}
+                                setTile={setIndexedTile}
+                            />
+                        )
+                    case 'quay':
+                        return null
+                    case 'map':
+                        return null
+                }
+            })}
         </DndContext>
     )
 }
 
-function LiteTile({
+function LiteStopPlaceTile({
     tile,
-    index,
-    setColumn,
+    setTile,
 }: {
-    tile: TTile
-    index: number
-    setColumn: (tileIndex: number, newColumns: TColumn[]) => void
-}) {
-    const [columns, setColumns] = useState(
-        tile.type !== 'map' ? tile?.columns ?? [] : [],
-    )
+    tile: TStopPlaceTile
+    setTile: (newTile: TStopPlaceTile) => void
+}): JSX.Element {
+    const [columns, setColumns] = useState(tile.columns ?? [])
 
     useEffect(() => {
-        setColumn(index, columns)
-    }, [index, columns, setColumn])
+        setTile({ ...tile, columns })
+    }, [columns, setTile])
 
     const handleColumnSwap = (event: DragEndEvent) => {
         const { active, over } = event
@@ -195,7 +209,7 @@ const themes: Record<Theme, string> = {
     grey: 'Grå',
 }
 
-function Settings({
+function ThemeSettings({
     initialSettings,
     documentId,
 }: {
@@ -203,7 +217,6 @@ function Settings({
     documentId: string
 }) {
     const [data, setData] = useState<TSettings>(initialSettings)
-
     return (
         <div>
             {JSON.stringify(data)}
@@ -224,13 +237,6 @@ function Settings({
                 ))}
             </select>
             <br />
-            <button
-                onClick={() => {
-                    setFirebaseSettings(documentId, data)
-                }}
-            >
-                Save
-            </button>
         </div>
     )
 }
