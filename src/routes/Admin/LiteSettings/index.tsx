@@ -8,6 +8,7 @@ import { getFirebaseSettings, setFirebaseSettings } from './utils/firebase'
 import { TilesSettings } from './components/TilesSettings'
 import { ThemeSettings } from './components/ThemeSettings'
 import { addUUID } from './utils'
+import { AddTile } from './components/NewTileSettings'
 
 function LiteSettingsLoader() {
     const { documentId } = useParams<{ documentId: string }>()
@@ -53,7 +54,7 @@ function LiteSettings({
 }) {
     const [settings, setSettings] = useState<TSettings>({
         ...initialSettings,
-        tiles: addUUID(initialSettings.tiles),
+        tiles: initialSettings.tiles.map(addUUID),
     })
 
     const setTiles = (tiles: TTile[]) =>
@@ -69,10 +70,20 @@ function LiteSettings({
         })
     }
 
+    const addTile = (tile: TTile) => {
+        setSettings({
+            ...settings,
+            tiles: [...settings.tiles, addUUID(tile, settings.tiles.length)],
+        })
+    }
+
     return (
         <div>
             <ThemeSettings theme={settings.theme} setTheme={setTheme} />
             <TilesSettings tiles={settings.tiles} setTiles={setTiles} />
+            <hr />
+            <AddTile addTile={addTile} />
+            <hr />
             <button
                 onClick={() => {
                     setFirebaseSettings(documentId, settings)

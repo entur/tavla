@@ -943,10 +943,7 @@ export type QueryType = {
   stopPlacesByBbox: Array<Maybe<StopPlace>>;
   /** Input type for executing a travel search for a trip between two locations. Returns trip patterns describing suggested alternatives for the trip. */
   trip: Trip;
-  /**
-   * Via trip search. Find trip patterns traveling via one or more intermediate (via) locations.
-   * @deprecated This API is under development, expect the contract to change
-   */
+  /** Via trip search. Find trip patterns traveling via one or more intermediate (via) locations. */
   viaTrip: ViaTrip;
 };
 
@@ -1140,6 +1137,7 @@ export type QueryTypeTripArgs = {
   includeRealtimeCancellations?: InputMaybe<Scalars['Boolean']>;
   itineraryFilters?: InputMaybe<ItineraryFilters>;
   locale?: InputMaybe<Locale>;
+  maxAccessEgressDurationForMode?: InputMaybe<Array<StreetModeDurationInput>>;
   maximumAdditionalTransfers?: InputMaybe<Scalars['Int']>;
   maximumTransfers?: InputMaybe<Scalars['Int']>;
   modes?: InputMaybe<Modes>;
@@ -1562,6 +1560,12 @@ export enum StreetMode {
   ScooterRental = 'scooter_rental'
 }
 
+/** A combination of street mode and corresponding duration */
+export type StreetModeDurationInput = {
+  duration: Scalars['Duration'];
+  streetMode: StreetMode;
+};
+
 /** Input format for specifying which modes will be allowed for this search. If this element is not present, it will default to all to foot. */
 export type StreetModes = {
   /** The mode used to get from the origin to the access stops in the transit network the transit network (first-mile). If the element is not present or null,only transit that can be immediately boarded from the origin will be used. */
@@ -1845,6 +1849,8 @@ export type TripFilterInput = {
 export type TripFilterSelectInput = {
   /** Set of ids for authorities that should be included in/excluded from search */
   authorities?: InputMaybe<Array<Scalars['ID']>>;
+  /** Set of ids for group of lines that should be included in/excluded from the search */
+  groupOfLines?: InputMaybe<Array<Scalars['ID']>>;
   /** Set of ids for lines that should be included in/excluded from search */
   lines?: InputMaybe<Array<Scalars['ID']>>;
   /** Set of ids for service journeys that should be included in/excluded from search */
@@ -2073,6 +2079,13 @@ export type WalkTripQueryVariables = Exact<{
 
 export type WalkTripQuery = { __typename?: 'QueryType', trip: { __typename?: 'Trip', tripPatterns: Array<{ __typename?: 'TripPattern', duration: Long | null, walkDistance: number | null }> } };
 
+export type QuaysSearchQueryVariables = Exact<{
+  stopPlaceId: Scalars['String'];
+}>;
+
+
+export type QuaysSearchQuery = { __typename?: 'QueryType', stopPlace: { __typename?: 'StopPlace', quays: Array<{ __typename?: 'Quay', id: string, publicCode: string | null, description: string | null } | null> | null } | null };
+
 export type BusTileQueryVariables = Exact<{
   ids: Array<Scalars['String']> | Scalars['String'];
 }>;
@@ -2206,6 +2219,35 @@ export function useWalkTripLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<W
 export type WalkTripQueryHookResult = ReturnType<typeof useWalkTripQuery>;
 export type WalkTripLazyQueryHookResult = ReturnType<typeof useWalkTripLazyQuery>;
 export type WalkTripQueryResult = Apollo.QueryResult<WalkTripQuery, WalkTripQueryVariables>;
+export const QuaysSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"QuaysSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"stopPlaceId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"stopPlaceId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quays"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filterByInUse"},"value":{"kind":"BooleanValue","value":true}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useQuaysSearchQuery__
+ *
+ * To run a query within a React component, call `useQuaysSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQuaysSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQuaysSearchQuery({
+ *   variables: {
+ *      stopPlaceId: // value for 'stopPlaceId'
+ *   },
+ * });
+ */
+export function useQuaysSearchQuery(baseOptions: Apollo.QueryHookOptions<QuaysSearchQuery, QuaysSearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<QuaysSearchQuery, QuaysSearchQueryVariables>(QuaysSearchDocument, options);
+      }
+export function useQuaysSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QuaysSearchQuery, QuaysSearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QuaysSearchQuery, QuaysSearchQueryVariables>(QuaysSearchDocument, options);
+        }
+export type QuaysSearchQueryHookResult = ReturnType<typeof useQuaysSearchQuery>;
+export type QuaysSearchLazyQueryHookResult = ReturnType<typeof useQuaysSearchLazyQuery>;
+export type QuaysSearchQueryResult = Apollo.QueryResult<QuaysSearchQuery, QuaysSearchQueryVariables>;
 export const BusTileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BusTile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlaces"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}},{"kind":"Field","name":{"kind":"Name","value":"estimatedCalls"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"numberOfDepartures"},"value":{"kind":"IntValue","value":"20"}},{"kind":"Argument","name":{"kind":"Name","value":"timeRange"},"value":{"kind":"IntValue","value":"172800"}},{"kind":"Argument","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"},"value":{"kind":"IntValue","value":"20"}},{"kind":"Argument","name":{"kind":"Name","value":"arrivalDeparture"},"value":{"kind":"EnumValue","value":"departures"}},{"kind":"Argument","name":{"kind":"Name","value":"whiteListedModes"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"bus"}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aimedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"cancellation"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"destinationDisplay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"expectedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"quay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"serviceJourney"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"journeyPattern"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicCode"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"situations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**

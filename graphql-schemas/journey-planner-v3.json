@@ -7619,6 +7619,26 @@
                 "deprecationReason": null
               },
               {
+                "name": "maxAccessEgressDurationForMode",
+                "description": "Maximum duration for access/egress for street searches per respective mode.",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "StreetModeDurationInput",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "maximumAdditionalTransfers",
                 "description": "Maximum number of additional transfers compared to the best number of transfers allowed. Note! The best way to reduce the number of transfers is to set the `transferPenalty` parameter.",
                 "type": {
@@ -8017,8 +8037,8 @@
                 "ofType": null
               }
             },
-            "isDeprecated": true,
-            "deprecationReason": "This API is under development, expect the contract to change"
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -10165,6 +10185,49 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "StreetModeDurationInput",
+        "description": "A combination of street mode and corresponding duration",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "duration",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Duration",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "streetMode",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "StreetMode",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "StreetModes",
         "description": "Input format for specifying which modes will be allowed for this search. If this element is not present, it will default to all to foot.",
         "fields": null,
@@ -11825,6 +11888,26 @@
           {
             "name": "authorities",
             "description": "Set of ids for authorities that should be included in/excluded from search",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "groupOfLines",
+            "description": "Set of ids for group of lines that should be included in/excluded from the search",
             "type": {
               "kind": "LIST",
               "name": null,

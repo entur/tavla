@@ -1,0 +1,57 @@
+import React, { useEffect, useState } from 'react'
+import { fetchAutocomplete } from 'utils/geocoder/fetchAutocomplete'
+import { useQuaysSearchLazyQuery } from 'graphql-generated/journey-planner-v3'
+import { isNotNullOrUndefined } from 'utils/typeguards'
+import { Dropdown } from '@entur/dropdown'
+import { TQuayTile } from '../../types/tile'
+
+function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
+    const [stopPlaceId, setStopPlaceId] = useState<string | undefined>()
+
+    const [getQuays, { data }] = useQuaysSearchLazyQuery({
+        fetchPolicy: 'cache-and-network',
+    })
+
+    const quays =
+        data?.stopPlace?.quays?.filter(isNotNullOrUndefined).map((quay) => ({
+            value: quay.id,
+            label: [quay.publicCode, quay.description].join(' '),
+        })) || []
+
+    useEffect(() => {
+        if (!stopPlaceId) return
+
+        getQuays({ variables: { stopPlaceId } })
+    }, [getQuays, stopPlaceId])
+
+    return (
+        <div>
+            <Dropdown
+                items={fetchAutocomplete}
+                label="Finn stoppested"
+                searchable
+                clearable
+                openOnFocus
+                debounceTimeout={500}
+                onChange={(e) => setStopPlaceId(e?.value)}
+            />
+
+            {stopPlaceId && (
+                <Dropdown
+                    items={() => quays}
+                    label="Velg plattform"
+                    onChange={(e) => {
+                        if (e?.value) {
+                            setTile({
+                                type: 'quay',
+                                placeId: e.value,
+                            })
+                        }
+                    }}
+                />
+            )}
+        </div>
+    )
+}
+
+export { AddQuayTile }
