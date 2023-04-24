@@ -1,8 +1,13 @@
+/* eslint-disable func-style */
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Theme } from 'src/types'
+import { TTile } from './types/tile'
 import { TSettings } from './types/settings'
 import { getFirebaseSettings, setFirebaseSettings } from './utils/firebase'
+import { TilesSettings } from './components/TilesSettings'
+import { ThemeSettings } from './components/ThemeSettings'
+import { addUUID } from './utils'
 
 function LiteSettingsLoader() {
     const { documentId } = useParams<{ documentId: string }>()
@@ -39,13 +44,6 @@ function LiteSettingsLoader() {
     return <LiteSettings initialSettings={settings} documentId={documentId} />
 }
 
-const themes: Record<Theme, string> = {
-    default: 'Entur',
-    dark: 'Mørk',
-    light: 'Lyst',
-    grey: 'Grå',
-}
-
 function LiteSettings({
     initialSettings,
     documentId,
@@ -53,31 +51,31 @@ function LiteSettings({
     initialSettings: TSettings
     documentId: string
 }) {
-    const [data, setData] = useState<TSettings>(initialSettings)
+    const [settings, setSettings] = useState<TSettings>({
+        ...initialSettings,
+        tiles: addUUID(initialSettings.tiles),
+    })
+
+    const setTiles = (tiles: TTile[]) =>
+        setSettings({
+            ...settings,
+            tiles,
+        })
+
+    const setTheme = (theme: Theme) => {
+        setSettings({
+            ...settings,
+            theme,
+        })
+    }
 
     return (
         <div>
-            {JSON.stringify(data)}
-            <br />
-            <select
-                value={data?.theme}
-                onChange={(e) =>
-                    setData((old) => ({
-                        ...old,
-                        theme: e.target.value as Theme,
-                    }))
-                }
-            >
-                {Object.entries(themes).map(([key, value]) => (
-                    <option key={key} value={key}>
-                        {value}
-                    </option>
-                ))}
-            </select>
-            <br />
+            <ThemeSettings theme={settings.theme} setTheme={setTheme} />
+            <TilesSettings tiles={settings.tiles} setTiles={setTiles} />
             <button
                 onClick={() => {
-                    setFirebaseSettings(documentId, data)
+                    setFirebaseSettings(documentId, settings)
                 }}
             >
                 Save

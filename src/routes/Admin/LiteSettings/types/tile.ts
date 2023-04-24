@@ -18,6 +18,7 @@ export type TColumn = 'line' | 'time' | 'destination' | 'platform'
 
 type TBaseTile = {
     placeId: string
+    uuid?: string
 }
 
 export type TQuayTile = {
@@ -28,7 +29,7 @@ export type TQuayTile = {
 } & TBaseTile
 
 export type TStopPlaceTile = {
-    type: 'departure'
+    type: 'stop_place'
     columns?: TColumn[]
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportMode[]
