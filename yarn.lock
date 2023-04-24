@@ -9505,9 +9505,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase-tools@npm:11.22.0":
-  version: 11.22.0
-  resolution: "firebase-tools@npm:11.22.0"
+"firebase-tools@npm:11.28.0":
+  version: 11.28.0
+  resolution: "firebase-tools@npm:11.28.0"
   dependencies:
     "@google-cloud/pubsub": ^3.0.1
     abort-controller: ^3.0.0
@@ -9547,6 +9547,7 @@ __metadata:
     node-fetch: ^2.6.7
     open: ^6.3.0
     ora: ^5.4.1
+    p-limit: ^3.0.1
     portfinder: ^1.0.32
     progress: ^2.0.3
     proxy-agent: ^5.0.0
@@ -9557,7 +9558,7 @@ __metadata:
     stream-chain: ^2.2.4
     stream-json: ^1.7.3
     strip-ansi: ^6.0.1
-    superstatic: ^9.0.2
+    superstatic: ^9.0.3
     tar: ^6.1.11
     tcp-port-used: ^1.0.2
     tmp: ^0.2.1
@@ -9571,7 +9572,7 @@ __metadata:
     ws: ^7.2.3
   bin:
     firebase: lib/bin/firebase.js
-  checksum: ce9eeefee54656f93f89bb788e81cb4ced684db573fd093dad04e04c2da54b54c810ca7b3a6e621d52ed123a3b1e2c4f07d8cd0d0eebef105cc3b49d65188511
+  checksum: 601be2cbcd093d0999c9de46c54a9c34ca4e92b116dfca1c53bd2cccdaa61b68e9e2a180ab6b58c4cdcd7bf74398354a4df40cbb6853918eadba8b704a4e25bb
   languageName: node
   linkType: hard
 
@@ -13774,7 +13775,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"p-limit@npm:3.1.0, p-limit@npm:^3.0.2, p-limit@npm:^3.1.0":
+"p-limit@npm:3.1.0, p-limit@npm:^3.0.1, p-limit@npm:^3.0.2, p-limit@npm:^3.1.0":
   version: 3.1.0
   resolution: "p-limit@npm:3.1.0"
   dependencies:
@@ -16861,7 +16862,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superstatic@npm:^9.0.2":
+"superstatic@npm:^9.0.3":
   version: 9.0.3
   resolution: "superstatic@npm:9.0.3"
   dependencies:
@@ -17096,7 +17097,7 @@ __metadata:
     eslint-plugin-react-hooks: 4.6.0
     file-loader: 6.2.0
     firebase: 9.15.0
-    firebase-tools: 11.22.0
+    firebase-tools: 11.28.0
     google-polyline: 1.0.3
     graphql: 16.6.0
     html-webpack-plugin: 5.5.0
