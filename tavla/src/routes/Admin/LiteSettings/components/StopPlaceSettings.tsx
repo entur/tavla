@@ -8,6 +8,7 @@ import {
     useSortable,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { DraggableIcon } from '@entur/icons'
 import { TStopPlaceTile, TColumn } from '../types/tile'
 
 function LiteTileColumn({ column }: { column: string }) {
@@ -31,19 +32,25 @@ function LiteTileColumn({ column }: { column: string }) {
                 ...positionStyle,
             }}
         >
-            <div
-                style={{
-                    backgroundColor: 'white',
-                    color: 'black',
-                    borderRadius: 5,
-                    padding: 3,
-                }}
-                {...attributes}
-                {...listeners}
-            >
-                DRAG ME
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                {column}
+                <div
+                    style={{
+                        backgroundColor: 'white',
+                        color: 'black',
+                        padding: 8,
+                        cursor: 'grab',
+                        display: 'flex',
+                        width: 'fit-content',
+                        height: 'fit-content',
+                        borderRadius: 5,
+                    }}
+                    {...attributes}
+                    {...listeners}
+                >
+                    <DraggableIcon />
+                </div>
             </div>
-            {column}
         </div>
     )
 }
