@@ -5,7 +5,7 @@ import { QuayTile } from "../QuayTile";
 
 function Tile({ tileSpec }: { tileSpec: TTile }) {
   switch (tileSpec.type) {
-    case "departure":
+    case "stop_place":
       return <StopPlaceTile {...tileSpec} />;
     case "quay":
       return <QuayTile {...tileSpec} />;
