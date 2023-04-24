@@ -33,9 +33,19 @@ function LiteTileColumn({ column }: { column: string }) {
                 borderRadius: '0.5rem',
                 ...positionStyle,
             }}
-            {...attributes}
-            {...listeners}
         >
+            <div
+                style={{
+                    backgroundColor: 'white',
+                    color: 'black',
+                    borderRadius: 5,
+                    padding: 3,
+                }}
+                {...attributes}
+                {...listeners}
+            >
+                DRAG ME
+            </div>
             {column}
         </div>
     )
