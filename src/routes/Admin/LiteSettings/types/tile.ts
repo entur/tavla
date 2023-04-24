@@ -18,6 +18,7 @@ export type TColumn = 'line' | 'time' | 'destination' | 'platform'
 
 type TBaseTile = {
     placeId: string
+    uuid?: string
 }
 
 export type TQuayTile = {
