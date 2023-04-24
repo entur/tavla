@@ -11,6 +11,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { xor } from 'lodash'
 import { Radio, RadioGroup } from '@entur/form'
 import { Button } from '@entur/button'
+import { DraggableIcon } from '@entur/icons'
 import { TStopPlaceTile, TColumn, Columns } from '../types/tile'
 
 function LiteTileColumn({ column }: { column: string }) {
@@ -34,19 +35,25 @@ function LiteTileColumn({ column }: { column: string }) {
                 ...positionStyle,
             }}
         >
-            <div
-                style={{
-                    backgroundColor: 'white',
-                    color: 'black',
-                    borderRadius: 5,
-                    padding: 3,
-                }}
-                {...attributes}
-                {...listeners}
-            >
-                DRAG ME
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                {column}
+                <div
+                    style={{
+                        backgroundColor: 'white',
+                        color: 'black',
+                        padding: 8,
+                        cursor: 'grab',
+                        display: 'flex',
+                        width: 'fit-content',
+                        height: 'fit-content',
+                        borderRadius: 5,
+                    }}
+                    {...attributes}
+                    {...listeners}
+                >
+                    <DraggableIcon />
+                </div>
             </div>
-            {column}
         </div>
     )
 }
