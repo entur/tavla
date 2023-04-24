@@ -79,7 +79,7 @@ function LiteSettings({
     }
 
     return (
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <ThemeSettings theme={settings.theme} setTheme={setTheme} />
             <TilesSettings tiles={settings.tiles} setTiles={setTiles} />
             <AddTile addTile={addTile} />
