@@ -61,11 +61,42 @@ function StopPlaceSettings({
                         ))}
                     </SortableContext>
                     <DragOverlay>
-                        {activeId && <ColumnSetting column={activeId} />}
+                        {activeId && <DragOverlayColumn />}
                     </DragOverlay>
                 </div>
             </div>
         </DndContext>
+    )
+}
+
+function DragOverlayColumn() {
+    return (
+        <div
+            style={{
+                height: '500px',
+                borderRadius: 10,
+            }}
+        >
+            <div
+                style={{
+                    position: 'absolute',
+                    height: '100%',
+                    width: '100%',
+                    borderRadius: 10,
+                    border: '3px solid black',
+                }}
+            />
+            <div
+                style={{
+                    position: 'absolute',
+                    opacity: '50%',
+                    height: '100%',
+                    width: '100%',
+                    borderRadius: 10,
+                    backgroundColor: 'white',
+                }}
+            />
+        </div>
     )
 }
 
