@@ -1,0 +1,17 @@
+.column {
+}
+
+.handle {
+    color: white;
+    padding: 8px;
+    cursor: grab;
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 5px;
+}
+
+.handle:hover {
+    background-color: white;
+    color: black;
+}

@@ -5,58 +5,12 @@ import {
     arrayMove,
     horizontalListSortingStrategy,
     SortableContext,
-    useSortable,
 } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 import { xor } from 'lodash'
 import { Radio, RadioGroup } from '@entur/form'
 import { Button } from '@entur/button'
-import { DraggableIcon } from '@entur/icons'
 import { TStopPlaceTile, TColumn, Columns } from '../types/tile'
-
-function LiteTileColumn({ column }: { column: string }) {
-    const { attributes, listeners, setNodeRef, transform, transition } =
-        useSortable({ id: column })
-
-    const positionStyle = {
-        transform: CSS.Transform.toString(transform),
-        transition,
-    }
-
-    return (
-        <div
-            ref={setNodeRef}
-            style={{
-                color: 'white',
-                backgroundColor: '#292b6a',
-                flex: 1,
-                padding: '1rem',
-                borderRadius: '0.5rem',
-                ...positionStyle,
-            }}
-        >
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                {column}
-                <div
-                    style={{
-                        backgroundColor: 'white',
-                        color: 'black',
-                        padding: 8,
-                        cursor: 'grab',
-                        display: 'flex',
-                        width: 'fit-content',
-                        height: 'fit-content',
-                        borderRadius: 5,
-                    }}
-                    {...attributes}
-                    {...listeners}
-                >
-                    <DraggableIcon />
-                </div>
-            </div>
-        </div>
-    )
-}
+import { ColumnSetting } from './ColumnSetting'
 
 function AddColumnSettings({
     selectedColumns,
@@ -160,7 +114,7 @@ function StopPlaceSettings({
                         strategy={horizontalListSortingStrategy}
                     >
                         {columns.map((column: string) => (
-                            <LiteTileColumn key={column} column={column} />
+                            <ColumnSetting key={column} column={column} />
                         ))}
                     </SortableContext>
                     <AddColumnSettings
