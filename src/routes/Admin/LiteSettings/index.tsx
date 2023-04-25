@@ -81,9 +81,7 @@ function LiteSettings({
         <div>
             <ThemeSettings theme={settings.theme} setTheme={setTheme} />
             <TilesSettings tiles={settings.tiles} setTiles={setTiles} />
-            <hr />
             <AddTile addTile={addTile} />
-            <hr />
             <button
                 onClick={() => {
                     setFirebaseSettings(documentId, settings)
