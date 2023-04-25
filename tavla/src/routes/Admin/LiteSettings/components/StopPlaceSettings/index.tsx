@@ -1,6 +1,11 @@
 /* eslint-disable func-style */
-import React from 'react'
-import { DndContext, type DragEndEvent } from '@dnd-kit/core'
+import React, { useState } from 'react'
+import {
+    DndContext,
+    DragOverlay,
+    type DragStartEvent,
+    type DragEndEvent,
+} from '@dnd-kit/core'
 import {
     arrayMove,
     horizontalListSortingStrategy,
@@ -16,7 +21,13 @@ function StopPlaceSettings({
     tile: TStopPlaceTile
     setTile: (newTile: TStopPlaceTile) => void
 }): JSX.Element {
+    const [activeId, setActiveId] = useState<TColumn | null>(null)
     const columns = tile.columns ?? []
+
+    const handleColumnSwapStart = (event: DragStartEvent) => {
+        const { active } = event
+        setActiveId(active.id as TColumn)
+    }
 
     const handleColumnSwap = (event: DragEndEvent) => {
         const { active, over } = event
@@ -33,7 +44,10 @@ function StopPlaceSettings({
     }
 
     return (
-        <DndContext onDragEnd={handleColumnSwap}>
+        <DndContext
+            onDragStart={handleColumnSwapStart}
+            onDragEnd={handleColumnSwap}
+        >
             <div
                 style={{
                     height: '100%',
@@ -45,7 +59,7 @@ function StopPlaceSettings({
                 }}
             >
                 {tile.placeId}
-                <div style={{ display: 'flex', height: '500px', gap: '10px' }}>
+                <div style={{ display: 'flex', gap: '10px' }}>
                     <SortableContext
                         items={columns}
                         strategy={horizontalListSortingStrategy}
@@ -54,6 +68,9 @@ function StopPlaceSettings({
                             <ColumnSetting key={column} column={column} />
                         ))}
                     </SortableContext>
+                    <DragOverlay>
+                        {activeId && <ColumnSetting column={activeId} />}
+                    </DragOverlay>
                 </div>
             </div>
         </DndContext>
