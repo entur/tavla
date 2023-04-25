@@ -1,4 +1,10 @@
 .column {
+    color: white;
+    height: 500px;
+    background-color: #292b6a;
+    flex: 1;
+    padding: 1rem;
+    borderradius: 0.5rem;
 }
 
 .handle {
@@ -14,4 +20,9 @@
 .handle:hover {
     background-color: white;
     color: black;
+}
+
+.flexBetween {
+    display: flex;
+    justify-content: space-between;
 }

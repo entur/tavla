@@ -13,6 +13,7 @@ import {
 } from '@dnd-kit/sortable'
 import { ColumnSetting } from '../ColumnSetting'
 import { TColumn, TStopPlaceTile } from '../../types/tile'
+import classes from './styles.module.css'
 
 function StopPlaceSettings({
     tile,
@@ -48,18 +49,9 @@ function StopPlaceSettings({
             onDragStart={handleColumnSwapStart}
             onDragEnd={handleColumnSwap}
         >
-            <div
-                style={{
-                    height: '100%',
-                    width: '100%',
-                    padding: '1rem',
-                    borderRadius: '0.5rem',
-                    backgroundColor: 'white',
-                    color: 'black',
-                }}
-            >
+            <div className={classes.stopPlaceTile}>
                 {tile.placeId}
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div style={{ display: 'flex' }}>
                     <SortableContext
                         items={columns}
                         strategy={horizontalListSortingStrategy}
