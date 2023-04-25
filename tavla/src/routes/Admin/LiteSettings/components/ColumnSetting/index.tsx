@@ -18,6 +18,7 @@ function ColumnSetting({ column }: { column: string }) {
             ref={setNodeRef}
             style={{
                 color: 'white',
+                height: '500px',
                 backgroundColor: '#292b6a',
                 flex: 1,
                 padding: '1rem',
