@@ -2,6 +2,7 @@ import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { DraggableIcon } from '@entur/icons'
+import classes from './styles.module.css'
 
 function ColumnSetting({ column }: { column: string }) {
     const { attributes, listeners, setNodeRef, transform, transition } =
@@ -26,20 +27,7 @@ function ColumnSetting({ column }: { column: string }) {
         >
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 {column}
-                <div
-                    style={{
-                        backgroundColor: 'white',
-                        color: 'black',
-                        padding: 8,
-                        cursor: 'grab',
-                        display: 'flex',
-                        width: 'fit-content',
-                        height: 'fit-content',
-                        borderRadius: 5,
-                    }}
-                    {...attributes}
-                    {...listeners}
-                >
+                <div className={classes.handle} {...attributes} {...listeners}>
                     <DraggableIcon />
                 </div>
             </div>
