@@ -19,11 +19,11 @@
       {
         "kind": "OBJECT",
         "name": "BrandAssets",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "brandImageUrl",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -39,7 +39,7 @@
           },
           {
             "name": "brandImageUrlDark",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -51,7 +51,7 @@
           },
           {
             "name": "brandLastModified",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -67,7 +67,7 @@
           },
           {
             "name": "brandTermsUrl",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -79,7 +79,7 @@
           },
           {
             "name": "color",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -98,11 +98,11 @@
       {
         "kind": "OBJECT",
         "name": "EcoLabel",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "countryCode",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -118,7 +118,7 @@
           },
           {
             "name": "ecoSticker",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -141,11 +141,11 @@
       {
         "kind": "OBJECT",
         "name": "Feature",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "geometry",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -157,7 +157,7 @@
           },
           {
             "name": "properties",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -169,7 +169,7 @@
           },
           {
             "name": "type",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -188,11 +188,11 @@
       {
         "kind": "OBJECT",
         "name": "FeatureCollection",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "features",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -208,7 +208,7 @@
           },
           {
             "name": "type",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -237,56 +237,56 @@
       {
         "kind": "ENUM",
         "name": "FormFactor",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
           {
             "name": "BICYCLE",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "CAR",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "CARGO_BICYCLE",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "MOPED",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "OTHER",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "SCOOTER",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "SCOOTER_SEATED",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "SCOOTER_STANDING",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -296,11 +296,11 @@
       {
         "kind": "OBJECT",
         "name": "GeofencingZoneProperties",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "end",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -312,7 +312,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -324,7 +324,7 @@
           },
           {
             "name": "rules",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -340,7 +340,7 @@
           },
           {
             "name": "start",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -359,11 +359,11 @@
       {
         "kind": "OBJECT",
         "name": "GeofencingZoneRule",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "maximumSpeedKph",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -375,7 +375,7 @@
           },
           {
             "name": "rideAllowed",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -391,7 +391,7 @@
           },
           {
             "name": "rideThroughAllowed",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -407,7 +407,7 @@
           },
           {
             "name": "stationParking",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -419,7 +419,7 @@
           },
           {
             "name": "vehicleTypeIds",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -442,11 +442,11 @@
       {
         "kind": "OBJECT",
         "name": "GeofencingZones",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "geojson",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -458,7 +458,7 @@
           },
           {
             "name": "systemId",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -497,11 +497,11 @@
       {
         "kind": "OBJECT",
         "name": "MultiPolygon",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "coordinates",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -529,7 +529,7 @@
           },
           {
             "name": "type",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -548,11 +548,11 @@
       {
         "kind": "OBJECT",
         "name": "Operator",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "id",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -568,7 +568,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -591,38 +591,38 @@
       {
         "kind": "ENUM",
         "name": "ParkingType",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
           {
             "name": "OTHER",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "PARKING_LOT",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "SIDEWALK_PARKING",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "STREET_PARKING",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "UNDERGROUND_PARKING",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -632,11 +632,11 @@
       {
         "kind": "OBJECT",
         "name": "PricingPlan",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "currency",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -652,7 +652,7 @@
           },
           {
             "name": "description",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -668,7 +668,7 @@
           },
           {
             "name": "id",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -684,7 +684,7 @@
           },
           {
             "name": "isTaxable",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -700,7 +700,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -716,7 +716,7 @@
           },
           {
             "name": "perKmPricing",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -732,7 +732,7 @@
           },
           {
             "name": "perMinPricing",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -748,7 +748,7 @@
           },
           {
             "name": "price",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -764,7 +764,7 @@
           },
           {
             "name": "surgePricing",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -776,7 +776,7 @@
           },
           {
             "name": "url",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -795,11 +795,11 @@
       {
         "kind": "OBJECT",
         "name": "PricingSegment",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "end",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -811,7 +811,7 @@
           },
           {
             "name": "interval",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -827,7 +827,7 @@
           },
           {
             "name": "rate",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -843,7 +843,7 @@
           },
           {
             "name": "start",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -866,56 +866,56 @@
       {
         "kind": "ENUM",
         "name": "PropulsionType",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
           {
             "name": "COMBUSTION",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "COMBUSTION_DIESEL",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "ELECTRIC",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "ELECTRIC_ASSIST",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "HUMAN",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "HYBRID",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "HYDROGEN_FUEL_CELL",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "PLUG_IN_HYBRID",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -925,11 +925,11 @@
       {
         "kind": "OBJECT",
         "name": "Query",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "codespaces",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -945,11 +945,11 @@
           },
           {
             "name": "geofencingZones",
-            "description": "",
+            "description": null,
             "args": [
               {
                 "name": "systemIds",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -978,7 +978,7 @@
           },
           {
             "name": "operators",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -994,11 +994,11 @@
           },
           {
             "name": "stations",
-            "description": "",
+            "description": null,
             "args": [
               {
                 "name": "availableFormFactors",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1014,7 +1014,7 @@
               },
               {
                 "name": "availablePropulsionTypes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1030,7 +1030,7 @@
               },
               {
                 "name": "codespaces",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1046,7 +1046,7 @@
               },
               {
                 "name": "count",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1058,7 +1058,7 @@
               },
               {
                 "name": "lat",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -1074,7 +1074,7 @@
               },
               {
                 "name": "lon",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -1090,7 +1090,7 @@
               },
               {
                 "name": "operators",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1106,7 +1106,7 @@
               },
               {
                 "name": "range",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -1122,7 +1122,7 @@
               },
               {
                 "name": "systems",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1151,11 +1151,11 @@
           },
           {
             "name": "stationsById",
-            "description": "",
+            "description": null,
             "args": [
               {
                 "name": "ids",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -1188,11 +1188,11 @@
           },
           {
             "name": "vehicles",
-            "description": "",
+            "description": null,
             "args": [
               {
                 "name": "codespaces",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1208,7 +1208,7 @@
               },
               {
                 "name": "count",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1220,7 +1220,7 @@
               },
               {
                 "name": "formFactors",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1236,7 +1236,7 @@
               },
               {
                 "name": "includeDisabled",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Boolean",
@@ -1248,7 +1248,7 @@
               },
               {
                 "name": "includeReserved",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Boolean",
@@ -1260,7 +1260,7 @@
               },
               {
                 "name": "lat",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -1276,7 +1276,7 @@
               },
               {
                 "name": "lon",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -1292,7 +1292,7 @@
               },
               {
                 "name": "operators",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1308,7 +1308,7 @@
               },
               {
                 "name": "propulsionTypes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1324,7 +1324,7 @@
               },
               {
                 "name": "range",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -1340,7 +1340,7 @@
               },
               {
                 "name": "systems",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1376,11 +1376,11 @@
       {
         "kind": "OBJECT",
         "name": "Region",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "id",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1396,7 +1396,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1419,11 +1419,11 @@
       {
         "kind": "OBJECT",
         "name": "RentalApp",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "discoveryUri",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1435,7 +1435,7 @@
           },
           {
             "name": "storeUri",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1454,11 +1454,11 @@
       {
         "kind": "OBJECT",
         "name": "RentalApps",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "android",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -1470,7 +1470,7 @@
           },
           {
             "name": "ios",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -1489,56 +1489,56 @@
       {
         "kind": "ENUM",
         "name": "RentalMethod",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
           {
             "name": "ACCOUNTNUMBER",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "ANDROIDPAY",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "APPLEPLAY",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "CREDITCARD",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "KEY",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "PAYPASS",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "PHONE",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "TRANSITCARD",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -1548,11 +1548,11 @@
       {
         "kind": "OBJECT",
         "name": "RentalUris",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "android",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1564,7 +1564,7 @@
           },
           {
             "name": "ios",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1576,7 +1576,7 @@
           },
           {
             "name": "web",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1595,32 +1595,32 @@
       {
         "kind": "ENUM",
         "name": "ReturnConstraint",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
           {
             "name": "ANY_STATION",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "FREE_FLOATING",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "HYBRID",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "ROUNDTRIP_STATION",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -1630,11 +1630,11 @@
       {
         "kind": "OBJECT",
         "name": "Station",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "address",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1646,7 +1646,7 @@
           },
           {
             "name": "capacity",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1658,7 +1658,7 @@
           },
           {
             "name": "contactPhone",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1670,7 +1670,7 @@
           },
           {
             "name": "crossStreet",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1682,7 +1682,7 @@
           },
           {
             "name": "id",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1698,7 +1698,7 @@
           },
           {
             "name": "isChargingStation",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1710,7 +1710,7 @@
           },
           {
             "name": "isInstalled",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1726,7 +1726,7 @@
           },
           {
             "name": "isRenting",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1742,7 +1742,7 @@
           },
           {
             "name": "isReturning",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1758,7 +1758,7 @@
           },
           {
             "name": "isValetStation",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1770,7 +1770,7 @@
           },
           {
             "name": "isVirtualStation",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1782,7 +1782,7 @@
           },
           {
             "name": "lastReported",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1798,7 +1798,7 @@
           },
           {
             "name": "lat",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1814,7 +1814,7 @@
           },
           {
             "name": "lon",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1830,7 +1830,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1846,7 +1846,7 @@
           },
           {
             "name": "numBikesAvailable",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1862,7 +1862,7 @@
           },
           {
             "name": "numBikesDisabled",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1874,7 +1874,7 @@
           },
           {
             "name": "numDocksAvailable",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1886,7 +1886,7 @@
           },
           {
             "name": "numDocksDisabled",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1898,7 +1898,7 @@
           },
           {
             "name": "parkingHoop",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1910,7 +1910,7 @@
           },
           {
             "name": "parkingType",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "ENUM",
@@ -1922,7 +1922,7 @@
           },
           {
             "name": "postCode",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1934,7 +1934,7 @@
           },
           {
             "name": "pricingPlans",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1954,7 +1954,7 @@
           },
           {
             "name": "region",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -1966,7 +1966,7 @@
           },
           {
             "name": "rentalMethods",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -1982,7 +1982,7 @@
           },
           {
             "name": "rentalUris",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -1994,7 +1994,7 @@
           },
           {
             "name": "shortName",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -2006,7 +2006,7 @@
           },
           {
             "name": "stationArea",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -2018,7 +2018,7 @@
           },
           {
             "name": "system",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2034,7 +2034,7 @@
           },
           {
             "name": "vehicleCapacity",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -2050,7 +2050,7 @@
           },
           {
             "name": "vehicleDocksAvailable",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -2066,7 +2066,7 @@
           },
           {
             "name": "vehicleTypeCapacity",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -2082,7 +2082,7 @@
           },
           {
             "name": "vehicleTypesAvailable",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -2115,11 +2115,11 @@
       {
         "kind": "OBJECT",
         "name": "System",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "brandAssets",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -2131,7 +2131,7 @@
           },
           {
             "name": "email",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2143,7 +2143,7 @@
           },
           {
             "name": "feedContactEmail",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2155,7 +2155,7 @@
           },
           {
             "name": "id",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2171,7 +2171,7 @@
           },
           {
             "name": "language",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2187,7 +2187,7 @@
           },
           {
             "name": "licenseUrl",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2199,7 +2199,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2215,7 +2215,7 @@
           },
           {
             "name": "operator",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2231,7 +2231,7 @@
           },
           {
             "name": "phoneNumber",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2243,7 +2243,7 @@
           },
           {
             "name": "privacyLastUpdated",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2255,7 +2255,7 @@
           },
           {
             "name": "privacyUrl",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2267,7 +2267,7 @@
           },
           {
             "name": "purchaseUrl",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2279,7 +2279,7 @@
           },
           {
             "name": "rentalApps",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -2291,7 +2291,7 @@
           },
           {
             "name": "shortName",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -2303,7 +2303,7 @@
           },
           {
             "name": "startDate",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2315,7 +2315,7 @@
           },
           {
             "name": "termsLastUpdated",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2327,7 +2327,7 @@
           },
           {
             "name": "termsUrl",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2339,7 +2339,7 @@
           },
           {
             "name": "timezone",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2355,7 +2355,7 @@
           },
           {
             "name": "url",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2374,11 +2374,11 @@
       {
         "kind": "OBJECT",
         "name": "TranslatedString",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "translation",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2405,11 +2405,11 @@
       {
         "kind": "OBJECT",
         "name": "Translation",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "language",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2425,7 +2425,7 @@
           },
           {
             "name": "value",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2448,11 +2448,11 @@
       {
         "kind": "OBJECT",
         "name": "Vehicle",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "availableUntil",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2464,7 +2464,7 @@
           },
           {
             "name": "currentFuelPercent",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2476,7 +2476,7 @@
           },
           {
             "name": "currentRangeMeters",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2492,7 +2492,7 @@
           },
           {
             "name": "id",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2508,7 +2508,7 @@
           },
           {
             "name": "isDisabled",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2524,7 +2524,7 @@
           },
           {
             "name": "isReserved",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2540,7 +2540,7 @@
           },
           {
             "name": "lat",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2556,7 +2556,7 @@
           },
           {
             "name": "lon",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2572,7 +2572,7 @@
           },
           {
             "name": "pricingPlan",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2588,7 +2588,7 @@
           },
           {
             "name": "rentalUris",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -2600,7 +2600,7 @@
           },
           {
             "name": "system",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2616,7 +2616,7 @@
           },
           {
             "name": "vehicleEquipment",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -2632,7 +2632,7 @@
           },
           {
             "name": "vehicleType",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2655,68 +2655,68 @@
       {
         "kind": "ENUM",
         "name": "VehicleAccessory",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
           {
             "name": "AIR_CONDITIONING",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "AUTOMATIC",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "CONVERTIBLE",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "CRUISE_CONTROL",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "DOORS_2",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "DOORS_3",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "DOORS_4",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "DOORS_5",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "MANUAL",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "NAVIGATION",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -2726,11 +2726,11 @@
       {
         "kind": "OBJECT",
         "name": "VehicleAssets",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "iconLastModified",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2746,7 +2746,7 @@
           },
           {
             "name": "iconUrl",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2762,7 +2762,7 @@
           },
           {
             "name": "iconUrlDark",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2781,11 +2781,11 @@
       {
         "kind": "OBJECT",
         "name": "VehicleDocksAvailability",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "count",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2801,7 +2801,7 @@
           },
           {
             "name": "vehicleTypes",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2828,38 +2828,38 @@
       {
         "kind": "ENUM",
         "name": "VehicleEquipment",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
           {
             "name": "CHILD_SEAT_A",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "CHILD_SEAT_B",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "CHILD_SEAT_C",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "SNOW_CHAINS",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "WINTER_TIRES",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -2869,11 +2869,11 @@
       {
         "kind": "OBJECT",
         "name": "VehicleType",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "cargoLoadCapacity",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2885,7 +2885,7 @@
           },
           {
             "name": "cargoVolumeCapacity",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2897,7 +2897,7 @@
           },
           {
             "name": "color",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2909,7 +2909,7 @@
           },
           {
             "name": "defaultPricingPlan",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -2921,7 +2921,7 @@
           },
           {
             "name": "defaultReserveTime",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2933,7 +2933,7 @@
           },
           {
             "name": "ecoLabel",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -2949,7 +2949,7 @@
           },
           {
             "name": "formFactor",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2965,7 +2965,7 @@
           },
           {
             "name": "gCO2km",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2977,7 +2977,7 @@
           },
           {
             "name": "id",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2993,7 +2993,7 @@
           },
           {
             "name": "make",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3005,7 +3005,7 @@
           },
           {
             "name": "maxPermittedSpeed",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3017,7 +3017,7 @@
           },
           {
             "name": "maxRangeMeters",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3029,7 +3029,7 @@
           },
           {
             "name": "model",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3041,7 +3041,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -3053,7 +3053,7 @@
           },
           {
             "name": "pricingPlans",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -3069,7 +3069,7 @@
           },
           {
             "name": "propulsionType",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3085,7 +3085,7 @@
           },
           {
             "name": "ratedPower",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3097,7 +3097,7 @@
           },
           {
             "name": "returnConstraint",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "ENUM",
@@ -3109,7 +3109,7 @@
           },
           {
             "name": "riderCapacity",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3121,7 +3121,7 @@
           },
           {
             "name": "vehicleAccessories",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "LIST",
@@ -3137,7 +3137,7 @@
           },
           {
             "name": "vehicleAssets",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -3149,7 +3149,7 @@
           },
           {
             "name": "vehicleImage",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3161,7 +3161,7 @@
           },
           {
             "name": "wheelCount",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3180,11 +3180,11 @@
       {
         "kind": "OBJECT",
         "name": "VehicleTypeAvailability",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "count",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3200,7 +3200,7 @@
           },
           {
             "name": "vehicleType",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3223,11 +3223,11 @@
       {
         "kind": "OBJECT",
         "name": "VehicleTypeCapacity",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "count",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3243,7 +3243,7 @@
           },
           {
             "name": "vehicleType",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4174,11 +4174,13 @@
     "directives": [
       {
         "name": "deprecated",
-        "description": "Marks the field or enum value as deprecated",
+        "description": "Marks the field, argument, input field or enum value as deprecated",
         "isRepeatable": false,
         "locations": [
+          "ARGUMENT_DEFINITION",
           "ENUM_VALUE",
-          "FIELD_DEFINITION"
+          "FIELD_DEFINITION",
+          "INPUT_FIELD_DEFINITION"
         ],
         "args": [
           {
