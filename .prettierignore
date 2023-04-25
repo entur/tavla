@@ -5,3 +5,4 @@ graphql-schemas
 graphql-generated
 *.graphql
 .yarn
+next-tavla
