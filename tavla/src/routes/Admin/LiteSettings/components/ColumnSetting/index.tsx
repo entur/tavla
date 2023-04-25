@@ -14,19 +14,8 @@ function ColumnSetting({ column }: { column: string }) {
     }
 
     return (
-        <div
-            ref={setNodeRef}
-            style={{
-                color: 'white',
-                height: '500px',
-                backgroundColor: '#292b6a',
-                flex: 1,
-                padding: '1rem',
-                borderRadius: '0.5rem',
-                ...positionStyle,
-            }}
-        >
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div ref={setNodeRef} className={classes.column} style={positionStyle}>
+            <div className={classes.flexBetween}>
                 {column}
                 <div className={classes.handle} {...attributes} {...listeners}>
                     <DraggableIcon />
