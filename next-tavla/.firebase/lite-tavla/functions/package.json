@@ -1,0 +1,36 @@
+{
+  "name": "tavla",
+  "version": "0.1.0",
+  "private": true,
+  "browserslist": [
+    "chrome > 47"
+  ],
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "generate": "graphql-codegen",
+    "lint": "next lint",
+    "fix": "next lint --fix",
+    "build-start": "next build && next start"
+  },
+  "dependencies": {
+    "@entur/tokens": "3.8.1",
+    "@firebase/database-types": "0.10.4",
+    "firebase": "9.18.0",
+    "graphql": "16.6.0",
+    "lodash": "4.17.21",
+    "next": "13.2.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "sharp": "latest",
+    "firebase-frameworks": "^0.6.0",
+    "firebase-functions": "^3.23.0",
+    "firebase-admin": "^11.0.1"
+  },
+  "packageManager": "yarn@3.5.0",
+  "engines": {
+    "node": 16
+  },
+  "main": "server.js"
+}
