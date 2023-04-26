@@ -13,8 +13,8 @@
     "main": "index.js",
     "scripts": {
         "test": "jest",
-        "eslint": "eslint src functions/src --ext 'js,jsx,ts,tsx'",
-        "eslint:fix": "eslint --fix src functions/src --ext 'js,jsx,ts,tsx'",
+        "eslint": "eslint src --ext 'js,jsx,ts,tsx'",
+        "eslint:fix": "eslint --fix src --ext 'js,jsx,ts,tsx'",
         "stylelint": "stylelint \"src/**/*.scss\"",
         "format": "prettier . --write",
         "format:check": "prettier . --check",
