@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Theme } from 'src/types'
+import { Button } from '@entur/button'
 import { TTile } from './types/tile'
 import { TSettings } from './types/settings'
 import { getFirebaseSettings, setFirebaseSettings } from './utils/firebase'
@@ -81,16 +82,15 @@ function LiteSettings({
         <div>
             <ThemeSettings theme={settings.theme} setTheme={setTheme} />
             <TilesSettings tiles={settings.tiles} setTiles={setTiles} />
-            <hr />
             <AddTile addTile={addTile} />
-            <hr />
-            <button
+            <Button
+                variant="primary"
                 onClick={() => {
                     setFirebaseSettings(documentId, settings)
                 }}
             >
-                Save
-            </button>
+                Lagre instillinger
+            </Button>
         </div>
     )
 }

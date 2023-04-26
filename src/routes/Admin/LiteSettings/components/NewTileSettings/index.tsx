@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Dropdown } from '@entur/dropdown'
+import { Button } from '@entur/button'
 import { TTile } from '../../types/tile'
 import { AddMapTile } from './AddMapTile'
 import { AddQuayTile } from './AddQuayTile'
@@ -15,6 +17,12 @@ const components: Record<
     map: AddMapTile,
 }
 
+const tileNames: Record<TTileType, string> = {
+    map: 'Kart',
+    quay: 'Plattform',
+    stop_place: 'Stoppested',
+}
+
 function AddTile({ addTile }: { addTile: (tile: TTile) => void }) {
     const [tileType, setTileType] = useState<TTileType>('stop_place')
     const [tile, setTile] = useState<TTile | undefined>()
@@ -23,29 +31,30 @@ function AddTile({ addTile }: { addTile: (tile: TTile) => void }) {
 
     return (
         <div>
-            <select
+            <Dropdown
+                label="Velg type"
+                value={tileType}
                 onChange={(e) => {
                     setTile(undefined)
-                    setTileType(e.target.value as TTileType)
+                    if (e) setTileType(e.value as TTileType)
                 }}
-                value={tileType}
-            >
-                {Object.keys(components).map((key) => (
-                    <option key={key} value={key}>
-                        {key}
-                    </option>
-                ))}
-            </select>
+                items={Object.entries(tileNames).map(([value, label]) => ({
+                    label,
+                    value,
+                }))}
+            />
             <Component setTile={setTile} />
 
             {tile && (
-                <button
+                <Button
+                    variant="primary"
+                    width="fluid"
                     onClick={() => {
                         addTile(tile)
                     }}
                 >
-                    Add tile
-                </button>
+                    Legg til
+                </Button>
             )}
         </div>
     )

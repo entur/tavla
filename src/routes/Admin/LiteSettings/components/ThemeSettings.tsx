@@ -1,5 +1,6 @@
 import React from 'react'
 import { Theme } from 'src/types'
+import { Radio, RadioGroup } from '@entur/form'
 
 const themes: Record<Theme, string> = {
     default: 'Entur',
@@ -16,16 +17,18 @@ function ThemeSettings({
     setTheme: (theme: Theme) => void
 }) {
     return (
-        <select
-            value={theme}
+        <RadioGroup
+            name="theme-settings"
+            label="Velg farger"
             onChange={(e) => setTheme(e.target.value as Theme)}
+            value={theme}
         >
-            {Object.entries(themes).map(([key, value]) => (
-                <option key={key} value={key}>
-                    {value}
-                </option>
+            {Object.entries(themes).map(([value, label]) => (
+                <Radio key={value} value={value}>
+                    {label}
+                </Radio>
             ))}
-        </select>
+        </RadioGroup>
     )
 }
 
