@@ -2,8 +2,10 @@ name: Deploy Staging
 
 on:
 push:
-branches:
-  - master
+  branches:
+    - master
+  paths:
+    - "tavla/*"
 
 jobs:
 deploy-staging:
