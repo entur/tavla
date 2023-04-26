@@ -9,6 +9,9 @@ jobs:
     linting_and_formatting:
         name: Verifies linting and formatting
         runs-on: ubuntu-latest
+		defaults:
+			run:
+				working-directory: tavla
         steps:
             - uses: actions/checkout@v2
             - name: Install packages
