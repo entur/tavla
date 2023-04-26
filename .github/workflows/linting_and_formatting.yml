@@ -1,21 +1,24 @@
 name: Linting and Formatting
-
 on:
-    push:
-        branches-ignore:
-            - master
-
+  push:
+    branches-ignore:
+      - master
+    paths:
+      - "tavla/*"
 jobs:
-    linting_and_formatting:
-        name: Verifies linting and formatting
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: Install packages
-              run: yarn install
-            - name: Prettier
-              run: yarn run format:check
-            - name: Eslint
-              run: yarn run eslint
-            - name: Stylelint
-              run: yarn run stylelint
+  linting_and_formatting:
+    name: Verifies linting and formatting
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tavla
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: yarn install
+      - name: Prettier
+        run: yarn run format:check
+      - name: Eslint
+        run: yarn run eslint
+      - name: Stylelint
+        run: yarn run stylelint
