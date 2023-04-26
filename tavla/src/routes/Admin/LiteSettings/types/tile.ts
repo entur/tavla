@@ -14,7 +14,14 @@ type TTransportMode =
     | 'unknown'
     | 'water'
 
-export type TColumn = 'line' | 'time' | 'destination' | 'platform'
+export const Columns = {
+    destination: 'Destinasjon',
+    line: 'Linje',
+    platform: 'Plattform',
+    time: 'Avgangstid',
+} as const
+
+export type TColumn = keyof typeof Columns
 
 type TBaseTile = {
     placeId: string
