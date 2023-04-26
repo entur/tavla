@@ -1,11 +1,23 @@
 /* eslint-disable func-style */
 import React from 'react'
-import { DndContext, type DragEndEvent } from '@dnd-kit/core'
+import {
+    DndContext,
+    useSensors,
+    type DragEndEvent,
+    useSensor,
+    PointerSensor,
+    KeyboardSensor,
+} from '@dnd-kit/core'
 import {
     arrayMove,
     horizontalListSortingStrategy,
     SortableContext,
+    sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable'
+import {
+    restrictToHorizontalAxis,
+    restrictToParentElement,
+} from '@dnd-kit/modifiers'
 import { ColumnSetting } from '../ColumnSetting'
 import { TColumn, TStopPlaceTile } from '../../types/tile'
 import classes from './styles.module.css'
@@ -18,6 +30,13 @@ function StopPlaceSettings({
     setTile: (newTile: TStopPlaceTile) => void
 }): JSX.Element {
     const columns = tile.columns ?? []
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        }),
+    )
 
     const handleColumnSwap = (event: DragEndEvent) => {
         const { active, over } = event
@@ -34,7 +53,11 @@ function StopPlaceSettings({
     }
 
     return (
-        <DndContext onDragEnd={handleColumnSwap}>
+        <DndContext
+            onDragEnd={handleColumnSwap}
+            sensors={sensors}
+            modifiers={[restrictToHorizontalAxis, restrictToParentElement]}
+        >
             <div className={classes.stopPlaceTile}>
                 {tile.placeId}
                 <div className={classes.columnContainer}>
