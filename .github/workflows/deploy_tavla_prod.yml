@@ -26,3 +26,4 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_DEPLOY_CREDENTIALS_PROD }}"
           projectId: entur-tavla-prod
           channelId: live
+          entrypoint: ./tavla

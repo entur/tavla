@@ -25,3 +25,4 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_DEPLOY_CREDENTIALS_STAGING }}"
           projectId: entur-tavla-staging
           channelId: live
+          entrypoint: ./tavla
