@@ -5,24 +5,24 @@ on: workflow_dispatch
 jobs:
   deploy-prod:
     runs-on: ubuntu-latest
-  defaults:
-    run:
-      working-directory: tavla
-  steps:
-    - uses: actions/checkout@v2
-    - name: Install
-      run: yarn install
-    - name: Prettier
-      run: yarn run format:check
-    - name: Eslint
-      run: yarn run eslint
-    - name: Stylelint
-      run: yarn run stylelint
-    - name: Clean & Build
-      run: yarn run build:prod
-    - uses: FirebaseExtended/action-hosting-deploy@v0
-      with:
-        repoToken: "${{ secrets.GITHUB_TOKEN }}"
-        firebaseServiceAccount: "${{ secrets.FIREBASE_DEPLOY_CREDENTIALS_PROD }}"
-        projectId: entur-tavla-prod
-        channelId: live
+    defaults:
+      run:
+        working-directory: tavla
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: yarn install
+      - name: Prettier
+        run: yarn run format:check
+      - name: Eslint
+        run: yarn run eslint
+      - name: Stylelint
+        run: yarn run stylelint
+      - name: Clean & Build
+        run: yarn run build:prod
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_DEPLOY_CREDENTIALS_PROD }}"
+          projectId: entur-tavla-prod
+          channelId: live
