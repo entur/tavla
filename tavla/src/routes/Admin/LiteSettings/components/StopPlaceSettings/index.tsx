@@ -21,6 +21,7 @@ import {
 import { ColumnSetting } from '../ColumnSetting'
 import { TColumn, TStopPlaceTile } from '../../types/tile'
 import classes from './styles.module.css'
+import { AddColumnSettings } from '../AddColumnSettings'
 
 function StopPlaceSettings({
     tile,
@@ -52,6 +53,13 @@ function StopPlaceSettings({
         }
     }
 
+    const addColumn = (newColumn: TColumn) => {
+        setTile({
+            ...tile,
+            columns: [...(tile.columns || []), newColumn],
+        })
+    }
+
     return (
         <DndContext
             onDragEnd={handleColumnSwap}
@@ -69,6 +77,10 @@ function StopPlaceSettings({
                             <ColumnSetting key={column} column={column} />
                         ))}
                     </SortableContext>
+                    <AddColumnSettings
+                        addColumn={addColumn}
+                        selectedColumns={columns}
+                    />
                 </div>
             </div>
         </DndContext>
