@@ -1802,6 +1802,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dnd-kit/modifiers@npm:6.0.1":
+  version: 6.0.1
+  resolution: "@dnd-kit/modifiers@npm:6.0.1"
+  dependencies:
+    "@dnd-kit/utilities": ^3.2.1
+    tslib: ^2.0.0
+  peerDependencies:
+    "@dnd-kit/core": ^6.0.6
+    react: ">=16.8.0"
+  checksum: cd31715aac81baa2398558dc7c877a483d1c4c41cdb2f466557fdc41bb742db5cd1b34b3b84332b94ac4a2835e7e5a0e28c64e621936e976399788f1dd029ea4
+  languageName: node
+  linkType: hard
+
 "@dnd-kit/sortable@npm:7.0.2":
   version: 7.0.2
   resolution: "@dnd-kit/sortable@npm:7.0.2"
@@ -17050,6 +17063,7 @@ __metadata:
     "@babel/preset-env": 7.20.2
     "@babel/preset-react": 7.18.6
     "@dnd-kit/core": 6.0.8
+    "@dnd-kit/modifiers": 6.0.1
     "@dnd-kit/sortable": 7.0.2
     "@dnd-kit/utilities": 3.2.1
     "@entur/a11y": 0.2.52

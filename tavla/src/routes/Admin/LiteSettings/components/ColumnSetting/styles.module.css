@@ -1,0 +1,38 @@
+.dragContainer {
+    height: 500px;
+    flex: 1;
+}
+
+.column {
+    color: white;
+    height: 500px;
+    background-color: #292b6a;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.dragging {
+    transform: scale(1.02);
+    transition: transform ease-in 0.1s;
+}
+
+.handle {
+    color: white;
+    padding: 8px;
+    cursor: grab;
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 5px;
+    touch-action: none;
+}
+
+.handle:hover {
+    background-color: white;
+    color: black;
+}
+
+.flexBetween {
+    display: flex;
+    justify-content: space-between;
+}
