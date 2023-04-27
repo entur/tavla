@@ -60,6 +60,13 @@ function StopPlaceSettings({
         })
     }
 
+    const deleteColumn = (columnToDelete: TColumn) => {
+        setTile({
+            ...tile,
+            columns: columns.filter((column) => column !== columnToDelete),
+        })
+    }
+
     return (
         <DndContext
             onDragEnd={handleColumnSwap}
@@ -73,8 +80,12 @@ function StopPlaceSettings({
                         items={columns}
                         strategy={horizontalListSortingStrategy}
                     >
-                        {columns.map((column: string) => (
-                            <ColumnSetting key={column} column={column} />
+                        {columns.map((column: TColumn) => (
+                            <ColumnSetting
+                                key={column}
+                                column={column}
+                                deleteColumn={() => deleteColumn(column)}
+                            />
                         ))}
                     </SortableContext>
                     <AddColumnSettings

@@ -2,10 +2,17 @@ import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import classNames from 'classnames'
-import { DraggableIcon } from '@entur/icons'
+import { DeleteIcon, DraggableIcon } from '@entur/icons'
+import { TColumn } from '../../types/tile'
 import classes from './styles.module.css'
 
-function ColumnSetting({ column }: { column: string }) {
+function ColumnSetting({
+    column,
+    deleteColumn,
+}: {
+    column: TColumn
+    deleteColumn: () => void
+}) {
     const {
         attributes,
         listeners,
@@ -42,6 +49,9 @@ function ColumnSetting({ column }: { column: string }) {
                     >
                         <DraggableIcon />
                     </div>
+                    <button onClick={deleteColumn}>
+                        <DeleteIcon />
+                    </button>
                 </div>
             </div>
         </div>
