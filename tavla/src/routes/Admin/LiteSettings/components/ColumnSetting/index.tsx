@@ -3,7 +3,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import classNames from 'classnames'
 import { DeleteIcon, DraggableIcon } from '@entur/icons'
-import { TColumn } from '../../types/tile'
+import { Columns, TColumn } from '../../types/tile'
 import classes from './styles.module.css'
 
 function ColumnSetting({
@@ -40,7 +40,7 @@ function ColumnSetting({
                 })}
             >
                 <div className={classes.flexBetween}>
-                    {column}
+                    {Columns[column]}
                     <div className={classes.flexBetween}>
                         <button
                             className={classes.handle}
