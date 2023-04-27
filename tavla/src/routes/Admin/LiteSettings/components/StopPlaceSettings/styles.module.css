@@ -6,3 +6,8 @@
     background-color: white;
     color: black;
 }
+
+.columnContainer {
+    display: flex;
+    gap: 10px;
+}
