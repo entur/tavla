@@ -17,6 +17,7 @@
 }
 
 .handle {
+    all: unset;
     color: white;
     padding: 8px;
     cursor: grab;

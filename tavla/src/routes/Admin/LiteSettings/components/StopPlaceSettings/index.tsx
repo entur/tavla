@@ -19,9 +19,9 @@ import {
     restrictToParentElement,
 } from '@dnd-kit/modifiers'
 import { ColumnSetting } from '../ColumnSetting'
-import { TColumn, TStopPlaceTile } from '../../types/tile'
-import classes from './styles.module.css'
+import { Columns, TColumn, TStopPlaceTile } from '../../types/tile'
 import { AddColumnSettings } from '../AddColumnSettings'
+import classes from './styles.module.css'
 
 function StopPlaceSettings({
     tile,
@@ -60,6 +60,13 @@ function StopPlaceSettings({
         })
     }
 
+    const deleteColumn = (columnToDelete: TColumn) => {
+        setTile({
+            ...tile,
+            columns: columns.filter((column) => column !== columnToDelete),
+        })
+    }
+
     return (
         <DndContext
             onDragEnd={handleColumnSwap}
@@ -73,14 +80,20 @@ function StopPlaceSettings({
                         items={columns}
                         strategy={horizontalListSortingStrategy}
                     >
-                        {columns.map((column: string) => (
-                            <ColumnSetting key={column} column={column} />
+                        {columns.map((column: TColumn) => (
+                            <ColumnSetting
+                                key={column}
+                                column={column}
+                                deleteColumn={() => deleteColumn(column)}
+                            />
                         ))}
                     </SortableContext>
-                    <AddColumnSettings
-                        addColumn={addColumn}
-                        selectedColumns={columns}
-                    />
+                    {columns.length < Object.keys(Columns).length && (
+                        <AddColumnSettings
+                            addColumn={addColumn}
+                            selectedColumns={columns}
+                        />
+                    )}
                 </div>
             </div>
         </DndContext>
