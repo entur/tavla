@@ -3,6 +3,7 @@ import { xor } from 'lodash'
 import { Button } from '@entur/button'
 import { Radio, RadioGroup } from '@entur/form'
 import { Columns, TColumn } from '../../types/tile'
+import classes from './styles.module.css'
 
 function AddColumnSettings({
     selectedColumns,
@@ -14,12 +15,7 @@ function AddColumnSettings({
     const [column, setColumn] = useState<TColumn | null>(null)
 
     return (
-        <div
-            style={{
-                backgroundColor: 'var(--tavla-box-background-color)',
-                padding: '1rem',
-            }}
-        >
+        <div className={classes.column}>
             <RadioGroup
                 name="new-column-settings"
                 label="Velg kolonne"
