@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-yarn run format:check
-yarn run eslint
+cd tavla
+filenames=$(git diff --cached --name-only --relative .)
+if [ ! -z $filenames ]
+then
+	yarn lint-commit
+fi
