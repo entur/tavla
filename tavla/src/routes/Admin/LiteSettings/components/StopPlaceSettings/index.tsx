@@ -22,7 +22,7 @@ function StopPlaceSettings({
     const handleColumnSwap = (event: DragEndEvent) => {
         const { active, over } = event
 
-        if (active && over && active.id !== over.id) {
+        if (over && active.id !== over.id) {
             const oldIndex = columns.indexOf(active.id as TColumn)
             const newIndex = columns.indexOf(over.id as TColumn)
 
@@ -37,7 +37,7 @@ function StopPlaceSettings({
         <DndContext onDragEnd={handleColumnSwap}>
             <div className={classes.stopPlaceTile}>
                 {tile.placeId}
-                <div style={{ display: 'flex' }}>
+                <div className={classes.columnContainer}>
                     <SortableContext
                         items={columns}
                         strategy={horizontalListSortingStrategy}
