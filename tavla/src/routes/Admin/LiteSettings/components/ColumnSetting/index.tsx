@@ -41,17 +41,22 @@ function ColumnSetting({
             >
                 <div className={classes.flexBetween}>
                     {column}
-                    <div
-                        className={classes.handle}
-                        {...attributes}
-                        {...listeners}
-                        aria-label={column}
-                    >
-                        <DraggableIcon />
+                    <div className={classes.flexBetween}>
+                        <button
+                            className={classes.handle}
+                            onClick={deleteColumn}
+                        >
+                            <DeleteIcon />
+                        </button>
+                        <div
+                            className={classes.handle}
+                            {...attributes}
+                            {...listeners}
+                            aria-label={column}
+                        >
+                            <DraggableIcon />
+                        </div>
                     </div>
-                    <button onClick={deleteColumn}>
-                        <DeleteIcon />
-                    </button>
                 </div>
             </div>
         </div>
