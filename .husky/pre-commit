@@ -2,7 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 cd tavla
-filenames=$(git diff --cached --name-only --relative .)
+filenames=$(git diff --cached --name-only --relative --diff-filter=d .)
 if [ ! -z $filenames ]
 then
 	yarn lint-commit
