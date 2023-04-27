@@ -19,9 +19,9 @@ import {
     restrictToParentElement,
 } from '@dnd-kit/modifiers'
 import { ColumnSetting } from '../ColumnSetting'
-import { TColumn, TStopPlaceTile } from '../../types/tile'
-import classes from './styles.module.css'
+import { Columns, TColumn, TStopPlaceTile } from '../../types/tile'
 import { AddColumnSettings } from '../AddColumnSettings'
+import classes from './styles.module.css'
 
 function StopPlaceSettings({
     tile,
@@ -88,10 +88,12 @@ function StopPlaceSettings({
                             />
                         ))}
                     </SortableContext>
-                    <AddColumnSettings
-                        addColumn={addColumn}
-                        selectedColumns={columns}
-                    />
+                    {columns.length < Object.keys(Columns).length && (
+                        <AddColumnSettings
+                            addColumn={addColumn}
+                            selectedColumns={columns}
+                        />
+                    )}
                 </div>
             </div>
         </DndContext>
