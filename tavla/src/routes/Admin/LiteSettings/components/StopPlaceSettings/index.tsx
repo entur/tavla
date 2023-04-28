@@ -22,6 +22,7 @@ import { DeleteIcon } from '@entur/icons'
 import { ColumnSetting } from '../ColumnSetting'
 import { Columns, TColumn, TStopPlaceTile } from '../../types/tile'
 import { AddColumnSettings } from '../AddColumnSettings'
+import globals from '../../styles.module.css'
 import classes from './styles.module.css'
 
 function StopPlaceSettings({
@@ -79,8 +80,8 @@ function StopPlaceSettings({
             <div className={classes.stopPlaceTile}>
                 <div className={classes.tileHeader}>
                     {tile.placeId}
-                    <button className={classes.delete} onClick={removeSelf}>
-                        <DeleteIcon />
+                    <button className={globals.button} onClick={removeSelf}>
+                        <DeleteIcon size={16} />
                     </button>
                 </div>
                 <div className={classes.columnContainer}>

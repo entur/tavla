@@ -4,6 +4,7 @@ import { CSS } from '@dnd-kit/utilities'
 import classNames from 'classnames'
 import { DeleteIcon, DraggableIcon } from '@entur/icons'
 import { Columns, TColumn } from '../../types/tile'
+import globals from '../../styles.module.css'
 import classes from './styles.module.css'
 
 function ColumnSetting({
@@ -39,22 +40,22 @@ function ColumnSetting({
                     [classes.dragging]: isDragging,
                 })}
             >
-                <div className={classes.flexBetween}>
+                <div className={globals.flexBetween}>
                     {Columns[column]}
-                    <div className={classes.flexBetween}>
+                    <div className={globals.flexBetween}>
                         <button
-                            className={classes.handle}
+                            className={globals.button}
                             onClick={deleteColumn}
                         >
-                            <DeleteIcon />
+                            <DeleteIcon size={16} />
                         </button>
                         <div
-                            className={classes.handle}
+                            className={globals.button}
                             {...attributes}
                             {...listeners}
                             aria-label={column}
                         >
-                            <DraggableIcon />
+                            <DraggableIcon size={16} />
                         </div>
                     </div>
                 </div>

@@ -16,25 +16,3 @@
     transform: scale(1.02);
     transition: transform ease-in 0.1s;
 }
-
-.handle {
-    all: unset;
-    color: white;
-    padding: 8px;
-    cursor: grab;
-    display: flex;
-    width: fit-content;
-    height: fit-content;
-    border-radius: 5px;
-    touch-action: none;
-}
-
-.handle:hover {
-    background-color: white;
-    color: black;
-}
-
-.flexBetween {
-    display: flex;
-    justify-content: space-between;
-}
