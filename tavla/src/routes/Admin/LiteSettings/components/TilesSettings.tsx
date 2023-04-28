@@ -18,11 +18,18 @@ function TilesSettings({
         setTiles(newTiles)
     }
 
+    const removeTile = (tileToRemove: TTile) => {
+        setTiles(tiles.filter((tile) => tile !== tileToRemove))
+    }
+
     return (
         <DndContext>
             {tiles.map((tile, index) => {
                 const setIndexedTile = (newtile: TTile) => {
                     setTile(index, newtile)
+                }
+                const removeSelf = () => {
+                    removeTile(tile)
                 }
                 switch (tile.type) {
                     case 'stop_place':
@@ -31,6 +38,7 @@ function TilesSettings({
                                 key={tile.uuid}
                                 tile={tile}
                                 setTile={setIndexedTile}
+                                removeSelf={removeSelf}
                             />
                         )
                     case 'quay':

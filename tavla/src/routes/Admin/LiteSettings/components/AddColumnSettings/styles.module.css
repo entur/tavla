@@ -1,5 +1,6 @@
 .column {
     background-color: var(--tavla-box-background-color);
+    border: 1px solid white;
     padding: 1rem;
     border-radius: 0.5rem;
 }

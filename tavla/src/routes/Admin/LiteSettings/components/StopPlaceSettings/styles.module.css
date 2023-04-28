@@ -3,11 +3,35 @@
     width: 100%;
     padding: 1rem;
     border-radius: 0.5rem;
-    background-color: white;
-    color: black;
+    background-color: var(--tavla-box-background-color);
+    color: white;
 }
 
 .columnContainer {
     display: flex;
     gap: 10px;
+}
+
+.tileHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.5rem;
+}
+
+.delete {
+    all: unset;
+    color: white;
+    padding: 8px;
+    cursor: grab;
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 5px;
+    touch-action: none;
+}
+
+.delete:hover {
+    background-color: white;
+    color: black;
 }

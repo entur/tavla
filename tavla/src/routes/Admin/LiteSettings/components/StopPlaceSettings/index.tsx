@@ -18,6 +18,7 @@ import {
     restrictToHorizontalAxis,
     restrictToParentElement,
 } from '@dnd-kit/modifiers'
+import { DeleteIcon } from '@entur/icons'
 import { ColumnSetting } from '../ColumnSetting'
 import { Columns, TColumn, TStopPlaceTile } from '../../types/tile'
 import { AddColumnSettings } from '../AddColumnSettings'
@@ -26,9 +27,11 @@ import classes from './styles.module.css'
 function StopPlaceSettings({
     tile,
     setTile,
+    removeSelf,
 }: {
     tile: TStopPlaceTile
     setTile: (newTile: TStopPlaceTile) => void
+    removeSelf: () => void
 }): JSX.Element {
     const columns = tile.columns ?? []
 
@@ -74,7 +77,12 @@ function StopPlaceSettings({
             modifiers={[restrictToHorizontalAxis, restrictToParentElement]}
         >
             <div className={classes.stopPlaceTile}>
-                {tile.placeId}
+                <div className={classes.tileHeader}>
+                    {tile.placeId}
+                    <button className={classes.delete} onClick={removeSelf}>
+                        <DeleteIcon />
+                    </button>
+                </div>
                 <div className={classes.columnContainer}>
                     <SortableContext
                         items={columns}
