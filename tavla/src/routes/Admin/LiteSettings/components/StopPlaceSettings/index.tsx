@@ -20,12 +20,12 @@ import {
 } from '@dnd-kit/modifiers'
 import { useStopPlaceSettingsDataQuery } from 'graphql-generated/journey-planner-v3'
 import { DeleteIcon } from '@entur/icons'
+import { Loader } from '@entur/loader'
 import { ColumnSetting } from '../ColumnSetting'
 import { Columns, TColumn, TStopPlaceTile } from '../../types/tile'
 import { AddColumnSettings } from '../AddColumnSettings'
 import globals from '../../styles.module.css'
 import classes from './styles.module.css'
-import { Loader } from '@entur/loader'
 
 function StopPlaceSettings({
     tile,

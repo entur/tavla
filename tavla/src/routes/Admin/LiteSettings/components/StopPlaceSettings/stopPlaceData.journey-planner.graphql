@@ -1,4 +1,4 @@
-query StopPlaceSettingsData($id: String!) {
+query StopPlaceSettingsData($id: String!) @api(name: journey_planner_v3) {
     stopPlace(id: $id) {
         name
     }
