@@ -2086,6 +2086,13 @@ export type QuaysSearchQueryVariables = Exact<{
 
 export type QuaysSearchQuery = { __typename?: 'QueryType', stopPlace: { __typename?: 'StopPlace', quays: Array<{ __typename?: 'Quay', id: string, publicCode: string | null, description: string | null } | null> | null } | null };
 
+export type StopPlaceSettingsDataQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type StopPlaceSettingsDataQuery = { __typename?: 'QueryType', stopPlace: { __typename?: 'StopPlace', name: string } | null };
+
 export type BusTileQueryVariables = Exact<{
   ids: Array<Scalars['String']> | Scalars['String'];
 }>;
@@ -2248,6 +2255,35 @@ export function useQuaysSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type QuaysSearchQueryHookResult = ReturnType<typeof useQuaysSearchQuery>;
 export type QuaysSearchLazyQueryHookResult = ReturnType<typeof useQuaysSearchLazyQuery>;
 export type QuaysSearchQueryResult = Apollo.QueryResult<QuaysSearchQuery, QuaysSearchQueryVariables>;
+export const StopPlaceSettingsDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StopPlaceSettingsData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useStopPlaceSettingsDataQuery__
+ *
+ * To run a query within a React component, call `useStopPlaceSettingsDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStopPlaceSettingsDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStopPlaceSettingsDataQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useStopPlaceSettingsDataQuery(baseOptions: Apollo.QueryHookOptions<StopPlaceSettingsDataQuery, StopPlaceSettingsDataQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<StopPlaceSettingsDataQuery, StopPlaceSettingsDataQueryVariables>(StopPlaceSettingsDataDocument, options);
+      }
+export function useStopPlaceSettingsDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<StopPlaceSettingsDataQuery, StopPlaceSettingsDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<StopPlaceSettingsDataQuery, StopPlaceSettingsDataQueryVariables>(StopPlaceSettingsDataDocument, options);
+        }
+export type StopPlaceSettingsDataQueryHookResult = ReturnType<typeof useStopPlaceSettingsDataQuery>;
+export type StopPlaceSettingsDataLazyQueryHookResult = ReturnType<typeof useStopPlaceSettingsDataLazyQuery>;
+export type StopPlaceSettingsDataQueryResult = Apollo.QueryResult<StopPlaceSettingsDataQuery, StopPlaceSettingsDataQueryVariables>;
 export const BusTileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BusTile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlaces"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}},{"kind":"Field","name":{"kind":"Name","value":"estimatedCalls"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"numberOfDepartures"},"value":{"kind":"IntValue","value":"20"}},{"kind":"Argument","name":{"kind":"Name","value":"timeRange"},"value":{"kind":"IntValue","value":"172800"}},{"kind":"Argument","name":{"kind":"Name","value":"numberOfDeparturesPerLineAndDestinationDisplay"},"value":{"kind":"IntValue","value":"20"}},{"kind":"Argument","name":{"kind":"Name","value":"arrivalDeparture"},"value":{"kind":"EnumValue","value":"departures"}},{"kind":"Argument","name":{"kind":"Name","value":"whiteListedModes"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"bus"}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aimedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"cancellation"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"destinationDisplay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"expectedDepartureTime"}},{"kind":"Field","name":{"kind":"Name","value":"quay"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"serviceJourney"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"journeyPattern"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"line"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicCode"}},{"kind":"Field","name":{"kind":"Name","value":"transportMode"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"transportSubmode"}}]}},{"kind":"Field","name":{"kind":"Name","value":"situations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**

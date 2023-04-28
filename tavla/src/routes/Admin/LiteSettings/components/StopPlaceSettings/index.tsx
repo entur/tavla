@@ -18,7 +18,9 @@ import {
     restrictToHorizontalAxis,
     restrictToParentElement,
 } from '@dnd-kit/modifiers'
+import { useStopPlaceSettingsDataQuery } from 'graphql-generated/journey-planner-v3'
 import { DeleteIcon } from '@entur/icons'
+import { Loader } from '@entur/loader'
 import { ColumnSetting } from '../ColumnSetting'
 import { Columns, TColumn, TStopPlaceTile } from '../../types/tile'
 import { AddColumnSettings } from '../AddColumnSettings'
@@ -33,7 +35,7 @@ function StopPlaceSettings({
     tile: TStopPlaceTile
     setTile: (newTile: TStopPlaceTile) => void
     removeSelf: () => void
-}): JSX.Element {
+}) {
     const columns = tile.columns ?? []
 
     const sensors = useSensors(
@@ -42,6 +44,11 @@ function StopPlaceSettings({
             coordinateGetter: sortableKeyboardCoordinates,
         }),
     )
+
+    const { data, loading } = useStopPlaceSettingsDataQuery({
+        variables: { id: tile.placeId },
+        fetchPolicy: 'cache-and-network',
+    })
 
     const handleColumnSwap = (event: DragEndEvent) => {
         const { active, over } = event
@@ -79,7 +86,11 @@ function StopPlaceSettings({
         >
             <div className={classes.stopPlaceTile}>
                 <div className={classes.tileHeader}>
-                    {tile.placeId}
+                    {loading ? (
+                        <Loader />
+                    ) : (
+                        data?.stopPlace?.name ?? tile.placeId
+                    )}
                     <button className={globals.button} onClick={removeSelf}>
                         <DeleteIcon size={16} />
                     </button>
