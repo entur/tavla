@@ -18,20 +18,3 @@
     align-items: center;
     padding-bottom: 0.5rem;
 }
-
-.delete {
-    all: unset;
-    color: white;
-    padding: 8px;
-    cursor: grab;
-    display: flex;
-    width: fit-content;
-    height: fit-content;
-    border-radius: 5px;
-    touch-action: none;
-}
-
-.delete:hover {
-    background-color: white;
-    color: black;
-}
