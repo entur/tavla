@@ -1,7 +1,7 @@
 name: Linting and Formatting
 on:
-  push:
-    branches-ignore:
+  pull_request:
+    branches:
       - master
     paths-ignore:
       - "tavla/**"
