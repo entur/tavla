@@ -2091,7 +2091,7 @@ export type StopPlaceSettingsDataQueryVariables = Exact<{
 }>;
 
 
-export type StopPlaceSettingsDataQuery = { __typename?: 'QueryType', stopPlace: { __typename?: 'StopPlace', name: string } | null };
+export type StopPlaceSettingsDataQuery = { __typename?: 'QueryType', stopPlace: { __typename?: 'StopPlace', name: string, quays: Array<{ __typename?: 'Quay', lines: Array<{ __typename?: 'Line', id: string, publicCode: string | null, name: string | null }> } | null> | null } | null };
 
 export type BusTileQueryVariables = Exact<{
   ids: Array<Scalars['String']> | Scalars['String'];
@@ -2255,7 +2255,7 @@ export function useQuaysSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type QuaysSearchQueryHookResult = ReturnType<typeof useQuaysSearchQuery>;
 export type QuaysSearchLazyQueryHookResult = ReturnType<typeof useQuaysSearchLazyQuery>;
 export type QuaysSearchQueryResult = Apollo.QueryResult<QuaysSearchQuery, QuaysSearchQueryVariables>;
-export const StopPlaceSettingsDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StopPlaceSettingsData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode;
+export const StopPlaceSettingsDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StopPlaceSettingsData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"directives":[{"kind":"Directive","name":{"kind":"Name","value":"api"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"journey_planner_v3"}}]}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stopPlace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"quays"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filterByInUse"},"value":{"kind":"BooleanValue","value":true}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lines"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"publicCode"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
  * __useStopPlaceSettingsDataQuery__

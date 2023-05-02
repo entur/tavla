@@ -993,12 +993,41 @@
             "deprecationReason": null
           },
           {
+            "name": "station",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Station",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "stations",
             "description": null,
             "args": [
               {
                 "name": "availableFormFactors",
-                "description": null,
+                "description": "Filter by available form factors at station",
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1014,7 +1043,7 @@
               },
               {
                 "name": "availablePropulsionTypes",
-                "description": null,
+                "description": "Filter by available propulsion types at station",
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1030,7 +1059,7 @@
               },
               {
                 "name": "codespaces",
-                "description": null,
+                "description": "Filter by codespaces",
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1046,7 +1075,7 @@
               },
               {
                 "name": "count",
-                "description": null,
+                "description": "Max results to return.",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1057,16 +1086,32 @@
                 "deprecationReason": null
               },
               {
-                "name": "lat",
-                "description": null,
+                "name": "ids",
+                "description": "Fetch vehicles with specific ids. All other filters are ignored!",
                 "type": {
-                  "kind": "NON_NULL",
+                  "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
                   }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "lat",
+                "description": "Required unless using 'ids'",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -1074,15 +1119,11 @@
               },
               {
                 "name": "lon",
-                "description": null,
+                "description": "Required unless using 'ids'",
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -1090,7 +1131,7 @@
               },
               {
                 "name": "operators",
-                "description": null,
+                "description": "Filter by operators",
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1106,15 +1147,11 @@
               },
               {
                 "name": "range",
-                "description": null,
+                "description": "Search radius in meters. Required unless using 'ids'",
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -1122,7 +1159,7 @@
               },
               {
                 "name": "systems",
-                "description": null,
+                "description": "Filter by systems",
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1183,6 +1220,35 @@
                 "ofType": null
               }
             },
+            "isDeprecated": true,
+            "deprecationReason": "stationsById is deprecated. Use stations query instead."
+          },
+          {
+            "name": "vehicle",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Vehicle",
+              "ofType": null
+            },
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -1192,7 +1258,7 @@
             "args": [
               {
                 "name": "codespaces",
-                "description": null,
+                "description": "Filter by codespaces",
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1208,7 +1274,7 @@
               },
               {
                 "name": "count",
-                "description": null,
+                "description": "Max results to return.",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1220,7 +1286,7 @@
               },
               {
                 "name": "formFactors",
-                "description": null,
+                "description": "Filter by form factors",
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1235,8 +1301,28 @@
                 "deprecationReason": null
               },
               {
+                "name": "ids",
+                "description": "Fetch vehicles with specific ids. All other filters are ignored!",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "includeDisabled",
-                "description": null,
+                "description": "Include disabled vehicles in result",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Boolean",
@@ -1248,7 +1334,7 @@
               },
               {
                 "name": "includeReserved",
-                "description": null,
+                "description": "Include reserved vehicles in result",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Boolean",
@@ -1260,15 +1346,11 @@
               },
               {
                 "name": "lat",
-                "description": null,
+                "description": "Required unless using 'ids'",
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -1276,15 +1358,11 @@
               },
               {
                 "name": "lon",
-                "description": null,
+                "description": "Required unless using 'ids'",
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -1292,7 +1370,7 @@
               },
               {
                 "name": "operators",
-                "description": null,
+                "description": "Filter by operators",
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1308,7 +1386,7 @@
               },
               {
                 "name": "propulsionTypes",
-                "description": null,
+                "description": "Filter by propulsion type",
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1324,15 +1402,11 @@
               },
               {
                 "name": "range",
-                "description": null,
+                "description": "Search radius in meters. Required unless using 'ids'",
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -1340,7 +1414,7 @@
               },
               {
                 "name": "systems",
-                "description": null,
+                "description": "Filter by systems",
                 "type": {
                   "kind": "LIST",
                   "name": null,
