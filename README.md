@@ -11,7 +11,7 @@ Subscribe to updates to Tavla by clicking "Watch".
 
 Found a bug or an idea of something to improve on? Don't hesitate to create an [issue](https://github.com/entur/tavla/issues/new) or send in a pull request.
 
-Further detail on how to create your very own dashboard to be found in [CONTRIBUTING.md](/CONTRIBUTING.md).
+Further detail on how to create your very own dashboard to be found in [CONTRIBUTING.md](/tavla/CONTRIBUTING.md).
 
 ### Licenses and Terms
 
