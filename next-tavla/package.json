@@ -43,6 +43,6 @@
   },
   "packageManager": "yarn@3.5.0",
   "engines": {
-    "node": 16
+    "node": "16"
   }
 }
