@@ -20,7 +20,7 @@ import {
 } from '@dnd-kit/modifiers'
 import { useStopPlaceSettingsDataQuery } from 'graphql-generated/journey-planner-v3'
 import { uniq, xor } from 'lodash'
-import { isNotNullOrUndefined } from 'utils/typeguards'
+import { fieldsNotNull } from 'utils/typeguards'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { Switch } from '@entur/form'
@@ -30,16 +30,6 @@ import { Columns, TColumn, TStopPlaceTile } from '../../types/tile'
 import { AddColumnSettings } from '../AddColumnSettings'
 import globals from '../../styles.module.css'
 import classes from './styles.module.css'
-
-// Type guard for record with only defined fields (non-recursive)
-function fieldsNotNull<T extends Record<string, unknown>>(
-    record: T | undefined,
-): record is { [K in keyof T]: NonNullable<T[K]> } {
-    return (
-        isNotNullOrUndefined(record) &&
-        Object.values(record).every(isNotNullOrUndefined)
-    )
-}
 
 function StopPlaceSettings({
     tile,
@@ -127,16 +117,14 @@ function StopPlaceSettings({
                         <DeleteIcon size={16} />
                     </button>
                 </div>
-                <div style={{ marginBottom: '0.5rem' }}>
+                <div style={classes.lineToggleContainer}>
                     <ExpandablePanel title="Velg linjer">
                         {lines.map((line) => (
                             <div key={line.id}>
                                 <Switch
-                                    checked={
-                                        !!tile.whitelistedLines?.includes(
-                                            line.id,
-                                        )
-                                    }
+                                    checked={tile.whitelistedLines?.includes(
+                                        line.id,
+                                    )}
                                     onChange={() => {
                                         toggleLine(line.id)
                                     }}
