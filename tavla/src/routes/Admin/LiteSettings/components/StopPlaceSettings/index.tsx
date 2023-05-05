@@ -19,8 +19,12 @@ import {
     restrictToParentElement,
 } from '@dnd-kit/modifiers'
 import { useStopPlaceSettingsDataQuery } from 'graphql-generated/journey-planner-v3'
+import { uniq, xor } from 'lodash'
+import { fieldsNotNull } from 'utils/typeguards'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
+import { Switch } from '@entur/form'
+import { ExpandablePanel } from '@entur/expand'
 import { ColumnSetting } from '../ColumnSetting'
 import { Columns, TColumn, TStopPlaceTile } from '../../types/tile'
 import { AddColumnSettings } from '../AddColumnSettings'
@@ -78,6 +82,24 @@ function StopPlaceSettings({
         })
     }
 
+    const toggleLine = (line: string) => {
+        if (!tile.whitelistedLines)
+            return setTile({ ...tile, whitelistedLines: [line] })
+
+        return setTile({
+            ...tile,
+            whitelistedLines: xor(tile.whitelistedLines, [line]),
+        })
+    }
+
+    const lines = uniq(
+        data?.stopPlace?.quays
+            ?.flatMap((q) => q?.lines)
+            .filter(fieldsNotNull) || [],
+    ).sort((a, b) =>
+        a.publicCode.localeCompare(b.publicCode, 'no-NB', { numeric: true }),
+    )
+
     return (
         <DndContext
             onDragEnd={handleColumnSwap}
@@ -94,6 +116,24 @@ function StopPlaceSettings({
                     <button className={globals.button} onClick={removeSelf}>
                         <DeleteIcon size={16} />
                     </button>
+                </div>
+                <div style={classes.lineToggleContainer}>
+                    <ExpandablePanel title="Velg linjer">
+                        {lines.map((line) => (
+                            <div key={line.id}>
+                                <Switch
+                                    checked={tile.whitelistedLines?.includes(
+                                        line.id,
+                                    )}
+                                    onChange={() => {
+                                        toggleLine(line.id)
+                                    }}
+                                >
+                                    {line.publicCode} {line.name}
+                                </Switch>
+                            </div>
+                        ))}
+                    </ExpandablePanel>
                 </div>
                 <div className={classes.columnContainer}>
                     <SortableContext

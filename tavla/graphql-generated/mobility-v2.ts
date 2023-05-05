@@ -135,8 +135,11 @@ export type Query = {
   codespaces: Maybe<Array<Maybe<Scalars['String']>>>;
   geofencingZones: Maybe<Array<Maybe<GeofencingZones>>>;
   operators: Maybe<Array<Maybe<Operator>>>;
+  station: Maybe<Station>;
   stations: Maybe<Array<Maybe<Station>>>;
+  /** @deprecated stationsById is deprecated. Use stations query instead. */
   stationsById: Maybe<Array<Maybe<Station>>>;
+  vehicle: Maybe<Vehicle>;
   vehicles: Maybe<Array<Maybe<Vehicle>>>;
 };
 
@@ -146,15 +149,21 @@ export type QueryGeofencingZonesArgs = {
 };
 
 
+export type QueryStationArgs = {
+  id: Scalars['String'];
+};
+
+
 export type QueryStationsArgs = {
   availableFormFactors?: InputMaybe<Array<InputMaybe<FormFactor>>>;
   availablePropulsionTypes?: InputMaybe<Array<InputMaybe<PropulsionType>>>;
   codespaces?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   count?: InputMaybe<Scalars['Int']>;
-  lat: Scalars['Float'];
-  lon: Scalars['Float'];
+  ids?: InputMaybe<Array<Scalars['String']>>;
+  lat?: InputMaybe<Scalars['Float']>;
+  lon?: InputMaybe<Scalars['Float']>;
   operators?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  range: Scalars['Int'];
+  range?: InputMaybe<Scalars['Int']>;
   systems?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -164,17 +173,23 @@ export type QueryStationsByIdArgs = {
 };
 
 
+export type QueryVehicleArgs = {
+  id: Scalars['String'];
+};
+
+
 export type QueryVehiclesArgs = {
   codespaces?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   count?: InputMaybe<Scalars['Int']>;
   formFactors?: InputMaybe<Array<InputMaybe<FormFactor>>>;
+  ids?: InputMaybe<Array<Scalars['String']>>;
   includeDisabled?: InputMaybe<Scalars['Boolean']>;
   includeReserved?: InputMaybe<Scalars['Boolean']>;
-  lat: Scalars['Float'];
-  lon: Scalars['Float'];
+  lat?: InputMaybe<Scalars['Float']>;
+  lon?: InputMaybe<Scalars['Float']>;
   operators?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   propulsionTypes?: InputMaybe<Array<InputMaybe<PropulsionType>>>;
-  range: Scalars['Int'];
+  range?: InputMaybe<Scalars['Int']>;
   systems?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
