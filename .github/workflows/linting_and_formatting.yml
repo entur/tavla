@@ -42,8 +42,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - run: yarn install
-      - run: yarn lint
+      - name: Install
+        run: yarn install
+
+      - name: ESLint
+        run: yarn eslint
+
+      - name: StyleLint
+        run: yarn stylelint
+
+      - name: Prettier
+        run: yarn prettier
 
   all_jobs_pass:
     name: All jobs pass or skip
