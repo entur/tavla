@@ -3,18 +3,62 @@ on:
   pull_request:
     branches:
       - master
-    paths:
-      - "tavla/**"
+
 jobs:
-  linting_and_formatting:
-    name: Verifies linting and formatting
+  changes:
+    name: Check for file changes
+    runs-on: ubuntu-latest
+    outputs:
+      tavla: ${{ steps.filter.outputs.tavla }}
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            tavla:
+              - 'tavla/**'
+
+  tavla_linting_and_formatting:
+    needs: changes
+    if: ${{ needs.changes.outputs.tavla == 'true' }}
+    name: Verifies linting and formatting for tavla
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: tavla
     steps:
-      - uses: actions/checkout@v2
-      - name: Install packages
+      - uses: actions/checkout@v3
+
+        # See https://github.com/actions/cache/blob/main/examples.md#node---yarn-2
+      - id: yarn-cache-dir-path
+        name: Get yarn cache path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install
         run: yarn install
-      - name: Lint
-        run: yarn run lint
+
+      - name: ESLint
+        run: yarn eslint
+
+      - name: StyleLint
+        run: yarn stylelint
+
+      - name: Prettier
+        run: yarn prettier
+
+  all_jobs_pass:
+    name: All jobs pass or skip
+    needs: [tavla_linting_and_formatting]
+    if: ${{ !failure() }} # Needs this to run in case of skipped checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: All jobs passed
+        run: exit 0
