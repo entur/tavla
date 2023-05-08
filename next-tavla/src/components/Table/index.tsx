@@ -8,7 +8,9 @@ import { Destination } from "./Destination";
 import { Line } from "./Line";
 import { Platform } from "./Platform";
 
-const headerOptions: Record<TColumn, { name: string; size: number }> = {
+type THeaderOptions = Record<TColumn, { name: string; size: number }>;
+
+const headerOptions: THeaderOptions = {
   destination: {
     name: "Destinasjon",
     size: 3,
@@ -34,6 +36,22 @@ const columnComponents: Record<TColumn, () => JSX.Element> = {
   platform: Platform,
 };
 
+function flexToPercentage(
+  headerOptions: THeaderOptions
+): Record<TColumn, string> {
+  const flexToPercentage = Object.values(headerOptions).reduce((acc, thing) => {
+    return acc + thing.size;
+  }, 0);
+  const perc = 100 / flexToPercentage;
+
+  return Object.fromEntries(
+    Object.entries(headerOptions).map(([key, value]) => [
+      key,
+      `${value.size * perc}%`,
+    ])
+  ) as Record<TColumn, string>;
+}
+
 function Table({
   columns,
   departures,
@@ -41,6 +59,8 @@ function Table({
   columns: TColumn[];
   departures: TDeparture[];
 }) {
+  const columnSizes = flexToPercentage(headerOptions);
+
   return (
     <div className={classes.container}>
       <table className={classes.table}>
@@ -49,7 +69,7 @@ function Table({
             {columns.map((col) => (
               <th
                 style={{
-                  width: `${headerOptions[col].size}%`,
+                  width: columnSizes[col],
                 }}
                 key={col}
               >
