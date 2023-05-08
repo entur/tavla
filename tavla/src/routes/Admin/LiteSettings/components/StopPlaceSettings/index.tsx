@@ -117,7 +117,7 @@ function StopPlaceSettings({
                         <DeleteIcon size={16} />
                     </button>
                 </div>
-                <div style={classes.lineToggleContainer}>
+                <div className={classes.lineToggleContainer}>
                     <ExpandablePanel title="Velg linjer">
                         {lines.map((line) => (
                             <div key={line.id}>

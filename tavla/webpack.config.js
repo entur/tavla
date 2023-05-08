@@ -47,6 +47,19 @@ module.exports = async (env, args) => ({
             containers: path.resolve(__dirname, 'src/containers/'),
             dashboards: path.resolve(__dirname, 'src/dashboards/'),
             logic: path.resolve(__dirname, 'src/logic/'),
+            lite: path.resolve(__dirname, 'src/routes/Admin/LiteSettings/'),
+            ltypes: path.resolve(
+                __dirname,
+                'src/routes/Admin/LiteSettings/types',
+            ),
+            lcomponents: path.resolve(
+                __dirname,
+                'src/routes/Admin/LiteSettings/components',
+            ),
+            lutils: path.resolve(
+                __dirname,
+                'src/routes/Admin/LiteSettings/utils',
+            ),
             settings: path.resolve(__dirname, 'src/settings/'),
             ['graphql-generated']: path.resolve(
                 __dirname,
