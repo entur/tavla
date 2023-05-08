@@ -2,7 +2,7 @@
 import React from 'react'
 import { clone } from 'lodash'
 import { DndContext } from '@dnd-kit/core'
-import { TTile } from 'ltypes/tile'
+import { TTile } from 'lite/types/tile'
 import { StopPlaceSettings } from './StopPlaceSettings'
 
 function TilesSettings({

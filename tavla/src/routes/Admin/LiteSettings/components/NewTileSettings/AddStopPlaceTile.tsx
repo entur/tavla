@@ -1,5 +1,5 @@
 import React from 'react'
-import { TStopPlaceTile } from 'ltypes/tile'
+import { TStopPlaceTile } from 'lite/types/tile'
 import { fetchItems } from 'lite/utils'
 import { Dropdown } from '@entur/dropdown'
 

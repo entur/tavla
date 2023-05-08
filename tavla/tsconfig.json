@@ -31,9 +31,6 @@
             "settings/*": ["src/settings/*"],
             "graphql-generated/*": ["graphql-generated/*"],
             "lite/*": ["src/routes/Admin/LiteSettings/*"],
-            "ltypes/*": ["src/routes/Admin/LiteSettings/types/*"],
-            "lcomponents/*": ["src/routes/Admin/LiteSettings/components/*"],
-            "lutils/*": ["src/routes/Admin/LiteSettings/utils/*"],
             "src/*": ["src/*"]
         }
     },

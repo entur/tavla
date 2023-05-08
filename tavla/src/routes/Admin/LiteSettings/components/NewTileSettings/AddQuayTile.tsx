@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { fetchAutocomplete } from 'utils/geocoder/fetchAutocomplete'
 import { useQuaysSearchLazyQuery } from 'graphql-generated/journey-planner-v3'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import { TQuayTile } from 'ltypes/tile'
+import { TQuayTile } from 'lite/types/tile'
 import { Dropdown } from '@entur/dropdown'
 
 function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {

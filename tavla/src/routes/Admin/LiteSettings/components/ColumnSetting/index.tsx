@@ -2,9 +2,9 @@ import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import classNames from 'classnames'
-import { Columns, TColumn } from 'ltypes/tile'
+import { Columns, TColumn } from 'lite/types/tile'
+import globals from 'lite/styles/global.module.css'
 import { DeleteIcon, DraggableIcon } from '@entur/icons'
-import globals from '../../styles.module.css'
 import classes from './styles.module.css'
 
 function ColumnSetting({

@@ -1,5 +1,5 @@
 import React from 'react'
-import { TMapTile } from 'ltypes/tile'
+import { TMapTile } from 'lite/types/tile'
 import { fetchItems } from 'lite/utils'
 import { Dropdown } from '@entur/dropdown'
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TTile } from 'ltypes/tile'
+import { TTile } from 'lite/types/tile'
 import { Dropdown } from '@entur/dropdown'
 import { Button } from '@entur/button'
 import { AddMapTile } from './AddMapTile'
