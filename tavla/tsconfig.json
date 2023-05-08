@@ -30,6 +30,7 @@
             "logic/*": ["src/logic/*"],
             "settings/*": ["src/settings/*"],
             "graphql-generated/*": ["graphql-generated/*"],
+            "lite/*": ["src/routes/Admin/LiteSettings/*"],
             "src/*": ["src/*"]
         }
     },

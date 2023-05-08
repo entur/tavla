@@ -21,14 +21,14 @@ import {
 import { useStopPlaceSettingsDataQuery } from 'graphql-generated/journey-planner-v3'
 import { uniq, xor } from 'lodash'
 import { fieldsNotNull } from 'utils/typeguards'
+import { ColumnSetting } from 'lite/components/ColumnSetting'
+import { Columns, TColumn, TStopPlaceTile } from 'lite/types/tile'
+import { AddColumnSettings } from 'lite/components/AddColumnSettings'
+import globals from 'lite/styles/global.module.css'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { Switch } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
-import { ColumnSetting } from '../ColumnSetting'
-import { Columns, TColumn, TStopPlaceTile } from '../../types/tile'
-import { AddColumnSettings } from '../AddColumnSettings'
-import globals from '../../styles.module.css'
 import classes from './styles.module.css'
 
 function StopPlaceSettings({
@@ -117,7 +117,7 @@ function StopPlaceSettings({
                         <DeleteIcon size={16} />
                     </button>
                 </div>
-                <div style={classes.lineToggleContainer}>
+                <div className={classes.lineToggleContainer}>
                     <ExpandablePanel title="Velg linjer">
                         {lines.map((line) => (
                             <div key={line.id}>

@@ -2,14 +2,14 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Theme } from 'src/types'
+import { TTile } from 'lite/types/tile'
+import { TSettings } from 'lite/types/settings'
+import { getFirebaseSettings, setFirebaseSettings } from 'lite/utils/firebase'
+import { TilesSettings } from 'lite/components/TilesSettings'
+import { ThemeSettings } from 'lite/components/ThemeSettings'
+import { addUUID } from 'lite/utils'
+import { AddTile } from 'lite/components/NewTileSettings'
 import { Button } from '@entur/button'
-import { TTile } from './types/tile'
-import { TSettings } from './types/settings'
-import { getFirebaseSettings, setFirebaseSettings } from './utils/firebase'
-import { TilesSettings } from './components/TilesSettings'
-import { ThemeSettings } from './components/ThemeSettings'
-import { addUUID } from './utils'
-import { AddTile } from './components/NewTileSettings'
 
 function LiteSettingsLoader() {
     const { documentId } = useParams<{ documentId: string }>()

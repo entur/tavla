@@ -47,6 +47,7 @@ module.exports = async (env, args) => ({
             containers: path.resolve(__dirname, 'src/containers/'),
             dashboards: path.resolve(__dirname, 'src/dashboards/'),
             logic: path.resolve(__dirname, 'src/logic/'),
+            lite: path.resolve(__dirname, 'src/routes/Admin/LiteSettings/'),
             settings: path.resolve(__dirname, 'src/settings/'),
             ['graphql-generated']: path.resolve(
                 __dirname,

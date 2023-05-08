@@ -1,6 +1,6 @@
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { db } from 'settings/firebase-init'
-import { TSettings } from '../types/settings'
+import { TSettings } from 'lite/types/settings'
 
 async function getFirebaseSettings(documentId: string) {
     return getDoc(doc(db, 'settings-v2', documentId)).then(

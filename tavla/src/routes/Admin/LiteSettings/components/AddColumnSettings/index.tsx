@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { xor } from 'lodash'
+import { Columns, TColumn } from 'lite/types/tile'
 import { Button } from '@entur/button'
 import { Radio, RadioGroup } from '@entur/form'
-import { Columns, TColumn } from '../../types/tile'
 import classes from './styles.module.css'
 
 function AddColumnSettings({
