@@ -1,5 +1,5 @@
 import { CLIENT_NAME } from 'utils/constants'
-import { TTile } from '../types/tile'
+import { TTile } from 'ltypes/tile'
 
 export function addUUID(tile: TTile, index?: number) {
     return {

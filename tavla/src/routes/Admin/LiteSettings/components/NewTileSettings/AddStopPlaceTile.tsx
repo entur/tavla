@@ -1,7 +1,7 @@
 import React from 'react'
+import { TStopPlaceTile } from 'ltypes/tile'
+import { fetchItems } from 'lite/utils'
 import { Dropdown } from '@entur/dropdown'
-import { TStopPlaceTile } from '../../types/tile'
-import { fetchItems } from '../../utils'
 
 function AddStopPlaceTile({
     setTile,

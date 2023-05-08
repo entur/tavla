@@ -1,7 +1,7 @@
 import React from 'react'
+import { TMapTile } from 'ltypes/tile'
+import { fetchItems } from 'lite/utils'
 import { Dropdown } from '@entur/dropdown'
-import { TMapTile } from '../../types/tile'
-import { fetchItems } from '../../utils'
 
 function AddMapTile({ setTile }: { setTile: (tile: TMapTile) => void }) {
     return (
