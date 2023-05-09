@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { TQuayTile } from "@/types/tile";
-import { uniq } from "lodash";
 import { Table } from "@/components/Table";
 import { quayQuery } from "@/graphql/queries/quay";
 import { usePoll } from "@/hooks/usePoll";
@@ -8,12 +7,10 @@ import classes from "./styles.module.css";
 
 export function QuayTile({
   placeId,
-  columns = ["line", "destination", "time"],
+  columns,
   whitelistedLines,
   whitelistedTransportModes,
 }: TQuayTile) {
-  const uniqueColumns = uniq(columns);
-
   const quayCallbackQuery = useCallback(
     () =>
       quayQuery({
@@ -42,7 +39,7 @@ export function QuayTile({
           {data.quay.publicCode} {data.quay.description}
         </h4>
       </div>
-      <Table columns={uniqueColumns} departures={data.quay.estimatedCalls} />
+      <Table columns={columns} departures={data.quay.estimatedCalls} />
     </div>
   );
 }

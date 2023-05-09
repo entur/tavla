@@ -1,5 +1,5 @@
 import { TDeparture } from "@/types/graphql";
-import { TColumn } from "@/types/tile";
+import { Columns, TColumn, TColumnSetting } from "@/types/tile";
 import React from "react";
 import classes from "./styles.module.css";
 import { DepartureContext } from "./contexts";
@@ -8,25 +8,6 @@ import { Destination } from "./Destination";
 import { Line } from "./Line";
 import { Platform } from "./Platform";
 
-const headerOptions: Record<TColumn, { name: string; size: number }> = {
-  destination: {
-    name: "Destinasjon",
-    size: 3,
-  },
-  line: {
-    name: "Linje",
-    size: 1,
-  },
-  time: {
-    name: "Avgang",
-    size: 1,
-  },
-  platform: {
-    name: "Plattform",
-    size: 1,
-  },
-};
-
 const columnComponents: Record<TColumn, () => JSX.Element> = {
   destination: Destination,
   line: Line,
@@ -34,26 +15,42 @@ const columnComponents: Record<TColumn, () => JSX.Element> = {
   platform: Platform,
 };
 
+function flexToPercentage(columnSettings: TColumnSetting[]) {
+  const flexToPercentage = columnSettings.reduce(
+    (acc, val) => acc + (val.size ?? 1),
+    0
+  );
+
+  const perc = 100 / flexToPercentage;
+
+  return columnSettings.map((set) => ({
+    ...set,
+    size: (set.size ?? 1) * perc,
+  }));
+}
+
 function Table({
-  columns,
+  columns = [],
   departures,
 }: {
-  columns: TColumn[];
+  columns?: TColumnSetting[];
   departures: TDeparture[];
 }) {
+  const columnSizes = flexToPercentage(columns);
+
   return (
     <div className={classes.container}>
       <table className={classes.table}>
         <thead>
           <tr>
-            {columns.map((col) => (
+            {columnSizes.map((col) => (
               <th
                 style={{
-                  width: `${headerOptions[col].size}%`,
+                  width: col.size,
                 }}
-                key={col}
+                key={col.type}
               >
-                {headerOptions[col].name}
+                {Columns[col.type]}
               </th>
             ))}
           </tr>
@@ -65,8 +62,8 @@ function Table({
             >
               <DepartureContext.Provider value={departure}>
                 {columns.map((col) => {
-                  const Component = columnComponents[col];
-                  return <Component key={col} />;
+                  const Component = columnComponents[col.type];
+                  return <Component key={col.type} />;
                 })}
               </DepartureContext.Provider>
             </tr>
