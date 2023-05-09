@@ -22,7 +22,12 @@ import { useStopPlaceSettingsDataQuery } from 'graphql-generated/journey-planner
 import { uniq, xor } from 'lodash'
 import { fieldsNotNull } from 'utils/typeguards'
 import { ColumnSetting } from 'lite/components/ColumnSetting'
-import { Columns, TColumn, TStopPlaceTile } from 'lite/types/tile'
+import {
+    Columns,
+    TColumn,
+    TStopPlaceTile,
+    TColumnSetting,
+} from 'lite/types/tile'
 import { AddColumnSettings } from 'lite/components/AddColumnSettings'
 import globals from 'lite/styles/global.module.css'
 import { DeleteIcon } from '@entur/icons'
@@ -58,8 +63,8 @@ function StopPlaceSettings({
         const { active, over } = event
 
         if (over && active.id !== over.id) {
-            const oldIndex = columns.indexOf(active.id as TColumn)
-            const newIndex = columns.indexOf(over.id as TColumn)
+            const oldIndex = columns.findIndex((col) => col.type === active.id)
+            const newIndex = columns.findIndex((col) => col.type === over.id)
 
             setTile({
                 ...tile,
@@ -71,14 +76,14 @@ function StopPlaceSettings({
     const addColumn = (newColumn: TColumn) => {
         setTile({
             ...tile,
-            columns: [...(tile.columns || []), newColumn],
+            columns: [...(tile.columns || []), { type: newColumn }],
         })
     }
 
     const deleteColumn = (columnToDelete: TColumn) => {
         setTile({
             ...tile,
-            columns: columns.filter((column) => column !== columnToDelete),
+            columns: columns.filter((column) => column.type !== columnToDelete),
         })
     }
 
@@ -137,21 +142,21 @@ function StopPlaceSettings({
                 </div>
                 <div className={classes.columnContainer}>
                     <SortableContext
-                        items={columns}
+                        items={columns.map(({ type }) => type)}
                         strategy={horizontalListSortingStrategy}
                     >
-                        {columns.map((column: TColumn) => (
+                        {columns.map((column: TColumnSetting) => (
                             <ColumnSetting
-                                key={column}
+                                key={column.type}
                                 column={column}
-                                deleteColumn={() => deleteColumn(column)}
+                                deleteColumn={() => deleteColumn(column.type)}
                             />
                         ))}
                     </SortableContext>
                     {columns.length < Object.keys(Columns).length && (
                         <AddColumnSettings
                             addColumn={addColumn}
-                            selectedColumns={columns}
+                            selectedColumns={columns.map(({ type }) => type)}
                         />
                     )}
                 </div>

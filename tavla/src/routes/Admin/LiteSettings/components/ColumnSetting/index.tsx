@@ -1,17 +1,23 @@
 import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
+import { CSS, type Transform } from '@dnd-kit/utilities'
 import classNames from 'classnames'
-import { Columns, TColumn } from 'lite/types/tile'
+import { Columns, TColumnSetting } from 'lite/types/tile'
 import globals from 'lite/styles/global.module.css'
 import { DeleteIcon, DraggableIcon } from '@entur/icons'
 import classes from './styles.module.css'
+
+function restrictXScale(transform: Transform | null) {
+    if (!transform) return undefined
+
+    return CSS.Transform.toString({ ...transform, scaleX: 1 })
+}
 
 function ColumnSetting({
     column,
     deleteColumn,
 }: {
-    column: TColumn
+    column: TColumnSetting
     deleteColumn: () => void
 }) {
     const {
@@ -21,12 +27,13 @@ function ColumnSetting({
         transform,
         transition,
         isDragging,
-    } = useSortable({ id: column })
+    } = useSortable({ id: column.type })
 
     const positionStyle = {
-        transform: CSS.Transform.toString(transform),
+        transform: restrictXScale(transform),
         transition,
         zIndex: isDragging ? 1 : 0,
+        flex: column.size,
     }
 
     return (
@@ -41,7 +48,7 @@ function ColumnSetting({
                 })}
             >
                 <div className={globals.flexBetween}>
-                    {Columns[column]}
+                    {Columns[column.type]}
                     <div className={globals.flexBetween}>
                         <button
                             className={globals.button}
@@ -53,7 +60,7 @@ function ColumnSetting({
                             className={globals.button}
                             {...attributes}
                             {...listeners}
-                            aria-label={column}
+                            aria-label={column.type}
                         >
                             <DraggableIcon size={16} />
                         </div>

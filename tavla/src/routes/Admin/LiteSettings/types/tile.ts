@@ -22,6 +22,7 @@ export const Columns = {
 } as const
 
 export type TColumn = keyof typeof Columns
+export type TColumnSetting = { type: TColumn; size?: number }
 
 type TBaseTile = {
     placeId: string
@@ -30,14 +31,14 @@ type TBaseTile = {
 
 export type TQuayTile = {
     type: 'quay'
-    columns?: TColumn[]
+    columns?: TColumnSetting[]
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportMode[]
 } & TBaseTile
 
 export type TStopPlaceTile = {
     type: 'stop_place'
-    columns?: TColumn[]
+    columns?: TColumnSetting[]
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportMode[]
 } & TBaseTile
