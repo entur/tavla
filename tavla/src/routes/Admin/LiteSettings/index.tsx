@@ -9,6 +9,7 @@ import { TilesSettings } from 'lite/components/TilesSettings'
 import { ThemeSettings } from 'lite/components/ThemeSettings'
 import { AddTile } from 'lite/components/NewTileSettings'
 import { Button } from '@entur/button'
+import classes from './styles.module.css'
 
 function LiteSettingsLoader() {
     const { documentId } = useParams<{ documentId: string }>()
@@ -75,7 +76,7 @@ function LiteSettings({
     }
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div className={classes.settings}>
             <ThemeSettings theme={settings.theme} setTheme={setTheme} />
             <TilesSettings tiles={settings.tiles} setTiles={setTiles} />
             <AddTile addTile={addTile} />
