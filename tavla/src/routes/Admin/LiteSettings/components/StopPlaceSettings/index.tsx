@@ -34,6 +34,7 @@ import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { Switch } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
+import { SortableTileWrapper } from '../SortableTileWrapper'
 import classes from './styles.module.css'
 
 function StopPlaceSettings({
@@ -106,11 +107,7 @@ function StopPlaceSettings({
     )
 
     return (
-        <DndContext
-            onDragEnd={handleColumnSwap}
-            sensors={sensors}
-            modifiers={[restrictToHorizontalAxis, restrictToParentElement]}
-        >
+        <SortableTileWrapper id={tile.uuid}>
             <div className={classes.stopPlaceTile}>
                 <div className={classes.tileHeader}>
                     {loading ? (
@@ -141,27 +138,40 @@ function StopPlaceSettings({
                     </ExpandablePanel>
                 </div>
                 <div className={classes.columnContainer}>
-                    <SortableContext
-                        items={columns.map(({ type }) => type)}
-                        strategy={horizontalListSortingStrategy}
+                    <DndContext
+                        onDragEnd={handleColumnSwap}
+                        sensors={sensors}
+                        modifiers={[
+                            restrictToHorizontalAxis,
+                            restrictToParentElement,
+                        ]}
                     >
-                        {columns.map((column: TColumnSetting) => (
-                            <ColumnSetting
-                                key={column.type}
-                                column={column}
-                                deleteColumn={() => deleteColumn(column.type)}
+                        <SortableContext
+                            items={columns.map(({ type }) => type)}
+                            strategy={horizontalListSortingStrategy}
+                        >
+                            {columns.map((column: TColumnSetting) => (
+                                <ColumnSetting
+                                    key={column.type}
+                                    column={column}
+                                    deleteColumn={() =>
+                                        deleteColumn(column.type)
+                                    }
+                                />
+                            ))}
+                        </SortableContext>
+                        {columns.length < Object.keys(Columns).length && (
+                            <AddColumnSettings
+                                addColumn={addColumn}
+                                selectedColumns={columns.map(
+                                    ({ type }) => type,
+                                )}
                             />
-                        ))}
-                    </SortableContext>
-                    {columns.length < Object.keys(Columns).length && (
-                        <AddColumnSettings
-                            addColumn={addColumn}
-                            selectedColumns={columns.map(({ type }) => type)}
-                        />
-                    )}
+                        )}
+                    </DndContext>
                 </div>
             </div>
-        </DndContext>
+        </SortableTileWrapper>
     )
 }
 

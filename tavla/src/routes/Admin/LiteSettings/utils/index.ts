@@ -1,12 +1,4 @@
 import { CLIENT_NAME } from 'utils/constants'
-import { TTile } from 'lite/types/tile'
-
-export function addUUID(tile: TTile, index?: number) {
-    return {
-        ...tile,
-        uuid: index ? `${Date.now()}_${index}` : Date.now().toString(),
-    }
-}
 
 const endpoint = process.env.GEOCODER_HOST ?? 'https://api.entur.io/geocoder/v1'
 

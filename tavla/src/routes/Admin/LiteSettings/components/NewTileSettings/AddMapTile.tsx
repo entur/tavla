@@ -1,6 +1,7 @@
 import React from 'react'
 import { TMapTile } from 'lite/types/tile'
 import { fetchItems } from 'lite/utils'
+import { nanoid } from 'nanoid'
 import { Dropdown } from '@entur/dropdown'
 
 function AddMapTile({ setTile }: { setTile: (tile: TMapTile) => void }) {
@@ -13,7 +14,11 @@ function AddMapTile({ setTile }: { setTile: (tile: TMapTile) => void }) {
             clearable
             onChange={(e) => {
                 if (e?.value) {
-                    setTile({ type: 'map', placeId: e.value })
+                    setTile({
+                        type: 'map',
+                        placeId: e.value,
+                        uuid: nanoid(),
+                    })
                 }
             }}
         />

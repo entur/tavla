@@ -13304,6 +13304,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoid@npm:4.0.2":
+  version: 4.0.2
+  resolution: "nanoid@npm:4.0.2"
+  bin:
+    nanoid: bin/nanoid.js
+  checksum: 747c399cea4664dd0be1d0ec498ffd1ef8f1f5221676fc8b577e3f46f66d9afcddb9595d63d19a2e78d0bc6cc33984f65e66bf1682c850b9e26288883d96b53f
+  languageName: node
+  linkType: hard
+
 "nanoid@npm:^3.3.4":
   version: 3.3.4
   resolution: "nanoid@npm:3.3.4"
@@ -17129,6 +17138,7 @@ __metadata:
     husky: ^8.0.0
     jest: ^29.4.3
     lodash: 4.17.21
+    nanoid: 4.0.2
     pinst: ^3.0.0
     postcss: 8.4.20
     postcss-loader: 7.0.2
