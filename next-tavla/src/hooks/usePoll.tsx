@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 function usePoll<T>(func: () => Promise<T>, ms = 30000) {
-  const [data, setData] = useState<T | undefined>();
+    const [data, setData] = useState<T | undefined>()
 
-  useEffect(() => {
-    func().then(setData);
+    useEffect(() => {
+        func().then(setData)
 
-    const interval = setInterval(async () => {
-      func().then(setData);
-    }, ms);
+        const interval = setInterval(async () => {
+            func().then(setData)
+        }, ms)
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [func, ms]);
+        return () => {
+            clearInterval(interval)
+        }
+    }, [func, ms])
 
-  return data;
+    return data
 }
 
-export { usePoll };
+export { usePoll }
