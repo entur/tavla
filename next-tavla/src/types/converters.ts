@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import { TSettings } from "./settings";
 
 const latestUpgrade = V4;
@@ -32,7 +33,7 @@ function V3(setting: Any) {
   return v3;
 }
 
-function V2(setting: TBaseSetting) {
+export function V2(setting: TBaseSetting) {
   const v2 = {
     ...setting,
     tiles: setting.tiles.map((tile) => {
@@ -40,6 +41,7 @@ function V2(setting: TBaseSetting) {
         return {
           ...tile,
           columns: tile.columns?.map((column) => ({ type: column })),
+          uuid: nanoid(),
         };
       }
       return tile;
