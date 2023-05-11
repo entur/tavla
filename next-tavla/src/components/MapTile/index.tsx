@@ -1,7 +1,7 @@
-import { TMapTile } from "@/types/tile";
+import { TMapTile } from '@/types/tile'
 
 function MapTile({ placeId }: TMapTile) {
-  return <div className="tile">{placeId}</div>;
+    return <div className="tile">{placeId}</div>
 }
 
-export { MapTile };
+export { MapTile }

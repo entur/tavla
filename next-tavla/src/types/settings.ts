@@ -1,8 +1,8 @@
-import { TTile } from "./tile";
+import { TTile } from './tile'
 
-export type TTheme = "default" | "dark" | "light";
+export type TTheme = 'default' | 'dark' | 'light'
 
 export type TSettings = {
-  tiles: TTile[];
-  theme?: TTheme;
-};
+    tiles: TTile[]
+    theme?: TTheme
+}

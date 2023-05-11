@@ -1,35 +1,36 @@
-import { TTransportMode } from "./graphql/schema";
+import { TTransportMode } from './graphql/schema'
 
 export const Columns = {
-  destination: "Destinasjon",
-  line: "Linje",
-  platform: "Plattform",
-  time: "Avgangstid",
-} as const;
+    destination: 'Destinasjon',
+    line: 'Linje',
+    platform: 'Plattform',
+    time: 'Avgangstid',
+} as const
 
-export type TColumn = keyof typeof Columns;
-export type TColumnSetting = { type: TColumn; size?: number };
+export type TColumn = keyof typeof Columns
+export type TColumnSetting = { type: TColumn; size?: number }
 
 type TBaseTile = {
-  placeId: string;
-};
+    placeId: string
+    uuid?: string
+}
 
 export type TQuayTile = {
-  type: "quay";
-  columns?: TColumnSetting[];
-  whitelistedLines?: string[];
-  whitelistedTransportModes?: TTransportMode[];
-} & TBaseTile;
+    type: 'quay'
+    columns?: TColumnSetting[]
+    whitelistedLines?: string[]
+    whitelistedTransportModes?: TTransportMode[]
+} & TBaseTile
 
 export type TStopPlaceTile = {
-  type: "stop_place";
-  columns?: TColumnSetting[];
-  whitelistedLines?: string[];
-  whitelistedTransportModes?: TTransportMode[];
-} & TBaseTile;
+    type: 'stop_place'
+    columns?: TColumnSetting[]
+    whitelistedLines?: string[]
+    whitelistedTransportModes?: TTransportMode[]
+} & TBaseTile
 
 export type TMapTile = {
-  type: "map";
-} & TBaseTile;
+    type: 'map'
+} & TBaseTile
 
-export type TTile = TStopPlaceTile | TMapTile | TQuayTile;
+export type TTile = TStopPlaceTile | TMapTile | TQuayTile

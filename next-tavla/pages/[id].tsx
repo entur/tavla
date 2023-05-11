@@ -1,39 +1,39 @@
-import { Board } from "@/components/Board";
-import { Header } from "@/components/Header";
-import { TSettings } from "@/types/settings";
-import { getBoardSettings } from "@/utils/firebase";
+import { Board } from '@/components/Board'
+import { Header } from '@/components/Header'
+import { TSettings } from '@/types/settings'
+import { getBoardSettings } from '@/utils/firebase'
 
 export async function getServerSideProps({
-  params,
+    params,
 }: {
-  params: { id: string };
+    params: { id: string }
 }) {
-  const { id } = params;
+    const { id } = params
 
-  const settings: TSettings | undefined = await getBoardSettings(id);
+    const settings: TSettings | undefined = await getBoardSettings(id)
 
-  if (!settings) {
+    if (!settings) {
+        return {
+            notFound: true,
+        }
+    }
+
     return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      settings,
-    },
-  };
+        props: {
+            settings,
+        },
+    }
 }
 
 function BoardPage({ settings }: { settings: TSettings }) {
-  return (
-    <div className="root" data-theme={settings.theme}>
-      <div className="root-container">
-        <Header theme={settings.theme} />
-        <Board settings={settings} />
-      </div>
-    </div>
-  );
+    return (
+        <div className="root" data-theme={settings.theme}>
+            <div className="root-container">
+                <Header theme={settings.theme} />
+                <Board settings={settings} />
+            </div>
+        </div>
+    )
 }
 
-export default BoardPage;
+export default BoardPage
