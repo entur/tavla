@@ -1,7 +1,11 @@
-import { TSettings } from 'types/settings'
+import { TSettings, TTheme } from 'types/settings'
 import { AddTile } from './components/NewTileSettings'
 import { ThemeSettings } from './components/ThemeSettings'
 import { TilesSettings } from './components/TilesSettings'
+import { useState } from 'react'
+import { TTile } from 'types/tile'
+import classes from './styles.module.css'
+import { setBoardSettings } from 'utils/firebase'
 
 function Admin({
     initialSettings,
@@ -18,7 +22,7 @@ function Admin({
             tiles,
         })
 
-    const setTheme = (theme: Theme) => {
+    const setTheme = (theme: TTheme) => {
         setSettings({
             ...settings,
             theme,
@@ -40,7 +44,7 @@ function Admin({
             <button
                 className="button"
                 onClick={() => {
-                    setFirebaseSettings(documentId, settings)
+                    setBoardSettings(documentId, settings)
                 }}
             >
                 Lagre instillinger

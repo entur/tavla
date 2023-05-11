@@ -12,7 +12,7 @@ export type TColumnSetting = { type: TColumn; size?: number }
 
 type TBaseTile = {
     placeId: string
-    uuid?: string
+    uuid: string
 }
 
 export type TQuayTile = {

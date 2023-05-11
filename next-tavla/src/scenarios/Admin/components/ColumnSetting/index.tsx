@@ -3,7 +3,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS, type Transform } from '@dnd-kit/utilities'
 import classNames from 'classnames'
 import { Columns, TColumnSetting } from 'types/tile'
-import globals from 'styles/global.module.css'
+// import globals from 'styles/global.module.css'
 import { DeleteIcon, DraggableIcon } from '@entur/icons'
 import classes from './styles.module.css'
 
@@ -47,17 +47,14 @@ function ColumnSetting({
                     [classes.dragging]: isDragging,
                 })}
             >
-                <div className={globals.flexBetween}>
+                <div className=".flexBetween">
                     {Columns[column.type]}
-                    <div className={globals.flexBetween}>
-                        <button
-                            className={globals.button}
-                            onClick={deleteColumn}
-                        >
+                    <div className=".flexBetween">
+                        <button className=".button" onClick={deleteColumn}>
                             <DeleteIcon size={16} />
                         </button>
                         <div
-                            className={globals.button}
+                            className=".button"
                             {...attributes}
                             {...listeners}
                             aria-label={column.type}

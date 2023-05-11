@@ -1,9 +1,0 @@
-query QuaysSearch($stopPlaceId: String!) @api(name: journey_planner_v3) {
-	stopPlace(id: $stopPlaceId) {
-		quays(filterByInUse: true) {
-			id
-			publicCode
-			description
-		}
-	}
-}

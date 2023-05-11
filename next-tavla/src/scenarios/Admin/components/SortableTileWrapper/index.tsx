@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import globals from 'styles/global.module.css'
 import { DraggableIcon } from '@entur/icons'
 
 function SortableTileWrapper({
@@ -32,7 +31,7 @@ function SortableTileWrapper({
             style={{ ...positionStyle, position: 'relative' }}
         >
             <div
-                className={globals.button}
+                className=".button"
                 {...attributes}
                 {...listeners}
                 aria-label="TODO: tile endre rekkefolge"

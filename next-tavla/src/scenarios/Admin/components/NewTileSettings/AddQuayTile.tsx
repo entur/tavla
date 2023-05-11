@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { fetchItems } from 'utils/index'
-import { useQuaysSearchLazyQuery } from 'graphql-generated/journey-planner-v3'
-import { isNotNullOrUndefined } from 'utils/typeguards'
+// import { isNotNullOrUndefined } from 'utils/typeguards'
 import { TQuayTile } from 'types/tile'
 import { nanoid } from 'nanoid'
 import { Dropdown } from '@entur/dropdown'
+import { quaySearchQuery } from 'graphql/queries/quaySearch'
+import { TGetQuaysSearch } from 'types/graphql'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 
 function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
     const [stopPlaceId, setStopPlaceId] = useState<string | undefined>()
 
-    const [getQuays, { data }] = useQuaysSearchLazyQuery({
-        fetchPolicy: 'cache-and-network',
-    })
+    const [data, setData] = useState<TGetQuaysSearch | undefined>(undefined)
 
-    const data = quaySearchQuery()
+    useEffect(() => {
+        if (!stopPlaceId) return
+        quaySearchQuery({ stopPlaceId: stopPlaceId }).then(setData)
+    }, [stopPlaceId])
 
     const quays =
         data?.stopPlace?.quays?.filter(isNotNullOrUndefined).map((quay) => ({
             value: quay.id,
             label: [quay.publicCode, quay.description].join(' '),
         })) || []
-
-    useEffect(() => {
-        if (!stopPlaceId) return
-
-        getQuays({ variables: { stopPlaceId } })
-    }, [getQuays, stopPlaceId])
 
     return (
         <div>

@@ -1,5 +1,4 @@
-/* eslint-disable func-style */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     DndContext,
     useSensors,
@@ -18,19 +17,19 @@ import {
     restrictToHorizontalAxis,
     restrictToParentElement,
 } from '@dnd-kit/modifiers'
-import { useStopPlaceSettingsDataQuery } from 'graphql-generated/journey-planner-v3'
 import { uniq, xor } from 'lodash'
 import { fieldsNotNull } from 'utils/typeguards'
-import { ColumnSetting } from 'components/ColumnSetting'
+import { ColumnSetting } from '../ColumnSetting'
 import { Columns, TColumn, TStopPlaceTile, TColumnSetting } from 'types/tile'
-import { AddColumnSettings } from 'components/AddColumnSettings'
-import globals from 'styles/global.module.css'
+import { AddColumnSettings } from '../AddColumnSettings'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { Switch } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
 import { SortableTileWrapper } from '../SortableTileWrapper'
 import classes from './styles.module.css'
+import { TStopPlaceSettingsData } from 'types/graphql'
+import { stopPlaceSettingsQuery } from 'graphql/queries/stopPlaceSettings'
 
 function StopPlaceSettings({
     tile,
@@ -50,10 +49,14 @@ function StopPlaceSettings({
         }),
     )
 
-    const { data, loading } = useStopPlaceSettingsDataQuery({
-        variables: { id: tile.placeId },
-        fetchPolicy: 'cache-and-network',
-    })
+    const [data, setData] = useState<TStopPlaceSettingsData | undefined>(
+        undefined,
+    )
+
+    useEffect(() => {
+        if (!tile.placeId) return
+        stopPlaceSettingsQuery({ id: tile.placeId }).then(setData)
+    }, [tile.placeId])
 
     const handleColumnSwap = (event: DragEndEvent) => {
         const { active, over } = event
@@ -105,12 +108,8 @@ function StopPlaceSettings({
         <SortableTileWrapper id={tile.uuid}>
             <div className={classes.stopPlaceTile}>
                 <div className={classes.tileHeader}>
-                    {loading ? (
-                        <Loader />
-                    ) : (
-                        data?.stopPlace?.name ?? tile.placeId
-                    )}
-                    <button className={globals.button} onClick={removeSelf}>
+                    {!data ? <Loader /> : data.stopPlace?.name ?? tile.placeId}
+                    <button className=".button" onClick={removeSelf}>
                         <DeleteIcon size={16} />
                     </button>
                 </div>
