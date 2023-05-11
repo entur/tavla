@@ -1,5 +1,5 @@
-import { Situation } from '@/components/Situation'
-import { useNonNullContext } from '@/hooks/useNonNullContext'
+import { Situation } from 'components/Situation'
+import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DepartureContext } from '../contexts'
 import classes from './styles.module.css'
 

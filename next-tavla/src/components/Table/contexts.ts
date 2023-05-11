@@ -1,4 +1,4 @@
-import { TDeparture } from '@/types/graphql'
+import { TDeparture } from 'types/graphql'
 import React from 'react'
 
 const DepartureContext = React.createContext<TDeparture | undefined>(undefined)

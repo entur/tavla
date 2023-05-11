@@ -1,0 +1,12 @@
+query StopPlaceSettingsData($id: String!) @api(name: journey_planner_v3) {
+    stopPlace(id: $id) {
+        name
+        quays(filterByInUse: true) {
+            lines {
+                id
+                publicCode
+                name
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import { TSettings } from '@/types/settings'
+import { TSettings } from 'types/settings'
 import { initializeApp } from 'firebase/app'
 import {
     getDoc,
@@ -7,7 +7,7 @@ import {
     collection,
     getFirestore,
 } from '@firebase/firestore/lite'
-import { firebaseConfig } from '@/assets/firebaseConfig'
+import { firebaseConfig } from 'assets/firebaseConfig'
 
 const app = initializeApp(firebaseConfig)
 

@@ -1,8 +1,8 @@
-import TavlaLogo from '@/assets/logos/Tavla-white.svg'
-import TavlaLogoLight from '@/assets/logos/Tavla-blue.svg'
+import TavlaLogo from 'assets/logos/Tavla-white.svg'
+import TavlaLogoLight from 'assets/logos/Tavla-blue.svg'
 import Image from 'next/image'
 import classes from './styles.module.css'
-import { TTheme } from '@/types/settings'
+import { TTheme } from 'types/settings'
 
 function Header({ theme }: { theme?: TTheme }) {
     return (

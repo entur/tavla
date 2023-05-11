@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
-import { TStopPlaceTile } from '@/types/tile'
-import { Table } from '@/components/Table'
-import { stopPlaceQuery } from '@/graphql/queries/stopPlace'
-import { usePoll } from '@/hooks/usePoll'
+import { TStopPlaceTile } from 'types/tile'
+import { Table } from 'components/Table'
+import { stopPlaceQuery } from 'graphql/queries/stopPlace'
+import { usePoll } from 'hooks/usePoll'
 import classes from './styles.module.css'
 
 export function StopPlaceTile({

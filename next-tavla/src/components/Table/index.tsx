@@ -1,5 +1,5 @@
-import { TDeparture } from '@/types/graphql'
-import { Columns, TColumn, TColumnSetting } from '@/types/tile'
+import { TDeparture } from 'types/graphql'
+import { Columns, TColumn, TColumnSetting } from 'types/tile'
 import React from 'react'
 import classes from './styles.module.css'
 import { DepartureContext } from './contexts'

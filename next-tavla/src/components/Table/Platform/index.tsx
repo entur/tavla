@@ -1,4 +1,4 @@
-import { useNonNullContext } from '@/hooks/useNonNullContext'
+import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DepartureContext } from '../contexts'
 
 function Platform() {

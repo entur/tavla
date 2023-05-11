@@ -1,5 +1,5 @@
-import { TTransportMode } from '@/types/graphql/schema'
-import { TColors } from '@/utils/colors'
+import { TTransportMode } from 'types/graphql/schema'
+import { TColors } from 'utils/colors'
 import { SVGProps } from 'react'
 import classes from './styles.module.css'
 

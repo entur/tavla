@@ -1,4 +1,4 @@
-import { TPresentation, TTransportMode } from '@/types/graphql/schema'
+import { TPresentation, TTransportMode } from 'types/graphql/schema'
 
 export type TColors = { backgroundColor: string; color: string }
 

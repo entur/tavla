@@ -1,5 +1,5 @@
-import { useNonNullContext } from '@/hooks/useNonNullContext'
-import { getPresentation } from '@/utils/colors'
+import { useNonNullContext } from 'hooks/useNonNullContext'
+import { getPresentation } from 'utils/colors'
 import { TransportIcon } from '../../TransportIcon'
 import { DepartureContext } from '../contexts'
 

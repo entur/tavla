@@ -16,6 +16,11 @@
         "build-start": "next build && next start"
     },
     "dependencies": {
+        "@dnd-kit/core": "6.0.8",
+        "@dnd-kit/modifiers": "6.0.1",
+        "@dnd-kit/sortable": "7.0.2",
+        "@dnd-kit/utilities": "3.2.1",
+        "@entur/dropdown": "4.0.9",
         "@entur/tokens": "3.8.1",
         "@firebase/database-types": "0.10.4",
         "firebase": "9.18.0",

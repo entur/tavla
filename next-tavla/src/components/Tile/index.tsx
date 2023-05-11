@@ -1,4 +1,4 @@
-import { TTile } from '@/types/tile'
+import { TTile } from 'types/tile'
 import { StopPlaceTile } from '../StopPlaceTile'
 import { MapTile } from '../MapTile'
 import { QuayTile } from '../QuayTile'

@@ -1,5 +1,5 @@
-import { Board } from 'components/Board'
 import { Header } from 'components/Header'
+import { Admin } from 'scenarios/Admin'
 import { TSettings } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
 
@@ -21,19 +21,20 @@ export async function getServerSideProps({
     return {
         props: {
             settings,
+            id,
         },
     }
 }
 
-function BoardPage({ settings }: { settings: TSettings }) {
+function AdminPage({ settings, id }: { settings: TSettings; id: string }) {
     return (
         <div className="root" data-theme={settings.theme}>
             <div className="root-container">
                 <Header theme={settings.theme} />
-                <Board settings={settings} />
+                <Admin initialSettings={settings} documentId={id} />
             </div>
         </div>
     )
 }
 
-export default BoardPage
+export default AdminPage

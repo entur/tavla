@@ -1,5 +1,5 @@
-import { useNonNullContext } from '@/hooks/useNonNullContext'
-import { formatTime, getRelativeTimeString } from '@/utils/time'
+import { useNonNullContext } from 'hooks/useNonNullContext'
+import { formatTime, getRelativeTimeString } from 'utils/time'
 import { DepartureContext } from '../contexts'
 
 import classes from './styles.module.css'
