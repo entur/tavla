@@ -7,9 +7,9 @@ import { TSettings } from 'lite/types/settings'
 import { getFirebaseSettings, setFirebaseSettings } from 'lite/utils/firebase'
 import { TilesSettings } from 'lite/components/TilesSettings'
 import { ThemeSettings } from 'lite/components/ThemeSettings'
-import { addUUID } from 'lite/utils'
 import { AddTile } from 'lite/components/NewTileSettings'
 import { Button } from '@entur/button'
+import classes from './styles.module.css'
 
 function LiteSettingsLoader() {
     const { documentId } = useParams<{ documentId: string }>()
@@ -53,10 +53,7 @@ function LiteSettings({
     initialSettings: TSettings
     documentId: string
 }) {
-    const [settings, setSettings] = useState<TSettings>({
-        ...initialSettings,
-        tiles: initialSettings.tiles.map(addUUID),
-    })
+    const [settings, setSettings] = useState<TSettings>(initialSettings)
 
     const setTiles = (tiles: TTile[]) =>
         setSettings({
@@ -74,12 +71,12 @@ function LiteSettings({
     const addTile = (tile: TTile) => {
         setSettings({
             ...settings,
-            tiles: [...settings.tiles, addUUID(tile, settings.tiles.length)],
+            tiles: [...settings.tiles, tile],
         })
     }
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div className={classes.settings}>
             <ThemeSettings theme={settings.theme} setTheme={setTheme} />
             <TilesSettings tiles={settings.tiles} setTiles={setTiles} />
             <AddTile addTile={addTile} />

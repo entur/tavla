@@ -1,6 +1,7 @@
 import React from 'react'
 import { TStopPlaceTile } from 'lite/types/tile'
 import { fetchItems } from 'lite/utils'
+import { nanoid } from 'nanoid'
 import { Dropdown } from '@entur/dropdown'
 
 function AddStopPlaceTile({
@@ -17,7 +18,11 @@ function AddStopPlaceTile({
             clearable
             onChange={(e) => {
                 if (e?.value) {
-                    setTile({ type: 'stop_place', placeId: e.value })
+                    setTile({
+                        type: 'stop_place',
+                        placeId: e.value,
+                        uuid: nanoid(),
+                    })
                 }
             }}
         />

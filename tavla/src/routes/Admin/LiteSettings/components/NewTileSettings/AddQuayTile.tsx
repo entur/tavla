@@ -3,6 +3,7 @@ import { fetchAutocomplete } from 'utils/geocoder/fetchAutocomplete'
 import { useQuaysSearchLazyQuery } from 'graphql-generated/journey-planner-v3'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { TQuayTile } from 'lite/types/tile'
+import { nanoid } from 'nanoid'
 import { Dropdown } from '@entur/dropdown'
 
 function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
@@ -45,6 +46,7 @@ function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
                             setTile({
                                 type: 'quay',
                                 placeId: e.value,
+                                uuid: nanoid(),
                             })
                         }
                     }}
