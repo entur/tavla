@@ -1,5 +1,5 @@
 import { Board } from 'scenarios/Board'
-import { Header } from 'scenarios/Header'
+import { Header } from 'components/Header'
 import { TSettings } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
 import classes from './styles.module.css'

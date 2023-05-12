@@ -1,7 +1,7 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { getPresentation } from 'utils/colors'
-import { TransportIcon } from '../../TransportIcon'
-import { DepartureContext } from '../contexts'
+import { TransportIcon } from '../TransportIcon'
+import { DepartureContext } from '../../contexts'
 
 function Line() {
     const departure = useNonNullContext(DepartureContext)

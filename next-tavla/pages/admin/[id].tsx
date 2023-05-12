@@ -1,4 +1,4 @@
-import { Header } from 'scenarios/Header'
+import { Header } from 'components/Header'
 import { Admin } from 'scenarios/Admin'
 import { TSettings } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'

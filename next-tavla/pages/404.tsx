@@ -1,4 +1,4 @@
-import { Header } from 'scenarios/Header'
+import { Header } from 'components/Header'
 
 function NotFoundPage() {
     return (

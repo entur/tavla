@@ -1,6 +1,6 @@
-import { Situation } from 'scenarios/Situation'
+import { Situation } from '../Situation'
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import { DepartureContext } from '../contexts'
+import { DepartureContext } from '../../contexts'
 import classes from './styles.module.css'
 
 function Destination() {

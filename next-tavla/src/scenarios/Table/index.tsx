@@ -3,10 +3,10 @@ import { Columns, TColumn, TColumnSetting } from 'types/tile'
 import React from 'react'
 import classes from './styles.module.css'
 import { DepartureContext } from './contexts'
-import { Time } from './Time'
-import { Destination } from './Destination'
-import { Line } from './Line'
-import { Platform } from './Platform'
+import { Time } from './components/Time'
+import { Destination } from './components/Destination'
+import { Line } from './components/Line'
+import { Platform } from './components/Platform'
 
 const columnComponents: Record<TColumn, () => JSX.Element> = {
     destination: Destination,
