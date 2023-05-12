@@ -17,7 +17,7 @@ import {
     restrictToHorizontalAxis,
     restrictToParentElement,
 } from '@dnd-kit/modifiers'
-import { uniq, xor } from 'lodash'
+import { uniqBy, xor } from 'lodash'
 import { fieldsNotNull } from 'utils/typeguards'
 import { ColumnSettings } from '../ColumnSettings'
 import { Columns, TColumn, TStopPlaceTile, TColumnSetting } from 'types/tile'
@@ -96,11 +96,12 @@ function StopPlaceSettings({
         })
     }
 
-    const lines = uniq(
+    const lines =
         data?.stopPlace?.quays
             ?.flatMap((q) => q?.lines)
-            .filter(fieldsNotNull) || [],
-    ).sort((a, b) =>
+            .filter(fieldsNotNull) || []
+
+    const uniqLines = uniqBy(lines, 'id').sort((a, b) =>
         a.publicCode.localeCompare(b.publicCode, 'no-NB', { numeric: true }),
     )
 
@@ -115,7 +116,7 @@ function StopPlaceSettings({
                 </div>
                 <div className={classes.lineToggleContainer}>
                     <ExpandablePanel title="Velg linjer">
-                        {lines.map((line) => (
+                        {uniqLines.map((line) => (
                             <div key={line.id}>
                                 <Switch
                                     checked={tile.whitelistedLines?.includes(
