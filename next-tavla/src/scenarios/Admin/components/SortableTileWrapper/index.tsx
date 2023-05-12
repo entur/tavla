@@ -31,7 +31,7 @@ function SortableTileWrapper({
             style={{ ...positionStyle, position: 'relative' }}
         >
             <div
-                className=".button"
+                className="button"
                 {...attributes}
                 {...listeners}
                 aria-label="TODO: tile endre rekkefolge"

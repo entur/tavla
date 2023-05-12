@@ -109,7 +109,7 @@ function StopPlaceSettings({
             <div className={classes.stopPlaceTile}>
                 <div className={classes.tileHeader}>
                     {!data ? <Loader /> : data.stopPlace?.name ?? tile.placeId}
-                    <button className=".button" onClick={removeSelf}>
+                    <button className="button" onClick={removeSelf}>
                         <DeleteIcon size={16} />
                     </button>
                 </div>

@@ -3,7 +3,7 @@
     width: 100%;
     padding: 1rem;
     border-radius: 0.5rem;
-    background-color: var(--tavla-box-background-color);
+    background-color: var(--secondary-background-color);
     color: white;
 }
 

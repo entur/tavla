@@ -47,14 +47,14 @@ function ColumnSetting({
                     [classes.dragging]: isDragging,
                 })}
             >
-                <div className=".flexBetween">
+                <div className="flexBetween">
                     {Columns[column.type]}
-                    <div className=".flexBetween">
-                        <button className=".button" onClick={deleteColumn}>
+                    <div className="flexBetween">
+                        <button className="button" onClick={deleteColumn}>
                             <DeleteIcon size={16} />
                         </button>
                         <div
-                            className=".button"
+                            className="button"
                             {...attributes}
                             {...listeners}
                             aria-label={column.type}
