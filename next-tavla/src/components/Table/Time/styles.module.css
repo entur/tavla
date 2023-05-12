@@ -5,7 +5,7 @@
 
 .aimedDepartureTime {
   text-decoration: line-through;
-  font-size: 0.66rem;
+  font-size: 0.66em;
 }
 
 .expectedDepartureTime {

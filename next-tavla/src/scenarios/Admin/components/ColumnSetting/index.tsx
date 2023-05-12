@@ -3,7 +3,6 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS, type Transform } from '@dnd-kit/utilities'
 import classNames from 'classnames'
 import { Columns, TColumnSetting } from 'types/tile'
-// import globals from 'styles/global.module.css'
 import { DeleteIcon, DraggableIcon } from '@entur/icons'
 import classes from './styles.module.css'
 

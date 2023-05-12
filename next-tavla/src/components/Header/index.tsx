@@ -6,7 +6,7 @@ import { TTheme } from 'types/settings'
 
 function Header({ theme }: { theme?: TTheme }) {
     return (
-        <div className={classes.header}>
+        <div>
             {theme === 'light' ? (
                 <Image
                     src={TavlaLogoLight}

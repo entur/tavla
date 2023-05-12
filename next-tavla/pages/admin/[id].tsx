@@ -2,6 +2,7 @@ import { Header } from 'components/Header'
 import { Admin } from 'scenarios/Admin'
 import { TSettings } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
+import classes from './styles.module.css'
 
 export async function getServerSideProps({
     params,
@@ -28,11 +29,9 @@ export async function getServerSideProps({
 
 function AdminPage({ settings, id }: { settings: TSettings; id: string }) {
     return (
-        <div className="root" data-theme={settings.theme}>
-            <div className="root-container">
-                <Header theme={settings.theme} />
-                <Admin initialSettings={settings} documentId={id} />
-            </div>
+        <div className={classes.root}>
+            <Header theme={settings.theme} />
+            <Admin initialSettings={settings} documentId={id} />
         </div>
     )
 }

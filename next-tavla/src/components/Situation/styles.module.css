@@ -1,6 +1,6 @@
 .situation {
   color: var(--table-situation-color);
-  font-size: 0.5rem;
+  font-size: 0.5em;
   display: flex;
   align-items: center;
 }
@@ -14,5 +14,5 @@
   fill: var(--table-situation-color);
   display: flex;
   align-items: center;
-  margin-right: 0.1rem;
+  margin-right: 0.1em;
 }
