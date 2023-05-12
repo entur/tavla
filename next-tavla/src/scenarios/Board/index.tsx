@@ -1,4 +1,4 @@
-import { Tile } from 'components/Tile'
+import { Tile } from 'scenarios/Tile'
 import { TSettings } from 'types/settings'
 import classes from './styles.module.css'
 

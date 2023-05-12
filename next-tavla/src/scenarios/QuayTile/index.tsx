@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { TQuayTile } from 'types/tile'
-import { Table } from 'components/Table'
+import { Table } from 'scenarios/Table'
 import { quayQuery } from 'graphql/queries/quay'
 import { usePoll } from 'hooks/usePoll'
 import classes from './styles.module.css'

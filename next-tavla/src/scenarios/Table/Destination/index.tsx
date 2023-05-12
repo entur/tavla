@@ -1,4 +1,4 @@
-import { Situation } from 'components/Situation'
+import { Situation } from 'scenarios/Situation'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DepartureContext } from '../contexts'
 import classes from './styles.module.css'
