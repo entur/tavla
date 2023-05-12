@@ -41,7 +41,7 @@ export function getPresentation(
 
     const color = presentation?.textColour
         ? `#${presentation.textColour}`
-        : 'var(--primary-background-color)'
+        : 'var(--main-background-color)'
 
     return {
         backgroundColor: presentationBackgroundColor ?? defaultBackgroundColor,

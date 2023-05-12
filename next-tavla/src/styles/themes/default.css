@@ -1,7 +1,7 @@
 :root {
-  --primary-background-color: var(--colors-brand-blue);
+  --main-background-color: var(--colors-brand-blue);
   --secondary-background-color: var(--colors-blues-blue10);
-  --primary-text-color: var(--colors-brand-white);
+  --main-text-color: var(--colors-brand-white);
 
   --table-border-color: var(--colors-blues-blue30);
   --table-situation-color: var(--colors-validation-canary-contrast);

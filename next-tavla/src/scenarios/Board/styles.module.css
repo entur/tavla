@@ -4,7 +4,7 @@
   gap: 10px;
   height: 100%;
   overflow: hidden;
-  color: var(--primary-font-color);
+  color: var(--main-font-color);
 }
 
 @supports not (display: grid) {

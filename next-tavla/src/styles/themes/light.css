@@ -1,8 +1,8 @@
 [data-theme="light"] {
-  --primary-background-color: var(--colors-brand-white);
+  --main-background-color: var(--colors-brand-white);
 
   --secondary-background-color: var(--colors-greys-grey80);
-  --primary-text-color: var(--colors-misc-black);
+  --main-text-color: var(--colors-misc-black);
 
   --table-border-color: var(--colors-greys-grey60);
   --table-situation-color: var(--colors-misc-black);

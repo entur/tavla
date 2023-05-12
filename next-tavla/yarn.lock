@@ -1145,7 +1145,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/icons@npm:^6.3.0":
+"@entur/icons@npm:6.3.0, @entur/icons@npm:^6.3.0":
   version: 6.3.0
   resolution: "@entur/icons@npm:6.3.0"
   dependencies:
@@ -1155,6 +1155,22 @@ __metadata:
     react-dom: ">=16.8.0"
     sass: ^1.58.0
   checksum: 176a4022c3d0e9a8ae714f1e85a722987b9df65d47e8512bffad754b2b4d5f1cb12978a6c7ca3a199c32573ea011e0c8fd47f7a447bea89cca45fd4401693d86
+  languageName: node
+  linkType: hard
+
+"@entur/layout@npm:2.1.33":
+  version: 2.1.33
+  resolution: "@entur/layout@npm:2.1.33"
+  dependencies:
+    "@entur/icons": ^6.3.0
+    "@entur/tokens": ^3.9.0
+    "@entur/typography": ^1.8.0
+    "@entur/utils": ^0.9.0
+    classnames: ^2.3.1
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 345f0b8b8baccb183dfef02bb66a19b427696fb7cead1468631f9ebcce600dd5cfccd6476b676430f1427218288c67254f87d1c4f1a78630f80417647763bfba
   languageName: node
   linkType: hard
 
@@ -1238,6 +1254,22 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 4ff30f0509d3931f9979c572d978878f4d227facfe98f6ca57ca997bf16fd2872d93f6f500850f9368089c8e62fdaf3da9dce22b02b972959e5b7a61c1522f68
+  languageName: node
+  linkType: hard
+
+"@entur/typography@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "@entur/typography@npm:1.8.0"
+  dependencies:
+    "@entur/icons": 6.3.0
+    "@entur/tokens": ^3.9.0
+    "@entur/utils": ^0.9.0
+    classnames: ^2.3.1
+    normalize-scss: ^7.0.1
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: ee191133cb520962b7d05a6b09107ffed7fbc0a3bcfebf84a1731f78d583291fc7bd16b9457ff1655ff92f79511c499ea7538ef940dd4c84de142469f3914ff6
   languageName: node
   linkType: hard
 
@@ -9763,6 +9795,7 @@ __metadata:
     "@dnd-kit/utilities": 3.2.1
     "@entur/dropdown": 4.0.9
     "@entur/expand": 3.4.0
+    "@entur/layout": 2.1.33
     "@entur/tokens": 3.8.1
     "@firebase/database-types": 0.10.4
     "@graphql-codegen/cli": 3.2.2
