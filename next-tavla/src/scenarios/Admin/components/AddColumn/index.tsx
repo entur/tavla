@@ -5,7 +5,7 @@ import { Button } from '@entur/button'
 import { Radio, RadioGroup } from '@entur/form'
 import classes from './styles.module.css'
 
-function AddColumnSettings({
+function AddColumn({
     selectedColumns,
     addColumn,
 }: {
@@ -46,4 +46,4 @@ function AddColumnSettings({
     )
 }
 
-export { AddColumnSettings }
+export { AddColumn }

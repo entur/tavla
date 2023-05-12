@@ -1,5 +1,5 @@
 import { TSettings, TTheme } from 'types/settings'
-import { AddTile } from './components/NewTileSettings'
+import { AddTile } from './components/AddTile'
 import { ThemeSettings } from './components/ThemeSettings'
 import { TilesSettings } from './components/TilesSettings'
 import { useState } from 'react'

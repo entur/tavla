@@ -19,9 +19,9 @@ import {
 } from '@dnd-kit/modifiers'
 import { uniq, xor } from 'lodash'
 import { fieldsNotNull } from 'utils/typeguards'
-import { ColumnSetting } from '../ColumnSetting'
+import { ColumnSettings } from '../ColumnSettings'
 import { Columns, TColumn, TStopPlaceTile, TColumnSetting } from 'types/tile'
-import { AddColumnSettings } from '../AddColumnSettings'
+import { AddColumn } from '../AddColumn'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { Switch } from '@entur/form'
@@ -145,7 +145,7 @@ function StopPlaceSettings({
                             strategy={horizontalListSortingStrategy}
                         >
                             {columns.map((column: TColumnSetting) => (
-                                <ColumnSetting
+                                <ColumnSettings
                                     key={column.type}
                                     column={column}
                                     deleteColumn={() =>
@@ -155,7 +155,7 @@ function StopPlaceSettings({
                             ))}
                         </SortableContext>
                         {columns.length < Object.keys(Columns).length && (
-                            <AddColumnSettings
+                            <AddColumn
                                 addColumn={addColumn}
                                 selectedColumns={columns.map(
                                     ({ type }) => type,

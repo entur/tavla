@@ -12,7 +12,7 @@ function restrictXScale(transform: Transform | null) {
     return CSS.Transform.toString({ ...transform, scaleX: 1 })
 }
 
-function ColumnSetting({
+function ColumnSettings({
     column,
     deleteColumn,
 }: {
@@ -67,4 +67,4 @@ function ColumnSetting({
     )
 }
 
-export { ColumnSetting }
+export { ColumnSettings }
