@@ -1,6 +1,6 @@
 import { createQuery, gql } from '../utils'
 import { departureFragment } from '../fragments/departure'
-import { TGetStopPlace, TGetStopPlaceVariables } from '@/types/graphql'
+import { TGetStopPlace, TGetStopPlaceVariables } from 'types/graphql'
 
 const stopPlaceQuery = createQuery<TGetStopPlace, TGetStopPlaceVariables>(
     gql`

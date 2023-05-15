@@ -1,0 +1,27 @@
+.container {
+  height: 100%;
+  overflow: hidden;
+}
+
+.table {
+  text-align: left;
+  height: 100%;
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0.25em 0;
+}
+
+.table tr {
+  border-bottom: 2px solid var(--table-border-color);
+}
+
+.table thead tr {
+  border-bottom: 4px solid var(--table-border-color);
+}

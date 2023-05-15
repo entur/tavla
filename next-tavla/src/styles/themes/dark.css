@@ -1,5 +1,5 @@
 [data-theme="dark"] {
-  --primary-background-color: var(--colors-misc-black);
+  --main-background-color: var(--colors-misc-black);
   --secondary-background-color: var(--colors-greys-grey);
 
   --table-border-color: var(--colors-greys-grey10);

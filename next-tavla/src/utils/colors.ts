@@ -1,4 +1,4 @@
-import { TPresentation, TTransportMode } from '@/types/graphql/schema'
+import { TPresentation, TTransportMode } from 'types/graphql/schema'
 
 export type TColors = { backgroundColor: string; color: string }
 
@@ -41,7 +41,7 @@ export function getPresentation(
 
     const color = presentation?.textColour
         ? `#${presentation.textColour}`
-        : 'var(--primary-background-color)'
+        : 'var(--main-background-color)'
 
     return {
         backgroundColor: presentationBackgroundColor ?? defaultBackgroundColor,

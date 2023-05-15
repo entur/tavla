@@ -13,6 +13,13 @@ export type TGetQuayVariables = Types.Exact<{
 
 export type TGetQuay = { __typename?: 'QueryType', quay: { __typename?: 'Quay', name: string, description: string | null, publicCode: string | null, estimatedCalls: Array<{ __typename?: 'EstimatedCall', aimedDepartureTime: DateTime, expectedDepartureTime: DateTime, cancellation: boolean, quay: { __typename?: 'Quay', publicCode: string | null }, destinationDisplay: { __typename?: 'DestinationDisplay', frontText: string | null } | null, serviceJourney: { __typename?: 'ServiceJourney', id: string, transportMode: Types.TTransportMode | null, transportSubmode: Types.TTransportSubmode | null, line: { __typename?: 'Line', id: string, publicCode: string | null, presentation: { __typename?: 'Presentation', textColour: string | null, colour: string | null } | null } }, situations: Array<{ __typename?: 'PtSituationElement', id: string, description: Array<{ __typename?: 'MultilingualString', value: string, language: string | null }>, summary: Array<{ __typename?: 'MultilingualString', value: string, language: string | null }> }> }> } | null };
 
+export type TGetQuaysSearchVariables = Types.Exact<{
+  stopPlaceId: Types.Scalars['String'];
+}>;
+
+
+export type TGetQuaysSearch = { __typename?: 'QueryType', stopPlace: { __typename?: 'StopPlace', quays: Array<{ __typename?: 'Quay', id: string, publicCode: string | null, description: string | null } | null> | null } | null };
+
 export type TGetStopPlaceVariables = Types.Exact<{
   stopPlaceId: Types.Scalars['String'];
   whitelistedTransportModes?: Types.InputMaybe<Array<Types.InputMaybe<Types.TTransportMode>> | Types.InputMaybe<Types.TTransportMode>>;
@@ -21,3 +28,10 @@ export type TGetStopPlaceVariables = Types.Exact<{
 
 
 export type TGetStopPlace = { __typename?: 'QueryType', stopPlace: { __typename?: 'StopPlace', name: string, estimatedCalls: Array<{ __typename?: 'EstimatedCall', aimedDepartureTime: DateTime, expectedDepartureTime: DateTime, cancellation: boolean, quay: { __typename?: 'Quay', publicCode: string | null }, destinationDisplay: { __typename?: 'DestinationDisplay', frontText: string | null } | null, serviceJourney: { __typename?: 'ServiceJourney', id: string, transportMode: Types.TTransportMode | null, transportSubmode: Types.TTransportSubmode | null, line: { __typename?: 'Line', id: string, publicCode: string | null, presentation: { __typename?: 'Presentation', textColour: string | null, colour: string | null } | null } }, situations: Array<{ __typename?: 'PtSituationElement', id: string, description: Array<{ __typename?: 'MultilingualString', value: string, language: string | null }>, summary: Array<{ __typename?: 'MultilingualString', value: string, language: string | null }> }> }> } | null };
+
+export type TStopPlaceSettingsDataVariables = Types.Exact<{
+  id: Types.Scalars['String'];
+}>;
+
+
+export type TStopPlaceSettingsData = { __typename?: 'QueryType', stopPlace: { __typename?: 'StopPlace', name: string, quays: Array<{ __typename?: 'Quay', lines: Array<{ __typename?: 'Line', id: string, publicCode: string | null, name: string | null }> } | null> | null } | null };

@@ -1,7 +1,8 @@
-import { Board } from '@/components/Board'
-import { Header } from '@/components/Header'
-import { TSettings } from '@/types/settings'
-import { getBoardSettings } from '@/utils/firebase'
+import { Board } from 'scenarios/Board'
+import { Header } from 'components/Header'
+import { TSettings } from 'types/settings'
+import { getBoardSettings } from 'utils/firebase'
+import classes from 'styles/board.module.css'
 
 export async function getServerSideProps({
     params,
@@ -27,8 +28,8 @@ export async function getServerSideProps({
 
 function BoardPage({ settings }: { settings: TSettings }) {
     return (
-        <div className="root" data-theme={settings.theme}>
-            <div className="root-container">
+        <div className={classes.root} data-theme={settings.theme}>
+            <div className={classes.rootContainer}>
                 <Header theme={settings.theme} />
                 <Board settings={settings} />
             </div>

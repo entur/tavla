@@ -1,13 +1,14 @@
-import { TSettings } from '@/types/settings'
+import { TSettings } from 'types/settings'
 import { initializeApp } from 'firebase/app'
 import {
     getDoc,
     addDoc,
+    setDoc,
     doc,
     collection,
     getFirestore,
 } from '@firebase/firestore/lite'
-import { firebaseConfig } from '@/assets/firebaseConfig'
+import { firebaseConfig } from 'assets/firebaseConfig'
 
 const app = initializeApp(firebaseConfig)
 
@@ -18,10 +19,11 @@ export async function getBoardSettings(boardId: string) {
     return document.data() as TSettings
 }
 
-export async function setBoardSettings(settings: TSettings) {
-    const document = await addDoc(
-        collection(firestore, 'settings-v2'),
-        settings,
-    )
-    console.log(document)
+export async function setBoardSettings(boardId: string, settings: TSettings) {
+    const docRef = doc(firestore, 'settings-v2', boardId)
+    await setDoc(docRef, settings)
+}
+
+export async function addBoardSettings(settings: TSettings) {
+    await addDoc(collection(firestore, 'settings-v2'), settings)
 }
