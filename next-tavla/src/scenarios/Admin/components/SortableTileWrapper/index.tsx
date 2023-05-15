@@ -1,15 +1,23 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { DraggableIcon } from '@entur/icons'
+import { DraggableAttributes } from '@dnd-kit/core'
+import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities'
 
 function SortableTileWrapper({
     id,
     children,
+    setHandle,
 }: {
     id: string
     children: React.ReactNode
-}) {
+    setHandle: Dispatch<
+        SetStateAction<{
+            attributes: DraggableAttributes
+            listeners: SyntheticListenerMap | undefined
+        }>
+    >
+}): JSX.Element {
     const {
         setNodeRef,
         transform,
@@ -25,19 +33,15 @@ function SortableTileWrapper({
         zIndex: isDragging ? 1 : 0,
     }
 
+    useEffect(() => {
+        setHandle({ attributes, listeners })
+    }, [attributes, listeners, setHandle])
+
     return (
         <div
             ref={setNodeRef}
             style={{ ...positionStyle, position: 'relative' }}
         >
-            <div
-                className="button"
-                {...attributes}
-                {...listeners}
-                aria-label="TODO: tile endre rekkefolge"
-            >
-                <DraggableIcon size={16} />
-            </div>
             {children}
         </div>
     )

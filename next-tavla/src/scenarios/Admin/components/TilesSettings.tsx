@@ -61,7 +61,7 @@ function TilesSettings({
             modifiers={[restrictToVerticalAxis, restrictToParentElement]}
         >
             <SortableContext items={tiles.map(({ uuid }) => uuid)}>
-                <div>
+                <div className="flexColumn">
                     {tiles.map((tile, index) => {
                         const setIndexedTile = (newtile: TTile) => {
                             setTile(index, newtile)

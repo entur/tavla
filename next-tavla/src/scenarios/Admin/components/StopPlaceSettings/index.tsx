@@ -6,6 +6,7 @@ import {
     useSensor,
     PointerSensor,
     KeyboardSensor,
+    DraggableAttributes,
 } from '@dnd-kit/core'
 import {
     arrayMove,
@@ -30,6 +31,8 @@ import { SortableTileWrapper } from '../SortableTileWrapper'
 import classes from './styles.module.css'
 import { TStopPlaceSettingsData } from 'types/graphql'
 import { stopPlaceSettingsQuery } from 'graphql/queries/stopPlaceSettings'
+import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities'
+import { DraggableIcon } from '@entur/icons'
 
 function StopPlaceSettings({
     tile,
@@ -105,14 +108,31 @@ function StopPlaceSettings({
         a.publicCode.localeCompare(b.publicCode, 'no-NB', { numeric: true }),
     )
 
+    const [handle, setHandle] = useState<
+        | { attributes: DraggableAttributes; listeners: SyntheticListenerMap }
+        | undefined
+    >(undefined)
+
     return (
-        <SortableTileWrapper id={tile.uuid}>
+        <SortableTileWrapper id={tile.uuid} setHandle={setHandle}>
             <div className={classes.stopPlaceTile}>
                 <div className={classes.tileHeader}>
                     {!data ? <Loader /> : data.stopPlace?.name ?? tile.placeId}
-                    <button className="button" onClick={removeSelf}>
-                        <DeleteIcon size={16} />
-                    </button>
+                    <div className="flexBetween">
+                        <button className="button" onClick={removeSelf}>
+                            <DeleteIcon size={16} />
+                        </button>
+                        {handle && (
+                            <div
+                                className="button"
+                                {...handle.attributes}
+                                {...handle.listeners}
+                                aria-label="TODO: tile endre rekkefolge"
+                            >
+                                <DraggableIcon size={16} />
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <div className={classes.lineToggleContainer}>
                     <ExpandablePanel title="Velg linjer">

@@ -53,3 +53,9 @@ h3 {
     display: flex;
     justify-content: space-between;
 }
+
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
