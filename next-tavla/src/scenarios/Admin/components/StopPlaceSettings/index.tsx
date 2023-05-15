@@ -109,7 +109,10 @@ function StopPlaceSettings({
     )
 
     const [handle, setHandle] = useState<
-        | { attributes: DraggableAttributes; listeners: SyntheticListenerMap }
+        | {
+              attributes: DraggableAttributes
+              listeners: SyntheticListenerMap | undefined
+          }
         | undefined
     >(undefined)
 

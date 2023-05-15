@@ -12,10 +12,13 @@ function SortableTileWrapper({
     id: string
     children: React.ReactNode
     setHandle: Dispatch<
-        SetStateAction<{
-            attributes: DraggableAttributes
-            listeners: SyntheticListenerMap | undefined
-        }>
+        SetStateAction<
+            | {
+                  attributes: DraggableAttributes
+                  listeners: SyntheticListenerMap | undefined
+              }
+            | undefined
+        >
     >
 }): JSX.Element {
     const {
