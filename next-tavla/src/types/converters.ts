@@ -1,53 +1,44 @@
 import { nanoid } from 'nanoid'
 import { TSettings } from './settings'
 
-const latestUpgrade = V4
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function convertSettingsVersion(settings: any): TSettings {
+    const upgradedSettings = versions
+        .slice(0, settings.version)
+        .reduceRight((prevSettings, converters) => {
+            return converters(prevSettings)
+        }, settings)
 
-export function upgradeType(setting: Any): TSettings {
-    return latestUpgrade(setting)
+    return {
+        ...upgradedSettings,
+        version: versions.length,
+    } as ReturnType<(typeof versions)[0]>
 }
 
-function previousVersion<T, R>(
-    setting: Any,
-    version: number,
-    converterFunction: (setting: T) => R,
-): R {
-    let settingToConvert = setting
-    if (setting.version !== version) {
-        settingToConvert = converterFunction(setting)
+const versions = [V2, V1] as const
+
+export function V2(setting: ReturnType<typeof V1>) {
+    return {
+        ...setting,
+        tiles: setting.tiles.map((tile) => ({ ...tile, uuid: nanoid() })),
     }
-    return settingToConvert
 }
 
-function V4(setting: Any) {
-    const v3 = previousVersion(setting, 3, V3)
-    // Do converter things
-    const v4 = v3
-    return v4
-}
-
-function V3(setting: Any) {
-    const v2 = previousVersion(setting, 2, V2)
-    // Do converter things
-    const v3 = v2
-    return v3
-}
-
-export function V2(setting: TBaseSetting) {
-    const v2 = {
+export function V1(setting: TBaseSetting) {
+    return {
         ...setting,
         tiles: setting.tiles.map((tile) => {
             if (tile.type === 'stop_place' || tile.type === 'quay') {
                 return {
                     ...tile,
-                    columns: tile.columns?.map((column) => ({ type: column })),
-                    uuid: nanoid(),
+                    columns: tile.columns?.map((column) => ({
+                        type: column,
+                    })),
                 }
             }
             return tile
         }),
     }
-    return v2
 }
 
 type TBaseColumn = 'destination' | 'line' | 'time' | 'platform'
