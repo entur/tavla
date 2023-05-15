@@ -2,7 +2,7 @@ import { Header } from 'components/Header'
 import { Admin } from 'scenarios/Admin'
 import { TSettings } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
-import classes from './styles.module.css'
+import classes from 'styles/admin.module.css'
 import { Contrast } from '@entur/layout'
 
 export async function getServerSideProps({
