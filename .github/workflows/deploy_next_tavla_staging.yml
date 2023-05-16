@@ -1,6 +1,9 @@
 name: Deploy Next Staging
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - 'next-firebase-action'
 
 jobs:
   deploy-staging:
