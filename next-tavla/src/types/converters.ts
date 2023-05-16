@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { nanoid } from 'nanoid'
 import { TSettings } from './settings'
 import { reverse } from 'lodash'
