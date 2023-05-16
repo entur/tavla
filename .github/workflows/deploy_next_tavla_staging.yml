@@ -3,7 +3,9 @@ name: Deploy Next Staging
 on:
   push:
     branches:
-      - 'next-firebase-action'
+      - master
+    paths:
+      - "next-tavla/**"
 
 jobs:
   deploy-staging:
