@@ -6,7 +6,6 @@ import {
     useSensor,
     PointerSensor,
     KeyboardSensor,
-    DraggableAttributes,
 } from '@dnd-kit/core'
 import {
     arrayMove,
@@ -31,8 +30,8 @@ import { SortableTileWrapper } from '../SortableTileWrapper'
 import classes from './styles.module.css'
 import { TStopPlaceSettingsData } from 'types/graphql'
 import { stopPlaceSettingsQuery } from 'graphql/queries/stopPlaceSettings'
-import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities'
 import { DraggableIcon } from '@entur/icons'
+import { useHandle } from 'hooks/useHandle'
 
 function StopPlaceSettings({
     tile,
@@ -108,13 +107,7 @@ function StopPlaceSettings({
         a.publicCode.localeCompare(b.publicCode, 'no-NB', { numeric: true }),
     )
 
-    const [handle, setHandle] = useState<
-        | {
-              attributes: DraggableAttributes
-              listeners: SyntheticListenerMap | undefined
-          }
-        | undefined
-    >(undefined)
+    const [handle, setHandle] = useHandle()
 
     return (
         <SortableTileWrapper id={tile.uuid} setHandle={setHandle}>
