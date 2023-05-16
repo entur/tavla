@@ -1,4 +1,4 @@
-import { V1, V2, convertSettingsVersion } from './converters'
+import { V1, V2, convertSettingsVersion, currentVersion } from './converters'
 
 jest.mock('nanoid', () => {
     return { nanoid: () => '1234' }
@@ -121,7 +121,7 @@ test('upgrade from v2 to v3', () => {
     })
 })
 
-test('upgrade from base to v2', () => {
+test('upgrade from base to latest version', () => {
     const start = {
         tiles: [
             {
@@ -138,7 +138,7 @@ test('upgrade from base to v2', () => {
     }
 
     const end = {
-        version: 2,
+        version: currentVersion,
         tiles: [
             {
                 type: 'stop_place',

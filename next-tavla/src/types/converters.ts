@@ -1,18 +1,21 @@
 import { nanoid } from 'nanoid'
 import { TSettings } from './settings'
+import { reverse } from 'lodash'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function convertSettingsVersion(settings: any): TSettings {
-    const upgradedSettings = versions
-        .slice(0, settings.version)
-        .reduceRight((prevSettings, converters) => {
+    const orderedVersions = reverse(versions)
+
+    const upgradedSettings: ReturnType<(typeof versions)[0]> = orderedVersions
+        .slice(settings.version)
+        .reduce((prevSettings, converters) => {
             return converters(prevSettings)
         }, settings)
 
     return {
         ...upgradedSettings,
-        version: versions.length,
-    } as ReturnType<(typeof versions)[0]>
+        version: currentVersion,
+    }
 }
 
 const versions = [V2, V1] as const
@@ -40,6 +43,8 @@ export function V1(setting: TBaseSetting) {
         }),
     }
 }
+
+export const currentVersion = versions.length
 
 type TBaseColumn = 'destination' | 'line' | 'time' | 'platform'
 
