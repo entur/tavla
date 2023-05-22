@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { TTile } from 'types/tile'
 import classes from './styles.module.css'
 import { setBoardSettings } from 'utils/firebase'
+import dynamic from 'next/dynamic'
 
 function Admin({
     initialSettings,
@@ -53,4 +54,9 @@ function Admin({
     )
 }
 
-export { Admin }
+// No SSR for Admin to fix hydration issues
+// caused by incompatible libraries (dnd-kit, @entur/dropdown)
+// https://github.com/clauderic/dnd-kit/issues/801
+const NonSSRAdmin = dynamic(() => Promise.resolve(Admin), { ssr: false })
+
+export { NonSSRAdmin as Admin }
