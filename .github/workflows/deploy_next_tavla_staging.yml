@@ -1,0 +1,28 @@
+name: Deploy Next Staging
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "next-tavla/**"
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: next-tavla
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: yarn install
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_DEPLOY_CREDENTIALS_STAGING }}"
+          projectId: entur-tavla-staging
+          channelId: live
+          entrypoint: ./next-tavla
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
