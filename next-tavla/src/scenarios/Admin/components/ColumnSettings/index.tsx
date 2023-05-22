@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { Columns, TColumnSetting } from 'types/tile'
 import { DeleteIcon, DraggableIcon } from '@entur/icons'
 import classes from './styles.module.css'
+import { SortableHandle } from '../SortableHandle'
 
 function restrictXScale(transform: Transform | null) {
     if (!transform) return undefined
@@ -19,14 +20,9 @@ function ColumnSettings({
     column: TColumnSetting
     deleteColumn: () => void
 }) {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging,
-    } = useSortable({ id: column.type })
+    const { setNodeRef, transform, transition, isDragging } = useSortable({
+        id: column.type,
+    })
 
     const positionStyle = {
         transform: restrictXScale(transform),
@@ -52,14 +48,7 @@ function ColumnSettings({
                         <button className="button" onClick={deleteColumn}>
                             <DeleteIcon size={16} />
                         </button>
-                        <div
-                            className="button"
-                            {...attributes}
-                            {...listeners}
-                            aria-label={column.type}
-                        >
-                            <DraggableIcon size={16} />
-                        </div>
+                        <SortableHandle id={column.type} />
                     </div>
                 </div>
             </div>

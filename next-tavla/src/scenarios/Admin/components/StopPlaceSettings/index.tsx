@@ -9,11 +9,9 @@ import { SortableTileWrapper } from '../SortableTileWrapper'
 import classes from './styles.module.css'
 import { TStopPlaceSettingsData } from 'types/graphql'
 import { stopPlaceSettingsQuery } from 'graphql/queries/stopPlaceSettings'
-import { DraggableIcon } from '@entur/icons'
-import { useHandle } from 'hooks/useHandle'
 import { TStopPlaceTile } from 'types/tile'
-import { TLine } from 'types/graphql/schema'
 import { SortableColumns } from '../SortableColumns'
+import { SortableHandle } from '../SortableHandle'
 
 function StopPlaceSettings({
     tile,
@@ -33,8 +31,6 @@ function StopPlaceSettings({
         stopPlaceSettingsQuery({ id: tile.placeId }).then(setData)
     }, [tile.placeId])
 
-    const [handle, setHandle] = useHandle()
-
     const lines =
         data?.stopPlace?.quays
             ?.flatMap((q) => q?.lines)
@@ -48,7 +44,7 @@ function StopPlaceSettings({
     })
 
     return (
-        <SortableTileWrapper id={tile.uuid} setHandle={setHandle}>
+        <SortableTileWrapper id={tile.uuid}>
             <div className={classes.stopPlaceTile}>
                 <div className={classes.tileHeader}>
                     {!data ? <Loader /> : data.stopPlace?.name ?? tile.placeId}
@@ -56,16 +52,7 @@ function StopPlaceSettings({
                         <button className="button" onClick={removeSelf}>
                             <DeleteIcon size={16} />
                         </button>
-                        {handle && (
-                            <div
-                                className="button"
-                                {...handle.attributes}
-                                {...handle.listeners}
-                                aria-label="TODO: tile endre rekkefolge"
-                            >
-                                <DraggableIcon size={16} />
-                            </div>
-                        )}
+                        <SortableHandle id={tile.uuid} />
                     </div>
                 </div>
                 <SelectLines

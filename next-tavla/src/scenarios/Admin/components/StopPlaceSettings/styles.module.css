@@ -7,10 +7,6 @@
     color: white;
 }
 
-.lineToggleContainer {
-    margin-bottom: 0.5em;
-}
-
 .tileHeader {
     display: flex;
     justify-content: space-between;
