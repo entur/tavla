@@ -4,8 +4,8 @@ jest.mock('nanoid', () => {
     return { nanoid: () => '1234' }
 })
 
-test('upgrade from base to v2', () => {
-    const v2 = V1({
+test('upgrade from base to v1', () => {
+    const v1 = V1({
         tiles: [
             {
                 type: 'stop_place',
@@ -20,7 +20,7 @@ test('upgrade from base to v2', () => {
         ],
     })
 
-    expect(v2).toStrictEqual({
+    expect(v1).toStrictEqual({
         tiles: [
             {
                 type: 'stop_place',
@@ -53,8 +53,8 @@ test('upgrade from base to v2', () => {
     })
 })
 
-test('upgrade from v2 to v3', () => {
-    const v3 = V2({
+test('upgrade from v1 to v2', () => {
+    const v2 = V2({
         tiles: [
             {
                 type: 'stop_place',
@@ -86,7 +86,7 @@ test('upgrade from v2 to v3', () => {
         ],
     })
 
-    expect(v3).toStrictEqual({
+    expect(v2).toStrictEqual({
         tiles: [
             {
                 type: 'stop_place',
