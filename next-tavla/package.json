@@ -8,6 +8,7 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
+        "build:prod": "NEXT_PUBLIC_ENV=prod next build",
         "test": "jest",
         "start": "next start",
         "generate": "graphql-codegen",
