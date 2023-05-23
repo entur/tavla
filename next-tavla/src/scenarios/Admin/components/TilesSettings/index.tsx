@@ -7,7 +7,7 @@ import {
     PointerSensor,
     KeyboardSensor,
 } from '@dnd-kit/core'
-import { TMapTile, TQuayTile, TTile } from 'types/tile'
+import { TQuayTile, TTile } from 'types/tile'
 import {
     SortableContext,
     arrayMove,
@@ -18,7 +18,6 @@ import {
     restrictToVerticalAxis,
 } from '@dnd-kit/modifiers'
 import React, { useEffect, useState } from 'react'
-import { uniqBy } from 'lodash'
 import { fieldsNotNull } from 'utils/typeguards'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
@@ -134,16 +133,9 @@ function StopPlaceSettings({
             ?.flatMap((q) => q?.lines)
             .filter(fieldsNotNull) || []
 
-    const uniqLines = uniqBy(lines, 'id').sort((a, b) => {
-        if (!a || !a.publicCode || !b || !b.publicCode) return 1
-        return a.publicCode.localeCompare(b.publicCode, 'no-NB', {
-            numeric: true,
-        })
-    })
-
     return (
         <SortableTileWrapper id={tile.uuid}>
-            <div className={classes.stopPlaceTile}>
+            <div className={classes.tableTile}>
                 <div className={classes.tileHeader}>
                     {!data ? <Loader /> : data.stopPlace?.name ?? tile.placeId}
                     <div className="flexBetween">
@@ -153,11 +145,7 @@ function StopPlaceSettings({
                         <SortableHandle id={tile.uuid} />
                     </div>
                 </div>
-                <SelectLines
-                    tile={tile}
-                    setTile={setTile}
-                    uniqLines={uniqLines}
-                />
+                <SelectLines tile={tile} setTile={setTile} lines={lines} />
                 <SortableColumns tile={tile} setTile={setTile} />
             </div>
         </SortableTileWrapper>
@@ -180,16 +168,10 @@ function QuaySettings({
         quayQuery({ quayId: tile.placeId }).then(setData)
     }, [tile.placeId])
 
-    const uniqLines = uniqBy(data?.quay?.lines, 'id').sort((a, b) => {
-        if (!a || !a.publicCode || !b || !b.publicCode) return 1
-        return a.publicCode.localeCompare(b.publicCode, 'no-NB', {
-            numeric: true,
-        })
-    })
-
+    const lines = data?.quay?.lines.filter(fieldsNotNull) ?? []
     return (
         <SortableTileWrapper id={tile.uuid}>
-            <div className={classes.stopPlaceTile}>
+            <div className={classes.tableTile}>
                 <div className={classes.tileHeader}>
                     {!data ? (
                         <Loader />
@@ -205,11 +187,7 @@ function QuaySettings({
                         <SortableHandle id={tile.uuid} />
                     </div>
                 </div>
-                <SelectLines
-                    tile={tile}
-                    setTile={setTile}
-                    uniqLines={uniqLines}
-                />
+                <SelectLines tile={tile} setTile={setTile} lines={lines} />
                 <SortableColumns tile={tile} setTile={setTile} />
             </div>
         </SortableTileWrapper>

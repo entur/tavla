@@ -2,16 +2,17 @@ import { Switch } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
 import { xor } from 'lodash'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
+import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
 
 function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     tile,
     setTile,
-    uniqLines,
+    lines,
 }: {
     tile: T
     setTile: (newTile: T) => void
-    uniqLines: { id: string; publicCode: string | null; name: string | null }[]
+    lines: { id: string; publicCode: string | null; name: string | null }[]
 }) {
     const toggleLine = (line: string) => {
         if (!tile.whitelistedLines)
@@ -22,6 +23,13 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
             whitelistedLines: xor(tile.whitelistedLines, [line]),
         })
     }
+
+    const uniqLines = uniqBy(lines, 'id').sort((a, b) => {
+        if (!a || !a.publicCode || !b || !b.publicCode) return 1
+        return a.publicCode.localeCompare(b.publicCode, 'no-NB', {
+            numeric: true,
+        })
+    })
 
     return (
         <div className={classes.lineToggleContainer}>
