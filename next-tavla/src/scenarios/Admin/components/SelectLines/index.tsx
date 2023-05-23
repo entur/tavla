@@ -1,7 +1,7 @@
 import { Switch } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
 import { xor } from 'lodash'
-import { TStopPlaceTile } from 'types/tile'
+import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import classes from './styles.module.css'
 
 function SelectLines({

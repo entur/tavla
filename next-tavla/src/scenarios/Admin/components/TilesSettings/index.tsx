@@ -24,8 +24,9 @@ import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { SortableTileWrapper } from '../SortableTileWrapper'
 import classes from './styles.module.css'
-import { TStopPlaceSettingsData } from 'types/graphql'
+import { TGetQuay, TStopPlaceSettingsData } from 'types/graphql'
 import { stopPlaceSettingsQuery } from 'graphql/queries/stopPlaceSettings'
+import { quayQuery } from 'graphql/queries/quay'
 import { TStopPlaceTile } from 'types/tile'
 import { SortableColumns } from '../SortableColumns'
 import { SortableHandle } from '../SortableHandle'
@@ -179,7 +180,35 @@ function QuaySettings({
     setTile: (newTile: TQuayTile) => void
     removeSelf: () => void
 }) {
-    return <div>Quay Tile</div>
+    const [data, setData] = useState<TGetQuay | undefined>(undefined)
+
+    useEffect(() => {
+        if (!tile.placeId) return
+        quayQuery({ quayId: tile.placeId }).then(setData)
+    }, [tile.placeId])
+
+    return (
+        <SortableTileWrapper id={tile.uuid}>
+            <div className={classes.stopPlaceTile}>
+                <div className={classes.tileHeader}>
+                    {!data ? (
+                        <Loader />
+                    ) : (
+                        (data.quay?.name ?? tile.placeId) +
+                        ' - ' +
+                        (data.quay?.description ?? data.quay?.publicCode)
+                    )}
+                    <div className="flexBetween">
+                        <button className="button" onClick={removeSelf}>
+                            <DeleteIcon size={16} />
+                        </button>
+                        <SortableHandle id={tile.uuid} />
+                    </div>
+                </div>
+                <SortableColumns tile={tile} setTile={setTile} />
+            </div>
+        </SortableTileWrapper>
+    )
 }
 
 function MapSettings({

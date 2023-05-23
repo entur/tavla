@@ -16,19 +16,25 @@ import {
     SortableContext,
     sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable'
-import { Columns, TColumn, TColumnSetting, TStopPlaceTile } from 'types/tile'
+import {
+    Columns,
+    TColumn,
+    TColumnSetting,
+    TQuayTile,
+    TStopPlaceTile,
+} from 'types/tile'
 import { AddColumn } from '../AddColumn'
 import { ColumnSettings } from '../ColumnSettings'
 import classes from './styles.module.css'
 
-function SortableColumns({
+function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
     tile,
     setTile,
 }: {
-    tile: TStopPlaceTile
-    setTile: (newTile: TStopPlaceTile) => void
+    tile: T
+    setTile: (newTile: T) => void
 }) {
-    const columns = tile.columns ?? []
+    const columns: TColumnSetting[] = tile.columns ?? []
 
     const sensors = useSensors(
         useSensor(PointerSensor),
