@@ -102,14 +102,7 @@ function TilesSettings({
                                     />
                                 )
                             case 'map':
-                                return (
-                                    <MapSettings
-                                        key={tile.uuid}
-                                        tile={tile}
-                                        setTile={setIndexedTile}
-                                        removeSelf={removeSelf}
-                                    />
-                                )
+                                return null
                         }
                     })}
                 </div>
@@ -221,18 +214,6 @@ function QuaySettings({
             </div>
         </SortableTileWrapper>
     )
-}
-
-function MapSettings({
-    tile,
-    setTile,
-    removeSelf,
-}: {
-    tile: TMapTile
-    setTile: (newTile: TMapTile) => void
-    removeSelf: () => void
-}) {
-    return <div>Map Tile</div>
 }
 
 export { TilesSettings }
