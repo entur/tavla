@@ -1,5 +1,4 @@
 import { TSettings, TTheme } from 'types/settings'
-import { AddTile } from './components/AddTile'
 import { ThemeSettings } from './components/ThemeSettings'
 import { TilesSettings } from './components/TilesSettings'
 import { useState } from 'react'
@@ -7,6 +6,7 @@ import { TTile } from 'types/tile'
 import classes from './styles.module.css'
 import { setBoardSettings } from 'utils/firebase'
 import dynamic from 'next/dynamic'
+import { AddTile } from './components/AddTile'
 
 function Admin({
     initialSettings,

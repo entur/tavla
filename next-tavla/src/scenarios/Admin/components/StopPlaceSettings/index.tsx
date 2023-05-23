@@ -1,27 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import {
-    DndContext,
-    useSensors,
-    type DragEndEvent,
-    useSensor,
-    PointerSensor,
-    KeyboardSensor,
-} from '@dnd-kit/core'
-import {
-    arrayMove,
-    horizontalListSortingStrategy,
-    SortableContext,
-    sortableKeyboardCoordinates,
-} from '@dnd-kit/sortable'
-import {
-    restrictToHorizontalAxis,
-    restrictToParentElement,
-} from '@dnd-kit/modifiers'
 import { uniqBy, xor } from 'lodash'
 import { fieldsNotNull } from 'utils/typeguards'
-import { ColumnSettings } from '../ColumnSettings'
-import { Columns, TColumn, TStopPlaceTile, TColumnSetting } from 'types/tile'
-import { AddColumn } from '../AddColumn'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { Switch } from '@entur/form'
@@ -32,6 +11,9 @@ import { TStopPlaceSettingsData } from 'types/graphql'
 import { stopPlaceSettingsQuery } from 'graphql/queries/stopPlaceSettings'
 import { DraggableIcon } from '@entur/icons'
 import { useHandle } from 'hooks/useHandle'
+import { TStopPlaceTile } from 'types/tile'
+import { TLine } from 'types/graphql/schema'
+import { SortableColumns } from '../SortableColumns'
 
 function StopPlaceSettings({
     tile,
@@ -42,15 +24,6 @@ function StopPlaceSettings({
     setTile: (newTile: TStopPlaceTile) => void
     removeSelf: () => void
 }) {
-    const columns = tile.columns ?? []
-
-    const sensors = useSensors(
-        useSensor(PointerSensor),
-        useSensor(KeyboardSensor, {
-            coordinateGetter: sortableKeyboardCoordinates,
-        }),
-    )
-
     const [data, setData] = useState<TStopPlaceSettingsData | undefined>(
         undefined,
     )
@@ -60,54 +33,19 @@ function StopPlaceSettings({
         stopPlaceSettingsQuery({ id: tile.placeId }).then(setData)
     }, [tile.placeId])
 
-    const handleColumnSwap = (event: DragEndEvent) => {
-        const { active, over } = event
-
-        if (over && active.id !== over.id) {
-            const oldIndex = columns.findIndex((col) => col.type === active.id)
-            const newIndex = columns.findIndex((col) => col.type === over.id)
-
-            setTile({
-                ...tile,
-                columns: arrayMove(columns, oldIndex, newIndex),
-            })
-        }
-    }
-
-    const addColumn = (newColumn: TColumn) => {
-        setTile({
-            ...tile,
-            columns: [...(tile.columns || []), { type: newColumn }],
-        })
-    }
-
-    const deleteColumn = (columnToDelete: TColumn) => {
-        setTile({
-            ...tile,
-            columns: columns.filter((column) => column.type !== columnToDelete),
-        })
-    }
-
-    const toggleLine = (line: string) => {
-        if (!tile.whitelistedLines)
-            return setTile({ ...tile, whitelistedLines: [line] })
-
-        return setTile({
-            ...tile,
-            whitelistedLines: xor(tile.whitelistedLines, [line]),
-        })
-    }
+    const [handle, setHandle] = useHandle()
 
     const lines =
         data?.stopPlace?.quays
             ?.flatMap((q) => q?.lines)
             .filter(fieldsNotNull) || []
 
-    const uniqLines = uniqBy(lines, 'id').sort((a, b) =>
-        a.publicCode.localeCompare(b.publicCode, 'no-NB', { numeric: true }),
-    )
-
-    const [handle, setHandle] = useHandle()
+    const uniqLines = uniqBy(lines, 'id').sort((a, b) => {
+        if (!a || !a.publicCode || !b || !b.publicCode) return 1
+        return a.publicCode.localeCompare(b.publicCode, 'no-NB', {
+            numeric: true,
+        })
+    })
 
     return (
         <SortableTileWrapper id={tile.uuid} setHandle={setHandle}>
@@ -130,59 +68,53 @@ function StopPlaceSettings({
                         )}
                     </div>
                 </div>
-                <div className={classes.lineToggleContainer}>
-                    <ExpandablePanel title="Velg linjer">
-                        {uniqLines.map((line) => (
-                            <div key={line.id}>
-                                <Switch
-                                    checked={tile.whitelistedLines?.includes(
-                                        line.id,
-                                    )}
-                                    onChange={() => {
-                                        toggleLine(line.id)
-                                    }}
-                                >
-                                    {line.publicCode} {line.name}
-                                </Switch>
-                            </div>
-                        ))}
-                    </ExpandablePanel>
-                </div>
-                <div className={classes.columnContainer}>
-                    <DndContext
-                        onDragEnd={handleColumnSwap}
-                        sensors={sensors}
-                        modifiers={[
-                            restrictToHorizontalAxis,
-                            restrictToParentElement,
-                        ]}
-                    >
-                        <SortableContext
-                            items={columns.map(({ type }) => type)}
-                            strategy={horizontalListSortingStrategy}
-                        >
-                            {columns.map((column: TColumnSetting) => (
-                                <ColumnSettings
-                                    key={column.type}
-                                    column={column}
-                                    deleteColumn={() =>
-                                        deleteColumn(column.type)
-                                    }
-                                />
-                            ))}
-                        </SortableContext>
-                        {columns.length < Object.keys(Columns).length && (
-                            <AddColumn
-                                addColumn={addColumn}
-                                selectedColumns={columns.map(
-                                    ({ type }) => type,
-                                )}
-                            />
-                        )}
-                    </DndContext>
-                </div>
+                <SelectLines
+                    tile={tile}
+                    setTile={setTile}
+                    uniqLines={uniqLines}
+                />
+                <SortableColumns tile={tile} setTile={setTile} />
             </div>
         </SortableTileWrapper>
+    )
+}
+
+function SelectLines({
+    tile,
+    setTile,
+    uniqLines,
+}: {
+    tile: TStopPlaceTile
+    setTile: (newTile: TStopPlaceTile) => void
+    uniqLines: any[]
+}) {
+    const toggleLine = (line: string) => {
+        if (!tile.whitelistedLines)
+            return setTile({ ...tile, whitelistedLines: [line] })
+
+        return setTile({
+            ...tile,
+            whitelistedLines: xor(tile.whitelistedLines, [line]),
+        })
+    }
+
+    return (
+        <div className={classes.lineToggleContainer}>
+            <ExpandablePanel title="Velg linjer">
+                {uniqLines.map((line) => (
+                    <div key={line.id}>
+                        <Switch
+                            checked={tile.whitelistedLines?.includes(line.id)}
+                            onChange={() => {
+                                toggleLine(line.id)
+                            }}
+                        >
+                            {line.publicCode} {line.name}
+                        </Switch>
+                    </div>
+                ))}
+            </ExpandablePanel>
+        </div>
     )
 }
 
