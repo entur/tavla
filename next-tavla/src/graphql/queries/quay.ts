@@ -1,10 +1,12 @@
 import { createQuery, gql } from '../utils'
 import { departureFragment } from '../fragments/departure'
 import { TGetQuay, TGetQuayVariables } from 'types/graphql'
+import { linesFragment } from 'graphql/fragments/lines'
 
 const quayQuery = createQuery<TGetQuay, TGetQuayVariables>(
     gql`
         ${departureFragment}
+        ${linesFragment}
         query getQuay(
             $quayId: String!
             $whitelistedTransportModes: [TransportMode]
@@ -14,6 +16,7 @@ const quayQuery = createQuery<TGetQuay, TGetQuayVariables>(
                 name
                 description
                 publicCode
+                ...lines
                 estimatedCalls(
                     numberOfDepartures: 20
                     whiteListedModes: $whitelistedTransportModes

@@ -1,3 +1,4 @@
+import { linesFragment } from 'graphql/fragments/lines'
 import {
     TStopPlaceSettingsData,
     TStopPlaceSettingsDataVariables,
@@ -9,15 +10,12 @@ const stopPlaceSettingsQuery = createQuery<
     TStopPlaceSettingsDataVariables
 >(
     gql`
+        ${linesFragment}
         query StopPlaceSettingsData($id: String!) {
             stopPlace(id: $id) {
                 name
                 quays(filterByInUse: true) {
-                    lines {
-                        id
-                        publicCode
-                        name
-                    }
+                    ...lines
                 }
             }
         }

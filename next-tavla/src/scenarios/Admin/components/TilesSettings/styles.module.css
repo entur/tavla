@@ -1,19 +1,10 @@
-.stopPlaceTile {
+.tableTile {
     height: 100%;
     width: 100%;
     padding: 1em;
     border-radius: 0.5em;
     background-color: var(--secondary-background-color);
     color: white;
-}
-
-.lineToggleContainer {
-    margin-bottom: 0.5em;
-}
-
-.columnContainer {
-    display: flex;
-    gap: 10px;
 }
 
 .tileHeader {
