@@ -187,6 +187,13 @@ function QuaySettings({
         quayQuery({ quayId: tile.placeId }).then(setData)
     }, [tile.placeId])
 
+    const uniqLines = uniqBy(data?.quay?.lines, 'id').sort((a, b) => {
+        if (!a || !a.publicCode || !b || !b.publicCode) return 1
+        return a.publicCode.localeCompare(b.publicCode, 'no-NB', {
+            numeric: true,
+        })
+    })
+
     return (
         <SortableTileWrapper id={tile.uuid}>
             <div className={classes.stopPlaceTile}>
@@ -205,6 +212,11 @@ function QuaySettings({
                         <SortableHandle id={tile.uuid} />
                     </div>
                 </div>
+                <SelectLines
+                    tile={tile}
+                    setTile={setTile}
+                    uniqLines={uniqLines}
+                />
                 <SortableColumns tile={tile} setTile={setTile} />
             </div>
         </SortableTileWrapper>

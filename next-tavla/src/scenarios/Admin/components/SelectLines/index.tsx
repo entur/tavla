@@ -4,14 +4,14 @@ import { xor } from 'lodash'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import classes from './styles.module.css'
 
-function SelectLines({
+function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     tile,
     setTile,
     uniqLines,
 }: {
-    tile: TStopPlaceTile
-    setTile: (newTile: TStopPlaceTile) => void
-    uniqLines: any[]
+    tile: T
+    setTile: (newTile: T) => void
+    uniqLines: { id: string; publicCode: string | null; name: string | null }[]
 }) {
     const toggleLine = (line: string) => {
         if (!tile.whitelistedLines)
@@ -29,7 +29,10 @@ function SelectLines({
                 {uniqLines.map((line) => (
                     <div key={line.id}>
                         <Switch
-                            checked={tile.whitelistedLines?.includes(line.id)}
+                            checked={
+                                tile.whitelistedLines?.includes(line.id) ??
+                                false
+                            }
                             onChange={() => {
                                 toggleLine(line.id)
                             }}
