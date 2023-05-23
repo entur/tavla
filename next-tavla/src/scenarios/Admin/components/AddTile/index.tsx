@@ -7,6 +7,7 @@ import { quaySearchQuery } from 'graphql/queries/quaySearch'
 import { nanoid } from 'nanoid'
 import { TGetQuaysSearch } from 'types/graphql'
 import { isNotNullOrUndefined } from 'utils/typeguards'
+import { useSettingsDispatch } from 'scenarios/Admin/reducer'
 
 const tileNames: Record<TTileType, string> = {
     map: 'Kart',
@@ -118,11 +119,13 @@ const components: Record<
     map: AddMapTile,
 }
 
-function AddTile({ addTile }: { addTile: (tile: TTile) => void }) {
+function AddTile() {
     const [tileType, setTileType] = useState<TTileType>('stop_place')
     const [tile, setTile] = useState<TTile | undefined>()
 
     const Component = components[tileType]
+
+    const dispatch = useSettingsDispatch()
 
     return (
         <div>
@@ -145,7 +148,10 @@ function AddTile({ addTile }: { addTile: (tile: TTile) => void }) {
                     variant="primary"
                     width="fluid"
                     onClick={() => {
-                        addTile(tile)
+                        dispatch({
+                            type: 'addTile',
+                            tile,
+                        })
                     }}
                 >
                     Legg til

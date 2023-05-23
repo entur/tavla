@@ -1,4 +1,3 @@
-import { clone } from 'lodash'
 import {
     DndContext,
     useSensors,
@@ -8,11 +7,7 @@ import {
     KeyboardSensor,
 } from '@dnd-kit/core'
 import { TQuayTile, TTile } from 'types/tile'
-import {
-    SortableContext,
-    arrayMove,
-    sortableKeyboardCoordinates,
-} from '@dnd-kit/sortable'
+import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import {
     restrictToParentElement,
     restrictToVerticalAxis,
@@ -30,20 +25,17 @@ import { TStopPlaceTile } from 'types/tile'
 import { SortableColumns } from '../SortableColumns'
 import { SortableHandle } from '../SortableHandle'
 import { SelectLines } from '../SelectLines'
+import { useSettingsDispatch } from 'scenarios/Admin/reducer'
 
-function TilesSettings({
-    tiles,
-    setTiles,
-}: {
-    tiles: TTile[]
-    setTiles: (tiles: TTile[]) => void
-}) {
+function TilesSettings({ tiles }: { tiles: TTile[] }) {
     const sensors = useSensors(
         useSensor(PointerSensor),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
         }),
     )
+
+    const dispatch = useSettingsDispatch()
 
     const handleTileSwap = (event: DragEndEvent) => {
         const { active, over } = event
@@ -52,18 +44,8 @@ function TilesSettings({
             const oldIndex = tiles.findIndex((col) => col.uuid === active.id)
             const newIndex = tiles.findIndex((col) => col.uuid === over.id)
 
-            setTiles(arrayMove(tiles, oldIndex, newIndex))
+            dispatch({ type: 'swapTiles', oldIndex, newIndex })
         }
-    }
-
-    const setTile = (tileIndex: number, newTile: TTile) => {
-        const newTiles = clone(tiles)
-        newTiles[tileIndex] = newTile
-        setTiles(newTiles)
-    }
-
-    const removeTile = (tileToRemove: TTile) => {
-        setTiles(tiles.filter((tile) => tile !== tileToRemove))
     }
 
     return (
@@ -74,31 +56,18 @@ function TilesSettings({
         >
             <SortableContext items={tiles.map(({ uuid }) => uuid)}>
                 <div className="flexColumn">
-                    {tiles.map((tile, index) => {
-                        const setIndexedTile = (newtile: TTile) => {
-                            setTile(index, newtile)
-                        }
-                        const removeSelf = () => {
-                            removeTile(tile)
-                        }
+                    {tiles.map((tile) => {
                         switch (tile.type) {
                             case 'stop_place':
                                 return (
                                     <StopPlaceSettings
                                         key={tile.uuid}
                                         tile={tile}
-                                        setTile={setIndexedTile}
-                                        removeSelf={removeSelf}
                                     />
                                 )
                             case 'quay':
                                 return (
-                                    <QuaySettings
-                                        key={tile.uuid}
-                                        tile={tile}
-                                        setTile={setIndexedTile}
-                                        removeSelf={removeSelf}
-                                    />
+                                    <QuaySettings key={tile.uuid} tile={tile} />
                                 )
                             case 'map':
                                 return null
@@ -110,18 +79,12 @@ function TilesSettings({
     )
 }
 
-function StopPlaceSettings({
-    tile,
-    setTile,
-    removeSelf,
-}: {
-    tile: TStopPlaceTile
-    setTile: (newTile: TStopPlaceTile) => void
-    removeSelf: () => void
-}) {
+function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
     const [data, setData] = useState<TStopPlaceSettingsData | undefined>(
         undefined,
     )
+
+    const dispatch = useSettingsDispatch()
 
     useEffect(() => {
         if (!tile.placeId) return
@@ -139,29 +102,31 @@ function StopPlaceSettings({
                 <div className={classes.tileHeader}>
                     {!data ? <Loader /> : data.stopPlace?.name ?? tile.placeId}
                     <div className="flexBetween">
-                        <button className="button" onClick={removeSelf}>
+                        <button
+                            className="button"
+                            onClick={() =>
+                                dispatch({
+                                    type: 'removeTile',
+                                    tileId: tile.uuid,
+                                })
+                            }
+                        >
                             <DeleteIcon size={16} />
                         </button>
                         <SortableHandle id={tile.uuid} />
                     </div>
                 </div>
-                <SelectLines tile={tile} setTile={setTile} lines={lines} />
-                <SortableColumns tile={tile} setTile={setTile} />
+                <SelectLines tile={tile} lines={lines} />
+                <SortableColumns tile={tile} />
             </div>
         </SortableTileWrapper>
     )
 }
 
-function QuaySettings({
-    tile,
-    setTile,
-    removeSelf,
-}: {
-    tile: TQuayTile
-    setTile: (newTile: TQuayTile) => void
-    removeSelf: () => void
-}) {
+function QuaySettings({ tile }: { tile: TQuayTile }) {
     const [data, setData] = useState<TGetQuay | undefined>(undefined)
+
+    const dispatch = useSettingsDispatch()
 
     useEffect(() => {
         if (!tile.placeId) return
@@ -181,14 +146,22 @@ function QuaySettings({
                         (data.quay?.description ?? data.quay?.publicCode)
                     )}
                     <div className="flexBetween">
-                        <button className="button" onClick={removeSelf}>
+                        <button
+                            className="button"
+                            onClick={() =>
+                                dispatch({
+                                    type: 'removeTile',
+                                    tileId: tile.uuid,
+                                })
+                            }
+                        >
                             <DeleteIcon size={16} />
                         </button>
                         <SortableHandle id={tile.uuid} />
                     </div>
                 </div>
-                <SelectLines tile={tile} setTile={setTile} lines={lines} />
-                <SortableColumns tile={tile} setTile={setTile} />
+                <SelectLines tile={tile} lines={lines} />
+                <SortableColumns tile={tile} />
             </div>
         </SortableTileWrapper>
     )

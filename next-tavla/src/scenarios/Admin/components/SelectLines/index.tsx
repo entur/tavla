@@ -1,27 +1,20 @@
 import { Switch } from '@entur/form'
 import { ExpandablePanel } from '@entur/expand'
-import { xor } from 'lodash'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
+import { useSettingsDispatch } from 'scenarios/Admin/reducer'
 
 function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     tile,
-    setTile,
     lines,
 }: {
     tile: T
-    setTile: (newTile: T) => void
     lines: { id: string; publicCode: string | null; name: string | null }[]
 }) {
+    const dispatch = useSettingsDispatch()
     const toggleLine = (line: string) => {
-        if (!tile.whitelistedLines)
-            return setTile({ ...tile, whitelistedLines: [line] })
-
-        return setTile({
-            ...tile,
-            whitelistedLines: xor(tile.whitelistedLines, [line]),
-        })
+        dispatch({ type: 'toggleLine', tileId: tile.uuid, lineId: line })
     }
 
     const uniqLines = uniqBy(lines, 'id').sort((a, b) => {
