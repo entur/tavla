@@ -11,7 +11,6 @@ import {
     restrictToParentElement,
 } from '@dnd-kit/modifiers'
 import {
-    arrayMove,
     horizontalListSortingStrategy,
     SortableContext,
     sortableKeyboardCoordinates,
@@ -26,13 +25,12 @@ import {
 import { AddColumn } from '../AddColumn'
 import { ColumnSettings } from '../ColumnSettings'
 import classes from './styles.module.css'
+import { useSettingsDispatch } from 'scenarios/Admin/reducer'
 
 function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
     tile,
-    setTile,
 }: {
     tile: T
-    setTile: (newTile: T) => void
 }) {
     const columns: TColumnSetting[] = tile.columns ?? []
 
@@ -43,6 +41,8 @@ function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
         }),
     )
 
+    const dispatch = useSettingsDispatch()
+
     const handleColumnSwap = (event: DragEndEvent) => {
         const { active, over } = event
 
@@ -50,24 +50,24 @@ function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
             const oldIndex = columns.findIndex((col) => col.type === active.id)
             const newIndex = columns.findIndex((col) => col.type === over.id)
 
-            setTile({
-                ...tile,
-                columns: arrayMove(columns, oldIndex, newIndex),
+            dispatch({
+                type: 'swapColumns',
+                tileId: tile.uuid,
+                oldIndex,
+                newIndex,
             })
         }
     }
 
     const addColumn = (newColumn: TColumn) => {
-        setTile({
-            ...tile,
-            columns: [...(tile.columns || []), { type: newColumn }],
-        })
+        dispatch({ type: 'addColumn', tileId: tile.uuid, column: newColumn })
     }
 
-    const deleteColumn = (columnToDelete: TColumn) => {
-        setTile({
-            ...tile,
-            columns: columns.filter((column) => column.type !== columnToDelete),
+    const removeColumn = (columnToDelete: TColumn) => {
+        dispatch({
+            type: 'removeColumn',
+            tileId: tile.uuid,
+            column: columnToDelete,
         })
     }
 
@@ -86,7 +86,7 @@ function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
                         <ColumnSettings
                             key={column.type}
                             column={column}
-                            deleteColumn={() => deleteColumn(column.type)}
+                            deleteColumn={() => removeColumn(column.type)}
                         />
                     ))}
                 </SortableContext>
