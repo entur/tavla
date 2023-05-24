@@ -24,5 +24,6 @@ jobs:
           projectId: entur-tavla-staging
           channelId: live
           entrypoint: ./next-tavla
+          firebaseToolsVersion: 12.1.0
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
