@@ -8,7 +8,7 @@ import {
     collection,
     getFirestore,
 } from '@firebase/firestore/lite'
-import { firebaseConfig } from 'assets/firebaseConfig'
+import { firebaseConfig } from 'assets/environmentConfig'
 
 const app = initializeApp(firebaseConfig)
 

@@ -1,4 +1,4 @@
-const endpoint = 'https://api.staging.entur.io/geocoder/v1'
+import { geocoder_endpoint } from 'assets/environmentConfig'
 const CLIENT_NAME = 'entur-tavla-staging'
 
 type TPartialGeoResponse = {
@@ -22,7 +22,7 @@ export async function fetchItems(
         text,
     })
 
-    return fetch(`${endpoint}/autocomplete?${searchParams}`, {
+    return fetch(`${geocoder_endpoint}/autocomplete?${searchParams}`, {
         headers: {
             'ET-Client-Name': CLIENT_NAME,
         },
