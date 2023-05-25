@@ -20,7 +20,7 @@ jobs:
 
   tavla_linting_and_formatting:
     needs: tavla_changes
-    if: ${{ needs.changes.outputs.tavla == 'true' }}
+    if: ${{ needs.tavla_changes.outputs.tavla == 'true' }}
     name: Verifies linting and formatting for tavla
     runs-on: ubuntu-latest
     defaults:
@@ -69,7 +69,7 @@ jobs:
 
   next_tavla_linting_testing_and_formatting:
     needs: next_tavla_changes
-    if: ${{ needs.changes.outputs.next_tavla == 'true' }}
+    if: ${{ needs.next_tavla_changes.outputs.next_tavla == 'true' }}
     name: Verifies linting and formatting for next-tavla
     runs-on: ubuntu-latest
     defaults:
