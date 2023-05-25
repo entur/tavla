@@ -108,7 +108,8 @@ jobs:
 
   all_jobs_pass:
     name: All jobs pass or skip
-    needs: [tavla_linting_and_formatting]
+    needs:
+      [tavla_linting_and_formatting, next_tavla_linting_testing_and_formatting]
     if: ${{ !failure() }} # Needs this to run in case of skipped checks
     runs-on: ubuntu-latest
     steps:
