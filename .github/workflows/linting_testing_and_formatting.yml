@@ -5,8 +5,8 @@ on:
       - master
 
 jobs:
-  changes:
-    name: Check for file changes
+  tavla_changes:
+    name: Check for file changes in tavla
     runs-on: ubuntu-latest
     outputs:
       tavla: ${{ steps.filter.outputs.tavla }}
@@ -19,7 +19,7 @@ jobs:
               - 'tavla/**'
 
   tavla_linting_and_formatting:
-    needs: changes
+    needs: tavla_changes
     if: ${{ needs.changes.outputs.tavla == 'true' }}
     name: Verifies linting and formatting for tavla
     runs-on: ubuntu-latest
@@ -53,6 +53,58 @@ jobs:
 
       - name: Prettier
         run: yarn prettier
+
+  next_tavla_changes:
+    name: Check for file changes in next-tavla
+    runs-on: ubuntu-latest
+    outputs:
+      next_tavla: ${{ steps.filter.outputs.next_tavla }}
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            next-tavla:
+              - 'next-tavla/**'
+
+  next_tavla_linting_testing_and_formatting:
+    needs: next_tavla_changes
+    if: ${{ needs.changes.outputs.next_tavla == 'true' }}
+    name: Verifies linting and formatting for tavla
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: next-tavla
+    steps:
+      - uses: actions/checkout@v3
+
+        # See https://github.com/actions/cache/blob/main/examples.md#node---yarn-2
+      - id: yarn-cache-dir-path
+        name: Get yarn cache path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install
+        run: yarn install
+
+      - name: ESLint
+        run: yarn eslint
+
+      - name: StyleLint
+        run: yarn stylelint
+
+      - name: Prettier
+        run: yarn prettier
+
+      - name: Testing
+        run: yarn test
 
   all_jobs_pass:
     name: All jobs pass or skip
