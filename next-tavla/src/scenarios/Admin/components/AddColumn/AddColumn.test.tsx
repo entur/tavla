@@ -6,7 +6,7 @@ import {
     SettingsDispatchContext,
     settingsReducer,
 } from 'scenarios/Admin/reducer'
-import { TColumn } from 'types/tile'
+import { TColumn, TStopPlaceTile, TTile } from 'types/tile'
 
 test('tests that addColumn adds a new column to a tile', async () => {
     const AddColumnTest = () => {
@@ -31,18 +31,22 @@ test('tests that addColumn adds a new column to a tile', async () => {
             ],
         })
 
+        const tile = settings.tiles[0] as TStopPlaceTile
+
         const addColumn = (newColumn: TColumn) => {
             dispatch({
                 type: 'addColumn',
-                tileId: settings.tiles[0].uuid,
+                tileId: tile.uuid,
                 column: newColumn,
             })
         }
 
+        if (!tile.columns) return null
+
         return (
             <SettingsDispatchContext.Provider value={dispatch}>
                 <AddColumn
-                    selectedColumns={settings.tiles[0].columns.map(
+                    selectedColumns={tile.columns.map(
                         ({ type }: { type: TColumn }) => type,
                     )}
                     addColumn={addColumn}
