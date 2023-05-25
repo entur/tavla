@@ -70,7 +70,7 @@ jobs:
   next_tavla_linting_testing_and_formatting:
     needs: next_tavla_changes
     if: ${{ needs.changes.outputs.next_tavla == 'true' }}
-    name: Verifies linting and formatting for tavla
+    name: Verifies linting and formatting for next-tavla
     runs-on: ubuntu-latest
     defaults:
       run:
