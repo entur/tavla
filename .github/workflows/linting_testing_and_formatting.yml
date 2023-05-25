@@ -64,7 +64,7 @@ jobs:
         id: filter
         with:
           filters: |
-            next-tavla:
+            next_tavla:
               - 'next-tavla/**'
 
   next_tavla_linting_testing_and_formatting:
