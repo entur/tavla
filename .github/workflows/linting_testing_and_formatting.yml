@@ -94,14 +94,11 @@ jobs:
       - name: Install
         run: yarn install
 
-      - name: ESLint
-        run: yarn eslint
+      - name: Linting
+        run: yarn lint
 
-      - name: StyleLint
-        run: yarn stylelint
-
-      - name: Prettier
-        run: yarn prettier
+      - name: Type checking
+        run: yarn typecheck
 
       - name: Testing
         run: yarn test
