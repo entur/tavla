@@ -18,14 +18,20 @@ import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { SortableTileWrapper } from '../SortableTileWrapper'
 import classes from './styles.module.css'
-import { TGetQuay, TStopPlaceSettingsData } from 'types/graphql'
-import { stopPlaceSettingsQuery } from 'graphql/queries/stopPlaceSettings'
+import {
+    TGetQuay,
+    TStopPlaceSettingsData,
+    TStopPlaceSettingsDataVariables,
+} from 'types/graphql'
 import { quayQuery } from 'graphql/queries/quay'
 import { TStopPlaceTile } from 'types/tile'
 import { SortableColumns } from '../SortableColumns'
 import { SortableHandle } from '../SortableHandle'
 import { SelectLines } from '../SelectLines'
 import { useSettingsDispatch } from 'scenarios/Admin/reducer'
+import { useSWRQL } from 'hooks/useSWRQL'
+import { gql } from 'graphql/utils'
+import { linesFragment } from 'graphql/fragments/lines'
 
 function TilesSettings({ tiles }: { tiles: TTile[] }) {
     const sensors = useSensors(
@@ -80,16 +86,25 @@ function TilesSettings({ tiles }: { tiles: TTile[] }) {
 }
 
 function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
-    const [data, setData] = useState<TStopPlaceSettingsData | undefined>(
-        undefined,
-    )
-
     const dispatch = useSettingsDispatch()
 
-    useEffect(() => {
-        if (!tile.placeId) return
-        stopPlaceSettingsQuery({ id: tile.placeId }).then(setData)
-    }, [tile.placeId])
+    const { data } = useSWRQL<
+        TStopPlaceSettingsData,
+        TStopPlaceSettingsDataVariables
+    >(
+        gql`
+            ${linesFragment}
+            query StopPlaceSettingsData($id: String!) {
+                stopPlace(id: $id) {
+                    name
+                    quays(filterByInUse: true) {
+                        ...lines
+                    }
+                }
+            }
+        `,
+        { id: tile.placeId },
+    )
 
     const lines =
         data?.stopPlace?.quays
