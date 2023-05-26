@@ -1,15 +1,16 @@
-name: Linting and Formatting
+name: Linting, Testing and Formatting
 on:
   pull_request:
     branches:
       - master
 
 jobs:
-  tavla_changes:
-    name: Check for file changes in tavla
+  changes:
+    name: Check for file changes
     runs-on: ubuntu-latest
     outputs:
       tavla: ${{ steps.filter.outputs.tavla }}
+      next_tavla: ${{ steps.filter.outputs.next_tavla }}
     steps:
       - uses: dorny/paths-filter@v2
         id: filter
@@ -17,10 +18,12 @@ jobs:
           filters: |
             tavla:
               - 'tavla/**'
+            next_tavla:
+              - 'next-tavla/**'
 
   tavla_linting_and_formatting:
-    needs: tavla_changes
-    if: ${{ needs.tavla_changes.outputs.tavla == 'true' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.tavla == 'true' }}
     name: Verifies linting and formatting for tavla
     runs-on: ubuntu-latest
     defaults:
@@ -54,22 +57,9 @@ jobs:
       - name: Prettier
         run: yarn prettier
 
-  next_tavla_changes:
-    name: Check for file changes in next-tavla
-    runs-on: ubuntu-latest
-    outputs:
-      next_tavla: ${{ steps.filter.outputs.next_tavla }}
-    steps:
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          filters: |
-            next_tavla:
-              - 'next-tavla/**'
-
   next_tavla_linting_testing_and_formatting:
     needs: next_tavla_changes
-    if: ${{ needs.next_tavla_changes.outputs.next_tavla == 'true' }}
+    if: ${{ needs.changes.outputs.next_tavla == 'true' }}
     name: Verifies linting and formatting for next-tavla
     runs-on: ubuntu-latest
     defaults:
