@@ -14,6 +14,7 @@ then
 	echo "Files changed in next-tavla"
 	cd next-tavla
 	yarn lint
+	yarn typecheck
 	cd ..
 fi
 

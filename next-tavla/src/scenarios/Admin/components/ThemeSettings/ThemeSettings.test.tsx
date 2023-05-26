@@ -1,15 +1,27 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { ThemeSettings } from './ThemeSettings'
+import { ThemeSettings } from './index'
 import { TTheme } from 'types/settings'
-import { useState } from 'react'
+import React, { useReducer } from 'react'
+import {
+    SettingsDispatchContext,
+    settingsReducer,
+} from 'scenarios/Admin/reducer'
 
 test('tests that theme picker changes value correctly', async () => {
     const TestComponent = () => {
-        const [theme, setTheme] = useState<TTheme>('default')
+        const [settings, dispatch] = useReducer(settingsReducer, {
+            theme: 'default' as TTheme,
+            tiles: [],
+        })
 
-        return <ThemeSettings theme={theme} setTheme={setTheme} />
+        return (
+            <SettingsDispatchContext.Provider value={dispatch}>
+                <ThemeSettings theme={settings.theme} />
+            </SettingsDispatchContext.Provider>
+        )
     }
+
     render(<TestComponent />)
 
     expect(await screen.findByDisplayValue('default')).toBeChecked()
