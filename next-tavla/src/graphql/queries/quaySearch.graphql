@@ -1,0 +1,9 @@
+query getQuaysSearch($stopPlaceId: String!) {
+    stopPlace(id: $stopPlaceId) {
+        quays(filterByInUse: true) {
+            id
+            publicCode
+            description
+        }
+    }
+}

@@ -1,45 +1,40 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
-const sharedConfig = {
-    typesPrefix: 'T',
-    scalars: {
-        Coordinates: 'Coordinates',
-        Date: 'Date',
-        DateTime: 'DateTime',
-        Duration: 'Duration',
-        LocalTime: 'LocalTime',
-        Time: 'Time',
-        Long: 'Long',
-        DoubleFunction: 'DoubleFunction',
-    },
-    avoidOptionals: {
-        field: true,
-    },
-    enumsAsTypes: true,
-}
-
 const config: CodegenConfig = {
     overwrite: true,
     schema: './graphql-tools/schema.json',
-    documents: ['src/**/*.ts', 'src/**/*.tsx'],
+    documents: 'src/**/*.graphql',
+    hooks: { afterAllFileWrite: ['prettier --write'] },
+    config: {
+        typesPrefix: 'T',
+        documentMode: 'string',
+        documentVariableSuffix: 'Query',
+        fragmentVariableSuffix: 'Fragment',
+        skipTypeName: true,
+        enumsAsTypes: true,
+        useTypeImports: true,
+        scalars: {
+            Coordinates: 'Coordinates',
+            Date: 'Date',
+            DateTime: 'DateTime',
+            Duration: 'Duration',
+            LocalTime: 'LocalTime',
+            Time: 'Time',
+            Long: 'Long',
+            DoubleFunction: 'DoubleFunction',
+        },
+    },
     generates: {
-        './src/types/graphql/index.ts': {
-            plugins: ['typescript-operations'],
+        'src/types/graphql-schema.ts': {
+            plugins: ['typescript'],
+        },
+        'src/graphql/index.ts': {
             preset: 'import-types',
             presetConfig: {
-                typesPath: './schema',
+                typesPath: 'types/graphql-schema',
             },
-            config: {
-                skipTypeName: true,
-                omitOperationSuffix: true,
-                ...sharedConfig,
-            },
-        },
-        './src/types/graphql/schema.ts': {
-            plugins: ['typescript'],
-            config: {
-                ...sharedConfig,
-            },
+            plugins: ['typescript-operations', 'typed-document-node'],
+            config: { withHooks: true },
         },
     },
 }

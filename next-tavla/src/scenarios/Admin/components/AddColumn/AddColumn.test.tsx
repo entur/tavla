@@ -6,7 +6,7 @@ import {
     SettingsDispatchContext,
     settingsReducer,
 } from 'scenarios/Admin/reducer'
-import { TColumn, TStopPlaceTile, TTile } from 'types/tile'
+import { TColumn, TStopPlaceTile } from 'types/tile'
 
 test('tests that addColumn adds a new column to a tile', async () => {
     const AddColumnTest = () => {
