@@ -1,47 +1,49 @@
-import type { CodegenConfig } from "@graphql-codegen/cli";
-
-const sharedConfig = {
-  typesPrefix: "T",
-  scalars: {
-    Coordinates: "Coordinates",
-    Date: "Date",
-    DateTime: "DateTime",
-    Duration: "Duration",
-    LocalTime: "LocalTime",
-    Time: "Time",
-    Long: "Long",
-    DoubleFunction: "DoubleFunction",
-  },
-  avoidOptionals: {
-    field: true,
-  },
-  enumsAsTypes: true,
-};
+import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
-  overwrite: true,
-  schema: "./graphql-tools/schema.json",
-  documents: ["src/**/*.ts", "src/**/*.tsx"],
-  generates: {
-    "./src/types/graphql/index.ts": {
-      plugins: ["typescript-operations"],
-      preset: "import-types",
-      presetConfig: {
-        typesPath: "./schema",
-      },
-      config: {
+    overwrite: true,
+    schema: './graphql-tools/schema.json',
+    documents: 'src/**/*.graphql',
+    hooks: { afterAllFileWrite: ['prettier --write'] },
+    config: {
+        typesPrefix: 'T',
+        documentMode: 'string',
+        documentVariableSuffix: 'Query',
+        fragmentVariableSuffix: 'Fragment',
         skipTypeName: true,
-        omitOperationSuffix: true,
-        ...sharedConfig,
-      },
+        enumsAsTypes: true,
+        useTypeImports: true,
+        scalars: {
+            Coordinates: 'Coordinates',
+            Date: 'Date',
+            DateTime: 'DateTime',
+            Duration: 'Duration',
+            LocalTime: 'LocalTime',
+            Time: 'Time',
+            Long: 'Long',
+            DoubleFunction: 'DoubleFunction',
+        },
+        avoidOptionals: {
+            field: true,
+        },
     },
-    "./src/types/graphql/schema.ts": {
-      plugins: ["typescript"],
-      config: {
-        ...sharedConfig,
-      },
+    generates: {
+        'src/types/graphql-schema.ts': {
+            plugins: ['typescript'],
+        },
+        'src/graphql/index.ts': {
+            preset: 'import-types',
+            presetConfig: {
+                typesPath: 'types/graphql-schema',
+            },
+            plugins: [
+                'typescript-operations',
+                'typed-document-node',
+                { add: { content: '/* eslint-disable */' } },
+            ],
+            config: { withHooks: true },
+        },
     },
-  },
-};
+}
 
-export default config;
+export default config

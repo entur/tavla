@@ -12,20 +12,19 @@ import {
     restrictToParentElement,
     restrictToVerticalAxis,
 } from '@dnd-kit/modifiers'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { fieldsNotNull } from 'utils/typeguards'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { SortableTileWrapper } from '../SortableTileWrapper'
 import classes from './styles.module.css'
-import { TGetQuay, TStopPlaceSettingsData } from 'types/graphql'
-import { stopPlaceSettingsQuery } from 'graphql/queries/stopPlaceSettings'
-import { quayQuery } from 'graphql/queries/quay'
 import { TStopPlaceTile } from 'types/tile'
 import { SortableColumns } from '../SortableColumns'
 import { SortableHandle } from '../SortableHandle'
 import { SelectLines } from '../SelectLines'
 import { useSettingsDispatch } from 'scenarios/Admin/reducer'
+import { useQuery } from 'graphql/utils'
+import { GetQuayQuery, StopPlaceSettingsQuery } from 'graphql/index'
 
 function TilesSettings({ tiles }: { tiles: TTile[] }) {
     const sensors = useSensors(
@@ -80,16 +79,9 @@ function TilesSettings({ tiles }: { tiles: TTile[] }) {
 }
 
 function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
-    const [data, setData] = useState<TStopPlaceSettingsData | undefined>(
-        undefined,
-    )
-
     const dispatch = useSettingsDispatch()
 
-    useEffect(() => {
-        if (!tile.placeId) return
-        stopPlaceSettingsQuery({ id: tile.placeId }).then(setData)
-    }, [tile.placeId])
+    const { data } = useQuery(StopPlaceSettingsQuery, { id: tile.placeId })
 
     const lines =
         data?.stopPlace?.quays
@@ -124,14 +116,9 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
 }
 
 function QuaySettings({ tile }: { tile: TQuayTile }) {
-    const [data, setData] = useState<TGetQuay | undefined>(undefined)
+    const { data } = useQuery(GetQuayQuery, { quayId: tile.placeId })
 
     const dispatch = useSettingsDispatch()
-
-    useEffect(() => {
-        if (!tile.placeId) return
-        quayQuery({ quayId: tile.placeId }).then(setData)
-    }, [tile.placeId])
 
     const lines = data?.quay?.lines.filter(fieldsNotNull) ?? []
     return (

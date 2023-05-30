@@ -1,9 +1,8 @@
-import { useCallback } from 'react'
 import { TQuayTile } from 'types/tile'
 import { Table } from 'scenarios/Table'
-import { quayQuery } from 'graphql/queries/quay'
-import { usePoll } from 'hooks/usePoll'
 import classes from './styles.module.css'
+import { useQuery } from 'graphql/utils'
+import { GetQuayQuery } from 'graphql/index'
 
 export function QuayTile({
     placeId,
@@ -11,17 +10,15 @@ export function QuayTile({
     whitelistedLines,
     whitelistedTransportModes,
 }: TQuayTile) {
-    const quayCallbackQuery = useCallback(
-        () =>
-            quayQuery({
-                quayId: placeId,
-                whitelistedLines,
-                whitelistedTransportModes,
-            }),
-        [placeId, whitelistedLines, whitelistedTransportModes],
+    const { data } = useQuery(
+        GetQuayQuery,
+        {
+            quayId: placeId,
+            whitelistedLines,
+            whitelistedTransportModes,
+        },
+        true,
     )
-
-    const data = usePoll(quayCallbackQuery)
 
     if (!data) {
         return <div className="tile">Loading data</div>

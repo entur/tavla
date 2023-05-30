@@ -33,11 +33,13 @@
         "nanoid": "4.0.2",
         "next": "13.2.4",
         "react": "18.2.0",
-        "react-dom": "18.2.0"
+        "react-dom": "18.2.0",
+        "swr": "2.1.5"
     },
     "devDependencies": {
         "@graphql-codegen/cli": "3.2.2",
         "@graphql-codegen/import-types-preset": "2.2.6",
+        "@graphql-codegen/typed-document-node": "5.0.0",
         "@graphql-codegen/typescript": "3.0.2",
         "@graphql-codegen/typescript-operations": "3.0.2",
         "@testing-library/jest-dom": "5.16.5",

@@ -1,9 +1,8 @@
-import { useCallback } from 'react'
 import { TStopPlaceTile } from 'types/tile'
 import { Table } from 'scenarios/Table'
-import { stopPlaceQuery } from 'graphql/queries/stopPlace'
-import { usePoll } from 'hooks/usePoll'
 import classes from './styles.module.css'
+import { useQuery } from 'graphql/utils'
+import { StopPlaceQuery } from 'graphql/index'
 
 export function StopPlaceTile({
     placeId,
@@ -11,17 +10,11 @@ export function StopPlaceTile({
     whitelistedLines,
     whitelistedTransportModes,
 }: TStopPlaceTile) {
-    const stopPlaceCallbackQuery = useCallback(
-        () =>
-            stopPlaceQuery({
-                stopPlaceId: placeId,
-                whitelistedTransportModes,
-                whitelistedLines,
-            }),
-        [placeId, whitelistedTransportModes, whitelistedLines],
+    const { data } = useQuery(
+        StopPlaceQuery,
+        { stopPlaceId: placeId, whitelistedTransportModes, whitelistedLines },
+        true,
     )
-
-    const data = usePoll(stopPlaceCallbackQuery)
 
     if (!data) {
         return <div className="tile">Loading data</div>

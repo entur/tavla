@@ -1,0 +1,27 @@
+fragment departure on EstimatedCall {
+    quay {
+        publicCode
+    }
+    destinationDisplay {
+        frontText
+    }
+    aimedDepartureTime
+    expectedDepartureTime
+    serviceJourney {
+        id
+        transportMode
+        transportSubmode
+        line {
+            id
+            publicCode
+            presentation {
+                textColour
+                colour
+            }
+        }
+    }
+    cancellation
+    situations {
+        ...situation
+    }
+}

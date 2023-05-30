@@ -3,11 +3,11 @@ import { TMapTile, TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 import { Dropdown } from '@entur/dropdown'
 import { Button } from '@entur/button'
 import { fetchItems } from 'utils/index'
-import { quaySearchQuery } from 'graphql/queries/quaySearch'
 import { nanoid } from 'nanoid'
-import { TGetQuaysSearch } from 'types/graphql'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { useSettingsDispatch } from 'scenarios/Admin/reducer'
+import { QuaysSearchQuery, type TQuaysSearchQuery } from 'graphql/index'
+import { fetchQuery } from 'graphql/utils'
 
 const tileNames: Record<TTileType, string> = {
     map: 'Kart',
@@ -39,11 +39,11 @@ function AddMapTile({ setTile }: { setTile: (tile: TMapTile) => void }) {
 function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
     const [stopPlaceId, setStopPlaceId] = useState<string | undefined>()
 
-    const [data, setData] = useState<TGetQuaysSearch | undefined>(undefined)
+    const [data, setData] = useState<TQuaysSearchQuery | undefined>(undefined)
 
     useEffect(() => {
         if (!stopPlaceId) return
-        quaySearchQuery({ stopPlaceId: stopPlaceId }).then(setData)
+        fetchQuery(QuaysSearchQuery, { stopPlaceId }).then(setData)
     }, [stopPlaceId])
 
     const quays =

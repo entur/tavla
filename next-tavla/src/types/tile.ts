@@ -1,4 +1,4 @@
-import { TTransportMode } from './graphql/schema'
+import { TTransportMode } from './graphql-schema'
 
 export const Columns = {
     destination: 'Destinasjon',

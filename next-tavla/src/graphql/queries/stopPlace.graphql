@@ -1,0 +1,16 @@
+query StopPlace(
+    $stopPlaceId: String!
+    $whitelistedTransportModes: [TransportMode]
+    $whitelistedLines: [ID!]
+) {
+    stopPlace(id: $stopPlaceId) {
+        name
+        estimatedCalls(
+            numberOfDepartures: 20
+            whiteListedModes: $whitelistedTransportModes
+            whiteListed: { lines: $whitelistedLines }
+        ) {
+            ...departure
+        }
+    }
+}

@@ -1,6 +1,5 @@
-export function gql(base: TemplateStringsArray, ...fragments: string[]) {
-    return [...fragments, ...base].join('')
-}
+import useSWR from 'swr'
+import { TypedDocumentString } from './index'
 
 type endpointNames = 'journey-planner' | 'mobility' | 'vehicles'
 
@@ -12,21 +11,47 @@ const endpoints: Record<endpointNames, string> = {
     ['vehicles']: '',
 }
 
-export function createQuery<T, V>(
-    query: string,
-    endpoint: endpointNames = 'journey-planner',
-): (variables: V) => Promise<T> {
-    return (variables: V) =>
-        fetch(endpoints[endpoint], {
-            headers: {
-                'Content-Type': 'application/json',
-                'ET-Client-Name': 'tavla-test',
-            },
-            body: JSON.stringify({ query, variables }),
-            method: 'POST',
+async function fetcher<Data, Variables>([query, variables]: [
+    TypedDocumentString<Data, Variables>,
+    Variables,
+]) {
+    return fetch(endpoints['journey-planner'], {
+        headers: {
+            'Content-Type': 'application/json',
+            'ET-Client-Name': 'tavla-test',
+        },
+        body: JSON.stringify({ query, variables }),
+        method: 'POST',
+    })
+        .then((res) => {
+            return res.json()
         })
-            .then((res) => {
-                return res.json()
-            })
-            .then((jsonRes) => jsonRes.data as T)
+        .then((res) => {
+            return res.data as Data
+        })
+}
+
+export async function fetchQuery<Data, Variables>(
+    query: TypedDocumentString<Data, Variables>,
+    variables: Variables,
+) {
+    return fetcher([query, variables])
+}
+
+export function useQuery<Data, Variables>(
+    query: TypedDocumentString<Data, Variables>,
+    variables: Variables,
+    poll = false,
+) {
+    const { data, error, isLoading } = useSWR<Data>(
+        [query, variables],
+        fetcher,
+        {
+            revalidateOnFocus: false,
+            revalidateOnReconnect: true,
+            refreshInterval: poll ? 30000 : undefined,
+        },
+    )
+
+    return { data, error, isLoading }
 }
