@@ -1,0 +1,19 @@
+query getQuay(
+    $quayId: String!
+    $whitelistedTransportModes: [TransportMode]
+    $whitelistedLines: [ID!]
+) {
+    quay(id: $quayId) {
+        name
+        description
+        publicCode
+        ...lines
+        estimatedCalls(
+            numberOfDepartures: 20
+            whiteListedModes: $whitelistedTransportModes
+            whiteListed: { lines: $whitelistedLines }
+        ) {
+            ...departure
+        }
+    }
+}

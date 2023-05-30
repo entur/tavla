@@ -12,21 +12,19 @@ import {
     restrictToParentElement,
     restrictToVerticalAxis,
 } from '@dnd-kit/modifiers'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { fieldsNotNull } from 'utils/typeguards'
 import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { SortableTileWrapper } from '../SortableTileWrapper'
 import classes from './styles.module.css'
-import { TGetQuay } from 'types/graphql'
-import { quayQuery } from 'graphql/queries/quay'
 import { TStopPlaceTile } from 'types/tile'
 import { SortableColumns } from '../SortableColumns'
 import { SortableHandle } from '../SortableHandle'
 import { SelectLines } from '../SelectLines'
 import { useSettingsDispatch } from 'scenarios/Admin/reducer'
 import { useQuery } from 'graphql/utils'
-import { StopPlaceSettingsQuery } from 'graphql/index'
+import { GetQuayQuery, StopPlaceSettingsQuery } from 'graphql/index'
 
 function TilesSettings({ tiles }: { tiles: TTile[] }) {
     const sensors = useSensors(
@@ -118,14 +116,9 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
 }
 
 function QuaySettings({ tile }: { tile: TQuayTile }) {
-    const [data, setData] = useState<TGetQuay | undefined>(undefined)
+    const { data } = useQuery(GetQuayQuery, { quayId: tile.placeId })
 
     const dispatch = useSettingsDispatch()
-
-    useEffect(() => {
-        if (!tile.placeId) return
-        quayQuery({ quayId: tile.placeId }).then(setData)
-    }, [tile.placeId])
 
     const lines = data?.quay?.lines.filter(fieldsNotNull) ?? []
     return (
