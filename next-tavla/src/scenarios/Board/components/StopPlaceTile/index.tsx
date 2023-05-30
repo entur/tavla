@@ -13,7 +13,7 @@ export function StopPlaceTile({
     const { data } = useQuery(
         StopPlaceQuery,
         { stopPlaceId: placeId, whitelistedTransportModes, whitelistedLines },
-        true,
+        { poll: true },
     )
 
     if (!data) {

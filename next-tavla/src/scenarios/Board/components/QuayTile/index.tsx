@@ -17,7 +17,7 @@ export function QuayTile({
             whitelistedLines,
             whitelistedTransportModes,
         },
-        true,
+        { poll: true },
     )
 
     if (!data) {
