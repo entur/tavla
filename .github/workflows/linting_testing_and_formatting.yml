@@ -5,8 +5,8 @@ on:
       - master
 
 jobs:
-  tavla_changes:
-    name: Check for file changes in tavla
+  changes:
+    name: Check for file changes
     runs-on: ubuntu-latest
     outputs:
       tavla: ${{ steps.filter.outputs.tavla }}
@@ -22,8 +22,8 @@ jobs:
               - 'next-tavla/**'
 
   tavla_linting_and_formatting:
-    needs: tavla_changes
-    if: ${{ needs.tavla_changes.outputs.tavla == 'true' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.tavla == 'true' }}
     name: Verifies linting and formatting for tavla
     runs-on: ubuntu-latest
     defaults:
