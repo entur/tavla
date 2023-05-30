@@ -1,4 +1,4 @@
-import { TDeparture } from 'types/graphql'
+import { TDepartureFragment } from 'graphql/index'
 import { Columns, TColumn, TColumnSetting } from 'types/tile'
 import React from 'react'
 import classes from './styles.module.css'
@@ -34,7 +34,7 @@ function Table({
     departures,
 }: {
     columns?: TColumnSetting[]
-    departures: TDeparture[]
+    departures: TDepartureFragment[]
 }) {
     const columnSizes = flexToPercentage(columns)
 

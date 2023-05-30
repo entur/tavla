@@ -1,9 +1,9 @@
-import { TSituation } from 'types/graphql'
+import { TSituationFragment } from 'graphql/index'
 import { SVGProps } from 'react'
 
 import classes from './styles.module.css'
 
-function Situation({ situation }: { situation: TSituation }) {
+function Situation({ situation }: { situation: TSituationFragment }) {
     // The order of priority should be according to some setting.
     const situationText =
         situation.description.find((desc) => desc.language === 'no')?.value ??

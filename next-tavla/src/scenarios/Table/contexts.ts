@@ -1,6 +1,8 @@
-import { TDeparture } from 'types/graphql'
+import { TDepartureFragment } from 'graphql/index'
 import React from 'react'
 
-const DepartureContext = React.createContext<TDeparture | undefined>(undefined)
+const DepartureContext = React.createContext<TDepartureFragment | undefined>(
+    undefined,
+)
 
 export { DepartureContext }
