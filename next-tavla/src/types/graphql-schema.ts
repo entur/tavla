@@ -38,44 +38,44 @@ export type TAbsoluteDirection =
 
 export type TAffectedLine = {
     __typename?: 'AffectedLine'
-    line?: Maybe<TLine>
+    line: Maybe<TLine>
 }
 
 export type TAffectedServiceJourney = {
     __typename?: 'AffectedServiceJourney'
-    datedServiceJourney?: Maybe<TDatedServiceJourney>
-    operatingDay?: Maybe<Scalars['Date']>
-    serviceJourney?: Maybe<TServiceJourney>
+    datedServiceJourney: Maybe<TDatedServiceJourney>
+    operatingDay: Maybe<Scalars['Date']>
+    serviceJourney: Maybe<TServiceJourney>
 }
 
 export type TAffectedStopPlace = {
     __typename?: 'AffectedStopPlace'
-    quay?: Maybe<TQuay>
+    quay: Maybe<TQuay>
     stopConditions: Array<TStopCondition>
-    stopPlace?: Maybe<TStopPlace>
+    stopPlace: Maybe<TStopPlace>
 }
 
 export type TAffectedStopPlaceOnLine = {
     __typename?: 'AffectedStopPlaceOnLine'
-    line?: Maybe<TLine>
-    quay?: Maybe<TQuay>
+    line: Maybe<TLine>
+    quay: Maybe<TQuay>
     stopConditions: Array<TStopCondition>
-    stopPlace?: Maybe<TStopPlace>
+    stopPlace: Maybe<TStopPlace>
 }
 
 export type TAffectedStopPlaceOnServiceJourney = {
     __typename?: 'AffectedStopPlaceOnServiceJourney'
-    datedServiceJourney?: Maybe<TDatedServiceJourney>
-    operatingDay?: Maybe<Scalars['Date']>
-    quay?: Maybe<TQuay>
-    serviceJourney?: Maybe<TServiceJourney>
+    datedServiceJourney: Maybe<TDatedServiceJourney>
+    operatingDay: Maybe<Scalars['Date']>
+    quay: Maybe<TQuay>
+    serviceJourney: Maybe<TServiceJourney>
     stopConditions: Array<TStopCondition>
-    stopPlace?: Maybe<TStopPlace>
+    stopPlace: Maybe<TStopPlace>
 }
 
 export type TAffectedUnknown = {
     __typename?: 'AffectedUnknown'
-    description?: Maybe<Scalars['String']>
+    description: Maybe<Scalars['String']>
 }
 
 export type TAffects =
@@ -103,16 +103,16 @@ export type TArrivalDeparture =
 /** Authority involved in public transportation. An organisation under which the responsibility of organising the transport service in a certain area is placed. */
 export type TAuthority = {
     __typename?: 'Authority'
-    fareUrl?: Maybe<Scalars['String']>
+    fareUrl: Maybe<Scalars['String']>
     id: Scalars['ID']
-    lang?: Maybe<Scalars['String']>
+    lang: Maybe<Scalars['String']>
     lines: Array<Maybe<TLine>>
     name: Scalars['String']
-    phone?: Maybe<Scalars['String']>
+    phone: Maybe<Scalars['String']>
     /** Get all situations active for the authority. */
     situations: Array<TPtSituationElement>
     timezone: Scalars['String']
-    url?: Maybe<Scalars['String']>
+    url: Maybe<Scalars['String']>
 }
 
 export type TBicycleOptimisationMethod =
@@ -125,24 +125,24 @@ export type TBicycleOptimisationMethod =
 export type TBikePark = TPlaceInterface & {
     __typename?: 'BikePark'
     id: Scalars['ID']
-    latitude?: Maybe<Scalars['Float']>
-    longitude?: Maybe<Scalars['Float']>
+    latitude: Maybe<Scalars['Float']>
+    longitude: Maybe<Scalars['Float']>
     name: Scalars['String']
-    realtime?: Maybe<Scalars['Boolean']>
-    spacesAvailable?: Maybe<Scalars['Int']>
+    realtime: Maybe<Scalars['Boolean']>
+    spacesAvailable: Maybe<Scalars['Int']>
 }
 
 export type TBikeRentalStation = TPlaceInterface & {
     __typename?: 'BikeRentalStation'
-    allowDropoff?: Maybe<Scalars['Boolean']>
-    bikesAvailable?: Maybe<Scalars['Int']>
+    allowDropoff: Maybe<Scalars['Boolean']>
+    bikesAvailable: Maybe<Scalars['Int']>
     id: Scalars['ID']
-    latitude?: Maybe<Scalars['Float']>
-    longitude?: Maybe<Scalars['Float']>
+    latitude: Maybe<Scalars['Float']>
+    longitude: Maybe<Scalars['Float']>
     name: Scalars['String']
     networks: Array<Maybe<Scalars['String']>>
-    realtimeOccupancyAvailable?: Maybe<Scalars['Boolean']>
-    spacesAvailable?: Maybe<Scalars['Int']>
+    realtimeOccupancyAvailable: Maybe<Scalars['Boolean']>
+    spacesAvailable: Maybe<Scalars['Int']>
 }
 
 export type TBikesAllowed =
@@ -156,19 +156,19 @@ export type TBikesAllowed =
 export type TBookingArrangement = {
     __typename?: 'BookingArrangement'
     /** Time constraints for booking */
-    bookWhen?: Maybe<TPurchaseWhen>
+    bookWhen: Maybe<TPurchaseWhen>
     /** Who should ticket be contacted for booking */
-    bookingContact?: Maybe<TContact>
+    bookingContact: Maybe<TContact>
     /** How should service be booked? */
-    bookingMethods?: Maybe<Array<Maybe<TBookingMethod>>>
+    bookingMethods: Maybe<Array<Maybe<TBookingMethod>>>
     /** Textual description of booking arrangement for service */
-    bookingNote?: Maybe<Scalars['String']>
+    bookingNote: Maybe<Scalars['String']>
     /** How many days prior to the travel the service needs to be booked */
-    latestBookingDay?: Maybe<Scalars['Int']>
+    latestBookingDay: Maybe<Scalars['Int']>
     /** Latest time the service can be booked. ISO 8601 timestamp */
-    latestBookingTime?: Maybe<Scalars['LocalTime']>
+    latestBookingTime: Maybe<Scalars['LocalTime']>
     /** Minimum period in advance service can be booked as a ISO 8601 duration */
-    minimumBookingPeriod?: Maybe<Scalars['String']>
+    minimumBookingPeriod: Maybe<Scalars['String']>
 }
 
 export type TBookingMethod =
@@ -181,42 +181,42 @@ export type TBookingMethod =
 export type TBranding = {
     __typename?: 'Branding'
     /** Description of branding. */
-    description?: Maybe<Scalars['String']>
-    id?: Maybe<Scalars['ID']>
+    description: Maybe<Scalars['String']>
+    id: Maybe<Scalars['ID']>
     /** URL to an image be used for branding */
-    image?: Maybe<Scalars['String']>
+    image: Maybe<Scalars['String']>
     /** Full name to be used for branding. */
-    name?: Maybe<Scalars['String']>
+    name: Maybe<Scalars['String']>
     /** Short name to be used for branding. */
-    shortName?: Maybe<Scalars['String']>
+    shortName: Maybe<Scalars['String']>
     /** URL to be used for branding */
-    url?: Maybe<Scalars['String']>
+    url: Maybe<Scalars['String']>
 }
 
 export type TContact = {
     __typename?: 'Contact'
     /** Name of person to contact */
-    contactPerson?: Maybe<Scalars['String']>
+    contactPerson: Maybe<Scalars['String']>
     /** Email adress for contact */
-    email?: Maybe<Scalars['String']>
+    email: Maybe<Scalars['String']>
     /** Textual description of how to get in contact */
-    furtherDetails?: Maybe<Scalars['String']>
+    furtherDetails: Maybe<Scalars['String']>
     /** Phone number for contact */
-    phone?: Maybe<Scalars['String']>
+    phone: Maybe<Scalars['String']>
     /** Url for contact */
-    url?: Maybe<Scalars['String']>
+    url: Maybe<Scalars['String']>
 }
 
 /** A planned journey on a specific day */
 export type TDatedServiceJourney = {
     __typename?: 'DatedServiceJourney'
     /** Returns scheduled passingTimes for this dated service journey, updated with realtime-updates (if available).  */
-    estimatedCalls?: Maybe<Array<Maybe<TEstimatedCall>>>
+    estimatedCalls: Maybe<Array<Maybe<TEstimatedCall>>>
     id: Scalars['ID']
     /** JourneyPattern for the dated service journey. */
-    journeyPattern?: Maybe<TJourneyPattern>
+    journeyPattern: Maybe<TJourneyPattern>
     /** The date this service runs. The date used is based on the service date as opposed to calendar date. */
-    operatingDay?: Maybe<Scalars['Date']>
+    operatingDay: Maybe<Scalars['Date']>
     /** Quays visited by the dated service journey. */
     quays: Array<TQuay>
     /** List of the dated service journeys this dated service journeys replaces */
@@ -224,7 +224,7 @@ export type TDatedServiceJourney = {
     /** The service journey this Dated Service Journey is based on */
     serviceJourney: TServiceJourney
     /** Alterations specified on the Trip in the planned data */
-    tripAlteration?: Maybe<TServiceAlteration>
+    tripAlteration: Maybe<TServiceAlteration>
 }
 
 /** A planned journey on a specific day */
@@ -237,9 +237,9 @@ export type TDatedServiceJourneyQuaysArgs = {
 export type TDestinationDisplay = {
     __typename?: 'DestinationDisplay'
     /** Name of destination to show on front of vehicle. */
-    frontText?: Maybe<Scalars['String']>
+    frontText: Maybe<Scalars['String']>
     /** Intermediary destinations which the vehicle will pass before reaching its final destination. */
-    via?: Maybe<Array<Maybe<Scalars['String']>>>
+    via: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
 export type TDirectionType =
@@ -253,21 +253,21 @@ export type TDirectionType =
 export type TEstimatedCall = {
     __typename?: 'EstimatedCall'
     /** Actual time of arrival at quay. Updated from real time information if available. NOT IMPLEMENTED */
-    actualArrivalTime?: Maybe<Scalars['DateTime']>
+    actualArrivalTime: Maybe<Scalars['DateTime']>
     /** Actual time of departure from quay. Updated with real time information if available. NOT IMPLEMENTED */
-    actualDepartureTime?: Maybe<Scalars['DateTime']>
+    actualDepartureTime: Maybe<Scalars['DateTime']>
     /** Scheduled time of arrival at quay. Not affected by read time updated */
     aimedArrivalTime: Scalars['DateTime']
     /** Scheduled time of departure from quay. Not affected by read time updated */
     aimedDepartureTime: Scalars['DateTime']
     /** Booking arrangements for this EstimatedCall. */
-    bookingArrangements?: Maybe<TBookingArrangement>
+    bookingArrangements: Maybe<TBookingArrangement>
     /** Whether stop is cancelled. This means that either the ServiceJourney has a planned cancellation, the ServiceJourney has been cancelled by realtime data, or this particular StopPoint has been cancelled. This also means that both boarding and alighting has been cancelled. */
     cancellation: Scalars['Boolean']
     /** The date the estimated call is valid for. */
     date: Scalars['Date']
-    datedServiceJourney?: Maybe<TDatedServiceJourney>
-    destinationDisplay?: Maybe<TDestinationDisplay>
+    datedServiceJourney: Maybe<TDatedServiceJourney>
+    destinationDisplay: Maybe<TDestinationDisplay>
     /** Expected time of arrival at quay. Updated with real time information if available. Will be null if an actualArrivalTime exists */
     expectedArrivalTime: Scalars['DateTime']
     /** Expected time of departure from quay. Updated with real time information if available. Will be null if an actualDepartureTime exists */
@@ -310,16 +310,16 @@ export type TFilterPlaceType =
 export type TGroupOfLines = {
     __typename?: 'GroupOfLines'
     /** Description of group of lines */
-    description?: Maybe<Scalars['String']>
+    description: Maybe<Scalars['String']>
     id: Scalars['ID']
     /** All lines part of this group of lines */
     lines: Array<TLine>
     /** Full name for group of lines. */
-    name?: Maybe<Scalars['String']>
+    name: Maybe<Scalars['String']>
     /** For internal use by operator/authority. */
-    privateCode?: Maybe<Scalars['String']>
+    privateCode: Maybe<Scalars['String']>
     /** Short name for group of lines. */
-    shortName?: Maybe<Scalars['String']>
+    shortName: Maybe<Scalars['String']>
 }
 
 /** Filter trips by disallowing lines involving certain elements. If both lines and authorities are specified, only one must be valid for each line to be banned. If a line is both banned and whitelisted, it will be counted as banned. */
@@ -374,21 +374,21 @@ export type TInputWhiteListed = {
 export type TInterchange = {
     __typename?: 'Interchange'
     /** @deprecated This is the same as using the `fromServiceJourney { line }` field. */
-    FromLine?: Maybe<TLine>
+    FromLine: Maybe<TLine>
     /** @deprecated Use fromServiceJourney instead */
-    FromServiceJourney?: Maybe<TServiceJourney>
+    FromServiceJourney: Maybe<TServiceJourney>
     /** @deprecated This is the same as using the `toServiceJourney { line }` field. */
-    ToLine?: Maybe<TLine>
+    ToLine: Maybe<TLine>
     /** @deprecated Use toServiceJourney instead */
-    ToServiceJourney?: Maybe<TServiceJourney>
-    fromServiceJourney?: Maybe<TServiceJourney>
-    guaranteed?: Maybe<Scalars['Boolean']>
+    ToServiceJourney: Maybe<TServiceJourney>
+    fromServiceJourney: Maybe<TServiceJourney>
+    guaranteed: Maybe<Scalars['Boolean']>
     /** Maximum time after scheduled departure time the connecting transport is guarantied to wait for the delayed trip. [NOT RESPECTED DURING ROUTING, JUST PASSED THROUGH] */
-    maximumWaitTime?: Maybe<Scalars['Int']>
+    maximumWaitTime: Maybe<Scalars['Int']>
     /** The transfer priority is used to decide where a transfer should happen, at the highest prioritized location. If the guarantied flag is set it take precedence priority. A guarantied ALLOWED transfer is preferred over a PREFERRED none-guarantied transfer. */
-    priority?: Maybe<TInterchangePriority>
-    staySeated?: Maybe<Scalars['Boolean']>
-    toServiceJourney?: Maybe<TServiceJourney>
+    priority: Maybe<TInterchangePriority>
+    staySeated: Maybe<Scalars['Boolean']>
+    toServiceJourney: Maybe<TServiceJourney>
 }
 
 export type TInterchangePriority =
@@ -421,12 +421,12 @@ export type TItineraryFilters = {
 
 export type TJourneyPattern = {
     __typename?: 'JourneyPattern'
-    directionType?: Maybe<TDirectionType>
+    directionType: Maybe<TDirectionType>
     id: Scalars['ID']
     line: TLine
-    name?: Maybe<Scalars['String']>
+    name: Maybe<Scalars['String']>
     notices: Array<TNotice>
-    pointsOnLink?: Maybe<TPointsOnLink>
+    pointsOnLink: Maybe<TPointsOnLink>
     /** Quays visited by service journeys for this journey patterns */
     quays: Array<TQuay>
     serviceJourneys: Array<TServiceJourney>
@@ -435,7 +435,7 @@ export type TJourneyPattern = {
     /** Get all situations active for the journey pattern. */
     situations: Array<TPtSituationElement>
     /** Detailed path travelled by journey pattern divided into stop-to-stop sections. */
-    stopToStopGeometries?: Maybe<Array<Maybe<TStopToStopGeometry>>>
+    stopToStopGeometries: Maybe<Array<Maybe<TStopToStopGeometry>>>
 }
 
 export type TJourneyPatternServiceJourneysForDateArgs = {
@@ -450,11 +450,11 @@ export type TLeg = {
     /** The aimed date and time this leg starts. */
     aimedStartTime: Scalars['DateTime']
     /** For ride legs, the service authority used for this legs. For non-ride legs, null. */
-    authority?: Maybe<TAuthority>
+    authority: Maybe<TAuthority>
     bikeRentalNetworks: Array<Maybe<Scalars['String']>>
-    bookingArrangements?: Maybe<TBookingArrangement>
+    bookingArrangements: Maybe<TBookingArrangement>
     /** The dated service journey used for this leg. */
-    datedServiceJourney?: Maybe<TDatedServiceJourney>
+    datedServiceJourney: Maybe<TDatedServiceJourney>
     /** NOT IMPLEMENTED */
     directDuration: Scalars['Long']
     /** The distance traveled while traversing the leg in meters. */
@@ -466,41 +466,41 @@ export type TLeg = {
     /** The expected, realtime adjusted date and time this leg starts. */
     expectedStartTime: Scalars['DateTime']
     /** EstimatedCall for the quay where the leg originates. */
-    fromEstimatedCall?: Maybe<TEstimatedCall>
+    fromEstimatedCall: Maybe<TEstimatedCall>
     /** The Place where the leg originates. */
     fromPlace: TPlace
     /** Generalized cost or weight of the leg. Used for debugging. */
-    generalizedCost?: Maybe<Scalars['Int']>
+    generalizedCost: Maybe<Scalars['Int']>
     /** An identifier for the leg, which can be used to re-fetch the information. */
-    id?: Maybe<Scalars['ID']>
-    interchangeFrom?: Maybe<TInterchange>
-    interchangeTo?: Maybe<TInterchange>
+    id: Maybe<Scalars['ID']>
+    interchangeFrom: Maybe<TInterchange>
+    interchangeTo: Maybe<TInterchange>
     /** For ride legs, estimated calls for quays between the Place where the leg originates and the Place where the leg ends. For non-ride legs, empty list. */
     intermediateEstimatedCalls: Array<TEstimatedCall>
     /** For ride legs, intermediate quays between the Place where the leg originates and the Place where the leg ends. For non-ride legs, empty list. */
     intermediateQuays: Array<TQuay>
     /** For ride legs, the line. For non-ride legs, null. */
-    line?: Maybe<TLine>
+    line: Maybe<TLine>
     /** The mode of transport or access (e.g., foot) used when traversing this leg. */
     mode: TMode
     /** Fetch the next legs, which can be used to replace this leg. The replacement legs do arrive/depart from/to the same stop places. It might be necessary to change other legs in an itinerary in order to be able to ride the returned legs. */
-    nextLegs?: Maybe<Array<TLeg>>
+    nextLegs: Maybe<Array<TLeg>>
     /** For ride legs, the operator used for this legs. For non-ride legs, null. */
-    operator?: Maybe<TOperator>
+    operator: Maybe<TOperator>
     /** The leg's geometry. */
-    pointsOnLink?: Maybe<TPointsOnLink>
+    pointsOnLink: Maybe<TPointsOnLink>
     /** Fetch the previous legs, which can be used to replace this leg. The replacement legs do arrive/depart from/to the same stop places. It might be necessary to change other legs in an itinerary in order to be able to ride the returned legs. */
-    previousLegs?: Maybe<Array<TLeg>>
+    previousLegs: Maybe<Array<TLeg>>
     /** Whether there is real-time data about this leg */
     realtime: Scalars['Boolean']
     /** Whether this leg is with a rented bike. */
-    rentedBike?: Maybe<Scalars['Boolean']>
+    rentedBike: Maybe<Scalars['Boolean']>
     /** Whether this leg is a ride leg or not. */
     ride: Scalars['Boolean']
     /** For transit legs, the service date of the trip. For non-transit legs, null. */
-    serviceDate?: Maybe<Scalars['Date']>
+    serviceDate: Maybe<Scalars['Date']>
     /** For ride legs, the service journey. For non-ride legs, null. */
-    serviceJourney?: Maybe<TServiceJourney>
+    serviceJourney: Maybe<TServiceJourney>
     /** For ride legs, all estimated calls for the service journey. For non-ride legs, empty list. */
     serviceJourneyEstimatedCalls: Array<TEstimatedCall>
     /** All relevant situations for this leg */
@@ -508,13 +508,13 @@ export type TLeg = {
     /** Do we continue from a specified via place */
     steps: Array<Maybe<TPathGuidance>>
     /** EstimatedCall for the quay where the leg ends. */
-    toEstimatedCall?: Maybe<TEstimatedCall>
+    toEstimatedCall: Maybe<TEstimatedCall>
     /** The Place where the leg ends. */
     toPlace: TPlace
     /** The transport sub mode (e.g., localBus or expressBus) used when traversing this leg. Null if leg is not a ride */
-    transportSubmode?: Maybe<TTransportSubmode>
+    transportSubmode: Maybe<TTransportSubmode>
     /** Whether this leg is walking with a bike. */
-    walkingBike?: Maybe<Scalars['Boolean']>
+    walkingBike: Maybe<Scalars['Boolean']>
 }
 
 /** Part of a trip pattern. Either a ride on a public transport vehicle or access or path link to/from/between places */
@@ -532,34 +532,34 @@ export type TLegPreviousLegsArgs = {
 /** A group of routes which is generally known to the public by a similar name or number */
 export type TLine = {
     __typename?: 'Line'
-    authority?: Maybe<TAuthority>
-    bikesAllowed?: Maybe<TBikesAllowed>
+    authority: Maybe<TAuthority>
+    bikesAllowed: Maybe<TBikesAllowed>
     /**
      * Booking arrangements for flexible line.
      * @deprecated BookingArrangements are defined per stop, and can be found under `passingTimes` or `estimatedCalls`
      */
-    bookingArrangements?: Maybe<TBookingArrangement>
-    branding?: Maybe<TBranding>
-    description?: Maybe<Scalars['String']>
+    bookingArrangements: Maybe<TBookingArrangement>
+    branding: Maybe<TBranding>
+    description: Maybe<Scalars['String']>
     /** Type of flexible line, or null if line is not flexible. */
-    flexibleLineType?: Maybe<Scalars['String']>
+    flexibleLineType: Maybe<Scalars['String']>
     /** Groups of lines that line is a part of. */
     groupOfLines: Array<Maybe<TGroupOfLines>>
     id: Scalars['ID']
-    journeyPatterns?: Maybe<Array<Maybe<TJourneyPattern>>>
-    name?: Maybe<Scalars['String']>
+    journeyPatterns: Maybe<Array<Maybe<TJourneyPattern>>>
+    name: Maybe<Scalars['String']>
     notices: Array<TNotice>
-    operator?: Maybe<TOperator>
-    presentation?: Maybe<TPresentation>
+    operator: Maybe<TOperator>
+    presentation: Maybe<TPresentation>
     /** Publicly announced code for line, differentiating it from other lines for the same operator. */
-    publicCode?: Maybe<Scalars['String']>
+    publicCode: Maybe<Scalars['String']>
     quays: Array<Maybe<TQuay>>
     serviceJourneys: Array<Maybe<TServiceJourney>>
     /** Get all situations active for the line. */
     situations: Array<TPtSituationElement>
-    transportMode?: Maybe<TTransportMode>
-    transportSubmode?: Maybe<TTransportSubmode>
-    url?: Maybe<Scalars['String']>
+    transportMode: Maybe<TTransportMode>
+    transportSubmode: Maybe<TTransportSubmode>
+    url: Maybe<Scalars['String']>
 }
 
 export type TLocale = 'no' | 'us'
@@ -615,15 +615,15 @@ export type TMultiModalMode =
 /** Text with language */
 export type TMultilingualString = {
     __typename?: 'MultilingualString'
-    language?: Maybe<Scalars['String']>
+    language: Maybe<Scalars['String']>
     value: Scalars['String']
 }
 
 export type TNotice = {
     __typename?: 'Notice'
     id: Scalars['ID']
-    publicCode?: Maybe<Scalars['String']>
-    text?: Maybe<Scalars['String']>
+    publicCode: Maybe<Scalars['String']>
+    text: Maybe<Scalars['String']>
 }
 
 export type TOccupancyStatus =
@@ -646,99 +646,99 @@ export type TOperator = {
     id: Scalars['ID']
     lines: Array<Maybe<TLine>>
     name: Scalars['String']
-    phone?: Maybe<Scalars['String']>
+    phone: Maybe<Scalars['String']>
     serviceJourney: Array<Maybe<TServiceJourney>>
-    url?: Maybe<Scalars['String']>
+    url: Maybe<Scalars['String']>
 }
 
 /** Information about pagination in a connection. */
 export type TPageInfo = {
     __typename?: 'PageInfo'
     /** When paginating forwards, the cursor to continue. */
-    endCursor?: Maybe<Scalars['String']>
+    endCursor: Maybe<Scalars['String']>
     /** When paginating forwards, are there more items? */
     hasNextPage: Scalars['Boolean']
     /** When paginating backwards, are there more items? */
     hasPreviousPage: Scalars['Boolean']
     /** When paginating backwards, the cursor to continue. */
-    startCursor?: Maybe<Scalars['String']>
+    startCursor: Maybe<Scalars['String']>
 }
 
 /** A series of turn by turn instructions used for walking, biking and driving. */
 export type TPathGuidance = {
     __typename?: 'PathGuidance'
     /** This step is on an open area, such as a plaza or train platform, and thus the directions should say something like "cross" */
-    area?: Maybe<Scalars['Boolean']>
+    area: Maybe<Scalars['Boolean']>
     /** The name of this street was generated by the system, so we should only display it once, and generally just display right/left directions */
-    bogusName?: Maybe<Scalars['Boolean']>
+    bogusName: Maybe<Scalars['Boolean']>
     /** The distance in meters that this step takes. */
-    distance?: Maybe<Scalars['Float']>
+    distance: Maybe<Scalars['Float']>
     /** When exiting a highway or traffic circle, the exit name/number. */
-    exit?: Maybe<Scalars['String']>
+    exit: Maybe<Scalars['String']>
     /** The absolute direction of this step. */
-    heading?: Maybe<TAbsoluteDirection>
+    heading: Maybe<TAbsoluteDirection>
     /** The latitude of the step. */
-    latitude?: Maybe<Scalars['Float']>
+    latitude: Maybe<Scalars['Float']>
     /** The longitude of the step. */
-    longitude?: Maybe<Scalars['Float']>
+    longitude: Maybe<Scalars['Float']>
     /** The relative direction of this step. */
-    relativeDirection?: Maybe<TRelativeDirection>
+    relativeDirection: Maybe<TRelativeDirection>
     /** Indicates whether or not a street changes direction at an intersection. */
-    stayOn?: Maybe<Scalars['Boolean']>
+    stayOn: Maybe<Scalars['Boolean']>
     /** The name of the street. */
-    streetName?: Maybe<Scalars['String']>
+    streetName: Maybe<Scalars['String']>
 }
 
 /** Common super class for all places (stop places, quays, car parks, bike parks and bike rental stations ) */
 export type TPlace = {
     __typename?: 'Place'
     /** The bike rental station related to the place */
-    bikeRentalStation?: Maybe<TBikeRentalStation>
+    bikeRentalStation: Maybe<TBikeRentalStation>
     /** The flexible area related to the place. */
-    flexibleArea?: Maybe<Scalars['Coordinates']>
+    flexibleArea: Maybe<Scalars['Coordinates']>
     /** The latitude of the place. */
     latitude: Scalars['Float']
     /** The longitude of the place. */
     longitude: Scalars['Float']
     /** For transit quays, the name of the quay. For points of interest, the name of the POI. */
-    name?: Maybe<Scalars['String']>
+    name: Maybe<Scalars['String']>
     /** The quay related to the place. */
-    quay?: Maybe<TQuay>
+    quay: Maybe<TQuay>
     /** The rental vehicle related to the place */
-    rentalVehicle?: Maybe<TRentalVehicle>
+    rentalVehicle: Maybe<TRentalVehicle>
     /** Type of vertex. (Normal, Bike sharing station, Bike P+R, Transit quay) Mostly used for better localization of bike sharing and P+R station names */
-    vertexType?: Maybe<TVertexType>
+    vertexType: Maybe<TVertexType>
 }
 
 export type TPlaceAtDistance = {
     __typename?: 'PlaceAtDistance'
-    distance?: Maybe<Scalars['Float']>
+    distance: Maybe<Scalars['Float']>
     /** @deprecated Id is not referable or meaningful and will be removed */
     id: Scalars['ID']
-    place?: Maybe<TPlaceInterface>
+    place: Maybe<TPlaceInterface>
 }
 
 /** Interface for places, i.e. quays, stop places, parks */
 export type TPlaceInterface = {
     id: Scalars['ID']
-    latitude?: Maybe<Scalars['Float']>
-    longitude?: Maybe<Scalars['Float']>
+    latitude: Maybe<Scalars['Float']>
+    longitude: Maybe<Scalars['Float']>
 }
 
 /** A list of coordinates encoded as a polyline string (see http://code.google.com/apis/maps/documentation/polylinealgorithm.html) */
 export type TPointsOnLink = {
     __typename?: 'PointsOnLink'
     /** The number of points in the string */
-    length?: Maybe<Scalars['Int']>
+    length: Maybe<Scalars['Int']>
     /** The encoded points of the polyline. Be aware that the string could contain escape characters that need to be accounted for. (https://www.freeformatter.com/javascript-escape.html) */
-    points?: Maybe<Scalars['String']>
+    points: Maybe<Scalars['String']>
 }
 
 /** Types describing common presentation properties */
 export type TPresentation = {
     __typename?: 'Presentation'
-    colour?: Maybe<Scalars['String']>
-    textColour?: Maybe<Scalars['String']>
+    colour: Maybe<Scalars['String']>
+    textColour: Maybe<Scalars['String']>
 }
 
 /** Simple public transport situation element */
@@ -752,43 +752,43 @@ export type TPtSituationElement = {
      * Get affected authority for this situation element
      * @deprecated Use affects instead
      */
-    authority?: Maybe<TAuthority>
+    authority: Maybe<TAuthority>
     /** Timestamp for when the situation was created. */
-    creationTime?: Maybe<Scalars['DateTime']>
+    creationTime: Maybe<Scalars['DateTime']>
     /** Description of situation in all different translations available */
     description: Array<TMultilingualString>
     id: Scalars['ID']
     /** Optional links to more information. */
-    infoLinks?: Maybe<Array<TInfoLink>>
+    infoLinks: Maybe<Array<TInfoLink>>
     /** @deprecated Use affects instead */
     lines: Array<Maybe<TLine>>
     /** Codespace of the data source. */
-    participant?: Maybe<Scalars['String']>
+    participant: Maybe<Scalars['String']>
     /** Priority of this situation  */
-    priority?: Maybe<Scalars['Int']>
+    priority: Maybe<Scalars['Int']>
     /** @deprecated Use affects instead */
     quays: Array<TQuay>
     /**
      * Authority that reported this situation. Always returns the first agency in the codespace
      * @deprecated Not yet officially supported. May be removed or renamed.
      */
-    reportAuthority?: Maybe<TAuthority>
+    reportAuthority: Maybe<TAuthority>
     /** ReportType of this situation */
-    reportType?: Maybe<TReportType>
+    reportType: Maybe<TReportType>
     /** @deprecated Use affects instead */
     serviceJourneys: Array<Maybe<TServiceJourney>>
     /** Severity of this situation  */
-    severity?: Maybe<TSeverity>
+    severity: Maybe<TSeverity>
     /** Operator's internal id for this situation */
-    situationNumber?: Maybe<Scalars['String']>
+    situationNumber: Maybe<Scalars['String']>
     /** @deprecated Use affects instead */
     stopPlaces: Array<TStopPlace>
     /** Summary of situation in all different translations available */
     summary: Array<TMultilingualString>
     /** Period this situation is in effect */
-    validityPeriod?: Maybe<TValidityPeriod>
+    validityPeriod: Maybe<TValidityPeriod>
     /** Timestamp when the situation element was updated. */
-    versionedAtTime?: Maybe<Scalars['DateTime']>
+    versionedAtTime: Maybe<Scalars['DateTime']>
 }
 
 export type TPurchaseWhen =
@@ -801,32 +801,32 @@ export type TPurchaseWhen =
 /** A place such as platform, stance, or quayside where passengers have access to PT vehicles. */
 export type TQuay = TPlaceInterface & {
     __typename?: 'Quay'
-    description?: Maybe<Scalars['String']>
+    description: Maybe<Scalars['String']>
     /** List of visits to this quay as part of vehicle journeys. */
     estimatedCalls: Array<TEstimatedCall>
     /** Geometry for flexible area. */
-    flexibleArea?: Maybe<Scalars['Coordinates']>
+    flexibleArea: Maybe<Scalars['Coordinates']>
     /** the Quays part of an flexible group. */
-    flexibleGroup?: Maybe<Array<Maybe<TQuay>>>
+    flexibleGroup: Maybe<Array<Maybe<TQuay>>>
     id: Scalars['ID']
     /** List of journey patterns servicing this quay */
     journeyPatterns: Array<Maybe<TJourneyPattern>>
-    latitude?: Maybe<Scalars['Float']>
+    latitude: Maybe<Scalars['Float']>
     /** List of lines servicing this quay */
     lines: Array<TLine>
-    longitude?: Maybe<Scalars['Float']>
+    longitude: Maybe<Scalars['Float']>
     name: Scalars['String']
     /** Public code used to identify this quay within the stop place. For instance a platform code. */
-    publicCode?: Maybe<Scalars['String']>
+    publicCode: Maybe<Scalars['String']>
     /** Get all situations active for the quay. */
     situations: Array<TPtSituationElement>
     /** The stop place to which this quay belongs to. */
-    stopPlace?: Maybe<TStopPlace>
-    stopType?: Maybe<Scalars['String']>
+    stopPlace: Maybe<TStopPlace>
+    stopType: Maybe<Scalars['String']>
     tariffZones: Array<Maybe<TTariffZone>>
-    timeZone?: Maybe<Scalars['String']>
+    timeZone: Maybe<Scalars['String']>
     /** Whether this quay is suitable for wheelchair boarding. */
-    wheelchairAccessible?: Maybe<TWheelchairBoarding>
+    wheelchairAccessible: Maybe<TWheelchairBoarding>
 }
 
 /** A place such as platform, stance, or quayside where passengers have access to PT vehicles. */
@@ -849,9 +849,9 @@ export type TQuayNameArgs = {
 export type TQuayAtDistance = {
     __typename?: 'QuayAtDistance'
     /** The distance in meters to the given quay. */
-    distance?: Maybe<Scalars['Float']>
+    distance: Maybe<Scalars['Float']>
     id: Scalars['ID']
-    quay?: Maybe<TQuay>
+    quay: Maybe<TQuay>
 }
 
 export type TQueryType = {
@@ -859,59 +859,59 @@ export type TQueryType = {
     /** Get all authorities */
     authorities: Array<Maybe<TAuthority>>
     /** Get an authority by ID */
-    authority?: Maybe<TAuthority>
+    authority: Maybe<TAuthority>
     /** Get a single bike park based on its id */
-    bikePark?: Maybe<TBikePark>
+    bikePark: Maybe<TBikePark>
     /** Get all bike parks */
     bikeParks: Array<Maybe<TBikePark>>
     /** Get all bike rental stations */
-    bikeRentalStation?: Maybe<TBikeRentalStation>
+    bikeRentalStation: Maybe<TBikeRentalStation>
     /** Get all bike rental stations */
     bikeRentalStations: Array<Maybe<TBikeRentalStation>>
     /** Get all bike rental stations within the specified bounding box. */
     bikeRentalStationsByBbox: Array<Maybe<TBikeRentalStation>>
     /** Get a single dated service journey based on its id */
-    datedServiceJourney?: Maybe<TDatedServiceJourney>
+    datedServiceJourney: Maybe<TDatedServiceJourney>
     /** Get all dated service journeys, matching the filters */
     datedServiceJourneys: Array<TDatedServiceJourney>
     /** Get a single group of lines based on its id */
-    groupOfLines?: Maybe<TGroupOfLines>
+    groupOfLines: Maybe<TGroupOfLines>
     /** Get all groups of lines */
     groupsOfLines: Array<TGroupOfLines>
     /** Refetch a single leg based on its id */
-    leg?: Maybe<TLeg>
+    leg: Maybe<TLeg>
     /** Get a single line based on its id */
-    line?: Maybe<TLine>
+    line: Maybe<TLine>
     /** Get all lines */
     lines: Array<Maybe<TLine>>
     /** Get all places (quays, stop places, car parks etc. with coordinates) within the specified radius from a location. The returned type has two fields place and distance. The search is done by walking so the distance is according to the network of walkables. */
-    nearest?: Maybe<TPlaceAtDistanceConnection>
+    nearest: Maybe<TPlaceAtDistanceConnection>
     /** Get a operator by ID */
-    operator?: Maybe<TOperator>
+    operator: Maybe<TOperator>
     /** Get all operators */
     operators: Array<Maybe<TOperator>>
     /** Get a single quay based on its id) */
-    quay?: Maybe<TQuay>
+    quay: Maybe<TQuay>
     /** Get all quays */
     quays: Array<Maybe<TQuay>>
     /** Get all quays within the specified bounding box */
     quaysByBbox: Array<Maybe<TQuay>>
     /** Get all quays within the specified walking radius from a location. The returned type has two fields quay and distance */
-    quaysByRadius?: Maybe<TQuayAtDistanceConnection>
+    quaysByRadius: Maybe<TQuayAtDistanceConnection>
     /** Get default routing parameters. */
-    routingParameters?: Maybe<TRoutingParameters>
+    routingParameters: Maybe<TRoutingParameters>
     /** Get OTP server information */
     serverInfo: TServerInfo
     /** Get a single service journey based on its id */
-    serviceJourney?: Maybe<TServiceJourney>
+    serviceJourney: Maybe<TServiceJourney>
     /** Get all service journeys */
     serviceJourneys: Array<Maybe<TServiceJourney>>
     /** Get a single situation based on its situationNumber */
-    situation?: Maybe<TPtSituationElement>
+    situation: Maybe<TPtSituationElement>
     /** Get all active situations. */
     situations: Array<TPtSituationElement>
     /** Get a single stopPlace based on its id) */
-    stopPlace?: Maybe<TStopPlace>
+    stopPlace: Maybe<TStopPlace>
     /** Get all stopPlaces */
     stopPlaces: Array<Maybe<TStopPlace>>
     /** Get all stop places within the specified bounding box */
@@ -1152,7 +1152,7 @@ export type TRelativeDirection =
 
 export type TRentalVehicle = TPlaceInterface & {
     __typename?: 'RentalVehicle'
-    currentRangeMeters?: Maybe<Scalars['Float']>
+    currentRangeMeters: Maybe<Scalars['Float']>
     id: Scalars['ID']
     latitude: Scalars['Float']
     longitude: Scalars['Float']
@@ -1163,8 +1163,8 @@ export type TRentalVehicle = TPlaceInterface & {
 export type TRentalVehicleType = {
     __typename?: 'RentalVehicleType'
     formFactor: Scalars['String']
-    maxRangeMeters?: Maybe<Scalars['Float']>
-    name?: Maybe<Scalars['String']>
+    maxRangeMeters: Maybe<Scalars['Float']>
+    name: Maybe<Scalars['String']>
     propulsionType: Scalars['String']
     vehicleTypeId: Scalars['String']
 }
@@ -1183,7 +1183,7 @@ export type TRoutingError = {
     /** A textual description of why the search failed. The clients are expected to have their own translations based on the code, for user visible error messages. */
     description: Scalars['String']
     /** An enum describing the field which should be changed, in order for the search to succeed */
-    inputField?: Maybe<TInputField>
+    inputField: Maybe<TInputField>
 }
 
 export type TRoutingErrorCode =
@@ -1208,128 +1208,128 @@ export type TRoutingErrorCode =
 export type TRoutingParameters = {
     __typename?: 'RoutingParameters'
     /** The alightSlack is the minimum extra time after exiting a public transport vehicle. This is the default value used, if not overridden by the 'alightSlackList'. */
-    alightSlackDefault?: Maybe<Scalars['Int']>
+    alightSlackDefault: Maybe<Scalars['Int']>
     /** List of alightSlack for a given set of modes. */
-    alightSlackList?: Maybe<Array<Maybe<TTransportModeSlackType>>>
+    alightSlackList: Maybe<Array<Maybe<TTransportModeSlackType>>>
     /** @deprecated Rental is specified by modes */
-    allowBikeRental?: Maybe<Scalars['Boolean']>
+    allowBikeRental: Maybe<Scalars['Boolean']>
     /** Separate cost for boarding a vehicle with a bicycle, which is more difficult than on foot. */
-    bikeBoardCost?: Maybe<Scalars['Int']>
+    bikeBoardCost: Maybe<Scalars['Int']>
     /** Cost to park a bike. */
-    bikeParkCost?: Maybe<Scalars['Int']>
+    bikeParkCost: Maybe<Scalars['Int']>
     /** Time to park a bike. */
-    bikeParkTime?: Maybe<Scalars['Int']>
+    bikeParkTime: Maybe<Scalars['Int']>
     /** Cost to drop-off a rented bike. */
-    bikeRentalDropOffCost?: Maybe<Scalars['Int']>
+    bikeRentalDropOffCost: Maybe<Scalars['Int']>
     /** Time to drop-off a rented bike. */
-    bikeRentalDropOffTime?: Maybe<Scalars['Int']>
+    bikeRentalDropOffTime: Maybe<Scalars['Int']>
     /** Cost to rent a bike. */
-    bikeRentalPickupCost?: Maybe<Scalars['Int']>
+    bikeRentalPickupCost: Maybe<Scalars['Int']>
     /** Time to rent a bike. */
-    bikeRentalPickupTime?: Maybe<Scalars['Int']>
+    bikeRentalPickupTime: Maybe<Scalars['Int']>
     /** Max bike speed along streets, in meters per second */
-    bikeSpeed?: Maybe<Scalars['Float']>
+    bikeSpeed: Maybe<Scalars['Float']>
     /** The boardSlack is the minimum extra time to board a public transport vehicle. This is the same as the 'minimumTransferTime', except that this also apply to to the first transit leg in the trip. This is the default value used, if not overridden by the 'boardSlackList'. */
-    boardSlackDefault?: Maybe<Scalars['Int']>
+    boardSlackDefault: Maybe<Scalars['Int']>
     /** List of boardSlack for a given set of modes. */
-    boardSlackList?: Maybe<Array<Maybe<TTransportModeSlackType>>>
+    boardSlackList: Maybe<Array<Maybe<TTransportModeSlackType>>>
     /** The acceleration speed of an automobile, in meters per second per second. */
-    carAccelerationSpeed?: Maybe<Scalars['Float']>
+    carAccelerationSpeed: Maybe<Scalars['Float']>
     /** The deceleration speed of an automobile, in meters per second per second. */
-    carDecelerationSpeed?: Maybe<Scalars['Float']>
+    carDecelerationSpeed: Maybe<Scalars['Float']>
     /** Time to park a car in a park and ride, w/o taking into account driving and walking cost. */
-    carDropOffTime?: Maybe<Scalars['Int']>
+    carDropOffTime: Maybe<Scalars['Int']>
     /** Max car speed along streets, in meters per second */
-    carSpeed?: Maybe<Scalars['Float']>
+    carSpeed: Maybe<Scalars['Float']>
     /** @deprecated NOT IN USE IN OTP2. */
-    compactLegsByReversedSearch?: Maybe<Scalars['Boolean']>
-    debugItineraryFilter?: Maybe<Scalars['Boolean']>
+    compactLegsByReversedSearch: Maybe<Scalars['Boolean']>
+    debugItineraryFilter: Maybe<Scalars['Boolean']>
     /**
      * Option to disable the default filtering of GTFS-RT alerts by time.
      * @deprecated This is not supported!
      */
-    disableAlertFiltering?: Maybe<Scalars['Boolean']>
+    disableAlertFiltering: Maybe<Scalars['Boolean']>
     /** If true, the remaining weight heuristic is disabled. */
-    disableRemainingWeightHeuristic?: Maybe<Scalars['Boolean']>
+    disableRemainingWeightHeuristic: Maybe<Scalars['Boolean']>
     /** What is the cost of boarding a elevator? */
-    elevatorBoardCost?: Maybe<Scalars['Int']>
+    elevatorBoardCost: Maybe<Scalars['Int']>
     /** How long does it take to get on an elevator, on average. */
-    elevatorBoardTime?: Maybe<Scalars['Int']>
+    elevatorBoardTime: Maybe<Scalars['Int']>
     /** What is the cost of travelling one floor on an elevator? */
-    elevatorHopCost?: Maybe<Scalars['Int']>
+    elevatorHopCost: Maybe<Scalars['Int']>
     /** How long does it take to advance one floor on an elevator? */
-    elevatorHopTime?: Maybe<Scalars['Int']>
+    elevatorHopTime: Maybe<Scalars['Int']>
     /** Whether to apply the ellipsoid->geoid offset to all elevations in the response. */
-    geoIdElevation?: Maybe<Scalars['Boolean']>
+    geoIdElevation: Maybe<Scalars['Boolean']>
     /** When true, realtime updates are ignored during this search. */
-    ignoreRealTimeUpdates?: Maybe<Scalars['Boolean']>
+    ignoreRealTimeUpdates: Maybe<Scalars['Boolean']>
     /** When true, service journeys cancelled in scheduled route data will be included during this search. */
-    includedPlannedCancellations?: Maybe<Scalars['Boolean']>
+    includedPlannedCancellations: Maybe<Scalars['Boolean']>
     /** @deprecated Parking is specified by modes */
-    kissAndRide?: Maybe<Scalars['Boolean']>
+    kissAndRide: Maybe<Scalars['Boolean']>
     /** Maximum number of transfers allowed in addition to the result with least number of transfers */
-    maxAdditionalTransfers?: Maybe<Scalars['Int']>
+    maxAdditionalTransfers: Maybe<Scalars['Int']>
     /** This is the maximum duration in seconds for a direct street search. This is a performance limit and should therefore be set high. Use filters to limit what is presented to the client. */
-    maxDirectStreetDuration?: Maybe<Scalars['Int']>
+    maxDirectStreetDuration: Maybe<Scalars['Int']>
     /** The maximum slope of streets for wheelchair trips. */
-    maxSlope?: Maybe<Scalars['Float']>
+    maxSlope: Maybe<Scalars['Float']>
     /** Maximum number of transfers returned in a trip plan. */
-    maxTransfers?: Maybe<Scalars['Int']>
+    maxTransfers: Maybe<Scalars['Int']>
     /** The maximum number of itineraries to return. */
-    numItineraries?: Maybe<Scalars['Int']>
+    numItineraries: Maybe<Scalars['Int']>
     /**
      * Accept only paths that use transit (no street-only paths).
      * @deprecated This is replaced by modes input object
      */
-    onlyTransitTrips?: Maybe<Scalars['Boolean']>
+    onlyTransitTrips: Maybe<Scalars['Boolean']>
     /** Penalty added for using every route that is not preferred if user set any route as preferred. We return number of seconds that we are willing to wait for preferred route. */
-    otherThanPreferredRoutesPenalty?: Maybe<Scalars['Int']>
+    otherThanPreferredRoutesPenalty: Maybe<Scalars['Int']>
     /** @deprecated Parking is specified by modes */
-    parkAndRide?: Maybe<Scalars['Boolean']>
+    parkAndRide: Maybe<Scalars['Boolean']>
     /** @deprecated NOT IN USE IN OTP2. */
-    reverseOptimizeOnTheFly?: Maybe<Scalars['Boolean']>
+    reverseOptimizeOnTheFly: Maybe<Scalars['Boolean']>
     /**
      * Whether the planner should return intermediate stops lists for transit legs.
      * @deprecated This parameter is always enabled
      */
-    showIntermediateStops?: Maybe<Scalars['Boolean']>
+    showIntermediateStops: Maybe<Scalars['Boolean']>
     /** Used instead of walkReluctance for stairs. */
-    stairsReluctance?: Maybe<Scalars['Float']>
+    stairsReluctance: Maybe<Scalars['Float']>
     /** An extra penalty added on transfers (i.e. all boardings except the first one). */
-    transferPenalty?: Maybe<Scalars['Int']>
+    transferPenalty: Maybe<Scalars['Int']>
     /** A global minimum transfer time (in seconds) that specifies the minimum amount of time that must pass between exiting one transit vehicle and boarding another. */
-    transferSlack?: Maybe<Scalars['Int']>
+    transferSlack: Maybe<Scalars['Int']>
     /** Multiplicative factor on expected turning time. */
-    turnReluctance?: Maybe<Scalars['Float']>
+    turnReluctance: Maybe<Scalars['Float']>
     /** How much worse is waiting for a transit vehicle than being on a transit vehicle, as a multiplier. */
-    waitReluctance?: Maybe<Scalars['Float']>
+    waitReluctance: Maybe<Scalars['Float']>
     /** This prevents unnecessary transfers by adding a cost for boarding a vehicle. */
-    walkBoardCost?: Maybe<Scalars['Int']>
+    walkBoardCost: Maybe<Scalars['Int']>
     /** A multiplier for how bad walking is, compared to being in transit for equal lengths of time. */
-    walkReluctance?: Maybe<Scalars['Float']>
+    walkReluctance: Maybe<Scalars['Float']>
     /** Max walk speed along streets, in meters per second */
-    walkSpeed?: Maybe<Scalars['Float']>
+    walkSpeed: Maybe<Scalars['Float']>
     /** Whether the trip must be wheelchair accessible. */
-    wheelChairAccessible?: Maybe<Scalars['Boolean']>
+    wheelChairAccessible: Maybe<Scalars['Boolean']>
 }
 
 export type TServerInfo = {
     __typename?: 'ServerInfo'
     /** The 'configVersion' of the build-config.json file. */
-    buildConfigVersion?: Maybe<Scalars['String']>
+    buildConfigVersion: Maybe<Scalars['String']>
     /** OTP Build timestamp */
-    buildTime?: Maybe<Scalars['String']>
-    gitBranch?: Maybe<Scalars['String']>
-    gitCommit?: Maybe<Scalars['String']>
-    gitCommitTime?: Maybe<Scalars['String']>
+    buildTime: Maybe<Scalars['String']>
+    gitBranch: Maybe<Scalars['String']>
+    gitCommit: Maybe<Scalars['String']>
+    gitCommitTime: Maybe<Scalars['String']>
     /** The 'configVersion' of the otp-config.json file. */
-    otpConfigVersion?: Maybe<Scalars['String']>
+    otpConfigVersion: Maybe<Scalars['String']>
     /** The otp-serialization-version-id used to check graphs for compatibility with current version of OTP. */
-    otpSerializationVersionId?: Maybe<Scalars['String']>
+    otpSerializationVersionId: Maybe<Scalars['String']>
     /** The 'configVersion' of the router-config.json file. */
-    routerConfigVersion?: Maybe<Scalars['String']>
+    routerConfigVersion: Maybe<Scalars['String']>
     /** Maven version */
-    version?: Maybe<Scalars['String']>
+    version: Maybe<Scalars['String']>
 }
 
 export type TServiceAlteration =
@@ -1343,39 +1343,39 @@ export type TServiceJourney = {
     __typename?: 'ServiceJourney'
     activeDates: Array<Maybe<Scalars['Date']>>
     /** Whether bikes are allowed on service journey. */
-    bikesAllowed?: Maybe<TBikesAllowed>
+    bikesAllowed: Maybe<TBikesAllowed>
     /**
      * Booking arrangements for flexible services.
      * @deprecated BookingArrangements are defined per stop, and can be found under `passingTimes` or `estimatedCalls`
      */
-    bookingArrangements?: Maybe<TBookingArrangement>
-    directionType?: Maybe<TDirectionType>
+    bookingArrangements: Maybe<TBookingArrangement>
+    directionType: Maybe<TDirectionType>
     /** Returns scheduled passingTimes for this ServiceJourney for a given date, updated with realtime-updates (if available). NB! This takes a date as argument (default=today) and returns estimatedCalls for that date and should only be used if the date is known when creating the request. For fetching estimatedCalls for a given trip.leg, use leg.serviceJourneyEstimatedCalls instead. */
-    estimatedCalls?: Maybe<Array<Maybe<TEstimatedCall>>>
+    estimatedCalls: Maybe<Array<Maybe<TEstimatedCall>>>
     id: Scalars['ID']
     /** JourneyPattern for the service journey, according to scheduled data. If the ServiceJourney is not included in the scheduled data, null is returned. */
-    journeyPattern?: Maybe<TJourneyPattern>
+    journeyPattern: Maybe<TJourneyPattern>
     line: TLine
     notices: Array<TNotice>
-    operator?: Maybe<TOperator>
+    operator: Maybe<TOperator>
     /** Returns scheduled passing times only - without realtime-updates, for realtime-data use 'estimatedCalls' */
     passingTimes: Array<Maybe<TTimetabledPassingTime>>
     /** Detailed path travelled by service journey. Not available for flexible trips. */
-    pointsOnLink?: Maybe<TPointsOnLink>
+    pointsOnLink: Maybe<TPointsOnLink>
     /** For internal use by operators. */
-    privateCode?: Maybe<Scalars['String']>
+    privateCode: Maybe<Scalars['String']>
     /** Publicly announced code for service journey, differentiating it from other service journeys for the same line. */
-    publicCode?: Maybe<Scalars['String']>
+    publicCode: Maybe<Scalars['String']>
     /** Quays visited by service journey, according to scheduled data. If the ServiceJourney is not included in the scheduled data, an empty list is returned. */
     quays: Array<TQuay>
     /** @deprecated The service journey alteration will be moved out of SJ and grouped together with the SJ and date. In Netex this new type is called DatedServiceJourney. We will create artificial DSJs for the old SJs. */
-    serviceAlteration?: Maybe<TServiceAlteration>
+    serviceAlteration: Maybe<TServiceAlteration>
     /** Get all situations active for the service journey. */
     situations: Array<TPtSituationElement>
-    transportMode?: Maybe<TTransportMode>
-    transportSubmode?: Maybe<TTransportSubmode>
+    transportMode: Maybe<TTransportMode>
+    transportSubmode: Maybe<TTransportSubmode>
     /** Whether service journey is accessible with wheelchair. */
-    wheelchairAccessible?: Maybe<TWheelchairBoarding>
+    wheelchairAccessible: Maybe<TWheelchairBoarding>
 }
 
 /** A planned vehicle journey with passengers. */
@@ -1422,27 +1422,27 @@ export type TStopCondition =
 /** Named place where public transport may be accessed. May be a building complex (e.g. a station) or an on-street location. */
 export type TStopPlace = TPlaceInterface & {
     __typename?: 'StopPlace'
-    description?: Maybe<Scalars['String']>
+    description: Maybe<Scalars['String']>
     /** List of visits to this stop place as part of vehicle journeys. */
     estimatedCalls: Array<TEstimatedCall>
     id: Scalars['ID']
-    latitude?: Maybe<Scalars['Float']>
-    longitude?: Maybe<Scalars['Float']>
+    latitude: Maybe<Scalars['Float']>
+    longitude: Maybe<Scalars['Float']>
     name: Scalars['String']
     /** Returns parent stop for this stop */
-    parent?: Maybe<TStopPlace>
+    parent: Maybe<TStopPlace>
     /** Returns all quays that are children of this stop place */
-    quays?: Maybe<Array<Maybe<TQuay>>>
+    quays: Maybe<Array<Maybe<TQuay>>>
     /** Get all situations active for the stop place. Situations affecting individual quays are not returned, and should be fetched directly from the quay. */
     situations: Array<TPtSituationElement>
     tariffZones: Array<Maybe<TTariffZone>>
-    timeZone?: Maybe<Scalars['String']>
+    timeZone: Maybe<Scalars['String']>
     /** The transport modes of quays under this stop place. */
-    transportMode?: Maybe<Array<Maybe<TTransportMode>>>
+    transportMode: Maybe<Array<Maybe<TTransportMode>>>
     /** The transport submode serviced by this stop place. */
-    transportSubmode?: Maybe<Array<Maybe<TTransportSubmode>>>
+    transportSubmode: Maybe<Array<Maybe<TTransportSubmode>>>
     /** Relative weighting of this stop with regards to interchanges. NOT IMPLEMENTED */
-    weighting?: Maybe<TInterchangeWeighting>
+    weighting: Maybe<TInterchangeWeighting>
 }
 
 /** Named place where public transport may be accessed. May be a building complex (e.g. a station) or an on-street location. */
@@ -1471,11 +1471,11 @@ export type TStopPlaceQuaysArgs = {
 export type TStopToStopGeometry = {
     __typename?: 'StopToStopGeometry'
     /** Origin Quay */
-    fromQuay?: Maybe<TQuay>
+    fromQuay: Maybe<TQuay>
     /** A list of coordinates encoded as a polyline string between two stops (see http://code.google.com/apis/maps/documentation/polylinealgorithm.html) */
-    pointsOnLink?: Maybe<TPointsOnLink>
+    pointsOnLink: Maybe<TPointsOnLink>
     /** Destination Quay */
-    toQuay?: Maybe<TQuay>
+    toQuay: Maybe<TQuay>
 }
 
 export type TStreetMode =
@@ -1517,42 +1517,42 @@ export type TStreetModes = {
 /** A system notice is used to tag elements with system information for debugging or other system related purpose. One use-case is to run a routing search with 'itineraryFilters.debug: true'. This will then tag itineraries instead of removing them from the result. This make it possible to inspect the itinerary-filter-chain. A SystemNotice only have english text, because the primary user are technical staff, like testers and developers. */
 export type TSystemNotice = {
     __typename?: 'SystemNotice'
-    tag?: Maybe<Scalars['String']>
-    text?: Maybe<Scalars['String']>
+    tag: Maybe<Scalars['String']>
+    text: Maybe<Scalars['String']>
 }
 
 export type TTariffZone = {
     __typename?: 'TariffZone'
     id: Scalars['ID']
-    name?: Maybe<Scalars['String']>
+    name: Maybe<Scalars['String']>
 }
 
 export type TTimeAndDayOffset = {
     __typename?: 'TimeAndDayOffset'
     /** Number of days offset from base line time */
-    dayOffset?: Maybe<Scalars['Int']>
+    dayOffset: Maybe<Scalars['Int']>
     /** Local time */
-    time?: Maybe<Scalars['Time']>
+    time: Maybe<Scalars['Time']>
 }
 
 /** Scheduled passing times. These are not affected by real time updates. */
 export type TTimetabledPassingTime = {
     __typename?: 'TimetabledPassingTime'
     /** Scheduled time of arrival at quay */
-    arrival?: Maybe<TTimeAndDayOffset>
+    arrival: Maybe<TTimeAndDayOffset>
     /** Booking arrangements for this passing time. */
-    bookingArrangements?: Maybe<TBookingArrangement>
+    bookingArrangements: Maybe<TBookingArrangement>
     /** Scheduled time of departure from quay */
-    departure?: Maybe<TTimeAndDayOffset>
-    destinationDisplay?: Maybe<TDestinationDisplay>
+    departure: Maybe<TTimeAndDayOffset>
+    destinationDisplay: Maybe<TDestinationDisplay>
     /** Earliest possible departure time for a service journey with a service window. */
-    earliestDepartureTime?: Maybe<TTimeAndDayOffset>
+    earliestDepartureTime: Maybe<TTimeAndDayOffset>
     /** Whether vehicle may be alighted at quay. */
     forAlighting: Scalars['Boolean']
     /** Whether vehicle may be boarded at quay. */
     forBoarding: Scalars['Boolean']
     /** Latest possible (planned) arrival time for a service journey with a service window. */
-    latestArrivalTime?: Maybe<TTimeAndDayOffset>
+    latestArrivalTime: Maybe<TTimeAndDayOffset>
     notices: Array<TNotice>
     quay: TQuay
     /** Whether vehicle will only stop on request. */
@@ -1732,7 +1732,7 @@ export type TTriangleFactors = {
 export type TTrip = {
     __typename?: 'Trip'
     /** The time and date of travel */
-    dateTime?: Maybe<Scalars['DateTime']>
+    dateTime: Maybe<Scalars['DateTime']>
     /** Information about the timings for the trip generation */
     debugOutput: TDebugOutput
     /** The origin */
@@ -1748,17 +1748,17 @@ export type TTrip = {
      */
     messageStrings: Array<Maybe<Scalars['String']>>
     /** The trip request metadata. */
-    metadata?: Maybe<TTripSearchData>
+    metadata: Maybe<TTripSearchData>
     /**
      * Use the cursor to get the next page of results. Use this cursor for the pageCursor parameter in the trip query in order to get the next page.
      * The next page is a set of itineraries departing AFTER the last itinerary in this result.
      */
-    nextPageCursor?: Maybe<Scalars['String']>
+    nextPageCursor: Maybe<Scalars['String']>
     /**
      * Use the cursor to get the previous page of results. Use this cursor for the pageCursor parameter in the trip query in order to get the previous page.
      * The previous page is a set of itineraries departing BEFORE the first itinerary in this result.
      */
-    previousPageCursor?: Maybe<Scalars['String']>
+    previousPageCursor: Maybe<Scalars['String']>
     /** A list of routing errors, and fields which caused them */
     routingErrors: Array<TRoutingError>
     /** The destination */
@@ -1802,41 +1802,41 @@ export type TTripPattern = {
     /** The aimed date and time the trip starts. */
     aimedStartTime: Scalars['DateTime']
     /** NOT IMPLEMENTED. */
-    directDuration?: Maybe<Scalars['Long']>
+    directDuration: Maybe<Scalars['Long']>
     /** Total distance for the trip, in meters. NOT IMPLEMENTED */
-    distance?: Maybe<Scalars['Float']>
+    distance: Maybe<Scalars['Float']>
     /** Duration of the trip, in seconds. */
-    duration?: Maybe<Scalars['Long']>
+    duration: Maybe<Scalars['Long']>
     /**
      * Time that the trip arrives.
      * @deprecated Replaced with expectedEndTime
      */
-    endTime?: Maybe<Scalars['DateTime']>
+    endTime: Maybe<Scalars['DateTime']>
     /** The expected, realtime adjusted date and time the trip ends. */
     expectedEndTime: Scalars['DateTime']
     /** The expected, realtime adjusted date and time the trip starts. */
     expectedStartTime: Scalars['DateTime']
     /** Generalized cost or weight of the itinerary. Used for debugging. */
-    generalizedCost?: Maybe<Scalars['Int']>
+    generalizedCost: Maybe<Scalars['Int']>
     /** A list of legs. Each leg is either a walking (cycling, car) portion of the trip, or a ride leg on a particular vehicle. So a trip where the use walks to the Q train, transfers to the 6, then walks to their destination, has four legs. */
     legs: Array<TLeg>
     /**
      * Time that the trip departs.
      * @deprecated Replaced with expectedStartTime
      */
-    startTime?: Maybe<Scalars['DateTime']>
+    startTime: Maybe<Scalars['DateTime']>
     /** Get all system notices. */
     systemNotices: Array<TSystemNotice>
     /** A cost calculated to favor transfer with higher priority. This field is meant for debugging only. */
-    transferPriorityCost?: Maybe<Scalars['Int']>
+    transferPriorityCost: Maybe<Scalars['Int']>
     /** A cost calculated to distribute wait-time and avoid very short transfers. This field is meant for debugging only. */
-    waitTimeOptimizedCost?: Maybe<Scalars['Int']>
+    waitTimeOptimizedCost: Maybe<Scalars['Int']>
     /** How much time is spent waiting for transit to arrive, in seconds. */
-    waitingTime?: Maybe<Scalars['Long']>
+    waitingTime: Maybe<Scalars['Long']>
     /** How far the user has to walk, in meters. */
-    walkDistance?: Maybe<Scalars['Float']>
+    walkDistance: Maybe<Scalars['Float']>
     /** How much time is spent walking, in seconds. */
-    walkTime?: Maybe<Scalars['Long']>
+    walkTime: Maybe<Scalars['Long']>
 }
 
 /** Trips search metadata. */
@@ -1846,12 +1846,12 @@ export type TTripSearchData = {
      * This is the suggested search time for the "next page" or time window. Insert it together with the 'searchWindowUsed' in the request to get a new set of trips following in the time-window AFTER the current search.
      * @deprecated Use pageCursor instead
      */
-    nextDateTime?: Maybe<Scalars['DateTime']>
+    nextDateTime: Maybe<Scalars['DateTime']>
     /**
      * This is the suggested search time for the "previous page" or time-window. Insert it together with the 'searchWindowUsed' in the request to get a new set of trips preceding in the time-window BEFORE the current search.
      * @deprecated Use pageCursor instead
      */
-    prevDateTime?: Maybe<Scalars['DateTime']>
+    prevDateTime: Maybe<Scalars['DateTime']>
     /** This is the time window used by the raptor search. The input searchWindow is an optional parameter and is dynamically assigned if not set. OTP might override the value if it is too small or too large. When paging OTP adjusts it to the appropriate size, depending on the number of itineraries found in the current search window. The scaling of the search window ensures faster paging and limits resource usage. The unit is seconds. */
     searchWindowUsed: Scalars['Int']
 }
@@ -1859,9 +1859,9 @@ export type TTripSearchData = {
 export type TValidityPeriod = {
     __typename?: 'ValidityPeriod'
     /** End of validity period. Will return 'null' if validity is open-ended. */
-    endTime?: Maybe<Scalars['DateTime']>
+    endTime: Maybe<Scalars['DateTime']>
     /** Start of validity period */
-    startTime?: Maybe<Scalars['DateTime']>
+    startTime: Maybe<Scalars['DateTime']>
 }
 
 export type TVertexType = 'bikePark' | 'bikeShare' | 'normal' | 'transit'
@@ -1870,9 +1870,9 @@ export type TVertexType = 'bikePark' | 'bikeShare' | 'normal' | 'transit'
 export type TViaConnection = {
     __typename?: 'ViaConnection'
     /** The index of the trip pattern in the segment before the via point */
-    from?: Maybe<Scalars['Int']>
+    from: Maybe<Scalars['Int']>
     /** The index of the trip pattern in the segment after the via point */
-    to?: Maybe<Scalars['Int']>
+    to: Maybe<Scalars['Int']>
 }
 
 /** Input format for specifying a location through either a place reference (id), coordinates or both. If both place and coordinates are provided the place ref will be used if found, coordinates will only be used if place is not known. The location also contain information about the minimum and maximum time the user is willing to stay at the via location. */
@@ -1924,13 +1924,13 @@ export type TWheelchairBoarding =
 
 export type TDebugOutput = {
     __typename?: 'debugOutput'
-    totalTime?: Maybe<Scalars['Long']>
+    totalTime: Maybe<Scalars['Long']>
 }
 
 export type TInfoLink = {
     __typename?: 'infoLink'
     /** Label */
-    label?: Maybe<Scalars['String']>
+    label: Maybe<Scalars['String']>
     /** URI */
     uri: Scalars['String']
 }
@@ -1939,7 +1939,7 @@ export type TInfoLink = {
 export type TPlaceAtDistanceConnection = {
     __typename?: 'placeAtDistanceConnection'
     /** a list of edges */
-    edges?: Maybe<Array<Maybe<TPlaceAtDistanceEdge>>>
+    edges: Maybe<Array<Maybe<TPlaceAtDistanceEdge>>>
     /** details about this specific page */
     pageInfo: TPageInfo
 }
@@ -1950,14 +1950,14 @@ export type TPlaceAtDistanceEdge = {
     /** cursor marks a unique position or index into the connection */
     cursor: Scalars['String']
     /** The item at the end of the edge */
-    node?: Maybe<TPlaceAtDistance>
+    node: Maybe<TPlaceAtDistance>
 }
 
 /** A connection to a list of items. */
 export type TQuayAtDistanceConnection = {
     __typename?: 'quayAtDistanceConnection'
     /** a list of edges */
-    edges?: Maybe<Array<Maybe<TQuayAtDistanceEdge>>>
+    edges: Maybe<Array<Maybe<TQuayAtDistanceEdge>>>
     /** details about this specific page */
     pageInfo: TPageInfo
 }
@@ -1968,5 +1968,5 @@ export type TQuayAtDistanceEdge = {
     /** cursor marks a unique position or index into the connection */
     cursor: Scalars['String']
     /** The item at the end of the edge */
-    node?: Maybe<TQuayAtDistance>
+    node: Maybe<TQuayAtDistance>
 }

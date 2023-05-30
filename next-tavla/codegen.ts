@@ -23,6 +23,9 @@ const config: CodegenConfig = {
             Long: 'Long',
             DoubleFunction: 'DoubleFunction',
         },
+        avoidOptionals: {
+            field: true,
+        },
     },
     generates: {
         'src/types/graphql-schema.ts': {
@@ -33,7 +36,11 @@ const config: CodegenConfig = {
             presetConfig: {
                 typesPath: 'types/graphql-schema',
             },
-            plugins: ['typescript-operations', 'typed-document-node'],
+            plugins: [
+                'typescript-operations',
+                'typed-document-node',
+                { add: { content: '/* eslint-disable */' } },
+            ],
             config: { withHooks: true },
         },
     },

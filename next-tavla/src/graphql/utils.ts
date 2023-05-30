@@ -26,9 +26,13 @@ async function fetcher<Data, Variables>([query, variables]: [
         },
         body: JSON.stringify({ query, variables }),
         method: 'POST',
-    }).then((res) => {
-        return res.json() as Data
     })
+        .then((res) => {
+            return res.json()
+        })
+        .then((res) => {
+            return res.data as Data
+        })
 }
 
 export async function fetchQuery<Data, Variables>(

@@ -6,7 +6,7 @@ import { fetchItems } from 'utils/index'
 import { nanoid } from 'nanoid'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { useSettingsDispatch } from 'scenarios/Admin/reducer'
-import { GetQuaysSearchQuery, TGetQuaysSearchQuery } from 'graphql/index'
+import { QuaysSearchQuery, type TQuaysSearchQuery } from 'graphql/index'
 import { fetchQuery } from 'graphql/utils'
 
 const tileNames: Record<TTileType, string> = {
@@ -39,13 +39,11 @@ function AddMapTile({ setTile }: { setTile: (tile: TMapTile) => void }) {
 function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
     const [stopPlaceId, setStopPlaceId] = useState<string | undefined>()
 
-    const [data, setData] = useState<TGetQuaysSearchQuery | undefined>(
-        undefined,
-    )
+    const [data, setData] = useState<TQuaysSearchQuery | undefined>(undefined)
 
     useEffect(() => {
         if (!stopPlaceId) return
-        fetchQuery(GetQuaysSearchQuery, { stopPlaceId }).then(setData)
+        fetchQuery(QuaysSearchQuery, { stopPlaceId }).then(setData)
     }, [stopPlaceId])
 
     const quays =

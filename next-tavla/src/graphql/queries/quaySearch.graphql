@@ -1,4 +1,4 @@
-query getQuaysSearch($stopPlaceId: String!) {
+query quaysSearch($stopPlaceId: String!) {
     stopPlace(id: $stopPlaceId) {
         quays(filterByInUse: true) {
             id
