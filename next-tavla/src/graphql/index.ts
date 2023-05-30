@@ -154,6 +154,66 @@ export type TQuaysSearchQuery = {
     } | null
 }
 
+export type TStopPlaceQueryVariables = Types.Exact<{
+    stopPlaceId: Types.Scalars['String']
+    whitelistedTransportModes?: Types.InputMaybe<
+        | Array<Types.InputMaybe<Types.TTransportMode>>
+        | Types.InputMaybe<Types.TTransportMode>
+    >
+    whitelistedLines?: Types.InputMaybe<
+        Array<Types.Scalars['ID']> | Types.Scalars['ID']
+    >
+}>
+
+export type TStopPlaceQuery = {
+    __typename?: 'QueryType'
+    stopPlace: {
+        __typename?: 'StopPlace'
+        name: string
+        estimatedCalls: Array<{
+            __typename?: 'EstimatedCall'
+            aimedDepartureTime: DateTime
+            expectedDepartureTime: DateTime
+            cancellation: boolean
+            quay: { __typename?: 'Quay'; publicCode: string | null }
+            destinationDisplay: {
+                __typename?: 'DestinationDisplay'
+                frontText: string | null
+            } | null
+            serviceJourney: {
+                __typename?: 'ServiceJourney'
+                id: string
+                transportMode: Types.TTransportMode | null
+                transportSubmode: Types.TTransportSubmode | null
+                line: {
+                    __typename?: 'Line'
+                    id: string
+                    publicCode: string | null
+                    presentation: {
+                        __typename?: 'Presentation'
+                        textColour: string | null
+                        colour: string | null
+                    } | null
+                }
+            }
+            situations: Array<{
+                __typename?: 'PtSituationElement'
+                id: string
+                description: Array<{
+                    __typename?: 'MultilingualString'
+                    value: string
+                    language: string | null
+                }>
+                summary: Array<{
+                    __typename?: 'MultilingualString'
+                    value: string
+                    language: string | null
+                }>
+            }>
+        }>
+    } | null
+}
+
 export type TStopPlaceSettingsQueryVariables = Types.Exact<{
     id: Types.Scalars['String']
 }>
@@ -334,6 +394,57 @@ export const QuaysSearchQuery = new TypedDocumentString(`
     TQuaysSearchQuery,
     TQuaysSearchQueryVariables
 >
+export const StopPlaceQuery = new TypedDocumentString(`
+    query StopPlace($stopPlaceId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!]) {
+  stopPlace(id: $stopPlaceId) {
+    name
+    estimatedCalls(
+      numberOfDepartures: 20
+      whiteListedModes: $whitelistedTransportModes
+      whiteListed: {lines: $whitelistedLines}
+    ) {
+      ...departure
+    }
+  }
+}
+    fragment departure on EstimatedCall {
+  quay {
+    publicCode
+  }
+  destinationDisplay {
+    frontText
+  }
+  aimedDepartureTime
+  expectedDepartureTime
+  serviceJourney {
+    id
+    transportMode
+    transportSubmode
+    line {
+      id
+      publicCode
+      presentation {
+        textColour
+        colour
+      }
+    }
+  }
+  cancellation
+  situations {
+    ...situation
+  }
+}
+fragment situation on PtSituationElement {
+  id
+  description {
+    value
+    language
+  }
+  summary {
+    value
+    language
+  }
+}`) as unknown as TypedDocumentString<TStopPlaceQuery, TStopPlaceQueryVariables>
 export const StopPlaceSettingsQuery = new TypedDocumentString(`
     query StopPlaceSettings($id: String!) {
   stopPlace(id: $id) {
