@@ -1,9 +1,4 @@
-import {
-    findByLabelText,
-    fireEvent,
-    render,
-    screen,
-} from '@testing-library/react'
+import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import React, { useReducer } from 'react'
 import {
@@ -17,7 +12,7 @@ jest.mock('nanoid', () => {
     return { nanoid: () => '1234' }
 })
 
-test('tests that SelectLines allow selection of lines', async () => {
+test('tests that AddTile adds a new tile', async () => {
     const TestComponent = () => {
         const [settings, dispatch] = useReducer(settingsReducer, {
             tiles: [],
