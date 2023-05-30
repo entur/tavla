@@ -1,3 +1,18 @@
+export type TEndpointNames = 'journey-planner' | 'mobility' | 'vehicles'
+
+const staging_endpoints: Record<TEndpointNames, string> = {
+    ['journey-planner']:
+        'https://api.staging.entur.io/journey-planner/v3/graphql',
+    ['mobility']: '',
+    ['vehicles']: '',
+}
+
+const prod_endpoints: Record<TEndpointNames, string> = {
+    ['journey-planner']: 'https://api.entur.io/journey-planner/v3/graphql',
+    ['mobility']: '',
+    ['vehicles']: '',
+}
+
 const Staging = {
     firebaseConfig: {
         apiKey: 'AIzaSyDXpgZUj0IXBP3ECSlEk6IJwo_6VkYC_VE',
@@ -10,6 +25,7 @@ const Staging = {
     },
     geocoder_endpoint: 'https://api.staging.entur.io/geocoder/v1',
     client_name: 'entur-tavla-staging',
+    graphql_endpoints: staging_endpoints,
 }
 
 const Prod = {
@@ -25,6 +41,7 @@ const Prod = {
     },
     geocoder_endpoint: 'https://api.staging.entur.io/geocoder/v1',
     client_name: 'entur-tavla',
+    graphql_endpoints: prod_endpoints,
 }
 
 const config = process.env.NEXT_PUBLIC_ENV === 'prod' ? Prod : Staging
@@ -32,3 +49,5 @@ const config = process.env.NEXT_PUBLIC_ENV === 'prod' ? Prod : Staging
 export const firebaseConfig = config.firebaseConfig
 
 export const geocoder_endpoint = config.geocoder_endpoint
+
+export const graphql_endpoints = config.graphql_endpoints
