@@ -15,7 +15,8 @@
         "generate": "graphql-codegen",
         "lint": "next lint",
         "fix": "next lint --fix",
-        "build-start": "next build && next start"
+        "build-start": "next build && next start",
+        "cypress": "cypress open"
     },
     "dependencies": {
         "@dnd-kit/core": "6.0.8",
@@ -47,6 +48,7 @@
         "@types/react": "18.0.28",
         "@typescript-eslint/eslint-plugin": "5.57.1",
         "@typescript-eslint/parser": "5.57.1",
+        "cypress": "12.13.0",
         "eslint": "8.36.0",
         "eslint-config-next": "13.2.4",
         "eslint-config-prettier": "8.8.0",
