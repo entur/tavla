@@ -1,5 +1,6 @@
 import { Contrast } from '@entur/layout'
 import React, { useReducer } from 'react'
+import { geocoder_endpoint } from 'assets/environmentConfig'
 import {
     SettingsDispatchContext,
     settingsReducer,
@@ -23,12 +24,14 @@ describe('<AddTile />', () => {
         )
     }
     it('renders', () => {
-        // see: https://on.cypress.io/mounting-react
         cy.mount(<TestComponent />)
     })
 
     it('can add a stop place tile', () => {
         cy.mount(<TestComponent />)
+        cy.intercept(`${geocoder_endpoint}/autocomplete?*`, {
+            fixture: 'graphql/geocoder.json',
+        })
         cy.get('input').type('Jernbanetorget')
         cy.get('ul > li').click()
         cy.contains('Legg til').click()

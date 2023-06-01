@@ -1,0 +1,76 @@
+{
+    "geocoding": {
+        "version": "0.2",
+        "attribution": "http://pelias.mapzen.com/v1/attribution",
+        "query": {
+            "text": "Jernbanetorget Jernbanetorget",
+            "parser": "addressit",
+            "tokens": ["Jernbanetorget", "Jernbanetorget"],
+            "size": 5,
+            "layers": ["venue"],
+            "sources": ["openstreetmap", "whosonfirst"],
+            "private": false,
+            "lang": {
+                "name": "Norwegian",
+                "iso6391": "no",
+                "iso6393": "nor",
+                "defaulted": false
+            },
+            "querySize": 20
+        },
+        "engine": {
+            "name": "Pelias",
+            "author": "Mapzen",
+            "version": "1.0"
+        },
+        "timestamp": 1685607473887
+    },
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [10.75038, 59.911898]
+            },
+            "properties": {
+                "id": "NSR:StopPlace:58366",
+                "gid": "openstreetmap:venue:NSR:StopPlace:58366",
+                "layer": "venue",
+                "source": "openstreetmap",
+                "source_id": "NSR:StopPlace:58366",
+                "name": "Jernbanetorget",
+                "street": "NOT_AN_ADDRESS-NSR:StopPlace:58366",
+                "accuracy": "point",
+                "country_a": "NOR",
+                "county": "Oslo",
+                "county_gid": "whosonfirst:county:KVE:TopographicPlace:03",
+                "locality": "Oslo",
+                "locality_gid": "whosonfirst:locality:KVE:TopographicPlace:0301",
+                "label": "Jernbanetorget, Oslo",
+                "category": [
+                    "onstreetBus",
+                    "onstreetTram",
+                    "metroStation",
+                    "onstreetBus",
+                    "onstreetBus",
+                    "onstreetTram",
+                    "onstreetBus",
+                    "onstreetBus",
+                    "onstreetBus",
+                    "onstreetBus",
+                    "onstreetBus",
+                    "onstreetTram",
+                    "onstreetBus"
+                ],
+                "tariff_zones": [
+                    "BRA:TariffZone:311",
+                    "RUT:FareZone:4",
+                    "RUT:TariffZone:1",
+                    "INN:TariffZone:2100"
+                ]
+            }
+        }
+    ],
+    "bbox": [10.75038, 59.911898, 10.75038, 59.911898]
+}
