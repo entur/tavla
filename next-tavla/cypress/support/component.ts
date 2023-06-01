@@ -12,6 +12,14 @@
 // You can read more here:
 // https://on.cypress.io/configuration
 // ***********************************************************
+import 'styles/themes/default.css'
+import 'styles/themes/dark.css'
+import 'styles/themes/light.css'
+import 'styles/imports.css'
+import 'styles/global.css'
+import 'styles/reset.css'
+import 'styles/fonts.css'
+import 'styles/spacing.css'
 
 // Import commands.js using ES2015 syntax:
 import './commands'
@@ -26,11 +34,11 @@ import { mount } from 'cypress/react18'
 // Alternatively, can be defined in cypress/support/component.d.ts
 // with a <reference path="./component" /> at the top of your spec.
 declare global {
-  namespace Cypress {
-    interface Chainable {
-      mount: typeof mount
+    namespace Cypress {
+        interface Chainable {
+            mount: typeof mount
+        }
     }
-  }
 }
 
 Cypress.Commands.add('mount', mount)
