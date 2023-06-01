@@ -12,6 +12,11 @@
     border-radius: 0.5em;
 }
 
+.sizeSettings {
+    display: flex;
+    align-items: center;
+}
+
 .dragging {
     transform: scale(1.02);
     transition: transform ease-in 0.1s;

@@ -11,6 +11,7 @@ import {
     TTile,
 } from 'types/tile'
 import { nanoid } from 'nanoid'
+import { TColumnSetting } from 'types/tile'
 
 type Action =
     | { type: 'changeTheme'; theme: TTheme }
@@ -20,6 +21,11 @@ type Action =
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
     | { type: 'addColumn'; tileId: string; column: TColumn }
     | { type: 'removeColumn'; tileId: string; column: TColumn }
+    | {
+          type: 'updateColumn'
+          tileId: string
+          columnSetting: TColumnSetting
+      }
     | {
           type: 'swapColumns'
           tileId: string
@@ -112,6 +118,21 @@ export function settingsReducer(
                         ...tile,
                         columns: tile.columns?.filter(
                             (col) => col.type !== action.column,
+                        ),
+                    }
+                },
+            )
+        }
+        case 'updateColumn': {
+            return changeTile<TStopPlaceTile | TQuayTile>(
+                action.tileId,
+                (tile) => {
+                    return {
+                        ...tile,
+                        columns: tile.columns?.map((col) =>
+                            col.type === action.columnSetting.type
+                                ? action.columnSetting
+                                : col,
                         ),
                     }
                 },

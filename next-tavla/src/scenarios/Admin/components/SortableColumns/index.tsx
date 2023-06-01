@@ -72,6 +72,14 @@ function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
         })
     }
 
+    const updateColumn = (newColumn: TColumnSetting) => {
+        dispatch({
+            type: 'updateColumn',
+            tileId: tile.uuid,
+            columnSetting: newColumn,
+        })
+    }
+
     return (
         <ExpandablePanel title="Velg kolonner">
             <div className={classes.columnContainer}>
@@ -91,7 +99,8 @@ function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
                             <ColumnSettings
                                 key={column.type}
                                 column={column}
-                                deleteColumn={() => removeColumn(column.type)}
+                                updateColumn={updateColumn}
+                                removeColumn={removeColumn}
                             />
                         ))}
                     </SortableContext>
