@@ -1,5 +1,4 @@
 import { V1, V2, convertSettingsVersion, currentVersion } from './converters'
-import { jest, test, expect } from '@jest/globals'
 
 jest.mock('nanoid', () => {
     return { nanoid: () => '1234' }
