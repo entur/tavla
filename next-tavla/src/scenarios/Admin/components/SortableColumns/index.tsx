@@ -26,6 +26,7 @@ import { AddColumn } from '../AddColumn'
 import { ColumnSettings } from '../ColumnSettings'
 import classes from './styles.module.css'
 import { useSettingsDispatch } from 'scenarios/Admin/reducer'
+import { ExpandablePanel } from '@entur/expand'
 
 function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
     tile,
@@ -72,32 +73,37 @@ function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
     }
 
     return (
-        <div className={classes.columnContainer}>
-            <DndContext
-                onDragEnd={handleColumnSwap}
-                sensors={sensors}
-                modifiers={[restrictToHorizontalAxis, restrictToParentElement]}
-            >
-                <SortableContext
-                    items={columns.map(({ type }) => type)}
-                    strategy={horizontalListSortingStrategy}
+        <ExpandablePanel title="Velg kolonner">
+            <div className={classes.columnContainer}>
+                <DndContext
+                    onDragEnd={handleColumnSwap}
+                    sensors={sensors}
+                    modifiers={[
+                        restrictToHorizontalAxis,
+                        restrictToParentElement,
+                    ]}
                 >
-                    {columns.map((column: TColumnSetting) => (
-                        <ColumnSettings
-                            key={column.type}
-                            column={column}
-                            deleteColumn={() => removeColumn(column.type)}
+                    <SortableContext
+                        items={columns.map(({ type }) => type)}
+                        strategy={horizontalListSortingStrategy}
+                    >
+                        {columns.map((column: TColumnSetting) => (
+                            <ColumnSettings
+                                key={column.type}
+                                column={column}
+                                deleteColumn={() => removeColumn(column.type)}
+                            />
+                        ))}
+                    </SortableContext>
+                    {columns.length < Object.keys(Columns).length && (
+                        <AddColumn
+                            addColumn={addColumn}
+                            selectedColumns={columns.map(({ type }) => type)}
                         />
-                    ))}
-                </SortableContext>
-                {columns.length < Object.keys(Columns).length && (
-                    <AddColumn
-                        addColumn={addColumn}
-                        selectedColumns={columns.map(({ type }) => type)}
-                    />
-                )}
-            </DndContext>
-        </div>
+                    )}
+                </DndContext>
+            </div>
+        </ExpandablePanel>
     )
 }
 
