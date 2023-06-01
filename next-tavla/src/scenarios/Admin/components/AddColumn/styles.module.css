@@ -4,3 +4,8 @@
     padding: 1em;
     border-radius: 0.5em;
 }
+
+.addButton {
+    display: flex;
+    align-items: center;
+}
