@@ -1,3 +1,4 @@
+import { Contrast } from '@entur/layout'
 import React, { useReducer } from 'react'
 import {
     SettingsDispatchContext,
@@ -13,10 +14,12 @@ describe('<AddTile />', () => {
         })
 
         return (
-            <SettingsDispatchContext.Provider value={dispatch}>
-                <TilesSettings tiles={settings.tiles} />
-                <AddTile />
-            </SettingsDispatchContext.Provider>
+            <Contrast>
+                <SettingsDispatchContext.Provider value={dispatch}>
+                    <TilesSettings tiles={settings.tiles} />
+                    <AddTile />
+                </SettingsDispatchContext.Provider>
+            </Contrast>
         )
     }
     it('renders', () => {
