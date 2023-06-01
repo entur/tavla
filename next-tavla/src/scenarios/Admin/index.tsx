@@ -21,8 +21,8 @@ function Admin({
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
                 <ThemeSettings theme={settings.theme} />
-                <TilesSettings tiles={settings.tiles} />
                 <AddTile />
+                <TilesSettings tiles={settings.tiles} />
                 <button
                     className="button"
                     onClick={() => {

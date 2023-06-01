@@ -4,6 +4,7 @@ import { clone, xor } from 'lodash'
 import { Dispatch, createContext } from 'react'
 import { TSettings, TTheme } from 'types/settings'
 import { TColumn, TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
+import { nanoid } from 'nanoid'
 
 type Action =
     | { type: 'changeTheme'; theme: TTheme }
@@ -53,7 +54,7 @@ export function settingsReducer(
         case 'addTile': {
             return {
                 ...settings,
-                tiles: [...settings.tiles, action.tile],
+                tiles: [{ ...action.tile, uuid: nanoid() }, ...settings.tiles],
             }
         }
         case 'removeTile': {

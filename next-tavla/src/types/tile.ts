@@ -10,6 +10,8 @@ export const Columns = {
 export type TColumn = keyof typeof Columns
 export type TColumnSetting = { type: TColumn; size?: number }
 
+export type TTileType = TTile['type']
+
 type TBaseTile = {
     placeId: string
     uuid: string

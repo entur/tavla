@@ -25,6 +25,7 @@
         "@dnd-kit/utilities": "3.2.1",
         "@entur/dropdown": "4.0.9",
         "@entur/expand": "3.4.0",
+        "@entur/form": "7.0.9",
         "@entur/layout": "2.1.33",
         "@entur/tokens": "3.8.1",
         "@firebase/database-types": "0.10.4",
