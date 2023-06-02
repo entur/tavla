@@ -96,6 +96,7 @@ jobs:
       - name: Cypress
         uses: cypress-io/github-action@v5
         with:
+          working-directory: next-tavla
           component: true
 
   all_jobs_pass:
