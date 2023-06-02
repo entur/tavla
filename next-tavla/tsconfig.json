@@ -29,8 +29,9 @@
             "graphql/*": ["./src/graphql/*"],
             "hooks/*": ["./src/hooks/*"],
             "src/*": ["./src/*"]
-        }
+        },
+        "types": ["cypress", "@testing-library/cypress"]
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-    "exclude": ["node_modules", "./cypress.config.ts", "cypress"]
+    "exclude": ["node_modules"]
 }
