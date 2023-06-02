@@ -16,7 +16,8 @@
         "lint": "next lint",
         "fix": "next lint --fix",
         "build-start": "next build && next start",
-        "cypress": "cypress open"
+        "cypress": "cypress open",
+        "cypress:run": "cypress run --component"
     },
     "dependencies": {
         "@dnd-kit/core": "6.0.8",
@@ -25,6 +26,7 @@
         "@dnd-kit/utilities": "3.2.1",
         "@entur/dropdown": "4.0.9",
         "@entur/expand": "3.4.0",
+        "@entur/form": "7.0.9",
         "@entur/layout": "2.1.33",
         "@entur/tokens": "3.8.1",
         "@firebase/database-types": "0.10.4",
@@ -44,6 +46,7 @@
         "@graphql-codegen/typescript": "3.0.2",
         "@graphql-codegen/typescript-operations": "3.0.2",
         "@jest/globals": "29.5.0",
+        "@testing-library/cypress": "9.0.0",
         "@types/jest": "29.5.2",
         "@types/lodash": "4.14.191",
         "@types/node": "18.15.5",

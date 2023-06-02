@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { TMapTile, TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
+import {
+    TAnonTile,
+    TMapTile,
+    TQuayTile,
+    TStopPlaceTile,
+    TTile,
+    TTileType,
+} from 'types/tile'
 import { Dropdown } from '@entur/dropdown'
 import { Button } from '@entur/button'
 import { fetchItems } from 'utils/index'
-import { nanoid } from 'nanoid'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { useSettingsDispatch } from 'scenarios/Admin/reducer'
 import { QuaysSearchQuery, type TQuaysSearchQuery } from 'graphql/index'
 import { fetchQuery } from 'graphql/utils'
+import { RadioGroup, RadioPanel } from '@entur/form'
+import classes from './styles.module.css'
 
-const tileNames: Record<TTileType, string> = {
-    map: 'Kart',
-    quay: 'Plattform',
-    stop_place: 'Stoppested',
-}
-
-function AddMapTile({ setTile }: { setTile: (tile: TMapTile) => void }) {
+function AddMapTile({
+    setTile,
+}: {
+    setTile: (tile: TAnonTile<TMapTile>) => void
+}) {
     return (
         <Dropdown
             items={fetchItems}
@@ -28,7 +34,6 @@ function AddMapTile({ setTile }: { setTile: (tile: TMapTile) => void }) {
                     setTile({
                         type: 'map',
                         placeId: e.value,
-                        uuid: nanoid(),
                     })
                 }
             }}
@@ -36,7 +41,11 @@ function AddMapTile({ setTile }: { setTile: (tile: TMapTile) => void }) {
     )
 }
 
-function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
+function AddQuayTile({
+    setTile,
+}: {
+    setTile: (tile: TAnonTile<TQuayTile>) => void
+}) {
     const [stopPlaceId, setStopPlaceId] = useState<string | undefined>()
 
     const [data, setData] = useState<TQuaysSearchQuery | undefined>(undefined)
@@ -47,10 +56,14 @@ function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
     }, [stopPlaceId])
 
     const quays =
-        data?.stopPlace?.quays?.filter(isNotNullOrUndefined).map((quay) => ({
-            value: quay.id,
-            label: [quay.publicCode, quay.description].join(' '),
-        })) || []
+        data?.stopPlace?.quays
+            ?.filter(isNotNullOrUndefined)
+            .map((quay, index) => ({
+                value: quay.id,
+                label:
+                    'Platform ' +
+                    [quay.publicCode ?? index + 1, quay.description].join(' '),
+            })) || []
 
     return (
         <div>
@@ -64,21 +77,19 @@ function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
                 onChange={(e) => setStopPlaceId(e?.value)}
             />
 
-            {stopPlaceId && (
-                <Dropdown
-                    items={() => quays}
-                    label="Velg plattform"
-                    onChange={(e) => {
-                        if (e?.value) {
-                            setTile({
-                                type: 'quay',
-                                placeId: e.value,
-                                uuid: nanoid(),
-                            })
-                        }
-                    }}
-                />
-            )}
+            <Dropdown
+                items={() => quays}
+                label="Velg plattform"
+                disabled={!stopPlaceId}
+                onChange={(e) => {
+                    if (e?.value) {
+                        setTile({
+                            type: 'quay',
+                            placeId: e.value,
+                        })
+                    }
+                }}
+            />
         </div>
     )
 }
@@ -86,7 +97,7 @@ function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
 function AddStopPlaceTile({
     setTile,
 }: {
-    setTile: (tile: TStopPlaceTile) => void
+    setTile: (tile: TAnonTile<TStopPlaceTile>) => void
 }) {
     return (
         <Dropdown
@@ -100,7 +111,6 @@ function AddStopPlaceTile({
                     setTile({
                         type: 'stop_place',
                         placeId: e.value,
-                        uuid: nanoid(),
                     })
                 }
             }}
@@ -108,11 +118,9 @@ function AddStopPlaceTile({
     )
 }
 
-type TTileType = TTile['type']
-
 const components: Record<
     TTileType,
-    (props: { setTile: (tile: TTile) => void }) => JSX.Element
+    (props: { setTile: (tile: TAnonTile<TTile>) => void }) => JSX.Element
 > = {
     stop_place: AddStopPlaceTile,
     quay: AddQuayTile,
@@ -121,32 +129,35 @@ const components: Record<
 
 function AddTile() {
     const [tileType, setTileType] = useState<TTileType>('stop_place')
-    const [tile, setTile] = useState<TTile | undefined>()
+    const [tile, setTile] = useState<TAnonTile<TTile> | undefined>()
 
     const Component = components[tileType]
 
     const dispatch = useSettingsDispatch()
 
     return (
-        <div>
-            <Dropdown
-                label="Velg type"
-                value={tileType}
+        <div className={classes.AddTile}>
+            <RadioGroup
+                name="tile-type"
+                label="Legg til ny rute"
                 onChange={(e) => {
-                    setTile(undefined)
-                    if (e) setTileType(e.value as TTileType)
+                    setTileType(e.target.value as TTileType)
                 }}
-                items={Object.entries(tileNames).map(([value, label]) => ({
-                    label,
-                    value,
-                }))}
-            />
+                value={tileType}
+            >
+                <div className={classes.RadioCards}>
+                    <RadioPanel title="Stoppested" value="stop_place">
+                        Rute med alle avganger for et stoppested.
+                    </RadioPanel>
+                    <RadioPanel title="Plattform" value="quay">
+                        Rute med avganger for en valgt platform/retning.
+                    </RadioPanel>
+                </div>
+            </RadioGroup>
             <Component setTile={setTile} />
-
             {tile && (
                 <Button
                     variant="primary"
-                    width="fluid"
                     onClick={() => {
                         dispatch({
                             type: 'addTile',

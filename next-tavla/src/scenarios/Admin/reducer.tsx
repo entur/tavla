@@ -3,11 +3,18 @@ import { useNonNullContext } from 'hooks/useNonNullContext'
 import { clone, xor } from 'lodash'
 import { Dispatch, createContext } from 'react'
 import { TSettings, TTheme } from 'types/settings'
-import { TColumn, TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
+import {
+    TAnonTile,
+    TColumn,
+    TQuayTile,
+    TStopPlaceTile,
+    TTile,
+} from 'types/tile'
+import { nanoid } from 'nanoid'
 
 type Action =
     | { type: 'changeTheme'; theme: TTheme }
-    | { type: 'addTile'; tile: TTile }
+    | { type: 'addTile'; tile: TAnonTile<TTile> }
     | { type: 'removeTile'; tileId: string }
     | { type: 'updateTile'; tileIndex: number; tile: TTile }
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
@@ -53,7 +60,7 @@ export function settingsReducer(
         case 'addTile': {
             return {
                 ...settings,
-                tiles: [...settings.tiles, action.tile],
+                tiles: [{ ...action.tile, uuid: nanoid() }, ...settings.tiles],
             }
         }
         case 'removeTile': {
