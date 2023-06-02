@@ -30,8 +30,10 @@ import { ExpandablePanel } from '@entur/expand'
 
 function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
     tile,
+    defaultOpen = false,
 }: {
     tile: T
+    defaultOpen?: boolean
 }) {
     const columns: TColumnSetting[] = tile.columns ?? []
 
@@ -81,7 +83,7 @@ function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
     }
 
     return (
-        <ExpandablePanel title="Velg kolonner">
+        <ExpandablePanel title="Velg kolonner" defaultOpen={defaultOpen}>
             <div className={classes.columnContainer}>
                 <DndContext
                     onDragEnd={handleColumnSwap}

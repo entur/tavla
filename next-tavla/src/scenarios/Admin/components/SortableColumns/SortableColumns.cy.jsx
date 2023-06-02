@@ -36,7 +36,10 @@ describe('<SortableColumns />', () => {
         return (
             <SettingsDispatchContext.Provider value={dispatch}>
                 <Contrast>
-                    <SortableColumns tile={settings.tiles[0]} />
+                    <SortableColumns
+                        tile={settings.tiles[0]}
+                        defaultOpen={true}
+                    />
                 </Contrast>
             </SettingsDispatchContext.Provider>
         )
@@ -48,11 +51,8 @@ describe('<SortableColumns />', () => {
 
     it('can be sorted', () => {
         cy.mount(<TestComponent />)
-        cy.get('[data-cy="sortable-handle"]')
-            .first()
-            .parent()
-            .parent()
-            .should('include.text', 'Plattform')
+
+        cy.get('[data-cy="column"]').first().should('include.text', 'Plattform')
 
         cy.get('[data-cy="sortable-handle"]')
             .first()
@@ -61,10 +61,8 @@ describe('<SortableColumns />', () => {
             .type('{rightArrow}')
             .type(' ')
 
-        cy.get('[data-cy="sortable-handle"]')
+        cy.get('[data-cy="column"]')
             .first()
-            .parent()
-            .parent()
             .should('not.include.text', 'Plattform')
             .and('include.text', 'Linje')
     })
@@ -72,7 +70,9 @@ describe('<SortableColumns />', () => {
     it('can delete columns', () => {
         cy.mount(<TestComponent />)
         cy.get('[data-cy="column"]').should('have.length', 4)
-        cy.get('button').first().click()
+        cy.findAllByRole('button', { name: /fjern kolonne/i })
+            .first()
+            .click()
         cy.get('[data-cy="column"]').should('have.length', 3)
     })
 })

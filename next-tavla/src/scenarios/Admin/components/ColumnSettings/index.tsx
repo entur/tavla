@@ -59,6 +59,7 @@ function ColumnSettings({
                     <div className="flexBetween">
                         <button
                             className="button"
+                            aria-label={'Fjern kolonne'}
                             onClick={() => removeColumn(column.type)}
                         >
                             <DeleteIcon size={16} />
