@@ -1,11 +1,12 @@
+import { Contrast } from '@entur/layout'
 import React, { useReducer } from 'react'
 import {
     SettingsDispatchContext,
     settingsReducer,
 } from 'scenarios/Admin/reducer'
-import { SelectLines } from './index'
+import { SortableColumns } from './index'
 
-describe('<SelectLines />', () => {
+describe('<SortableColumns />', () => {
     const TestComponent = () => {
         const [settings, dispatch] = useReducer(settingsReducer, {
             tiles: [
@@ -32,32 +33,11 @@ describe('<SelectLines />', () => {
             ],
         })
 
-        const lines = [
-            {
-                id: 'ATB:Line:2_25',
-                publicCode: '25',
-                name: 'Vikåsen- Strindheim- Singsaker',
-            },
-            {
-                id: 'ATB:Line:2_805',
-                publicCode: '805',
-                name: 'Trondheim - Brekstad',
-            },
-            {
-                id: 'ATB:Line:2_800',
-                publicCode: '800',
-                name: 'Trondheim - Brekstad - Kristiansund',
-            },
-            {
-                id: 'ATB:Line:2_810',
-                publicCode: '810',
-                name: 'Trondheim - Vanvikan',
-            },
-        ]
-
         return (
             <SettingsDispatchContext.Provider value={dispatch}>
-                <SelectLines tile={settings.tiles[0]} lines={lines} />
+                <Contrast>
+                    <SortableColumns tile={settings.tiles[0]} />
+                </Contrast>
             </SettingsDispatchContext.Provider>
         )
     }
@@ -66,20 +46,33 @@ describe('<SelectLines />', () => {
         cy.mount(<TestComponent />)
     })
 
-    it('can be expanded', () => {
+    it('can be sorted', () => {
         cy.mount(<TestComponent />)
-        cy.get('button').click()
+        cy.get('[data-cy="sortable-handle"]')
+            .first()
+            .parent()
+            .parent()
+            .should('include.text', 'Plattform')
+
+        cy.get('[data-cy="sortable-handle"]')
+            .first()
+            .focus()
+            .type(' ')
+            .type('{rightArrow}')
+            .type(' ')
+
+        cy.get('[data-cy="sortable-handle"]')
+            .first()
+            .parent()
+            .parent()
+            .should('not.include.text', 'Plattform')
+            .and('include.text', 'Linje')
     })
 
-    it('can select lines', () => {
+    it('can delete columns', () => {
         cy.mount(<TestComponent />)
-        cy.get('button').click()
-        cy.contains('label', '805 Trondheim - Brekstad')
-            .get('input')
-            .should('not.be.checked')
-        cy.contains('805 Trondheim - Brekstad').click()
-        cy.contains('label', '805 Trondheim - Brekstad')
-            .get('input')
-            .should('be.checked')
+        cy.get('[data-cy="column"]').should('have.length', 4)
+        cy.get('button').first().click()
+        cy.get('[data-cy="column"]').should('have.length', 3)
     })
 })

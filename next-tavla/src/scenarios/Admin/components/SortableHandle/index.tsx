@@ -10,6 +10,7 @@ function SortableHandle({ id }: { id: string }) {
             {...attributes}
             {...listeners}
             aria-label="TODO: tile endre rekkefolge"
+            data-cy="sortable-handle"
         >
             <DraggableIcon size={16} />
         </div>
