@@ -54,7 +54,7 @@ function TilesSettings({ tiles }: { tiles: TTile[] }) {
             modifiers={[restrictToVerticalAxis, restrictToParentElement]}
         >
             <SortableContext items={tiles.map(({ uuid }) => uuid)}>
-                <div className="flexColumn">
+                <div className="flexColumn" data-cy="tiles">
                     {tiles.map((tile) => {
                         switch (tile.type) {
                             case 'stop_place':

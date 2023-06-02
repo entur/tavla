@@ -36,6 +36,7 @@ function ColumnSettings({
             ref={setNodeRef}
             style={positionStyle}
             className={classes.dragContainer}
+            data-cy="column"
         >
             <div
                 className={classNames(classes.column, {

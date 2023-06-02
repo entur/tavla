@@ -1,0 +1,78 @@
+import { Contrast } from '@entur/layout'
+import React, { useReducer } from 'react'
+import {
+    SettingsDispatchContext,
+    settingsReducer,
+} from 'scenarios/Admin/reducer'
+import { SortableColumns } from './index'
+
+describe('<SortableColumns />', () => {
+    const TestComponent = () => {
+        const [settings, dispatch] = useReducer(settingsReducer, {
+            tiles: [
+                {
+                    columns: [
+                        {
+                            type: 'platform',
+                        },
+                        {
+                            type: 'line',
+                        },
+                        {
+                            size: 2,
+                            type: 'destination',
+                        },
+                        {
+                            type: 'time',
+                        },
+                    ],
+                    placeId: 'NSR:StopPlace:60066',
+                    type: 'stop_place',
+                    uuid: '1683625543293',
+                },
+            ],
+        })
+
+        return (
+            <SettingsDispatchContext.Provider value={dispatch}>
+                <Contrast>
+                    <SortableColumns tile={settings.tiles[0]} />
+                </Contrast>
+            </SettingsDispatchContext.Provider>
+        )
+    }
+
+    it('renders', () => {
+        cy.mount(<TestComponent />)
+    })
+
+    it('can be sorted', () => {
+        cy.mount(<TestComponent />)
+        cy.get('[data-cy="sortable-handle"]')
+            .first()
+            .parent()
+            .parent()
+            .should('include.text', 'Plattform')
+
+        cy.get('[data-cy="sortable-handle"]')
+            .first()
+            .focus()
+            .type(' ')
+            .type('{rightArrow}')
+            .type(' ')
+
+        cy.get('[data-cy="sortable-handle"]')
+            .first()
+            .parent()
+            .parent()
+            .should('not.include.text', 'Plattform')
+            .and('include.text', 'Linje')
+    })
+
+    it('can delete columns', () => {
+        cy.mount(<TestComponent />)
+        cy.get('[data-cy="column"]').should('have.length', 4)
+        cy.get('button').first().click()
+        cy.get('[data-cy="column"]').should('have.length', 3)
+    })
+})

@@ -1,14 +1,11 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom'
 import React, { useReducer } from 'react'
 import {
     SettingsDispatchContext,
     settingsReducer,
 } from 'scenarios/Admin/reducer'
 import { SelectLines } from './index'
-import { TStopPlaceTile } from 'types/tile'
 
-test('tests that SelectLines allow selection of lines', async () => {
+describe('<SelectLines />', () => {
     const TestComponent = () => {
         const [settings, dispatch] = useReducer(settingsReducer, {
             tiles: [
@@ -60,39 +57,29 @@ test('tests that SelectLines allow selection of lines', async () => {
 
         return (
             <SettingsDispatchContext.Provider value={dispatch}>
-                <SelectLines
-                    tile={settings.tiles[0] as TStopPlaceTile}
-                    lines={lines}
-                />
+                <SelectLines tile={settings.tiles[0]} lines={lines} />
             </SettingsDispatchContext.Provider>
         )
     }
 
-    render(<TestComponent />)
+    it('renders', () => {
+        cy.mount(<TestComponent />)
+    })
 
-    // SelectLines has not been expanded yet
-    expect(
-        await screen.findByRole('button', { expanded: false }),
-    ).toBeInTheDocument()
+    it('can be expanded', () => {
+        cy.mount(<TestComponent />)
+        cy.get('button').click()
+    })
 
-    fireEvent.click(screen.getByRole('button'))
-
-    // SelectLines has been expanded
-    expect(
-        await screen.findByRole('button', { expanded: true }),
-    ).toBeInTheDocument()
-
-    // No lines has been selected yet
-    await screen.findAllByRole('checkbox').then((res) =>
-        res.forEach((checkbox) => {
-            expect(checkbox).not.toBeChecked()
-        }),
-    )
-
-    fireEvent.click(screen.getByLabelText('805 Trondheim - Brekstad'))
-
-    // Verify that a line has been selected
-    expect(
-        await screen.findByLabelText('805 Trondheim - Brekstad'),
-    ).toBeChecked()
+    it('can select lines', () => {
+        cy.mount(<TestComponent />)
+        cy.get('button').click()
+        cy.contains('label', '805 Trondheim - Brekstad')
+            .get('input')
+            .should('not.be.checked')
+        cy.contains('805 Trondheim - Brekstad').click()
+        cy.contains('label', '805 Trondheim - Brekstad')
+            .get('input')
+            .should('be.checked')
+    })
 })
