@@ -49,7 +49,7 @@ describe('<AddColumn />', () => {
 
     it('can add a new column', () => {
         cy.mount(<TestComponent />)
-        cy.get('input[value=destination]').click()
+        cy.contains('label', 'Destinasjon').click()
         cy.get('button').contains('Legg til kolonne').click()
         cy.get('[data-cy="column"]').should('have.length', 4)
     })
