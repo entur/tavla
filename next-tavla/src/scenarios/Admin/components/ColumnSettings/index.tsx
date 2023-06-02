@@ -14,15 +14,12 @@ function restrictXScale(transform: Transform | null) {
     return CSS.Transform.toString({ ...transform, scaleX: 1 })
 }
 
-function increment(size: number | undefined) {
-    if (!size) return 2
+function increment(size = 1) {
     return size + 1
 }
 
-function decrement(size: number | undefined) {
-    if (!size) return 1
-    if (size > 1) return size - 1
-    return size
+function decrement(size = 1) {
+    return Math.max(1, size - 1)
 }
 
 function ColumnSettings({
