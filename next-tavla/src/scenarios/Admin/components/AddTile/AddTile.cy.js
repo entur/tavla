@@ -32,10 +32,10 @@ describe('<AddTile />', () => {
         cy.intercept(`${geocoder_endpoint}/autocomplete?*`, {
             fixture: 'graphql/geocoder.json',
         })
-        cy.get('input').type('Jernbanetorget')
-        cy.get('ul > li').click()
-        cy.contains('Legg til').click()
 
+        cy.findByRole('textbox').type('Jernbanetorget')
+        cy.findByRole('listbox').children().first().click()
+        cy.findByRole('button', { name: /legg til/i }).click()
         cy.get('[data-cy="tiles"]').children().should('have.length', 1)
     })
 })
