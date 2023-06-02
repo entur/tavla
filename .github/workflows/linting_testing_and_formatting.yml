@@ -90,8 +90,13 @@ jobs:
       - name: Type checking
         run: yarn typecheck
 
-      - name: Testing
+      - name: Jest
         run: yarn test
+
+      - name: Cypress
+        uses: cypress-io/github-action@v5
+        with:
+          component: true
 
   all_jobs_pass:
     name: All jobs pass or skip
