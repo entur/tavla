@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
+    TAnonTile,
     TMapTile,
     TQuayTile,
     TStopPlaceTile,
@@ -16,7 +17,11 @@ import { fetchQuery } from 'graphql/utils'
 import { RadioGroup, RadioPanel } from '@entur/form'
 import classes from './styles.module.css'
 
-function AddMapTile({ setTile }: { setTile: (tile: TMapTile) => void }) {
+function AddMapTile({
+    setTile,
+}: {
+    setTile: (tile: TAnonTile<TMapTile>) => void
+}) {
     return (
         <Dropdown
             items={fetchItems}
@@ -29,7 +34,6 @@ function AddMapTile({ setTile }: { setTile: (tile: TMapTile) => void }) {
                     setTile({
                         type: 'map',
                         placeId: e.value,
-                        uuid: '',
                     })
                 }
             }}
@@ -37,7 +41,11 @@ function AddMapTile({ setTile }: { setTile: (tile: TMapTile) => void }) {
     )
 }
 
-function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
+function AddQuayTile({
+    setTile,
+}: {
+    setTile: (tile: TAnonTile<TQuayTile>) => void
+}) {
     const [stopPlaceId, setStopPlaceId] = useState<string | undefined>()
 
     const [data, setData] = useState<TQuaysSearchQuery | undefined>(undefined)
@@ -78,7 +86,6 @@ function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
                         setTile({
                             type: 'quay',
                             placeId: e.value,
-                            uuid: '',
                         })
                     }
                 }}
@@ -90,7 +97,7 @@ function AddQuayTile({ setTile }: { setTile: (tile: TQuayTile) => void }) {
 function AddStopPlaceTile({
     setTile,
 }: {
-    setTile: (tile: TStopPlaceTile) => void
+    setTile: (tile: TAnonTile<TStopPlaceTile>) => void
 }) {
     return (
         <Dropdown
@@ -104,7 +111,6 @@ function AddStopPlaceTile({
                     setTile({
                         type: 'stop_place',
                         placeId: e.value,
-                        uuid: '',
                     })
                 }
             }}
@@ -114,7 +120,7 @@ function AddStopPlaceTile({
 
 const components: Record<
     TTileType,
-    (props: { setTile: (tile: TTile) => void }) => JSX.Element
+    (props: { setTile: (tile: TAnonTile<TTile>) => void }) => JSX.Element
 > = {
     stop_place: AddStopPlaceTile,
     quay: AddQuayTile,
@@ -123,7 +129,7 @@ const components: Record<
 
 function AddTile() {
     const [tileType, setTileType] = useState<TTileType>('stop_place')
-    const [tile, setTile] = useState<TTile | undefined>()
+    const [tile, setTile] = useState<TAnonTile<TTile> | undefined>()
 
     const Component = components[tileType]
 
