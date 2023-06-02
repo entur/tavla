@@ -29,7 +29,11 @@ describe('<AddColumn />', () => {
         return (
             <Contrast>
                 <SettingsDispatchContext.Provider value={dispatch}>
-                    <SortableColumns tile={settings.tiles[0]} />
+                    {settings.tiles.map((tile) =>
+                        tile.type === 'stop_place' ? (
+                            <SortableColumns key={tile.uuid} tile={tile} />
+                        ) : null,
+                    )}
                 </SettingsDispatchContext.Provider>
             </Contrast>
         )

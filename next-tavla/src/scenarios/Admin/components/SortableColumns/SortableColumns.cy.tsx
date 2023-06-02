@@ -36,10 +36,15 @@ describe('<SortableColumns />', () => {
         return (
             <SettingsDispatchContext.Provider value={dispatch}>
                 <Contrast>
-                    <SortableColumns
-                        tile={settings.tiles[0]}
-                        defaultOpen={true}
-                    />
+                    {settings.tiles.map((tile) =>
+                        tile.type === 'stop_place' ? (
+                            <SortableColumns
+                                key={tile.uuid}
+                                tile={tile}
+                                defaultOpen={true}
+                            />
+                        ) : null,
+                    )}
                 </Contrast>
             </SettingsDispatchContext.Provider>
         )
