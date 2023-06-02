@@ -5,7 +5,7 @@
     border-radius: 0.5em;
 }
 
-.addButton {
-    display: flex;
-    align-items: center;
+/* Chaining used because className is not properly appended to IconButton element in EDS */
+.column > button > svg {
+    margin-right: 0.5rem;
 }

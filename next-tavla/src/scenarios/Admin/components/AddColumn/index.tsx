@@ -20,16 +20,15 @@ function AddColumn({
     return (
         <div className={classes.column}>
             {remainingColumns.map((key) => (
-                <div key={key} className={classes.addButton}>
-                    <IconButton
-                        onClick={() => {
-                            addColumn(key)
-                        }}
-                    >
-                        <AddIcon />
-                    </IconButton>
+                <IconButton
+                    key={key}
+                    onClick={() => {
+                        addColumn(key)
+                    }}
+                >
+                    <AddIcon />
                     {Columns[key]}
-                </div>
+                </IconButton>
             ))}
         </div>
     )

@@ -18,9 +18,6 @@ describe('<AddColumn />', () => {
                         {
                             type: 'line',
                         },
-                        {
-                            type: 'time',
-                        },
                     ],
                     placeId: 'NSR:StopPlace:60066',
                     type: 'stop_place',
@@ -44,13 +41,21 @@ describe('<AddColumn />', () => {
 
     it('contains three column to begin with', () => {
         cy.mount(<TestComponent />)
-        cy.get('[data-cy="column"]').should('have.length', 3)
+        cy.findByRole('button', { name: /velg kolonner/i }).click()
+        cy.get('[data-cy="column"]').should('have.length', 2)
     })
 
     it('can add a new column', () => {
         cy.mount(<TestComponent />)
-        cy.contains('label', 'Destinasjon').click()
-        cy.get('button').contains('Legg til kolonne').click()
-        cy.get('[data-cy="column"]').should('have.length', 4)
+        cy.findByRole('button', { name: /velg kolonner/i }).click()
+
+        cy.get('[data-cy="column"]')
+            .should('have.length', 2)
+            .should('not.include.text', 'Destinasjon')
+
+        cy.findByRole('button', { name: /destinasjon/i }).click()
+        cy.get('[data-cy="column"]')
+            .should('have.length', 3)
+            .should('include.text', 'Destinasjon')
     })
 })
