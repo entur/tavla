@@ -26,11 +26,14 @@ import { AddColumn } from '../AddColumn'
 import { ColumnSettings } from '../ColumnSettings'
 import classes from './styles.module.css'
 import { useSettingsDispatch } from 'scenarios/Admin/reducer'
+import { ExpandablePanel } from '@entur/expand'
 
 function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
     tile,
+    defaultOpen = false,
 }: {
     tile: T
+    defaultOpen?: boolean
 }) {
     const columns: TColumnSetting[] = tile.columns ?? []
 
@@ -71,33 +74,47 @@ function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
         })
     }
 
+    const updateColumn = (newColumn: TColumnSetting) => {
+        dispatch({
+            type: 'updateColumn',
+            tileId: tile.uuid,
+            columnSetting: newColumn,
+        })
+    }
+
     return (
-        <div className={classes.columnContainer}>
-            <DndContext
-                onDragEnd={handleColumnSwap}
-                sensors={sensors}
-                modifiers={[restrictToHorizontalAxis, restrictToParentElement]}
-            >
-                <SortableContext
-                    items={columns.map(({ type }) => type)}
-                    strategy={horizontalListSortingStrategy}
+        <ExpandablePanel title="Velg kolonner" defaultOpen={defaultOpen}>
+            <div className={classes.columnContainer}>
+                <DndContext
+                    onDragEnd={handleColumnSwap}
+                    sensors={sensors}
+                    modifiers={[
+                        restrictToHorizontalAxis,
+                        restrictToParentElement,
+                    ]}
                 >
-                    {columns.map((column: TColumnSetting) => (
-                        <ColumnSettings
-                            key={column.type}
-                            column={column}
-                            deleteColumn={() => removeColumn(column.type)}
+                    <SortableContext
+                        items={columns.map(({ type }) => type)}
+                        strategy={horizontalListSortingStrategy}
+                    >
+                        {columns.map((column: TColumnSetting) => (
+                            <ColumnSettings
+                                key={column.type}
+                                column={column}
+                                updateColumn={updateColumn}
+                                removeColumn={removeColumn}
+                            />
+                        ))}
+                    </SortableContext>
+                    {columns.length < Object.keys(Columns).length && (
+                        <AddColumn
+                            addColumn={addColumn}
+                            selectedColumns={columns.map(({ type }) => type)}
                         />
-                    ))}
-                </SortableContext>
-                {columns.length < Object.keys(Columns).length && (
-                    <AddColumn
-                        addColumn={addColumn}
-                        selectedColumns={columns.map(({ type }) => type)}
-                    />
-                )}
-            </DndContext>
-        </div>
+                    )}
+                </DndContext>
+            </div>
+        </ExpandablePanel>
     )
 }
 

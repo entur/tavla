@@ -4,3 +4,8 @@
     padding: 1em;
     border-radius: 0.5em;
 }
+
+/* Chaining used because className is not properly appended to IconButton element in EDS */
+.column > button > svg {
+    margin-right: 0.5rem;
+}
