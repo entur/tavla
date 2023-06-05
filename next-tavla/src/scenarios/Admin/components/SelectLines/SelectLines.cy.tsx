@@ -57,7 +57,15 @@ describe('<SelectLines />', () => {
 
         return (
             <SettingsDispatchContext.Provider value={dispatch}>
-                <SelectLines tile={settings.tiles[0]} lines={lines} />
+                {settings.tiles.map((tile) =>
+                    tile.type === 'stop_place' ? (
+                        <SelectLines
+                            key={tile.uuid}
+                            tile={tile}
+                            lines={lines}
+                        />
+                    ) : null,
+                )}
             </SettingsDispatchContext.Provider>
         )
     }

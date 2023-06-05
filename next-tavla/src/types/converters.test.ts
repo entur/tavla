@@ -1,8 +1,5 @@
 import { V1, V2, convertSettingsVersion, currentVersion } from './converters'
-
-jest.mock('nanoid', () => {
-    return { nanoid: () => '1234' }
-})
+import { expect, test } from '@jest/globals'
 
 test('upgrade from base to v1', () => {
     const v1 = V1({

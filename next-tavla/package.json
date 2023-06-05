@@ -47,7 +47,6 @@
         "@graphql-codegen/typescript-operations": "3.0.2",
         "@jest/globals": "29.5.0",
         "@testing-library/cypress": "9.0.0",
-        "@types/jest": "29.5.2",
         "@types/lodash": "4.14.191",
         "@types/node": "18.15.5",
         "@types/react": "18.0.28",
