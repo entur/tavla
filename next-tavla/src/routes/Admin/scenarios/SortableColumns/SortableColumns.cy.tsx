@@ -1,9 +1,6 @@
 import { Contrast } from '@entur/layout'
 import React, { useReducer } from 'react'
-import {
-    SettingsDispatchContext,
-    settingsReducer,
-} from 'scenarios/Admin/reducer'
+import { SettingsDispatchContext, settingsReducer } from '../../reducer'
 import { SortableColumns } from './index'
 
 describe('<SortableColumns />', () => {

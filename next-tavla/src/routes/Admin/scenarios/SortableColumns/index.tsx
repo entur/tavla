@@ -25,7 +25,7 @@ import {
 import { AddColumn } from '../AddColumn'
 import { ColumnSettings } from '../ColumnSettings'
 import classes from './styles.module.css'
-import { useSettingsDispatch } from 'scenarios/Admin/reducer'
+import { useSettingsDispatch } from '../../reducer'
 import { ExpandablePanel } from '@entur/expand'
 
 function SortableColumns<T extends TStopPlaceTile | TQuayTile>({

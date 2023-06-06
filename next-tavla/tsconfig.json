@@ -20,8 +20,10 @@
             }
         ],
         "paths": {
+            "Admin/*": ["./src/routes/Admin/*"],
+            "Board/*": ["./src/routes/Board/*"],
             "components/*": ["./src/components/*"],
-            "scenarios/*": ["./src/scenarios/*"],
+            "routes/*": ["./src/routes/*"],
             "utils/*": ["./src/utils/*"],
             "types/*": ["./src/types/*"],
             "styles/*": ["./src/styles/*"],

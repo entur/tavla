@@ -1,5 +1,5 @@
 import { Header } from 'components/Header'
-import { Admin } from 'scenarios/Admin'
+import { Admin } from 'Admin/index'
 import { TSettings } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
 import classes from 'styles/admin.module.css'

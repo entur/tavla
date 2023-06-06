@@ -1,8 +1,5 @@
 import React, { useReducer } from 'react'
-import {
-    SettingsDispatchContext,
-    settingsReducer,
-} from 'scenarios/Admin/reducer'
+import { SettingsDispatchContext, settingsReducer } from 'Admin/reducer'
 import { SelectLines } from './index'
 
 describe('<SelectLines />', () => {

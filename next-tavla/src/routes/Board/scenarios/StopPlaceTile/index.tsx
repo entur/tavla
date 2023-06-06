@@ -1,5 +1,5 @@
 import { TStopPlaceTile } from 'types/tile'
-import { Table } from 'scenarios/Table'
+import { Table } from '../../scenarios/Table'
 import classes from './styles.module.css'
 import { useQuery } from 'graphql/utils'
 import { StopPlaceQuery } from 'graphql/index'

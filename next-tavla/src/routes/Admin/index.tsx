@@ -1,10 +1,10 @@
 import { TSettings } from 'types/settings'
-import { ThemeSettings } from './components/ThemeSettings'
-import { TilesSettings } from './components/TilesSettings'
+import { ThemeSettings } from './scenarios/ThemeSettings'
+import { TilesSettings } from './scenarios/TilesSettings'
 import { useReducer } from 'react'
 import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
-import { AddTile } from './components/AddTile'
+import { AddTile } from './scenarios/AddTile'
 import { SettingsDispatchContext, settingsReducer } from './reducer'
 import { setBoardSettings } from 'utils/firebase'
 

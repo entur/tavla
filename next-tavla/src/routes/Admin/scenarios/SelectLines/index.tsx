@@ -3,7 +3,7 @@ import { ExpandablePanel } from '@entur/expand'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
-import { useSettingsDispatch } from 'scenarios/Admin/reducer'
+import { useSettingsDispatch } from 'Admin/reducer'
 
 function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     tile,
