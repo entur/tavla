@@ -13,7 +13,7 @@ import {
     restrictToVerticalAxis,
 } from '@dnd-kit/modifiers'
 import React from 'react'
-import { useSettingsDispatch } from 'routes/Admin/reducer'
+import { useSettingsDispatch } from 'Admin/reducer'
 import { StopPlaceSettings } from './components/StopPlaceSettings'
 import { QuaySettings } from './components/QuaySettings'
 

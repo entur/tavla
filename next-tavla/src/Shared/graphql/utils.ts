@@ -3,7 +3,7 @@ import { TypedDocumentString } from './index'
 import {
     graphql_endpoints,
     type TEndpointNames,
-} from 'assets/environmentConfig'
+} from 'src/Shared/assets/environmentConfig'
 
 async function fetcher<Data, Variables>([query, variables, endpointName]: [
     TypedDocumentString<Data, Variables>,

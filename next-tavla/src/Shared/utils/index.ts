@@ -1,4 +1,4 @@
-import { geocoder_endpoint } from 'assets/environmentConfig'
+import { geocoder_endpoint } from 'src/Shared/assets/environmentConfig'
 const CLIENT_NAME = 'entur-tavla-staging'
 
 type TPartialGeoResponse = {
