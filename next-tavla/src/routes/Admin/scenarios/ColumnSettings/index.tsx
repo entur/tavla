@@ -6,7 +6,7 @@ import { Columns, TColumn, TColumnSetting } from 'types/tile'
 import { DeleteIcon, AddIcon, SubtractIcon } from '@entur/icons'
 import { IconButton } from '@entur/button'
 import classes from './styles.module.css'
-import { SortableHandle } from '../SortableHandle'
+import { SortableHandle } from '../../components/SortableHandle'
 
 function restrictXScale(transform: Transform | null) {
     if (!transform) return undefined
