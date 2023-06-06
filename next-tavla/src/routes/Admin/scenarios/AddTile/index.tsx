@@ -1,122 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import {
-    TAnonTile,
-    TMapTile,
-    TQuayTile,
-    TStopPlaceTile,
-    TTile,
-    TTileType,
-} from 'types/tile'
-import { Dropdown } from '@entur/dropdown'
+import React, { useState } from 'react'
+import { TAnonTile, TTile, TTileType } from 'types/tile'
 import { Button } from '@entur/button'
-import { fetchItems } from 'utils/index'
-import { isNotNullOrUndefined } from 'utils/typeguards'
 import { useSettingsDispatch } from 'Admin/reducer'
-import { QuaysSearchQuery, type TQuaysSearchQuery } from 'graphql/index'
-import { fetchQuery } from 'graphql/utils'
 import { RadioGroup, RadioPanel } from '@entur/form'
 import classes from './styles.module.css'
-
-function AddMapTile({
-    setTile,
-}: {
-    setTile: (tile: TAnonTile<TMapTile>) => void
-}) {
-    return (
-        <Dropdown
-            items={fetchItems}
-            debounceTimeout={1000}
-            label="Finn stoppested"
-            searchable
-            clearable
-            onChange={(e) => {
-                if (e?.value) {
-                    setTile({
-                        type: 'map',
-                        placeId: e.value,
-                    })
-                }
-            }}
-        />
-    )
-}
-
-function AddQuayTile({
-    setTile,
-}: {
-    setTile: (tile: TAnonTile<TQuayTile>) => void
-}) {
-    const [stopPlaceId, setStopPlaceId] = useState<string | undefined>()
-
-    const [data, setData] = useState<TQuaysSearchQuery | undefined>(undefined)
-
-    useEffect(() => {
-        if (!stopPlaceId) return
-        fetchQuery(QuaysSearchQuery, { stopPlaceId }).then(setData)
-    }, [stopPlaceId])
-
-    const quays =
-        data?.stopPlace?.quays
-            ?.filter(isNotNullOrUndefined)
-            .map((quay, index) => ({
-                value: quay.id,
-                label:
-                    'Platform ' +
-                    [quay.publicCode ?? index + 1, quay.description].join(' '),
-            })) || []
-
-    return (
-        <div>
-            <Dropdown
-                items={fetchItems}
-                label="Finn stoppested"
-                searchable
-                clearable
-                openOnFocus
-                debounceTimeout={500}
-                onChange={(e) => setStopPlaceId(e?.value)}
-            />
-
-            <Dropdown
-                items={() => quays}
-                label="Velg plattform"
-                disabled={!stopPlaceId}
-                onChange={(e) => {
-                    if (e?.value) {
-                        setTile({
-                            type: 'quay',
-                            placeId: e.value,
-                        })
-                    }
-                }}
-            />
-        </div>
-    )
-}
-
-function AddStopPlaceTile({
-    setTile,
-}: {
-    setTile: (tile: TAnonTile<TStopPlaceTile>) => void
-}) {
-    return (
-        <Dropdown
-            items={fetchItems}
-            debounceTimeout={1000}
-            label="Finn stoppested"
-            searchable
-            clearable
-            onChange={(e) => {
-                if (e?.value) {
-                    setTile({
-                        type: 'stop_place',
-                        placeId: e.value,
-                    })
-                }
-            }}
-        />
-    )
-}
+import { AddStopPlaceTile } from './components/AddStopPlaceTile'
+import { AddQuayTile } from './components/AddQuayTile'
+import { AddMapTile } from './components/AddMapTile'
 
 const components: Record<
     TTileType,
