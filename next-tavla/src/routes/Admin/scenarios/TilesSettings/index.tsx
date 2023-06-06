@@ -6,25 +6,16 @@ import {
     PointerSensor,
     KeyboardSensor,
 } from '@dnd-kit/core'
-import { TQuayTile, TTile } from 'types/tile'
+import { TTile } from 'types/tile'
 import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import {
     restrictToParentElement,
     restrictToVerticalAxis,
 } from '@dnd-kit/modifiers'
 import React from 'react'
-import { fieldsNotNull } from 'utils/typeguards'
-import { DeleteIcon } from '@entur/icons'
-import { Loader } from '@entur/loader'
-import { SortableTileWrapper } from '../../components/SortableTileWrapper'
-import classes from './styles.module.css'
-import { TStopPlaceTile } from 'types/tile'
-import { SortableColumns } from '../SortableColumns'
-import { SortableHandle } from '../../components/SortableHandle'
-import { SelectLines } from '../SelectLines'
 import { useSettingsDispatch } from 'routes/Admin/reducer'
-import { useQuery } from 'graphql/utils'
-import { GetQuayQuery, StopPlaceSettingsQuery } from 'graphql/index'
+import { StopPlaceSettings } from './components/StopPlaceSettings'
+import { QuaySettings } from './components/QuaySettings'
 
 function TilesSettings({ tiles }: { tiles: TTile[] }) {
     const sensors = useSensors(
@@ -75,82 +66,6 @@ function TilesSettings({ tiles }: { tiles: TTile[] }) {
                 </div>
             </SortableContext>
         </DndContext>
-    )
-}
-
-function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
-    const dispatch = useSettingsDispatch()
-
-    const { data } = useQuery(StopPlaceSettingsQuery, { id: tile.placeId })
-
-    const lines =
-        data?.stopPlace?.quays
-            ?.flatMap((q) => q?.lines)
-            .filter(fieldsNotNull) || []
-
-    return (
-        <SortableTileWrapper id={tile.uuid}>
-            <div className={classes.tableTile}>
-                <div className={classes.tileHeader}>
-                    {!data ? <Loader /> : data.stopPlace?.name ?? tile.placeId}
-                    <div className="flexBetween">
-                        <button
-                            className="button"
-                            onClick={() =>
-                                dispatch({
-                                    type: 'removeTile',
-                                    tileId: tile.uuid,
-                                })
-                            }
-                        >
-                            <DeleteIcon size={16} />
-                        </button>
-                        <SortableHandle id={tile.uuid} />
-                    </div>
-                </div>
-                <SelectLines tile={tile} lines={lines} />
-                <SortableColumns tile={tile} />
-            </div>
-        </SortableTileWrapper>
-    )
-}
-
-function QuaySettings({ tile }: { tile: TQuayTile }) {
-    const { data } = useQuery(GetQuayQuery, { quayId: tile.placeId })
-
-    const dispatch = useSettingsDispatch()
-
-    const lines = data?.quay?.lines.filter(fieldsNotNull) ?? []
-    return (
-        <SortableTileWrapper id={tile.uuid}>
-            <div className={classes.tableTile}>
-                <div className={classes.tileHeader}>
-                    {!data ? (
-                        <Loader />
-                    ) : (
-                        (data.quay?.name ?? tile.placeId) +
-                        ' - ' +
-                        (data.quay?.description ?? data.quay?.publicCode)
-                    )}
-                    <div className="flexBetween">
-                        <button
-                            className="button"
-                            onClick={() =>
-                                dispatch({
-                                    type: 'removeTile',
-                                    tileId: tile.uuid,
-                                })
-                            }
-                        >
-                            <DeleteIcon size={16} />
-                        </button>
-                        <SortableHandle id={tile.uuid} />
-                    </div>
-                </div>
-                <SelectLines tile={tile} lines={lines} />
-                <SortableColumns tile={tile} />
-            </div>
-        </SortableTileWrapper>
     )
 }
 

@@ -1267,6 +1267,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/loader@npm:0.4.31, @entur/loader@npm:^0.4.31":
+  version: 0.4.31
+  resolution: "@entur/loader@npm:0.4.31"
+  dependencies:
+    "@entur/tokens": ^3.9.0
+    "@entur/typography": ^1.8.0
+    "@entur/utils": ^0.9.0
+    classnames: ^2.3.1
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: ccb381197ef83ea0a37610dcbc9210eb98d8320bdc7a7ec807b73b8b51df608efb52134d90aa58ee5de64e6d914422fb60aeac1d814767eb213b2eb3da57d6a4
+  languageName: node
+  linkType: hard
+
 "@entur/loader@npm:^0.4.30":
   version: 0.4.30
   resolution: "@entur/loader@npm:0.4.30"
@@ -1279,21 +1294,6 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: afe08676c661b92d46f89da7f477a8af76aac5bd222d1e8d6069547bf873efd273bfbd5b397c7215320691520394f626a8a305a5c517cde5fb88f98ccc2bc202
-  languageName: node
-  linkType: hard
-
-"@entur/loader@npm:^0.4.31":
-  version: 0.4.31
-  resolution: "@entur/loader@npm:0.4.31"
-  dependencies:
-    "@entur/tokens": ^3.9.0
-    "@entur/typography": ^1.8.0
-    "@entur/utils": ^0.9.0
-    classnames: ^2.3.1
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: ccb381197ef83ea0a37610dcbc9210eb98d8320bdc7a7ec807b73b8b51df608efb52134d90aa58ee5de64e6d914422fb60aeac1d814767eb213b2eb3da57d6a4
   languageName: node
   linkType: hard
 
@@ -10564,7 +10564,9 @@ __metadata:
     "@entur/dropdown": 4.0.9
     "@entur/expand": 3.4.0
     "@entur/form": 7.0.9
+    "@entur/icons": 6.3.0
     "@entur/layout": 2.1.33
+    "@entur/loader": 0.4.31
     "@entur/tokens": 3.8.1
     "@firebase/database-types": 0.10.4
     "@graphql-codegen/cli": 3.2.2
