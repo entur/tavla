@@ -5,26 +5,33 @@ import {
     settingsReducer,
 } from 'scenarios/Admin/reducer'
 import { SortableColumns } from 'scenarios/Admin/components/SortableColumns'
+import { TSettings } from 'types/settings'
+import { TStopPlaceTile } from 'types/tile'
+
+const stopPlaceTile: TStopPlaceTile = {
+    columns: [
+        {
+            type: 'platform',
+        },
+        {
+            type: 'line',
+        },
+    ],
+    placeId: 'NSR:StopPlace:60066',
+    type: 'stop_place',
+    uuid: '123',
+}
+
+const initialSettings: TSettings = {
+    tiles: [stopPlaceTile],
+}
 
 describe('<AddColumn />', () => {
     const TestComponent = () => {
-        const [settings, dispatch] = useReducer(settingsReducer, {
-            tiles: [
-                {
-                    columns: [
-                        {
-                            type: 'platform',
-                        },
-                        {
-                            type: 'line',
-                        },
-                    ],
-                    placeId: 'NSR:StopPlace:60066',
-                    type: 'stop_place',
-                    uuid: '123',
-                },
-            ],
-        })
+        const [settings, dispatch] = useReducer(
+            settingsReducer,
+            initialSettings,
+        )
 
         return (
             <Contrast>
@@ -43,10 +50,13 @@ describe('<AddColumn />', () => {
         cy.mount(<TestComponent />)
     })
 
-    it('contains three column to begin with', () => {
+    it('contains all columns from initial settings', () => {
         cy.mount(<TestComponent />)
         cy.findByRole('button', { name: /velg kolonner/i }).click()
-        cy.get('[data-cy="column"]').should('have.length', 2)
+        cy.get('[data-cy="column"]').should(
+            'have.length',
+            stopPlaceTile.columns?.length,
+        )
     })
 
     it('can add a new column', () => {
@@ -54,12 +64,12 @@ describe('<AddColumn />', () => {
         cy.findByRole('button', { name: /velg kolonner/i }).click()
 
         cy.get('[data-cy="column"]')
-            .should('have.length', 2)
+            .should('have.length', stopPlaceTile.columns?.length)
             .should('not.include.text', 'Destinasjon')
 
         cy.findByRole('button', { name: /destinasjon/i }).click()
         cy.get('[data-cy="column"]')
-            .should('have.length', 3)
+            .should('have.length', (stopPlaceTile.columns?.length ?? 0) + 1)
             .should('include.text', 'Destinasjon')
     })
 })
