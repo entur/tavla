@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-/// <reference types="@testing-library/cypress" />
 import { Contrast } from '@entur/layout'
 import React, { useReducer } from 'react'
 import {
