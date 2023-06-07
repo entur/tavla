@@ -1,9 +1,11 @@
 import { nanoid } from 'nanoid'
-import { TSettings } from './settings'
 import { reverse } from 'lodash'
+import { TSettings } from 'types/settings'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function convertSettingsVersion(settings: any): TSettings {
+    if (settings.version === currentVersion) return settings
+
     const orderedVersions = reverse(versions)
 
     const upgradedSettings: ReturnType<(typeof versions)[0]> = orderedVersions
