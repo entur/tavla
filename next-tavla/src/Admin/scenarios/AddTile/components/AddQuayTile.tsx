@@ -1,8 +1,9 @@
 import { Dropdown } from '@entur/dropdown'
+import { TAnonTile } from 'Admin/types'
 import { QuaysSearchQuery, TQuaysSearchQuery } from 'graphql/index'
 import { fetchQuery } from 'graphql/utils'
 import { useEffect, useState } from 'react'
-import { TAnonTile, TQuayTile } from 'types/tile'
+import { TQuayTile } from 'types/tile'
 import { fetchItems } from 'utils/index'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 

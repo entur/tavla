@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TAnonTile, TTile, TTileType } from 'types/tile'
+import { TTile, TTileType } from 'types/tile'
 import { Button } from '@entur/button'
 import { useSettingsDispatch } from 'Admin/reducer'
 import { RadioGroup, RadioPanel } from '@entur/form'
@@ -7,6 +7,7 @@ import classes from './styles.module.css'
 import { AddStopPlaceTile } from './components/AddStopPlaceTile'
 import { AddQuayTile } from './components/AddQuayTile'
 import { AddMapTile } from './components/AddMapTile'
+import { TAnonTile } from 'Admin/types'
 
 const components: Record<
     TTileType,
