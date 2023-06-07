@@ -1,7 +1,7 @@
 import { Dropdown } from '@entur/dropdown'
 import { TAnonTile } from 'Admin/types'
 import { TStopPlaceTile } from 'types/tile'
-import { fetchItems } from 'utils/index'
+import { fetchItems } from 'Admin/utils/index'
 
 function AddStopPlaceTile({
     setTile,

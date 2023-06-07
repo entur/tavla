@@ -4,7 +4,7 @@ import { QuaysSearchQuery, TQuaysSearchQuery } from 'graphql/index'
 import { fetchQuery } from 'graphql/utils'
 import { useEffect, useState } from 'react'
 import { TQuayTile } from 'types/tile'
-import { fetchItems } from 'utils/index'
+import { fetchItems } from 'Admin/utils/index'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 
 function AddQuayTile({
