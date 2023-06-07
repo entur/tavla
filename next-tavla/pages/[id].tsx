@@ -1,8 +1,8 @@
-import { Board } from 'scenarios/Board'
 import { Header } from 'components/Header'
 import { TSettings } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
 import classes from 'styles/board.module.css'
+import { Board } from 'Board/index'
 
 export async function getServerSideProps({
     params,

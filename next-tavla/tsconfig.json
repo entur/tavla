@@ -20,14 +20,15 @@
             }
         ],
         "paths": {
-            "components/*": ["./src/components/*"],
-            "scenarios/*": ["./src/scenarios/*"],
-            "utils/*": ["./src/utils/*"],
-            "types/*": ["./src/types/*"],
-            "styles/*": ["./src/styles/*"],
-            "assets/*": ["./src/assets/*"],
-            "graphql/*": ["./src/graphql/*"],
-            "hooks/*": ["./src/hooks/*"],
+            "Admin/*": ["./src/Admin/*"],
+            "Board/*": ["./src/Board/*"],
+            "components/*": ["./src/Shared/components/*"],
+            "utils/*": ["./src/Shared/utils/*"],
+            "types/*": ["./src/Shared/types/*"],
+            "styles/*": ["./src/Shared/styles/*"],
+            "assets/*": ["./src/Shared/assets/*"],
+            "graphql/*": ["./src/Shared/graphql/*"],
+            "hooks/*": ["./src/Shared/hooks/*"],
             "src/*": ["./src/*"]
         },
         "types": ["cypress", "@testing-library/cypress"]
