@@ -1,6 +1,7 @@
 import { Dropdown } from '@entur/dropdown'
-import { TAnonTile, TMapTile } from 'types/tile'
-import { fetchItems } from 'utils/index'
+import { TAnonTile } from 'Admin/types'
+import { TMapTile } from 'types/tile'
+import { fetchItems } from 'Admin/utils/index'
 
 function AddMapTile({
     setTile,

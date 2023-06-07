@@ -1,5 +1,5 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import { getPresentation } from 'utils/colors'
+import { getPresentation } from 'Board/utils/colors'
 import { TransportIcon } from '../TransportIcon'
 import { DepartureContext } from '../../contexts'
 

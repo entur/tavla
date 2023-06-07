@@ -12,8 +12,6 @@ export type TColumnSetting = { type: TColumn; size?: number }
 
 export type TTileType = TTile['type']
 
-export type TAnonTile<T extends TTile> = Omit<T, 'uuid'>
-
 type TBaseTile = {
     placeId: string
     uuid: string
