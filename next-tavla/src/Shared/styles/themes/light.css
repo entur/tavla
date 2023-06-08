@@ -1,25 +1,27 @@
-[data-theme="light"] {
-  --main-background-color: var(--colors-brand-white);
+[data-theme='light'] {
+    --main-background-color: var(--colors-brand-white);
 
-  --secondary-background-color: var(--colors-greys-grey80);
-  --main-text-color: var(--colors-misc-black);
+    --secondary-background-color: var(--colors-greys-grey80);
+    --main-text-color: var(--colors-misc-black);
 
-  --table-border-color: var(--colors-greys-grey60);
-  --table-situation-color: var(--colors-misc-black);
+    --table-border-color: var(--colors-greys-grey60);
+    --table-situation-color: var(--colors-misc-black);
 
-  --table-time-deviation-color: var(--colors-validation-lava);
+    --table-time-deviation-color: var(--colors-validation-lava);
 
-  --table-transport-metro-color: var(--colors-transport-default-metro);
-  --table-transport-bus-color: var(--colors-transport-default-bus);
-  --table-transport-tram-color: var(--colors-transport-default-tram);
-  --table-transport-funicular-color: var(--colors-transport-default-funicular);
-  --table-transport-cableway-color: var(--colors-transport-default-cableway);
-  --table-transport-rail-color: var(--colors-transport-default-train);
-  --table-transport-air-color: var(--colors-transport-default-plane);
-  --table-transport-coach-color: var(--colors-transport-default-bus);
-  --table-transport-lift-color: var(--colors-transport-default-cableway);
-  --table-transport-monorail-color: var(--colors-transport-default-tram);
-  --table-transport-trolleybus-color: var(--colors-transport-default-bus);
-  --table-transport-unknown-color: var(--colors-transport-default-walk);
-  --table-transport-water-color: var(--colors-transport-default-ferry);
+    --table-transport-metro-color: var(--colors-transport-default-metro);
+    --table-transport-bus-color: var(--colors-transport-default-bus);
+    --table-transport-tram-color: var(--colors-transport-default-tram);
+    --table-transport-funicular-color: var(
+        --colors-transport-default-funicular
+    );
+    --table-transport-cableway-color: var(--colors-transport-default-cableway);
+    --table-transport-rail-color: var(--colors-transport-default-train);
+    --table-transport-air-color: var(--colors-transport-default-plane);
+    --table-transport-coach-color: var(--colors-transport-default-bus);
+    --table-transport-lift-color: var(--colors-transport-default-cableway);
+    --table-transport-monorail-color: var(--colors-transport-default-tram);
+    --table-transport-trolleybus-color: var(--colors-transport-default-bus);
+    --table-transport-unknown-color: var(--colors-transport-default-walk);
+    --table-transport-water-color: var(--colors-transport-default-ferry);
 }

@@ -1,21 +1,22 @@
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
-  font-weight: inherit;
+    box-sizing: inherit;
+    font-weight: inherit;
 }
 
 body,
-h3, h4 {
-  padding: 0;
-  margin: 0;
-  overflow-x: unset;
-  overflow-y: unset;
-  box-sizing: border-box;
+h3,
+h4 {
+    padding: 0;
+    margin: 0;
+    overflow-x: unset;
+    overflow-y: unset;
+    box-sizing: border-box;
 }
 
 li,
 ul {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }

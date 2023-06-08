@@ -2,7 +2,7 @@ query StopPlaceSettings($id: String!) {
     stopPlace(id: $id) {
         name
         quays(filterByInUse: true) {
-			...lines
+            ...lines
         }
     }
 }

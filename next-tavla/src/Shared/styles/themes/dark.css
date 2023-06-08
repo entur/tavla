@@ -1,7 +1,7 @@
-[data-theme="dark"] {
-  --main-background-color: var(--colors-misc-black);
-  --secondary-background-color: var(--colors-greys-grey);
+[data-theme='dark'] {
+    --main-background-color: var(--colors-misc-black);
+    --secondary-background-color: var(--colors-greys-grey);
 
-  --table-border-color: var(--colors-greys-grey10);
-  --table-situation-color: var(--colors-validation-canary);
+    --table-border-color: var(--colors-greys-grey10);
+    --table-situation-color: var(--colors-validation-canary);
 }
