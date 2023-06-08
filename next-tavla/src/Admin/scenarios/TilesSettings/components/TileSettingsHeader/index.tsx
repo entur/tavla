@@ -4,6 +4,7 @@ import { useSettingsDispatch } from 'Admin/reducer'
 import { DeleteIcon } from '@entur/icons'
 import { SortableHandle } from 'Admin/components/SortableHandle'
 import { Loader } from '@entur/loader'
+import { Tile } from 'components/Tile'
 
 function TileSettingsWrapper({
     uuid,
@@ -17,7 +18,7 @@ function TileSettingsWrapper({
     const dispatch = useSettingsDispatch()
 
     return (
-        <div className="tile">
+        <Tile>
             <div className={classes.heading}>
                 {!name ? <Loader /> : name}
                 <div className={classes.buttons}>
@@ -36,7 +37,7 @@ function TileSettingsWrapper({
                 </div>
             </div>
             {children}
-        </div>
+        </Tile>
     )
 }
 

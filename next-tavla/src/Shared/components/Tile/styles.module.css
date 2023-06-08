@@ -1,0 +1,9 @@
+.tile {
+    height: 100%;
+    width: 100%;
+    background-color: var(--secondary-background-color);
+    color: var(--main-text-color);
+    padding: 1em;
+    border-radius: 0.5em;
+    overflow: hidden;
+}
