@@ -7,9 +7,8 @@ function TavlaButton({
     children,
     ...rest
 }: React.HTMLAttributes<HTMLButtonElement>) {
-    const cn = classNames(classes.button, className)
     return (
-        <button className={cn} {...rest}>
+        <button className={classNames(classes.button, className)} {...rest}>
             {children}
         </button>
     )

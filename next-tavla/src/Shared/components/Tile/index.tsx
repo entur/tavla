@@ -7,9 +7,8 @@ function Tile({
     children,
     ...rest
 }: React.HTMLAttributes<HTMLDivElement>) {
-    const cn = classNames(classes.tile, className)
     return (
-        <div className={cn} {...rest}>
+        <div className={classNames(classes.tile, className)} {...rest}>
             {children}
         </div>
     )
