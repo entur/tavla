@@ -15,6 +15,7 @@
         "start": "next start",
         "generate": "graphql-codegen",
         "lint": "next lint",
+        "prettier": "prettier . --check",
         "fix": "next lint --fix",
         "build-start": "next build && next start",
         "cypress": "cypress open",

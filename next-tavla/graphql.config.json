@@ -1,5 +1,5 @@
 {
   "$schema": "https://raw.githubusercontent.com/kamilkisiela/graphql-config/master/config-schema.json",
   "schema": "graphql-tools/schema.json",
-  "documents": ["src/**/*.{ts,tsx}"]
+  "documents": ["src/**/*.graphql"]
 }

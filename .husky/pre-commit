@@ -15,6 +15,7 @@ then
 	cd next-tavla
 	yarn lint
 	yarn typecheck
+	yarn prettier
 	cd ..
 fi
 
