@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic'
 import { AddTile } from './scenarios/AddTile'
 import { SettingsDispatchContext, settingsReducer } from './reducer'
 import { setBoardSettings } from 'utils/firebase'
+import { TavlaButton } from './components/Button'
 
 function Admin({
     initialSettings,
@@ -23,14 +24,13 @@ function Admin({
                 <ThemeSettings theme={settings.theme} />
                 <AddTile />
                 <TilesSettings tiles={settings.tiles} />
-                <button
-                    className="button"
+                <TavlaButton
                     onClick={() => {
                         setBoardSettings(documentId, settings)
                     }}
                 >
                     Lagre instillinger
-                </button>
+                </TavlaButton>
             </div>
         </SettingsDispatchContext.Provider>
     )

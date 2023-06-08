@@ -17,24 +17,6 @@ h3 {
     font-weight: 500;
 }
 
-.button {
-    background-color: inherit;
-    border-radius: 5px;
-    color: white;
-    padding: 8px;
-    cursor: grab;
-    display: flex;
-    width: fit-content;
-    height: fit-content;
-    touch-action: none;
-    border: none;
-}
-
-.button:hover {
-    background-color: white;
-    color: black;
-}
-
 .flexBetween {
     display: flex;
     justify-content: space-between;

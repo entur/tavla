@@ -7,6 +7,7 @@ import { DeleteIcon, AddIcon, SubtractIcon } from '@entur/icons'
 import { IconButton } from '@entur/button'
 import classes from './styles.module.css'
 import { SortableHandle } from '../../components/SortableHandle'
+import { TavlaButton } from 'Admin/components/Button'
 
 function restrictXScale(transform: Transform | null) {
     if (!transform) return undefined
@@ -57,13 +58,12 @@ function ColumnSettings({
                 <div className="flexBetween">
                     {Columns[column.type]}
                     <div className="flexBetween">
-                        <button
-                            className="button"
+                        <TavlaButton
                             aria-label={'Fjern kolonne'}
                             onClick={() => removeColumn(column.type)}
                         >
                             <DeleteIcon size={16} />
-                        </button>
+                        </TavlaButton>
                         <SortableHandle id={column.type} />
                     </div>
                 </div>

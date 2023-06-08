@@ -5,6 +5,7 @@ import { DeleteIcon } from '@entur/icons'
 import { SortableHandle } from 'Admin/components/SortableHandle'
 import { Loader } from '@entur/loader'
 import { Tile } from 'components/Tile'
+import { TavlaButton } from 'Admin/components/Button'
 
 function TileSettingsWrapper({
     uuid,
@@ -22,8 +23,7 @@ function TileSettingsWrapper({
             <div className={classes.heading}>
                 {!name ? <Loader /> : name}
                 <div className={classes.buttons}>
-                    <button
-                        className="button"
+                    <TavlaButton
                         onClick={() =>
                             dispatch({
                                 type: 'removeTile',
@@ -32,7 +32,7 @@ function TileSettingsWrapper({
                         }
                     >
                         <DeleteIcon size={16} />
-                    </button>
+                    </TavlaButton>
                     <SortableHandle id={uuid} />
                 </div>
             </div>
