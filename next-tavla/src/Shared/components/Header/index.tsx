@@ -24,7 +24,7 @@ function Header({ theme }: { theme?: TTheme }) {
                     className={classes.logo}
                 />
             )}
-            <p className="tag-text">
+            <p className={classes.tagText}>
                 Finn din rute på entur.no eller i Entur-appen
             </p>
         </div>

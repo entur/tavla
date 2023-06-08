@@ -2,3 +2,8 @@
   height: auto;
   width: 7em;
 }
+
+.tagText {
+    font-size: 0.5em;
+    color: var(--main-text-color);
+}
