@@ -17,39 +17,6 @@ h3 {
     font-weight: 500;
 }
 
-.tag-text {
-    font-size: 0.5em;
-    color: var(--main-text-color);
-}
-
-.tile {
-    height: 100%;
-    width: 100%;
-    background-color: var(--secondary-background-color);
-    color: var(--main-text-color);
-    padding: 1em;
-    border-radius: 0.5em;
-    overflow: hidden;
-}
-
-.button {
-    background-color: inherit;
-    border-radius: 5px;
-    color: white;
-    padding: 8px;
-    cursor: grab;
-    display: flex;
-    width: fit-content;
-    height: fit-content;
-    touch-action: none;
-    border: none;
-}
-
-.button:hover {
-    background-color: white;
-    color: black;
-}
-
 .flexBetween {
     display: flex;
     justify-content: space-between;

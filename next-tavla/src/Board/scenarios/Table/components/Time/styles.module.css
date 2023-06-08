@@ -1,13 +1,13 @@
 .timeDeviationContainer {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .aimedDepartureTime {
-  text-decoration: line-through;
-  font-size: 0.66em;
+    text-decoration: line-through;
+    font-size: 0.66em;
 }
 
 .expectedDepartureTime {
-  color: var(--table-time-deviation-color);
+    color: var(--table-time-deviation-color);
 }

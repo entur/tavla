@@ -3,6 +3,7 @@ import { Table } from '../../scenarios/Table'
 import classes from './styles.module.css'
 import { useQuery } from 'graphql/utils'
 import { GetQuayQuery } from 'graphql/index'
+import { Tile } from 'components/Tile'
 
 export function QuayTile({
     placeId,
@@ -21,15 +22,15 @@ export function QuayTile({
     )
 
     if (!data) {
-        return <div className="tile">Loading data</div>
+        return <Tile>Loading data</Tile>
     }
 
     if (!data.quay) {
-        return <div className="tile">Data not found</div>
+        return <Tile>Data not found</Tile>
     }
 
     return (
-        <div className={classes.quayTile}>
+        <Tile className={classes.quayTile}>
             <div className={classes.heading}>
                 <h3>{data.quay.name}</h3>
                 <h4>
@@ -37,6 +38,6 @@ export function QuayTile({
                 </h4>
             </div>
             <Table columns={columns} departures={data.quay.estimatedCalls} />
-        </div>
+        </Tile>
     )
 }

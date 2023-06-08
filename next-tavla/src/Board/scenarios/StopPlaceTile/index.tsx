@@ -3,6 +3,7 @@ import { Table } from '../../scenarios/Table'
 import classes from './styles.module.css'
 import { useQuery } from 'graphql/utils'
 import { StopPlaceQuery } from 'graphql/index'
+import { Tile } from 'components/Tile'
 
 export function StopPlaceTile({
     placeId,
@@ -17,20 +18,20 @@ export function StopPlaceTile({
     )
 
     if (!data) {
-        return <div className="tile">Loading data</div>
+        return <Tile>Loading data</Tile>
     }
 
     if (!data.stopPlace) {
-        return <div className="tile">Data not found</div>
+        return <Tile>Data not found</Tile>
     }
 
     return (
-        <div className={classes.stopPlaceTile}>
+        <Tile className={classes.stopPlaceTile}>
             <h3>{data.stopPlace.name}</h3>
             <Table
                 columns={columns}
                 departures={data.stopPlace.estimatedCalls}
             />
-        </div>
+        </Tile>
     )
 }
