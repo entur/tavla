@@ -93,6 +93,11 @@ function PanelRow({ stopPlaceId }: { stopPlaceId: string }) {
                 <Paragraph>
                     Fant ikke informasjon om stoppestedet med id {stopPlaceId}
                 </Paragraph>
+                {settings.newStops.includes(stopPlaceId) && (
+                    <IconButton onClick={handleRemoveStopPlaceFromPanel}>
+                        <CloseSmallIcon />
+                    </IconButton>
+                )}
             </div>
         )
     }
