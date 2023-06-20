@@ -34,7 +34,7 @@ export async function getServerSideProps({
 function AdminPage({ settings, id }: { settings: TSettings; id: string }) {
     return (
         <Contrast className={classes.root}>
-            <Header theme={settings.theme} />
+            <Header />
             <Admin initialSettings={settings} documentId={id} />
         </Contrast>
     )
