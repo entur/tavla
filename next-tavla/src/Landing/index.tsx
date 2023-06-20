@@ -3,13 +3,17 @@ import { Heading1, Heading3 } from '@entur/typography'
 import classes from './styles.module.css'
 import { addBoardSettings } from 'utils/firebase'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 function Landing() {
     const router = useRouter()
+    const [loading, setLoading] = useState(false)
 
     async function handleCreateNewBoard() {
+        setLoading(true)
         const createdBoard = await addBoardSettings({ tiles: [] })
         await router.push('/admin/' + createdBoard.id)
+        setLoading(false)
     }
 
     return (
@@ -23,6 +27,8 @@ function Landing() {
                 onClick={handleCreateNewBoard}
                 variant="primary"
                 width="auto"
+                disabled={loading}
+                loading={loading}
             >
                 Opprett ny tavle
             </Button>
