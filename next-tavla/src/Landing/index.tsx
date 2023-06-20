@@ -1,6 +1,5 @@
 import { Button } from '@entur/button'
-import { Contrast } from '@entur/layout'
-import { Heading1, Heading2 } from '@entur/typography'
+import { Heading1, Heading3 } from '@entur/typography'
 import classes from './styles.module.css'
 import { addBoardSettings } from 'utils/firebase'
 import { useRouter } from 'next/router'
@@ -10,20 +9,24 @@ function Landing() {
 
     async function handleCreateNewBoard() {
         const createdBoard = await addBoardSettings({ tiles: [] })
-        router.push('/admin/' + createdBoard.id)
+        await router.push('/admin/' + createdBoard.id)
     }
+
     return (
-        <Contrast>
-            <div className={classes.container}>
-                <Heading1 className={classes.header}>EnTur Tavla 2.0</Heading1>
-                <Heading2 className={classes.header}>
-                    Vil du lage din egen tavle????
-                </Heading2>
-                <Button onClick={handleCreateNewBoard} variant="primary">
-                    Opprett ny tavle
-                </Button>
-            </div>
-        </Contrast>
+        <div className={classes.container}>
+            <Heading1 className={classes.header}>EnTur Tavla</Heading1>
+            <Heading3 className={classes.header}>
+                Her kan du lage din egen tavle
+            </Heading3>
+            <Button
+                className={classes.createButton}
+                onClick={handleCreateNewBoard}
+                variant="primary"
+                width="auto"
+            >
+                Opprett ny tavle
+            </Button>
+        </div>
     )
 }
 

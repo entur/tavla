@@ -1,12 +1,18 @@
 .container {
-    display:flex ;
+    display: flex;
     justify-content: center;
     flex-direction: column;
-    gap:  3rem;
+    gap: 3rem;
     width: 80%;
-    margin: auto;
+    margin: 0 auto;
+    margin-top: 1rem;
 }
 
 .header {
     text-align: center;
+}
+
+.createButton {
+    max-width: 20rem;
+    margin: 0 auto;
 }

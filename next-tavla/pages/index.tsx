@@ -1,10 +1,14 @@
+import { Contrast } from '@entur/layout'
 import Landing from '../src/Landing'
+import classes from 'styles/landing.module.css'
+import { Header } from 'components/Header'
 
 function LandingPage() {
     return (
-        <div className="">
+        <Contrast className={classes.root}>
+            <Header />
             <Landing />
-        </div>
+        </Contrast>
     )
 }
 
