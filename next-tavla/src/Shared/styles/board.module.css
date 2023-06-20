@@ -5,6 +5,7 @@
     box-sizing: inherit;
     font-size: 3vmin;
     padding: 0 1em;
+    background-color: var(--main-background-color);
 }
 
 .rootContainer {
