@@ -25,5 +25,5 @@ export async function setBoardSettings(boardId: string, settings: TSettings) {
 }
 
 export async function addBoardSettings(settings: TSettings) {
-    await addDoc(collection(firestore, 'settings-v2'), settings)
+    return await addDoc(collection(firestore, 'settings-v2'), settings)
 }
