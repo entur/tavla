@@ -1,6 +1,7 @@
 import classes from './styles.module.css'
 import { IconButton, PrimaryButton } from '@entur/button'
 import { CopyIcon } from '@entur/icons'
+import { Tooltip } from '@entur/tooltip'
 
 function CopyText({ documentId }: { documentId: string }) {
     console.log(documentId)
@@ -11,9 +12,16 @@ function CopyText({ documentId }: { documentId: string }) {
         <div>
             <div className={classes.copyLink}>
                 <p>{linkURL}</p>
-                <IconButton className={classes.copyButton}>
-                    <CopyIcon />
-                </IconButton>
+                <Tooltip content="kopier lenke" placement="top">
+                    <IconButton
+                        className={classes.copyButton}
+                        onClick={() => {
+                            navigator.clipboard.writeText(linkURL)
+                        }}
+                    >
+                        <CopyIcon />
+                    </IconButton>
+                </Tooltip>
             </div>
         </div>
     )
