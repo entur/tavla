@@ -6,11 +6,12 @@ import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
 import { AddTile } from '../AddTile'
 import { setBoardSettings } from 'utils/firebase'
-import { TavlaButton } from '../../components/Button'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
-import Link from 'next/link'
-import { Paragraph } from '@entur/typography'
+import { PrimaryButton } from '@entur/button'
+import { useRouter } from 'next/router'
+import { CopyText } from 'Admin/components/Copy'
+import { TavlaButton } from 'Admin/components/Button'
 
 function Edit({
     initialSettings,
@@ -21,7 +22,11 @@ function Edit({
 }) {
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
     const [showLink, setShowLink] = useState(false)
-    const linkURL = window.location.host + '/' + documentId
+    const router = useRouter()
+
+    function handleClick() {
+        router.push('/' + documentId)
+    }
 
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
@@ -39,21 +44,14 @@ function Edit({
                 </TavlaButton>
                 {showLink && (
                     <div>
-                        <Paragraph>Her kan du se din tavle:</Paragraph>
-                        <Link
-                            href={'/' + documentId}
-                            target="_blank"
-                            className={classes.link}
-                        >
-                            {linkURL}
-                        </Link>
-                        <TavlaButton
+                        <CopyText documentId={documentId} />
+                        <PrimaryButton
                             onClick={() => {
-                                navigator.clipboard.writeText(linkURL)
+                                handleClick()
                             }}
                         >
-                            {linkURL}
-                        </TavlaButton>
+                            Se avgangstavla
+                        </PrimaryButton>
                     </div>
                 )}
             </div>
