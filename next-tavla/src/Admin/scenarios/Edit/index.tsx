@@ -12,6 +12,7 @@ import { ToastProvider } from '@entur/alert'
 import { CopyText } from 'Admin/components/CopyText'
 import { PrimaryButton } from '@entur/button'
 import { StyledLink } from 'Admin/components/StyledLink'
+import { FooterTextInput } from 'Admin/components/FooterTextInput'
 
 function Edit({
     initialSettings,
@@ -30,6 +31,7 @@ function Edit({
                     <ThemeSettings theme={settings.theme} />
                     <AddTile />
                     <TilesSettings tiles={settings.tiles} />
+                    <FooterTextInput />
                     <CopyText text={linkUrl} toastText="Kopiert lenke" />
                     <div className={classes.floatingButtonWrapper}>
                         <PrimaryButton
