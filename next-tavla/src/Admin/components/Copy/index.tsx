@@ -1,5 +1,5 @@
 import classes from './styles.module.css'
-import { IconButton, PrimaryButton } from '@entur/button'
+import { IconButton } from '@entur/button'
 import { CopyIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 
