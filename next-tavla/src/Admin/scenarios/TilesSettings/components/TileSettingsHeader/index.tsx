@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './styles.module.css'
-import { useSettingsDispatch } from 'Admin/reducer'
+import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { DeleteIcon } from '@entur/icons'
 import { SortableHandle } from 'Admin/components/SortableHandle'
 import { Loader } from '@entur/loader'

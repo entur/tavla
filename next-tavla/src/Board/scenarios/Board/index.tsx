@@ -1,8 +1,8 @@
 import { TSettings } from 'types/settings'
 import { TTile } from 'types/tile'
-import { StopPlaceTile } from './scenarios/StopPlaceTile'
-import { MapTile } from './scenarios/MapTile'
-import { QuayTile } from './scenarios/QuayTile'
+import { StopPlaceTile } from '../StopPlaceTile'
+import { MapTile } from '../MapTile'
+import { QuayTile } from '../QuayTile'
 import classes from './styles.module.css'
 
 function Tile({ tileSpec }: { tileSpec: TTile }) {

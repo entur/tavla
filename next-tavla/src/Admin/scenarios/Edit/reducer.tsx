@@ -1,14 +1,12 @@
 import { arrayMove } from '@dnd-kit/sortable'
-import { useNonNullContext } from 'hooks/useNonNullContext'
 import { clone, xor } from 'lodash'
-import { Dispatch, createContext } from 'react'
 import { TSettings, TTheme } from 'types/settings'
 import { TColumn, TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 import { nanoid } from 'nanoid'
 import { TColumnSetting } from 'types/tile'
-import { TAnonTile } from './types'
+import { TAnonTile } from '../../types'
 
-type Action =
+export type Action =
     | { type: 'changeTheme'; theme: TTheme }
     | { type: 'addTile'; tile: TAnonTile<TTile> }
     | { type: 'removeTile'; tileId: string }
@@ -166,12 +164,4 @@ export function settingsReducer(
             )
         }
     }
-}
-
-export const SettingsDispatchContext = createContext<
-    Dispatch<Action> | undefined
->(undefined)
-
-export function useSettingsDispatch() {
-    return useNonNullContext(SettingsDispatchContext)
 }
