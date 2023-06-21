@@ -1,7 +1,8 @@
 import { Contrast } from '@entur/layout'
 import React, { useReducer } from 'react'
-import { SettingsDispatchContext, settingsReducer } from 'Admin/reducer'
 import { ThemeSettings } from './index'
+import { SettingsDispatchContext } from 'Admin/utils/contexts'
+import { settingsReducer } from '../Edit/reducer'
 
 describe('<ThemeSettings />', () => {
     const TestComponent = () => {

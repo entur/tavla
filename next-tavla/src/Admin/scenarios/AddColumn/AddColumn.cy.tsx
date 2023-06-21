@@ -1,9 +1,10 @@
 import { Contrast } from '@entur/layout'
 import React, { useReducer } from 'react'
-import { SettingsDispatchContext, settingsReducer } from 'Admin/reducer'
 import { SortableColumns } from '../SortableColumns'
 import { TSettings } from 'types/settings'
 import { TStopPlaceTile } from 'types/tile'
+import { SettingsDispatchContext } from 'Admin/utils/contexts'
+import { settingsReducer } from '../Edit/reducer'
 
 const stopPlaceTile: TStopPlaceTile = {
     columns: [

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Radio, RadioGroup } from '@entur/form'
 import { TTheme } from 'types/settings'
-import { useSettingsDispatch } from '../../reducer'
+import { useSettingsDispatch } from 'Admin/utils/contexts'
 
 const themes: Record<TTheme, string> = {
     default: 'Entur',

@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react'
-import { SettingsDispatchContext, settingsReducer } from 'Admin/reducer'
 import { SelectLines } from './index'
+import { SettingsDispatchContext } from 'Admin/utils/contexts'
+import { settingsReducer } from '../Edit/reducer'
 
 describe('<SelectLines />', () => {
     const TestComponent = () => {

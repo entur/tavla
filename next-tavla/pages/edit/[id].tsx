@@ -1,5 +1,5 @@
 import { Header } from 'components/Header'
-import { Admin } from 'Admin/index'
+import { Edit } from 'Admin/scenarios/Edit'
 import { TSettings } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
 import classes from 'styles/admin.module.css'
@@ -35,7 +35,7 @@ function AdminPage({ settings, id }: { settings: TSettings; id: string }) {
     return (
         <Contrast className={classes.root}>
             <Header />
-            <Admin initialSettings={settings} documentId={id} />
+            <Edit initialSettings={settings} documentId={id} />
         </Contrast>
     )
 }

@@ -1,15 +1,16 @@
 import { TSettings } from 'types/settings'
-import { ThemeSettings } from './scenarios/ThemeSettings'
-import { TilesSettings } from './scenarios/TilesSettings'
+import { ThemeSettings } from '../ThemeSettings'
+import { TilesSettings } from '../TilesSettings'
 import { useReducer } from 'react'
 import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
-import { AddTile } from './scenarios/AddTile'
-import { SettingsDispatchContext, settingsReducer } from './reducer'
+import { AddTile } from '../AddTile'
 import { setBoardSettings } from 'utils/firebase'
-import { TavlaButton } from './components/Button'
+import { TavlaButton } from '../../components/Button'
+import { SettingsDispatchContext } from 'Admin/utils/contexts'
+import { settingsReducer } from './reducer'
 
-function Admin({
+function Edit({
     initialSettings,
     documentId,
 }: {
@@ -39,6 +40,6 @@ function Admin({
 // No SSR for Admin to fix hydration issues
 // caused by incompatible libraries (dnd-kit, @entur/dropdown)
 // https://github.com/clauderic/dnd-kit/issues/801
-const NonSSRAdmin = dynamic(() => Promise.resolve(Admin), { ssr: false })
+const NonSSRAdmin = dynamic(() => Promise.resolve(Edit), { ssr: false })
 
-export { NonSSRAdmin as Admin }
+export { NonSSRAdmin as Edit }
