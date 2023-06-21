@@ -3,9 +3,6 @@
     justify-content: center;
     flex-direction: column;
     gap: 3rem;
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 1rem;
 }
 
 .header {

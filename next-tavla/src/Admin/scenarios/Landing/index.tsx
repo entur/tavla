@@ -18,7 +18,7 @@ function Landing() {
 
     return (
         <div className={classes.container}>
-            <Heading1 className={classes.header}>EnTur Tavla</Heading1>
+            <Heading1 className={classes.header}>Entur Tavla</Heading1>
             <Heading3 className={classes.header}>
                 Her kan du lage din egen tavle
             </Heading3>

@@ -1,7 +1,7 @@
 import { Header } from 'components/Header'
 import { TSettings } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
-import classes from 'styles/board.module.css'
+import classes from 'styles/pages/board.module.css'
 import { convertSettingsVersion } from 'utils/converters'
 import { Board } from 'Board/scenarios/Board'
 

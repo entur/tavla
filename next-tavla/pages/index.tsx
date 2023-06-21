@@ -1,6 +1,6 @@
 import { Contrast } from '@entur/layout'
-import Landing from '../src/Admin/scenarios/Landing'
-import classes from 'styles/landing.module.css'
+import { Landing } from '../src/Admin/scenarios/Landing'
+import classes from 'styles/pages/landing.module.css'
 import { Header } from 'components/Header'
 
 function LandingPage() {
