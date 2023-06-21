@@ -3,20 +3,16 @@ import { IconButton, PrimaryButton } from '@entur/button'
 import { CopyIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 
-function CopyText({ documentId }: { documentId: string }) {
-    console.log(documentId)
-
-    const linkURL = window.location.host + '/' + documentId
-
+function CopyText({ text }: { text: string }) {
     return (
         <div>
-            <div className={classes.copyLink}>
-                <p>{linkURL}</p>
-                <Tooltip content="kopier lenke" placement="top">
+            <div className={classes.copyText}>
+                <p>{text}</p>
+                <Tooltip content="kopier" placement="top">
                     <IconButton
                         className={classes.copyButton}
                         onClick={() => {
-                            navigator.clipboard.writeText(linkURL)
+                            navigator.clipboard.writeText(text)
                         }}
                     >
                         <CopyIcon />

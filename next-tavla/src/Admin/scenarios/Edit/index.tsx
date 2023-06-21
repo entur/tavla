@@ -23,6 +23,7 @@ function Edit({
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
     const [showLink, setShowLink] = useState(false)
     const router = useRouter()
+    const linkURL = window.location.host + '/' + documentId
 
     function handleClick() {
         router.push('/' + documentId)
@@ -44,7 +45,7 @@ function Edit({
                 </TavlaButton>
                 {showLink && (
                     <div>
-                        <CopyText documentId={documentId} />
+                        <CopyText text={linkURL} />
                         <PrimaryButton
                             onClick={() => {
                                 handleClick()

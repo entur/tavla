@@ -1,4 +1,4 @@
-.copyLink {
+.copyText {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -7,4 +7,5 @@
     color: #181c56;
     border-radius: 0.5em;
     padding-left: 1em;
+    margin-bottom: 1rem;
 }
