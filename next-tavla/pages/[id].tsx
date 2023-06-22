@@ -4,6 +4,7 @@ import { getBoardSettings } from 'utils/firebase'
 import classes from 'styles/pages/board.module.css'
 import { convertSettingsVersion } from 'utils/converters'
 import { Board } from 'Board/scenarios/Board'
+import { FooterText } from 'Board/scenarios/FooterText'
 
 export async function getServerSideProps({
     params,
@@ -35,6 +36,7 @@ function BoardPage({ settings }: { settings: TSettings }) {
             <div className={classes.rootContainer}>
                 <Header theme={settings.theme} />
                 <Board settings={settings} />
+                <FooterText text={settings.footer}/>
             </div>
         </div>
     )
