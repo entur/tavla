@@ -1,15 +1,10 @@
 .container {
     display: flex;
-    justify-content: center;
+    align-items: center;
     flex-direction: column;
     gap: 3rem;
 }
 
-.header {
-    text-align: center;
-}
-
 .createButton {
-    max-width: 20rem;
-    margin: 0 auto;
+    width: max-content;
 }
