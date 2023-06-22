@@ -933,6 +933,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/alert@npm:0.14.3":
+  version: 0.14.3
+  resolution: "@entur/alert@npm:0.14.3"
+  dependencies:
+    "@entur/expand": ^3.4.1
+    "@entur/icons": ^6.3.0
+    "@entur/tokens": ^3.9.0
+    "@entur/typography": ^1.8.0
+    "@entur/utils": ^0.9.0
+    classnames: ^2.3.1
+    copy-text-to-clipboard: ^2.2
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 0affbe82709d9f0aceccde1d0fc9d1492e925aa8019ac8ed3258c752dcf70233f06e95cfe600b4daed5dd1ce5f904e200c34fb122b2be2ccff91841abb61c4d6
+  languageName: node
+  linkType: hard
+
 "@entur/button@npm:3.0.8, @entur/button@npm:^3.0.7, @entur/button@npm:^3.0.8":
   version: 3.0.8
   resolution: "@entur/button@npm:3.0.8"
@@ -1001,6 +1019,23 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: e7f25ea27b4fb272b106eb7bde711385154fc8d04ff1f3ec5a961e568d1e44b39f5ced672063e5ebc5c5f079a25baec16afd4dfd3fbc3e8c16a3e22bf032e238
+  languageName: node
+  linkType: hard
+
+"@entur/expand@npm:^3.4.1":
+  version: 3.4.1
+  resolution: "@entur/expand@npm:3.4.1"
+  dependencies:
+    "@entur/icons": ^6.3.0
+    "@entur/tokens": ^3.9.0
+    "@entur/typography": ^1.8.0
+    "@entur/utils": ^0.9.0
+    classnames: ^2.3.1
+    react-collapse: ^5.1.0
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 184391294d142215be982faacd1af81effb296dbcb606c876376ac67a5e8abbc258ade4de01a5bb941bc9d47bc8cf92ac247432217362179451889a8eff77a4b
   languageName: node
   linkType: hard
 
@@ -3099,11 +3134,11 @@ __metadata:
   linkType: hard
 
 "@sinonjs/fake-timers@npm:^10.0.2":
-  version: 10.1.0
-  resolution: "@sinonjs/fake-timers@npm:10.1.0"
+  version: 10.3.0
+  resolution: "@sinonjs/fake-timers@npm:10.3.0"
   dependencies:
     "@sinonjs/commons": ^3.0.0
-  checksum: f8f7e23a136e32ba0128493207e4223f453e033471257a971acb43840927e738a0838004b1e4fa046279609762a2dd8d700606616e9264dc3891c4f8d45889a2
+  checksum: 614d30cb4d5201550c940945d44c9e0b6d64a888ff2cd5b357f95ad6721070d6b8839cd10e15b76bf5e14af0bcc1d8f9ec00d49a46318f1f669a4bec1d7f3148
   languageName: node
   linkType: hard
 
@@ -4424,9 +4459,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001406, caniuse-lite@npm:^1.0.30001503":
-  version: 1.0.30001505
-  resolution: "caniuse-lite@npm:1.0.30001505"
-  checksum: 994a48945d797603e04641aa54d2368d1405feea249dfc51a1dbfc39cbaf51ab0df8ec03c944448289597bd7046ab5dbc6dff7ee3cbfec0e70a83b164395e805
+  version: 1.0.30001506
+  resolution: "caniuse-lite@npm:1.0.30001506"
+  checksum: 0a090745824622df146e2f6dde79c7f7920a899dec1b3a599d2ef9acf41cef5e179fd133bb59f2030286a4ea935f4230e05438d7394694c414e8ada345eb5268
   languageName: node
   linkType: hard
 
@@ -4816,6 +4851,13 @@ __metadata:
   version: 2.0.0
   resolution: "convert-source-map@npm:2.0.0"
   checksum: 63ae9933be5a2b8d4509daca5124e20c14d023c820258e484e32dc324d34c2754e71297c94a05784064ad27615037ef677e3f0c00469fb55f409d2bb21261035
+  languageName: node
+  linkType: hard
+
+"copy-text-to-clipboard@npm:^2.2":
+  version: 2.2.0
+  resolution: "copy-text-to-clipboard@npm:2.2.0"
+  checksum: b4e3d55abd0baf7735dbcfaa192fefb860bbfa67309ead8e8310489658148d9c619040f456689d2f2d215448374c1a52719097dcb313db01c3d496d66ac96e6b
   languageName: node
   linkType: hard
 
@@ -5329,9 +5371,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.431":
-  version: 1.4.434
-  resolution: "electron-to-chromium@npm:1.4.434"
-  checksum: b35ef09571167e65ba867f7d7c3fc3ed7696ccd82313c172fd400e8ada1568a9f310791854ff0b57abbe8869abacae71d32b2f9e9460b2f4ef1eff86661ad075
+  version: 1.4.437
+  resolution: "electron-to-chromium@npm:1.4.437"
+  checksum: 3453e4fc148305a2fc33a94f2e173a8ae3d22f54f121aa6f2beffdbb83ebfca249776297f9fa1957b7fccf896acad2f55c4c64eedff87902a3c720be874c5b5c
   languageName: node
   linkType: hard
 
@@ -6552,8 +6594,8 @@ __metadata:
   linkType: hard
 
 "glob@npm:^10.2.2":
-  version: 10.2.7
-  resolution: "glob@npm:10.2.7"
+  version: 10.3.0
+  resolution: "glob@npm:10.3.0"
   dependencies:
     foreground-child: ^3.1.0
     jackspeak: ^2.0.3
@@ -6562,7 +6604,7 @@ __metadata:
     path-scurry: ^1.7.0
   bin:
     glob: dist/cjs/src/bin.js
-  checksum: 555205a74607d6f8d9874ba888924b305b5ea1abfaa2e9ccb11ac713d040aac7edbf7d8702a2f4a1cd81b2d7666412170ce7ef061d33cddde189dae8c1a1a054
+  checksum: 6fa4ac0a86ffec1c5715a2e6fbdd63e1e7f1c2c8f5db08cc3256cdfcb81093678e7c80a3d100b502a1b9d141369ecf87bc24fe2bcb72acec7b14626d358a4eb0
   languageName: node
   linkType: hard
 
@@ -10745,6 +10787,7 @@ __metadata:
     "@dnd-kit/modifiers": 6.0.1
     "@dnd-kit/sortable": 7.0.2
     "@dnd-kit/utilities": 3.2.1
+    "@entur/alert": 0.14.3
     "@entur/button": 3.0.8
     "@entur/dropdown": 4.0.9
     "@entur/expand": 3.4.0

@@ -1,17 +1,16 @@
 import { TSettings } from 'types/settings'
 import { ThemeSettings } from '../ThemeSettings'
 import { TilesSettings } from '../TilesSettings'
-import { useReducer, useState } from 'react'
+import { useReducer } from 'react'
 import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
 import { AddTile } from '../AddTile'
 import { setBoardSettings } from 'utils/firebase'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
-import { PrimaryButton } from '@entur/button'
-import { useRouter } from 'next/router'
-import { CopyText } from 'Admin/components/Copy'
 import { TavlaButton } from 'Admin/components/Button'
+import { CopyableText, ToastProvider } from '@entur/alert'
+import Link from 'next/link'
 
 function Edit({
     initialSettings,
@@ -21,41 +20,42 @@ function Edit({
     documentId: string
 }) {
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
-    const [showLink, setShowLink] = useState(false)
-    const router = useRouter()
     const linkURL = window.location.host + '/' + documentId
 
-    function handleClick() {
-        router.push('/' + documentId)
-    }
+    console.log(documentId, linkURL)
 
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
-            <div className={classes.settings}>
-                <ThemeSettings theme={settings.theme} />
-                <AddTile />
-                <TilesSettings tiles={settings.tiles} />
-                <TavlaButton
-                    onClick={() => {
-                        setBoardSettings(documentId, settings)
-                        setShowLink(!showLink)
-                    }}
-                >
-                    Lagre instillinger
-                </TavlaButton>
-                {showLink && (
-                    <div>
-                        <CopyText text={linkURL} />
-                        <PrimaryButton
-                            onClick={() => {
-                                handleClick()
-                            }}
-                        >
-                            Se avgangstavla
-                        </PrimaryButton>
-                    </div>
-                )}
-            </div>
+            <ToastProvider>
+                <div className={classes.settings}>
+                    <ThemeSettings theme={settings.theme} />
+                    <AddTile />
+                    <TilesSettings tiles={settings.tiles} />
+                    <TavlaButton
+                        onClick={() => {
+                            setBoardSettings(documentId, settings)
+                        }}
+                    >
+                        Lagre instillinger
+                    </TavlaButton>
+
+                    <CopyableText
+                        successMessage=""
+                        successHeading="Link kopiert!"
+                        className={classes.copyText}
+                    >
+                        {linkURL}
+                    </CopyableText>
+
+                    <Link
+                        className={classes.linkToBoard}
+                        href={'/' + documentId}
+                        target="_blank"
+                    >
+                        Se avgangstavla
+                    </Link>
+                </div>
+            </ToastProvider>
         </SettingsDispatchContext.Provider>
     )
 }
