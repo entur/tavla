@@ -8,6 +8,7 @@ import 'styles/fonts.css'
 import 'styles/spacing.css'
 import Head from 'next/head'
 import type { AppProps } from 'next/app'
+import { AppErrorBoundary } from 'components/AppErrorBoundary'
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
@@ -33,7 +34,9 @@ export default function App({ Component, pageProps }: AppProps) {
                 <link rel="manifest" href="/site.webmanifest" />
                 <title>Entur Tavla</title>
             </Head>
-            <Component {...pageProps} />
+            <AppErrorBoundary>
+                <Component {...pageProps} />
+            </AppErrorBoundary>
         </>
     )
 }
