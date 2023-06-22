@@ -28,10 +28,10 @@ const config: CodegenConfig = {
         },
     },
     generates: {
-        'src/types/graphql-schema.ts': {
+        'src/Shared/types/graphql-schema.ts': {
             plugins: ['typescript'],
         },
-        'src/graphql/index.ts': {
+        'src/Shared/graphql/index.ts': {
             preset: 'import-types',
             presetConfig: {
                 typesPath: 'types/graphql-schema',

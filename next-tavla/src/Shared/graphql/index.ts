@@ -11,6 +11,7 @@ export type TDepartureFragment = {
     destinationDisplay: {
         __typename?: 'DestinationDisplay'
         frontText: string | null
+        via: Array<string | null> | null
     } | null
     serviceJourney: {
         __typename?: 'ServiceJourney'
@@ -96,6 +97,7 @@ export type TGetQuayQuery = {
             destinationDisplay: {
                 __typename?: 'DestinationDisplay'
                 frontText: string | null
+                via: Array<string | null> | null
             } | null
             serviceJourney: {
                 __typename?: 'ServiceJourney'
@@ -179,6 +181,7 @@ export type TStopPlaceQuery = {
             destinationDisplay: {
                 __typename?: 'DestinationDisplay'
                 frontText: string | null
+                via: Array<string | null> | null
             } | null
             serviceJourney: {
                 __typename?: 'ServiceJourney'
@@ -273,6 +276,7 @@ export const DepartureFragment = new TypedDocumentString(
   }
   destinationDisplay {
     frontText
+    via
   }
   aimedDepartureTime
   expectedDepartureTime
@@ -341,6 +345,7 @@ export const GetQuayQuery = new TypedDocumentString(`
   }
   destinationDisplay {
     frontText
+    via
   }
   aimedDepartureTime
   expectedDepartureTime
@@ -413,6 +418,7 @@ export const StopPlaceQuery = new TypedDocumentString(`
   }
   destinationDisplay {
     frontText
+    via
   }
   aimedDepartureTime
   expectedDepartureTime
