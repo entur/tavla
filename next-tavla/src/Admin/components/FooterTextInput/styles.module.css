@@ -1,0 +1,5 @@
+.footerInput {
+    display: flex;
+    justify-content: row;
+    gap: 0.5rem;
+}

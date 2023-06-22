@@ -13,6 +13,7 @@ import { CopyText } from 'Admin/components/CopyText'
 import { PrimaryButton } from '@entur/button'
 import { StyledLink } from 'Admin/components/StyledLink'
 import { FooterTextInput } from 'Admin/components/FooterTextInput'
+import { TavlaButton } from 'Admin/components/Button'
 
 function Edit({
     initialSettings,
@@ -32,6 +33,13 @@ function Edit({
                     <AddTile />
                     <TilesSettings tiles={settings.tiles} />
                     <FooterTextInput />
+                    <TavlaButton
+                        onClick={() => {
+                            setBoardSettings(documentId, settings)
+                        }}
+                    >
+                        Lagre instillinger
+                    </TavlaButton>
                     <CopyText text={linkUrl} toastText="Kopiert lenke" />
                     <div className={classes.floatingButtonWrapper}>
                         <PrimaryButton

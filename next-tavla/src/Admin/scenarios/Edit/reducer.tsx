@@ -26,6 +26,7 @@ export type Action =
           newIndex: number
       }
     | { type: 'toggleLine'; tileId: string; lineId: string }
+    | {type: 'addFooter'; footer:string}
 
 export function settingsReducer(
     settings: TSettings,
@@ -162,6 +163,12 @@ export function settingsReducer(
                     }
                 },
             )
+        }
+        case 'addFooter': {
+            return {
+                ...settings,
+                footer: action.footer
+            }
         }
     }
 }

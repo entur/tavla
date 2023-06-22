@@ -5,7 +5,7 @@ export type TFooter = string
 
 export type TSettings = {
     tiles: TTile[]
-    version?: number
+    version?: number 
     theme?: TTheme
     footer?: TFooter
 }
