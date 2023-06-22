@@ -2,9 +2,5 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 3rem;
-}
-
-.createButton {
-    width: max-content;
+    gap: 3em;
 }
