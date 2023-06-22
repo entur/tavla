@@ -1,0 +1,6 @@
+.copyText {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: max-content;
+}

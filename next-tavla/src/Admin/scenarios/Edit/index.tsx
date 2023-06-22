@@ -9,8 +9,10 @@ import { setBoardSettings } from 'utils/firebase'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
 import { TavlaButton } from 'Admin/components/Button'
-import { CopyableText, ToastProvider } from '@entur/alert'
+import { ToastProvider } from '@entur/alert'
 import Link from 'next/link'
+import { ExternalIcon } from '@entur/icons'
+import { CopyText } from 'Admin/components/CopyText'
 
 function Edit({
     initialSettings,
@@ -38,22 +40,15 @@ function Edit({
                     >
                         Lagre instillinger
                     </TavlaButton>
-
-                    <CopyableText
-                        successMessage=""
-                        successHeading="Link kopiert!"
-                        className={classes.copyText}
-                    >
-                        {linkURL}
-                    </CopyableText>
-
                     <Link
                         className={classes.linkToBoard}
                         href={'/' + documentId}
                         target="_blank"
                     >
                         Se avgangstavla
+                        <ExternalIcon className={classes.tabIcon} />
                     </Link>
+                    <CopyText text={linkURL} />
                 </div>
             </ToastProvider>
         </SettingsDispatchContext.Provider>
