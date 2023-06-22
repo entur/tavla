@@ -1,5 +1,5 @@
-function FooterText() {
-    return <div></div>
+function FooterText({text}:{text?:string}) {
+    return <div>{text}</div>
 }
 
 export { FooterText }

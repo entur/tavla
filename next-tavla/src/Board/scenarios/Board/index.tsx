@@ -20,12 +20,12 @@ function Tile({ tileSpec }: { tileSpec: TTile }) {
 function Board({ settings }: { settings: TSettings }) {
     return (
         <div>
+             <FooterText text={settings.footer}/>
             <div className={classes.board}>
                 {settings.tiles.map((tile, index) => {
                     return <Tile key={index} tileSpec={tile} />
                 })}
             </div>
-            <FooterText />
         </div>
     )
 }
