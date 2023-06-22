@@ -48,7 +48,7 @@ function Edit({
                         Se avgangstavla
                         <ExternalIcon className={classes.tabIcon} />
                     </Link>
-                    <CopyText text={linkURL} />
+                    <CopyText text={linkURL} description="Kopier lenke" />
                 </div>
             </ToastProvider>
         </SettingsDispatchContext.Provider>

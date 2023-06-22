@@ -4,16 +4,16 @@ import { IconButton } from '@entur/button'
 import classes from './styles.module.css'
 import { useToast } from '@entur/alert'
 
-function CopyText({ text }: { text: string }) {
+function CopyText(props: { text: string; description: string }) {
     const { addToast } = useToast()
 
     return (
         <div className={classes.copyText}>
-            <p>{text}</p>
-            <Tooltip content="Kopier lenke" placement="top">
+            <p>{props.text}</p>
+            <Tooltip content={props.description} placement="top">
                 <IconButton
                     onClick={() => {
-                        navigator.clipboard.writeText(text)
+                        navigator.clipboard.writeText(props.text)
                         addToast('Kopiert')
                     }}
                 >
