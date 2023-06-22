@@ -2,7 +2,7 @@ import { Header } from 'components/Header'
 import { Edit } from 'Admin/scenarios/Edit'
 import { TSettings } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
-import classes from 'styles/admin.module.css'
+import classes from 'styles/pages/admin.module.css'
 import { Contrast } from '@entur/layout'
 import { convertSettingsVersion } from 'utils/converters'
 

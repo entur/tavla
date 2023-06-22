@@ -2,9 +2,7 @@
     "name": "tavla",
     "version": "0.1.0",
     "private": true,
-    "browserslist": [
-        "chrome > 47"
-    ],
+    "browserslist": ["chrome > 47"],
     "scripts": {
         "dev": "next dev",
         "build": "next build",
@@ -34,6 +32,7 @@
         "@entur/layout": "2.1.33",
         "@entur/loader": "0.4.31",
         "@entur/tokens": "3.8.1",
+        "@entur/typography": "1.8.0",
         "@firebase/database-types": "0.10.4",
         "classnames": "2.3.2",
         "firebase": "9.18.0",

@@ -1,5 +1,5 @@
 import { Header } from 'components/Header'
-import classes from 'styles/board.module.css'
+import classes from 'styles/pages/board.module.css'
 
 function NotFoundPage() {
     return (
