@@ -5,6 +5,7 @@
     --main-text-color: var(--colors-misc-black);
 
     --primary-button-color: var(--colors-brand-blue);
+    --primary-button-hover-color: var(--colors-blues-blue20);
 
     --table-border-color: var(--colors-greys-grey60);
     --table-situation-color: var(--colors-misc-black);
