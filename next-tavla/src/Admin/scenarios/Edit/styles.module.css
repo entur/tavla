@@ -11,8 +11,7 @@
     color: var(--main-background-color);
     background-color: var(--primary-button-color);
     border-radius: 0.25rem;
-    height: 3rem;
-    width: 15rem;
+    width: max-content;
     padding: 1rem;
     text-decoration: none;
 }

@@ -24,8 +24,6 @@ function Edit({
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
     const linkURL = window.location.host + '/' + documentId
 
-    console.log(documentId, linkURL)
-
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
             <ToastProvider>
