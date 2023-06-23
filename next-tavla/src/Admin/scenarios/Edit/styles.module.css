@@ -4,22 +4,7 @@
     gap: 10px;
 }
 
-.linkToBoard {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    color: var(--main-background-color);
-    background-color: var(--primary-button-color);
-    border-radius: 0.25rem;
-    width: max-content;
-    padding: 1rem;
-    text-decoration: none;
-}
-.linkToBoard:hover {
-    background-color: var(--primary-button-hover-color);
-}
-
-.boardViewWrapper {
+.boardViewContainer {
     display: flex;
     flex-direction: row;
     gap: 1em;

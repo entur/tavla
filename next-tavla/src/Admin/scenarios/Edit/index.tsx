@@ -9,10 +9,9 @@ import { setBoardSettings } from 'utils/firebase'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
 import { ToastProvider } from '@entur/alert'
-import Link from 'next/link'
-import { ExternalIcon } from '@entur/icons'
 import { CopyText } from 'Admin/components/CopyText'
 import { PrimaryButton } from '@entur/button'
+import { StyledLink } from 'Admin/components/StyledLink'
 
 function Edit({
     initialSettings,
@@ -39,15 +38,11 @@ function Edit({
                     >
                         Lagre instillinger
                     </PrimaryButton>
-                    <div className={classes.boardViewWrapper}>
-                        <Link
-                            className={classes.linkToBoard}
-                            href={'/' + documentId}
-                            target="_blank"
-                        >
-                            Se avgangstavla
-                            <ExternalIcon className={classes.tabIcon} />
-                        </Link>
+                    <div className={classes.boardViewContainer}>
+                        <StyledLink
+                            documentId={documentId}
+                            text="Se avgangstavla"
+                        />
                         <CopyText text={linkURL} toastText="Kopiert lenke" />
                     </div>
                 </div>
