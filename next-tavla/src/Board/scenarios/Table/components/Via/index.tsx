@@ -8,12 +8,12 @@ function Via() {
     const viaDestinations = departure.destinationDisplay?.via
 
     function stringifyViaDestinations(viaDest: typeof viaDestinations) {
-        if (!viaDest || !viaDest.length) return ''
+        if (!viaDest || !viaDest.length) return null
 
         return viaDest.reduce((prev, next) => {
-            if (prev == null) return next
-            if (next == null) return prev
-            return (prev += ', ' + next)
+            if (!prev) return next
+            if (!next) return prev
+            return prev + ', ' + next
         })
     }
 
@@ -23,4 +23,5 @@ function Via() {
         </td>
     )
 }
+
 export { Via }
