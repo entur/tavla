@@ -8,11 +8,11 @@ import { AddTile } from '../AddTile'
 import { setBoardSettings } from 'utils/firebase'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
-import { TavlaButton } from 'Admin/components/Button'
 import { ToastProvider } from '@entur/alert'
 import Link from 'next/link'
 import { ExternalIcon } from '@entur/icons'
 import { CopyText } from 'Admin/components/CopyText'
+import { PrimaryButton } from '@entur/button'
 
 function Edit({
     initialSettings,
@@ -31,22 +31,25 @@ function Edit({
                     <ThemeSettings theme={settings.theme} />
                     <AddTile />
                     <TilesSettings tiles={settings.tiles} />
-                    <TavlaButton
+                    <PrimaryButton
+                        className={classes.saveButton}
                         onClick={() => {
                             setBoardSettings(documentId, settings)
                         }}
                     >
                         Lagre instillinger
-                    </TavlaButton>
-                    <Link
-                        className={classes.linkToBoard}
-                        href={'/' + documentId}
-                        target="_blank"
-                    >
-                        Se avgangstavla
-                        <ExternalIcon className={classes.tabIcon} />
-                    </Link>
-                    <CopyText text={linkURL} description="Kopier lenke" />
+                    </PrimaryButton>
+                    <div className={classes.boardViewWrapper}>
+                        <Link
+                            className={classes.linkToBoard}
+                            href={'/' + documentId}
+                            target="_blank"
+                        >
+                            Se avgangstavla
+                            <ExternalIcon className={classes.tabIcon} />
+                        </Link>
+                        <CopyText text={linkURL} toastText="Kopiert lenke" />
+                    </div>
                 </div>
             </ToastProvider>
         </SettingsDispatchContext.Provider>

@@ -18,3 +18,13 @@
 .linkToBoard:hover {
     background-color: var(--primary-button-hover-color);
 }
+
+.boardViewWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.saveButton {
+    width: max-content;
+}
