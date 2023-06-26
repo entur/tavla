@@ -7,7 +7,7 @@ import { AddStopPlaceTile } from './components/AddStopPlaceTile'
 import { AddQuayTile } from './components/AddQuayTile'
 import { TAnonTiles } from 'Admin/types'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { AddMapTile } from './components/AddMapTile'
+import { DefaultColumns } from 'types/tile'
 
 const components: Record<
     TTileType,
@@ -15,7 +15,6 @@ const components: Record<
 > = {
     stop_place: AddStopPlaceTile,
     quay: AddQuayTile,
-    map: AddMapTile,
 }
 
 function AddTile() {
@@ -50,9 +49,10 @@ function AddTile() {
                 <Button
                     variant="primary"
                     onClick={() => {
+                        console.log(tile)
                         dispatch({
                             type: 'addTile',
-                            tile,
+                            tile: { ...tile, columns: DefaultColumns },
                         })
                     }}
                 >
