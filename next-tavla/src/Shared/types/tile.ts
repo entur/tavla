@@ -5,6 +5,7 @@ export const Columns = {
     line: 'Linje',
     platform: 'Plattform',
     time: 'Avgangstid',
+    situations: 'Avvik',
 } as const
 
 export type TColumn = keyof typeof Columns
