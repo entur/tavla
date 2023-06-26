@@ -7,12 +7,14 @@ import { Time } from './components/Time'
 import { Destination } from './components/Destination'
 import { Line } from './components/Line'
 import { Platform } from './components/Platform'
+import { Situations } from './components/Situations'
 
 const columnComponents: Record<TColumn, () => JSX.Element> = {
     destination: Destination,
     line: Line,
     time: Time,
     platform: Platform,
+    situations: Situations,
 }
 
 function flexToPercentage(columnSettings: TColumnSetting[]) {
