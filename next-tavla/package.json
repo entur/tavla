@@ -2,7 +2,9 @@
     "name": "tavla",
     "version": "0.1.0",
     "private": true,
-    "browserslist": ["chrome > 47"],
+    "browserslist": [
+        "chrome > 47"
+    ],
     "scripts": {
         "dev": "next dev",
         "build": "next build",
@@ -24,6 +26,7 @@
         "@dnd-kit/modifiers": "6.0.1",
         "@dnd-kit/sortable": "7.0.2",
         "@dnd-kit/utilities": "3.2.1",
+        "@entur/alert": "0.14.3",
         "@entur/button": "3.0.8",
         "@entur/dropdown": "4.0.9",
         "@entur/expand": "3.4.0",

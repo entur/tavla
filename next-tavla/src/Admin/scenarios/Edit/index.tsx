@@ -6,9 +6,12 @@ import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
 import { AddTile } from '../AddTile'
 import { setBoardSettings } from 'utils/firebase'
-import { TavlaButton } from '../../components/Button'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
+import { ToastProvider } from '@entur/alert'
+import { CopyText } from 'Admin/components/CopyText'
+import { PrimaryButton } from '@entur/button'
+import { StyledLink } from 'Admin/components/StyledLink'
 
 function Edit({
     initialSettings,
@@ -18,21 +21,32 @@ function Edit({
     documentId: string
 }) {
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
+    const linkUrl = window.location.host + '/' + documentId
 
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
-            <div className={classes.settings}>
-                <ThemeSettings theme={settings.theme} />
-                <AddTile />
-                <TilesSettings tiles={settings.tiles} />
-                <TavlaButton
-                    onClick={() => {
-                        setBoardSettings(documentId, settings)
-                    }}
-                >
-                    Lagre instillinger
-                </TavlaButton>
-            </div>
+            <ToastProvider>
+                <div className={classes.settings}>
+                    <ThemeSettings theme={settings.theme} />
+                    <AddTile />
+                    <TilesSettings tiles={settings.tiles} />
+                    <PrimaryButton
+                        className={classes.saveButton}
+                        onClick={() => {
+                            setBoardSettings(documentId, settings)
+                        }}
+                    >
+                        Lagre instillinger
+                    </PrimaryButton>
+                    <div className={classes.boardViewContainer}>
+                        <StyledLink
+                            linkUrl={'/' + documentId}
+                            text="Se avgangstavla"
+                        />
+                        <CopyText text={linkUrl} toastText="Kopiert lenke" />
+                    </div>
+                </div>
+            </ToastProvider>
         </SettingsDispatchContext.Provider>
     )
 }

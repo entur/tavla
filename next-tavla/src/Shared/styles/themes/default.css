@@ -3,6 +3,9 @@
     --secondary-background-color: var(--colors-blues-blue10);
     --main-text-color: var(--colors-brand-white);
 
+    --primary-button-color: var(--colors-data-contrast-lavender);
+    --primary-button-hover-color: #b6bee5;
+
     --table-border-color: var(--colors-blues-blue30);
     --table-situation-color: var(--colors-validation-canary-contrast);
 

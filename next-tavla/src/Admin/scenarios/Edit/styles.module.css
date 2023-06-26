@@ -3,3 +3,13 @@
     flex-direction: column;
     gap: 10px;
 }
+
+.boardViewContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.saveButton {
+    width: max-content;
+}
