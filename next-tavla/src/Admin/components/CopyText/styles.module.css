@@ -2,18 +2,18 @@
     display: flex;
     flex-direction: row;
     gap: 0.5em;
+    align-items: center;
     width: max-content;
     background-color: var(--colors-brand-white);
     color: var(--main-background-color);
     border-radius: 0.25em;
     padding: 0 0.5em;
-    align-items: center;
 }
 
-.iconButton {
+.copyIcon {
     color: var(--main-background-color);
 }
 
-.iconButton:hover {
+.copyIcon:hover {
     background-color: var(--primary-button-hover-color);
 }

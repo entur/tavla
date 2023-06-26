@@ -21,7 +21,7 @@ function Edit({
     documentId: string
 }) {
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
-    const linkURL = window.location.host + '/' + documentId
+    const linkUrl = window.location.host + '/' + documentId
 
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
@@ -40,10 +40,10 @@ function Edit({
                     </PrimaryButton>
                     <div className={classes.boardViewContainer}>
                         <StyledLink
-                            documentId={documentId}
+                            linkUrl={'/' + documentId}
                             text="Se avgangstavla"
                         />
-                        <CopyText text={linkURL} toastText="Kopiert lenke" />
+                        <CopyText text={linkUrl} toastText="Kopiert lenke" />
                     </div>
                 </div>
             </ToastProvider>

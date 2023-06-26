@@ -3,17 +3,17 @@ import classes from './styles.module.css'
 import { useToast } from '@entur/alert'
 import { TavlaButton } from '../Button'
 
-function CopyText(props: { text: string; toastText: string }) {
+function CopyText({ text, toastText }: { text: string; toastText: string }) {
     const { addToast } = useToast()
 
     return (
         <div className={classes.copyText}>
-            <p>{props.text}</p>
+            <p>{text}</p>
             <TavlaButton
-                className={classes.iconButton}
+                className={classes.copyIcon}
                 onClick={() => {
-                    navigator.clipboard.writeText(props.text)
-                    addToast(props.toastText)
+                    navigator.clipboard.writeText(text)
+                    addToast(toastText)
                 }}
             >
                 <CopyIcon size={16} />
