@@ -36,7 +36,7 @@ function BoardPage({ settings }: { settings: TSettings }) {
             <div className={classes.rootContainer}>
                 <Header theme={settings.theme} />
                 <Board settings={settings} />
-                <FooterText text={settings.footer}/>
+                {settings.footer && <FooterText text={settings.footer} />}
             </div>
         </div>
     )

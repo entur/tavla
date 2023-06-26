@@ -23,6 +23,7 @@ function Edit({
     documentId: string
 }) {
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
+
     const linkUrl = window.location.host + '/' + documentId
 
     return (
@@ -32,7 +33,7 @@ function Edit({
                     <ThemeSettings theme={settings.theme} />
                     <AddTile />
                     <TilesSettings tiles={settings.tiles} />
-                    <FooterTextInput />
+                    <FooterTextInput footer={settings.footer} />
                     <TavlaButton
                         onClick={() => {
                             setBoardSettings(documentId, settings)
