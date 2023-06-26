@@ -6,7 +6,7 @@ function StyledLink({ linkUrl, text }: { linkUrl: string; text: string }) {
     return (
         <Link className={classes.styledLink} href={linkUrl} target="_blank">
             {text}
-            <ExternalIcon className={classes.tabIcon} />
+            <ExternalIcon />
         </Link>
     )
 }
