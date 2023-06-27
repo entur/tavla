@@ -4,12 +4,12 @@ import { TTheme } from 'types/settings'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 
 const themes: Record<TTheme, string> = {
-    default: 'Entur',
+    entur: 'Entur',
     dark: 'Mørk',
     light: 'Lyst',
 }
 
-function ThemeSettings({ theme = 'default' }: { theme?: TTheme }) {
+function ThemeSettings({ theme = 'dark' }: { theme?: TTheme }) {
     const dispatch = useSettingsDispatch()
     return (
         <RadioGroup
