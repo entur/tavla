@@ -31,7 +31,7 @@ function Edit({
                     <AddTile />
                     <TilesSettings tiles={settings.tiles} />
                     <CopyText text={linkUrl} toastText="Kopiert lenke" />
-                    <div className={classes.boardViewContainer}>
+                    <div className={classes.floatingButtonWrapper}>
                         <PrimaryButton
                             className={classes.saveButton}
                             onClick={() => {
