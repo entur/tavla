@@ -23,14 +23,11 @@ export function convertSettingsVersion(settings: any): TSettings {
 const versions = [V3, V2, V1] as const
 
 export function V3(setting: ReturnType<typeof V2>) {
-    const newSetting = {
+    if (!setting.theme) setting.theme = 'dark'
+    return {
         ...setting,
         theme: setting.theme === 'default' ? ('entur' as const) : setting.theme,
     }
-
-    if (!newSetting.theme) delete setting.theme
-
-    return newSetting
 }
 
 export function V2(setting: ReturnType<typeof V1>) {

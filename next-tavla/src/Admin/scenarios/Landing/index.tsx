@@ -11,7 +11,10 @@ function Landing() {
 
     async function handleCreateNewBoard() {
         setLoading(true)
-        const createdBoard = await addBoardSettings({ tiles: [] })
+        const createdBoard = await addBoardSettings({
+            tiles: [],
+            theme: 'dark',
+        })
         await router.push('/edit/' + createdBoard.id)
     }
 
