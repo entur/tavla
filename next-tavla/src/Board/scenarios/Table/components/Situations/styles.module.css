@@ -1,0 +1,23 @@
+.situationsWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    animation: situation-scroll 30s infinite linear;
+    position: relative;
+    width: fit-content;
+}
+
+@keyframes situation-scroll {
+    0% {
+        transform: translateX(0);
+        left: 100%;
+    }
+    95% {
+        transform: translateX(-100%);
+        left: 0%;
+    }
+    100% {
+        transform: translateX(-100%);
+        left: 0%;
+    }
+}
