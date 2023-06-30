@@ -30,20 +30,20 @@ function Edit({
                     <ThemeSettings theme={settings.theme} />
                     <AddTile />
                     <TilesSettings tiles={settings.tiles} />
-                    <PrimaryButton
-                        className={classes.saveButton}
-                        onClick={() => {
-                            setBoardSettings(documentId, settings)
-                        }}
-                    >
-                        Lagre instillinger
-                    </PrimaryButton>
-                    <div className={classes.boardViewContainer}>
+                    <CopyText text={linkUrl} toastText="Kopiert lenke" />
+                    <div className={classes.floatingButtonWrapper}>
+                        <PrimaryButton
+                            className={classes.saveButton}
+                            onClick={() => {
+                                setBoardSettings(documentId, settings)
+                            }}
+                        >
+                            Lagre instillinger
+                        </PrimaryButton>
                         <StyledLink
                             linkUrl={'/' + documentId}
                             text="Se avgangstavla"
                         />
-                        <CopyText text={linkUrl} toastText="Kopiert lenke" />
                     </div>
                 </div>
             </ToastProvider>

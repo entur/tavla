@@ -4,10 +4,13 @@
     gap: 10px;
 }
 
-.boardViewContainer {
+.floatingButtonWrapper {
     display: flex;
     flex-direction: row;
     gap: 1em;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
 }
 
 .saveButton {
