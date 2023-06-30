@@ -214,7 +214,6 @@ test('upgrade from base to latest version', () => {
 
     const end = {
         version: currentVersion,
-        theme: 'dark',
         tiles: [
             {
                 type: 'stop_place',
