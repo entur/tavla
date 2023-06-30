@@ -7,17 +7,13 @@
     font-size: 0.5em;
     color: var(--main-text-color);
     width: fit-content;
-}
-.logoWrapper {
-    display: block;
-    width: 50%;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 .headerWrapper {
     display: flex;
     flex-direction: row;
-}
-.clockWrapper {
-    width: 50%;
-    display: inline-block;
-    text-align: right;
+    justify-content: space-between;
+    align-items: flex-end;
+    overflow: hidden;
 }
