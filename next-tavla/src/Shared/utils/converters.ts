@@ -104,11 +104,7 @@ type TBaseStopPlaceTile = {
     whitelistedTransportModes?: TBaseTransportMode[]
 } & TBaseTile
 
-type TBaseMapTile = {
-    type: 'map'
-} & TBaseTile
-
-type TBaseBaseTile = TBaseStopPlaceTile | TBaseMapTile | TBaseQuayTile
+type TBaseBaseTile = TBaseStopPlaceTile | TBaseQuayTile
 
 type TBaseSetting = {
     tiles: TBaseBaseTile[]

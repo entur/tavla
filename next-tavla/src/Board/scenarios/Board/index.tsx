@@ -1,7 +1,6 @@
 import { TSettings } from 'types/settings'
 import { TTile } from 'types/tile'
 import { StopPlaceTile } from '../StopPlaceTile'
-import { MapTile } from '../MapTile'
 import { QuayTile } from '../QuayTile'
 import classes from './styles.module.css'
 
@@ -11,8 +10,6 @@ function Tile({ tileSpec }: { tileSpec: TTile }) {
             return <StopPlaceTile {...tileSpec} />
         case 'quay':
             return <QuayTile {...tileSpec} />
-        case 'map':
-            return <MapTile {...tileSpec} />
     }
 }
 
