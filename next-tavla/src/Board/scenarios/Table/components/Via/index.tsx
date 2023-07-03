@@ -1,6 +1,5 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DepartureContext } from 'Board/scenarios/Table/contexts'
-import classes from './styles.module.css'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 
 function Via() {
@@ -10,7 +9,7 @@ function Via() {
         ?.filter(isNotNullOrUndefined)
         .join(', ')
 
-    return <td className={classes.via}>{viaDestinations}</td>
+    return <td>{viaDestinations}</td>
 }
 
 export { Via }
