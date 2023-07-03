@@ -11,6 +11,8 @@ export const Columns = {
 export type TColumn = keyof typeof Columns
 export type TColumnSetting = { type: TColumn; size?: number }
 
+export const OptionalColumns = [{ type: 'platform' }] as const
+
 export type TTileType = TTile['type']
 
 type TBaseTile = {

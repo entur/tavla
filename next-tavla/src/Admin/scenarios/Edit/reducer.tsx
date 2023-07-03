@@ -14,6 +14,7 @@ export type Action =
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
     | { type: 'addColumn'; tileId: string; column: TColumn }
     | { type: 'removeColumn'; tileId: string; column: TColumn }
+    | { type: 'setColumns'; tileId: string; columns: TColumnSetting[] }
     | {
           type: 'updateColumn'
           tileId: string
@@ -115,6 +116,14 @@ export function settingsReducer(
                     }
                 },
             )
+        }
+        case 'setColumns': {
+            return changeTile(action.tileId, (tile) => {
+                return {
+                    ...tile,
+                    columns: action.columns,
+                }
+            })
         }
         case 'updateColumn': {
             return changeTile<TStopPlaceTile | TQuayTile>(
