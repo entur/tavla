@@ -2,7 +2,6 @@ import React from 'react'
 import classes from './styles.module.css'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { DeleteIcon } from '@entur/icons'
-import { SortableHandle } from 'Admin/components/SortableHandle'
 import { Loader } from '@entur/loader'
 import { Tile } from 'components/Tile'
 import { TavlaButton } from 'Admin/components/Button'
@@ -33,7 +32,6 @@ function TileSettingsWrapper({
                     >
                         <DeleteIcon size={16} />
                     </TavlaButton>
-                    <SortableHandle id={uuid} />
                 </div>
             </div>
             {children}
