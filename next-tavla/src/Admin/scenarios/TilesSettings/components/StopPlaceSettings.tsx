@@ -1,4 +1,3 @@
-import { SortableTileWrapper } from '../components/SortableTileWrapper'
 import { SelectLines } from 'Admin/scenarios/SelectLines'
 import { SortableColumns } from 'Admin/scenarios/SortableColumns'
 import { StopPlaceSettingsQuery } from 'graphql/index'
@@ -18,12 +17,10 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
     const name = !data ? data : data.stopPlace?.name ?? tile.placeId
 
     return (
-        <SortableTileWrapper id={tile.uuid}>
-            <TileSettingsWrapper uuid={tile.uuid} name={name}>
-                <SelectLines tile={tile} lines={lines} />
-                <SortableColumns tile={tile} />
-            </TileSettingsWrapper>
-        </SortableTileWrapper>
+        <TileSettingsWrapper uuid={tile.uuid} name={name}>
+            <SelectLines tile={tile} lines={lines} />
+            <SortableColumns tile={tile} />
+        </TileSettingsWrapper>
     )
 }
 
