@@ -3,8 +3,8 @@ import { TTransportMode } from './graphql-schema'
 export const Columns = {
     destination: 'Destinasjon',
     line: 'Linje',
-    platform: 'Plattform',
-    time: 'Avgangstid',
+    platform: 'Plf.',
+    time: 'Avgang',
     situations: 'Avvik',
 } as const
 
