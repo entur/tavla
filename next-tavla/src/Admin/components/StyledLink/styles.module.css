@@ -3,8 +3,8 @@
     justify-content: center;
     gap: 0.5rem;
     color: var(--main-background-color);
-    background-color: var(--primary-button-color);
-    border-radius: 0.25rem;
+    background-color: var(--colors-brand-white);
+    border-radius: 1.5rem;
     width: max-content;
     padding: 1rem;
     text-decoration: none;
