@@ -48,10 +48,11 @@ function AddQuayTile({
                 label="Velg plattform"
                 disabled={!stopPlaceId}
                 onChange={(e) => {
-                    if (e?.value) {
+                    if (e?.value && stopPlaceId) {
                         setTile({
                             type: 'quay',
                             placeId: e.value,
+                            stopPlaceId: stopPlaceId,
                         })
                     }
                 }}
