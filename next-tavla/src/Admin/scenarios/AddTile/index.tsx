@@ -49,10 +49,9 @@ function AddTile() {
                 <Button
                     variant="primary"
                     onClick={() => {
-                        console.log(tile)
                         dispatch({
                             type: 'addTile',
-                            tile: { ...tile, columns: DefaultColumns },
+                            tile: { ...tile, columns: [...DefaultColumns] },
                         })
                     }}
                 >

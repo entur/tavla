@@ -12,7 +12,7 @@ export const Columns = {
 export type TColumn = keyof typeof Columns
 export type TColumnSetting = { type: TColumn; size?: number }
 
-export const DefaultColumns = [
+export const DefaultColumns: readonly TColumnSetting[] = [
     { type: 'line' },
     { type: 'destination', size: 2 },
     { type: 'situations', size: 2 },
