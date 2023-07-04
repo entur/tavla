@@ -20,8 +20,7 @@ function FooterInput({ footer }: { footer?: string }) {
                 clearable={true}
                 onClear={() =>
                     dispatch({
-                        type: 'addFooter',
-                        footer: '',
+                        type: 'removeFooter',
                     })
                 }
             />
