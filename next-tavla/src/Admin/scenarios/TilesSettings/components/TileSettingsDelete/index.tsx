@@ -1,30 +1,45 @@
-import React from 'react'
+import { useState } from 'react'
+import classes from './styles.module.css'
+
 import { Modal } from '@entur/modal'
 import { Paragraph } from '@entur/typography'
-import { PrimaryButton } from '@entur/button'
+import { IconButton, PrimaryButton, SecondaryButton } from '@entur/button'
+import { DeleteIcon } from '@entur/icons'
+import { useSettingsDispatch } from 'Admin/utils/contexts'
 
-function TileDelete() {
-    const [isOpen, setOpen] = React.useState(false)
+function TileDelete({ uuid }: { uuid: string }) {
+    const dispatch = useSettingsDispatch()
+    const [isOpen, setOpen] = useState(false)
 
     return (
         <>
-            <Modal
-                open={isOpen}
-                onDismiss={() => setOpen(false)}
-                title="Her er en modal"
-                size="medium"
-            >
+            <Modal open={isOpen} onDismiss={() => setOpen(false)} size="medium">
                 <Paragraph>
-                    Modaler må kun vises etter en brukerinteraksjon, og skal
-                    ikke avbryte brukeren på noe vis.
+                    Er du sikker på at du vil slette denne holdeplassen?
                 </Paragraph>
-                <PrimaryButton onClick={() => setOpen(false)}>
-                    Lukk
-                </PrimaryButton>
+
+                <div className={classes.modalButton}>
+                    <PrimaryButton
+                        onClick={() => {
+                            setOpen(false)
+                            dispatch({
+                                type: 'removeTile',
+                                tileId: uuid,
+                            })
+                        }}
+                    >
+                        Ja, slett
+                    </PrimaryButton>
+                    <SecondaryButton onClick={() => setOpen(false)}>
+                        Nei, behold
+                    </SecondaryButton>
+                </div>
             </Modal>
-            <PrimaryButton onClick={() => setOpen(true)} type="button">
-                Vis en modal
-            </PrimaryButton>
+
+            <IconButton onClick={() => setOpen(true)}>
+                <DeleteIcon />
+                {'Slett'}
+            </IconButton>
         </>
     )
 }

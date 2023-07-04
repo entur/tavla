@@ -1,10 +1,8 @@
 import React from 'react'
 import classes from './styles.module.css'
-import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { DeleteIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { Tile } from 'components/Tile'
-import { TavlaButton } from 'Admin/components/Button'
+import { TileDelete } from '../TileSettingsDelete'
 
 function TileSettingsWrapper({
     uuid,
@@ -15,25 +13,16 @@ function TileSettingsWrapper({
     name: string | undefined
     children: React.ReactNode
 }) {
-    const dispatch = useSettingsDispatch()
-
     return (
         <Tile>
             <div className={classes.heading}>
                 {!name ? <Loader /> : name}
-                <div className={classes.buttons}>
-                    <TavlaButton
-                        onClick={() =>
-                            dispatch({
-                                type: 'removeTile',
-                                tileId: uuid,
-                            })
-                        }
-                    >
-                        <DeleteIcon size={16} />
-                    </TavlaButton>
+
+                <div className={classes.deleteIcon}>
+                    <TileDelete uuid={uuid} />
                 </div>
             </div>
+
             {children}
         </Tile>
     )

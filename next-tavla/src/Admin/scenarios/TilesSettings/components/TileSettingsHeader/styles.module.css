@@ -5,7 +5,8 @@
     padding-bottom: 0.5em;
 }
 
-.buttons {
+.deleteIcon {
     display: flex;
     flex: 0;
+    padding-bottom: 0.5em;
 }

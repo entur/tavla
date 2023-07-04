@@ -1,0 +1,4 @@
+.modalButton {
+    display: flex;
+    justify-content: space-between;
+}
