@@ -1,11 +1,5 @@
 import { TDepartureFragment } from 'graphql/index'
-import {
-    Columns,
-    DefaultColumns,
-    TColumn,
-    TColumnSetting,
-    TColumnSettingTest,
-} from 'types/tile'
+import { Columns, TColumn, TColumnSettingTest } from 'types/tile'
 import React from 'react'
 import classes from './styles.module.css'
 import { DepartureContext } from './contexts'
@@ -16,15 +10,6 @@ import { Platform } from './components/Platform'
 import { Situations } from './components/Situations'
 import { Via } from './components/Via'
 
-/* const columnComponents: Record<TColumn, () => JSX.Element> = {
-    destination: Destination,
-    line: Line,
-    time: Time,
-    platform: Platform,
-    via: Via,
-    situations: Situations,
-} */
-
 const columnTest: Record<TColumn, TColumnSettingTest> = {
     line: { size: 10, selected: true },
     destination: { size: 20, selected: true },
@@ -34,47 +19,39 @@ const columnTest: Record<TColumn, TColumnSettingTest> = {
     via: { size: 15, selected: true },
 }
 
+const columnComponents: Record<TColumn, () => JSX.Element> = {
+    destination: Destination,
+    line: Line,
+    time: Time,
+    platform: Platform,
+    situations: Situations,
+    via: Via,
+}
+
+const columnOrder: TColumn[] = [
+    'line',
+    'destination',
+    'platform',
+    'situations',
+    'time',
+]
+
 function Table({ departures }: { departures: TDepartureFragment[] }) {
     return (
         <div className={classes.container}>
             <table className={classes.table}>
                 <thead>
                     <tr>
-                        <th
-                            style={{
-                                width: columnTest?.line.size + '%',
-                            }}
-                        >
-                            Line
-                        </th>
-                        <th
-                            style={{
-                                width: columnTest?.destination.size + '%',
-                            }}
-                        >
-                            Destinasjon
-                        </th>
-                        <th
-                            style={{
-                                width: columnTest?.platform.size + '%',
-                            }}
-                        >
-                            Plattform
-                        </th>
-                        <th
-                            style={{
-                                width: columnTest?.situations.size + '%',
-                            }}
-                        >
-                            Avvik
-                        </th>
-                        <th
-                            style={{
-                                width: columnTest?.time.size + '%',
-                            }}
-                        >
-                            Avgangstid
-                        </th>
+                        {columnOrder.map((colName) => (
+                            <th
+                                style={{
+                                    width: columnTest[colName].size,
+                                }}
+                                key={colName}
+                            >
+                                {Columns[colName]}
+                            </th>
+                        ))}
                     </tr>
                 </thead>
                 <tbody>
@@ -83,11 +60,10 @@ function Table({ departures }: { departures: TDepartureFragment[] }) {
                             key={`${departure.serviceJourney.id}_${departure.aimedDepartureTime}`}
                         >
                             <DepartureContext.Provider value={departure}>
-                                <Line />
-                                <Destination />
-                                {columnTest?.platform.selected && <Platform />}
-                                <Situations />
-                                <Time />
+                                {columnOrder.map((colName) => {
+                                    const Component = columnComponents[colName]
+                                    return <Component key={colName} />
+                                })}
                             </DepartureContext.Provider>
                         </tr>
                     ))}
