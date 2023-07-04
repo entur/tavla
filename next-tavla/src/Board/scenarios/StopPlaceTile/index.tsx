@@ -7,7 +7,6 @@ import { Tile } from 'components/Tile'
 
 export function StopPlaceTile({
     placeId,
-    columns,
     whitelistedLines,
     whitelistedTransportModes,
 }: TStopPlaceTile) {
@@ -28,10 +27,7 @@ export function StopPlaceTile({
     return (
         <Tile className={classes.stopPlaceTile}>
             <h3>{data.stopPlace.name}</h3>
-            <Table
-                columns={columns}
-                departures={data.stopPlace.estimatedCalls}
-            />
+            <Table departures={data.stopPlace.estimatedCalls} />
         </Tile>
     )
 }
