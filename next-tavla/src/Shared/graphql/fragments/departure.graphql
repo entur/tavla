@@ -4,6 +4,7 @@ fragment departure on EstimatedCall {
     }
     destinationDisplay {
         frontText
+        via
     }
     aimedDepartureTime
     expectedDepartureTime

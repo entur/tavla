@@ -6,6 +6,7 @@ export const Columns = {
     platform: 'Plattform',
     time: 'Avgangstid',
     situations: 'Avvik',
+    via: 'Via',
 } as const
 
 export type TColumn = keyof typeof Columns
