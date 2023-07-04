@@ -4,7 +4,7 @@ import { TSettings } from 'types/settings'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function convertSettingsVersion(settings: any): TSettings {
-    if (settings.version === currentVersion) return settings
+    if (settings.version >= currentVersion) return settings
 
     const orderedVersions = reverse(versions)
 
@@ -20,7 +20,17 @@ export function convertSettingsVersion(settings: any): TSettings {
     }
 }
 
-const versions = [V3, V2, V1] as const
+const versions = [V4, V3, V2, V1] as const
+
+export function V4(setting: ReturnType<typeof V3>) {
+    return {
+        ...setting,
+        tiles: setting.tiles.map((tile) => {
+            if (tile.type === 'quay') return { ...tile, stopPlaceId: '' }
+            return tile
+        }),
+    }
+}
 
 export function V3(setting: ReturnType<typeof V2>) {
     const newSetting = {

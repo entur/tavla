@@ -1,5 +1,5 @@
 import { Dropdown } from '@entur/dropdown'
-import { TAnonTile } from 'Admin/types'
+import { TAnon } from 'Admin/types'
 import { QuaysSearchQuery, TQuaysSearchQuery } from 'graphql/index'
 import { fetchQuery } from 'graphql/utils'
 import { useEffect, useState } from 'react'
@@ -10,7 +10,7 @@ import { isNotNullOrUndefined } from 'utils/typeguards'
 function AddQuayTile({
     setTile,
 }: {
-    setTile: (tile: TAnonTile<TQuayTile>) => void
+    setTile: (tile: TAnon<TQuayTile>) => void
 }) {
     const [stopPlaceId, setStopPlaceId] = useState<string | undefined>()
 
@@ -48,10 +48,11 @@ function AddQuayTile({
                 label="Velg plattform"
                 disabled={!stopPlaceId}
                 onChange={(e) => {
-                    if (e?.value) {
+                    if (e?.value && stopPlaceId) {
                         setTile({
                             type: 'quay',
                             placeId: e.value,
+                            stopPlaceId: stopPlaceId,
                         })
                     }
                 }}

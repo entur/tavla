@@ -20,6 +20,7 @@ type TBaseTile = {
 }
 
 export type TQuayTile = {
+    stopPlaceId: string
     type: 'quay'
     columns?: TColumnSetting[]
     whitelistedLines?: string[]

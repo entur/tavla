@@ -1,13 +1,9 @@
 import { Dropdown } from '@entur/dropdown'
-import { TAnonTile } from 'Admin/types'
+import { TAnon } from 'Admin/types'
 import { TMapTile } from 'types/tile'
 import { fetchItems } from 'Admin/utils/index'
 
-function AddMapTile({
-    setTile,
-}: {
-    setTile: (tile: TAnonTile<TMapTile>) => void
-}) {
+function AddMapTile({ setTile }: { setTile: (tile: TAnon<TMapTile>) => void }) {
     return (
         <Dropdown
             items={fetchItems}
