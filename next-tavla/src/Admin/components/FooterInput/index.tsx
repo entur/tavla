@@ -2,7 +2,7 @@ import { TextField } from '@entur/form'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import classes from './styles.module.css'
 
-function FooterTextInput({ footer = '' }: { footer?: string }) {
+function FooterInput({ footer }: { footer?: string }) {
     const dispatch = useSettingsDispatch()
 
     return (
@@ -24,9 +24,9 @@ function FooterTextInput({ footer = '' }: { footer?: string }) {
                         footer: '',
                     })
                 }
-            ></TextField>
+            />
         </div>
     )
 }
 
-export { FooterTextInput }
+export { FooterInput }

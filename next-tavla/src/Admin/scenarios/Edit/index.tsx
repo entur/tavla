@@ -12,7 +12,7 @@ import { ToastProvider } from '@entur/alert'
 import { CopyText } from 'Admin/components/CopyText'
 import { PrimaryButton } from '@entur/button'
 import { StyledLink } from 'Admin/components/StyledLink'
-import { FooterTextInput } from 'Admin/components/FooterTextInput'
+import { FooterInput } from 'Admin/components/FooterInput'
 import { TavlaButton } from 'Admin/components/Button'
 
 function Edit({
@@ -33,7 +33,7 @@ function Edit({
                     <ThemeSettings theme={settings.theme} />
                     <AddTile />
                     <TilesSettings tiles={settings.tiles} />
-                    <FooterTextInput footer={settings.footer} />
+                    <FooterInput footer={settings.footer} />
                     <TavlaButton
                         onClick={() => {
                             setBoardSettings(documentId, settings)
