@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
-import { TTile, TTileType } from 'types/tile'
+import { TTileType } from 'types/tile'
 import { Button } from '@entur/button'
 import { RadioGroup, RadioPanel } from '@entur/form'
 import classes from './styles.module.css'
 import { AddStopPlaceTile } from './components/AddStopPlaceTile'
 import { AddQuayTile } from './components/AddQuayTile'
-import { AddMapTile } from './components/AddMapTile'
-import { TAnonTile } from 'Admin/types'
+import { TAnonTiles } from 'Admin/types'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
+import { AddMapTile } from './components/AddMapTile'
 
 const components: Record<
     TTileType,
-    (props: { setTile: (tile: TAnonTile<TTile>) => void }) => JSX.Element
+    (props: { setTile: (tile: TAnonTiles) => void }) => JSX.Element
 > = {
     stop_place: AddStopPlaceTile,
     quay: AddQuayTile,
@@ -20,7 +20,7 @@ const components: Record<
 
 function AddTile() {
     const [tileType, setTileType] = useState<TTileType>('stop_place')
-    const [tile, setTile] = useState<TAnonTile<TTile> | undefined>()
+    const [tile, setTile] = useState<TAnonTiles>()
 
     const Component = components[tileType]
 

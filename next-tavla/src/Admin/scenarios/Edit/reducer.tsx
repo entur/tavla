@@ -1,14 +1,14 @@
 import { arrayMove } from '@dnd-kit/sortable'
+import { TAnonTiles } from 'Admin/types'
 import { clone, xor } from 'lodash'
+import { nanoid } from 'nanoid'
 import { TSettings, TTheme } from 'types/settings'
 import { TColumn, TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
-import { nanoid } from 'nanoid'
 import { TColumnSetting } from 'types/tile'
-import { TAnonTile } from '../../types'
 
 export type Action =
     | { type: 'changeTheme'; theme: TTheme }
-    | { type: 'addTile'; tile: TAnonTile<TTile> }
+    | { type: 'addTile'; tile: TAnonTiles }
     | { type: 'removeTile'; tileId: string }
     | { type: 'updateTile'; tileIndex: number; tile: TTile }
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
