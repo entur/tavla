@@ -4,7 +4,7 @@ import { TSettings } from 'types/settings'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function convertSettingsVersion(settings: any): TSettings {
-    if (settings.version === currentVersion) return settings
+    if (settings.version >= currentVersion) return settings
 
     const orderedVersions = reverse(versions)
 
