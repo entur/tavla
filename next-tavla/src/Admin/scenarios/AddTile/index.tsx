@@ -7,7 +7,6 @@ import { AddStopPlaceTile } from './components/AddStopPlaceTile'
 import { AddQuayTile } from './components/AddQuayTile'
 import { TAnonTiles } from 'Admin/types'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { DefaultColumns } from 'types/tile'
 
 const components: Record<
     TTileType,
@@ -51,7 +50,7 @@ function AddTile() {
                     onClick={() => {
                         dispatch({
                             type: 'addTile',
-                            tile: { ...tile, columns: [...DefaultColumns] },
+                            tile,
                         })
                     }}
                 >

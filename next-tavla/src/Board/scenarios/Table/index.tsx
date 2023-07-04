@@ -1,5 +1,5 @@
 import { TDepartureFragment } from 'graphql/index'
-import { Columns, TColumn, TColumnSetting } from 'types/tile'
+import { Columns, DefaultColumns, TColumn, TColumnSetting } from 'types/tile'
 import React from 'react'
 import classes from './styles.module.css'
 import { DepartureContext } from './contexts'
@@ -34,7 +34,7 @@ function flexToPercentage(columnSettings: TColumnSetting[]) {
 }
 
 function Table({
-    columns = [],
+    columns = [...DefaultColumns],
     departures,
 }: {
     columns?: TColumnSetting[]
