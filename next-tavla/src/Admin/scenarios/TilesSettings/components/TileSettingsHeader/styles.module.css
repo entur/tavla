@@ -2,10 +2,5 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 0.5em;
-}
-
-.buttons {
-    display: flex;
-    flex: 0;
+    padding-bottom: 1em;
 }
