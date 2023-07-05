@@ -12,6 +12,13 @@ export const Columns = {
 export type TColumn = keyof typeof Columns
 export type TColumnSetting = { type: TColumn; size?: number }
 
+export const DefaultColumns: readonly TColumnSetting[] = [
+    { type: 'line' },
+    { type: 'destination', size: 2 },
+    { type: 'situations', size: 2 },
+    { type: 'time' },
+] as const
+
 export type TTileType = TTile['type']
 
 type TBaseTile = {
@@ -34,8 +41,4 @@ export type TStopPlaceTile = {
     whitelistedTransportModes?: TTransportMode[]
 } & TBaseTile
 
-export type TMapTile = {
-    type: 'map'
-} & TBaseTile
-
-export type TTile = TStopPlaceTile | TMapTile | TQuayTile
+export type TTile = TStopPlaceTile | TQuayTile

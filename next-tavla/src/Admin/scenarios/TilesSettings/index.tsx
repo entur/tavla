@@ -59,8 +59,6 @@ function TilesSettings({ tiles }: { tiles: TTile[] }) {
                                 return (
                                     <QuaySettings key={tile.uuid} tile={tile} />
                                 )
-                            case 'map':
-                                return null
                         }
                     })}
                 </div>

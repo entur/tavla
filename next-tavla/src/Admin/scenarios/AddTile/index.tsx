@@ -7,7 +7,6 @@ import { AddStopPlaceTile } from './components/AddStopPlaceTile'
 import { AddQuayTile } from './components/AddQuayTile'
 import { TAnonTiles } from 'Admin/types'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { AddMapTile } from './components/AddMapTile'
 
 const components: Record<
     TTileType,
@@ -15,7 +14,6 @@ const components: Record<
 > = {
     stop_place: AddStopPlaceTile,
     quay: AddQuayTile,
-    map: AddMapTile,
 }
 
 function AddTile() {

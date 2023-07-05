@@ -17,6 +17,7 @@ import {
 } from '@dnd-kit/sortable'
 import {
     Columns,
+    DefaultColumns,
     TColumn,
     TColumnSetting,
     TQuayTile,
@@ -35,7 +36,7 @@ function SortableColumns<T extends TStopPlaceTile | TQuayTile>({
     tile: T
     defaultOpen?: boolean
 }) {
-    const columns: TColumnSetting[] = tile.columns ?? []
+    const columns: TColumnSetting[] = tile.columns ?? [...DefaultColumns]
 
     const sensors = useSensors(
         useSensor(PointerSensor),

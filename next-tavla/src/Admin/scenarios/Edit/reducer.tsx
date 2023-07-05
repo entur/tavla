@@ -3,7 +3,13 @@ import { TAnonTiles } from 'Admin/types'
 import { clone, xor } from 'lodash'
 import { nanoid } from 'nanoid'
 import { TSettings, TTheme } from 'types/settings'
-import { TColumn, TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
+import {
+    DefaultColumns,
+    TColumn,
+    TQuayTile,
+    TStopPlaceTile,
+    TTile,
+} from 'types/tile'
 import { TColumnSetting } from 'types/tile'
 
 export type Action =
@@ -82,7 +88,7 @@ export function settingsReducer(
             return {
                 ...settings,
                 tiles: arrayMove(
-                    settings.tiles,
+                    settings.tiles ?? [...DefaultColumns],
                     action.oldIndex,
                     action.newIndex,
                 ),
@@ -96,7 +102,7 @@ export function settingsReducer(
                     return {
                         ...tile,
                         columns: [
-                            ...(tile.columns || []),
+                            ...(tile.columns || [...DefaultColumns]),
                             { type: action.column },
                         ],
                     }
@@ -107,9 +113,10 @@ export function settingsReducer(
             return changeTile<TStopPlaceTile | TQuayTile>(
                 action.tileId,
                 (tile) => {
+                    const cols = tile.columns ?? [...DefaultColumns]
                     return {
                         ...tile,
-                        columns: tile.columns?.filter(
+                        columns: cols.filter(
                             (col) => col.type !== action.column,
                         ),
                     }
@@ -120,9 +127,10 @@ export function settingsReducer(
             return changeTile<TStopPlaceTile | TQuayTile>(
                 action.tileId,
                 (tile) => {
+                    const cols = tile.columns ?? [...DefaultColumns]
                     return {
                         ...tile,
-                        columns: tile.columns?.map((col) =>
+                        columns: cols.map((col) =>
                             col.type === action.columnSetting.type
                                 ? action.columnSetting
                                 : col,
@@ -138,7 +146,7 @@ export function settingsReducer(
                     return {
                         ...tile,
                         columns: arrayMove(
-                            tile.columns || [],
+                            tile.columns || [...DefaultColumns],
                             action.oldIndex,
                             action.newIndex,
                         ),

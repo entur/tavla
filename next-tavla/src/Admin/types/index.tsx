@@ -1,8 +1,5 @@
-import { TMapTile, TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
+import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 
 export type TAnon<T extends TTile> = Omit<T, 'uuid'>
 
-export type TAnonTiles =
-    | TAnon<TQuayTile>
-    | TAnon<TStopPlaceTile>
-    | TAnon<TMapTile>
+export type TAnonTiles = TAnon<TQuayTile> | TAnon<TStopPlaceTile>
