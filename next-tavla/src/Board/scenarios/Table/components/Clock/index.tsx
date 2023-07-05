@@ -11,9 +11,10 @@ function Clock() {
 
     const time = new Intl.DateTimeFormat('no-NB', {
         timeStyle: 'short',
+        timeZone: 'Europe/Oslo',
     }).format(currentTime)
 
-    return <h3 className={classes.clock}>{time}</h3>
+    return <span className={classes.clock}>{time}</span>
 }
 
 export { Clock }
