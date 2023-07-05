@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { ButtonGroup } from '@entur/button'
+import { ButtonGroup, SecondaryButton } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Paragraph } from '@entur/typography'
-import { NegativeButton, PrimaryButton, TertiaryButton } from '@entur/button'
+import { PrimaryButton, TertiaryButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 
@@ -12,12 +12,12 @@ function DeleteButton({ uuid }: { uuid: string }) {
 
     return (
         <>
-            <Modal open={isOpen} onDismiss={() => setOpen(false)} size="medium">
+            <Modal open={isOpen} onDismiss={() => setOpen(false)} size="small">
                 <Paragraph>
                     Er du sikker på at du vil slette denne holdeplassen?
                 </Paragraph>
                 <ButtonGroup>
-                    <NegativeButton
+                    <PrimaryButton
                         onClick={() => {
                             setOpen(false)
                             dispatch({
@@ -27,10 +27,10 @@ function DeleteButton({ uuid }: { uuid: string }) {
                         }}
                     >
                         Ja, slett
-                    </NegativeButton>
-                    <PrimaryButton onClick={() => setOpen(false)}>
-                        Nei, behold
                     </PrimaryButton>
+                    <SecondaryButton onClick={() => setOpen(false)}>
+                        Nei, behold
+                    </SecondaryButton>
                 </ButtonGroup>
             </Modal>
 
