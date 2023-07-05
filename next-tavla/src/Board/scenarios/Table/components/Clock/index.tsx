@@ -1,4 +1,3 @@
-import { Heading2 } from '@entur/typography'
 import { useEffect, useState } from 'react'
 import classes from './styles.module.css'
 
@@ -14,7 +13,7 @@ function Clock() {
         timeStyle: 'short',
     }).format(currentTime)
 
-    return <Heading2 className={classes.clock}>{time}</Heading2>
+    return <h3 className={classes.clock}>{time}</h3>
 }
 
 export { Clock }

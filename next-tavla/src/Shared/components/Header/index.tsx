@@ -5,7 +5,7 @@ import classes from './styles.module.css'
 import { TTheme } from 'types/settings'
 import { Clock } from 'Board/scenarios/Table/components/Clock'
 
-function Header({ theme, clock }: { theme?: TTheme; clock?: boolean }) {
+function Header({ theme, showClock }: { theme?: TTheme; showClock?: boolean }) {
     return (
         <div className={classes.headerWrapper}>
             <div className={classes.logoWrapper}>
@@ -30,7 +30,11 @@ function Header({ theme, clock }: { theme?: TTheme; clock?: boolean }) {
                     Finn din rute på entur.no eller i Entur-appen
                 </p>
             </div>
-            <div className={classes.clockWrapper}>{clock && <Clock />}</div>
+            {showClock && (
+                <div className={classes.clockWrapper}>
+                    <Clock />
+                </div>
+            )}
         </div>
     )
 }
