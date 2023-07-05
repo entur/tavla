@@ -5,24 +5,25 @@ import classes from './styles.module.css'
 
 function TransportIcon({
     transportMode,
-    publicCode,
     presentation,
 }: {
     transportMode: TTransportMode | null
-    publicCode: string | null
     presentation: TColors
 }) {
     const mode = transportMode ? transportMode : 'unknown'
+
     return (
-        <div
-            className={classes.transportIcon}
-            style={{
-                backgroundColor: presentation.backgroundColor,
-                fill: presentation.color,
-                color: presentation.color,
-            }}
-        >
-            {getTransportIcon(mode)} {publicCode}
+        <div className={classes.transportIconWrapper}>
+            <div
+                className={classes.transportIcon}
+                style={{
+                    backgroundColor: presentation.backgroundColor,
+                    fill: presentation.color,
+                    color: presentation.color,
+                }}
+            >
+                {getTransportIcon(mode)}
+            </div>
         </div>
     )
 }

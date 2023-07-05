@@ -1,7 +1,7 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { getPresentation } from 'Board/utils/colors'
-import { TransportIcon } from '../TransportIcon'
 import { DepartureContext } from '../../contexts'
+import classes from './styles.module.css'
 
 function Line() {
     const departure = useNonNullContext(DepartureContext)
@@ -12,14 +12,22 @@ function Line() {
         departure.serviceJourney.transportMode,
     )
 
+    const publicCode = departure.serviceJourney.line.publicCode
+
     return (
         <td>
-            <TransportIcon
-                transportMode={departure.serviceJourney.transportMode}
-                publicCode={departure.serviceJourney.line.publicCode}
-                presentation={presentation}
-            />
+            <div
+                className={classes.lineWrapper}
+                style={{
+                    backgroundColor: presentation.backgroundColor,
+                    fill: presentation.color,
+                    color: presentation.color,
+                }}
+            >
+                {publicCode}
+            </div>
         </td>
     )
 }
+
 export { Line }

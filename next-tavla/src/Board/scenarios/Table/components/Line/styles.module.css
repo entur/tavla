@@ -1,0 +1,10 @@
+.lineWrapper {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: min-content;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 2.5vmin;
+    font-weight: 500;
+}
