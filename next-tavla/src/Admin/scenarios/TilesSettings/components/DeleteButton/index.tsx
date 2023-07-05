@@ -1,13 +1,12 @@
 import { useState } from 'react'
-import classes from './styles.module.css'
-
+import { ButtonGroup } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Paragraph } from '@entur/typography'
-import { PrimaryButton, SecondaryButton, TertiaryButton } from '@entur/button'
+import { NegativeButton, PrimaryButton, TertiaryButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 
-function TileDelete({ uuid }: { uuid: string }) {
+function DeleteButton({ uuid }: { uuid: string }) {
     const dispatch = useSettingsDispatch()
     const [isOpen, setOpen] = useState(false)
 
@@ -17,8 +16,8 @@ function TileDelete({ uuid }: { uuid: string }) {
                 <Paragraph>
                     Er du sikker på at du vil slette denne holdeplassen?
                 </Paragraph>
-                <div className={classes.modalButton}>
-                    <PrimaryButton
+                <ButtonGroup>
+                    <NegativeButton
                         onClick={() => {
                             setOpen(false)
                             dispatch({
@@ -28,11 +27,11 @@ function TileDelete({ uuid }: { uuid: string }) {
                         }}
                     >
                         Ja, slett
-                    </PrimaryButton>
-                    <SecondaryButton onClick={() => setOpen(false)}>
+                    </NegativeButton>
+                    <PrimaryButton onClick={() => setOpen(false)}>
                         Nei, behold
-                    </SecondaryButton>
-                </div>
+                    </PrimaryButton>
+                </ButtonGroup>
             </Modal>
 
             <TertiaryButton onClick={() => setOpen(true)}>
@@ -43,4 +42,4 @@ function TileDelete({ uuid }: { uuid: string }) {
     )
 }
 
-export { TileDelete }
+export { DeleteButton }
