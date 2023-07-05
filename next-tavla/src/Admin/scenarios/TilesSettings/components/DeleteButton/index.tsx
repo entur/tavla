@@ -12,11 +12,19 @@ function DeleteButton({ uuid }: { uuid: string }) {
 
     return (
         <>
-            <Modal open={isOpen} onDismiss={() => setOpen(false)} size="small">
+            <Modal
+                open={isOpen}
+                onDismiss={() => setOpen(false)}
+                size="small"
+                align="center"
+            >
                 <Paragraph>
                     Er du sikker på at du vil slette denne holdeplassen?
                 </Paragraph>
                 <ButtonGroup>
+                    <SecondaryButton onClick={() => setOpen(false)}>
+                        Avbryt
+                    </SecondaryButton>
                     <PrimaryButton
                         onClick={() => {
                             setOpen(false)
@@ -28,9 +36,6 @@ function DeleteButton({ uuid }: { uuid: string }) {
                     >
                         Ja, slett
                     </PrimaryButton>
-                    <SecondaryButton onClick={() => setOpen(false)}>
-                        Nei, behold
-                    </SecondaryButton>
                 </ButtonGroup>
             </Modal>
 
