@@ -8,7 +8,7 @@ import { Clock } from 'components/Clock'
 function Header({ theme, showClock }: { theme?: TTheme; showClock?: boolean }) {
     return (
         <div className={classes.headerWrapper}>
-            <div className={classes.logoWrapper}>
+            <div>
                 {theme === 'light' ? (
                     <Image
                         src={TavlaLogoLight}
@@ -30,11 +30,7 @@ function Header({ theme, showClock }: { theme?: TTheme; showClock?: boolean }) {
                     Finn din rute på entur.no eller i Entur-appen
                 </p>
             </div>
-            {showClock && (
-                <div className={classes.clockWrapper}>
-                    <Clock />
-                </div>
-            )}
+            {showClock && <Clock />}
         </div>
     )
 }

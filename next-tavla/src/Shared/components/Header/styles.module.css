@@ -8,6 +8,7 @@
     color: var(--main-text-color);
     margin: 0;
 }
+
 .headerWrapper {
     display: flex;
     flex-direction: row;
