@@ -13,11 +13,6 @@ export type TColumn = keyof typeof Columns
 export type TColumnSetting = {
     type: TColumn
     size?: number
-    selected?: boolean
-}
-export type TColumnSettingTest = {
-    size?: number
-    selected?: boolean
 }
 
 export const DefaultColumns: readonly TColumnSetting[] = [
