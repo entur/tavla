@@ -27,21 +27,23 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     return (
         <div className={classes.lineToggleContainer}>
             <ExpandablePanel title="Velg linjer">
-                {uniqLines.map((line) => (
-                    <div key={line.id}>
-                        <Switch
-                            checked={
-                                tile.whitelistedLines?.includes(line.id) ??
-                                false
-                            }
-                            onChange={() => {
-                                toggleLine(line.id)
-                            }}
-                        >
-                            {line.publicCode} {line.name}
-                        </Switch>
-                    </div>
-                ))}
+                <div className={classes.linesGrid}>
+                    {uniqLines.map((line) => (
+                        <div key={line.id}>
+                            <Switch
+                                checked={
+                                    tile.whitelistedLines?.includes(line.id) ??
+                                    false
+                                }
+                                onChange={() => {
+                                    toggleLine(line.id)
+                                }}
+                            >
+                                {line.publicCode} {line.name}
+                            </Switch>
+                        </div>
+                    ))}
+                </div>
             </ExpandablePanel>
         </div>
     )
