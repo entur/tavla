@@ -1,5 +1,5 @@
 import { TDepartureFragment } from 'graphql/index'
-import { Columns, TColumn, ColumnOrder, DefaultColumns } from 'types/column'
+import { Columns, TColumn, DefaultColumns, TColumnOrder } from 'types/column'
 import React from 'react'
 import classes from './styles.module.css'
 import { DepartureContext } from './contexts'
@@ -19,7 +19,27 @@ const columnComponents: Record<TColumn, () => JSX.Element> = {
     via: Via,
 }
 
+const ColumnOrder: TColumnOrder = [
+    { type: 'line', size: 1 },
+    { type: 'destination', size: 2 },
+    { type: 'via', size: 2 },
+    { type: 'platform', size: 3 },
+    { type: 'situations', size: 4 },
+    { type: 'time', size: 1 },
+]
+
 const columns = DefaultColumns
+function TH({ type, size }: { type: TColumn; size: number }) {
+    return (
+        <th
+            style={{
+                width: size,
+            }}
+        >
+            {Columns[type]}
+        </th>
+    )
+}
 
 function Table({ departures }: { departures: TDepartureFragment[] }) {
     return (
@@ -28,16 +48,9 @@ function Table({ departures }: { departures: TDepartureFragment[] }) {
                 <thead>
                     <tr>
                         {ColumnOrder.map(
-                            (col) =>
-                                columns[col.type] && (
-                                    <th
-                                        style={{
-                                            width: col.size,
-                                        }}
-                                        key={col.type}
-                                    >
-                                        {Columns[col.type]}
-                                    </th>
+                            ({ type, size }) =>
+                                columns[type] && (
+                                    <TH type={type} size={size} key={type} />
                                 ),
                         )}
                     </tr>
