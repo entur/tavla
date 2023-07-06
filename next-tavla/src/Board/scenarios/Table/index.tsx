@@ -1,5 +1,5 @@
 import { TDepartureFragment } from 'graphql/index'
-import { Columns, TColumn, TColumnSettingTest } from 'types/tile'
+import { Columns, TColumn, ColumnOrder, DefaultColumns } from 'types/column'
 import React from 'react'
 import classes from './styles.module.css'
 import { DepartureContext } from './contexts'
@@ -10,15 +10,6 @@ import { Platform } from './components/Platform'
 import { Situations } from './components/Situations'
 import { Via } from './components/Via'
 
-const columnTest: Record<TColumn, TColumnSettingTest> = {
-    line: { size: 10, selected: true },
-    destination: { size: 20, selected: true },
-    platform: { size: 15, selected: false },
-    situations: { size: 40, selected: true },
-    time: { size: 15, selected: false },
-    via: { size: 15, selected: true },
-}
-
 const columnComponents: Record<TColumn, () => JSX.Element> = {
     destination: Destination,
     line: Line,
@@ -28,13 +19,7 @@ const columnComponents: Record<TColumn, () => JSX.Element> = {
     via: Via,
 }
 
-const columnOrder: TColumn[] = [
-    'line',
-    'destination',
-    'platform',
-    'situations',
-    'time',
-]
+const columns = DefaultColumns
 
 function Table({ departures }: { departures: TDepartureFragment[] }) {
     return (
@@ -42,16 +27,16 @@ function Table({ departures }: { departures: TDepartureFragment[] }) {
             <table className={classes.table}>
                 <thead>
                     <tr>
-                        {columnOrder.map(
-                            (colName) =>
-                                columnTest[colName].selected && (
+                        {ColumnOrder.map(
+                            (col) =>
+                                columns[col.type] && (
                                     <th
                                         style={{
-                                            width: columnTest[colName].size,
+                                            width: col.size,
                                         }}
-                                        key={colName}
+                                        key={col.type}
                                     >
-                                        {Columns[colName]}
+                                        {Columns[col.type]}
                                     </th>
                                 ),
                         )}
@@ -63,11 +48,11 @@ function Table({ departures }: { departures: TDepartureFragment[] }) {
                             key={`${departure.serviceJourney.id}_${departure.aimedDepartureTime}`}
                         >
                             <DepartureContext.Provider value={departure}>
-                                {columnOrder.map((colName) => {
-                                    const Component = columnComponents[colName]
+                                {ColumnOrder.map((col) => {
+                                    const Component = columnComponents[col.type]
                                     return (
-                                        columnTest[colName].selected && (
-                                            <Component key={colName} />
+                                        columns[col.type] && (
+                                            <Component key={col.type} />
                                         )
                                     )
                                 })}
