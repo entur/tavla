@@ -33,7 +33,7 @@ function BoardPage({ settings }: { settings: TSettings }) {
     return (
         <div className={classes.root} data-theme={settings.theme || 'dark'}>
             <div className={classes.rootContainer}>
-                <Header theme={settings.theme} />
+                <Header theme={settings.theme} showClock={true} />
                 <Board settings={settings} />
             </div>
         </div>
