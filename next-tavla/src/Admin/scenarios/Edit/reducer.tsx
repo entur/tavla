@@ -5,12 +5,12 @@ import { nanoid } from 'nanoid'
 import { TSettings, TTheme } from 'types/settings'
 import {
     DefaultColumns,
-    TColumn,
+    TColumnSetting,
     TQuayTile,
     TStopPlaceTile,
     TTile,
 } from 'types/tile'
-import { TColumnSetting } from 'types/tile'
+import { TColumn } from 'types/column'
 
 export type Action =
     | { type: 'changeTheme'; theme: TTheme }

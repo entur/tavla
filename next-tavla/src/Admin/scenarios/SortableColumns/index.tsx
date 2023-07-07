@@ -16,13 +16,12 @@ import {
     sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable'
 import {
-    Columns,
     DefaultColumns,
-    TColumn,
     TColumnSetting,
     TQuayTile,
     TStopPlaceTile,
 } from 'types/tile'
+import { Columns, TColumn } from 'types/column'
 import { AddColumn } from '../AddColumn'
 import { ColumnSettings } from '../ColumnSettings'
 import classes from './styles.module.css'

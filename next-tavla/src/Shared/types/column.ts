@@ -19,4 +19,6 @@ export const DefaultColumns: TColumnSettings = {
     via: true,
 } as const
 
-export type TColumnOrder = { type: TColumn; size: number }[]
+export type TColumnOrderEntry = { type: TColumn; size: number }
+
+export type TColumnOrder = TColumnOrderEntry[]
