@@ -1,5 +1,12 @@
 import { TDepartureFragment } from 'graphql/index'
-import { Columns, TColumn, DefaultColumns, TColumnOrder } from 'types/column'
+import {
+    Columns,
+    TColumn,
+    DefaultColumns,
+    TColumnOrder,
+    TColumnOrderEntry,
+    TColumnSettings,
+} from 'types/column'
 import React from 'react'
 import classes from './styles.module.css'
 import { DepartureContext } from './contexts'
@@ -28,8 +35,7 @@ const ColumnOrder: TColumnOrder = [
     { type: 'time', size: 1 },
 ]
 
-const columns = DefaultColumns
-function TH({ type, size }: { type: TColumn; size: number }) {
+function ColumnTableHeader({ type, size }: TColumnOrderEntry) {
     return (
         <th
             style={{
@@ -41,19 +47,20 @@ function TH({ type, size }: { type: TColumn; size: number }) {
     )
 }
 
-function Table({ departures }: { departures: TDepartureFragment[] }) {
+function Table({
+    departures,
+    columns = DefaultColumns,
+}: {
+    departures: TDepartureFragment[]
+    columns?: TColumnSettings
+}) {
+    const filteredColumnOrder = ColumnOrder.filter(({ type }) => columns[type])
+
     return (
         <div className={classes.container}>
             <table className={classes.table}>
                 <thead>
-                    <tr>
-                        {ColumnOrder.map(
-                            ({ type, size }) =>
-                                columns[type] && (
-                                    <TH type={type} size={size} key={type} />
-                                ),
-                        )}
-                    </tr>
+                    <tr>{filteredColumnOrder.map(ColumnTableHeader)}</tr>
                 </thead>
                 <tbody>
                     {departures.map((departure) => (
@@ -61,13 +68,9 @@ function Table({ departures }: { departures: TDepartureFragment[] }) {
                             key={`${departure.serviceJourney.id}_${departure.aimedDepartureTime}`}
                         >
                             <DepartureContext.Provider value={departure}>
-                                {ColumnOrder.map((col) => {
+                                {filteredColumnOrder.map((col) => {
                                     const Component = columnComponents[col.type]
-                                    return (
-                                        columns[col.type] && (
-                                            <Component key={col.type} />
-                                        )
-                                    )
+                                    return <Component key={col.type} />
                                 })}
                             </DepartureContext.Provider>
                         </tr>
