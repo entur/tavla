@@ -1,57 +1,47 @@
 import { TTransportMode } from 'types/graphql-schema'
-import { TColors } from 'Board/utils/colors'
 import { SVGProps } from 'react'
+import classes from './styles.module.css'
 
 function TransportIcon({
     transportMode,
-    presentation,
 }: {
     transportMode: TTransportMode | null
-    presentation: TColors
 }) {
     const mode = transportMode ? transportMode : 'unknown'
 
     return (
-        <div
-            style={{
-                backgroundColor: presentation.backgroundColor,
-                fill: presentation.color,
-                color: presentation.color,
-            }}
-        >
-            {getTransportIcon(mode)}
-        </div>
+        <div className={classes.transportIcon}> {getTransportIcon(mode)} </div>
     )
 }
 
 function getTransportIcon(transportMode: TTransportMode) {
     switch (transportMode) {
         case 'metro':
-            return <MetroIcon />
+            return <MetroIcon fill="white" />
         case 'bus':
-            return <BusIcon />
+            return <BusIcon fill="white" />
         case 'air':
-            return <PlaneIcon />
+            return <PlaneIcon fill="white" />
         case 'tram':
-            return <TramIcon />
+            return <TramIcon fill="white" />
         case 'funicular':
-            return <FunicularIcon />
+            return <FunicularIcon fill="white" />
         case 'cableway':
-            return <CablewayIcon />
+            return <CablewayIcon fill="white" />
         case 'rail':
-            return <RailIcon />
+            return <RailIcon fill="white" />
         case 'coach':
-            return <BusIcon />
+            return <BusIcon fill="white" />
         case 'lift':
-            return <CablewayIcon />
+            return <CablewayIcon fill="white" />
         case 'monorail':
-            return <RailIcon />
+            return <RailIcon fill="white" />
         case 'trolleybus':
-            return <BusIcon />
+            return <BusIcon fill="white" />
         case 'water':
-            return <FerryIcon />
+            return <FerryIcon fill="white" />
         default:
-            return <UnknownIcon />
+            return <UnknownIcon fill="white" />
     }
 }
 

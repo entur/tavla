@@ -1,4 +1,6 @@
 import { TDepartureFragment } from 'graphql/index'
+import { TransportIcon } from '../TransportIcon'
+import classes from './styles.module.css'
 
 function TableHeader({
     name,
@@ -13,9 +15,13 @@ function TableHeader({
     const unique = transportModes.filter((x, i, a) => a.indexOf(x) == i)
 
     return (
-        <div>
+        <div className={classes.headerWrapper}>
             <h3>{name}</h3>
-            <div>{unique}</div>
+            <div className={classes.transportWrapper}>
+                {unique.map((transport) => (
+                    <TransportIcon key={transport} transportMode={transport} />
+                ))}
+            </div>
         </div>
     )
 }
