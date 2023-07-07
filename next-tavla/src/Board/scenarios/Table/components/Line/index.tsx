@@ -20,7 +20,6 @@ function Line() {
                 className={classes.lineWrapper}
                 style={{
                     backgroundColor: presentation.backgroundColor,
-                    fill: presentation.color,
                     color: presentation.color,
                 }}
             >

@@ -13,17 +13,15 @@ function TransportIcon({
     const mode = transportMode ? transportMode : 'unknown'
 
     return (
-        <div className={classes.transportIconWrapper}>
-            <div
-                className={classes.transportIcon}
-                style={{
-                    backgroundColor: presentation.backgroundColor,
-                    fill: presentation.color,
-                    color: presentation.color,
-                }}
-            >
-                {getTransportIcon(mode)}
-            </div>
+        <div
+            className={classes.transportIcon}
+            style={{
+                backgroundColor: presentation.backgroundColor,
+                fill: presentation.color,
+                color: presentation.color,
+            }}
+        >
+            {getTransportIcon(mode)}
         </div>
     )
 }
