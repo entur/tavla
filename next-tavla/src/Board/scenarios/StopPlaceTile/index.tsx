@@ -4,6 +4,7 @@ import classes from './styles.module.css'
 import { useQuery } from 'graphql/utils'
 import { StopPlaceQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
+import { TableHeader } from '../Table/components/TableHeader'
 
 export function StopPlaceTile({
     placeId,
@@ -26,7 +27,10 @@ export function StopPlaceTile({
 
     return (
         <Tile className={classes.stopPlaceTile}>
-            <h3>{data.stopPlace.name}</h3>
+            <TableHeader
+                name={data.stopPlace.name}
+                departures={data.stopPlace.estimatedCalls}
+            />
             <Table departures={data.stopPlace.estimatedCalls} />
         </Tile>
     )
