@@ -22,6 +22,32 @@ export function convertSettingsVersion(settings: any): TSettings {
 
 const versions = [V4, V3, V2, V1] as const
 
+export function V5(setting: ReturnType<typeof V4>) {
+    return {
+        ...setting,
+        tiles: setting.tiles.map((tile) => {
+            if (!tile.columns) return { ...tile, columns: {} }
+
+            const oldColumns = tile.columns
+            type TBaseColumnExtended =
+                | (typeof oldColumns)[number]['type']
+                | 'via'
+                | 'situations'
+
+            const newColumns: Partial<Record<TBaseColumnExtended, boolean>> = {}
+
+            oldColumns.forEach((col) => {
+                newColumns[col.type] = true
+            })
+
+            return {
+                ...tile,
+                columns: newColumns,
+            }
+        }),
+    }
+}
+
 export function V4(setting: ReturnType<typeof V3>) {
     return {
         ...setting,

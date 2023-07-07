@@ -8,7 +8,7 @@ export const Columns = {
 } as const
 
 export type TColumn = keyof typeof Columns
-export type TColumnSettings = Record<TColumn, boolean>
+export type TColumnSettings = Partial<Record<TColumn, boolean>>
 
 export const DefaultColumns: TColumnSettings = {
     line: true,
