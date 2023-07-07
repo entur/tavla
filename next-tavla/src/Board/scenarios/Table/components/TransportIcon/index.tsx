@@ -1,28 +1,25 @@
 import { TTransportMode } from 'types/graphql-schema'
 import { TColors } from 'Board/utils/colors'
 import { SVGProps } from 'react'
-import classes from './styles.module.css'
 
 function TransportIcon({
     transportMode,
-    publicCode,
     presentation,
 }: {
     transportMode: TTransportMode | null
-    publicCode: string | null
     presentation: TColors
 }) {
     const mode = transportMode ? transportMode : 'unknown'
+
     return (
         <div
-            className={classes.transportIcon}
             style={{
                 backgroundColor: presentation.backgroundColor,
                 fill: presentation.color,
                 color: presentation.color,
             }}
         >
-            {getTransportIcon(mode)} {publicCode}
+            {getTransportIcon(mode)}
         </div>
     )
 }
