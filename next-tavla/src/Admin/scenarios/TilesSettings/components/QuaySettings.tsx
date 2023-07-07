@@ -1,5 +1,4 @@
 import { SelectLines } from 'Admin/scenarios/SelectLines'
-import { SortableColumns } from 'Admin/scenarios/SortableColumns'
 import { GetQuayQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
 import { TQuayTile } from 'types/tile'
@@ -22,7 +21,6 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
         <SortableTileWrapper id={tile.uuid}>
             <TileSettingsWrapper uuid={tile.uuid} name={name}>
                 <SelectLines tile={tile} lines={lines} />
-                <SortableColumns tile={tile} />
             </TileSettingsWrapper>
         </SortableTileWrapper>
     )

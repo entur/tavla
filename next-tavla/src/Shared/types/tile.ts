@@ -1,3 +1,4 @@
+import { TColumnSettings } from './column'
 import { TTransportMode } from './graphql-schema'
 import { TColumn } from './column'
 
@@ -23,14 +24,14 @@ type TBaseTile = {
 export type TQuayTile = {
     stopPlaceId: string
     type: 'quay'
-    columns?: TColumnSetting[]
+    columns?: TColumnSettings
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportMode[]
 } & TBaseTile
 
 export type TStopPlaceTile = {
     type: 'stop_place'
-    columns?: TColumnSetting[]
+    columns?: TColumnSettings
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportMode[]
 } & TBaseTile
