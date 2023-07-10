@@ -1,6 +1,6 @@
 import React from 'react'
 import { xor } from 'lodash'
-import { Columns, TColumn } from 'types/tile'
+import { Columns, TColumn } from 'types/column'
 import { IconButton } from '@entur/button'
 import { AddIcon } from '@entur/icons'
 import classes from './styles.module.css'

@@ -7,7 +7,6 @@ import { Tile } from 'components/Tile'
 
 export function QuayTile({
     placeId,
-    columns,
     whitelistedLines,
     whitelistedTransportModes,
 }: TQuayTile) {
@@ -37,7 +36,7 @@ export function QuayTile({
                     {data.quay.publicCode} {data.quay.description}
                 </h4>
             </div>
-            <Table columns={columns} departures={data.quay.estimatedCalls} />
+            <Table departures={data.quay.estimatedCalls} />
         </Tile>
     )
 }

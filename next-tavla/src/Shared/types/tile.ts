@@ -1,16 +1,10 @@
 import { TTransportMode } from './graphql-schema'
+import { TColumn } from './column'
 
-export const Columns = {
-    destination: 'Destinasjon',
-    line: 'Linje',
-    platform: 'Plattform',
-    time: 'Avgangstid',
-    situations: 'Avvik',
-    via: 'Via',
-} as const
-
-export type TColumn = keyof typeof Columns
-export type TColumnSetting = { type: TColumn; size?: number }
+export type TColumnSetting = {
+    type: TColumn
+    size?: number
+}
 
 export const DefaultColumns: readonly TColumnSetting[] = [
     { type: 'line' },

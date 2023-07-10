@@ -1,5 +1,11 @@
 import { TDepartureFragment } from 'graphql/index'
-import { Columns, DefaultColumns, TColumn, TColumnSetting } from 'types/tile'
+import {
+    Columns,
+    TColumn,
+    DefaultColumns,
+    TColumnSize,
+    TColumnSettings,
+} from 'types/column'
 import React from 'react'
 import classes from './styles.module.css'
 import { DepartureContext } from './contexts'
@@ -15,47 +21,47 @@ const columnComponents: Record<TColumn, () => JSX.Element> = {
     line: Line,
     time: Time,
     platform: Platform,
-    via: Via,
     situations: Situations,
+    via: Via,
 }
 
-function flexToPercentage(columnSettings: TColumnSetting[]) {
-    const flexToPercentage = columnSettings.reduce(
-        (acc, val) => acc + (val.size ?? 1),
-        0,
+const ColumnOrder: TColumnSize[] = [
+    { type: 'line', size: 1 },
+    { type: 'destination', size: 2 },
+    { type: 'via', size: 2 },
+    { type: 'platform', size: 3 },
+    { type: 'situations', size: 4 },
+    { type: 'time', size: 1 },
+]
+
+function ColumnTableHeader({ type, size }: TColumnSize) {
+    return (
+        <th
+            style={{
+                width: size,
+            }}
+        >
+            {Columns[type]}
+        </th>
     )
-
-    const perc = 100 / flexToPercentage
-
-    return columnSettings.map((set) => ({
-        ...set,
-        size: (set.size ?? 1) * perc,
-    }))
 }
 
 function Table({
-    columns = [...DefaultColumns],
     departures,
+    columns = DefaultColumns,
 }: {
-    columns?: TColumnSetting[]
     departures: TDepartureFragment[]
+    columns?: TColumnSettings
 }) {
-    const columnSizes = flexToPercentage(columns)
+    const filteredColumnOrder = ColumnOrder.filter(({ type }) => columns[type])
 
     return (
         <div className={classes.container}>
             <table className={classes.table}>
                 <thead>
                     <tr>
-                        {columnSizes.map((col) => (
-                            <th
-                                style={{
-                                    width: col.size,
-                                }}
-                                key={col.type}
-                            >
-                                {Columns[col.type]}
-                            </th>
+                        {filteredColumnOrder.map((props) => (
+                            <ColumnTableHeader key={props.type} {...props} />
                         ))}
                     </tr>
                 </thead>
@@ -65,7 +71,7 @@ function Table({
                             key={`${departure.serviceJourney.id}_${departure.aimedDepartureTime}`}
                         >
                             <DepartureContext.Provider value={departure}>
-                                {columns.map((col) => {
+                                {filteredColumnOrder.map((col) => {
                                     const Component = columnComponents[col.type]
                                     return <Component key={col.type} />
                                 })}
