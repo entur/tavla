@@ -33,6 +33,7 @@ function Edit({
                     <CopyText text={linkUrl} toastText="Kopiert lenke" />
                     <div className={classes.floatingButtonWrapper}>
                         <FloatingButton
+                            className={classes.saveButton}
                             size="medium"
                             aria-label={''}
                             onClick={() => {
