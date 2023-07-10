@@ -6,7 +6,7 @@ import { TSettings } from 'types/settings'
 export function convertSettingsVersion(settings: any): TSettings {
     if (settings.version >= currentVersion) return settings
 
-    const orderedVersions = reverse(versions)
+    const orderedVersions = reverse([...versions])
 
     const upgradedSettings: ReturnType<(typeof versions)[0]> = orderedVersions
         .slice(settings.version)
