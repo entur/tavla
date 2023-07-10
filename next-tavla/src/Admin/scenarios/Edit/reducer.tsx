@@ -3,14 +3,7 @@ import { TAnonTiles } from 'Admin/types'
 import { clone, xor } from 'lodash'
 import { nanoid } from 'nanoid'
 import { TSettings, TTheme } from 'types/settings'
-import {
-    DefaultColumns,
-    TColumnSetting,
-    TQuayTile,
-    TStopPlaceTile,
-    TTile,
-} from 'types/tile'
-import { TColumn } from 'types/column'
+import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 
 export type Action =
     | { type: 'changeTheme'; theme: TTheme }
@@ -75,13 +68,12 @@ export function settingsReducer(
             return {
                 ...settings,
                 tiles: arrayMove(
-                    settings.tiles ?? [...DefaultColumns],
+                    settings.tiles,
                     action.oldIndex,
                     action.newIndex,
                 ),
             }
         }
-
         // Line operations
         case 'toggleLine': {
             return changeTile<TStopPlaceTile | TQuayTile>(
