@@ -9,17 +9,34 @@ function TableHeader({
     name: string
     departures: TDepartureFragment[]
 }) {
-    const transportModes = departures.map(
-        (departures) => departures.serviceJourney.transportMode,
+    const uniqueDepartures: TDepartureFragment[] = departures.filter(
+        (departure, index, self) => {
+            const mode = departure.serviceJourney.transportMode || 'unknown'
+            const color = departure.serviceJourney.line.presentation?.colour
+
+            if (
+                self.findIndex(
+                    (d) =>
+                        d.serviceJourney.transportMode === mode &&
+                        d.serviceJourney.line.presentation?.colour === color,
+                ) === index
+            ) {
+                return true
+            }
+
+            return false
+        },
     )
-    const unique = transportModes.filter((x, i, a) => a.indexOf(x) == i)
 
     return (
         <div className={classes.headerWrapper}>
             <h3>{name}</h3>
             <div className={classes.transportWrapper}>
-                {unique.map((transport) => (
-                    <TransportIcon key={transport} transportMode={transport} />
+                {uniqueDepartures.map((transport) => (
+                    <TransportIcon
+                        key={transport.serviceJourney.transportMode}
+                        departure={transport}
+                    />
                 ))}
             </div>
         </div>
