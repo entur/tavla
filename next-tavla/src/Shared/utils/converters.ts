@@ -26,19 +26,15 @@ export function V5(setting: ReturnType<typeof V4>) {
     return {
         ...setting,
         tiles: setting.tiles.map((tile) => {
-            if (!tile.columns) return { ...tile, columns: {} }
+            const { columns: oldColumns, ...rest } = tile
+            if (!oldColumns || !oldColumns.length) return rest
 
-            const oldColumns = tile.columns
-            type TBaseColumnExtended =
-                | (typeof oldColumns)[number]['type']
-                | 'via'
-                | 'situations'
+            type TBaseColumnExtended = TBaseColumn | 'via' | 'situations'
 
-            const newColumns: Partial<Record<TBaseColumnExtended, boolean>> = {}
-
-            oldColumns.forEach((col) => {
-                newColumns[col.type] = true
-            })
+            const newColumns: Partial<Record<TBaseColumnExtended, boolean>> =
+                oldColumns.reduce((prev, next) => {
+                    return { ...prev, [next.type]: true }
+                }, {})
 
             return {
                 ...tile,
