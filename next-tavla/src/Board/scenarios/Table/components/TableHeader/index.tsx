@@ -11,7 +11,7 @@ function TableHeader({
 }) {
     const uniqueDepartures: TDepartureFragment[] = departures.filter(
         (departure, index, self) => {
-            const mode = departure.serviceJourney.transportMode || 'unknown'
+            const mode = departure.serviceJourney.transportMode
             const color = departure.serviceJourney.line.presentation?.colour
 
             if (
@@ -34,7 +34,11 @@ function TableHeader({
             <div className={classes.transportWrapper}>
                 {uniqueDepartures.map((transport) => (
                     <TransportIcon
-                        key={transport.serviceJourney.transportMode}
+                        key={
+                            transport.serviceJourney.transportMode +
+                            transport.serviceJourney.id +
+                            transport.expectedDepartureTime
+                        }
                         departure={transport}
                     />
                 ))}
