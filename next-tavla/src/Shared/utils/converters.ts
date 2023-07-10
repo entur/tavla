@@ -6,7 +6,7 @@ import { TSettings } from 'types/settings'
 export function convertSettingsVersion(settings: any): TSettings {
     if (settings.version >= currentVersion) return settings
 
-    const orderedVersions = reverse(versions)
+    const orderedVersions = reverse([...versions])
 
     const upgradedSettings: ReturnType<(typeof versions)[0]> = orderedVersions
         .slice(settings.version)
@@ -21,6 +21,28 @@ export function convertSettingsVersion(settings: any): TSettings {
 }
 
 const versions = [V4, V3, V2, V1] as const
+
+export function V5(setting: ReturnType<typeof V4>) {
+    return {
+        ...setting,
+        tiles: setting.tiles.map((tile) => {
+            const { columns: oldColumns, ...rest } = tile
+            if (!oldColumns || !oldColumns.length) return rest
+
+            type TBaseColumnExtended = TBaseColumn | 'via' | 'situations'
+
+            const newColumns: Partial<Record<TBaseColumnExtended, boolean>> =
+                oldColumns.reduce((prev, next) => {
+                    return { ...prev, [next.type]: true }
+                }, {})
+
+            return {
+                ...tile,
+                columns: newColumns,
+            }
+        }),
+    }
+}
 
 export function V4(setting: ReturnType<typeof V3>) {
     return {
