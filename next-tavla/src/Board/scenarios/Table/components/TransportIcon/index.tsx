@@ -1,120 +1,48 @@
 import { TTransportMode } from 'types/graphql-schema'
 import { SVGProps } from 'react'
 import classes from './styles.module.css'
-import { TColors, getPresentation } from 'Board/utils/colors'
-import { TDepartureFragment } from 'graphql/index'
 
-function TransportIcon({ departure }: { departure: TDepartureFragment }) {
-    const mode = departure.serviceJourney.transportMode
-        ? departure.serviceJourney.transportMode
-        : 'unknown'
-
-    const presentation = getPresentation(
-        departure.serviceJourney.line.presentation,
-        departure.serviceJourney.id,
-        departure.serviceJourney.transportMode,
-    )
-
-    console.log(departure, presentation)
-
-    return getTransportIcon(mode, presentation)
+function TransportIcon({ transport }: { transport: TTransportMode | null }) {
+    const mode = transport ? transport : 'unknown'
+    const defaultColor = `var(--table-transport-${mode}-color)`
+    return getTransportIcon(mode, defaultColor)
 }
 
-function getTransportIcon(
-    transportMode: TTransportMode,
-    presentation: TColors,
-) {
+function getTransportIcon(transportMode: TTransportMode, color: string) {
     switch (transportMode) {
         case 'metro':
-            return (
-                <MetroIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
-            )
+            return <MetroIcon className={classes.transportIcon} fill={color} />
         case 'bus':
-            return (
-                <BusIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
-            )
+            return <BusIcon className={classes.transportIcon} fill={color} />
         case 'air':
-            return (
-                <PlaneIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
-            )
+            return <PlaneIcon className={classes.transportIcon} fill={color} />
         case 'tram':
-            return (
-                <TramIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
-            )
+            return <TramIcon className={classes.transportIcon} fill={color} />
         case 'funicular':
             return (
-                <FunicularIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
+                <FunicularIcon className={classes.transportIcon} fill={color} />
             )
         case 'cableway':
             return (
-                <CablewayIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
+                <CablewayIcon className={classes.transportIcon} fill={color} />
             )
         case 'rail':
-            return (
-                <RailIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
-            )
+            return <RailIcon className={classes.transportIcon} fill={color} />
         case 'coach':
-            return (
-                <BusIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
-            )
+            return <BusIcon className={classes.transportIcon} fill={color} />
         case 'lift':
             return (
-                <CablewayIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
+                <CablewayIcon className={classes.transportIcon} fill={color} />
             )
         case 'monorail':
-            return (
-                <RailIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
-            )
+            return <RailIcon className={classes.transportIcon} fill={color} />
         case 'trolleybus':
-            return (
-                <BusIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
-            )
+            return <BusIcon className={classes.transportIcon} fill={color} />
         case 'water':
-            return (
-                <FerryIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
-            )
+            return <FerryIcon className={classes.transportIcon} fill={color} />
         default:
             return (
-                <UnknownIcon
-                    className={classes.transportIcon}
-                    fill={presentation.backgroundColor}
-                />
+                <UnknownIcon className={classes.transportIcon} fill={color} />
             )
     }
 }

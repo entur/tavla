@@ -5,6 +5,7 @@ query StopPlace(
 ) {
     stopPlace(id: $stopPlaceId) {
         name
+        transportMode
         estimatedCalls(
             numberOfDepartures: 20
             whiteListedModes: $whitelistedTransportModes

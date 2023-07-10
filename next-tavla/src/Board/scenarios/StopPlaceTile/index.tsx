@@ -29,7 +29,7 @@ export function StopPlaceTile({
         <Tile className={classes.stopPlaceTile}>
             <TableHeader
                 heading={data.stopPlace.name}
-                departures={data.stopPlace.estimatedCalls}
+                transportModes={data.stopPlace.transportMode}
             />
             <Table departures={data.stopPlace.estimatedCalls} />
         </Tile>

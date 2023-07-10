@@ -1,48 +1,24 @@
-import { TDepartureFragment } from 'graphql/index'
 import { TransportIcon } from '../TransportIcon'
 import classes from './styles.module.css'
+import { TTransportMode } from 'types/graphql-schema'
 
 function TableHeader({
     heading,
-    departures,
+    transportModes,
 }: {
     heading: string
-    departures: TDepartureFragment[]
+    transportModes: (TTransportMode | null)[] | null
 }) {
-    const uniqueDepartures: TDepartureFragment[] = departures.filter(
-        (departure, index, self) => {
-            const mode = departure.serviceJourney.transportMode
-            const color = departure.serviceJourney.line.presentation?.colour
-
-            if (
-                self.findIndex(
-                    (d) =>
-                        d.serviceJourney.transportMode === mode &&
-                        d.serviceJourney.line.presentation?.colour === color,
-                ) === index
-            ) {
-                return true
-            }
-
-            return false
-        },
-    )
-
     return (
         <div className={classes.headerWrapper}>
-            <h3>{heading}</h3>
-            <div className={classes.transportWrapper}>
-                {uniqueDepartures.map((transport) => (
-                    <TransportIcon
-                        key={
-                            transport.serviceJourney.transportMode +
-                            transport.serviceJourney.id +
-                            transport.expectedDepartureTime
-                        }
-                        departure={transport}
-                    />
-                ))}
-            </div>
+            <h3 className={classes.heading}>{heading}</h3>
+            {transportModes && (
+                <div className={classes.transportWrapper}>
+                    {transportModes.map((transport) => (
+                        <TransportIcon key={transport} transport={transport} />
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
