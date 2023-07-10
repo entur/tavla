@@ -3,14 +3,7 @@ import { TAnonTiles } from 'Admin/types'
 import { clone, xor } from 'lodash'
 import { nanoid } from 'nanoid'
 import { TSettings, TTheme } from 'types/settings'
-import {
-    DefaultColumns,
-    TColumnSetting,
-    TQuayTile,
-    TStopPlaceTile,
-    TTile,
-} from 'types/tile'
-import { TColumn } from 'types/column'
+import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 
 export type Action =
     | { type: 'changeTheme'; theme: TTheme }
@@ -18,19 +11,6 @@ export type Action =
     | { type: 'removeTile'; tileId: string }
     | { type: 'updateTile'; tileIndex: number; tile: TTile }
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
-    | { type: 'addColumn'; tileId: string; column: TColumn }
-    | { type: 'removeColumn'; tileId: string; column: TColumn }
-    | {
-          type: 'updateColumn'
-          tileId: string
-          columnSetting: TColumnSetting
-      }
-    | {
-          type: 'swapColumns'
-          tileId: string
-          oldIndex: number
-          newIndex: number
-      }
     | { type: 'toggleLine'; tileId: string; lineId: string }
 
 export function settingsReducer(
@@ -88,71 +68,11 @@ export function settingsReducer(
             return {
                 ...settings,
                 tiles: arrayMove(
-                    settings.tiles ?? [...DefaultColumns],
+                    settings.tiles,
                     action.oldIndex,
                     action.newIndex,
                 ),
             }
-        }
-        // Column operations
-        case 'addColumn': {
-            return changeTile<TStopPlaceTile | TQuayTile>(
-                action.tileId,
-                (tile) => {
-                    return {
-                        ...tile,
-                        columns: [
-                            ...(tile.columns || [...DefaultColumns]),
-                            { type: action.column },
-                        ],
-                    }
-                },
-            )
-        }
-        case 'removeColumn': {
-            return changeTile<TStopPlaceTile | TQuayTile>(
-                action.tileId,
-                (tile) => {
-                    const cols = tile.columns ?? [...DefaultColumns]
-                    return {
-                        ...tile,
-                        columns: cols.filter(
-                            (col) => col.type !== action.column,
-                        ),
-                    }
-                },
-            )
-        }
-        case 'updateColumn': {
-            return changeTile<TStopPlaceTile | TQuayTile>(
-                action.tileId,
-                (tile) => {
-                    const cols = tile.columns ?? [...DefaultColumns]
-                    return {
-                        ...tile,
-                        columns: cols.map((col) =>
-                            col.type === action.columnSetting.type
-                                ? action.columnSetting
-                                : col,
-                        ),
-                    }
-                },
-            )
-        }
-        case 'swapColumns': {
-            return changeTile<TStopPlaceTile | TQuayTile>(
-                action.tileId,
-                (tile) => {
-                    return {
-                        ...tile,
-                        columns: arrayMove(
-                            tile.columns || [...DefaultColumns],
-                            action.oldIndex,
-                            action.newIndex,
-                        ),
-                    }
-                },
-            )
         }
         // Line operations
         case 'toggleLine': {

@@ -1,17 +1,5 @@
+import { TColumnSettings } from './column'
 import { TTransportMode } from './graphql-schema'
-import { TColumn } from './column'
-
-export type TColumnSetting = {
-    type: TColumn
-    size?: number
-}
-
-export const DefaultColumns: readonly TColumnSetting[] = [
-    { type: 'line' },
-    { type: 'destination', size: 2 },
-    { type: 'situations', size: 2 },
-    { type: 'time' },
-] as const
 
 export type TTileType = TTile['type']
 
@@ -23,14 +11,14 @@ type TBaseTile = {
 export type TQuayTile = {
     stopPlaceId: string
     type: 'quay'
-    columns?: TColumnSetting[]
+    columns?: TColumnSettings
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportMode[]
 } & TBaseTile
 
 export type TStopPlaceTile = {
     type: 'stop_place'
-    columns?: TColumnSetting[]
+    columns?: TColumnSettings
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportMode[]
 } & TBaseTile

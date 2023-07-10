@@ -3,6 +3,7 @@ import {
     V2,
     V3,
     V4,
+    V5,
     convertSettingsVersion,
     currentVersion,
 } from './converters'
@@ -269,24 +270,9 @@ test('upgrade from v3 to v4', () => {
     })
 })
 
-test('upgrade from base to latest version', () => {
-    const start = {
-        tiles: [
-            {
-                type: 'stop_place',
-                columns: ['platform', 'line', 'destination', 'time'],
-                placeId: 'NSR:StopPlace:60066',
-            },
-            {
-                placeId: 'NSR:Quay:404',
-                columns: ['time'],
-                type: 'quay',
-            },
-        ],
-    }
-
-    const end = {
-        version: currentVersion,
+test('upgrade from v4 to v5', () => {
+    const v5 = V5({
+        theme: 'entur',
         tiles: [
             {
                 type: 'stop_place',
@@ -314,6 +300,77 @@ test('upgrade from base to latest version', () => {
                         type: 'time',
                     },
                 ],
+                stopPlaceId: '',
+                placeId: 'NSR:Quay:404',
+                type: 'quay',
+            },
+        ],
+    })
+
+    expect(v5).toStrictEqual({
+        theme: 'entur',
+        tiles: [
+            {
+                type: 'stop_place',
+                placeId: 'NSR:StopPlace:60066',
+                uuid: '1234',
+                columns: {
+                    line: true,
+                    destination: true,
+                    platform: true,
+                    time: true,
+                },
+            },
+            {
+                uuid: '1234',
+                columns: {
+                    time: true,
+                },
+
+                stopPlaceId: '',
+                placeId: 'NSR:Quay:404',
+                type: 'quay',
+            },
+        ],
+    })
+})
+
+test('upgrade from base to latest version', () => {
+    const start = {
+        tiles: [
+            {
+                type: 'stop_place',
+                columns: ['platform', 'line', 'destination', 'time'],
+                placeId: 'NSR:StopPlace:60066',
+            },
+            {
+                placeId: 'NSR:Quay:404',
+                columns: ['time'],
+                type: 'quay',
+            },
+        ],
+    }
+
+    const end = {
+        version: currentVersion,
+        tiles: [
+            {
+                type: 'stop_place',
+                placeId: 'NSR:StopPlace:60066',
+                uuid: '1234',
+                columns: {
+                    line: true,
+                    destination: true,
+                    platform: true,
+                    time: true,
+                },
+            },
+            {
+                uuid: '1234',
+                columns: {
+                    time: true,
+                },
+
                 stopPlaceId: '',
                 placeId: 'NSR:Quay:404',
                 type: 'quay',

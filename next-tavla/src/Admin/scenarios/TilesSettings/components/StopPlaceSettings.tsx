@@ -1,5 +1,4 @@
 import { SelectLines } from 'Admin/scenarios/SelectLines'
-import { SortableColumns } from 'Admin/scenarios/SortableColumns'
 import { StopPlaceSettingsQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
 import { TStopPlaceTile } from 'types/tile'
@@ -19,7 +18,6 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
     return (
         <TileSettingsWrapper uuid={tile.uuid} name={name}>
             <SelectLines tile={tile} lines={lines} />
-            <SortableColumns tile={tile} />
         </TileSettingsWrapper>
     )
 }

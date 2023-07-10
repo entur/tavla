@@ -8,21 +8,14 @@ describe('<SelectLines />', () => {
         const [settings, dispatch] = useReducer(settingsReducer, {
             tiles: [
                 {
-                    columns: [
-                        {
-                            type: 'platform',
-                        },
-                        {
-                            type: 'line',
-                        },
-                        {
-                            size: 2,
-                            type: 'destination',
-                        },
-                        {
-                            type: 'time',
-                        },
-                    ],
+                    columns: {
+                        line: true,
+                        destination: true,
+                        platform: false,
+                        situations: true,
+                        time: true,
+                        via: true,
+                    },
                     placeId: 'NSR:StopPlace:60066',
                     type: 'stop_place',
                     uuid: '1683625543293',

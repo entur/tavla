@@ -20,7 +20,7 @@ export function convertSettingsVersion(settings: any): TSettings {
     }
 }
 
-const versions = [V4, V3, V2, V1] as const
+const versions = [V5, V4, V3, V2, V1] as const
 
 export function V5(setting: ReturnType<typeof V4>) {
     return {
