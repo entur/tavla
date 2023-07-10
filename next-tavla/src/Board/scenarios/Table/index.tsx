@@ -3,8 +3,7 @@ import {
     Columns,
     TColumn,
     DefaultColumns,
-    TColumnOrder,
-    TColumnOrderEntry,
+    TColumnSize,
     TColumnSettings,
 } from 'types/column'
 import React from 'react'
@@ -26,7 +25,7 @@ const columnComponents: Record<TColumn, () => JSX.Element> = {
     via: Via,
 }
 
-const ColumnOrder: TColumnOrder = [
+const ColumnOrder: TColumnSize[] = [
     { type: 'line', size: 1 },
     { type: 'destination', size: 2 },
     { type: 'via', size: 2 },
@@ -35,7 +34,7 @@ const ColumnOrder: TColumnOrder = [
     { type: 'time', size: 1 },
 ]
 
-function ColumnTableHeader({ type, size }: TColumnOrderEntry) {
+function ColumnTableHeader({ type, size }: TColumnSize) {
     return (
         <th
             style={{
@@ -60,7 +59,11 @@ function Table({
         <div className={classes.container}>
             <table className={classes.table}>
                 <thead>
-                    <tr>{filteredColumnOrder.map(ColumnTableHeader)}</tr>
+                    <tr>
+                        {filteredColumnOrder.map((props) => (
+                            <ColumnTableHeader key={props.type} {...props} />
+                        ))}
+                    </tr>
                 </thead>
                 <tbody>
                     {departures.map((departure) => (
