@@ -15,6 +15,8 @@ function TransportIcon({ departure }: { departure: TDepartureFragment }) {
         departure.serviceJourney.transportMode,
     )
 
+    console.log(departure, presentation)
+
     return getTransportIcon(mode, presentation)
 }
 

@@ -3,10 +3,10 @@ import { TransportIcon } from '../TransportIcon'
 import classes from './styles.module.css'
 
 function TableHeader({
-    name,
+    heading,
     departures,
 }: {
-    name: string
+    heading: string
     departures: TDepartureFragment[]
 }) {
     const uniqueDepartures: TDepartureFragment[] = departures.filter(
@@ -30,7 +30,7 @@ function TableHeader({
 
     return (
         <div className={classes.headerWrapper}>
-            <h3>{name}</h3>
+            <h3>{heading}</h3>
             <div className={classes.transportWrapper}>
                 {uniqueDepartures.map((transport) => (
                     <TransportIcon
