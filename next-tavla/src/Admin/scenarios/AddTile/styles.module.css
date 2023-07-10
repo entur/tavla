@@ -1,0 +1,13 @@
+.SearchContainer {
+    display: flex;
+    gap: 0.5em;
+    padding-bottom: 1em;
+}
+
+.DropDown {
+    width: 30%;
+}
+
+.Heading1 {
+    font-size: 2em;
+}
