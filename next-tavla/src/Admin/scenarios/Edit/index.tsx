@@ -10,7 +10,7 @@ import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
 import { ToastProvider } from '@entur/alert'
 import { CopyText } from 'Admin/components/CopyText'
-import { PrimaryButton } from '@entur/button'
+import { FloatingButton } from '@entur/button'
 import { StyledLink } from 'Admin/components/StyledLink'
 
 function Edit({
@@ -32,14 +32,16 @@ function Edit({
                     <TilesSettings tiles={settings.tiles} />
                     <CopyText text={linkUrl} toastText="Kopiert lenke" />
                     <div className={classes.floatingButtonWrapper}>
-                        <PrimaryButton
+                        <FloatingButton
                             className={classes.saveButton}
+                            size="medium"
+                            aria-label={'Lagre instillinger'}
                             onClick={() => {
                                 setBoardSettings(documentId, settings)
                             }}
                         >
-                            Lagre instillinger
-                        </PrimaryButton>
+                            Lagre innstillinger
+                        </FloatingButton>
                         <StyledLink
                             linkUrl={'/' + documentId}
                             text="Se avgangstavla"
