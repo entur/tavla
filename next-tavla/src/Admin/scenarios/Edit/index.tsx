@@ -1,5 +1,5 @@
 import { TSettings } from 'types/settings'
-import { TilesSettings } from '../TilesSettings'
+import { TilesSettings } from '../TilesOverview'
 import { useReducer } from 'react'
 import classes from './styles.module.css'
 import dynamic from 'next/dynamic'

@@ -1,8 +1,7 @@
 import React from 'react'
 import classes from './styles.module.css'
 import { Loader } from '@entur/loader'
-import { Tile } from 'components/Tile'
-import { DeleteButton } from '../DeleteButton'
+import { DeleteButton } from '../../../TilesOverview/components/DeleteButton'
 
 function TileSettingsWrapper({
     uuid,
@@ -14,15 +13,14 @@ function TileSettingsWrapper({
     children: React.ReactNode
 }) {
     return (
-        <Tile>
+        <div className={classes.overviewWrapper}>
             <div className={classes.heading}>
                 {!name ? <Loader /> : name}
-
                 <DeleteButton uuid={uuid} />
             </div>
 
             {children}
-        </Tile>
+        </div>
     )
 }
 

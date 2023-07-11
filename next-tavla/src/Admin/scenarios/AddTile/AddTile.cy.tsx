@@ -1,7 +1,7 @@
 import { Contrast } from '@entur/layout'
 import React, { useReducer } from 'react'
 import { geocoder_endpoint } from 'src/Shared/assets/environmentConfig'
-import { TilesSettings } from '../TilesSettings'
+import { TilesSettings } from '../TilesOverview'
 import { AddTile } from './index'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from '../Edit/reducer'
