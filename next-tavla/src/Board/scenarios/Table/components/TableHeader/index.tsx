@@ -11,11 +11,11 @@ function TableHeader({
 }) {
     return (
         <div className={classes.headerWrapper}>
-            <h3 className={classes.heading}>{heading}</h3>
+            <h1 className={classes.heading}>{heading}</h1>
             {transportModes && (
-                <div className={classes.transportWrapper}>
-                    {transportModes.map((transport) => (
-                        <TransportIcon key={transport} transport={transport} />
+                <div>
+                    {transportModes.map((mode) => (
+                        <TransportIcon key={mode} transport={mode} />
                     ))}
                 </div>
             )}
