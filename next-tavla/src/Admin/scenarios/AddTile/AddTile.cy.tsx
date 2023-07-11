@@ -1,7 +1,7 @@
 import { Contrast } from '@entur/layout'
 import React, { useReducer } from 'react'
 import { geocoder_endpoint } from 'src/Shared/assets/environmentConfig'
-import { TilesSettings } from '../TilesOverview'
+import { TilesOverview } from '../TilesOverview'
 import { AddTile } from './index'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from '../Edit/reducer'
@@ -15,7 +15,7 @@ describe('<AddTile />', () => {
         return (
             <Contrast>
                 <SettingsDispatchContext.Provider value={dispatch}>
-                    <TilesSettings tiles={settings.tiles} />
+                    <TilesOverview tiles={settings.tiles} />
                     <AddTile />
                 </SettingsDispatchContext.Provider>
             </Contrast>
