@@ -13,7 +13,7 @@ function Clock() {
         timeZone: 'Europe/Oslo',
     }).format(currentTime)
 
-    return <span>{time}</span>
+    return <span suppressHydrationWarning>{time}</span>
 }
 
 export { Clock }
