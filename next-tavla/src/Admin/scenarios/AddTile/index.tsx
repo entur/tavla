@@ -24,7 +24,6 @@ function AddTile() {
                     clearable
                     prepend={<SearchIcon />}
                     onChange={(e) => {
-                        console.log('shit happened: ', e)
                         if (e?.value) setTileValue(e.value)
                         else setTileValue(undefined)
                     }}
