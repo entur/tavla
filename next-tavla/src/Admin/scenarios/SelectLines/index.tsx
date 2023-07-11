@@ -4,21 +4,14 @@ import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { StopPlaceSettingsQuery } from 'graphql/index'
-import { useQuery } from 'graphql/utils'
-import { fieldsNotNull } from 'utils/typeguards'
 
 function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     tile,
+    lines,
 }: {
     tile: T
+    lines: { id: string; publicCode: string | null; name: string | null }[]
 }) {
-    const { data } = useQuery(StopPlaceSettingsQuery, { id: tile.placeId })
-    const lines =
-        data?.stopPlace?.quays
-            ?.flatMap((q) => q?.lines)
-            .filter(fieldsNotNull) || []
-
     const dispatch = useSettingsDispatch()
     const toggleLine = (line: string) => {
         dispatch({ type: 'toggleLine', tileId: tile.uuid, lineId: line })

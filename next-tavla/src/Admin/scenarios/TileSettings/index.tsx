@@ -1,9 +1,9 @@
 import { TTile } from 'types/tile'
 import { TileSettingsWrapper } from './components/TileSettingsWrapper'
-
-import { SelectLines } from '../SelectLines'
 import { Paragraph } from '@entur/typography'
 import classes from './styles.module.css'
+import { StopPlaceSettings } from './components/StopPlaceSettings'
+import { QuaySettings } from './components/QuaySettings'
 
 function TileSettings({ tile, name }: { tile?: TTile; name?: string }) {
     if (!tile) {
@@ -21,7 +21,8 @@ function TileSettings({ tile, name }: { tile?: TTile; name?: string }) {
 
     return (
         <TileSettingsWrapper name={name}>
-            <SelectLines tile={tile} />
+            {tile?.type === 'stop_place' && <StopPlaceSettings tile={tile} />}
+            {tile?.type === 'quay' && <QuaySettings tile={tile} />}
         </TileSettingsWrapper>
     )
 }
