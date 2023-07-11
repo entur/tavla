@@ -9,8 +9,7 @@ import { Heading1 } from '@entur/typography'
 
 function AddTile() {
     const dispatch = useSettingsDispatch()
-    const [value, setTileValue] = useState('')
-
+    const [value, setTileValue] = useState<string>()
     return (
         <div>
             <Heading1 className={classes.Heading1}>Holdeplasser</Heading1>
@@ -25,20 +24,23 @@ function AddTile() {
                     clearable
                     prepend={<SearchIcon />}
                     onChange={(e) => {
-                        if (e?.value) {
-                            setTileValue(e.value)
-                        }
+                        console.log('shit happened: ', e)
+                        if (e?.value) setTileValue(e.value)
+                        else setTileValue(undefined)
                     }}
                 />
 
                 <Button
                     variant="primary"
                     onClick={() => {
-                        dispatch({
-                            type: 'addTile',
-                            tile: { type: 'stop_place', placeId: value },
-                        })
+                        if (value) {
+                            dispatch({
+                                type: 'addTile',
+                                tile: { type: 'stop_place', placeId: value },
+                            })
+                        }
                     }}
+                    disabled={!value}
                 >
                     Legg til
                 </Button>
