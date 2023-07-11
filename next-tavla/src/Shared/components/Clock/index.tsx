@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
 
 function Clock() {
-    const [currentTime, setCurrentTime] = useState<number | undefined>(
-        undefined,
-    )
+    const [currentTime, setCurrentTime] = useState(Date.now())
 
     useEffect(() => {
-        setCurrentTime(Date.now())
         const intervalId = setInterval(() => setCurrentTime(Date.now()), 1000)
         return () => clearInterval(intervalId)
     }, [])
@@ -16,7 +13,7 @@ function Clock() {
         timeZone: 'Europe/Oslo',
     }).format(currentTime)
 
-    return <span>{currentTime ? time : 'kunne ikke hente tiden'}</span>
+    return <span suppressHydrationWarning>{time}</span>
 }
 
 export { Clock }
