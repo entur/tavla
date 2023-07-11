@@ -35,7 +35,7 @@ function Edit({
                         <FloatingButton
                             className={classes.saveButton}
                             size="medium"
-                            aria-label={''}
+                            aria-label={'Lagre instillinger'}
                             onClick={() => {
                                 setBoardSettings(documentId, settings)
                             }}
