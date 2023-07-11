@@ -5,6 +5,7 @@ import { Paragraph } from '@entur/typography'
 import { PrimaryButton, TertiaryButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
+import classes from './styles.module.css'
 
 function DeleteButton({ uuid }: { uuid: string }) {
     const dispatch = useSettingsDispatch()
@@ -39,8 +40,11 @@ function DeleteButton({ uuid }: { uuid: string }) {
                 </ButtonGroup>
             </Modal>
 
-            <TertiaryButton onClick={() => setOpen(true)}>
-                <DeleteIcon />
+            <TertiaryButton
+                onClick={() => setOpen(true)}
+                className={classes.deleteButton}
+            >
+                <DeleteIcon size={16} />
                 {'Slett'}
             </TertiaryButton>
         </>

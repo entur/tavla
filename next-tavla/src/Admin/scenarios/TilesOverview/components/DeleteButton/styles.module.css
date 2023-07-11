@@ -1,0 +1,8 @@
+.deleteButton {
+    border: none;
+    font-size: 0.75em;
+}
+
+.deleteButton:hover {
+    background-color: var(--colors-blues-blue30) !important;
+}
