@@ -1,11 +1,5 @@
 import { TDepartureFragment } from 'graphql/index'
-import {
-    Columns,
-    TColumn,
-    DefaultColumns,
-    TColumnSize,
-    TColumnSettings,
-} from 'types/column'
+import { Columns, TColumn, TColumnSize, TColumnSettings } from 'types/column'
 import React from 'react'
 import classes from './styles.module.css'
 import { DepartureContext } from './contexts'
@@ -15,6 +9,7 @@ import { Line } from './components/Line'
 import { Platform } from './components/Platform'
 import { Situations } from './components/Situations'
 import { Via } from './components/Via'
+import { mergeDefaultColumns } from 'Board/utils/settingsMerger'
 
 const columnComponents: Record<TColumn, () => JSX.Element> = {
     destination: Destination,
@@ -49,12 +44,16 @@ function ColumnTableHeader({ type, size }: TColumnSize) {
 
 function Table({
     departures,
-    columns = DefaultColumns,
+    columns,
 }: {
     departures: TDepartureFragment[]
     columns?: TColumnSettings
 }) {
-    const filteredColumnOrder = ColumnOrder.filter(({ type }) => columns[type])
+    const mergedColumns = mergeDefaultColumns(columns)
+
+    const filteredColumnOrder = ColumnOrder.filter(
+        ({ type }) => mergedColumns[type],
+    )
 
     return (
         <div className={classes.container}>

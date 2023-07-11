@@ -11,6 +11,7 @@ export function QuayTile({
     placeId,
     whitelistedLines,
     whitelistedTransportModes,
+    columns,
 }: TQuayTile) {
     const { data } = useQuery(
         GetQuayQuery,
@@ -44,7 +45,7 @@ export function QuayTile({
     return (
         <Tile className={classes.quayTile}>
             <TableHeader heading={heading} transportModes={transportModes} />
-            <Table departures={data.quay.estimatedCalls} />
+            <Table columns={columns} departures={data.quay.estimatedCalls} />
         </Tile>
     )
 }
