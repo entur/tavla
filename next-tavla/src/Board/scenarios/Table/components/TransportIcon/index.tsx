@@ -5,45 +5,38 @@ import classes from './styles.module.css'
 function TransportIcon({ transport }: { transport: TTransportMode | null }) {
     const mode = transport ? transport : 'unknown'
     const defaultColor = `var(--table-transport-${mode}-color)`
-    return getTransportIcon(mode, defaultColor)
+    const Component = getTransportIcon(mode)
+    return <Component className={classes.transportIcon} fill={defaultColor} />
 }
 
-function getTransportIcon(transportMode: TTransportMode, color: string) {
+function getTransportIcon(transportMode: TTransportMode) {
     switch (transportMode) {
         case 'metro':
-            return <MetroIcon className={classes.transportIcon} fill={color} />
+            return MetroIcon
         case 'bus':
-            return <BusIcon className={classes.transportIcon} fill={color} />
+            return BusIcon
         case 'air':
-            return <PlaneIcon className={classes.transportIcon} fill={color} />
+            return PlaneIcon
         case 'tram':
-            return <TramIcon className={classes.transportIcon} fill={color} />
+            return TramIcon
         case 'funicular':
-            return (
-                <FunicularIcon className={classes.transportIcon} fill={color} />
-            )
+            return FunicularIcon
         case 'cableway':
-            return (
-                <CablewayIcon className={classes.transportIcon} fill={color} />
-            )
+            return CablewayIcon
         case 'rail':
-            return <RailIcon className={classes.transportIcon} fill={color} />
+            return RailIcon
         case 'coach':
-            return <BusIcon className={classes.transportIcon} fill={color} />
+            return BusIcon
         case 'lift':
-            return (
-                <CablewayIcon className={classes.transportIcon} fill={color} />
-            )
+            return CablewayIcon
         case 'monorail':
-            return <RailIcon className={classes.transportIcon} fill={color} />
+            return RailIcon
         case 'trolleybus':
-            return <BusIcon className={classes.transportIcon} fill={color} />
+            return BusIcon
         case 'water':
-            return <FerryIcon className={classes.transportIcon} fill={color} />
+            return FerryIcon
         default:
-            return (
-                <UnknownIcon className={classes.transportIcon} fill={color} />
-            )
+            return UnknownIcon
     }
 }
 
