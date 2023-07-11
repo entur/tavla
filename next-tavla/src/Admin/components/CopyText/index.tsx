@@ -1,24 +1,22 @@
 import { CopyIcon } from '@entur/icons'
-import classes from './styles.module.css'
 import { useToast } from '@entur/alert'
-import { TavlaButton } from '../Button'
+import { Button } from '@entur/button'
 
 function CopyText({ text, toastText }: { text: string; toastText: string }) {
     const { addToast } = useToast()
 
     return (
-        <div className={classes.copyText}>
-            <p>{text}</p>
-            <TavlaButton
-                className={classes.copyIcon}
-                onClick={() => {
-                    navigator.clipboard.writeText(text)
-                    addToast(toastText)
-                }}
-            >
-                <CopyIcon size={16} />
-            </TavlaButton>
-        </div>
+        <Button
+            width="auto"
+            variant={'primary'}
+            onClick={() => {
+                navigator.clipboard.writeText(text)
+                addToast(toastText)
+            }}
+        >
+            {text}
+            <CopyIcon size={16} />
+        </Button>
     )
 }
 
