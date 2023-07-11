@@ -10,6 +10,6 @@
     border-radius: 0.5em;
     padding: 1em;
     width: 50em;
-    height: 20em;
-    overflow: scroll;
+    height: 25em;
+    overflow-y: auto;
 }
