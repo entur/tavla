@@ -1,0 +1,9 @@
+.emptyTileWrapper {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.emptyTileWrapper p {
+    margin: 6em;
+}

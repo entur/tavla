@@ -1,10 +1,29 @@
 import { TTile } from 'types/tile'
-import { StopPlaceSettings } from './components/StopPlaceSettings'
+import { TileSettingsWrapper } from './components/TileSettingsWrapper'
 
-function TileSettings({ tile }: { tile?: TTile }) {
-    if (!tile || tile.type === 'quay') return <p>dette er en quay</p>
+import { SelectLines } from '../SelectLines'
+import { Paragraph } from '@entur/typography'
+import classes from './styles.module.css'
 
-    return <StopPlaceSettings tile={tile} />
+function TileSettings({ tile, name }: { tile?: TTile; name?: string }) {
+    if (!tile) {
+        return (
+            <TileSettingsWrapper className={classes.emptyTileWrapper}>
+                <Paragraph>
+                    Wops! Du har ikke markert en holdeplass enda. Legg til en
+                    holdeplass eller trykk på en som allerede ligger i lista til
+                    venstre for å kunne bestemme plattformer og linjer som skal
+                    vises på avgangstavla.
+                </Paragraph>
+            </TileSettingsWrapper>
+        )
+    }
+
+    return (
+        <TileSettingsWrapper name={name}>
+            <SelectLines tile={tile} />
+        </TileSettingsWrapper>
+    )
 }
 
 export { TileSettings }
