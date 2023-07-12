@@ -1,15 +1,18 @@
-.heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 1em;
-}
-
 .overviewWrapper {
+    display: flex;
+    flex-direction: column;
     background-color: var(--table-border-color);
     border-radius: 0.5em;
     padding: 1em;
     width: 50em;
     height: 25em;
-    overflow-y: auto;
+}
+
+.heading {
+    padding-bottom: 0.5em;
+    font-size: 1.25em;
+}
+
+.content {
+    overflow: auto;
 }

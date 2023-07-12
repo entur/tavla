@@ -12,9 +12,9 @@ function TileSettingsWrapper({
 }) {
     return (
         <div className={classes.overviewWrapper + ' ' + className}>
-            <div className={classes.heading}>{name}</div>
+            <h3 className={classes.heading}>{name}</h3>
 
-            {children}
+            <div className={classes.content}>{children}</div>
         </div>
     )
 }
