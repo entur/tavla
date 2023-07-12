@@ -2,6 +2,7 @@ import { Dropdown } from '@entur/dropdown'
 import { TAnon } from 'Admin/types'
 import { TStopPlaceTile } from 'types/tile'
 import { fetchItems } from 'Admin/utils/index'
+import { SearchIcon } from '@entur/icons'
 
 function AddStopPlaceTile({
     setTile,
@@ -12,9 +13,10 @@ function AddStopPlaceTile({
         <Dropdown
             items={fetchItems}
             debounceTimeout={1000}
-            label="Finn stoppested"
+            label="Søk etter holdeplass..."
             searchable
             clearable
+            prepend={<SearchIcon />}
             onChange={(e) => {
                 if (e?.value) {
                     setTile({

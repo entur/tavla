@@ -1,9 +1,13 @@
-.RadioCards {
+.SearchContainer {
     display: flex;
-    gap: 10px;
-    padding-bottom: 10px;
+    gap: 0.5em;
+    padding-bottom: 1em;
 }
 
-.AddTile {
-    width: 50%;
+.DropDown {
+    width: 30%;
+}
+
+.Heading1 {
+    font-size: 2em;
 }
