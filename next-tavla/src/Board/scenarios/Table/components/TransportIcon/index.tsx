@@ -1,57 +1,42 @@
 import { TTransportMode } from 'types/graphql-schema'
-import { TColors } from 'Board/utils/colors'
 import { SVGProps } from 'react'
+import classes from './styles.module.css'
 
-function TransportIcon({
-    transportMode,
-    presentation,
-}: {
-    transportMode: TTransportMode | null
-    presentation: TColors
-}) {
-    const mode = transportMode ? transportMode : 'unknown'
-
-    return (
-        <div
-            style={{
-                backgroundColor: presentation.backgroundColor,
-                fill: presentation.color,
-                color: presentation.color,
-            }}
-        >
-            {getTransportIcon(mode)}
-        </div>
-    )
+function TransportIcon({ transport }: { transport: TTransportMode | null }) {
+    const mode = transport ? transport : 'unknown'
+    const defaultColor = `var(--table-transport-${mode}-color)`
+    const Component = getTransportIcon(mode)
+    return <Component className={classes.transportIcon} fill={defaultColor} />
 }
 
 function getTransportIcon(transportMode: TTransportMode) {
     switch (transportMode) {
         case 'metro':
-            return <MetroIcon />
+            return MetroIcon
         case 'bus':
-            return <BusIcon />
+            return BusIcon
         case 'air':
-            return <PlaneIcon />
+            return PlaneIcon
         case 'tram':
-            return <TramIcon />
+            return TramIcon
         case 'funicular':
-            return <FunicularIcon />
+            return FunicularIcon
         case 'cableway':
-            return <CablewayIcon />
+            return CablewayIcon
         case 'rail':
-            return <RailIcon />
+            return RailIcon
         case 'coach':
-            return <BusIcon />
+            return BusIcon
         case 'lift':
-            return <CablewayIcon />
+            return CablewayIcon
         case 'monorail':
-            return <RailIcon />
+            return RailIcon
         case 'trolleybus':
-            return <BusIcon />
+            return BusIcon
         case 'water':
-            return <FerryIcon />
+            return FerryIcon
         default:
-            return <UnknownIcon />
+            return UnknownIcon
     }
 }
 

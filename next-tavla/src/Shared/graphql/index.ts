@@ -172,6 +172,7 @@ export type TStopPlaceQuery = {
     stopPlace: {
         __typename?: 'StopPlace'
         name: string
+        transportMode: Array<Types.TTransportMode | null> | null
         estimatedCalls: Array<{
             __typename?: 'EstimatedCall'
             aimedDepartureTime: DateTime
@@ -403,6 +404,7 @@ export const StopPlaceQuery = new TypedDocumentString(`
     query StopPlace($stopPlaceId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!]) {
   stopPlace(id: $stopPlaceId) {
     name
+    transportMode
     estimatedCalls(
       numberOfDepartures: 20
       whiteListedModes: $whitelistedTransportModes
