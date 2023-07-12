@@ -1,5 +1,4 @@
 import { TSettings } from 'types/settings'
-import { ThemeSettings } from '../ThemeSettings'
 import { TilesSettings } from '../TilesSettings'
 import { useReducer } from 'react'
 import classes from './styles.module.css'
@@ -27,7 +26,6 @@ function Edit({
         <SettingsDispatchContext.Provider value={dispatch}>
             <ToastProvider>
                 <div className={classes.settings}>
-                    <ThemeSettings theme={settings.theme} />
                     <AddTile />
                     <TilesSettings tiles={settings.tiles} />
                     <CopyText text={linkUrl} toastText="Kopiert lenke" />
