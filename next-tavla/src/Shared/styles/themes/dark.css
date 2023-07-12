@@ -4,4 +4,5 @@
 
     --table-border-color: var(--colors-greys-grey10);
     --table-situation-color: var(--colors-validation-canary);
+    --table-header-color: var(--colors-greys-grey60);
 }

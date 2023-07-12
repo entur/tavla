@@ -4,7 +4,7 @@
 }
 .header {
     font-size: 0.7em;
-    color: #b5b5bb;
+    color: var(--table-header-color);
 }
 
 .table {
