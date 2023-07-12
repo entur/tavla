@@ -37,6 +37,7 @@ const ColumnOrder: TColumnSize[] = [
 function ColumnTableHeader({ type, size }: TColumnSize) {
     return (
         <th
+            className={classes.header}
             style={{
                 width: size,
             }}

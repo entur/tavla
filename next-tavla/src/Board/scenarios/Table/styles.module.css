@@ -2,6 +2,9 @@
     height: 100%;
     overflow: hidden;
 }
+.header {
+    font-size: 0.6em;
+}
 
 .table {
     text-align: left;
