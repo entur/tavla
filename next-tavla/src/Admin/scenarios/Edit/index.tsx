@@ -22,7 +22,6 @@ function Edit({
 }) {
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
     const linkUrl = window.location.host + '/' + documentId
-
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
             <ToastProvider>
@@ -30,7 +29,7 @@ function Edit({
                     <AddTile />
                     <TilesOverview tiles={settings.tiles} />
                     <ShareTable text={linkUrl} />
-                    <ToggelColumns tiles={settings.tiles} />
+                    <ToggelColumns tile={settings.tiles[0]} />
                     <div className={classes.floatingButtonWrapper}>
                         <FloatingButton
                             className={classes.saveButton}

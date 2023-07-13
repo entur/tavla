@@ -1,33 +1,45 @@
-import { Switch } from '@entur/form'
-import { Label } from '@entur/typography'
+import { Heading2 } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { useState } from 'react'
-import { TColumn } from 'types/column'
+import { TColumn, TColumnSettings } from 'types/column'
 import { TTile } from 'types/tile'
+import { Switch } from '@entur/form'
+import { useState } from 'react'
 
-function ToggelColumns({ tiles }: { tiles: TTile[] }) {
-    const [checked, setChecked] = useState(false)
-
+function ToggelColumns({ tile }: { tile: TTile }) {
     const dispatch = useSettingsDispatch()
+    const [checked, setChecked] = useState(tile.columns?.platform)
 
-    function handleSwitch(column: TColumn) {
-        tiles.map((tile) => {
-            dispatch({
-                type: 'toggleColumn',
-                column: column,
-                value: !checked,
-                tileId: tile.uuid,
-            })
+    const optionalColumns: TColumn[] = ['platform', 'via']
+
+    function handleSwitch(column: TColumn, value: boolean) {
+        dispatch({
+            type: 'toggleColumn',
+            column: column,
+            value: value,
+            tileId: tile.uuid,
         })
-        setChecked(!checked)
     }
 
     return (
         <div>
-            <Label>Legg til informasjon</Label>
-            <Switch checked={checked} onChange={() => handleSwitch('platform')}>
-                Platform
-            </Switch>
+            <Heading2>Legg til informasjon</Heading2>
+
+            {optionalColumns.map((col) => {
+                return (
+                    <Switch
+                        key={col}
+                        checked={tile.columns && tile.columns[col]}
+                        onChange={() =>
+                            handleSwitch(
+                                col,
+                                !(tile.columns && tile.columns[col]),
+                            )
+                        }
+                    >
+                        {col}
+                    </Switch>
+                )
+            })}
         </div>
     )
 }
