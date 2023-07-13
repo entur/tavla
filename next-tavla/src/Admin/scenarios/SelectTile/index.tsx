@@ -22,10 +22,7 @@ function QuayRadioOption({ tile }: { tile: TQuayTile }) {
         id: tile.placeId,
     })
 
-    const name =
-        (data?.quay?.name ?? tile.placeId) + data?.quay?.publicCode
-            ? ' - ' + data?.quay?.publicCode
-            : ''
+    const name = data?.quay?.name ?? tile.placeId
 
     return <RadioOption isLoading={isLoading} name={name} uuid={tile.uuid} />
 }
