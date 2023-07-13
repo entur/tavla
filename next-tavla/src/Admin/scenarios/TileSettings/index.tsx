@@ -5,7 +5,7 @@ import classes from './styles.module.css'
 import { StopPlaceSettings } from './components/StopPlaceSettings'
 import { QuaySettings } from './components/QuaySettings'
 
-function TileSettings({ tile, name }: { tile?: TTile; name?: string }) {
+function TileSettings({ tile }: { tile?: TTile; name?: string }) {
     if (!tile) {
         return (
             <TileSettingsWrapper className={classes.emptyTileWrapper}>
@@ -20,10 +20,11 @@ function TileSettings({ tile, name }: { tile?: TTile; name?: string }) {
     }
 
     return (
-        <TileSettingsWrapper name={name}>
+        <div>
+            <h3>Rediger holdeplass</h3>
             {tile.type === 'stop_place' && <StopPlaceSettings tile={tile} />}
             {tile.type === 'quay' && <QuaySettings tile={tile} />}
-        </TileSettingsWrapper>
+        </div>
     )
 }
 
