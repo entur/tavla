@@ -8,7 +8,7 @@
     margin-bottom: 1em;
 }
 
-.radioOptionWrapper {
+.radioOptionContent {
     display: flex;
     align-items: center;
     justify-content: space-between;

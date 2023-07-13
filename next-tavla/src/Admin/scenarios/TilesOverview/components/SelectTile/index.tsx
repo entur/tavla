@@ -23,7 +23,7 @@ function StopPlaceRadioOption({ tile }: { tile: TStopPlaceTile }) {
             value={tile.uuid}
             className={classes.radioOption}
         >
-            <div className={classes.radioOptionWrapper}>
+            <div className={classes.radioOptionContent}>
                 {isLoading ? (
                     <Loader />
                 ) : (
@@ -56,7 +56,7 @@ function QuayRadioOption({ tile }: { tile: TQuayTile }) {
             value={tile.uuid}
             className={classes.radioOption}
         >
-            <div className={classes.radioOptionWrapper}>
+            <div className={classes.radioOptionContent}>
                 {isLoading ? (
                     <Loader />
                 ) : (
@@ -89,12 +89,12 @@ function SelectTile({
             <Heading2 className={classes.heading}>
                 Holdeplasser i avgangstavlen
             </Heading2>
-            <RadioGroup
-                name="select-tile"
-                value={selectedTileId || null}
-                onChange={handleTileSelected}
-            >
-                <div className={classes.stopPlaceList}>
+            <div>
+                <RadioGroup
+                    name="select-tile"
+                    value={selectedTileId || null}
+                    onChange={handleTileSelected}
+                >
                     {tiles.map((tile) => {
                         switch (tile.type) {
                             case 'stop_place':
@@ -113,8 +113,8 @@ function SelectTile({
                                 )
                         }
                     })}
-                </div>
-            </RadioGroup>
+                </RadioGroup>
+            </div>
         </div>
     )
 }
