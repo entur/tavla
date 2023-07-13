@@ -11,7 +11,7 @@ function ToggleColumns({ tile }: { tile: TTile }) {
 
     function handleSwitch(column: TColumn, value: boolean) {
         dispatch({
-            type: 'toggleColumn',
+            type: 'setColumn',
             column: column,
             value: value,
             tileId: tile.uuid,

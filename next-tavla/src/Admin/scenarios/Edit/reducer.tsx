@@ -13,7 +13,7 @@ export type Action =
     | { type: 'updateTile'; tileIndex: number; tile: TTile }
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
     | { type: 'toggleLine'; tileId: string; lineId: string }
-    | { type: 'toggleColumn'; tileId: string; column: TColumn; value: boolean }
+    | { type: 'setColumn'; tileId: string; column: TColumn; value: boolean }
 
 export function settingsReducer(
     settings: TSettings,
@@ -93,7 +93,7 @@ export function settingsReducer(
                 },
             )
         }
-        case 'toggleColumn': {
+        case 'setColumn': {
             return changeTile<TStopPlaceTile | TQuayTile>(
                 action.tileId,
                 (tile) => {
