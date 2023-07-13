@@ -4,7 +4,7 @@ import { DefaultColumns, TColumn } from 'types/column'
 import { TTile } from 'types/tile'
 import { Switch } from '@entur/form'
 
-function ToggelColumns({ tile }: { tile: TTile }) {
+function ToggleColumns({ tile }: { tile: TTile }) {
     const dispatch = useSettingsDispatch()
 
     const optionalColumns: TColumn[] = ['platform', 'via']
@@ -37,4 +37,4 @@ function ToggelColumns({ tile }: { tile: TTile }) {
     )
 }
 
-export { ToggelColumns }
+export { ToggleColumns }

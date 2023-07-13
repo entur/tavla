@@ -11,7 +11,7 @@ import { ToastProvider } from '@entur/alert'
 import { FloatingButton } from '@entur/button'
 import { StyledLink } from 'Admin/components/StyledLink'
 import { ShareTable } from '../ShareTable'
-import { ToggelColumns } from '../ToggleColumns'
+import { ToggleColumns } from '../ToggleColumns'
 
 function Edit({
     initialSettings,
@@ -29,7 +29,7 @@ function Edit({
                     <AddTile />
                     <TilesOverview tiles={settings.tiles} />
                     <ShareTable text={linkUrl} />
-                    <ToggelColumns tile={settings.tiles[0]} />
+                    <ToggleColumns tile={settings.tiles[0]} />
                     <div className={classes.floatingButtonWrapper}>
                         <FloatingButton
                             className={classes.saveButton}
