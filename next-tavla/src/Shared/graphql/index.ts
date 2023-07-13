@@ -52,6 +52,7 @@ export type TLinesFragment = {
         id: string
         publicCode: string | null
         name: string | null
+        transportMode: Types.TTransportMode | null
     }>
 }
 
@@ -135,6 +136,7 @@ export type TGetQuayQuery = {
             id: string
             publicCode: string | null
             name: string | null
+            transportMode: Types.TTransportMode | null
         }>
     } | null
 }
@@ -234,6 +236,7 @@ export type TStopPlaceSettingsQuery = {
                 id: string
                 publicCode: string | null
                 name: string | null
+                transportMode: Types.TTransportMode | null
             }>
         } | null> | null
     } | null
@@ -319,6 +322,7 @@ export const LinesFragment = new TypedDocumentString(
     id
     publicCode
     name
+    transportMode
   }
 }
     `,
@@ -373,6 +377,7 @@ fragment lines on Quay {
     id
     publicCode
     name
+    transportMode
   }
 }
 fragment situation on PtSituationElement {
@@ -467,6 +472,7 @@ export const StopPlaceSettingsQuery = new TypedDocumentString(`
     id
     publicCode
     name
+    transportMode
   }
 }`) as unknown as TypedDocumentString<
     TStopPlaceSettingsQuery,

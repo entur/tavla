@@ -3,5 +3,6 @@ fragment lines on Quay {
         id
         publicCode
         name
+        transportMode
     }
 }
