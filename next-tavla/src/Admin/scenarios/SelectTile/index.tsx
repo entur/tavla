@@ -45,7 +45,7 @@ function SelectTile({
     }
 
     return (
-        <div>
+        <div className={classes.selectTileSection}>
             <Heading2 className={classes.heading}>
                 Holdeplasser i avgangstavlen
             </Heading2>

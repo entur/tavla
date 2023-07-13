@@ -1,11 +1,4 @@
 .overviewWrapper {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 4fr 9fr;
+    display: flex;
     gap: 2em;
-}
-
-.overviewWrapper > div {
-    display: grid;
-    grid-template-rows: auto 50em;
 }

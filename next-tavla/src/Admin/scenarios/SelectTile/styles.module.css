@@ -1,3 +1,8 @@
+.selectTileSection {
+    width: 30%;
+    min-width: fit-content;
+}
+
 .heading {
     font-size: 1.5em;
 }
@@ -6,4 +11,5 @@
     text-align: center;
     padding-right: 0.5em;
     font-size: 1em;
+    width: 20em;
 }

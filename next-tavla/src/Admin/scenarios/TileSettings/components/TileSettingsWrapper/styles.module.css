@@ -4,8 +4,8 @@
     background-color: var(--tertiary-background-color);
     border-radius: 0.5em;
     padding: 1em;
-    width: 50em;
-    height: 25em;
+    width: 100%;
+    height: 30em;
 }
 
 .heading {
