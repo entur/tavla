@@ -2,9 +2,9 @@ import { TDepartureFragment } from 'graphql/index'
 import {
     Columns,
     TColumn,
-    DefaultColumns,
     TColumnSize,
     TColumnSettings,
+    DefaultColumns,
 } from 'types/column'
 import React from 'react'
 import classes from './styles.module.css'
@@ -49,12 +49,16 @@ function ColumnTableHeader({ type, size }: TColumnSize) {
 
 function Table({
     departures,
-    columns = DefaultColumns,
+    columns,
 }: {
     departures: TDepartureFragment[]
     columns?: TColumnSettings
 }) {
-    const filteredColumnOrder = ColumnOrder.filter(({ type }) => columns[type])
+    const mergedColumns = { ...DefaultColumns, ...columns }
+
+    const filteredColumnOrder = ColumnOrder.filter(
+        ({ type }) => mergedColumns[type],
+    )
 
     return (
         <div className={classes.container}>
