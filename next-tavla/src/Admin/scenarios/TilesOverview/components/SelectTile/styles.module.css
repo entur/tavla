@@ -1,18 +1,17 @@
 .heading {
-    font-size: x-large;
+    font-size: 1.5em;
 }
 
 .radioOption {
     width: 100%;
-    padding: 1.25em;
     border-radius: 1em;
     margin-bottom: 1em;
 }
 
 .radioOptionWrapper {
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    min-height: 2.1em;
     font-size: 1.25em;
 }
