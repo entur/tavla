@@ -1,15 +1,11 @@
-.tableTile {
-    height: 100%;
+.overviewWrapper {
     width: 100%;
-    padding: 1em;
-    border-radius: 0.5em;
-    background-color: var(--secondary-background-color);
-    color: white;
+    display: grid;
+    grid-template-columns: 4fr 9fr;
+    gap: 2em;
 }
 
-.tileHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 0.5em;
+.overviewWrapper > div {
+    display: grid;
+    grid-template-rows: auto 50em;
 }
