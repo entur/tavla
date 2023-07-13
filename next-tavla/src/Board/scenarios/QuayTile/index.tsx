@@ -29,9 +29,9 @@ export function QuayTile({
     if (!data.quay) {
         return <Tile>Data not found</Tile>
     }
-    const transportModes = data.quay.lines
-        .map((line) => line.transportMode)
-        .filter((transporMode, pos, ar) => ar.indexOf(transporMode) === pos)
+    const transportModes = Array.from(
+        new Set(data.quay.lines.map((line) => line.transportMode)),
+    )
 
     const heading: string = [
         data.quay.name,
