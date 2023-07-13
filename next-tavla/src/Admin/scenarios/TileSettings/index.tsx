@@ -1,6 +1,6 @@
 import { TTile } from 'types/tile'
 import { TileSettingsWrapper } from './components/TileSettingsWrapper'
-import { Paragraph } from '@entur/typography'
+import { Heading3, Paragraph } from '@entur/typography'
 import classes from './styles.module.css'
 import { StopPlaceSettings } from './components/StopPlaceSettings'
 import { QuaySettings } from './components/QuaySettings'
@@ -21,7 +21,7 @@ function TileSettings({ tile }: { tile?: TTile; name?: string }) {
 
     return (
         <div>
-            <h3>Rediger holdeplass</h3>
+            <Heading3>Rediger holdeplass</Heading3>
             {tile.type === 'stop_place' && <StopPlaceSettings tile={tile} />}
             {tile.type === 'quay' && <QuaySettings tile={tile} />}
         </div>

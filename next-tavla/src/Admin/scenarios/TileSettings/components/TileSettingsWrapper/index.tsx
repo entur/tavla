@@ -1,6 +1,7 @@
 import React from 'react'
 import classes from './styles.module.css'
 import classNames from 'classnames'
+import { Heading3 } from '@entur/typography'
 
 function TileSettingsWrapper({
     children,
@@ -12,8 +13,8 @@ function TileSettingsWrapper({
     className?: string
 }) {
     return (
-        <div className={classNames(classes.overviewWrapper, className)}>
-            {name && <h3 className={classes.heading}>{name}</h3>}
+        <div className={classNames(classes.tilesettingsWrapper, className)}>
+            {name && <Heading3 className={classes.heading}>{name}</Heading3>}
 
             <div className={classes.content}>{children}</div>
         </div>
