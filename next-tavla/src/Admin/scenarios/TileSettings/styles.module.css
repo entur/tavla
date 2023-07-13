@@ -2,8 +2,5 @@
     display: flex;
     justify-content: center;
     text-align: center;
-}
-
-.emptyTileWrapper p {
-    margin: 6em;
+    padding: 7em;
 }

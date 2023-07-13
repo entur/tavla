@@ -13,7 +13,7 @@ function TileSettingsWrapper({
 }) {
     return (
         <div className={classNames(classes.overviewWrapper, className)}>
-            <h3 className={classes.heading}>{name}</h3>
+            {name && <h3 className={classes.heading}>{name}</h3>}
 
             <div className={classes.content}>{children}</div>
         </div>
