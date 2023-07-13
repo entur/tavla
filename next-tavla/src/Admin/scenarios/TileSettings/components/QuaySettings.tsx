@@ -4,6 +4,7 @@ import { useQuery } from 'graphql/utils'
 import { TQuayTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
 import { TileSettingsWrapper } from './TileSettingsWrapper'
+import { PlatformDropdown } from './PlatformDropdown'
 
 function QuaySettings({ tile }: { tile: TQuayTile }) {
     const { data } = useQuery(GetQuayQuery, { quayId: tile.placeId })
@@ -18,6 +19,7 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
 
     return (
         <TileSettingsWrapper name={name}>
+            <PlatformDropdown stopPlaceId={tile.stopPlaceId} uuid={tile.uuid} />
             <SelectLines tile={tile} lines={lines} />
         </TileSettingsWrapper>
     )

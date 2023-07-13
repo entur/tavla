@@ -4,6 +4,7 @@ import { useQuery } from 'graphql/utils'
 import { TStopPlaceTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
 import { TileSettingsWrapper } from './TileSettingsWrapper'
+import { PlatformDropdown } from './PlatformDropdown'
 
 function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
     const { data } = useQuery(StopPlaceSettingsQuery, { id: tile.placeId })
@@ -17,6 +18,7 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
 
     return (
         <TileSettingsWrapper name={name}>
+            <PlatformDropdown stopPlaceId={tile.placeId} uuid={tile.uuid} />
             <SelectLines tile={tile} lines={lines} />
         </TileSettingsWrapper>
     )

@@ -10,6 +10,11 @@ export type Action =
     | { type: 'addTile'; tile: TAnonTiles }
     | { type: 'removeTile'; tileId: string }
     | { type: 'updateTile'; tileIndex: number; tile: TTile }
+    | {
+          type: 'changeTileType'
+          tileId: string
+          newTile: TAnonTiles
+      }
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
     | { type: 'toggleLine'; tileId: string; lineId: string }
 
@@ -64,6 +69,12 @@ export function settingsReducer(
                 tiles: clonedTiles,
             }
         }
+        case 'changeTileType':
+            return changeTile<TTile>(action.tileId, (tile) => {
+                const toReturn = { ...action.newTile, uuid: tile.uuid }
+                if (tile.columns) toReturn.columns = tile.columns
+                return toReturn
+            })
         case 'swapTiles': {
             return {
                 ...settings,
