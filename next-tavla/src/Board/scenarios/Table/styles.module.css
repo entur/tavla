@@ -4,7 +4,7 @@
 }
 .header {
     font-size: 0.7em;
-    color: var(--table-header-color);
+    color: var(--header-column-color);
     padding-bottom: 0.4em;
 }
 
