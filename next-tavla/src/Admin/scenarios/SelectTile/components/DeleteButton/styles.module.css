@@ -4,5 +4,6 @@
 }
 
 .deleteButton:hover {
-    background-color: var(--colors-blues-blue30) !important;
+    background-color: var(--colors-blues-blue30);
+    border: solid 1px var(--colors-brand-lavender);
 }
