@@ -4,6 +4,8 @@ import classes from './styles.module.css'
 import { useQuery } from 'graphql/utils'
 import { GetQuayQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
+import { TableHeader } from '../Table/components/TableHeader'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 
 export function QuayTile({
     placeId,
@@ -27,15 +29,21 @@ export function QuayTile({
     if (!data.quay) {
         return <Tile>Data not found</Tile>
     }
+    const transportModes = Array.from(
+        new Set(data.quay.lines.map((line) => line.transportMode)),
+    )
+
+    const heading: string = [
+        data.quay.name,
+        data.quay.publicCode,
+        data.quay.description,
+    ]
+        .filter(isNotNullOrUndefined)
+        .join(' ')
 
     return (
         <Tile className={classes.quayTile}>
-            <div className={classes.heading}>
-                <h3>{data.quay.name}</h3>
-                <h4>
-                    {data.quay.publicCode} {data.quay.description}
-                </h4>
-            </div>
+            <TableHeader heading={heading} transportModes={transportModes} />
             <Table departures={data.quay.estimatedCalls} />
         </Tile>
     )
