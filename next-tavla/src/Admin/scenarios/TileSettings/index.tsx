@@ -21,8 +21,8 @@ function TileSettings({ tile, name }: { tile?: TTile; name?: string }) {
 
     return (
         <TileSettingsWrapper name={name}>
-            {tile?.type === 'stop_place' && <StopPlaceSettings tile={tile} />}
-            {tile?.type === 'quay' && <QuaySettings tile={tile} />}
+            {tile.type === 'stop_place' && <StopPlaceSettings tile={tile} />}
+            {tile.type === 'quay' && <QuaySettings tile={tile} />}
         </TileSettingsWrapper>
     )
 }
