@@ -3,6 +3,7 @@ import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
+import { Heading4, Paragraph } from '@entur/typography'
 
 function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     tile,
@@ -25,6 +26,10 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
 
     return (
         <div className={classes.linesGrid}>
+            <Heading4>Velg linjer</Heading4>
+            <Paragraph className={classes.paragraph}>
+                Huk av de linjene du vil vise.
+            </Paragraph>
             {uniqLines.map((line) => (
                 <div key={line.id}>
                     <Switch

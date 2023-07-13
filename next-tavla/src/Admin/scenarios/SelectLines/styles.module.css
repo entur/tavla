@@ -3,3 +3,7 @@
     grid-template-columns: repeat(auto-fill, minmax(30em, 1fr));
     margin-bottom: 0.5em;
 }
+
+.paragraph {
+    margin: 1em 0;
+}
