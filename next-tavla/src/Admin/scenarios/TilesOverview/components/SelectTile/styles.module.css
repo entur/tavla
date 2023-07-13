@@ -2,6 +2,12 @@
     font-size: 1.5em;
 }
 
+.emptyTilesMessage {
+    text-align: center;
+    padding-right: 0.5em;
+    font-size: 1em;
+}
+
 .radioOption {
     width: 100%;
     border-radius: 1em;

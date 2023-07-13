@@ -1,6 +1,6 @@
 import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 import { DeleteButton } from '../DeleteButton'
-import { Heading2 } from '@entur/typography'
+import { Heading2, Paragraph } from '@entur/typography'
 import classes from './styles.module.css'
 import { RadioGroup, RadioPanel } from '@entur/form'
 import { ChangeEvent } from 'react'
@@ -90,30 +90,37 @@ function SelectTile({
                 Holdeplasser i avgangstavlen
             </Heading2>
             <div>
-                <RadioGroup
-                    name="select-tile"
-                    value={selectedTileId || null}
-                    onChange={handleTileSelected}
-                >
-                    {tiles.map((tile) => {
-                        switch (tile.type) {
-                            case 'stop_place':
-                                return (
-                                    <StopPlaceRadioOption
-                                        tile={tile}
-                                        key={tile.uuid}
-                                    />
-                                )
-                            case 'quay':
-                                return (
-                                    <QuayRadioOption
-                                        tile={tile}
-                                        key={tile.uuid}
-                                    />
-                                )
-                        }
-                    })}
-                </RadioGroup>
+                {!tiles.length ? (
+                    <Paragraph className={classes.emptyTilesMessage}>
+                        Du må legge til en holdeplass for at den skal vises her.
+                        Bruk søkefeltet og trykk “legg til”.
+                    </Paragraph>
+                ) : (
+                    <RadioGroup
+                        name="select-tile"
+                        value={selectedTileId || null}
+                        onChange={handleTileSelected}
+                    >
+                        {tiles.map((tile) => {
+                            switch (tile.type) {
+                                case 'stop_place':
+                                    return (
+                                        <StopPlaceRadioOption
+                                            tile={tile}
+                                            key={tile.uuid}
+                                        />
+                                    )
+                                case 'quay':
+                                    return (
+                                        <QuayRadioOption
+                                            tile={tile}
+                                            key={tile.uuid}
+                                        />
+                                    )
+                            }
+                        })}
+                    </RadioGroup>
+                )}
             </div>
         </div>
     )
