@@ -1,7 +1,7 @@
 .overviewWrapper {
     display: flex;
     flex-direction: column;
-    background-color: var(--table-border-color);
+    background-color: var(--tertiary-background-color);
     border-radius: 0.5em;
     padding: 1em;
     width: 50em;
