@@ -8,9 +8,9 @@ import { setBoardSettings } from 'utils/firebase'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
 import { ToastProvider } from '@entur/alert'
-import { CopyText } from 'Admin/components/CopyText'
 import { FloatingButton } from '@entur/button'
 import { StyledLink } from 'Admin/components/StyledLink'
+import { ShareTable } from '../ShareTable'
 
 function Edit({
     initialSettings,
@@ -28,7 +28,9 @@ function Edit({
                 <div className={classes.settings}>
                     <AddTile />
                     <TilesOverview tiles={settings.tiles} />
-                    <CopyText text={linkUrl} toastText="Kopiert lenke" />
+
+                    <ShareTable text={linkUrl} />
+
                     <div className={classes.floatingButtonWrapper}>
                         <FloatingButton
                             className={classes.saveButton}
