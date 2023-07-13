@@ -1,9 +1,74 @@
-import { TTile } from 'types/tile'
+import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 import { DeleteButton } from '../DeleteButton'
 import { Heading2 } from '@entur/typography'
 import classes from './styles.module.css'
 import { RadioGroup, RadioPanel } from '@entur/form'
 import { ChangeEvent } from 'react'
+import { useQuery } from 'graphql/utils'
+import { QuayNameQuery, StopPlaceNameQuery } from 'graphql/index'
+import { Loader } from '@entur/loader'
+
+function StopPlaceRadioOption({ tile }: { tile: TStopPlaceTile }) {
+    const { data, isLoading } = useQuery(StopPlaceNameQuery, {
+        id: tile.placeId,
+    })
+
+    const name = !data ? data : data.stopPlace?.name ?? tile.placeId
+
+    return (
+        <RadioPanel
+            hideRadioButton
+            disabled={isLoading}
+            title=""
+            value={tile.uuid}
+            className={classes.radioOption}
+        >
+            <div className={classes.radioOptionWrapper}>
+                {isLoading ? (
+                    <Loader />
+                ) : (
+                    <>
+                        {name}
+                        <DeleteButton uuid={tile.uuid} />
+                    </>
+                )}
+            </div>
+        </RadioPanel>
+    )
+}
+
+function QuayRadioOption({ tile }: { tile: TQuayTile }) {
+    const { data, isLoading } = useQuery(QuayNameQuery, {
+        id: tile.placeId,
+    })
+
+    const name = !data
+        ? data
+        : (data.quay?.name ?? tile.placeId) +
+          ' - ' +
+          (data.quay?.description ?? data.quay?.publicCode)
+
+    return (
+        <RadioPanel
+            hideRadioButton
+            disabled={isLoading}
+            title=""
+            value={tile.uuid}
+            className={classes.radioOption}
+        >
+            <div className={classes.radioOptionWrapper}>
+                {isLoading ? (
+                    <Loader />
+                ) : (
+                    <>
+                        {name}
+                        <DeleteButton uuid={tile.uuid} />
+                    </>
+                )}
+            </div>
+        </RadioPanel>
+    )
+}
 
 function SelectTile({
     tiles,
@@ -12,12 +77,11 @@ function SelectTile({
 }: {
     tiles: TTile[]
     selectedTileId?: string
-    selectTile: (tile: TTile) => void
+    selectTile: (uuid: string) => void
 }) {
     function handleTileSelected(e: ChangeEvent<HTMLInputElement>) {
         const tileuuId = e.target.value
-        const selectedTile = tiles.find((tile) => tile.uuid === tileuuId)
-        if (selectedTile) selectTile(selectedTile)
+        selectTile(tileuuId)
     }
 
     return (
@@ -32,20 +96,22 @@ function SelectTile({
             >
                 <div className={classes.stopPlaceList}>
                     {tiles.map((tile) => {
-                        return (
-                            <RadioPanel
-                                hideRadioButton
-                                title=""
-                                value={tile.uuid}
-                                key={tile.uuid}
-                                className={classes.radioOption}
-                            >
-                                <div className={classes.radioOptionWrapper}>
-                                    {'Jernbanetorget'}
-                                    <DeleteButton uuid={tile.uuid} />
-                                </div>
-                            </RadioPanel>
-                        )
+                        switch (tile.type) {
+                            case 'stop_place':
+                                return (
+                                    <StopPlaceRadioOption
+                                        tile={tile}
+                                        key={tile.uuid}
+                                    />
+                                )
+                            case 'quay':
+                                return (
+                                    <QuayRadioOption
+                                        tile={tile}
+                                        key={tile.uuid}
+                                    />
+                                )
+                        }
                     })}
                 </div>
             </RadioGroup>
