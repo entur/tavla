@@ -1,0 +1,6 @@
+.emptyTileWrapper {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 7em;
+}

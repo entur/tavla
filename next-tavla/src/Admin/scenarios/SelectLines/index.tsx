@@ -1,5 +1,4 @@
 import { Switch } from '@entur/form'
-import { ExpandablePanel } from '@entur/expand'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
@@ -25,26 +24,21 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     })
 
     return (
-        <div className={classes.lineToggleContainer}>
-            <ExpandablePanel title="Velg linjer">
-                <div className={classes.linesGrid}>
-                    {uniqLines.map((line) => (
-                        <div key={line.id}>
-                            <Switch
-                                checked={
-                                    tile.whitelistedLines?.includes(line.id) ??
-                                    false
-                                }
-                                onChange={() => {
-                                    toggleLine(line.id)
-                                }}
-                            >
-                                {line.publicCode} {line.name}
-                            </Switch>
-                        </div>
-                    ))}
+        <div className={classes.linesGrid}>
+            {uniqLines.map((line) => (
+                <div key={line.id}>
+                    <Switch
+                        checked={
+                            tile.whitelistedLines?.includes(line.id) ?? false
+                        }
+                        onChange={() => {
+                            toggleLine(line.id)
+                        }}
+                    >
+                        {line.publicCode} {line.name}
+                    </Switch>
                 </div>
-            </ExpandablePanel>
+            ))}
         </div>
     )
 }

@@ -3,7 +3,7 @@ import { StopPlaceSettingsQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
 import { TStopPlaceTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
-import { TileSettingsWrapper } from './TileSettingsHeader'
+import { TileSettingsWrapper } from './TileSettingsWrapper'
 
 function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
     const { data } = useQuery(StopPlaceSettingsQuery, { id: tile.placeId })
@@ -16,7 +16,7 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
     const name = !data ? data : data.stopPlace?.name ?? tile.placeId
 
     return (
-        <TileSettingsWrapper uuid={tile.uuid} name={name}>
+        <TileSettingsWrapper name={name}>
             <SelectLines tile={tile} lines={lines} />
         </TileSettingsWrapper>
     )

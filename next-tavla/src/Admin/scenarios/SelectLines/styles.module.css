@@ -1,8 +1,5 @@
-.lineToggleContainer {
-    margin-bottom: 0.5em;
-}
-
 .linesGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(30em, 1fr));
+    margin-bottom: 0.5em;
 }

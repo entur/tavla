@@ -65,14 +65,8 @@ describe('<SelectLines />', () => {
         cy.mount(<TestComponent />)
     })
 
-    it('can be expanded', () => {
-        cy.mount(<TestComponent />)
-        cy.get('button').click()
-    })
-
     it('can select lines', () => {
         cy.mount(<TestComponent />)
-        cy.get('button').click()
         cy.contains('label', '805 Trondheim - Brekstad')
             .get('input')
             .should('not.be.checked')
