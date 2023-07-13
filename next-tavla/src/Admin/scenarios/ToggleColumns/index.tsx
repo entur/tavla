@@ -1,6 +1,6 @@
-import { Heading2 } from '@entur/typography'
+import { Heading3 } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { TColumn } from 'types/column'
+import { DefaultColumns, TColumn } from 'types/column'
 import { TTile } from 'types/tile'
 import { Switch } from '@entur/form'
 
@@ -17,22 +17,17 @@ function ToggelColumns({ tile }: { tile: TTile }) {
             tileId: tile.uuid,
         })
     }
-
+    const columns = { ...DefaultColumns, ...tile.columns }
     return (
         <div>
-            <Heading2>Legg til informasjon</Heading2>
+            <Heading3>Legg til informasjon</Heading3>
 
             {optionalColumns.map((col) => {
                 return (
                     <Switch
                         key={col}
-                        checked={tile.columns ? tile?.columns[col] : false}
-                        onChange={() =>
-                            handleSwitch(
-                                col,
-                                !(tile.columns && tile.columns[col]),
-                            )
-                        }
+                        checked={columns[col]}
+                        onChange={() => handleSwitch(col, !columns[col])}
                     >
                         {col}
                     </Switch>
