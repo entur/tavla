@@ -1,7 +1,7 @@
 import { TTile } from 'types/tile'
 import React, { useState } from 'react'
-import { TileSettings } from '../TileSettings'
-import { SelectTile } from './components/SelectTile'
+import { TileSettings } from 'Admin/scenarios/TileSettings'
+import { SelectTile } from 'Admin/scenarios/SelectTile'
 import classes from './styles.module.css'
 import { Heading2 } from '@entur/typography'
 
