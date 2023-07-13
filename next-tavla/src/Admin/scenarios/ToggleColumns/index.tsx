@@ -26,7 +26,7 @@ function ToggelColumns({ tile }: { tile: TTile }) {
                 return (
                     <Switch
                         key={col}
-                        checked={tile.columns && tile.columns[col]}
+                        checked={tile.columns ? tile?.columns[col] : false}
                         onChange={() =>
                             handleSwitch(
                                 col,
