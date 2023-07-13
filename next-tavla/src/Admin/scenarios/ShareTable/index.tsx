@@ -7,8 +7,7 @@ function ShareTable({ text }: { text: string }) {
         <div>
             <Heading1 className={classes.heading}>Del avganstavla</Heading1>
             <Paragraph className={classes.paragraph}>
-                Trykk på knappen for å kopiere linken til avganstavla og dele
-                den med andre.
+                Trykk på knappen for å kopiere linken til avganstavla.
             </Paragraph>
             <CopyText text={text} toastText="Kopiert lenke" />
         </div>
