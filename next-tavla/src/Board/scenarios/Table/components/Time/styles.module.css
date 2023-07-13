@@ -5,12 +5,15 @@
 .expectedTimeConatiner {
     font-weight: bold;
     text-align: right;
+    font-size: 1.5em;
 }
 .aimedDepartureTime {
+    font-size: 0.5625em;
+
     text-decoration: line-through;
-    font-size: 0.66em;
 }
 
 .expectedDepartureTime {
+    font-size: 1.5em;
     color: var(--table-time-deviation-color);
 }

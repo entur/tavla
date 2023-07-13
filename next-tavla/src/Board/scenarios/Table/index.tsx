@@ -27,10 +27,10 @@ const columnComponents: Record<TColumn, () => JSX.Element> = {
 
 const ColumnOrder: TColumnLayout[] = [
     { type: 'line', size: 1, textalign: true },
-    { type: 'destination', size: 2, textalign: true },
-    { type: 'via', size: 2, textalign: true },
-    { type: 'platform', size: 3, textalign: true },
-    { type: 'situations', size: 4, textalign: true },
+    { type: 'destination', size: 6, textalign: true },
+    { type: 'via', size: 5, textalign: true },
+    { type: 'situations', size: 6, textalign: true },
+    { type: 'platform', size: 1, textalign: true },
     { type: 'time', size: 1, textalign: false },
 ]
 

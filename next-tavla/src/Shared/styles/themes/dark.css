@@ -3,6 +3,7 @@
     --secondary-background-color: var(--colors-greys-grey);
     /* --tertiary-background-color not yet defined */
 
+    --header-column-color: var(--colors-greys-grey50);
     --table-border-color: var(--colors-greys-grey10);
     --table-situation-color: var(--colors-validation-canary);
     --table-header-color: var(--colors-greys-grey60);

@@ -5,6 +5,7 @@
 .header {
     font-size: 0.7em;
     color: var(--table-header-color);
+    padding-bottom: 0.4em;
 }
 
 .table {
@@ -27,5 +28,5 @@
 }
 
 .table thead tr {
-    border-bottom: 4px solid var(--table-border-color);
+    border-bottom: 2px solid var(--table-border-color);
 }
