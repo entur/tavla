@@ -2,9 +2,9 @@ import { TDepartureFragment } from 'graphql/index'
 import {
     Columns,
     TColumn,
-    TColumnSize,
-    TColumnSettings,
     DefaultColumns,
+    TColumnLayout,
+    TColumnSettings,
 } from 'types/column'
 import React from 'react'
 import classes from './styles.module.css'
@@ -25,21 +25,23 @@ const columnComponents: Record<TColumn, () => JSX.Element> = {
     via: Via,
 }
 
-const ColumnOrder: TColumnSize[] = [
-    { type: 'line', size: 1 },
-    { type: 'destination', size: 2 },
-    { type: 'via', size: 2 },
-    { type: 'platform', size: 3 },
-    { type: 'situations', size: 4 },
-    { type: 'time', size: 1 },
+const ColumnOrder: TColumnLayout[] = [
+    { type: 'line', size: 1, textalign: true },
+    { type: 'destination', size: 2, textalign: true },
+    { type: 'via', size: 2, textalign: true },
+    { type: 'platform', size: 3, textalign: true },
+    { type: 'situations', size: 4, textalign: true },
+    { type: 'time', size: 1, textalign: false },
 ]
 
-function ColumnTableHeader({ type, size }: TColumnSize) {
+function ColumnTableHeader({ type, size, textalign }: TColumnLayout) {
+    const textAlign = textalign ? 'left' : 'right'
     return (
         <th
             className={classes.header}
             style={{
                 width: size,
+                textAlign,
             }}
         >
             {Columns[type]}

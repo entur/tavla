@@ -2,7 +2,7 @@ export const Columns = {
     destination: 'Destinasjon',
     line: 'Linje',
     platform: 'Plattform',
-    time: 'Avgangstid',
+    time: 'Avgang',
     situations: 'Avvik',
     via: 'Via',
 } as const
@@ -19,4 +19,8 @@ export const DefaultColumns: TColumnSettings = {
     via: false,
 } as const
 
-export type TColumnSize = { type: TColumn; size: number }
+export type TColumnLayout = {
+    type: TColumn
+    size: number
+    textalign: boolean
+}

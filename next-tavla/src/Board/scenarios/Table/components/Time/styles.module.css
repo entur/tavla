@@ -1,8 +1,11 @@
 .timeDeviationContainer {
-    display: flex;
-    flex-direction: column;
+    font-weight: bold;
+    text-align: right;
 }
-
+.expectedTimeConatiner {
+    font-weight: bold;
+    text-align: right;
+}
 .aimedDepartureTime {
     text-decoration: line-through;
     font-size: 0.66em;

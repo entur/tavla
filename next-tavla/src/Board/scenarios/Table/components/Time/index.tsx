@@ -23,7 +23,11 @@ function Time() {
             </td>
         )
     }
-    return <td>{getRelativeTimeString(departure.expectedDepartureTime)}</td>
+    return (
+        <td className={classes.expectedTimeConatiner}>
+            {getRelativeTimeString(departure.expectedDepartureTime)}
+        </td>
+    )
 }
 
 export { Time }
