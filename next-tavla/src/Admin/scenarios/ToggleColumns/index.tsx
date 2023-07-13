@@ -1,13 +1,11 @@
 import { Heading2 } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { TColumn, TColumnSettings } from 'types/column'
+import { TColumn } from 'types/column'
 import { TTile } from 'types/tile'
 import { Switch } from '@entur/form'
-import { useState } from 'react'
 
 function ToggelColumns({ tile }: { tile: TTile }) {
     const dispatch = useSettingsDispatch()
-    const [checked, setChecked] = useState(tile.columns?.platform)
 
     const optionalColumns: TColumn[] = ['platform', 'via']
 
