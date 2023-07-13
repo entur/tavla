@@ -5,6 +5,7 @@ import { useQuery } from 'graphql/utils'
 import { GetQuayQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 
 export function QuayTile({
     placeId,
@@ -31,18 +32,18 @@ export function QuayTile({
     const transportModes = data.quay.lines
         .map((line) => line.transportMode)
         .filter((transporMode, pos, ar) => ar.indexOf(transporMode) === pos)
-    console.log(data.quay.publicCode)
-    console.log(data.quay.description)
+
+    const heading: string = [
+        data.quay.name,
+        data.quay.publicCode,
+        data.quay.description,
+    ]
+        .filter(isNotNullOrUndefined)
+        .join(' ')
+
     return (
         <Tile className={classes.quayTile}>
-            <TableHeader
-                heading={
-                    data.quay.publicCode
-                        ? data.quay.name + ' ' + data.quay.publicCode
-                        : data.quay.name
-                }
-                transportModes={transportModes}
-            />
+            <TableHeader heading={heading} transportModes={transportModes} />
             <Table departures={data.quay.estimatedCalls} />
         </Tile>
     )
