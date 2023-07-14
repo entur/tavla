@@ -1,0 +1,13 @@
+.selectTileSection {
+    width: 30%;
+    min-width: fit-content;
+}
+
+.heading {
+    font-size: 1.5em;
+}
+
+.emptyTilesMessage {
+    text-align: center;
+    width: 20em;
+}

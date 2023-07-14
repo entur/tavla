@@ -141,6 +141,21 @@ export type TGetQuayQuery = {
     } | null
 }
 
+export type TQuayNameQueryVariables = Types.Exact<{
+    id: Types.Scalars['String']
+}>
+
+export type TQuayNameQuery = {
+    __typename?: 'QueryType'
+    quay: {
+        __typename?: 'Quay'
+        name: string
+        description: string | null
+        publicCode: string | null
+        id: string
+    } | null
+}
+
 export type TQuaysSearchQueryVariables = Types.Exact<{
     stopPlaceId: Types.Scalars['String']
 }>
@@ -218,6 +233,15 @@ export type TStopPlaceQuery = {
             }>
         }>
     } | null
+}
+
+export type TStopPlaceNameQueryVariables = Types.Exact<{
+    id: Types.Scalars['String']
+}>
+
+export type TStopPlaceNameQuery = {
+    __typename?: 'QueryType'
+    stopPlace: { __typename?: 'StopPlace'; name: string; id: string } | null
 }
 
 export type TStopPlaceSettingsQueryVariables = Types.Exact<{
@@ -391,6 +415,19 @@ fragment situation on PtSituationElement {
     language
   }
 }`) as unknown as TypedDocumentString<TGetQuayQuery, TGetQuayQueryVariables>
+export const QuayNameQuery = new TypedDocumentString(`
+    query QuayName($id: String!) {
+  quay(id: $id) {
+    name
+    description
+    publicCode
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<
+    TQuayNameQuery,
+    TQuayNameQueryVariables
+>
 export const QuaysSearchQuery = new TypedDocumentString(`
     query quaysSearch($stopPlaceId: String!) {
   stopPlace(id: $stopPlaceId) {
@@ -458,6 +495,17 @@ fragment situation on PtSituationElement {
     language
   }
 }`) as unknown as TypedDocumentString<TStopPlaceQuery, TStopPlaceQueryVariables>
+export const StopPlaceNameQuery = new TypedDocumentString(`
+    query StopPlaceName($id: String!) {
+  stopPlace(id: $id) {
+    name
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<
+    TStopPlaceNameQuery,
+    TStopPlaceNameQueryVariables
+>
 export const StopPlaceSettingsQuery = new TypedDocumentString(`
     query StopPlaceSettings($id: String!) {
   stopPlace(id: $id) {

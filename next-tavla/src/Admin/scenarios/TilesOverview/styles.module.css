@@ -1,15 +1,4 @@
-.tableTile {
-    height: 100%;
-    width: 100%;
-    padding: 1em;
-    border-radius: 0.5em;
-    background-color: var(--secondary-background-color);
-    color: white;
-}
-
-.tileHeader {
+.overviewWrapper {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 0.5em;
+    gap: 2em;
 }

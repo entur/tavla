@@ -1,0 +1,13 @@
+.radioOption {
+    width: 100%;
+    border-radius: 1em;
+    margin-bottom: 1em;
+}
+
+.radioOptionContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 2.1em;
+    font-size: 1.25em;
+}
