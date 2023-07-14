@@ -1,8 +1,9 @@
-import { Heading3 } from '@entur/typography'
+import { Heading4, SubParagraph } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { DefaultColumns, TColumn } from 'types/column'
+import { Columns, DefaultColumns, TColumn } from 'types/column'
 import { TTile } from 'types/tile'
 import { Switch } from '@entur/form'
+import classes from './styles.module.css'
 
 function ToggleColumns({ tile }: { tile: TTile }) {
     const dispatch = useSettingsDispatch()
@@ -20,19 +21,26 @@ function ToggleColumns({ tile }: { tile: TTile }) {
     const columns = { ...DefaultColumns, ...tile.columns }
     return (
         <div>
-            <Heading3>Legg til informasjon</Heading3>
-
-            {optionalColumns.map((col) => {
-                return (
-                    <Switch
-                        key={col}
-                        checked={columns[col]}
-                        onChange={() => handleSwitch(col, !columns[col])}
-                    >
-                        {col}
-                    </Switch>
-                )
-            })}
+            <Heading4>Legg til ekstra detaljer i tabellen</Heading4>
+            <SubParagraph>
+                Linje, destinasjon, avvik og avgangstid vil alltid vises i
+                tabellen. <br />
+                Her kan du legge til ekstra detaljer i denne holdeplassen sin
+                tabell.
+            </SubParagraph>
+            <div className={classes.columnToggleWrapper}>
+                {optionalColumns.map((col) => {
+                    return (
+                        <Switch
+                            key={col}
+                            checked={columns[col]}
+                            onChange={() => handleSwitch(col, !columns[col])}
+                        >
+                            {Columns[col]}
+                        </Switch>
+                    )
+                })}
+            </div>
         </div>
     )
 }

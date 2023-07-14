@@ -1,0 +1,5 @@
+.columnToggleWrapper {
+    display: flex;
+    gap: 1em;
+    margin: 1em;
+}
