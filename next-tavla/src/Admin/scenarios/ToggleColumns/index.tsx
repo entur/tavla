@@ -1,4 +1,4 @@
-import { Heading4, Label, SubParagraph } from '@entur/typography'
+import { Heading4, SubParagraph } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { Columns, DefaultColumns, TColumn } from 'types/column'
 import { TTile } from 'types/tile'
