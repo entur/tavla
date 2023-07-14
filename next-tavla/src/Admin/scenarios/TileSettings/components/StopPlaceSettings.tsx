@@ -4,6 +4,7 @@ import { useQuery } from 'graphql/utils'
 import { TStopPlaceTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
 import { TileSettingsWrapper } from './TileSettingsWrapper'
+import { ToggleColumns } from 'Admin/scenarios/ToggleColumns'
 
 function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
     const { data } = useQuery(StopPlaceSettingsQuery, { id: tile.placeId })
@@ -18,6 +19,7 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
     return (
         <TileSettingsWrapper name={name}>
             <SelectLines tile={tile} lines={lines} />
+            <ToggleColumns tile={tile} />
         </TileSettingsWrapper>
     )
 }

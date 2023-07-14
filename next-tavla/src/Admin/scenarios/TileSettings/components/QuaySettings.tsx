@@ -4,6 +4,7 @@ import { useQuery } from 'graphql/utils'
 import { TQuayTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
 import { TileSettingsWrapper } from './TileSettingsWrapper'
+import { ToggleColumns } from 'Admin/scenarios/ToggleColumns'
 
 function QuaySettings({ tile }: { tile: TQuayTile }) {
     const { data } = useQuery(GetQuayQuery, { quayId: tile.placeId })
@@ -19,6 +20,7 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
     return (
         <TileSettingsWrapper name={name}>
             <SelectLines tile={tile} lines={lines} />
+            <ToggleColumns tile={tile} />
         </TileSettingsWrapper>
     )
 }
