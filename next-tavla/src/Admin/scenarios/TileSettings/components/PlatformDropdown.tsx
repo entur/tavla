@@ -8,12 +8,12 @@ import { isNotNullOrUndefined } from 'utils/typeguards'
 
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis Alle' } as const
 
-function PlatformDropdown<T extends TTile>({
+function PlatformDropdown({
     stopPlaceId,
     tile,
 }: {
     stopPlaceId: string
-    tile: T
+    tile: TTile
 }) {
     const dispatch = useSettingsDispatch()
 
@@ -55,6 +55,7 @@ function PlatformDropdown<T extends TTile>({
                             type: 'stop_place',
                             placeId: stopPlaceId,
                             uuid: tile.uuid,
+                            columns: tile.columns,
                         })
                     else
                         setTile({
@@ -62,6 +63,7 @@ function PlatformDropdown<T extends TTile>({
                             stopPlaceId,
                             placeId: e.value,
                             uuid: tile.uuid,
+                            columns: tile.columns,
                         })
                 }
             }}

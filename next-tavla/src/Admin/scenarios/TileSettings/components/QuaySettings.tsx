@@ -5,6 +5,7 @@ import { TQuayTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
 import { TileSettingsWrapper } from './TileSettingsWrapper'
 import { ToggleColumns } from 'Admin/scenarios/ToggleColumns'
+import { PlatformDropdown } from './PlatformDropdown'
 
 function QuaySettings({ tile }: { tile: TQuayTile }) {
     const { data } = useQuery(GetQuayQuery, { quayId: tile.placeId })
@@ -19,6 +20,7 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
 
     return (
         <TileSettingsWrapper name={name}>
+            <PlatformDropdown stopPlaceId={tile.stopPlaceId} tile={tile} />
             <ToggleColumns tile={tile} />
             <SelectLines tile={tile} lines={lines} />
         </TileSettingsWrapper>
