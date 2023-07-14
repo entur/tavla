@@ -21,7 +21,7 @@ function ToggleColumns({ tile }: { tile: TTile }) {
     const columns = { ...DefaultColumns, ...tile.columns }
     return (
         <div>
-            <Heading4>Legg til ekstra detaljer til holdeplassen</Heading4>
+            <Heading4>Legg til ekstra detaljer om holdeplassen</Heading4>
             <Label className={classes.toggleLable}>
                 Denne ekstra informasjonen vil bli lagt til i denne spesifikke
                 holdeplassen, dersom du krysser den av. <br /> Fra før av vises:
