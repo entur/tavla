@@ -1,27 +1,27 @@
 import { Dropdown } from '@entur/dropdown'
-import { TAnonTiles } from 'Admin/types'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { QuaysSearchQuery, TQuaysSearchQuery } from 'graphql/index'
 import { fetchQuery } from 'graphql/utils'
 import { useEffect, useState } from 'react'
+import { TTile } from 'types/tile'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis Alle' } as const
 
-function PlatformDropdown({
+function PlatformDropdown<T extends TTile>({
     stopPlaceId,
-    uuid,
+    tile,
 }: {
     stopPlaceId: string
-    uuid: string
+    tile: T
 }) {
     const dispatch = useSettingsDispatch()
 
-    function setTile<T extends TAnonTiles>(newTile: T) {
-        dispatch({ type: 'changeTileType', tileId: uuid, newTile })
+    function setTile(newTile: TTile) {
+        dispatch({ type: 'updateTile', tile: newTile })
     }
 
-    const [data, setData] = useState<TQuaysSearchQuery | undefined>(undefined)
+    const [data, setData] = useState<TQuaysSearchQuery>()
 
     useEffect(() => {
         if (!stopPlaceId) return
@@ -54,12 +54,14 @@ function PlatformDropdown({
                         setTile({
                             type: 'stop_place',
                             placeId: stopPlaceId,
+                            uuid: tile.uuid,
                         })
                     else
                         setTile({
                             type: 'quay',
                             stopPlaceId,
                             placeId: e.value,
+                            uuid: tile.uuid,
                         })
                 }
             }}
