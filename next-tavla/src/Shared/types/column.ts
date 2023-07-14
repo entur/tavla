@@ -22,5 +22,5 @@ export const DefaultColumns: TColumnSettings = {
 export type TColumnLayout = {
     type: TColumn
     size: number
-    textalign: boolean
+    textAlign: 'left' | 'right' | 'center'
 }

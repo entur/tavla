@@ -26,22 +26,21 @@ const columnComponents: Record<TColumn, () => JSX.Element> = {
 }
 
 const ColumnOrder: TColumnLayout[] = [
-    { type: 'line', size: 1, textalign: true },
-    { type: 'destination', size: 6, textalign: true },
-    { type: 'via', size: 5, textalign: true },
-    { type: 'situations', size: 6, textalign: true },
-    { type: 'platform', size: 1, textalign: true },
-    { type: 'time', size: 1, textalign: false },
+    { type: 'line', size: 1, textAlign: 'left' },
+    { type: 'destination', size: 6, textAlign: 'left' },
+    { type: 'via', size: 5, textAlign: 'left' },
+    { type: 'situations', size: 6, textAlign: 'left' },
+    { type: 'platform', size: 1, textAlign: 'left' },
+    { type: 'time', size: 1, textAlign: 'right' },
 ]
 
-function ColumnTableHeader({ type, size, textalign }: TColumnLayout) {
-    const textAlign = textalign ? 'left' : 'right'
+function ColumnTableHeader({ type, size, textAlign }: TColumnLayout) {
     return (
         <th
             className={classes.header}
             style={{
                 width: size,
-                textAlign,
+                textAlign: textAlign,
             }}
         >
             {Columns[type]}
