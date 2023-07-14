@@ -1,4 +1,4 @@
-import { Heading3 } from '@entur/typography'
+import { Heading3, Heading4 } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { DefaultColumns, TColumn } from 'types/column'
 import { TTile } from 'types/tile'
@@ -20,7 +20,7 @@ function ToggleColumns({ tile }: { tile: TTile }) {
     const columns = { ...DefaultColumns, ...tile.columns }
     return (
         <div>
-            <Heading3>Legg til informasjon</Heading3>
+            <Heading4>Legg til informasjon</Heading4>
 
             {optionalColumns.map((col) => {
                 return (
