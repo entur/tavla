@@ -5,7 +5,7 @@ import { SelectTile } from 'Admin/scenarios/SelectTile'
 import classes from './styles.module.css'
 
 function TilesOverview({ tiles }: { tiles: TTile[] }) {
-    const [selectedTileId, setSelectedId] = useState<string>()
+    const [selectedTileId, setSelectedTileId] = useState<string>()
 
     const selectedTile = tiles.find((tile) => tile.uuid === selectedTileId)
 
@@ -13,7 +13,7 @@ function TilesOverview({ tiles }: { tiles: TTile[] }) {
         <div className={classes.overviewWrapper}>
             <SelectTile
                 tiles={tiles}
-                selectTile={setSelectedId}
+                selectTile={setSelectedTileId}
                 selectedTileId={selectedTileId}
             />
 
