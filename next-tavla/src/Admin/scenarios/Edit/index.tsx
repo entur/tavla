@@ -11,6 +11,7 @@ import { ToastProvider } from '@entur/alert'
 import { FloatingButton } from '@entur/button'
 import { StyledLink } from 'Admin/components/StyledLink'
 import { ShareTable } from '../ShareTable'
+import { ToggleColumns } from '../ToggleColumns'
 
 function Edit({
     initialSettings,
@@ -21,16 +22,14 @@ function Edit({
 }) {
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
     const linkUrl = window.location.host + '/' + documentId
-
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
             <ToastProvider>
                 <div className={classes.settings}>
                     <AddTile />
                     <TilesOverview tiles={settings.tiles} />
-
                     <ShareTable text={linkUrl} />
-
+                    <ToggleColumns tile={settings.tiles[0]} />
                     <div className={classes.floatingButtonWrapper}>
                         <FloatingButton
                             className={classes.saveButton}

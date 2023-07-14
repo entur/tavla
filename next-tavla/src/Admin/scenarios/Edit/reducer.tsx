@@ -2,6 +2,7 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { TAnonTiles } from 'Admin/types'
 import { clone, xor } from 'lodash'
 import { nanoid } from 'nanoid'
+import { TColumn } from 'types/column'
 import { TSettings, TTheme } from 'types/settings'
 import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 
@@ -12,6 +13,7 @@ export type Action =
     | { type: 'updateTile'; tileIndex: number; tile: TTile }
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
     | { type: 'toggleLine'; tileId: string; lineId: string }
+    | { type: 'setColumn'; tileId: string; column: TColumn; value: boolean }
 
 export function settingsReducer(
     settings: TSettings,
@@ -87,6 +89,20 @@ export function settingsReducer(
                         whitelistedLines: xor(tile.whitelistedLines, [
                             action.lineId,
                         ]),
+                    }
+                },
+            )
+        }
+        case 'setColumn': {
+            return changeTile<TStopPlaceTile | TQuayTile>(
+                action.tileId,
+                (tile) => {
+                    return {
+                        ...tile,
+                        columns: {
+                            ...tile.columns,
+                            ...{ [action.column]: action.value },
+                        },
                     }
                 },
             )

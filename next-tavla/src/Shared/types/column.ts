@@ -16,7 +16,7 @@ export const DefaultColumns: TColumnSettings = {
     platform: false,
     situations: true,
     time: true,
-    via: true,
+    via: false,
 } as const
 
 export type TColumnSize = { type: TColumn; size: number }
