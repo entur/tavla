@@ -30,7 +30,7 @@ const ColumnOrder: TColumnLayout[] = [
     { type: 'destination', size: 6, textAlign: 'left' },
     { type: 'via', size: 5, textAlign: 'left' },
     { type: 'situations', size: 6, textAlign: 'left' },
-    { type: 'platform', size: 1, textAlign: 'left' },
+    { type: 'platform', size: 1, textAlign: 'center' },
     { type: 'time', size: 1, textAlign: 'right' },
 ]
 
