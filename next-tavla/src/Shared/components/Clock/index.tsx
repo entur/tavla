@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import classes from './styles.module.css'
 
 function Clock() {
     const [currentTime, setCurrentTime] = useState(Date.now())
@@ -13,7 +14,11 @@ function Clock() {
         timeZone: 'Europe/Oslo',
     }).format(currentTime)
 
-    return <span suppressHydrationWarning>{time}</span>
+    return (
+        <span suppressHydrationWarning>
+            <div className={classes.clock}>{time}</div>
+        </span>
+    )
 }
 
 export { Clock }

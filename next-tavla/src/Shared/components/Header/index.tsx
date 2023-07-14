@@ -30,7 +30,7 @@ function Header({ theme, showClock }: { theme?: TTheme; showClock?: boolean }) {
                     Finn din rute på entur.no eller i Entur-appen
                 </p>
             </div>
-            <div className={classes.clock}>{showClock && <Clock />} </div>
+            {showClock && <Clock />}
         </div>
     )
 }
