@@ -22,9 +22,10 @@ function ToggleColumns({ tile }: { tile: TTile }) {
     return (
         <div>
             <Heading4>Legg til ekstra detaljer til holdeplassen</Heading4>
-            <Label>
+            <Label className={classes.toggleLable}>
                 Denne ekstra informasjonen vil bli lagt til i denne spesifikke
-                holdeplassen, dersom du krysser den av.
+                holdeplassen, dersom du krysser den av. <br /> Fra før av vises:
+                linje, destinasjon, avvik og avgangstid
             </Label>
             <div className={classes.columnToggleWrapper}>
                 {optionalColumns.map((col) => {
