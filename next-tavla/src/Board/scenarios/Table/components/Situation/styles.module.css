@@ -1,5 +1,5 @@
 .situation {
-    color: var(--feedback-canary-contrast, #ffe082);
+    color: var(--table-situation-color);
     font-size: 0.875em;
     display: flex;
     align-items: center;
@@ -11,7 +11,7 @@
 }
 
 .validation {
-    fill: var(--feedback-canary-contrast, #ffe082);
+    fill: var(--table-situation-color);
     display: flex;
     align-items: center;
     margin-right: 0.1em;

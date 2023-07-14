@@ -1,19 +1,15 @@
-.timeDeviationContainer {
-    font-weight: bold;
-    text-align: right;
-}
-.expectedTimeConatiner {
-    font-weight: bold;
+.timeContainer {
+    font-weight: 600;
     text-align: right;
     font-size: 1.5em;
 }
+
 .aimedDepartureTime {
     font-size: 0.5625em;
-
     text-decoration: line-through;
 }
 
 .expectedDepartureTime {
-    font-size: 1.5em;
+    font-weight: 600;
     color: var(--table-time-deviation-color);
 }
