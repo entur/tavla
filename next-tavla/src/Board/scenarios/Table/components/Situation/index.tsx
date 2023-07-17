@@ -26,9 +26,10 @@ function ValidationExclamation(props: SVGProps<SVGSVGElement>) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={16}
-            height={16}
+            width={'1em'}
+            height={'1em'}
             xmlSpace="preserve"
+            viewBox="0 0 16 16"
             {...props}
         >
             <circle fill="transparent" cx={8} cy={8} r={4.4} />

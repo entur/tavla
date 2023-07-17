@@ -10,25 +10,23 @@ function Situations() {
         <Situation key={situation.id} situation={situation} />
     ))
 
-    const nSituations = situations.length
+    const numberOfSituations = situations.length
     const [index, setIndex] = useState(0)
 
     useEffect(() => {
-        if (nSituations < 1) {
+        if (numberOfSituations <= 1) {
             return
         }
         const interval = setInterval(
-            () => setIndex((i) => (i + 1) % nSituations),
+            () => setIndex((i) => (i + 1) % numberOfSituations),
             5000,
         )
         return () => clearInterval(interval)
-    }, [nSituations])
+    }, [numberOfSituations])
 
     return (
         <td>
-            <div>
-                {situations.length > 1 ? situations[index] : situations[0]}
-            </div>
+            <div>{situations[index]}</div>
         </td>
     )
 }
