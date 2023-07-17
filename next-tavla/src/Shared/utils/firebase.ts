@@ -21,7 +21,9 @@ export async function getBoardSettings(boardId: string) {
 
 export async function setBoardSettings(boardId: string, settings: TSettings) {
     const docRef = doc(firestore, 'settings-v2', boardId)
-    await setDoc(docRef, settings)
+    // Removes explicitly assigned undefined properties on settings
+    const sanatizedSettings = JSON.parse(JSON.stringify(settings))
+    await setDoc(docRef, sanatizedSettings)
 }
 
 export async function addBoardSettings(settings: TSettings) {
