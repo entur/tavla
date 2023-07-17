@@ -1,9 +1,8 @@
 import { Dropdown } from '@entur/dropdown'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { QuaysSearchQuery, TQuaysSearchQuery } from 'graphql/index'
-import { fetchQuery } from 'graphql/utils'
-import { useEffect, useState } from 'react'
+import { QuaysSearchQuery } from 'graphql/index'
+import { useQuery } from 'graphql/utils'
 import { TTile } from 'types/tile'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import classes from './styles.module.css'
@@ -26,11 +25,7 @@ function PlatformDropdown({
 
     const selectedValue = selectedQuayId ?? stopPlaceOption.value
 
-    const [data, setData] = useState<TQuaysSearchQuery>()
-    useEffect(() => {
-        if (!stopPlaceId) return
-        fetchQuery(QuaysSearchQuery, { stopPlaceId }).then(setData)
-    }, [stopPlaceId])
+    const { data } = useQuery(QuaysSearchQuery, { stopPlaceId })
 
     const quays =
         data?.stopPlace?.quays
