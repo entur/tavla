@@ -8,7 +8,7 @@ import { TTile } from 'types/tile'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import classes from './styles.module.css'
 
-const stopPlaceOption = { value: 'stopPlace', label: 'Vis Alle' } as const
+const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' } as const
 
 function PlatformDropdown({
     stopPlaceId,
