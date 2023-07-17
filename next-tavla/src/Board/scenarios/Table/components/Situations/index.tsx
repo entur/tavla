@@ -6,11 +6,7 @@ import { useEffect, useState } from 'react'
 function Situations() {
     const departure = useNonNullContext(DepartureContext)
 
-    const situations = departure.situations.map((situation) => (
-        <Situation key={situation.id} situation={situation} />
-    ))
-
-    const numberOfSituations = situations.length
+    const numberOfSituations = departure.situations.length
     const [index, setIndex] = useState(0)
 
     useEffect(() => {
@@ -26,7 +22,9 @@ function Situations() {
 
     return (
         <td>
-            <div>{situations[index]}</div>
+            <div>
+                <Situation situation={departure.situations[index]} />
+            </div>
         </td>
     )
 }
