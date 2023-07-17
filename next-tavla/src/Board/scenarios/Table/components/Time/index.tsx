@@ -13,7 +13,7 @@ function Time() {
     )
     if (timeDeviation > 120) {
         return (
-            <td className={classes.timeDeviationContainer}>
+            <td className={classes.timeContainer}>
                 <div className={classes.expectedDepartureTime}>
                     {getRelativeTimeString(departure.expectedDepartureTime)}
                 </div>
@@ -23,7 +23,11 @@ function Time() {
             </td>
         )
     }
-    return <td>{getRelativeTimeString(departure.expectedDepartureTime)}</td>
+    return (
+        <td className={classes.timeContainer}>
+            {getRelativeTimeString(departure.expectedDepartureTime)}
+        </td>
+    )
 }
 
 export { Time }

@@ -2,7 +2,7 @@ export const Columns = {
     destination: 'Destinasjon',
     line: 'Linje',
     platform: 'Plattform',
-    time: 'Avgangstid',
+    time: 'Avgang',
     situations: 'Avvik',
     via: 'Via',
 } as const
@@ -13,10 +13,13 @@ export type TColumnSettings = Partial<Record<TColumn, boolean>>
 export const DefaultColumns: TColumnSettings = {
     line: true,
     destination: true,
-    platform: false,
+    platform: true,
     situations: true,
     time: true,
     via: false,
 } as const
 
-export type TColumnSize = { type: TColumn; size: number }
+export type TColumnLayout = {
+    type: TColumn
+    size: number
+}
