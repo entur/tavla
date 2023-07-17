@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin: 1.25em 5em;
 }
 
 .floatingButtonWrapper {
@@ -9,8 +10,8 @@
     flex-direction: row;
     gap: 1em;
     position: fixed;
-    bottom: 1em;
-    right: 1em;
+    bottom: 1.25em;
+    right: 5em;
 }
 
 .saveButton {
