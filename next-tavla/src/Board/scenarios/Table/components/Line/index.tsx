@@ -1,16 +1,12 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import { getPresentation } from 'Board/utils/colors'
 import { DepartureContext } from '../../contexts'
 import classes from './styles.module.css'
 
 function Line() {
     const departure = useNonNullContext(DepartureContext)
 
-    const presentation = getPresentation(
-        departure.serviceJourney.line.presentation,
-        departure.serviceJourney.line.id,
-        departure.serviceJourney.transportMode,
-    )
+    const mode = departure.serviceJourney.transportMode ?? 'unknown'
+    const transportModeColor = `var(--table-transport-${mode}-color)`
 
     const publicCode = departure.serviceJourney.line.publicCode
 
@@ -19,8 +15,7 @@ function Line() {
             <div
                 className={classes.lineWrapper}
                 style={{
-                    backgroundColor: presentation.backgroundColor,
-                    color: presentation.color,
+                    backgroundColor: transportModeColor,
                 }}
             >
                 {publicCode}
