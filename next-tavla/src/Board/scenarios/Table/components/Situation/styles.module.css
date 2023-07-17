@@ -3,6 +3,7 @@
     font-size: 0.875em;
     display: flex;
     align-items: center;
+    white-space: pre-line;
 }
 
 .situationText {
