@@ -22,7 +22,9 @@ function Situations() {
 
     return (
         <td>
-            <Situation situation={departure.situations[index]} />
+            {numberOfSituations ? (
+                <Situation situation={departure.situations[index]} />
+            ) : null}
         </td>
     )
 }
