@@ -5,10 +5,8 @@ import classes from './styles.module.css'
 function Line() {
     const departure = useNonNullContext(DepartureContext)
 
-    const mode = departure.serviceJourney.transportMode
-        ? departure.serviceJourney.transportMode
-        : 'unknown'
-    const defaultColor = `var(--table-transport-${mode}-color)`
+    const mode = departure.serviceJourney.transportMode ?? 'unknown'
+    const transportModeColor = `var(--table-transport-${mode}-color)`
 
     const publicCode = departure.serviceJourney.line.publicCode
 
@@ -17,7 +15,7 @@ function Line() {
             <div
                 className={classes.lineWrapper}
                 style={{
-                    backgroundColor: defaultColor,
+                    backgroundColor: transportModeColor,
                 }}
             >
                 {publicCode}
