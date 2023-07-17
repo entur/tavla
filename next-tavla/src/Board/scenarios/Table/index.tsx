@@ -63,7 +63,7 @@ function Table({
     return (
         <div className={classes.container}>
             <table className={classes.table}>
-                <thead>
+                <thead className={classes.row}>
                     <tr>
                         {filteredColumnOrder.map((props) => (
                             <ColumnTableHeader key={props.type} {...props} />

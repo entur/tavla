@@ -2,14 +2,12 @@
     height: 100%;
     overflow: hidden;
 }
+
 .header {
     text-align: left;
     font-size: 0.7em;
     color: var(--table-header-color);
     padding-bottom: 0.4em;
-}
-.header:last-child {
-    text-align: right;
 }
 
 .table {
@@ -19,10 +17,6 @@
     table-layout: fixed;
 }
 
-.table tbody tr td:last-child {
-    text-align: right;
-}
-
 .table td {
     white-space: nowrap;
     overflow: hidden;
@@ -30,6 +24,11 @@
     padding: 0.25em 0;
 }
 
-.table tr {
+.row {
     border-bottom: 2px solid var(--table-border-color);
+}
+
+.row th:last-child,
+.row td:last-child {
+    text-align: right;
 }
