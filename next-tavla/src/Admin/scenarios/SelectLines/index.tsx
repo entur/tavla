@@ -16,6 +16,16 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     const toggleLine = (line: string) => {
         dispatch({ type: 'toggleLine', tileId: tile.uuid, lineId: line })
     }
+    const deleteLines = () => {
+        dispatch({ type: 'deleteLines', tileId: tile.uuid })
+    }
+    const setLines = (lines: string[]) => {
+        dispatch({
+            type: 'setLines',
+            tileId: tile.uuid,
+            lines,
+        })
+    }
 
     const uniqLines = uniqBy(lines, 'id').sort((a, b) => {
         if (!a || !a.publicCode || !b || !b.publicCode) return 1
@@ -25,25 +35,44 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     })
 
     return (
-        <div className={classes.linesGrid}>
+        <div>
             <Heading4>Velg linjer</Heading4>
             <Paragraph className={classes.paragraph}>
-                Huk av de linjene du vil vise.
+                Ved å huke av linjer vil visningen til avgangstavlen begrenses
+                til de valgte linjene.
             </Paragraph>
-            {uniqLines.map((line) => (
-                <div key={line.id}>
-                    <Switch
-                        checked={
-                            tile.whitelistedLines?.includes(line.id) ?? false
-                        }
-                        onChange={() => {
-                            toggleLine(line.id)
-                        }}
-                    >
-                        {line.publicCode} {line.name}
-                    </Switch>
-                </div>
-            ))}
+            <Switch
+                checked={tile.whitelistedLines?.length === uniqLines.length}
+                onChange={() => {
+                    if (tile.whitelistedLines?.length === uniqLines.length)
+                        deleteLines()
+                    else
+                        setLines(
+                            uniqLines.map((line) => {
+                                return line.id
+                            }),
+                        )
+                }}
+            >
+                Velg alle
+            </Switch>
+            <div className={classes.linesGrid}>
+                {uniqLines.map((line) => (
+                    <div key={line.id}>
+                        <Switch
+                            checked={
+                                tile.whitelistedLines?.includes(line.id) ??
+                                false
+                            }
+                            onChange={() => {
+                                toggleLine(line.id)
+                            }}
+                        >
+                            {line.publicCode} {line.name}
+                        </Switch>
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }

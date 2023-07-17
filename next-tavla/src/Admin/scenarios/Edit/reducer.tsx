@@ -13,6 +13,8 @@ export type Action =
     | { type: 'updateTile'; tileIndex: number; tile: TTile }
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
     | { type: 'toggleLine'; tileId: string; lineId: string }
+    | { type: 'setLines'; tileId: string; lines: string[] }
+    | { type: 'deleteLines'; tileId: string }
     | { type: 'setColumn'; tileId: string; column: TColumn; value: boolean }
 
 export function settingsReducer(
@@ -90,6 +92,26 @@ export function settingsReducer(
                             action.lineId,
                         ]),
                     }
+                },
+            )
+        }
+        case 'setLines': {
+            return changeTile<TStopPlaceTile | TQuayTile>(
+                action.tileId,
+                (tile) => {
+                    return {
+                        ...tile,
+                        whitelistedLines: action.lines,
+                    }
+                },
+            )
+        }
+        case 'deleteLines': {
+            return changeTile<TStopPlaceTile | TQuayTile>(
+                action.tileId,
+                (tile) => {
+                    if (tile.whitelistedLines) delete tile.whitelistedLines
+                    return tile
                 },
             )
         }
