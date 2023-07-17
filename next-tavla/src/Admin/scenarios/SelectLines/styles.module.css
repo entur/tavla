@@ -7,6 +7,7 @@
 .line {
     border-top: solid;
     border-width: 0.1em;
+    border-color: var(--primary-lines-grid-color);
     padding: 0.4em;
     margin: 0 1em;
 }
