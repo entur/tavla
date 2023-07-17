@@ -19,9 +19,9 @@ function PlatformDropdown({
     selectedQuayId?: string
 }) {
     const dispatch = useSettingsDispatch()
-    function setTile(newTile: TTile) {
+
+    const setTile = (newTile: TTile) =>
         dispatch({ type: 'updateTile', tile: newTile })
-    }
 
     const selectedValue = selectedQuayId ?? stopPlaceOption.value
 
@@ -45,34 +45,33 @@ function PlatformDropdown({
         <div>
             <Heading4>Velg plattform</Heading4>
             <SubParagraph>
-                Du kan enten vise alle plattformer eller kun én. Valg av
-                plattform bestemmer også hvilke linjer i en bestemt retning du
-                kan velge å vise.
+                Avgangstavlen kan enten vise avganger for alle plattformer eller
+                kun én.
             </SubParagraph>
             <Dropdown
                 className={classes.dropdown}
-                items={() => dropDownOptions}
+                items={dropDownOptions}
                 label="Velg plattform"
                 disabled={!stopPlaceId}
                 value={selectedValue}
                 onChange={(e) => {
-                    if (e?.value) {
-                        if (e.value === 'stopPlace')
-                            setTile({
-                                type: 'stop_place',
-                                placeId: stopPlaceId,
-                                uuid: tile.uuid,
-                                columns: tile.columns,
-                            })
-                        else
-                            setTile({
-                                type: 'quay',
-                                stopPlaceId,
-                                placeId: e.value,
-                                uuid: tile.uuid,
-                                columns: tile.columns,
-                            })
-                    }
+                    if (!e?.value) return
+
+                    if (e.value === stopPlaceOption.value)
+                        setTile({
+                            type: 'stop_place',
+                            placeId: stopPlaceId,
+                            uuid: tile.uuid,
+                            columns: tile.columns,
+                        })
+                    else
+                        setTile({
+                            type: 'quay',
+                            stopPlaceId,
+                            placeId: e.value,
+                            uuid: tile.uuid,
+                            columns: tile.columns,
+                        })
                 }}
             />
         </div>
