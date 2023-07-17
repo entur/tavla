@@ -8,6 +8,7 @@
     --primary-button-hover-color: #b6bee5;
 
     --primary-lines-grid-color: var(--colors-blues-blue50);
+    --scrollbar-color: var(--colors-blues-blue50);
 
     --table-border-color: var(--colors-blues-blue30);
     --table-situation-color: var(--colors-validation-canary-contrast);
