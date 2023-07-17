@@ -42,6 +42,7 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
                 til de valgte linjene.
             </Paragraph>
             <Switch
+                className={classes.selectAll}
                 checked={tile.whitelistedLines?.length === uniqLines.length}
                 onChange={() => {
                     if (tile.whitelistedLines?.length === uniqLines.length)
@@ -58,7 +59,7 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
             </Switch>
             <div className={classes.linesGrid}>
                 {uniqLines.map((line) => (
-                    <div key={line.id}>
+                    <div key={line.id} className={classes.line}>
                         <Switch
                             checked={
                                 tile.whitelistedLines?.includes(line.id) ??

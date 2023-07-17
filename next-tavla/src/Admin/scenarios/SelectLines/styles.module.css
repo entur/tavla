@@ -4,6 +4,17 @@
     margin-bottom: 0.5em;
 }
 
+.line {
+    border-top: solid;
+    border-width: 0.1em;
+    padding: 0.4em;
+    margin: 0 1em;
+}
+
+.selectAll {
+    margin: 0.4em 1.4em;
+}
+
 .paragraph {
     margin: 1em 0;
 }
