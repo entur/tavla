@@ -3,10 +3,6 @@
     width: 7em;
 }
 
-.clock {
-    font-size: 1.5625em;
-}
-
 .tagText {
     font-size: 0.5em;
     color: var(--main-text-color);

@@ -3,17 +3,24 @@
     overflow: hidden;
 }
 .header {
+    text-align: left;
     font-size: 0.7em;
     color: var(--table-header-color);
     padding-bottom: 0.4em;
 }
+.header:last-child {
+    text-align: right;
+}
 
 .table {
-    text-align: left;
     height: 100%;
     border-collapse: collapse;
     width: 100%;
     table-layout: fixed;
+}
+
+.table tbody tr td:last-child {
+    text-align: right;
 }
 
 .table td {
@@ -24,9 +31,5 @@
 }
 
 .table tr {
-    border-bottom: 2px solid var(--table-border-color);
-}
-
-.table thead tr {
     border-bottom: 2px solid var(--table-border-color);
 }

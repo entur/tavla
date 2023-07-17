@@ -26,21 +26,20 @@ const columnComponents: Record<TColumn, () => JSX.Element> = {
 }
 
 const ColumnOrder: TColumnLayout[] = [
-    { type: 'line', size: 1, textAlign: 'left' },
-    { type: 'destination', size: 6, textAlign: 'left' },
-    { type: 'via', size: 5, textAlign: 'left' },
-    { type: 'situations', size: 6, textAlign: 'left' },
-    { type: 'platform', size: 1, textAlign: 'center' },
-    { type: 'time', size: 1, textAlign: 'right' },
+    { type: 'line', size: 1 },
+    { type: 'destination', size: 6 },
+    { type: 'via', size: 5 },
+    { type: 'situations', size: 6 },
+    { type: 'platform', size: 1 },
+    { type: 'time', size: 1 },
 ]
 
-function ColumnTableHeader({ type, size, textAlign }: TColumnLayout) {
+function ColumnTableHeader({ type, size }: TColumnLayout) {
     return (
         <th
             className={classes.header}
             style={{
                 width: size,
-                textAlign: textAlign,
             }}
         >
             {Columns[type]}
@@ -74,6 +73,7 @@ function Table({
                 <tbody>
                     {departures.map((departure) => (
                         <tr
+                            className={classes.row}
                             key={`${departure.serviceJourney.id}_${departure.aimedDepartureTime}`}
                         >
                             <DepartureContext.Provider value={departure}>

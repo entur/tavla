@@ -15,8 +15,8 @@ function Clock() {
     }).format(currentTime)
 
     return (
-        <span suppressHydrationWarning>
-            <div className={classes.clock}>{time}</div>
+        <span suppressHydrationWarning className={classes.clock}>
+            {time}
         </span>
     )
 }
