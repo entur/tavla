@@ -16,4 +16,5 @@
 .content {
     overflow: auto;
     position: relative;
+    flex: 1;
 }
