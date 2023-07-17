@@ -20,7 +20,12 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
 
     return (
         <TileSettingsWrapper name={name}>
-            <PlatformDropdown stopPlaceId={tile.stopPlaceId} tile={tile} />
+            <PlatformDropdown
+                stopPlaceId={tile.stopPlaceId}
+                tile={tile}
+                selectedQuayId={tile.placeId}
+            />
+            <SelectLines tile={tile} lines={lines} />
             <ToggleColumns tile={tile} />
             <SelectLines tile={tile} lines={lines} />
         </TileSettingsWrapper>

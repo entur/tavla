@@ -11,18 +11,20 @@ const stopPlaceOption = { value: 'stopPlace', label: 'Vis Alle' } as const
 function PlatformDropdown({
     stopPlaceId,
     tile,
+    selectedQuayId,
 }: {
     stopPlaceId: string
     tile: TTile
+    selectedQuayId?: string
 }) {
     const dispatch = useSettingsDispatch()
-
     function setTile(newTile: TTile) {
         dispatch({ type: 'updateTile', tile: newTile })
     }
 
-    const [data, setData] = useState<TQuaysSearchQuery>()
+    const selectedValue = selectedQuayId ?? stopPlaceOption.value
 
+    const [data, setData] = useState<TQuaysSearchQuery>()
     useEffect(() => {
         if (!stopPlaceId) return
         fetchQuery(QuaysSearchQuery, { stopPlaceId }).then(setData)
@@ -47,10 +49,10 @@ function PlatformDropdown({
             items={() => dropDownOptions}
             label="Velg plattform"
             disabled={!stopPlaceId}
+            value={selectedValue}
             onChange={(e) => {
                 if (e?.value) {
-                    console.log(e.value)
-                    if (e.value == 'stopPlace')
+                    if (e.value === 'stopPlace')
                         setTile({
                             type: 'stop_place',
                             placeId: stopPlaceId,
