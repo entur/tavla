@@ -22,9 +22,7 @@ function Situations() {
 
     return (
         <td>
-            <div>
-                <Situation situation={departure.situations[index]} />
-            </div>
+            <Situation situation={departure.situations[index]} />
         </td>
     )
 }
