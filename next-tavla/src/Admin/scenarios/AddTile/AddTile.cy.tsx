@@ -5,6 +5,7 @@ import { TilesOverview } from '../TilesOverview'
 import { AddTile } from './index'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from '../Edit/reducer'
+import { ToastProvider } from '@entur/alert'
 
 describe('<AddTile />', () => {
     const TestComponent = () => {
@@ -14,10 +15,12 @@ describe('<AddTile />', () => {
 
         return (
             <Contrast>
-                <SettingsDispatchContext.Provider value={dispatch}>
-                    <TilesOverview tiles={settings.tiles} />
-                    <AddTile />
-                </SettingsDispatchContext.Provider>
+                <ToastProvider>
+                    <SettingsDispatchContext.Provider value={dispatch}>
+                        <AddTile />
+                        <TilesOverview tiles={settings.tiles} />
+                    </SettingsDispatchContext.Provider>
+                </ToastProvider>
             </Contrast>
         )
     }
