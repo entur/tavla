@@ -26,9 +26,6 @@ function Header({ theme, showClock }: { theme?: TTheme; showClock?: boolean }) {
                         className={classes.logo}
                     />
                 )}
-                <p className={classes.tagText}>
-                    Finn din rute på entur.no eller i Entur-appen
-                </p>
             </div>
             {showClock && <Clock />}
         </div>
