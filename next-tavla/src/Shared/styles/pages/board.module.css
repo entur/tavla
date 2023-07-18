@@ -8,6 +8,12 @@
     background-color: var(--main-background-color);
 }
 
+@media (max-aspect-ratio: 1/1) {
+    .root {
+        font-size: 2.25vmin;
+    }
+}
+
 .rootContainer {
     display: flex;
     flex-direction: column;
