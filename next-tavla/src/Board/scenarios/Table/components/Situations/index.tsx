@@ -13,17 +13,16 @@ function Situations() {
         if (numberOfSituations <= 1) {
             return
         }
-        const interval = setInterval(
-            () => setIndex((i) => (i + 1) % numberOfSituations),
-            5000,
-        )
+        const interval = setInterval(() => setIndex((i) => i + 1), 5000)
         return () => clearInterval(interval)
     }, [numberOfSituations])
 
     return (
         <td>
             {numberOfSituations ? (
-                <Situation situation={departure.situations[index]} />
+                <Situation
+                    situation={departure.situations[index % numberOfSituations]}
+                />
             ) : null}
         </td>
     )
