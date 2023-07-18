@@ -20,8 +20,9 @@ function PlatformDropdown({
 }) {
     const dispatch = useSettingsDispatch()
 
-    const setTile = (newTile: TTile) =>
-        dispatch({ type: 'updateTile', tile: newTile })
+    const setTile = (newTile: TTile) => {
+        dispatch({ type: 'setTile', tile: newTile })
+    }
 
     const selectedValue = selectedQuayId ?? stopPlaceOption.value
 
@@ -37,9 +38,8 @@ function PlatformDropdown({
                     [quay.publicCode ?? index + 1, quay.description].join(' '),
             })) || []
 
-    const dropDownOptions = quays.length
-        ? [{ ...stopPlaceOption }, ...quays]
-        : []
+    const dropDownOptions = () =>
+        quays.length ? [{ ...stopPlaceOption }, ...quays] : []
 
     return (
         <div>
