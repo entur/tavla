@@ -3,7 +3,7 @@ import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { Heading4, Paragraph } from '@entur/typography'
+import { Heading4, SubParagraph } from '@entur/typography'
 
 function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     tile,
@@ -37,10 +37,10 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     return (
         <div>
             <Heading4>Velg linjer</Heading4>
-            <Paragraph className={classes.paragraph}>
+            <SubParagraph>
                 Ved å huke av linjer vil visningen til avgangstavlen begrenses
                 til de valgte linjene.
-            </Paragraph>
+            </SubParagraph>
             <Switch
                 className={classes.selectAll}
                 checked={tile.whitelistedLines?.length === uniqLines.length}
