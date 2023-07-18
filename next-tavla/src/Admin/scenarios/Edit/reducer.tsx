@@ -10,7 +10,7 @@ export type Action =
     | { type: 'changeTheme'; theme: TTheme }
     | { type: 'addTile'; tile: TAnonTiles }
     | { type: 'removeTile'; tileId: string }
-    | { type: 'updateTile'; tile: TTile }
+    | { type: 'setTile'; tile: TTile }
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
     | { type: 'toggleLine'; tileId: string; lineId: string }
     | { type: 'setColumn'; tileId: string; column: TColumn; value: boolean }
@@ -58,10 +58,14 @@ export function settingsReducer(
                 ),
             }
         }
-        case 'updateTile': {
-            return changeTile<TTile>(action.tile.uuid, () => {
-                return { ...action.tile }
-            })
+        case 'setTile': {
+            return {
+                ...settings,
+                tiles: settings.tiles.map((tile) => {
+                    if (tile.uuid === action.tile.uuid) return action.tile
+                    return tile
+                }),
+            }
         }
         case 'swapTiles': {
             return {
