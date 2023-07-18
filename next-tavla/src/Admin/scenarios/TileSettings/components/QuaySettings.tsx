@@ -25,7 +25,6 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
                 tile={tile}
                 selectedQuayId={tile.placeId}
             />
-            <SelectLines tile={tile} lines={lines} />
             <ToggleColumns tile={tile} />
             <SelectLines tile={tile} lines={lines} />
         </TileSettingsWrapper>

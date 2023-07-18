@@ -12,3 +12,9 @@ export function fieldsNotNull<T extends Record<string, unknown>>(
         Object.values(record).every(isNotNullOrUndefined)
     )
 }
+
+export function isNotNullOrUndefinedOrEmptyString<T>(
+    thing: T | undefined | null,
+): thing is T {
+    return isNotNullOrUndefined(thing) && thing !== ''
+}

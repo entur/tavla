@@ -4,10 +4,13 @@ import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { QuaysSearchQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
 import { TTile } from 'types/tile'
-import { isNotNullOrUndefined } from 'utils/typeguards'
+import {
+    isNotNullOrUndefined,
+    isNotNullOrUndefinedOrEmptyString,
+} from 'utils/typeguards'
 import classes from './styles.module.css'
 
-const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' } as const
+const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' }
 
 function PlatformDropdown({
     stopPlaceId,
@@ -35,11 +38,15 @@ function PlatformDropdown({
                 value: quay.id,
                 label:
                     'Platform ' +
-                    [quay.publicCode ?? index + 1, quay.description].join(' '),
+                    [
+                        isNotNullOrUndefinedOrEmptyString(quay.publicCode)
+                            ? quay.publicCode
+                            : index + 1,
+                        quay.description,
+                    ].join(' '),
             })) || []
 
-    const dropDownOptions = () =>
-        quays.length ? [{ ...stopPlaceOption }, ...quays] : []
+    const dropDownOptions = () => [stopPlaceOption, ...quays]
 
     return (
         <div>
