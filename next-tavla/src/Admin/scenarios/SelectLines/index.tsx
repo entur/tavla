@@ -47,12 +47,7 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
                 onChange={() => {
                     if (tile.whitelistedLines?.length === uniqLines.length)
                         deleteLines()
-                    else
-                        setLines(
-                            uniqLines.map((line) => {
-                                return line.id
-                            }),
-                        )
+                    else setLines(uniqLines.map((line) => line.id))
                 }}
             >
                 Velg alle
