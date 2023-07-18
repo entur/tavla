@@ -19,8 +19,8 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
 
     return (
         <TileSettingsWrapper name={name}>
-            <SelectLines tile={tile} lines={lines} />
             <ToggleColumns tile={tile} />
+            <SelectLines tile={tile} lines={lines} />
         </TileSettingsWrapper>
     )
 }

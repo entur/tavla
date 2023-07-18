@@ -18,8 +18,8 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
 
     return (
         <TileSettingsWrapper name={name}>
-            <SelectLines tile={tile} lines={lines} />
             <ToggleColumns tile={tile} />
+            <SelectLines tile={tile} lines={lines} />
         </TileSettingsWrapper>
     )
 }
