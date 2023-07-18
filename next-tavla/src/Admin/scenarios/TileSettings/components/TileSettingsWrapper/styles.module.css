@@ -16,12 +16,3 @@
     overflow: auto;
     position: relative;
 }
-
-.content::-webkit-scrollbar {
-    width: 0.5em;
-    background-color: var(--tertiary-background-color);
-}
-
-.content::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-color);
-}
