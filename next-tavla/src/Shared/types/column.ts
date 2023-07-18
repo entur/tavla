@@ -13,7 +13,7 @@ export type TColumnSettings = Partial<Record<TColumn, boolean>>
 export const DefaultColumns: TColumnSettings = {
     line: true,
     destination: true,
-    platform: true,
+    platform: false,
     situations: true,
     time: true,
     via: false,
