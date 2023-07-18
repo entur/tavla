@@ -3,6 +3,7 @@
     font-size: 0.875em;
     display: flex;
     align-items: center;
+    white-space: normal;
 }
 
 .situationText {
@@ -15,4 +16,5 @@
     display: flex;
     align-items: center;
     margin-right: 0.1em;
+    font-size: 1.8em;
 }
