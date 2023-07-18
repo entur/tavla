@@ -5,7 +5,7 @@
 }
 
 .line {
-    border-top: 0.1em solid var(--primary-lines-grid-color);
+    border-top: 0.1em solid var(--border-color);
     padding: 0.4em;
     margin: 0 1em;
 }
