@@ -17,8 +17,8 @@ describe('<AddTile />', () => {
             <Contrast>
                 <ToastProvider>
                     <SettingsDispatchContext.Provider value={dispatch}>
-                        <TilesOverview tiles={settings.tiles} />
                         <AddTile />
+                        <TilesOverview tiles={settings.tiles} />
                     </SettingsDispatchContext.Provider>
                 </ToastProvider>
             </Contrast>
