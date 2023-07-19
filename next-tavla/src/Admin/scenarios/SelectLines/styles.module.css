@@ -2,14 +2,14 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(30em, 1fr));
     margin-bottom: 0.5em;
+    gap: 0 2em;
 }
 
 .line {
     border-top: 0.1em solid var(--border-color);
-    padding: 0.4em;
-    margin: 0 1em;
+    padding: 0.2em 0;
 }
 
 .selectAll {
-    margin: 0.4em 1.4em;
+    margin: 0.2em 0;
 }
