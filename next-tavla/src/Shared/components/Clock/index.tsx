@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import classes from './styles.module.css'
+import { formatTimeStamp } from 'Board/utils/time'
 
 function Clock() {
     const [currentTime, setCurrentTime] = useState(Date.now())
@@ -9,10 +10,7 @@ function Clock() {
         return () => clearInterval(intervalId)
     }, [])
 
-    const time = new Intl.DateTimeFormat('no-NB', {
-        timeStyle: 'short',
-        timeZone: 'Europe/Oslo',
-    }).format(currentTime)
+    const time = formatTimeStamp(currentTime)
 
     return (
         <span suppressHydrationWarning className={classes.clock}>
