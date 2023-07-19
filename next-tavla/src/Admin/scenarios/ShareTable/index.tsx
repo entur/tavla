@@ -5,9 +5,9 @@ import classes from './styles.module.css'
 function ShareTable({ text }: { text: string }) {
     return (
         <div>
-            <Heading1 className={classes.heading}>Del avganstavla</Heading1>
+            <Heading1 className={classes.heading}>Del avgangstavla</Heading1>
             <Paragraph className={classes.paragraph}>
-                Trykk på knappen for å kopiere linken til avganstavla.
+                Trykk på knappen for å kopiere linken til avgangstavla.
             </Paragraph>
             <CopyText text={text} toastText="Kopiert lenke" />
         </div>
