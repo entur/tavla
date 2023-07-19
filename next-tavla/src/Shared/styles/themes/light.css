@@ -8,6 +8,8 @@
     --primary-button-color: var(--colors-brand-blue);
     --primary-button-hover-color: var(--colors-blues-blue20);
 
+    --border-color: var(--colors-greys-grey60);
+
     --table-border-color: var(--colors-greys-grey60);
     --table-situation-color: var(--colors-misc-black);
 
