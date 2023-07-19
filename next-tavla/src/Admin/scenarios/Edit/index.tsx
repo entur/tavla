@@ -1,16 +1,15 @@
 import { TSettings } from 'types/settings'
 import { TilesOverview } from '../TilesOverview'
-import { useCallback, useEffect, useReducer, useRef } from 'react'
+import { useReducer } from 'react'
 import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
 import { AddTile } from '../AddTile'
-import { setBoardSettings } from 'utils/firebase'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
-import { useToast } from '@entur/alert'
 import { FloatingButton } from '@entur/button'
 import { StyledLink } from 'Admin/components/StyledLink'
 import { ShareTable } from '../ShareTable'
+import { useAutoSaveSettings } from './hooks/useAutoSaveSettings'
 
 function Edit({
     initialSettings,
@@ -19,28 +18,11 @@ function Edit({
     initialSettings: TSettings
     documentId: string
 }) {
-    const { addToast } = useToast()
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
-    const hasMountedRef = useRef(false)
 
     const linkUrl = window.location.host + '/' + documentId
 
-    const saveSettings = useCallback(() => {
-        addToast({
-            title: 'Lagret!',
-            content: 'Innstillingene er lagret',
-            variant: 'info',
-        })
-        setBoardSettings(documentId, settings)
-    }, [addToast, documentId, settings])
-
-    useEffect(() => {
-        if (!hasMountedRef.current) {
-            hasMountedRef.current = true
-            return
-        }
-        saveSettings()
-    }, [settings.tiles.length, saveSettings])
+    const saveSettings = useAutoSaveSettings(documentId, settings)
 
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
