@@ -4,13 +4,14 @@ import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { Heading4, SubParagraph } from '@entur/typography'
+import { TLinesFragment } from 'graphql/index'
 
 function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     tile,
     lines,
 }: {
     tile: T
-    lines: { id: string; publicCode: string | null; name: string | null }[]
+    lines: TLinesFragment['lines']
 }) {
     const dispatch = useSettingsDispatch()
     const toggleLine = (line: string) => {
@@ -35,7 +36,7 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     })
 
     return (
-        <div>
+        <div className={classes.lineSettingsWrapper}>
             <Heading4>Velg linjer</Heading4>
             <SubParagraph>
                 Ved å huke av linjer vil visningen til avgangstavlen begrenses
