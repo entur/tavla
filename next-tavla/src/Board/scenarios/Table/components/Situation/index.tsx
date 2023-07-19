@@ -1,23 +1,27 @@
-import { TSituationFragment } from 'graphql/index'
-import { SVGProps } from 'react'
+import { SVGProps, useEffect, useState } from 'react'
 
 import classes from './styles.module.css'
 
-function Situation({ situation }: { situation: TSituationFragment }) {
+function Situation({ situationText }: { situationText: string | string[] }) {
     // The order of priority should be according to some setting.
-    const situationText =
-        situation.description.find((desc) => desc.language === 'no')?.value ??
-        situation.summary.find((summary) => summary.language === 'no')?.value ??
-        null
-
-    if (!situationText) return null
+    const [index, setIndex] = useState(0)
+    const numberOfStrings = situationText.length
+    useEffect(() => {
+        if (numberOfStrings <= 1) {
+            return
+        }
+        const interval = setInterval(() => setIndex((i) => i + 1), 5000)
+        return () => clearInterval(interval)
+    }, [numberOfStrings])
 
     return (
         <div className={classes.situation}>
             <div className={classes.validation}>
                 <ValidationExclamation />
             </div>
-            <div className={classes.situationText}>{situationText}</div>
+            <div className={classes.situationText}>
+                {situationText[index % numberOfStrings]}
+            </div>
         </div>
     )
 }
