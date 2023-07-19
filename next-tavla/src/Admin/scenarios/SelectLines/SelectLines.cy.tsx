@@ -2,6 +2,7 @@ import React, { useReducer } from 'react'
 import { SelectLines } from './index'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from '../Edit/reducer'
+import { TLinesFragment } from 'graphql/index'
 
 describe('<SelectLines />', () => {
     const TestComponent = () => {
@@ -23,26 +24,30 @@ describe('<SelectLines />', () => {
             ],
         })
 
-        const lines = [
+        const lines: TLinesFragment['lines'] = [
             {
                 id: 'ATB:Line:2_25',
                 publicCode: '25',
                 name: 'Vikåsen- Strindheim- Singsaker',
+                transportMode: 'bus',
             },
             {
                 id: 'ATB:Line:2_805',
                 publicCode: '805',
                 name: 'Trondheim - Brekstad',
+                transportMode: 'bus',
             },
             {
                 id: 'ATB:Line:2_800',
                 publicCode: '800',
                 name: 'Trondheim - Brekstad - Kristiansund',
+                transportMode: 'bus',
             },
             {
                 id: 'ATB:Line:2_810',
                 publicCode: '810',
                 name: 'Trondheim - Vanvikan',
+                transportMode: 'bus',
             },
         ]
 
