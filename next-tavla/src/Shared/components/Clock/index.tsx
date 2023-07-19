@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import classes from './styles.module.css'
-import { formatTimeStamp } from 'Board/utils/time'
+import { formatTimeStamp } from 'utils/time'
 
 function Clock() {
     const [currentTime, setCurrentTime] = useState(Date.now())

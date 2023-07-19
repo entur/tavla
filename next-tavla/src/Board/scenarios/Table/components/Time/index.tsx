@@ -1,5 +1,5 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import { formatDateString, getRelativeTimeString } from 'Board/utils/time'
+import { formatDateString, getRelativeTimeString } from 'utils/time'
 import { DepartureContext } from '../../contexts'
 
 import classes from './styles.module.css'
