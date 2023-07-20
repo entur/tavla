@@ -12,8 +12,6 @@
     --table-border-color: var(--colors-blues-blue30);
     --table-situation-color: var(--colors-validation-canary-contrast);
 
-    --table-time-deviation-color: var(--colors-validation-lava-contrast);
-
     --table-transport-metro-color: var(--colors-transport-contrast-metro);
     --table-transport-bus-color: var(--colors-transport-contrast-bus);
     --table-transport-tram-color: var(--colors-transport-contrast-tram);
