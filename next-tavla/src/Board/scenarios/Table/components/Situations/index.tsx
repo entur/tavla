@@ -4,13 +4,19 @@ import { DepartureContext } from '../../contexts'
 import { useEffect, useState } from 'react'
 
 function Situations() {
+    //number decided based on 1920x1080 screen
+    const numOfCharacters = 85
     const departure = useNonNullContext(DepartureContext)
 
     function splitLongSituation(situationText: string) {
         const splitSituation = []
-        const numOfCharacters = 100
         for (let i = 0; i < situationText.length; i += numOfCharacters) {
-            splitSituation.push(situationText.substring(i, i + numOfCharacters))
+            const splitText = situationText.substring(i, i + numOfCharacters)
+            if (i == 0) {
+                splitSituation.push(splitText + '...')
+            } else if (i + numOfCharacters < situationText.length)
+                splitSituation.push('...' + splitText + '...')
+            else splitSituation.push('...' + splitText)
         }
         return splitSituation
     }
@@ -23,15 +29,18 @@ function Situations() {
                 ?.value ??
             null
         if (!situationText) {
-            return ''
+            return []
         }
-        if (situationText.length < 100) {
+        if (situationText.length <= numOfCharacters) {
             return [situationText]
         } else return splitLongSituation(situationText)
     })
-    console.log(situationsText)
 
-    const numberOfSituations = situationsText.length
+    const mappedSituationText = situationsText.reduce((accList, textList) => {
+        return [...accList, ...textList]
+    }, [])
+    const numberOfSituations = mappedSituationText.length
+
     const [index, setIndex] = useState(0)
 
     useEffect(() => {
@@ -46,7 +55,9 @@ function Situations() {
         <td>
             {numberOfSituations ? (
                 <Situation
-                    situationText={situationsText[index % numberOfSituations]}
+                    situationText={
+                        mappedSituationText[index % numberOfSituations]
+                    }
                 />
             ) : null}
         </td>
