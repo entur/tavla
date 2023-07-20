@@ -3,8 +3,9 @@ import { TTile } from 'types/tile'
 import { StopPlaceTile } from '../StopPlaceTile'
 import { QuayTile } from '../QuayTile'
 import classes from './styles.module.css'
+import { Tile } from 'components/Tile'
 
-function Tile({ tileSpec }: { tileSpec: TTile }) {
+function BoardTile({ tileSpec }: { tileSpec: TTile }) {
     switch (tileSpec.type) {
         case 'stop_place':
             return <StopPlaceTile {...tileSpec} />
@@ -14,10 +15,17 @@ function Tile({ tileSpec }: { tileSpec: TTile }) {
 }
 
 function Board({ settings }: { settings: TSettings }) {
+    if (!settings.tiles.length)
+        return (
+            <Tile className={classes.emptyTile}>
+                <p>Du har ikke lagt til noen holdeplasser enda.</p>
+            </Tile>
+        )
+
     return (
         <div className={classes.board}>
             {settings.tiles.map((tile, index) => {
-                return <Tile key={index} tileSpec={tile} />
+                return <BoardTile key={index} tileSpec={tile} />
             })}
         </div>
     )

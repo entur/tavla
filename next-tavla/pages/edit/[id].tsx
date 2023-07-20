@@ -5,6 +5,7 @@ import { getBoardSettings } from 'utils/firebase'
 import classes from 'styles/pages/admin.module.css'
 import { Contrast } from '@entur/layout'
 import { convertSettingsVersion } from 'utils/converters'
+import { ToastProvider } from '@entur/alert'
 
 export async function getServerSideProps({
     params,
@@ -34,8 +35,10 @@ export async function getServerSideProps({
 function AdminPage({ settings, id }: { settings: TSettings; id: string }) {
     return (
         <Contrast className={classes.root}>
-            <Header />
-            <Edit initialSettings={settings} documentId={id} />
+            <ToastProvider>
+                <Header />
+                <Edit initialSettings={settings} documentId={id} />
+            </ToastProvider>
         </Contrast>
     )
 }

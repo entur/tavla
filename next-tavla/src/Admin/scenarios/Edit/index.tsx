@@ -4,13 +4,12 @@ import { useReducer } from 'react'
 import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
 import { AddTile } from '../AddTile'
-import { setBoardSettings } from 'utils/firebase'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
-import { ToastProvider } from '@entur/alert'
 import { FloatingButton } from '@entur/button'
 import { StyledLink } from 'Admin/components/StyledLink'
 import { ShareTable } from '../ShareTable'
+import { useAutoSaveSettings } from './hooks/useAutoSaveSettings'
 
 function Edit({
     initialSettings,
@@ -20,32 +19,32 @@ function Edit({
     documentId: string
 }) {
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
+
     const linkUrl = window.location.host + '/' + documentId
+
+    const saveSettings = useAutoSaveSettings(documentId, settings)
+
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
-            <ToastProvider>
-                <div className={classes.settings}>
-                    <AddTile />
-                    <TilesOverview tiles={settings.tiles} />
-                    <ShareTable text={linkUrl} />
-                    <div className={classes.floatingButtonWrapper}>
-                        <FloatingButton
-                            className={classes.saveButton}
-                            size="medium"
-                            aria-label={'Lagre instillinger'}
-                            onClick={() => {
-                                setBoardSettings(documentId, settings)
-                            }}
-                        >
-                            Lagre innstillinger
-                        </FloatingButton>
-                        <StyledLink
-                            linkUrl={'/' + documentId}
-                            text="Se avgangstavla"
-                        />
-                    </div>
+            <div className={classes.settings}>
+                <AddTile />
+                <TilesOverview tiles={settings.tiles} />
+                <ShareTable text={linkUrl} />
+                <div className={classes.floatingButtonWrapper}>
+                    <FloatingButton
+                        className={classes.saveButton}
+                        size="medium"
+                        aria-label="Lagre instillinger"
+                        onClick={saveSettings}
+                    >
+                        Lagre innstillinger
+                    </FloatingButton>
+                    <StyledLink
+                        linkUrl={'/' + documentId}
+                        text="Se avgangstavla"
+                    />
                 </div>
-            </ToastProvider>
+            </div>
         </SettingsDispatchContext.Provider>
     )
 }

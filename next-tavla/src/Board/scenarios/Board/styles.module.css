@@ -1,3 +1,10 @@
+.emptyTile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--main-font-color);
+}
+
 .board {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(50vmin, 1fr));
