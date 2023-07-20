@@ -19,7 +19,7 @@ function useAutoSaveSettings(documentId: string, settings: TSettings) {
     }, [addToast, documentId, settings])
 
     useEffect(() => {
-        if (settings.tiles.length == prevTilesLength) {
+        if (settings.tiles.length === prevTilesLength) {
             return
         }
         saveSettings()
