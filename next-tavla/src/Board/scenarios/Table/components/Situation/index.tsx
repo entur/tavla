@@ -1,14 +1,29 @@
 import { SVGProps } from 'react'
-
 import classes from './styles.module.css'
+import { TSituationFragment } from 'graphql/index'
 
-function Situation({ situationText }: { situationText: string }) {
+function Situation({ situation }: { situation: TSituationFragment }) {
+    const numOfCharacters = 80
+    function cutLongSituation(situationText: string) {
+        if (situationText.length <= numOfCharacters) return situationText
+
+        return situationText.substring(0, numOfCharacters) + '...'
+    }
+    const situationText =
+        situation.summary.find((summary) => summary.language === 'no')?.value ??
+        situation.description.find((desc) => desc.language === 'no')?.value ??
+        null
+
+    if (!situationText) return null
+
+    const editedSituationText = cutLongSituation(situationText)
+
     return (
         <div className={classes.situation}>
             <div className={classes.validation}>
                 <ValidationExclamation />
             </div>
-            <div className={classes.situationText}>{situationText}</div>
+            <div className={classes.situationText}>{editedSituationText}</div>
         </div>
     )
 }
