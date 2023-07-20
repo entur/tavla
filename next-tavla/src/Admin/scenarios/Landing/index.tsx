@@ -1,5 +1,5 @@
 import { Button } from '@entur/button'
-import { Heading1, Paragraph } from '@entur/typography'
+import { Heading1, ListItem, Paragraph, UnorderedList } from '@entur/typography'
 import classes from './styles.module.css'
 import { addBoardSettings } from 'utils/firebase'
 import { useRouter } from 'next/router'
@@ -39,7 +39,7 @@ function Landing() {
                         Opprett ny tavle
                     </Button>
                 </div>
-                <div className={classes.image}>
+                <div className={classes.illustrationImage}>
                     <Image
                         src={landingImage}
                         alt="illustration"
@@ -54,8 +54,7 @@ function Landing() {
                     <Image
                         src={tavla}
                         alt="illustration"
-                        width={811}
-                        height={387}
+                        className={classes.tavlaImg}
                     />
                 </div>
 
@@ -70,14 +69,11 @@ function Landing() {
                     </Paragraph>
                     <Paragraph className={classes.text}>
                         Du kan f.eks. lage avgangstavler for:
-                        <Paragraph className={classes.list}>
-                            <ul>
-                                <li>holdeplasser</li>
-                                <li>knutepunkter</li>
-                            </ul>
-                        </Paragraph>
                     </Paragraph>
-
+                    <UnorderedList className={classes.list}>
+                        <ListItem>holdeplasser</ListItem>
+                        <ListItem>knutepunkter</ListItem>
+                    </UnorderedList>
                     <Paragraph className={classes.text}>
                         Ved å samle og tydeliggjøre viktig informasjon på ett
                         sted kan Tavla gjøre det enklere for reisende å bruke
