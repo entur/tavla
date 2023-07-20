@@ -1,5 +1,5 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import { formatTime, getRelativeTimeString } from 'Board/utils/time'
+import { formatDateString, getRelativeTimeString } from 'utils/time'
 import { DepartureContext } from '../../contexts'
 
 import classes from './styles.module.css'
@@ -18,7 +18,7 @@ function Time() {
                     {getRelativeTimeString(departure.expectedDepartureTime)}
                 </div>
                 <div className={classes.aimedDepartureTime}>
-                    {formatTime(departure.aimedDepartureTime)}
+                    {formatDateString(departure.aimedDepartureTime)}
                 </div>
             </td>
         )
