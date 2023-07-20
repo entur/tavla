@@ -3,14 +3,32 @@ import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { Heading4, SubParagraph } from '@entur/typography'
+import { Heading4, Heading5, SubParagraph } from '@entur/typography'
+import { TLinesFragment } from 'graphql/index'
+import { TTransportMode } from 'types/graphql-schema'
+
+const transportModeNames: Record<TTransportMode, string> = {
+    air: 'Fly',
+    bus: 'Buss',
+    cableway: 'Kabelbane',
+    water: 'Ferje',
+    funicular: 'Taubane',
+    lift: 'Heis',
+    rail: 'Tog',
+    metro: 'T-bane',
+    tram: 'Trikk',
+    trolleybus: 'Trolley-buss',
+    monorail: 'Enskinnebane',
+    coach: 'Turbuss',
+    unknown: 'Ukjent',
+}
 
 function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     tile,
     lines,
 }: {
     tile: T
-    lines: { id: string; publicCode: string | null; name: string | null }[]
+    lines: TLinesFragment['lines']
 }) {
     const dispatch = useSettingsDispatch()
     const toggleLine = (line: string) => {
@@ -27,6 +45,10 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
         })
     }
 
+    const transportModes: TTransportMode[] = uniqBy(lines, 'transportMode').map(
+        (line) => line.transportMode ?? 'unknown',
+    )
+
     const uniqLines = uniqBy(lines, 'id').sort((a, b) => {
         if (!a || !a.publicCode || !b || !b.publicCode) return 1
         return a.publicCode.localeCompare(b.publicCode, 'no-NB', {
@@ -35,7 +57,7 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
     })
 
     return (
-        <div>
+        <div className={classes.lineSettingsWrapper}>
             <Heading4>Velg linjer</Heading4>
             <SubParagraph>
                 Ved å huke av linjer vil visningen til avgangstavlen begrenses
@@ -52,23 +74,31 @@ function SelectLines<T extends TStopPlaceTile | TQuayTile>({
             >
                 Velg alle
             </Switch>
-            <div className={classes.linesGrid}>
-                {uniqLines.map((line) => (
-                    <div key={line.id} className={classes.line}>
-                        <Switch
-                            checked={
-                                tile.whitelistedLines?.includes(line.id) ??
-                                false
-                            }
-                            onChange={() => {
-                                toggleLine(line.id)
-                            }}
-                        >
-                            {line.publicCode} {line.name}
-                        </Switch>
+            {transportModes.map((mode) => (
+                <div key={mode}>
+                    <Heading5>{transportModeNames[mode]}</Heading5>
+                    <div className={classes.linesGrid}>
+                        {uniqLines
+                            .filter((line) => line.transportMode === mode)
+                            .map((line) => (
+                                <div key={line.id} className={classes.line}>
+                                    <Switch
+                                        checked={
+                                            tile.whitelistedLines?.includes(
+                                                line.id,
+                                            ) ?? false
+                                        }
+                                        onChange={() => {
+                                            toggleLine(line.id)
+                                        }}
+                                    >
+                                        {line.publicCode} {line.name}
+                                    </Switch>
+                                </div>
+                            ))}
                     </div>
-                ))}
-            </div>
+                </div>
+            ))}
         </div>
     )
 }
