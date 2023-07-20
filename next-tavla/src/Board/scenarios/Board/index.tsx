@@ -18,7 +18,7 @@ function Board({ settings }: { settings: TSettings }) {
     if (!settings.tiles.length)
         return (
             <Tile className={classes.emptyTile}>
-                <p>Her er det ikke lagt til noen holdeplasser enda.</p>
+                <p>Du har ikke lagt til noen holdeplasser enda.</p>
             </Tile>
         )
 
