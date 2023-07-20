@@ -2,9 +2,7 @@ import { SVGProps } from 'react'
 
 import classes from './styles.module.css'
 
-function Situation({ situationText }: { situationText: string | string[] }) {
-    // The order of priority should be according to some setting.
-
+function Situation({ situationText }: { situationText: string }) {
     return (
         <div className={classes.situation}>
             <div className={classes.validation}>

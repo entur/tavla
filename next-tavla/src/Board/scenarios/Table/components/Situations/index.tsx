@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 
 function Situations() {
     //number decided based on 1920x1080 screen
-    const numOfCharacters = 85
+    const numOfCharacters = 50
     const departure = useNonNullContext(DepartureContext)
 
     function splitLongSituation(situationText: string) {
