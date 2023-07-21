@@ -22,8 +22,15 @@ function Board({ settings }: { settings: TSettings }) {
             </Tile>
         )
 
+    const fontScale = 1 / Math.ceil(Math.sqrt(settings.tiles.length))
+
     return (
-        <div className={classes.board}>
+        <div
+            className={classes.board}
+            style={{
+                fontSize: 100 * fontScale + '%',
+            }}
+        >
             {settings.tiles.map((tile, index) => {
                 return <BoardTile key={index} tileSpec={tile} />
             })}
