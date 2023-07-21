@@ -13,8 +13,6 @@
     --table-border-color: var(--colors-greys-grey60);
     --table-situation-color: var(--colors-misc-black);
 
-    --table-time-deviation-color: var(--colors-validation-lava);
-
     --table-transport-metro-color: var(--colors-transport-default-metro);
     --table-transport-bus-color: var(--colors-transport-default-bus);
     --table-transport-tram-color: var(--colors-transport-default-tram);

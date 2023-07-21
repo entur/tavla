@@ -35,7 +35,7 @@ export async function getServerSideProps({
 function AdminPage({ settings, id }: { settings: TSettings; id: string }) {
     return (
         <Contrast className={classes.root}>
-            <ToastProvider>
+            <ToastProvider position="top-right">
                 <Header />
                 <Edit initialSettings={settings} documentId={id} />
             </ToastProvider>
