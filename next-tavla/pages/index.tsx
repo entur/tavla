@@ -6,7 +6,9 @@ import { Header } from 'components/Header'
 function LandingPage() {
     return (
         <Contrast className={classes.root}>
-            <Header />
+            <div className={classes.header}>
+                <Header />
+            </div>
             <Landing />
         </Contrast>
     )
