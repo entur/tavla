@@ -5,11 +5,10 @@ import { useEffect, useState } from 'react'
 
 function Situations() {
     const departure = useNonNullContext(DepartureContext)
+    const [index, setIndex] = useState(0)
 
     const situations = departure.situations
     const numberOfSituations = situations.length
-
-    const [index, setIndex] = useState(0)
 
     useEffect(() => {
         if (numberOfSituations <= 1) {
