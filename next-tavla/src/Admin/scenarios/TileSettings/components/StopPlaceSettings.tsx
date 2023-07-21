@@ -18,7 +18,7 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
     const name = !data ? data : data.stopPlace?.name ?? tile.placeId
 
     return (
-        <TileSettingsWrapper name={name}>
+        <TileSettingsWrapper name={name} uuid={tile.uuid}>
             <PlatformDropdown stopPlaceId={tile.placeId} tile={tile} />
             <ToggleColumns tile={tile} />
             <SelectLines tile={tile} lines={lines} />

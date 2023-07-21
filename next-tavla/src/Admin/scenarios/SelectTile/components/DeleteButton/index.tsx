@@ -44,8 +44,10 @@ function DeleteButton({ uuid }: { uuid: string }) {
                 onClick={() => setOpen(true)}
                 className={classes.deleteButton}
             >
-                <DeleteIcon size={16} />
-                {'Slett'}
+                <div className={classes.deleteButtonElems}>
+                    <DeleteIcon size={16} />
+                    Slett
+                </div>
             </TertiaryButton>
         </>
     )

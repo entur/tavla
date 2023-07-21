@@ -1,9 +1,10 @@
 .deleteButton {
-    border: none;
     font-size: 0.75em;
+    border-radius: 0.5em;
 }
 
-.deleteButton:hover {
-    background-color: var(--colors-blues-blue30);
-    border: solid 1px var(--colors-brand-lavender);
+.deleteButtonElems {
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
 }

@@ -7,6 +7,11 @@
     width: 100%;
     height: 30em;
 }
+.tilesettingsHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
 .heading {
     margin: 0;
