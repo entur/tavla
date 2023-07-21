@@ -19,12 +19,7 @@ function Situations() {
         return () => clearInterval(interval)
     }, [numberOfSituations])
 
-    return (
-        <td>
-            {numberOfSituations ? (
-                <Situation situation={situations[index % numberOfSituations]} />
-            ) : null}
-        </td>
-    )
+    if (!situations.length) return null
+    return <Situation situation={situations[index % numberOfSituations]} />
 }
 export { Situations }

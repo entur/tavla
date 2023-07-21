@@ -16,7 +16,7 @@ import { Platform } from './components/Platform'
 import { Situations } from './components/Situations'
 import { Via } from './components/Via'
 
-const columnComponents: Record<TColumn, () => JSX.Element> = {
+const columnComponents: Record<TColumn, () => JSX.Element | null> = {
     destination: Destination,
     line: Line,
     time: Time,
@@ -27,7 +27,7 @@ const columnComponents: Record<TColumn, () => JSX.Element> = {
 
 const ColumnOrder: TColumnLayout[] = [
     { type: 'line', size: 1 },
-    { type: 'destination', size: 6 },
+    { type: 'destination', size: 15 },
     { type: 'via', size: 5 },
     { type: 'situations', size: 6 },
     { type: 'platform', size: 1 },

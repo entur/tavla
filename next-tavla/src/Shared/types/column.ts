@@ -14,7 +14,7 @@ export const DefaultColumns: TColumnSettings = {
     line: true,
     destination: true,
     platform: false,
-    situations: true,
+    situations: false,
     time: true,
     via: false,
 } as const
