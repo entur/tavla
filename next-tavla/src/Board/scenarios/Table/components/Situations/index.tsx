@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react'
 
 function Situations() {
     const departure = useNonNullContext(DepartureContext)
-
-    const numberOfSituations = departure.situations.length
     const [index, setIndex] = useState(0)
+
+    const situations = departure.situations
+    const numberOfSituations = situations.length
 
     useEffect(() => {
         if (numberOfSituations <= 1) {
@@ -17,14 +18,7 @@ function Situations() {
         return () => clearInterval(interval)
     }, [numberOfSituations])
 
-    return (
-        <td>
-            {numberOfSituations ? (
-                <Situation
-                    situation={departure.situations[index % numberOfSituations]}
-                />
-            ) : null}
-        </td>
-    )
+    if (!situations.length) return null
+    return <Situation situation={situations[index % numberOfSituations]} />
 }
 export { Situations }

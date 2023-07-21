@@ -1,13 +1,11 @@
-import { TSituationFragment } from 'graphql/index'
 import { SVGProps } from 'react'
-
 import classes from './styles.module.css'
+import { TSituationFragment } from 'graphql/index'
 
 function Situation({ situation }: { situation: TSituationFragment }) {
-    // The order of priority should be according to some setting.
     const situationText =
-        situation.description.find((desc) => desc.language === 'no')?.value ??
         situation.summary.find((summary) => summary.language === 'no')?.value ??
+        situation.description.find((desc) => desc.language === 'no')?.value ??
         null
 
     if (!situationText) return null
@@ -26,8 +24,7 @@ function ValidationExclamation(props: SVGProps<SVGSVGElement>) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={'1em'}
-            height={'1em'}
+            width="0.5em"
             xmlSpace="preserve"
             viewBox="0 0 16 16"
             {...props}
