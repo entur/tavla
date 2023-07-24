@@ -11,7 +11,7 @@ const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
     bus: 'Buss',
     cableway: 'Kabelbane',
-    water: 'Ferje',
+    water: 'Båt',
     funicular: 'Taubane',
     lift: 'Heis',
     rail: 'Tog',
@@ -19,7 +19,7 @@ const transportModeNames: Record<TTransportMode, string> = {
     tram: 'Trikk',
     trolleybus: 'Trolley-buss',
     monorail: 'Enskinnebane',
-    coach: 'Turbuss',
+    coach: 'Coach',
     unknown: 'Ukjent',
 }
 

@@ -32,33 +32,28 @@ function PlatformDropdown({
     const { data } = useQuery(QuaysSearchQuery, { stopPlaceId })
 
     const quays =
-        data?.stopPlace?.quays
-            ?.filter(isNotNullOrUndefined)
-            .map((quay, index) => ({
-                value: quay.id,
-                label:
-                    'Platform ' +
-                    [
-                        isNotNullOrUndefinedOrEmptyString(quay.publicCode)
-                            ? quay.publicCode
-                            : index + 1,
-                        quay.description,
-                    ].join(' '),
-            })) || []
+        data?.stopPlace?.quays?.filter(isNotNullOrUndefined).map((quay) => ({
+            value: quay.id,
+            label: [
+                isNotNullOrUndefinedOrEmptyString(quay.publicCode)
+                    ? quay.publicCode
+                    : '',
+                quay.description ? quay.description : 'Uten navn',
+            ].join(' '),
+        })) || []
 
     const dropDownOptions = () => [stopPlaceOption, ...quays]
 
     return (
         <div>
-            <Heading4>Velg plattform</Heading4>
+            <Heading4>Velg plattform/retning</Heading4>
             <SubParagraph>
-                Avgangstavlen kan enten vise avganger for alle plattformer eller
-                kun én.
+                Du kan enten vise alle plattformer/retninger eller kun én.
             </SubParagraph>
             <Dropdown
                 className={classes.dropdown}
                 items={dropDownOptions}
-                label="Velg plattform"
+                label="Velg plattform/retning"
                 disabled={!stopPlaceId}
                 value={selectedValue}
                 onChange={(e) => {
