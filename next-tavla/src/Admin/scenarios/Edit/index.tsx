@@ -41,7 +41,7 @@ function Edit({
                     </FloatingButton>
                     <StyledLink
                         linkUrl={'/' + documentId}
-                        text="Se avgangstavla"
+                        text="Se avgangstavlen"
                     />
                 </div>
             </div>
