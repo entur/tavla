@@ -14,9 +14,8 @@ function TileSettings({ tile }: { tile?: TTile; name?: string }) {
                 <TileSettingsWrapper className={classes.emptyTileWrapper}>
                     <Paragraph>
                         Wops! Du har ikke markert en holdeplass enda. Legg til
-                        en holdeplass eller trykk på en som allerede ligger i
-                        lista til venstre for å kunne bestemme plattformer og
-                        linjer som skal vises på avgangstavla.
+                        en holdeplass for å kunne bestemme plattformer og linjer
+                        som skal vises på avgangstavla.
                     </Paragraph>
                 </TileSettingsWrapper>
             )}

@@ -2,10 +2,15 @@ import { SVGProps } from 'react'
 import classes from './styles.module.css'
 import { TSituationFragment } from 'graphql/index'
 
-function Situation({ situation }: { situation: TSituationFragment }) {
+function Situation({
+    situation,
+}: {
+    situation: TSituationFragment | undefined
+}) {
     const situationText =
-        situation.summary.find((summary) => summary.language === 'no')?.value ??
-        situation.description.find((desc) => desc.language === 'no')?.value ??
+        situation?.summary.find((summary) => summary.language === 'no')
+            ?.value ??
+        situation?.description.find((desc) => desc.language === 'no')?.value ??
         null
 
     if (!situationText) return null

@@ -7,14 +7,15 @@ import classes from './styles.module.css'
 function TilesOverview({ tiles }: { tiles: TTile[] }) {
     const [selectedTileId, setSelectedTileId] = useState<string>()
 
-    const selectedTile = tiles.find((tile) => tile.uuid === selectedTileId)
+    const selectedTile =
+        tiles.find((tile) => tile.uuid === selectedTileId) ?? tiles[0]
 
     return (
         <div className={classes.overviewWrapper}>
             <SelectTile
                 tiles={tiles}
                 selectTile={setSelectedTileId}
-                selectedTileId={selectedTileId}
+                selectedTileId={selectedTile?.uuid}
             />
 
             <TileSettings tile={selectedTile} />
