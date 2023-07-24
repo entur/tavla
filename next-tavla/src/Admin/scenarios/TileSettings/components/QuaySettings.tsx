@@ -12,11 +12,16 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
 
     const lines = data?.quay?.lines.filter(fieldsNotNull) ?? []
 
-    const name = !data
-        ? data
-        : (data.quay?.name ?? tile.placeId) +
-          ' - ' +
-          (data.quay?.description ?? data.quay?.publicCode)
+    const name = data?.quay?.name ?? tile.placeId
+
+    const description =
+        (data?.quay?.description ?? '') + (data?.quay?.publicCode ?? '')
+            ? ' - ' +
+              (data?.quay?.description ?? '') +
+              (data?.quay?.publicCode ?? '')
+            : ''
+
+    const tileHeader = !data ? data : name + description
 
     return (
         <TileSettingsWrapper name={name} uuid={tile.uuid}>

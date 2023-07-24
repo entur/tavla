@@ -12,6 +12,11 @@ import classes from './styles.module.css'
 
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' }
 
+function parseIntFromNumberOrAscii(number: string) {
+    const parsedNumber = parseInt(number)
+    if (isNaN(parsedNumber)) return number.charCodeAt(0)
+    return parsedNumber
+}
 function PlatformDropdown({
     stopPlaceId,
     tile,
@@ -31,17 +36,34 @@ function PlatformDropdown({
 
     const { data } = useQuery(QuaysSearchQuery, { stopPlaceId })
 
-    const quays =
-        data?.stopPlace?.quays?.filter(isNotNullOrUndefined).map((quay) => ({
-            value: quay.id,
-            label: [
-                isNotNullOrUndefinedOrEmptyString(quay.publicCode)
-                    ? quay.publicCode
-                    : '',
-                quay.description ? quay.description : 'Uten navn',
-            ].join(' '),
-        })) || []
+    const getPlatformLabel = (
+        publicCode: string | null,
+        description: string | null,
+    ) => {
+        if (!publicCode && !description) {
+            return 'Ikke navngitt'
+        }
+        return [
+            isNotNullOrUndefinedOrEmptyString(publicCode) ? publicCode : '',
+            description ?? '',
+        ].join(' ')
+    }
 
+    const quays =
+        data?.stopPlace?.quays
+            ?.filter(isNotNullOrUndefined)
+            .map((quay) => ({
+                value: quay.id,
+                label: getPlatformLabel(quay.publicCode, quay.description),
+            }))
+            .sort((a, b) => {
+                const parsedA = parseIntFromNumberOrAscii(a.label)
+                const parsedB = parseIntFromNumberOrAscii(b.label)
+
+                return parsedA - parsedB
+            }) || []
+
+    console.log(quays)
     const dropDownOptions = () => [stopPlaceOption, ...quays]
 
     return (
