@@ -4,10 +4,19 @@ import Image from 'next/image'
 import classes from './styles.module.css'
 import { TTheme } from 'types/settings'
 import { Clock } from 'components/Clock'
+import classNames from 'classnames'
 
-function Header({ theme, showClock }: { theme?: TTheme; showClock?: boolean }) {
+function Header({
+    theme,
+    showClock,
+    className,
+}: {
+    theme?: TTheme
+    showClock?: boolean
+    className?: string
+}) {
     return (
-        <div className={classes.headerWrapper}>
+        <div className={classNames(classes.headerWrapper, className)}>
             <div>
                 {theme === 'light' ? (
                     <Image

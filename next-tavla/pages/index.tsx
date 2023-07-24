@@ -5,9 +5,7 @@ import { Header } from 'components/Header'
 function LandingPage() {
     return (
         <div className={classes.root}>
-            <div className={classes.header}>
-                <Header />
-            </div>
+            <Header className={classes.header} />
             <Landing />
         </div>
     )
