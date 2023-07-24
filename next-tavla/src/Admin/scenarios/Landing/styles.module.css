@@ -1,62 +1,59 @@
 .container {
-    height: 100%;
     display: flex;
     flex-direction: column;
-}
-
-.top {
-    gap: 24em;
-
-    padding: 7em;
-    padding-top: 5em;
-    display: flex;
     align-items: center;
-    box-sizing: inherit;
-    justify-content: center;
+
+    flex: 1;
 }
 
-.illustrationImage {
+.content {
+    width: 50%;
+}
+
+.centeredContainer {
+    display: flex;
+    width: 100%;
+    max-width: 90em;
+    justify-content: space-between;
+    padding: 5em 2em;
+}
+
+.image {
     width: 100%;
     height: auto;
 }
 
-.highlightText {
-    color: var(--brand-coral);
+.topImage {
+    width: 30%;
+}
+
+.bottomContainer {
+    background-color: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    flex: 1;
 }
 
 .button {
-    white-space: nowrap;
-
-    margin-top: 4em;
-    padding: 2em 10em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.bottom {
-    padding: 7em;
-
-    background-color: white;
-    display: flex;
-    height: 100%;
-    gap: 4em;
-    justify-content: center;
-}
-
-.img {
-    margin-left: 8em;
-}
-
-.bottomText {
-    margin-right: 7em;
+    width: 50%;
 }
 
 .list {
-    color: var(--main-background-color);
-    margin-left: 2em;
+    padding-left: 2em;
+    color: var(--primary-text-color); /* Variabel fra designsystemet */
 }
 
-.text {
-    color: var(--main-background-color);
+.subheading {
+    color: var(--highlight-text-color);
+    margin-bottom: 2em;
+}
+
+.headingContainer {
+    flex: 1;
+}
+
+.bottomContent {
+    gap: 4em;
 }

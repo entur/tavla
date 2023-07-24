@@ -7,6 +7,8 @@ import { useState } from 'react'
 import Image from 'next/image'
 import landingImage from 'assets/landingpagePics/Scenariolanding.png'
 import tavla from 'assets/landingpagePics/tavla.png'
+import { Contrast } from '@entur/layout'
+import classNames from 'classnames'
 
 function Landing() {
     const router = useRouter()
@@ -22,64 +24,63 @@ function Landing() {
 
     return (
         <div className={classes.container}>
-            <div className={classes.top}>
-                <div>
+            <Contrast className={classes.centeredContainer}>
+                <div className={classes.headingContainer}>
                     <Heading1>Lag din egen avgangstavle</Heading1>
-                    <Heading1 className={classes.highlightText}>
+                    <Heading1 className={classes.subheading}>
                         for reisende
                     </Heading1>
 
                     <Button
-                        className={classes.button}
                         onClick={handleCreateNewBoard}
                         variant="primary"
                         disabled={loading}
                         loading={loading}
+                        width="fluid"
+                        className={classes.button}
                     >
                         Opprett ny tavle
                     </Button>
                 </div>
-                <div>
+                <div className={classNames(classes.content, classes.topImage)}>
                     <Image
-                        className={classes.illustrationImage}
                         src={landingImage}
                         alt="illustration"
-                        width={402}
-                        height={377}
+                        className={classes.image}
                     />
                 </div>
-            </div>
+            </Contrast>
+            <div className={classes.bottomContainer}>
+                <div
+                    className={classNames(
+                        classes.centeredContainer,
+                        classes.bottomContent,
+                    )}
+                >
+                    <div className={classes.content}>
+                        <Image
+                            src={tavla}
+                            alt="illustration"
+                            className={classes.image}
+                        />
+                    </div>
+                    <div className={classes.content}>
+                        <Heading1>Hva er Tavla?</Heading1>
 
-            <div className={classes.bottom}>
-                <div className={classes.img}>
-                    <Image
-                        src={tavla}
-                        alt="illustration"
-                        width={700}
-                        height={350}
-                    />
-                </div>
-
-                <div className={classes.bottomText}>
-                    <div>
-                        <Heading1 className={classes.text}>
-                            Hva er Tavla?
-                        </Heading1>
-
-                        <Paragraph className={classes.text}>
+                        <Paragraph>
                             Tavla er en nettside som viser avgangene til all
                             offentlig transport i Norge. Med Tavla kan du enkelt
                             sette opp en avgangstavle fra de stoppestedene du
                             ønsker å se, i sanntid.
                         </Paragraph>
-                        <Paragraph className={classes.text}>
+                        <Paragraph margin="none">
                             Du kan f.eks. lage avgangstavler for:
                         </Paragraph>
                         <UnorderedList className={classes.list}>
                             <ListItem>holdeplasser</ListItem>
                             <ListItem>knutepunkter</ListItem>
                         </UnorderedList>
-                        <Paragraph className={classes.text}>
+                        <Paragraph>
                             Ved å samle og tydeliggjøre viktig informasjon på
                             ett sted kan Tavla gjøre det enklere for reisende å
                             bruke det kollektivtrafikktilbudet som finnes. Hver
