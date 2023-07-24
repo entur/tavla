@@ -11,4 +11,5 @@
 
 .expectedDepartureTime {
     font-weight: 600;
+    color: var(--table-estimated-time-color);
 }
