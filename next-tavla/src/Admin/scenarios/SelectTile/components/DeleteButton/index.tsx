@@ -44,7 +44,7 @@ function DeleteButton({ uuid }: { uuid: string }) {
                 onClick={() => setOpen(true)}
                 className={classes.deleteButton}
             >
-                <div className={classes.deleteButtonElems}>
+                <div className={classes.deleteButtonContent}>
                     <DeleteIcon size={16} />
                     Slett
                 </div>

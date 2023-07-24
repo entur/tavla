@@ -7,7 +7,7 @@
     border: solid 1px var(--colors-brand-lavender);
 }
 
-.deleteButtonElems {
+.deleteButtonContent {
     display: flex;
     gap: 0.5em;
     justify-content: center;
