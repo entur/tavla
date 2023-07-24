@@ -6,6 +6,7 @@ import { ChangeEvent } from 'react'
 import { useQuery } from 'graphql/utils'
 import { QuayNameQuery, StopPlaceNameQuery } from 'graphql/index'
 import { RadioOption } from './components/RadioOption'
+import { Loader } from '@entur/loader'
 
 function StopPlaceRadioOption({ tile }: { tile: TStopPlaceTile }) {
     const { data, isLoading } = useQuery(StopPlaceNameQuery, {
@@ -14,7 +15,9 @@ function StopPlaceRadioOption({ tile }: { tile: TStopPlaceTile }) {
 
     const name = data?.stopPlace?.name ?? tile.placeId
 
-    return <RadioOption isLoading={isLoading} name={name} uuid={tile.uuid} />
+    if (isLoading) return <Loader />
+
+    return <RadioOption name={name} uuid={tile.uuid} />
 }
 
 function QuayRadioOption({ tile }: { tile: TQuayTile }) {
@@ -24,7 +27,9 @@ function QuayRadioOption({ tile }: { tile: TQuayTile }) {
 
     const name = data?.quay?.name ?? tile.placeId
 
-    return <RadioOption isLoading={isLoading} name={name} uuid={tile.uuid} />
+    if (isLoading) return <Loader />
+
+    return <RadioOption name={name} uuid={tile.uuid} />
 }
 
 function SelectTile({
