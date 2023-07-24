@@ -11,20 +11,10 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
     const { data } = useQuery(GetQuayQuery, { quayId: tile.placeId })
 
     const lines = data?.quay?.lines.filter(fieldsNotNull) ?? []
-
-    const name = data?.quay?.name ?? tile.placeId
-
-    const description =
-        (data?.quay?.description ?? '') + (data?.quay?.publicCode ?? '')
-            ? ' - ' +
-              (data?.quay?.description ?? '') +
-              (data?.quay?.publicCode ?? '')
-            : ''
-
-    const tileHeader = !data ? data : name + description
+    const name = data?.quay?.name
 
     return (
-        <TileSettingsWrapper name={name} uuid={tile.uuid}>
+        <TileSettingsWrapper title={name} uuid={tile.uuid}>
             <PlatformDropdown
                 stopPlaceId={tile.stopPlaceId}
                 tile={tile}

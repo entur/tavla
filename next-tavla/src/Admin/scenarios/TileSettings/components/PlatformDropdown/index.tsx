@@ -63,7 +63,6 @@ function PlatformDropdown({
                 return parsedA - parsedB
             }) || []
 
-    console.log(quays)
     const dropDownOptions = () => [stopPlaceOption, ...quays]
 
     return (
