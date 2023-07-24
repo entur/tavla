@@ -5,8 +5,8 @@ import { addBoardSettings } from 'utils/firebase'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Image from 'next/image'
-import landingImage from 'assets/landingpagePics/Scenariolanding.png'
-import tavla from 'assets/landingpagePics/tavla.png'
+import landingImage from 'assets/illustrations/Tavla-illustration.png'
+import tavla from 'assets/illustrations/Tavla-screenshot.png'
 import { Contrast } from '@entur/layout'
 import classNames from 'classnames'
 
@@ -77,8 +77,8 @@ function Landing() {
                             Du kan f.eks. lage avgangstavler for:
                         </Paragraph>
                         <UnorderedList className={classes.list}>
-                            <ListItem>holdeplasser</ListItem>
-                            <ListItem>knutepunkter</ListItem>
+                            <ListItem>Holdeplasser</ListItem>
+                            <ListItem>Knutepunkter</ListItem>
                         </UnorderedList>
                         <Paragraph>
                             Ved å samle og tydeliggjøre viktig informasjon på
