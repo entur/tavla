@@ -16,8 +16,8 @@ function TileSettingsWrapper({
     uuid?: string
 }) {
     return (
-        <div className={classNames(classes.tilesettingsWrapper, className)}>
-            <div className={classes.tilesettingsHeader}>
+        <div className={classNames(classes.tileSettingsWrapper, className)}>
+            <div className={classes.tileSettingsHeader}>
                 {name && (
                     <Heading3 className={classes.heading}>{name}</Heading3>
                 )}
