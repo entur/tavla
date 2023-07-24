@@ -39,8 +39,9 @@ function Landing() {
                         Opprett ny tavle
                     </Button>
                 </div>
-                <div className={classes.illustrationImage}>
+                <div>
                     <Image
+                        className={classes.illustrationImage}
                         src={landingImage}
                         alt="illustration"
                         width={402}
@@ -54,12 +55,13 @@ function Landing() {
                     <Image
                         src={tavla}
                         alt="illustration"
-                        className={classes.tavlaImg}
+                        width={700}
+                        height={350}
                     />
                 </div>
 
                 <div className={classes.bottomText}>
-                    <div className={classes.content}>
+                    <div>
                         <Heading1 className={classes.text}>
                             Hva er Tavla?
                         </Heading1>
@@ -80,13 +82,10 @@ function Landing() {
                         <Paragraph className={classes.text}>
                             Ved å samle og tydeliggjøre viktig informasjon på
                             ett sted kan Tavla gjøre det enklere for reisende å
-                            bruke det kollektivtrafikktilbudet som finnes.
-                        </Paragraph>
-                        <Paragraph className={classes.text}>
-                            Hver avgangstavle er knyttet til en lenke som kan
-                            brukes til å sende eller vise den fram der det
-                            passer deg. Trykk på “Opprett ny tavle” for å teste
-                            det ut!
+                            bruke det kollektivtrafikktilbudet som finnes. Hver
+                            avgangstavle er knyttet til en lenke som kan brukes
+                            til å sende eller vise den fram der det passer deg.
+                            Trykk på “Opprett ny tavle” for å teste det ut!
                         </Paragraph>
                     </div>
                 </div>

@@ -6,17 +6,23 @@
 
 .top {
     gap: 24em;
-    margin-left: 3em;
+
     padding: 7em;
     padding-top: 5em;
     display: flex;
     align-items: center;
     box-sizing: inherit;
+    justify-content: center;
 }
 
+.illustrationImage {
+    width: 100%;
+    height: auto;
+}
 .button {
+    white-space: nowrap;
+
     margin-top: 4em;
-    flex-direction: row;
     padding: 2em 10em;
     display: flex;
     justify-content: center;
@@ -27,30 +33,21 @@
 }
 
 .bottom {
+    padding: 7em;
+
     background-color: white;
     display: flex;
     height: 100%;
-    gap: 3em;
+    gap: 4em;
     justify-content: center;
 }
 
-.content {
-    margin-top: 5em;
-}
-
-.tavlaImg {
-    width: 45em;
-    height: auto;
-}
-
 .img {
-    margin-top: 5em;
-    margin-left: 10em;
+    margin-left: 8em;
 }
 
 .bottomText {
-    display: flex;
-    padding-right: 6em;
+    margin-right: 7em;
 }
 
 .list {
