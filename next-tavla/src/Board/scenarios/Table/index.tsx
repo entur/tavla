@@ -1,65 +1,18 @@
 import { TDepartureFragment } from 'graphql/index'
-import {
-    Columns,
-    TColumn,
-    DefaultColumns,
-    TColumnLayout,
-    TColumnSettings,
-} from 'types/column'
+import { TColumnSettings } from 'types/column'
 import React from 'react'
 import classes from './styles.module.css'
-import { DepartureContext } from './contexts'
-import { Time } from './components/Time'
-import { Destination } from './components/Destination'
-import { Line } from './components/Line'
-import { Platform } from './components/Platform'
-import { Situations } from './components/Situations'
-import { Via } from './components/Via'
+import { formatDateString, getRelativeTimeString } from 'utils/time'
+import { TTransportMode } from 'types/graphql-schema'
 
-const columnComponents: Record<TColumn, () => JSX.Element | null> = {
-    destination: Destination,
-    line: Line,
-    time: Time,
-    platform: Platform,
-    situations: Situations,
-    via: Via,
-}
-
-const ColumnOrder: TColumnLayout[] = [
-    { type: 'line', size: 3 },
-    { type: 'destination', size: 10 },
-    { type: 'via', size: 5 },
-    { type: 'situations', size: 6 },
-    { type: 'platform', size: 1 },
-    { type: 'time', size: 4 },
-]
-
-function flexToPercentage(columnSettings: TColumnLayout[]) {
-    const flexToPercentage = columnSettings.reduce(
-        (acc, val) => acc + (val.size ?? 1),
-        0,
-    )
-
-    const perc = 100 / flexToPercentage
-
-    return columnSettings.map((set) => ({
-        ...set,
-        size: (set.size ?? 1) * perc,
-    }))
-}
-
-function ColumnTableHeader({ type, size }: TColumnLayout) {
-    return (
-        <th
-            className={classes.header}
-            style={{
-                width: size,
-            }}
-        >
-            {Columns[type]}
-        </th>
-    )
-}
+// const columnComponents: Record<TColumn, () => JSX.Element | null> = {
+//     destination: Destination,
+//     line: Line,
+//     time: Time,
+//     platform: Platform,
+//     situations: Situations,
+//     via: Via,
+// }
 
 function Table({
     departures,
@@ -68,38 +21,137 @@ function Table({
     departures: TDepartureFragment[]
     columns?: TColumnSettings
 }) {
-    const mergedColumns = { ...DefaultColumns, ...columns }
+    console.log(columns)
+    const destinations = departures.map((departure) => ({
+        destination: departure.destinationDisplay?.frontText ?? '',
+        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+    }))
 
-    const formattedColumnOrder = flexToPercentage(
-        ColumnOrder.filter(({ type }) => mergedColumns[type]),
+    const lines = departures.map((departure) => ({
+        transportMode: departure.serviceJourney.transportMode ?? 'unknown',
+        publicCode: departure.serviceJourney.line.publicCode ?? '',
+        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+    }))
+
+    const time = departures.map((departure) => ({
+        aimedDepartureTime: departure.aimedDepartureTime,
+        expectedDepartureTime: departure.expectedDepartureTime,
+        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+    }))
+    return (
+        <div style={{ display: 'flex', fontSize: '1.5em' }}>
+            <Lines lines={lines} />
+            <Destinations destinations={destinations} />
+            <Times time={time} />
+        </div>
     )
+}
+
+function Destinations({
+    destinations,
+}: {
+    destinations: { destination: string; key: string }[]
+}) {
+    return (
+        <div className={classes.tableColumn} style={{ flexGrow: 1 }}>
+            <div className={classes.tableHeader}>Destinasjon</div>
+            {destinations.map((destination) => (
+                <div key={destination.key} className={classes.tableRow}>
+                    {destination.destination}
+                </div>
+            ))}
+        </div>
+    )
+}
+
+function Lines({
+    lines,
+}: {
+    lines: { transportMode: TTransportMode; publicCode: string; key: string }[]
+}) {
+    return (
+        <div className={classes.tableColumn} style={{ flexShrink: 1 }}>
+            <div className={classes.tableHeader}>Linje</div>
+            {lines.map((line) => (
+                <div
+                    key={line.key}
+                    className={classes.tableRow}
+                    style={{ padding: '0.3em' }}
+                >
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '100%',
+                            padding: '0.5em',
+                            color: 'var(--main-background-color)',
+                            backgroundColor: `var(--table-transport-${
+                                line.transportMode ?? 'unknown'
+                            }-color)`,
+                            borderRadius: '0.2em',
+                            fontWeight: 700,
+                        }}
+                    >
+                        {line.publicCode}
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+function Times({
+    time,
+}: {
+    time: {
+        expectedDepartureTime: string
+        aimedDepartureTime: string
+        key: string
+    }[]
+}) {
+    const Time = ({
+        expectedDepartureTime,
+        aimedDepartureTime,
+    }: {
+        expectedDepartureTime: string
+        aimedDepartureTime: string
+    }) => {
+        const timeDeviation = Math.abs(
+            (Date.parse(aimedDepartureTime) -
+                Date.parse(expectedDepartureTime)) /
+                1000,
+        )
+        if (timeDeviation > 120) {
+            return (
+                <div>
+                    <div className={classes.expectedDepartureTime}>
+                        {getRelativeTimeString(expectedDepartureTime)}
+                    </div>
+                    <div className={classes.aimedDepartureTime}>
+                        {formatDateString(aimedDepartureTime)}
+                    </div>
+                </div>
+            )
+        }
+        return (
+            <div style={{ fontWeight: 600 }}>
+                {getRelativeTimeString(expectedDepartureTime)}
+            </div>
+        )
+    }
 
     return (
-        <div className={classes.container}>
-            <table className={classes.table}>
-                <thead className={classes.row}>
-                    <tr>
-                        {formattedColumnOrder.map((props) => (
-                            <ColumnTableHeader key={props.type} {...props} />
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {departures.map((departure) => (
-                        <tr
-                            className={classes.row}
-                            key={`${departure.serviceJourney.id}_${departure.aimedDepartureTime}`}
-                        >
-                            <DepartureContext.Provider value={departure}>
-                                {formattedColumnOrder.map((col) => {
-                                    const Component = columnComponents[col.type]
-                                    return <Component key={col.type} />
-                                })}
-                            </DepartureContext.Provider>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+        <div className={classes.tableColumn} style={{ flexShrink: 1 }}>
+            <div className={classes.tableHeader}>Avgang</div>
+            {time.map((t) => (
+                <div key={t.key} className={classes.tableRow}>
+                    <Time
+                        expectedDepartureTime={t.expectedDepartureTime}
+                        aimedDepartureTime={t.aimedDepartureTime}
+                    />
+                </div>
+            ))}
         </div>
     )
 }

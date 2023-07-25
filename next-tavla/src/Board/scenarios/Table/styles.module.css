@@ -31,3 +31,32 @@
 .row td:last-child {
     text-align: right;
 }
+
+.tableRow {
+    display: flex;
+    align-items: center;
+    height: 3em;
+    fontsize: 1.5em;
+    border-top: 1px solid var(--table-border-color);
+}
+
+.tableColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.tableHeader {
+    color: var(--table-header-color);
+    font-size: 0.7em;
+    padding-bottom: 1em;
+}
+
+.aimedDepartureTime {
+    font-size: 0.5625em;
+    text-decoration: line-through;
+}
+
+.expectedDepartureTime {
+    font-weight: 600;
+    color: var(--table-estimated-time-color);
+}
