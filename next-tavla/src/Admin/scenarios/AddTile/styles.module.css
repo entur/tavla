@@ -5,7 +5,8 @@
 }
 
 .DropDown {
-    width: 30%;
+    width: 24%;
+    min-width: 23em;
 }
 
 .Heading1 {
