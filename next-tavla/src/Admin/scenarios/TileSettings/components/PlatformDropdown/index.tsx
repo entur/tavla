@@ -12,6 +12,16 @@ import classes from './styles.module.css'
 
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' }
 
+function getPlatformLabel(
+    publicCode: string | null,
+    description: string | null,
+) {
+    if (!publicCode && !description) {
+        return 'Ikke navngitt'
+    }
+    return [publicCode ? publicCode : '', description ?? ''].join(' ')
+}
+
 function PlatformDropdown({
     stopPlaceId,
     tile,
@@ -30,19 +40,6 @@ function PlatformDropdown({
     const selectedValue = selectedQuayId ?? stopPlaceOption.value
 
     const { data } = useQuery(QuaysSearchQuery, { stopPlaceId })
-
-    const getPlatformLabel = (
-        publicCode: string | null,
-        description: string | null,
-    ) => {
-        if (!publicCode && !description) {
-            return 'Ikke navngitt'
-        }
-        return [
-            isNotNullOrUndefinedOrEmptyString(publicCode) ? publicCode : '',
-            description ?? '',
-        ].join(' ')
-    }
 
     const quays =
         data?.stopPlace?.quays

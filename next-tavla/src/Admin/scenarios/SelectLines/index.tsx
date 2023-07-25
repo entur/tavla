@@ -19,7 +19,7 @@ const transportModeNames: Record<TTransportMode, string> = {
     tram: 'Trikk',
     trolleybus: 'Trolley-buss',
     monorail: 'Enskinnebane',
-    coach: 'Coach',
+    coach: 'Ekspressbuss',
     unknown: 'Ukjent',
 }
 
