@@ -68,10 +68,8 @@ function Landing() {
                         <Heading1>Hva er Tavla?</Heading1>
 
                         <Paragraph>
-                            Tavla er en nettside som viser avgangene til all
-                            offentlig transport i Norge. Med Tavla kan du enkelt
-                            sette opp en avgangstavle fra de stoppestedene du
-                            ønsker å se, i sanntid.
+                            Tavla er et verktøy som hjelper deg å lage
+                            avgangstavler for offentlig transport.
                         </Paragraph>
                         <Paragraph margin="none">
                             Du kan f.eks. lage avgangstavler for:
