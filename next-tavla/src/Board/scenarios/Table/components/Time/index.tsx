@@ -25,7 +25,7 @@ function Time() {
     }
     return (
         <td className={classes.timeContainer}>
-            {getRelativeTimeString(departure.expectedDepartureTime)}
+            <div>{getRelativeTimeString(departure.expectedDepartureTime)}</div>
         </td>
     )
 }

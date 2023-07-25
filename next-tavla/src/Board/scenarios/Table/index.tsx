@@ -26,13 +26,27 @@ const columnComponents: Record<TColumn, () => JSX.Element | null> = {
 }
 
 const ColumnOrder: TColumnLayout[] = [
-    { type: 'line', size: 1 },
-    { type: 'destination', size: 15 },
+    { type: 'line', size: 3 },
+    { type: 'destination', size: 10 },
     { type: 'via', size: 5 },
     { type: 'situations', size: 6 },
     { type: 'platform', size: 1 },
-    { type: 'time', size: 1 },
+    { type: 'time', size: 4 },
 ]
+
+function flexToPercentage(columnSettings: TColumnLayout[]) {
+    const flexToPercentage = columnSettings.reduce(
+        (acc, val) => acc + (val.size ?? 1),
+        0,
+    )
+
+    const perc = 100 / flexToPercentage
+
+    return columnSettings.map((set) => ({
+        ...set,
+        size: (set.size ?? 1) * perc,
+    }))
+}
 
 function ColumnTableHeader({ type, size }: TColumnLayout) {
     return (
@@ -56,8 +70,8 @@ function Table({
 }) {
     const mergedColumns = { ...DefaultColumns, ...columns }
 
-    const filteredColumnOrder = ColumnOrder.filter(
-        ({ type }) => mergedColumns[type],
+    const formattedColumnOrder = flexToPercentage(
+        ColumnOrder.filter(({ type }) => mergedColumns[type]),
     )
 
     return (
@@ -65,7 +79,7 @@ function Table({
             <table className={classes.table}>
                 <thead className={classes.row}>
                     <tr>
-                        {filteredColumnOrder.map((props) => (
+                        {formattedColumnOrder.map((props) => (
                             <ColumnTableHeader key={props.type} {...props} />
                         ))}
                     </tr>
@@ -77,7 +91,7 @@ function Table({
                             key={`${departure.serviceJourney.id}_${departure.aimedDepartureTime}`}
                         >
                             <DepartureContext.Provider value={departure}>
-                                {filteredColumnOrder.map((col) => {
+                                {formattedColumnOrder.map((col) => {
                                     const Component = columnComponents[col.type]
                                     return <Component key={col.type} />
                                 })}

@@ -1,7 +1,8 @@
 .lineWrapper {
     text-align: center;
-    min-width: 3em;
-    max-width: fit-content;
+    min-width: fit-content;
+    width: 3em;
+    max-width: 100%;
     padding: 0.25em;
     border-radius: 0.2em;
     font-size: 1.25em;
