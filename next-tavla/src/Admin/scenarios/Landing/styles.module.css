@@ -1,6 +1,59 @@
 .container {
     display: flex;
-    align-items: center;
     flex-direction: column;
-    gap: 3em;
+    align-items: center;
+
+    flex: 1;
+}
+
+.content {
+    width: 50%;
+}
+
+.centeredContainer {
+    display: flex;
+    width: 100%;
+    max-width: 90em;
+    justify-content: space-between;
+    padding: 5em 2em;
+}
+
+.image {
+    width: 100%;
+    height: auto;
+}
+
+.topImage {
+    width: 30%;
+}
+
+.bottomContainer {
+    background-color: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    flex: 1;
+}
+
+.button {
+    width: 50%;
+}
+
+.list {
+    padding-left: 2em;
+    color: var(--primary-text-color); /* Variabel fra designsystemet */
+}
+
+.subheading {
+    color: var(--highlight-text-color);
+    margin-bottom: 2em;
+}
+
+.headingContainer {
+    flex: 1;
+}
+
+.bottomContent {
+    gap: 4em;
 }
