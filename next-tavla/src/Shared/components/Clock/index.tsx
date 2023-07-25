@@ -3,20 +3,19 @@ import classes from './styles.module.css'
 import { formatTimeStamp } from 'utils/time'
 
 function Clock() {
-    const [currentTime, setCurrentTime] = useState(Date.now())
+    const [currentTime, setCurrentTime] = useState<string>()
 
     useEffect(() => {
-        const intervalId = setInterval(() => setCurrentTime(Date.now()), 1000)
+        setCurrentTime(formatTimeStamp(Date.now()))
+
+        const intervalId = setInterval(
+            () => setCurrentTime(formatTimeStamp(Date.now())),
+            1000,
+        )
         return () => clearInterval(intervalId)
     }, [])
 
-    const time = formatTimeStamp(currentTime)
-
-    return (
-        <span className={classes.clock} suppressHydrationWarning>
-            {time}
-        </span>
-    )
+    return <span className={classes.clock}>{currentTime}</span>
 }
 
 export { Clock }
