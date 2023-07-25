@@ -16,7 +16,7 @@ function getPlatformLabel(
     if (!publicCode && !description) {
         return 'Ikke navngitt'
     }
-    return [publicCode ? publicCode : '', description ?? ''].join(' ')
+    return [publicCode, description].filter(isNotNullOrUndefined).join(' ')
 }
 
 function PlatformDropdown({
@@ -46,7 +46,9 @@ function PlatformDropdown({
                 label: getPlatformLabel(quay.publicCode, quay.description),
             }))
             .sort((a, b) => {
-                return a.label.localeCompare(b.label)
+                return a.label.localeCompare(b.label, 'no-NB', {
+                    numeric: true,
+                })
             }) || []
 
     const dropDownOptions = () => [stopPlaceOption, ...quays]
