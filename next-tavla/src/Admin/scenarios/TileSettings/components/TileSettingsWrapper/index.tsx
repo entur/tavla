@@ -5,21 +5,21 @@ import { Heading3 } from '@entur/typography'
 import { DeleteButton } from 'Admin/scenarios/SelectTile/components/DeleteButton'
 
 function TileSettingsWrapper({
-    children,
-    name,
+    title,
     className,
     uuid,
+    children,
 }: {
-    name?: string | undefined
-    children: React.ReactNode
+    title?: string
     className?: string
+    children: React.ReactNode
     uuid?: string
 }) {
     return (
         <div className={classNames(classes.tileSettingsWrapper, className)}>
             <div className={classes.tileSettingsHeader}>
-                {name && (
-                    <Heading3 className={classes.heading}>{name}</Heading3>
+                {title && (
+                    <Heading3 className={classes.heading}>{title}</Heading3>
                 )}
                 {uuid && <DeleteButton uuid={uuid} />}
             </div>

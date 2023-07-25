@@ -4,13 +4,20 @@ import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { QuaysSearchQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
 import { TTile } from 'types/tile'
-import {
-    isNotNullOrUndefined,
-    isNotNullOrUndefinedOrEmptyString,
-} from 'utils/typeguards'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 import classes from './styles.module.css'
 
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' }
+
+function getPlatformLabel(
+    publicCode: string | null,
+    description: string | null,
+) {
+    if (!publicCode && !description) {
+        return 'Ikke navngitt'
+    }
+    return [publicCode, description].filter(isNotNullOrUndefined).join(' ')
+}
 
 function PlatformDropdown({
     stopPlaceId,
@@ -34,31 +41,28 @@ function PlatformDropdown({
     const quays =
         data?.stopPlace?.quays
             ?.filter(isNotNullOrUndefined)
-            .map((quay, index) => ({
+            .map((quay) => ({
                 value: quay.id,
-                label:
-                    'Platform ' +
-                    [
-                        isNotNullOrUndefinedOrEmptyString(quay.publicCode)
-                            ? quay.publicCode
-                            : index + 1,
-                        quay.description,
-                    ].join(' '),
-            })) || []
+                label: getPlatformLabel(quay.publicCode, quay.description),
+            }))
+            .sort((a, b) => {
+                return a.label.localeCompare(b.label, 'no-NB', {
+                    numeric: true,
+                })
+            }) || []
 
     const dropDownOptions = () => [stopPlaceOption, ...quays]
 
     return (
         <div>
-            <Heading4>Velg plattform</Heading4>
+            <Heading4>Velg plattform/retning</Heading4>
             <SubParagraph>
-                Avgangstavlen kan enten vise avganger for alle plattformer eller
-                kun én.
+                Du kan enten vise alle plattformer/retninger eller kun én.
             </SubParagraph>
             <Dropdown
                 className={classes.dropdown}
                 items={dropDownOptions}
-                label="Velg plattform"
+                label="Velg plattform/retning"
                 disabled={!stopPlaceId}
                 value={selectedValue}
                 onChange={(e) => {
