@@ -19,7 +19,7 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
           (data.quay?.description ?? data.quay?.publicCode)
 
     return (
-        <TileSettingsWrapper name={name}>
+        <TileSettingsWrapper name={name} uuid={tile.uuid}>
             <PlatformDropdown
                 stopPlaceId={tile.stopPlaceId}
                 tile={tile}
