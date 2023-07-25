@@ -12,11 +12,6 @@ import classes from './styles.module.css'
 
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' }
 
-function parseIntFromNumberOrAscii(number: string) {
-    const parsedNumber = parseInt(number)
-    if (isNaN(parsedNumber)) return number.charCodeAt(0)
-    return parsedNumber
-}
 function PlatformDropdown({
     stopPlaceId,
     tile,
@@ -57,10 +52,7 @@ function PlatformDropdown({
                 label: getPlatformLabel(quay.publicCode, quay.description),
             }))
             .sort((a, b) => {
-                const parsedA = parseIntFromNumberOrAscii(a.label)
-                const parsedB = parseIntFromNumberOrAscii(b.label)
-
-                return parsedA - parsedB
+                return a.label.localeCompare(b.label)
             }) || []
 
     const dropDownOptions = () => [stopPlaceOption, ...quays]
