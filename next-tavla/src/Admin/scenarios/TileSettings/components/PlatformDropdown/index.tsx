@@ -4,10 +4,7 @@ import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { QuaysSearchQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
 import { TTile } from 'types/tile'
-import {
-    isNotNullOrUndefined,
-    isNotNullOrUndefinedOrEmptyString,
-} from 'utils/typeguards'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 import classes from './styles.module.css'
 
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' }
