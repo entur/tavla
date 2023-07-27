@@ -36,7 +36,6 @@
     display: flex;
     align-items: center;
     height: 3em;
-    fontsize: 1.5em;
     border-top: 1px solid var(--table-border-color);
 }
 

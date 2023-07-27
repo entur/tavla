@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { TDepartureFragment } from 'graphql/index'
 import { TColumnSettings } from 'types/column'
 import React from 'react'
@@ -21,7 +22,6 @@ function Table({
     departures: TDepartureFragment[]
     columns?: TColumnSettings
 }) {
-    console.log(columns)
     const destinations = departures.map((departure) => ({
         destination: departure.destinationDisplay?.frontText ?? '',
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
@@ -38,8 +38,9 @@ function Table({
         expectedDepartureTime: departure.expectedDepartureTime,
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
     }))
+
     return (
-        <div style={{ display: 'flex', fontSize: '1.5em' }}>
+        <div style={{ display: 'flex', fontSize: '2.5em', flexShrink: 0 }}>
             <Lines lines={lines} />
             <Destinations destinations={destinations} />
             <Times time={time} />
@@ -84,6 +85,7 @@ function Lines({
                             alignItems: 'center',
                             justifyContent: 'center',
                             width: '100%',
+                            height: '100%',
                             padding: '0.5em',
                             color: 'var(--main-background-color)',
                             backgroundColor: `var(--table-transport-${
