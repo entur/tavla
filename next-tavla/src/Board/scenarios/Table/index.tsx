@@ -6,15 +6,6 @@ import classes from './styles.module.css'
 import { formatDateString, getRelativeTimeString } from 'utils/time'
 import { TTransportMode } from 'types/graphql-schema'
 
-// const columnComponents: Record<TColumn, () => JSX.Element | null> = {
-//     destination: Destination,
-//     line: Line,
-//     time: Time,
-//     platform: Platform,
-//     situations: Situations,
-//     via: Via,
-// }
-
 function Table({
     departures,
     columns,
@@ -39,10 +30,16 @@ function Table({
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
     }))
 
+    const platforms = departures.map((departure) => ({
+        publicCode: departure.quay.publicCode,
+        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+    }))
+
     return (
         <div style={{ display: 'flex', fontSize: '2.5em', flexShrink: 0 }}>
             <Lines lines={lines} />
             <Destinations destinations={destinations} />
+            <Platforms platforms={platforms} />
             <Times time={time} />
         </div>
     )
@@ -58,7 +55,9 @@ function Destinations({
             <div className={classes.tableHeader}>Destinasjon</div>
             {destinations.map((destination) => (
                 <div key={destination.key} className={classes.tableRow}>
-                    {destination.destination}
+                    <div className={classes.tableCell}>
+                        {destination.destination}
+                    </div>
                 </div>
             ))}
         </div>
@@ -77,9 +76,10 @@ function Lines({
                 <div
                     key={line.key}
                     className={classes.tableRow}
-                    style={{ padding: '0.3em' }}
+                    style={{ paddingTop: '0.3em', paddingBottom: '0.3em' }}
                 >
                     <div
+                        className={classes.tableCell}
                         style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -148,10 +148,31 @@ function Times({
             <div className={classes.tableHeader}>Avgang</div>
             {time.map((t) => (
                 <div key={t.key} className={classes.tableRow}>
-                    <Time
-                        expectedDepartureTime={t.expectedDepartureTime}
-                        aimedDepartureTime={t.aimedDepartureTime}
-                    />
+                    <div className={classes.tableCell}>
+                        <Time
+                            expectedDepartureTime={t.expectedDepartureTime}
+                            aimedDepartureTime={t.aimedDepartureTime}
+                        />
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+function Platforms({
+    platforms,
+}: {
+    platforms: { publicCode: string | null; key: string }[]
+}) {
+    return (
+        <div className={classes.tableColumn}>
+            <div className={classes.tableHeader}>Platform</div>
+            {platforms.map((platform) => (
+                <div key={platform.key} className={classes.tableRow}>
+                    <div className={classes.tableCell}>
+                        {platform.publicCode}
+                    </div>
                 </div>
             ))}
         </div>
