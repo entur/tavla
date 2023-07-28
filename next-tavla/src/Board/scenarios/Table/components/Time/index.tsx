@@ -1,32 +1,59 @@
-import { useNonNullContext } from 'hooks/useNonNullContext'
 import { formatDateString, getRelativeTimeString } from 'utils/time'
-import { DepartureContext } from '../../contexts'
-
+import { TableColumn } from '../TableColumn'
+import { TableRow } from '../TableRow'
 import classes from './styles.module.css'
 
-function Time() {
-    const departure = useNonNullContext(DepartureContext)
-    const timeDeviation = Math.abs(
-        (Date.parse(departure.aimedDepartureTime) -
-            Date.parse(departure.expectedDepartureTime)) /
-            1000,
-    )
-    if (timeDeviation > 120) {
+function Time({
+    time,
+}: {
+    time: {
+        expectedDepartureTime: string
+        aimedDepartureTime: string
+        key: string
+    }[]
+}) {
+    const Time = ({
+        expectedDepartureTime,
+        aimedDepartureTime,
+    }: {
+        expectedDepartureTime: string
+        aimedDepartureTime: string
+    }) => {
+        const timeDeviation = Math.abs(
+            (Date.parse(aimedDepartureTime) -
+                Date.parse(expectedDepartureTime)) /
+                1000,
+        )
+        if (timeDeviation > 120) {
+            return (
+                <div>
+                    <div className={classes.expectedDepartureTime}>
+                        {getRelativeTimeString(expectedDepartureTime)}
+                    </div>
+                    <div className={classes.aimedDepartureTime}>
+                        {formatDateString(aimedDepartureTime)}
+                    </div>
+                </div>
+            )
+        }
         return (
-            <td className={classes.timeContainer}>
-                <div className={classes.expectedDepartureTime}>
-                    {getRelativeTimeString(departure.expectedDepartureTime)}
-                </div>
-                <div className={classes.aimedDepartureTime}>
-                    {formatDateString(departure.aimedDepartureTime)}
-                </div>
-            </td>
+            <div style={{ fontWeight: 600 }}>
+                {getRelativeTimeString(expectedDepartureTime)}
+            </div>
         )
     }
+
     return (
-        <td className={classes.timeContainer}>
-            <div>{getRelativeTimeString(departure.expectedDepartureTime)}</div>
-        </td>
+        <TableColumn title="Avgang">
+            {time.map((t) => (
+                <TableRow key={t.key}>
+                    <Time
+                        expectedDepartureTime={t.expectedDepartureTime}
+                        aimedDepartureTime={t.aimedDepartureTime}
+                    />
+                </TableRow>
+            ))}
+        </TableColumn>
     )
 }
 

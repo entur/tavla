@@ -1,18 +1,21 @@
-import { useNonNullContext } from 'hooks/useNonNullContext'
-import { DepartureContext } from '../../contexts'
+import { TableColumn } from '../TableColumn'
+import { TableRow } from '../TableRow'
 import classes from './styles.module.css'
-import { Situations } from '../Situations'
 
-function Destination() {
-    const departure = useNonNullContext(DepartureContext)
-
+function Destination({
+    destinations,
+}: {
+    destinations: { destination: string; key: string }[]
+}) {
     return (
-        <td>
-            <div className={classes.destination}>
-                <div>{departure.destinationDisplay?.frontText}</div>
-                <Situations />
-            </div>
-        </td>
+        <TableColumn title="Destinasjon" className={classes.grow}>
+            {destinations.map((destination) => (
+                <TableRow key={destination.key}>
+                    {destination.destination}
+                </TableRow>
+            ))}
+        </TableColumn>
     )
 }
+
 export { Destination }

@@ -1,9 +1,3 @@
-.timeContainer {
-    font-weight: 600;
-    font-size: 1.5em;
-    overflow: visible;
-}
-
 .aimedDepartureTime {
     font-size: 0.5625em;
     text-decoration: line-through;

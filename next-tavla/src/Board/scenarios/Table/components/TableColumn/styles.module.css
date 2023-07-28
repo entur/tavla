@@ -1,0 +1,12 @@
+.tableColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.tableHeader {
+    color: var(--table-header-color);
+    font-size: 0.7em;
+    padding-bottom: 1em;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+}
