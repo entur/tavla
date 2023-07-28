@@ -45,22 +45,44 @@ function Table({
     )
 }
 
+function TableColumn({
+    title,
+    children,
+    className,
+}: {
+    title: string
+    children: React.ReactNode
+    className?: string
+}) {
+    return (
+        <div className={`${classes.tableColumn} ${className}`}>
+            <div className={classes.tableHeader}>{title}</div>
+            {children}
+        </div>
+    )
+}
+
+function TableRow({ children }: { children: React.ReactNode }) {
+    return (
+        <div className={classes.tableRow}>
+            <div className={classes.tableCell}>{children}</div>
+        </div>
+    )
+}
+
 function Destinations({
     destinations,
 }: {
     destinations: { destination: string; key: string }[]
 }) {
     return (
-        <div className={classes.tableColumn} style={{ flexGrow: 1 }}>
-            <div className={classes.tableHeader}>Destinasjon</div>
+        <TableColumn title="Destinasjon" className={classes.grow}>
             {destinations.map((destination) => (
-                <div key={destination.key} className={classes.tableRow}>
-                    <div className={classes.tableCell}>
-                        {destination.destination}
-                    </div>
-                </div>
+                <TableRow key={destination.key}>
+                    {destination.destination}
+                </TableRow>
             ))}
-        </div>
+        </TableColumn>
     )
 }
 
@@ -69,37 +91,44 @@ function Lines({
 }: {
     lines: { transportMode: TTransportMode; publicCode: string; key: string }[]
 }) {
-    return (
-        <div className={classes.tableColumn} style={{ flexShrink: 1 }}>
-            <div className={classes.tableHeader}>Linje</div>
-            {lines.map((line) => (
-                <div
-                    key={line.key}
-                    className={classes.tableRow}
-                    style={{ paddingTop: '0.3em', paddingBottom: '0.3em' }}
-                >
-                    <div
-                        className={classes.tableCell}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: '100%',
-                            height: '100%',
-                            padding: '0.5em',
-                            color: 'var(--main-background-color)',
-                            backgroundColor: `var(--table-transport-${
-                                line.transportMode ?? 'unknown'
-                            }-color)`,
-                            borderRadius: '0.2em',
-                            fontWeight: 700,
-                        }}
-                    >
-                        {line.publicCode}
-                    </div>
-                </div>
-            ))}
+    const Line = ({
+        transportMode,
+        publicCode,
+    }: {
+        transportMode: TTransportMode
+        publicCode: string
+    }) => (
+        <div
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                height: '100%',
+                padding: '0.5em',
+                color: 'var(--main-background-color)',
+                backgroundColor: `var(--table-transport-${
+                    transportMode ?? 'unknown'
+                }-color)`,
+                borderRadius: '0.2em',
+                fontWeight: 700,
+            }}
+        >
+            {publicCode}
         </div>
+    )
+
+    return (
+        <TableColumn title="Linje">
+            {lines.map((line) => (
+                <TableRow key={line.key}>
+                    <Line
+                        transportMode={line.transportMode}
+                        publicCode={line.publicCode}
+                    />
+                </TableRow>
+            ))}
+        </TableColumn>
     )
 }
 
@@ -144,19 +173,16 @@ function Times({
     }
 
     return (
-        <div className={classes.tableColumn} style={{ flexShrink: 1 }}>
-            <div className={classes.tableHeader}>Avgang</div>
+        <TableColumn title="Avgang">
             {time.map((t) => (
-                <div key={t.key} className={classes.tableRow}>
-                    <div className={classes.tableCell}>
-                        <Time
-                            expectedDepartureTime={t.expectedDepartureTime}
-                            aimedDepartureTime={t.aimedDepartureTime}
-                        />
-                    </div>
-                </div>
+                <TableRow key={t.key}>
+                    <Time
+                        expectedDepartureTime={t.expectedDepartureTime}
+                        aimedDepartureTime={t.aimedDepartureTime}
+                    />
+                </TableRow>
             ))}
-        </div>
+        </TableColumn>
     )
 }
 
@@ -166,16 +192,11 @@ function Platforms({
     platforms: { publicCode: string | null; key: string }[]
 }) {
     return (
-        <div className={classes.tableColumn}>
-            <div className={classes.tableHeader}>Platform</div>
+        <TableColumn title="Platform">
             {platforms.map((platform) => (
-                <div key={platform.key} className={classes.tableRow}>
-                    <div className={classes.tableCell}>
-                        {platform.publicCode}
-                    </div>
-                </div>
+                <TableRow key={platform.key}>{platform.publicCode}</TableRow>
             ))}
-        </div>
+        </TableColumn>
     )
 }
 
