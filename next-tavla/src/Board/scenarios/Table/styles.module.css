@@ -1,51 +1,5 @@
-.container {
-    height: 100%;
-    overflow: hidden;
-}
-
-.header {
-    text-align: left;
-    font-size: 0.7em;
-    color: var(--table-header-color);
-    padding-bottom: 0.4em;
-}
-
 .table {
-    border-collapse: collapse;
-    width: 100%;
-    table-layout: fixed;
-}
-
-.table td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 2.2em;
-}
-
-.row {
-    border-bottom: 2px solid var(--table-border-color);
-}
-
-.row th:last-child,
-.row td:last-child {
-    text-align: right;
-}
-
-.grow {
-    flex-grow: 1;
-}
-
-.shrink {
-    flex-shrink: 1;
-}
-
-.aimedDepartureTime {
-    font-size: 0.5625em;
-    text-decoration: line-through;
-}
-
-.expectedDepartureTime {
-    font-weight: 600;
-    color: var(--table-estimated-time-color);
+    display: flex;
+    font-size: 2.5em;
+    flex-shrink: 0;
 }

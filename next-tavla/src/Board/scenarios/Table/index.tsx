@@ -6,6 +6,7 @@ import { Destination } from './components/Destination'
 import { Line } from './components/Line'
 import { Time } from './components/Time'
 import { Platform } from './components/Platform'
+import classes from './styles.module.css'
 
 function Table({
     departures,
@@ -37,7 +38,7 @@ function Table({
     }))
 
     return (
-        <div style={{ display: 'flex', fontSize: '2.5em', flexShrink: 0 }}>
+        <div className={classes.table}>
             <Line lines={lines} />
             <Destination destinations={destinations} />
             <Platform platforms={platforms} />
