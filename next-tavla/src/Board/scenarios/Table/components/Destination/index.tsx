@@ -1,5 +1,6 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DeparturesContext } from '../../contexts'
+import { Situations } from '../Situations'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import classes from './styles.module.css'
@@ -9,6 +10,7 @@ function Destination() {
 
     const destinations = departures.map((departure) => ({
         destination: departure.destinationDisplay?.frontText ?? '',
+        situations: departure.situations ?? [],
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
     }))
 
@@ -17,6 +19,7 @@ function Destination() {
             {destinations.map((destination) => (
                 <TableRow key={destination.key}>
                     {destination.destination}
+                    <Situations situations={destination.situations} />
                 </TableRow>
             ))}
         </TableColumn>
