@@ -1,30 +1,28 @@
-import { TTransportMode } from 'types/graphql-schema'
+import { useNonNullContext } from 'hooks/useNonNullContext'
+import { DeparturesContext } from '../../contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
+import classes from './styles.module.css'
 
-function Line({
-    lines,
-}: {
-    lines: { transportMode: TTransportMode; publicCode: string; key: string }[]
-}) {
+function Line() {
+    const departures = useNonNullContext(DeparturesContext)
+
+    const lines = departures.map((departure) => ({
+        transportMode: departure.serviceJourney.transportMode ?? 'unknown',
+        publicCode: departure.serviceJourney.line.publicCode ?? '',
+        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+    }))
+
     return (
         <TableColumn title="Linje">
             {lines.map((line) => (
                 <TableRow key={line.key}>
                     <div
+                        className={classes.line}
                         style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: '100%',
-                            height: '100%',
-                            padding: '0.5em',
-                            color: 'var(--main-background-color)',
                             backgroundColor: `var(--table-transport-${
                                 line.transportMode ?? 'unknown'
                             }-color)`,
-                            borderRadius: '0.2em',
-                            fontWeight: 700,
                         }}
                     >
                         {line.publicCode}

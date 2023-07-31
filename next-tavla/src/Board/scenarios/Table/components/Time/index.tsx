@@ -1,17 +1,19 @@
+import { useNonNullContext } from 'hooks/useNonNullContext'
 import { formatDateString, getRelativeTimeString } from 'utils/time'
+import { DeparturesContext } from '../../contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import classes from './styles.module.css'
 
-function TimeColumn({
-    time,
-}: {
-    time: {
-        expectedDepartureTime: string
-        aimedDepartureTime: string
-        key: string
-    }[]
-}) {
+function TimeColumn() {
+    const departures = useNonNullContext(DeparturesContext)
+
+    const time = departures.map((departure) => ({
+        aimedDepartureTime: departure.aimedDepartureTime,
+        expectedDepartureTime: departure.expectedDepartureTime,
+        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+    }))
+
     return (
         <TableColumn title="Avgang">
             {time.map((t) => (
