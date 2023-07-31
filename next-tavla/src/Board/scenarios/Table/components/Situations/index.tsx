@@ -1,13 +1,10 @@
 import { Situation } from '../Situation'
-import { useNonNullContext } from 'hooks/useNonNullContext'
-import { DepartureContext } from '../../contexts'
 import { useEffect, useState } from 'react'
+import { TSituationFragment } from 'graphql/index'
 
-function Situations() {
-    const departure = useNonNullContext(DepartureContext)
+function Situations({ situations }: { situations: TSituationFragment[] }) {
     const [index, setIndex] = useState(0)
 
-    const situations = departure.situations
     const numberOfSituations = situations.length
 
     useEffect(() => {

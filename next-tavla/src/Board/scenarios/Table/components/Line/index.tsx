@@ -1,26 +1,35 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import { DepartureContext } from '../../contexts'
+import { DeparturesContext } from '../../contexts'
+import { TableColumn } from '../TableColumn'
+import { TableRow } from '../TableRow'
 import classes from './styles.module.css'
 
 function Line() {
-    const departure = useNonNullContext(DepartureContext)
+    const departures = useNonNullContext(DeparturesContext)
 
-    const mode = departure.serviceJourney.transportMode ?? 'unknown'
-    const transportModeColor = `var(--table-transport-${mode}-color)`
-
-    const publicCode = departure.serviceJourney.line.publicCode
+    const lines = departures.map((departure) => ({
+        transportMode: departure.serviceJourney.transportMode ?? 'unknown',
+        publicCode: departure.serviceJourney.line.publicCode ?? '',
+        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+    }))
 
     return (
-        <td>
-            <div
-                className={classes.lineWrapper}
-                style={{
-                    backgroundColor: transportModeColor,
-                }}
-            >
-                {publicCode}
-            </div>
-        </td>
+        <TableColumn title="Linje">
+            {lines.map((line) => (
+                <TableRow key={line.key}>
+                    <div
+                        className={classes.line}
+                        style={{
+                            backgroundColor: `var(--table-transport-${
+                                line.transportMode ?? 'unknown'
+                            }-color)`,
+                        }}
+                    >
+                        {line.publicCode}
+                    </div>
+                </TableRow>
+            ))}
+        </TableColumn>
     )
 }
 

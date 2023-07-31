@@ -1,5 +1,3 @@
-.destination {
-    display: flex;
-    flex-direction: column;
-    font-size: 1.5625em;
+.grow {
+    flex-grow: 1;
 }

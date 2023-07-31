@@ -1,33 +1,5 @@
-.container {
-    height: 100%;
-    overflow: hidden;
-}
-
-.header {
-    text-align: left;
-    font-size: 0.7em;
-    color: var(--table-header-color);
-    padding-bottom: 0.4em;
-}
-
 .table {
-    border-collapse: collapse;
-    width: 100%;
-    table-layout: fixed;
-}
-
-.table td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 2.2em;
-}
-
-.row {
-    border-bottom: 2px solid var(--table-border-color);
-}
-
-.row th:last-child,
-.row td:last-child {
-    text-align: right;
+    display: flex;
+    font-size: 1.5em;
+    flex-shrink: 0;
 }

@@ -1,11 +1,23 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import { DepartureContext } from '../../contexts'
-import classes from './styles.module.css'
+import { DeparturesContext } from '../../contexts'
+import { TableColumn } from '../TableColumn'
+import { TableRow } from '../TableRow'
 
 function Platform() {
-    const departure = useNonNullContext(DepartureContext)
+    const departures = useNonNullContext(DeparturesContext)
 
-    return <td className={classes.quayText}>{departure.quay.publicCode}</td>
+    const platforms = departures.map((departure) => ({
+        publicCode: departure.quay.publicCode,
+        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+    }))
+
+    return (
+        <TableColumn title="Platform">
+            {platforms.map((platform) => (
+                <TableRow key={platform.key}>{platform.publicCode}</TableRow>
+            ))}
+        </TableColumn>
+    )
 }
 
 export { Platform }

@@ -1,15 +1,28 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import { DepartureContext } from 'Board/scenarios/Table/contexts'
+import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { isNotNullOrUndefined } from 'utils/typeguards'
+import { TableColumn } from '../TableColumn'
+import { TableRow } from '../TableRow'
+import classes from './styles.module.css'
 
 function Via() {
-    const departure = useNonNullContext(DepartureContext)
+    const departures = useNonNullContext(DeparturesContext)
 
-    const viaDestinations = departure.destinationDisplay?.via
-        ?.filter(isNotNullOrUndefined)
-        .join(', ')
+    const vias = departures.map((departure) => ({
+        via:
+            departure.destinationDisplay?.via
+                ?.filter(isNotNullOrUndefined)
+                .join(', ') ?? '',
+        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+    }))
 
-    return <td>{viaDestinations}</td>
+    return (
+        <TableColumn title="Via" className={classes.shrink}>
+            {vias.map((via) => (
+                <TableRow key={via.key}>{via.via}</TableRow>
+            ))}
+        </TableColumn>
+    )
 }
 
 export { Via }
