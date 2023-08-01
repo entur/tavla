@@ -4,7 +4,7 @@ import { TSettings } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
 import classes from 'styles/pages/admin.module.css'
 import { Contrast } from '@entur/layout'
-import { convertSettingsVersion } from 'utils/converters'
+import { upgradeSettings } from 'utils/converters'
 import { ToastProvider } from '@entur/alert'
 
 export async function getServerSideProps({
@@ -22,7 +22,7 @@ export async function getServerSideProps({
         }
     }
 
-    const convertedSettings = convertSettingsVersion(settings)
+    const convertedSettings = upgradeSettings(settings)
 
     return {
         props: {

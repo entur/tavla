@@ -1,42 +1,40 @@
 import { Heading4, SubParagraph } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { Columns, DefaultColumns, TColumn } from 'types/column'
+import { Columns, TColumn } from 'types/column'
 import { TTile } from 'types/tile'
 import { Switch } from '@entur/form'
 import classes from './styles.module.css'
+import { isArray } from 'lodash'
 
 function ToggleColumns({ tile }: { tile: TTile }) {
     const dispatch = useSettingsDispatch()
 
-    const optionalColumns: TColumn[] = ['platform', 'via']
-
-    function handleSwitch(column: TColumn, value: boolean) {
+    function handleSwitch(column: TColumn) {
         dispatch({
             type: 'setColumn',
             column: column,
-            value: value,
             tileId: tile.uuid,
         })
     }
-    const columns = { ...DefaultColumns, ...tile.columns }
     return (
         <div>
-            <Heading4>Legg til ekstra detaljer i tabellen</Heading4>
+            <Heading4>Velg kolonner</Heading4>
             <SubParagraph>
-                Linje, destinasjon, avvik og avgangstid vil alltid vises i
-                tabellen. <br />
-                Her kan du legge til ekstra detaljer i denne holdeplassen sin
-                tabell.
+                Her kan du bestemme hvilke kolonner som skal inngå i din tavle.
             </SubParagraph>
             <div className={classes.columnToggleWrapper}>
-                {optionalColumns.map((col) => {
+                {Object.entries(Columns).map(([key, value]) => {
                     return (
                         <Switch
-                            key={col}
-                            checked={columns[col]}
-                            onChange={() => handleSwitch(col, !columns[col])}
+                            key={key}
+                            checked={
+                                isArray(tile.columns)
+                                    ? tile.columns?.includes(key as TColumn)
+                                    : false
+                            }
+                            onChange={() => handleSwitch(key as TColumn)}
                         >
-                            {Columns[col]}
+                            {value}
                         </Switch>
                     )
                 })}
