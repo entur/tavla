@@ -1,99 +1,14 @@
-import { nanoid } from 'nanoid'
-import { reverse } from 'lodash'
 import { TSettings } from 'types/settings'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function convertSettingsVersion(settings: any): TSettings {
-    if (settings.version >= currentVersion) return settings
+export function upgradeSettings(settings: TSettingsVersions): TSettings {
+    if (!settings.version) settings.version = 1
 
-    const orderedVersions = reverse([...versions])
-
-    const upgradedSettings: ReturnType<(typeof versions)[0]> = orderedVersions
-        .slice(settings.version)
-        .reduce((prevSettings, converters) => {
-            return converters(prevSettings)
-        }, settings)
-
-    return {
-        ...upgradedSettings,
-        version: currentVersion,
-    }
+    return settings
 }
 
-const versions = [V5, V4, V3, V2, V1] as const
+type TColumnBase = 'destination' | 'line' | 'time' | 'platform' | 'via'
 
-export function V5(setting: ReturnType<typeof V4>) {
-    return {
-        ...setting,
-        tiles: setting.tiles.map((tile) => {
-            const { columns: oldColumns, ...rest } = tile
-            if (!oldColumns || !oldColumns.length) return rest
-
-            type TBaseColumnExtended = TBaseColumn | 'via' | 'situations'
-
-            const newColumns: Partial<Record<TBaseColumnExtended, boolean>> =
-                oldColumns.reduce((prev, next) => {
-                    return { ...prev, [next.type]: true }
-                }, {})
-
-            return {
-                ...tile,
-                columns: newColumns,
-            }
-        }),
-    }
-}
-
-export function V4(setting: ReturnType<typeof V3>) {
-    return {
-        ...setting,
-        tiles: setting.tiles.map((tile) => {
-            if (tile.type === 'quay') return { ...tile, stopPlaceId: '' }
-            return tile
-        }),
-    }
-}
-
-export function V3(setting: ReturnType<typeof V2>) {
-    const newSetting = {
-        ...setting,
-        theme: setting.theme === 'default' ? ('entur' as const) : setting.theme,
-    }
-
-    if (!newSetting.theme) delete newSetting.theme
-
-    return newSetting
-}
-
-export function V2(setting: ReturnType<typeof V1>) {
-    return {
-        ...setting,
-        tiles: setting.tiles.map((tile) => ({ ...tile, uuid: nanoid() })),
-    }
-}
-
-export function V1(setting: TBaseSetting) {
-    return {
-        ...setting,
-        tiles: setting.tiles.map((tile) => {
-            if (tile.type === 'stop_place' || tile.type === 'quay') {
-                return {
-                    ...tile,
-                    columns: tile.columns?.map((column) => ({
-                        type: column,
-                    })),
-                }
-            }
-            return tile
-        }),
-    }
-}
-
-export const currentVersion = versions.length
-
-type TBaseColumn = 'destination' | 'line' | 'time' | 'platform'
-
-type TBaseTransportMode =
+type TTransportModeBase =
     | 'air'
     | 'bus'
     | 'cableway'
@@ -108,27 +23,40 @@ type TBaseTransportMode =
     | 'unknown'
     | 'water'
 
-type TBaseTile = {
+type TThemeBase = 'entur' | 'dark' | 'light'
+
+type TSharedTileBase = {
     placeId: string
+    uuid: string
+    whitelistedLines?: string[]
+    whitelistedTransportModes?: TTransportModeBase[]
 }
 
-type TBaseQuayTile = {
+type TColumnTileBase = {
+    columns?: TColumnBase[]
+}
+
+type TQuayTileBase = {
     type: 'quay'
-    columns?: TBaseColumn[]
-    whitelistedLines?: string[]
-    whitelistedTransportModes?: TBaseTransportMode[]
-} & TBaseTile
+    stopPlaceId: string
+} & TSharedTileBase &
+    TColumnTileBase
 
-type TBaseStopPlaceTile = {
+type TStopPlaceTileBase = {
     type: 'stop_place'
-    columns?: TBaseColumn[]
-    whitelistedLines?: string[]
-    whitelistedTransportModes?: TBaseTransportMode[]
-} & TBaseTile
+} & TSharedTileBase &
+    TColumnTileBase
 
-type TBaseBaseTile = TBaseStopPlaceTile | TBaseQuayTile
+type TTileBase = TQuayTileBase | TStopPlaceTileBase
 
-type TBaseSetting = {
-    tiles: TBaseBaseTile[]
-    theme?: 'default' | 'dark' | 'light'
+type TSettingsBase = {
+    tiles: TTileBase[]
+    theme?: TThemeBase
+    version?: number
 }
+
+type TSettingsV1 = {
+    version: 1
+} & TSettingsBase
+
+export type TSettingsVersions = TSettingsBase | TSettingsV1

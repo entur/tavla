@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { TDepartureFragment } from 'graphql/index'
-import { DefaultColumns, TColumnSettings } from 'types/column'
 import React from 'react'
 import { Destination } from './components/Destination'
 import { Line } from './components/Line'
@@ -9,23 +8,31 @@ import { Platform } from './components/Platform'
 import classes from './styles.module.css'
 import { DeparturesContext } from './contexts'
 import { Via } from './components/Via'
+import { TColumn } from 'types/column'
+import { isArray } from 'lodash'
 
 function Table({
     departures,
     columns,
 }: {
     departures: TDepartureFragment[]
-    columns?: TColumnSettings
+    columns?: TColumn[]
 }) {
-    if (!columns) columns = DefaultColumns
+    if (!columns || !isArray(columns))
+        return (
+            <div className={classes.table}>
+                Du har ikke lagt til noen kolonner enda
+            </div>
+        )
+
     return (
         <div className={classes.table}>
             <DeparturesContext.Provider value={departures}>
-                <Line />
-                <Destination />
-                {columns['via'] && <Via />}
-                {columns['platform'] && <Platform />}
-                <Time />
+                {columns.includes('line') && <Line />}
+                {columns.includes('destination') && <Destination />}
+                {columns.includes('via') && <Via />}
+                {columns.includes('platform') && <Platform />}
+                {columns.includes('time') && <Time />}
             </DeparturesContext.Provider>
         </div>
     )

@@ -15,7 +15,7 @@ export type Action =
     | { type: 'toggleLine'; tileId: string; lineId: string }
     | { type: 'setLines'; tileId: string; lines: string[] }
     | { type: 'deleteLines'; tileId: string }
-    | { type: 'setColumn'; tileId: string; column: TColumn; value: boolean }
+    | { type: 'setColumn'; tileId: string; column: TColumn }
 
 export function settingsReducer(
     settings: TSettings,
@@ -49,7 +49,14 @@ export function settingsReducer(
         case 'addTile': {
             return {
                 ...settings,
-                tiles: [{ ...action.tile, uuid: nanoid() }, ...settings.tiles],
+                tiles: [
+                    {
+                        ...action.tile,
+                        uuid: nanoid(),
+                        columns: ['line', 'destination', 'time'],
+                    },
+                    ...settings.tiles,
+                ],
             }
         }
         case 'removeTile': {
@@ -122,10 +129,7 @@ export function settingsReducer(
                 (tile) => {
                     return {
                         ...tile,
-                        columns: {
-                            ...tile.columns,
-                            ...{ [action.column]: action.value },
-                        },
+                        columns: xor(tile.columns, [action.column]),
                     }
                 },
             )

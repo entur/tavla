@@ -2,7 +2,7 @@ import { Header } from 'components/Header'
 import { TSettings } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
 import classes from 'styles/pages/board.module.css'
-import { convertSettingsVersion } from 'utils/converters'
+import { upgradeSettings } from 'utils/converters'
 import { Board } from 'Board/scenarios/Board'
 
 export async function getServerSideProps({
@@ -20,7 +20,7 @@ export async function getServerSideProps({
         }
     }
 
-    const convertedSettings = convertSettingsVersion(settings)
+    const convertedSettings = upgradeSettings(settings)
 
     return {
         props: {

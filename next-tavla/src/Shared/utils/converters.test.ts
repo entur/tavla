@@ -1,382 +1,41 @@
-import {
-    V1,
-    V2,
-    V3,
-    V4,
-    V5,
-    convertSettingsVersion,
-    currentVersion,
-} from './converters'
+import { upgradeSettings } from './converters'
 import { expect, test } from '@jest/globals'
 
-test('upgrade from base to v1', () => {
-    const v1 = V1({
+test('upgrade settings to latest version', () => {
+    const upgradedSettings = upgradeSettings({
         tiles: [
             {
                 type: 'stop_place',
                 columns: ['platform', 'line', 'destination', 'time'],
                 placeId: 'NSR:StopPlace:60066',
+                uuid: '1',
             },
             {
-                placeId: 'NSR:Quay:404',
+                type: 'quay',
+                placeId: 'NSR:Quay:7184',
+                stopPlaceId: 'NSR:StopPlace:60066',
                 columns: ['time'],
-                type: 'quay',
+                uuid: '2',
             },
         ],
     })
 
-    expect(v1).toStrictEqual({
-        tiles: [
-            {
-                type: 'stop_place',
-                placeId: 'NSR:StopPlace:60066',
-                columns: [
-                    {
-                        type: 'platform',
-                    },
-                    {
-                        type: 'line',
-                    },
-                    {
-                        type: 'destination',
-                    },
-                    {
-                        type: 'time',
-                    },
-                ],
-            },
-            {
-                columns: [
-                    {
-                        type: 'time',
-                    },
-                ],
-                placeId: 'NSR:Quay:404',
-                type: 'quay',
-            },
-        ],
-    })
-})
-
-test('upgrade from v1 to v2', () => {
-    const v2 = V2({
-        tiles: [
-            {
-                type: 'stop_place',
-                placeId: 'NSR:StopPlace:60066',
-                columns: [
-                    {
-                        type: 'platform',
-                    },
-                    {
-                        type: 'line',
-                    },
-                    {
-                        type: 'destination',
-                    },
-                    {
-                        type: 'time',
-                    },
-                ],
-            },
-            {
-                columns: [
-                    {
-                        type: 'time',
-                    },
-                ],
-                placeId: 'NSR:Quay:404',
-                type: 'quay',
-            },
-        ],
-    })
-
-    expect(v2).toStrictEqual({
-        tiles: [
-            {
-                type: 'stop_place',
-                placeId: 'NSR:StopPlace:60066',
-                uuid: '1234',
-                columns: [
-                    {
-                        type: 'platform',
-                    },
-                    {
-                        type: 'line',
-                    },
-                    {
-                        type: 'destination',
-                    },
-                    {
-                        type: 'time',
-                    },
-                ],
-            },
-            {
-                uuid: '1234',
-                columns: [
-                    {
-                        type: 'time',
-                    },
-                ],
-                placeId: 'NSR:Quay:404',
-                type: 'quay',
-            },
-        ],
-    })
-})
-
-test('upgrade from v2 to v3', () => {
-    const v3 = V3({
-        theme: 'default',
-        tiles: [
-            {
-                type: 'stop_place',
-                placeId: 'NSR:StopPlace:60066',
-                uuid: '1234',
-                columns: [
-                    {
-                        type: 'platform',
-                    },
-                    {
-                        type: 'line',
-                    },
-                    {
-                        type: 'destination',
-                    },
-                    {
-                        type: 'time',
-                    },
-                ],
-            },
-            {
-                uuid: '1234',
-                columns: [
-                    {
-                        type: 'time',
-                    },
-                ],
-                placeId: 'NSR:Quay:404',
-                type: 'quay',
-            },
-        ],
-    })
-
-    expect(v3).toStrictEqual({
-        theme: 'entur',
-        tiles: [
-            {
-                type: 'stop_place',
-                placeId: 'NSR:StopPlace:60066',
-                uuid: '1234',
-                columns: [
-                    {
-                        type: 'platform',
-                    },
-                    {
-                        type: 'line',
-                    },
-                    {
-                        type: 'destination',
-                    },
-                    {
-                        type: 'time',
-                    },
-                ],
-            },
-            {
-                uuid: '1234',
-                columns: [
-                    {
-                        type: 'time',
-                    },
-                ],
-                placeId: 'NSR:Quay:404',
-                type: 'quay',
-            },
-        ],
-    })
-})
-test('upgrade from v3 to v4', () => {
-    const v4 = V4({
-        theme: 'entur',
-        tiles: [
-            {
-                type: 'stop_place',
-                placeId: 'NSR:StopPlace:60066',
-                uuid: '1234',
-                columns: [
-                    {
-                        type: 'platform',
-                    },
-                    {
-                        type: 'line',
-                    },
-                    {
-                        type: 'destination',
-                    },
-                    {
-                        type: 'time',
-                    },
-                ],
-            },
-            {
-                uuid: '1234',
-                columns: [
-                    {
-                        type: 'time',
-                    },
-                ],
-                placeId: 'NSR:Quay:404',
-                type: 'quay',
-            },
-        ],
-    })
-
-    expect(v4).toStrictEqual({
-        theme: 'entur',
-        tiles: [
-            {
-                type: 'stop_place',
-                placeId: 'NSR:StopPlace:60066',
-                uuid: '1234',
-                columns: [
-                    {
-                        type: 'platform',
-                    },
-                    {
-                        type: 'line',
-                    },
-                    {
-                        type: 'destination',
-                    },
-                    {
-                        type: 'time',
-                    },
-                ],
-            },
-            {
-                uuid: '1234',
-                columns: [
-                    {
-                        type: 'time',
-                    },
-                ],
-                stopPlaceId: '',
-                placeId: 'NSR:Quay:404',
-                type: 'quay',
-            },
-        ],
-    })
-})
-
-test('upgrade from v4 to v5', () => {
-    const v5 = V5({
-        theme: 'entur',
-        tiles: [
-            {
-                type: 'stop_place',
-                placeId: 'NSR:StopPlace:60066',
-                uuid: '1234',
-                columns: [
-                    {
-                        type: 'platform',
-                    },
-                    {
-                        type: 'line',
-                    },
-                    {
-                        type: 'destination',
-                    },
-                    {
-                        type: 'time',
-                    },
-                ],
-            },
-            {
-                uuid: '1234',
-                columns: [
-                    {
-                        type: 'time',
-                    },
-                ],
-                stopPlaceId: '',
-                placeId: 'NSR:Quay:404',
-                type: 'quay',
-            },
-        ],
-    })
-
-    expect(v5).toStrictEqual({
-        theme: 'entur',
-        tiles: [
-            {
-                type: 'stop_place',
-                placeId: 'NSR:StopPlace:60066',
-                uuid: '1234',
-                columns: {
-                    line: true,
-                    destination: true,
-                    platform: true,
-                    time: true,
-                },
-            },
-            {
-                uuid: '1234',
-                columns: {
-                    time: true,
-                },
-
-                stopPlaceId: '',
-                placeId: 'NSR:Quay:404',
-                type: 'quay',
-            },
-        ],
-    })
-})
-
-test('upgrade from base to latest version', () => {
-    const start = {
+    expect(upgradedSettings).toStrictEqual({
         tiles: [
             {
                 type: 'stop_place',
                 columns: ['platform', 'line', 'destination', 'time'],
                 placeId: 'NSR:StopPlace:60066',
+                uuid: '1',
             },
             {
-                placeId: 'NSR:Quay:404',
+                type: 'quay',
+                placeId: 'NSR:Quay:7184',
+                stopPlaceId: 'NSR:StopPlace:60066',
                 columns: ['time'],
-                type: 'quay',
+                uuid: '2',
             },
         ],
-    }
-
-    const end = {
-        version: currentVersion,
-        tiles: [
-            {
-                type: 'stop_place',
-                placeId: 'NSR:StopPlace:60066',
-                uuid: '1234',
-                columns: {
-                    line: true,
-                    destination: true,
-                    platform: true,
-                    time: true,
-                },
-            },
-            {
-                uuid: '1234',
-                columns: {
-                    time: true,
-                },
-
-                stopPlaceId: '',
-                placeId: 'NSR:Quay:404',
-                type: 'quay',
-            },
-        ],
-    }
-
-    expect(convertSettingsVersion(start)).toStrictEqual(end)
+        version: 1,
+    })
 })
