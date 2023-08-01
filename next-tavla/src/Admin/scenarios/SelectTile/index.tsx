@@ -5,8 +5,8 @@ import { RadioGroup } from '@entur/form'
 import { ChangeEvent } from 'react'
 import { useQuery } from 'graphql/utils'
 import { QuayNameQuery, StopPlaceNameQuery } from 'graphql/index'
-import { RadioOption } from './components/RadioOption'
 import { Loader } from '@entur/loader'
+import { RadioPanel } from '@entur/form'
 
 function StopPlaceRadioOption({ tile }: { tile: TStopPlaceTile }) {
     const { data, isLoading } = useQuery(StopPlaceNameQuery, {
@@ -17,7 +17,7 @@ function StopPlaceRadioOption({ tile }: { tile: TStopPlaceTile }) {
 
     if (isLoading) return <Loader />
 
-    return <RadioOption name={name} uuid={tile.uuid} />
+    return <RadioPanel title={name} value={tile.uuid} />
 }
 
 function QuayRadioOption({ tile }: { tile: TQuayTile }) {
@@ -29,7 +29,7 @@ function QuayRadioOption({ tile }: { tile: TQuayTile }) {
 
     if (isLoading) return <Loader />
 
-    return <RadioOption name={name} uuid={tile.uuid} />
+    return <RadioPanel title={name} value={tile.uuid} />
 }
 
 function SelectTile({
