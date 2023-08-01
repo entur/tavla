@@ -73,16 +73,6 @@ function DashboardPickerTab() {
                     className={classes.DisplayCard}
                     altText=""
                 />
-                <RadioCard
-                    title="Kart"
-                    description="Avgangene vises i et kart."
-                    value="Map"
-                    selected={settings.dashboard === 'Map'}
-                    preview={dashboardImages.Map}
-                    onChange={handleChange}
-                    className={classes.DisplayCard}
-                    altText=""
-                />
             </div>
         </div>
     )
