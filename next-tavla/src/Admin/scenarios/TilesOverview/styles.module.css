@@ -1,4 +1,3 @@
-.overviewWrapper {
-    display: flex;
-    gap: 2em;
+.tabs {
+    width: 100%;
 }

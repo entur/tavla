@@ -2,6 +2,7 @@ import { TTile } from 'types/tile'
 import React from 'react'
 import { TileSettings } from 'Admin/scenarios/TileSettings'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
+import classes from './styles.module.css'
 
 function TilesOverview({ tiles }: { tiles: TTile[] }) {
     if (tiles.length === 0)
@@ -13,7 +14,7 @@ function TilesOverview({ tiles }: { tiles: TTile[] }) {
         )
 
     return (
-        <Tabs style={{ width: '100%' }}>
+        <Tabs className={classes.tabs}>
             <TabList data-cy="tiles">
                 {tiles.map((tile) => (
                     <Tab key={tile.uuid}>{tile.name ?? tile.placeId}</Tab>
