@@ -14,7 +14,7 @@ function TilesOverview({ tiles }: { tiles: TTile[] }) {
 
     return (
         <Tabs style={{ width: '100%' }}>
-            <TabList>
+            <TabList data-cy="tiles">
                 {tiles.map((tile) => (
                     <Tab key={tile.uuid}>{tile.name ?? tile.placeId}</Tab>
                 ))}
