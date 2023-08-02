@@ -3,6 +3,7 @@ import { TTransportMode } from './graphql-schema'
 
 export type TSharedTile = {
     placeId: string
+    name: string
     uuid: string
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportMode[]

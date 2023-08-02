@@ -19,8 +19,10 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
 
     return (
         <TileSettingsWrapper title={name} uuid={tile.uuid}>
-            <PlatformDropdown stopPlaceId={tile.placeId} tile={tile} />
-            <ToggleColumns tile={tile} />
+            <div className="flexBetween">
+                <PlatformDropdown stopPlaceId={tile.placeId} tile={tile} />
+                <ToggleColumns tile={tile} />
+            </div>
             <SelectLines tile={tile} lines={lines} />
         </TileSettingsWrapper>
     )

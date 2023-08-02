@@ -6,10 +6,12 @@ import dynamic from 'next/dynamic'
 import { AddTile } from '../AddTile'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
-import { FloatingButton } from '@entur/button'
-import { StyledLink } from 'Admin/components/StyledLink'
-import { ShareTable } from '../ShareTable'
+import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { useAutoSaveSettings } from './hooks/useAutoSaveSettings'
+import { Heading1 } from '@entur/typography'
+import { CopyIcon, SaveIcon } from '@entur/icons'
+import { SecondaryLink } from 'components/SecondaryLink'
+import { useToast } from '@entur/alert'
 
 function Edit({
     initialSettings,
@@ -19,6 +21,7 @@ function Edit({
     documentId: string
 }) {
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
+    const { addToast } = useToast()
 
     const linkUrl = window.location.host + '/' + documentId
 
@@ -27,23 +30,31 @@ function Edit({
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
+                <div className="flexBetween">
+                    <Heading1>Tavla</Heading1>
+                    <div className="flexGap">
+                        <SecondaryButton
+                            onClick={() => {
+                                navigator.clipboard.writeText(linkUrl)
+                                addToast('Lenke til Tavla kopiert')
+                            }}
+                        >
+                            Kopier lenke til Tavla
+                            <CopyIcon />
+                        </SecondaryButton>
+                        <SecondaryLink
+                            external
+                            href={'/' + documentId}
+                            text="Se Tavla"
+                        />
+                        <PrimaryButton onClick={saveSettings}>
+                            Lagre tavla
+                            <SaveIcon />
+                        </PrimaryButton>
+                    </div>
+                </div>
                 <AddTile />
                 <TilesOverview tiles={settings.tiles} />
-                <ShareTable text={linkUrl} />
-                <div className={classes.floatingButtonWrapper}>
-                    <FloatingButton
-                        className={classes.saveButton}
-                        size="medium"
-                        aria-label="Lagre instillinger"
-                        onClick={saveSettings}
-                    >
-                        Lagre innstillinger
-                    </FloatingButton>
-                    <StyledLink
-                        linkUrl={'/' + documentId}
-                        text="Se avgangstavlen"
-                    />
-                </div>
             </div>
         </SettingsDispatchContext.Provider>
     )

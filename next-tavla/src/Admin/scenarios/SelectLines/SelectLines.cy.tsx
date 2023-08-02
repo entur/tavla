@@ -11,6 +11,7 @@ describe('<SelectLines />', () => {
                 {
                     columns: ['line', 'destination', 'time'],
                     placeId: 'NSR:StopPlace:60066',
+                    name: 'Trondheim hurtigbåtterminal',
                     type: 'stop_place',
                     uuid: '1683625543293',
                 },

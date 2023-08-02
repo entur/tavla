@@ -12,3 +12,5 @@
 @import '@entur/tokens/dist/styles.css';
 @import '@entur/alert/dist/styles.css';
 @import '@entur/modal/dist/styles.css';
+@import '@entur/tab/dist/styles.css';
+@import '@entur/chip/dist/styles.css';
