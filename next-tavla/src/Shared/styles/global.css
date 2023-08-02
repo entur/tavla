@@ -22,6 +22,16 @@ h3 {
     justify-content: space-between;
 }
 
+.flexAround {
+    display: flex;
+    justify-content: space-around;
+}
+
+.flexGap {
+    display: flex;
+    gap: 1em;
+}
+
 .flexColumn {
     display: flex;
     flex-direction: column;

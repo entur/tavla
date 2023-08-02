@@ -2,9 +2,9 @@ import { Heading4, SubParagraph } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { Columns, TColumn } from 'types/column'
 import { TTile } from 'types/tile'
-import { Switch } from '@entur/form'
 import classes from './styles.module.css'
 import { isArray } from 'lodash'
+import { FilterChip } from '@entur/chip'
 
 function ToggleColumns({ tile }: { tile: TTile }) {
     const dispatch = useSettingsDispatch()
@@ -17,16 +17,17 @@ function ToggleColumns({ tile }: { tile: TTile }) {
         })
     }
     return (
-        <div>
-            <Heading4>Velg kolonner</Heading4>
+        <div className={classes.columnSettings}>
+            <Heading4>Tabellen</Heading4>
             <SubParagraph>
-                Her kan du bestemme hvilke kolonner som skal inngå i din tavle.
+                Her bestemmer du hvilke kolonner som skal vises i Tavlen.
             </SubParagraph>
-            <div className={classes.columnToggleWrapper}>
+            <div className={classes.columnFilters}>
                 {Object.entries(Columns).map(([key, value]) => {
                     return (
-                        <Switch
+                        <FilterChip
                             key={key}
+                            value={value}
                             checked={
                                 isArray(tile.columns)
                                     ? tile.columns?.includes(key as TColumn)
@@ -35,7 +36,7 @@ function ToggleColumns({ tile }: { tile: TTile }) {
                             onChange={() => handleSwitch(key as TColumn)}
                         >
                             {value}
-                        </Switch>
+                        </FilterChip>
                     )
                 })}
             </div>

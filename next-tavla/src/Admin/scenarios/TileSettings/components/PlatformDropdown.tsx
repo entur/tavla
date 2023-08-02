@@ -5,7 +5,6 @@ import { QuaysSearchQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
 import { TTile } from 'types/tile'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import classes from './styles.module.css'
 
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' }
 
@@ -55,12 +54,11 @@ function PlatformDropdown({
 
     return (
         <div>
-            <Heading4>Velg plattform/retning</Heading4>
+            <Heading4>Plattform/retning</Heading4>
             <SubParagraph>
                 Du kan enten vise alle plattformer/retninger eller kun én.
             </SubParagraph>
             <Dropdown
-                className={classes.dropdown}
                 items={dropDownOptions}
                 label="Velg plattform/retning"
                 disabled={!stopPlaceId}
@@ -70,18 +68,16 @@ function PlatformDropdown({
 
                     if (e.value === stopPlaceOption.value)
                         setTile({
+                            ...tile,
                             type: 'stop_place',
                             placeId: stopPlaceId,
-                            uuid: tile.uuid,
-                            columns: tile.columns,
                         })
                     else
                         setTile({
+                            ...tile,
                             type: 'quay',
                             stopPlaceId,
                             placeId: e.value,
-                            uuid: tile.uuid,
-                            columns: tile.columns,
                         })
                 }}
             />

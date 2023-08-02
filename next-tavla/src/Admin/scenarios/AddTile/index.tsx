@@ -12,6 +12,7 @@ function AddTile() {
     const dispatch = useSettingsDispatch()
     const { addToast } = useToast()
     const [stopPlaceId, setStopPlaceId] = useState<string>()
+    const [placeName, setPlaceName] = useState<string>('Ikke navngitt')
 
     function handleAddTile() {
         if (!stopPlaceId) {
@@ -27,6 +28,7 @@ function AddTile() {
             tile: {
                 type: 'stop_place',
                 placeId: stopPlaceId,
+                name: placeName,
             },
         })
     }
@@ -45,6 +47,7 @@ function AddTile() {
                     prepend={<SearchIcon />}
                     onChange={(e) => {
                         setStopPlaceId(e?.value)
+                        setPlaceName(e?.label.split(',')[0] ?? 'Ikke navngitt')
                     }}
                 />
 

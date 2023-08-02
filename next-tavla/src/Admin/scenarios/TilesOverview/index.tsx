@@ -1,25 +1,32 @@
 import { TTile } from 'types/tile'
-import React, { useState } from 'react'
+import React from 'react'
 import { TileSettings } from 'Admin/scenarios/TileSettings'
-import { SelectTile } from 'Admin/scenarios/SelectTile'
-import classes from './styles.module.css'
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 
 function TilesOverview({ tiles }: { tiles: TTile[] }) {
-    const [selectedTileId, setSelectedTileId] = useState<string>()
-
-    const selectedTile =
-        tiles.find((tile) => tile.uuid === selectedTileId) ?? tiles[0]
+    if (tiles.length === 0)
+        return (
+            <div>
+                Legg til en holdeplass for å kunne bestemme plattformer og
+                linjer som skal vises på avgangstavla
+            </div>
+        )
 
     return (
-        <div className={classes.overviewWrapper}>
-            <SelectTile
-                tiles={tiles}
-                selectTile={setSelectedTileId}
-                selectedTileId={selectedTile?.uuid}
-            />
-
-            <TileSettings tile={selectedTile} />
-        </div>
+        <Tabs style={{ width: '100%' }}>
+            <TabList>
+                {tiles.map((tile) => (
+                    <Tab key={tile.uuid}>{tile.name ?? tile.placeId}</Tab>
+                ))}
+            </TabList>
+            <TabPanels>
+                {tiles.map((tile) => (
+                    <TabPanel key={tile.uuid}>
+                        <TileSettings tile={tile} />
+                    </TabPanel>
+                ))}
+            </TabPanels>
+        </Tabs>
     )
 }
 

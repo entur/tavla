@@ -15,12 +15,14 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
 
     return (
         <TileSettingsWrapper title={name} uuid={tile.uuid}>
-            <PlatformDropdown
-                stopPlaceId={tile.stopPlaceId}
-                tile={tile}
-                selectedQuayId={tile.placeId}
-            />
-            <ToggleColumns tile={tile} />
+            <div className="flexBetween">
+                <PlatformDropdown
+                    stopPlaceId={tile.stopPlaceId}
+                    tile={tile}
+                    selectedQuayId={tile.placeId}
+                />
+                <ToggleColumns tile={tile} />
+            </div>
             <SelectLines tile={tile} lines={lines} />
         </TileSettingsWrapper>
     )

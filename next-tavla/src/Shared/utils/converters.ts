@@ -27,6 +27,7 @@ type TThemeBase = 'entur' | 'dark' | 'light'
 
 type TSharedTileBase = {
     placeId: string
+    name: string
     uuid: string
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportModeBase[]
