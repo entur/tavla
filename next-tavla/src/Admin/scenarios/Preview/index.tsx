@@ -2,8 +2,9 @@ import { Heading3 } from '@entur/typography'
 import { Table } from 'Board/scenarios/Table'
 import { TDepartureFragment } from 'graphql/index'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
+import classes from './styles.module.css'
 
-function SwapColumn({
+function Preview({
     tile,
     departures,
 }: {
@@ -16,19 +17,11 @@ function SwapColumn({
     return (
         <>
             <Heading3>Forhåndsvisning av holdeplass</Heading3>
-            <div
-                data-theme="dark"
-                style={{
-                    backgroundColor: 'var(--main-background-color)',
-                    borderRadius: '1em',
-                    padding: '1em',
-                    marginTop: '2em',
-                }}
-            >
+            <div data-theme="default" className={classes.preview}>
                 <Table departures={departures} columns={tile.columns} />
             </div>
         </>
     )
 }
 
-export { SwapColumn }
+export { Preview }

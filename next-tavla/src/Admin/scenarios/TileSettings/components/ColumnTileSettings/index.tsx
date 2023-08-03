@@ -4,11 +4,11 @@ import classes from './styles.module.css'
 import { Heading3 } from '@entur/typography'
 import { ToggleColumns } from 'Admin/scenarios/ToggleColumns'
 import { SelectLines } from 'Admin/scenarios/SelectLines'
-import { SwapColumn } from 'Admin/scenarios/SwapColumns'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { TDepartureFragment, TLinesFragment } from 'graphql/index'
 import { DeleteTile } from '../DeleteTile'
 import { PlatformDropdown } from '../PlatformDropdown'
+import { Preview } from 'Admin/scenarios/Preview'
 
 function ColumnTileSettings({
     className,
@@ -34,7 +34,7 @@ function ColumnTileSettings({
                     <ToggleColumns tile={tile} />
                 </div>
                 <SelectLines tile={tile} lines={lines} />
-                <SwapColumn tile={tile} departures={departures} />
+                <Preview tile={tile} departures={departures} />
             </div>
         </div>
     )
