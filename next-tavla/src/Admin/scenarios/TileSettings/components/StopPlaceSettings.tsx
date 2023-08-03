@@ -6,6 +6,7 @@ import { fieldsNotNull } from 'utils/typeguards'
 import { TileSettingsWrapper } from './TileSettingsWrapper'
 import { ToggleColumns } from 'Admin/scenarios/ToggleColumns'
 import { PlatformDropdown } from './PlatformDropdown'
+import { SwapColumn } from 'Admin/scenarios/SwapColumns'
 
 function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
     const { data } = useQuery(StopPlaceSettingsQuery, { id: tile.placeId })
@@ -23,6 +24,7 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
                 <PlatformDropdown stopPlaceId={tile.placeId} tile={tile} />
                 <ToggleColumns tile={tile} />
             </div>
+            <SwapColumn tile={tile} />
             <SelectLines tile={tile} lines={lines} />
         </TileSettingsWrapper>
     )
