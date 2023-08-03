@@ -3,7 +3,7 @@ import { Heading4, SubParagraph } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { QuaysSearchQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
-import { TTile } from 'types/tile'
+import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' }
@@ -18,22 +18,14 @@ function getPlatformLabel(
     return [publicCode, description].filter(isNotNullOrUndefined).join(' ')
 }
 
-function PlatformDropdown({
-    stopPlaceId,
-    tile,
-    selectedQuayId,
-}: {
-    stopPlaceId: string
-    tile: TTile
-    selectedQuayId?: string
-}) {
+function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
     const dispatch = useSettingsDispatch()
 
     const setTile = (newTile: TTile) => {
         dispatch({ type: 'setTile', tile: newTile })
     }
 
-    const selectedValue = selectedQuayId ?? stopPlaceOption.value
+    const stopPlaceId = tile.type === 'quay' ? tile.stopPlaceId : tile.placeId
 
     const { data } = useQuery(QuaysSearchQuery, { stopPlaceId })
 
@@ -62,9 +54,10 @@ function PlatformDropdown({
                 items={dropDownOptions}
                 label="Velg plattform/retning"
                 disabled={!stopPlaceId}
-                value={selectedValue}
+                value={tile.type === 'quay' ? tile.placeId : 'stopPlace'}
                 onChange={(e) => {
                     if (!e?.value) return
+                    console.log(e)
 
                     if (e.value === stopPlaceOption.value)
                         setTile({

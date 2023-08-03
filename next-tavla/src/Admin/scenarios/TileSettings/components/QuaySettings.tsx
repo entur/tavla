@@ -1,30 +1,24 @@
-import { SelectLines } from 'Admin/scenarios/SelectLines'
 import { GetQuayQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
 import { TQuayTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
-import { TileSettingsWrapper } from './TileSettingsWrapper'
-import { ToggleColumns } from 'Admin/scenarios/ToggleColumns'
-import { PlatformDropdown } from './PlatformDropdown'
+import { ColumnTileSettings } from './ColumnTileSettings'
 
 function QuaySettings({ tile }: { tile: TQuayTile }) {
-    const { data } = useQuery(GetQuayQuery, { quayId: tile.placeId })
+    const lines =
+        useQuery(GetQuayQuery, {
+            quayId: tile.placeId,
+        }).data?.quay?.lines.filter(fieldsNotNull) ?? []
 
-    const lines = data?.quay?.lines.filter(fieldsNotNull) ?? []
-    const name = data?.quay?.name
+    const departures = useQuery(GetQuayQuery, {
+        quayId: tile.placeId,
+        whitelistedLines: tile.whitelistedLines,
+        whitelistedTransportModes: tile.whitelistedTransportModes,
+        numberOfDepartures: 5,
+    }).data?.quay?.estimatedCalls
 
     return (
-        <TileSettingsWrapper title={name} uuid={tile.uuid}>
-            <div className="flexBetween">
-                <PlatformDropdown
-                    stopPlaceId={tile.stopPlaceId}
-                    tile={tile}
-                    selectedQuayId={tile.placeId}
-                />
-                <ToggleColumns tile={tile} />
-            </div>
-            <SelectLines tile={tile} lines={lines} />
-        </TileSettingsWrapper>
+        <ColumnTileSettings tile={tile} lines={lines} departures={departures} />
     )
 }
 export { QuaySettings }

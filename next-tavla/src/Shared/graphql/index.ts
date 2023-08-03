@@ -80,6 +80,7 @@ export type TGetQuayQueryVariables = Types.Exact<{
     whitelistedLines?: Types.InputMaybe<
         Array<Types.Scalars['ID']> | Types.Scalars['ID']
     >
+    numberOfDepartures?: Types.InputMaybe<Types.Scalars['Int']>
 }>
 
 export type TGetQuayQuery = {
@@ -182,6 +183,7 @@ export type TStopPlaceQueryVariables = Types.Exact<{
     whitelistedLines?: Types.InputMaybe<
         Array<Types.Scalars['ID']> | Types.Scalars['ID']
     >
+    numberOfDepartures?: Types.InputMaybe<Types.Scalars['Int']>
 }>
 
 export type TStopPlaceQuery = {
@@ -353,14 +355,14 @@ export const LinesFragment = new TypedDocumentString(
     { fragmentName: 'lines' },
 ) as unknown as TypedDocumentString<TLinesFragment, unknown>
 export const GetQuayQuery = new TypedDocumentString(`
-    query getQuay($quayId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!]) {
+    query getQuay($quayId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20) {
   quay(id: $quayId) {
     name
     description
     publicCode
     ...lines
     estimatedCalls(
-      numberOfDepartures: 20
+      numberOfDepartures: $numberOfDepartures
       whiteListedModes: $whitelistedTransportModes
       whiteListed: {lines: $whitelistedLines}
     ) {
@@ -443,12 +445,12 @@ export const QuaysSearchQuery = new TypedDocumentString(`
     TQuaysSearchQueryVariables
 >
 export const StopPlaceQuery = new TypedDocumentString(`
-    query StopPlace($stopPlaceId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!]) {
+    query StopPlace($stopPlaceId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20) {
   stopPlace(id: $stopPlaceId) {
     name
     transportMode
     estimatedCalls(
-      numberOfDepartures: 20
+      numberOfDepartures: $numberOfDepartures
       whiteListedModes: $whitelistedTransportModes
       whiteListed: {lines: $whitelistedLines}
     ) {

@@ -1,115 +1,21 @@
-import { Heading2 } from '@entur/typography'
+import { Heading3 } from '@entur/typography'
 import { Table } from 'Board/scenarios/Table'
-import { TTile } from 'types/tile'
+import { TDepartureFragment } from 'graphql/index'
+import { TQuayTile, TStopPlaceTile } from 'types/tile'
 
-function SwapColumn({ tile }: { tile: TTile }) {
-    const departures = [
-        {
-            quay: {
-                publicCode: '2',
-            },
-            destinationDisplay: {
-                frontText: 'Sognsvann',
-                via: [],
-            },
-            aimedDepartureTime: '2023-08-02T13:05:00+02:00',
-            expectedDepartureTime: '2023-08-02T13:06:14+02:00',
-            serviceJourney: {
-                id: 'RUT:ServiceJourney:5-183384-27224747',
-                transportMode: 'metro',
-                transportSubmode: 'metro',
-                line: {
-                    id: 'RUT:Line:5',
-                    publicCode: '5',
-                    presentation: {
-                        textColour: 'FFFFFF',
-                        colour: 'EC700C',
-                    },
-                },
-            },
-            cancellation: false,
-            situations: [],
-        },
-        {
-            quay: {
-                publicCode: '2',
-            },
-            destinationDisplay: {
-                frontText: 'Frognerseteren',
-                via: [],
-            },
-            aimedDepartureTime: '2023-08-02T13:07:00+02:00',
-            expectedDepartureTime: '2023-08-02T13:07:00+02:00',
-            serviceJourney: {
-                id: 'RUT:ServiceJourney:1-183384-27228489',
-                transportMode: 'metro',
-                transportSubmode: 'metro',
-                line: {
-                    id: 'RUT:Line:1',
-                    publicCode: '1',
-                    presentation: {
-                        textColour: 'FFFFFF',
-                        colour: 'EC700C',
-                    },
-                },
-            },
-            cancellation: false,
-            situations: [],
-        },
-        {
-            quay: {
-                publicCode: '2',
-            },
-            destinationDisplay: {
-                frontText: 'Ringen via Majorstuen',
-                via: [],
-            },
-            aimedDepartureTime: '2023-08-02T13:09:00+02:00',
-            expectedDepartureTime: '2023-08-02T13:10:15+02:00',
-            serviceJourney: {
-                id: 'RUT:ServiceJourney:5-183384-27224749',
-                transportMode: 'metro',
-                transportSubmode: 'metro',
-                line: {
-                    id: 'RUT:Line:5',
-                    publicCode: '5',
-                    presentation: {
-                        textColour: 'FFFFFF',
-                        colour: 'EC700C',
-                    },
-                },
-            },
-            cancellation: false,
-            situations: [],
-        },
-        {
-            quay: {
-                publicCode: '2',
-            },
-            destinationDisplay: {
-                frontText: 'Kolsås',
-                via: ['Sentrum'],
-            },
-            aimedDepartureTime: '2023-08-02T13:13:00+02:00',
-            expectedDepartureTime: '2023-08-02T13:13:00+02:00',
-            serviceJourney: {
-                id: 'RUT:ServiceJourney:3-183384-27225339',
-                transportMode: 'metro',
-                transportSubmode: 'metro',
-                line: {
-                    id: 'RUT:Line:3',
-                    publicCode: '3',
-                    presentation: {
-                        textColour: 'FFFFFF',
-                        colour: 'EC700C',
-                    },
-                },
-            },
-        },
-    ]
+function SwapColumn({
+    tile,
+    departures,
+}: {
+    tile: TStopPlaceTile | TQuayTile
+    departures?: TDepartureFragment[]
+}) {
+    if (!departures)
+        return <div>Forhåndsvisning av holdeplass kunne ikke lastes!</div>
+
     return (
         <>
-            <Heading2>Forhåndsvisning av holdeplass</Heading2>
+            <Heading3>Forhåndsvisning av holdeplass</Heading3>
             <div
                 data-theme="dark"
                 style={{
@@ -124,4 +30,5 @@ function SwapColumn({ tile }: { tile: TTile }) {
         </>
     )
 }
+
 export { SwapColumn }

@@ -23,11 +23,11 @@ const transportModeNames: Record<TTransportMode, string> = {
     unknown: 'Ukjent',
 }
 
-function SelectLines<T extends TStopPlaceTile | TQuayTile>({
+function SelectLines({
     tile,
     lines,
 }: {
-    tile: T
+    tile: TStopPlaceTile | TQuayTile
     lines: TLinesFragment['lines']
 }) {
     const dispatch = useSettingsDispatch()
