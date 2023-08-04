@@ -1,4 +1,4 @@
-import { Switch } from '@entur/form'
+import { Checkbox } from '@entur/form'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
@@ -63,7 +63,7 @@ function SelectLines({
                 Ved å huke av linjer vil visningen til avgangstavlen begrenses
                 til de valgte linjene.
             </SubParagraph>
-            <Switch
+            <Checkbox
                 className={classes.selectAll}
                 checked={tile.whitelistedLines?.length === uniqLines.length}
                 onChange={() => {
@@ -73,7 +73,7 @@ function SelectLines({
                 }}
             >
                 Velg alle
-            </Switch>
+            </Checkbox>
             {transportModes.map((mode) => (
                 <div key={mode}>
                     <Heading5>{transportModeNames[mode]}</Heading5>
@@ -82,7 +82,7 @@ function SelectLines({
                             .filter((line) => line.transportMode === mode)
                             .map((line) => (
                                 <div key={line.id} className={classes.line}>
-                                    <Switch
+                                    <Checkbox
                                         checked={
                                             tile.whitelistedLines?.includes(
                                                 line.id,
@@ -93,7 +93,7 @@ function SelectLines({
                                         }}
                                     >
                                         {line.publicCode} {line.name}
-                                    </Switch>
+                                    </Checkbox>
                                 </div>
                             ))}
                     </div>
