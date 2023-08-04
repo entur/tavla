@@ -13,21 +13,21 @@ function Preview({
 }) {
     if (!departures)
         return (
-            <>
+            <div>
                 <Heading3>Forhåndsvisning av holdeplass</Heading3>
                 <div className={classes.preview}>
                     Forhåndsvisningen av holdeplassen kunne ikke lastes!
                 </div>
-            </>
+            </div>
         )
 
     return (
-        <>
+        <div>
             <Heading3>Forhåndsvisning av holdeplass</Heading3>
             <div data-theme="default" className={classes.preview}>
                 <Table departures={departures} columns={tile.columns} />
             </div>
-        </>
+        </div>
     )
 }
 
