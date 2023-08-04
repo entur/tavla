@@ -65,7 +65,14 @@ function SelectLines({
             </SubParagraph>
             <Checkbox
                 className={classes.selectAll}
-                checked={tile.whitelistedLines?.length === uniqLines.length}
+                checked={
+                    tile.whitelistedLines?.length === uniqLines.length
+                        ? true
+                        : !tile.whitelistedLines ||
+                          tile.whitelistedLines.length === 0
+                        ? false
+                        : 'indeterminate'
+                }
                 onChange={() => {
                     if (tile.whitelistedLines?.length === uniqLines.length)
                         deleteLines()
