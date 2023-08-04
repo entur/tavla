@@ -1,30 +1,26 @@
-import { SelectLines } from 'Admin/scenarios/SelectLines'
-import { StopPlaceSettingsQuery } from 'graphql/index'
+import { StopPlaceQuery, StopPlaceSettingsQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
 import { TStopPlaceTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
-import { TileSettingsWrapper } from './TileSettingsWrapper'
-import { ToggleColumns } from 'Admin/scenarios/ToggleColumns'
-import { PlatformDropdown } from './PlatformDropdown'
+import { ColumnTileSettings } from './ColumnTileSettings'
 
 function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
-    const { data } = useQuery(StopPlaceSettingsQuery, { id: tile.placeId })
-
     const lines =
-        data?.stopPlace?.quays
-            ?.flatMap((q) => q?.lines)
+        useQuery(StopPlaceSettingsQuery, {
+            id: tile.placeId,
+        })
+            .data?.stopPlace?.quays?.flatMap((q) => q?.lines)
             .filter(fieldsNotNull) || []
 
-    const name = !data ? data : data.stopPlace?.name ?? tile.placeId
+    const departures = useQuery(StopPlaceQuery, {
+        stopPlaceId: tile.placeId,
+        whitelistedLines: tile.whitelistedLines,
+        whitelistedTransportModes: tile.whitelistedTransportModes,
+        numberOfDepartures: 5,
+    }).data?.stopPlace?.estimatedCalls
 
     return (
-        <TileSettingsWrapper title={name} uuid={tile.uuid}>
-            <div className="flexBetween">
-                <PlatformDropdown stopPlaceId={tile.placeId} tile={tile} />
-                <ToggleColumns tile={tile} />
-            </div>
-            <SelectLines tile={tile} lines={lines} />
-        </TileSettingsWrapper>
+        <ColumnTileSettings tile={tile} lines={lines} departures={departures} />
     )
 }
 

@@ -1,0 +1,7 @@
+.preview {
+    background-color: var(--main-background-color);
+    border-radius: 1em;
+    padding: 1em;
+    margin-top: 2em;
+    height: 18em;
+}

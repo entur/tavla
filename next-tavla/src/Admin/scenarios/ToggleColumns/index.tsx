@@ -1,12 +1,12 @@
 import { Heading4, SubParagraph } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { Columns, TColumn } from 'types/column'
-import { TTile } from 'types/tile'
+import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import classes from './styles.module.css'
 import { isArray } from 'lodash'
 import { FilterChip } from '@entur/chip'
 
-function ToggleColumns({ tile }: { tile: TTile }) {
+function ToggleColumns({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
     const dispatch = useSettingsDispatch()
 
     function handleSwitch(column: TColumn) {

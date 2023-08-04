@@ -2,6 +2,7 @@ query getQuay(
     $quayId: String!
     $whitelistedTransportModes: [TransportMode]
     $whitelistedLines: [ID!]
+    $numberOfDepartures: Int = 20
 ) {
     quay(id: $quayId) {
         name
@@ -9,7 +10,7 @@ query getQuay(
         publicCode
         ...lines
         estimatedCalls(
-            numberOfDepartures: 20
+            numberOfDepartures: $numberOfDepartures
             whiteListedModes: $whitelistedTransportModes
             whiteListed: { lines: $whitelistedLines }
         ) {
