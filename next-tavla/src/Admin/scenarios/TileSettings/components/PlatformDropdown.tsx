@@ -57,7 +57,6 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
                 value={tile.type === 'quay' ? tile.placeId : 'stopPlace'}
                 onChange={(e) => {
                     if (!e?.value) return
-                    console.log(e)
 
                     if (e.value === stopPlaceOption.value)
                         setTile({

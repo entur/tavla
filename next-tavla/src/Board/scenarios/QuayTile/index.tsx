@@ -42,7 +42,6 @@ export function QuayTile({
         .filter(isNotNullOrUndefined)
         .join(' ')
 
-    console.log(data.quay.estimatedCalls)
     return (
         <Tile className={classes.quayTile}>
             <TableHeader heading={heading} transportModes={transportModes} />
