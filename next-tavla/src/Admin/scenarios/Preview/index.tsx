@@ -12,7 +12,14 @@ function Preview({
     departures?: TDepartureFragment[]
 }) {
     if (!departures)
-        return <div>Forhåndsvisning av holdeplass kunne ikke lastes!</div>
+        return (
+            <>
+                <Heading3>Forhåndsvisning av holdeplass</Heading3>
+                <div className={classes.preview}>
+                    Forhåndsvisningen av holdeplassen kunne ikke lastes!
+                </div>
+            </>
+        )
 
     return (
         <>
