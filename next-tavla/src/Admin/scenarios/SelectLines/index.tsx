@@ -3,7 +3,7 @@ import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { Heading4, Heading5, SubParagraph } from '@entur/typography'
+import { Heading4, SubParagraph } from '@entur/typography'
 import { TLinesFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
 
@@ -19,7 +19,7 @@ const transportModeNames: Record<TTransportMode, string> = {
     tram: 'Trikk',
     trolleybus: 'Trolley-buss',
     monorail: 'Enskinnebane',
-    coach: 'Buss',
+    coach: 'Langdistanse buss',
     unknown: 'Ukjent',
 }
 
@@ -56,6 +56,11 @@ function SelectLines({
         })
     })
 
+    const linesByType = transportModes.map((transportMode) => ({
+        transportType: transportMode,
+        lines: uniqLines.filter((line) => line.transportMode === transportMode),
+    }))
+
     return (
         <div className={classes.lineSettingsWrapper}>
             <Heading4>Velg linjer</Heading4>
@@ -81,31 +86,35 @@ function SelectLines({
             >
                 Velg alle
             </Checkbox>
-            {transportModes.map((mode) => (
-                <div key={mode}>
-                    <Heading5>{transportModeNames[mode]}</Heading5>
-                    <div className={classes.linesGrid}>
-                        {uniqLines
-                            .filter((line) => line.transportMode === mode)
-                            .map((line) => (
-                                <div key={line.id} className={classes.line}>
-                                    <Checkbox
-                                        checked={
-                                            tile.whitelistedLines?.includes(
-                                                line.id,
-                                            ) ?? false
-                                        }
-                                        onChange={() => {
-                                            toggleLine(line.id)
-                                        }}
-                                    >
-                                        {line.publicCode} {line.name}
-                                    </Checkbox>
-                                </div>
+
+            <div className={classes.linesGrid}>
+                {linesByType.map(({ transportType, lines }) => (
+                    <div key={transportType}>
+                        <Checkbox className={classes.selectAll}>
+                            {transportModeNames[transportType]}
+                        </Checkbox>
+                        <div
+                            style={{
+                                marginLeft: '1em',
+                            }}
+                        >
+                            {lines.map((line) => (
+                                <Checkbox
+                                    key={line.name}
+                                    checked={
+                                        tile.whitelistedLines?.includes(
+                                            line.id,
+                                        ) ?? false
+                                    }
+                                    onChange={() => toggleLine(line.id)}
+                                >
+                                    {line.publicCode} {line.name}
+                                </Checkbox>
                             ))}
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     )
 }
