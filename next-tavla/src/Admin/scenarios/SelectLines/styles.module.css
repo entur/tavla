@@ -11,8 +11,7 @@
 }
 
 .line {
-    border-top: 0.1em solid var(--border-color);
-    padding: 0.2em 0;
+    margin-left: 1em;
 }
 
 .selectAll {

@@ -31,18 +31,27 @@ function SelectLines({
     lines: TLinesFragment['lines']
 }) {
     const dispatch = useSettingsDispatch()
+
     const toggleLine = (line: string) => {
         dispatch({ type: 'toggleLine', tileId: tile.uuid, lineId: line })
     }
-    const deleteLines = () => {
-        dispatch({ type: 'deleteLines', tileId: tile.uuid })
+    const removeLines = (lines: string[]) => {
+        dispatch({ type: 'removeLines', tileId: tile.uuid, lineIds: lines })
     }
-    const setLines = (lines: string[]) => {
+    const toggleTransportMode = (transportMode: TTransportMode) => {
         dispatch({
-            type: 'setLines',
+            type: 'toggleTransportMode',
             tileId: tile.uuid,
-            lines,
+            transportMode,
         })
+    }
+
+    const isLineDisabled = (transportMode: TTransportMode) => {
+        if (!tile.whitelistedTransportModes) return false
+        return (
+            tile.whitelistedTransportModes.length > 0 &&
+            !tile.whitelistedTransportModes.includes(transportMode)
+        )
     }
 
     const transportModes: TTransportMode[] = uniqBy(lines, 'transportMode').map(
@@ -56,8 +65,8 @@ function SelectLines({
         })
     })
 
-    const linesByType = transportModes.map((transportMode) => ({
-        transportType: transportMode,
+    const linesByMode = transportModes.map((transportMode) => ({
+        transportMode: transportMode,
         lines: uniqLines.filter((line) => line.transportMode === transportMode),
     }))
 
@@ -65,55 +74,56 @@ function SelectLines({
         <div className={classes.lineSettingsWrapper}>
             <Heading4>Velg linjer</Heading4>
             <SubParagraph>
-                Ved å huke av linjer vil visningen til avgangstavlen begrenses
-                til de valgte linjene.
+                Ved å huke av boksene vil visningen til avgangstavlen begrenses
+                til de valgene som har blitt gjort.
             </SubParagraph>
-            <Checkbox
-                className={classes.selectAll}
-                checked={
-                    tile.whitelistedLines?.length === uniqLines.length
-                        ? true
-                        : !tile.whitelistedLines ||
-                          tile.whitelistedLines.length === 0
-                        ? false
-                        : 'indeterminate'
-                }
-                onChange={() => {
-                    if (tile.whitelistedLines?.length === uniqLines.length)
-                        deleteLines()
-                    else setLines(uniqLines.map((line) => line.id))
-                }}
-            >
-                Velg alle
-            </Checkbox>
-
             <div className={classes.linesGrid}>
-                {linesByType.map(({ transportType, lines }) => (
-                    <div key={transportType}>
-                        <Checkbox className={classes.selectAll}>
-                            {transportModeNames[transportType]}
-                        </Checkbox>
-                        <div
-                            style={{
-                                marginLeft: '1em',
-                            }}
-                        >
-                            {lines.map((line) => (
-                                <Checkbox
-                                    key={line.name}
-                                    checked={
-                                        tile.whitelistedLines?.includes(
-                                            line.id,
-                                        ) ?? false
-                                    }
-                                    onChange={() => toggleLine(line.id)}
-                                >
-                                    {line.publicCode} {line.name}
-                                </Checkbox>
-                            ))}
+                {linesByMode.map(({ transportMode, lines }) => {
+                    const transportModeChecked =
+                        tile.whitelistedTransportModes?.includes(
+                            transportMode,
+                        ) ?? false
+
+                    return (
+                        <div key={transportMode}>
+                            <Checkbox
+                                className={classes.selectAll}
+                                onChange={() => {
+                                    removeLines(
+                                        uniqLines
+                                            .filter((line) =>
+                                                lines.includes(line),
+                                            )
+                                            .map((line) => line.id),
+                                    )
+                                    toggleTransportMode(transportMode)
+                                }}
+                                checked={transportModeChecked}
+                            >
+                                {transportModeNames[transportMode]}
+                            </Checkbox>
+                            {lines.map((line) => {
+                                const disabledLine =
+                                    isLineDisabled(transportMode)
+                                return (
+                                    <Checkbox
+                                        className={classes.line}
+                                        key={`${line.publicCode}${line.name}`}
+                                        checked={
+                                            tile.whitelistedLines?.includes(
+                                                line.id,
+                                            ) ?? false
+                                        }
+                                        onChange={() => toggleLine(line.id)}
+                                        disabled={disabledLine}
+                                    >
+                                        {line.publicCode} {line.name}
+                                    </Checkbox>
+                                )
+                            })}
                         </div>
-                    </div>
-                ))}
+                    )
+                })}
             </div>
         </div>
     )
