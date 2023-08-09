@@ -28,13 +28,13 @@ function ColumnTileSettings({
                 <Heading3 className={classes.heading}>{tile.name}</Heading3>
             </div>
 
+            <Preview tile={tile} departures={departures} />
             <div className={classes.content}>
                 <div className="flexBetween">
                     <PlatformDropdown tile={tile} />
                     <ToggleColumns tile={tile} />
                 </div>
                 <SelectLines tile={tile} lines={lines} />
-                <Preview tile={tile} departures={departures} />
             </div>
         </div>
     )

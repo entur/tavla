@@ -1,8 +1,9 @@
 import { arrayMove } from '@dnd-kit/sortable'
 import { TAnonTiles } from 'Admin/types'
-import { clone, xor } from 'lodash'
+import { clone, filter, xor } from 'lodash'
 import { nanoid } from 'nanoid'
 import { TColumn } from 'types/column'
+import { TTransportMode } from 'types/graphql-schema'
 import { TSettings, TTheme } from 'types/settings'
 import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 
@@ -13,7 +14,13 @@ export type Action =
     | { type: 'setTile'; tile: TTile }
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
     | { type: 'toggleLine'; tileId: string; lineId: string }
+    | { type: 'removeLines'; tileId: string; lineIds: string[] }
     | { type: 'setLines'; tileId: string; lines: string[] }
+    | {
+          type: 'toggleTransportMode'
+          tileId: string
+          transportMode: TTransportMode
+      }
     | { type: 'deleteLines'; tileId: string }
     | { type: 'setColumn'; tileId: string; column: TColumn }
 
@@ -103,6 +110,22 @@ export function settingsReducer(
                 },
             )
         }
+        case 'removeLines': {
+            return changeTile<TStopPlaceTile | TQuayTile>(
+                action.tileId,
+                (tile) => {
+                    if (!tile.whitelistedLines) return { ...tile }
+
+                    return {
+                        ...tile,
+                        whitelistedLines: filter(
+                            tile.whitelistedLines,
+                            (line) => !action.lineIds.includes(line),
+                        ),
+                    }
+                },
+            )
+        }
         case 'setLines': {
             return changeTile<TStopPlaceTile | TQuayTile>(
                 action.tileId,
@@ -120,6 +143,25 @@ export function settingsReducer(
                 (tile) => {
                     if (tile.whitelistedLines) delete tile.whitelistedLines
                     return tile
+                },
+            )
+        }
+        case 'toggleTransportMode': {
+            return changeTile<TStopPlaceTile | TQuayTile>(
+                action.tileId,
+                (tile) => {
+                    if (!tile.whitelistedTransportModes)
+                        return {
+                            ...tile,
+                            whitelistedTransportModes: [action.transportMode],
+                        }
+                    return {
+                        ...tile,
+                        whitelistedTransportModes: xor(
+                            tile.whitelistedTransportModes,
+                            [action.transportMode],
+                        ),
+                    }
                 },
             )
         }

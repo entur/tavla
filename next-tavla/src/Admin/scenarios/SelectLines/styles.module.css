@@ -5,16 +5,16 @@
 
 .linesGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(25em, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     margin-bottom: 0.5em;
     gap: 0 2em;
 }
 
 .line {
-    border-top: 0.1em solid var(--border-color);
-    padding: 0.2em 0;
+    margin-left: 1em;
 }
 
 .selectAll {
     margin: 0.2em 0;
+    padding-top: 1em;
 }
