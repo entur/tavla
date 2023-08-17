@@ -12,6 +12,7 @@ import { Heading1 } from '@entur/typography'
 import { CopyIcon, SaveIcon } from '@entur/icons'
 import { SecondaryLink } from 'components/SecondaryLink'
 import { useToast } from '@entur/alert'
+import { Login } from '../Login'
 
 function Edit({
     initialSettings,
@@ -51,6 +52,8 @@ function Edit({
                             Lagre tavla
                             <SaveIcon />
                         </PrimaryButton>
+
+                        <Login />
                     </div>
                 </div>
                 <AddTile />

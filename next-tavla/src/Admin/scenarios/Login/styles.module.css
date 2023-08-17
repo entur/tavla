@@ -1,0 +1,20 @@
+.login {
+    text-align: center;
+}
+
+.close {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.image {
+    width: 50%;
+    height: 50%;
+}
+
+.imageContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
