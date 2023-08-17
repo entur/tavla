@@ -2,10 +2,11 @@
     text-align: center;
 }
 
-.close {
+.actions {
     display: flex;
     width: 100%;
-    justify-content: flex-end;
+    flex-flow: row-reverse;
+    justify-content: space-between;
 }
 
 .image {
