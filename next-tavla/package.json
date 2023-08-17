@@ -43,6 +43,7 @@
         "@firebase/database-types": "0.10.4",
         "classnames": "2.3.2",
         "firebase": "9.18.0",
+        "firebase-admin": "11.10.1",
         "graphql": "16.6.0",
         "lodash": "4.17.21",
         "nanoid": "4.0.2",
