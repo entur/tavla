@@ -1,5 +1,9 @@
 .DS_Store
 
+.env.local
+entur-tavla-staging-firebase-adminsdk.json
+entur-tavla-prod-firebase-adminsdk.json
+
 node_modules/
 **/.firebase
 
