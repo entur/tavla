@@ -1,5 +1,4 @@
-import { geocoder_endpoint } from 'src/Shared/assets/environmentConfig'
-const CLIENT_NAME = 'entur-tavla-staging'
+import { CLIENT_NAME, GEOCODER_ENDPOINT } from 'assets/env'
 
 type TPartialGeoResponse = {
     features: Array<{
@@ -22,7 +21,7 @@ export async function fetchItems(
         text,
     })
 
-    return fetch(`${geocoder_endpoint}/autocomplete?${searchParams}`, {
+    return fetch(`${GEOCODER_ENDPOINT}/autocomplete?${searchParams}`, {
         headers: {
             'ET-Client-Name': CLIENT_NAME,
         },

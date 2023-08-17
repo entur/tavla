@@ -1,11 +1,11 @@
 import { Contrast } from '@entur/layout'
 import React, { useReducer } from 'react'
-import { geocoder_endpoint } from 'src/Shared/assets/environmentConfig'
 import { TilesOverview } from '../TilesOverview'
 import { AddTile } from './index'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from '../Edit/reducer'
 import { ToastProvider } from '@entur/alert'
+import { GEOCODER_ENDPOINT } from 'assets/env'
 
 describe('<AddTile />', () => {
     const TestComponent = () => {
@@ -30,7 +30,7 @@ describe('<AddTile />', () => {
 
     it('can add a stop place tile', () => {
         cy.mount(<TestComponent />)
-        cy.intercept(`${geocoder_endpoint}/autocomplete?*`, {
+        cy.intercept(`${GEOCODER_ENDPOINT}/autocomplete?*`, {
             fixture: 'graphql/geocoder.json',
         })
 
