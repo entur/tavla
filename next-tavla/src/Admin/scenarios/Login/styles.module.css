@@ -1,5 +1,6 @@
 .login {
     text-align: center;
+    height: 50vh;
 }
 
 .actions {
@@ -12,10 +13,4 @@
 .image {
     width: 50%;
     height: 50%;
-}
-
-.imageContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }

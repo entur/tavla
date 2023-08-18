@@ -1,6 +1,5 @@
-import { initializeApp } from 'firebase-admin'
-import { cert } from 'firebase-admin/app'
-import { getApps } from 'firebase/app'
+import admin from 'firebase-admin'
+import { cert, getApps } from 'firebase-admin/app'
 
 const FIREBASE_ADMIN_CONFIG = {
     credential: cert(process.env.FIREBASE_SECRET_KEY ?? ''),
@@ -8,6 +7,6 @@ const FIREBASE_ADMIN_CONFIG = {
 
 export function initializeAdminApp() {
     if (getApps().length <= 0) {
-        initializeApp(FIREBASE_ADMIN_CONFIG)
+        admin.initializeApp(FIREBASE_ADMIN_CONFIG)
     }
 }

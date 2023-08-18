@@ -6,16 +6,26 @@ import {
 import Image from 'next/image'
 import { BackArrowIcon, CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Heading3, Paragraph } from '@entur/typography'
-import { useState } from 'react'
+import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
+import { SyntheticEvent, useState } from 'react'
 import classes from './styles.module.css'
 import musk from 'assets/illustrations/Musk.png'
+import { TextField } from '@entur/form'
+import { auth } from 'utils/firebase'
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+} from 'firebase/auth'
+import { fetchWithIdToken } from 'Admin/utils'
+import { FirebaseError } from '@firebase/util'
+
+type TLoginPage = 'start' | 'email' | 'create'
 
 function Login() {
     const [isOpen, setIsOpen] = useState(false)
-    const [pages, setPages] = useState<string[]>([])
+    const [pages, setPages] = useState<TLoginPage[]>([])
 
-    const pushPage = (page: string) => {
+    const pushPage = (page: TLoginPage) => {
         setPages([...pages, page])
     }
 
@@ -61,29 +71,27 @@ function Page({
     pages,
     pushPage,
 }: {
-    pages: string[]
-    pushPage: (page: string) => void
+    pages: TLoginPage[]
+    pushPage: (page: TLoginPage) => void
 }) {
     if (!pages) return <Start pushPage={pushPage} />
 
-    switch (pages.slice(-1)[0]) {
+    const lastPage = pages.slice(-1)[0]
+
+    switch (lastPage) {
         case 'email':
             return <Email />
+        case 'create':
+            return <CreateUser />
         default:
             return <Start pushPage={pushPage} />
     }
 }
 
-function Start({ pushPage }: { pushPage: (page: string) => void }) {
+function Start({ pushPage }: { pushPage: (page: TLoginPage) => void }) {
     return (
         <div>
-            <div className={classes.imageContainer}>
-                <Image
-                    src={musk}
-                    alt="illustration"
-                    className={classes.image}
-                />
-            </div>
+            <Image src={musk} alt="illustration" className={classes.image} />
             <Heading3>Logg inn for å fortsette</Heading3>
             <Paragraph>
                 Logg inn for å få tilgang til å opprette og administrere tavler.
@@ -92,14 +100,99 @@ function Start({ pushPage }: { pushPage: (page: string) => void }) {
                 <PrimaryButton onClick={() => pushPage('email')}>
                     Logg inn med e-post
                 </PrimaryButton>
-                <SecondaryButton>Opprett ny bruker</SecondaryButton>
+                <SecondaryButton onClick={() => pushPage('create')}>
+                    Opprett ny bruker
+                </SecondaryButton>
             </div>
         </div>
     )
 }
 
 function Email() {
-    return <Heading3>E-post innlogging</Heading3>
+    const [error, setError] = useState<string>()
+
+    return (
+        <div>
+            <Image src={musk} alt="illustration" className={classes.image} />
+            <Heading3>Logg inn med e-post</Heading3>
+            <form
+                className="flexColumn"
+                onSubmit={async (event: SyntheticEvent) => {
+                    event.preventDefault()
+
+                    const data = event.currentTarget as unknown as {
+                        email: HTMLInputElement
+                        password: HTMLInputElement
+                    }
+
+                    const email = data.email.value
+                    const password = data.password.value
+
+                    try {
+                        const credential = await signInWithEmailAndPassword(
+                            auth,
+                            email,
+                            password,
+                        )
+                        await fetchWithIdToken(
+                            '/api/login',
+                            await credential.user.getIdToken(),
+                        )
+                    } catch (error: unknown) {
+                        if (error instanceof FirebaseError) setError(error.code)
+                    }
+                }}
+            >
+                <TextField name="email" label="E-post" type="email" />
+                <TextField name="password" label="Passord" type="password" />
+                <SubParagraph>{error}</SubParagraph>
+                <PrimaryButton type="submit">Logg inn</PrimaryButton>
+            </form>
+        </div>
+    )
+}
+
+function CreateUser() {
+    return (
+        <div>
+            <Image src={musk} alt="illustration" className={classes.image} />
+            <Heading3>Logg inn med e-post</Heading3>
+            <form
+                className="flexColumn"
+                onSubmit={async (event: SyntheticEvent) => {
+                    event.preventDefault()
+
+                    const data = event.currentTarget as unknown as {
+                        email: HTMLInputElement
+                        password: HTMLInputElement
+                        repeat_password: HTMLInputElement
+                    }
+
+                    const email = data.email.value
+                    const password = data.password.value
+                    const repeatPassword = data.repeat_password.value
+
+                    if (password !== repeatPassword) return
+
+                    const user = await createUserWithEmailAndPassword(
+                        auth,
+                        email,
+                        password,
+                    )
+                    console.log(user)
+                }}
+            >
+                <TextField name="email" label="E-post" type="email" />
+                <TextField name="password" label="Passord" type="password" />
+                <TextField
+                    name="repeat_password"
+                    label="Gjenta passord"
+                    type="password"
+                />
+                <PrimaryButton type="submit">Opprett ny bruker</PrimaryButton>
+            </form>
+        </div>
+    )
 }
 
 export { Login }

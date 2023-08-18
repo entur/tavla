@@ -1,6 +1,6 @@
 import { TSettings } from 'types/settings'
 import { getApp, getApps, initializeApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { EmailAuthProvider, getAuth } from 'firebase/auth'
 import {
     getDoc,
     addDoc,
@@ -13,9 +13,9 @@ import { FIREBASE_CLIENT_CONFIG } from 'assets/env'
 
 const app = initializeClientApp()
 export const auth = getAuth(app)
-export const googleAuthProvider = new GoogleAuthProvider()
-
 const firestore = getFirestore(app)
+
+export const emailAuthProvider = new EmailAuthProvider()
 
 function initializeClientApp() {
     if (getApps().length > 0) return getApp()

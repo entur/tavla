@@ -37,3 +37,14 @@ export async function fetchItems(
             return items
         })
 }
+
+export async function fetchWithIdToken(
+    url: string,
+    idToken: string,
+    method = 'POST',
+) {
+    return fetch(url, {
+        method,
+        headers: { Authorization: `Bearer ${idToken}` },
+    })
+}
