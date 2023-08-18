@@ -1,4 +1,4 @@
-import { Checkbox } from '@entur/form'
+import { Switch } from '@entur/form'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
@@ -86,7 +86,7 @@ function SelectLines({
 
                     return (
                         <div key={transportMode}>
-                            <Checkbox
+                            <Switch
                                 className={classes.selectAll}
                                 onChange={() => {
                                     removeLines(
@@ -101,26 +101,27 @@ function SelectLines({
                                 checked={transportModeChecked}
                             >
                                 {transportModeNames[transportMode]}
-                            </Checkbox>
-                            {lines.map((line) => {
-                                const disabledLine =
-                                    isLineDisabled(transportMode)
-                                return (
-                                    <Checkbox
-                                        className={classes.line}
-                                        key={`${line.publicCode}${line.name}`}
-                                        checked={
-                                            tile.whitelistedLines?.includes(
-                                                line.id,
-                                            ) ?? false
-                                        }
-                                        onChange={() => toggleLine(line.id)}
-                                        disabled={disabledLine}
-                                    >
-                                        {line.publicCode} {line.name}
-                                    </Checkbox>
-                                )
-                            })}
+                            </Switch>
+                            {transportModeChecked &&
+                                lines.map((line) => {
+                                    const disabledLine =
+                                        isLineDisabled(transportMode)
+                                    return (
+                                        <Switch
+                                            className={classes.line}
+                                            key={`${line.publicCode}${line.name}`}
+                                            checked={
+                                                tile.whitelistedLines?.includes(
+                                                    line.id,
+                                                ) ?? false
+                                            }
+                                            onChange={() => toggleLine(line.id)}
+                                            disabled={disabledLine}
+                                        >
+                                            {line.publicCode} {line.name}
+                                        </Switch>
+                                    )
+                                })}
                         </div>
                     )
                 })}
