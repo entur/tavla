@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { createRef, useEffect, useState } from 'react'
 import { Button } from '@entur/button'
 import classes from './styles.module.css'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
@@ -13,6 +13,13 @@ function AddTile() {
     const { addToast } = useToast()
     const [stopPlaceId, setStopPlaceId] = useState<string>()
     const [placeName, setPlaceName] = useState<string>('Ikke navngitt')
+    const dropdownRef = createRef<HTMLDivElement>()
+
+    useEffect(() => {
+        if (dropdownRef.current) {
+            dropdownRef.current.focus()
+        }
+    }, [dropdownRef])
 
     function handleAddTile() {
         if (!stopPlaceId) {
@@ -38,6 +45,7 @@ function AddTile() {
 
             <div className={classes.SearchContainer}>
                 <Dropdown
+                    ref={dropdownRef}
                     className={classes.DropDown}
                     items={fetchItems}
                     label="Søk etter holdeplass..."
