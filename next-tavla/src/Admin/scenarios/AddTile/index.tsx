@@ -33,7 +33,7 @@ function AddTile() {
         })
     }
     return (
-        <div>
+        <>
             <Heading1 className={classes.Heading1}>Holdeplasser</Heading1>
 
             <div className={classes.SearchContainer}>
@@ -55,7 +55,7 @@ function AddTile() {
                     Legg til
                 </Button>
             </div>
-        </div>
+        </>
     )
 }
 
