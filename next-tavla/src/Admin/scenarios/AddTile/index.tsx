@@ -7,12 +7,14 @@ import { fetchItems } from 'Admin/utils'
 import { SearchIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
 import { useToast } from '@entur/alert'
+import { useRef } from 'react'
 
 function AddTile() {
     const dispatch = useSettingsDispatch()
     const { addToast } = useToast()
     const [stopPlaceId, setStopPlaceId] = useState<string>()
     const [placeName, setPlaceName] = useState<string>('Ikke navngitt')
+    const inputRef = useRef<HTMLInputElement>(null)
 
     function handleAddTile() {
         if (!stopPlaceId) {
@@ -31,6 +33,11 @@ function AddTile() {
                 name: placeName,
             },
         })
+
+        const clearButton = inputRef.current?.nextSibling
+            ?.firstChild as HTMLElement
+
+        clearButton.click()
     }
     return (
         <>
@@ -38,6 +45,7 @@ function AddTile() {
 
             <div className={classes.SearchContainer}>
                 <Dropdown
+                    ref={inputRef}
                     className={classes.DropDown}
                     items={fetchItems}
                     label="Søk etter holdeplass..."
