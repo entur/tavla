@@ -38,6 +38,11 @@ function Login() {
             <PrimaryButton onClick={() => setIsOpen(true)}>
                 Logg inn
             </PrimaryButton>
+            <PrimaryButton
+                onClick={() => fetch('/api/logout', { method: 'POST' })}
+            >
+                Logg ut
+            </PrimaryButton>
             <Modal
                 open={isOpen}
                 size="small"

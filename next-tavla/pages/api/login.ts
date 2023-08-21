@@ -21,7 +21,7 @@ export default async function handler(
 
             response.setHeader(
                 'Set-Cookie',
-                `session=${sessionCookie};HttpOnly;Max-Age=${expiresIn};Secure;SameSite=Strict`,
+                `session=${sessionCookie};HttpOnly;Max-Age=${expiresIn};Secure;SameSite=Strict;Path=/;`,
             )
             return response.status(200).json({})
         }
