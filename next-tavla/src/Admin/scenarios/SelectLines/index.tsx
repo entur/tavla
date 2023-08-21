@@ -1,4 +1,5 @@
 import { Checkbox } from '@entur/form'
+import { TravelSwitch } from '@entur/travel'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
@@ -6,7 +7,23 @@ import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TLinesFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
-import { transportModeNames } from 'Admin/utils'
+import '@entur/travel/dist/styles.css'
+
+const transportModeNames: Record<TTransportMode, string> = {
+    air: 'Fly',
+    bus: 'Buss',
+    cableway: 'Kabelbane',
+    water: 'Båt',
+    funicular: 'Taubane',
+    lift: 'Heis',
+    rail: 'Tog',
+    metro: 'T-bane',
+    tram: 'Trikk',
+    trolleybus: 'Trolley-buss',
+    monorail: 'Enskinnebane',
+    coach: 'Langdistanse buss',
+    unknown: 'Ukjent',
+}
 
 function SelectLines({
     tile,
@@ -63,12 +80,42 @@ function SelectLines({
                 til de valgene som har blitt gjort.
             </SubParagraph>
             <div className={classes.linesGrid}>
-                {linesByMode.map(({ transportMode, lines }) => {
+                {transportModes.map((transportMode) => {
                     const transportModeChecked =
                         tile.whitelistedTransportModes?.includes(
                             transportMode,
                         ) ?? false
-
+                    return (
+                        <div key={transportMode}>
+                            <TravelSwitch
+                                size="large"
+                                transport={
+                                    transportMode === 'coach'
+                                        ? 'bus'
+                                        : transportMode === 'trolleybus'
+                                        ? 'bus'
+                                        : transportMode === 'lift'
+                                        ? 'mobility'
+                                        : transportMode === 'monorail'
+                                        ? 'rail'
+                                        : transportMode === 'unknown'
+                                        ? 'mobility'
+                                        : transportMode
+                                }
+                                onChange={() => {
+                                    toggleTransportMode(transportMode)
+                                }}
+                                checked={transportModeChecked}
+                            >
+                                {transportModeNames[transportMode]}
+                            </TravelSwitch>
+                        </div>
+                    )
+                })}
+            </div>
+            <div className={classes.linesGrid}>
+                {linesByMode.map(({ transportMode, lines }) => {
+                    const disabledLine = isLineDisabled(transportMode)
                     return (
                         <div key={transportMode}>
                             <Checkbox
@@ -81,9 +128,8 @@ function SelectLines({
                                             )
                                             .map((line) => line.id),
                                     )
-                                    toggleTransportMode(transportMode)
                                 }}
-                                checked={transportModeChecked}
+                                disabled={disabledLine}
                             >
                                 {transportModeNames[transportMode]}
                             </Checkbox>
