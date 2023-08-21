@@ -16,10 +16,10 @@ function AddTile() {
     const dropdownRef = createRef<HTMLDivElement>()
 
     useEffect(() => {
-        if (dropdownRef.current) {
+        if (dropdownRef.current && !stopPlaceId) {
             dropdownRef.current.focus()
         }
-    }, [dropdownRef])
+    }, [dropdownRef, stopPlaceId])
 
     function handleAddTile() {
         if (!stopPlaceId) {
