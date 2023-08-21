@@ -13,6 +13,11 @@ export function initializeAdminApp() {
     }
 }
 
-export async function verifySession(session: string) {
-    return await auth().verifySessionCookie(session)
+export async function verifySession(session?: string) {
+    if (!session) return null
+    try {
+        return await auth().verifySessionCookie(session, true)
+    } catch {
+        return null
+    }
 }

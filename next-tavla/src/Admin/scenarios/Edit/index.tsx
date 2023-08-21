@@ -13,13 +13,16 @@ import { CopyIcon, SaveIcon } from '@entur/icons'
 import { SecondaryLink } from 'components/SecondaryLink'
 import { useToast } from '@entur/alert'
 import { Login } from '../Login'
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 
 function Edit({
     initialSettings,
     documentId,
+    user,
 }: {
     initialSettings: TSettings
     documentId: string
+    user: DecodedIdToken | null
 }) {
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
     const { addToast } = useToast()
@@ -53,7 +56,7 @@ function Edit({
                             <SaveIcon />
                         </PrimaryButton>
 
-                        <Login />
+                        <Login user={user} documentId={documentId} />
                     </div>
                 </div>
                 <AddTile />

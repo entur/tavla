@@ -11,17 +11,15 @@ import { SyntheticEvent, useState } from 'react'
 import classes from './styles.module.css'
 import musk from 'assets/illustrations/Musk.png'
 import { TextField } from '@entur/form'
-import { auth } from 'utils/firebase'
-import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-} from 'firebase/auth'
-import { fetchWithIdToken } from 'Admin/utils'
 import { FirebaseError } from '@firebase/util'
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
+import { useAuth } from 'Admin/hooks/useAuth'
 
 type TLoginPage = 'start' | 'email' | 'create'
 
-function Login() {
+function Login({ user }: { user: DecodedIdToken | null; documentId: string }) {
+    const { logout } = useAuth()
+
     const [isOpen, setIsOpen] = useState(false)
     const [pages, setPages] = useState<TLoginPage[]>([])
 
@@ -35,14 +33,13 @@ function Login() {
 
     return (
         <>
-            <PrimaryButton onClick={() => setIsOpen(true)}>
-                Logg inn
-            </PrimaryButton>
-            <PrimaryButton
-                onClick={() => fetch('/api/logout', { method: 'POST' })}
-            >
-                Logg ut
-            </PrimaryButton>
+            {user ? (
+                <PrimaryButton onClick={logout}>Logg ut</PrimaryButton>
+            ) : (
+                <PrimaryButton onClick={() => setIsOpen(true)}>
+                    Logg inn
+                </PrimaryButton>
+            )}
             <Modal
                 open={isOpen}
                 size="small"
@@ -115,7 +112,7 @@ function Start({ pushPage }: { pushPage: (page: TLoginPage) => void }) {
 
 function Email() {
     const [error, setError] = useState<string>()
-
+    const { login } = useAuth()
     return (
         <div>
             <Image src={musk} alt="illustration" className={classes.image} />
@@ -134,15 +131,7 @@ function Email() {
                     const password = data.password.value
 
                     try {
-                        const credential = await signInWithEmailAndPassword(
-                            auth,
-                            email,
-                            password,
-                        )
-                        await fetchWithIdToken(
-                            '/api/login',
-                            await credential.user.getIdToken(),
-                        )
+                        await login(email, password)
                     } catch (error: unknown) {
                         if (error instanceof FirebaseError) setError(error.code)
                     }
@@ -158,6 +147,8 @@ function Email() {
 }
 
 function CreateUser() {
+    const { createUser } = useAuth()
+
     return (
         <div>
             <Image src={musk} alt="illustration" className={classes.image} />
@@ -177,14 +168,7 @@ function CreateUser() {
                     const password = data.password.value
                     const repeatPassword = data.repeat_password.value
 
-                    if (password !== repeatPassword) return
-
-                    const user = await createUserWithEmailAndPassword(
-                        auth,
-                        email,
-                        password,
-                    )
-                    console.log(user)
+                    await createUser(email, password, repeatPassword)
                 }}
             >
                 <TextField name="email" label="E-post" type="email" />

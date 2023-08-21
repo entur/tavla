@@ -23,8 +23,10 @@ export default async function handler(
                 'Set-Cookie',
                 `session=${sessionCookie};HttpOnly;Max-Age=${expiresIn};Secure;SameSite=Strict;Path=/;`,
             )
-            return response.status(200).json({})
+            return response
+                .status(200)
+                .json({ message: 'Successfully logged in!' })
         }
     }
-    return response.status(400).json({ error: 'Could not initialize session!' })
+    return response.status(400).json({ error: 'Could not log in!' })
 }
