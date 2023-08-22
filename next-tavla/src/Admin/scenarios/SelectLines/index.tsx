@@ -49,16 +49,13 @@ function SelectLines({
     }
 
     const toggleSelectAllLines = (transportMode: TTransportMode) => {
-        console.log(isAllLinesSelected(transportMode))
         if (isAllLinesSelected(transportMode)) {
-            console.log('remove all lines')
             removeLines(
                 uniqLines
                     .filter((line) => line.transportMode === transportMode)
                     .map((line) => line.id),
             )
         } else {
-            console.log('select all lines')
             selectAllLines(transportMode)
         }
     }
