@@ -48,6 +48,52 @@ function SelectLines({
         })
     }
 
+    const toggleSelectAllLines = (transportMode: TTransportMode) => {
+        console.log(isAllLinesSelected(transportMode))
+        if (isAllLinesSelected(transportMode)) {
+            console.log('remove all lines')
+            removeLines(
+                uniqLines
+                    .filter((line) => line.transportMode === transportMode)
+                    .map((line) => line.id),
+            )
+        } else {
+            console.log('select all lines')
+            selectAllLines(transportMode)
+        }
+    }
+
+    const selectAllLines = (transportMode: TTransportMode) => {
+        const allLinesForMode = uniqLines
+            .filter((line) => line.transportMode === transportMode)
+            .map((line) => line.id)
+
+        dispatch({
+            type: 'setLines',
+            tileId: tile.uuid,
+            lines: [...(tile.whitelistedLines || []), ...allLinesForMode],
+        })
+    }
+
+    const isAllLinesSelected = (transportMode: TTransportMode) => {
+        const allLinesForMode = new Set(
+            uniqLines
+                .filter((line) => line.transportMode === transportMode)
+                .map((line) => line.id),
+        )
+
+        const selectedLinesForMode = new Set(
+            (tile.whitelistedLines || []).filter((line) =>
+                allLinesForMode.has(line),
+            ),
+        )
+
+        return (
+            selectedLinesForMode.size === allLinesForMode.size &&
+            selectedLinesForMode.size > 0
+        )
+    }
+
     const isLineDisabled = (transportMode: TTransportMode) => {
         if (!tile.whitelistedTransportModes) return false
         return (
@@ -121,17 +167,12 @@ function SelectLines({
                             <Checkbox
                                 className={classes.selectAll}
                                 onChange={() => {
-                                    removeLines(
-                                        uniqLines
-                                            .filter((line) =>
-                                                lines.includes(line),
-                                            )
-                                            .map((line) => line.id),
-                                    )
+                                    toggleSelectAllLines(transportMode)
                                 }}
+                                checked={isAllLinesSelected(transportMode)}
                                 disabled={disabledLine}
                             >
-                                {transportModeNames[transportMode]}
+                                Velg alle
                             </Checkbox>
                             {lines.map((line) => {
                                 const disabledLine =
