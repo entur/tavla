@@ -3,6 +3,13 @@
     flex-direction: column;
 }
 
+.transportGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding-top: 1em;
+    gap: 0 2em;
+}
+
 .linesGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

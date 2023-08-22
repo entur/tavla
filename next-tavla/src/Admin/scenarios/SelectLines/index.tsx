@@ -117,12 +117,8 @@ function SelectLines({
 
     return (
         <div className={classes.lineSettingsWrapper}>
-            <Heading4>Velg linjer</Heading4>
-            <SubParagraph>
-                Ved å huke av boksene vil visningen til avgangstavlen begrenses
-                til de valgene som har blitt gjort.
-            </SubParagraph>
-            <div className={classes.linesGrid}>
+            <Heading4>Velg transportmidler</Heading4>
+            <div className={classes.transportGrid}>
                 {transportModes.map((transportMode) => {
                     const transportModeChecked =
                         tile.whitelistedTransportModes?.includes(
@@ -156,6 +152,11 @@ function SelectLines({
                     )
                 })}
             </div>
+            <Heading4>Velg linjer</Heading4>
+            <SubParagraph>
+                Ved å huke av boksene vil visningen til avgangstavlen begrenses
+                til de valgene som har blitt gjort.
+            </SubParagraph>
             <div className={classes.linesGrid}>
                 {linesByMode.map(({ transportMode, lines }) => {
                     const disabledLine = isLineDisabled(transportMode)
