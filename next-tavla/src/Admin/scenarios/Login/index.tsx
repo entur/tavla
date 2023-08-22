@@ -14,6 +14,7 @@ import { TextField } from '@entur/form'
 import { FirebaseError } from '@firebase/util'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { useAuth } from 'Admin/hooks/useAuth'
+import { useFirebaseAuthError } from './useFirebaseAuthError'
 
 type TLoginPage = 'start' | 'email' | 'create'
 
@@ -111,7 +112,7 @@ function Start({ pushPage }: { pushPage: (page: TLoginPage) => void }) {
 }
 
 function Email() {
-    const [error, setError] = useState<string>()
+    const { error, setError, getTextFieldPropsForType } = useFirebaseAuthError()
     const { login } = useAuth()
     return (
         <div>
@@ -133,13 +134,27 @@ function Email() {
                     try {
                         await login(email, password)
                     } catch (error: unknown) {
-                        if (error instanceof FirebaseError) setError(error.code)
+                        if (error instanceof FirebaseError) {
+                            setError(error)
+                        }
                     }
                 }}
             >
-                <TextField name="email" label="E-post" type="email" />
-                <TextField name="password" label="Passord" type="password" />
-                <SubParagraph>{error}</SubParagraph>
+                <TextField
+                    name="email"
+                    label="E-post"
+                    type="email"
+                    {...getTextFieldPropsForType('email')}
+                />
+                <TextField
+                    name="password"
+                    label="Passord"
+                    type="password"
+                    {...getTextFieldPropsForType('password')}
+                />
+                <SubParagraph>
+                    {error?.type === 'user' && error.value}
+                </SubParagraph>
                 <PrimaryButton type="submit">Logg inn</PrimaryButton>
             </form>
         </div>
