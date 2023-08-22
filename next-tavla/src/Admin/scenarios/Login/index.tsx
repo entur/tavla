@@ -6,7 +6,7 @@ import {
 import Image from 'next/image'
 import { BackArrowIcon, CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
+import { Heading3, Paragraph } from '@entur/typography'
 import { SyntheticEvent, useState } from 'react'
 import classes from './styles.module.css'
 import musk from 'assets/illustrations/Musk.png'
@@ -15,6 +15,7 @@ import { FirebaseError } from '@firebase/util'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { useAuth } from 'Admin/hooks/useAuth'
 import { useFirebaseAuthError } from './useFirebaseAuthError'
+import { SmallAlertBox } from '@entur/alert'
 
 type TLoginPage = 'start' | 'email' | 'create'
 
@@ -152,9 +153,11 @@ function Email() {
                     type="password"
                     {...getTextFieldPropsForType('password')}
                 />
-                <SubParagraph>
-                    {error?.type === 'user' && error.value}
-                </SubParagraph>
+
+                {error?.type === 'user' && (
+                    <SmallAlertBox variant="error">{error.value}</SmallAlertBox>
+                )}
+
                 <PrimaryButton type="submit">Logg inn</PrimaryButton>
             </form>
         </div>
