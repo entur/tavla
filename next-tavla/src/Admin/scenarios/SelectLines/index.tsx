@@ -73,22 +73,19 @@ function SelectLines({
     }
 
     const isAllLinesSelected = (transportMode: TTransportMode) => {
-        const allLinesForMode = new Set(
-            uniqLines
-                .filter((line) => line.transportMode === transportMode)
-                .map((line) => line.id),
+        const allLinesForMode = uniqLines
+            .filter((line) => line.transportMode === transportMode)
+            .map((line) => line.id)
+
+        const selectedLinesForMode = (tile.whitelistedLines || []).filter(
+            (line) => allLinesForMode.includes(line),
         )
 
-        const selectedLinesForMode = new Set(
-            (tile.whitelistedLines || []).filter((line) =>
-                allLinesForMode.has(line),
-            ),
+        const allLinesIncluded = allLinesForMode.every((line) =>
+            selectedLinesForMode.includes(line),
         )
 
-        return (
-            selectedLinesForMode.size === allLinesForMode.size &&
-            selectedLinesForMode.size > 0
-        )
+        return allLinesIncluded && selectedLinesForMode.length > 0
     }
 
     const isLineDisabled = (transportMode: TTransportMode) => {
@@ -97,6 +94,23 @@ function SelectLines({
             tile.whitelistedTransportModes.length > 0 &&
             !tile.whitelistedTransportModes.includes(transportMode)
         )
+    }
+
+    const getTransportMode = (transportMode: TTransportMode) => {
+        switch (transportMode) {
+            case 'coach':
+                return 'bus'
+            case 'trolleybus':
+                return 'bus'
+            case 'lift':
+                return 'mobility'
+            case 'monorail':
+                return 'rail'
+            case 'unknown':
+                return 'mobility'
+            default:
+                return transportMode
+        }
     }
 
     const transportModes: TTransportMode[] = uniqBy(lines, 'transportMode').map(
@@ -128,19 +142,7 @@ function SelectLines({
                         <div key={transportMode}>
                             <TravelSwitch
                                 size="large"
-                                transport={
-                                    transportMode === 'coach'
-                                        ? 'bus'
-                                        : transportMode === 'trolleybus'
-                                        ? 'bus'
-                                        : transportMode === 'lift'
-                                        ? 'mobility'
-                                        : transportMode === 'monorail'
-                                        ? 'rail'
-                                        : transportMode === 'unknown'
-                                        ? 'mobility'
-                                        : transportMode
-                                }
+                                transport={getTransportMode(transportMode)}
                                 onChange={() => {
                                     toggleTransportMode(transportMode)
                                 }}
@@ -159,8 +161,6 @@ function SelectLines({
             </SubParagraph>
             <div className={classes.linesGrid}>
                 {linesByMode.map(({ transportMode, lines }) => {
-                    const disabledLine = isLineDisabled(transportMode)
-                    const allSelected = isAllLinesSelected(transportMode)
                     return (
                         <div key={transportMode}>
                             <Checkbox
@@ -168,8 +168,8 @@ function SelectLines({
                                 onChange={() => {
                                     toggleSelectAllLines(transportMode)
                                 }}
-                                checked={allSelected}
-                                disabled={disabledLine}
+                                checked={isAllLinesSelected(transportMode)}
+                                disabled={isLineDisabled(transportMode)}
                             >
                                 Velg alle
                             </Checkbox>
