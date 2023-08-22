@@ -16,8 +16,7 @@ import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { useAuth } from 'Admin/hooks/useAuth'
 import { useFirebaseAuthError } from './useFirebaseAuthError'
 import { SmallAlertBox } from '@entur/alert'
-
-type TLoginPage = 'start' | 'email' | 'create'
+import { TLoginPage } from 'Admin/types/login'
 
 function Login({ user }: { user: DecodedIdToken | null; documentId: string }) {
     const { logout } = useAuth()
@@ -166,6 +165,7 @@ function Email() {
 
 function CreateUser() {
     const { createUser } = useAuth()
+    const { error, setError, getTextFieldPropsForType } = useFirebaseAuthError()
 
     return (
         <div>
@@ -186,16 +186,35 @@ function CreateUser() {
                     const password = data.password.value
                     const repeatPassword = data.repeat_password.value
 
-                    await createUser(email, password, repeatPassword)
+                    try {
+                        await createUser(email, password, repeatPassword)
+                    } catch (error) {
+                        if (error instanceof FirebaseError) setError(error)
+                    }
                 }}
             >
-                <TextField name="email" label="E-post" type="email" />
-                <TextField name="password" label="Passord" type="password" />
+                <TextField
+                    name="email"
+                    label="E-post"
+                    type="email"
+                    {...getTextFieldPropsForType('email')}
+                />
+                <TextField
+                    name="password"
+                    label="Passord"
+                    type="password"
+                    {...getTextFieldPropsForType('password')}
+                />
                 <TextField
                     name="repeat_password"
                     label="Gjenta passord"
                     type="password"
+                    {...getTextFieldPropsForType('repeat_password')}
                 />
+                {error?.type === 'user' && (
+                    <SmallAlertBox variant="error">{error.value}</SmallAlertBox>
+                )}
+
                 <PrimaryButton type="submit">Opprett ny bruker</PrimaryButton>
             </form>
         </div>

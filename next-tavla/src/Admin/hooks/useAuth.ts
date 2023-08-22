@@ -6,6 +6,7 @@ import {
 import { fetchWithIdToken } from 'Admin/utils'
 
 import { useRouter } from 'next/router'
+import { FirebaseError } from 'firebase/app'
 
 function useAuth() {
     const router = useRouter()
@@ -30,7 +31,11 @@ function useAuth() {
         password: string,
         repeatPassword: string,
     ) => {
-        if (password !== repeatPassword) return
+        if (password !== repeatPassword)
+            throw new FirebaseError(
+                'auth/password-no-match',
+                'passwords does not match',
+            )
 
         const credential = await createUserWithEmailAndPassword(
             auth,

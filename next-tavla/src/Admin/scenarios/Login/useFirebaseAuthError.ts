@@ -1,9 +1,7 @@
 import { VariantType } from '@entur/form'
+import { TAuthError, TErrorType } from 'Admin/types/login'
 import { FirebaseError } from 'firebase/app'
 import { useState } from 'react'
-
-type TErrorType = 'email' | 'password' | 'user'
-type TAuthError = { type: TErrorType; value: string }
 
 function useFirebaseAuthError(): {
     error: TAuthError | undefined
@@ -33,10 +31,25 @@ function useFirebaseAuthError(): {
                     type: 'email',
                     value: 'Det finnes ingen konto assosiert med denne e-postadressen.',
                 })
+            case 'auth/email-already-in-use':
+                return setError({
+                    type: 'email',
+                    value: 'E-postadressen er allerede i bruk.',
+                })
             case 'auth/wrong-password':
                 return setError({
                     type: 'password',
                     value: 'Passordet er ikke gyldig.',
+                })
+            case 'auth/weak-password':
+                return setError({
+                    type: 'password',
+                    value: 'Passordet er for svakt.',
+                })
+            case 'auth/password-no-match':
+                return setError({
+                    type: 'repeat_password',
+                    value: 'Passordene er ikke like.',
                 })
             case 'auth/user-disabled':
                 return setError({
@@ -47,6 +60,11 @@ function useFirebaseAuthError(): {
                 return setError({
                     type: 'user',
                     value: 'Kontoen har blitt midlertidig låst grunnet gjentatte mislykkede påloggingsforsøk.',
+                })
+            case 'auth/operation-not-allowed':
+                return setError({
+                    type: 'user',
+                    value: 'Opprettelse av ny bruker feilet.',
                 })
         }
     }
