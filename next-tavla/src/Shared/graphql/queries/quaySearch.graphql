@@ -4,6 +4,9 @@ query quaysSearch($stopPlaceId: String!) {
             id
             publicCode
             description
+            stopPlace {
+                transportMode
+            }
         }
     }
 }
