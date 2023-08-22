@@ -2,12 +2,12 @@ import { Checkbox } from '@entur/form'
 import { TravelSwitch } from '@entur/travel'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
+import '@entur/travel/dist/styles.css'
 import classes from './styles.module.css'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TLinesFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
-import '@entur/travel/dist/styles.css'
 
 const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
