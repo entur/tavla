@@ -162,6 +162,7 @@ function SelectLines({
             <div className={classes.linesGrid}>
                 {linesByMode.map(({ transportMode, lines }) => {
                     const disabledLine = isLineDisabled(transportMode)
+                    const allSelected = isAllLinesSelected(transportMode)
                     return (
                         <div key={transportMode}>
                             <Checkbox
@@ -169,7 +170,7 @@ function SelectLines({
                                 onChange={() => {
                                     toggleSelectAllLines(transportMode)
                                 }}
-                                checked={isAllLinesSelected(transportMode)}
+                                checked={allSelected}
                                 disabled={disabledLine}
                             >
                                 Velg alle
