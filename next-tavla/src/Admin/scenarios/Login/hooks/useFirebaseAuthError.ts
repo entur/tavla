@@ -3,11 +3,7 @@ import { TAuthError, TErrorType } from 'Admin/types/login'
 import { FirebaseError } from 'firebase/app'
 import { useState } from 'react'
 
-function useFirebaseAuthError(): {
-    error: TAuthError | undefined
-    setError: typeof setErrorMessage
-    getTextFieldPropsForType: typeof getTextFieldPropsForType
-} {
+function useFirebaseAuthError() {
     const [error, setError] = useState<TAuthError>()
 
     const getTextFieldPropsForType = (
