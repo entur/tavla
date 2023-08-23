@@ -1,15 +1,13 @@
 import admin, { auth } from 'firebase-admin'
-import { AppOptions, cert, getApps } from 'firebase-admin/app'
-
-const FIREBASE_ADMIN_CONFIG = (process.env.FIREBASE_CONFIG as AppOptions) ?? {
-    credential: cert(process.env.FIREBASE_SECRET_KEY ?? ''),
-}
+import { applicationDefault, getApps } from 'firebase-admin/app'
 
 initializeAdminApp()
 
-export function initializeAdminApp() {
+export async function initializeAdminApp() {
     if (getApps().length <= 0) {
-        admin.initializeApp(FIREBASE_ADMIN_CONFIG)
+        admin.initializeApp({
+            credential: applicationDefault(),
+        })
     }
 }
 
