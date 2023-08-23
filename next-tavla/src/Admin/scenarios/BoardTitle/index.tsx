@@ -12,56 +12,50 @@ function BoardTitle({ title }: { title?: string }) {
     const displayTitle = title || 'Tavla'
     const [tempTitle, setTempTitle] = useState<string>(displayTitle)
 
+    if (!isEditing) {
+        return (
+            <div className={classes.leftContainer}>
                 <Heading1 className={classes.title}>{displayTitle}</Heading1>
+                <SecondarySquareButton
+                    className={classes.squareButton}
+                    onClick={() => setIsEditing(true)}
+                >
+                    <EditIcon aria-label="Rediger tittel" />
+                </SecondarySquareButton>
+            </div>
+        )
+    }
 
     return (
         <div className={classes.leftContainer}>
-            {isEditing ? (
-                <>
-                    <TextField
-                        size="medium"
-                        label="Tavlenavn"
-                        className={classes.editInput}
-                    />
-
-                    <SecondarySquareButton
-                        className={classes.squareButton}
-                        onClick={() => {
-                            setIsEditing(false)
-                            dispatch({
-                                type: 'changeTitle',
-                            })
-                        }}
-                    >
-                        <CheckIcon aria-label="Bekreft tittelendring" />
-                    </SecondarySquareButton>
-                    <SecondarySquareButton
-                        className={classes.squareButton}
-                        onClick={() => {
-                            setIsEditing(false)
-                        }}
-                    >
-                        <CloseIcon aria-label="Avbryt tittelendring" />
-                    </SecondarySquareButton>
-                </>
-            ) : (
-                <>
-                    <Heading1
-                        className={classes.title}
-                    >
-                    </Heading1>
-                    <SecondarySquareButton
-                        className={classes.squareButton}
-                        onClick={() => setIsEditing(true)}
-                    >
-                        <EditIcon aria-label="Rediger tittel" />
-                    </SecondarySquareButton>
-                </>
-            )}
+            <TextField
                 defaultValue={displayTitle}
+                size="medium"
+                label="Tavlenavn"
+                className={classes.editInput}
                 onChange={(e) => setTempTitle(e.target.value)}
+            />
+            <SecondarySquareButton
+                className={classes.squareButton}
+                onClick={() => {
+                    setIsEditing(false)
+                    dispatch({
+                        type: 'changeTitle',
                         title: tempTitle,
+                    })
+                }}
+            >
+                <CheckIcon aria-label="Bekreft tittelendring" />
+            </SecondarySquareButton>
+            <SecondarySquareButton
+                className={classes.squareButton}
+                onClick={() => {
                     setTempTitle(displayTitle)
+                    setIsEditing(false)
+                }}
+            >
+                <CloseIcon aria-label="Avbryt tittelendring" />
+            </SecondarySquareButton>
         </div>
     )
 }
