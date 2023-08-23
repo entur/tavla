@@ -6,18 +6,18 @@ import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { useState } from 'react'
 import classes from './styles.module.css'
 
-function BoardTitle({ title }: { title: string }) {
+function BoardTitle({ title }: { title?: string }) {
     const [isEditing, setIsEditing] = useState<boolean>(false)
     const dispatch = useSettingsDispatch()
+    const displayTitle = title || 'Tavla'
 
-    let newTitle = title
+                <Heading1 className={classes.title}>{displayTitle}</Heading1>
 
     return (
         <div className={classes.leftContainer}>
             {isEditing ? (
                 <>
                     <TextField
-                        defaultValue={title}
                         size="medium"
                         label="Tavlenavn"
                         className={classes.editInput}
@@ -52,7 +52,6 @@ function BoardTitle({ title }: { title: string }) {
                         className={classes.title}
                         onClick={() => setIsEditing(true)}
                     >
-                        {title}
                     </Heading1>
                     <SecondarySquareButton
                         className={classes.squareButton}
@@ -62,6 +61,7 @@ function BoardTitle({ title }: { title: string }) {
                     </SecondarySquareButton>
                 </>
             )}
+                defaultValue={displayTitle}
         </div>
     )
 }
