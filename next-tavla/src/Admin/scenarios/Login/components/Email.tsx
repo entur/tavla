@@ -1,4 +1,4 @@
-import { PrimaryButton } from '@entur/button'
+import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { Heading3 } from '@entur/typography'
 import musk from 'assets/illustrations/Musk.png'
@@ -8,8 +8,9 @@ import { SyntheticEvent } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useFirebaseAuthError } from '../hooks/useFirebaseAuthError'
 import { UserError } from './UserError'
+import { TLoginPage } from 'Admin/types/login'
 
-function Email() {
+function Email({ pushPage }: { pushPage: (page: TLoginPage) => void }) {
     const { error, setError, getTextFieldPropsForType } = useFirebaseAuthError()
     const { login } = useAuth()
 
@@ -37,7 +38,7 @@ function Email() {
         <div>
             <Image src={musk} alt="illustration" className="h-50 w-50" />
             <Heading3>Logg inn med e-post</Heading3>
-            <form className="flexColumn" onSubmit={submitEmailLogin}>
+            <form className="flexColumn pb-2" onSubmit={submitEmailLogin}>
                 <TextField
                     name="email"
                     label="E-post"
@@ -55,6 +56,12 @@ function Email() {
 
                 <PrimaryButton type="submit">Logg inn</PrimaryButton>
             </form>
+            <SecondaryButton
+                className="w-100"
+                onClick={() => pushPage('reset')}
+            >
+                Glemt passord?
+            </SecondaryButton>
         </div>
     )
 }
