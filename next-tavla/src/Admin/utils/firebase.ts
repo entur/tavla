@@ -1,7 +1,7 @@
 import admin, { auth } from 'firebase-admin'
-import { cert, getApps } from 'firebase-admin/app'
+import { AppOptions, cert, getApps } from 'firebase-admin/app'
 
-const FIREBASE_ADMIN_CONFIG = {
+const FIREBASE_ADMIN_CONFIG = (process.env.FIREBASE_CONFIG as AppOptions) ?? {
     credential: cert(process.env.FIREBASE_SECRET_KEY ?? ''),
 }
 
