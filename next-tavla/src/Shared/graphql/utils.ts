@@ -1,16 +1,13 @@
+import { GRAPHQL_ENDPOINTS, TEndpointNames } from 'assets/env'
 import useSWR from 'swr'
 import { TypedDocumentString } from './index'
-import {
-    graphql_endpoints,
-    type TEndpointNames,
-} from 'src/Shared/assets/environmentConfig'
 
 async function fetcher<Data, Variables>([query, variables, endpointName]: [
     TypedDocumentString<Data, Variables>,
     Variables,
     TEndpointNames,
 ]) {
-    return fetch(graphql_endpoints[endpointName], {
+    return fetch(GRAPHQL_ENDPOINTS[endpointName], {
         headers: {
             'Content-Type': 'application/json',
             'ET-Client-Name': 'tavla-test',

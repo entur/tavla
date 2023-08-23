@@ -1,0 +1,10 @@
+.login {
+    text-align: center;
+}
+
+.actions {
+    display: flex;
+    width: 100%;
+    flex-flow: row-reverse;
+    justify-content: space-between;
+}

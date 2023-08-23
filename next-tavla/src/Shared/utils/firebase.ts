@@ -1,5 +1,6 @@
 import { TSettings } from 'types/settings'
-import { initializeApp } from 'firebase/app'
+import { getApp, getApps, initializeApp } from 'firebase/app'
+import { EmailAuthProvider, getAuth } from 'firebase/auth'
 import {
     getDoc,
     addDoc,
@@ -8,11 +9,18 @@ import {
     collection,
     getFirestore,
 } from '@firebase/firestore/lite'
-import { firebaseConfig } from 'src/Shared/assets/environmentConfig'
+import { FIREBASE_CLIENT_CONFIG } from 'assets/env'
 
-const app = initializeApp(firebaseConfig)
-
+const app = initializeClientApp()
+export const auth = getAuth(app)
 const firestore = getFirestore(app)
+
+export const emailAuthProvider = new EmailAuthProvider()
+
+function initializeClientApp() {
+    if (getApps().length > 0) return getApp()
+    return initializeApp(FIREBASE_CLIENT_CONFIG)
+}
 
 export async function getBoardSettings(boardId: string) {
     const document = await getDoc(doc(firestore, 'settings-v2', boardId))
