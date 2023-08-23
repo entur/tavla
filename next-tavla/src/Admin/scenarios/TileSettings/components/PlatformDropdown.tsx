@@ -1,9 +1,11 @@
 import { Dropdown, NormalizedDropdownItemType } from '@entur/dropdown'
 import { Heading4, SubParagraph } from '@entur/typography'
+import { transportModeNames } from 'Admin/utils'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { QuaysSearchQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
 import { useState } from 'react'
+import { TTransportMode } from 'types/graphql-schema'
 import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 
@@ -31,6 +33,21 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
 
     const { data } = useQuery(QuaysSearchQuery, { stopPlaceId })
 
+    const extractTransportMode = (
+        arg: (TTransportMode | null)[] | null | undefined,
+    ) => {
+        if (
+            Array.isArray(arg) &&
+            arg.every((item) => typeof item === 'string') &&
+            arg.every((item) => item && transportModeNames[item])
+        )
+            return arg
+                .map((item) => item && transportModeNames[item])
+                .join(', ')
+
+        return transportModeNames['unknown']
+    }
+
     const quays =
         data?.stopPlace?.quays
             ?.filter(isNotNullOrUndefined)
@@ -41,11 +58,26 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
                     quay.description,
                     index,
                 ),
+                transportModes: quay.stopPlace?.transportMode,
             }))
             .sort((a, b) => {
                 return a.label.localeCompare(b.label, 'no-NB', {
                     numeric: true,
                 })
+            })
+            .map((quay, index, array) => {
+                if (
+                    array.filter((item) => item.label === quay.label).length > 1
+                ) {
+                    return {
+                        ...quay,
+                        label: `${quay.label} (${extractTransportMode(
+                            quay.transportModes,
+                        )})`,
+                    }
+                } else {
+                    return quay
+                }
             }) || []
 
     const dropDownOptions = () => [stopPlaceOption, ...quays]
