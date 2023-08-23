@@ -7,7 +7,8 @@ import { useQuery } from 'graphql/utils'
 import { useState } from 'react'
 import { TTransportMode } from 'types/graphql-schema'
 import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
-import { isNotNullOrUndefined } from 'utils/typeguards'
+import { hasDuplicateInArrayByKey } from 'utils/filters'
+import { isNotNullOrUndefined, isTransportModeArray } from 'utils/typeguards'
 
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' }
 
@@ -22,6 +23,17 @@ function getPlatformLabel(
     return [publicCode, description].filter(isNotNullOrUndefined).join(' ')
 }
 
+function getQuayTransportModes(
+    transportModes: (TTransportMode | null)[] | null | undefined,
+) {
+    if (isTransportModeArray(transportModes))
+        return `${transportModes
+            .map((item) => item && transportModeNames[item])
+            .join(', ')}`
+
+    return transportModeNames['unknown']
+}
+
 function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
     const dispatch = useSettingsDispatch()
 
@@ -32,21 +44,6 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
     const stopPlaceId = tile.type === 'quay' ? tile.stopPlaceId : tile.placeId
 
     const { data } = useQuery(QuaysSearchQuery, { stopPlaceId })
-
-    const extractTransportMode = (
-        arg: (TTransportMode | null)[] | null | undefined,
-    ) => {
-        if (
-            Array.isArray(arg) &&
-            arg.every((item) => typeof item === 'string') &&
-            arg.every((item) => item && transportModeNames[item])
-        )
-            return arg
-                .map((item) => item && transportModeNames[item])
-                .join(', ')
-
-        return transportModeNames['unknown']
-    }
 
     const quays =
         data?.stopPlace?.quays
@@ -65,18 +62,16 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
                     numeric: true,
                 })
             })
-            .map((quay, index, array) => {
-                if (
-                    array.filter((item) => item.label === quay.label).length > 1
-                ) {
+            .map((item, index, array) => {
+                if (hasDuplicateInArrayByKey(array, item, 'label')) {
                     return {
-                        ...quay,
-                        label: `${quay.label} (${extractTransportMode(
-                            quay.transportModes,
+                        ...item,
+                        label: `${item.label} (${getQuayTransportModes(
+                            item.transportModes,
                         )})`,
                     }
                 } else {
-                    return quay
+                    return item
                 }
             }) || []
 
