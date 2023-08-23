@@ -6,6 +6,7 @@ import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { useState } from 'react'
 import { CreateUser } from './components/CreateUser'
 import { Email } from './components/Email'
+import { ResetPassword } from './components/ResetPassword'
 import { Start } from './components/Start'
 import { useAuth } from './hooks/useAuth'
 import classes from './styles.module.css'
@@ -63,7 +64,11 @@ function Login({ user }: { user: DecodedIdToken | null }) {
                         </SecondarySquareButton>
                     )}
                 </div>
-                <LoginPage pages={pages} pushPage={pushPage} />
+                <LoginPage
+                    pages={pages}
+                    pushPage={pushPage}
+                    popPage={popPage}
+                />
             </Modal>
         </>
     )
@@ -72,9 +77,11 @@ function Login({ user }: { user: DecodedIdToken | null }) {
 function LoginPage({
     pages,
     pushPage,
+    popPage,
 }: {
     pages: TLoginPage[]
     pushPage: (page: TLoginPage) => void
+    popPage: () => void
 }) {
     if (!pages) return <Start pushPage={pushPage} />
 
@@ -82,9 +89,11 @@ function LoginPage({
 
     switch (lastPage) {
         case 'email':
-            return <Email />
+            return <Email pushPage={pushPage} />
         case 'create':
             return <CreateUser />
+        case 'reset':
+            return <ResetPassword popPage={popPage} />
         default:
             return <Start pushPage={pushPage} />
     }
