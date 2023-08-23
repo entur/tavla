@@ -1061,9 +1061,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/dropdown@npm:5.0.2":
-  version: 5.0.2
-  resolution: "@entur/dropdown@npm:5.0.2"
+"@entur/dropdown@npm:5.0.3":
+  version: 5.0.3
+  resolution: "@entur/dropdown@npm:5.0.3"
   dependencies:
     "@entur/a11y": ^0.2.68
     "@entur/button": ^3.1.0
@@ -1079,7 +1079,7 @@ __metadata:
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 863ab5a874c5fb610440fbf46e2b9c56c0f4e6f8795a6697cb019c6bbeecc4cd71da69169e1579396685c053536f3480413cd56211a9880898f3ade791131010
+  checksum: e05fadfcbb589b70db04e4bff6a74ce7ed828da949918c90f6e4ca9e11046cac3a22ee6860a35ef236882889f2e126ff86cd33b16cfd37a531c7f3344f8aa3fb
   languageName: node
   linkType: hard
 
@@ -12249,7 +12249,7 @@ __metadata:
     "@entur/alert": 0.14.9
     "@entur/button": 3.0.8
     "@entur/chip": 0.6.39
-    "@entur/dropdown": 5.0.2
+    "@entur/dropdown": 5.0.3
     "@entur/expand": 3.4.0
     "@entur/form": 7.0.9
     "@entur/icons": 6.3.0
