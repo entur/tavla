@@ -10,6 +10,7 @@ function BoardTitle({ title }: { title?: string }) {
     const [isEditing, setIsEditing] = useState<boolean>(false)
     const dispatch = useSettingsDispatch()
     const displayTitle = title || 'Tavla'
+    const [tempTitle, setTempTitle] = useState<string>(displayTitle)
 
                 <Heading1 className={classes.title}>{displayTitle}</Heading1>
 
@@ -21,7 +22,6 @@ function BoardTitle({ title }: { title?: string }) {
                         size="medium"
                         label="Tavlenavn"
                         className={classes.editInput}
-                        onChange={(e) => (newTitle = e.target.value)}
                     />
 
                     <SecondarySquareButton
@@ -30,7 +30,6 @@ function BoardTitle({ title }: { title?: string }) {
                             setIsEditing(false)
                             dispatch({
                                 type: 'changeTitle',
-                                title: newTitle,
                             })
                         }}
                     >
@@ -39,7 +38,6 @@ function BoardTitle({ title }: { title?: string }) {
                     <SecondarySquareButton
                         className={classes.squareButton}
                         onClick={() => {
-                            newTitle = title
                             setIsEditing(false)
                         }}
                     >
@@ -62,6 +60,9 @@ function BoardTitle({ title }: { title?: string }) {
                 </>
             )}
                 defaultValue={displayTitle}
+                onChange={(e) => setTempTitle(e.target.value)}
+                        title: tempTitle,
+                    setTempTitle(displayTitle)
         </div>
     )
 }
