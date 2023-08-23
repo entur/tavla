@@ -7,6 +7,8 @@ on:
       - master
     paths:
       - "next-tavla/**"
+env:
+    FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
 
 jobs:
   deploy-staging:
