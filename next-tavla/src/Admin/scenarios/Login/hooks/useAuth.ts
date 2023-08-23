@@ -1,12 +1,12 @@
-import { auth } from 'utils/firebase'
+import { fetchWithIdToken } from 'Admin/utils'
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
 } from 'firebase/auth'
-import { fetchWithIdToken } from 'Admin/utils'
+import { auth } from 'utils/firebase'
 
-import { useRouter } from 'next/router'
 import { FirebaseError } from 'firebase/app'
+import { useRouter } from 'next/router'
 
 function useAuth() {
     const router = useRouter()

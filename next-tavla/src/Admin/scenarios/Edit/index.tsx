@@ -56,7 +56,7 @@ function Edit({
                             <SaveIcon />
                         </PrimaryButton>
 
-                        <Login user={user} documentId={documentId} />
+                        <Login user={user} />
                     </div>
                 </div>
                 <AddTile />

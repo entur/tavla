@@ -78,8 +78,16 @@
     padding-bottom: 2em;
 }
 
+.w-50 {
+    width: 50%;
+}
+
 .w-100 {
     width: 100%;
+}
+
+.h-50 {
+    height: 50%;
 }
 
 .h-100 {
