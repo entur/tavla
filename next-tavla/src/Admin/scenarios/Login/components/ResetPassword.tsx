@@ -10,6 +10,28 @@ import { SyntheticEvent } from 'react'
 import { FirebaseError } from 'firebase/app'
 
 function ResetPassword({ popPage }: { popPage: () => void }) {
+    const { error, setError, getTextFieldPropsForType } = useFirebaseAuthError()
+    const auth = getAuth()
+
+    const submitResetPassword = async (event: SyntheticEvent) => {
+        event.preventDefault()
+
+        const data = event.currentTarget as unknown as {
+            email: HTMLInputElement
+        }
+
+        const email = data.email.value
+
+        try {
+            await sendPasswordResetEmail(auth, email)
+            popPage()
+        } catch (error: unknown) {
+            if (error instanceof FirebaseError) {
+                setError(error)
+            }
+        }
+    }
+
     return (
         <div>
             <Image src={musk} alt="illustration" className="h-50 w-50" />
