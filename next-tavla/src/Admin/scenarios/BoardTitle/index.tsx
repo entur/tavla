@@ -48,7 +48,6 @@ function BoardTitle({ title }: { title?: string }) {
                 <>
                     <Heading1
                         className={classes.title}
-                        onClick={() => setIsEditing(true)}
                     >
                     </Heading1>
                     <SecondarySquareButton
