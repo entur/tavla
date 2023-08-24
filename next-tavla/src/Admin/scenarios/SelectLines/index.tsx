@@ -7,6 +7,7 @@ import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TLinesFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
+import { useEffect } from 'react'
 
 const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
@@ -46,6 +47,20 @@ function SelectLines({
             transportMode,
         })
     }
+
+    useEffect(() => {
+        removeLines(
+            uniqLines
+                .filter(
+                    (line) =>
+                        !tile.whitelistedTransportModes?.includes(
+                            line.transportMode ?? 'unknown',
+                        ) ?? false,
+                )
+                .map((line) => line.id),
+        )
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [tile.whitelistedTransportModes])
 
     const toggleSelectAllLines = (transportMode: TTransportMode) => {
         if (isAllLinesSelected(transportMode)) {
