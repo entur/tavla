@@ -11,6 +11,8 @@ function Situation({
         situation?.summary.find((summary) => summary.language === 'no')
             ?.value ??
         situation?.description.find((desc) => desc.language === 'no')?.value ??
+        situation?.summary[0]?.value ??
+        situation?.description[0]?.value ??
         null
 
     if (!situationText) return null
