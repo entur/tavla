@@ -5,7 +5,6 @@ initializeAdminApp()
 
 export function initializeAdminApp() {
     if (getApps().length <= 0) {
-        console.log('Initializing Admin app...')
         admin.initializeApp({
             credential: applicationDefault(),
         })
