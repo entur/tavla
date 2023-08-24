@@ -1,10 +1,9 @@
-import { Dropdown, NormalizedDropdownItemType } from '@entur/dropdown'
+import { Dropdown } from '@entur/dropdown'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { transportModeNames } from 'Admin/utils'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { QuaysSearchQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
-import { useState } from 'react'
 import { TTransportMode } from 'types/graphql-schema'
 import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 import { hasDuplicateInArrayByKey } from 'utils/filters'
@@ -77,9 +76,6 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
 
     const dropDownOptions = () => [stopPlaceOption, ...quays]
 
-    const [selectedDropdownItem, setSelectedDropdownItem] =
-        useState<NormalizedDropdownItemType | null>(null)
-
     return (
         <div>
             <Heading4>Plattform/retning</Heading4>
@@ -90,11 +86,13 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
                 items={dropDownOptions}
                 label="Velg plattform/retning"
                 disabled={!stopPlaceId}
-                selectedItem={selectedDropdownItem}
+                selectedItem={
+                    dropDownOptions().find(
+                        ({ value }) => tile.placeId === value,
+                    ) || stopPlaceOption
+                }
                 onChange={(item) => {
                     if (!item?.value) return
-
-                    setSelectedDropdownItem(item)
 
                     if (item.value === stopPlaceOption.value)
                         setTile({
