@@ -1,6 +1,7 @@
 .tableHeaderWrapper {
     display: flex;
     align-items: center;
+    min-height: 2em;
 }
 
 .heading {
