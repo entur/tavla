@@ -1,12 +1,15 @@
 import admin, { auth } from 'firebase-admin'
-import { applicationDefault, getApps } from 'firebase-admin/app'
+import { applicationDefault } from 'firebase-admin/app'
 
 initializeAdminApp()
 
 export function initializeAdminApp() {
-    if (getApps().length <= 0) {
+    if (admin.apps.length <= 0) {
         admin.initializeApp({
             credential: applicationDefault(),
+            databaseURL:
+                process.env.DATABASE_URL ??
+                'https://entur-tavla-staging.firebaseio.com',
         })
     }
 }
