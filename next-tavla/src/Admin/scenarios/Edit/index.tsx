@@ -15,6 +15,8 @@ import { useToast } from '@entur/alert'
 import { Login } from '../Login'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 
+const LOGIN_ENABLED = false
+
 function Edit({
     initialSettings,
     documentId,
@@ -56,7 +58,7 @@ function Edit({
                             <SaveIcon />
                         </PrimaryButton>
 
-                        <Login user={user} />
+                        {LOGIN_ENABLED && <Login user={user} />}
                     </div>
                 </div>
                 <AddTile />
