@@ -7,9 +7,6 @@ on:
       - master
     paths:
       - "next-tavla/**"
-env:
-    FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-
 jobs:
   deploy-staging:
     runs-on: ubuntu-latest
@@ -21,6 +18,7 @@ jobs:
       - name: Install
         run: yarn install
       - uses: FirebaseExtended/action-hosting-deploy@v0
+
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_DEPLOY_CREDENTIALS_STAGING }}"
@@ -30,3 +28,4 @@ jobs:
           firebaseToolsVersion: 12.1.0
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
+          DATABASE_URL: ${{ secrets.FIREBASE_STAGING_DATABASE_URL }}
