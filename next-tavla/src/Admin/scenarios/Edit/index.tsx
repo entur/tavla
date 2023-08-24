@@ -1,21 +1,32 @@
 import { TSettings } from 'types/settings'
 import { TilesOverview } from '../TilesOverview'
-import { useReducer } from 'react'
+import { useReducer, useState } from 'react'
 import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
 import { AddTile } from '../AddTile'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
-import { PrimaryButton, SecondaryButton } from '@entur/button'
+import {
+    PrimaryButton,
+    SecondaryButton,
+    SecondarySquareButton,
+} from '@entur/button'
 import { useAutoSaveSettings } from './hooks/useAutoSaveSettings'
 import { Heading1 } from '@entur/typography'
-import { CopyIcon, SaveIcon } from '@entur/icons'
+import {
+    CheckIcon,
+    CloseIcon,
+    CopyIcon,
+    EditIcon,
+    SaveIcon,
+} from '@entur/icons'
 import { SecondaryLink } from 'components/SecondaryLink'
 import { useToast } from '@entur/alert'
 import { Login } from '../Login'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 
 const LOGIN_ENABLED = false
+import { TextField } from '@entur/form'
 
 function Edit({
     initialSettings,
@@ -29,6 +40,9 @@ function Edit({
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
     const { addToast } = useToast()
 
+    const [editingTitle, setEditingTitle] = useState<boolean>(false)
+    const [title, setTitle] = useState<string>(initialSettings.title || 'Tavla')
+
     const linkUrl = window.location.host + '/' + documentId
 
     const saveSettings = useAutoSaveSettings(documentId, settings)
@@ -37,7 +51,53 @@ function Edit({
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
                 <div className="flexBetween">
-                    <Heading1>Tavla</Heading1>
+                    <div className={classes.leftContainer}>
+                        {editingTitle ? (
+                            <>
+                                <TextField
+                                    defaultValue={title}
+                                    size="medium"
+                                    label="Tavlenavn"
+                                    className={classes.editInput}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                />
+
+                                <SecondarySquareButton
+                                    className={classes.squareButton}
+                                    onClick={() => {
+                                        settings.title = title
+                                        setEditingTitle(false)
+                                    }}
+                                >
+                                    <CheckIcon aria-label="Bekreft tittelendring" />
+                                </SecondarySquareButton>
+                                <SecondarySquareButton
+                                    className={classes.squareButton}
+                                    onClick={() => {
+                                        setTitle(settings.title || 'Tavla')
+                                        setEditingTitle(false)
+                                    }}
+                                >
+                                    <CloseIcon aria-label="Avbryt tittelendring" />
+                                </SecondarySquareButton>
+                            </>
+                        ) : (
+                            <>
+                                <Heading1
+                                    className={classes.title}
+                                    onClick={() => setEditingTitle(true)}
+                                >
+                                    {settings.title || 'Tavla'}
+                                </Heading1>
+                                <SecondarySquareButton
+                                    className={classes.squareButton}
+                                    onClick={() => setEditingTitle(true)}
+                                >
+                                    <EditIcon aria-label="Rediger tittel" />
+                                </SecondarySquareButton>
+                            </>
+                        )}
+                    </div>
                     <div className="flexGap">
                         <SecondaryButton
                             onClick={() => {

@@ -18,3 +18,18 @@
     font-size: 1em;
     font-weight: 400;
 }
+
+.leftContainer {
+    display: flex;
+    height: 3rem;
+    align-items: center;
+}
+
+.title {
+    margin: auto;
+    line-height: 3rem;
+}
+
+.squareButton {
+    margin-left: 1rem;
+}
