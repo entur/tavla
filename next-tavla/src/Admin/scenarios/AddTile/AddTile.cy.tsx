@@ -34,7 +34,8 @@ describe('<AddTile />', () => {
             fixture: 'graphql/geocoder.json',
         })
 
-        cy.findByRole('combobox').type('Jernbanetorget').wait(1000)
+        cy.findByRole('combobox').type('Jernbanetorget')
+        cy.wait(1000) // Waiting 1sec for debounce when searching
         cy.findByRole('listbox').children().first().click()
         cy.findByRole('button', { name: /legg til/i }).click()
         cy.get('[data-cy="tiles"]')
