@@ -1,19 +1,21 @@
-import { Dropdown } from '@entur/dropdown'
+import { Dropdown, NormalizedDropdownItemType } from '@entur/dropdown'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { QuaysSearchQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
+import { useState } from 'react'
 import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' }
 
 function getPlatformLabel(
-    publicCode: string | null,
-    description: string | null,
+    publicCode: string | null | undefined,
+    description: string | null | undefined,
+    index: number,
 ) {
     if (!publicCode && !description) {
-        return 'Ikke navngitt'
+        return `Ikke navngitt ${index + 1}`
     }
     return [publicCode, description].filter(isNotNullOrUndefined).join(' ')
 }
@@ -32,9 +34,13 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
     const quays =
         data?.stopPlace?.quays
             ?.filter(isNotNullOrUndefined)
-            .map((quay) => ({
+            .map((quay, index) => ({
                 value: quay.id,
-                label: getPlatformLabel(quay.publicCode, quay.description),
+                label: getPlatformLabel(
+                    quay.publicCode,
+                    quay.description,
+                    index,
+                ),
             }))
             .sort((a, b) => {
                 return a.label.localeCompare(b.label, 'no-NB', {
@@ -43,6 +49,9 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
             }) || []
 
     const dropDownOptions = () => [stopPlaceOption, ...quays]
+
+    const [selectedDropdownItem, setSelectedDropdownItem] =
+        useState<NormalizedDropdownItemType | null>(null)
 
     return (
         <div>
@@ -54,11 +63,13 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
                 items={dropDownOptions}
                 label="Velg plattform/retning"
                 disabled={!stopPlaceId}
-                value={tile.type === 'quay' ? tile.placeId : 'stopPlace'}
-                onChange={(e) => {
-                    if (!e?.value) return
+                selectedItem={selectedDropdownItem}
+                onChange={(item) => {
+                    if (!item?.value) return
 
-                    if (e.value === stopPlaceOption.value)
+                    setSelectedDropdownItem(item)
+
+                    if (item.value === stopPlaceOption.value)
                         setTile({
                             ...tile,
                             type: 'stop_place',
@@ -69,7 +80,7 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
                             ...tile,
                             type: 'quay',
                             stopPlaceId,
-                            placeId: e.value,
+                            placeId: item.value,
                         })
                 }}
             />
