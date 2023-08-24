@@ -2,12 +2,12 @@ import { initializeAdminApp } from 'Admin/utils/firebase'
 import { auth } from 'firebase-admin'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-initializeAdminApp()
-
 export default async function handler(
     request: NextApiRequest,
     response: NextApiResponse,
 ) {
+    initializeAdminApp()
+
     const authorization = request.headers.authorization
     if (authorization?.startsWith('Bearer ')) {
         const idToken = authorization.split('Bearer ')[1] ?? ''
