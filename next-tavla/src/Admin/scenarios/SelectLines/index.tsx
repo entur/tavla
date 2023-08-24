@@ -6,22 +6,7 @@ import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TLinesFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
-
-const transportModeNames: Record<TTransportMode, string> = {
-    air: 'Fly',
-    bus: 'Buss',
-    cableway: 'Kabelbane',
-    water: 'Båt',
-    funicular: 'Taubane',
-    lift: 'Heis',
-    rail: 'Tog',
-    metro: 'T-bane',
-    tram: 'Trikk',
-    trolleybus: 'Trolley-buss',
-    monorail: 'Enskinnebane',
-    coach: 'Langdistanse buss',
-    unknown: 'Ukjent',
-}
+import { transportModeNames } from 'Admin/utils'
 
 function SelectLines({
     tile,
