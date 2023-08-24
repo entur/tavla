@@ -1,13 +1,12 @@
 import { Checkbox } from '@entur/form'
 import { TravelSwitch } from '@entur/travel'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
-import { uniqBy } from 'lodash'
+import { uniqBy, xor } from 'lodash'
 import classes from './styles.module.css'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TLinesFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
-import { useEffect } from 'react'
 
 const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
@@ -40,27 +39,30 @@ function SelectLines({
     const removeLines = (lines: string[]) => {
         dispatch({ type: 'removeLines', tileId: tile.uuid, lineIds: lines })
     }
+
+    const filterLines = (transportModeWhiteList: TTransportMode[]) => {
+        const linesToRemove = uniqLines
+            .filter(
+                (line) =>
+                    !transportModeWhiteList.includes(
+                        line.transportMode ?? 'unknown',
+                    ) ?? false,
+            )
+            .map((line) => line.id)
+        return linesToRemove
+    }
     const toggleTransportMode = (transportMode: TTransportMode) => {
+        const modes = tile.whitelistedTransportModes ?? []
+        const updatedModes = xor(modes, [transportMode])
+        const linesToRemove = filterLines(updatedModes)
+        removeLines(linesToRemove)
+
         dispatch({
-            type: 'toggleTransportMode',
+            type: 'setTransportModes',
             tileId: tile.uuid,
-            transportMode,
+            transportModes: updatedModes,
         })
     }
-
-    useEffect(() => {
-        removeLines(
-            uniqLines
-                .filter(
-                    (line) =>
-                        !tile.whitelistedTransportModes?.includes(
-                            line.transportMode ?? 'unknown',
-                        ) ?? false,
-                )
-                .map((line) => line.id),
-        )
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [tile.whitelistedTransportModes])
 
     const toggleSelectAllLines = (transportMode: TTransportMode) => {
         if (isAllLinesSelected(transportMode)) {
