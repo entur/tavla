@@ -1,23 +1,21 @@
 import admin, { auth } from 'firebase-admin'
-import { applicationDefault } from 'firebase-admin/app'
+import { applicationDefault, getApp } from 'firebase-admin/app'
 
-initializeAdminApp()
+const app = initializeOrGetAdminApp()
 
-export function initializeAdminApp() {
+export function initializeOrGetAdminApp() {
     if (admin.apps.length <= 0) {
-        admin.initializeApp({
+        return admin.initializeApp({
             credential: applicationDefault(),
-            databaseURL:
-                process.env.DATABASE_URL ??
-                'https://entur-tavla-staging.firebaseio.com',
         })
     }
+    return getApp()
 }
 
 export async function verifySession(session?: string) {
     if (!session) return null
     try {
-        return await auth().verifySessionCookie(session, true)
+        return await auth(app).verifySessionCookie(session, true)
     } catch {
         return null
     }
