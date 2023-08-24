@@ -10,7 +10,7 @@ function TableHeader({
     transportModes: (TTransportMode | null)[] | null
 }) {
     return (
-        <div className={classes.headerWrapper}>
+        <div className={classes.tableHeaderWrapper}>
             <h1 className={classes.heading}>{heading}</h1>
             {transportModes && (
                 <div>
