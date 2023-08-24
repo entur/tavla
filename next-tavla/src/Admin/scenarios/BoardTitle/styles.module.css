@@ -1,19 +1,11 @@
-.leftContainer {
+.editTitle {
     display: flex;
     height: 3rem;
     align-items: center;
-}
-
-.saveButton {
-    font-size: 1em;
-    font-weight: 400;
+    gap: 1em;
 }
 
 .title {
     margin: auto;
     line-height: 3rem;
-}
-
-.squareButton {
-    margin-left: 1rem;
 }

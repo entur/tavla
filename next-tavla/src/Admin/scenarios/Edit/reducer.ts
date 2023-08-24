@@ -23,7 +23,7 @@ export type Action =
       }
     | { type: 'deleteLines'; tileId: string }
     | { type: 'setColumn'; tileId: string; column: TColumn }
-    | { type: 'changeTitle'; title: string }
+    | { type: 'setTitle'; title: string }
 
 export function settingsReducer(
     settings: TSettings,
@@ -50,7 +50,7 @@ export function settingsReducer(
 
     switch (action.type) {
         // Title operations
-        case 'changeTitle':
+        case 'setTitle':
             return { ...settings, title: action.title }
         // Theme operations
         case 'changeTheme': {

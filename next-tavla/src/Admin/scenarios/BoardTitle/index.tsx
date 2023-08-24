@@ -7,15 +7,15 @@ import { useState } from 'react'
 import classes from './styles.module.css'
 
 function BoardTitle({ title }: { title?: string }) {
-    const [isEditing, setIsEditing] = useState<boolean>(false)
+    const [isEditing, setIsEditing] = useState(false)
     const dispatch = useSettingsDispatch()
-    const displayTitle = title || 'Tavla'
-    const [tempTitle, setTempTitle] = useState<string>(displayTitle)
+    const boardTitle = title || 'Tavla'
+    const [tempTitle, setTempTitle] = useState(boardTitle)
 
     if (!isEditing) {
         return (
-            <div className={classes.leftContainer}>
-                <Heading1 className={classes.title}>{displayTitle}</Heading1>
+            <div className={classes.editTitle}>
+                <Heading1 className={classes.title}>{boardTitle}</Heading1>
                 <SecondarySquareButton
                     className={classes.squareButton}
                     onClick={() => setIsEditing(true)}
@@ -27,12 +27,11 @@ function BoardTitle({ title }: { title?: string }) {
     }
 
     return (
-        <div className={classes.leftContainer}>
+        <div className={classes.editTitle}>
             <TextField
-                defaultValue={displayTitle}
+                defaultValue={boardTitle}
                 size="medium"
-                label="Tavlenavn"
-                className={classes.editInput}
+                label="Navn på tavlen"
                 onChange={(e) => setTempTitle(e.target.value)}
             />
             <SecondarySquareButton
@@ -40,7 +39,7 @@ function BoardTitle({ title }: { title?: string }) {
                 onClick={() => {
                     setIsEditing(false)
                     dispatch({
-                        type: 'changeTitle',
+                        type: 'setTitle',
                         title: tempTitle,
                     })
                 }}
@@ -50,7 +49,7 @@ function BoardTitle({ title }: { title?: string }) {
             <SecondarySquareButton
                 className={classes.squareButton}
                 onClick={() => {
-                    setTempTitle(displayTitle)
+                    setTempTitle(boardTitle)
                     setIsEditing(false)
                 }}
             >
