@@ -57,3 +57,12 @@
 .bottomContent {
     gap: 4em;
 }
+
+.floatingButtonWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    position: fixed;
+    top: 1.25em;
+    right: 5em;
+}

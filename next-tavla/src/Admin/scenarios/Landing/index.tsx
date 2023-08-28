@@ -9,8 +9,10 @@ import landingImage from 'assets/illustrations/Tavla-illustration.png'
 import tavla from 'assets/illustrations/Tavla-screenshot.png'
 import { Contrast } from '@entur/layout'
 import classNames from 'classnames'
+import { Login } from '../Login'
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 
-function Landing() {
+function Landing({ user }: { user: DecodedIdToken | null }) {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
 
@@ -24,6 +26,9 @@ function Landing() {
 
     return (
         <div className={classes.container}>
+            <div className={classes.floatingButtonWrapper}>
+                <Login user={user} />
+            </div>
             <Contrast className={classes.centeredContainer}>
                 <div className={classes.headingContainer}>
                     <Heading1>Lag din egen avgangstavle</Heading1>
@@ -34,12 +39,14 @@ function Landing() {
                     <Button
                         onClick={handleCreateNewBoard}
                         variant="primary"
-                        disabled={loading}
+                        disabled={user === null}
                         loading={loading}
                         width="fluid"
                         className={classes.button}
                     >
-                        Opprett ny tavle
+                        {user
+                            ? 'Opprett ny tavle'
+                            : 'Logg inn for å opprette en tavle'}
                     </Button>
                 </div>
                 <div className={classNames(classes.content, classes.topImage)}>
