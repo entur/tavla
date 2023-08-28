@@ -1,0 +1,11 @@
+.editTitle {
+    display: flex;
+    height: 3rem;
+    align-items: center;
+    gap: 1em;
+}
+
+.title {
+    margin: auto;
+    line-height: 3rem;
+}

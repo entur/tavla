@@ -8,12 +8,12 @@ import { SettingsDispatchContext } from 'Admin/utils/contexts'
 import { settingsReducer } from './reducer'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { useAutoSaveSettings } from './hooks/useAutoSaveSettings'
-import { Heading1 } from '@entur/typography'
 import { CopyIcon, SaveIcon } from '@entur/icons'
 import { SecondaryLink } from 'components/SecondaryLink'
 import { useToast } from '@entur/alert'
 import { Login } from '../Login'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
+import { BoardTitle } from '../BoardTitle'
 
 const LOGIN_ENABLED = false
 
@@ -37,7 +37,7 @@ function Edit({
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
                 <div className="flexBetween">
-                    <Heading1>Tavla</Heading1>
+                    <BoardTitle title={settings.title} />
                     <div className="flexGap">
                         <SecondaryButton
                             onClick={() => {
