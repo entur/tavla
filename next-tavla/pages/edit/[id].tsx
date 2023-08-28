@@ -6,21 +6,22 @@ import classes from 'styles/pages/admin.module.css'
 import { Contrast } from '@entur/layout'
 import { upgradeSettings } from 'utils/converters'
 import { ToastProvider } from '@entur/alert'
-import { IncomingNextMessage } from 'types/next'
-import { verifySession } from 'Admin/utils/firebase'
+// import { IncomingNextMessage } from 'types/next'
+// import { verifySession } from 'Admin/utils/firebase'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 
 export async function getServerSideProps({
     params,
-    req,
-}: {
+}: // req,
+{
     params: { id: string }
-    req: IncomingNextMessage
+    // req: IncomingNextMessage
 }) {
     const { id } = params
 
-    const session = req.cookies['session']
-    const user = await verifySession(session)
+    // const session = req.cookies['session']
+    // const user = await verifySession(session)
+    const user = null
     const settings: TSettings | undefined = await getBoardSettings(id)
 
     if (!settings) {
