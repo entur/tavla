@@ -21,10 +21,9 @@
     .board > * {
         margin: 10px;
     }
-}
-
-@media (orientation: portrait) {
-    .board {
-        flex-direction: column;
+    @media (orientation: portrait) {
+        .board {
+            flex-direction: column;
+        }
     }
 }
