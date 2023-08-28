@@ -7,6 +7,7 @@ import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TLinesFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
+import { useCallback } from 'react'
 
 const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
@@ -24,6 +25,23 @@ const transportModeNames: Record<TTransportMode, string> = {
     unknown: 'Ukjent',
 }
 
+const getTransportMode = (transportMode: TTransportMode) => {
+    switch (transportMode) {
+        case 'coach':
+            return 'bus'
+        case 'trolleybus':
+            return 'bus'
+        case 'lift':
+            return 'mobility'
+        case 'monorail':
+            return 'rail'
+        case 'unknown':
+            return 'mobility'
+        default:
+            return transportMode
+    }
+}
+
 function SelectLines({
     tile,
     lines,
@@ -36,12 +54,18 @@ function SelectLines({
     const toggleLine = (line: string) => {
         dispatch({ type: 'toggleLine', tileId: tile.uuid, lineId: line })
     }
-    const removeLines = (lines: string[]) => {
-        dispatch({ type: 'removeLines', tileId: tile.uuid, lineIds: lines })
-    }
 
-    const filterLines = (transportModeWhiteList: TTransportMode[]) => {
-        const linesToRemove = uniqLines
+    const removeLines = useCallback(
+        (lines: string[]) => {
+            dispatch({ type: 'removeLines', tileId: tile.uuid, lineIds: lines })
+        },
+        [dispatch, tile.uuid],
+    )
+
+    const getNotWhitelistedTransportModeLines = (
+        transportModeWhiteList: TTransportMode[],
+    ) =>
+        uniqLines
             .filter(
                 (line) =>
                     !transportModeWhiteList.includes(
@@ -49,12 +73,11 @@ function SelectLines({
                     ) ?? false,
             )
             .map((line) => line.id)
-        return linesToRemove
-    }
+
     const toggleTransportMode = (transportMode: TTransportMode) => {
         const modes = tile.whitelistedTransportModes ?? []
         const updatedModes = xor(modes, [transportMode])
-        const linesToRemove = filterLines(updatedModes)
+        const linesToRemove = getNotWhitelistedTransportModeLines(updatedModes)
         removeLines(linesToRemove)
 
         dispatch({
@@ -64,70 +87,16 @@ function SelectLines({
         })
     }
 
-    const toggleSelectAllLines = (transportMode: TTransportMode) => {
-        if (isAllLinesSelected(transportMode)) {
-            removeLines(
-                uniqLines
-                    .filter((line) => line.transportMode === transportMode)
-                    .map((line) => line.id),
+    const isLineDisabled = useCallback(
+        (transportMode: TTransportMode) => {
+            if (!tile.whitelistedTransportModes) return false
+            return (
+                tile.whitelistedTransportModes.length > 0 &&
+                !tile.whitelistedTransportModes.includes(transportMode)
             )
-        } else {
-            selectAllLines(transportMode)
-        }
-    }
-
-    const selectAllLines = (transportMode: TTransportMode) => {
-        const allLinesForMode = uniqLines
-            .filter((line) => line.transportMode === transportMode)
-            .map((line) => line.id)
-
-        dispatch({
-            type: 'setLines',
-            tileId: tile.uuid,
-            lines: [...(tile.whitelistedLines || []), ...allLinesForMode],
-        })
-    }
-
-    const isAllLinesSelected = (transportMode: TTransportMode) => {
-        const allLinesForMode = uniqLines
-            .filter((line) => line.transportMode === transportMode)
-            .map((line) => line.id)
-
-        const selectedLinesForMode = (tile.whitelistedLines || []).filter(
-            (line) => allLinesForMode.includes(line),
-        )
-
-        const allLinesIncluded = allLinesForMode.every((line) =>
-            selectedLinesForMode.includes(line),
-        )
-
-        return allLinesIncluded && selectedLinesForMode.length > 0
-    }
-
-    const isLineDisabled = (transportMode: TTransportMode) => {
-        if (!tile.whitelistedTransportModes) return false
-        return (
-            tile.whitelistedTransportModes.length > 0 &&
-            !tile.whitelistedTransportModes.includes(transportMode)
-        )
-    }
-
-    const getTransportMode = (transportMode: TTransportMode) => {
-        switch (transportMode) {
-            case 'coach':
-                return 'bus'
-            case 'trolleybus':
-                return 'bus'
-            case 'lift':
-                return 'mobility'
-            case 'monorail':
-                return 'rail'
-            case 'unknown':
-                return 'mobility'
-            default:
-                return transportMode
-        }
-    }
+        },
+        [tile.whitelistedTransportModes],
+    )
 
     const transportModes: TTransportMode[] = uniqBy(lines, 'transportMode').map(
         (line) => line.transportMode ?? 'unknown',
@@ -145,10 +114,59 @@ function SelectLines({
         lines: uniqLines.filter((line) => line.transportMode === transportMode),
     }))
 
+    const selectAllLines = useCallback(
+        (transportMode: TTransportMode) => {
+            const allLinesForMode = uniqLines
+                .filter((line) => line.transportMode === transportMode)
+                .map((line) => line.id)
+
+            dispatch({
+                type: 'setLines',
+                tileId: tile.uuid,
+                lines: [...(tile.whitelistedLines || []), ...allLinesForMode],
+            })
+        },
+        [dispatch, tile.uuid, uniqLines, tile.whitelistedLines],
+    )
+
+    const isAllLinesSelected = useCallback(
+        (transportMode: TTransportMode) => {
+            const allLinesForMode = uniqLines
+                .filter((line) => line.transportMode === transportMode)
+                .map((line) => line.id)
+
+            const selectedLinesForMode = (tile.whitelistedLines || []).filter(
+                (line) => allLinesForMode.includes(line),
+            )
+
+            const allLinesIncluded = allLinesForMode.every((line) =>
+                selectedLinesForMode.includes(line),
+            )
+
+            return allLinesIncluded && selectedLinesForMode.length > 0
+        },
+        [tile.whitelistedLines, uniqLines],
+    )
+
+    const toggleSelectAllLines = useCallback(
+        (transportMode: TTransportMode) => {
+            if (isAllLinesSelected(transportMode)) {
+                removeLines(
+                    uniqLines
+                        .filter((line) => line.transportMode === transportMode)
+                        .map((line) => line.id),
+                )
+            } else {
+                selectAllLines(transportMode)
+            }
+        },
+        [selectAllLines, isAllLinesSelected, removeLines, uniqLines],
+    )
+
     return (
         <div className={classes.lineSettingsWrapper}>
             <Heading4>Velg transportmidler</Heading4>
-            <div className={classes.transportGrid}>
+            <div className={classes.linesGrid}>
                 {transportModes.map((transportMode) => {
                     const transportModeChecked =
                         tile.whitelistedTransportModes?.includes(
