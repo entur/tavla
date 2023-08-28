@@ -10,10 +10,16 @@ import { Start } from './components/Start'
 import { useAuth } from './hooks/useAuth'
 import classes from './styles.module.css'
 
-function Login({ user }: { user: DecodedIdToken | null }) {
+function Login({
+    user,
+    isOpen = false,
+}: {
+    user: DecodedIdToken | null
+    isOpen?: boolean
+}) {
     const { logout } = useAuth()
 
-    const [showModal, setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(isOpen)
     const [pages, setPages] = useState<TLoginPage[]>([])
 
     if (user) {
