@@ -18,10 +18,7 @@
     .board {
         display: flex;
     }
-
-    @supports not (gap: 10px) {
-        .board > * {
-            margin: 10px;
-        }
+    .board > * {
+        margin: 10px;
     }
 }
