@@ -1,21 +1,36 @@
 import { Dropdown } from '@entur/dropdown'
 import { Heading4, SubParagraph } from '@entur/typography'
+import { transportModeNames } from 'Admin/utils'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { QuaysSearchQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
+import { TTransportMode } from 'types/graphql-schema'
 import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
-import { isNotNullOrUndefined } from 'utils/typeguards'
+import { hasDuplicateInArrayByKey } from 'utils/filters'
+import { isNotNullOrUndefined, isTransportModeArray } from 'utils/typeguards'
 
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' }
 
 function getPlatformLabel(
-    publicCode: string | null,
-    description: string | null,
+    index: number,
+    publicCode?: string | null,
+    description?: string | null,
 ) {
     if (!publicCode && !description) {
-        return 'Ikke navngitt'
+        return `Ikke navngitt ${index + 1}`
     }
     return [publicCode, description].filter(isNotNullOrUndefined).join(' ')
+}
+
+function getQuayTransportModes(
+    transportModes: (TTransportMode | null)[] | null | undefined,
+) {
+    if (isTransportModeArray(transportModes))
+        return `${transportModes
+            .map((item) => item && transportModeNames[item])
+            .join(', ')}`
+
+    return transportModeNames['unknown']
 }
 
 function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
@@ -32,14 +47,31 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
     const quays =
         data?.stopPlace?.quays
             ?.filter(isNotNullOrUndefined)
-            .map((quay) => ({
+            .map((quay, index) => ({
                 value: quay.id,
-                label: getPlatformLabel(quay.publicCode, quay.description),
+                label: getPlatformLabel(
+                    index,
+                    quay.publicCode,
+                    quay.description,
+                ),
+                transportModes: quay.stopPlace?.transportMode,
             }))
             .sort((a, b) => {
                 return a.label.localeCompare(b.label, 'no-NB', {
                     numeric: true,
                 })
+            })
+            .map((item, index, array) => {
+                if (!hasDuplicateInArrayByKey(array, item, 'label')) {
+                    return item
+                } else {
+                    return {
+                        ...item,
+                        label: `${item.label} (${getQuayTransportModes(
+                            item.transportModes,
+                        )})`,
+                    }
+                }
             }) || []
 
     const dropDownOptions = () => [stopPlaceOption, ...quays]
@@ -54,11 +86,15 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
                 items={dropDownOptions}
                 label="Velg plattform/retning"
                 disabled={!stopPlaceId}
-                value={tile.type === 'quay' ? tile.placeId : 'stopPlace'}
-                onChange={(e) => {
-                    if (!e?.value) return
+                selectedItem={
+                    dropDownOptions().find(
+                        ({ value }) => tile.placeId === value,
+                    ) || stopPlaceOption
+                }
+                onChange={(item) => {
+                    if (!item?.value) return
 
-                    if (e.value === stopPlaceOption.value)
+                    if (item.value === stopPlaceOption.value)
                         setTile({
                             ...tile,
                             type: 'stop_place',
@@ -69,7 +105,7 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
                             ...tile,
                             type: 'quay',
                             stopPlaceId,
-                            placeId: e.value,
+                            placeId: item.value,
                         })
                 }}
             />

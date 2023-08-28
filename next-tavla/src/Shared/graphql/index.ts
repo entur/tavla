@@ -170,6 +170,10 @@ export type TQuaysSearchQuery = {
             id: string
             publicCode: string | null
             description: string | null
+            stopPlace: {
+                __typename?: 'StopPlace'
+                transportMode: Array<Types.TTransportMode | null> | null
+            } | null
         } | null> | null
     } | null
 }
@@ -437,6 +441,9 @@ export const QuaysSearchQuery = new TypedDocumentString(`
       id
       publicCode
       description
+      stopPlace {
+        transportMode
+      }
     }
   }
 }
