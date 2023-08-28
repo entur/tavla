@@ -35,7 +35,7 @@ describe('<AddTile />', () => {
         })
 
         cy.findByRole('combobox').type('Jernbanetorget')
-        cy.wait(1500) // Waiting 1sec for debounce when searching
+        cy.wait(1500) // Waiting for debounce when searching
         cy.findByRole('listbox').children().first().click()
         cy.findByRole('button', { name: /legg til/i }).click()
         cy.get('[data-cy="tiles"]')

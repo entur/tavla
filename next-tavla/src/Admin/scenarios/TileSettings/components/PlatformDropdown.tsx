@@ -12,9 +12,9 @@ import { isNotNullOrUndefined, isTransportModeArray } from 'utils/typeguards'
 const stopPlaceOption = { value: 'stopPlace', label: 'Vis alle' }
 
 function getPlatformLabel(
-    publicCode: string | null | undefined,
-    description: string | null | undefined,
     index: number,
+    publicCode?: string | null,
+    description?: string | null,
 ) {
     if (!publicCode && !description) {
         return `Ikke navngitt ${index + 1}`
@@ -50,9 +50,9 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
             .map((quay, index) => ({
                 value: quay.id,
                 label: getPlatformLabel(
+                    index,
                     quay.publicCode,
                     quay.description,
-                    index,
                 ),
                 transportModes: quay.stopPlace?.transportMode,
             }))
@@ -62,15 +62,15 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
                 })
             })
             .map((item, index, array) => {
-                if (hasDuplicateInArrayByKey(array, item, 'label')) {
+                if (!hasDuplicateInArrayByKey(array, item, 'label')) {
+                    return item
+                } else {
                     return {
                         ...item,
                         label: `${item.label} (${getQuayTransportModes(
                             item.transportModes,
                         )})`,
                     }
-                } else {
-                    return item
                 }
             }) || []
 

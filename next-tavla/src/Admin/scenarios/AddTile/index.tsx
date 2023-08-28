@@ -36,7 +36,7 @@ function AddTile() {
     }
 
     return (
-        <>
+        <div>
             <Heading1 className={classes.Heading1}>Holdeplasser</Heading1>
 
             <div className={classes.SearchContainer}>
@@ -48,16 +48,14 @@ function AddTile() {
                     clearable
                     prepend={<SearchIcon />}
                     selectedItem={selectedDropdownItem}
-                    onChange={(item) => {
-                        setSelectedDropdownItem(item)
-                    }}
+                    onChange={setSelectedDropdownItem}
                 />
 
                 <Button variant="primary" onClick={handleAddTile}>
                     Legg til
                 </Button>
             </div>
-        </>
+        </div>
     )
 }
 
