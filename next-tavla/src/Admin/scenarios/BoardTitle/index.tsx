@@ -59,4 +59,4 @@ function BoardTitle({ title }: { title?: string }) {
     )
 }
 
-export default BoardTitle
+export { BoardTitle }

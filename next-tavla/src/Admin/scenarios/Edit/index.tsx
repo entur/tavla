@@ -13,7 +13,7 @@ import { SecondaryLink } from 'components/SecondaryLink'
 import { useToast } from '@entur/alert'
 import { Login } from '../Login'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
-import BoardTitle from '../BoardTitle'
+import { BoardTitle } from '../BoardTitle'
 
 const LOGIN_ENABLED = false
 
