@@ -8,6 +8,7 @@ import { Heading4, SubParagraph } from '@entur/typography'
 import { TLinesFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
 import { useCallback } from 'react'
+import { Transport } from '@entur/travel/dist/utils'
 
 const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
@@ -25,18 +26,16 @@ const transportModeNames: Record<TTransportMode, string> = {
     unknown: 'Ukjent',
 }
 
-const getTransportMode = (transportMode: TTransportMode) => {
+function getTransportMode(transportMode: TTransportMode): Transport {
     switch (transportMode) {
         case 'coach':
-            return 'bus'
         case 'trolleybus':
             return 'bus'
         case 'lift':
-            return 'mobility'
+        case 'unknown':
+            return 'none'
         case 'monorail':
             return 'rail'
-        case 'unknown':
-            return 'mobility'
         default:
             return transportMode
     }
