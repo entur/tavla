@@ -20,6 +20,7 @@ RUN yarn build
 FROM base AS runner
 
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 app
 RUN adduser --system --uid 1001 app
