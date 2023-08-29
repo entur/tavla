@@ -11,7 +11,13 @@ export default async function handler(
 
     for (const [key, value] of Object.entries(process.env)) {
         if (key.startsWith('FEATURE_')) {
-            if (isFeature(key)) featureFlags[key] = stringToBoolean(value)
+            if (isFeature(key)) {
+                featureFlags[key] = stringToBoolean(value)
+            } else {
+                console.warn(
+                    `Environment variable "${key}" does not match any feature flags defined in this project.`,
+                )
+            }
         }
     }
 
