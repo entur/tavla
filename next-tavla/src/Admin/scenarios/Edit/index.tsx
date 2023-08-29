@@ -14,8 +14,7 @@ import { useToast } from '@entur/alert'
 import { Login } from '../Login'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { BoardTitle } from '../BoardTitle'
-
-const LOGIN_ENABLED = false
+import { useFeatureFlags } from 'hooks/useFeatureFlags'
 
 function Edit({
     initialSettings,
@@ -28,6 +27,8 @@ function Edit({
 }) {
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
     const { addToast } = useToast()
+
+    const { FEATURE_LOGIN } = useFeatureFlags()
 
     const linkUrl = window.location.host + '/' + documentId
 
@@ -58,7 +59,7 @@ function Edit({
                             <SaveIcon />
                         </PrimaryButton>
 
-                        {LOGIN_ENABLED && <Login user={user} />}
+                        {FEATURE_LOGIN && <Login user={user} />}
                     </div>
                 </div>
                 <AddTile />
