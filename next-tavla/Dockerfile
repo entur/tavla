@@ -15,6 +15,8 @@ RUN yarn
 
 FROM deps AS builder
 
+ENV NEXT_TELEMETRY_DISABLED 1
+
 RUN yarn build
 
 FROM base AS runner
