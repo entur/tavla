@@ -1,25 +1,18 @@
-import { Feature, undefinedFeatureFlags } from 'types/featureFlag'
 import { useState, useEffect } from 'react'
+import { Feature } from 'types/featureFlag'
 
-export function useFeatureFlags() {
-    const [featureFlags, setFeatureFlags] = useState<
-        Record<Feature, boolean | undefined>
-    >(undefinedFeatureFlags)
+export function useFeatureFlags(feature: Feature) {
+    const [featureFlags, setFeatureFlags] = useState<string[]>()
 
     useEffect(() => {
         async function fetchFlags() {
             await fetch('/api/featureFlags')
-                .then(
-                    (res) =>
-                        res.json() as Promise<
-                            Record<Feature, boolean | undefined>
-                        >,
-                )
-                .then((data) => setFeatureFlags(data))
+                .then((res) => res.json())
+                .then((data) => setFeatureFlags(data as string[]))
         }
 
         fetchFlags()
     }, [])
 
-    return featureFlags
+    return featureFlags?.includes(feature) ?? false
 }

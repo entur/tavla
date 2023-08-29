@@ -6,17 +6,6 @@ export function upgradeSettings(settings: TSettingsVersions): TSettings {
     return settings
 }
 
-export function stringToBoolean(thing?: string) {
-    switch (thing) {
-        case 'true':
-            return true
-        case 'false':
-            return false
-        default:
-            return undefined
-    }
-}
-
 type TColumnBase = 'destination' | 'line' | 'time' | 'platform' | 'via'
 
 type TTransportModeBase =

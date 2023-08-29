@@ -28,7 +28,7 @@ function Edit({
     const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
     const { addToast } = useToast()
 
-    const { FEATURE_LOGIN } = useFeatureFlags()
+    const LOGIN = useFeatureFlags('LOGIN')
 
     const linkUrl = window.location.host + '/' + documentId
 
@@ -59,7 +59,7 @@ function Edit({
                             <SaveIcon />
                         </PrimaryButton>
 
-                        {FEATURE_LOGIN && <Login user={user} />}
+                        {LOGIN && <Login user={user} />}
                     </div>
                 </div>
                 <AddTile />
