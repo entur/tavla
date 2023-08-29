@@ -38,6 +38,7 @@
         "@entur/loader": "0.4.31",
         "@entur/modal": "1.7.3",
         "@entur/tab": "0.4.51",
+        "@entur/table": "4.6.16",
         "@entur/tokens": "3.8.1",
         "@entur/typography": "1.8.0",
         "@firebase/database-types": "0.10.4",
