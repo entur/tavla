@@ -4,9 +4,9 @@ export default async function handler(
     request: NextApiRequest,
     response: NextApiResponse,
 ) {
-    const enabledFeatures = process.env.ENABLED_FEATURES
-        ? JSON.parse(process.env.ENABLED_FEATURES)
-        : []
+    if (!process.env.ENABLED_FEATURES) return response.status(500).json([])
+
+    const enabledFeatures = JSON.parse(process.env.ENABLED_FEATURES)
 
     return response.status(200).json(enabledFeatures)
 }
