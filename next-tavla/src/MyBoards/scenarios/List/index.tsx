@@ -1,5 +1,4 @@
 import { Table, TableBody } from '@entur/table'
-import '@entur/table/dist/styles.css'
 import { TableHeader } from '../TableHeader'
 import { Row } from '../Row'
 import { TSettings } from 'types/settings'

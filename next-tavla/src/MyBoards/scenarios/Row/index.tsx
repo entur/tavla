@@ -1,8 +1,6 @@
 import { TableRow, DataCell } from '@entur/table'
 import { IconButton } from '@entur/button'
 import { CopyIcon, EditIcon } from '@entur/icons'
-import '@entur/table/dist/styles.css'
-import '@entur/button/dist/styles.css'
 import { TSettings } from 'types/settings'
 import { useToast } from '@entur/alert'
 import { useRouter } from 'next/router'
