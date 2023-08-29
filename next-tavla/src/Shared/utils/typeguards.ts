@@ -1,5 +1,6 @@
 import { transportModeNames } from 'Admin/utils'
 import { TTransportMode } from 'types/graphql-schema'
+import { Feature, features } from 'types/featureFlag'
 
 export function isNotNullOrUndefined<T>(
     thing: T | undefined | null,
@@ -37,4 +38,8 @@ export function isTransportModeArray(
     thing: unknown,
 ): thing is TTransportMode[] {
     return Array.isArray(thing) && isArrayOfType(thing, isTransportMode)
+}
+
+export function isFeature(feature: string): feature is Feature {
+    return features.includes(feature as Feature)
 }
