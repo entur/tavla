@@ -938,6 +938,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/a11y@npm:^0.2.51":
+  version: 0.2.69
+  resolution: "@entur/a11y@npm:0.2.69"
+  dependencies:
+    "@entur/tokens": ^3.10.0
+    "@entur/utils": ^0.9.4
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 7ce58ca221794b0303d1388c46c825e3f405c07e806da6f5fec6565fccacb01cfb2b19a267802e3becef1ab6399960759c2032806d988afad84c569446929c5a
+  languageName: node
+  linkType: hard
+
 "@entur/a11y@npm:^0.2.65":
   version: 0.2.65
   resolution: "@entur/a11y@npm:0.2.65"
@@ -1336,6 +1349,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/table@npm:4.6.16":
+  version: 4.6.16
+  resolution: "@entur/table@npm:4.6.16"
+  dependencies:
+    "@entur/a11y": ^0.2.51
+    "@entur/button": ^3.1.0
+    "@entur/expand": ^3.4.7
+    "@entur/form": ^7.0.15
+    "@entur/icons": ^6.4.2
+    "@entur/tokens": ^3.10.0
+    "@entur/tooltip": ^2.6.25
+    "@entur/utils": ^0.9.3
+    "@types/lodash.get": ^4.4.6
+    classnames: ^2.3.1
+    lodash.get: ^4.4.2
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 92203b28ab40c8e88479eae1f44dc19d4477dcd44b022ebc904aab04a43b735fe3177ae6ef858dcbcddc2d948a519ce6f3a45d6b7a19677eb70acde8b0b776d5
+  languageName: node
+  linkType: hard
+
 "@entur/tokens@npm:3.8.1":
   version: 3.8.1
   resolution: "@entur/tokens@npm:3.8.1"
@@ -1489,6 +1524,18 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: a170edab60c8235773bf119dea3d944af417817c49fae59bbeb40c713150ec79dd8018591458a279ee30e6befc51f30f1a81d1f7b151d09521520ded5d9a2591
+  languageName: node
+  linkType: hard
+
+"@entur/utils@npm:^0.9.4":
+  version: 0.9.4
+  resolution: "@entur/utils@npm:0.9.4"
+  dependencies:
+    tiny-warning: ^1.0.3
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: b2161e59d220479154a9865f86ab3f60d5967bae03e20ae96de77684e68541668efb3149dd5c44df008fec6beecd381718b7b1f4a8530bbf2d8c75ee051e1d93
   languageName: node
   linkType: hard
 
@@ -3896,6 +3943,22 @@ __metadata:
   version: 3.0.2
   resolution: "@types/linkify-it@npm:3.0.2"
   checksum: dff8f10fafb885422474e456596f12d518ec4cdd6c33cca7a08e7c86b912d301ed91cf5a7613e148c45a12600dc9ab3d85ad16d5b48dc1aaeda151a68f16b536
+  languageName: node
+  linkType: hard
+
+"@types/lodash.get@npm:^4.4.6":
+  version: 4.4.7
+  resolution: "@types/lodash.get@npm:4.4.7"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 0dbf1960606e4707c34e8ffbe97ffaad0e47fc5df7a6e24ea6e4fe5838d2468aa13360f38815c77b06e3c9932631ae15662b4139036a69ee16aeb54827a21405
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.14.197
+  resolution: "@types/lodash@npm:4.14.197"
+  checksum: 53d7567d1704de76cf33266c78062e0fd722d4b846e5b1417d0b6ef0ee41c0d9c451b92bc34f73d5f1fcc45c7d36511e92f6f47a9279b48157ba60a92ddaa078
   languageName: node
   linkType: hard
 
@@ -9625,6 +9688,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.get@npm:^4.4.2":
+  version: 4.4.2
+  resolution: "lodash.get@npm:4.4.2"
+  checksum: e403047ddb03181c9d0e92df9556570e2b67e0f0a930fcbbbd779370972368f5568e914f913e93f3b08f6d492abc71e14d4e9b7a18916c31fa04bd2306efe545
+  languageName: node
+  linkType: hard
+
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
@@ -12257,6 +12327,7 @@ __metadata:
     "@entur/loader": 0.4.31
     "@entur/modal": 1.7.3
     "@entur/tab": 0.4.51
+    "@entur/table": 4.6.16
     "@entur/tokens": 3.8.1
     "@entur/typography": 1.8.0
     "@firebase/database-types": 0.10.4

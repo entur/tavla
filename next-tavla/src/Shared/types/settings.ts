@@ -7,5 +7,4 @@ export type TSettings = {
     tiles: TTile[]
     version?: number
     theme?: TTheme
-    title?: string
 }
