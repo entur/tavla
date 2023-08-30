@@ -4,15 +4,19 @@ import { TSettings } from 'types/settings'
 import { useToast } from '@entur/alert'
 import { useRouter } from 'next/router'
 import classes from './styles.module.css'
+import { useEffect, useState } from 'react'
 
 function Row({
     board,
 }: {
     board: { id: string; settings: TSettings | undefined }
 }) {
-    const link = `https://lite-tavla.web.app/${board.id}`
     const { addToast } = useToast()
     const router = useRouter()
+    const [link, setLink] = useState('')
+    useEffect(() => {
+        setLink(window.location.origin + '/' + board.id)
+    }, [board.id])
 
     async function editBoard() {
         await router.push('/edit/' + board.id)
