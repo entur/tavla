@@ -5,7 +5,7 @@
 
 .tableRow {
     display: grid;
-    grid-template-columns: 3fr 5fr 1fr;
+    grid-template-columns: 3fr 5fr 5rem;
 }
 
 .tableCell {
@@ -14,4 +14,8 @@
     justify-content: flex-start;
     font-weight: 500;
     color: var(--colors-brand-lavender);
+}
+
+.tableHeaderOptionsCell {
+    justify-content: center;
 }

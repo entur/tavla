@@ -38,7 +38,7 @@ function Row({ board }: { board: Board }) {
                     </IconButton>
                 </div>
             </div>
-            <div className={classes.dataCell}>
+            <div className={`${classes.dataCell} ${classes.options}`}>
                 <IconButton aria-label="Rediger tavle" onClick={editBoard}>
                     <EditIcon />
                 </IconButton>
