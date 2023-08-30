@@ -24,7 +24,7 @@ jobs:
 
            - uses: 'google-github-actions/auth@v1'
              with:
-               credentials_json: "${{ secrets.FIREBASE_DEPLOY_CREDENTIALS_STAGING }}"
+               credentials_json: "${{ secrets.DEPLOY_BETA_STAGING }}"
 
            - name: 'Set up Cloud SDK'
              uses: 'google-github-actions/setup-gcloud@v1'
