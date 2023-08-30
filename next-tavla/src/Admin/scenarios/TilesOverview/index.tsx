@@ -21,6 +21,19 @@ function TilesOverview({
         setActiveTab(0)
     }, [tiles.length])
 
+    if (!user)
+        return (
+            <div className={classes.info}>
+                <Image src={animals} alt="illustration" />
+                <Heading2 className={classes.infoHeading}>
+                    Logg inn for å redigere tavla
+                </Heading2>
+                <LeadParagraph>
+                    Du må logge inn for å kunne redigere tavla.
+                </LeadParagraph>
+            </div>
+        )
+
     if (tiles.length === 0)
         return (
             <div className={classes.info}>
@@ -35,18 +48,6 @@ function TilesOverview({
             </div>
         )
 
-    if (!user)
-        return (
-            <div className={classes.info}>
-                <Image src={animals} alt="illustration" />
-                <Heading2 className={classes.infoHeading}>
-                    Logg inn for å redigere tavla
-                </Heading2>
-                <LeadParagraph>
-                    Du må logge inn for å kunne redigere tavla.
-                </LeadParagraph>
-            </div>
-        )
     return (
         <Tabs
             className={classes.tabs}
