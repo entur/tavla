@@ -5,6 +5,7 @@ import { useToast } from '@entur/alert'
 import { useRouter } from 'next/router'
 import classes from './styles.module.css'
 import { useEffect, useState } from 'react'
+import { DeleteBoardButton } from '../DeleteBoardButton'
 
 function Row({ board }: { board: { id: string; settings?: TSettings } }) {
     const { addToast } = useToast()
@@ -42,6 +43,12 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
                 <IconButton aria-label="Rediger tavle" onClick={editBoard}>
                     <EditIcon />
                 </IconButton>
+            </div>
+            <div className={classes.dataCell}>
+                <DeleteBoardButton
+                    boardId={board.id}
+                    boardName={board.settings?.title}
+                />
             </div>
         </div>
     )
