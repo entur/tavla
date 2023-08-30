@@ -37,6 +37,6 @@ jobs:
 
            - name: 'Deploy'
              run: >
-                gcloud run deploy $PROJECT_ID --image eu.gcr.io/$PROJECT_ID/PROJECT_ID:$GITHUB_SHA
+                gcloud run deploy $PROJECT_ID --image eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
                 --set-secrets=SERVICE_ACCOUNT=SERVICE_ACCOUNT:latest --region $RUN_REGION
                 --set-env-vars=ENABLED_FEATURES=$ENABLED_FEATURES
