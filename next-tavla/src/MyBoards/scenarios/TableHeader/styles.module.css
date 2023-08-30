@@ -1,6 +1,6 @@
 .tableHead {
     padding: 0.5rem 0;
-    border-bottom: #393d79 solid;
+    border-bottom: var(--colors-blues-blue20) solid;
 }
 
 .tableRow {
@@ -13,5 +13,5 @@
     align-items: center;
     justify-content: flex-start;
     font-weight: 500;
-    color: #aeb7e2;
+    color: var(--colors-brand-lavender);
 }
