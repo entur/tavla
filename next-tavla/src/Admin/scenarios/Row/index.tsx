@@ -14,6 +14,7 @@ function Row({
     const { addToast } = useToast()
     const router = useRouter()
     const [link, setLink] = useState('')
+
     useEffect(() => {
         setLink(window.location.origin + '/' + board.id)
     }, [board.id])
