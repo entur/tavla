@@ -1,7 +1,7 @@
-import { Table, TableBody } from '@entur/table'
 import { TableHeader } from '../TableHeader'
 import { Row } from '../Row'
 import { TSettings } from 'types/settings'
+import classes from './styles.module.css'
 
 function List({
     boards,
@@ -10,15 +10,15 @@ function List({
 }) {
     return (
         <div>
-            <Table>
+            <div className={classes.table}>
                 <TableHeader />
-                <TableBody>
+                <div className={classes.tableBody}>
                     {boards.map(
                         (board) =>
                             board.id && <Row key={board.id} board={board} />,
                     )}
-                </TableBody>
-            </Table>
+                </div>
+            </div>
         </div>
     )
 }

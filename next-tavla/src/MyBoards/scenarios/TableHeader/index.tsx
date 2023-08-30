@@ -1,14 +1,14 @@
-import { TableHead, HeaderCell, TableRow } from '@entur/table'
+import classes from './styles.module.css'
 
 function TableHeader() {
     return (
-        <TableHead>
-            <TableRow>
-                <HeaderCell>Navn på tavle</HeaderCell>
-                <HeaderCell>Link</HeaderCell>
-                <HeaderCell>Rediger</HeaderCell>
-            </TableRow>
-        </TableHead>
+        <div className={classes.tableHead}>
+            <div className={classes.tableRow}>
+                <div className={classes.tableCell}>Navn på tavle</div>
+                <div className={classes.tableCell}>Link</div>
+                <div className={classes.tableCell}>Rediger</div>
+            </div>
+        </div>
     )
 }
 

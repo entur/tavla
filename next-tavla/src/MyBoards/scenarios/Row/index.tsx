@@ -1,4 +1,3 @@
-import { TableRow, DataCell } from '@entur/table'
 import { IconButton } from '@entur/button'
 import { CopyIcon, EditIcon } from '@entur/icons'
 import { TSettings } from 'types/settings'
@@ -20,9 +19,11 @@ function Row({
     }
 
     return (
-        <TableRow>
-            <DataCell>{board.settings?.title ?? 'Tavla'}</DataCell>
-            <DataCell>
+        <div className={classes.tableRow}>
+            <div className={classes.dataCell}>
+                {board.settings?.title ?? 'Tavla'}
+            </div>
+            <div className={classes.dataCell}>
                 <div className={classes.link}>
                     {link}
                     <IconButton
@@ -35,15 +36,13 @@ function Row({
                         <CopyIcon />
                     </IconButton>
                 </div>
-            </DataCell>
-            <DataCell>
-                <div className={classes.iconButtons}>
-                    <IconButton aira-label="Rediger tavle" onClick={editBoard}>
-                        <EditIcon />
-                    </IconButton>
-                </div>
-            </DataCell>
-        </TableRow>
+            </div>
+            <div className={classes.dataCell}>
+                <IconButton aira-label="Rediger tavle" onClick={editBoard}>
+                    <EditIcon />
+                </IconButton>
+            </div>
+        </div>
     )
 }
 
