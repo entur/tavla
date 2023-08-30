@@ -5,6 +5,7 @@ import {
     getDoc,
     addDoc,
     setDoc,
+    deleteDoc,
     doc,
     collection,
     getFirestore,
@@ -44,6 +45,12 @@ export async function setBoardSettings(boardId: string, settings: TSettings) {
 export async function addBoardSettings(settings: TSettings) {
     const firestore = safeGetFirestore()
     return await addDoc(collection(firestore, 'settings-v2'), settings)
+}
+
+export async function deleteBoard(boardId: string) {
+    const firestore = safeGetFirestore()
+    const docRef = doc(firestore, 'settings-v2', boardId)
+    await deleteDoc(docRef)
 }
 
 export async function getBoards() {
