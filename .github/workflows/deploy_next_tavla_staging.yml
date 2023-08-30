@@ -29,3 +29,4 @@ jobs:
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
           DATABASE_URL: ${{ secrets.FIREBASE_STAGING_DATABASE_URL }}
+          ENABLED_FEATURES: ${{ secrets.ENABLED_FEATURES }}
