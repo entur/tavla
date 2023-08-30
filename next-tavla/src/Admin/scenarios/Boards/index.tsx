@@ -1,9 +1,9 @@
 import { Heading2 } from '@entur/typography'
 import classes from './styles.module.css'
 import { List } from '../List'
-import { TSettings } from 'types/settings'
+import { Board } from 'types/board'
 
-function Admin({ boards }: { boards: { id: string; settings?: TSettings }[] }) {
+function Admin({ boards }: { boards: Board[] }) {
     return (
         <div className={classes.adminWrapper}>
             <Heading2>Mine Tavler</Heading2>

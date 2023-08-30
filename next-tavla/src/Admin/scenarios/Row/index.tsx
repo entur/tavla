@@ -1,13 +1,13 @@
 import { IconButton } from '@entur/button'
 import { CopyIcon, EditIcon } from '@entur/icons'
-import { TSettings } from 'types/settings'
 import { useToast } from '@entur/alert'
 import { useRouter } from 'next/router'
 import classes from './styles.module.css'
 import { useEffect, useState } from 'react'
 import { DeleteBoardButton } from '../DeleteBoardButton'
+import { Board } from 'types/board'
 
-function Row({ board }: { board: { id: string; settings?: TSettings } }) {
+function Row({ board }: { board: Board }) {
     const { addToast } = useToast()
     const router = useRouter()
     const [link, setLink] = useState('')
