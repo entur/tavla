@@ -1,0 +1,9 @@
+.table {
+    display: flex;
+    flex-direction: column;
+}
+
+.tableBody {
+    display: grid;
+    grid-template-rows: auto;
+}

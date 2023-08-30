@@ -1,0 +1,6 @@
+.adminWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5em;
+    margin: 1.25em 0;
+}
