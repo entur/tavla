@@ -6,9 +6,18 @@ import { Admin } from 'src/MyBoards/scenarios/Admin'
 import { getBoardSettings } from 'utils/firebase'
 import { TSettings } from 'types/settings'
 import { upgradeSettings } from 'utils/converters'
-import { useFeatureFlags } from 'hooks/useFeatureFlags'
+import { checkFeatureFlags } from 'utils/featureFlags'
 
 export async function getServerSideProps() {
+    const featureFlag = await checkFeatureFlags('BOARDS')
+    if (!featureFlag) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
     //when login is fixed:
     // 1. take user id as params
     // 2. create getBoards function in firebase.ts that gets all boards for a user based on user id
@@ -49,12 +58,11 @@ function OverviewPage({
 }: {
     boards: { id: string; settings: TSettings | undefined }[]
 }) {
-    const BOARDS = useFeatureFlags('BOARDS')
     return (
         <Contrast className={classes.root}>
             <ToastProvider>
                 <Header />
-                {BOARDS && <Admin boards={boards} />}
+                <Admin boards={boards} />
             </ToastProvider>
         </Contrast>
     )
