@@ -21,6 +21,11 @@ export type Action =
           tileId: string
           transportMode: TTransportMode
       }
+    | {
+          type: 'setTransportModes'
+          tileId: string
+          transportModes: TTransportMode[]
+      }
     | { type: 'deleteLines'; tileId: string }
     | { type: 'setColumn'; tileId: string; column: TColumn }
     | { type: 'setTitle'; title: string }
@@ -169,6 +174,19 @@ export function settingsReducer(
                 },
             )
         }
+
+        case 'setTransportModes': {
+            return changeTile<TStopPlaceTile | TQuayTile>(
+                action.tileId,
+                (tile) => {
+                    return {
+                        ...tile,
+                        whitelistedTransportModes: action.transportModes,
+                    }
+                },
+            )
+        }
+
         case 'setColumn': {
             return changeTile<TStopPlaceTile | TQuayTile>(
                 action.tileId,

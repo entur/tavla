@@ -1420,6 +1420,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/travel@npm:6.0.18":
+  version: 6.0.18
+  resolution: "@entur/travel@npm:6.0.18"
+  dependencies:
+    "@entur/form": ^7.0.15
+    "@entur/icons": ^6.4.2
+    "@entur/layout": ^2.1.39
+    "@entur/tokens": ^3.10.0
+    "@entur/utils": ^0.9.3
+    classnames: ^2.3.1
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 0190a04ef42267b06715e1fc73eb43b371bec1f54d84e9be13f134f217c0f3456dabc9af26fcecf54ad2fd32dc0599bb6c7701fee8adc8fba4cb708b8ceeb852
+  languageName: node
+  linkType: hard
+
 "@entur/typography@npm:1.8.0, @entur/typography@npm:^1.7.17, @entur/typography@npm:^1.8.0":
   version: 1.8.0
   resolution: "@entur/typography@npm:1.8.0"
@@ -12258,6 +12275,7 @@ __metadata:
     "@entur/modal": 1.7.3
     "@entur/tab": 0.4.51
     "@entur/tokens": 3.8.1
+    "@entur/travel": 6.0.18
     "@entur/typography": 1.8.0
     "@firebase/database-types": 0.10.4
     "@graphql-codegen/cli": 3.2.2
