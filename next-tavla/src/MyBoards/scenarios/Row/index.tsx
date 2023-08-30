@@ -27,7 +27,7 @@ function Row({
                 <div className={classes.link}>
                     {link}
                     <IconButton
-                        aira-label="Kopier lenke"
+                        aria-label="Kopier lenke"
                         onClick={() => {
                             navigator.clipboard.writeText(link)
                             addToast('Lenke til Tavla kopiert')
@@ -38,7 +38,7 @@ function Row({
                 </div>
             </div>
             <div className={classes.dataCell}>
-                <IconButton aira-label="Rediger tavle" onClick={editBoard}>
+                <IconButton aria-label="Rediger tavle" onClick={editBoard}>
                     <EditIcon />
                 </IconButton>
             </div>
