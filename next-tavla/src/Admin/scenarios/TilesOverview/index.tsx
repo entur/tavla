@@ -6,8 +6,15 @@ import Image from 'next/image'
 import animals from 'assets/illustrations/Animals.png'
 import classes from './styles.module.css'
 import { Heading2, LeadParagraph } from '@entur/typography'
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 
-function TilesOverview({ tiles }: { tiles: TTile[] }) {
+function TilesOverview({
+    tiles,
+    user,
+}: {
+    tiles: TTile[]
+    user: DecodedIdToken | null
+}) {
     const [activeTab, setActiveTab] = useState(0)
 
     useEffect(() => {
@@ -28,6 +35,18 @@ function TilesOverview({ tiles }: { tiles: TTile[] }) {
             </div>
         )
 
+    if (!user)
+        return (
+            <div className={classes.info}>
+                <Image src={animals} alt="illustration" />
+                <Heading2 className={classes.infoHeading}>
+                    Logg inn for å redigere tavla
+                </Heading2>
+                <LeadParagraph>
+                    Du må logge inn for å kunne redigere tavla.
+                </LeadParagraph>
+            </div>
+        )
     return (
         <Tabs
             className={classes.tabs}

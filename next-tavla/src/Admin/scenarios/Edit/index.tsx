@@ -40,30 +40,33 @@ function Edit({
                 <div className="flexBetween">
                     <BoardTitle title={settings.title} />
                     <div className="flexGap">
-                        <SecondaryButton
-                            onClick={() => {
-                                navigator.clipboard.writeText(linkUrl)
-                                addToast('Lenke til Tavla kopiert')
-                            }}
-                        >
-                            Kopier lenke til Tavla
-                            <CopyIcon />
-                        </SecondaryButton>
-                        <SecondaryLink
-                            external
-                            href={'/' + documentId}
-                            text="Se Tavla"
-                        />
-                        <PrimaryButton onClick={saveSettings}>
-                            Lagre tavla
-                            <SaveIcon />
-                        </PrimaryButton>
-
+                        {user && (
+                            <>
+                                <SecondaryButton
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(linkUrl)
+                                        addToast('Lenke til Tavla kopiert')
+                                    }}
+                                >
+                                    Kopier lenke til Tavla
+                                    <CopyIcon />
+                                </SecondaryButton>
+                                <SecondaryLink
+                                    external
+                                    href={'/' + documentId}
+                                    text="Se Tavla"
+                                />
+                                <PrimaryButton onClick={saveSettings}>
+                                    Lagre tavla
+                                    <SaveIcon />
+                                </PrimaryButton>
+                            </>
+                        )}
                         {LOGIN && <Login user={user} />}
                     </div>
                 </div>
-                <AddTile />
-                <TilesOverview tiles={settings.tiles} />
+                {user && <AddTile />}
+                <TilesOverview tiles={settings.tiles} user={user} />
             </div>
         </SettingsDispatchContext.Provider>
     )
