@@ -6,6 +6,7 @@ import { Admin } from 'src/MyBoards/scenarios/Admin'
 import { getBoardSettings } from 'utils/firebase'
 import { TSettings } from 'types/settings'
 import { upgradeSettings } from 'utils/converters'
+import { useFeatureFlags } from 'hooks/useFeatureFlags'
 
 export async function getServerSideProps() {
     //when login is fixed:
@@ -13,7 +14,6 @@ export async function getServerSideProps() {
     // 2. create getBoards function in firebase.ts that gets all boards for a user based on user id
     // 3. use getBoards function instead of getBoardSettings to get all boards for a user
     // 4. remove ids const
-
     const ids = [
         'Malre1Dx5zLE086AzpFH',
         'oMgfeCRUZ4sfD8xXXG8M',
@@ -49,11 +49,12 @@ function OverviewPage({
 }: {
     boards: { id: string; settings: TSettings | undefined }[]
 }) {
+    const BOARDS = useFeatureFlags('BOARDS')
     return (
         <Contrast className={classes.root}>
             <ToastProvider>
                 <Header />
-                <Admin boards={boards} />
+                {BOARDS && <Admin boards={boards} />}
             </ToastProvider>
         </Contrast>
     )
