@@ -3,9 +3,9 @@ import { Contrast } from '@entur/layout'
 import { ToastProvider } from '@entur/alert'
 import { Header } from 'components/Header'
 import { Boards } from 'Admin/scenarios/Boards'
-import { TSettings } from 'types/settings'
 import { checkFeatureFlags } from 'utils/featureFlags'
 import { getBoards } from 'utils/firebase'
+import { Board } from 'types/board'
 
 export async function getServerSideProps() {
     const featureFlag = await checkFeatureFlags('BOARDS')
@@ -27,11 +27,7 @@ export async function getServerSideProps() {
     }
 }
 
-function OverviewPage({
-    boards,
-}: {
-    boards: { id: string; settings?: TSettings }[]
-}) {
+function OverviewPage({ boards }: { boards: Board[] }) {
     return (
         <Contrast className={classes.root}>
             <ToastProvider>
