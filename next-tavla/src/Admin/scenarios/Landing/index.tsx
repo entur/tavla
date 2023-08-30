@@ -15,8 +15,13 @@ import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 function Landing({ user }: { user: DecodedIdToken | null }) {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     async function handleCreateNewBoard() {
+        if (!user) {
+            setIsModalOpen(true)
+            return
+        }
         setLoading(true)
         const createdBoard = await addBoardSettings({
             tiles: [],
@@ -27,7 +32,11 @@ function Landing({ user }: { user: DecodedIdToken | null }) {
     return (
         <div className={classes.container}>
             <div className={classes.floatingButtonWrapper}>
-                <Login user={user} />
+                <Login
+                    user={user}
+                    isOpen={isModalOpen}
+                    onCloseModal={() => setIsModalOpen(false)}
+                />
             </div>
             <Contrast className={classes.centeredContainer}>
                 <div className={classes.headingContainer}>
@@ -39,14 +48,12 @@ function Landing({ user }: { user: DecodedIdToken | null }) {
                     <Button
                         onClick={handleCreateNewBoard}
                         variant="primary"
-                        disabled={user === null}
+                        disabled={loading}
                         loading={loading}
                         width="fluid"
                         className={classes.button}
                     >
-                        {user
-                            ? 'Opprett ny tavle'
-                            : 'Logg inn for å opprette en tavle'}
+                        Opprett ny tavle
                     </Button>
                 </div>
                 <div className={classNames(classes.content, classes.topImage)}>

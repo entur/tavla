@@ -13,13 +13,14 @@ import classes from './styles.module.css'
 function Login({
     user,
     isOpen = false,
+    onCloseModal,
 }: {
     user: DecodedIdToken | null
     isOpen?: boolean
+    onCloseModal?: () => void
 }) {
     const { logout } = useAuth()
-
-    const [showModal, setShowModal] = useState(isOpen)
+    const [showModal, setShowModal] = useState(false)
     const [pages, setPages] = useState<TLoginPage[]>([])
 
     if (user) {
@@ -37,6 +38,7 @@ function Login({
 
     const closeModal = () => {
         setShowModal(false)
+        onCloseModal?.()
     }
 
     const nestedPagesExist = pages && pages.length > 0
@@ -47,7 +49,7 @@ function Login({
                 Logg inn
             </PrimaryButton>
             <Modal
-                open={showModal}
+                open={showModal || isOpen}
                 size="small"
                 onDismiss={closeModal}
                 closeLabel="Lukk innlogging"
