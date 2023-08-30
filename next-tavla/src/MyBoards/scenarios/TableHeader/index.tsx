@@ -1,5 +1,4 @@
 import { TableHead, HeaderCell, TableRow } from '@entur/table'
-import '@entur/table/dist/styles.css'
 
 function TableHeader() {
     return (
