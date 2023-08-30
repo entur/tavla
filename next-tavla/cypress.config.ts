@@ -9,4 +9,5 @@ export default defineConfig({
         viewportHeight: 1080,
         viewportWidth: 1920,
     },
+    retries: 2,
 })
