@@ -1,0 +1,41 @@
+name: Deploy Beta staging
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - master
+        paths:
+            - "next-tavla/**"
+
+env:
+  PROJECT_ID: ${{ secrets.BETA_STAGING_ID }}
+  RUN_REGION:  ${{ secrets.BETA_RUN_REGION }}
+  ENABLED_FEATURES: ${{ secrets.ENABLED_FEATURES }}
+  
+jobs:
+    deploy-staging:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: next-tavla
+        steps:
+           - uses: actions/checkout@v3
+
+           - uses: 'google-github-actions/auth@v1'
+             with:
+               credentials_json: "${{ secrets.FIREBASE_DEPLOY_CREDENTIALS_STAGING }}"
+
+           - name: 'Set up Cloud SDK'
+             uses: 'google-github-actions/setup-gcloud@v1'
+             with:
+               version: '>= 363.0.0'
+
+           - name: 'Build container image'
+             run: 'gcloud builds submit --tag eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA'
+
+           - name: 'Deploy'
+             run: >
+                gcloud run deploy $PROJECT_ID --image eu.gcr.io/$PROJECT_ID/PROJECT_ID:$GITHUB_SHA
+                --set-secrets=SERVICE_ACCOUNT=SERVICE_ACCOUNT:latest --region $RUN_REGION
+                --set-env-vars=ENABLED_FEATURES=$ENABLED_FEATURES

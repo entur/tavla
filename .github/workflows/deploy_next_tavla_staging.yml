@@ -2,11 +2,7 @@ name: Deploy Next Staging
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
-    paths:
-      - "next-tavla/**"
+  
 jobs:
   deploy-staging:
     runs-on: ubuntu-latest
