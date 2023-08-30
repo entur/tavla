@@ -6,11 +6,7 @@ import { useRouter } from 'next/router'
 import classes from './styles.module.css'
 import { useEffect, useState } from 'react'
 
-function Row({
-    board,
-}: {
-    board: { id: string; settings: TSettings | undefined }
-}) {
+function Row({ board }: { board: { id: string; settings?: TSettings } }) {
     const { addToast } = useToast()
     const router = useRouter()
     const [link, setLink] = useState('')

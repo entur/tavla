@@ -30,7 +30,7 @@ export async function getServerSideProps() {
 function OverviewPage({
     boards,
 }: {
-    boards: { id: string; settings: TSettings | undefined }[]
+    boards: { id: string; settings?: TSettings }[]
 }) {
     return (
         <Contrast className={classes.root}>
