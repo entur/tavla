@@ -38,7 +38,7 @@ function DeleteBoardButton({
     }
 
     return (
-        <IconButton aira-label="Slett tavle" onClick={() => setShowModal(true)}>
+        <IconButton aria-label="Slett tavle" onClick={() => setShowModal(true)}>
             <Modal
                 open={showModal}
                 size="small"
