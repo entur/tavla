@@ -8,6 +8,24 @@ import { TSettings } from 'types/settings'
 import { upgradeSettings } from 'utils/converters'
 import { checkFeatureFlags } from 'utils/featureFlags'
 
+async function getBoards(ids: string[]) {
+    const settingsPromises = ids.map(async (id: string) => {
+        const settings = await getBoardSettings(id)
+        return { id, settings }
+    })
+
+    const allSettingsWithIds = await Promise.all(settingsPromises)
+
+    const convertedSettings = allSettingsWithIds.map(({ id, settings }) => {
+        return {
+            id,
+            settings: settings ? upgradeSettings(settings) : null,
+        }
+    })
+
+    return convertedSettings
+}
+
 export async function getServerSideProps() {
     const featureFlag = await checkFeatureFlags('BOARDS')
     if (!featureFlag) {
@@ -29,26 +47,11 @@ export async function getServerSideProps() {
         '8EyKHHP5Ie2HisOO2ilt',
     ]
 
-    const settingsPromises: Promise<{
-        id: string
-        settings: TSettings | undefined
-    }>[] = ids.map(async (id: string) => {
-        const settings = await getBoardSettings(id)
-        return { id, settings }
-    })
-
-    const allSettingsWithIds = await Promise.all(settingsPromises)
-
-    const convertedSettings = allSettingsWithIds.map(({ id, settings }) => {
-        return {
-            id,
-            settings: settings ? upgradeSettings(settings) : null,
-        }
-    })
+    const boards = await getBoards(ids)
 
     return {
         props: {
-            boards: convertedSettings,
+            boards: boards,
         },
     }
 }
