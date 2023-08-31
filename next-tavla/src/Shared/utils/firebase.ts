@@ -5,6 +5,9 @@ import {
     getDoc,
     addDoc,
     setDoc,
+    updateDoc,
+    arrayUnion,
+    arrayRemove,
     doc,
     collection,
     getFirestore,
@@ -73,4 +76,20 @@ export async function getBoards() {
     })
 
     return convertedSettings
+}
+
+export async function addTagToBoard(boardId: string, tag: string) {
+    const firestore = safeGetFirestore()
+    const docRef = doc(firestore, 'settings-v2', boardId)
+    await updateDoc(docRef, {
+        tags: arrayUnion(tag),
+    })
+}
+
+export async function removeTagFromBoard(boardId: string, tag: string) {
+    const firestore = safeGetFirestore()
+    const docRef = doc(firestore, 'settings-v2', boardId)
+    await updateDoc(docRef, {
+        tags: arrayRemove(tag),
+    })
 }
