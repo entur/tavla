@@ -1,3 +1,9 @@
+.tableWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
 .table {
     display: flex;
     flex-direction: column;
@@ -6,4 +12,8 @@
 .tableBody {
     display: grid;
     grid-template-rows: auto;
+}
+
+.search {
+    width: 15rem;
 }
