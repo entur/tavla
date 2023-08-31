@@ -1,4 +1,4 @@
-import { TSettings } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { getApp, getApps, initializeApp } from 'firebase/app'
 import { EmailAuthProvider, getAuth } from 'firebase/auth'
 import {
@@ -10,7 +10,7 @@ import {
     getFirestore,
 } from '@firebase/firestore/lite'
 import { FIREBASE_CLIENT_CONFIG } from 'assets/env'
-import { upgradeSettings } from './converters'
+import { upgradeBoard } from './converters'
 
 const app = initializeClientApp()
 export const auth = getAuth(app)
@@ -30,10 +30,10 @@ function safeGetFirestore() {
 export async function getBoardSettings(boardId: string) {
     const firestore = safeGetFirestore()
     const document = await getDoc(doc(firestore, 'settings-v2', boardId))
-    return document.data() as TSettings
+    return document.data() as TBoard
 }
 
-export async function setBoardSettings(boardId: string, settings: TSettings) {
+export async function setBoardSettings(boardId: string, settings: TBoard) {
     const firestore = safeGetFirestore()
     const docRef = doc(firestore, 'settings-v2', boardId)
     // Removes explicitly assigned undefined properties on settings
@@ -41,7 +41,7 @@ export async function setBoardSettings(boardId: string, settings: TSettings) {
     await setDoc(docRef, sanitizedSettings)
 }
 
-export async function addBoardSettings(settings: TSettings) {
+export async function addBoardSettings(settings: TBoard) {
     const firestore = safeGetFirestore()
     return await addDoc(collection(firestore, 'settings-v2'), settings)
 }
@@ -68,7 +68,7 @@ export async function getBoards() {
     const convertedSettings = allSettingsWithIds.map(({ id, settings }) => {
         return {
             id,
-            settings: settings ? upgradeSettings(settings) : null,
+            settings: settings ? upgradeBoard(settings) : null,
         }
     })
 

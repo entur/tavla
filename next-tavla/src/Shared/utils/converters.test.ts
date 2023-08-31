@@ -1,8 +1,8 @@
-import { upgradeSettings } from './converters'
+import { upgradeBoard } from './converters'
 import { expect, test } from '@jest/globals'
 
 test('upgrade settings to latest version', () => {
-    const upgradedSettings = upgradeSettings({
+    const upgradedSettings = upgradeBoard({
         tiles: [
             {
                 type: 'stop_place',

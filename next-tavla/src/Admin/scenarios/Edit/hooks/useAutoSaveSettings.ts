@@ -1,9 +1,9 @@
 import { useToast } from '@entur/alert'
 import { useCallback, useEffect, useState } from 'react'
-import { TSettings } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { setBoardSettings } from 'utils/firebase'
 
-function useAutoSaveSettings(documentId: string, settings: TSettings) {
+function useAutoSaveSettings(documentId: string, settings: TBoard) {
     const { addToast } = useToast()
     const [prevTilesLength, setPrevTilesLength] = useState(
         settings.tiles.length,

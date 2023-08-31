@@ -4,7 +4,7 @@ import { clone, filter, xor } from 'lodash'
 import { nanoid } from 'nanoid'
 import { TColumn } from 'types/column'
 import { TTransportMode } from 'types/graphql-schema'
-import { TSettings, TTheme } from 'types/settings'
+import { TBoard, TTheme } from 'types/settings'
 import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 
 export type Action =
@@ -30,14 +30,11 @@ export type Action =
     | { type: 'setColumn'; tileId: string; column: TColumn }
     | { type: 'setTitle'; title: string }
 
-export function settingsReducer(
-    settings: TSettings,
-    action: Action,
-): TSettings {
+export function settingsReducer(settings: TBoard, action: Action): TBoard {
     function changeTile<T extends TTile>(
         tileId: string,
         changeFunction: (tile: T) => T,
-    ): TSettings {
+    ): TBoard {
         const originalTileIndex = settings.tiles.findIndex(
             ({ uuid }) => uuid === tileId,
         )

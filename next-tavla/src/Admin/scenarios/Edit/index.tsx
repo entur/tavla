@@ -1,4 +1,4 @@
-import { TSettings } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { TilesOverview } from '../TilesOverview'
 import { useReducer } from 'react'
 import classes from './styles.module.css'
@@ -21,7 +21,7 @@ function Edit({
     documentId,
     user,
 }: {
-    initialSettings: TSettings
+    initialSettings: TBoard
     documentId: string
     user: DecodedIdToken | null
 }) {

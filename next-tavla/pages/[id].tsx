@@ -1,8 +1,8 @@
 import { Header } from 'components/Header'
-import { TSettings } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
 import classes from 'styles/pages/board.module.css'
-import { upgradeSettings } from 'utils/converters'
+import { upgradeBoard } from 'utils/converters'
 import { Board } from 'Board/scenarios/Board'
 
 export async function getServerSideProps({
@@ -12,29 +12,29 @@ export async function getServerSideProps({
 }) {
     const { id } = params
 
-    const settings: TSettings | undefined = await getBoardSettings(id)
+    const board: TBoard | undefined = await getBoardSettings(id)
 
-    if (!settings) {
+    if (!board) {
         return {
             notFound: true,
         }
     }
 
-    const convertedSettings = upgradeSettings(settings)
+    const convertedBoard = upgradeBoard(board)
 
     return {
         props: {
-            settings: convertedSettings,
+            board: convertedBoard,
         },
     }
 }
 
-function BoardPage({ settings }: { settings: TSettings }) {
+function BoardPage({ board }: { board: TBoard }) {
     return (
-        <div className={classes.root} data-theme={settings.theme || 'dark'}>
+        <div className={classes.root} data-theme={board.theme || 'dark'}>
             <div className={classes.rootContainer}>
-                <Header theme={settings.theme} showClock={true} />
-                <Board settings={settings} />
+                <Header theme={board.theme} showClock={true} />
+                <Board board={board} />
             </div>
         </div>
     )

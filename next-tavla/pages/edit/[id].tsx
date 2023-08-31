@@ -1,10 +1,10 @@
 import { Header } from 'components/Header'
 import { Edit } from 'Admin/scenarios/Edit'
-import { TSettings } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { getBoardSettings } from 'utils/firebase'
 import classes from 'styles/pages/admin.module.css'
 import { Contrast } from '@entur/layout'
-import { upgradeSettings } from 'utils/converters'
+import { upgradeBoard } from 'utils/converters'
 import { ToastProvider } from '@entur/alert'
 import { IncomingNextMessage } from 'types/next'
 import { verifySession } from 'Admin/utils/firebase'
@@ -21,7 +21,7 @@ export async function getServerSideProps({
 
     const session = req.cookies['session']
     const user = await verifySession(session)
-    const settings: TSettings | undefined = await getBoardSettings(id)
+    const settings: TBoard | undefined = await getBoardSettings(id)
 
     if (!settings) {
         return {
@@ -29,7 +29,7 @@ export async function getServerSideProps({
         }
     }
 
-    const convertedSettings = upgradeSettings(settings)
+    const convertedSettings = upgradeBoard(settings)
 
     return {
         props: {
@@ -46,7 +46,7 @@ function AdminPage({
     id,
 }: {
     user: DecodedIdToken | null
-    settings: TSettings
+    settings: TBoard
     id: string
 }) {
     return (
