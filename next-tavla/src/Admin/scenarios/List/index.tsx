@@ -9,16 +9,6 @@ import { useState } from 'react'
 function List({ boards }: { boards: { id: string; settings?: TSettings }[] }) {
     const [filterSearch, setFilterSearch] = useState('')
     const textSearchRegex = new RegExp(filterSearch, 'i')
-    function searchBoards(
-        board: {
-            id: string
-            settings?: TSettings | undefined
-        },
-        search: RegExp,
-    ) {
-        const title = board.settings?.title || ''
-        return search.test(title)
-    }
     return (
         <div className={classes.tableWrapper}>
             <TextField
@@ -32,7 +22,9 @@ function List({ boards }: { boards: { id: string; settings?: TSettings }[] }) {
                 <TableHeader />
                 <div className={classes.tableBody}>
                     {boards
-                        .filter((board) => searchBoards(board, textSearchRegex))
+                        .filter((board) =>
+                            textSearchRegex.test(board.settings?.title ?? ''),
+                        )
                         .map((board) => (
                             <Row key={board.id} board={board} />
                         ))}
