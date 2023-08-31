@@ -1,3 +1,9 @@
+.tableWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
 .table {
     display: flex;
     flex-direction: column;
