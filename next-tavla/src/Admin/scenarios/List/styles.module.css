@@ -13,3 +13,7 @@
     display: grid;
     grid-template-rows: auto;
 }
+
+.search {
+    width: 15rem;
+}

@@ -22,8 +22,8 @@ function List({ boards }: { boards: { id: string; settings?: TSettings }[] }) {
     return (
         <div className={classes.tableWrapper}>
             <TextField
+                className={classes.search}
                 label="Søk på navn på tavle"
-                style={{ width: '15rem' }}
                 prepend={<SearchIcon inline />}
                 value={filterSearch}
                 onChange={(e) => setFilterSearch(e.target.value)}
