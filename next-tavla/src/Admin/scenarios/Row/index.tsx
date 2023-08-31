@@ -2,9 +2,10 @@ import { IconButton } from '@entur/button'
 import { CopyIcon, EditIcon } from '@entur/icons'
 import { useToast } from '@entur/alert'
 import { useRouter } from 'next/router'
-import classes from './styles.module.css'
 import { useEffect, useState } from 'react'
 import { Board } from 'types/board'
+import classes from './styles.module.css'
+import tableClasses from 'styles/pages/boardstable.module.css'
 
 function Row({ board }: { board: Board }) {
     const { addToast } = useToast()
@@ -20,7 +21,7 @@ function Row({ board }: { board: Board }) {
     }
 
     return (
-        <div className={classes.tableRow}>
+        <div className={`${tableClasses.tableRow} ${classes.contentRow}`}>
             <div className={classes.dataCell}>
                 {board.settings?.title ?? 'Tavla'}
             </div>
@@ -38,6 +39,7 @@ function Row({ board }: { board: Board }) {
                     </IconButton>
                 </div>
             </div>
+            <div></div>
             <div className={`${classes.dataCell} ${classes.options}`}>
                 <IconButton aria-label="Rediger tavle" onClick={editBoard}>
                     <EditIcon />
