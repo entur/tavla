@@ -2,7 +2,7 @@ import classes from 'styles/pages/admin.module.css'
 import { Contrast } from '@entur/layout'
 import { ToastProvider } from '@entur/alert'
 import { Header } from 'components/Header'
-import { Admin } from 'Admin/scenarios/Boards'
+import { Boards } from 'Admin/scenarios/Boards'
 import { TSettings } from 'types/settings'
 import { checkFeatureFlags } from 'utils/featureFlags'
 import { getBoards } from 'utils/firebase'
@@ -36,7 +36,7 @@ function OverviewPage({
         <Contrast className={classes.root}>
             <ToastProvider>
                 <Header />
-                <Admin boards={boards} />
+                <Boards boards={boards} />
             </ToastProvider>
         </Contrast>
     )
