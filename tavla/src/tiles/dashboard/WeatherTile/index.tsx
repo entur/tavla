@@ -31,7 +31,6 @@ function WeatherTile({ className }: { className?: string }) {
                     )}
                     {settings.showTemperature && (
                         <Temperature
-                            description={weather?.description ?? ''}
                             temperature={
                                 weatherData?.data.instant.details
                                     .air_temperature
