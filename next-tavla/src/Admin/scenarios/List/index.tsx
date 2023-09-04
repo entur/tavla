@@ -20,9 +20,9 @@ function List({ boards }: { boards: { id: string; settings?: TSettings }[] }) {
     const sortBoards = (
         a: { settings?: TSettings },
         b: { settings?: TSettings },
-    ): number => {
-        const titleA = a.settings?.title?.toLowerCase() || ''
-        const titleB = b.settings?.title?.toLowerCase() || ''
+    ) => {
+        const titleA = a.settings?.title?.toLowerCase() ?? ''
+        const titleB = b.settings?.title?.toLowerCase() ?? ''
         if (!selectedSort) return 0
         switch (selectedSort.value) {
             case 'alphabetical':
