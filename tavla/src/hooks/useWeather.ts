@@ -16,16 +16,10 @@ async function getWeather(
     const weatherNameMatch = weatherIcon.match(/.+?(?=_|$)/)
     if (!weatherNameMatch)
         return Promise.reject('No REGEX match found for ' + weatherIcon)
-    const descriptionUrl = `https://api.met.no/weatherapi/weathericon/2.0/legends`
-    const response = await fetch(descriptionUrl)
-    const weatherData = await response.json()
-
-    const description = weatherData[weatherNameMatch.toString()].desc_nb
 
     return {
         meta: weather.properties.meta,
         timeseries: weather.properties.timeseries,
-        description,
     }
 }
 
@@ -55,7 +49,6 @@ function useWeather(): Weather | undefined {
 type Weather = {
     meta: MetaDetails
     timeseries: TimeseriesPoint[]
-    description: string
 }
 
 type MetaDetails = {
