@@ -8,7 +8,11 @@ import { useState } from 'react'
 import { OverflowMenu, OverflowMenuItem } from '@entur/menu'
 import { SecondaryButton } from '@entur/button'
 
-function List({ boards }: { boards: { id: string; settings?: TSettings }[] }) {
+function BoardList({
+    boards,
+}: {
+    boards: { id: string; settings?: TSettings }[]
+}) {
     const [filterSearch, setFilterSearch] = useState('')
     const textSearchRegex = new RegExp(filterSearch, 'i')
     const sortOptions = [
@@ -81,4 +85,4 @@ function List({ boards }: { boards: { id: string; settings?: TSettings }[] }) {
     )
 }
 
-export { List }
+export { BoardList }
