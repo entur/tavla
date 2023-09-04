@@ -12,6 +12,11 @@
     justify-content: space-evenly;
 }
 
+.tags {
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+
 .link {
     display: flex;
     flex-direction: row;

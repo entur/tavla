@@ -8,7 +8,7 @@
     grid-template-columns: 3fr 5fr 3fr 5rem;
 }
 
-.tableCell {
+.tableHeaderCell {
     display: flex;
     align-items: center;
     justify-content: flex-start;
