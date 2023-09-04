@@ -1461,6 +1461,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/tooltip@npm:2.6.26":
+  version: 2.6.26
+  resolution: "@entur/tooltip@npm:2.6.26"
+  dependencies:
+    "@entur/button": ^3.1.1
+    "@entur/icons": ^6.4.2
+    "@entur/layout": ^2.1.40
+    "@entur/tokens": ^3.10.0
+    "@entur/utils": ^0.9.4
+    "@popperjs/core": ^2.10.1
+    classnames: ^2.3.1
+    react-popper: ~2.2.5
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: fe9f692dcd30c17603829ddf851ce3d13eacb95b99981689ec2fa159da897920b5d36817cfaa11c2798e17eccc6ff16926518ae026eebc146916691e6055e671
+  languageName: node
+  linkType: hard
+
 "@entur/tooltip@npm:^2.6.19":
   version: 2.6.19
   resolution: "@entur/tooltip@npm:2.6.19"
@@ -12517,6 +12536,7 @@ __metadata:
     "@entur/modal": 1.7.3
     "@entur/tab": 0.4.51
     "@entur/tokens": 3.8.1
+    "@entur/tooltip": 2.6.26
     "@entur/travel": 6.0.18
     "@entur/typography": 1.8.0
     "@firebase/database-types": 0.10.4
