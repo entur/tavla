@@ -4,6 +4,11 @@
     gap: 2rem;
 }
 
+.tableFunctions {
+    display: flex;
+    gap: 1rem;
+}
+
 .table {
     display: flex;
     flex-direction: column;
@@ -15,5 +20,15 @@
 }
 
 .search {
+    width: 15rem;
+}
+
+.sort {
+    width: 10rem;
+}
+
+.sortItem {
+    display: flex;
+    justify-content: space-between;
     width: 15rem;
 }
