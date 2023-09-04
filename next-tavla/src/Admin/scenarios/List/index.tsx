@@ -3,8 +3,10 @@ import { Row } from '../Row'
 import { TSettings } from 'types/settings'
 import classes from './styles.module.css'
 import { TextField } from '@entur/form'
-import { SearchIcon } from '@entur/icons'
+import { CheckIcon, SearchIcon } from '@entur/icons'
 import { useState } from 'react'
+import { OverflowMenu, OverflowMenuItem } from '@entur/menu'
+import { SecondaryButton } from '@entur/button'
 
 function List({ boards }: { boards: { id: string; settings?: TSettings }[] }) {
     const [filterSearch, setFilterSearch] = useState('')
@@ -34,13 +36,34 @@ function List({ boards }: { boards: { id: string; settings?: TSettings }[] }) {
 
     return (
         <div className={classes.tableWrapper}>
-            <TextField
-                className={classes.search}
-                label="Søk på navn på tavle"
-                prepend={<SearchIcon inline />}
-                value={filterSearch}
-                onChange={(e) => setFilterSearch(e.target.value)}
-            />
+            <div className={classes.tableFunctions}>
+                <TextField
+                    className={classes.search}
+                    label="Søk på navn på tavle"
+                    prepend={<SearchIcon inline />}
+                    value={filterSearch}
+                    onChange={(e) => setFilterSearch(e.target.value)}
+                />
+                <OverflowMenu
+                    className={classes.sort}
+                    button={<SecondaryButton>Sorter</SecondaryButton>}
+                >
+                    {sortOptions.map((option) => (
+                        <OverflowMenuItem
+                            className={classes.sortItem}
+                            key={option.value}
+                            onSelect={() => {
+                                setSelectedSort(option)
+                            }}
+                        >
+                            {option.label}
+                            {selectedSort?.value === option.value && (
+                                <CheckIcon inline />
+                            )}
+                        </OverflowMenuItem>
+                    ))}
+                </OverflowMenu>
+            </div>
             <div className={classes.table}>
                 <TableHeader />
                 <div className={classes.tableBody}>
