@@ -1,0 +1,27 @@
+.popover {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--colors-brand-white);
+    color: var(--colors-misc-black);
+    width: 18rem;
+    height: 100%;
+    padding: 1rem;
+}
+
+.header {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.heading {
+    color: var(--colors-misc-black);
+    margin-top: 0rem;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: small;
+}
