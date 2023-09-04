@@ -13,12 +13,26 @@ describe('<AddTile />', () => {
             tiles: [],
         })
 
+        const mockUser = {
+            aud: 'test',
+            auth_time: 1234,
+            exp: 1234,
+            firebase: {
+                identities: {},
+                sign_in_provider: 'password',
+            },
+            iat: 1630841265,
+            iss: 'test',
+            sub: 'test-unique-id',
+            uid: 'test-unique-id',
+        }
+
         return (
             <Contrast>
                 <ToastProvider>
                     <SettingsDispatchContext.Provider value={dispatch}>
                         <AddTile />
-                        <TilesOverview tiles={settings.tiles} user={null} />
+                        <TilesOverview tiles={settings.tiles} user={mockUser} />
                     </SettingsDispatchContext.Provider>
                 </ToastProvider>
             </Contrast>
