@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react'
 import { Board } from 'types/board'
 import classes from './styles.module.css'
 import tableClasses from 'styles/pages/boardstable.module.css'
-import { AddTag, Tag } from 'Admin/components/Tags'
+import { Tag } from 'Admin/components/Tags'
 import { removeTagFromBoard, addTagToBoard } from 'utils/firebase'
+import { AddTag } from '../AddTag'
 
 function Row({ board }: { board: Board }) {
     const { addToast } = useToast()
