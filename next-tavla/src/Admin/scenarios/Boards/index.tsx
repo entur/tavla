@@ -1,6 +1,6 @@
 import { Heading2 } from '@entur/typography'
 import classes from './styles.module.css'
-import { List } from '../List'
+import { BoardList } from '../BoardList'
 import { TSettings } from 'types/settings'
 import dynamic from 'next/dynamic'
 
@@ -13,7 +13,7 @@ function Boards({
         <div className={classes.adminWrapper}>
             <Heading2>Mine Tavler</Heading2>
             <div>
-                <List boards={boards} />
+                <BoardList boards={boards} />
             </div>
         </div>
     )
