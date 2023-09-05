@@ -6,29 +6,12 @@ import { useEffect, useState } from 'react'
 import { Board } from 'types/board'
 import classes from './styles.module.css'
 import tableClasses from 'styles/pages/boardstable.module.css'
-import { Tag } from 'Admin/components/Tags'
-import { removeTagFromBoard, addTagToBoard } from 'utils/firebase'
-import { AddTag } from '../AddTag'
+import { Tags } from '../Tags'
 
 function Row({ board }: { board: Board }) {
     const { addToast } = useToast()
     const router = useRouter()
     const [link, setLink] = useState('')
-    const [tags, setTags] = useState<string[]>(board.settings?.tags ?? [])
-
-    const deleteTag = (tag: string) => {
-        setTags(tags.filter((t) => t !== tag))
-        removeTagFromBoard(board.id, tag).catch(() => {
-            setTags(tags)
-        })
-    }
-
-    const addTag = (tag: string) => {
-        setTags([...tags, tag])
-        addTagToBoard(board.id, tag).catch(() => {
-            setTags(tags)
-        })
-    }
 
     useEffect(() => {
         setLink(window.location.origin + '/' + board.id)
@@ -57,19 +40,13 @@ function Row({ board }: { board: Board }) {
                     </IconButton>
                 </div>
             </div>
-            <div className={`${classes.dataCell} ${classes.tags}`}>
-                {tags.map((tag) => (
-                    <Tag
-                        key={tag}
-                        tag={tag}
-                        deleteHandler={() => deleteTag(tag)}
-                    />
-                ))}
-                <AddTag
-                    tags={['Trondheim', 'Flyplass', 'Skole']}
-                    addTagToBoardHandler={addTag}
-                />
-            </div>
+
+            <Tags
+                className={`${classes.dataCell} ${classes.tags}`}
+                boardId={board.id}
+                boardTags={board.settings?.tags}
+            />
+
             <div className={`${classes.dataCell} ${classes.options}`}>
                 <IconButton aria-label="Rediger tavle" onClick={editBoard}>
                     <EditIcon />
