@@ -1,14 +1,12 @@
-.contentRow {
+.tableRow {
+    display: grid;
+    grid-template-columns: 3fr 26rem 5fr 3rem;
     padding: 1rem 0;
     border-bottom: var(--colors-blues-blue20) solid;
 }
 
-.dataCell {
-    display: flex;
-    align-items: center;
-}
-
 .options {
+    text-align: center;
     justify-content: space-evenly;
 }
 
@@ -21,4 +19,17 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.headerCell {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-weight: 500;
+    color: var(--colors-brand-lavender);
+}
+
+.textCenteredCell {
+    display: block;
+    text-align: center;
 }

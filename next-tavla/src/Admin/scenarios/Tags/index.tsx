@@ -6,11 +6,9 @@ import { removeTagFromBoard, addTagToBoard } from 'utils/firebase'
 function Tags({
     boardId,
     boardTags,
-    className,
 }: {
     boardId: string
     boardTags?: string[]
-    className?: string
 }) {
     const [tags, setTags] = useState<string[]>(boardTags ?? [])
 
@@ -29,7 +27,7 @@ function Tags({
     }
 
     return (
-        <div className={className}>
+        <>
             {tags.map((tag) => (
                 <Tag key={tag} tag={tag} deleteHandler={() => deleteTag(tag)} />
             ))}
@@ -37,7 +35,7 @@ function Tags({
                 tags={['Trondheim', 'Flyplass', 'Skole']}
                 addTagToBoardHandler={addTag}
             />
-        </div>
+        </>
     )
 }
 

@@ -1,4 +1,4 @@
-import { TableHeader } from '../TableHeader'
+import { TableHeader } from './components/Row'
 import { Row } from './components/Row'
 import { TSettings } from 'types/settings'
 import classes from './styles.module.css'
