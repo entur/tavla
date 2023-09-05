@@ -46,7 +46,10 @@ function DeleteTile({ uuid }: { uuid?: string }) {
                 </div>
             </Modal>
 
-            <SecondarySquareButton onClick={openModal}>
+            <SecondarySquareButton
+                aria-label="Slett holdeplass"
+                onClick={openModal}
+            >
                 <DeleteIcon />
             </SecondarySquareButton>
         </>
