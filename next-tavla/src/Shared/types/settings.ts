@@ -5,6 +5,7 @@ export type TTheme = 'entur' | 'dark' | 'light'
 export type TBoard = {
     id?: TBoardID
     title?: string
+    dateModified?: DateTime
     tiles: TTile[]
     version?: number
     theme?: TTheme

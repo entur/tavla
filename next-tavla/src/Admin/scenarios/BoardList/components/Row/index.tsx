@@ -47,6 +47,23 @@ function Row({ board }: { board: TBoard }) {
                     </IconButton>
                 </Tooltip>
             </Cell>
+            <div className={classes.dataCell}>
+                {board.settings?.dateModified &&
+                    new Date(board.settings.dateModified)
+                        .toLocaleString('no-NB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                        })
+                        .replace(',', '')}
+            </div>
+            <div className={classes.dataCell}>
+                <IconButton aria-label="Rediger tavle" onClick={editBoard}>
+                    <EditIcon />
+                </IconButton>
+            </div>
         </div>
     )
 }
