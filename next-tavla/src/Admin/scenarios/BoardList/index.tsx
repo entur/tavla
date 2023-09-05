@@ -1,5 +1,5 @@
 import { TableHeader } from '../TableHeader'
-import { Row } from '../Row'
+import { Row } from './components/Row'
 import { TSettings } from 'types/settings'
 import classes from './styles.module.css'
 import { TextField } from '@entur/form'

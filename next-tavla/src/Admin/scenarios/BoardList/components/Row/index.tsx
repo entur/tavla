@@ -5,6 +5,7 @@ import { useToast } from '@entur/alert'
 import { useRouter } from 'next/router'
 import classes from './styles.module.css'
 import { useEffect, useState } from 'react'
+import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
 
 function Row({ board }: { board: { id: string; settings?: TSettings } }) {
     const { addToast } = useToast()
@@ -21,28 +22,24 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
 
     return (
         <div className={classes.tableRow}>
-            <div className={classes.dataCell}>
-                {board.settings?.title ?? 'Tavla'}
-            </div>
-            <div className={classes.dataCell}>
-                <div className={classes.link}>
-                    {link}
-                    <IconButton
-                        aria-label="Kopier lenke"
-                        onClick={() => {
-                            navigator.clipboard.writeText(link)
-                            addToast('Lenke til Tavla kopiert')
-                        }}
-                    >
-                        <CopyIcon />
-                    </IconButton>
-                </div>
-            </div>
-            <div className={classes.dataCell}>
+            <Cell>{board.settings?.title ?? 'Tavla'}</Cell>
+            <Cell className={classes.link}>
+                {link}
+                <IconButton
+                    aria-label="Kopier lenke"
+                    onClick={() => {
+                        navigator.clipboard.writeText(link)
+                        addToast('Lenke til Tavla kopiert')
+                    }}
+                >
+                    <CopyIcon />
+                </IconButton>
+            </Cell>
+            <Cell>
                 <IconButton aria-label="Rediger tavle" onClick={editBoard}>
                     <EditIcon />
                 </IconButton>
-            </div>
+            </Cell>
         </div>
     )
 }

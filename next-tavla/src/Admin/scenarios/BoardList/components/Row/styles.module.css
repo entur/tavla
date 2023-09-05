@@ -5,11 +5,6 @@
     border-bottom: var(--colors-blues-blue20) solid;
 }
 
-.dataCell {
-    display: flex;
-    align-items: center;
-}
-
 .link {
     display: flex;
     flex-direction: row;
