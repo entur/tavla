@@ -22,8 +22,6 @@ function Row({ board }: { board: TBoard }) {
         await router.push('/edit/' + board.id)
     }
 
-    console.log('settings', board.settings)
-
     return (
         <div className={classes.tableRow}>
             <Cell>{board?.title ?? 'Tavla'}</Cell>
