@@ -23,7 +23,7 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
     return (
         <div className={classes.tableRow}>
             <Cell>{board.settings?.title ?? 'Tavla'}</Cell>
-            <Cell className={`${classes.link}`}>
+            <Cell className={classes.link}>
                 {link}
                 <IconButton
                     aria-label="Kopier lenke"
