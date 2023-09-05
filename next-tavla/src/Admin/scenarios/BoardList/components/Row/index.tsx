@@ -22,6 +22,8 @@ function Row({ board }: { board: TBoard }) {
         await router.push('/edit/' + board.id)
     }
 
+    console.log('settings', board.settings)
+
     return (
         <div className={classes.tableRow}>
             <Cell>{board?.title ?? 'Tavla'}</Cell>
@@ -48,8 +50,20 @@ function Row({ board }: { board: TBoard }) {
                 </Tooltip>
             </Cell>
             <div className={classes.dataCell}>
-                {board.settings?.dateModified &&
-                    new Date(board.settings.dateModified)
+                {board.settings?.dates?.dateModified &&
+                    new Date(board.settings.dates.dateModified)
+                        .toLocaleString('no-NB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                        })
+                        .replace(',', '')}
+            </div>
+            <div className={classes.dataCell}>
+                {board.settings?.dates?.created &&
+                    new Date(board.settings.dates.created)
                         .toLocaleString('no-NB', {
                             day: '2-digit',
                             month: '2-digit',

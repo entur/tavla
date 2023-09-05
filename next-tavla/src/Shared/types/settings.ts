@@ -1,3 +1,4 @@
+import { dates } from './dates'
 import { TTile } from './tile'
 
 export type TTheme = 'entur' | 'dark' | 'light'
@@ -5,7 +6,7 @@ export type TTheme = 'entur' | 'dark' | 'light'
 export type TBoard = {
     id?: TBoardID
     title?: string
-    dateModified?: DateTime
+    dates?: dates
     tiles: TTile[]
     version?: number
     theme?: TTheme
