@@ -25,3 +25,7 @@
     gap: 0.3rem;
     font-size: small;
 }
+
+.closeButton:hover {
+    background-color: var(--colors-blues-blue70) !important;
+}
