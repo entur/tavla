@@ -5,6 +5,7 @@ import { Heading1 } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { useState } from 'react'
 import classes from './styles.module.css'
+import { Tooltip } from '@entur/tooltip'
 
 function BoardTitle({ title }: { title?: string }) {
     const [isEditing, setIsEditing] = useState(false)
@@ -16,14 +17,14 @@ function BoardTitle({ title }: { title?: string }) {
         return (
             <div className={classes.editTitle}>
                 <Heading1 className={classes.title}>{boardTitle}</Heading1>
-                <SecondarySquareButton
-                    className={classes.squareButton}
-                    onClick={() => {
-                        setIsEditing(true)
-                    }}
-                >
-                    <EditIcon aria-label="Rediger tittel" />
-                </SecondarySquareButton>
+                <Tooltip content="Rediger tittel" placement="right">
+                    <SecondarySquareButton
+                        className={classes.squareButton}
+                        onClick={() => setIsEditing(true)}
+                    >
+                        <EditIcon aria-label="Rediger tittel" />
+                    </SecondarySquareButton>
+                </Tooltip>
             </div>
         )
     }
