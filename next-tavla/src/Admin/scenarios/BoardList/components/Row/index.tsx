@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import classes from './styles.module.css'
 import { useEffect, useState } from 'react'
 import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
+import { Tooltip } from '@entur/tooltip'
 
 function Row({ board }: { board: { id: string; settings?: TSettings } }) {
     const { addToast } = useToast()
@@ -25,20 +26,24 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
             <Cell>{board.settings?.title ?? 'Tavla'}</Cell>
             <Cell className={classes.link}>
                 {link}
-                <IconButton
-                    aria-label="Kopier lenke"
-                    onClick={() => {
-                        navigator.clipboard.writeText(link)
-                        addToast('Lenke til Tavla kopiert')
-                    }}
-                >
-                    <CopyIcon />
-                </IconButton>
+                <Tooltip content="Kopier lenke" placement="bottom">
+                    <IconButton
+                        aria-label="Kopier lenke"
+                        onClick={() => {
+                            navigator.clipboard.writeText(link)
+                            addToast('Lenke til Tavla kopiert')
+                        }}
+                    >
+                        <CopyIcon />
+                    </IconButton>
+                </Tooltip>
             </Cell>
             <Cell>
-                <IconButton aria-label="Rediger tavle" onClick={editBoard}>
-                    <EditIcon />
-                </IconButton>
+                <Tooltip content="Rediger tavle" placement="bottom">
+                    <IconButton aria-label="Rediger tavle" onClick={editBoard}>
+                        <EditIcon />
+                    </IconButton>
+                </Tooltip>
             </Cell>
         </div>
     )
