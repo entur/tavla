@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import classes from './styles.module.css'
 import { useEffect, useState } from 'react'
 import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
+import { Info } from 'Admin/scenarios/Info'
 
 function Row({ board }: { board: { id: string; settings?: TSettings } }) {
     const { addToast } = useToast()
@@ -36,6 +37,7 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
                 </IconButton>
             </Cell>
             <Cell>
+                <Info board={board} />
                 <IconButton aria-label="Rediger tavle" onClick={editBoard}>
                     <EditIcon />
                 </IconButton>
