@@ -16,6 +16,7 @@ function BoardTitle({ title }: { title?: string }) {
 
     useEffect(() => {
         if (isEditing) {
+            inputRef.current?.focus()
             inputRef.current?.select()
         }
     }, [isEditing, inputRef])
@@ -39,6 +40,7 @@ function BoardTitle({ title }: { title?: string }) {
     return (
         <div className={classes.editTitle}>
             <TextField
+                id="boardTitle-input"
                 defaultValue={boardTitle}
                 size="medium"
                 label="Navn på tavlen"
