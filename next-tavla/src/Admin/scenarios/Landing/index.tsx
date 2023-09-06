@@ -11,11 +11,13 @@ import { Contrast } from '@entur/layout'
 import classNames from 'classnames'
 import { Login } from '../Login'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
+import { useFeatureFlags } from 'hooks/useFeatureFlags'
 
 function Landing({ user }: { user: DecodedIdToken | null }) {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const LOGIN_ENABLED = useFeatureFlags('LOGIN')
 
     async function handleCreateNewBoard() {
         if (!user) {
@@ -31,13 +33,15 @@ function Landing({ user }: { user: DecodedIdToken | null }) {
 
     return (
         <div className={classes.container}>
-            <div className={classes.floatingButtonWrapper}>
-                <Login
-                    user={user}
-                    isOpen={isModalOpen}
-                    onCloseModal={() => setIsModalOpen(false)}
-                />
-            </div>
+            {LOGIN_ENABLED && (
+                <div className={classes.floatingButtonWrapper}>
+                    <Login
+                        user={user}
+                        isOpen={isModalOpen}
+                        onCloseModal={() => setIsModalOpen(false)}
+                    />
+                </div>
+            )}
             <Contrast className={classes.centeredContainer}>
                 <div className={classes.headingContainer}>
                     <Heading1>Lag din egen avgangstavle</Heading1>
