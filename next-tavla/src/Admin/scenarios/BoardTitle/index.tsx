@@ -26,9 +26,7 @@ function BoardTitle({ title }: { title?: string }) {
                 <Heading1 className={classes.title}>{boardTitle}</Heading1>
                 <SecondarySquareButton
                     className={classes.squareButton}
-                    onClick={() => {
-                        setIsEditing(true)
-                    }}
+                    onClick={() => setIsEditing(true)}
                 >
                     <EditIcon aria-label="Rediger tittel" />
                 </SecondarySquareButton>
