@@ -9,7 +9,6 @@ import {
 import { CloseIcon, OutlinedValidationInfoIcon } from '@entur/icons'
 import { Heading5 } from '@entur/typography'
 import classes from './styles.module.css'
-import { useState } from 'react'
 function Info({ board }: { board: { id: string; settings?: TSettings } }) {
     return (
         <Popover>
