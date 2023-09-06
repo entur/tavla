@@ -40,6 +40,7 @@
         "@entur/modal": "1.7.3",
         "@entur/tab": "0.4.51",
         "@entur/tokens": "3.8.1",
+        "@entur/tooltip": "2.6.26",
         "@entur/travel": "6.0.18",
         "@entur/typography": "1.8.0",
         "@firebase/database-types": "0.10.4",
