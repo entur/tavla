@@ -15,7 +15,6 @@ function BoardTitle({ title }: { title?: string }) {
 
     useEffect(() => {
         if (isEditing) {
-            inputRef.current?.focus()
             inputRef.current?.select()
         }
     }, [isEditing, inputRef])
