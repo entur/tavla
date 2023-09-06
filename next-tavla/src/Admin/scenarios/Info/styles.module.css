@@ -3,7 +3,7 @@
     flex-direction: column;
     background-color: var(--colors-brand-white);
     color: var(--colors-misc-black);
-    width: 18rem;
+    width: 100%;
     height: 100%;
     padding: 1rem;
 }
@@ -11,6 +11,7 @@
 .header {
     display: inline-flex;
     justify-content: space-between;
+    gap: 3rem;
     align-items: center;
 }
 
