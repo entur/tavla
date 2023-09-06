@@ -23,6 +23,15 @@ export async function getServerSideProps({
     const user = await verifySession(session)
     const settings: TSettings | undefined = await getBoardSettings(id)
 
+    if (!user) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+
     if (!settings) {
         return {
             notFound: true,
