@@ -40,8 +40,8 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
                 </Tooltip>
             </Cell>
             <Cell>
+                <Info board={board} />
                 <Tooltip content="Rediger tavle" placement="bottom">
-                    <Info board={board} />
                     <IconButton aria-label="Rediger tavle" onClick={editBoard}>
                         <EditIcon />
                     </IconButton>
