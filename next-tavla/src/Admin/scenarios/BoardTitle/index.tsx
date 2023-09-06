@@ -3,9 +3,8 @@ import { TextField } from '@entur/form'
 import { CheckIcon, CloseIcon, EditIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { createRef, useEffect, useState } from 'react'
+import { useState } from 'react'
 import classes from './styles.module.css'
-import { Tooltip } from '@entur/tooltip'
 
 function BoardTitle({ title }: { title?: string }) {
     const [isEditing, setIsEditing] = useState(false)
@@ -13,24 +12,18 @@ function BoardTitle({ title }: { title?: string }) {
     const boardTitle = title || 'Tavla'
     const [tempTitle, setTempTitle] = useState(boardTitle)
 
-    const inputRef = createRef<HTMLInputElement>()
-
-    useEffect(() => {
-        isEditing && inputRef.current?.focus()
-    }, [isEditing, inputRef])
-
     if (!isEditing) {
         return (
             <div className={classes.editTitle}>
                 <Heading1 className={classes.title}>{boardTitle}</Heading1>
-                <Tooltip content="Rediger tittel" placement="right">
-                    <SecondarySquareButton
-                        className={classes.squareButton}
-                        onClick={() => setIsEditing(true)}
-                    >
-                        <EditIcon aria-label="Rediger tittel" />
-                    </SecondarySquareButton>
-                </Tooltip>
+                <SecondarySquareButton
+                    className={classes.squareButton}
+                    onClick={() => {
+                        setIsEditing(true)
+                    }}
+                >
+                    <EditIcon aria-label="Rediger tittel" />
+                </SecondarySquareButton>
             </div>
         )
     }
@@ -42,11 +35,7 @@ function BoardTitle({ title }: { title?: string }) {
                 defaultValue={boardTitle}
                 size="medium"
                 label="Navn på tavlen"
-                onChange={(e) => {
-                    setTempTitle(e.target.value)
-                }}
-                onFocus={() => inputRef.current?.select()}
-                ref={inputRef}
+                onChange={(e) => setTempTitle(e.target.value)}
             />
             <SecondarySquareButton
                 className={classes.squareButton}
