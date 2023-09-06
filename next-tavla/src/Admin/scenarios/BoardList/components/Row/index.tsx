@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import classes from './styles.module.css'
 import { useEffect, useState } from 'react'
 import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
-import { Info } from '../../../Info'
+import { Info } from 'Admin/scenarios/Info'
 
 function Row({ board }: { board: { id: string; settings?: TSettings } }) {
     const { addToast } = useToast()
