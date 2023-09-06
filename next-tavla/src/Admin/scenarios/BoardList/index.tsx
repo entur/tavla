@@ -7,6 +7,7 @@ import { CheckIcon, SearchIcon } from '@entur/icons'
 import { useState } from 'react'
 import { OverflowMenu, OverflowMenuItem } from '@entur/menu'
 import { SecondaryButton } from '@entur/button'
+import { FilterButton } from './components/FilterButton'
 
 function BoardList({
     boards,
@@ -35,6 +36,19 @@ function BoardList({
                 return titleB.localeCompare(titleA)
             default:
                 return 0
+        }
+    }
+
+    // TODO: Replace with actual tags from organization, user, or all boards
+    const possibleFilters = ['Trondheim', 'Skole', 'Oslo', 'Flyplass', 'Hotell']
+    const [filters, setFilters] = useState<string[]>([])
+
+    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value, checked } = e.target
+        if (checked) {
+            setFilters([...filters, value])
+        } else {
+            setFilters(filters.filter((filter) => filter !== value))
         }
     }
 
@@ -67,11 +81,16 @@ function BoardList({
                         </OverflowMenuItem>
                     ))}
                 </OverflowMenu>
+                <FilterButton
+                    possibleFilters={possibleFilters}
+                    handleFilterChange={handleFilterChange}
+                />
             </div>
             <div className={classes.table}>
                 <TableHeader />
                 <div className={classes.tableBody}>
                     {boards
+                        // TODO: Add filter for tags
                         .filter((board) =>
                             textSearchRegex.test(board.settings?.title ?? ''),
                         )

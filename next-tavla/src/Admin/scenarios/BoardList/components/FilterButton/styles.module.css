@@ -1,0 +1,10 @@
+.filterPopover {
+    padding: 0.5rem;
+}
+
+.filterTags {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 0.5rem;
+    gap: 0.25rem;
+}
