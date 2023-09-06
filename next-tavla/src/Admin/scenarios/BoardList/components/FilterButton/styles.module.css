@@ -3,8 +3,18 @@
 }
 
 .filterTags {
+    padding: 0.5rem;
     display: flex;
     flex-wrap: wrap;
-    padding-top: 0.5rem;
     gap: 0.25rem;
+}
+
+.tagsHeading {
+    margin: 0.5rem;
+}
+
+.popoverHeading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
