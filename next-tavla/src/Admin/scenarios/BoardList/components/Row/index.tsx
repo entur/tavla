@@ -19,7 +19,7 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
     }, [board.id])
 
     async function editBoard() {
-        await router?.push('/edit/' + board.id)
+        await router.push('/edit/' + board.id)
     }
 
     return (
