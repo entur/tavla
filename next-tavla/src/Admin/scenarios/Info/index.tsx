@@ -7,7 +7,7 @@ import {
     PopoverTrigger,
 } from '@entur/tooltip'
 import { CloseIcon, OutlinedValidationInfoIcon } from '@entur/icons'
-import { Heading5 } from '@entur/typography'
+import { Heading2 } from '@entur/typography'
 import classes from './styles.module.css'
 function Info({ board }: { board: { id: string; settings?: TSettings } }) {
     return (
@@ -20,9 +20,9 @@ function Info({ board }: { board: { id: string; settings?: TSettings } }) {
             <PopoverContent>
                 <div className={classes.popover}>
                     <div className={classes.header}>
-                        <Heading5 className={classes.heading}>
+                        <Heading2 className={classes.heading}>
                             {board.settings?.tiles.length} holdeplasser i Tavla
-                        </Heading5>
+                        </Heading2>
                         <PopoverCloseButton>
                             <IconButton aria-label="Lukk popover">
                                 <CloseIcon aria-hidden="true" />

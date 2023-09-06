@@ -1,4 +1,4 @@
-import { Heading2 } from '@entur/typography'
+import { Heading1 } from '@entur/typography'
 import classes from './styles.module.css'
 import { BoardList } from '../BoardList'
 import { TSettings } from 'types/settings'
@@ -11,7 +11,7 @@ function Boards({
 }) {
     return (
         <div className={classes.adminWrapper}>
-            <Heading2>Mine Tavler</Heading2>
+            <Heading1>Mine Tavler</Heading1>
             <div>
                 <BoardList boards={boards} />
             </div>
