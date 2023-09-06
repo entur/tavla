@@ -3,7 +3,7 @@ import { TextField } from '@entur/form'
 import { CheckIcon, CloseIcon, EditIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { useState } from 'react'
+import { createRef, useEffect, useState } from 'react'
 import classes from './styles.module.css'
 
 function BoardTitle({ title }: { title?: string }) {
@@ -11,6 +11,14 @@ function BoardTitle({ title }: { title?: string }) {
     const dispatch = useSettingsDispatch()
     const boardTitle = title || 'Tavla'
     const [tempTitle, setTempTitle] = useState(boardTitle)
+    const inputRef = createRef<HTMLInputElement>()
+
+    useEffect(() => {
+        if (isEditing) {
+            inputRef.current?.focus()
+            inputRef.current?.select()
+        }
+    }, [isEditing, inputRef])
 
     if (!isEditing) {
         return (
@@ -18,7 +26,9 @@ function BoardTitle({ title }: { title?: string }) {
                 <Heading1 className={classes.title}>{boardTitle}</Heading1>
                 <SecondarySquareButton
                     className={classes.squareButton}
-                    onClick={() => setIsEditing(true)}
+                    onClick={() => {
+                        setIsEditing(true)
+                    }}
                 >
                     <EditIcon aria-label="Rediger tittel" />
                 </SecondarySquareButton>
@@ -29,10 +39,12 @@ function BoardTitle({ title }: { title?: string }) {
     return (
         <div className={classes.editTitle}>
             <TextField
+                id="boardTitle-input"
                 defaultValue={boardTitle}
                 size="medium"
                 label="Navn på tavlen"
                 onChange={(e) => setTempTitle(e.target.value)}
+                ref={inputRef}
             />
             <SecondarySquareButton
                 className={classes.squareButton}
