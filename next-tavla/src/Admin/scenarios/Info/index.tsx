@@ -1,19 +1,20 @@
 import { TSettings } from 'types/settings'
 import { IconButton } from '@entur/button'
-import { Popover, PopoverContent, PopoverTrigger } from '@entur/tooltip'
+import {
+    Popover,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverTrigger,
+} from '@entur/tooltip'
 import { CloseIcon, OutlinedValidationInfoIcon } from '@entur/icons'
 import { Heading5 } from '@entur/typography'
 import classes from './styles.module.css'
 import { useState } from 'react'
 function Info({ board }: { board: { id: string; settings?: TSettings } }) {
-    const [show, setShow] = useState(false)
     return (
-        <Popover showPopover={show} setShowPopover={setShow}>
+        <Popover>
             <PopoverTrigger>
-                <IconButton
-                    aria-label="Se mer informasjon om tavle"
-                    onClick={() => setShow(true)}
-                >
+                <IconButton aria-label="Se mer informasjon om tavle">
                     <OutlinedValidationInfoIcon />
                 </IconButton>
             </PopoverTrigger>
@@ -23,13 +24,11 @@ function Info({ board }: { board: { id: string; settings?: TSettings } }) {
                         <Heading5 className={classes.heading}>
                             {board.settings?.tiles.length} holdeplasser i Tavla
                         </Heading5>
-                        <IconButton
-                            aria-label="Lukk popover"
-                            onClick={() => setShow(false)}
-                            className={classes.closeButton}
-                        >
-                            <CloseIcon aria-hidden="true" />
-                        </IconButton>
+                        <PopoverCloseButton>
+                            <IconButton aria-label="Lukk popover">
+                                <CloseIcon aria-hidden="true" />
+                            </IconButton>
+                        </PopoverCloseButton>
                     </div>
                     <div className={classes.list}>
                         {board.settings?.tiles.map((tile) => (
