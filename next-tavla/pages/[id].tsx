@@ -1,6 +1,6 @@
 import { Header } from 'components/Header'
 import { TBoard } from 'types/settings'
-import { getBoardSettings } from 'utils/firebase'
+import { getBoard } from 'utils/firebase'
 import classes from 'styles/pages/board.module.css'
 import { upgradeBoard } from 'utils/converters'
 import { Board } from 'Board/scenarios/Board'
@@ -12,7 +12,7 @@ export async function getServerSideProps({
 }) {
     const { id } = params
 
-    const board: TBoard | undefined = await getBoardSettings(id)
+    const board: TBoard | undefined = await getBoard(id)
 
     if (!board) {
         return {

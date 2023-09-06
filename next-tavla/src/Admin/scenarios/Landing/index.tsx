@@ -1,7 +1,7 @@
 import { Button } from '@entur/button'
 import { Heading1, ListItem, Paragraph, UnorderedList } from '@entur/typography'
 import classes from './styles.module.css'
-import { addBoardSettings } from 'utils/firebase'
+import { addBoard } from 'utils/firebase'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Image from 'next/image'
@@ -16,7 +16,7 @@ function Landing() {
 
     async function handleCreateNewBoard() {
         setLoading(true)
-        const createdBoard = await addBoardSettings({
+        const createdBoard = await addBoard({
             tiles: [],
         })
         await router.push('/edit/' + createdBoard.id)

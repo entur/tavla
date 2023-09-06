@@ -1,7 +1,7 @@
 import { useToast } from '@entur/alert'
 import { useCallback, useEffect, useState } from 'react'
 import { TBoard } from 'types/settings'
-import { setBoardSettings } from 'utils/firebase'
+import { setBoard } from 'utils/firebase'
 
 function useAutoSaveSettings(documentId: string, settings: TBoard) {
     const { addToast } = useToast()
@@ -15,7 +15,7 @@ function useAutoSaveSettings(documentId: string, settings: TBoard) {
             content: 'Innstillingene er lagret',
             variant: 'info',
         })
-        setBoardSettings(documentId, settings)
+        setBoard(documentId, settings)
     }, [addToast, documentId, settings])
 
     useEffect(() => {

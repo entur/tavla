@@ -14,6 +14,7 @@ import { upgradeBoard } from './converters'
 
 const app = initializeClientApp()
 export const auth = getAuth(app)
+export const firestore = getFirestore(app)
 
 export const emailAuthProvider = new EmailAuthProvider()
 
@@ -22,28 +23,25 @@ function initializeClientApp() {
     return initializeApp(FIREBASE_CLIENT_CONFIG)
 }
 
-function safeGetFirestore() {
-    const app = initializeClientApp()
-    return getFirestore(app)
+export async function getBoard(boardId: string) {
+    const document = await getDoc(doc(firestore, 'boards', boardId))
+    return { id: document.id, ...document.data() } as TBoard
 }
 
-export async function getBoardSettings(boardId: string) {
-    const firestore = safeGetFirestore()
-    const document = await getDoc(doc(firestore, 'settings-v2', boardId))
-    return document.data() as TBoard
-}
+export async function setBoard(boardId: string, settings: TBoard) {
+    const docRef = doc(firestore, 'boards', boardId)
 
-export async function setBoardSettings(boardId: string, settings: TBoard) {
-    const firestore = safeGetFirestore()
-    const docRef = doc(firestore, 'settings-v2', boardId)
+    // Remove id field (inherent attribute not needed in firestore)
+    delete settings.id
+
     // Removes explicitly assigned undefined properties on settings
     const sanitizedSettings = JSON.parse(JSON.stringify(settings))
+
     await setDoc(docRef, sanitizedSettings)
 }
 
-export async function addBoardSettings(settings: TBoard) {
-    const firestore = safeGetFirestore()
-    return await addDoc(collection(firestore, 'settings-v2'), settings)
+export async function addBoard(settings: TBoard) {
+    return await addDoc(collection(firestore, 'boards'), settings)
 }
 
 export async function getBoards() {

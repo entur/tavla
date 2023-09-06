@@ -1,7 +1,7 @@
 import { Header } from 'components/Header'
 import { Edit } from 'Admin/scenarios/Edit'
 import { TBoard } from 'types/settings'
-import { getBoardSettings } from 'utils/firebase'
+import { getBoard } from 'utils/firebase'
 import classes from 'styles/pages/admin.module.css'
 import { Contrast } from '@entur/layout'
 import { upgradeBoard } from 'utils/converters'
@@ -21,7 +21,7 @@ export async function getServerSideProps({
 
     const session = req.cookies['session']
     const user = await verifySession(session)
-    const settings: TBoard | undefined = await getBoardSettings(id)
+    const settings: TBoard | undefined = await getBoard(id)
 
     if (!settings) {
         return {
