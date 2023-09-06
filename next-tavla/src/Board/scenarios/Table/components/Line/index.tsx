@@ -3,6 +3,7 @@ import { DeparturesContext } from '../../contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import classes from './styles.module.css'
+import { TransportIcon } from '../TransportIcon'
 
 function Line() {
     const departures = useNonNullContext(DeparturesContext)
@@ -25,6 +26,11 @@ function Line() {
                             }-color)`,
                         }}
                     >
+                        <TransportIcon
+                            key={line.transportMode}
+                            transport={line.transportMode}
+                            color="var(--colors-misc-black)"
+                        />
                         {line.publicCode}
                     </div>
                 </TableRow>
