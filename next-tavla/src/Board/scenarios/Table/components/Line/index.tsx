@@ -19,6 +19,9 @@ function Line() {
             {lines.map((line) => (
                 <TableRow key={line.key}>
                     <div
+                        aria-label={`${
+                            transportModeNames[line.transportMode]
+                        } - linje ${line.publicCode}`}
                         className={classes.line}
                         style={{
                             backgroundColor: `var(--table-transport-${
