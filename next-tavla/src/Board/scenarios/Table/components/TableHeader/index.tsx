@@ -1,24 +1,9 @@
-import { TransportIcon } from '../TransportIcon'
 import classes from './styles.module.css'
-import { TTransportMode } from 'types/graphql-schema'
 
-function TableHeader({
-    heading,
-    transportModes,
-}: {
-    heading: string
-    transportModes: (TTransportMode | null)[] | null
-}) {
+function TableHeader({ heading }: { heading: string }) {
     return (
         <div className={classes.tableHeaderWrapper}>
             <h1 className={classes.heading}>{heading}</h1>
-            {transportModes && (
-                <div>
-                    {transportModes.map((mode) => (
-                        <TransportIcon key={mode} transport={mode} />
-                    ))}
-                </div>
-            )}
         </div>
     )
 }
