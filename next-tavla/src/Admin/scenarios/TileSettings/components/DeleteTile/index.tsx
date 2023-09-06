@@ -9,6 +9,7 @@ import { Paragraph } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { useState } from 'react'
 import classes from './styles.module.css'
+import { Tooltip } from '@entur/tooltip'
 
 function DeleteTile({ uuid }: { uuid?: string }) {
     const dispatch = useSettingsDispatch()
@@ -45,13 +46,11 @@ function DeleteTile({ uuid }: { uuid?: string }) {
                     </PrimaryButton>
                 </div>
             </Modal>
-
-            <SecondarySquareButton
-                aria-label="Slett holdeplass"
-                onClick={openModal}
-            >
-                <DeleteIcon />
-            </SecondarySquareButton>
+            <Tooltip content="Slett holdeplass" placement="bottom">
+                <SecondarySquareButton onClick={openModal}>
+                    <DeleteIcon />
+                </SecondarySquareButton>
+            </Tooltip>
         </>
     )
 }
