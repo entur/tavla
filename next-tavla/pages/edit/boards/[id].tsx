@@ -4,7 +4,7 @@ import { ToastProvider } from '@entur/alert'
 import { Header } from 'components/Header'
 import { Boards } from 'Admin/scenarios/Boards'
 import { checkFeatureFlags } from 'utils/featureFlags'
-import { getBoards } from 'utils/firebase'
+// import { getBoardsForUser } from 'utils/firebase'
 
 export async function getServerSideProps() {
     const featureFlag = await checkFeatureFlags('BOARDS')
@@ -17,7 +17,8 @@ export async function getServerSideProps() {
         }
     }
 
-    const boards = await getBoards()
+    // const boards = await getBoards()
+    const boards: TBoard[] = []
 
     return {
         props: {

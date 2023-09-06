@@ -1,19 +1,22 @@
-import { TBoard } from 'types/settings'
+import { TBoard, TUser, TUserID } from 'types/settings'
 import { getApp, getApps, initializeApp } from 'firebase/app'
-import { EmailAuthProvider, getAuth } from 'firebase/auth'
+import { EmailAuthProvider, getAuth, Persistence } from 'firebase/auth'
 import {
     getDoc,
+    getDocs,
     addDoc,
     setDoc,
     doc,
+    query,
+    where,
     collection,
     getFirestore,
 } from '@firebase/firestore/lite'
 import { FIREBASE_CLIENT_CONFIG } from 'assets/env'
-import { upgradeBoard } from './converters'
 
 const app = initializeClientApp()
 export const auth = getAuth(app)
+auth.setPersistence('NONE' as unknown as Persistence)
 export const firestore = getFirestore(app)
 
 export const emailAuthProvider = new EmailAuthProvider()
@@ -28,47 +31,35 @@ export async function getBoard(boardId: string) {
     return { id: document.id, ...document.data() } as TBoard
 }
 
-export async function setBoard(boardId: string, settings: TBoard) {
-    const docRef = doc(firestore, 'boards', boardId)
+// export async function setBoard(boardId: string, settings: TBoard) {
+//     const docRef = doc(firestore, 'boards', boardId)
 
-    // Remove id field (inherent attribute not needed in firestore)
-    delete settings.id
+//     // Remove id field (inherent attribute not needed in firestore)
+//     delete settings.id
 
-    // Removes explicitly assigned undefined properties on settings
-    const sanitizedSettings = JSON.parse(JSON.stringify(settings))
+//     // Removes explicitly assigned undefined properties on settings
+//     const sanitizedSettings = JSON.parse(JSON.stringify(settings))
 
-    await setDoc(docRef, sanitizedSettings)
-}
+//     await setDoc(docRef, sanitizedSettings)
+// }
 
-export async function addBoard(settings: TBoard) {
-    return await addDoc(collection(firestore, 'boards'), settings)
-}
+// export async function addBoard(settings: TBoard) {
+//     return await addDoc(collection(firestore, 'boards'), settings)
+// }
 
-export async function getBoards() {
-    //when login is fixed:
-    // 1. take user id as params
-    // 2. create getBoards function in firebase.ts that gets all boards for a user based on user id
-    // 3. use getBoards function instead of getBoardSettings to get all boards for a user
-    // 4. remove ids const
-    const ids = [
-        'Malre1Dx5zLE086AzpFH',
-        'oMgfeCRUZ4sfD8xXXG8M',
-        '8EyKHHP5Ie2HisOO2ilt',
-    ]
+// export async function getBoardsForUser(userId: TUserID) {
+//     const user = (await getDoc(doc(firestore, 'users', userId))).data() as TUser
 
-    const settingsPromises = ids.map(async (id: string) => {
-        const settings = await getBoardSettings(id)
-        return { id, settings }
-    })
+//     const boardIDs = user.owner?.concat(user.editor ?? []) // Combine owner and editor
 
-    const allSettingsWithIds = await Promise.all(settingsPromises)
+//     const boardsQuery = query(
+//         collection(firestore, 'boards'),
+//         where('Document ID', 'in', boardIDs),
+//     )
 
-    const convertedSettings = allSettingsWithIds.map(({ id, settings }) => {
-        return {
-            id,
-            settings: settings ? upgradeBoard(settings) : null,
-        }
-    })
+//     const boards = await getDocs(boardsQuery)
 
-    return convertedSettings
-}
+//     return boards.docs.map(
+//         (board) => ({ id: board.id, ...board.data() } as TBoard),
+//     )
+// }
