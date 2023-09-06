@@ -82,6 +82,7 @@ function BoardList({
                     ))}
                 </OverflowMenu>
                 <FilterButton
+                    activeFiltersLength={filters.length}
                     possibleFilters={possibleFilters}
                     handleFilterChange={handleFilterChange}
                 />

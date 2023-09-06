@@ -9,20 +9,26 @@ import {
 } from '@entur/tooltip'
 import { Heading4 } from '@entur/typography'
 import classes from './styles.module.css'
+import { NotificationBadge } from '@entur/layout'
 
 function FilterButton({
+    activeFiltersLength,
     possibleFilters,
     handleFilterChange,
 }: {
+    activeFiltersLength: number
     possibleFilters: string[]
     handleFilterChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }) {
     return (
         <Popover>
             <PopoverTrigger>
-                <SecondaryButton>
+                <SecondaryButton className={classes.filterButton}>
                     <AdjustmentsIcon aria-hidden="true" />
                     Filtrer
+                    <NotificationBadge variant="primary">
+                        {activeFiltersLength}
+                    </NotificationBadge>
                 </SecondaryButton>
             </PopoverTrigger>
             <PopoverContent>
