@@ -11,13 +11,13 @@ import { Contrast } from '@entur/layout'
 import classNames from 'classnames'
 import { Login } from '../Login'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
-import { useFeatureFlags } from 'hooks/useFeatureFlags'
+import { checkFeatureFlags } from 'utils/featureFlags'
 
 function Landing({ user }: { user: DecodedIdToken | null }) {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const LOGIN_ENABLED = useFeatureFlags('LOGIN')
+    const LOGIN_ENABLED = checkFeatureFlags('LOGIN')
 
     async function handleCreateNewBoard() {
         if (!user) {
