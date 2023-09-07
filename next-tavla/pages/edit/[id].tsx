@@ -9,6 +9,7 @@ import { ToastProvider } from '@entur/alert'
 import { IncomingNextMessage } from 'types/next'
 import { verifySession } from 'Admin/utils/firebase'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
+import { checkFeatureFlags } from 'utils/featureFlags'
 
 export async function getServerSideProps({
     params,
@@ -18,12 +19,13 @@ export async function getServerSideProps({
     req: IncomingNextMessage
 }) {
     const { id } = params
+    const LOGIN_ENABLED = await checkFeatureFlags('LOGIN')
 
     const session = req.cookies['session']
     const user = await verifySession(session)
     const settings: TSettings | undefined = await getBoardSettings(id)
 
-    if (!user) {
+    if (!user && LOGIN_ENABLED) {
         return {
             redirect: {
                 destination: '/',

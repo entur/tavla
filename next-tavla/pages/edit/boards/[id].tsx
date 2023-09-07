@@ -6,10 +6,31 @@ import { Boards } from 'Admin/scenarios/Boards'
 import { TSettings } from 'types/settings'
 import { checkFeatureFlags } from 'utils/featureFlags'
 import { getBoards } from 'utils/firebase'
+import { IncomingNextMessage } from 'types/next'
+import { verifySession } from 'Admin/utils/firebase'
 
-export async function getServerSideProps() {
-    const featureFlag = await checkFeatureFlags('BOARDS')
-    if (!featureFlag) {
+export async function getServerSideProps({
+    req,
+}: {
+    req: IncomingNextMessage
+}) {
+    const BOARDS_ENABLED = await checkFeatureFlags('BOARDS')
+
+    if (!BOARDS_ENABLED) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+
+    const LOGIN_ENABLED = await checkFeatureFlags('LOGIN')
+
+    const session = req.cookies['session']
+    const user = await verifySession(session)
+
+    if (!user && LOGIN_ENABLED) {
         return {
             redirect: {
                 destination: '/',

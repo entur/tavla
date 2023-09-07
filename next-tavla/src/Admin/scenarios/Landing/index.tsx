@@ -20,7 +20,7 @@ function Landing({ user }: { user: DecodedIdToken | null }) {
     const LOGIN_ENABLED = checkFeatureFlags('LOGIN')
 
     async function handleCreateNewBoard() {
-        if (!user) {
+        if (!user && LOGIN_ENABLED) {
             setIsModalOpen(true)
             return
         }
