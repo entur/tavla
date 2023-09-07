@@ -1,4 +1,4 @@
-import { getBearerTokenFromRequest } from 'Admin/utils'
+import { getBearerTokenFromRequest } from 'Admin/utils/auth'
 import { initializeAdminApp } from 'Admin/utils/firebase'
 import { auth } from 'firebase-admin'
 import { NextApiRequest, NextApiResponse } from 'next'

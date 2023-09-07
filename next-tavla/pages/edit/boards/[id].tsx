@@ -4,6 +4,7 @@ import { ToastProvider } from '@entur/alert'
 import { Header } from 'components/Header'
 import { Boards } from 'Admin/scenarios/Boards'
 import { checkFeatureFlags } from 'utils/featureFlags'
+import { TBoard } from 'types/settings'
 // import { getBoardsForUser } from 'utils/firebase'
 
 export async function getServerSideProps() {
