@@ -19,23 +19,24 @@ function Line() {
         <TableColumn title="Linje">
             {lines.map((line) => (
                 <TableRow key={line.key}>
-                    <div
-                        aria-label={`${
-                            transportModeNames[line.transportMode]
-                        } - linje ${line.publicCode}`}
-                        className={classes.line}
-                        style={{
-                            backgroundColor: `var(--table-transport-${
-                                line.transportMode ?? 'unknown'
-                            }-color)`,
-                        }}
-                    >
+                    <div className={classes.row}>
                         <TransportIcon
                             key={line.transportMode}
                             transport={line.transportMode}
-                            color="var(--colors-misc-black)"
                         />
-                        {line.publicCode}
+                        <div
+                            aria-label={`${
+                                transportModeNames[line.transportMode]
+                            } - linje ${line.publicCode}`}
+                            className={classes.line}
+                            style={{
+                                backgroundColor: `var(--table-transport-${
+                                    line.transportMode ?? 'unknown'
+                                }-color)`,
+                            }}
+                        >
+                            {line.publicCode}
+                        </div>
                     </div>
                 </TableRow>
             ))}
