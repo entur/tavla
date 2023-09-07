@@ -5,7 +5,7 @@
 
 .tableRow {
     display: grid;
-    grid-template-columns: 4fr 5fr 3fr 2fr 1fr;
+    grid-template-columns: 6fr 5fr 4fr 3fr 3fr 3fr;
 }
 
 .tableCell {

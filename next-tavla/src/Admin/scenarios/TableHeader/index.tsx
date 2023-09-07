@@ -9,7 +9,7 @@ function TableHeader() {
                 <div className={classes.tableCell}>Valg</div>
                 <div className={classes.tableCell}>Sist oppdatert</div>
                 <div className={classes.tableCell}>Opprettet</div>
-                <div className={classes.tableCell}>Rediger</div>
+                <div className={classes.tableCell}>Sist aktiv</div>
             </div>
         </div>
     )

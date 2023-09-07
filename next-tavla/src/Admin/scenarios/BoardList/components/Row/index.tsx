@@ -22,6 +22,18 @@ function Row({ board }: { board: TBoard }) {
         await router.push('/edit/' + board.id)
     }
 
+    function toLocaleString(date: Date) {
+        return date
+            .toLocaleDateString('no-NB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+            })
+            .replace(',', '')
+    }
+
     return (
         <div className={classes.tableRow}>
             <Cell>{board?.title ?? 'Tavla'}</Cell>
@@ -49,35 +61,15 @@ function Row({ board }: { board: TBoard }) {
             </Cell>
             <Cell>
                 {board.settings?.dates?.dateModified &&
-                    new Date(board.settings.dates.dateModified)
-                        .toLocaleString('no-NB', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                        })
-                        .replace(',', '')}
+                    toLocaleString(new Date(board.settings.dates.dateModified))}
             </Cell>
             <Cell>
                 {board.settings?.dates?.created &&
-                    new Date(board.settings.dates.created)
-                        .toLocaleString('no-NB', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                        })
-                        .replace(',', '')}
+                    toLocaleString(new Date(board.settings.dates.created))}
             </Cell>
             <Cell>
-                <Info board={board} />
-                <Tooltip content="Rediger tavle" placement="bottom">
-                    <IconButton aria-label="Rediger tavle" onClick={editBoard}>
-                        <EditIcon />
-                    </IconButton>
-                </Tooltip>
+                {board.settings?.dates?.lastActive &&
+                    toLocaleString(new Date(board.settings.dates.lastActive))}
             </Cell>
         </div>
     )

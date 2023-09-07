@@ -4,6 +4,7 @@ import classes from 'styles/pages/board.module.css'
 import { upgradeBoard } from 'utils/converters'
 import { Board } from 'Board/scenarios/Board'
 import { getBoard } from 'Admin/utils/firebase'
+import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 
 export async function getServerSideProps({
     params,

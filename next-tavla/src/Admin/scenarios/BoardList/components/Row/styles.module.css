@@ -1,6 +1,6 @@
 .tableRow {
     display: grid;
-    grid-template-columns: 4fr 5fr 3fr 2fr 1fr;
+    grid-template-columns: 6fr 5fr 4fr 3fr 3fr 3fr;
     padding: 1rem 0;
     border-bottom: var(--colors-blues-blue20) solid;
 }
