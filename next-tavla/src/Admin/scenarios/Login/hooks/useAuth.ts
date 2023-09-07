@@ -1,4 +1,4 @@
-import { fetchWithIdToken } from 'Admin/utils'
+import { fetchWithIdToken } from 'Admin/utils/fetch'
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,

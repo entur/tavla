@@ -1,4 +1,4 @@
-import { transportModeNames } from 'Admin/utils'
+import { transportModeNames } from 'Admin/utils/transport'
 import { TTransportMode } from 'types/graphql-schema'
 
 export function isNotNullOrUndefined<T>(

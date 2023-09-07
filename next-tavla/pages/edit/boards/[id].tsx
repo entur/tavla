@@ -28,11 +28,7 @@ export async function getServerSideProps() {
     }
 }
 
-function OverviewPage({
-    boards,
-}: {
-    boards: { id: string; settings?: TBoard }[]
-}) {
+function OverviewPage({ boards }: { boards: TBoard[] }) {
     return (
         <Contrast className={classes.root}>
             <ToastProvider>
