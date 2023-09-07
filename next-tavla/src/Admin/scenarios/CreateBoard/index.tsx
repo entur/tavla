@@ -20,6 +20,7 @@ function CreateBoard() {
             disabled={loading}
             loading={loading}
             width="fluid"
+            aria-label="Opprett ny tavle"
         >
             Opprett ny tavle
         </Button>
