@@ -1,4 +1,6 @@
+import { TavlaError } from 'Admin/types/error'
 import { CLIENT_NAME, GEOCODER_ENDPOINT } from 'assets/env'
+import { NextApiRequest } from 'next'
 import { TTransportMode } from 'types/graphql-schema'
 
 type TPartialGeoResponse = {
@@ -8,6 +10,28 @@ type TPartialGeoResponse = {
             label?: string
         }
     }>
+}
+
+export async function getBearerTokenFromRequest(request: NextApiRequest) {
+    const authorization = request?.headers?.authorization
+    if (!authorization)
+        throw new TavlaError({
+            code: 'AUTHORIZATION',
+            message: 'Authorization header missing.',
+        })
+    if (authorization?.startsWith('Bearer ')) {
+        const idToken = authorization.split('Bearer ')[1]
+        if (!idToken)
+            throw new TavlaError({
+                code: 'AUTHORIZATION',
+                message: 'Bearer token missing.',
+            })
+        return idToken
+    } else
+        throw new TavlaError({
+            code: 'AUTHORIZATION',
+            message: 'Bearer token was ill formatted.',
+        })
 }
 
 export async function fetchItems(
