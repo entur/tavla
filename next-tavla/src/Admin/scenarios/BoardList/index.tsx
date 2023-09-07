@@ -7,6 +7,7 @@ import { CheckIcon, SearchIcon } from '@entur/icons'
 import { useState } from 'react'
 import { OverflowMenu, OverflowMenuItem } from '@entur/menu'
 import { SecondaryButton } from '@entur/button'
+import { BoardListOptions } from './components/BoardListOptions'
 
 function BoardList({
     boards,
@@ -67,6 +68,7 @@ function BoardList({
                         </OverflowMenuItem>
                     ))}
                 </OverflowMenu>
+                <BoardListOptions />
             </div>
             <div className={classes.table}>
                 <TableHeader />
