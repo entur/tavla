@@ -24,6 +24,11 @@ export default async function handler(
         return response.status(200).json({ message: 'Successfully logged in.' })
     } catch (e) {
         if (e instanceof Error)
-            return response.status(400).json({ error: e.message })
+            return response
+                .status(400)
+                .json({ error: `Login failed, reason: ${e.message}` })
+        return response
+            .status(400)
+            .json({ error: 'Login failed, reason: Unknown' })
     }
 }
