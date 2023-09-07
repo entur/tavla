@@ -47,7 +47,7 @@ function Row({ board }: { board: TBoard }) {
                     </IconButton>
                 </Tooltip>
             </Cell>
-            <div className={classes.dataCell}>
+            <Cell>
                 {board.settings?.dates?.dateModified &&
                     new Date(board.settings.dates.dateModified)
                         .toLocaleString('no-NB', {
@@ -58,8 +58,8 @@ function Row({ board }: { board: TBoard }) {
                             minute: '2-digit',
                         })
                         .replace(',', '')}
-            </div>
-            <div className={classes.dataCell}>
+            </Cell>
+            <Cell>
                 {board.settings?.dates?.created &&
                     new Date(board.settings.dates.created)
                         .toLocaleString('no-NB', {
@@ -70,12 +70,15 @@ function Row({ board }: { board: TBoard }) {
                             minute: '2-digit',
                         })
                         .replace(',', '')}
-            </div>
-            <div className={classes.dataCell}>
-                <IconButton aria-label="Rediger tavle" onClick={editBoard}>
-                    <EditIcon />
-                </IconButton>
-            </div>
+            </Cell>
+            <Cell>
+                <Info board={board} />
+                <Tooltip content="Rediger tavle" placement="bottom">
+                    <IconButton aria-label="Rediger tavle" onClick={editBoard}>
+                        <EditIcon />
+                    </IconButton>
+                </Tooltip>
+            </Cell>
         </div>
     )
 }
