@@ -30,7 +30,7 @@ export type Action =
     | { type: 'setColumn'; tileId: string; column: TColumn }
     | { type: 'setTitle'; title: string }
 
-export function settingsReducer(settings: TBoard, action: Action): TBoard {
+export function boardReducer(settings: TBoard, action: Action): TBoard {
     function changeTile<T extends TTile>(
         tileId: string,
         changeFunction: (tile: T) => T,

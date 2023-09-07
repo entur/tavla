@@ -21,20 +21,21 @@ export async function getServerSideProps({
 
     const session = req.cookies['session']
     const user = await verifySession(session)
-    const settings: TBoard | undefined = await getBoard(id)
+    const board: TBoard | undefined = await getBoard(id)
+    console.log(board)
 
-    if (!settings) {
+    if (!board) {
         return {
             notFound: true,
         }
     }
 
-    const convertedSettings = upgradeBoard(settings)
+    const convertedBoard = upgradeBoard(board)
 
     return {
         props: {
             user: user,
-            settings: convertedSettings,
+            board: convertedBoard,
             id,
         },
     }
@@ -42,18 +43,18 @@ export async function getServerSideProps({
 
 function AdminPage({
     user,
-    settings,
+    board,
     id,
 }: {
     user: DecodedIdToken | null
-    settings: TBoard
+    board: TBoard
     id: string
 }) {
     return (
         <Contrast className={classes.root}>
             <ToastProvider>
                 <Header />
-                <Edit initialSettings={settings} documentId={id} user={user} />
+                <Edit initialBoard={board} documentId={id} user={user} />
             </ToastProvider>
         </Contrast>
     )

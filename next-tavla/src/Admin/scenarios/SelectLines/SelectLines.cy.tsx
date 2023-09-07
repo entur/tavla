@@ -1,12 +1,12 @@
 import React, { useReducer } from 'react'
 import { SelectLines } from './index'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
-import { settingsReducer } from '../Edit/reducer'
+import { boardReducer } from '../Edit/reducer'
 import { TLinesFragment } from 'graphql/index'
 
 describe('<SelectLines />', () => {
     const TestComponent = () => {
-        const [settings, dispatch] = useReducer(settingsReducer, {
+        const [settings, dispatch] = useReducer(boardReducer, {
             tiles: [
                 {
                     columns: ['line', 'destination', 'time'],
