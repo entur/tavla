@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { OverflowMenu, OverflowMenuItem } from '@entur/menu'
 import { SecondaryButton } from '@entur/button'
 import { TBoard } from 'types/settings'
+import { BoardListOptions } from './components/BoardListOptions'
 
 function BoardList({ boards }: { boards: TBoard[] }) {
     const [filterSearch, setFilterSearch] = useState('')
@@ -60,6 +61,7 @@ function BoardList({ boards }: { boards: TBoard[] }) {
                         </OverflowMenuItem>
                     ))}
                 </OverflowMenu>
+                <BoardListOptions />
             </div>
             <div className={classes.table}>
                 <TableHeader />
