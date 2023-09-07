@@ -1,12 +1,12 @@
-import { TBoard, TUser, TUserID } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { getApp, getApps, initializeApp } from 'firebase/app'
-import { EmailAuthProvider, getAuth, Persistence } from 'firebase/auth'
+import { EmailAuthProvider, getAuth, inMemoryPersistence } from 'firebase/auth'
 import { getDoc, doc, getFirestore } from '@firebase/firestore/lite'
 import { FIREBASE_CLIENT_CONFIG } from 'assets/env'
 
 const app = initializeClientApp()
 export const auth = getAuth(app)
-auth.setPersistence('NONE' as unknown as Persistence)
+auth.setPersistence(inMemoryPersistence)
 export const firestore = getFirestore(app)
 
 export const emailAuthProvider = new EmailAuthProvider()
