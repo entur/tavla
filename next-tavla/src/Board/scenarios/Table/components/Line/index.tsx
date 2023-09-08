@@ -3,6 +3,7 @@ import { DeparturesContext } from '../../contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import classes from './styles.module.css'
+import { TransportIcon } from '../TransportIcon'
 import { transportModeNames } from 'Admin/utils'
 
 function Line() {
@@ -18,18 +19,24 @@ function Line() {
         <TableColumn title="Linje">
             {lines.map((line) => (
                 <TableRow key={line.key}>
-                    <div
-                        aria-label={`${
-                            transportModeNames[line.transportMode]
-                        } - linje ${line.publicCode}`}
-                        className={classes.line}
-                        style={{
-                            backgroundColor: `var(--table-transport-${
-                                line.transportMode ?? 'unknown'
-                            }-color)`,
-                        }}
-                    >
-                        {line.publicCode}
+                    <div className={classes.row}>
+                        <TransportIcon
+                            key={line.transportMode}
+                            transport={line.transportMode}
+                        />
+                        <div
+                            aria-label={`${
+                                transportModeNames[line.transportMode]
+                            } - linje ${line.publicCode}`}
+                            className={classes.line}
+                            style={{
+                                backgroundColor: `var(--table-transport-${
+                                    line.transportMode ?? 'unknown'
+                                }-color)`,
+                            }}
+                        >
+                            {line.publicCode}
+                        </div>
                     </div>
                 </TableRow>
             ))}

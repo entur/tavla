@@ -30,9 +30,6 @@ export function QuayTile({
     if (!data.quay) {
         return <Tile>Data not found</Tile>
     }
-    const transportModes = Array.from(
-        new Set(data.quay.lines.map((line) => line.transportMode)),
-    )
 
     const heading: string = [
         data.quay.name,
@@ -44,7 +41,7 @@ export function QuayTile({
 
     return (
         <Tile className={classes.quayTile}>
-            <TableHeader heading={heading} transportModes={transportModes} />
+            <TableHeader heading={heading} />
             <Table columns={columns} departures={data.quay.estimatedCalls} />
         </Tile>
     )
