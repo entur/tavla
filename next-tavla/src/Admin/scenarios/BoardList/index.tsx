@@ -34,6 +34,9 @@ function BoardList({
             </div>
             <div className={classes.table}>
                 <TableHeader
+                    headerCells={headerCells}
+                    onHeaderClick={handleHeaderClick}
+                    sorting={sorting}
                 />
                 <div className={classes.tableBody}>
                     {boards
