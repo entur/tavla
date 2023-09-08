@@ -18,5 +18,7 @@ function initializeClientApp() {
 
 export async function getBoard(boardId: string) {
     const document = await getDoc(doc(firestore, 'boards', boardId))
-    return { id: document.id, ...document.data() } as TBoard
+    const data = document.data()
+    if (!data) return undefined
+    return { id: document.id, ...data } as TBoard
 }
