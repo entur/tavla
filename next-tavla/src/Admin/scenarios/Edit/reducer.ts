@@ -53,7 +53,13 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
     switch (action.type) {
         // Title operations
         case 'setTitle':
-            return { ...settings, title: action.title }
+            return {
+                ...settings,
+                meta: {
+                    ...settings.meta,
+                    title: action.title,
+                },
+            }
         // Theme operations
         case 'changeTheme': {
             return { ...settings, theme: action.theme }

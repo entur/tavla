@@ -4,13 +4,13 @@ import { getBoardSettings } from 'utils/firebase'
 function useUpdateLastActive(documentId: string) {
     const updateLastActive = useCallback(async () => {
         const settings = await getBoardSettings(documentId)
-        const lastActive = settings.dates?.lastActive ?? 0
+        const lastActive = settings.meta?.lastActive ?? 0
         const lastActiveDate = new Date(lastActive)
         if (Date.now() - lastActiveDate.getTime() > 1000 * 60 * 60 * 24) {
             const sanitizedSettings = {
                 ...settings,
-                dates: {
-                    ...settings.dates,
+                meta: {
+                    ...settings.meta,
                     lastActive: new Date().toString(),
                 },
             }

@@ -1,14 +1,12 @@
-import { dates } from './dates'
+import { TMeta } from './meta'
 import { TTile } from './tile'
 
 export type TTheme = 'entur' | 'dark' | 'light'
 
 export type TBoard = {
     id?: TBoardID
-    title?: string
-    dates?: dates
+    meta?: TMeta
     tiles: TTile[]
-    version?: number
     theme?: TTheme
 }
 

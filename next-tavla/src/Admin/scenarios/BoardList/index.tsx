@@ -17,9 +17,18 @@ function BoardList({ boards }: { boards: TBoard[] }) {
     ]
     const [selectedSort, setSelectedSort] = useState(sortOptions[0])
 
+<<<<<<< HEAD
     const sortBoards = (boardA: TBoard, boardB: TBoard) => {
         const titleA = boardA?.title?.toLowerCase() ?? ''
         const titleB = boardB?.title?.toLowerCase() ?? ''
+=======
+    const sortBoards = (
+        a: { settings?: TSettings },
+        b: { settings?: TSettings },
+    ) => {
+        const titleA = a.settings?.meta?.title?.toLowerCase() ?? ''
+        const titleB = b.settings?.meta?.title?.toLowerCase() ?? ''
+>>>>>>> cb7a7958 (feat(date) meta type with meta information)
         if (!selectedSort) return 0
         switch (selectedSort.value) {
             case 'alphabetical':
@@ -66,7 +75,13 @@ function BoardList({ boards }: { boards: TBoard[] }) {
                 <div className={classes.tableBody}>
                     {boards
                         .filter((board) =>
+<<<<<<< HEAD
                             textSearchRegex.test(board?.title ?? ''),
+=======
+                            textSearchRegex.test(
+                                board.settings?.meta?.title ?? '',
+                            ),
+>>>>>>> cb7a7958 (feat(date) meta type with meta information)
                         )
                         .sort(sortBoards)
                         .map((board) => (

@@ -33,7 +33,7 @@ function Edit({
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
                 <div className="flexBetween">
-                    <BoardTitle title={board.title} />
+                    <BoardTitle title={board.meta?.title} />
                     <div className="flexGap">
                         <SecondaryButton
                             onClick={() => {

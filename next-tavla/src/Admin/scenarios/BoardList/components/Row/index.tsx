@@ -36,7 +36,7 @@ function Row({ board }: { board: TBoard }) {
 
     return (
         <div className={classes.tableRow}>
-            <Cell>{board?.title ?? 'Tavla'}</Cell>
+            <Cell>{board?.meta?.title ?? 'Tavla'}</Cell>
             <Cell className={classes.link}>
                 {link}
                 <Tooltip content="Kopier lenke" placement="bottom">
@@ -60,16 +60,16 @@ function Row({ board }: { board: TBoard }) {
                 </Tooltip>
             </Cell>
             <Cell>
-                {board.settings?.dates?.dateModified &&
-                    toLocaleString(new Date(board.settings.dates.dateModified))}
+                {board?.meta?.dateModified &&
+                    toLocaleString(new Date(board.meta.dateModified))}
             </Cell>
             <Cell>
-                {board.settings?.dates?.created &&
-                    toLocaleString(new Date(board.settings.dates.created))}
+                {board?.meta?.created &&
+                    toLocaleString(new Date(board.meta.created))}
             </Cell>
             <Cell>
-                {board.settings?.dates?.lastActive &&
-                    toLocaleString(new Date(board.settings.dates.lastActive))}
+                {board?.meta?.lastActive &&
+                    toLocaleString(new Date(board.meta.lastActive))}
             </Cell>
         </div>
     )
