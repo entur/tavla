@@ -1,12 +1,16 @@
 import classes from './styles.module.css'
+import { Cell } from '../BoardList/components/Cell'
 
-function TableHeader() {
+function TableHeader({
+    headerCells,
     return (
         <div className={classes.tableHead}>
-            <div className={classes.tableRow}>
-                <div className={classes.tableCell}>Navn på tavle</div>
-                <div className={classes.tableCell}>Link</div>
-                <div className={classes.tableCell}>Valg</div>
+            <div className={classes.headerRow}>
+                {headerCells.map((cell) => (
+                    <Cell className={classes.headerCell} key={cell.value}>
+                        {cell.label}
+                    </Cell>
+                ))}
             </div>
         </div>
     )

@@ -13,6 +13,11 @@ function BoardList({
 }: {
     boards: { id: string; settings?: TSettings }[]
 }) {
+    const headerCells = [
+        { label: 'Navn på tavle', value: 'title', sortable: true },
+        { label: 'Link', value: 'link', sortable: false },
+        { label: 'Valg', value: 'options', sortable: false },
+    ]
     const [filterSearch, setFilterSearch] = useState('')
     const textSearchRegex = new RegExp(filterSearch, 'i')
     const sortOptions = [
@@ -69,7 +74,8 @@ function BoardList({
                 </OverflowMenu>
             </div>
             <div className={classes.table}>
-                <TableHeader />
+                <TableHeader
+                />
                 <div className={classes.tableBody}>
                     {boards
                         .filter((board) =>
