@@ -3,6 +3,7 @@ import { Row } from './components/Row'
 import { TSettings } from 'types/settings'
 import classes from './styles.module.css'
 import { TextField } from '@entur/form'
+import { SearchIcon } from '@entur/icons'
 import { useState } from 'react'
 
 function BoardList({
@@ -17,8 +18,42 @@ function BoardList({
     ]
     const [filterSearch, setFilterSearch] = useState('')
     const textSearchRegex = new RegExp(filterSearch, 'i')
+    const [sorting, setSorting] = useState({
+        column: '',
+        order: 'default',
+    })
 
+    const handleHeaderClick = (column: string, sortable: boolean) => {
+        if (sortable) {
+            setSorting((prevSorting) => {
+                if (prevSorting.column === column) {
+                    switch (prevSorting.order) {
+                        case 'default':
+                            return { column, order: 'asc' }
+                        case 'asc':
+                            return { column, order: 'desc' }
+                        default:
+                            return { column: 'title', order: 'default' }
+                    }
+                } else {
+                    return { column, order: 'asc' }
+                }
+            })
         }
+    }
+
+    function sortBoards() {
+        const sortedBoards = [...boards]
+        if (sorting.order !== 'default') {
+            sortedBoards.sort((a, b) => {
+                const columnValueA = a.settings?.title ?? ''
+                const columnValueB = b.settings?.title ?? ''
+                return sorting.order === 'asc'
+                    ? columnValueA.localeCompare(columnValueB)
+                    : columnValueB.localeCompare(columnValueA)
+            })
+        }
+        return sortedBoards
     }
 
     return (
@@ -39,7 +74,7 @@ function BoardList({
                     sorting={sorting}
                 />
                 <div className={classes.tableBody}>
-                    {boards
+                    {sortBoards()
                         .filter((board) =>
                             textSearchRegex.test(board.settings?.title ?? ''),
                         )
