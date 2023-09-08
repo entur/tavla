@@ -3,12 +3,8 @@ import { DeparturesContext } from '../../contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import classes from './styles.module.css'
-<<<<<<< HEAD
 import { transportModeNames } from 'Admin/utils/transport'
 import { TransportIcon } from '../TransportIcon'
-=======
-import { transportModeNames } from 'Admin/utils'
->>>>>>> c570908a (feat(aria): aria labelling (#1202))
 
 function Line() {
     const departures = useNonNullContext(DeparturesContext)
