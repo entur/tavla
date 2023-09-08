@@ -272,6 +272,20 @@ export type TStopPlaceSettingsQuery = {
     } | null
 }
 
+export type TStopPlacesTransportModesQueryVariables = Types.Exact<{
+    stopPlaceIds?: Types.InputMaybe<
+        Array<Types.Scalars['String']> | Types.Scalars['String']
+    >
+}>
+
+export type TStopPlacesTransportModesQuery = {
+    __typename?: 'QueryType'
+    stopPlaces: Array<{
+        __typename?: 'StopPlace'
+        transportMode: Array<Types.TTransportMode | null> | null
+    } | null>
+}
+
 export class TypedDocumentString<TResult, TVariables>
     extends String
     implements DocumentTypeDecoration<TResult, TVariables>
@@ -534,4 +548,14 @@ export const StopPlaceSettingsQuery = new TypedDocumentString(`
 }`) as unknown as TypedDocumentString<
     TStopPlaceSettingsQuery,
     TStopPlaceSettingsQueryVariables
+>
+export const StopPlacesTransportModesQuery = new TypedDocumentString(`
+    query stopPlacesTransportModes($stopPlaceIds: [String!]) {
+  stopPlaces(ids: $stopPlaceIds) {
+    transportMode
+  }
+}
+    `) as unknown as TypedDocumentString<
+    TStopPlacesTransportModesQuery,
+    TStopPlacesTransportModesQueryVariables
 >

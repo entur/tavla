@@ -1,0 +1,5 @@
+query stopPlacesTransportModes($stopPlaceIds: [String!]) {
+    stopPlaces(ids: $stopPlaceIds) {
+        transportMode
+    }
+}
