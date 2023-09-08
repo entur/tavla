@@ -3,15 +3,12 @@
     border-bottom: var(--colors-blues-blue20) solid;
 }
 
-.tableRow {
+.headerRow {
     display: grid;
     grid-template-columns: 3fr 5fr 1fr;
+    color: var(--colors-brand-lavender);
 }
 
-.tableCell {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-weight: 500;
-    color: var(--colors-brand-lavender);
+.headerCell {
+    gap: 0.5rem;
 }
