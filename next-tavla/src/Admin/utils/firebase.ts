@@ -50,6 +50,10 @@ export async function setBoard(board: TBoard, uid: TUserID) {
         .set(sanitizedBoard)
 }
 
+export async function createBoard(uid: TUserID) {
+    // create board
+}
+
 export async function userCanWriteBoard(uid: TUserID, bid: TBoardID) {
     const user = await getUser(uid)
     const writeAccessFromUser = concat(user?.owner, user?.editor).includes(bid)

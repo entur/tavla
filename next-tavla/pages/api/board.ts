@@ -10,12 +10,13 @@ export default async function handler(
     response: NextApiResponse,
 ) {
     const user = await verifyUserSession(request)
-    if (!user)
-        return response.status(401).json({ error: 'You are not logged in.' })
+    if (!user) return response.redirect('/#login')
 
     const board = JSON.parse(request.body).board as TBoard
     try {
         switch (request.method) {
+            case 'GET':
+                createBoard()
             case 'PUT':
                 await setBoard(board, user.uid)
         }
