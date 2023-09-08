@@ -1,0 +1,19 @@
+.logo {
+    height: auto;
+    width: 7em;
+    min-width: 185px;
+}
+
+.tagText {
+    font-size: 0.5em;
+    color: var(--main-text-color);
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+}

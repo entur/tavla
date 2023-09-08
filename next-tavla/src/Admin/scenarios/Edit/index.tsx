@@ -11,15 +11,12 @@ import { useAutoSaveSettings } from './hooks/useAutoSaveSettings'
 import { CopyIcon, SaveIcon } from '@entur/icons'
 import { SecondaryLink } from 'components/SecondaryLink'
 import { useToast } from '@entur/alert'
-import { Login } from '../Login'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { BoardTitle } from '../BoardTitle'
-import { checkFeatureFlags } from 'utils/featureFlags'
 
 function Edit({
     initialBoard,
     documentId,
-    user,
 }: {
     initialBoard: TBoard
     documentId: string
@@ -27,8 +24,6 @@ function Edit({
 }) {
     const [board, dispatch] = useReducer(boardReducer, initialBoard)
     const { addToast } = useToast()
-
-    const LOGIN = checkFeatureFlags('LOGIN')
 
     const linkUrl = window.location.host + '/' + documentId
 
@@ -58,8 +53,6 @@ function Edit({
                             Lagre tavla
                             <SaveIcon />
                         </PrimaryButton>
-
-                        {LOGIN && <Login user={user} />}
                     </div>
                 </div>
                 <AddTile />

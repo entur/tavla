@@ -15,7 +15,7 @@ function BoardTile({ tileSpec }: { tileSpec: TTile }) {
 }
 
 function Board({ board }: { board: TBoard }) {
-    if (!board.tiles.length)
+    if (!board.tiles || !board.tiles.length)
         return (
             <Tile className={classes.emptyTile}>
                 <p>Du har ikke lagt til noen holdeplasser enda.</p>

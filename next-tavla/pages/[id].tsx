@@ -33,7 +33,7 @@ function BoardPage({ board }: { board: TBoard }) {
     return (
         <div className={classes.root} data-theme={board.theme || 'dark'}>
             <div className={classes.rootContainer}>
-                <Header theme={board.theme} showClock={true} />
+                <Header theme={board.theme} />
                 <Board board={board} />
             </div>
         </div>

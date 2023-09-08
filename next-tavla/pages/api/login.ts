@@ -12,9 +12,9 @@ export default async function handler(
     try {
         const token = await getBearerTokenFromRequest(request)
 
-        const expiresIn = 60 * 60 * 24 * 10 // Ten days
+        const expiresIn = 60 * 60 * 24 * 10 // Ten days in seconds
         const sessionCookie = await auth().createSessionCookie(token, {
-            expiresIn,
+            expiresIn: expiresIn * 1000, // Firebase expects the number in milliseconds
         })
 
         response.setHeader(

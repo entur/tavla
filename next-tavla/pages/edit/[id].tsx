@@ -1,4 +1,3 @@
-import { Header } from 'components/Header'
 import { Edit } from 'Admin/scenarios/Edit'
 import { TBoard } from 'types/settings'
 import { getBoard } from 'utils/firebase'
@@ -9,6 +8,7 @@ import { ToastProvider } from '@entur/alert'
 import { IncomingNextMessage } from 'types/next'
 import { verifySession } from 'Admin/utils/firebase'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
+import { AdminHeader } from 'Admin/scenarios/AdminHeader'
 
 export async function getServerSideProps({
     params,
@@ -22,7 +22,6 @@ export async function getServerSideProps({
     const session = req.cookies['session']
     const user = await verifySession(session)
     const board: TBoard | undefined = await getBoard(id)
-    console.log(board)
 
     if (!board) {
         return {
@@ -53,7 +52,7 @@ function AdminPage({
     return (
         <Contrast className={classes.root}>
             <ToastProvider>
-                <Header />
+                <AdminHeader user={user} />
                 <Edit initialBoard={board} documentId={id} user={user} />
             </ToastProvider>
         </Contrast>

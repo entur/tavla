@@ -6,15 +6,7 @@ import { TTheme } from 'types/settings'
 import { Clock } from 'components/Clock'
 import classNames from 'classnames'
 
-function Header({
-    theme,
-    showClock,
-    className,
-}: {
-    theme?: TTheme
-    showClock?: boolean
-    className?: string
-}) {
+function Header({ theme, className }: { theme?: TTheme; className?: string }) {
     return (
         <div className={classNames(classes.headerWrapper, className)}>
             <div>
@@ -36,7 +28,7 @@ function Header({
                     />
                 )}
             </div>
-            {showClock && <Clock />}
+            <Clock />
         </div>
     )
 }
