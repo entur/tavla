@@ -8,6 +8,7 @@ import { OverflowMenu, OverflowMenuItem } from '@entur/menu'
 import { SecondaryButton } from '@entur/button'
 import { TBoard } from 'types/settings'
 import { BoardListOptions } from './components/BoardListOptions'
+import { TOptionalColumn, optionalColumns } from 'types/optionalColumns'
 
 function BoardList({ boards }: { boards: TBoard[] }) {
     const [filterSearch, setFilterSearch] = useState('')
@@ -18,7 +19,10 @@ function BoardList({ boards }: { boards: TBoard[] }) {
     ]
     const [selectedSort, setSelectedSort] = useState(sortOptions[0])
 
-    const columnCount = { '--table-columns': 1 } as React.CSSProperties
+    const [shownOptionalColumns, setShownOptionalColumns] =
+        useState<TOptionalColumn[]>(optionalColumns)
+
+    const columnCount = shownOptionalColumns.length
 
     const sortBoards = (boardA: TBoard, boardB: TBoard) => {
         const titleA = boardA?.title?.toLowerCase() ?? ''
@@ -33,6 +37,14 @@ function BoardList({ boards }: { boards: TBoard[] }) {
             default:
                 return 0
         }
+    }
+
+    const tableColumnsStyle: React.CSSProperties = {
+        gridTemplateColumns:
+            '20rem minmax(25rem,' +
+            (columnCount > 0
+                ? ` 30rem)  repeat(${columnCount}, minmax(8rem, auto)) 5rem`
+                : ' auto) 5rem'),
     }
 
     return (
@@ -64,20 +76,25 @@ function BoardList({ boards }: { boards: TBoard[] }) {
                         </OverflowMenuItem>
                     ))}
                 </OverflowMenu>
-                <BoardListOptions />
+                <BoardListOptions
+                    {...{
+                        shownOptionalColumns,
+                        setShownOptionalColumns,
+                        optionalColumns,
+                    }}
+                />
             </div>
-            <div className={classes.table} style={columnCount}>
-                <TableHeader />
-                <div className={classes.tableBody}>
-                    {boards
-                        .filter((board) =>
-                            textSearchRegex.test(board?.title ?? ''),
-                        )
-                        .sort(sortBoards)
-                        .map((board) => (
-                            <Row key={board.id} board={board} />
-                        ))}
-                </div>
+            <div className={classes.table} style={tableColumnsStyle}>
+                <TableHeader {...{ shownColumns: shownOptionalColumns }} />
+                {boards
+                    .filter((board) => textSearchRegex.test(board.title ?? ''))
+                    .sort(sortBoards)
+                    .map((board) => (
+                        <Row
+                            key={board.id}
+                            {...{ board, shownColumns: shownOptionalColumns }}
+                        />
+                    ))}
             </div>
         </div>
     )
