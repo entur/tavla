@@ -10,14 +10,8 @@
 }
 
 .table {
-    width: 100;
     display: grid;
     background-color: var(--bg-color);
-}
-
-.tableBody {
-    display: grid;
-    grid-template-rows: auto;
 }
 
 .search {
