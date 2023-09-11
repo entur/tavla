@@ -12,10 +12,10 @@ import { TOptionalColumn } from 'types/optionalColumns'
 
 function Row({
     board,
-    shownColumns,
+    shownOptionalColumns,
 }: {
     board: { id: string; settings?: TSettings }
-    shownColumns: TOptionalColumn[]
+    shownOptionalColumns: TOptionalColumn[]
 }) {
     const { addToast } = useToast()
     const router = useRouter()
@@ -46,7 +46,9 @@ function Row({
                     </IconButton>
                 </Tooltip>
             </Cell>
-            {shownColumns.find((col) => col.name === 'transportModes') && (
+            {shownOptionalColumns.find(
+                (col) => col.name === 'transportModes',
+            ) && (
                 <Cell>
                     <BoardTransportModes board={board} />
                 </Cell>

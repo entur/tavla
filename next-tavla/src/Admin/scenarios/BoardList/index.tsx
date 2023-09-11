@@ -100,7 +100,7 @@ function BoardList({
                     .map((board) => (
                         <Row
                             key={board.id}
-                            {...{ board, shownColumns: shownOptionalColumns }}
+                            {...{ board, shownOptionalColumns }}
                         />
                     ))}
             </div>
