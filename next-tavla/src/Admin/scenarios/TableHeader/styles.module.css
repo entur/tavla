@@ -3,12 +3,7 @@
     border-bottom: var(--colors-blues-blue20) solid;
 }
 
-.tableRow {
-    display: grid;
-    grid-template-columns: 3fr 5fr 3fr 1fr;
-}
-
-.tableCell {
+.headerCell {
     display: flex;
     align-items: center;
     justify-content: flex-start;

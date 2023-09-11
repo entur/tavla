@@ -22,6 +22,8 @@ function BoardList({
     ]
     const [selectedSort, setSelectedSort] = useState(sortOptions[0])
 
+    const columnCount = { '--table-columns': 1 } as React.CSSProperties
+
     const sortBoards = (
         a: { settings?: TSettings },
         b: { settings?: TSettings },
@@ -70,18 +72,16 @@ function BoardList({
                 </OverflowMenu>
                 <BoardListOptions />
             </div>
-            <div className={classes.table}>
+            <div className={classes.table} style={columnCount}>
                 <TableHeader />
-                <div className={classes.tableBody}>
-                    {boards
-                        .filter((board) =>
-                            textSearchRegex.test(board.settings?.title ?? ''),
-                        )
-                        .sort(sortBoards)
-                        .map((board) => (
-                            <Row key={board.id} board={board} />
-                        ))}
-                </div>
+                {boards
+                    .filter((board) =>
+                        textSearchRegex.test(board.settings?.title ?? ''),
+                    )
+                    .sort(sortBoards)
+                    .map((board) => (
+                        <Row key={board.id} board={board} />
+                    ))}
             </div>
         </div>
     )

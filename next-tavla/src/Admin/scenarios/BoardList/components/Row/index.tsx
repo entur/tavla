@@ -24,7 +24,7 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
     }
 
     return (
-        <div className={classes.tableRow}>
+        <>
             <Cell>{board.settings?.title ?? 'Tavla'}</Cell>
             <Cell className={classes.link}>
                 {link}
@@ -43,7 +43,7 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
             <Cell>
                 <BoardTransportModes board={board} />
             </Cell>
-            <Cell>
+            <Cell centered>
                 <Info board={board} />
                 <Tooltip content="Rediger tavle" placement="bottom">
                     <IconButton aria-label="Rediger tavle" onClick={editBoard}>
@@ -51,7 +51,7 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
                     </IconButton>
                 </Tooltip>
             </Cell>
-        </div>
+        </>
     )
 }
 
