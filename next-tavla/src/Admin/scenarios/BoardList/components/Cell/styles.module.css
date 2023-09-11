@@ -1,6 +1,8 @@
 .cell {
     display: flex;
     align-items: center;
+    padding: 0.25rem;
+    border-bottom: var(--colors-blues-blue20) solid;
 }
 
 .centeredCell {
