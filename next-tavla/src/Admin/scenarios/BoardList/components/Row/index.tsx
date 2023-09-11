@@ -3,7 +3,6 @@ import { CopyIcon, EditIcon } from '@entur/icons'
 import { TSettings } from 'types/settings'
 import { useToast } from '@entur/alert'
 import { useRouter } from 'next/router'
-import classes from './styles.module.css'
 import { useEffect, useState } from 'react'
 import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
 import { Tooltip } from '@entur/tooltip'
@@ -33,7 +32,7 @@ function Row({
     return (
         <>
             <Cell>{board.settings?.title ?? 'Tavla'}</Cell>
-            <Cell className={classes.link}>
+            <Cell>
                 {link}
                 <Tooltip content="Kopier lenke" placement="bottom">
                     <IconButton
