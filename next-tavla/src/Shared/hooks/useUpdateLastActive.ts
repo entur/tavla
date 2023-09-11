@@ -6,7 +6,10 @@ function useUpdateLastActive(documentId: string) {
         const settings = await getBoardSettings(documentId)
         const lastActive = settings.meta?.lastActive ?? 0
         const lastActiveDate = new Date(lastActive)
-        if (Date.now() - lastActiveDate.getTime() > 1000 * 60 * 60 * 24) {
+        if (
+            new Date().getTime() - lastActiveDate.getTime() >
+            1000 * 60 * 60 * 24
+        ) {
             await fetch(`/api/ping`, {
                 method: 'POST',
                 headers: {
