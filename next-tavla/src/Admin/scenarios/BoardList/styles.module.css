@@ -10,8 +10,12 @@
 }
 
 .table {
-    display: flex;
-    flex-direction: column;
+    width: 100;
+    display: grid;
+    background-color: var(--bg-color);
+    grid-template-columns:
+        20rem 40rem repeat(var(--table-columns), minmax(5rem, auto))
+        5rem;
 }
 
 .tableBody {

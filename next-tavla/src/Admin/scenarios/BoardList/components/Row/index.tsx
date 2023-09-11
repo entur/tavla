@@ -43,7 +43,7 @@ function Row({ board }: { board: TBoard }) {
             <Cell>
                 <BoardTransportModes board={board} />
             </Cell>
-            <Cell>
+            <Cell centered>
                 <Info board={board} />
                 <Tooltip content="Rediger tavle" placement="bottom">
                     <IconButton aria-label="Rediger tavle" onClick={editBoard}>

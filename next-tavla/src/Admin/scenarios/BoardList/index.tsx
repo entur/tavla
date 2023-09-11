@@ -18,9 +18,12 @@ function BoardList({ boards }: { boards: TBoard[] }) {
     ]
     const [selectedSort, setSelectedSort] = useState(sortOptions[0])
 
+    const columnCount = { '--table-columns': 1 } as React.CSSProperties
+
     const sortBoards = (boardA: TBoard, boardB: TBoard) => {
         const titleA = boardA?.title?.toLowerCase() ?? ''
         const titleB = boardB?.title?.toLowerCase() ?? ''
+
         if (!selectedSort) return 0
         switch (selectedSort.value) {
             case 'alphabetical':
@@ -63,7 +66,7 @@ function BoardList({ boards }: { boards: TBoard[] }) {
                 </OverflowMenu>
                 <BoardListOptions />
             </div>
-            <div className={classes.table}>
+            <div className={classes.table} style={columnCount}>
                 <TableHeader />
                 <div className={classes.tableBody}>
                     {boards
