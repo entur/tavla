@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
 import { Tooltip } from '@entur/tooltip'
 import { Info } from 'Admin/scenarios/Info'
+import { BoardTransportModes } from '../BoardTransportModes'
 
 function Row({ board }: { board: { id: string; settings?: TSettings } }) {
     const { addToast } = useToast()
@@ -38,6 +39,9 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
                         <CopyIcon />
                     </IconButton>
                 </Tooltip>
+            </Cell>
+            <Cell>
+                <BoardTransportModes board={board} />
             </Cell>
             <Cell>
                 <Info board={board} />
