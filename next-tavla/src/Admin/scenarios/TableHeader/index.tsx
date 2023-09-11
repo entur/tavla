@@ -6,6 +6,7 @@ function TableHeader() {
             <div className={classes.tableRow}>
                 <div className={classes.tableCell}>Navn på tavle</div>
                 <div className={classes.tableCell}>Link</div>
+                <div className={classes.tableCell}>Transportmetoder</div>
                 <div className={classes.tableCell}>Valg</div>
             </div>
         </div>
