@@ -36,7 +36,6 @@ function BoardTitle({ title }: { title?: string }) {
     return (
         <div className={classes.editTitle}>
             <TextField
-                id="boardTitle-input"
                 defaultValue={boardTitle}
                 size="medium"
                 label="Navn på tavlen"
