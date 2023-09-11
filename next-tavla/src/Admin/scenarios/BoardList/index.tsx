@@ -92,7 +92,7 @@ function BoardList({ boards }: { boards: TBoard[] }) {
                     .map((board) => (
                         <Row
                             key={board.id}
-                            {...{ board, shownColumns: shownOptionalColumns }}
+                            {...{ board, shownOptionalColumns }}
                         />
                     ))}
             </div>
