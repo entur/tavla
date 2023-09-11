@@ -64,12 +64,21 @@ function Row({ board }: { board: TBoard }) {
                     toLocaleString(new Date(board.meta.dateModified))}
             </Cell>
             <Cell>
+<<<<<<< HEAD
                 {board?.meta?.created &&
                     toLocaleString(new Date(board.meta.created))}
             </Cell>
             <Cell>
                 {board?.meta?.lastActive &&
                     toLocaleString(new Date(board.meta.lastActive))}
+=======
+                {board.settings?.meta?.lastActive &&
+                    toLocaleString(new Date(board.settings.meta.lastActive))}
+>>>>>>> 6baf38a3 (feat(date) change order of last active and created)
+            </Cell>
+            <Cell>
+                {board.settings?.meta?.created &&
+                    toLocaleString(new Date(board.settings.meta.created))}
             </Cell>
         </div>
     )
