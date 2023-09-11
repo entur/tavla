@@ -9,8 +9,15 @@ import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
 import { Tooltip } from '@entur/tooltip'
 import { Info } from 'Admin/scenarios/Info'
 import { BoardTransportModes } from '../BoardTransportModes'
+import { TOptionalColumn } from 'types/optionalColumns'
 
-function Row({ board }: { board: { id: string; settings?: TSettings } }) {
+function Row({
+    board,
+    shownColumns,
+}: {
+    board: { id: string; settings?: TSettings }
+    shownColumns: TOptionalColumn[]
+}) {
     const { addToast } = useToast()
     const router = useRouter()
     const [link, setLink] = useState('')
@@ -40,9 +47,11 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
                     </IconButton>
                 </Tooltip>
             </Cell>
-            <Cell>
-                <BoardTransportModes board={board} />
-            </Cell>
+            {shownColumns.find((col) => col.name === 'transportModes') && (
+                <Cell>
+                    <BoardTransportModes board={board} />
+                </Cell>
+            )}
             <Cell centered>
                 <Info board={board} />
                 <Tooltip content="Rediger tavle" placement="bottom">

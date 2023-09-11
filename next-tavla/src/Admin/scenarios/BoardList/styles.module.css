@@ -13,12 +13,6 @@
     width: 100;
     display: grid;
     background-color: var(--bg-color);
-    grid-template-columns:
-        20rem minmax(25rem, 30rem) repeat(
-            var(--table-columns),
-            minmax(8rem, auto)
-        )
-        5rem;
 }
 
 .tableBody {
