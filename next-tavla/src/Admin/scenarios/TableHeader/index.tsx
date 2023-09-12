@@ -2,6 +2,7 @@ import { IconButton } from '@entur/button'
 import classes from './styles.module.css'
 import { DownArrowIcon, UnsortedIcon, UpArrowIcon } from '@entur/icons'
 import { Cell } from '../BoardList/components/Cell'
+import { TSortableColumn } from 'Admin/types/sorting'
 
 function TableHeader({
     headerCells,
@@ -9,7 +10,7 @@ function TableHeader({
     sorting,
 }: {
     headerCells: { label: string; value: string; sortable: boolean }[]
-    onHeaderClick: (column: string, sortable: boolean) => void
+    onHeaderClick: (column: TSortableColumn) => void
     sorting: { column: string; order: string }
 }) {
     return (
@@ -21,7 +22,7 @@ function TableHeader({
                         {cell.sortable && (
                             <IconButton
                                 onClick={() =>
-                                    onHeaderClick(cell.value, cell.sortable)
+                                    onHeaderClick(cell.value as TSortableColumn)
                                 }
                             >
                                 {sorting.column === cell.value ? (

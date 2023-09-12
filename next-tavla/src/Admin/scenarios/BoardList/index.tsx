@@ -5,6 +5,7 @@ import classes from './styles.module.css'
 import { TextField } from '@entur/form'
 import { SearchIcon } from '@entur/icons'
 import { useState } from 'react'
+import { TSortableColumn, TSorting } from 'Admin/types/sorting'
 
 function BoardList({
     boards,
@@ -18,12 +19,11 @@ function BoardList({
     ]
     const [filterSearch, setFilterSearch] = useState('')
     const textSearchRegex = new RegExp(filterSearch, 'i')
-    const [sorting, setSorting] = useState({
-        column: '',
+    const [sorting, setSorting] = useState<TSorting>({
+        column: 'title',
         order: 'default',
     })
 
-    const handleHeaderClick = (column: string, sortable: boolean) => {
         if (sortable) {
             setSorting((prevSorting) => {
                 if (prevSorting.column === column) {
@@ -37,6 +37,7 @@ function BoardList({
                     }
                 } else {
                     return { column, order: 'asc' }
+    const handleHeaderClick = (column: TSortableColumn) => {
                 }
             })
         }
