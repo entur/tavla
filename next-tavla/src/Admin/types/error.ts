@@ -1,4 +1,4 @@
-export type TTavlaError = 'AUTHORIZATION' | 'BOARD'
+export type TTavlaError = 'AUTHORIZATION' | 'BOARD' | 'NOT_FOUND'
 
 export class TavlaError extends Error {
     code: TTavlaError

@@ -1,6 +1,7 @@
 import { TavlaError } from 'Admin/types/error'
 import { NextApiRequest } from 'next'
 import { verifySession } from './firebase'
+import { IncomingNextMessage } from 'types/next'
 
 export async function getBearerTokenFromRequest(request: NextApiRequest) {
     const authorization = request?.headers?.authorization
@@ -27,7 +28,9 @@ export async function getBearerTokenFromRequest(request: NextApiRequest) {
     return idToken
 }
 
-export async function verifyUserSession(request: NextApiRequest) {
+export async function verifyUserSession(
+    request: IncomingNextMessage | NextApiRequest,
+) {
     const session = request.cookies['session']
     return await verifySession(session)
 }

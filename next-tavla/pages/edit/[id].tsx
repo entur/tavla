@@ -6,9 +6,9 @@ import { Contrast } from '@entur/layout'
 import { upgradeBoard } from 'utils/converters'
 import { ToastProvider } from '@entur/alert'
 import { IncomingNextMessage } from 'types/next'
-import { verifySession } from 'Admin/utils/firebase'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { AdminHeader } from 'Admin/scenarios/AdminHeader'
+import { verifyUserSession } from 'Admin/utils/auth'
 
 export async function getServerSideProps({
     params,
@@ -19,8 +19,7 @@ export async function getServerSideProps({
 }) {
     const { id } = params
 
-    const session = req.cookies['session']
-    const user = await verifySession(session)
+    const user = verifyUserSession(req)
     const board: TBoard | undefined = await getBoard(id)
 
     if (!board) {

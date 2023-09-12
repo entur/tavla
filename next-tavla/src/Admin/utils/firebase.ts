@@ -23,6 +23,28 @@ export async function verifySession(session?: string) {
     }
 }
 
+export async function getBoardsForUser(uid: TUserID) {
+    const user = (
+        await firestore().collection('users').doc(uid).get()
+    ).data() as TUser
+
+    if (!user)
+        throw new TavlaError({
+            code: 'NOT_FOUND',
+            message: `Found no user with id ${uid}`,
+        })
+
+    const boardIDs = concat(user?.owner ?? [], user?.editor ?? [])
+    const boardRefs = await firestore()
+        .collection('boards')
+        .where(firestore.FieldPath.documentId(), 'in', boardIDs)
+        .get()
+    const boards = boardRefs.docs.map(
+        (doc) => ({ id: doc.id, ...doc.data() } as TBoard),
+    )
+    return boards
+}
+
 export async function setBoard(board: TBoard, uid: TUserID) {
     if (!board.id)
         throw new TavlaError({
