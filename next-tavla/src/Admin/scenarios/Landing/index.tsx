@@ -1,7 +1,5 @@
-import { Button } from '@entur/button'
 import { Heading1, ListItem, Paragraph, UnorderedList } from '@entur/typography'
 import classes from './styles.module.css'
-import { useState } from 'react'
 import Image from 'next/image'
 import landingImage from 'assets/illustrations/Tavla-illustration.png'
 import tavla from 'assets/illustrations/Tavla-screenshot.png'
