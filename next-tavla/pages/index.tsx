@@ -23,7 +23,9 @@ export async function getServerSideProps({
 function LandingPage({ user }: { user: DecodedIdToken | null }) {
     return (
         <div className={classes.root}>
-            <AdminHeader user={user} />
+            <div className={classes.header}>
+                <AdminHeader user={user} />
+            </div>
             <Landing />
         </div>
     )

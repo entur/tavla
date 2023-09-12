@@ -19,7 +19,7 @@ export async function getServerSideProps({
 }) {
     const { id } = params
 
-    const user = verifyUserSession(req)
+    const user = await verifyUserSession(req)
     const board: TBoard | undefined = await getBoard(id)
 
     if (!board) {
