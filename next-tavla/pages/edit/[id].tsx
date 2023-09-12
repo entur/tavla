@@ -20,6 +20,14 @@ export async function getServerSideProps({
     const { id } = params
 
     const user = await verifyUserSession(req)
+    if (!user)
+        return {
+            redirect: {
+                destination: '/#login',
+                permanent: false,
+            },
+        }
+
     const board: TBoard | undefined = await getBoard(id)
 
     if (!board) {
