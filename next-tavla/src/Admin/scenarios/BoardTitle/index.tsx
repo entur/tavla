@@ -12,13 +12,11 @@ function BoardTitle({ title }: { title?: string }) {
     const dispatch = useSettingsDispatch()
     const boardTitle = title || 'Tavla'
     const [tempTitle, setTempTitle] = useState(boardTitle)
+
     const inputRef = createRef<HTMLInputElement>()
 
     useEffect(() => {
-        if (isEditing) {
-            inputRef.current?.focus()
-            inputRef.current?.select()
-        }
+        isEditing && inputRef.current?.focus()
     }, [isEditing, inputRef])
 
     if (!isEditing) {
@@ -44,7 +42,10 @@ function BoardTitle({ title }: { title?: string }) {
                 defaultValue={boardTitle}
                 size="medium"
                 label="Navn på tavlen"
-                onChange={(e) => setTempTitle(e.target.value)}
+                onChange={(e) => {
+                    setTempTitle(e.target.value)
+                }}
+                onFocus={() => inputRef.current?.select()}
                 ref={inputRef}
             />
             <SecondarySquareButton
