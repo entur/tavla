@@ -42,6 +42,7 @@ function useAuth() {
             email,
             password,
         )
+        await fetch(`api/user/${credential.user.uid}`, { method: 'POST' })
         await fetchWithIdToken('/api/login', await credential.user.getIdToken())
         router.reload()
     }

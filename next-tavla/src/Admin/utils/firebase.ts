@@ -14,6 +14,10 @@ export function initializeAdminApp() {
     }
 }
 
+export async function createUser(uid: TUserID) {
+    return await firestore().collection('users').doc(uid).create({})
+}
+
 export async function verifySession(session?: string) {
     if (!session) return null
     try {
