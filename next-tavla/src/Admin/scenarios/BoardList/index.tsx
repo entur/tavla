@@ -24,23 +24,21 @@ function BoardList({
         order: 'default',
     })
 
-        if (sortable) {
-            setSorting((prevSorting) => {
-                if (prevSorting.column === column) {
-                    switch (prevSorting.order) {
-                        case 'default':
-                            return { column, order: 'asc' }
-                        case 'asc':
-                            return { column, order: 'desc' }
-                        default:
-                            return { column: 'title', order: 'default' }
-                    }
-                } else {
-                    return { column, order: 'asc' }
     const handleHeaderClick = (column: TSortableColumn) => {
+        setSorting((prevSorting) => {
+            if (prevSorting.column === column) {
+                switch (prevSorting.order) {
+                    case 'default':
+                        return { column, order: 'asc' }
+                    case 'asc':
+                        return { column, order: 'desc' }
+                    default:
+                        return { column: 'title', order: 'default' }
                 }
-            })
-        }
+            } else {
+                return { column, order: 'asc' }
+            }
+        })
     }
 
     function sortBoards() {
