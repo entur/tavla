@@ -3,22 +3,26 @@ import { Contrast } from '@entur/layout'
 import { ToastProvider } from '@entur/alert'
 import { Header } from 'components/Header'
 import { Boards } from 'Admin/scenarios/Boards'
-import { TSettings } from 'types/settings'
-import { checkFeatureFlags } from 'utils/featureFlags'
-import { getBoards } from 'utils/firebase'
+import { TBoard } from 'types/settings'
+import { getBoardsForUser } from 'Admin/utils/firebase'
+import { verifyUserSession } from 'Admin/utils/auth'
+import { IncomingNextMessage } from 'types/next'
 
-export async function getServerSideProps() {
-    const featureFlag = await checkFeatureFlags('BOARDS')
-    if (!featureFlag) {
+export async function getServerSideProps({
+    req,
+}: {
+    req: IncomingNextMessage
+}) {
+    const user = await verifyUserSession(req)
+    if (!user) {
         return {
             redirect: {
-                destination: '/',
+                destination: '/#login',
                 permanent: false,
             },
         }
     }
-
-    const boards = await getBoards()
+    const boards = await getBoardsForUser(user.uid)
 
     return {
         props: {
@@ -27,11 +31,7 @@ export async function getServerSideProps() {
     }
 }
 
-function OverviewPage({
-    boards,
-}: {
-    boards: { id: string; settings?: TSettings }[]
-}) {
+function OverviewPage({ boards }: { boards: TBoard[] }) {
     return (
         <Contrast className={classes.root}>
             <ToastProvider>

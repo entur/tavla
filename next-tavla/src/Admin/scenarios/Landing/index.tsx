@@ -1,27 +1,16 @@
-import { Button } from '@entur/button'
 import { Heading1, ListItem, Paragraph, UnorderedList } from '@entur/typography'
 import classes from './styles.module.css'
-import { addBoardSettings } from 'utils/firebase'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
 import Image from 'next/image'
 import landingImage from 'assets/illustrations/Tavla-illustration.png'
 import tavla from 'assets/illustrations/Tavla-screenshot.png'
 import { Contrast } from '@entur/layout'
 import classNames from 'classnames'
+import Link from 'next/link'
+import { useState } from 'react'
+import { Button } from '@entur/button'
 
 function Landing() {
-    const router = useRouter()
-    const [loading, setLoading] = useState(false)
-
-    async function handleCreateNewBoard() {
-        setLoading(true)
-        const createdBoard = await addBoardSettings({
-            tiles: [],
-        })
-        await router.push('/edit/' + createdBoard.id)
-    }
-
+    const [loading, isLoading] = useState(false)
     return (
         <div className={classes.container}>
             <Contrast className={classes.centeredContainer}>
@@ -32,11 +21,12 @@ function Landing() {
                     </Heading1>
 
                     <Button
-                        onClick={handleCreateNewBoard}
+                        as={Link}
+                        href="api/board"
+                        onClick={() => isLoading(true)}
                         variant="primary"
                         disabled={loading}
                         loading={loading}
-                        width="fluid"
                         className={classes.button}
                     >
                         Opprett ny tavle

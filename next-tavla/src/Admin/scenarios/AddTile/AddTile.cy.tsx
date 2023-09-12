@@ -3,13 +3,13 @@ import React, { useReducer } from 'react'
 import { TilesOverview } from '../TilesOverview'
 import { AddTile } from './index'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
-import { settingsReducer } from '../Edit/reducer'
+import { boardReducer } from '../Edit/reducer'
 import { ToastProvider } from '@entur/alert'
 import { GEOCODER_ENDPOINT } from 'assets/env'
 
 describe('<AddTile />', () => {
     const TestComponent = () => {
-        const [settings, dispatch] = useReducer(settingsReducer, {
+        const [settings, dispatch] = useReducer(boardReducer, {
             tiles: [],
         })
 

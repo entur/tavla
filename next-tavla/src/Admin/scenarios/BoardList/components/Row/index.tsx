@@ -1,6 +1,6 @@
 import { IconButton } from '@entur/button'
 import { CopyIcon, EditIcon } from '@entur/icons'
-import { TSettings } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { useToast } from '@entur/alert'
 import { useRouter } from 'next/router'
 import classes from './styles.module.css'
@@ -9,7 +9,7 @@ import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
 import { Tooltip } from '@entur/tooltip'
 import { Info } from 'Admin/scenarios/Info'
 
-function Row({ board }: { board: { id: string; settings?: TSettings } }) {
+function Row({ board }: { board: TBoard }) {
     const { addToast } = useToast()
     const router = useRouter()
     const [link, setLink] = useState('')
@@ -24,7 +24,7 @@ function Row({ board }: { board: { id: string; settings?: TSettings } }) {
 
     return (
         <div className={classes.tableRow}>
-            <Cell>{board.settings?.title ?? 'Tavla'}</Cell>
+            <Cell>{board?.title ?? 'Tavla'}</Cell>
             <Cell className={classes.link}>
                 {link}
                 <Tooltip content="Kopier lenke" placement="bottom">

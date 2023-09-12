@@ -1,6 +1,6 @@
-import { TSettings } from 'types/settings'
+import { TBoard, TBoardID } from 'types/settings'
 
-export function upgradeSettings(settings: TSettingsVersions): TSettings {
+export function upgradeBoard(settings: TBoardVersions): TBoard {
     if (!settings.version) settings.version = 1
 
     return settings
@@ -50,14 +50,15 @@ type TStopPlaceTileBase = {
 
 type TTileBase = TQuayTileBase | TStopPlaceTileBase
 
-type TSettingsBase = {
+type TBoardBase = {
+    id?: TBoardID
     tiles: TTileBase[]
     theme?: TThemeBase
     version?: number
 }
 
-type TSettingsV1 = {
+type TBoardV1 = {
     version: 1
-} & TSettingsBase
+} & TBoardBase
 
-export type TSettingsVersions = TSettingsBase | TSettingsV1
+export type TBoardVersions = TBoardBase | TBoardV1

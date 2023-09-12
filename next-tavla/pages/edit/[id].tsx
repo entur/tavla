@@ -1,14 +1,14 @@
-import { Header } from 'components/Header'
 import { Edit } from 'Admin/scenarios/Edit'
-import { TSettings } from 'types/settings'
-import { getBoardSettings } from 'utils/firebase'
+import { TBoard } from 'types/settings'
+import { getBoard } from 'utils/firebase'
 import classes from 'styles/pages/admin.module.css'
 import { Contrast } from '@entur/layout'
-import { upgradeSettings } from 'utils/converters'
+import { upgradeBoard } from 'utils/converters'
 import { ToastProvider } from '@entur/alert'
 import { IncomingNextMessage } from 'types/next'
-import { verifySession } from 'Admin/utils/firebase'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
+import { AdminHeader } from 'Admin/scenarios/AdminHeader'
+import { verifyUserSession } from 'Admin/utils/auth'
 
 export async function getServerSideProps({
     params,
@@ -19,22 +19,29 @@ export async function getServerSideProps({
 }) {
     const { id } = params
 
-    const session = req.cookies['session']
-    const user = await verifySession(session)
-    const settings: TSettings | undefined = await getBoardSettings(id)
+    const user = await verifyUserSession(req)
+    if (!user)
+        return {
+            redirect: {
+                destination: '/#login',
+                permanent: false,
+            },
+        }
 
-    if (!settings) {
+    const board: TBoard | undefined = await getBoard(id)
+
+    if (!board) {
         return {
             notFound: true,
         }
     }
 
-    const convertedSettings = upgradeSettings(settings)
+    const convertedBoard = upgradeBoard(board)
 
     return {
         props: {
             user: user,
-            settings: convertedSettings,
+            board: convertedBoard,
             id,
         },
     }
@@ -42,18 +49,18 @@ export async function getServerSideProps({
 
 function AdminPage({
     user,
-    settings,
+    board,
     id,
 }: {
     user: DecodedIdToken | null
-    settings: TSettings
+    board: TBoard
     id: string
 }) {
     return (
         <Contrast className={classes.root}>
             <ToastProvider>
-                <Header />
-                <Edit initialSettings={settings} documentId={id} user={user} />
+                <AdminHeader user={user} />
+                <Edit initialBoard={board} documentId={id} user={user} />
             </ToastProvider>
         </Contrast>
     )
