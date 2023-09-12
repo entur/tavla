@@ -51,7 +51,11 @@ export async function setBoard(board: TBoard, uid: TUserID) {
 }
 
 export async function createBoard(uid: TUserID) {
-    // create board
+  const board = await firestore().collection('boards').add({tiles: []})
+  const user = await firestore().collection('users').doc(uid).update({
+    owner: admin.firestore.FieldValue.arrayUnion(board.id)
+  })
+  return board.id
 }
 
 export async function userCanWriteBoard(uid: TUserID, bid: TBoardID) {
