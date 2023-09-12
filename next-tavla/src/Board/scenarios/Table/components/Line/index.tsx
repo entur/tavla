@@ -3,8 +3,8 @@ import { DeparturesContext } from '../../contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import classes from './styles.module.css'
+import { transportModeNames } from 'Admin/utils/transport'
 import { TransportIcon } from '../TransportIcon'
-import { transportModeNames } from 'Admin/utils'
 
 function Line() {
     const departures = useNonNullContext(DeparturesContext)

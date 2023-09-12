@@ -1,18 +1,14 @@
 import { TableHeader } from '../TableHeader'
 import { Row } from './components/Row'
-import { TSettings } from 'types/settings'
 import classes from './styles.module.css'
 import { TextField } from '@entur/form'
 import { CheckIcon, SearchIcon } from '@entur/icons'
 import { useState } from 'react'
 import { OverflowMenu, OverflowMenuItem } from '@entur/menu'
 import { SecondaryButton } from '@entur/button'
+import { TBoard } from 'types/settings'
 
-function BoardList({
-    boards,
-}: {
-    boards: { id: string; settings?: TSettings }[]
-}) {
+function BoardList({ boards }: { boards: TBoard[] }) {
     const [filterSearch, setFilterSearch] = useState('')
     const textSearchRegex = new RegExp(filterSearch, 'i')
     const sortOptions = [
@@ -21,12 +17,9 @@ function BoardList({
     ]
     const [selectedSort, setSelectedSort] = useState(sortOptions[0])
 
-    const sortBoards = (
-        a: { settings?: TSettings },
-        b: { settings?: TSettings },
-    ) => {
-        const titleA = a.settings?.title?.toLowerCase() ?? ''
-        const titleB = b.settings?.title?.toLowerCase() ?? ''
+    const sortBoards = (boardA: TBoard, boardB: TBoard) => {
+        const titleA = boardA?.title?.toLowerCase() ?? ''
+        const titleB = boardB?.title?.toLowerCase() ?? ''
         if (!selectedSort) return 0
         switch (selectedSort.value) {
             case 'alphabetical':
@@ -73,7 +66,7 @@ function BoardList({
                 <div className={classes.tableBody}>
                     {boards
                         .filter((board) =>
-                            textSearchRegex.test(board.settings?.title ?? ''),
+                            textSearchRegex.test(board?.title ?? ''),
                         )
                         .sort(sortBoards)
                         .map((board) => (

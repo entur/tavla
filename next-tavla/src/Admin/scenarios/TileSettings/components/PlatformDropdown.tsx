@@ -1,6 +1,6 @@
 import { Dropdown } from '@entur/dropdown'
 import { Heading4, SubParagraph } from '@entur/typography'
-import { transportModeNames } from 'Admin/utils'
+import { transportModeNames } from 'Admin/utils/transport'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { QuaysSearchQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'

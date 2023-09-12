@@ -9,11 +9,12 @@ import { Email } from './components/Email'
 import { Start } from './components/Start'
 import { useAuth } from './hooks/useAuth'
 import classes from './styles.module.css'
+import { useHashState } from 'hooks/useHash'
 
 function Login({ user }: { user: DecodedIdToken | null }) {
     const { logout } = useAuth()
 
-    const [showModal, setShowModal] = useState(false)
+    const { isOpen, open, close } = useHashState('login')
     const [pages, setPages] = useState<TLoginPage[]>([])
 
     if (user) {
@@ -29,27 +30,21 @@ function Login({ user }: { user: DecodedIdToken | null }) {
         setPages(pages.slice(0, -1))
     }
 
-    const closeModal = () => {
-        setShowModal(false)
-    }
-
     const nestedPagesExist = pages && pages.length > 0
 
     return (
         <>
-            <PrimaryButton onClick={() => setShowModal(true)}>
-                Logg inn
-            </PrimaryButton>
+            <PrimaryButton onClick={open}>Logg inn</PrimaryButton>
             <Modal
-                open={showModal}
+                open={isOpen}
                 size="small"
-                onDismiss={closeModal}
+                onDismiss={close}
                 closeLabel="Lukk innlogging"
                 className={classes.login}
             >
                 <div className={classes.actions}>
                     <SecondarySquareButton
-                        onClick={closeModal}
+                        onClick={close}
                         aria-label="Lukk innlogging"
                     >
                         <CloseIcon />

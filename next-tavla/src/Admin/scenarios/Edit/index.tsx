@@ -1,44 +1,39 @@
-import { TSettings } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { TilesOverview } from '../TilesOverview'
 import { useReducer } from 'react'
 import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
 import { AddTile } from '../AddTile'
 import { SettingsDispatchContext } from 'Admin/utils/contexts'
-import { settingsReducer } from './reducer'
+import { boardReducer } from './reducer'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { useAutoSaveSettings } from './hooks/useAutoSaveSettings'
 import { CopyIcon, SaveIcon } from '@entur/icons'
 import { SecondaryLink } from 'components/SecondaryLink'
 import { useToast } from '@entur/alert'
-import { Login } from '../Login'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { BoardTitle } from '../BoardTitle'
-import { checkFeatureFlags } from 'utils/featureFlags'
 
 function Edit({
-    initialSettings,
+    initialBoard,
     documentId,
-    user,
 }: {
-    initialSettings: TSettings
+    initialBoard: TBoard
     documentId: string
     user: DecodedIdToken | null
 }) {
-    const [settings, dispatch] = useReducer(settingsReducer, initialSettings)
+    const [board, dispatch] = useReducer(boardReducer, initialBoard)
     const { addToast } = useToast()
-
-    const LOGIN = checkFeatureFlags('LOGIN')
 
     const linkUrl = window.location.host + '/' + documentId
 
-    const saveSettings = useAutoSaveSettings(documentId, settings)
+    const saveSettings = useAutoSaveSettings(board)
 
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
                 <div className="flexBetween">
-                    <BoardTitle title={settings.title} />
+                    <BoardTitle title={board.title} />
                     <div className="flexGap">
                         <SecondaryButton
                             onClick={() => {
@@ -58,12 +53,10 @@ function Edit({
                             Lagre tavla
                             <SaveIcon />
                         </PrimaryButton>
-
-                        {LOGIN && <Login user={user} />}
                     </div>
                 </div>
                 <AddTile />
-                <TilesOverview tiles={settings.tiles} />
+                <TilesOverview tiles={board.tiles} />
             </div>
         </SettingsDispatchContext.Provider>
     )

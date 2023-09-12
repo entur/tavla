@@ -1,14 +1,10 @@
 import { Heading1 } from '@entur/typography'
 import classes from './styles.module.css'
 import { BoardList } from '../BoardList'
-import { TSettings } from 'types/settings'
+import { TBoard } from 'types/settings'
 import dynamic from 'next/dynamic'
 
-function Boards({
-    boards,
-}: {
-    boards: { id: string; settings?: TSettings }[]
-}) {
+function Boards({ boards }: { boards: TBoard[] }) {
     return (
         <div className={classes.adminWrapper}>
             <Heading1>Mine Tavler</Heading1>

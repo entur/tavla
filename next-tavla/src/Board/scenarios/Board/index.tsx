@@ -1,4 +1,4 @@
-import { TSettings } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { TTile } from 'types/tile'
 import { StopPlaceTile } from '../StopPlaceTile'
 import { QuayTile } from '../QuayTile'
@@ -14,15 +14,15 @@ function BoardTile({ tileSpec }: { tileSpec: TTile }) {
     }
 }
 
-function Board({ settings }: { settings: TSettings }) {
-    if (!settings.tiles.length)
+function Board({ board }: { board: TBoard }) {
+    if (!board.tiles || !board.tiles.length)
         return (
             <Tile className={classes.emptyTile}>
                 <p>Du har ikke lagt til noen holdeplasser enda.</p>
             </Tile>
         )
 
-    const fontScale = 1 / Math.ceil(Math.sqrt(settings.tiles.length))
+    const fontScale = 1 / Math.ceil(Math.sqrt(board.tiles.length))
 
     return (
         <div
@@ -31,7 +31,7 @@ function Board({ settings }: { settings: TSettings }) {
                 fontSize: 100 * fontScale + '%',
             }}
         >
-            {settings.tiles.map((tile, index) => {
+            {board.tiles.map((tile, index) => {
                 return <BoardTile key={index} tileSpec={tile} />
             })}
         </div>
