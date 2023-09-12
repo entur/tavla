@@ -8,13 +8,11 @@ export default async function handler(
     request: NextApiRequest,
     response: NextApiResponse,
 ) {
-    const document = request.headers.authorization
-    if (document?.startsWith('documentId ')) {
-        const documentId = document.split('documentId ')[1] ?? ''
-
-        await setLastActive(documentId)
-
+    const { id } = request.query
+    try {
+        await setLastActive(id as string)
         return response.status(200).json({ message: 'Successfully updated!' })
+    } catch (error) {
+        return response.status(400).json({ error: 'Could not update!' })
     }
-    return response.status(400).json({ error: 'Could not update!' })
 }

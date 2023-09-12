@@ -10,12 +10,8 @@ function useUpdateLastActive(documentId: string) {
             new Date().getTime() - lastActiveDate.getTime() >
             1000 * 60 * 60 * 24
         ) {
-            await fetch(`/api/ping`, {
+            await fetch(`/api/ping/${documentId}`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'documentId ' + documentId,
-                },
             })
         }
     }, [documentId])
