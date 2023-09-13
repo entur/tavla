@@ -1,15 +1,14 @@
 import { useCallback, useEffect } from 'react'
-import { getBoardSettings } from 'utils/firebase'
+import { TBoardID } from 'types/settings'
+import { getBoard } from 'utils/firebase'
 
-function useUpdateLastActive(documentId: string) {
+function useUpdateLastActive(documentId: TBoardID) {
     const updateLastActive = useCallback(async () => {
-        const settings = await getBoardSettings(documentId)
-        const lastActive = settings.meta?.lastActive ?? 0
-        const lastActiveDate = new Date(lastActive)
-        if (
-            new Date().getTime() - lastActiveDate.getTime() >
-            1000 * 60 * 60 * 24
-        ) {
+        const board = (await getBoard(documentId)) || undefined
+        if (!board) return
+        const lastActive = board?.meta?.lastActive ?? 0
+        const lastActiveDate = new Date(lastActive).getTime()
+        if (Date.now() - lastActiveDate > 1000 * 60 * 60 * 24) {
             await fetch(`/api/ping/${documentId}`, {
                 method: 'POST',
             })

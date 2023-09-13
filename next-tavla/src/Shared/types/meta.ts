@@ -1,7 +1,7 @@
 export type TMeta = {
     title?: string
-    created?: DateTime
-    dateModified?: DateTime
-    lastActive?: DateTime
+    created?: number
+    dateModified?: number
+    lastActive?: number
     version?: number
 }

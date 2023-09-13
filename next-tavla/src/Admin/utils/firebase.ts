@@ -78,8 +78,21 @@ export async function setBoard(board: TBoard, uid: TUserID) {
         .set(sanitizedBoard)
 }
 
+export async function setLastActive(bid: TBoardID) {
+    const board = await firestore().collection('boards').doc(bid).get()
+    if (!board.exists) return
+    const data = board.data() as TBoard
+    data.meta = { ...data.meta, lastActive: Date.now() }
+    return await firestore().collection('boards').doc(bid).set(data)
+}
+
 export async function createBoard(uid: TUserID) {
-    const board = await firestore().collection('boards').add({ tiles: [] })
+    const board = await firestore()
+        .collection('boards')
+        .add({
+            tiles: [],
+            meta: { created: Date.now(), lastModified: Date.now() },
+        })
     firestore()
         .collection('users')
         .doc(uid)
