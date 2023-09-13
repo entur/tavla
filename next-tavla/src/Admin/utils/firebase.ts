@@ -27,6 +27,12 @@ export async function verifySession(session?: string) {
     }
 }
 
+export async function getBoard(bid: TBoardID) {
+    return (
+        await firestore().collection('boards').doc(bid).get()
+    ).data() as TBoard
+}
+
 export async function getBoardsForUser(uid: TUserID) {
     const user = (
         await firestore().collection('users').doc(uid).get()
