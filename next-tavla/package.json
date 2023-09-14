@@ -7,6 +7,7 @@
     ],
     "scripts": {
         "dev": "next dev & firebase emulators:start --project=ent-tavla-dev",
+        "dev:persist": "next dev & firebase emulators:start --import=./.emulator-data --export-on-exit=./.emulator-data --project=ent-tavla-dev",
         "build": "next build",
         "build:prod": "NEXT_PUBLIC_ENV=prod next build",
         "test": "jest",
