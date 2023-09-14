@@ -6,7 +6,7 @@
         "chrome > 47"
     ],
     "scripts": {
-        "dev": "next dev & firebase emulators:start",
+        "dev": "next dev & firebase emulators:start --project=ent-tavla-dev",
         "build": "next build",
         "build:prod": "NEXT_PUBLIC_ENV=prod next build",
         "test": "jest",
