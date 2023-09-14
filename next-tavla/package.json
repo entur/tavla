@@ -6,7 +6,7 @@
         "chrome > 47"
     ],
     "scripts": {
-        "dev": "next dev",
+        "dev": "next dev & firebase emulators:start",
         "build": "next build",
         "build:prod": "NEXT_PUBLIC_ENV=prod next build",
         "test": "jest",
@@ -74,6 +74,7 @@
         "eslint-config-next": "13.2.4",
         "eslint-config-prettier": "8.8.0",
         "eslint-plugin-prettier": "4.2.1",
+        "firebase-tools": "12.5.4",
         "husky": "8.0.3",
         "jest": "29.5.0",
         "jest-environment-jsdom": "29.5.0",
