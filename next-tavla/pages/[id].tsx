@@ -1,9 +1,9 @@
 import { Header } from 'components/Header'
 import { TBoard } from 'types/settings'
-import { getBoard } from 'utils/firebase'
 import classes from 'styles/pages/board.module.css'
 import { upgradeBoard } from 'utils/converters'
 import { Board } from 'Board/scenarios/Board'
+import { getBoard } from 'Admin/utils/firebase'
 
 export async function getServerSideProps({
     params,

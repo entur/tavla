@@ -1,6 +1,5 @@
 import { Edit } from 'Admin/scenarios/Edit'
 import { TBoard } from 'types/settings'
-import { getBoard } from 'utils/firebase'
 import classes from 'styles/pages/admin.module.css'
 import { Contrast } from '@entur/layout'
 import { upgradeBoard } from 'utils/converters'
@@ -9,6 +8,7 @@ import { IncomingNextMessage } from 'types/next'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { AdminHeader } from 'Admin/scenarios/AdminHeader'
 import { verifyUserSession } from 'Admin/utils/auth'
+import { getBoard } from 'Admin/utils/firebase'
 
 export async function getServerSideProps({
     params,
