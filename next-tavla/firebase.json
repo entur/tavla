@@ -1,10 +1,14 @@
 {
-    "hosting": {
-        "site": "lite-tavla",
-        "source": ".",
-        "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-        "frameworksBackend": {
-            "region": "europe-west1"
-        }
+    "emulators": {
+        "auth": {
+            "port": 9099
+        },
+        "firestore": {
+            "port": 8080
+        },
+        "ui": {
+            "enabled": true
+        },
+        "singleProjectMode": true
     }
 }

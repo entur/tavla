@@ -1,6 +1,5 @@
 import { TavlaError } from 'Admin/types/error'
 import admin, { auth, firestore } from 'firebase-admin'
-import { cert } from 'firebase-admin/app'
 import { concat } from 'lodash'
 import { TBoard, TBoardID, TOrganization, TUser, TUserID } from 'types/settings'
 
@@ -8,9 +7,7 @@ initializeAdminApp()
 
 export function initializeAdminApp() {
     if (admin.apps.length <= 0) {
-        admin.initializeApp({
-            credential: cert(JSON.parse(process.env.SERVICE_ACCOUNT ?? '')),
-        })
+        admin.initializeApp()
     }
 }
 
@@ -25,6 +22,11 @@ export async function verifySession(session?: string) {
     } catch {
         return null
     }
+}
+
+export async function getBoard(bid: TBoardID) {
+    const board = await firestore().collection('boards').doc(bid).get()
+    return { id: board.id, ...board.data() } as TBoard
 }
 
 export async function getBoardsForUser(uid: TUserID) {
