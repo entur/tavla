@@ -33,11 +33,7 @@ function BoardListOptions({
             )
         } else {
             setShownOptionalColumns((shownColumns) =>
-                uniqueArrayItems(
-                    shownColumns.filter(
-                        (shownColumn) => shownColumn !== column,
-                    ),
-                ),
+                shownColumns.filter((shownColumn) => shownColumn !== column),
             )
         }
     }
