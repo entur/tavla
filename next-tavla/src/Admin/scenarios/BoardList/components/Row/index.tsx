@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
 import { Tooltip } from '@entur/tooltip'
 import { Info } from 'Admin/scenarios/Info'
+import { formatDate } from 'utils/time'
 
 function Row({ board }: { board: TBoard }) {
     const { addToast } = useToast()
@@ -20,18 +21,6 @@ function Row({ board }: { board: TBoard }) {
 
     async function editBoard() {
         await router.push('/edit/' + board.id)
-    }
-
-    function toLocaleString(date: Date) {
-        return date
-            .toLocaleDateString('no-NB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-            })
-            .replace(',', '')
     }
 
     return (
@@ -61,7 +50,7 @@ function Row({ board }: { board: TBoard }) {
             </Cell>
             <Cell>
                 {board?.meta?.dateModified &&
-                    toLocaleString(new Date(board.meta.dateModified))}
+                    formatDate(new Date(board.meta.dateModified))}
             </Cell>
         </div>
     )

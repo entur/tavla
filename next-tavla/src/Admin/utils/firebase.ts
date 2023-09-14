@@ -75,7 +75,10 @@ export async function setBoard(board: TBoard, uid: TUserID) {
     return await firestore()
         .collection('boards')
         .doc(boardId)
-        .set(sanitizedBoard)
+        .set({
+            ...sanitizedBoard,
+            meta: { ...sanitizedBoard.meta, dateModified: Date.now() },
+        })
 }
 
 export async function setLastActive(bid: TBoardID) {
