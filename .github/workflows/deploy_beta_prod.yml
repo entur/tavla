@@ -33,4 +33,5 @@ jobs:
            - name: 'Deploy'
              run: >
                 gcloud run deploy $PROJECT_ID --image eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
-                --region $RUN_REGION --set-env-vars=ENABLED_FEATURES=$ENABLED_FEATURES
+                --region $RUN_REGION --set-env-vars=NEXT_PUBLIC_ENABLED_FEATURES=$ENABLED_FEATURES
+                --allow-unauthenticated
