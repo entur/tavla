@@ -10,7 +10,7 @@ function useUpdateLastActive(documentId: TBoardID | undefined) {
 
     useEffect(() => {
         updateLastActive()
-        const intervalId = setInterval(updateLastActive, 1000 * 60 * 60 * 24) // Runs every hour
+        const intervalId = setInterval(updateLastActive, 1000 * 60 * 60 * 24)
         return () => {
             clearInterval(intervalId)
         }
