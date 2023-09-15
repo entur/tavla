@@ -1,20 +1,15 @@
-name: Deploy Beta staging
+name: Deploy Beta prod
 
 on:
     workflow_dispatch:
-    push:
-        branches:
-            - master
-        paths:
-            - "next-tavla/**"
 
 env:
-  PROJECT_ID: ${{ secrets.BETA_STAGING_ID }}
+  PROJECT_ID: ${{ secrets.BETA_PROD_ID }}
   RUN_REGION:  ${{ secrets.BETA_RUN_REGION }}
   ENABLED_FEATURES: ${{ secrets.ENABLED_FEATURES }}
   
 jobs:
-    deploy-staging:
+    deploy-prod:
         runs-on: ubuntu-latest
         defaults:
             run:
@@ -24,13 +19,13 @@ jobs:
 
            - uses: 'google-github-actions/auth@v1'
              with:
-               credentials_json: "${{ secrets.DEPLOY_BETA_STAGING }}"
+               credentials_json: "${{ secrets.DEPLOY_BETA_PROD }}"
 
            - name: 'Set up Cloud SDK'
              uses: 'google-github-actions/setup-gcloud@v1'
              with:
                version: '>= 363.0.0'
-               project_id: "${{ secrets.BETA_STAGING_ID }}"
+               project_id: "${{ secrets.BETA_PROD_ID }}"
 
            - name: 'Build container image'
              run: 'gcloud builds submit --tag eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA'
