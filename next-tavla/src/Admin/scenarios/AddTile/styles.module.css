@@ -1,5 +1,6 @@
 .SearchContainer {
     display: flex;
+    align-items: center;
     gap: 0.5em;
     padding-bottom: 1em;
 }
