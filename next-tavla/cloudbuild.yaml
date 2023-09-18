@@ -1,6 +1,6 @@
 steps:
     - name: 'gcr.io/cloud-builds/docker'
-    - args:
+      args:
           [
               'build',
               '--build-arg',
