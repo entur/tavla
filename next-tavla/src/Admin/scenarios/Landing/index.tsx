@@ -5,6 +5,7 @@ import landingImage from 'assets/illustrations/Tavla-illustration.png'
 import tavla from 'assets/illustrations/Tavla-screenshot.png'
 import { Contrast } from '@entur/layout'
 import classNames from 'classnames'
+import { CreateBoard } from '../CreateBoard'
 
 function Landing() {
     return (
@@ -15,6 +16,9 @@ function Landing() {
                     <Heading1 className={classes.subheading}>
                         for reisende
                     </Heading1>
+                    <div className={classes.button}>
+                        <CreateBoard />
+                    </div>
                 </div>
                 <div className={classNames(classes.content, classes.topImage)}>
                     <Image
