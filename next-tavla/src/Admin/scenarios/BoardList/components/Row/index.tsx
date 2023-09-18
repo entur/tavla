@@ -1,6 +1,6 @@
 import { IconButton } from '@entur/button'
 import { CopyIcon, EditIcon } from '@entur/icons'
-import { TBoard } from 'types/settings'
+import { TBoard, TBoardID } from 'types/settings'
 import { useToast } from '@entur/alert'
 import { useRouter } from 'next/router'
 import classes from './styles.module.css'
@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
 import { Tooltip } from '@entur/tooltip'
 import { Info } from 'Admin/scenarios/Info'
+import { DeleteBoardButton } from 'Admin/scenarios/deleteBoadButton'
 
 function Row({ board }: { board: TBoard }) {
     const { addToast } = useToast()
@@ -45,6 +46,14 @@ function Row({ board }: { board: TBoard }) {
                     <IconButton aria-label="Rediger tavle" onClick={editBoard}>
                         <EditIcon />
                     </IconButton>
+                </Tooltip>
+            </Cell>
+            <Cell>
+                <Tooltip content="Slett tavle" placement="bottom">
+                    <DeleteBoardButton
+                        boardId={board.id as TBoardID}
+                        boardName={board.title}
+                    ></DeleteBoardButton>
                 </Tooltip>
             </Cell>
         </div>
