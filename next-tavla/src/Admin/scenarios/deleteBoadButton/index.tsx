@@ -6,6 +6,7 @@ import { Heading1, LeadParagraph } from '@entur/typography'
 import classes from './styles.module.css'
 import { useToast } from '@entur/alert'
 import { TBoardID } from 'types/settings'
+import { useSettingsDispatch } from 'Admin/utils/boardsContexts'
 
 function DeleteBoardButton({
     boardId,
@@ -14,6 +15,7 @@ function DeleteBoardButton({
     boardId: TBoardID
     boardName?: string
 }) {
+    const dispatch = useSettingsDispatch()
     const [showModal, setShowModal] = useState(false)
 
     const { addToast } = useToast()
@@ -24,8 +26,21 @@ function DeleteBoardButton({
 
     const deleteBoardHandler = async () => {
         closeModal()
+        dispatch({ type: 'deleteBoard', boardId })
+        const response = await fetch(`/api/delete/${boardId}`, {
+            method: 'DELETE',
+        })
+        if (!response.ok) {
+            addToast({
+                title: 'Noe gikk galt',
+                content: 'Kunne ikke slette tavle',
+                variant: 'info',
+            })
+            return
+        }
+
         addToast({
-            title: `Tavle ${boardId} slettet!`,
+            title: 'Tavle slettet!',
             content: `${boardName ?? 'Tavla'} er slettet!`,
             variant: 'info',
         })

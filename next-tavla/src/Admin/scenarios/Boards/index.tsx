@@ -9,7 +9,7 @@ function Boards({ boards }: { boards: TBoard[] }) {
         <div className={classes.adminWrapper}>
             <Heading1>Mine Tavler</Heading1>
             <div>
-                <BoardList boards={boards} />
+                <BoardList initialBoards={boards} />
             </div>
         </div>
     )

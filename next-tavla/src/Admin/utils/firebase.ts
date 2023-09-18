@@ -89,6 +89,23 @@ export async function createBoard(uid: TUserID) {
     return board.id
 }
 
+export async function deleteBoard(bid: TBoardID, uid: TUserID) {
+    const deleteAccess = await userCanDeleteBoard(uid, bid)
+    if (!deleteAccess) {
+        throw new TavlaError({
+            code: 'BOARD',
+            message: 'User does not have access to this board.',
+        })
+    }
+    return firestore().collection('boards').doc(bid).delete()
+}
+
+export async function userCanDeleteBoard(uid: TUserID, bid: TBoardID) {
+    const user = await getUser(uid)
+    const userCanDeleteBoard = concat(user?.owner).includes(bid)
+    return userCanDeleteBoard
+}
+
 export async function userCanWriteBoard(uid: TUserID, bid: TBoardID) {
     const user = await getUser(uid)
     const writeAccessFromUser = concat(user?.owner, user?.editor).includes(bid)
