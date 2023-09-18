@@ -1,42 +1,41 @@
 name: Deploy Beta staging
 
 on:
-    workflow_dispatch:
-    push:
-        branches:
-            - master
-        paths:
-            - "next-tavla/**"
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - "next-tavla/**"
 
 env:
   PROJECT_ID: ${{ secrets.BETA_STAGING_ID }}
-  RUN_REGION:  ${{ secrets.BETA_RUN_REGION }}
+  RUN_REGION: ${{ secrets.BETA_RUN_REGION }}
   ENABLED_FEATURES: ${{ secrets.ENABLED_FEATURES }}
-  
+
 jobs:
-    deploy-staging:
-        runs-on: ubuntu-latest
-        defaults:
-            run:
-                working-directory: next-tavla
-        steps:
-           - uses: actions/checkout@v3
+  deploy-staging:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: next-tavla
+    steps:
+      - uses: actions/checkout@v3
 
-           - uses: 'google-github-actions/auth@v1'
-             with:
-               credentials_json: "${{ secrets.DEPLOY_BETA_STAGING }}"
+      - uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.DEPLOY_BETA_STAGING }}"
 
-           - name: 'Set up Cloud SDK'
-             uses: 'google-github-actions/setup-gcloud@v1'
-             with:
-               version: '>= 363.0.0'
-               project_id: "${{ secrets.BETA_STAGING_ID }}"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+        with:
+          version: ">= 363.0.0"
+          project_id: "${{ secrets.BETA_STAGING_ID }}"
 
-           - name: 'Build container image'
-             run: 'gcloud builds submit --tag eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA'
+      - name: "Build container image"
+        run: "gcloud builds submit --tag eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA"
 
-           - name: 'Deploy'
-             run: >
-                gcloud run deploy $PROJECT_ID --image eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
-                --region $RUN_REGION --set-env-vars=NEXT_PUBLIC_ENABLED_FEATURES=$ENABLED_FEATURES
-                --allow-unauthenticated
+      - name: "Deploy"
+        run: >
+          gcloud run deploy $PROJECT_ID --image eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
+          --region $RUN_REGION --allow-unauthenticated

@@ -29,6 +29,6 @@ const FIREBASE_PRD_CONFIG = {
 }
 
 export const FIREBASE_CLIENT_CONFIG =
-    process.env.NODE_ENV === 'development'
-        ? FIREBASE_DEV_CONFIG
-        : FIREBASE_PRD_CONFIG
+    process.env.NEXT_PUBLIC_ENV === 'prod'
+        ? FIREBASE_PRD_CONFIG
+        : FIREBASE_DEV_CONFIG
