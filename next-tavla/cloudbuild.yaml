@@ -1,0 +1,14 @@
+steps:
+    - name: 'gcr.io/cloud-builds/docker'
+    - args:
+          [
+              'build',
+              '--build-arg',
+              'ENV=${ENV}',
+              '--build-arg',
+              'ENABLED_FEATURES=${ENABLED_FEATURES}',
+              '-t',
+              'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$SHORT_SHA',
+              '.',
+          ]
+images: ['eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$SHORT_SHA']
