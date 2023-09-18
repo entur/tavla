@@ -5,12 +5,8 @@ import landingImage from 'assets/illustrations/Tavla-illustration.png'
 import tavla from 'assets/illustrations/Tavla-screenshot.png'
 import { Contrast } from '@entur/layout'
 import classNames from 'classnames'
-import Link from 'next/link'
-import { useState } from 'react'
-import { Button } from '@entur/button'
 
 function Landing() {
-    const [loading, isLoading] = useState(false)
     return (
         <div className={classes.container}>
             <Contrast className={classes.centeredContainer}>
@@ -19,18 +15,6 @@ function Landing() {
                     <Heading1 className={classes.subheading}>
                         for reisende
                     </Heading1>
-
-                    <Button
-                        as={Link}
-                        href="api/board"
-                        onClick={() => isLoading(true)}
-                        variant="primary"
-                        disabled={loading}
-                        loading={loading}
-                        className={classes.button}
-                    >
-                        Opprett ny tavle
-                    </Button>
                 </div>
                 <div className={classNames(classes.content, classes.topImage)}>
                     <Image
