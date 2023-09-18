@@ -33,8 +33,7 @@ jobs:
           project_id: "${{ secrets.BETA_STAGING_ID }}"
 
       - name: "Build container image"
-        run: "gcloud builds submit --tag eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA"
-
+        run: "gcloud builds submit . --substitutions ENABLED_FEATURES=$ENABLED_FEATURES"
       - name: "Deploy"
         run: >
           gcloud run deploy $PROJECT_ID --image eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
