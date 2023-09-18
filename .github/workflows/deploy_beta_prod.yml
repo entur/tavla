@@ -27,7 +27,7 @@ jobs:
           project_id: "${{ secrets.BETA_PROD_ID }}"
 
       - name: "Build container image"
-        run: "gcloud builds submit . --substitutions _ENV=prod,_ENABLED_FEATURES=$ENABLED_FEATURES"
+        run: "gcloud builds submit . --substitutions _ENV=prod,_ENABLED_FEATURES=$ENABLED_FEATURES,COMMIT_SHA=$GITHUB_SHA"
       - name: "Deploy"
         run: >
           gcloud run deploy $PROJECT_ID --image eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
