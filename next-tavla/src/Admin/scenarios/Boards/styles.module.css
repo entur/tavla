@@ -4,3 +4,8 @@
     gap: 5em;
     margin: 1.25em 0;
 }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
