@@ -1,5 +1,5 @@
 steps:
-    - name: 'gcr.io/cloud-builds/docker'
+    - name: 'gcr.io/cloud-builders/docker'
       args:
           [
               'build',
