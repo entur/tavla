@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: setup env
-        run: echo "prod" >> $ENV
+        run: echo "prod" >> "${ENV}"
       - uses: "google-github-actions/auth@v1"
         with:
           credentials_json: "${{ secrets.DEPLOY_BETA_PROD }}"
