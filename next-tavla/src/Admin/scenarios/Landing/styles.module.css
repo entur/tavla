@@ -36,10 +36,6 @@
     flex: 1;
 }
 
-.button {
-    width: 50%;
-}
-
 .list {
     padding-left: 2em;
     color: var(--primary-text-color); /* Variabel fra designsystemet */

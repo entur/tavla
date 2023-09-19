@@ -3,14 +3,16 @@ import classes from './styles.module.css'
 import { BoardList } from '../BoardList'
 import { TBoard } from 'types/settings'
 import dynamic from 'next/dynamic'
+import { CreateBoard } from '../CreateBoard'
 
 function Boards({ boards }: { boards: TBoard[] }) {
     return (
         <div className={classes.adminWrapper}>
-            <Heading1>Mine Tavler</Heading1>
-            <div>
-                <BoardList boards={boards} />
+            <div className={classes.header}>
+                <Heading1>Mine Tavler</Heading1>
+                <CreateBoard />
             </div>
+            <BoardList boards={boards} />
         </div>
     )
 }
