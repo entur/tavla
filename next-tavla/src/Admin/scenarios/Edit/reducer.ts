@@ -63,12 +63,12 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
             return {
                 ...settings,
                 tiles: [
+                    ...settings.tiles,
                     {
                         ...action.tile,
                         uuid: nanoid(),
                         columns: ['line', 'destination', 'time'],
                     },
-                    ...settings.tiles,
                 ],
             }
         }
