@@ -16,8 +16,6 @@ function Landing() {
                     <Heading1 className={classes.subheading}>
                         for reisende
                     </Heading1>
-                    <div className={classes.button}>
-                    </div>
                     <CreateBoard />
                 </div>
                 <div className={classNames(classes.content, classes.topImage)}>
