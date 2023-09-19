@@ -13,8 +13,8 @@ function BoardTitle({ title }: { title?: string }) {
     const boardTitle = title || 'Tavla'
     const [tempTitle, setTempTitle] = useState(boardTitle)
 
-    const selectOnRef = useCallback((ref: HTMLInputElement | null) => {
-        ref?.select()
+    const autoSelect = useCallback((ref: HTMLInputElement) => {
+        ref.select()
     }, [])
 
     if (!isEditing) {
@@ -40,7 +40,7 @@ function BoardTitle({ title }: { title?: string }) {
                 size="medium"
                 label="Navn på tavlen"
                 onChange={(e) => setTempTitle(e.target.value)}
-                ref={selectOnRef}
+                ref={autoSelect}
             />
             <SecondarySquareButton
                 className={classes.squareButton}
