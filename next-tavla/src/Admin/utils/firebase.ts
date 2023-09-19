@@ -75,11 +75,33 @@ export async function setBoard(board: TBoard, uid: TUserID) {
     return await firestore()
         .collection('boards')
         .doc(boardId)
-        .set(sanitizedBoard)
+        .set({
+            ...sanitizedBoard,
+            meta: { ...sanitizedBoard.meta, dateModified: Date.now() },
+        })
+}
+
+export async function setLastActive(bid: TBoardID) {
+    const board = await firestore().collection('boards').doc(bid).get()
+    if (!board.exists)
+        throw new TavlaError({
+            code: 'BOARD',
+            message: 'Board does not exist.',
+        })
+
+    firestore()
+        .collection('boards')
+        .doc(bid)
+        .update({ 'meta.lastActive': Date.now() })
 }
 
 export async function createBoard(uid: TUserID) {
-    const board = await firestore().collection('boards').add({ tiles: [] })
+    const board = await firestore()
+        .collection('boards')
+        .add({
+            tiles: [],
+            meta: { created: Date.now(), dateModified: Date.now() },
+        })
     firestore()
         .collection('users')
         .doc(uid)

@@ -4,6 +4,7 @@ import classes from 'styles/pages/board.module.css'
 import { upgradeBoard } from 'utils/converters'
 import { Board } from 'Board/scenarios/Board'
 import { getBoard } from 'Admin/utils/firebase'
+import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 
 export async function getServerSideProps({
     params,
@@ -30,6 +31,7 @@ export async function getServerSideProps({
 }
 
 function BoardPage({ board }: { board: TBoard }) {
+    useUpdateLastActive(board.id)
     return (
         <div className={classes.root} data-theme={board.theme || 'dark'}>
             <div className={classes.rootContainer}>

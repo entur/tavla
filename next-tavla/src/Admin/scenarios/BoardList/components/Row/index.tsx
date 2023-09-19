@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
 import { Tooltip } from '@entur/tooltip'
 import { Info } from 'Admin/scenarios/Info'
+import { formatDate } from 'utils/time'
 
 function Row({ board }: { board: TBoard }) {
     const { addToast } = useToast()
@@ -24,7 +25,7 @@ function Row({ board }: { board: TBoard }) {
 
     return (
         <div className={classes.tableRow}>
-            <Cell>{board?.title ?? 'Tavla'}</Cell>
+            <Cell>{board?.meta?.title ?? 'Tavla'}</Cell>
             <Cell className={classes.link}>
                 {link}
                 <Tooltip content="Kopier lenke" placement="bottom">
@@ -46,6 +47,10 @@ function Row({ board }: { board: TBoard }) {
                         <EditIcon />
                     </IconButton>
                 </Tooltip>
+            </Cell>
+            <Cell>
+                {board?.meta?.dateModified &&
+                    formatDate(new Date(board.meta.dateModified))}
             </Cell>
         </div>
     )
