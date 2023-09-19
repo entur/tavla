@@ -16,7 +16,6 @@ export default async function handler(
         await deleteBoard(bid as TBoardID, user.uid)
         return response.status(200).send('Board deleted')
     } catch (error) {
-        console.error(error)
         return response.status(500).send('Something went wrong')
     }
 }
