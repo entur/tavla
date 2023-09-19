@@ -3,7 +3,7 @@ import { TextField } from '@entur/form'
 import { CheckIcon, CloseIcon, EditIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
 import { useSettingsDispatch } from 'Admin/utils/contexts'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import classes from './styles.module.css'
 import { Tooltip } from '@entur/tooltip'
 
@@ -12,6 +12,10 @@ function BoardTitle({ title }: { title?: string }) {
     const dispatch = useSettingsDispatch()
     const boardTitle = title || 'Tavla'
     const [tempTitle, setTempTitle] = useState(boardTitle)
+
+    const autoSelect = useCallback((ref: HTMLInputElement) => {
+        ref.select()
+    }, [])
 
     if (!isEditing) {
         return (
@@ -36,6 +40,7 @@ function BoardTitle({ title }: { title?: string }) {
                 size="medium"
                 label="Navn på tavlen"
                 onChange={(e) => setTempTitle(e.target.value)}
+                ref={autoSelect}
             />
             <SecondarySquareButton
                 className={classes.squareButton}
