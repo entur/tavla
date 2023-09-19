@@ -14,7 +14,7 @@ function BoardTitle({ title }: { title?: string }) {
     const [tempTitle, setTempTitle] = useState(boardTitle)
 
     const autoSelect = useCallback((ref: HTMLInputElement) => {
-        ref.select()
+        if (ref) ref.select()
     }, [])
 
     if (!isEditing) {
