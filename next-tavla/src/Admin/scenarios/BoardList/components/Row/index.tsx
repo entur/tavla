@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
 import { Tooltip } from '@entur/tooltip'
 import { Info } from 'Admin/scenarios/Info'
-import { DeleteBoardButton } from 'Admin/scenarios/deleteBoadButton'
+import { DeleteBoardButton } from 'Admin/scenarios/DeleteBoadButton'
 
 function Row({ board }: { board: TBoard }) {
     const { addToast } = useToast()
