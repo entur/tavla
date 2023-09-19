@@ -83,7 +83,11 @@ export async function setBoard(board: TBoard, uid: TUserID) {
 
 export async function setLastActive(bid: TBoardID) {
     const board = await firestore().collection('boards').doc(bid).get()
-    if (!board.exists) return
+    if (!board.exists)
+        throw new TavlaError({
+            code: 'BOARD',
+            message: 'Board does not exist.',
+        })
 
     firestore()
         .collection('boards')
