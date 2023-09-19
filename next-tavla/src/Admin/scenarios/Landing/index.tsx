@@ -17,7 +17,7 @@ function Landing() {
                         for reisende
                     </Heading1>
                     <div className={classes.button}>
-                        <CreateBoard />
+                        <CreateBoard width="fluid" />
                     </div>
                 </div>
                 <div className={classNames(classes.content, classes.topImage)}>
