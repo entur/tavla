@@ -1,6 +1,6 @@
 import { IconButton } from '@entur/button'
 import { CopyIcon, EditIcon } from '@entur/icons'
-import { TBoard, TBoardID } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { useToast } from '@entur/alert'
 import { useRouter } from 'next/router'
 import classes from './styles.module.css'
@@ -50,10 +50,7 @@ function Row({ board }: { board: TBoard }) {
             </Cell>
             <Cell>
                 <Tooltip content="Slett tavle" placement="bottom">
-                    <DeleteBoardButton
-                        boardId={board.id as TBoardID}
-                        boardName={board.title}
-                    ></DeleteBoardButton>
+                    <DeleteBoardButton board={board}></DeleteBoardButton>
                 </Tooltip>
             </Cell>
         </div>
