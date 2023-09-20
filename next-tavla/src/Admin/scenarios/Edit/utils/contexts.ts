@@ -1,4 +1,4 @@
-import { Action } from 'Admin/scenarios/Edit/reducer'
+import { Action } from './reducer'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { Dispatch, createContext } from 'react'
 
@@ -6,6 +6,6 @@ export const SettingsDispatchContext = createContext<
     Dispatch<Action> | undefined
 >(undefined)
 
-export function useSettingsDispatch() {
+export function useEditSettingsDispatch() {
     return useNonNullContext(SettingsDispatchContext)
 }

@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { Button } from '@entur/button'
 import classes from './styles.module.css'
-import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { NormalizedDropdownItemType, SearchableDropdown } from '@entur/dropdown'
 import { fetchItems } from 'Admin/utils/fetch'
 import { SearchIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
 import { useToast } from '@entur/alert'
+import { useEditSettingsDispatch } from '../Edit/utils/contexts'
 
 function AddTile() {
-    const dispatch = useSettingsDispatch()
+    const dispatch = useEditSettingsDispatch()
     const { addToast } = useToast()
     const [selectedDropdownItem, setSelectedDropdownItem] =
         useState<NormalizedDropdownItemType | null>(null)

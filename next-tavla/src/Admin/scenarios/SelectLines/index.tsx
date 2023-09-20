@@ -3,12 +3,12 @@ import { TravelSwitch } from '@entur/travel'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy, xor } from 'lodash'
 import classes from './styles.module.css'
-import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TLinesFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
 import { useCallback } from 'react'
 import { Transport } from '@entur/travel/dist/utils'
+import { useEditSettingsDispatch } from '../Edit/utils/contexts'
 
 const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
@@ -48,7 +48,7 @@ function SelectLines({
     tile: TStopPlaceTile | TQuayTile
     lines: TLinesFragment['lines']
 }) {
-    const dispatch = useSettingsDispatch()
+    const dispatch = useEditSettingsDispatch()
 
     const toggleLine = (line: string) => {
         dispatch({ type: 'toggleLine', tileId: tile.uuid, lineId: line })

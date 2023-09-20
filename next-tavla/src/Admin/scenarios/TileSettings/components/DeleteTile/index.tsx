@@ -6,13 +6,13 @@ import {
 import { DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Paragraph } from '@entur/typography'
-import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { useState } from 'react'
 import classes from './styles.module.css'
 import { Tooltip } from '@entur/tooltip'
+import { useEditSettingsDispatch } from 'Admin/scenarios/Edit/utils/contexts'
 
 function DeleteTile({ uuid }: { uuid?: string }) {
-    const dispatch = useSettingsDispatch()
+    const dispatch = useEditSettingsDispatch()
     const [isOpen, setIsOpen] = useState(false)
 
     const closeModal = () => setIsOpen(false)

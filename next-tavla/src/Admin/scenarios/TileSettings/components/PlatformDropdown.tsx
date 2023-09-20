@@ -1,7 +1,7 @@
 import { Dropdown } from '@entur/dropdown'
 import { Heading4, SubParagraph } from '@entur/typography'
+import { useEditSettingsDispatch } from 'Admin/scenarios/Edit/utils/contexts'
 import { transportModeNames } from 'Admin/utils/transport'
-import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { QuaysSearchQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
 import { TTransportMode } from 'types/graphql-schema'
@@ -34,7 +34,7 @@ function getQuayTransportModes(
 }
 
 function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
-    const dispatch = useSettingsDispatch()
+    const dispatch = useEditSettingsDispatch()
 
     const setTile = (newTile: TTile) => {
         dispatch({ type: 'setTile', tile: newTile })
