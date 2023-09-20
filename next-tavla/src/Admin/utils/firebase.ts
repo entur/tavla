@@ -1,6 +1,6 @@
 import { TavlaError } from 'Admin/types/error'
 import admin, { auth, firestore } from 'firebase-admin'
-import { concat } from 'lodash'
+import { concat, isEmpty } from 'lodash'
 import { TBoard, TBoardID, TOrganization, TUser, TUserID } from 'types/settings'
 
 initializeAdminApp()
@@ -41,6 +41,9 @@ export async function getBoardsForUser(uid: TUserID) {
         })
 
     const boardIDs = concat(user?.owner ?? [], user?.editor ?? [])
+
+    if (isEmpty(boardIDs)) return []
+
     const boardRefs = await firestore()
         .collection('boards')
         .where(firestore.FieldPath.documentId(), 'in', boardIDs)

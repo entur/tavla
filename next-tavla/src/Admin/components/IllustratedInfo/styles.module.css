@@ -1,0 +1,9 @@
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.infoHeading {
+    margin: 1rem 0 0.75rem;
+}

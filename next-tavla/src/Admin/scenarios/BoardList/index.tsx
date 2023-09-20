@@ -1,4 +1,3 @@
-import { TableHeader } from '../TableHeader'
 import { Row } from './components/Row'
 import classes from './styles.module.css'
 import { TextField } from '@entur/form'
@@ -7,6 +6,9 @@ import { useState } from 'react'
 import { OverflowMenu, OverflowMenuItem } from '@entur/menu'
 import { SecondaryButton } from '@entur/button'
 import { TBoard } from 'types/settings'
+import { isEmpty } from 'lodash'
+import { IllustratedInfo } from 'Admin/components/IllustratedInfo'
+import { TableHeader } from './components/TableHeader'
 
 function BoardList({ boards }: { boards: TBoard[] }) {
     const [filterSearch, setFilterSearch] = useState('')
@@ -72,6 +74,12 @@ function BoardList({ boards }: { boards: TBoard[] }) {
                         .map((board) => (
                             <Row key={board.id} board={board} />
                         ))}
+                    {isEmpty(boards) && (
+                        <IllustratedInfo
+                            title="Her var det tomt"
+                            description="Du har ikke laget noen Tavler ennå"
+                        />
+                    )}
                 </div>
             </div>
         </div>
