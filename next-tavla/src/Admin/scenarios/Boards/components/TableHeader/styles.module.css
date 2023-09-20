@@ -1,0 +1,7 @@
+.title {
+    font-weight: 500;
+    color: var(--colors-brand-lavender);
+    border-bottom: var(--colors-blues-blue20) solid;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+}

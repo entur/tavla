@@ -9,6 +9,7 @@ import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
 import { Tooltip } from '@entur/tooltip'
 import { Info } from 'Admin/scenarios/Info'
 import { formatDate } from 'utils/time'
+import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
 
 function Row({ board }: { board: TBoard }) {
     const { addToast } = useToast()
@@ -25,7 +26,7 @@ function Row({ board }: { board: TBoard }) {
 
     return (
         <div className={classes.tableRow}>
-            <Cell>{board?.meta?.title ?? 'Tavla'}</Cell>
+            <Cell>{board?.meta?.title ?? DEFAULT_BOARD_NAME}</Cell>
             <Cell className={classes.link}>
                 {link}
                 <Tooltip content="Kopier lenke" placement="bottom">

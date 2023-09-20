@@ -14,6 +14,7 @@ function Search() {
         (search: string) => dispatch({ type: 'setSearch', search }),
         [],
     )
+
     return (
         <TextField
             label="Søk på navn på tavle"
