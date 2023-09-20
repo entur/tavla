@@ -26,7 +26,6 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
             body: JSON.stringify({ bid: board.id }),
         })
         if (!response.ok) {
-            console.log(response)
             addToast({
                 title: 'Noe gikk galt',
                 content: 'Kunne ikke slette tavle',
