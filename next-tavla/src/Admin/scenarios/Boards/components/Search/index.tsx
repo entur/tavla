@@ -1,11 +1,14 @@
 import { TextField } from '@entur/form'
-import { useSettings, useSettingsDispatch } from '../../utils/context'
+import {
+    useBoardsSettings,
+    useBoardsSettingsDispatch,
+} from '../../utils/context'
 import { useCallback } from 'react'
 import { SearchIcon } from '@entur/icons'
 
 function Search() {
-    const settings = useSettings()
-    const dispatch = useSettingsDispatch()
+    const settings = useBoardsSettings()
+    const dispatch = useBoardsSettingsDispatch()
 
     const setSearch = useCallback(
         (search: string) => dispatch({ type: 'setSearch', search }),

@@ -8,10 +8,10 @@ export const SettingsDispatchContext = createContext<
 
 export const SettingsContext = createContext<TBoards | undefined>(undefined)
 
-export function useSettingsDispatch() {
+export function useBoardsSettingsDispatch() {
     return useNonNullContext(SettingsDispatchContext)
 }
 
-export function useSettings() {
+export function useBoardsSettings() {
     return useNonNullContext(SettingsContext)
 }
