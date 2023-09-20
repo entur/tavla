@@ -1,7 +1,12 @@
 import { verifyUserSession } from 'Admin/utils/auth'
-import { createBoard, initializeAdminApp, setBoard } from 'Admin/utils/firebase'
+import {
+    createBoard,
+    deleteBoard,
+    initializeAdminApp,
+    setBoard,
+} from 'Admin/utils/firebase'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { TBoard } from 'types/settings'
+import { TBoard, TBoardID } from 'types/settings'
 
 initializeAdminApp()
 
@@ -20,6 +25,11 @@ export default async function handler(
             case 'PUT':
                 await setBoard(
                     JSON.parse(request.body).board as TBoard,
+                    user.uid,
+                )
+            case 'DELETE':
+                await deleteBoard(
+                    JSON.parse(request.body).bid as TBoardID,
                     user.uid,
                 )
         }

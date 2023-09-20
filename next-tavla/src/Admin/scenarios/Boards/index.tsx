@@ -12,7 +12,7 @@ function Boards({ boards }: { boards: TBoard[] }) {
                 <Heading1>Mine Tavler</Heading1>
                 <CreateBoard />
             </div>
-            <BoardList boards={boards} />
+            <BoardList initialBoards={boards} />
         </div>
     )
 }

@@ -9,6 +9,7 @@ import { Cell } from 'Admin/scenarios/BoardList/components/Cell'
 import { Tooltip } from '@entur/tooltip'
 import { Info } from 'Admin/scenarios/Info'
 import { formatDate } from 'utils/time'
+import { DeleteBoardButton } from 'Admin/scenarios/DeleteBoardButton'
 
 function Row({ board }: { board: TBoard }) {
     const { addToast } = useToast()
@@ -47,7 +48,11 @@ function Row({ board }: { board: TBoard }) {
                         <EditIcon />
                     </IconButton>
                 </Tooltip>
+                <Tooltip content="Slett tavle" placement="bottom">
+                    <DeleteBoardButton board={board}></DeleteBoardButton>
+                </Tooltip>
             </Cell>
+
             <Cell>
                 {board?.meta?.dateModified &&
                     formatDate(new Date(board.meta.dateModified))}
