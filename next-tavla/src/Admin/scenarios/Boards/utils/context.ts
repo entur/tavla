@@ -1,4 +1,5 @@
-import { Action, TBoards } from './reducer'
+import { TBoards } from 'Admin/types/boards'
+import { Action } from './reducer'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { Dispatch, createContext } from 'react'
 

@@ -1,9 +1,10 @@
+import { TBoardsColumn } from 'Admin/types/boards'
 import { useBoardsSettings } from '../../utils/context'
 import { useSortBoardFunction } from '../../hooks/useSortBoardFunction'
 import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
-import { TBoardsColumn } from '../../utils/reducer'
 import { Column } from '../Column'
 import { Fragment } from 'react'
+import { TBoard } from 'types/settings'
 
 function TableRows() {
     const settings = useBoardsSettings()
@@ -13,11 +14,11 @@ function TableRows() {
     return (
         <>
             {settings.boards
-                .filter((board) =>
+                .filter((board: TBoard) =>
                     filter.test(board?.meta?.title ?? DEFAULT_BOARD_NAME),
                 )
                 .sort(sortFunction)
-                .map((board) => (
+                .map((board: TBoard) => (
                     <Fragment key={board.id}>
                         {settings.columns.map((column: TBoardsColumn) => (
                             <Column

@@ -1,9 +1,9 @@
 import { TBoard } from 'types/settings'
-import { TBoardsColumn } from '../../utils/reducer'
 import { Actions } from './Actions'
 import { LastModified } from './LastModified'
 import { Link } from './Link'
 import { Name } from './Name'
+import { TBoardsColumn } from 'Admin/types/boards'
 
 function Column({ board, column }: { board: TBoard; column: TBoardsColumn }) {
     switch (column) {

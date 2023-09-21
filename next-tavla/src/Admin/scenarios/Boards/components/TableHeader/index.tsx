@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { TBoardsColumn } from '../../utils/reducer'
 import classes from './styles.module.css'
+import { TBoardsColumn } from 'Admin/types/boards'
 
 function TableHeader({ columns }: { columns: TBoardsColumn[] }) {
     const title = useCallback((column: TBoardsColumn) => {
