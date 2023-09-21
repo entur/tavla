@@ -20,7 +20,6 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
 
     const deleteBoardHandler = async () => {
         closeModal()
-        dispatch({ type: 'deleteBoard', board })
         const response = await fetch('/api/board', {
             method: 'DELETE',
             body: JSON.stringify({ bid: board.id }),
@@ -31,7 +30,9 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
                 content: 'Kunne ikke slette tavle',
                 variant: 'info',
             })
+            return
         }
+        dispatch({ type: 'deleteBoard', board })
         addToast({
             title: 'Tavle slettet!',
             content: `${board?.meta?.title ?? 'Tavla'} er slettet!`,
