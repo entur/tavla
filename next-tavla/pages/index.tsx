@@ -26,7 +26,7 @@ function LandingPage({ user }: { user: DecodedIdToken | null }) {
             <div className={classes.header}>
                 <AdminHeader user={user} />
             </div>
-            <Landing user={user} />
+            <Landing loggedIn={!!user} />
         </div>
     )
 }
