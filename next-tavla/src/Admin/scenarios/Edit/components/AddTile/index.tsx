@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState, useRef } from 'react'
 import { Button } from '@entur/button'
 import classes from './styles.module.css'
-import { NormalizedDropdownItemType, SearchableDropdown } from '@entur/dropdown'
+import {
+    DropdownItemType,
+    NormalizedDropdownItemType,
+    SearchableDropdown,
+} from '@entur/dropdown'
 import { fetchItems } from 'Admin/utils/fetch'
 import { SearchIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
@@ -13,6 +17,7 @@ function AddTile() {
     const { addToast } = useToast()
     const [selectedDropdownItem, setSelectedDropdownItem] =
         useState<NormalizedDropdownItemType | null>(null)
+    const timerRef = useRef<number>()
 
     function handleAddTile() {
         if (!selectedDropdownItem?.value) {
@@ -35,6 +40,18 @@ function AddTile() {
         setSelectedDropdownItem(null)
     }
 
+    const debouncedCall = useCallback(
+        async (search: string, delay: number) => {
+            return new Promise<DropdownItemType[]>((resolve) => {
+                timerRef.current && clearTimeout(timerRef.current)
+                timerRef.current = window.setTimeout(async () => {
+                    resolve(await fetchItems(search))
+                }, delay)
+            })
+        },
+        [timerRef],
+    )
+
     return (
         <div>
             <Heading1 className={classes.Heading1}>Holdeplasser</Heading1>
@@ -42,9 +59,8 @@ function AddTile() {
             <div className={classes.SearchContainer}>
                 <SearchableDropdown
                     className={classes.DropDown}
-                    items={fetchItems}
+                    items={(text) => debouncedCall(text, 500)}
                     label="Søk etter holdeplass..."
-                    debounceTimeout={1000}
                     clearable
                     prepend={<SearchIcon />}
                     selectedItem={selectedDropdownItem}
