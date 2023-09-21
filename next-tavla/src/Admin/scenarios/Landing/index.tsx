@@ -7,7 +7,7 @@ import { Contrast } from '@entur/layout'
 import classNames from 'classnames'
 import { CreateBoard } from 'Admin/components/CreateBoard'
 
-function Landing() {
+function Landing({ loggedIn }: { loggedIn: boolean }) {
     return (
         <div className={classes.container}>
             <Contrast className={classes.centeredContainer}>
@@ -16,7 +16,7 @@ function Landing() {
                     <Heading1 className={classes.subheading}>
                         for reisende
                     </Heading1>
-                    <CreateBoard />
+                    <CreateBoard loggedIn={loggedIn} />
                 </div>
                 <div className={classNames(classes.content, classes.topImage)}>
                     <Image

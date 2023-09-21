@@ -3,8 +3,9 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { AddIcon } from '@entur/icons'
 
-function CreateBoard() {
+function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
     const [loading, isLoading] = useState(false)
+
     return (
         <PrimaryButton
             as={Link}
@@ -15,7 +16,7 @@ function CreateBoard() {
             loading={loading}
         >
             <AddIcon />
-            Opprett ny tavle
+            {loggedIn ? 'Opprett ny tavle' : 'Logg inn for å opprette en tavle'}
         </PrimaryButton>
     )
 }
