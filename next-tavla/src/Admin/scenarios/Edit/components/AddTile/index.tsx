@@ -59,7 +59,7 @@ function AddTile() {
             <div className={classes.SearchContainer}>
                 <SearchableDropdown
                     className={classes.DropDown}
-                    items={(text) => debouncedCall(text, 500)}
+                    items={(search) => debouncedCall(search, 500)}
                     label="Søk etter holdeplass..."
                     clearable
                     prepend={<SearchIcon />}
