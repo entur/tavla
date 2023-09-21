@@ -5,8 +5,9 @@ import { Modal } from '@entur/modal'
 import { Heading1, LeadParagraph } from '@entur/typography'
 import classes from './styles.module.css'
 import { useToast } from '@entur/alert'
-import { TBoard } from 'types/settings'
+import { TBoard, TBoardID } from 'types/settings'
 import { useSettingsDispatch } from 'Admin/utils/boardsContexts'
+import { deleteBoard } from 'hooks/useDeleteBoard'
 
 function DeleteBoardButton({ board }: { board: TBoard }) {
     const dispatch = useSettingsDispatch()
@@ -20,24 +21,21 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
 
     const deleteBoardHandler = async () => {
         closeModal()
-        const response = await fetch('/api/board', {
-            method: 'DELETE',
-            body: JSON.stringify({ bid: board.id }),
-        })
-        if (!response.ok) {
+        try {
+            await deleteBoard(board.id as TBoardID)
+            dispatch({ type: 'deleteBoard', board })
+            addToast({
+                title: 'Tavle slettet!',
+                content: `${board?.meta?.title ?? 'Tavla'} er slettet!`,
+                variant: 'info',
+            })
+        } catch (error) {
             addToast({
                 title: 'Noe gikk galt',
                 content: 'Kunne ikke slette tavle',
                 variant: 'info',
             })
-            return
         }
-        dispatch({ type: 'deleteBoard', board })
-        addToast({
-            title: 'Tavle slettet!',
-            content: `${board?.meta?.title ?? 'Tavla'} er slettet!`,
-            variant: 'info',
-        })
     }
     return (
         <IconButton aria-label="Slett tavle" onClick={() => setShowModal(true)}>
