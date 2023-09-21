@@ -12,7 +12,7 @@ function Search() {
 
     const setSearch = useCallback(
         (search: string) => dispatch({ type: 'setSearch', search }),
-        [],
+        [dispatch],
     )
 
     return (

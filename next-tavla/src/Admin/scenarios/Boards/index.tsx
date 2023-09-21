@@ -23,6 +23,7 @@ function Boards({ boards }: { boards: TBoard[] }) {
         columns: ['name', 'url', 'actions', 'modified'],
         boards: boards,
     })
+
     return (
         <SettingsContext.Provider value={settings}>
             <SettingsDispatchContext.Provider value={dispatch}>

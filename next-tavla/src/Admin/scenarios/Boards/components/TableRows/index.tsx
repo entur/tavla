@@ -1,7 +1,9 @@
 import { useBoardsSettings } from '../../utils/context'
-import { formatDate } from 'utils/time'
 import { useSortBoardFunction } from '../../hooks/useSortBoardFunction'
 import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
+import { TBoardsColumn } from '../../utils/reducer'
+import { Column } from '../Column'
+import { Fragment } from 'react'
 
 function TableRows() {
     const settings = useBoardsSettings()
@@ -16,15 +18,15 @@ function TableRows() {
                 )
                 .sort(sortFunction)
                 .map((board) => (
-                    <>
-                        <div>{board.meta?.title ?? DEFAULT_BOARD_NAME}</div>
-                        <div>{board.id}</div>
-                        <div>Valg</div>
-                        <div>
-                            {board?.meta?.dateModified &&
-                                formatDate(new Date(board.meta.dateModified))}
-                        </div>
-                    </>
+                    <Fragment key={board.id}>
+                        {settings.columns.map((column: TBoardsColumn) => (
+                            <Column
+                                key={column}
+                                board={board}
+                                column={column}
+                            />
+                        ))}
+                    </Fragment>
                 ))}
         </>
     )

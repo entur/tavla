@@ -10,16 +10,20 @@ function TableHeader({ columns }: { columns: TBoardsColumn[] }) {
             case 'url':
                 return 'Lenke'
             case 'actions':
-                return 'Valg'
+                return 'Handlinger'
             case 'modified':
                 return 'Sist oppdatert'
+            default:
+                return 'Ukjent kolonne'
         }
     }, [])
 
     return (
         <>
             {columns.map((column) => (
-                <div className={classes.title}>{title(column)}</div>
+                <div key={column} className={classes.title}>
+                    {title(column)}
+                </div>
             ))}
         </>
     )
