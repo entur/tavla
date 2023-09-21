@@ -19,7 +19,7 @@ import { TableRows } from './components/TableRows'
 function Boards({ boards }: { boards: TBoard[] }) {
     const [settings, dispatch] = useReducer(settingsReducer, {
         search: '',
-        sort: 'alphabetical',
+        sort: { type: 'ascending', column: 'name' },
         columns: ['name', 'url', 'actions', 'modified'],
         boards: boards,
     })

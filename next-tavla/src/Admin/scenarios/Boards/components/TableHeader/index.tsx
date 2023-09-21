@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import classes from './styles.module.css'
 import { TBoardsColumn } from 'Admin/types/boards'
+import { Sort } from '../Sort'
 
 function TableHeader({ columns }: { columns: TBoardsColumn[] }) {
     const title = useCallback((column: TBoardsColumn) => {
@@ -21,8 +22,9 @@ function TableHeader({ columns }: { columns: TBoardsColumn[] }) {
     return (
         <>
             {columns.map((column) => (
-                <div key={column} className={classes.title}>
-                    {title(column)}
+                <div key={column} className={classes.header}>
+                    <div className={classes.title}>{title(column)}</div>
+                    <Sort column={column} />
                 </div>
             ))}
         </>

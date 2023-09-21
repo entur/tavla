@@ -1,7 +1,13 @@
-.title {
-    font-weight: 500;
-    color: var(--colors-brand-lavender);
+.header {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
     border-bottom: var(--colors-blues-blue20) solid;
     padding-bottom: 0.5em;
     margin-bottom: 1em;
+}
+
+.title {
+    font-weight: 500;
+    color: var(--colors-brand-lavender);
 }
