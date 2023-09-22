@@ -1,7 +1,7 @@
-import { formatDate } from 'utils/time'
+import { formatTimestamp } from 'Admin/utils/time'
 
 function LastModified({ timestamp }: { timestamp?: number }) {
-    return <div>{formatDate(new Date(timestamp ?? 0))}</div>
+    return <div>{formatTimestamp(timestamp)}</div>
 }
 
 export { LastModified }
