@@ -13,11 +13,11 @@ function useSortBoardFunction() {
             switch (settings.sort.column) {
                 case 'lastModified':
                     sortFunc = () => {
-                        return (
-                            (boardA.meta?.dateModified ?? 0) -
-                            (boardA.meta?.dateModified ?? 0)
-                        )
+                        const modifiedA = boardA.meta?.dateModified ?? 0
+                        const modifiedB = boardB.meta?.dateModified ?? 0
+                        return modifiedB - modifiedA
                     }
+                    break
                 default:
                     sortFunc = () => {
                         const titleA =
@@ -28,13 +28,13 @@ function useSortBoardFunction() {
                             DEFAULT_BOARD_NAME
                         return titleA.localeCompare(titleB)
                     }
+                    break
             }
-
             switch (settings.sort.type) {
                 case 'ascending':
-                    return sortFunc()
-                case 'descending':
                     return -sortFunc()
+                case 'descending':
+                    return sortFunc()
                 default:
                     return 0
             }
