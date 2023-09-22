@@ -13,7 +13,7 @@ function Column({ board, column }: { board: TBoard; column: TBoardsColumn }) {
             return <Link bid={board.id} />
         case 'actions':
             return <Actions board={board} />
-        case 'modified':
+        case 'lastModified':
             return <LastModified timestamp={board.meta?.dateModified} />
         default:
             return <div>Ukjent kolonne</div>

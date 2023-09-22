@@ -11,7 +11,7 @@ function useSortBoardFunction() {
             let sortFunc: () => number
 
             switch (settings.sort.column) {
-                case 'modified':
+                case 'lastModified':
                     sortFunc = () => {
                         return (
                             (boardA.meta?.dateModified ?? 0) -

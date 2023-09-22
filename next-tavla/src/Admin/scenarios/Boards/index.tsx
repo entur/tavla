@@ -20,7 +20,7 @@ function Boards({ boards }: { boards: TBoard[] }) {
     const [settings, dispatch] = useReducer(settingsReducer, {
         search: '',
         sort: { type: 'ascending', column: 'name' },
-        columns: ['name', 'url', 'actions', 'modified'],
+        columns: ['name', 'url', 'actions', 'lastModified'],
         boards: boards,
     })
 

@@ -12,7 +12,7 @@ function TableHeader({ columns }: { columns: TBoardsColumn[] }) {
                 return 'Lenke'
             case 'actions':
                 return 'Handlinger'
-            case 'modified':
+            case 'lastModified':
                 return 'Sist oppdatert'
             default:
                 return 'Ukjent kolonne'
