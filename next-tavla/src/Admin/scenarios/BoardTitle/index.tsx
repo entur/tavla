@@ -2,15 +2,16 @@ import { SecondarySquareButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { CheckIcon, CloseIcon, EditIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
-import { useSettingsDispatch } from 'Admin/utils/contexts'
 import { useCallback, useState } from 'react'
 import classes from './styles.module.css'
 import { Tooltip } from '@entur/tooltip'
+import { useEditSettingsDispatch } from '../Edit/utils/contexts'
+import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
 
 function BoardTitle({ title }: { title?: string }) {
     const [isEditing, setIsEditing] = useState(false)
-    const dispatch = useSettingsDispatch()
-    const boardTitle = title || 'Tavla'
+    const dispatch = useEditSettingsDispatch()
+    const boardTitle = title || DEFAULT_BOARD_NAME
     const [tempTitle, setTempTitle] = useState(boardTitle)
 
     const autoSelect = useCallback((ref: HTMLInputElement) => {

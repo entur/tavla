@@ -4,8 +4,6 @@ import { useReducer } from 'react'
 import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
 import { AddTile } from '../AddTile'
-import { SettingsDispatchContext } from 'Admin/utils/contexts'
-import { boardReducer } from './reducer'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { useAutoSaveSettings } from './hooks/useAutoSaveSettings'
 import { CopyIcon, SaveIcon } from '@entur/icons'
@@ -13,6 +11,8 @@ import { SecondaryLink } from 'components/SecondaryLink'
 import { useToast } from '@entur/alert'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { BoardTitle } from '../BoardTitle'
+import { boardReducer } from './utils/reducer'
+import { SettingsDispatchContext } from './utils/contexts'
 
 function Edit({
     initialBoard,
