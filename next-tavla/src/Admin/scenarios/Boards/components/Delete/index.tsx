@@ -6,8 +6,8 @@ import classes from './styles.module.css'
 import { useToast } from '@entur/alert'
 import { TBoard, TBoardID } from 'types/settings'
 import { useBoardsSettingsDispatch } from '../../utils/context'
-import { deleteBoard } from '../../hooks/useDeleteBoard'
 import { useToggle } from 'hooks/useToggle'
+import { deleteBoard } from '../../utils/delete'
 
 function DeleteBoardButton({ board }: { board: TBoard }) {
     const dispatch = useBoardsSettingsDispatch()
