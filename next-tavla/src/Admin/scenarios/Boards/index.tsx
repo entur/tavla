@@ -2,7 +2,6 @@ import { Heading1 } from '@entur/typography'
 import classes from './styles.module.css'
 import { TBoard } from 'types/settings'
 import dynamic from 'next/dynamic'
-import { CreateBoard } from '../CreateBoard'
 import { useReducer } from 'react'
 import { settingsReducer } from './utils/reducer'
 import {
@@ -15,6 +14,7 @@ import { isEmpty } from 'lodash'
 import { IllustratedInfo } from 'Admin/components/IllustratedInfo'
 import { TableHeader } from './components/TableHeader'
 import { TableRows } from './components/TableRows'
+import { CreateBoard } from 'Admin/components/CreateBoard'
 
 function Boards({ boards }: { boards: TBoard[] }) {
     const [settings, dispatch] = useReducer(settingsReducer, {

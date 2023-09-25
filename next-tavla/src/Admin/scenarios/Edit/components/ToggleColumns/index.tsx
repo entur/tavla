@@ -4,7 +4,7 @@ import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import classes from './styles.module.css'
 import { isArray } from 'lodash'
 import { FilterChip } from '@entur/chip'
-import { useEditSettingsDispatch } from '../Edit/utils/contexts'
+import { useEditSettingsDispatch } from '../../utils/contexts'
 
 function ToggleColumns({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
     const dispatch = useEditSettingsDispatch()

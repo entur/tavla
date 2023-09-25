@@ -3,7 +3,7 @@ import classes from 'styles/pages/landing.module.css'
 import { IncomingNextMessage } from 'types/next'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { verifySession } from 'Admin/utils/firebase'
-import { AdminHeader } from 'Admin/scenarios/AdminHeader'
+import { AdminHeader } from 'Admin/components/AdminHeader'
 
 export async function getServerSideProps({
     req,

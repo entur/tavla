@@ -5,8 +5,8 @@ import { Heading1 } from '@entur/typography'
 import { useCallback, useState } from 'react'
 import classes from './styles.module.css'
 import { Tooltip } from '@entur/tooltip'
-import { useEditSettingsDispatch } from '../Edit/utils/contexts'
 import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
+import { useEditSettingsDispatch } from '../../utils/contexts'
 
 function BoardTitle({ title }: { title?: string }) {
     const [isEditing, setIsEditing] = useState(false)
