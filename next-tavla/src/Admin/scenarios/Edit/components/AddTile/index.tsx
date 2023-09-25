@@ -11,13 +11,15 @@ import { SearchIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
 import { useToast } from '@entur/alert'
 import { useEditSettingsDispatch } from '../../utils/contexts'
+import { DebouncedFunc, debounce } from 'lodash'
 
 function AddTile() {
     const dispatch = useEditSettingsDispatch()
     const { addToast } = useToast()
     const [selectedDropdownItem, setSelectedDropdownItem] =
         useState<NormalizedDropdownItemType | null>(null)
-    const timerRef = useRef<number>()
+
+    const debouncedCallRef = useRef<DebouncedFunc<() => Promise<void>>>()
 
     function handleAddTile() {
         if (!selectedDropdownItem?.value) {
@@ -41,15 +43,17 @@ function AddTile() {
     }
 
     const debouncedCall = useCallback(
-        async (search: string, delay: number) => {
+        (search: string, delay: number) => {
+            debouncedCallRef.current && debouncedCallRef.current.cancel()
             return new Promise<DropdownItemType[]>((resolve) => {
-                timerRef.current && clearTimeout(timerRef.current)
-                timerRef.current = window.setTimeout(async () => {
-                    resolve(await fetchItems(search))
-                }, delay)
+                debouncedCallRef.current = debounce(
+                    async () => resolve(await fetchItems(search)),
+                    delay,
+                )
+                debouncedCallRef.current()
             })
         },
-        [timerRef],
+        [debouncedCallRef],
     )
 
     return (
