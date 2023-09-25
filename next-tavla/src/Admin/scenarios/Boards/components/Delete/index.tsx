@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { IconButton, PrimaryButton, SecondaryButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
@@ -8,16 +7,13 @@ import { useToast } from '@entur/alert'
 import { TBoard, TBoardID } from 'types/settings'
 import { useBoardsSettingsDispatch } from '../../utils/context'
 import { deleteBoard } from '../../hooks/useDeleteBoard'
+import { useToggle } from 'hooks/useToggle'
 
 function DeleteBoardButton({ board }: { board: TBoard }) {
     const dispatch = useBoardsSettingsDispatch()
-    const [showModal, setShowModal] = useState(false)
+    const [showModal, openModal, closeModal] = useToggle()
 
     const { addToast } = useToast()
-
-    const closeModal = () => {
-        setShowModal(false)
-    }
 
     const bid = board.id as TBoardID
 
@@ -40,7 +36,10 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
         }
     }
     return (
-        <IconButton aria-label="Slett tavle" onClick={() => setShowModal(true)}>
+        <>
+            <IconButton aria-label="Slett tavle" onClick={openModal}>
+                <DeleteIcon />
+            </IconButton>
             <Modal
                 open={showModal}
                 size="small"
@@ -69,8 +68,7 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
                     </PrimaryButton>
                 </div>
             </Modal>
-            <DeleteIcon />
-        </IconButton>
+        </>
     )
 }
 
