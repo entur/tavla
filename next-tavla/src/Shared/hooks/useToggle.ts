@@ -3,11 +3,11 @@ import { useState } from 'react'
 function useToggle() {
     const [isEnabled, setIsEnabled] = useState(false)
 
-    const open = () => setIsEnabled(true)
+    const enable = () => setIsEnabled(true)
 
-    const close = () => setIsEnabled(false)
+    const disable = () => setIsEnabled(false)
 
-    return [isEnabled, open, close] as const
+    return [isEnabled, enable, disable] as const
 }
 
 export { useToggle }
