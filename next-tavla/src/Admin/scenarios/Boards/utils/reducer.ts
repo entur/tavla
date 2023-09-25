@@ -1,5 +1,7 @@
 import { TBoards, TBoardsColumn, TSort } from 'Admin/types/boards'
 import { xor } from 'lodash'
+import { TTag } from 'types/meta'
+import { TBoardID } from 'types/settings'
 
 export type Action =
     | { type: 'setSearch'; search: string }
@@ -7,6 +9,8 @@ export type Action =
     | { type: 'deleteBoard'; bid: string }
     | { type: 'toggleColumn'; column: TBoardsColumn }
     | { type: 'setColumns'; columns: TBoardsColumn[] }
+    | { type: 'addTag'; boardId: TBoardID; tag: TTag }
+    | { type: 'removeTag'; boardId: TBoardID; tag: TTag }
 
 export function settingsReducer(board: TBoards, action: Action): TBoards {
     switch (action.type) {
@@ -28,6 +32,36 @@ export function settingsReducer(board: TBoards, action: Action): TBoards {
             return {
                 ...board,
                 columns: action.columns,
+            }
+        case 'addTag':
+            return {
+                ...board,
+                boards: board.boards.map((board) => {
+                    if (board.id !== action.boardId) return board
+                    return {
+                        ...board,
+                        meta: {
+                            ...board.meta,
+                            tags: [...(board.meta?.tags ?? []), action.tag],
+                        },
+                    }
+                }),
+            }
+        case 'removeTag':
+            return {
+                ...board,
+                boards: board.boards.map((board) => {
+                    if (board.id !== action.boardId) return board
+                    return {
+                        ...board,
+                        meta: {
+                            ...board.meta,
+                            tags: (board.meta?.tags ?? []).filter(
+                                (tag) => tag !== action.tag,
+                            ),
+                        },
+                    }
+                }),
             }
     }
 }
