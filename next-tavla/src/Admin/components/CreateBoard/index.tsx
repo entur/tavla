@@ -1,23 +1,22 @@
-import { Button } from '@entur/button'
+import { PrimaryButton } from '@entur/button'
 import { useState } from 'react'
 import Link from 'next/link'
 import { AddIcon } from '@entur/icons'
 
-function CreateBoard() {
+function CreateBoard({ icon = false }: { icon?: boolean }) {
     const [loading, isLoading] = useState(false)
     return (
-        <Button
+        <PrimaryButton
             as={Link}
             href="/api/board"
             replace
             onClick={() => isLoading(true)}
-            variant="primary"
             disabled={loading}
             loading={loading}
         >
             Opprett ny tavle
-        </Button>
             {icon && <AddIcon />}
+        </PrimaryButton>
     )
 }
 export { CreateBoard }
