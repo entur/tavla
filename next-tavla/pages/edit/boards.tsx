@@ -41,13 +41,14 @@ function OverviewPage({
     user: DecodedIdToken | null
 }) {
     return (
-        <Contrast className={classes.root}>
-            <ToastProvider>
-                <Header />
-                <Boards boards={boards} />
-            </ToastProvider>
-        </Contrast>
+        <div className={classes.root}>
             <AdminHeader user={user} options={['create']} />
+            <Contrast>
+                <ToastProvider>
+                    <Boards boards={boards} />
+                </ToastProvider>
+            </Contrast>
+        </div>
     )
 }
 
