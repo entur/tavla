@@ -8,6 +8,7 @@ import { TBoard, TBoardID } from 'types/settings'
 import { useBoardsSettingsDispatch } from '../../utils/context'
 import { useToggle } from 'hooks/useToggle'
 import { deleteBoard } from '../../utils/delete'
+import { TavlaError } from 'Admin/types/error'
 
 function DeleteBoardButton({ board }: { board: TBoard }) {
     const dispatch = useBoardsSettingsDispatch()
@@ -15,13 +16,17 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
 
     const { addToast } = useToast()
 
-    const bid = board.id as TBoardID
-
     const deleteBoardHandler = async () => {
         closeModal()
         try {
-            await deleteBoard(bid)
-            dispatch({ type: 'deleteBoard', bid })
+            if (!board.id)
+                throw new TavlaError({
+                    code: 'NOT_FOUND',
+                    message: 'Board not found',
+                })
+
+            await deleteBoard(board.id)
+            dispatch({ type: 'deleteBoard', bid: board.id })
             addToast({
                 title: 'Tavle slettet!',
                 content: `${board?.meta?.title ?? 'Tavla'} er slettet!`,
