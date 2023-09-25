@@ -7,6 +7,7 @@ import { PrimaryButton } from '@entur/button'
 import Link from 'next/link'
 import classes from './styles.module.css'
 import { CreateBoard } from '../CreateBoard'
+import { UserIcon } from '@entur/icons'
 
 function AdminHeader({
     user,
@@ -35,6 +36,7 @@ function AdminHeader({
                         {options.includes('boards') && (
                             <PrimaryButton as={Link} href="/edit/boards">
                                 Mine Tavler
+                                <UserIcon />
                             </PrimaryButton>
                         )}
                     </div>

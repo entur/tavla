@@ -1,6 +1,7 @@
 import { Button } from '@entur/button'
 import { useState } from 'react'
 import Link from 'next/link'
+import { AddIcon } from '@entur/icons'
 
 function CreateBoard() {
     const [loading, isLoading] = useState(false)
@@ -16,6 +17,7 @@ function CreateBoard() {
         >
             Opprett ny tavle
         </Button>
+            {icon && <AddIcon />}
     )
 }
 export { CreateBoard }
