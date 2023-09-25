@@ -1,13 +1,13 @@
 import { useState } from 'react'
 
 function useToggle() {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isEnabled, setIsEnabled] = useState(false)
 
-    const open = () => setIsOpen(true)
+    const open = () => setIsEnabled(true)
 
-    const close = () => setIsOpen(false)
+    const close = () => setIsEnabled(false)
 
-    return [isOpen, open, close] as const
+    return [isEnabled, open, close] as const
 }
 
 export { useToggle }
