@@ -1,7 +1,6 @@
 import { Landing } from '../src/Admin/scenarios/Landing'
 import classes from 'styles/pages/landing.module.css'
 import { IncomingNextMessage } from 'types/next'
-import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { verifySession } from 'Admin/utils/firebase'
 import { AdminHeader } from 'Admin/components/AdminHeader'
 
@@ -15,18 +14,18 @@ export async function getServerSideProps({
 
     return {
         props: {
-            user: user,
+            loggedIn: !!user,
         },
     }
 }
 
-function LandingPage({ user }: { user: DecodedIdToken | null }) {
+function LandingPage({ loggedIn }: { loggedIn: boolean }) {
     return (
         <div className={classes.root}>
             <div className={classes.header}>
-                <AdminHeader user={user} />
+                <AdminHeader loggedIn={loggedIn} />
             </div>
-            <Landing loggedIn={!!user} />
+            <Landing loggedIn={loggedIn} />
         </div>
     )
 }

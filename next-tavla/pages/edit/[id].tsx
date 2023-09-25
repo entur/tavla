@@ -57,14 +57,12 @@ function AdminPage({
     id: string
 }) {
     return (
-        <div className={classes.root}>
-            <AdminHeader user={user} />
-            <Contrast>
-                <ToastProvider>
-                    <Edit initialBoard={board} documentId={id} user={user} />
-                </ToastProvider>
-            </Contrast>
-        </div>
+        <Contrast className={classes.root}>
+            <ToastProvider>
+                <AdminHeader loggedIn={!!user} />
+                <Edit initialBoard={board} documentId={id} user={user} />
+            </ToastProvider>
+        </Contrast>
     )
 }
 

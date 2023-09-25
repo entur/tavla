@@ -2,7 +2,6 @@ import { PrimaryButton, SecondarySquareButton } from '@entur/button'
 import { BackArrowIcon, CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { TLoginPage } from 'Admin/types/login'
-import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { useState } from 'react'
 import { CreateUser } from './components/CreateUser'
 import { Email } from './components/Email'
@@ -11,13 +10,13 @@ import { useAuth } from './hooks/useAuth'
 import classes from './styles.module.css'
 import { useHashState } from 'hooks/useHash'
 
-function Login({ user }: { user: DecodedIdToken | null }) {
+function Login({ loggedIn }: { loggedIn: boolean }) {
     const { logout } = useAuth()
 
     const { isOpen, open, close } = useHashState('login')
     const [pages, setPages] = useState<TLoginPage[]>([])
 
-    if (user) {
+    if (loggedIn) {
         // return early if user is already logged in
         return (
             <PrimaryButton onClick={logout}>
