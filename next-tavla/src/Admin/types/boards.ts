@@ -14,7 +14,7 @@ export type TBoardsColumn = keyof typeof BoardsColumns
 
 export const SortableColumns = ['name', 'lastModified'] as const
 
-export type TBoards = {
+export type BoardsSettings = {
     search: string
     sort: { type: TSort; column: TBoardsColumn }
     columns: TBoardsColumn[]
