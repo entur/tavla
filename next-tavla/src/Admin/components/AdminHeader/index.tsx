@@ -6,8 +6,15 @@ import dynamic from 'next/dynamic'
 import { PrimaryButton } from '@entur/button'
 import Link from 'next/link'
 import classes from './styles.module.css'
+import { CreateBoard } from '../CreateBoard'
 
-function AdminHeader({ user }: { user: DecodedIdToken | null }) {
+function AdminHeader({
+    user,
+    options,
+}: {
+    user: DecodedIdToken | null
+    options: ('create' | 'boards')[]
+}) {
     return (
         <div className={classes.header}>
             <Link href="/">
@@ -21,9 +28,16 @@ function AdminHeader({ user }: { user: DecodedIdToken | null }) {
             </Link>
             <div className={classes.buttons}>
                 {user && (
-                    <PrimaryButton as={Link} href="/edit/boards">
-                        Mine Tavler
-                    </PrimaryButton>
+                    <div className={classes.buttons}>
+                        {options.includes('create') && (
+                            <CreateBoard icon={true} />
+                        )}
+                        {options.includes('boards') && (
+                            <PrimaryButton as={Link} href="/edit/boards">
+                                Mine Tavler
+                            </PrimaryButton>
+                        )}
+                    </div>
                 )}
                 <Login user={user} />
             </div>
