@@ -1,16 +1,15 @@
-import classes from './styles.module.css'
-import { BoardsColumns, TBoardsColumn } from 'Admin/types/boards'
-import { Sort } from '../Sort'
+import { TBoardsColumn } from 'Admin/types/boards'
+import { ColumnHeader } from './ColumnHeader'
 
 function TableHeader({ columns }: { columns: TBoardsColumn[] }) {
     return (
         <>
-            {columns.map((column) => (
-                <div key={column} className={classes.header}>
-                    <div className={classes.title}>{BoardsColumns[column]}</div>
-                    <Sort column={column} />
-                </div>
-            ))}
+            {columns.includes('name') && <ColumnHeader column="name" />}
+            {columns.includes('url') && <ColumnHeader column="url" />}
+            {columns.includes('actions') && <ColumnHeader column="actions" />}
+            {columns.includes('lastModified') && (
+                <ColumnHeader column="lastModified" />
+            )}
         </>
     )
 }

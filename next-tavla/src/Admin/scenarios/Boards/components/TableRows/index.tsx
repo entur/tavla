@@ -1,4 +1,3 @@
-import { TBoardsColumn } from 'Admin/types/boards'
 import { useBoardsSettings } from '../../utils/context'
 import { useSortBoardFunction } from '../../hooks/useSortBoardFunction'
 import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
@@ -7,26 +6,43 @@ import { Fragment } from 'react'
 import { TBoard } from 'types/settings'
 
 function TableRows() {
-    const settings = useBoardsSettings()
+    const { boards, columns, search } = useBoardsSettings()
     const sortFunction = useSortBoardFunction()
 
-    const filter = new RegExp(settings.search, 'i')
+    const filter = new RegExp(search, 'i')
     return (
         <>
-            {settings.boards
+            {boards
                 .filter((board: TBoard) =>
                     filter.test(board?.meta?.title ?? DEFAULT_BOARD_NAME),
                 )
                 .sort(sortFunction)
                 .map((board: TBoard) => (
                     <Fragment key={board.id}>
-                        {settings.columns.map((column: TBoardsColumn) => (
+                        {columns.includes('name') && (
                             <Column
-                                key={column}
+                                key={'name'}
                                 board={board}
-                                column={column}
+                                column={'name'}
                             />
-                        ))}
+                        )}
+                        {columns.includes('url') && (
+                            <Column key={'url'} board={board} column={'url'} />
+                        )}
+                        {columns.includes('actions') && (
+                            <Column
+                                key={'actions'}
+                                board={board}
+                                column={'actions'}
+                            />
+                        )}
+                        {columns.includes('lastModified') && (
+                            <Column
+                                key={'lastModified'}
+                                board={board}
+                                column={'lastModified'}
+                            />
+                        )}
                     </Fragment>
                 ))}
         </>
