@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react'
 import { SelectLines } from './index'
-import { SettingsDispatchContext } from '../Edit/utils/contexts'
-import { boardReducer } from '../Edit/utils/reducer'
 import { TLinesFragment } from 'graphql/index'
+import { boardReducer } from '../../utils/reducer'
+import { SettingsDispatchContext } from '../../utils/contexts'
 
 describe('<SelectLines />', () => {
     const TestComponent = () => {

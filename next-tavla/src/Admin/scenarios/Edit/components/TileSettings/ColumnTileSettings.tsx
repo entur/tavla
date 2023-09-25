@@ -2,13 +2,13 @@ import React from 'react'
 import classNames from 'classnames'
 import classes from './styles.module.css'
 import { Heading3 } from '@entur/typography'
-import { ToggleColumns } from 'Admin/scenarios/ToggleColumns'
-import { SelectLines } from 'Admin/scenarios/SelectLines'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { TDepartureFragment, TLinesFragment } from 'graphql/index'
 import { DeleteTile } from '../DeleteTile'
+import { Preview } from '../Preview'
 import { PlatformDropdown } from '../PlatformDropdown'
-import { Preview } from 'Admin/scenarios/Preview'
+import { ToggleColumns } from '../ToggleColumns'
+import { SelectLines } from '../SelectLines'
 
 function ColumnTileSettings({
     className,

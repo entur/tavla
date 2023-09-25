@@ -8,7 +8,7 @@ import { TLinesFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
 import { useCallback } from 'react'
 import { Transport } from '@entur/travel/dist/utils'
-import { useEditSettingsDispatch } from '../Edit/utils/contexts'
+import { useEditSettingsDispatch } from '../../utils/contexts'
 
 const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',

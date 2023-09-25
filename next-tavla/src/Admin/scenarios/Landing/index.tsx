@@ -5,7 +5,7 @@ import landingImage from 'assets/illustrations/Tavla-illustration.png'
 import tavla from 'assets/illustrations/Tavla-screenshot.png'
 import { Contrast } from '@entur/layout'
 import classNames from 'classnames'
-import { CreateBoard } from '../CreateBoard'
+import { CreateBoard } from 'Admin/components/CreateBoard'
 
 function Landing() {
     return (

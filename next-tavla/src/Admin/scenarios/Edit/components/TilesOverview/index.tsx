@@ -1,10 +1,10 @@
 import { TTile } from 'types/tile'
 import React, { useEffect, useState } from 'react'
-import { TileSettings } from 'Admin/scenarios/TileSettings'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 import classes from './styles.module.css'
 import { isEmpty } from 'lodash'
 import { IllustratedInfo } from 'Admin/components/IllustratedInfo'
+import { TileSettings } from '../TileSettings'
 
 function TilesOverview({ tiles }: { tiles: TTile[] }) {
     const [activeTab, setActiveTab] = useState(0)

@@ -1,11 +1,11 @@
 import { Contrast } from '@entur/layout'
 import React, { useReducer } from 'react'
-import { TilesOverview } from '../TilesOverview'
 import { AddTile } from './index'
 import { ToastProvider } from '@entur/alert'
 import { GEOCODER_ENDPOINT } from 'assets/env'
-import { boardReducer } from '../Edit/utils/reducer'
-import { SettingsDispatchContext } from '../Edit/utils/contexts'
+import { boardReducer } from '../../utils/reducer'
+import { SettingsDispatchContext } from '../../utils/contexts'
+import { TilesOverview } from '../TilesOverview'
 
 describe('<AddTile />', () => {
     const TestComponent = () => {

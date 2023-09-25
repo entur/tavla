@@ -6,7 +6,7 @@ import { fetchItems } from 'Admin/utils/fetch'
 import { SearchIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
 import { useToast } from '@entur/alert'
-import { useEditSettingsDispatch } from '../Edit/utils/contexts'
+import { useEditSettingsDispatch } from '../../utils/contexts'
 
 function AddTile() {
     const dispatch = useEditSettingsDispatch()
