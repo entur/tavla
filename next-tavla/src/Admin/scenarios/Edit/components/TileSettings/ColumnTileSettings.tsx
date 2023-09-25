@@ -5,10 +5,10 @@ import { Heading3 } from '@entur/typography'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { TDepartureFragment, TLinesFragment } from 'graphql/index'
 import { DeleteTile } from '../DeleteTile'
+import { Preview } from '../Preview'
 import { PlatformDropdown } from '../PlatformDropdown'
-import { Preview } from '../../../Preview'
-import { ToggleColumns } from '../../../ToggleColumns'
-import { SelectLines } from '../../../SelectLines'
+import { ToggleColumns } from '../ToggleColumns'
+import { SelectLines } from '../SelectLines'
 
 function ColumnTileSettings({
     className,
