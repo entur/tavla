@@ -59,10 +59,10 @@ function AdminPage({
     return (
         <Contrast className={classes.root}>
             <ToastProvider>
-                <AdminHeader user={user} />
                 <Edit initialBoard={board} documentId={id} user={user} />
             </ToastProvider>
         </Contrast>
+            <AdminHeader user={user} options={['boards', 'create']} />
     )
 }
 
