@@ -15,6 +15,7 @@ import { IllustratedInfo } from 'Admin/components/IllustratedInfo'
 import { TableHeader } from './components/TableHeader'
 import { TableRows } from './components/TableRows'
 import { CreateBoard } from 'Admin/components/CreateBoard'
+import { ToggleBoardsColumns } from './components/ToggleBoardsColumns'
 
 function Boards({ boards }: { boards: TBoard[] }) {
     const [settings, dispatch] = useReducer(settingsReducer, {
@@ -32,7 +33,10 @@ function Boards({ boards }: { boards: TBoard[] }) {
                         <Heading1>Mine Tavler</Heading1>
                         <CreateBoard loggedIn />
                     </div>
-                    <Search />
+                    <div className={classes.actionRow}>
+                        <Search />
+                        <ToggleBoardsColumns />
+                    </div>
                     <BoardTable />
                 </div>
             </SettingsDispatchContext.Provider>
