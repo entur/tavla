@@ -20,6 +20,7 @@ import {
 } from '@dnd-kit/sortable'
 import { DraggableCheckbox } from './DraggableCheckbox'
 import { useBoardsSettingsDispatch } from '../../utils/context'
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 
 function CheckboxList({
     columnOrder,
@@ -54,6 +55,7 @@ function CheckboxList({
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
+            modifiers={[restrictToVerticalAxis]}
         >
             <SortableContext
                 items={columnOrder}

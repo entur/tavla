@@ -1,5 +1,5 @@
 import { useSortable } from '@dnd-kit/sortable'
-import { DraggableIcon } from '@entur/icons'
+import { UnsortedIcon } from '@entur/icons'
 import { TavlaButton } from './Button'
 
 function SortableHandle({ id, ariaLabel }: { id: string; ariaLabel?: string }) {
@@ -12,7 +12,7 @@ function SortableHandle({ id, ariaLabel }: { id: string; ariaLabel?: string }) {
             data-cy="sortable-handle"
             aria-label={ariaLabel}
         >
-            <DraggableIcon size={16} />
+            <UnsortedIcon size={16} />
         </TavlaButton>
     )
 }
