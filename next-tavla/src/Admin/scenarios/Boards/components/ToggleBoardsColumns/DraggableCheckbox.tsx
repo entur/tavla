@@ -29,7 +29,12 @@ function DraggableCheckbox({
             ref={setNodeRef}
             style={style}
         >
-            <SortableHandle {...attributes} {...listeners} id={column} />
+            <SortableHandle
+                {...attributes}
+                {...listeners}
+                id={column}
+                ariaLabel={`Sorteringsknapp for kolonner: ${BoardsColumns[column]}`}
+            />
             <Checkbox
                 key={column}
                 checked={checked}
