@@ -35,11 +35,11 @@ function AdminHeader({
                         )}
                         {options.includes('boards') && (
                             <PrimaryButton as={Link} href="/edit/boards">
-                                Mine Tavler
-                                <UserIcon />
                             </PrimaryButton>
                         )}
                     </div>
+                            <UserIcon />
+                            Mine Tavler
                 )}
                 <Login user={user} />
             </div>

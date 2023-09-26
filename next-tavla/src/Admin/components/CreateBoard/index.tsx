@@ -14,8 +14,8 @@ function CreateBoard({ icon = false }: { icon?: boolean }) {
             disabled={loading}
             loading={loading}
         >
-            Opprett ny tavle
             {icon && <AddIcon />}
+            Opprett ny tavle
         </PrimaryButton>
     )
 }

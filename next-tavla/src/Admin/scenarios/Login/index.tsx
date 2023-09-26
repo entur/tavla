@@ -21,7 +21,7 @@ function Login({ user }: { user: DecodedIdToken | null }) {
         // return early if user is already logged in
         return (
             <PrimaryButton onClick={logout}>
-                Logg ut <LogOutIcon />
+                <LogOutIcon /> Logg ut
             </PrimaryButton>
         )
     }
@@ -39,7 +39,7 @@ function Login({ user }: { user: DecodedIdToken | null }) {
     return (
         <>
             <PrimaryButton onClick={open}>
-                Logg inn <UserIcon />
+                <UserIcon /> Logg inn
             </PrimaryButton>
             <Modal
                 open={isOpen}
