@@ -24,7 +24,7 @@ function AdminHeader({ user }: { user: DecodedIdToken | null }) {
             <div className={classes.buttons}>
                 {user && (
                     <>
-                        <CreateBoard icon={true} />
+                        <CreateBoard />
                         <PrimaryButton as={Link} href="/edit/boards">
                             <UserIcon />
                             Mine Tavler

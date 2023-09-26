@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { AddIcon } from '@entur/icons'
 
-function CreateBoard({ icon = false }: { icon?: boolean }) {
+function CreateBoard() {
     const [loading, isLoading] = useState(false)
     return (
         <PrimaryButton
@@ -14,7 +14,7 @@ function CreateBoard({ icon = false }: { icon?: boolean }) {
             disabled={loading}
             loading={loading}
         >
-            {icon && <AddIcon />}
+            <AddIcon />
             Opprett ny tavle
         </PrimaryButton>
     )
