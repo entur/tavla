@@ -8,6 +8,7 @@ import {
     SettingsContext,
     SettingsDispatchContext,
     useBoardsSettings,
+    useBoardsSettingsDispatch,
 } from './utils/context'
 import { Search } from './components/Search'
 import { isEmpty } from 'lodash'
@@ -17,6 +18,22 @@ import { TableRows } from './components/TableRows'
 import { CreateBoard } from 'Admin/components/CreateBoard'
 import { ToggleBoardsColumns } from './components/ToggleBoardsColumns'
 import { BoardsColumns, TBoardsColumn } from 'Admin/types/boards'
+import {
+    useSensors,
+    useSensor,
+    PointerSensor,
+    KeyboardSensor,
+    DragEndEvent,
+    DndContext,
+    closestCenter,
+} from '@dnd-kit/core'
+import {
+    sortableKeyboardCoordinates,
+    arrayMove,
+    SortableContext,
+    horizontalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { restrictToHorizontalAxis } from '@dnd-kit/modifiers'
 
 function Boards({ boards }: { boards: TBoard[] }) {
     const [settings, dispatch] = useReducer(settingsReducer, {
@@ -49,9 +66,17 @@ function Boards({ boards }: { boards: TBoard[] }) {
 }
 
 function BoardTable() {
-    const settings = useBoardsSettings()
+    const { boards, columns, columnOrder } = useBoardsSettings()
+    const dispatch = useBoardsSettingsDispatch()
 
-    if (isEmpty(settings.boards))
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        }),
+    )
+
+    if (isEmpty(boards))
         return (
             <IllustratedInfo
                 title="Her var det tomt"
@@ -59,18 +84,39 @@ function BoardTable() {
             />
         )
 
+    function handleDragEnd(event: DragEndEvent) {
+        const { active, over } = event
+
+        if (active.id !== over?.id) {
+            const oldIndex = columnOrder.indexOf(active.id as TBoardsColumn)
+            const newIndex = columnOrder.indexOf(over?.id as TBoardsColumn)
+            const newOrder = arrayMove(columnOrder, oldIndex, newIndex)
+            dispatch({ type: 'setColumnOrder', columnOrder: newOrder })
+        }
+    }
+
     return (
         <div
             className={classes.boardTable}
             style={{
-                gridTemplateColumns: `repeat(${settings.columns.length},auto)`,
+                gridTemplateColumns: `repeat(${columns.length},auto)`,
             }}
         >
-            <TableHeader
-                columns={settings.columns}
-                columnOrder={settings.columnOrder}
-            />
-            <TableRows />
+            {' '}
+            <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+                modifiers={[restrictToHorizontalAxis]}
+            >
+                <SortableContext
+                    items={columnOrder}
+                    strategy={horizontalListSortingStrategy}
+                >
+                    <TableHeader columns={columns} columnOrder={columnOrder} />
+                    <TableRows />
+                </SortableContext>
+            </DndContext>
         </div>
     )
 }
