@@ -14,7 +14,6 @@ import { isEmpty } from 'lodash'
 import { IllustratedInfo } from 'Admin/components/IllustratedInfo'
 import { TableHeader } from './components/TableHeader'
 import { TableRows } from './components/TableRows'
-import { CreateBoard } from 'Admin/components/CreateBoard'
 
 function Boards({ boards }: { boards: TBoard[] }) {
     const [settings, dispatch] = useReducer(settingsReducer, {
@@ -28,10 +27,7 @@ function Boards({ boards }: { boards: TBoard[] }) {
         <SettingsContext.Provider value={settings}>
             <SettingsDispatchContext.Provider value={dispatch}>
                 <div className={classes.boards}>
-                    <div className={classes.header}>
-                        <Heading1>Mine Tavler</Heading1>
-                        <CreateBoard />
-                    </div>
+                    <Heading1>Mine Tavler</Heading1>
                     <Search />
                     <BoardTable />
                 </div>

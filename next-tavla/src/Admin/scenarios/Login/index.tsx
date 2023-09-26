@@ -1,5 +1,5 @@
 import { PrimaryButton, SecondarySquareButton } from '@entur/button'
-import { BackArrowIcon, CloseIcon } from '@entur/icons'
+import { BackArrowIcon, CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { TLoginPage } from 'Admin/types/login'
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
@@ -19,7 +19,11 @@ function Login({ user }: { user: DecodedIdToken | null }) {
 
     if (user) {
         // return early if user is already logged in
-        return <PrimaryButton onClick={logout}>Logg ut</PrimaryButton>
+        return (
+            <PrimaryButton onClick={logout}>
+                <LogOutIcon /> Logg ut
+            </PrimaryButton>
+        )
     }
 
     const pushPage = (page: TLoginPage) => {
@@ -34,7 +38,9 @@ function Login({ user }: { user: DecodedIdToken | null }) {
 
     return (
         <>
-            <PrimaryButton onClick={open}>Logg inn</PrimaryButton>
+            <PrimaryButton onClick={open}>
+                <UserIcon /> Logg inn
+            </PrimaryButton>
             <Modal
                 open={isOpen}
                 size="small"

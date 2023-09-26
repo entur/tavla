@@ -1,12 +1,13 @@
 import classes from 'styles/pages/admin.module.css'
 import { Contrast } from '@entur/layout'
 import { ToastProvider } from '@entur/alert'
-import { Header } from 'components/Header'
 import { Boards } from 'Admin/scenarios/Boards'
 import { TBoard } from 'types/settings'
 import { getBoardsForUser } from 'Admin/utils/firebase'
 import { verifyUserSession } from 'Admin/utils/auth'
 import { IncomingNextMessage } from 'types/next'
+import { AdminHeader } from 'Admin/components/AdminHeader'
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 
 export async function getServerSideProps({
     req,
@@ -27,18 +28,27 @@ export async function getServerSideProps({
     return {
         props: {
             boards: boards,
+            user: user,
         },
     }
 }
 
-function OverviewPage({ boards }: { boards: TBoard[] }) {
+function OverviewPage({
+    boards,
+    user,
+}: {
+    boards: TBoard[]
+    user: DecodedIdToken | null
+}) {
     return (
-        <Contrast className={classes.root}>
-            <ToastProvider>
-                <Header />
-                <Boards boards={boards} />
-            </ToastProvider>
-        </Contrast>
+        <div className={classes.root}>
+            <AdminHeader user={user} />
+            <Contrast>
+                <ToastProvider>
+                    <Boards boards={boards} />
+                </ToastProvider>
+            </Contrast>
+        </div>
     )
 }
 
