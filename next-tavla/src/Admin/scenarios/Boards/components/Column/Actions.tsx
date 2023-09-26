@@ -6,6 +6,7 @@ import { TBoard } from 'types/settings'
 import { useLink } from '../../hooks/useLink'
 import { useToast } from '@entur/alert'
 import classes from './styles.module.css'
+import { DeleteBoardButton } from '../Delete'
 
 function Actions({ board }: { board: TBoard }) {
     const link = useLink(board.id)
@@ -14,6 +15,7 @@ function Actions({ board }: { board: TBoard }) {
             <Edit bid={board.id} />
             <Copy link={link} />
             <Open link={link} />
+            <Delete board={board} />
         </div>
     )
 }
@@ -61,6 +63,14 @@ function Open({ link }: { link?: string }) {
             >
                 <ExternalIcon />
             </IconButton>
+        </Tooltip>
+    )
+}
+
+function Delete({ board }: { board: TBoard }) {
+    return (
+        <Tooltip content="Slett tavle" placement="bottom">
+            <DeleteBoardButton board={board} />
         </Tooltip>
     )
 }
