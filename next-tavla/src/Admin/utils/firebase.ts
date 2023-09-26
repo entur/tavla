@@ -141,8 +141,16 @@ export async function deleteBoard(bid: TBoardID, uid: TUserID) {
 
 export async function userCanDeleteBoard(uid: TUserID, bid: TBoardID) {
     const user = await getUser(uid)
-    const userCanDeleteBoard = concat(user?.owner).includes(bid)
-    return userCanDeleteBoard
+    const userDeleteAccess = concat(user?.owner).includes(bid)
+    if (userDeleteAccess) return true
+
+    const organization = await getOrganizationWithBoard(bid)
+    const deleteAccessFromOrganization = concat(
+        organization?.owners,
+        organization?.editors,
+    ).includes(uid)
+
+    return deleteAccessFromOrganization
 }
 
 export async function getUser(uid: TUserID) {

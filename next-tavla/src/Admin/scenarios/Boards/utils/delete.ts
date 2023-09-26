@@ -1,6 +1,6 @@
 import { TavlaError } from 'Admin/types/error'
 import { TBoardID } from 'types/settings'
-async function deleteBoard(bid: TBoardID) {
+export async function deleteBoard(bid: TBoardID) {
     const response = await fetch('/api/board', {
         method: 'DELETE',
         body: JSON.stringify({ bid: bid }),
@@ -13,5 +13,3 @@ async function deleteBoard(bid: TBoardID) {
         })
     }
 }
-
-export { deleteBoard }
