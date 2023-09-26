@@ -9,13 +9,7 @@ import classes from './styles.module.css'
 import { CreateBoard } from '../CreateBoard'
 import { UserIcon } from '@entur/icons'
 
-function AdminHeader({
-    user,
-    options,
-}: {
-    user: DecodedIdToken | null
-    options: ('create' | 'boards')[]
-}) {
+function AdminHeader({ user }: { user: DecodedIdToken | null }) {
     return (
         <div className={classes.header}>
             <Link href="/">
@@ -29,17 +23,13 @@ function AdminHeader({
             </Link>
             <div className={classes.buttons}>
                 {user && (
-                    <div className={classes.buttons}>
-                        {options.includes('create') && (
-                            <CreateBoard icon={true} />
-                        )}
-                        {options.includes('boards') && (
-                            <PrimaryButton as={Link} href="/edit/boards">
-                            </PrimaryButton>
-                        )}
-                    </div>
+                    <>
+                        <CreateBoard />
+                        <PrimaryButton as={Link} href="/edit/boards">
                             <UserIcon />
                             Mine Tavler
+                        </PrimaryButton>
+                    </>
                 )}
                 <Login user={user} />
             </div>

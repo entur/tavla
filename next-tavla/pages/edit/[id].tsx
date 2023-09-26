@@ -58,7 +58,7 @@ function AdminPage({
 }) {
     return (
         <div className={classes.root}>
-            <AdminHeader user={user} options={['boards', 'create']} />
+            <AdminHeader user={user} />
             <Contrast>
                 <ToastProvider>
                     <Edit initialBoard={board} documentId={id} user={user} />

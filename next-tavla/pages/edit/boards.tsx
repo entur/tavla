@@ -42,7 +42,7 @@ function OverviewPage({
 }) {
     return (
         <div className={classes.root}>
-            <AdminHeader user={user} options={['create']} />
+            <AdminHeader user={user} />
             <Contrast>
                 <ToastProvider>
                     <Boards boards={boards} />
