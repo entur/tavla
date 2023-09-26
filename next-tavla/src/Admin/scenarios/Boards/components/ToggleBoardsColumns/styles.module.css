@@ -30,7 +30,7 @@
     margin: 0.5rem;
 }
 
-.checkBoxLine {
+.draggableCheckbox {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -39,16 +39,4 @@
 
 .checkBoxLine label {
     margin-left: 0.5rem;
-}
-
-.orderButtons {
-    display: flex;
-    width: 2rem;
-}
-
-.orderButtons .up {
-    margin-right: auto;
-}
-.orderButtons .down {
-    margin-left: auto;
 }

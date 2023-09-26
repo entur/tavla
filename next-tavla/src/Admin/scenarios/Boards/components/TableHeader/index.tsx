@@ -1,12 +1,20 @@
 import { TBoardsColumn } from 'Admin/types/boards'
 import { ColumnHeader } from './ColumnHeader'
 
-function TableHeader({ columnOrder }: { columnOrder: TBoardsColumn[] }) {
+function TableHeader({
+    columns,
+    columnOrder,
+}: {
+    columns: TBoardsColumn[]
+    columnOrder: TBoardsColumn[]
+}) {
     return (
         <>
-            {columnOrder.map((column: TBoardsColumn) => (
-                <ColumnHeader key={column} column={column} />
-            ))}
+            {columns
+                .sort((a, b) => columnOrder.indexOf(a) - columnOrder.indexOf(b))
+                .map((column: TBoardsColumn) => (
+                    <ColumnHeader key={column} column={column} />
+                ))}
         </>
     )
 }

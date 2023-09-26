@@ -66,7 +66,10 @@ function BoardTable() {
                 gridTemplateColumns: `repeat(${settings.columns.length},auto)`,
             }}
         >
-            <TableHeader columnOrder={settings.columnOrder} />
+            <TableHeader
+                columns={settings.columns}
+                columnOrder={settings.columnOrder}
+            />
             <TableRows />
         </div>
     )
