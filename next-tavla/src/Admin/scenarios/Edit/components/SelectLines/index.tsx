@@ -75,14 +75,19 @@ function SelectLines({
 
     const toggleTransportMode = (transportMode: TTransportMode) => {
         const modes = tile.whitelistedTransportModes ?? []
-        const updatedModes = xor(modes, [transportMode])
+        const updatedModes = xor(modes.length === 0 ? transportModes : modes, [
+            transportMode,
+        ])
         const linesToRemove = getNotWhitelistedTransportModeLines(updatedModes)
         removeLines(linesToRemove)
 
         dispatch({
             type: 'setTransportModes',
             tileId: tile.uuid,
-            transportModes: updatedModes,
+            transportModes:
+                updatedModes.length === transportModes.length
+                    ? []
+                    : updatedModes,
         })
     }
 
@@ -112,6 +117,20 @@ function SelectLines({
         transportMode: transportMode,
         lines: uniqLines.filter((line) => line.transportMode === transportMode),
     }))
+
+    const isTransportModeChecked = useCallback(
+        (transportMode: TTransportMode) => {
+            if (
+                !tile.whitelistedTransportModes ||
+                tile.whitelistedTransportModes.length === 0
+            )
+                return true
+            return (
+                tile.whitelistedTransportModes.includes(transportMode) ?? false
+            )
+        },
+        [tile.whitelistedTransportModes],
+    )
 
     const selectAllLines = useCallback(
         (transportMode: TTransportMode) => {
@@ -166,26 +185,20 @@ function SelectLines({
         <div className={classes.lineSettingsWrapper}>
             <Heading4>Velg transportmidler</Heading4>
             <div className={classes.linesGrid}>
-                {transportModes.map((transportMode) => {
-                    const transportModeChecked =
-                        tile.whitelistedTransportModes?.includes(
-                            transportMode,
-                        ) ?? false
-                    return (
-                        <div key={transportMode}>
-                            <TravelSwitch
-                                size="large"
-                                transport={getTransportMode(transportMode)}
-                                onChange={() => {
-                                    toggleTransportMode(transportMode)
-                                }}
-                                checked={transportModeChecked}
-                            >
-                                {transportModeNames[transportMode]}
-                            </TravelSwitch>
-                        </div>
-                    )
-                })}
+                {transportModes.map((transportMode) => (
+                    <div key={transportMode}>
+                        <TravelSwitch
+                            size="large"
+                            transport={getTransportMode(transportMode)}
+                            onChange={() => {
+                                toggleTransportMode(transportMode)
+                            }}
+                            checked={isTransportModeChecked(transportMode)}
+                        >
+                            {transportModeNames[transportMode]}
+                        </TravelSwitch>
+                    </div>
+                ))}
             </div>
             <Heading4>Velg linjer</Heading4>
             <SubParagraph>
