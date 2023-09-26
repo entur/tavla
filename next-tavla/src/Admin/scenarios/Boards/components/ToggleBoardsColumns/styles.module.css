@@ -3,7 +3,7 @@
 }
 
 .boardListOptionsContent {
-    width: 20rem;
+    width: 30rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -28,4 +28,27 @@
 
 .heading {
     margin: 0.5rem;
+}
+
+.checkBoxLine {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+
+.checkBoxLine label {
+    margin-left: 0.5rem;
+}
+
+.orderButtons {
+    display: flex;
+    width: 2rem;
+}
+
+.orderButtons .up {
+    margin-right: auto;
+}
+.orderButtons .down {
+    margin-left: auto;
 }

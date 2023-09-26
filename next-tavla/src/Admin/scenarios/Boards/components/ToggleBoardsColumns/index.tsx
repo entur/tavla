@@ -1,5 +1,5 @@
 import { IconButton, SecondarySquareButton } from '@entur/button'
-import { CloseIcon, SettingsIcon } from '@entur/icons'
+import { CloseIcon, DownwardIcon, SettingsIcon, UpwardIcon } from '@entur/icons'
 import classes from './styles.module.css'
 import {
     Popover,
@@ -14,10 +14,19 @@ import {
     useBoardsSettingsDispatch,
 } from '../../utils/context'
 import { BoardsColumns, TBoardsColumn } from 'Admin/types/boards'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 
 function ToggleBoardsColumns() {
-    const { columns: checkedColumns } = useBoardsSettings()
+    const { columns, columnOrder } = useBoardsSettings()
     const dispatch = useBoardsSettingsDispatch()
+
+    function swapColumns(index1: number, index2: number) {
+        const newColumnOrder: (TBoardsColumn | undefined)[] = [...columnOrder]
+        newColumnOrder[index1] = columnOrder[index2]
+        newColumnOrder[index2] = columnOrder[index1]
+        if (newColumnOrder.every(isNotNullOrUndefined))
+            dispatch({ type: 'setColumnOrder', columnOrder: newColumnOrder })
+    }
 
     return (
         <Popover>
@@ -39,21 +48,41 @@ function ToggleBoardsColumns() {
                         </PopoverCloseButton>
                     </div>
                     <div className={classes.contentList}>
-                        {Object.entries(BoardsColumns).map(([col, label]) => (
-                            <Checkbox
-                                key={col}
-                                checked={checkedColumns.includes(
-                                    col as TBoardsColumn,
-                                )}
-                                onChange={() =>
-                                    dispatch({
-                                        type: 'toggleColumn',
-                                        column: col as TBoardsColumn,
-                                    })
-                                }
-                            >
-                                {label}
-                            </Checkbox>
+                        {columnOrder.map((column, index, arr) => (
+                            <div key={column} className={classes.checkBoxLine}>
+                                <div className={classes.orderButtons}>
+                                    {index > 0 && (
+                                        <UpwardIcon
+                                            className={classes.up}
+                                            onClick={() =>
+                                                swapColumns(index, index - 1)
+                                            }
+                                        />
+                                    )}
+                                    {index < arr.length - 1 && (
+                                        <DownwardIcon
+                                            className={classes.down}
+                                            onClick={() =>
+                                                swapColumns(index, index + 1)
+                                            }
+                                        />
+                                    )}
+                                </div>
+                                <Checkbox
+                                    key={column}
+                                    checked={columns.includes(
+                                        column as TBoardsColumn,
+                                    )}
+                                    onChange={() =>
+                                        dispatch({
+                                            type: 'toggleColumn',
+                                            column: column,
+                                        })
+                                    }
+                                >
+                                    {BoardsColumns[column]}
+                                </Checkbox>
+                            </div>
                         ))}
                     </div>
                 </div>

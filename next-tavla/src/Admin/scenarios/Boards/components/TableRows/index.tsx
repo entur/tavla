@@ -4,9 +4,10 @@ import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
 import { Column } from '../Column'
 import { Fragment } from 'react'
 import { TBoard } from 'types/settings'
+import { TBoardsColumn } from 'Admin/types/boards'
 
 function TableRows() {
-    const { boards, columns, search } = useBoardsSettings()
+    const { boards, columnOrder, search } = useBoardsSettings()
     const sortFunction = useSortBoardFunction()
 
     const filter = new RegExp(search, 'i')
@@ -19,30 +20,13 @@ function TableRows() {
                 .sort(sortFunction)
                 .map((board: TBoard) => (
                     <Fragment key={board.id}>
-                        {columns.includes('name') && (
+                        {columnOrder.map((column: TBoardsColumn) => (
                             <Column
-                                key={'name'}
+                                key={column}
                                 board={board}
-                                column={'name'}
+                                column={column}
                             />
-                        )}
-                        {columns.includes('url') && (
-                            <Column key={'url'} board={board} column={'url'} />
-                        )}
-                        {columns.includes('actions') && (
-                            <Column
-                                key={'actions'}
-                                board={board}
-                                column={'actions'}
-                            />
-                        )}
-                        {columns.includes('lastModified') && (
-                            <Column
-                                key={'lastModified'}
-                                board={board}
-                                column={'lastModified'}
-                            />
-                        )}
+                        ))}
                     </Fragment>
                 ))}
         </>

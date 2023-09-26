@@ -6,6 +6,7 @@ export type Action =
     | { type: 'setSort'; sort: { type: TSort; column: TBoardsColumn } }
     | { type: 'deleteBoard'; bid: string }
     | { type: 'toggleColumn'; column: TBoardsColumn }
+    | { type: 'setColumnOrder'; columnOrder: TBoardsColumn[] }
 
 export function settingsReducer(board: TBoards, action: Action): TBoards {
     switch (action.type) {
@@ -22,6 +23,11 @@ export function settingsReducer(board: TBoards, action: Action): TBoards {
             return {
                 ...board,
                 columns: xor(board.columns, [action.column]),
+            }
+        case 'setColumnOrder':
+            return {
+                ...board,
+                columnOrder: action.columnOrder,
             }
     }
 }

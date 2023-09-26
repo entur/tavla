@@ -16,12 +16,16 @@ import { TableHeader } from './components/TableHeader'
 import { TableRows } from './components/TableRows'
 import { CreateBoard } from 'Admin/components/CreateBoard'
 import { ToggleBoardsColumns } from './components/ToggleBoardsColumns'
+import { BoardsColumns, TBoardsColumn } from 'Admin/types/boards'
 
 function Boards({ boards }: { boards: TBoard[] }) {
     const [settings, dispatch] = useReducer(settingsReducer, {
         search: '',
         sort: { type: 'ascending', column: 'name' },
         columns: ['name', 'url', 'actions', 'lastModified'],
+        columnOrder: Object.entries(BoardsColumns).map(
+            ([key]) => key as TBoardsColumn,
+        ),
         boards: boards,
     })
 
@@ -62,7 +66,7 @@ function BoardTable() {
                 gridTemplateColumns: `repeat(${settings.columns.length},auto)`,
             }}
         >
-            <TableHeader columns={settings.columns} />
+            <TableHeader columnOrder={settings.columnOrder} />
             <TableRows />
         </div>
     )
