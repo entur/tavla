@@ -1,45 +1,15 @@
 import { Checkbox } from '@entur/form'
 import { TravelSwitch } from '@entur/travel'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
-import { uniqBy, xor } from 'lodash'
+import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TLinesFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
 import { useCallback } from 'react'
-import { Transport } from '@entur/travel/dist/utils'
 import { useEditSettingsDispatch } from '../../utils/contexts'
-
-const transportModeNames: Record<TTransportMode, string> = {
-    air: 'Fly',
-    bus: 'Buss',
-    cableway: 'Kabelbane',
-    water: 'Båt',
-    funicular: 'Taubane',
-    lift: 'Heis',
-    rail: 'Tog',
-    metro: 'T-bane',
-    tram: 'Trikk',
-    trolleybus: 'Trolley-buss',
-    monorail: 'Enskinnebane',
-    coach: 'Langdistanse buss',
-    unknown: 'Ukjent',
-}
-
-function getTransportMode(transportMode: TTransportMode): Transport {
-    switch (transportMode) {
-        case 'coach':
-        case 'trolleybus':
-            return 'bus'
-        case 'lift':
-        case 'unknown':
-            return 'none'
-        case 'monorail':
-            return 'rail'
-        default:
-            return transportMode
-    }
-}
+import { getTransportMode, transportModeNames } from './utils'
+import { useToggledTransportModes } from './hooks/useToggledTransportModes'
 
 function SelectLines({
     tile,
@@ -49,6 +19,8 @@ function SelectLines({
     lines: TLinesFragment['lines']
 }) {
     const dispatch = useEditSettingsDispatch()
+    const [toggledTransportModes, toggleTransportMode] =
+        useToggledTransportModes(tile, lines)
 
     const toggleLine = (line: string) => {
         dispatch({ type: 'toggleLine', tileId: tile.uuid, lineId: line })
@@ -61,51 +33,6 @@ function SelectLines({
         [dispatch, tile.uuid],
     )
 
-    const getNotWhitelistedTransportModeLines = (
-        transportModeWhiteList: TTransportMode[],
-    ) =>
-        uniqLines
-            .filter(
-                (line) =>
-                    !transportModeWhiteList.includes(
-                        line.transportMode ?? 'unknown',
-                    ) ?? false,
-            )
-            .map((line) => line.id)
-
-    const toggleTransportMode = (transportMode: TTransportMode) => {
-        const modes = tile.whitelistedTransportModes ?? []
-        const updatedModes = xor(modes.length === 0 ? transportModes : modes, [
-            transportMode,
-        ])
-        const linesToRemove = getNotWhitelistedTransportModeLines(updatedModes)
-        removeLines(linesToRemove)
-
-        dispatch({
-            type: 'setTransportModes',
-            tileId: tile.uuid,
-            transportModes:
-                updatedModes.length === transportModes.length
-                    ? []
-                    : updatedModes,
-        })
-    }
-
-    const isLineDisabled = useCallback(
-        (transportMode: TTransportMode) => {
-            if (!tile.whitelistedTransportModes) return false
-            return (
-                tile.whitelistedTransportModes.length > 0 &&
-                !tile.whitelistedTransportModes.includes(transportMode)
-            )
-        },
-        [tile.whitelistedTransportModes],
-    )
-
-    const transportModes: TTransportMode[] = uniqBy(lines, 'transportMode').map(
-        (line) => line.transportMode ?? 'unknown',
-    )
-
     const uniqLines = uniqBy(lines, 'id').sort((a, b) => {
         if (!a || !a.publicCode || !b || !b.publicCode) return 1
         return a.publicCode.localeCompare(b.publicCode, 'no-NB', {
@@ -113,24 +40,14 @@ function SelectLines({
         })
     })
 
-    const linesByMode = transportModes.map((transportMode) => ({
-        transportMode: transportMode,
-        lines: uniqLines.filter((line) => line.transportMode === transportMode),
-    }))
-
-    const isTransportModeChecked = useCallback(
-        (transportMode: TTransportMode) => {
-            if (
-                !tile.whitelistedTransportModes ||
-                tile.whitelistedTransportModes.length === 0
-            )
-                return true
-            return (
-                tile.whitelistedTransportModes.includes(transportMode) ?? false
-            )
-        },
-        [tile.whitelistedTransportModes],
-    )
+    const linesByMode = toggledTransportModes
+        .map((i) => i.transportMode)
+        .map((transportMode) => ({
+            transportMode: transportMode,
+            lines: uniqLines.filter(
+                (line) => line.transportMode === transportMode,
+            ),
+        }))
 
     const selectAllLines = useCallback(
         (transportMode: TTransportMode) => {
@@ -185,7 +102,7 @@ function SelectLines({
         <div className={classes.lineSettingsWrapper}>
             <Heading4>Velg transportmidler</Heading4>
             <div className={classes.linesGrid}>
-                {transportModes.map((transportMode) => (
+                {toggledTransportModes.map(({ transportMode, toggled }) => (
                     <div key={transportMode}>
                         <TravelSwitch
                             size="large"
@@ -193,7 +110,7 @@ function SelectLines({
                             onChange={() => {
                                 toggleTransportMode(transportMode)
                             }}
-                            checked={isTransportModeChecked(transportMode)}
+                            checked={toggled}
                         >
                             {transportModeNames[transportMode]}
                         </TravelSwitch>
@@ -215,13 +132,10 @@ function SelectLines({
                                     toggleSelectAllLines(transportMode)
                                 }}
                                 checked={isAllLinesSelected(transportMode)}
-                                disabled={isLineDisabled(transportMode)}
                             >
                                 Velg alle
                             </Checkbox>
                             {lines.map((line) => {
-                                const disabledLine =
-                                    isLineDisabled(transportMode)
                                 return (
                                     <Checkbox
                                         className={classes.line}
@@ -232,7 +146,6 @@ function SelectLines({
                                             ) ?? false
                                         }
                                         onChange={() => toggleLine(line.id)}
-                                        disabled={disabledLine}
                                     >
                                         {line.publicCode} {line.name}
                                     </Checkbox>
