@@ -12,10 +12,11 @@ import {
     useBoardsSettings,
     useBoardsSettingsDispatch,
 } from '../../utils/context'
-import { CheckboxList } from './CheckBoxList'
+import { Checkbox } from '@entur/form'
+import { BoardsColumns, TBoardsColumn } from 'Admin/types/boards'
 
 function ToggleBoardsColumns() {
-    const { columns, columnOrder } = useBoardsSettings()
+    const { columns } = useBoardsSettings()
     const dispatch = useBoardsSettingsDispatch()
 
     return (
@@ -38,11 +39,22 @@ function ToggleBoardsColumns() {
                         </PopoverCloseButton>
                     </div>
                     <div className={classes.contentList}>
-                        <CheckboxList
-                            columnOrder={columnOrder}
-                            columns={columns}
-                            dispatch={dispatch}
-                        />
+                        {Object.entries(BoardsColumns).map(([column]) => (
+                            <Checkbox
+                                key={column}
+                                checked={columns.includes(
+                                    column as TBoardsColumn,
+                                )}
+                                onChange={() =>
+                                    dispatch({
+                                        type: 'toggleColumn',
+                                        column: column as TBoardsColumn,
+                                    })
+                                }
+                            >
+                                {BoardsColumns[column as TBoardsColumn]}
+                            </Checkbox>
+                        ))}
                     </div>
                 </div>
             </PopoverContent>
