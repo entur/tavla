@@ -13,6 +13,10 @@ html {
     line-height: 1.2;
 }
 
+.eds-h1 {
+    font-size: 2rem;
+}
+
 h3 {
     font-weight: 500;
 }

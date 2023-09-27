@@ -37,7 +37,7 @@ function AddTile() {
 
     return (
         <div>
-            <Heading1 className={classes.Heading1}>Holdeplasser</Heading1>
+            <Heading1>Holdeplasser i tavla</Heading1>
 
             <div className={classes.SearchContainer}>
                 <SearchableDropdown
