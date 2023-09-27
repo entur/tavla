@@ -1,11 +1,12 @@
 .editTitle {
     display: flex;
-    height: 3rem;
     align-items: center;
     gap: 1em;
+    background-color: var(--secondary-background-color);
+    border-radius: 0.5em;
+    padding: 1rem 3rem;
 }
 
-.title {
-    margin: auto;
-    line-height: 3rem;
+.textField {
+    width: max-content;
 }
