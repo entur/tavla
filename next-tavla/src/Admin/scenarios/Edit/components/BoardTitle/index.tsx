@@ -1,69 +1,40 @@
-import { SecondarySquareButton } from '@entur/button'
 import { TextField } from '@entur/form'
-import { CheckIcon, CloseIcon, EditIcon } from '@entur/icons'
-import { Heading1 } from '@entur/typography'
+import { EditIcon } from '@entur/icons'
 import { useCallback, useState } from 'react'
 import classes from './styles.module.css'
-import { Tooltip } from '@entur/tooltip'
-import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
 import { useEditSettingsDispatch } from '../../utils/contexts'
+import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
 
 function BoardTitle({ title }: { title?: string }) {
-    const [isEditing, setIsEditing] = useState(false)
-    const dispatch = useEditSettingsDispatch()
     const boardTitle = title || DEFAULT_BOARD_NAME
     const [tempTitle, setTempTitle] = useState(boardTitle)
-
+    const dispatch = useEditSettingsDispatch()
     const autoSelect = useCallback((ref: HTMLInputElement) => {
         ref?.select()
     }, [])
 
-    if (!isEditing) {
-        return (
-            <div className={classes.editTitle}>
-                <Heading1 className={classes.title}>{boardTitle}</Heading1>
-                <Tooltip content="Rediger tittel" placement="right">
-                    <SecondarySquareButton
-                        className={classes.squareButton}
-                        onClick={() => setIsEditing(true)}
-                    >
-                        <EditIcon aria-label="Rediger tittel" />
-                    </SecondarySquareButton>
-                </Tooltip>
-            </div>
-        )
+    const dispatchTitle = () => {
+        dispatch({
+            type: 'setTitle',
+            title: tempTitle || DEFAULT_BOARD_NAME,
+        })
+        if (!tempTitle) {
+            setTempTitle(DEFAULT_BOARD_NAME)
+        }
     }
-
     return (
         <div className={classes.editTitle}>
             <TextField
-                defaultValue={boardTitle}
+                value={tempTitle}
+                className={classes.textField}
                 size="medium"
-                label="Navn på tavlen"
+                label="Navn på tavla"
+                placeholder="Navn på tavla"
+                prepend={<EditIcon />}
                 onChange={(e) => setTempTitle(e.target.value)}
+                onBlur={dispatchTitle}
                 ref={autoSelect}
-            />
-            <SecondarySquareButton
-                className={classes.squareButton}
-                onClick={() => {
-                    setIsEditing(false)
-                    dispatch({
-                        type: 'setTitle',
-                        title: tempTitle,
-                    })
-                }}
-            >
-                <CheckIcon aria-label="Bekreft tittelendring" />
-            </SecondarySquareButton>
-            <SecondarySquareButton
-                className={classes.squareButton}
-                onClick={() => {
-                    setTempTitle(boardTitle)
-                    setIsEditing(false)
-                }}
-            >
-                <CloseIcon aria-label="Avbryt tittelendring" />
-            </SecondarySquareButton>
+            ></TextField>
         </div>
     )
 }
