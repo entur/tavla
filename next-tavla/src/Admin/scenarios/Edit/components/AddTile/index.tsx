@@ -1,17 +1,13 @@
-import React, { useCallback, useState, useRef } from 'react'
+import { useState } from 'react'
 import { Button } from '@entur/button'
 import classes from './styles.module.css'
-import {
-    DropdownItemType,
-    NormalizedDropdownItemType,
-    SearchableDropdown,
-} from '@entur/dropdown'
+import { NormalizedDropdownItemType, SearchableDropdown } from '@entur/dropdown'
 import { fetchItems } from 'Admin/utils/fetch'
 import { SearchIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
 import { useToast } from '@entur/alert'
 import { useEditSettingsDispatch } from '../../utils/contexts'
-import { DebouncedFunc, debounce } from 'lodash'
+import { useDebouncedFetch } from 'hooks/useDebouncedFetch'
 
 function AddTile() {
     const dispatch = useEditSettingsDispatch()
@@ -19,7 +15,7 @@ function AddTile() {
     const [selectedDropdownItem, setSelectedDropdownItem] =
         useState<NormalizedDropdownItemType | null>(null)
 
-    const debouncedCallRef = useRef<DebouncedFunc<() => Promise<void>>>()
+    const debouncedFetch = useDebouncedFetch(500, fetchItems)
 
     function handleAddTile() {
         if (!selectedDropdownItem?.value) {
@@ -42,20 +38,6 @@ function AddTile() {
         setSelectedDropdownItem(null)
     }
 
-    const debouncedCall = useCallback(
-        (search: string, delay: number) => {
-            debouncedCallRef.current && debouncedCallRef.current.cancel()
-            return new Promise<DropdownItemType[]>((resolve) => {
-                debouncedCallRef.current = debounce(
-                    async () => resolve(await fetchItems(search)),
-                    delay,
-                )
-                debouncedCallRef.current()
-            })
-        },
-        [debouncedCallRef],
-    )
-
     return (
         <div>
             <Heading1 className={classes.Heading1}>Holdeplasser</Heading1>
@@ -63,7 +45,7 @@ function AddTile() {
             <div className={classes.SearchContainer}>
                 <SearchableDropdown
                     className={classes.DropDown}
-                    items={(search) => debouncedCall(search, 500)}
+                    items={debouncedFetch}
                     label="Søk etter holdeplass..."
                     clearable
                     prepend={<SearchIcon />}
