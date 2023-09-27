@@ -3,17 +3,32 @@ import classes from './styles.module.css'
 import { Sort } from '../Sort'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { SortableHandle } from 'Admin/components/SortableHandle'
-import { DraggableIcon } from '@entur/icons'
+import { CSSProperties } from 'react'
 
 function ColumnHeader({ column }: { column: TBoardsColumn }) {
-    const { attributes, listeners, setNodeRef, transform, transition } =
+    const { attributes, listeners, setNodeRef, transform, transition, active } =
         useSortable({ id: column })
+
+    const otherColumnActive = active && active.id !== column
+    const thisColumnActive = active && active.id === column
+
+    const activeStyle =
+        thisColumnActive &&
+        ({
+            backgroundColor: 'var(--main-background-color)',
+        } as CSSProperties)
 
     const style = {
         transform: CSS.Translate.toString(transform),
-        transition,
+        transition: transition,
+        zIndex: thisColumnActive ? 10 : 0,
+        opacity: otherColumnActive ? 0.5 : 1,
+        ...activeStyle,
     }
+
+    const titleStyle = {
+        backgroundColor: thisColumnActive && 'var(--tertiary-background-color)',
+    } as CSSProperties
 
     return (
         <>
@@ -23,14 +38,15 @@ function ColumnHeader({ column }: { column: TBoardsColumn }) {
                 key={column}
                 className={classes.header}
             >
-                <SortableHandle
+                <div
                     {...attributes}
                     {...listeners}
-                    icon={<DraggableIcon size={16} />}
                     id={column}
-                    ariaLabel={`Sorteringsknapp for kolonner: ${BoardsColumns[column]}`}
-                />
-                <div className={classes.title}>{BoardsColumns[column]}</div>
+                    className={classes.title}
+                    style={titleStyle}
+                >
+                    {BoardsColumns[column]}
+                </div>
                 <Sort column={column} />
             </div>
         </>
