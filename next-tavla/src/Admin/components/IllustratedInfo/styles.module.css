@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: var(--secondary-background-color);
+    border-radius: 0.5em;
 }
 
 .infoHeading {
