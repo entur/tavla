@@ -1,8 +1,6 @@
-import { useSortable } from '@dnd-kit/sortable'
 import { TBoardsColumn } from 'Admin/types/boards'
-import { CSS } from '@dnd-kit/utilities'
-import { CSSProperties } from 'react'
 import classes from './styles.module.css'
+import { useSortableColumnAttributes } from '../../hooks/useSortableAttributes'
 
 function SortableColumn({
     column,
@@ -11,26 +9,8 @@ function SortableColumn({
     column: TBoardsColumn
     children: React.ReactNode
 }) {
-    const { setNodeRef, transform, transition, active } = useSortable({
-        id: column,
-    })
-
-    const otherColumnActive = active && active.id !== column
-    const thisColumnActive = active && active.id === column
-
-    const activeStyle =
-        thisColumnActive &&
-        ({
-            backgroundColor: 'var(--main-background-color)',
-            zIndex: thisColumnActive ? 10 : 0,
-        } as CSSProperties)
-
-    const style: CSSProperties = {
-        transform: CSS.Translate.toString(transform),
-        transition,
-        opacity: otherColumnActive ? 0.5 : 1,
-        ...activeStyle,
-    }
+    const { setNodeRef, style, thisColumnActive } =
+        useSortableColumnAttributes(column)
 
     if (thisColumnActive) style.backgroundColor = 'var(--colors-brand-blue)'
 
