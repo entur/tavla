@@ -14,13 +14,16 @@ function BoardTitle({ title }: { title?: string }) {
     }, [])
 
     const dispatchTitle = () => {
+        if (!tempTitle) {
+            dispatch({
+                type: 'deleteTitle',
+            })
+            return setTempTitle(DEFAULT_BOARD_NAME)
+        }
         dispatch({
             type: 'setTitle',
-            title: tempTitle || DEFAULT_BOARD_NAME,
+            title: tempTitle,
         })
-        if (!tempTitle) {
-            setTempTitle(DEFAULT_BOARD_NAME)
-        }
     }
     return (
         <div className={classes.editTitle}>
