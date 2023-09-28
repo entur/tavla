@@ -7,11 +7,9 @@ import classes from './styles.module.css'
 function SortableColumn({
     column,
     children,
-    className,
 }: {
     column: TBoardsColumn
     children: React.ReactNode
-    className?: string
 }) {
     const { setNodeRef, transform, transition, active } = useSortable({
         id: column,
@@ -41,7 +39,7 @@ function SortableColumn({
             ref={setNodeRef}
             style={style}
             id={column}
-            className={`${className} ${classes.column}`}
+            className={classes.column}
         >
             {children}
         </div>

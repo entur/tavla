@@ -12,11 +12,13 @@ import { SortableColumn } from './SortableColumn'
 function Actions({ board }: { board: TBoard }) {
     const link = useLink(board.id)
     return (
-        <SortableColumn className={classes.actions} column="actions">
-            <Edit bid={board.id} />
-            <Copy link={link} />
-            <Open link={link} />
-            <Delete board={board} />
+        <SortableColumn column="actions">
+            <div className={classes.actions}>
+                <Edit bid={board.id} />
+                <Copy link={link} />
+                <Open link={link} />
+                <Delete board={board} />
+            </div>
         </SortableColumn>
     )
 }
