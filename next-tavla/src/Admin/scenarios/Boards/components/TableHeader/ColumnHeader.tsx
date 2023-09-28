@@ -32,27 +32,25 @@ function ColumnHeader({ column }: { column: TBoardsColumn }) {
     } as CSSProperties
 
     return (
-        <>
-            <div
-                ref={setNodeRef}
-                style={style}
-                key={column}
-                className={classes.header}
-            >
-                <Tooltip placement={'top'} content={'Dra for å flytte'}>
-                    <div
-                        {...attributes}
-                        {...listeners}
-                        id={column}
-                        className={classes.title}
-                        style={titleStyle}
-                    >
-                        {BoardsColumns[column]}
-                    </div>
-                </Tooltip>
-                <Sort column={column} />
-            </div>
-        </>
+        <div
+            ref={setNodeRef}
+            style={style}
+            key={column}
+            className={classes.header}
+        >
+            <Tooltip placement={'top'} content={'Dra for å flytte'}>
+                <div
+                    {...attributes}
+                    {...listeners}
+                    id={column}
+                    className={classes.title}
+                    style={titleStyle}
+                >
+                    {BoardsColumns[column]}
+                </div>
+            </Tooltip>
+            <Sort column={column} />
+        </div>
     )
 }
 
