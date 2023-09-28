@@ -4,7 +4,7 @@
     gap: 1em;
     background-color: var(--secondary-background-color);
     border-radius: 0.5em;
-    padding: 1rem 3rem;
+    padding: 1em 3em;
 }
 
 .textField {

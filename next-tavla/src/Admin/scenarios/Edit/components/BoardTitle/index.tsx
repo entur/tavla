@@ -37,7 +37,7 @@ function BoardTitle({ title }: { title?: string }) {
                 onChange={(e) => setTempTitle(e.target.value)}
                 onBlur={dispatchTitle}
                 ref={autoSelect}
-            ></TextField>
+            />
         </div>
     )
 }
