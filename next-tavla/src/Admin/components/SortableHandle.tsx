@@ -1,26 +1,18 @@
 import { useSortable } from '@dnd-kit/sortable'
-import { UnsortedIcon } from '@entur/icons'
+import { DraggableIcon } from '@entur/icons'
 import { TavlaButton } from './Button'
 
-function SortableHandle({
-    id,
-    ariaLabel,
-    icon,
-}: {
-    id: string
-    ariaLabel?: string
-    icon?: React.ReactNode
-}) {
+function SortableHandle({ id }: { id: string }) {
     const { attributes, listeners } = useSortable({ id: id })
 
     return (
         <TavlaButton
             {...attributes}
             {...listeners}
+            aria-label="TODO: tile endre rekkefolge"
             data-cy="sortable-handle"
-            aria-label={ariaLabel}
         >
-            {icon ?? <UnsortedIcon size={16} />}
+            <DraggableIcon size={16} />
         </TavlaButton>
     )
 }
