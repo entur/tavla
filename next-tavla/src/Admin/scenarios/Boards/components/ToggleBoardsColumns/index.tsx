@@ -1,5 +1,5 @@
 import { IconButton, SecondarySquareButton } from '@entur/button'
-import { CloseIcon, SettingsIcon } from '@entur/icons'
+import { AdjustmentsIcon, CloseIcon } from '@entur/icons'
 import classes from './styles.module.css'
 import {
     Popover,
@@ -23,7 +23,7 @@ function ToggleBoardsColumns() {
         <Popover>
             <PopoverTrigger>
                 <SecondarySquareButton className={classes.boardListOptions}>
-                    <SettingsIcon />
+                    <AdjustmentsIcon />
                 </SecondarySquareButton>
             </PopoverTrigger>
             <PopoverContent>
