@@ -1,23 +1,18 @@
-import { DebouncedFunc, debounce } from 'lodash'
 import { useRef, useCallback } from 'react'
-
-type FetchFunction<T, U> = (input: T) => Promise<U>
 
 export function useDebouncedFetch<T, U>(
     delay: number,
-    fetchFunction: FetchFunction<T, U>,
+    fetchFunction: (input: T) => Promise<U>,
 ) {
-    const debouncedCallRef = useRef<DebouncedFunc<() => Promise<U>>>()
+    const debouncedCallRef = useRef<number>()
 
     const debouncedCallback = useCallback(
         (input: T) => {
-            debouncedCallRef.current && debouncedCallRef.current.cancel()
+            debouncedCallRef.current && clearTimeout(debouncedCallRef.current)
             return new Promise<U>((resolve) => {
-                debouncedCallRef.current = debounce(
-                    async () => resolve(await fetchFunction(input)),
-                    delay,
-                ) as DebouncedFunc<() => Promise<U>>
-                debouncedCallRef.current()
+                debouncedCallRef.current = window.setTimeout(async () => {
+                    resolve(await fetchFunction(input))
+                }, delay)
             })
         },
         [debouncedCallRef, delay, fetchFunction],
