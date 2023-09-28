@@ -4,6 +4,7 @@ import { Sort } from '../Sort'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { CSSProperties } from 'react'
+import { Tooltip } from '@entur/tooltip'
 
 function ColumnHeader({ column }: { column: TBoardsColumn }) {
     const { attributes, listeners, setNodeRef, transform, transition, active } =
@@ -38,15 +39,17 @@ function ColumnHeader({ column }: { column: TBoardsColumn }) {
                 key={column}
                 className={classes.header}
             >
-                <div
-                    {...attributes}
-                    {...listeners}
-                    id={column}
-                    className={classes.title}
-                    style={titleStyle}
-                >
-                    {BoardsColumns[column]}
-                </div>
+                <Tooltip placement={'top'} content={'Dra for å flytte'}>
+                    <div
+                        {...attributes}
+                        {...listeners}
+                        id={column}
+                        className={classes.title}
+                        style={titleStyle}
+                    >
+                        {BoardsColumns[column]}
+                    </div>
+                </Tooltip>
                 <Sort column={column} />
             </div>
         </>
