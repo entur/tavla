@@ -13,7 +13,7 @@ function BoardTitle({ title }: { title?: string }) {
         ref?.select()
     }, [])
 
-    const dispatchTitle = () => {
+    const dispatchTitle = useCallback(() => {
         if (!tempTitle) {
             dispatch({
                 type: 'deleteTitle',
@@ -24,7 +24,8 @@ function BoardTitle({ title }: { title?: string }) {
             type: 'setTitle',
             title: tempTitle,
         })
-    }
+    }, [dispatch, tempTitle])
+
     return (
         <div className={classes.editTitle}>
             <TextField
