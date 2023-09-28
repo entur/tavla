@@ -17,7 +17,7 @@ import { TableHeader } from './components/TableHeader'
 import { TableRows } from './components/TableRows'
 import { CreateBoard } from 'Admin/components/CreateBoard'
 import { ToggleBoardsColumns } from './components/ToggleBoardsColumns'
-import { BoardsColumns, TBoardsColumn } from 'Admin/types/boards'
+import { TBoardsColumn } from 'Admin/types/boards'
 import {
     useSensors,
     useSensor,
@@ -40,9 +40,6 @@ function Boards({ boards }: { boards: TBoard[] }) {
         search: '',
         sort: { type: 'ascending', column: 'name' },
         columns: ['name', 'url', 'actions', 'lastModified'],
-        columnOrder: Object.entries(BoardsColumns).map(
-            ([key]) => key as TBoardsColumn,
-        ),
         boards: boards,
     })
 
@@ -66,7 +63,7 @@ function Boards({ boards }: { boards: TBoard[] }) {
 }
 
 function BoardTable() {
-    const { boards, columns, columnOrder } = useBoardsSettings()
+    const { boards, columns } = useBoardsSettings()
     const dispatch = useBoardsSettingsDispatch()
 
     const sensors = useSensors(
@@ -88,10 +85,10 @@ function BoardTable() {
         const { active, over } = event
 
         if (active.id !== over?.id) {
-            const oldIndex = columnOrder.indexOf(active.id as TBoardsColumn)
-            const newIndex = columnOrder.indexOf(over?.id as TBoardsColumn)
-            const newOrder = arrayMove(columnOrder, oldIndex, newIndex)
-            dispatch({ type: 'setColumnOrder', columnOrder: newOrder })
+            const oldIndex = columns.indexOf(active.id as TBoardsColumn)
+            const newIndex = columns.indexOf(over?.id as TBoardsColumn)
+            const newOrder = arrayMove(columns, oldIndex, newIndex)
+            dispatch({ type: 'setColumns', columns: newOrder })
         }
     }
 
@@ -110,10 +107,10 @@ function BoardTable() {
                 modifiers={[restrictToHorizontalAxis]}
             >
                 <SortableContext
-                    items={columnOrder}
+                    items={columns}
                     strategy={horizontalListSortingStrategy}
                 >
-                    <TableHeader columns={columns} columnOrder={columnOrder} />
+                    <TableHeader columns={columns} />
                     <TableRows />
                 </SortableContext>
             </DndContext>

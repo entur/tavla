@@ -17,6 +17,5 @@ export type TBoards = {
     search: string
     sort: { type: TSort; column: TBoardsColumn }
     columns: TBoardsColumn[]
-    columnOrder: TBoardsColumn[]
     boards: TBoard[]
 }

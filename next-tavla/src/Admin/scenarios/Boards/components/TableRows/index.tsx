@@ -7,7 +7,7 @@ import { TBoard } from 'types/settings'
 import { TBoardsColumn } from 'Admin/types/boards'
 
 function TableRows() {
-    const { boards, columns, columnOrder, search } = useBoardsSettings()
+    const { boards, columns, search } = useBoardsSettings()
     const sortFunction = useSortBoardFunction()
 
     const filter = new RegExp(search, 'i')
@@ -20,19 +20,13 @@ function TableRows() {
                 .sort(sortFunction)
                 .map((board: TBoard) => (
                     <Fragment key={board.id}>
-                        {columns
-                            .sort(
-                                (a, b) =>
-                                    columnOrder.indexOf(a) -
-                                    columnOrder.indexOf(b),
-                            )
-                            .map((column: TBoardsColumn) => (
-                                <Column
-                                    key={column}
-                                    board={board}
-                                    column={column}
-                                />
-                            ))}
+                        {columns.map((column: TBoardsColumn) => (
+                            <Column
+                                key={column}
+                                board={board}
+                                column={column}
+                            />
+                        ))}
                     </Fragment>
                 ))}
         </>
