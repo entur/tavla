@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button } from '@entur/button'
 import classes from './styles.module.css'
 import { NormalizedDropdownItemType, SearchableDropdown } from '@entur/dropdown'
@@ -7,12 +7,15 @@ import { SearchIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
 import { useToast } from '@entur/alert'
 import { useEditSettingsDispatch } from '../../utils/contexts'
+import { useDebouncedFetch } from 'hooks/useDebouncedFetch'
 
 function AddTile() {
     const dispatch = useEditSettingsDispatch()
     const { addToast } = useToast()
     const [selectedDropdownItem, setSelectedDropdownItem] =
         useState<NormalizedDropdownItemType | null>(null)
+
+    const debouncedFetch = useDebouncedFetch(500, fetchItems)
 
     function handleAddTile() {
         if (!selectedDropdownItem?.value) {
@@ -42,9 +45,8 @@ function AddTile() {
             <div className={classes.SearchContainer}>
                 <SearchableDropdown
                     className={classes.DropDown}
-                    items={fetchItems}
+                    items={debouncedFetch}
                     label="Søk etter holdeplass..."
-                    debounceTimeout={1000}
                     clearable
                     prepend={<SearchIcon />}
                     selectedItem={selectedDropdownItem}
