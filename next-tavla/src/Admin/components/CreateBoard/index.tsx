@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { AddIcon } from '@entur/icons'
 
-function CreateBoard({ loggedIn }: { loggedIn?: boolean }) {
+function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
     const [loading, isLoading] = useState(false)
 
     return (

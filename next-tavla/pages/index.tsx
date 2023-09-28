@@ -10,11 +10,11 @@ export async function getServerSideProps({
     req: IncomingNextMessage
 }) {
     const session = req.cookies['session']
-    const user = await verifySession(session)
+    const loggedIn = (await verifySession(session)) !== null
 
     return {
         props: {
-            loggedIn: !!user,
+            loggedIn,
         },
     }
 }
