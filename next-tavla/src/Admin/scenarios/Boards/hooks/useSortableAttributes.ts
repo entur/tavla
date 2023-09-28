@@ -25,7 +25,6 @@ export function useSortableColumnAttributes(column: string) {
 
     return {
         style,
-        activeStyle,
         attributes,
         listeners,
         transform,
