@@ -33,6 +33,7 @@ function BoardTitle({ title }: { title?: string }) {
                 size="medium"
                 label="Navn på tavla"
                 placeholder="Navn på tavla"
+                aria-label="Endre navn på tavla"
                 prepend={<EditIcon />}
                 onChange={(e) => setTempTitle(e.target.value)}
                 onBlur={dispatchTitle}
