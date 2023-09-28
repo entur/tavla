@@ -5,6 +5,8 @@ import dynamic from 'next/dynamic'
 import { PrimaryButton } from '@entur/button'
 import Link from 'next/link'
 import classes from './styles.module.css'
+import { CreateBoard } from '../CreateBoard'
+import { UserIcon } from '@entur/icons'
 
 function AdminHeader({ loggedIn }: { loggedIn: boolean }) {
     return (
@@ -19,11 +21,14 @@ function AdminHeader({ loggedIn }: { loggedIn: boolean }) {
                 />
             </Link>
             <div className={classes.buttons}>
-                {loggedIn && (
+                <>
+                    <CreateBoard loggedIn={loggedIn} />
                     <PrimaryButton as={Link} href="/edit/boards">
+                        <UserIcon />
                         Mine Tavler
                     </PrimaryButton>
-                )}
+                </>
+
                 <Login loggedIn={loggedIn} />
             </div>
         </div>

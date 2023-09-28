@@ -7,7 +7,6 @@ import { getBoardsForUser } from 'Admin/utils/firebase'
 import { verifyUserSession } from 'Admin/utils/auth'
 import { IncomingNextMessage } from 'types/next'
 import { AdminHeader } from 'Admin/components/AdminHeader'
-import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 
 export async function getServerSideProps({
     req,
@@ -28,21 +27,21 @@ export async function getServerSideProps({
     return {
         props: {
             boards: boards,
-            user: user,
+            loggedIn: user !== null,
         },
     }
 }
 
 function OverviewPage({
     boards,
-    user,
+    loggedIn,
 }: {
     boards: TBoard[]
-    user: DecodedIdToken | null
+    loggedIn: boolean
 }) {
     return (
         <div className={classes.root}>
-            <AdminHeader user={user} />
+            <AdminHeader loggedIn={loggedIn} />
             <Contrast>
                 <ToastProvider>
                     <Boards boards={boards} />
