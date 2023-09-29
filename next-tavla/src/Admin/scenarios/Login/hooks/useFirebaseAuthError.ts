@@ -72,6 +72,11 @@ function useFirebaseAuthError() {
                     type: 'user',
                     value: 'Lenken du har fulgt er ugyldig.',
                 })
+            case 'auth/missing-email':
+                return setError({
+                    type: 'email',
+                    value: 'Skriv inn en e-postadresse.',
+                })
         }
     }
 
