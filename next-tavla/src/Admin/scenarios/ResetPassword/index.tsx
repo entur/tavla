@@ -34,11 +34,8 @@ function ResetPassword({ oob }: { oob: string }) {
                     'passwords does not match',
                 )
             await confirmPasswordReset(auth, oob, password)
-            data.password.value = ''
-            data.repeat_password.value = ''
             setShowForm(false)
-        } catch (error) {
-            console.log(error)
+        } catch (error: unknown) {
             if (error instanceof FirebaseError) {
                 setError(error)
             } else {
@@ -74,12 +71,12 @@ function ResetPassword({ oob }: { oob: string }) {
                     </PrimaryButton>
                 </form>
             ) : (
-                <>
+                <div>
                     <Paragraph>Passord ble tilbakestilt</Paragraph>
                     <PrimaryButton as={Link} href="/#login">
                         Logg inn
                     </PrimaryButton>
-                </>
+                </div>
             )}
         </div>
     )

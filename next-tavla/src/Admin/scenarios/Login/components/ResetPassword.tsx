@@ -23,8 +23,7 @@ function ResetPassword({ popPage }: { popPage: () => void }) {
         const email = data.email.value
 
         try {
-            const resetPassword = await sendPasswordResetEmail(auth, email)
-            console.log(resetPassword)
+            await sendPasswordResetEmail(auth, email)
             popPage()
         } catch (error: unknown) {
             if (error instanceof FirebaseError) {
@@ -38,7 +37,8 @@ function ResetPassword({ popPage }: { popPage: () => void }) {
             <Image src={musk} alt="illustration" className="h-50 w-50" />
             <Heading3>Glemt passord</Heading3>
             <Paragraph>
-                Vi sender deg en e-post for å lage et nytt passord.
+                Skriv inn e-posten du brukte for å opprette brukeren, så sender
+                vi deg en lenke for å tilbakestille passordet ditt.
             </Paragraph>
             <form className="flexColumn pb-2" onSubmit={submitResetPassword}>
                 <TextField
