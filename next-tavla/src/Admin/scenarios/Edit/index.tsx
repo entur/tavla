@@ -12,6 +12,7 @@ import { boardReducer } from './utils/reducer'
 import { SettingsDispatchContext } from './utils/contexts'
 import { BoardTitle } from './components/BoardTitle'
 import { AddTile } from './components/AddTile'
+import { DeleteBoard } from './components/DeleteBoard'
 import { TilesOverview } from './components/TilesOverview'
 
 function Edit({
@@ -53,6 +54,7 @@ function Edit({
                             Lagre tavla
                             <SaveIcon />
                         </PrimaryButton>
+                        <DeleteBoard bid={board.id} />
                     </div>
                 </div>
                 <AddTile />
