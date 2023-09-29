@@ -1,3 +1,7 @@
 .tabs {
     width: 100%;
 }
+.tabPanels {
+    background-color: var(--secondary-background-color);
+    border-radius: 0.5em;
+}

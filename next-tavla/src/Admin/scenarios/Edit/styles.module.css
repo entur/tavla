@@ -1,7 +1,7 @@
 .settings {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 2em;
     margin: 1.25em 0;
 }
 

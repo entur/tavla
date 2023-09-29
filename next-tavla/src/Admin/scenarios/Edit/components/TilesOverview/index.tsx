@@ -33,7 +33,7 @@ function TilesOverview({ tiles }: { tiles: TTile[] }) {
                     <Tab key={tile.uuid}>{tile.name ?? tile.placeId}</Tab>
                 ))}
             </TabList>
-            <TabPanels>
+            <TabPanels className={classes.tabPanels}>
                 {tiles.map((tile) => (
                     <TabPanel key={tile.uuid}>
                         <TileSettings tile={tile} />

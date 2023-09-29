@@ -13,6 +13,7 @@ import { SettingsDispatchContext } from './utils/contexts'
 import { BoardTitle } from './components/BoardTitle'
 import { AddTile } from './components/AddTile'
 import { TilesOverview } from './components/TilesOverview'
+import { Heading1 } from '@entur/typography'
 
 function Edit({
     initialBoard,
@@ -33,7 +34,7 @@ function Edit({
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
                 <div className="flexBetween">
-                    <BoardTitle title={board.meta?.title} />
+                    <Heading1>Innstillinger for tavla</Heading1>
                     <div className="flexGap">
                         <SecondaryButton
                             onClick={() => {
@@ -55,6 +56,7 @@ function Edit({
                         </PrimaryButton>
                     </div>
                 </div>
+                <BoardTitle title={board.meta?.title} />
                 <AddTile />
                 <TilesOverview tiles={board.tiles} />
             </div>
