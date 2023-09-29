@@ -3,13 +3,14 @@ import { TravelSwitch } from '@entur/travel'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 import classes from './styles.module.css'
-import { Heading4, SubParagraph } from '@entur/typography'
+import { Heading4 } from '@entur/typography'
 import { TLinesFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
 import { useCallback } from 'react'
 import { useEditSettingsDispatch } from '../../utils/contexts'
 import { getTransportMode, transportModeNames } from './utils'
 import { useToggledTransportModes } from './hooks/useToggledTransportModes'
+import { useToggledLines } from './hooks/useToggledLines'
 
 function SelectLines({
     tile,
@@ -21,6 +22,7 @@ function SelectLines({
     const dispatch = useEditSettingsDispatch()
     const [toggledTransportModes, toggleTransportMode] =
         useToggledTransportModes(tile, lines)
+    useToggledLines(lines)
 
     const toggleLine = (line: string) => {
         dispatch({ type: 'toggleLine', tileId: tile.uuid, lineId: line })
@@ -100,7 +102,7 @@ function SelectLines({
 
     return (
         <div className={classes.lineSettingsWrapper}>
-            <Heading4>Velg transportmidler</Heading4>
+            <Heading4>Velg transportmidler og linjer</Heading4>
             <div className={classes.linesGrid}>
                 {toggledTransportModes.map(({ transportMode, toggled }) => (
                     <div key={transportMode}>
@@ -117,11 +119,6 @@ function SelectLines({
                     </div>
                 ))}
             </div>
-            <Heading4>Velg linjer</Heading4>
-            <SubParagraph>
-                Ved å huke av boksene vil visningen til avgangstavlen begrenses
-                til de valgene som har blitt gjort.
-            </SubParagraph>
             <div className={classes.linesGrid}>
                 {linesByMode.map(({ transportMode, lines }) => {
                     return (

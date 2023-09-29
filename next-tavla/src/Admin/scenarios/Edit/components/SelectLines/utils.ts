@@ -1,6 +1,7 @@
 import { Transport } from '@entur/travel/dist/utils'
 import { xor } from 'lodash'
 import { TTransportMode } from 'types/graphql-schema'
+import { TLineFragment } from './types'
 
 export const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
@@ -64,4 +65,11 @@ export function getMinimalTransportModesArray(
 
     // No more edge cases, toggle against the active transport modes
     return xor([toggledTransportMode], activeTransportModes)
+}
+
+export function sortLineByPublicCode(a: TLineFragment, b: TLineFragment) {
+    if (!a || !a.publicCode || !b || !b.publicCode) return 1
+    return a.publicCode.localeCompare(b.publicCode, 'no-NB', {
+        numeric: true,
+    })
 }
