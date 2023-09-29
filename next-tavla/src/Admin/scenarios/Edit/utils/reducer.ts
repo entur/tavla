@@ -28,8 +28,7 @@ export type Action =
       }
     | { type: 'deleteLines'; tileId: string }
     | { type: 'setColumn'; tileId: string; column: TColumn }
-    | { type: 'setTitle'; title: string }
-    | { type: 'deleteTitle' }
+    | { type: 'setTitle'; title?: string }
 
 export function boardReducer(settings: TBoard, action: Action): TBoard {
     function changeTile<T extends TTile>(
@@ -59,14 +58,6 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
                 meta: {
                     ...settings.meta,
                     title: action.title,
-                },
-            }
-        case 'deleteTitle':
-            return {
-                ...settings,
-                meta: {
-                    ...settings.meta,
-                    title: undefined,
                 },
             }
 

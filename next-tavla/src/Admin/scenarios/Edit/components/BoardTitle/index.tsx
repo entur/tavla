@@ -12,14 +12,9 @@ function BoardTitle({ title }: { title?: string }) {
 
     const dispatchTitle: ChangeEventHandler<HTMLInputElement> = useCallback(
         (e) => {
-            if (!e.target.value) {
-                return dispatch({
-                    type: 'deleteTitle',
-                })
-            }
             dispatch({
                 type: 'setTitle',
-                title: e.target.value,
+                title: e.target.value.length > 0 ? e.target.value : undefined,
             })
         },
         [dispatch],
