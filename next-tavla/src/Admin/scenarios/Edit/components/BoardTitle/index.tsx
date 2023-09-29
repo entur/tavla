@@ -1,43 +1,41 @@
 import { TextField } from '@entur/form'
 import { EditIcon } from '@entur/icons'
-import { useCallback, useState } from 'react'
+import { ChangeEventHandler, useCallback } from 'react'
 import classes from './styles.module.css'
 import { useEditSettingsDispatch } from '../../utils/contexts'
-import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
 
 function BoardTitle({ title }: { title?: string }) {
-    const boardTitle = title || DEFAULT_BOARD_NAME
-    const [tempTitle, setTempTitle] = useState(boardTitle)
     const dispatch = useEditSettingsDispatch()
     const autoSelect = useCallback((ref: HTMLInputElement) => {
         ref?.select()
     }, [])
 
-    const dispatchTitle = useCallback(() => {
-        if (!tempTitle) {
+    const dispatchTitle: ChangeEventHandler<HTMLInputElement> = useCallback(
+        (e) => {
+            if (!e.target.value) {
+                return dispatch({
+                    type: 'deleteTitle',
+                })
+            }
             dispatch({
-                type: 'deleteTitle',
+                type: 'setTitle',
+                title: e.target.value,
             })
-            return setTempTitle(DEFAULT_BOARD_NAME)
-        }
-        dispatch({
-            type: 'setTitle',
-            title: tempTitle,
-        })
-    }, [dispatch, tempTitle])
+        },
+        [dispatch],
+    )
 
     return (
         <div className={classes.editTitle}>
             <TextField
-                value={tempTitle}
+                value={title || ''}
                 className={classes.textField}
                 size="medium"
                 label="Navn på tavla"
                 placeholder="Navn på tavla"
                 aria-label="Endre navn på tavla"
                 prepend={<EditIcon />}
-                onChange={(e) => setTempTitle(e.target.value)}
-                onBlur={dispatchTitle}
+                onChange={dispatchTitle}
                 ref={autoSelect}
             />
         </div>
