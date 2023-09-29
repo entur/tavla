@@ -62,9 +62,13 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
                 },
             }
         case 'deleteTitle':
-            if (!settings.meta || !settings.meta.title) return settings
-            delete settings.meta.title
-            return settings
+            return {
+                ...settings,
+                meta: {
+                    ...settings.meta,
+                    title: undefined,
+                },
+            }
 
         // Theme operations
         case 'changeTheme': {
