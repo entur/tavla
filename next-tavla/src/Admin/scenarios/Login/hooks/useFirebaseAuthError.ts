@@ -62,6 +62,21 @@ function useFirebaseAuthError() {
                     type: 'user',
                     value: 'Opprettelse av ny bruker feilet.',
                 })
+            case 'auth/expired-action-code':
+                return setError({
+                    type: 'user',
+                    value: 'Lenken du har fulgt er utgått.',
+                })
+            case 'auth/invalid-action-code':
+                return setError({
+                    type: 'user',
+                    value: 'Lenken du har fulgt er ugyldig.',
+                })
+            case 'auth/missing-email':
+                return setError({
+                    type: 'email',
+                    value: 'Skriv inn en e-postadresse.',
+                })
         }
     }
 

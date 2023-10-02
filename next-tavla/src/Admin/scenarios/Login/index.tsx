@@ -10,6 +10,7 @@ import { Start } from './components/Start'
 import { useAuth } from './hooks/useAuth'
 import classes from './styles.module.css'
 import { useHashState } from 'hooks/useHash'
+import { ResetPassword } from './components/ResetPassword'
 
 function Login({ user }: { user: DecodedIdToken | null }) {
     const { logout } = useAuth()
@@ -64,7 +65,11 @@ function Login({ user }: { user: DecodedIdToken | null }) {
                         </SecondarySquareButton>
                     )}
                 </div>
-                <LoginPage pages={pages} pushPage={pushPage} />
+                <LoginPage
+                    pages={pages}
+                    pushPage={pushPage}
+                    popPage={popPage}
+                />
             </Modal>
         </>
     )
@@ -73,9 +78,11 @@ function Login({ user }: { user: DecodedIdToken | null }) {
 function LoginPage({
     pages,
     pushPage,
+    popPage,
 }: {
     pages: TLoginPage[]
     pushPage: (page: TLoginPage) => void
+    popPage: () => void
 }) {
     if (!pages) return <Start pushPage={pushPage} />
 
@@ -83,9 +90,11 @@ function LoginPage({
 
     switch (lastPage) {
         case 'email':
-            return <Email />
+            return <Email pushPage={pushPage} />
         case 'create':
             return <CreateUser />
+        case 'reset':
+            return <ResetPassword popPage={popPage} />
         default:
             return <Start pushPage={pushPage} />
     }

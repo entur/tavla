@@ -1,4 +1,4 @@
-import { PrimaryButton } from '@entur/button'
+import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { Heading3 } from '@entur/typography'
 import musk from 'assets/illustrations/Musk.png'
@@ -8,8 +8,9 @@ import { SyntheticEvent } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useFirebaseAuthError } from '../hooks/useFirebaseAuthError'
 import { UserError } from './UserError'
+import { TLoginPage } from 'Admin/types/login'
 
-function Email() {
+function Email({ pushPage }: { pushPage: (page: TLoginPage) => void }) {
     const { error, setError, getTextFieldPropsForType } = useFirebaseAuthError()
     const { login } = useAuth()
 
@@ -54,6 +55,9 @@ function Email() {
                 <UserError error={error} />
 
                 <PrimaryButton type="submit">Logg inn</PrimaryButton>
+                <SecondaryButton onClick={() => pushPage('reset')}>
+                    Glemt passord?
+                </SecondaryButton>
             </form>
         </div>
     )
