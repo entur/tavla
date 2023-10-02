@@ -55,7 +55,6 @@ function ResetPassword({ oob }: { oob: string }) {
             {showForm ? (
                 <form
                     className={classes.flexColumn}
-                    style={{ width: '30vw' }}
                     onSubmit={submitResetPassword}
                 >
                     <TextField
