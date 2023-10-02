@@ -2,6 +2,7 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { TextField } from '@entur/form'
 import { PrimaryButton } from '@entur/button'
 import { SyntheticEvent, useState } from 'react'
+import classes from './styles.module.css'
 import { UserError } from '../Login/components/UserError'
 import { useFirebaseAuthError } from '../Login/hooks/useFirebaseAuthError'
 import { confirmPasswordReset } from 'firebase/auth'
@@ -49,10 +50,14 @@ function ResetPassword({ oob }: { oob: string }) {
     }
 
     return (
-        <div>
+        <div className={classes.formInput}>
             <Heading3>Tilbakestill passord</Heading3>
             {showForm ? (
-                <form className="flexColumn" onSubmit={submitResetPassword}>
+                <form
+                    className={classes.flexColumn}
+                    style={{ width: '30vw' }}
+                    onSubmit={submitResetPassword}
+                >
                     <TextField
                         name="password"
                         label="Nytt passord"

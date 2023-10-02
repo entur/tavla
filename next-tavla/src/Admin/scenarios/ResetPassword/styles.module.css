@@ -1,0 +1,14 @@
+.formInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 30vw;
+}
