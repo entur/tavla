@@ -22,14 +22,14 @@ function ToggleBoardsColumns() {
     return (
         <Popover>
             <PopoverTrigger>
-                <SecondarySquareButton className={classes.boardListOptions}>
+                <SecondarySquareButton className="flexColumn">
                     <AdjustmentsIcon />
                 </SecondarySquareButton>
             </PopoverTrigger>
             <PopoverContent>
-                <div className={classes.popoverContent}>
-                    <div className={classes.popoverHeading}>
-                        <Heading4 as="h2" className={classes.heading}>
+                <div className="p-1">
+                    <div className="flexRow">
+                        <Heading4 as="h2" className="m-1">
                             Velg kolonner
                         </Heading4>
                         <PopoverCloseButton>

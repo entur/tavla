@@ -2,17 +2,6 @@
     margin-left: auto;
 }
 
-.boardListOptionsContent {
-    width: 30rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.popoverContent {
-    padding: 0.5rem;
-}
-
 .popoverHeading {
     display: flex;
     flex-direction: row;
@@ -24,19 +13,4 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-}
-
-.heading {
-    margin: 0.5rem;
-}
-
-.draggableCheckbox {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: baseline;
-}
-
-.checkBoxLine label {
-    margin-left: 0.5rem;
 }
