@@ -29,7 +29,7 @@ function ToggleBoardsColumns() {
             <PopoverContent>
                 <div className={classes.popoverContent}>
                     <div className={classes.popoverHeading}>
-                        <Heading4 className={classes.heading}>
+                        <Heading4 as="h2" className={classes.heading}>
                             Velg kolonner
                         </Heading4>
                         <PopoverCloseButton>
