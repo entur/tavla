@@ -1,0 +1,16 @@
+.boardListOptions {
+    margin-left: auto;
+}
+
+.popoverHeading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.contentList {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}

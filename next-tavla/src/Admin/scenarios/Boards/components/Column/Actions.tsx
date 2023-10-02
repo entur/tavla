@@ -7,16 +7,19 @@ import { useLink } from '../../hooks/useLink'
 import { useToast } from '@entur/alert'
 import classes from './styles.module.css'
 import { DeleteBoardButton } from '../Delete'
+import { SortableColumn } from './SortableColumn'
 
 function Actions({ board }: { board: TBoard }) {
     const link = useLink(board.id)
     return (
-        <div className={classes.actions}>
-            <Edit bid={board.id} />
-            <Copy link={link} />
-            <Open link={link} />
-            <Delete board={board} />
-        </div>
+        <SortableColumn column="actions">
+            <div className={classes.actions}>
+                <Edit bid={board.id} />
+                <Copy link={link} />
+                <Open link={link} />
+                <Delete board={board} />
+            </div>
+        </SortableColumn>
     )
 }
 

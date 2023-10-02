@@ -2,3 +2,10 @@
     display: flex;
     gap: 0.5em;
 }
+
+.column {
+    padding-left: 0.25em;
+    min-height: 2.25rem;
+    display: flex;
+    align-items: center;
+}
