@@ -33,7 +33,10 @@ import {
     SortableContext,
     horizontalListSortingStrategy,
 } from '@dnd-kit/sortable'
-import { restrictToHorizontalAxis } from '@dnd-kit/modifiers'
+import {
+    restrictToHorizontalAxis,
+    restrictToWindowEdges,
+} from '@dnd-kit/modifiers'
 
 function Boards({ boards }: { boards: TBoard[] }) {
     const [settings, dispatch] = useReducer(settingsReducer, {
@@ -103,7 +106,7 @@ function BoardTable() {
                 sensors={sensors}
                 collisionDetection={closestCenter}
                 onDragEnd={handleDragEnd}
-                modifiers={[restrictToHorizontalAxis]}
+                modifiers={[restrictToHorizontalAxis, restrictToWindowEdges]}
             >
                 <SortableContext
                     items={columns}
