@@ -1,7 +1,6 @@
 import { Transport } from '@entur/travel/dist/utils'
-import { xor } from 'lodash'
-import { TTransportMode } from 'types/graphql-schema'
 import { TLineFragment } from './types'
+import { TTransportMode } from 'types/graphql-schema'
 
 export const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
@@ -38,37 +37,21 @@ export function isWhitelistInactive(whitelist?: string[]) {
     return !whitelist || whitelist.length === 0
 }
 
-export function isTransportModeInWhitelist(
-    transportMode: TTransportMode,
-    whitelist?: TTransportMode[],
-) {
+export function isEntityInWhitelist(entity: string, whitelist?: string[]) {
     if (!whitelist) return true
-    return whitelist.includes(transportMode)
-}
-
-export function getMinimalTransportModesArray(
-    toggledTransportMode: TTransportMode,
-    activeTransportModes: TTransportMode[],
-    allTransportModes: TTransportMode[],
-) {
-    // All transport modes are currently active, keep all but toggled enabled
-    if (activeTransportModes.length === 0)
-        return xor([toggledTransportMode], allTransportModes)
-
-    // If this toggle would result in all transport modes being active
-    // we do not need to store any due to nature of whitelist
-    if (
-        xor([toggledTransportMode], activeTransportModes).length ===
-        allTransportModes.length
-    )
-        return []
-
-    // No more edge cases, toggle against the active transport modes
-    return xor([toggledTransportMode], activeTransportModes)
+    return whitelist.includes(entity)
 }
 
 export function sortLineByPublicCode(a: TLineFragment, b: TLineFragment) {
     if (!a || !a.publicCode || !b || !b.publicCode) return 1
+
+    const containsLetters = /[a-åA-Å]/
+    const aContainsLetters = containsLetters.test(a.publicCode)
+    const bContainsLetters = containsLetters.test(b.publicCode)
+
+    if (aContainsLetters && !bContainsLetters) return 1
+    else if (!aContainsLetters && bContainsLetters) return -1
+
     return a.publicCode.localeCompare(b.publicCode, 'no-NB', {
         numeric: true,
     })
