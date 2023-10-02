@@ -19,7 +19,7 @@ function AddTag({ boardId }: { boardId: TBoardID }) {
 
     const [newTagName, setNewTagName] = useState<string | undefined>(undefined)
 
-    function addTag(e: FormEvent) {
+    const addTag = (e: FormEvent) => {
         e.preventDefault()
         newTagName &&
             dispatch({

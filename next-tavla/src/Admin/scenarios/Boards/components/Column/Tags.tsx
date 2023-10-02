@@ -8,7 +8,7 @@ import { useBoardsSettingsDispatch } from '../../utils/context'
 function Tags({ tags, boardId }: { tags: TTag[]; boardId?: TBoardID }) {
     const dispatch = useBoardsSettingsDispatch()
 
-    function removeTag(tag: TTag) {
+    const removeTag = (tag: TTag) => {
         boardId &&
             dispatch({
                 type: 'removeTag',

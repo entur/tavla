@@ -9,7 +9,7 @@ import { useEditSettingsDispatch } from '../../utils/contexts'
 function ToggleColumns({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
     const dispatch = useEditSettingsDispatch()
 
-    function handleSwitch(column: TColumn) {
+    const handleSwitch = (column: TColumn) => {
         dispatch({
             type: 'setColumn',
             column: column,
