@@ -25,4 +25,5 @@
 
 .title:active {
     cursor: grabbing;
+    background-color: var(--tertiary-background-color);
 }

@@ -81,7 +81,7 @@ function BoardTable() {
             />
         )
 
-    function handleDragEnd(event: DragEndEvent) {
+    const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event
 
         if (active.id !== over?.id) {
@@ -99,7 +99,6 @@ function BoardTable() {
                 gridTemplateColumns: `repeat(${columns.length},auto)`,
             }}
         >
-            {' '}
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}

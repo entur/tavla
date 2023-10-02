@@ -23,6 +23,8 @@ export function useSortableColumnAttributes(column: string) {
         ...activeStyle,
     }
 
+    if (thisColumnActive) style.backgroundColor = 'var(--main-background-color)'
+
     return {
         style,
         attributes,
@@ -31,7 +33,5 @@ export function useSortableColumnAttributes(column: string) {
         transition,
         active,
         setNodeRef,
-        thisColumnActive,
-        otherColumnActive,
     }
 }

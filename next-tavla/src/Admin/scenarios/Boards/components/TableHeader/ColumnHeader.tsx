@@ -1,17 +1,12 @@
 import { BoardsColumns, TBoardsColumn } from 'Admin/types/boards'
 import classes from './styles.module.css'
 import { Sort } from '../Sort'
-import { CSSProperties } from 'react'
 import { Tooltip } from '@entur/tooltip'
-import { useSortableColumnAttributes } from '../../hooks/useSortableAttributes'
+import { useSortableColumnAttributes } from '../../hooks/useSortableColumnAttributes'
 
 function ColumnHeader({ column }: { column: TBoardsColumn }) {
-    const { attributes, listeners, setNodeRef, style, thisColumnActive } =
+    const { attributes, listeners, setNodeRef, style } =
         useSortableColumnAttributes(column)
-
-    const titleStyle = {
-        backgroundColor: thisColumnActive && 'var(--tertiary-background-color)',
-    } as CSSProperties
 
     return (
         <div
@@ -20,13 +15,12 @@ function ColumnHeader({ column }: { column: TBoardsColumn }) {
             key={column}
             className={classes.header}
         >
-            <Tooltip placement={'top'} content={'Dra for å flytte'}>
+            <Tooltip placement="top" content="Dra for å flytte">
                 <div
                     {...attributes}
                     {...listeners}
                     id={column}
                     className={classes.title}
-                    style={titleStyle}
                 >
                     {BoardsColumns[column]}
                 </div>

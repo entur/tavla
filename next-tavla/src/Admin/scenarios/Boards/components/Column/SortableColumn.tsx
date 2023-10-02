@@ -1,6 +1,6 @@
 import { TBoardsColumn } from 'Admin/types/boards'
 import classes from './styles.module.css'
-import { useSortableColumnAttributes } from '../../hooks/useSortableAttributes'
+import { useSortableColumnAttributes } from '../../hooks/useSortableColumnAttributes'
 
 function SortableColumn({
     column,
@@ -9,10 +9,7 @@ function SortableColumn({
     column: TBoardsColumn
     children: React.ReactNode
 }) {
-    const { setNodeRef, style, thisColumnActive } =
-        useSortableColumnAttributes(column)
-
-    if (thisColumnActive) style.backgroundColor = 'var(--colors-brand-blue)'
+    const { setNodeRef, style } = useSortableColumnAttributes(column)
 
     return (
         <div
