@@ -7,7 +7,6 @@ import { useAutoSaveSettings } from './hooks/useAutoSaveSettings'
 import { CopyIcon, SaveIcon } from '@entur/icons'
 import { SecondaryLink } from 'components/SecondaryLink'
 import { useToast } from '@entur/alert'
-import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { boardReducer } from './utils/reducer'
 import { SettingsDispatchContext } from './utils/contexts'
 import { BoardTitle } from './components/BoardTitle'
@@ -21,7 +20,6 @@ function Edit({
 }: {
     initialBoard: TBoard
     documentId: string
-    user: DecodedIdToken | null
 }) {
     const [board, dispatch] = useReducer(boardReducer, initialBoard)
     const { addToast } = useToast()

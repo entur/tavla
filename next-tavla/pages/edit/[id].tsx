@@ -5,7 +5,6 @@ import { Contrast } from '@entur/layout'
 import { upgradeBoard } from 'utils/converters'
 import { ToastProvider } from '@entur/alert'
 import { IncomingNextMessage } from 'types/next'
-import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { verifyUserSession } from 'Admin/utils/auth'
 import { getBoard } from 'Admin/utils/firebase'
 import { AdminHeader } from 'Admin/components/AdminHeader'
@@ -19,8 +18,9 @@ export async function getServerSideProps({
 }) {
     const { id } = params
 
-    const user = await verifyUserSession(req)
-    if (!user)
+    const loggedIn = (await verifyUserSession(req)) !== null
+
+    if (!loggedIn)
         return {
             redirect: {
                 destination: '/#login',
@@ -40,7 +40,7 @@ export async function getServerSideProps({
 
     return {
         props: {
-            user: user,
+            loggedIn,
             board: convertedBoard,
             id,
         },
@@ -48,23 +48,21 @@ export async function getServerSideProps({
 }
 
 function AdminPage({
-    user,
+    loggedIn,
     board,
     id,
 }: {
-    user: DecodedIdToken | null
+    loggedIn: boolean
     board: TBoard
     id: string
 }) {
     return (
-        <div className={classes.root}>
-            <AdminHeader user={user} />
-            <Contrast>
-                <ToastProvider>
-                    <Edit initialBoard={board} documentId={id} user={user} />
-                </ToastProvider>
-            </Contrast>
-        </div>
+        <Contrast className={classes.root}>
+            <ToastProvider>
+                <AdminHeader loggedIn={loggedIn} />
+                <Edit initialBoard={board} documentId={id} />
+            </ToastProvider>
+        </Contrast>
     )
 }
 
