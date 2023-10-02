@@ -17,6 +17,15 @@ function Tags({ tags, boardId }: { tags: TTag[]; boardId?: TBoardID }) {
             })
     }
 
+    const addTag = (tag: TTag) => {
+        boardId &&
+            dispatch({
+                type: 'addTag',
+                boardId,
+                tag,
+            })
+    }
+
     return (
         <div className={classes.tags}>
             {tags.sort().map((tag) => (
@@ -28,7 +37,7 @@ function Tags({ tags, boardId }: { tags: TTag[]; boardId?: TBoardID }) {
                     {tag}
                 </TagChip>
             ))}
-            {boardId && <AddTag {...{ tags, boardId }} />}
+            {boardId && <AddTag {...{ tags, addTag }} />}
         </div>
     )
 }

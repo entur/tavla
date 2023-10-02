@@ -11,23 +11,17 @@ import { Heading4 } from '@entur/typography'
 import { Button, IconButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import classes from './styles.module.css'
-import { useBoardsSettingsDispatch } from '../../utils/context'
-import { TBoardID } from 'types/settings'
+import { TTag } from 'types/meta'
 
-function AddTag({ boardId }: { boardId: TBoardID }) {
-    const dispatch = useBoardsSettingsDispatch()
+function AddTag({ addTag }: { addTag: Function }) {
+    const [newTagName, setNewTagName] = useState<TTag | undefined>(undefined)
 
-    const [newTagName, setNewTagName] = useState<string | undefined>(undefined)
-
-    const addTag = (e: FormEvent) => {
+    const submitHandler = (e: FormEvent) => {
         e.preventDefault()
-        newTagName &&
-            dispatch({
-                type: 'addTag',
-                boardId,
-                tag: newTagName,
-            })
-        setNewTagName('')
+        if (newTagName && newTagName.length > 0) {
+            addTag(newTagName)
+            setNewTagName('')
+        }
     }
 
     return (
@@ -48,7 +42,7 @@ function AddTag({ boardId }: { boardId: TBoardID }) {
                             </IconButton>
                         </PopoverCloseButton>
                     </div>
-                    <form onSubmit={addTag}>
+                    <form onSubmit={submitHandler}>
                         <div className={classes.createNewTag}>
                             <TextField
                                 aria-label="Navn på ny tag"
