@@ -21,13 +21,11 @@ function AdminHeader({ loggedIn }: { loggedIn: boolean }) {
                 />
             </Link>
             <div className={classes.buttons}>
-                <>
-                    <CreateBoard loggedIn={loggedIn} />
-                    <PrimaryButton as={Link} href="/edit/boards">
-                        <UserIcon />
-                        Mine Tavler
-                    </PrimaryButton>
-                </>
+                <CreateBoard loggedIn={loggedIn} />
+                <PrimaryButton as={Link} href="/edit/boards">
+                    <UserIcon />
+                    Mine Tavler
+                </PrimaryButton>
 
                 <Login loggedIn={loggedIn} />
             </div>
