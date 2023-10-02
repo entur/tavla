@@ -17,7 +17,7 @@ function AddTile() {
 
     const debouncedFetch = useDebouncedFetch(500, fetchItems)
 
-    function handleAddTile() {
+    const handleAddTile = () => {
         if (!selectedDropdownItem?.value) {
             addToast({
                 title: 'Ingen holdeplass er valgt',
