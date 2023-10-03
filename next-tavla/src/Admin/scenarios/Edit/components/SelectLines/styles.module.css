@@ -14,13 +14,6 @@
     padding-bottom: 0.5em;
 }
 
-.line {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-    padding-bottom: 0.5em;
-}
-
 .publicCode {
     background-color: var(--tertiary-background-color);
     padding: 0.35em 0.5em;

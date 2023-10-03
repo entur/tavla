@@ -27,7 +27,7 @@ function SelectLines({
                             <TransportIcon transport={transportMode} />
                             {transportModeNames[transportMode]}
                         </div>
-                        <div className={classes.line}>
+                        <div className="flexRow alignCenter">
                             <Checkbox
                                 onChange={() =>
                                     toggleAllLinesForMode(transportMode)
@@ -36,10 +36,7 @@ function SelectLines({
                             Velg alle
                         </div>
                         {lines.map((line) => (
-                            <div
-                                className={classes.line}
-                                style={{ paddingLeft: '1.5em' }}
-                            >
+                            <div className="flexRow alignCenter pl-3 g-1">
                                 <Checkbox onChange={() => toggleLine(line)} />
                                 <PublicCode publicCode={line.publicCode} />{' '}
                                 {line.name}

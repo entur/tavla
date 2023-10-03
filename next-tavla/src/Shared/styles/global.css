@@ -21,25 +21,30 @@ h3 {
     font-weight: 500;
 }
 
-.flexBetween {
-    display: flex;
-    justify-content: space-between;
-}
-
-.flexAround {
-    display: flex;
-    justify-content: space-around;
-}
-
-.flexGap {
-    display: flex;
-    gap: 1em;
-}
-
 .flexColumn {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+}
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.alignCenter {
+    align-items: center;
+}
+
+.justifyCenter {
+    justify-items: center;
+}
+
+.justifyAround {
+    justify-content: space-around;
+}
+
+.justifyBetween {
+    justify-content: space-between;
 }
 
 .flexRow {

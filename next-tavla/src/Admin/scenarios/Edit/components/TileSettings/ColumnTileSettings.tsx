@@ -30,7 +30,7 @@ function ColumnTileSettings({
 
             <Preview tile={tile} departures={departures} />
             <div className={classes.content}>
-                <div className="flexBetween">
+                <div className="flexRow justifyBetween">
                     <PlatformDropdown tile={tile} />
                     <ToggleColumns tile={tile} />
                 </div>

@@ -32,9 +32,9 @@ function Edit({
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
-                <div className="flexBetween">
-                    <Heading1>Innstillinger for tavla</Heading1>
-                    <div className="flexGap">
+                <div className="flexRow justifyBetween">
+                    <BoardTitle title={board.meta?.title} />
+                    <div className="flexRow g-2">
                         <SecondaryButton
                             onClick={() => {
                                 navigator.clipboard.writeText(linkUrl)
