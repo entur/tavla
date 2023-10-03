@@ -11,6 +11,7 @@ import { boardReducer } from './utils/reducer'
 import { SettingsDispatchContext } from './utils/contexts'
 import { BoardTitle } from './components/BoardTitle'
 import { AddTile } from './components/AddTile'
+import { DeleteBoard } from './components/DeleteBoard'
 import { TilesOverview } from './components/TilesOverview'
 import { Heading1 } from '@entur/typography'
 
@@ -52,6 +53,7 @@ function Edit({
                             Lagre tavla
                             <SaveIcon />
                         </PrimaryButton>
+                        <DeleteBoard bid={board.id} />
                     </div>
                 </div>
                 <BoardTitle title={board.meta?.title} />
