@@ -5,7 +5,7 @@
 
 .tableHeader {
     color: var(--table-header-color);
-    font-size: 0.7em;
+    font-size: 0.7rem;
     padding-bottom: 1em;
     margin-left: 0.25em;
     margin-right: 0.25em;
