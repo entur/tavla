@@ -13,6 +13,11 @@ export type Action =
     | { type: 'removeTile'; tileId: string }
     | { type: 'setTile'; tile: TTile }
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
+    | {
+          type: 'setNumberOfDepartures'
+          tileId: string
+          numberOfDepartures: number
+      }
     | { type: 'toggleLine'; tileId: string; lineId: string }
     | { type: 'removeLines'; tileId: string; lineIds: string[] }
     | { type: 'setLines'; tileId: string; lines: string[] }
@@ -106,6 +111,18 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
                     action.newIndex,
                 ),
             }
+        }
+        //Number of departures operations
+        case 'setNumberOfDepartures': {
+            return changeTile<TStopPlaceTile | TQuayTile>(
+                action.tileId,
+                (tile) => {
+                    return {
+                        ...tile,
+                        numberOfDepartures: action.numberOfDepartures,
+                    }
+                },
+            )
         }
         // Line operations
         case 'toggleLine': {
