@@ -33,6 +33,7 @@ function AddTile() {
                 placeId: selectedDropdownItem.value,
                 name:
                     selectedDropdownItem.label.split(',')[0] ?? 'Ikke navngitt',
+                numberOfDepartures: 10,
             },
         })
         setSelectedDropdownItem(null)

@@ -29,6 +29,7 @@ type TSharedTileBase = {
     placeId: string
     name: string
     uuid: string
+    numberOfDepartures: number
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportModeBase[]
 }

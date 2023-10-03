@@ -8,13 +8,19 @@ import { TableHeader } from '../Table/components/TableHeader'
 
 export function StopPlaceTile({
     placeId,
+    numberOfDepartures,
     whitelistedLines,
     whitelistedTransportModes,
     columns,
 }: TStopPlaceTile) {
     const { data } = useQuery(
         StopPlaceQuery,
-        { stopPlaceId: placeId, whitelistedTransportModes, whitelistedLines },
+        {
+            stopPlaceId: placeId,
+            whitelistedTransportModes,
+            whitelistedLines,
+            numberOfDepartures,
+        },
         { poll: true },
     )
 

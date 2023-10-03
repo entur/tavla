@@ -9,6 +9,7 @@ import { isNotNullOrUndefined } from 'utils/typeguards'
 
 export function QuayTile({
     placeId,
+    numberOfDepartures,
     whitelistedLines,
     whitelistedTransportModes,
     columns,
@@ -17,6 +18,7 @@ export function QuayTile({
         GetQuayQuery,
         {
             quayId: placeId,
+            numberOfDepartures: numberOfDepartures,
             whitelistedLines,
             whitelistedTransportModes,
         },
