@@ -12,7 +12,7 @@ import {
 function RowsSelector({ tile }: { tile: TTile }) {
     const dispatch = useEditSettingsDispatch()
     return (
-        <div className={classes.container}>
+        <div className={classes.selectorWrapper}>
             <Heading2 className={classes.heading}>
                 Antall avganger som vises:{' '}
             </Heading2>

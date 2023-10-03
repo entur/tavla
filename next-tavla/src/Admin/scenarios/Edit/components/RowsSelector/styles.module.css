@@ -1,4 +1,4 @@
-.container {
+.selectorWrapper {
     display: flex;
     gap: 1em;
     align-items: baseline;
@@ -12,8 +12,4 @@
     display: flex;
     gap: 0.5em;
     align-items: center;
-}
-
-.input {
-    width: 5em;
 }
