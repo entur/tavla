@@ -1,29 +1,37 @@
 import { TagChip } from '@entur/chip'
 import classes from './styles.module.css'
 import { AddTag } from '../AddTag'
-import { TBoardID } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { TTag } from 'types/meta'
-import { useBoardsSettingsDispatch } from '../../utils/context'
+import { uniq } from 'lodash'
+import { useSafeBoardDispatch } from '../../hooks/useSafeBoardDispatch'
 
-function Tags({ tags, boardId }: { tags: TTag[]; boardId?: TBoardID }) {
-    const dispatch = useBoardsSettingsDispatch()
+function Tags({ board }: { board: TBoard }) {
+    const boardId = board.id ?? undefined
+    const tags = board.meta?.tags ?? []
+
+    const boardDispatch = useSafeBoardDispatch()
+
+    const setBoardWithNewTags = (newTags: TTag[]) => {
+        boardId &&
+            boardDispatch(
+                {
+                    ...board,
+                    meta: {
+                        ...board.meta,
+                        tags: newTags,
+                    },
+                },
+                board,
+            )
+    }
 
     const removeTag = (tag: TTag) => {
-        boardId &&
-            dispatch({
-                type: 'removeTag',
-                boardId,
-                tag,
-            })
+        setBoardWithNewTags(tags.filter((t) => t !== tag) ?? [])
     }
 
     const addTag = (tag: TTag) => {
-        boardId &&
-            dispatch({
-                type: 'addTag',
-                boardId,
-                tag,
-            })
+        setBoardWithNewTags(uniq([...tags, tag]))
     }
 
     return (

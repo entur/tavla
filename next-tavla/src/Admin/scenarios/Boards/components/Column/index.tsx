@@ -17,7 +17,7 @@ function Column({ board, column }: { board: TBoard; column: TBoardsColumn }) {
         case 'lastModified':
             return <LastModified timestamp={board.meta?.dateModified} />
         case 'tags':
-            return <Tags tags={board.meta?.tags ?? []} boardId={board.id} />
+            return <Tags board={board} />
         default:
             return <div>Ukjent kolonne</div>
     }

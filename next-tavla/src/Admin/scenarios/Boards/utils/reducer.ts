@@ -1,7 +1,6 @@
 import { BoardsSettings, TBoardsColumn, TSort } from 'Admin/types/boards'
 import { xor } from 'lodash'
-import { TTag } from 'types/meta'
-import { TBoardID } from 'types/settings'
+import { TBoard } from 'types/settings'
 
 export type Action =
     | { type: 'setSearch'; search: string }
@@ -9,8 +8,7 @@ export type Action =
     | { type: 'deleteBoard'; bid: string }
     | { type: 'toggleColumn'; column: TBoardsColumn }
     | { type: 'setColumns'; columns: TBoardsColumn[] }
-    | { type: 'addTag'; boardId: TBoardID; tag: TTag }
-    | { type: 'removeTag'; boardId: TBoardID; tag: TTag }
+    | { type: 'setBoard'; board: TBoard }
 
 export function settingsReducer(
     boardsSettings: BoardsSettings,
@@ -38,34 +36,12 @@ export function settingsReducer(
                 ...boardsSettings,
                 columns: action.columns,
             }
-        case 'addTag':
+        case 'setBoard':
             return {
                 ...boardsSettings,
                 boards: boardsSettings.boards.map((board) => {
-                    if (board.id !== action.boardId) return board
-                    return {
-                        ...board,
-                        meta: {
-                            ...board.meta,
-                            tags: [...(board.meta?.tags ?? []), action.tag],
-                        },
-                    }
-                }),
-            }
-        case 'removeTag':
-            return {
-                ...boardsSettings,
-                boards: boardsSettings.boards.map((board) => {
-                    if (board.id !== action.boardId) return board
-                    return {
-                        ...board,
-                        meta: {
-                            ...board.meta,
-                            tags: (board.meta?.tags ?? []).filter(
-                                (tag) => tag !== action.tag,
-                            ),
-                        },
-                    }
+                    if (board.id !== action.board.id) return board
+                    return action.board
                 }),
             }
     }
