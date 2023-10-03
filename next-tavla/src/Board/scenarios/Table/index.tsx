@@ -14,9 +14,11 @@ import { isArray } from 'lodash'
 function Table({
     departures,
     columns,
+    preview,
 }: {
     departures: TDepartureFragment[]
     columns?: TColumn[]
+    preview?: boolean
 }) {
     if (!columns || !isArray(columns))
         return (
@@ -24,9 +26,10 @@ function Table({
                 Du har ikke lagt til noen kolonner enda
             </div>
         )
+    const fontSize = preview ? '1rem' : `${2 - 0.05 * departures.length}rem`
 
     return (
-        <div className={classes.table}>
+        <div className={classes.table} style={{ fontSize }}>
             <DeparturesContext.Provider value={departures}>
                 {columns.includes('line') && <Line />}
                 {columns.includes('destination') && <Destination />}

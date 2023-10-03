@@ -22,7 +22,7 @@ function Preview({
     return (
         <div>
             <div data-theme="default" className={classes.preview}>
-                <Table departures={departures} columns={tile.columns} />
+                <Table departures={departures} columns={tile.columns} preview />
             </div>
         </div>
     )
