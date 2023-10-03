@@ -13,7 +13,7 @@ import { TextField } from '@entur/form'
 import classes from './styles.module.css'
 import { TTag } from 'types/meta'
 
-function AddTag({ addTag }: { addTag: Function }) {
+function AddTag({ addTag }: { addTag: (tag: TTag) => void }) {
     const [newTagName, setNewTagName] = useState<TTag | undefined>(undefined)
 
     const submitHandler = (e: FormEvent) => {
