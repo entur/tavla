@@ -1,7 +1,8 @@
 .tableRow {
     display: flex;
+    flex: 1;
+    padding: 0.25em 0;
     align-items: center;
-    height: 3em;
     border-top: 1px solid var(--table-border-color);
 }
 
