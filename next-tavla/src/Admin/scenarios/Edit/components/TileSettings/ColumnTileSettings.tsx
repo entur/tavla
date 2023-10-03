@@ -9,6 +9,7 @@ import { Preview } from '../Preview'
 import { PlatformDropdown } from '../PlatformDropdown'
 import { ToggleColumns } from '../ToggleColumns'
 import { SelectLines } from '../SelectLines'
+import { RowsSelector } from '../RowsSelector'
 
 function ColumnTileSettings({
     className,
@@ -24,10 +25,12 @@ function ColumnTileSettings({
     return (
         <div className={classNames(classes.tileSettingsWrapper, className)}>
             <div className={classes.tileSettingsHeader}>
-                <DeleteTile uuid={tile.uuid} />
-                <Heading3 className={classes.heading}>{tile.name}</Heading3>
+                <div className={classes.title}>
+                    <DeleteTile uuid={tile.uuid} />
+                    <Heading3 className={classes.heading}>{tile.name}</Heading3>
+                </div>
+                <RowsSelector tile={tile} />
             </div>
-
             <Preview tile={tile} departures={departures} />
             <div className={classes.content}>
                 <div className="flexBetween">
