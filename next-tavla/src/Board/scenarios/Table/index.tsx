@@ -7,7 +7,6 @@ import { Time } from './components/Time'
 import { Platform } from './components/Platform'
 import classes from './styles.module.css'
 import { DeparturesContext } from './contexts'
-import { Via } from './components/Via'
 import { TColumn } from 'types/column'
 import { isArray } from 'lodash'
 
@@ -30,7 +29,6 @@ function Table({
             <DeparturesContext.Provider value={departures}>
                 {columns.includes('line') && <Line />}
                 {columns.includes('destination') && <Destination />}
-                {columns.includes('via') && <Via />}
                 {columns.includes('platform') && <Platform />}
                 {columns.includes('time') && <Time />}
             </DeparturesContext.Provider>
