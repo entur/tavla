@@ -8,6 +8,7 @@ import { Heading1 } from '@entur/typography'
 import { useToast } from '@entur/alert'
 import { useEditSettingsDispatch } from '../../utils/contexts'
 import { useDebouncedFetch } from 'hooks/useDebouncedFetch'
+import { DEFAULT_NUMBER_OF_DEPARTURES } from 'Admin/utils/constants'
 
 function AddTile() {
     const dispatch = useEditSettingsDispatch()
@@ -33,7 +34,7 @@ function AddTile() {
                 placeId: selectedDropdownItem.value,
                 name:
                     selectedDropdownItem.label.split(',')[0] ?? 'Ikke navngitt',
-                numberOfDepartures: 10,
+                numberOfDepartures: DEFAULT_NUMBER_OF_DEPARTURES,
             },
         })
         setSelectedDropdownItem(null)
