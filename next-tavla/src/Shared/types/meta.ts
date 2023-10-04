@@ -4,4 +4,5 @@ export type TMeta = {
     lastActive?: number
     dateModified?: number
     version?: number
+    fontSize?: string
 }
