@@ -5,16 +5,16 @@ import { Heading1, LeadParagraph } from '@entur/typography'
 import classes from './styles.module.css'
 import { useToast } from '@entur/alert'
 import { TBoard } from 'types/settings'
-import { useBoardsSettingsDispatch } from '../../utils/context'
+import { useOptimisticBoardsSettingsDispatch } from '../../utils/context'
 import { useToggle } from 'hooks/useToggle'
-import { deleteBoard } from '../../utils/delete'
 import { TavlaError } from 'Admin/types/error'
 
 function DeleteBoardButton({ board }: { board: TBoard }) {
-    const dispatch = useBoardsSettingsDispatch()
     const [showModal, openModal, closeModal] = useToggle()
 
     const { addToast } = useToast()
+
+    const boardDispatch = useOptimisticBoardsSettingsDispatch()
 
     const deleteBoardHandler = async () => {
         closeModal()
@@ -25,8 +25,14 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
                     message: 'Board not found',
                 })
 
-            await deleteBoard(board.id)
-            dispatch({ type: 'deleteBoard', bid: board.id })
+            await boardDispatch(
+                { type: 'deleteBoard', bid: board.id },
+                '/api/boards',
+                { bid: board.id },
+                {
+                    method: 'DELETE',
+                },
+            )
             addToast({
                 title: 'Tavle slettet!',
                 content: `${board?.meta?.title ?? 'Tavla'} er slettet!`,
