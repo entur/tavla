@@ -42,6 +42,16 @@ export function isEntityInWhitelist(entity: string, whitelist?: string[]) {
     return whitelist.includes(entity)
 }
 
+export function isEveryEntityInArray<T>(entity?: T[], array?: T[]) {
+    if (!entity || !array) return false
+    return entity.every((e) => array.includes(e))
+}
+
+export function isSomeEntityInArray<T>(entity?: T[], array?: T[]) {
+    if (!entity || !array) return false
+    return entity.some((e) => array.includes(e))
+}
+
 export function sortLineByPublicCode(a: TLineFragment, b: TLineFragment) {
     if (!a || !a.publicCode || !b || !b.publicCode) return 1
 

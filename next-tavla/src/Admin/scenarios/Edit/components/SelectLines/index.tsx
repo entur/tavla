@@ -16,9 +16,9 @@ function SelectLines({
 }) {
     const {
         linesByMode,
-        toggleTransportMode,
+        isAllLinesForModeToggled,
+        toggleAllLinesForMode,
         toggleLine,
-        isTransportModeToggled,
         isLineToggled,
     } = useToggledLines(tile, lines)
 
@@ -27,25 +27,27 @@ function SelectLines({
             <Heading4>Velg transportmidler og linjer</Heading4>
             <div className={classes.linesContainer}>
                 {linesByMode.map(({ transportMode, lines }) => (
-                    <div>
+                    <div key={transportMode}>
                         <div className={classes.transportTitle}>
                             <TransportIcon transport={transportMode} />
                             {transportModeNames[transportMode]}
                         </div>
                         <div className="flexRow alignCenter">
                             <Checkbox
-                                checked={isTransportModeToggled(
+                                checked={isAllLinesForModeToggled(
                                     transportMode,
-                                    lines,
                                 )}
                                 onChange={() =>
-                                    toggleTransportMode(transportMode)
+                                    toggleAllLinesForMode(transportMode)
                                 }
                             />
                             Velg alle
                         </div>
                         {lines.map((line) => (
-                            <div className="flexRow alignCenter pl-3 g-1">
+                            <div
+                                key={line.id}
+                                className="flexRow alignCenter pl-3 g-1"
+                            >
                                 <Checkbox
                                     checked={isLineToggled(line)}
                                     onChange={() => toggleLine(line)}

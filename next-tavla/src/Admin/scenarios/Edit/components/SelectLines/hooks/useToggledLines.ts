@@ -1,8 +1,10 @@
 import { TLinesFragment } from 'graphql/index'
-import { uniqBy } from 'lodash'
+import { uniq, uniqBy } from 'lodash'
 import { TTransportMode } from 'types/graphql-schema'
 import {
     isEntityInWhitelist,
+    isEveryEntityInArray,
+    isSomeEntityInArray,
     isWhitelistInactive,
     sortLineByPublicCode,
 } from '../utils'
@@ -17,6 +19,12 @@ function useToggledLines(
     lines: TLinesFragment['lines'],
 ) {
     const dispatch = useEditSettingsDispatch()
+    const setLines = useCallback(
+        (lines?: string[]) => {
+            dispatch({ type: 'setLines', tileId: tile.uuid, lines })
+        },
+        [dispatch, tile.uuid],
+    )
 
     const allTransportModes: TTransportMode[] = uniqBy(
         lines,
@@ -35,135 +43,57 @@ function useToggledLines(
         }))
         .sort((a, b) => b.lines.length - a.lines.length)
 
-    const toggleTransportMode = (transportMode: TTransportMode) => {
-        if (isWhitelistInactive(tile.whitelistedTransportModes)) {
-            return dispatch({
-                type: 'setTransportModes',
-                tileId: tile.uuid,
-                transportModes: xor([transportMode], allTransportModes),
-            })
+    const isAllLinesForModeToggled = (transportMode: TTransportMode) => {
+        if (isWhitelistInactive(tile.whitelistedLines)) return true
+        const allLinesForMode = linesByModeSorted
+            .find((e) => e.transportMode === transportMode)
+            ?.lines.map((line) => line.id)
+
+        if (isEveryEntityInArray(allLinesForMode, tile.whitelistedLines)) {
+            return true
         }
-        if (
-            isEntityInWhitelist(transportMode, tile.whitelistedTransportModes)
-        ) {
-            const newLines = linesByModeSorted
-                .filter((e) => e.transportMode !== transportMode)
-                .map((e) => e.lines.map((line) => line.id))
-                .flat()
-            dispatch({ type: 'setLines', tileId: tile.uuid, lines: newLines })
+        if (isSomeEntityInArray(allLinesForMode, tile.whitelistedLines))
+            return 'indeterminate'
+
+        return false
+    }
+
+    const toggleAllLinesForMode = (transportMode: TTransportMode) => {
+        const allLinesForMode = linesByModeSorted
+            .find((e) => e.transportMode === transportMode)
+            ?.lines.map((line) => line.id)
+
+        if (isWhitelistInactive(tile.whitelistedLines)) {
+            return setLines(xor(allLinesForMode, allLineIDs))
         }
 
-        const newTransportModes = xor(
-            [transportMode],
-            tile.whitelistedTransportModes,
-        )
+        if (isEveryEntityInArray(allLinesForMode, tile.whitelistedLines))
+            return setLines(xor(allLinesForMode, tile.whitelistedLines))
 
-        if (newTransportModes.length === allTransportModes.length)
-            return dispatch({
-                type: 'setTransportModes',
-                tileId: tile.uuid,
-            })
+        setLines(uniq(tile.whitelistedLines?.concat(allLinesForMode ?? [])))
+    }
 
-        dispatch({
-            type: 'toggleTransportMode',
-            tileId: tile.uuid,
-            transportMode,
-        })
+    const isLineToggled = (line: TLineFragment) => {
+        if (isWhitelistInactive(tile.whitelistedLines)) return true
+        return isEntityInWhitelist(line.id, tile.whitelistedLines)
     }
 
     const toggleLine = (line: TLineFragment) => {
         if (isWhitelistInactive(tile.whitelistedLines))
-            return dispatch({
-                type: 'setLines',
-                tileId: tile.uuid,
-                lines: xor([line.id], allLineIDs),
-            })
+            return setLines(xor([line.id], allLineIDs))
 
-        if (!isWhitelistInactive(tile.whitelistedTransportModes)) {
-            const inherentlyEnabledLineIDs = linesByModeSorted
-                .filter((e) =>
-                    tile.whitelistedTransportModes?.includes(e.transportMode),
-                )
-                .map((e) => e.lines)
-                .flat()
-                .map((line) => line.id)
-            return dispatch({
-                type: 'setLines',
-                tileId: tile.uuid,
-                lines: xor([line.id], inherentlyEnabledLineIDs),
-            })
-        }
+        const newLines = xor([line.id], tile.whitelistedLines)
 
-        const newLines = xor([line.id], tile?.whitelistedLines)
+        if (newLines.length === allLineIDs.length) return setLines()
 
-        if (newLines.length === allLineIDs.length)
-            return dispatch({
-                type: 'setLines',
-                tileId: tile.uuid,
-            })
-
-        dispatch({ type: 'toggleLine', tileId: tile.uuid, lineId: line.id })
+        setLines(newLines)
     }
-
-    const isTransportModeToggled = useCallback(
-        (transportMode: TTransportMode, lines: TLineFragment[]) => {
-            const isLineWhitelistActive = !isWhitelistInactive(
-                tile.whitelistedLines,
-            )
-            const isTransportModesWhitelistActive = !isWhitelistInactive(
-                tile.whitelistedTransportModes,
-            )
-            const isTransportModeInWhitelist = isEntityInWhitelist(
-                transportMode,
-                tile.whitelistedTransportModes,
-            )
-
-            if (isLineWhitelistActive)
-                return lines.some((line) =>
-                    tile.whitelistedLines?.includes(line.id),
-                )
-                    ? 'indeterminate'
-                    : false
-
-            if (isTransportModesWhitelistActive)
-                return isTransportModeInWhitelist
-
-            return true
-        },
-        [tile],
-    )
-
-    const isLineToggled = useCallback(
-        (line: TLineFragment) => {
-            const isLineWhitelistActive = !isWhitelistInactive(
-                tile.whitelistedLines,
-            )
-            const isTransportModesWhitelistActive = !isWhitelistInactive(
-                tile.whitelistedTransportModes,
-            )
-            const isLineInWhitelist = isEntityInWhitelist(
-                line.id,
-                tile.whitelistedLines,
-            )
-            const isTransportModeInWhitelist = isEntityInWhitelist(
-                line.transportMode ?? 'unknown',
-                tile.whitelistedTransportModes,
-            )
-
-            if (isLineWhitelistActive) return isLineInWhitelist
-            if (isTransportModesWhitelistActive)
-                return isTransportModeInWhitelist
-
-            return true
-        },
-        [tile],
-    )
 
     return {
         linesByMode: linesByModeSorted,
-        toggleTransportMode,
+        isAllLinesForModeToggled,
+        toggleAllLinesForMode,
         toggleLine,
-        isTransportModeToggled,
         isLineToggled,
     }
 }
