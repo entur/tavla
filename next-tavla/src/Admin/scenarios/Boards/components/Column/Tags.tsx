@@ -5,6 +5,7 @@ import { TBoard } from 'types/settings'
 import { TTag } from 'types/meta'
 import { uniq } from 'lodash'
 import { useOptimisticBoardsSettingsDispatch } from '../../utils/context'
+import { SortableColumn } from './SortableColumn'
 
 function Tags({ board }: { board: TBoard }) {
     const boardId = board.id ?? undefined
@@ -39,18 +40,20 @@ function Tags({ board }: { board: TBoard }) {
     }
 
     return (
-        <div className={classes.tags}>
-            {tags.sort().map((tag) => (
-                <TagChip
-                    key={tag}
-                    aria-label={tag}
-                    onClose={() => removeTag(tag)}
-                >
-                    {tag}
-                </TagChip>
-            ))}
-            {boardId && <AddTag {...{ tags, addTag }} />}
-        </div>
+        <SortableColumn column="tags">
+            <div className={classes.tags}>
+                {tags.sort().map((tag) => (
+                    <TagChip
+                        key={tag}
+                        aria-label={tag}
+                        onClose={() => removeTag(tag)}
+                    >
+                        {tag}
+                    </TagChip>
+                ))}
+                {boardId && <AddTag {...{ tags, addTag }} />}
+            </div>
+        </SortableColumn>
     )
 }
 
