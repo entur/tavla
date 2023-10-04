@@ -48,7 +48,7 @@ function SelectLines({
                             <div className="flexRow alignCenter pl-3 g-1">
                                 <Checkbox
                                     checked={isLineToggled(line)}
-                                    onChange={() => toggleLine(line, lines)}
+                                    onChange={() => toggleLine(line)}
                                 />
                                 <PublicCode publicCode={line.publicCode} />{' '}
                                 {line.name}

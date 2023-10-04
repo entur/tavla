@@ -15,7 +15,7 @@ export type Action =
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
     | { type: 'toggleLine'; tileId: string; lineId: string }
     | { type: 'removeLines'; tileId: string; lineIds: string[] }
-    | { type: 'setLines'; tileId: string; lines: string[] }
+    | { type: 'setLines'; tileId: string; lines?: string[] }
     | {
           type: 'toggleTransportMode'
           tileId: string
@@ -24,7 +24,7 @@ export type Action =
     | {
           type: 'setTransportModes'
           tileId: string
-          transportModes: TTransportMode[]
+          transportModes?: TTransportMode[]
       }
     | { type: 'deleteLines'; tileId: string }
     | { type: 'setColumn'; tileId: string; column: TColumn }
