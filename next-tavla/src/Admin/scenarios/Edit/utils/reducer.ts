@@ -29,6 +29,7 @@ export type Action =
     | { type: 'deleteLines'; tileId: string }
     | { type: 'setColumn'; tileId: string; column: TColumn }
     | { type: 'setTitle'; title?: string }
+    | { type: 'changeFontSize'; fontSize?: string }
 
 export function boardReducer(settings: TBoard, action: Action): TBoard {
     function changeTile<T extends TTile>(
@@ -64,6 +65,16 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
         // Theme operations
         case 'changeTheme': {
             return { ...settings, theme: action.theme }
+        }
+        // Fontsize operations
+        case 'changeFontSize': {
+            return {
+                ...settings,
+                meta: {
+                    ...settings.meta,
+                    fontSize: action.fontSize,
+                },
+            }
         }
         // Tile operations
         case 'addTile': {
