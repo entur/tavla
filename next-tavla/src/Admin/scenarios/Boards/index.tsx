@@ -15,7 +15,6 @@ import { isEmpty } from 'lodash'
 import { IllustratedInfo } from 'Admin/components/IllustratedInfo'
 import { TableHeader } from './components/TableHeader'
 import { TableRows } from './components/TableRows'
-import { CreateBoard } from 'Admin/components/CreateBoard'
 import { ToggleBoardsColumns } from './components/ToggleBoardsColumns'
 import { TBoardsColumn } from 'Admin/types/boards'
 import {
@@ -52,7 +51,6 @@ function Boards({ boards }: { boards: TBoard[] }) {
                 <div className={classes.boards}>
                     <div className={classes.header}>
                         <Heading1>Mine Tavler</Heading1>
-                        <CreateBoard loggedIn />
                     </div>
                     <div className={classes.actionRow}>
                         <Search />
