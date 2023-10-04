@@ -22,13 +22,24 @@ function Board({ board }: { board: TBoard }) {
             </Tile>
         )
 
-    const fontScale = 1 / Math.ceil(Math.sqrt(board.tiles.length))
+    const getFontScale = () => {
+        switch (board.meta?.fontSize) {
+            case 'small':
+                return 0.7
+            case 'medium':
+                return 1
+            case 'large':
+                return 1.3
+            default:
+                return 1
+        }
+    }
 
     return (
         <div
             className={classes.board}
             style={{
-                fontSize: 100 * fontScale + '%',
+                fontSize: 100 * getFontScale() + '%',
             }}
         >
             {board.tiles.map((tile, index) => {
