@@ -4,26 +4,30 @@ import { AddTag } from '../AddTag'
 import { TBoard } from 'types/settings'
 import { TTag } from 'types/meta'
 import { uniq } from 'lodash'
-import { useSafeBoardDispatch } from '../../hooks/useSafeBoardDispatch'
+import { useOptimisticBoardsSettingsDispatch } from '../../utils/context'
 
 function Tags({ board }: { board: TBoard }) {
     const boardId = board.id ?? undefined
     const tags = board.meta?.tags ?? []
 
-    const boardDispatch = useSafeBoardDispatch()
+    const boardDispatch = useOptimisticBoardsSettingsDispatch()
 
     const setBoardWithNewTags = (newTags: TTag[]) => {
-        boardId &&
-            boardDispatch(
-                {
-                    ...board,
-                    meta: {
-                        ...board.meta,
-                        tags: newTags,
-                    },
-                },
-                board,
-            )
+        const newBoard = {
+            ...board,
+            meta: {
+                ...board.meta,
+                tags: newTags,
+            },
+        }
+        boardDispatch(
+            { type: 'setBoard', board: newBoard },
+            '/api/board',
+            { board: newBoard },
+            {
+                method: 'PUT',
+            },
+        )
     }
 
     const removeTag = (tag: TTag) => {
