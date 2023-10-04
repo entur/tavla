@@ -87,13 +87,11 @@ function useToggledLines(
                 return lines.some((line) =>
                     tile.whitelistedLines?.includes(line.id),
                 )
-                    ? 'indeterminate'
-                    : false
 
             if (isTransportModesWhitelistActive)
                 return isTransportModeInWhitelist
 
-            return 'inherently-enabled'
+            return true
         },
         [tile],
     )
@@ -117,9 +115,9 @@ function useToggledLines(
 
             if (isLineWhitelistActive) return isLineInWhitelist
             if (isTransportModesWhitelistActive)
-                return isTransportModeInWhitelist ? 'inherently-enabled' : false
+                return isTransportModeInWhitelist
 
-            return 'inherently-enabled'
+            return true
         },
         [tile],
     )

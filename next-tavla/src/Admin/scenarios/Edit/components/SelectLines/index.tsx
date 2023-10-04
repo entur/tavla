@@ -5,7 +5,7 @@ import { TLinesFragment } from 'graphql/index'
 import { transportModeNames } from './utils'
 import { TransportIcon } from 'Board/scenarios/Table/components/TransportIcon'
 import { useToggledLines } from './hooks/useToggledLines'
-import { Checkbox } from '../Checkbox'
+import { Checkbox } from '@entur/form'
 
 function SelectLines({
     tile,
