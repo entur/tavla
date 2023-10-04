@@ -19,6 +19,7 @@ function Tags({ board }: { board: TBoard }) {
             meta: {
                 ...board.meta,
                 tags: newTags,
+                dateModified: Date.now(),
             },
         }
         boardDispatch(
