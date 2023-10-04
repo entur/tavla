@@ -9,11 +9,11 @@ import { SecondaryLink } from 'components/SecondaryLink'
 import { useToast } from '@entur/alert'
 import { boardReducer } from './utils/reducer'
 import { SettingsDispatchContext } from './utils/contexts'
-import { BoardTitle } from './components/BoardTitle'
 import { AddTile } from './components/AddTile'
 import { DeleteBoard } from './components/DeleteBoard'
 import { TilesOverview } from './components/TilesOverview'
 import { Heading1 } from '@entur/typography'
+import { BoardSettings } from './components/BoardSettings'
 
 function Edit({
     initialBoard,
@@ -56,7 +56,7 @@ function Edit({
                         <DeleteBoard bid={board.id} />
                     </div>
                 </div>
-                <BoardTitle title={board.meta?.title} />
+                <BoardSettings board={board} />
                 <AddTile />
                 <TilesOverview tiles={board.tiles} />
             </div>
