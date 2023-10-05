@@ -40,21 +40,22 @@ function SelectLines({
                                 onChange={() =>
                                     toggleAllLinesForMode(transportMode)
                                 }
-                            />
-                            Velg alle
+                            >
+                                Velg alle
+                            </Checkbox>
                         </div>
                         {lines.map((line) => (
-                            <div
+                            <Checkbox
                                 key={line.id}
-                                className="flexRow alignCenter pl-3 g-1"
+                                checked={isLineToggled(line)}
+                                onChange={() => toggleLine(line)}
+                                className="pl-3"
                             >
-                                <Checkbox
-                                    checked={isLineToggled(line)}
-                                    onChange={() => toggleLine(line)}
-                                />
-                                <PublicCode publicCode={line.publicCode} />{' '}
-                                {line.name}
-                            </div>
+                                <div className="flexRow alignCenter g-1">
+                                    <PublicCode publicCode={line.publicCode} />
+                                    {line.name}
+                                </div>
+                            </Checkbox>
                         ))}
                     </div>
                 ))}
