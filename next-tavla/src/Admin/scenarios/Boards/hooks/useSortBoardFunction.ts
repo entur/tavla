@@ -26,7 +26,7 @@ function useSortBoardFunction() {
                         const titleB =
                             boardB?.meta?.title?.toLowerCase() ??
                             DEFAULT_BOARD_NAME
-                        return titleA.localeCompare(titleB)
+                        return titleB.localeCompare(titleA)
                     }
                     break
             }

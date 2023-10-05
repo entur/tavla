@@ -40,7 +40,7 @@ import {
 function Boards({ boards }: { boards: TBoard[] }) {
     const [settings, dispatch] = useReducer(settingsReducer, {
         search: '',
-        sort: { type: 'ascending', column: 'name' },
+        sort: { type: 'descending', column: 'lastModified' },
         columns: ['name', 'url', 'actions', 'lastModified'],
         boards: boards,
     })
