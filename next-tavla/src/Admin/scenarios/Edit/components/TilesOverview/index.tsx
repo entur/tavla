@@ -10,7 +10,8 @@ function TilesOverview({ tiles }: { tiles: TTile[] }) {
     const [activeTab, setActiveTab] = useState(0)
 
     useEffect(() => {
-        setActiveTab(0)
+        if (!tiles.length) return
+        setActiveTab(tiles.length - 1)
     }, [tiles.length])
 
     if (isEmpty(tiles))
