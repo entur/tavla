@@ -52,3 +52,51 @@ h3 {
     flex-direction: row;
     gap: 1rem;
 }
+
+.textCenter {
+    text-align: center;
+}
+
+.textLeft {
+    text-align: left;
+}
+
+.textRight {
+    text-align: right;
+}
+
+.weight100 {
+    font-weight: 100;
+}
+
+.weight200 {
+    font-weight: 200;
+}
+
+.weight300 {
+    font-weight: 300;
+}
+
+.weight400 {
+    font-weight: 400;
+}
+
+.weight500 {
+    font-weight: 500;
+}
+
+.weight600 {
+    font-weight: 600;
+}
+
+.weight700 {
+    font-weight: 700;
+}
+
+.weight800 {
+    font-weight: 800;
+}
+
+.weight900 {
+    font-weight: 900;
+}

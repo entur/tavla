@@ -1,11 +1,10 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { formatDateString } from 'utils/time'
-import classes from './styles.module.css'
 import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { TableColumn } from '../../TableColumn'
 import { TableRow } from '../../TableRow'
 
-function TimeColumn() {
+function AimedTimeColumn() {
     const departures = useNonNullContext(DeparturesContext)
 
     const time = departures.map((departure) => ({
@@ -14,7 +13,7 @@ function TimeColumn() {
     }))
 
     return (
-        <TableColumn title="Planlagt" className={classes.header}>
+        <TableColumn title="Planlagt" className="textRight">
             {time.map((t) => (
                 <TableRow key={t.key}>
                     <Time aimedDepartureTime={t.aimedDepartureTime} />
@@ -26,10 +25,10 @@ function TimeColumn() {
 
 function Time({ aimedDepartureTime }: { aimedDepartureTime: string }) {
     return (
-        <div className={classes.time}>
+        <div className="textRight weight600">
             {formatDateString(aimedDepartureTime)}
         </div>
     )
 }
 
-export { TimeColumn as AimedTime }
+export { AimedTimeColumn as AimedTime }

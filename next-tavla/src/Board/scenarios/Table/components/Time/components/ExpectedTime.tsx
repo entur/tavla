@@ -5,7 +5,7 @@ import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { TableColumn } from '../../TableColumn'
 import { TableRow } from '../../TableRow'
 
-function TimeColumn() {
+function ExpectedTimeColumn() {
     const departures = useNonNullContext(DeparturesContext)
 
     const time = departures.map((departure) => ({
@@ -15,7 +15,7 @@ function TimeColumn() {
     }))
 
     return (
-        <TableColumn title="Forventet" className={classes.header}>
+        <TableColumn title="Forventet" className="textRight">
             {time.map((t) => (
                 <TableRow key={t.key}>
                     <Time
@@ -52,10 +52,10 @@ function Time({
         )
     }
     return (
-        <div className={classes.time}>
+        <div className="textRight weight600">
             {getRelativeTimeString(expectedDepartureTime)}
         </div>
     )
 }
 
-export { TimeColumn as Time }
+export { ExpectedTimeColumn as ExpectedTime }
