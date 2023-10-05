@@ -4,7 +4,7 @@ import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { TableColumn } from '../../TableColumn'
 import { TableRow } from '../../TableRow'
 
-function AimedTimeColumn() {
+function AimedTime() {
     const departures = useNonNullContext(DeparturesContext)
 
     const time = departures.map((departure) => ({
@@ -31,4 +31,4 @@ function Time({ aimedDepartureTime }: { aimedDepartureTime: string }) {
     )
 }
 
-export { AimedTimeColumn as AimedTime }
+export { AimedTime }

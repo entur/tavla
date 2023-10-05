@@ -5,7 +5,7 @@ import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { TableColumn } from '../../TableColumn'
 import { TableRow } from '../../TableRow'
 
-function ExpectedTimeColumn() {
+function ExpectedTime() {
     const departures = useNonNullContext(DeparturesContext)
 
     const time = departures.map((departure) => ({
@@ -58,4 +58,4 @@ function Time({
     )
 }
 
-export { ExpectedTimeColumn as ExpectedTime }
+export { ExpectedTime }
