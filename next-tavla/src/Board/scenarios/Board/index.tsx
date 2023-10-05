@@ -4,7 +4,7 @@ import { StopPlaceTile } from '../StopPlaceTile'
 import { QuayTile } from '../QuayTile'
 import classes from './styles.module.css'
 import { Tile } from 'components/Tile'
-import { getFontScale } from 'Board/scenarios/Board/utils/fontsize'
+import { getFontScale } from 'Board/scenarios/Board/utils'
 
 function BoardTile({ tileSpec }: { tileSpec: TTile }) {
     switch (tileSpec.type) {
