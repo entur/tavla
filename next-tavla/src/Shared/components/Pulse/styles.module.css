@@ -1,6 +1,5 @@
 .dot {
     position: relative;
-    width: fit-content;
     background: var(--pulse-color);
     border-radius: 40px;
     width: 0.525em;
@@ -9,7 +8,6 @@
 
 .heartbeat {
     position: absolute;
-    width: fit-content;
     background-color: var(--pulse-color);
     border-radius: 40px;
     width: 0.525em;
