@@ -1,9 +1,17 @@
-.dot {
+.pulse {
     position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.dot {
+    position: absolute;
     background: var(--pulse-color);
     border-radius: 40px;
     width: 0.525em;
     height: 0.525em;
+    left: calc(50% - (0.525em / 2));
+    bottom: calc(50% - (0.525em / 2));
 }
 
 .heartbeat {
@@ -12,6 +20,8 @@
     border-radius: 40px;
     width: 0.525em;
     height: 0.525em;
+    left: calc(50% - (0.525em / 2));
+    bottom: calc(50% - (0.525em / 2));
     opacity: 0.75;
     animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
