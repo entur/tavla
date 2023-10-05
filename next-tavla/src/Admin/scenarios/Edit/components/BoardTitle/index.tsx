@@ -28,7 +28,7 @@ function BoardTitle({ title }: { title?: string }) {
             label="Navn på tavla"
             placeholder="Navn på tavla"
             aria-label="Endre navn på tavla"
-            prepend={<EditIcon />}
+            prepend={<EditIcon aria-hidden="true" />}
             onChange={dispatchTitle}
             ref={autoSelect}
         />

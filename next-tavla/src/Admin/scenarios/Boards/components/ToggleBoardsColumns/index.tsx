@@ -23,7 +23,7 @@ function ToggleBoardsColumns() {
         <Popover>
             <PopoverTrigger>
                 <SecondarySquareButton className="flexColumn">
-                    <AdjustmentsIcon />
+                    <AdjustmentsIcon aria-hidden="true" />
                 </SecondarySquareButton>
             </PopoverTrigger>
             <PopoverContent>

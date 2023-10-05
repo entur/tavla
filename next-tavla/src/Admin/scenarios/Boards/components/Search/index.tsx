@@ -18,7 +18,7 @@ function Search() {
     return (
         <TextField
             label="Søk på navn på tavle"
-            prepend={<SearchIcon inline />}
+            prepend={<SearchIcon inline aria-hidden="true" />}
             value={settings.search}
             onChange={(e) => setSearch(e.target.value)}
         />
