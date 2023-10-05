@@ -8,7 +8,6 @@ import {
     isWhitelistInactive,
     sortLineByPublicCode,
 } from '../utils'
-import { useCallback } from 'react'
 import { TLineFragment } from '../types'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { useEditSettingsDispatch } from 'Admin/scenarios/Edit/utils/contexts'
@@ -19,12 +18,9 @@ function useToggledLines(
     lines: TLinesFragment['lines'],
 ) {
     const dispatch = useEditSettingsDispatch()
-    const setLines = useCallback(
-        (lines?: string[]) => {
-            dispatch({ type: 'setLines', tileId: tile.uuid, lines })
-        },
-        [dispatch, tile.uuid],
-    )
+    const setLines = (lines?: string[]) => {
+        dispatch({ type: 'setLines', tileId: tile.uuid, lines })
+    }
 
     const allTransportModes: TTransportMode[] = uniqBy(
         lines,
@@ -70,7 +66,14 @@ function useToggledLines(
         if (isEveryEntityInArray(allLinesForMode, tile.whitelistedLines))
             return setLines(xor(allLinesForMode, tile.whitelistedLines))
 
-        setLines(uniq(tile.whitelistedLines?.concat(allLinesForMode ?? [])))
+        const allLinesForModeIncluded = uniq(
+            tile.whitelistedLines?.concat(allLinesForMode ?? []),
+        )
+
+        if (allLinesForModeIncluded.length === allLineIDs.length)
+            return setLines()
+
+        setLines(allLinesForModeIncluded)
     }
 
     const isLineToggled = (line: TLineFragment) => {
