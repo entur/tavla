@@ -3,7 +3,7 @@ export const Columns = {
     line: 'Linje',
     destination: 'Destinasjon',
     platform: 'Plattform',
-    expectedTime: 'Forventet',
+    time: 'Forventet',
     realtime: 'Sanntid',
 } as const
 

@@ -58,4 +58,4 @@ function Time({
     )
 }
 
-export { TimeColumn as ExpectedTime }
+export { TimeColumn as Time }

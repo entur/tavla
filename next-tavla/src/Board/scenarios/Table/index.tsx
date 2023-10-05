@@ -10,7 +10,7 @@ import { TColumn } from 'types/column'
 import { isArray } from 'lodash'
 import { RealTime } from './components/RealTime'
 import { AimedTime } from './components/Time/components/AimedTime'
-import { ExpectedTime } from './components/Time/components/ExpectedTime'
+import { Time } from './components/Time/components/ExpectedTime'
 
 function Table({
     departures,
@@ -33,7 +33,7 @@ function Table({
                 {columns.includes('line') && <Line />}
                 {columns.includes('destination') && <Destination />}
                 {columns.includes('platform') && <Platform />}
-                {columns.includes('expectedTime') && <ExpectedTime />}
+                {columns.includes('time') && <Time />}
                 {columns.includes('realtime') && <RealTime />}
             </DeparturesContext.Provider>
         </div>
