@@ -7,6 +7,7 @@ export type TDepartureFragment = {
     aimedDepartureTime: DateTime
     expectedDepartureTime: DateTime
     cancellation: boolean
+    realtime: boolean
     quay: { __typename?: 'Quay'; publicCode: string | null }
     destinationDisplay: {
         __typename?: 'DestinationDisplay'
@@ -95,6 +96,7 @@ export type TGetQuayQuery = {
             aimedDepartureTime: DateTime
             expectedDepartureTime: DateTime
             cancellation: boolean
+            realtime: boolean
             quay: { __typename?: 'Quay'; publicCode: string | null }
             destinationDisplay: {
                 __typename?: 'DestinationDisplay'
@@ -201,6 +203,7 @@ export type TStopPlaceQuery = {
             aimedDepartureTime: DateTime
             expectedDepartureTime: DateTime
             cancellation: boolean
+            realtime: boolean
             quay: { __typename?: 'Quay'; publicCode: string | null }
             destinationDisplay: {
                 __typename?: 'DestinationDisplay'
@@ -328,6 +331,7 @@ export const DepartureFragment = new TypedDocumentString(
     }
   }
   cancellation
+  realtime
   situations {
     ...situation
   }
@@ -398,6 +402,7 @@ export const GetQuayQuery = new TypedDocumentString(`
     }
   }
   cancellation
+  realtime
   situations {
     ...situation
   }
@@ -489,6 +494,7 @@ export const StopPlaceQuery = new TypedDocumentString(`
     }
   }
   cancellation
+  realtime
   situations {
     ...situation
   }

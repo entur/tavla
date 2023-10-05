@@ -9,6 +9,7 @@ import classes from './styles.module.css'
 import { DeparturesContext } from './contexts'
 import { TColumn } from 'types/column'
 import { isArray } from 'lodash'
+import { RealTime } from './components/RealTime'
 
 function Table({
     departures,
@@ -31,6 +32,7 @@ function Table({
                 {columns.includes('destination') && <Destination />}
                 {columns.includes('platform') && <Platform />}
                 {columns.includes('time') && <Time />}
+                {columns.includes('realtime') && <RealTime />}
             </DeparturesContext.Provider>
         </div>
     )
