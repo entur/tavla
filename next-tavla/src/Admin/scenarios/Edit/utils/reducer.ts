@@ -4,6 +4,7 @@ import { clone, filter, xor } from 'lodash'
 import { nanoid } from 'nanoid'
 import { TColumn } from 'types/column'
 import { TTransportMode } from 'types/graphql-schema'
+import { TFontSize } from 'types/meta'
 import { TBoard, TTheme } from 'types/settings'
 import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 
@@ -29,7 +30,7 @@ export type Action =
     | { type: 'deleteLines'; tileId: string }
     | { type: 'setColumn'; tileId: string; column: TColumn }
     | { type: 'setTitle'; title?: string }
-    | { type: 'changeFontSize'; fontSize?: string }
+    | { type: 'changeFontSize'; fontSize?: TFontSize }
 
 export function boardReducer(settings: TBoard, action: Action): TBoard {
     function changeTile<T extends TTile>(

@@ -4,6 +4,7 @@ import { StopPlaceTile } from '../StopPlaceTile'
 import { QuayTile } from '../QuayTile'
 import classes from './styles.module.css'
 import { Tile } from 'components/Tile'
+import { getFontScale } from 'Board/scenarios/Board/utils/fontsize'
 
 function BoardTile({ tileSpec }: { tileSpec: TTile }) {
     switch (tileSpec.type) {
@@ -22,24 +23,11 @@ function Board({ board }: { board: TBoard }) {
             </Tile>
         )
 
-    const getFontScale = () => {
-        switch (board.meta?.fontSize) {
-            case 'small':
-                return 0.7
-            case 'medium':
-                return 1
-            case 'large':
-                return 1.3
-            default:
-                return 1
-        }
-    }
-
     return (
         <div
             className={classes.board}
             style={{
-                fontSize: 100 * getFontScale() + '%',
+                fontSize: 100 * getFontScale(board.meta?.fontSize) + '%',
             }}
         >
             {board.tiles.map((tile, index) => {

@@ -2,6 +2,7 @@ import { ChoiceChip, ChoiceChipGroup } from '@entur/chip'
 import { TBoard } from 'types/settings'
 import classes from './styles.module.css'
 import { useEditSettingsDispatch } from '../../utils/contexts'
+import { TFontSize } from 'types/meta'
 
 function FontsizeSelector({ board }: { board: TBoard }) {
     const dispatch = useEditSettingsDispatch()
@@ -14,7 +15,7 @@ function FontsizeSelector({ board }: { board: TBoard }) {
             onChange={(e) => {
                 dispatch({
                     type: 'changeFontSize',
-                    fontSize: e.target.value,
+                    fontSize: e.target.value as TFontSize,
                 })
             }}
         >

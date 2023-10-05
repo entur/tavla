@@ -106,7 +106,6 @@ export async function createBoard(uid: TUserID) {
             meta: {
                 created: Date.now(),
                 dateModified: Date.now(),
-                fontSize: 'medium',
             },
         })
     firestore()
