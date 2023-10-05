@@ -9,7 +9,9 @@ function RealTime() {
 
     const realtimes = departures.map((departure) => ({
         realtime: departure.realtime,
-        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+        key: `${departure.serviceJourney.id}_${
+            departure.aimedDepartureTime
+        }_${Date.now()}`,
     }))
 
     return (
