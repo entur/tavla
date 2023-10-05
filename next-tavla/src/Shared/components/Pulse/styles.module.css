@@ -1,16 +1,7 @@
-.circle {
-    position: relative;
-    width: fit-content;
-    width: 0.525em;
-    height: 0.525em;
-    border-radius: 50%;
-    background-color: #75daad;
-}
-
 .dot {
     position: relative;
     width: fit-content;
-    background: #75daad;
+    background: var(--pulse-color);
     border-radius: 40px;
     width: 0.525em;
     height: 0.525em;
@@ -19,7 +10,7 @@
 .heartbeat {
     position: absolute;
     width: fit-content;
-    background-color: #75daad;
+    background-color: var(--pulse-color);
     border-radius: 40px;
     width: 0.525em;
     height: 0.525em;
