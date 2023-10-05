@@ -99,6 +99,7 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
                             ...tile,
                             type: 'stop_place',
                             placeId: stopPlaceId,
+                            whitelistedLines: undefined,
                         })
                     else
                         setTile({
@@ -106,6 +107,7 @@ function PlatformDropdown({ tile }: { tile: TStopPlaceTile | TQuayTile }) {
                             type: 'quay',
                             stopPlaceId,
                             placeId: item.value,
+                            whitelistedLines: undefined,
                         })
                 }}
             />

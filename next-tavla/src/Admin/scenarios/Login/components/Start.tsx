@@ -12,7 +12,7 @@ function Start({ pushPage }: { pushPage: (page: TLoginPage) => void }) {
             <Paragraph>
                 Logg inn for å få tilgang til å opprette og administrere tavler.
             </Paragraph>
-            <div className="flexColumn">
+            <div className="flexColumn g-2">
                 <PrimaryButton onClick={() => pushPage('email')}>
                     Logg inn med e-post
                 </PrimaryButton>
