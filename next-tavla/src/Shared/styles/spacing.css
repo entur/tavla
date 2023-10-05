@@ -158,6 +158,22 @@
     padding-bottom: 2em;
 }
 
+.g-1 {
+    gap: 0.5em;
+}
+
+.g-2 {
+    gap: 1em;
+}
+
+.g-3 {
+    gap: 1.5em;
+}
+
+.g-4 {
+    gap: 2em;
+}
+
 .w-50 {
     width: 50%;
 }
