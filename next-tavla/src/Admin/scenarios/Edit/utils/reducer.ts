@@ -3,6 +3,7 @@ import { TAnonTiles } from 'Admin/types'
 import { clone, xor } from 'lodash'
 import { nanoid } from 'nanoid'
 import { TColumn } from 'types/column'
+import { TFontSize } from 'types/meta'
 import { TBoard, TTheme } from 'types/settings'
 import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
 
@@ -16,6 +17,7 @@ export type Action =
     | { type: 'deleteLines'; tileId: string }
     | { type: 'setColumn'; tileId: string; column: TColumn }
     | { type: 'setTitle'; title?: string }
+    | { type: 'changeFontSize'; fontSize?: TFontSize }
 
 export function boardReducer(settings: TBoard, action: Action): TBoard {
     function changeTile<T extends TTile>(
@@ -51,6 +53,16 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
         // Theme operations
         case 'changeTheme': {
             return { ...settings, theme: action.theme }
+        }
+        // Fontsize operations
+        case 'changeFontSize': {
+            return {
+                ...settings,
+                meta: {
+                    ...settings.meta,
+                    fontSize: action.fontSize,
+                },
+            }
         }
         // Tile operations
         case 'addTile': {

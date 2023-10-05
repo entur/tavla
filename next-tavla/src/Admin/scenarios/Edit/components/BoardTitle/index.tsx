@@ -21,19 +21,17 @@ function BoardTitle({ title }: { title?: string }) {
     )
 
     return (
-        <div className={classes.editTitle}>
-            <TextField
-                value={title || ''}
-                className={classes.textField}
-                size="medium"
-                label="Navn på tavla"
-                placeholder="Navn på tavla"
-                aria-label="Endre navn på tavla"
-                prepend={<EditIcon />}
-                onChange={dispatchTitle}
-                ref={autoSelect}
-            />
-        </div>
+        <TextField
+            value={title || ''}
+            className={classes.textField}
+            size="medium"
+            label="Navn på tavla"
+            placeholder="Navn på tavla"
+            aria-label="Endre navn på tavla"
+            prepend={<EditIcon />}
+            onChange={dispatchTitle}
+            ref={autoSelect}
+        />
     )
 }
 

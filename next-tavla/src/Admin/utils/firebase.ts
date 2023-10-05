@@ -103,7 +103,10 @@ export async function createBoard(uid: TUserID) {
         .collection('boards')
         .add({
             tiles: [],
-            meta: { created: Date.now(), dateModified: Date.now() },
+            meta: {
+                created: Date.now(),
+                dateModified: Date.now(),
+            },
         })
     firestore()
         .collection('users')
