@@ -1,8 +1,9 @@
 export const Columns = {
-    destination: 'Destinasjon',
+    aimedTime: 'Planlagt',
     line: 'Linje',
-    time: 'Avgangstid',
+    destination: 'Destinasjon',
     platform: 'Plattform',
+    time: 'Forventet',
     realtime: 'Sanntid',
 } as const
 

@@ -6,7 +6,13 @@ export function upgradeBoard(settings: TBoardVersions): TBoard {
     return settings
 }
 
-type TColumnBase = 'destination' | 'line' | 'time' | 'platform' | 'realtime'
+type TColumnBase =
+    | 'aimedTime'
+    | 'destination'
+    | 'line'
+    | 'time'
+    | 'platform'
+    | 'realtime'
 
 type TTransportModeBase =
     | 'air'

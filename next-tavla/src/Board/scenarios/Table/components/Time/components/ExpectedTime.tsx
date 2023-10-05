@@ -1,11 +1,11 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { formatDateString, getRelativeTimeString } from 'utils/time'
-import { DeparturesContext } from '../../contexts'
-import { TableColumn } from '../TableColumn'
-import { TableRow } from '../TableRow'
 import classes from './styles.module.css'
+import { DeparturesContext } from 'Board/scenarios/Table/contexts'
+import { TableColumn } from '../../TableColumn'
+import { TableRow } from '../../TableRow'
 
-function TimeColumn() {
+function ExpectedTime() {
     const departures = useNonNullContext(DeparturesContext)
 
     const time = departures.map((departure) => ({
@@ -15,7 +15,7 @@ function TimeColumn() {
     }))
 
     return (
-        <TableColumn title="Avgang">
+        <TableColumn title="Forventet" className="textRight">
             {time.map((t) => (
                 <TableRow key={t.key}>
                     <Time
@@ -52,10 +52,10 @@ function Time({
         )
     }
     return (
-        <div className={classes.time}>
+        <div className="textRight weight600">
             {getRelativeTimeString(expectedDepartureTime)}
         </div>
     )
 }
 
-export { TimeColumn as Time }
+export { ExpectedTime }

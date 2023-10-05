@@ -3,13 +3,14 @@ import { TDepartureFragment } from 'graphql/index'
 import React from 'react'
 import { Destination } from './components/Destination'
 import { Line } from './components/Line'
-import { Time } from './components/Time'
 import { Platform } from './components/Platform'
 import classes from './styles.module.css'
 import { DeparturesContext } from './contexts'
 import { TColumn } from 'types/column'
 import { isArray } from 'lodash'
 import { RealTime } from './components/RealTime'
+import { AimedTime } from './components/Time/components/AimedTime'
+import { ExpectedTime } from './components/Time/components/ExpectedTime'
 
 function Table({
     departures,
@@ -28,10 +29,11 @@ function Table({
     return (
         <div className={classes.table}>
             <DeparturesContext.Provider value={departures}>
+                {columns.includes('aimedTime') && <AimedTime />}
                 {columns.includes('line') && <Line />}
                 {columns.includes('destination') && <Destination />}
                 {columns.includes('platform') && <Platform />}
-                {columns.includes('time') && <Time />}
+                {columns.includes('time') && <ExpectedTime />}
                 {columns.includes('realtime') && <RealTime />}
             </DeparturesContext.Provider>
         </div>
