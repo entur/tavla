@@ -1,5 +1,6 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DeparturesContext } from '../../contexts'
+import classes from './styles.module.css'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 
@@ -17,7 +18,12 @@ function RealTime() {
         <TableColumn title="Sanntid">
             {realtimes.map((realtime) => (
                 <TableRow key={realtime.key}>
-                    {realtime.realtime && 'x'}
+                    {realtime.realtime && (
+                        <div className="flexColumn alignCenter">
+                            <span className={classes.heartbeat}></span>
+                            <span className={classes.dot}></span>
+                        </div>
+                    )}
                 </TableRow>
             ))}
         </TableColumn>
