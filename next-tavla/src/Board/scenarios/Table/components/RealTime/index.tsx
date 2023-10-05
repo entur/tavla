@@ -12,8 +12,6 @@ function RealTime() {
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
     }))
 
-    console.log(realtimes)
-
     return (
         <TableColumn title="Sanntid">
             {realtimes.map((realtime) => (
