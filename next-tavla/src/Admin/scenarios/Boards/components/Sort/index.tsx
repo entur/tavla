@@ -7,7 +7,7 @@ import {
 import { SortableColumns, TBoardsColumn, TSort } from 'Admin/types/boards'
 import { DownArrowIcon, UnsortedIcon, UpArrowIcon } from '@entur/icons'
 import { includes } from 'lodash'
-import { getAriaLabel } from 'Admin/scenarios/Edit/utils/arialabels'
+import { getAriaLabel } from './utils'
 
 function Sort({ column }: { column: TBoardsColumn }) {
     const settings = useBoardsSettings()
