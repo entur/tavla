@@ -1,4 +1,4 @@
-import { DropdownItemType, NormalizedDropdownItemType } from '@entur/dropdown'
+import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'assets/env'
 
 type TPartialGeoResponse = {
@@ -17,7 +17,7 @@ type TCounty = {
 
 export async function fetchStopPlaces(
     text: string,
-    countyIds?: number[],
+    countyIds?: string[],
 ): Promise<NormalizedDropdownItemType[]> {
     if (!text || text.length < 3) return []
 
@@ -28,7 +28,7 @@ export async function fetchStopPlaces(
         text,
     })
 
-    if (countyIds)
+    if (countyIds && countyIds.length > 0)
         searchParams.append('boundary.county_ids', countyIds.join(','))
 
     return fetch(`${GEOCODER_ENDPOINT}/autocomplete?${searchParams}`, {

@@ -14,7 +14,7 @@ function AddTile() {
         selectedStopPlace,
         setSelectedStopPlace,
         handleAddTile,
-    } = useStopPlaceSearch()
+    } = useStopPlaceSearch(selectedCounties.map((county) => county.value))
 
     return (
         <div>
@@ -27,7 +27,7 @@ function AddTile() {
                     selectedItems={selectedCounties}
                     onChange={setSelectedCounties}
                     className="w-30"
-                    maxChips={3}
+                    maxChips={2}
                     hideSelectAll
                 />
 

@@ -5,7 +5,7 @@ import { fetchStopPlaces } from 'Admin/utils/fetch'
 import { useDebouncedFetch } from 'hooks/useDebouncedFetch'
 import { useCallback, useState } from 'react'
 
-function useStopPlaceSearch(countyIds?: number[]) {
+function useStopPlaceSearch(countyIds?: string[]) {
     const dispatch = useEditSettingsDispatch()
     const { addToast } = useToast()
     const [selectedStopPlace, setSelectedStopPlace] =
