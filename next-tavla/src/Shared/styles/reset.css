@@ -21,6 +21,18 @@ ul {
     padding: 0;
 }
 
+
+a.eds-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0rem 1rem;
+}
+
+a.eds-button > .eds-icon {
+    top: 0;
+}
+
 .eds-contrast .eds-dropdown__selected-items-and-input .eds-chip {
     background: #ebebf1;
     border: 0.0625rem solid #d1d4e3;
