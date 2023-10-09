@@ -22,11 +22,14 @@
     height: 0.525em;
     left: calc(50% - (0.525em / 2));
     bottom: calc(50% - (0.525em / 2));
-    opacity: 0.75;
     animation: ping 8s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 @keyframes ping {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
     75% {
         transform: scale(1);
         opacity: 1;
