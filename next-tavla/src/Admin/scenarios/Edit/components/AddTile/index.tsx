@@ -48,7 +48,7 @@ function AddTile() {
                     items={debouncedFetch}
                     label="Søk etter holdeplass..."
                     clearable
-                    prepend={<SearchIcon />}
+                    prepend={<SearchIcon aria-hidden="true" />}
                     selectedItem={selectedDropdownItem}
                     onChange={setSelectedDropdownItem}
                 />

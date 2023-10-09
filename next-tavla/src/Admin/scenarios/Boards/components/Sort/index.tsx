@@ -7,6 +7,7 @@ import {
 import { SortableColumns, TBoardsColumn, TSort } from 'Admin/types/boards'
 import { DownArrowIcon, UnsortedIcon, UpArrowIcon } from '@entur/icons'
 import { includes } from 'lodash'
+import { getAriaLabel } from './utils'
 
 function Sort({ column }: { column: TBoardsColumn }) {
     const settings = useBoardsSettings()
@@ -36,7 +37,10 @@ function Sort({ column }: { column: TBoardsColumn }) {
     if (!includes(SortableColumns, column)) return null
 
     return (
-        <IconButton onClick={cycleSort}>
+        <IconButton
+            onClick={cycleSort}
+            aria-label={getAriaLabel(settings.sort.type)}
+        >
             <Icon
                 active={settings.sort.column === column}
                 sort={settings.sort.type}

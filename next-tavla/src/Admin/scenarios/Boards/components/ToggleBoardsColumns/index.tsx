@@ -22,8 +22,11 @@ function ToggleBoardsColumns() {
     return (
         <Popover>
             <PopoverTrigger>
-                <SecondarySquareButton className="flexColumn">
-                    <AdjustmentsIcon />
+                <SecondarySquareButton
+                    className="flexColumn"
+                    aria-label="Velg kolonner"
+                >
+                    <AdjustmentsIcon aria-hidden="true" />
                 </SecondarySquareButton>
             </PopoverTrigger>
             <PopoverContent>
