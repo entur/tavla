@@ -31,6 +31,11 @@ h3 {
     flex-direction: row;
 }
 
+.flexWrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .alignCenter {
     align-items: center;
 }
@@ -49,12 +54,6 @@ h3 {
 
 .justifyBetween {
     justify-content: space-between;
-}
-
-.flexRow {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
 }
 
 .textCenter {

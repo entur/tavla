@@ -1,3 +1,4 @@
+import { TTag } from 'types/meta'
 import { TBoard } from 'types/settings'
 
 export type TSort = 'none' | 'ascending' | 'descending'
@@ -19,4 +20,5 @@ export type BoardsSettings = {
     sort: { type: TSort; column: TBoardsColumn }
     columns: TBoardsColumn[]
     boards: TBoard[]
+    filterTags: TTag[]
 }

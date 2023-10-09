@@ -4,6 +4,7 @@ import { TBoard } from 'types/settings'
 
 export type Action =
     | { type: 'setSearch'; search: string }
+    | { type: 'toggleFilterTag'; tag: string }
     | { type: 'setSort'; sort: { type: TSort; column: TBoardsColumn } }
     | { type: 'deleteBoard'; bid: string }
     | { type: 'toggleColumn'; column: TBoardsColumn }
@@ -18,6 +19,11 @@ export function settingsReducer(
     switch (action.type) {
         case 'setSearch':
             return { ...boardsSettings, search: action.search }
+        case 'toggleFilterTag':
+            return {
+                ...boardsSettings,
+                filterTags: xor(boardsSettings.filterTags, [action.tag]),
+            }
         case 'setSort':
             return { ...boardsSettings, sort: action.sort }
         case 'deleteBoard':

@@ -5,17 +5,23 @@ import { Column } from '../Column'
 import { Fragment } from 'react'
 import { TBoard } from 'types/settings'
 import { TBoardsColumn } from 'Admin/types/boards'
+import { intersection } from 'lodash'
 
 function TableRows() {
-    const { boards, columns, search } = useBoardsSettings()
+    const { boards, columns, search, filterTags } = useBoardsSettings()
     const sortFunction = useSortBoardFunction()
 
-    const filter = new RegExp(search, 'i')
+    const searchFilter = new RegExp(search, 'i')
     return (
         <>
             {boards
                 .filter((board: TBoard) =>
-                    filter.test(board?.meta?.title ?? DEFAULT_BOARD_NAME),
+                    searchFilter.test(board?.meta?.title ?? DEFAULT_BOARD_NAME),
+                )
+                .filter(
+                    (board: TBoard) =>
+                        intersection(board?.meta?.tags ?? [], filterTags)
+                            .length > 0 || filterTags.length === 0,
                 )
                 .sort(sortFunction)
                 .map((board: TBoard) => (

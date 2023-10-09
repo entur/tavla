@@ -1,5 +1,3 @@
-export type TTag = string
-
 export type TMeta = {
     title?: string
     created?: number
@@ -10,4 +8,5 @@ export type TMeta = {
     tags?: TTag[]
 }
 
+export type TTag = string
 export type TFontSize = 'small' | 'medium' | 'large'
