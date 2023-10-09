@@ -1,4 +1,5 @@
-import { CLIENT_NAME, GEOCODER_ENDPOINT } from 'assets/env'
+import { NormalizedDropdownItemType } from '@entur/dropdown'
+import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'assets/env'
 
 type TPartialGeoResponse = {
     features: Array<{
@@ -9,9 +10,15 @@ type TPartialGeoResponse = {
     }>
 }
 
-export async function fetchItems(
+type TCounty = {
+    fylkesnavn: string
+    fylkesnummer: string
+}
+
+export async function fetchStopPlaces(
     text: string,
-): Promise<Array<{ value?: string; label: string }>> {
+    countyIds?: string[],
+): Promise<NormalizedDropdownItemType[]> {
     if (!text || text.length < 3) return []
 
     const searchParams = new URLSearchParams({
@@ -21,6 +28,9 @@ export async function fetchItems(
         text,
     })
 
+    if (countyIds && countyIds.length > 0)
+        searchParams.append('boundary.county_ids', countyIds.join(','))
+
     return fetch(`${GEOCODER_ENDPOINT}/autocomplete?${searchParams}`, {
         headers: {
             'ET-Client-Name': CLIENT_NAME,
@@ -28,13 +38,21 @@ export async function fetchItems(
     })
         .then((res) => res.json())
         .then((data: TPartialGeoResponse) => {
-            const features = data['features']
-            const items = features.map(({ properties }) => ({
-                value: properties.id,
+            return data.features.map(({ properties }) => ({
+                value: properties.id ?? '',
                 label: properties.label || '',
             }))
+        })
+}
 
-            return items
+export async function fetchCounties(): Promise<NormalizedDropdownItemType[]> {
+    return fetch(COUNTY_ENDPOINT)
+        .then((res) => res.json())
+        .then((counties: TCounty[]) => {
+            return counties.map((county: TCounty) => ({
+                value: county.fylkesnummer,
+                label: county.fylkesnavn,
+            }))
         })
 }
 
