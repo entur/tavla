@@ -13,6 +13,16 @@ html {
     line-height: 1.2;
 }
 
+a.eds-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0rem 1rem;
+}
+
+a.eds-button > .eds-icon {
+    top: 0;
+}
 .eds-h1 {
     font-size: 2rem;
 }
