@@ -24,8 +24,8 @@ async function fetchAutocomplete(
         },
     )
         .then((response) => response.json())
-        .then((result: GeocoderResults) => {
-            return result.features.map(
+        .then((result: GeocoderResults) =>
+            result.features.map(
                 ({ geometry, properties: { id, locality, name } }) => ({
                     value: id,
                     label: locality ? `${name}, ${locality}` : name,
@@ -34,8 +34,8 @@ async function fetchAutocomplete(
                         latitude: geometry.coordinates[1],
                     },
                 }),
-            )
-        })
+            ),
+        )
 }
 
 export type { AutocompleteItem }
