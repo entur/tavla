@@ -2,7 +2,6 @@ import { FormEvent, useState } from 'react'
 import { Heading3 } from '@entur/typography'
 import { Button } from '@entur/button'
 import { TextField } from '@entur/form'
-import classes from './styles.module.css'
 import { TTag } from 'types/meta'
 
 function AddNewTag({ addTag }: { addTag: (tag: TTag) => void }) {
@@ -18,9 +17,7 @@ function AddNewTag({ addTag }: { addTag: (tag: TTag) => void }) {
 
     return (
         <div className="flexCol g-1">
-            <div className={classes.popoverHeader}>
-                <Heading3>Legg til ny merkelapp</Heading3>
-            </div>
+            <Heading3>Legg til ny merkelapp</Heading3>
             <form onSubmit={submitHandler}>
                 <div className="flexRow w-100">
                     <TextField
@@ -28,7 +25,7 @@ function AddNewTag({ addTag }: { addTag: (tag: TTag) => void }) {
                         label="Merkelapp"
                         value={newTagName}
                         onChange={(e) => setNewTagName(e.target.value)}
-                    ></TextField>
+                    />
                     <Button type="submit" variant="primary">
                         Legg til
                     </Button>
