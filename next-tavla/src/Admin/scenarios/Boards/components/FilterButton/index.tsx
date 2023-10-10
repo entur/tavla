@@ -62,7 +62,7 @@ function FilterButton() {
                             classes.tagsFilterPopover,
                         )}
                     >
-                        {allTags.map((tag: TTag) => (
+                        {allTags.sort().map((tag: TTag) => (
                             <FilterChip
                                 key={tag}
                                 checked={filterTags.includes(tag)}
