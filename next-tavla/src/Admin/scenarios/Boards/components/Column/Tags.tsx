@@ -1,4 +1,3 @@
-import classes from './styles.module.css'
 import { TBoard } from 'types/settings'
 import { SortableColumn } from './SortableColumn'
 import { Badge } from '@entur/layout'
@@ -19,7 +18,7 @@ function TagList({
 }) {
     return (
         <div>
-            <div className={classes.tags}>
+            <div className="flexWrap g-1">
                 {tags.map((tag) => (
                     <Badge
                         key={tag}
@@ -66,14 +65,12 @@ function Tags({ board }: { board: TBoard }) {
     return (
         <SortableColumn column="tags">
             <TagModal board={board} />
-            <div className={classes.tags}>
-                {
-                    <TagList
-                        tags={tags.slice(0, displayNumber)}
-                        tagsTooltip={hiddenTags}
-                    />
-                }
-            </div>
+            {
+                <TagList
+                    tags={tags.slice(0, displayNumber)}
+                    tagsTooltip={hiddenTags}
+                />
+            }
         </SortableColumn>
     )
 }
