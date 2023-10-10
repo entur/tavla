@@ -31,10 +31,7 @@ function FilterButton() {
     return (
         <Popover>
             <PopoverTrigger>
-                <div
-                    className={classes.buttonWrapper}
-                    style={{ position: 'relative' }}
-                >
+                <div className={classes.buttonWrapper}>
                     <SecondarySquareButton className="flexColumn">
                         <FilterIcon />
                     </SecondarySquareButton>
@@ -42,7 +39,7 @@ function FilterButton() {
                         {filterTags.length}
                     </NotificationBadge>
                 </div>
-            </PopoverTrigger>{' '}
+            </PopoverTrigger>
             <PopoverContent>
                 <div className="p-1">
                     <div className="flexRow justifyBetween">
