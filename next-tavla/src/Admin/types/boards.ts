@@ -8,7 +8,7 @@ export const BoardsColumns = {
     url: 'Lenke',
     actions: 'Handlinger',
     lastModified: 'Sist oppdatert',
-    tags: 'Tags',
+    tags: 'Merkelapper',
 } as const
 
 export type TBoardsColumn = keyof typeof BoardsColumns
