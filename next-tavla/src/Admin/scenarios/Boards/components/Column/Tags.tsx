@@ -49,19 +49,20 @@ function Tags({ board }: { board: TBoard }) {
         tags = sortArrayByOverlap(tags, filterTags)
     }
 
-    const hiddenTags = hiddenNumber ? (
-        <Tooltip
-            placement={'bottom'}
-            content={<TagList tags={tags.slice(displayNumber)} />}
-        >
-            <Badge
-                style={{ cursor: 'help' }}
-                variant="neutral"
-            >{`+ ${hiddenNumber} til`}</Badge>
-        </Tooltip>
-    ) : (
-        <></>
-    )
+    const hiddenTags =
+        hiddenNumber > 0 ? (
+            <Tooltip
+                placement={'bottom'}
+                content={<TagList tags={tags.slice(displayNumber)} />}
+            >
+                <Badge
+                    style={{ cursor: 'help' }}
+                    variant="neutral"
+                >{`+ ${hiddenNumber} til`}</Badge>
+            </Tooltip>
+        ) : (
+            <></>
+        )
     return (
         <SortableColumn column="tags">
             <TagModal board={board} />
