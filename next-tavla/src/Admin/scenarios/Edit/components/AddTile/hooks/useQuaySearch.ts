@@ -4,7 +4,7 @@ import { isNotNullOrUndefined } from 'utils/typeguards'
 import { hasDuplicateInArrayByKey } from 'utils/filters'
 import { TDirectionType } from 'types/graphql-schema'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { countBy } from 'lodash'
 
 function getPlatformLabel(
@@ -37,6 +37,8 @@ function useQuaySearch(stopPlaceId: string) {
     const { data } = useQuery(QuaysSearchQuery, { stopPlaceId })
     const [selectedQuay, setSelectedQuay] =
         useState<NormalizedDropdownItemType | null>(null)
+
+    useEffect(() => setSelectedQuay(null), [stopPlaceId])
 
     const quays = useMemo(
         () =>
