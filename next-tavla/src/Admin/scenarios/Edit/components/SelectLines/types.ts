@@ -1,4 +1,4 @@
-import { TTransportMode } from 'types/graphql-schema'
+import { TTransportMode, TAuthority } from 'types/graphql-schema'
 
 export type TLineFragment = {
     __typename?: 'Line'
@@ -6,4 +6,5 @@ export type TLineFragment = {
     publicCode: string | null
     name: string | null
     transportMode: TTransportMode | null
+    authority: TAuthority | null
 }

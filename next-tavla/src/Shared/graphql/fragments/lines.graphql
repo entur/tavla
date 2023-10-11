@@ -4,5 +4,9 @@ fragment lines on Quay {
         publicCode
         name
         transportMode
+        authority {
+            id
+            name
+        }
     }
 }
