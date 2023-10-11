@@ -8,6 +8,8 @@ import { DeleteTile } from '../DeleteTile'
 import { Preview } from '../Preview'
 import { ToggleColumns } from '../ToggleColumns'
 import { SelectLines } from '../SelectLines'
+import { getWhitelistedAuthorities } from 'utils/authoritiesIDs'
+import { SelectAuthorities } from '../SelectAuthorities'
 
 function QuaySettings({ tile }: { tile: TQuayTile }) {
     const lines =
@@ -19,6 +21,7 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
         quayId: tile.placeId,
         whitelistedLines: tile.whitelistedLines,
         whitelistedTransportModes: tile.whitelistedTransportModes,
+        whitelistedAuthorities: getWhitelistedAuthorities(tile),
         numberOfDepartures: 5,
     }).data?.quay?.estimatedCalls
 
@@ -29,7 +32,10 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
                 <Heading3 className="m-0">{tile.name}</Heading3>
             </div>
             <Preview tile={tile} departures={departures} />
-            <ToggleColumns tile={tile} />
+            <div className="flexRow justifyBetween mb-3">
+                <SelectAuthorities tile={tile} lines={lines} />
+                <ToggleColumns tile={tile} />
+            </div>
             <SelectLines tile={tile} lines={lines} />
         </div>
     )
