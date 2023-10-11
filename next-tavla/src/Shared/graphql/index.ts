@@ -176,6 +176,10 @@ export type TQuaysSearchQuery = {
                 __typename?: 'StopPlace'
                 transportMode: Array<Types.TTransportMode | null> | null
             } | null
+            journeyPatterns: Array<{
+                __typename?: 'JourneyPattern'
+                directionType: Types.TDirectionType | null
+            } | null>
         } | null> | null
     } | null
 }
@@ -448,6 +452,9 @@ export const QuaysSearchQuery = new TypedDocumentString(`
       description
       stopPlace {
         transportMode
+      }
+      journeyPatterns {
+        directionType
       }
     }
   }

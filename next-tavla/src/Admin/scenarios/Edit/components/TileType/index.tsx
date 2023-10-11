@@ -1,9 +1,14 @@
 import { RadioGroup, RadioPanel } from '@entur/form'
 import { ForwardIcon, SwitchIcon } from '@entur/icons'
-import { useState } from 'react'
-function SelectTileType() {
-    const [tileType, setTileType] = useState('stop_place')
+import { Dispatch, SetStateAction } from 'react'
 
+function SelectTileType({
+    tileType,
+    setTileType,
+}: {
+    tileType: string
+    setTileType: Dispatch<SetStateAction<string>>
+}) {
     return (
         <RadioGroup
             name="tile-type"
@@ -12,26 +17,26 @@ function SelectTileType() {
                 setTileType(e.target.value)
             }}
         >
-            <div style={{ display: 'flex', gap: '1em' }}>
+            <div className="flexRow g-2">
                 <RadioPanel
-                    title=<div style={{ display: 'flex', gap: '1em' }}>
+                    title=<div className="flexRow g-2">
                         <SwitchIcon />
                         Knutepunkt
                     </div>
                     value="stop_place"
                 >
-                    Viser alle retninger for alle stoppesteder
+                    Viser alle retninger for et stoppested
                 </RadioPanel>
                 <RadioPanel
                     title={
-                        <div style={{ display: 'flex', gap: '1em' }}>
+                        <div className="flexRow g-2">
                             <ForwardIcon />
-                            Enkelt stoppested
+                            Stoppested
                         </div>
                     }
                     value="quay"
                 >
-                    Viser en spesifikk retning for et spesifikt stoppested
+                    Viser en spesifikk retning for et stoppested
                 </RadioPanel>
             </div>
         </RadioGroup>

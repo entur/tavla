@@ -1,7 +1,6 @@
 import { TextField } from '@entur/form'
 import { EditIcon } from '@entur/icons'
 import { ChangeEventHandler, useCallback } from 'react'
-import classes from './styles.module.css'
 import { useEditSettingsDispatch } from '../../utils/contexts'
 
 function BoardTitle({ title }: { title?: string }) {
@@ -23,8 +22,7 @@ function BoardTitle({ title }: { title?: string }) {
     return (
         <TextField
             value={title || ''}
-            className={classes.textField}
-            size="medium"
+            className="w-30"
             label="Navn på tavla"
             placeholder="Navn på tavla"
             aria-label="Endre navn på tavla"
