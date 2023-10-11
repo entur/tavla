@@ -3,6 +3,7 @@ import { TAnonTiles } from 'Admin/types'
 import { clone, xor } from 'lodash'
 import { nanoid } from 'nanoid'
 import { TColumn } from 'types/column'
+import { TAuthority } from 'types/graphql-schema'
 import { TFontSize } from 'types/meta'
 import { TBoard, TTheme } from 'types/settings'
 import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
@@ -15,6 +16,7 @@ export type Action =
     | { type: 'swapTiles'; oldIndex: number; newIndex: number }
     | { type: 'setLines'; tileId: string; lines?: string[] }
     | { type: 'deleteLines'; tileId: string }
+    | { type: 'setAuthorities'; tileId: string; authorities?: TAuthority[] }
     | { type: 'setColumn'; tileId: string; column: TColumn }
     | { type: 'setTitle'; title?: string }
     | { type: 'changeFontSize'; fontSize?: TFontSize }
@@ -122,6 +124,17 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
                 (tile) => {
                     if (tile.whitelistedLines) delete tile.whitelistedLines
                     return tile
+                },
+            )
+        }
+        case 'setAuthorities': {
+            return changeTile<TStopPlaceTile | TQuayTile>(
+                action.tileId,
+                (tile) => {
+                    return {
+                        ...tile,
+                        whitelistedAuthorities: action.authorities,
+                    }
                 },
             )
         }
