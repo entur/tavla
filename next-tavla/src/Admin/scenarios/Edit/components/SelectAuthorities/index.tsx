@@ -4,6 +4,8 @@ import { MultiSelect, NormalizedDropdownItemType } from '@entur/dropdown'
 import { useAuthoritiesSearch } from './useAuthoritiesSearch'
 import { useEditSettingsDispatch } from '../../utils/contexts'
 import { TAuthority } from 'types/graphql-schema'
+import { Heading4, SubParagraph } from '@entur/typography'
+import classes from './styles.module.css'
 function SelectAuthorities({
     tile,
     lines,
@@ -31,13 +33,21 @@ function SelectAuthorities({
     }
 
     return (
-        <MultiSelect
-            label="Vis utvalgte operatører"
-            items={authorities}
-            selectedItems={selectedAuthorities}
-            onChange={setAuthorities}
-            hideSelectAll
-        />
+        <div>
+            <Heading4>Operatører</Heading4>
+            <SubParagraph>
+                Her kan du begrense linjer til operatører.
+            </SubParagraph>
+            <MultiSelect
+                className={classes.multiSelect}
+                label="Vis utvalgte operatører"
+                items={authorities}
+                selectedItems={selectedAuthorities}
+                onChange={setAuthorities}
+                hideSelectAll
+                maxChips={3}
+            />
+        </div>
     )
 }
 export { SelectAuthorities }
