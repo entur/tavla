@@ -29,11 +29,10 @@ export default async function handler(
                 )
                 break
             case 'DELETE':
-                await deleteBoard(
+                return await deleteBoard(
                     JSON.parse(request.body).bid as TBoardID,
                     user.uid,
                 )
-                break
             default:
                 throw new Error('Method not allowed')
         }

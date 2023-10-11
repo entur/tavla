@@ -10,7 +10,7 @@ export type Action =
     | { type: 'toggleColumn'; column: TBoardsColumn }
     | { type: 'setColumns'; columns: TBoardsColumn[] }
     | { type: 'setBoard'; board: TBoard }
-    | { type: 'rollback'; payload: BoardsSettings }
+    | { type: 'setSettings'; payload: BoardsSettings }
 
 export function settingsReducer(
     boardsSettings: BoardsSettings,
@@ -51,7 +51,7 @@ export function settingsReducer(
                     return action.board
                 }),
             }
-        case 'rollback':
+        case 'setSettings':
             return action.payload
     }
 }

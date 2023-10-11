@@ -5,7 +5,7 @@ import { TextField } from '@entur/form'
 import { TTag } from 'types/meta'
 
 function AddNewTag({ addTag }: { addTag: (tag: TTag) => void }) {
-    const [newTagName, setNewTagName] = useState<TTag | undefined>(undefined)
+    const [newTagName, setNewTagName] = useState<TTag>()
 
     const submitHandler = (e: FormEvent) => {
         e.preventDefault()

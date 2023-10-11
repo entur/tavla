@@ -14,7 +14,7 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
 
     const { addToast } = useToast()
 
-    const boardDispatch = useOptimisticBoardsSettingsDispatch()
+    const dispatch = useOptimisticBoardsSettingsDispatch()
 
     const deleteBoardHandler = async () => {
         closeModal()
@@ -25,7 +25,7 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
                     message: 'Board not found',
                 })
 
-            await boardDispatch(
+            await dispatch(
                 { type: 'deleteBoard', bid: board.id },
                 '/api/boards',
                 { bid: board.id },

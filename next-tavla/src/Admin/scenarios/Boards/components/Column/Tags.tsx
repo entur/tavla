@@ -17,7 +17,7 @@ function TagList({
     tagsTooltip?: ReactElement
 }) {
     return (
-        <div className="flexWrap g-1 alignCenter">
+        <div className="flexRow flexWrap g-1 alignCenter">
             {tags.map((tag) => (
                 <Badge
                     key={tag}
@@ -47,30 +47,25 @@ function Tags({ board }: { board: TBoard }) {
         tags = sortArrayByOverlap(tags, filterTags)
     }
 
-    const hiddenTags =
-        hiddenNumber > 0 ? (
-            <Tooltip
-                placement={'bottom'}
-                content={<TagList tags={tags.slice(displayNumber)} />}
-            >
-                <Badge
-                    style={{ cursor: 'help' }}
-                    variant="neutral"
-                >{`+ ${hiddenNumber} til`}</Badge>
-            </Tooltip>
-        ) : (
-            <></>
-        )
+    const hiddenTags = hiddenNumber > 0 && (
+        <Tooltip
+            placement={'bottom'}
+            content={<TagList tags={tags.slice(displayNumber)} />}
+        >
+            <Badge
+                style={{ cursor: 'help' }}
+                variant="neutral"
+            >{`+ ${hiddenNumber} til`}</Badge>
+        </Tooltip>
+    )
     return (
         <SortableColumn column="tags">
             <div className="flexRow w-100 g-1">
                 <TagModal board={board} />
-                {
-                    <TagList
-                        tags={tags.slice(0, displayNumber)}
-                        tagsTooltip={hiddenTags}
-                    />
-                }
+                <TagList
+                    tags={tags.slice(0, displayNumber)}
+                    tagsTooltip={hiddenTags || undefined}
+                />
             </div>
         </SortableColumn>
     )

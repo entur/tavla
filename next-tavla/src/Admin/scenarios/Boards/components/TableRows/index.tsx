@@ -20,8 +20,9 @@ function TableRows() {
                 )
                 .filter(
                     (board: TBoard) =>
+                        filterTags.length === 0 ||
                         intersection(board?.meta?.tags ?? [], filterTags)
-                            .length > 0 || filterTags.length === 0,
+                            .length > 0,
                 )
                 .sort(sortFunction)
                 .map((board: TBoard) => (

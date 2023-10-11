@@ -1,5 +1,7 @@
 .tagsFilterPopover {
     max-width: 20rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .buttonWrapper {

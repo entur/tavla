@@ -38,7 +38,7 @@ export function useOptimisticBoardsSettingsDispatch() {
                 body: JSON.stringify(payload),
             }).then((response) => {
                 if (response.ok) return
-                dispatch({ type: 'rollback', payload: boardsSettings })
+                dispatch({ type: 'setSettings', payload: boardsSettings })
                 throw new TavlaError({
                     code: 'BOARD',
                     message: `Error updating board: ${response.status} ${response.statusText}`,

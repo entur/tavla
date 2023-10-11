@@ -14,7 +14,6 @@ import {
 import { TTag } from 'types/meta'
 import { FilterChip } from '@entur/chip'
 import { uniq } from 'lodash'
-import classNames from 'classnames'
 import classes from './styles.module.css'
 import { NotificationBadge } from '@entur/layout'
 
@@ -52,13 +51,7 @@ function FilterButton() {
                             </IconButton>
                         </PopoverCloseButton>
                     </div>
-                    <div
-                        className={classNames(
-                            'flexWrap',
-                            'g-1',
-                            classes.tagsFilterPopover,
-                        )}
-                    >
+                    <div className={classes.tagsFilterPopover}>
                         {allTags.sort().map((tag: TTag) => (
                             <FilterChip
                                 key={tag}

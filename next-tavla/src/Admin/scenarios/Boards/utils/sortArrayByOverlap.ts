@@ -1,7 +1,7 @@
 export function sortArrayByOverlap<T>(toBeSorted: T[], overlapArray: T[]): T[] {
     const overlapSet = new Set(overlapArray)
 
-    toBeSorted.sort((a, b) => {
+    return toBeSorted.sort((a, b) => {
         const aInOverlap = overlapSet.has(a)
         const bInOverlap = overlapSet.has(b)
 
@@ -12,6 +12,4 @@ export function sortArrayByOverlap<T>(toBeSorted: T[], overlapArray: T[]): T[] {
         }
         return 0
     })
-
-    return toBeSorted
 }

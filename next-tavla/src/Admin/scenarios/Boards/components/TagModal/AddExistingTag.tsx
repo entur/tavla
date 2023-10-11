@@ -25,7 +25,7 @@ function AddExistingTag({
     return (
         <>
             <Heading3>Legg til eksisterende merkelapp</Heading3>
-            <div className="flexWrap g-1">
+            <div className="flexRow flexWrap g-1">
                 {suggestedTags.map((tag) => (
                     <ActionChip
                         key={tag}
