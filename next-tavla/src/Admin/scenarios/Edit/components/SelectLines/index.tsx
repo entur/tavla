@@ -20,6 +20,7 @@ function SelectLines({
         toggleAllLinesForMode,
         toggleLine,
         isLineToggled,
+        isModeEmpty,
     } = useToggledLines(tile, lines)
 
     return (
@@ -27,7 +28,10 @@ function SelectLines({
             <Heading4>Velg transportmidler og linjer</Heading4>
             <div className={classes.linesContainer}>
                 {linesByMode.map(({ transportMode, lines }) => (
-                    <div key={transportMode}>
+                    <div
+                        key={transportMode}
+                        hidden={isModeEmpty(transportMode)}
+                    >
                         <div className={classes.transportTitle}>
                             <TransportIcon transport={transportMode} />
                             {transportModeNames[transportMode]}

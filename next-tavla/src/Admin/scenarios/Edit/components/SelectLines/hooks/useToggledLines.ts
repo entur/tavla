@@ -12,6 +12,7 @@ import { TLineFragment } from '../types'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { useEditSettingsDispatch } from 'Admin/scenarios/Edit/utils/contexts'
 import { xor } from 'lodash'
+import { getWhitelistedAuthorities } from 'utils/authoritiesIDs'
 
 function useToggledLines(
     tile: TStopPlaceTile | TQuayTile,
@@ -29,11 +30,19 @@ function useToggledLines(
 
     const uniqLines = uniqBy(lines, 'id')
     const allLineIDs = uniqLines.map((line) => line.id)
+    const linesByOperators =
+        !tile.whitelistedAuthorities || tile.whitelistedAuthorities.length === 0
+            ? uniqLines
+            : uniqLines.filter((line) =>
+                  getWhitelistedAuthorities(tile)?.includes(
+                      line.authority?.id ?? '',
+                  ),
+              )
 
     const linesByModeSorted = allTransportModes
         .map((transportMode) => ({
             transportMode,
-            lines: uniqLines
+            lines: linesByOperators
                 .filter((line) => line.transportMode === transportMode)
                 .sort(sortLineByPublicCode),
         }))
@@ -92,12 +101,20 @@ function useToggledLines(
         setLines(newLines)
     }
 
+    const isModeEmpty = (transportMode: TTransportMode) => {
+        return (
+            linesByModeSorted.find((e) => e.transportMode === transportMode)
+                ?.lines.length === 0
+        )
+    }
+
     return {
         linesByMode: linesByModeSorted,
         isAllLinesForModeToggled,
         toggleAllLinesForMode,
         toggleLine,
         isLineToggled,
+        isModeEmpty,
     }
 }
 
