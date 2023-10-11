@@ -36,7 +36,7 @@ function SelectAuthorities({
         <div>
             <Heading4>Operatører</Heading4>
             <SubParagraph>
-                Her kan du begrense linjer til operatører.
+                Her kan du velge hvilke operatører som skal vises i Tavlen.
             </SubParagraph>
             <MultiSelect
                 className={classes.multiSelect}
