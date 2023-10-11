@@ -16,7 +16,6 @@ export type TColumnTile = {
 
 export type TQuayTile = {
     type: 'quay'
-    stopPlaceId: string
 } & TSharedTile &
     TColumnTile
 

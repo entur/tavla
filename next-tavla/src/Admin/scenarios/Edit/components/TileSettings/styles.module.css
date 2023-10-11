@@ -6,19 +6,3 @@
     padding: 2em;
     width: 100%;
 }
-
-.tileSettingsHeader {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1.5em;
-}
-
-.heading {
-    margin: 0;
-}
-
-.content {
-    position: relative;
-    flex: 1;
-}

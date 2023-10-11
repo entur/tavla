@@ -47,7 +47,6 @@ type TColumnTileBase = {
 
 type TQuayTileBase = {
     type: 'quay'
-    stopPlaceId: string
 } & TSharedTileBase &
     TColumnTileBase
 
