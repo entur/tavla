@@ -42,8 +42,9 @@ function AddTile() {
                     type: 'quay',
                     placeId: selectedQuay.value,
                     name:
-                        selectedStopPlace.label.split(',')[0] ??
-                        'Ikke navngitt',
+                        selectedStopPlace.label.split(',')[0] +
+                            ' ' +
+                            selectedQuay.label ?? 'Ikke navngitt',
                 },
             })
         else
