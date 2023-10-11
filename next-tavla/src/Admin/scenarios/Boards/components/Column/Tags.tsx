@@ -17,23 +17,21 @@ function TagList({
     tagsTooltip?: ReactElement
 }) {
     return (
-        <div>
-            <div className="flexWrap g-1">
-                {tags.map((tag) => (
-                    <Badge
-                        key={tag}
-                        aria-label={tag}
-                        variant="primary"
-                        style={{
-                            color: 'white',
-                            backgroundColor: colorsFromHash(tag),
-                        }}
-                    >
-                        {tag}
-                    </Badge>
-                ))}
-                {tagsTooltip}
-            </div>
+        <div className="flexWrap g-1 alignCenter">
+            {tags.map((tag) => (
+                <Badge
+                    key={tag}
+                    aria-label={tag}
+                    variant="primary"
+                    style={{
+                        color: 'white',
+                        backgroundColor: colorsFromHash(tag),
+                    }}
+                >
+                    {tag}
+                </Badge>
+            ))}
+            {tagsTooltip}
         </div>
     )
 }
@@ -65,13 +63,15 @@ function Tags({ board }: { board: TBoard }) {
         )
     return (
         <SortableColumn column="tags">
-            <TagModal board={board} />
-            {
-                <TagList
-                    tags={tags.slice(0, displayNumber)}
-                    tagsTooltip={hiddenTags}
-                />
-            }
+            <div className="flexRow w-100 g-1">
+                <TagModal board={board} />
+                {
+                    <TagList
+                        tags={tags.slice(0, displayNumber)}
+                        tagsTooltip={hiddenTags}
+                    />
+                }
+            </div>
         </SortableColumn>
     )
 }
