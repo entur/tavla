@@ -11,7 +11,6 @@ import { SelectLines } from '../SelectLines'
 import { getWhitelistedAuthorities } from 'utils/authoritiesIDs'
 import { SelectAuthorities } from '../SelectAuthorities'
 
-
 function QuaySettings({ tile }: { tile: TQuayTile }) {
     const lines =
         useQuery(GetQuayQuery, {
