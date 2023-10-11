@@ -29,7 +29,7 @@ function TilesOverview({ tiles }: { tiles: TTile[] }) {
             index={activeTab}
             onChange={(newIndex) => setActiveTab(newIndex)}
         >
-            <TabList data-cy="tiles">
+            <TabList>
                 {tiles.map((tile) => (
                     <Tab key={tile.uuid}>{tile.name ?? tile.placeId}</Tab>
                 ))}
