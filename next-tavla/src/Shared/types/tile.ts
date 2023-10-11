@@ -1,5 +1,5 @@
 import { TColumn } from './column'
-import { TTransportMode } from './graphql-schema'
+import { TTransportMode, TAuthority } from './graphql-schema'
 
 export type TSharedTile = {
     placeId: string
@@ -7,6 +7,7 @@ export type TSharedTile = {
     uuid: string
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportMode[]
+    whitelistedAuthorities?: TAuthority[]
 }
 
 export type TColumnTile = {

@@ -2,6 +2,7 @@ query StopPlace(
     $stopPlaceId: String!
     $whitelistedTransportModes: [TransportMode]
     $whitelistedLines: [ID!]
+    $whitelistedAuthorities: [Authority]
     $numberOfDepartures: Int = 20
 ) {
     stopPlace(id: $stopPlaceId) {
@@ -10,7 +11,10 @@ query StopPlace(
         estimatedCalls(
             numberOfDepartures: $numberOfDepartures
             whiteListedModes: $whitelistedTransportModes
-            whiteListed: { lines: $whitelistedLines }
+            whiteListed: {
+                lines: $whitelistedLines
+                authorities: $whitelistedAuthorities
+            }
         ) {
             ...departure
         }

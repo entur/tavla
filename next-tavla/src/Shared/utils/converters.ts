@@ -1,3 +1,4 @@
+import { TAuthority } from 'types/graphql-schema'
 import { TBoard, TBoardID } from 'types/settings'
 
 export function upgradeBoard(settings: TBoardVersions): TBoard {
@@ -37,6 +38,7 @@ type TSharedTileBase = {
     uuid: string
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportModeBase[]
+    whitelistedAuthorities?: TAuthority[]
 }
 
 type TColumnTileBase = {
