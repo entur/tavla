@@ -103,16 +103,8 @@ export type TArrivalDeparture =
 /** Authority involved in public transportation. An organisation under which the responsibility of organising the transport service in a certain area is placed. */
 export type TAuthority = {
     __typename?: 'Authority'
-    fareUrl: Maybe<Scalars['String']>
     id: Scalars['ID']
-    lang: Maybe<Scalars['String']>
-    lines: Array<Maybe<TLine>>
     name: Scalars['String']
-    phone: Maybe<Scalars['String']>
-    /** Get all situations active for the authority. */
-    situations: Array<TPtSituationElement>
-    timezone: Scalars['String']
-    url: Maybe<Scalars['String']>
 }
 
 export type TBicycleOptimisationMethod =
