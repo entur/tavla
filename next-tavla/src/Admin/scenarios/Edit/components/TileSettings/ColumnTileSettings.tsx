@@ -9,6 +9,7 @@ import { Preview } from '../Preview'
 import { PlatformDropdown } from '../PlatformDropdown'
 import { ToggleColumns } from '../ToggleColumns'
 import { SelectLines } from '../SelectLines'
+import { SelectAuthorities } from '../SelectAuthorities'
 
 function ColumnTileSettings({
     className,
@@ -34,6 +35,7 @@ function ColumnTileSettings({
                     <PlatformDropdown tile={tile} />
                     <ToggleColumns tile={tile} />
                 </div>
+                <SelectAuthorities tile={tile} lines={lines} />
                 <SelectLines tile={tile} lines={lines} />
             </div>
         </div>
