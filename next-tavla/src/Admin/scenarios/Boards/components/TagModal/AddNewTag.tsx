@@ -19,7 +19,7 @@ function AddNewTag({ addTag }: { addTag: (tag: TTag) => void }) {
         <div className="flexCol g-1">
             <Heading3>Legg til ny merkelapp</Heading3>
             <form onSubmit={submitHandler}>
-                <div className="flexRow w-100">
+                <div className="flexRow g-1 w-100">
                     <TextField
                         aria-label="Navn på ny merkelapp"
                         label="Merkelapp"
