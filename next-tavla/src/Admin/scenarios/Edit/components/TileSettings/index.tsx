@@ -6,6 +6,7 @@ import { useQuery } from 'graphql/utils'
 import { TQuayTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
 import { ColumnTileSettings } from './ColumnTileSettings'
+import { getWhitelistedAuthorities } from 'utils/authoritiesIDs'
 
 function TileSettings({ tile }: { tile?: TTile; name?: string }) {
     if (tile?.type === 'stop_place') return <StopPlaceSettings tile={tile} />
@@ -25,6 +26,7 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
         stopPlaceId: tile.placeId,
         whitelistedLines: tile.whitelistedLines,
         whitelistedTransportModes: tile.whitelistedTransportModes,
+        whitelistedAuthorities: getWhitelistedAuthorities(tile),
         numberOfDepartures: 5,
     }).data?.stopPlace?.estimatedCalls
 
@@ -43,6 +45,7 @@ function QuaySettings({ tile }: { tile: TQuayTile }) {
         quayId: tile.placeId,
         whitelistedLines: tile.whitelistedLines,
         whitelistedTransportModes: tile.whitelistedTransportModes,
+        whitelistedAuthorities: getWhitelistedAuthorities(tile),
         numberOfDepartures: 5,
     }).data?.quay?.estimatedCalls
 
