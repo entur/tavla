@@ -6,7 +6,7 @@ import { TBoard } from 'types/settings'
 import { useLink } from '../../hooks/useLink'
 import { useToast } from '@entur/alert'
 import classes from './styles.module.css'
-import { DeleteBoardButton } from '../Delete'
+import { DeleteBoardButton as Delete } from '../Delete'
 import { SortableColumn } from './SortableColumn'
 
 function Actions({ board }: { board: TBoard }) {
@@ -66,14 +66,6 @@ function Open({ link }: { link?: string }) {
             >
                 <ExternalIcon />
             </IconButton>
-        </Tooltip>
-    )
-}
-
-function Delete({ board }: { board: TBoard }) {
-    return (
-        <Tooltip content="Slett tavle" placement="bottom">
-            <DeleteBoardButton board={board} />
         </Tooltip>
     )
 }
