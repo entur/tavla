@@ -21,7 +21,7 @@ function BoardTitle({ title }: { title?: string }) {
 
     return (
         <TextField
-            value={title || ''}
+            value={title ?? ''}
             className="w-30"
             label="Navn på tavla"
             placeholder="Navn på tavla"
