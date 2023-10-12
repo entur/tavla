@@ -5,7 +5,6 @@ import { useAuthoritiesSearch } from './utils/useAuthoritiesSearch'
 import { useEditSettingsDispatch } from '../../utils/contexts'
 import { TAuthority } from 'types/graphql-schema'
 import { Heading4, SubParagraph } from '@entur/typography'
-import classes from './styles.module.css'
 
 function SelectAuthorities({
     tile,
@@ -40,7 +39,7 @@ function SelectAuthorities({
                 Her kan du velge hvilke operatører som skal vises i Tavlen.
             </SubParagraph>
             <MultiSelect
-                className={classes.multiSelect}
+                className="w-30"
                 label="Vis utvalgte operatører"
                 items={authorities}
                 selectedItems={selectedAuthorities}
