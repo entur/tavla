@@ -1,8 +1,8 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { TLinesFragment } from 'graphql/index'
 import { useCallback, useState } from 'react'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { removeDuplicates } from './removeDuplicatesMultiSelect'
+import { TLineFragment } from '../../SelectLines/types'
 
 function getWhitelistedAuthorities(tile: TStopPlaceTile | TQuayTile) {
     return (
@@ -18,7 +18,7 @@ function getWhitelistedAuthorities(tile: TStopPlaceTile | TQuayTile) {
 
 function useAuthoritiesSearch(
     tile: TStopPlaceTile | TQuayTile,
-    lines: TLinesFragment['lines'],
+    lines: TLineFragment[],
 ) {
     const [selectedAuthorities, setSelectedAuthorities] = useState(
         getWhitelistedAuthorities(tile),

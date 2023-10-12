@@ -1,17 +1,17 @@
-import { TLinesFragment } from 'graphql/index'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { MultiSelect, NormalizedDropdownItemType } from '@entur/dropdown'
 import { useAuthoritiesSearch } from './utils/useAuthoritiesSearch'
 import { useEditSettingsDispatch } from '../../utils/contexts'
 import { TAuthority } from 'types/graphql-schema'
 import { Heading4, SubParagraph } from '@entur/typography'
+import { TLineFragment } from '../SelectLines/types'
 
 function SelectAuthorities({
     tile,
     lines,
 }: {
     tile: TStopPlaceTile | TQuayTile
-    lines: TLinesFragment['lines']
+    lines: TLineFragment[]
 }) {
     const dispatch = useEditSettingsDispatch()
     const { authorities, selectedAuthorities, setSelectedAuthorities } =
