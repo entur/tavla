@@ -27,7 +27,7 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
 
             await dispatch(
                 { type: 'deleteBoard', bid: board.id },
-                '/api/boards',
+                '/api/board',
                 { bid: board.id },
                 {
                     method: 'DELETE',
