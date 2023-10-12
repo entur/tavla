@@ -22,7 +22,6 @@ function DeleteBoard({ board }: { board: TBoard }) {
             await deleteBoard(board.id as TBoardID)
             router.push('/edit/boards')
         } catch (error) {
-            console.log(error)
             addToast({
                 title: 'Noe gikk galt',
                 content: 'Kunne ikke slette tavle',
@@ -40,7 +39,7 @@ function DeleteBoard({ board }: { board: TBoard }) {
                 board={board}
                 isOpen={showModal}
                 closeModal={closeModal}
-                onDelete={removeBoard}
+                deleteHandler={removeBoard}
             />
         </>
     )

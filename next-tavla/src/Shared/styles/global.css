@@ -39,12 +39,20 @@ h3 {
     justify-items: center;
 }
 
+.justifyStart {
+    justify-content: flex-start;
+}
+
 .justifyAround {
     justify-content: space-around;
 }
 
 .justifyBetween {
     justify-content: space-between;
+}
+
+.selfStretch {
+    align-self: stretch;
 }
 
 .flexRow {

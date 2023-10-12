@@ -50,7 +50,7 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
                 board={board}
                 isOpen={showModal}
                 closeModal={closeModal}
-                onDelete={deleteBoardHandler}
+                deleteHandler={deleteBoardHandler}
             />
         </>
     )
