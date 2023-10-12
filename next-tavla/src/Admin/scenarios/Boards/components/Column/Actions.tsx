@@ -7,7 +7,7 @@ import { useLink } from '../../hooks/useLink'
 import { useToast } from '@entur/alert'
 import classes from './styles.module.css'
 import { SortableColumn } from './SortableColumn'
-import { DeleteBoardButton as Delete } from './Delete'
+import { Delete } from './Delete'
 
 function Actions({ board }: { board: TBoard }) {
     const link = useLink(board.id)

@@ -9,7 +9,7 @@ import { TavlaError } from 'Admin/types/error'
 import { DeleteModal } from 'Admin/components/DeleteModal'
 import { Tooltip } from '@entur/tooltip'
 
-function DeleteBoardButton({ board }: { board: TBoard }) {
+function Delete({ board }: { board: TBoard }) {
     const dispatch = useBoardsSettingsDispatch()
     const [showModal, openModal, closeModal] = useToggle()
 
@@ -56,4 +56,4 @@ function DeleteBoardButton({ board }: { board: TBoard }) {
     )
 }
 
-export { DeleteBoardButton }
+export { Delete }

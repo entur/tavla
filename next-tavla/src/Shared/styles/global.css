@@ -51,10 +51,6 @@ h3 {
     justify-content: space-between;
 }
 
-.selfStretch {
-    align-self: stretch;
-}
-
 .flexRow {
     display: flex;
     flex-direction: row;
