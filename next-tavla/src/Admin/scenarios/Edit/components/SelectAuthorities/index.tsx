@@ -17,7 +17,7 @@ function SelectAuthorities({
     const { authorities, selectedAuthorities, setSelectedAuthorities } =
         useAuthoritiesSearch(tile, lines)
 
-    function setAuthorities(newAuthorities: NormalizedDropdownItemType[]) {
+    const setAuthorities = (newAuthorities: NormalizedDropdownItemType[]) => {
         setSelectedAuthorities(newAuthorities)
         dispatch({
             type: 'setAuthorities',
