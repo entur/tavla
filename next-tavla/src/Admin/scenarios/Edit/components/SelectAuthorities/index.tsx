@@ -6,6 +6,7 @@ import { useEditSettingsDispatch } from '../../utils/contexts'
 import { TAuthority } from 'types/graphql-schema'
 import { Heading4, SubParagraph } from '@entur/typography'
 import classes from './styles.module.css'
+
 function SelectAuthorities({
     tile,
     lines,
