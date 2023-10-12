@@ -1,7 +1,7 @@
 import { TLinesFragment } from 'graphql/index'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { MultiSelect, NormalizedDropdownItemType } from '@entur/dropdown'
-import { useAuthoritiesSearch } from './useAuthoritiesSearch'
+import { useAuthoritiesSearch } from './utils/useAuthoritiesSearch'
 import { useEditSettingsDispatch } from '../../utils/contexts'
 import { TAuthority } from 'types/graphql-schema'
 import { Heading4, SubParagraph } from '@entur/typography'

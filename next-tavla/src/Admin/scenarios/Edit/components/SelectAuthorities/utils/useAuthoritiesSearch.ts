@@ -2,16 +2,7 @@ import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { TLinesFragment } from 'graphql/index'
 import { useCallback, useState } from 'react'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
-
-function removeDuplicates(data: NormalizedDropdownItemType[]) {
-    const unique: NormalizedDropdownItemType[] = []
-    data.forEach((item) => {
-        if (!unique.some((uniqueItem) => uniqueItem.label === item.label)) {
-            unique.push(item)
-        }
-    })
-    return unique
-}
+import { removeDuplicates } from './removeDuplicatesMultiSelect'
 
 function getWhitelistedAuthorities(tile: TStopPlaceTile | TQuayTile) {
     return tile.whitelistedAuthorities
