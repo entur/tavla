@@ -2,9 +2,8 @@ import { TBoard } from 'types/settings'
 import { useReducer } from 'react'
 import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
-import { PrimaryButton, SecondaryButton } from '@entur/button'
-import { useAutoSaveSettings } from './hooks/useAutoSaveSettings'
-import { CopyIcon, SaveIcon } from '@entur/icons'
+import { SecondaryButton } from '@entur/button'
+import { CopyIcon } from '@entur/icons'
 import { SecondaryLink } from 'components/SecondaryLink'
 import { useToast } from '@entur/alert'
 import { boardReducer } from './utils/reducer'
@@ -27,8 +26,6 @@ function Edit({
 
     const linkUrl = window.location.host + '/' + documentId
 
-    const saveSettings = useAutoSaveSettings(board)
-
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
@@ -49,10 +46,6 @@ function Edit({
                             href={'/' + documentId}
                             text="Se Tavla"
                         />
-                        <PrimaryButton onClick={saveSettings}>
-                            Lagre tavla
-                            <SaveIcon />
-                        </PrimaryButton>
                         <DeleteBoard board={board} />
                     </div>
                 </div>
