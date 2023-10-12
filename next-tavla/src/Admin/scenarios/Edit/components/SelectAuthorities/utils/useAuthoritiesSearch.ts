@@ -5,15 +5,15 @@ import { TQuayTile, TStopPlaceTile } from 'types/tile'
 import { removeDuplicates } from './removeDuplicatesMultiSelect'
 
 function getWhitelistedAuthorities(tile: TStopPlaceTile | TQuayTile) {
-    return tile.whitelistedAuthorities
-        ? tile.whitelistedAuthorities.map(
-              (authority) =>
-                  ({
-                      value: authority.id,
-                      label: authority.name,
-                  } as NormalizedDropdownItemType),
-          )
-        : []
+    return (
+        tile.whitelistedAuthorities?.map(
+            (authority) =>
+                ({
+                    value: authority.id,
+                    label: authority.name,
+                } as NormalizedDropdownItemType),
+        ) ?? []
+    )
 }
 
 function useAuthoritiesSearch(
