@@ -33,7 +33,7 @@ function SelectAuthorities({
     }
 
     return (
-        <div>
+        <div className="mb-3">
             <Heading4>Operatører</Heading4>
             <SubParagraph>
                 Her kan du velge hvilke operatører som skal vises i Tavlen.

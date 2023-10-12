@@ -35,10 +35,8 @@ function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
                 <Heading3 className="m-0">{tile.name}</Heading3>
             </div>
             <Preview tile={tile} departures={departures} />
-            <div className="flexRow justifyBetween mb-3">
-                <SelectAuthorities tile={tile} lines={lines} />
-                <ToggleColumns tile={tile} />
-            </div>
+            <ToggleColumns tile={tile} />
+            <SelectAuthorities tile={tile} lines={lines} />
             <SelectLines tile={tile} lines={lines} />
         </div>
     )
