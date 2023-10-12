@@ -53,7 +53,7 @@ function Edit({
                             Lagre tavla
                             <SaveIcon />
                         </PrimaryButton>
-                        <DeleteBoard bid={board.id} />
+                        <DeleteBoard board={board} />
                     </div>
                 </div>
                 <BoardSettings board={board} />

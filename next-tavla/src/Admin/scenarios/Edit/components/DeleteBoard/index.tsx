@@ -1,28 +1,25 @@
 import { useToggle } from 'hooks/useToggle'
-import classes from './styles.module.css'
-import { TBoardID } from 'types/settings'
-import { Modal } from '@entur/modal'
-import { Paragraph } from '@entur/typography'
-import { PrimaryButton, SecondaryButton } from '@entur/button'
+import { PrimaryButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { deleteBoard } from 'Admin/scenarios/Boards/utils/delete'
 import { TavlaError } from 'Admin/types/error'
 import { useToast } from '@entur/alert'
 import { useRouter } from 'next/router'
+import { DeleteModal } from 'Admin/components/DeleteModal'
+import { TBoard, TBoardID } from 'types/settings'
 
-function DeleteBoard({ bid }: { bid?: TBoardID }) {
-    const [isOpen, openModal, closeModal] = useToggle()
+function DeleteBoard({ board }: { board: TBoard }) {
+    const [showModal, openModal, closeModal] = useToggle()
     const { addToast } = useToast()
     const router = useRouter()
-
     const removeBoard = async () => {
         try {
-            if (!bid)
+            if (!board.id)
                 throw new TavlaError({
                     code: 'NOT_FOUND',
                     message: 'Board not found',
                 })
-            await deleteBoard(bid)
+            await deleteBoard(board.id as TBoardID)
             router.push('/edit/boards')
         } catch (error) {
             addToast({
@@ -38,25 +35,12 @@ function DeleteBoard({ bid }: { bid?: TBoardID }) {
                 Slett tavle
                 <DeleteIcon />
             </PrimaryButton>
-            <Modal
-                open={isOpen}
-                onDismiss={closeModal}
-                size="small"
-                align="center"
-                title="Slett tavle"
-            >
-                <Paragraph>
-                    Er du sikker på at du vil slette denne tavlen?
-                </Paragraph>
-                <div className={classes.deleteModal}>
-                    <SecondaryButton onClick={closeModal}>
-                        Avbryt
-                    </SecondaryButton>
-                    <PrimaryButton onClick={removeBoard}>
-                        Ja, slett
-                    </PrimaryButton>
-                </div>
-            </Modal>
+            <DeleteModal
+                board={board}
+                isOpen={showModal}
+                closeModal={closeModal}
+                deleteHandler={removeBoard}
+            />
         </>
     )
 }
