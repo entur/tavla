@@ -1,5 +1,6 @@
 .tagsFilterPopover {
     max-width: 20rem;
+    display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
 }
