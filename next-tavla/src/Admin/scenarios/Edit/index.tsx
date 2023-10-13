@@ -13,6 +13,7 @@ import { DeleteBoard } from './components/DeleteBoard'
 import { TilesOverview } from './components/TilesOverview'
 import { Heading1 } from '@entur/typography'
 import { BoardSettings } from './components/BoardSettings'
+import { AutoSave } from './components/AutoSave'
 
 function Edit({
     initialBoard,
@@ -49,6 +50,7 @@ function Edit({
                         <DeleteBoard board={board} />
                     </div>
                 </div>
+                <AutoSave board={board} />
                 <BoardSettings board={board} />
                 <AddTile />
                 <TilesOverview tiles={board.tiles} />
