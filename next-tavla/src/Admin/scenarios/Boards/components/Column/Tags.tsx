@@ -49,7 +49,7 @@ function Tags({ board }: { board: TBoard }) {
 
     const hiddenTags = hiddenNumber > 0 && (
         <Tooltip
-            placement={'bottom'}
+            placement="bottom"
             content={<TagList tags={tags.slice(displayNumber)} />}
         >
             <Badge
