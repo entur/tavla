@@ -7,15 +7,9 @@ import { useBoardsSettings } from '../../utils/context'
 import { sortArrayByOverlap } from '../../utils/sortArrayByOverlap'
 import { Tooltip } from '@entur/tooltip'
 import { TTag } from 'types/meta'
-import { ReactElement } from 'react'
+import { ReactNode } from 'react'
 
-function TagList({
-    tags,
-    tagsTooltip,
-}: {
-    tags: TTag[]
-    tagsTooltip?: ReactElement
-}) {
+function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     return (
         <div className="flexRow flexWrap g-1 alignCenter">
             {tags.map((tag) => (
@@ -31,7 +25,7 @@ function TagList({
                     {tag}
                 </Badge>
             ))}
-            {tagsTooltip}
+            {children}
         </div>
     )
 }
@@ -47,25 +41,25 @@ function Tags({ board }: { board: TBoard }) {
         tags = sortArrayByOverlap(tags, filterTags)
     }
 
-    const hiddenTags = hiddenNumber > 0 && (
-        <Tooltip
-            placement="bottom"
-            content={<TagList tags={tags.slice(displayNumber)} />}
-        >
-            <Badge
-                style={{ cursor: 'help' }}
-                variant="neutral"
-            >{`+ ${hiddenNumber} til`}</Badge>
-        </Tooltip>
-    )
     return (
         <SortableColumn column="tags">
             <div className="flexRow w-100 g-1">
                 <TagModal board={board} />
-                <TagList
-                    tags={tags.slice(0, displayNumber)}
-                    tagsTooltip={hiddenTags || undefined}
-                />
+                <TagList tags={tags.slice(0, displayNumber)}>
+                    {hiddenNumber > 0 && (
+                        <Tooltip
+                            placement="bottom"
+                            content={
+                                <TagList tags={tags.slice(displayNumber)} />
+                            }
+                        >
+                            <Badge
+                                style={{ cursor: 'help' }}
+                                variant="neutral"
+                            >{`+ ${hiddenNumber} til`}</Badge>
+                        </Tooltip>
+                    )}
+                </TagList>
             </div>
         </SortableColumn>
     )
