@@ -1,7 +1,9 @@
 import { TavlaError } from 'Admin/types/error'
 import admin, { auth, firestore } from 'firebase-admin'
-import { concat, isEmpty } from 'lodash'
+import { chunk, concat, isEmpty } from 'lodash'
 import { TBoard, TBoardID, TOrganization, TUser, TUserID } from 'types/settings'
+
+const FIREBASE_IN_OPERATOR_LIMIT = 30
 
 initializeAdminApp()
 
@@ -44,14 +46,22 @@ export async function getBoardsForUser(uid: TUserID) {
 
     if (isEmpty(boardIDs)) return []
 
-    const boardRefs = await firestore()
-        .collection('boards')
-        .where(firestore.FieldPath.documentId(), 'in', boardIDs)
-        .get()
-    const boards = boardRefs.docs.map(
-        (doc) => ({ id: doc.id, ...doc.data() } as TBoard),
+    const batchedBoardIDs = chunk(boardIDs, FIREBASE_IN_OPERATOR_LIMIT)
+
+    const boardQueries = batchedBoardIDs.map((batch) =>
+        firestore()
+            .collection('boards')
+            .where(firestore.FieldPath.documentId(), 'in', batch)
+            .get(),
     )
-    return boards
+
+    const boardRefs = await Promise.all(boardQueries)
+
+    return boardRefs
+        .map((ref) =>
+            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TBoard)),
+        )
+        .flat()
 }
 
 export async function setBoard(board: TBoard, uid: TUserID) {
