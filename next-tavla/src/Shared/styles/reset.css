@@ -7,7 +7,8 @@
 
 body,
 h3,
-h4 {
+h4,
+h5 {
     padding: 0;
     margin: 0;
     overflow-x: unset;
@@ -30,6 +31,10 @@ a.eds-button {
 
 a.eds-button > .eds-icon {
     top: 0;
+}
+
+.eds-h5 {
+    margin: 0;
 }
 
 .eds-contrast .eds-dropdown__selected-items-and-input .eds-chip {
