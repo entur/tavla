@@ -23,7 +23,7 @@ function AddExistingTag({
     const suggestedTags = difference(allTags, boardTags)
 
     return (
-        <>
+        <div className="flexColumn g-1">
             <Heading3>Legg til eksisterende merkelapp</Heading3>
             <div className="flexRow flexWrap g-1">
                 {suggestedTags.map((tag) => (
@@ -36,7 +36,7 @@ function AddExistingTag({
                     </ActionChip>
                 ))}
             </div>
-        </>
+        </div>
     )
 }
 
