@@ -1,8 +1,8 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useState } from 'react'
 import { TQuayTile, TStopPlaceTile } from 'types/tile'
-import { removeDuplicates } from './removeDuplicatesMultiSelect'
 import { TLineFragment } from '../../SelectLines/types'
+import { uniqBy } from 'lodash'
 
 function getWhitelistedAuthorities(tile: TStopPlaceTile | TQuayTile) {
     return (
@@ -23,13 +23,14 @@ function useAuthoritiesSearch(
     const [selectedAuthorities, setSelectedAuthorities] = useState(
         getWhitelistedAuthorities(tile),
     )
-    const authoritiesList = removeDuplicates(
+    const authoritiesList = uniqBy(
         lines.map((line) => {
             return {
                 value: line.authority?.id || '',
                 label: line.authority?.name || '',
             } as NormalizedDropdownItemType
         }),
+        'value',
     )
 
     const authorities = useCallback(() => authoritiesList, [authoritiesList])
