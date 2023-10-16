@@ -1,7 +1,7 @@
 import { TTag } from 'types/meta'
 import { Modal } from '@entur/modal'
 import { AddNewTag } from './AddNewTag'
-import { useOptimisticBoardsSettingsDispatch } from '../../utils/context'
+import { useOptimisticSetBoard } from '../../utils/context'
 import { TBoard } from 'types/settings'
 import { uniq } from 'lodash'
 import { Tooltip } from '@entur/tooltip'
@@ -16,7 +16,7 @@ function TagModal({ board }: { board: TBoard }) {
 
     const [modalIsOpen, openModal, closeModal] = useToggle()
 
-    const dispatch = useOptimisticBoardsSettingsDispatch()
+    const dispatch = useOptimisticSetBoard()
 
     const setBoardWithNewTags = (newTags: TTag[]) => {
         const newBoard = {
@@ -27,14 +27,7 @@ function TagModal({ board }: { board: TBoard }) {
                 dateModified: Date.now(),
             },
         }
-        dispatch(
-            { type: 'setBoard', board: newBoard },
-            '/api/board',
-            { board: newBoard },
-            {
-                method: 'PUT',
-            },
-        )
+        dispatch(newBoard)
     }
 
     const removeTag = (tag: TTag) => {
