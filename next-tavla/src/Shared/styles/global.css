@@ -102,3 +102,19 @@ h3 {
 .weight900 {
     font-weight: 900;
 }
+
+.cursorPointer {
+    cursor: pointer;
+}
+
+.cursorHelp {
+    cursor: help;
+}
+
+.cursorGrab {
+    cursor: grab;
+}
+
+.cursorMoce {
+    cursor: move;
+}
