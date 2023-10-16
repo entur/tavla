@@ -2,7 +2,7 @@ import { TBoardsColumn } from 'Admin/types/boards'
 import classes from './styles.module.css'
 import { useSortableColumnAttributes } from '../../hooks/useSortableColumnAttributes'
 
-function SortableColumn({
+function DraggableColumn({
     column,
     children,
 }: {
@@ -23,4 +23,4 @@ function SortableColumn({
     )
 }
 
-export { SortableColumn }
+export { DraggableColumn }

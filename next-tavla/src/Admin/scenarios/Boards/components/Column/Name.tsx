@@ -1,8 +1,8 @@
 import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
-import { SortableColumn } from './SortableColumn'
+import { DraggableColumn } from './DraggableColumn'
 
 function Name({ name = DEFAULT_BOARD_NAME }: { name?: string }) {
-    return <SortableColumn column="name">{name}</SortableColumn>
+    return <DraggableColumn column="name">{name}</DraggableColumn>
 }
 
 export { Name }

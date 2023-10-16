@@ -1,11 +1,11 @@
 import { formatTimestamp } from 'Admin/utils/time'
-import { SortableColumn } from './SortableColumn'
+import { DraggableColumn } from './DraggableColumn'
 
 function LastModified({ timestamp }: { timestamp?: number }) {
     return (
-        <SortableColumn column="lastModified">
+        <DraggableColumn column="lastModified">
             {formatTimestamp(timestamp)}
-        </SortableColumn>
+        </DraggableColumn>
     )
 }
 

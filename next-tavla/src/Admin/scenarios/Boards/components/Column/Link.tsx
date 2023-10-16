@@ -1,9 +1,9 @@
 import { useLink } from '../../hooks/useLink'
-import { SortableColumn } from './SortableColumn'
+import { DraggableColumn } from './DraggableColumn'
 
 function Link({ bid }: { bid?: string }) {
     const link = useLink(bid)
 
-    return <SortableColumn column="url">{link}</SortableColumn>
+    return <DraggableColumn column="url">{link}</DraggableColumn>
 }
 export { Link }
