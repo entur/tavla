@@ -53,10 +53,9 @@ function Tags({ board }: { board: TBoard }) {
                                 <TagList tags={tags.slice(displayNumber)} />
                             }
                         >
-                            <Badge
-                                style={{ cursor: 'help' }}
-                                variant="neutral"
-                            >{`+ ${hiddenNumber} til`}</Badge>
+                            <div className="cursorHelp">
+                                <Badge variant="neutral">{`+ ${hiddenNumber} til`}</Badge>
+                            </div>
                         </Tooltip>
                     )}
                 </TagList>
