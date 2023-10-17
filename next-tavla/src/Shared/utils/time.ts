@@ -1,7 +1,7 @@
 export function getRelativeTimeString(dateString: string) {
     const timeDiff = Date.parse(dateString) - Date.now()
     if (timeDiff < 60_000) return 'Nå'
-    else if (timeDiff < 900_000) return Math.floor(timeDiff / 60_000) + ' min'
+    else if (timeDiff < 600_000) return Math.floor(timeDiff / 60_000) + ' min'
     else return formatDateString(dateString)
 }
 
