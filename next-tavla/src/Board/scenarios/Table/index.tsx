@@ -11,6 +11,7 @@ import { isArray } from 'lodash'
 import { RealTime } from './components/RealTime'
 import { AimedTime } from './components/Time/components/AimedTime'
 import { ExpectedTime } from './components/Time/components/ExpectedTime'
+import { ArrivalTime } from './components/Time/components/ArrivalTime'
 
 function Table({
     departures,
@@ -30,6 +31,7 @@ function Table({
         <div className={classes.table}>
             <DeparturesContext.Provider value={departures}>
                 {columns.includes('aimedTime') && <AimedTime />}
+                {columns.includes('arrivalTime') && <ArrivalTime />}
                 {columns.includes('line') && <Line />}
                 {columns.includes('destination') && <Destination />}
                 {columns.includes('platform') && <Platform />}

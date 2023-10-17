@@ -8,6 +8,7 @@ fragment departure on EstimatedCall {
     }
     aimedDepartureTime
     expectedDepartureTime
+    expectedArrivalTime
     serviceJourney {
         id
         transportMode

@@ -8,6 +8,7 @@ export function upgradeBoard(settings: TBoardVersions): TBoard {
 
 type TColumnBase =
     | 'aimedTime'
+    | 'arrivalTime'
     | 'destination'
     | 'line'
     | 'time'
