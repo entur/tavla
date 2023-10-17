@@ -6,6 +6,7 @@ export type TDepartureFragment = {
     __typename?: 'EstimatedCall'
     aimedDepartureTime: DateTime
     expectedDepartureTime: DateTime
+    expectedArrivalTime: DateTime
     cancellation: boolean
     realtime: boolean
     quay: { __typename?: 'Quay'; publicCode: string | null }
@@ -95,6 +96,7 @@ export type TGetQuayQuery = {
             __typename?: 'EstimatedCall'
             aimedDepartureTime: DateTime
             expectedDepartureTime: DateTime
+            expectedArrivalTime: DateTime
             cancellation: boolean
             realtime: boolean
             quay: { __typename?: 'Quay'; publicCode: string | null }
@@ -206,6 +208,7 @@ export type TStopPlaceQuery = {
             __typename?: 'EstimatedCall'
             aimedDepartureTime: DateTime
             expectedDepartureTime: DateTime
+            expectedArrivalTime: DateTime
             cancellation: boolean
             realtime: boolean
             quay: { __typename?: 'Quay'; publicCode: string | null }
@@ -321,6 +324,7 @@ export const DepartureFragment = new TypedDocumentString(
   }
   aimedDepartureTime
   expectedDepartureTime
+  expectedArrivalTime
   serviceJourney {
     id
     transportMode
@@ -392,6 +396,7 @@ export const GetQuayQuery = new TypedDocumentString(`
   }
   aimedDepartureTime
   expectedDepartureTime
+  expectedArrivalTime
   serviceJourney {
     id
     transportMode
@@ -487,6 +492,7 @@ export const StopPlaceQuery = new TypedDocumentString(`
   }
   aimedDepartureTime
   expectedDepartureTime
+  expectedArrivalTime
   serviceJourney {
     id
     transportMode
