@@ -3,21 +3,11 @@ export function getRelativeTimeString(dateString: string) {
 
     if (timeDiff < 60_000) return 'Nå'
     else if (timeDiff < 600_000) return Math.floor(timeDiff / 60_000) + ' min'
-    else if (!isDateStringToday(dateString))
-        return formatDateString(dateString, true)
     return formatDateString(dateString)
 }
 
-export function formatDateString(dateString: string, date = false) {
-    return Intl.DateTimeFormat('no-NB', {
-        hour12: false,
-        day: date ? '2-digit' : undefined,
-        month: date ? 'short' : undefined,
-        hour: '2-digit',
-        minute: '2-digit',
-    })
-        .format(Date.parse(dateString))
-        .replace(',', '')
+export function formatDateString(dateString: string) {
+    return formatTimeStamp(Date.parse(dateString))
 }
 
 export function formatTimeStamp(timestamp: number) {
@@ -38,6 +28,13 @@ export function formatDate(date: Date) {
             minute: '2-digit',
         })
         .replace(',', '')
+}
+
+export function getDate(dateString: string) {
+    return Intl.DateTimeFormat('no-NB', {
+        month: 'short',
+        day: '2-digit',
+    }).format(Date.parse(dateString))
 }
 
 export function isTimestampToday(timestamp: number) {
