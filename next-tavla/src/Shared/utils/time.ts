@@ -1,16 +1,13 @@
 export function getRelativeTimeString(dateString: string) {
     const timeDiff = Date.parse(dateString) - Date.now()
+
     if (timeDiff < 60_000) return 'Nå'
-    else if (timeDiff < 900_000) return Math.floor(timeDiff / 60_000) + ' min'
-    else return formatDateString(dateString)
+    else if (timeDiff < 600_000) return Math.floor(timeDiff / 60_000) + ' min'
+    return formatDateString(dateString)
 }
 
 export function formatDateString(dateString: string) {
-    return Intl.DateTimeFormat('no-NB', {
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-    }).format(Date.parse(dateString))
+    return formatTimeStamp(Date.parse(dateString))
 }
 
 export function formatTimeStamp(timestamp: number) {
@@ -31,4 +28,23 @@ export function formatDate(date: Date) {
             minute: '2-digit',
         })
         .replace(',', '')
+}
+
+export function getDate(dateString: string) {
+    return Intl.DateTimeFormat('no-NB', {
+        month: 'short',
+        day: '2-digit',
+    }).format(Date.parse(dateString))
+}
+
+export function isTimestampToday(timestamp: number) {
+    const today = new Date().setHours(0, 0, 0, 0)
+    const timestampDay = new Date(timestamp).setHours(0, 0, 0, 0)
+    return today === timestampDay
+}
+
+export function isDateStringToday(dateString: string) {
+    const today = new Date().setHours(0, 0, 0, 0)
+    const timestampDay = new Date(Date.parse(dateString)).setHours(0, 0, 0, 0)
+    return today === timestampDay
 }

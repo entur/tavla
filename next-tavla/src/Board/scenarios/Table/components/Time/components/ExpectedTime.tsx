@@ -1,5 +1,10 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import { formatDateString, getRelativeTimeString } from 'utils/time'
+import {
+    formatDateString,
+    getDate,
+    getRelativeTimeString,
+    isDateStringToday,
+} from 'utils/time'
 import classes from './styles.module.css'
 import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { TableColumn } from '../../TableColumn'
@@ -51,10 +56,20 @@ function Time({
             </>
         )
     }
+
+    const isDepartureToday = isDateStringToday(expectedDepartureTime)
+
     return (
-        <div className="textRight weight600">
-            {getRelativeTimeString(expectedDepartureTime)}
-        </div>
+        <>
+            <div className="textRight weight600">
+                {getRelativeTimeString(expectedDepartureTime)}
+            </div>
+            {!isDepartureToday && (
+                <div className={classes.departureDate}>
+                    {getDate(expectedDepartureTime)}
+                </div>
+            )}
+        </>
     )
 }
 
