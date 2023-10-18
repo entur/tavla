@@ -6,7 +6,7 @@ import { PrimaryButton } from '@entur/button'
 import Link from 'next/link'
 import classes from './styles.module.css'
 import { CreateBoard } from '../CreateBoard'
-import { UserIcon } from '@entur/icons'
+import { OrganizationIcon, UserIcon } from '@entur/icons'
 
 function AdminHeader({ loggedIn }: { loggedIn: boolean }) {
     return (
@@ -28,6 +28,10 @@ function AdminHeader({ loggedIn }: { loggedIn: boolean }) {
                             <UserIcon />
                             Mine Tavler
                         </PrimaryButton>
+                            <PrimaryButton as={Link} href="/edit/organizations">
+                                <OrganizationIcon />
+                                Organisasjoner
+                            </PrimaryButton>
                     </>
                 )}
                 <Login loggedIn={loggedIn} />
