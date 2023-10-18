@@ -28,4 +28,14 @@
     --table-transport-trolleybus-color: var(--colors-transport-contrast-bus);
     --table-transport-unknown-color: var(--colors-transport-contrast-walk);
     --table-transport-water-color: var(--colors-transport-contrast-ferry);
+
+    /* Datq visualizer colors */
+    --data-blue-color: 100, 102, 170;
+    --data-coral-color: 255, 89, 89;
+    --data-jungle-color: 15, 194, 179;
+    --data-azure-color: 100, 178, 251;
+    --data-lavender-color: 74, 183, 226;
+    --data-peach-color: 255, 191, 158;
+    --data-spring-color: 123, 192, 11;
+    --data-lilac-color: 234, 139, 234;
 }

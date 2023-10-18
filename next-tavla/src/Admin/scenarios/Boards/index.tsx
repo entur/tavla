@@ -36,13 +36,15 @@ import {
     restrictToHorizontalAxis,
     restrictToWindowEdges,
 } from '@dnd-kit/modifiers'
+import { FilterButton } from './components/FilterButton'
 
 function Boards({ boards }: { boards: TBoard[] }) {
     const [settings, dispatch] = useReducer(settingsReducer, {
         search: '',
         sort: { type: 'descending', column: 'lastModified' },
-        columns: ['name', 'url', 'actions', 'lastModified'],
+        columns: ['name', 'url', 'tags', 'actions', 'lastModified'],
         boards: boards,
+        filterTags: [],
     })
 
     return (
@@ -54,6 +56,7 @@ function Boards({ boards }: { boards: TBoard[] }) {
                     </div>
                     <div className={classes.actionRow}>
                         <Search />
+                        <FilterButton />
                         <ToggleBoardsColumns />
                     </div>
                     <BoardTable />

@@ -28,4 +28,14 @@
     --table-transport-trolleybus-color: var(--colors-transport-default-bus);
     --table-transport-unknown-color: var(--colors-transport-default-walk);
     --table-transport-water-color: var(--colors-transport-default-ferry);
+
+    /* Data visualizer colors */
+    --data-blue-color: 24, 28, 86;
+    --data-coral-color: 255, 89, 89;
+    --data-jungle-color: 14, 162, 168;
+    --data-azure-color: 47, 152, 250;
+    --data-lavender-color: 134, 146, 202;
+    --data-peach-color: 202, 130, 91;
+    --data-spring-color: 87, 162, 87;
+    --data-lilac-color: 142, 87, 227;
 }

@@ -18,8 +18,8 @@ export function useSortableColumnAttributes(column: string) {
     const style = {
         transform: CSS.Translate.toString(transform),
         transition: transition,
-        zIndex: thisColumnActive ? 10 : 0,
-        opacity: otherColumnActive ? 0.5 : 1,
+        zIndex: thisColumnActive ? 10 : undefined,
+        opacity: otherColumnActive ? 0.5 : undefined,
         ...activeStyle,
     }
 

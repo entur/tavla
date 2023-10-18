@@ -37,7 +37,6 @@ export default async function handler(
             default:
                 throw new Error('Method not allowed')
         }
-
         return response.status(200).json({})
     } catch (e) {
         if (e instanceof Error) {
