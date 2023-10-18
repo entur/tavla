@@ -1,5 +1,4 @@
 import { TBoard } from 'types/settings'
-import { SortableColumn } from './SortableColumn'
 import { Badge } from '@entur/layout'
 import { colorsFromHash } from '../../utils/colorsFromHash'
 import { TagModal } from '../TagModal'
@@ -8,6 +7,7 @@ import { sortArrayByOverlap } from '../../utils/sortArrayByOverlap'
 import { Tooltip } from '@entur/tooltip'
 import { TTag } from 'types/meta'
 import { ReactNode } from 'react'
+import { DraggableColumn } from './DraggableColumn'
 
 function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     return (
@@ -42,7 +42,7 @@ function Tags({ board }: { board: TBoard }) {
     }
 
     return (
-        <SortableColumn column="tags">
+        <DraggableColumn column="tags">
             <div className="flexRow w-100 g-1">
                 <TagModal board={board} />
                 <TagList tags={tags.slice(0, displayNumber)}>
@@ -60,7 +60,7 @@ function Tags({ board }: { board: TBoard }) {
                     )}
                 </TagList>
             </div>
-        </SortableColumn>
+        </DraggableColumn>
     )
 }
 
