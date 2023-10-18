@@ -6,20 +6,20 @@ import { TBoard } from 'types/settings'
 import { useLink } from '../../hooks/useLink'
 import { useToast } from '@entur/alert'
 import classes from './styles.module.css'
-import { SortableColumn } from './SortableColumn'
+import { DraggableColumn } from './DraggableColumn'
 import { Delete } from './Delete'
 
 function Actions({ board }: { board: TBoard }) {
     const link = useLink(board.id)
     return (
-        <SortableColumn column="actions">
+        <DraggableColumn column="actions">
             <div className={classes.actions}>
                 <Edit bid={board.id} />
                 <Copy link={link} />
                 <Open link={link} />
                 <Delete board={board} />
             </div>
-        </SortableColumn>
+        </DraggableColumn>
     )
 }
 
