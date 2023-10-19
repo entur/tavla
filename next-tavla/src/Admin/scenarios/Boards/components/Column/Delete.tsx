@@ -7,6 +7,7 @@ import { Tooltip } from '@entur/tooltip'
 import { useBoardsSettingsDispatch } from '../../utils/context'
 import { TavlaError } from 'Admin/types/error'
 import { useToast } from '@entur/alert'
+import { fetchDeleteBoard } from 'Admin/utils/fetch'
 
 function Delete({ board }: { board: TBoard }) {
     const dispatch = useBoardsSettingsDispatch()
@@ -22,16 +23,7 @@ function Delete({ board }: { board: TBoard }) {
                     message: 'Board ID is undefined',
                 })
 
-            const deleteReq = await fetch('/api/board', {
-                body: JSON.stringify({ bid: board.id }),
-                method: 'DELETE',
-            })
-
-            if (deleteReq.status !== 200)
-                throw new TavlaError({
-                    code: 'BOARD',
-                    message: 'Could not delete board!',
-                })
+            await fetchDeleteBoard(board.id)
 
             dispatch({ type: 'deleteBoard', bid: board.id })
             addToast({
