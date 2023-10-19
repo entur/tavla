@@ -1,4 +1,4 @@
 function Organizations() {
-    return <></>
+    return <div>Organisasjoner</div>
 }
 export { Organizations }
