@@ -10,12 +10,12 @@ function ColumnHeader({ column }: { column: TBoardsColumn }) {
     const { attributes, listeners, setNodeRef, style } =
         useSortableColumnAttributes(column)
 
-    const settings = useBoardsSettings()
+    const { sort } = useBoardsSettings()
 
     let ariaSort: TSort = 'none'
 
-    if (settings.sort.column === column) {
-        ariaSort = settings.sort.type
+    if (sort.column === column) {
+        ariaSort = sort.type
     }
 
     return (
