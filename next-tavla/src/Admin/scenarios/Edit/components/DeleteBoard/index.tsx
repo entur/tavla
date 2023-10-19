@@ -6,7 +6,7 @@ import { useToast } from '@entur/alert'
 import { useRouter } from 'next/router'
 import { DeleteModal } from 'Admin/components/DeleteModal'
 import { TBoard, TBoardID } from 'types/settings'
-import { deleteBoardRequest } from '../../utils/delete'
+import { fetchDeleteBoard } from 'Admin/utils/fetch'
 
 function DeleteBoard({ board }: { board: TBoard }) {
     const [showModal, openModal, closeModal] = useToggle()
@@ -20,7 +20,7 @@ function DeleteBoard({ board }: { board: TBoard }) {
                     code: 'NOT_FOUND',
                     message: 'Board not found',
                 })
-            await deleteBoardRequest(board.id as TBoardID)
+            await fetchDeleteBoard(board.id as TBoardID)
             router.push('/edit/boards')
         } catch (error) {
             addToast({
