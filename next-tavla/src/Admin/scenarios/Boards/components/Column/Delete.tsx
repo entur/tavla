@@ -14,6 +14,7 @@ function Delete({ board }: { board: TBoard }) {
     const [showModal, openModal, closeModal] = useToggle()
 
     const deleteBoardHandler = async () => {
+        closeModal()
         try {
             if (!board.id)
                 throw new TavlaError({
@@ -21,12 +22,10 @@ function Delete({ board }: { board: TBoard }) {
                     message: 'Board ID is undefined',
                 })
 
-            const deleteReq = await fetch('api/board', {
+            const deleteReq = await fetch('/api/board', {
                 body: JSON.stringify({ bid: board.id }),
                 method: 'DELETE',
             })
-
-            closeModal()
 
             if (deleteReq.status !== 200)
                 throw new TavlaError({
