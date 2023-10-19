@@ -1,1 +1,1 @@
-export type Feature = 'LOGIN' | 'BOARDS'
+export type Feature = 'LOGIN' | 'BOARDS' | 'ORGANIZATIONS'
