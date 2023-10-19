@@ -12,6 +12,7 @@ function DeleteBoard({ board }: { board: TBoard }) {
     const [showModal, openModal, closeModal] = useToggle()
     const { addToast } = useToast()
     const router = useRouter()
+
     const removeBoard = async () => {
         try {
             if (!board.id)
@@ -29,6 +30,7 @@ function DeleteBoard({ board }: { board: TBoard }) {
             })
         }
     }
+
     return (
         <>
             <PrimaryButton onClick={openModal}>

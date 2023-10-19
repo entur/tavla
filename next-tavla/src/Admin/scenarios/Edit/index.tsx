@@ -13,7 +13,8 @@ import { DeleteBoard } from './components/DeleteBoard'
 import { TilesOverview } from './components/TilesOverview'
 import { Heading1 } from '@entur/typography'
 import { BoardSettings } from './components/BoardSettings'
-import { AutoSave } from './components/AutoSave'
+import { useAutoSaveBoard } from './hooks/useAutoSaveBoard'
+import { SaveStatus } from './components/SaveStatus'
 
 function Edit({
     initialBoard,
@@ -26,6 +27,8 @@ function Edit({
     const { addToast } = useToast()
 
     const linkUrl = window.location.host + '/' + documentId
+
+    useAutoSaveBoard(board)
 
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
@@ -50,7 +53,7 @@ function Edit({
                         <DeleteBoard board={board} />
                     </div>
                 </div>
-                <AutoSave board={board} />
+                <SaveStatus board={board} />
                 <BoardSettings board={board} />
                 <AddTile />
                 <TilesOverview tiles={board.tiles} />

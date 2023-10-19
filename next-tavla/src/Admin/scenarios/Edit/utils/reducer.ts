@@ -20,21 +20,26 @@ export type Action =
     | { type: 'changeFontSize'; fontSize?: TFontSize }
 
 export function boardReducer(settings: TBoard, action: Action): TBoard {
-    function changeTile<T extends TTile>(
+    const modifiedSettings = {
+        ...settings,
+        meta: { ...settings.meta, dateModified: Date.now() },
+    }
+
+    const changeTile = <T extends TTile>(
         tileId: string,
         changeFunction: (tile: T) => T,
-    ): TBoard {
-        const originalTileIndex = settings.tiles.findIndex(
+    ): TBoard => {
+        const originalTileIndex = modifiedSettings.tiles.findIndex(
             ({ uuid }) => uuid === tileId,
         )
-        const originalTile = settings.tiles[originalTileIndex] as T
+        const originalTile = modifiedSettings.tiles[originalTileIndex] as T
 
         const changedTile = changeFunction(originalTile)
-        const tilesClone = clone(settings.tiles)
+        const tilesClone = clone(modifiedSettings.tiles)
         tilesClone[originalTileIndex] = changedTile
 
         return {
-            ...settings,
+            ...modifiedSettings,
             tiles: tilesClone,
         }
     }
@@ -43,23 +48,23 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
         // Title operations
         case 'setTitle':
             return {
-                ...settings,
+                ...modifiedSettings,
                 meta: {
-                    ...settings.meta,
+                    ...modifiedSettings.meta,
                     title: action.title,
                 },
             }
 
         // Theme operations
         case 'changeTheme': {
-            return { ...settings, theme: action.theme }
+            return { ...modifiedSettings, theme: action.theme }
         }
         // Fontsize operations
         case 'changeFontSize': {
             return {
-                ...settings,
+                ...modifiedSettings,
                 meta: {
-                    ...settings.meta,
+                    ...modifiedSettings.meta,
                     fontSize: action.fontSize,
                 },
             }
@@ -67,9 +72,9 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
         // Tile operations
         case 'addTile': {
             return {
-                ...settings,
+                ...modifiedSettings,
                 tiles: [
-                    ...settings.tiles,
+                    ...modifiedSettings.tiles,
                     {
                         ...action.tile,
                         uuid: nanoid(),
@@ -80,16 +85,16 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
         }
         case 'removeTile': {
             return {
-                ...settings,
-                tiles: settings.tiles.filter(
+                ...modifiedSettings,
+                tiles: modifiedSettings.tiles.filter(
                     ({ uuid }) => uuid !== action.tileId,
                 ),
             }
         }
         case 'setTile': {
             return {
-                ...settings,
-                tiles: settings.tiles.map((tile) => {
+                ...modifiedSettings,
+                tiles: modifiedSettings.tiles.map((tile) => {
                     if (tile.uuid === action.tile.uuid) return action.tile
                     return tile
                 }),
@@ -97,9 +102,9 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
         }
         case 'swapTiles': {
             return {
-                ...settings,
+                ...modifiedSettings,
                 tiles: arrayMove(
-                    settings.tiles,
+                    modifiedSettings.tiles,
                     action.oldIndex,
                     action.newIndex,
                 ),

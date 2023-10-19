@@ -1,7 +1,7 @@
 import { TTag } from 'types/meta'
 import { Modal } from '@entur/modal'
 import { AddNewTag } from './AddNewTag'
-import { useOptimisticSetBoard } from '../../utils/context'
+import { useBoardsSettingsDispatch } from '../../utils/context'
 import { TBoard } from 'types/settings'
 import { uniq } from 'lodash'
 import { Tooltip } from '@entur/tooltip'
@@ -10,24 +10,27 @@ import { ReferenceIcon } from '@entur/icons'
 import { TagChip } from '@entur/chip'
 import { AddExistingTag } from './AddExistingTag'
 import { useToggle } from 'hooks/useToggle'
+import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
 
 function TagModal({ board }: { board: TBoard }) {
     const tags = board.meta?.tags ?? []
 
     const [modalIsOpen, openModal, closeModal] = useToggle()
 
-    const dispatch = useOptimisticSetBoard()
+    const dispatch = useBoardsSettingsDispatch()
 
     const setBoardWithNewTags = (newTags: TTag[]) => {
-        const newBoard = {
-            ...board,
-            meta: {
-                ...board.meta,
-                tags: newTags.sort(),
-                dateModified: Date.now(),
+        dispatch({
+            type: 'setBoard',
+            board: {
+                ...board,
+                meta: {
+                    ...board.meta,
+                    tags: newTags.sort(),
+                    dateModified: Date.now(),
+                },
             },
-        }
-        dispatch(newBoard)
+        })
     }
 
     const removeTag = (tag: TTag) => {
@@ -53,7 +56,7 @@ function TagModal({ board }: { board: TBoard }) {
                 size="medium"
                 open={modalIsOpen}
                 title={`Administrer merkelapper for ${
-                    board.meta?.title ?? 'Tavle uten navn'
+                    board.meta?.title ?? DEFAULT_BOARD_NAME
                 }`}
                 onDismiss={closeModal}
                 closeOnClickOutside
