@@ -28,7 +28,7 @@ function DeleteModal({
                     ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"?`
                     : 'Er du sikker på at du vil slette denne tavlen?'}
             </LeadParagraph>
-            <div className="flexRow justifyAround alignCenter">
+            <div className="flexRow justifyAround alignCenter g-2">
                 <SecondaryButton
                     onClick={closeModal}
                     aria-label="Avbryt sletting"

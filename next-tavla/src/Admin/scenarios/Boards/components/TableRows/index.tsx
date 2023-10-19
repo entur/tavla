@@ -6,6 +6,7 @@ import { Fragment } from 'react'
 import { TBoard } from 'types/settings'
 import { TBoardsColumn } from 'Admin/types/boards'
 import { intersection } from 'lodash'
+import { useAutoSaveBoard } from 'Admin/scenarios/Edit/hooks/useAutoSaveBoard'
 
 function TableRows() {
     const { boards, columns, search, filterTags } = useBoardsSettings()
@@ -26,17 +27,27 @@ function TableRows() {
                 )
                 .sort(sortFunction)
                 .map((board: TBoard) => (
-                    <Fragment key={board.id}>
-                        {columns.map((column: TBoardsColumn) => (
-                            <Column
-                                key={column}
-                                board={board}
-                                column={column}
-                            />
-                        ))}
-                    </Fragment>
+                    <TableRow key={board.id} board={board} columns={columns} />
                 ))}
         </>
+    )
+}
+
+function TableRow({
+    board,
+    columns,
+}: {
+    board: TBoard
+    columns: TBoardsColumn[]
+}) {
+    useAutoSaveBoard(board)
+
+    return (
+        <Fragment key={board.id}>
+            {columns.map((column: TBoardsColumn) => (
+                <Column key={column} board={board} column={column} />
+            ))}
+        </Fragment>
     )
 }
 

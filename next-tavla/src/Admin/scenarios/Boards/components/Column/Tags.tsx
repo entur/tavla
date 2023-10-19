@@ -1,13 +1,12 @@
 import { TBoard } from 'types/settings'
 import { Badge } from '@entur/layout'
-import { colorsFromHash } from '../../utils/colorsFromHash'
 import { TagModal } from '../TagModal'
 import { useBoardsSettings } from '../../utils/context'
-import { sortArrayByOverlap } from '../../utils/sortArrayByOverlap'
 import { Tooltip } from '@entur/tooltip'
 import { TTag } from 'types/meta'
 import { ReactNode } from 'react'
 import { DraggableColumn } from './DraggableColumn'
+import { colorsFromHash, sortArrayByOverlap } from '../../utils'
 
 function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     return (
