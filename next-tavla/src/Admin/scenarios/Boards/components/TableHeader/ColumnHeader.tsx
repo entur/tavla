@@ -3,10 +3,13 @@ import classes from './styles.module.css'
 import { Sort } from '../Sort'
 import { Tooltip } from '@entur/tooltip'
 import { useSortableColumnAttributes } from '../../hooks/useSortableColumnAttributes'
+import { useBoardsSettings } from '../../utils/context'
 
 function ColumnHeader({ column }: { column: TBoardsColumn }) {
     const { attributes, listeners, setNodeRef, style } =
         useSortableColumnAttributes(column)
+
+    const { sort } = useBoardsSettings()
 
     return (
         <div
@@ -21,6 +24,9 @@ function ColumnHeader({ column }: { column: TBoardsColumn }) {
                     {...listeners}
                     id={column}
                     className={classes.title}
+                    aria-sort={
+                        sort.column === column && sort.type ? sort.type : 'none'
+                    }
                 >
                     {BoardsColumns[column]}
                 </div>
