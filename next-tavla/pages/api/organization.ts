@@ -10,13 +10,15 @@ export default async function handler(
 ) {
     const user = await verifyUserSession(request)
 
-    if (!user) return response.redirect('/#login')
+    if (!user) return response.status(401).json({ error: 'Unauthorized' })
     try {
         switch (request.method) {
             case 'POST':
-                const name = JSON.parse(request.body).name as string
-                createOrganization(user.uid, name)
-                return response.status(200).json({ name: name })
+                createOrganization(
+                    user.uid,
+                    JSON.parse(request.body).name as string,
+                )
+                return response.status(200).json({})
             default:
                 throw new Error('Method not allowed')
         }
