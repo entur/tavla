@@ -82,3 +82,17 @@ export async function fetchDeleteBoard(bid: TBoardID) {
         })
     }
 }
+
+export async function fetchPostOrganization(name: string) {
+    const response = await fetch('/api/organization', {
+        method: 'POST',
+        body: JSON.stringify({ name: name }),
+    })
+
+    if (!response.ok) {
+        throw new TavlaError({
+            code: 'ORGANIZATION',
+            message: 'Could not create organization',
+        })
+    }
+}
