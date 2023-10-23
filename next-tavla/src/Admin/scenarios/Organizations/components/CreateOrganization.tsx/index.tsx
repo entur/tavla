@@ -1,3 +1,4 @@
+import { useToast } from '@entur/alert'
 import { PrimaryButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
@@ -12,11 +13,18 @@ function CreateOrganization() {
     const [showModal, openModal, closeModal] = useToggle()
     const [organizationName, setOrganizationName] = useState('')
     const router = useRouter()
+    const { addToast } = useToast()
     const saveOrganization = async () => {
         const req = await createOrganizationRequest(organizationName)
         if (req.status == 200) {
             const organization = await req.json()
             router.push(`/organizations/${organization.oid}`)
+        } else {
+            addToast({
+                title: 'Noe gikk galt',
+                content: 'Kunne ikke opprette organisajon',
+                variant: 'info',
+            })
         }
     }
 
