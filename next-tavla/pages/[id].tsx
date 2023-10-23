@@ -37,7 +37,7 @@ function BoardPage({ board, logo }: { board: TBoard; logo: TLogoUrl }) {
     return (
         <div className={classes.root} data-theme={board.theme ?? 'dark'}>
             <div className={classes.rootContainer}>
-                <Header theme={board.theme} logo={logo} />
+                <Header theme={board.theme} organizationLogo={logo} />
                 <Board board={board} />
                 {logo && <Footer />}
             </div>

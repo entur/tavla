@@ -1,5 +1,5 @@
-import TavlaLogo from 'assets/logos/Tavla-white.svg'
-import TavlaLogoLight from 'assets/logos/Tavla-blue.svg'
+import TavlaLogoWhite from 'assets/logos/Tavla-white.svg'
+import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
 import Image from 'next/image'
 import classes from './styles.module.css'
 import { TLogoUrl, TTheme } from 'types/settings'
@@ -9,32 +9,27 @@ import classNames from 'classnames'
 function Header({
     theme,
     className,
-    logo,
+    organizationLogo,
 }: {
     theme?: TTheme
     className?: string
-    logo?: TLogoUrl
+    organizationLogo?: TLogoUrl
 }) {
+    const tavlaLogo = theme === 'light' ? TavlaLogoBlue : TavlaLogoWhite
+
+    const altImageProps = organizationLogo
+        ? { fill: true }
+        : { height: 55, width: 208 }
+
     return (
         <div className={classNames(classes.headerWrapper, className)}>
-            <div>
-                {theme === 'light' ? (
-                    <Image
-                        src={logo ?? TavlaLogoLight}
-                        alt="Entur Tavla logo"
-                        width={117}
-                        height={20}
-                        className={classes.logo}
-                    />
-                ) : (
-                    <Image
-                        src={logo ?? TavlaLogo}
-                        alt="Entur Tavla logo"
-                        width={117}
-                        height={20}
-                        className={classes.logo}
-                    />
-                )}
+            <div className="positionRelative h-100 w-50">
+                <Image
+                    src={organizationLogo ?? tavlaLogo}
+                    alt="Entur Tavla logo"
+                    {...altImageProps}
+                    className={classes.logo}
+                />
             </div>
             <Clock />
         </div>
