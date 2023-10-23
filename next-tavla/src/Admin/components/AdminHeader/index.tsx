@@ -31,7 +31,7 @@ function AdminHeader({ loggedIn }: { loggedIn: boolean }) {
                             Mine Tavler
                         </PrimaryButton>
                         {ORGANIZATIONS_ENABLED && (
-                            <PrimaryButton as={Link} href="/edit/organizations">
+                            <PrimaryButton as={Link} href="/organizations">
                                 <OrganizationIcon />
                                 Organisasjoner
                             </PrimaryButton>
