@@ -16,7 +16,7 @@ function CreateOrganization() {
         const req = await createOrganizationRequest(organizationName)
         if (req.status == 200) {
             const organization = await req.json()
-            router.push(`/organizations/${organization.oID}`)
+            router.push(`/organizations/${organization.oid}`)
         }
     }
 

@@ -39,13 +39,12 @@ function EditOrganizationPage({
     loggedIn: boolean
     id: string
 }) {
-    console.log(id)
     return (
         <div className={classes.root}>
             <AdminHeader loggedIn={loggedIn} />
             <Contrast>
                 <ToastProvider>
-                    <div></div>
+                    <div>{id}</div>
                 </ToastProvider>
             </Contrast>
         </div>
