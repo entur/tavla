@@ -1,4 +1,4 @@
-import { Situation } from '../Situation'
+import { Situation } from './Situation'
 import { useEffect, useState } from 'react'
 import { TSituationFragment } from 'graphql/index'
 

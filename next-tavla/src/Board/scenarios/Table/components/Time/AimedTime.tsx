@@ -1,8 +1,8 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { formatDateString } from 'utils/time'
 import { DeparturesContext } from 'Board/scenarios/Table/contexts'
-import { TableColumn } from '../../TableColumn'
-import { TableRow } from '../../TableRow'
+import { TableColumn } from '../TableColumn'
+import { TableRow } from '../TableRow'
 
 function AimedTime() {
     const departures = useNonNullContext(DeparturesContext)

@@ -7,8 +7,8 @@ import {
 } from 'utils/time'
 import classes from './styles.module.css'
 import { DeparturesContext } from 'Board/scenarios/Table/contexts'
-import { TableColumn } from '../../TableColumn'
-import { TableRow } from '../../TableRow'
+import { TableColumn } from '../TableColumn'
+import { TableRow } from '../TableRow'
 
 function ExpectedTime() {
     const departures = useNonNullContext(DeparturesContext)
