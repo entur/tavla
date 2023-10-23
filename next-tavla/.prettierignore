@@ -2,4 +2,6 @@
 .yarn
 .db
 
+next.config.js
+
 graphql-tools/
