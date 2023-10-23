@@ -126,3 +126,23 @@ h3 {
 .cursorMove {
     cursor: move;
 }
+
+.positionRelative {
+    position: relative;
+}
+
+.positionAbsolute {
+    position: absolute;
+}
+
+.positionFixed {
+    position: fixed;
+}
+
+.positionStatic {
+    position: static;
+}
+
+.positionSticky {
+    position: sticky;
+}
