@@ -16,16 +16,14 @@ function CreateOrganization() {
     const { addToast } = useToast()
     const saveOrganization = async () => {
         const req = await createOrganizationRequest(organizationName)
-        if (req.status == 200) {
-            const organization = await req.json()
-            router.push(`/organizations/${organization.oid}`)
-        } else {
-            addToast({
+        if (req.status !== 200)
+            return addToast({
                 title: 'Noe gikk galt',
                 content: 'Kunne ikke opprette organisajon',
                 variant: 'info',
             })
-        }
+        const organization = await req.json()
+        router.push(`/organizations/${organization.oid}`)
     }
 
     return (
