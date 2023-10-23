@@ -1,7 +1,7 @@
 import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import { TableColumn } from '../../TableColumn'
-import { TableRow } from '../../TableRow'
+import { TableColumn } from '../TableColumn'
+import { TableRow } from '../TableRow'
 import { formatDateString } from 'utils/time'
 
 function ArrivalTime() {

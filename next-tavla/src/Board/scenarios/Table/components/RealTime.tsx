@@ -1,7 +1,7 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import { DeparturesContext } from '../../contexts'
-import { TableColumn } from '../TableColumn'
-import { TableRow } from '../TableRow'
+import { DeparturesContext } from '../contexts'
+import { TableColumn } from './TableColumn'
+import { TableRow } from './TableRow'
 import { Pulse } from 'components/Pulse'
 
 function RealTime() {

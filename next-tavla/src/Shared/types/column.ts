@@ -6,6 +6,7 @@ export const Columns = {
     platform: 'Plattform',
     time: 'Forventet',
     realtime: 'Sanntid',
+    deviations: 'Avvik',
 } as const
 
 export type TColumn = keyof typeof Columns
