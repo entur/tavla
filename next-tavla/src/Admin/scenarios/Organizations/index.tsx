@@ -1,4 +1,6 @@
+import { CreateOrganization } from './components/CreateOrganization.tsx'
+
 function Organizations() {
-    return <div>Organisasjoner</div>
+    return <CreateOrganization />
 }
 export { Organizations }

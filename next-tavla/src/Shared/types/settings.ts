@@ -16,6 +16,8 @@ export type TUser = {
 }
 
 export type TOrganization = {
+    id?: TOrganizationID
+    name?: string
     owners?: TUserID[]
     editors?: TUserID[]
     boards?: TBoardID[]
@@ -29,3 +31,4 @@ export type TInvite = {
 
 export type TUserID = string
 export type TBoardID = string
+export type TOrganizationID = string

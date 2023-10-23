@@ -178,3 +178,15 @@ export async function getOrganizationWithBoard(bid: TBoardID) {
         .get()
     return ref.docs.map((doc) => doc.data() as TOrganization)[0]
 }
+
+export async function createOrganization(uid: TUserID, name: string) {
+    const organization = await firestore()
+        .collection('organizations')
+        .add({
+            name: name,
+            owners: [uid],
+            editors: [],
+            boards: [],
+        })
+    return organization.id
+}
