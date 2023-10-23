@@ -14,11 +14,11 @@ export default async function handler(
     try {
         switch (request.method) {
             case 'POST':
-                createOrganization(
+                const oID = await createOrganization(
                     user.uid,
                     JSON.parse(request.body).name as string,
                 )
-                return response.status(200).json({})
+                return response.status(200).json({ oID: oID })
             default:
                 throw new Error('Method not allowed')
         }

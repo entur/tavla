@@ -1,4 +1,3 @@
-import { useToast } from '@entur/alert'
 import { PrimaryButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
@@ -6,17 +5,19 @@ import { Modal } from '@entur/modal'
 import { Paragraph } from '@entur/typography'
 import { createOrganizationRequest } from 'Admin/utils/fetch'
 import { useToggle } from 'hooks/useToggle'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 function CreateOrganization() {
     const [showModal, openModal, closeModal] = useToggle()
     const [organizationName, setOrganizationName] = useState('')
-    const { addToast } = useToast()
+    const router = useRouter()
     const saveOrganization = async () => {
-        await createOrganizationRequest(organizationName)
-        setOrganizationName('')
-        closeModal()
-        addToast('Ny organisasjon opprettet')
+        const req = await createOrganizationRequest(organizationName)
+        if (req.status == 200) {
+            const organization = await req.json()
+            router.push(`/organizations/${organization.oID}`)
+        }
     }
 
     return (

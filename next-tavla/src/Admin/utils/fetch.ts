@@ -88,11 +88,11 @@ export async function createOrganizationRequest(name: string) {
         method: 'POST',
         body: JSON.stringify({ name: name }),
     })
-
     if (!response.ok) {
         throw new TavlaError({
             code: 'ORGANIZATION',
             message: 'Could not create organization',
         })
     }
+    return response
 }
