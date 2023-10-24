@@ -204,3 +204,8 @@ export async function createOrganization(uid: TUserID, name: string) {
         })
     return organization.id
 }
+
+export async function getOrganizationLogoWithBoard(bid: TBoardID) {
+    const organization = await getOrganizationWithBoard(bid)
+    return organization?.logo ?? null
+}

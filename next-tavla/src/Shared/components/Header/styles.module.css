@@ -1,7 +1,7 @@
 .logo {
-    height: auto;
-    width: 7em;
-    min-width: 185px;
+    height: 100%;
+    object-fit: contain;
+    object-position: left;
 }
 
 .tagText {

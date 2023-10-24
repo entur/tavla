@@ -126,3 +126,55 @@ h3 {
 .cursorMove {
     cursor: move;
 }
+
+.positionRelative {
+    position: relative;
+}
+
+.positionAbsolute {
+    position: absolute;
+}
+
+.positionFixed {
+    position: fixed;
+}
+
+.positionStatic {
+    position: static;
+}
+
+.positionSticky {
+    position: sticky;
+}
+
+.text-rem-1 {
+    font-size: 0.5rem;
+}
+
+.text-rem-2 {
+    font-size: 1rem;
+}
+
+.text-rem-3 {
+    font-size: 1.5rem;
+}
+
+.text-rem-4 {
+    font-size: 2rem;
+}
+
+.text-em-1 {
+    font-size: 0.5em;
+}
+
+.text-em-2 {
+    font-size: 1em;
+}
+
+.text-em-3 {
+    font-size: 1.5em;
+}
+
+.text-em-4 {
+    font-size: 2em;
+}
