@@ -42,7 +42,6 @@ export function AddStops({
             return
         }
         if (selectedQuays.length !== 0) {
-            console.log('selectedQuays', selectedQuays)
             {
                 selectedQuays.map((quay) => {
                     dispatch({
@@ -70,13 +69,19 @@ export function AddStops({
                 },
             })
         }
-        console.log('board', board)
         setSelectedStopPlace(null)
         setSelectedQuays([])
     }
 
     const handleCreateBoard = async () => {
-        console.log(board)
+        if (!board?.tiles?.length) {
+            addToast({
+                title: 'Ingen holdeplasser er lagt til',
+                content: 'Vennligst legg til holdeplasser',
+                variant: 'info',
+            })
+            return
+        }
         const response = await createBoardRequest(
             board?.tiles ?? [],
             board?.meta?.title ?? '',
