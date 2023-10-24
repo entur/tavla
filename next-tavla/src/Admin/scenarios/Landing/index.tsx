@@ -5,7 +5,7 @@ import landingImage from 'assets/illustrations/Tavla-illustration.png'
 import tavla from 'assets/illustrations/Tavla-screenshot.png'
 import { Contrast } from '@entur/layout'
 import classNames from 'classnames'
-import { CreateBoard } from 'Admin/components/CreateBoard'
+import { CreateBoardModal } from '../CreateBoard'
 
 function Landing({ loggedIn }: { loggedIn: boolean }) {
     return (
@@ -16,7 +16,7 @@ function Landing({ loggedIn }: { loggedIn: boolean }) {
                     <Heading1 className={classes.subheading}>
                         for reisende
                     </Heading1>
-                    <CreateBoard loggedIn={loggedIn} />
+                    <CreateBoardModal loggedIn={loggedIn} />
                 </div>
                 <div className={classNames(classes.content, classes.topImage)}>
                     <Image

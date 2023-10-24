@@ -20,8 +20,12 @@ export default async function handler(
 
     try {
         switch (request.method) {
-            case 'GET':
-                return response.redirect(`/edit/${await createBoard(user.uid)}`)
+            case 'POST':
+                const bid = await createBoard(
+                    user.uid,
+                    JSON.parse(request.body) as TBoard,
+                )
+                return response.status(200).json({ bid: bid })
             case 'PUT':
                 await setBoard(
                     JSON.parse(request.body).board as TBoard,
