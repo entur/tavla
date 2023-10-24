@@ -147,30 +147,82 @@ h3 {
     position: sticky;
 }
 
-.text-xxs {
-    font-size: xx-small;
+.text-r-3xs {
+    font-size: 0.5rem;
+}
+
+.text-r-2xs {
+    font-size: 0.5625rem;
+}
+
+.text-r-xs {
+    font-size: 0.625rem;
+}
+
+.text-r-sm {
+    font-size: 0.75rem;
+}
+
+.text-r-md {
+    font-size: 0.875rem;
+}
+
+.text-r-lg {
+    font-size: 1rem;
+}
+
+.text-r-xl {
+    font-size: 1.125rem;
+}
+
+.text-r-2xl {
+    font-size: 1.25rem;
+}
+
+.text-r-3xl {
+    font-size: 1.5rem;
+}
+
+.text-r-4xl {
+    font-size: 2rem;
+}
+
+.text-3xs {
+    font-size: 0.5em;
+}
+
+.text-2xs {
+    font-size: 0.5625em;
 }
 
 .text-xs {
-    font-size: x-small;
+    font-size: 0.625em;
 }
 
 .text-sm {
-    font-size: small;
+    font-size: 0.75em;
 }
 
 .text-md {
-    font-size: medium;
+    font-size: 0.875em;
 }
 
 .text-lg {
-    font-size: large;
+    font-size: 1em;
 }
 
 .text-xl {
-    font-size: x-large;
+    font-size: 1.125em;
 }
 
-.text-xxl {
-    font-size: xx-large;
+.text-2xl {
+    font-size: 1.25em;
+}
+
+.text-3xl {
+    font-size: 1.5em;
+}
+
+.text-4xl {
+    font-size: 2em;
 }
