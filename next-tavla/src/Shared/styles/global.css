@@ -146,3 +146,31 @@ h3 {
 .positionSticky {
     position: sticky;
 }
+
+.text-xxs {
+    font-size: xx-small;
+}
+
+.text-xs {
+    font-size: x-small;
+}
+
+.text-sm {
+    font-size: small;
+}
+
+.text-md {
+    font-size: medium;
+}
+
+.text-lg {
+    font-size: large;
+}
+
+.text-xl {
+    font-size: x-large;
+}
+
+.text-xxl {
+    font-size: xx-large;
+}
