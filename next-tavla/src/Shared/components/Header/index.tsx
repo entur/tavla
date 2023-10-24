@@ -13,7 +13,7 @@ function Header({
 }: {
     theme?: TTheme
     className?: string
-    organizationLogo?: TLogo
+    organizationLogo?: TLogo | null
 }) {
     const tavlaLogo = theme === 'light' ? TavlaLogoBlue : TavlaLogoWhite
 

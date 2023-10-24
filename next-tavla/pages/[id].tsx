@@ -37,7 +37,7 @@ function BoardPage({
     organizationLogo,
 }: {
     board: TBoard
-    organizationLogo: TLogo
+    organizationLogo: TLogo | null
 }) {
     useUpdateLastActive(board.id)
     return (
