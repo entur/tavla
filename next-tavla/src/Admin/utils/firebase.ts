@@ -193,5 +193,5 @@ export async function createOrganization(uid: TUserID, name: string) {
 
 export async function getOrganizationLogoWithBoard(bid: TBoardID) {
     const organization = await getOrganizationWithBoard(bid)
-    return organization?.logoUrl ?? null
+    return organization?.logo ?? null
 }

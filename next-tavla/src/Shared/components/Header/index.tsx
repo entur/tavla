@@ -2,7 +2,7 @@ import TavlaLogoWhite from 'assets/logos/Tavla-white.svg'
 import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
 import Image from 'next/image'
 import classes from './styles.module.css'
-import { TLogoUrl, TTheme } from 'types/settings'
+import { TLogo, TTheme } from 'types/settings'
 import { Clock } from 'components/Clock'
 import classNames from 'classnames'
 
@@ -13,7 +13,7 @@ function Header({
 }: {
     theme?: TTheme
     className?: string
-    organizationLogo?: TLogoUrl
+    organizationLogo?: TLogo
 }) {
     const tavlaLogo = theme === 'light' ? TavlaLogoBlue : TavlaLogoWhite
 

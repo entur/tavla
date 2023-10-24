@@ -1,5 +1,5 @@
 import { Header } from 'components/Header'
-import { TBoard, TLogoUrl } from 'types/settings'
+import { TBoard, TLogo } from 'types/settings'
 import classes from 'styles/pages/board.module.css'
 import { upgradeBoard } from 'utils/converters'
 import { Board } from 'Board/scenarios/Board'
@@ -37,7 +37,7 @@ function BoardPage({
     organizationLogo,
 }: {
     board: TBoard
-    organizationLogo: TLogoUrl
+    organizationLogo: TLogo
 }) {
     useUpdateLastActive(board.id)
     return (

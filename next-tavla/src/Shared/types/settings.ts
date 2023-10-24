@@ -21,7 +21,7 @@ export type TOrganization = {
     owners?: TUserID[]
     editors?: TUserID[]
     boards?: TBoardID[]
-    logoUrl?: TLogoUrl
+    logo?: TLogo
 }
 
 export type TInvite = {
@@ -30,7 +30,7 @@ export type TInvite = {
     access: 'owner' | 'editor'
 }
 
-export type TLogoUrl = string
+export type TLogo = string
 export type TUserID = string
 export type TBoardID = string
 export type TOrganizationID = string
