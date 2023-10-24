@@ -13,8 +13,6 @@ export default async function handler(
 ) {
     const user = await verifyUserSession(request)
 
-    console.log('treff')
-
     if (!user) return response.status(401).json({ error: 'Unauthorized' })
     try {
         switch (request.method) {
