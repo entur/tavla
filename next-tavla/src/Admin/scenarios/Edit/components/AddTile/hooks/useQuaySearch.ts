@@ -35,10 +35,11 @@ function getDirection(
 
 function useQuaySearch(stopPlaceId: string) {
     const { data } = useQuery(QuaysSearchQuery, { stopPlaceId })
-    const [selectedQuay, setSelectedQuay] =
-        useState<NormalizedDropdownItemType | null>(null)
+    const [selectedQuays, setSelectedQuays] = useState<
+        NormalizedDropdownItemType[] | []
+    >([])
 
-    useEffect(() => setSelectedQuay(null), [stopPlaceId])
+    useEffect(() => setSelectedQuays([]), [stopPlaceId])
 
     const quays = useMemo(
         () =>
@@ -74,7 +75,7 @@ function useQuaySearch(stopPlaceId: string) {
 
     const getQuays = useCallback(() => quays, [quays])
 
-    return { quays: getQuays, selectedQuay, setSelectedQuay }
+    return { quays: getQuays, selectedQuays, setSelectedQuays }
 }
 
 export { useQuaySearch }

@@ -4,8 +4,6 @@ import { SearchIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
 import { useStopPlaceSearch } from './hooks/useStopPlaceSearch'
 import { useCountiesSearch } from './hooks/useCountiesSearch'
-import { SelectTileType } from '../TileType'
-import { useState } from 'react'
 import { useQuaySearch } from './hooks/useQuaySearch'
 import { useEditSettingsDispatch } from '../../utils/contexts'
 import { useToast } from '@entur/alert'
@@ -20,11 +18,9 @@ function AddTile() {
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
         useStopPlaceSearch(selectedCounties.map((county) => county.value))
 
-    const { quays, selectedQuay, setSelectedQuay } = useQuaySearch(
+    const { quays, selectedQuays, setSelectedQuays } = useQuaySearch(
         selectedStopPlace?.value ?? '',
     )
-
-    const [tileType, setTileType] = useState('stop_place')
 
     const handleAddTile = () => {
         if (!selectedStopPlace?.value) {
@@ -35,19 +31,23 @@ function AddTile() {
             })
             return
         }
-        if (tileType === 'quay' && selectedQuay)
-            dispatch({
-                type: 'addTile',
-                tile: {
-                    type: 'quay',
-                    placeId: selectedQuay.value,
-                    name:
-                        selectedStopPlace.label.split(',')[0] +
-                            ' ' +
-                            selectedQuay.label ?? 'Ikke navngitt',
-                },
-            })
-        else
+        if (selectedQuays.length !== 0) {
+            {
+                selectedQuays.map((quay) => {
+                    dispatch({
+                        type: 'addTile',
+                        tile: {
+                            type: 'quay',
+                            placeId: selectedStopPlace.value,
+                            name:
+                                selectedStopPlace.label.split(',')[0] +
+                                    ' ' +
+                                    quay.label ?? 'Ikke navngitt',
+                        },
+                    })
+                })
+            }
+        } else
             dispatch({
                 type: 'addTile',
                 tile: {
@@ -60,13 +60,12 @@ function AddTile() {
             })
 
         setSelectedStopPlace(null)
-        setSelectedQuay(null)
+        setSelectedQuays([])
     }
 
     return (
         <div>
             <Heading1>Holdeplasser i tavla</Heading1>
-            <SelectTileType tileType={tileType} setTileType={setTileType} />
             <div className="flexRow g-2 pt-2 pb-2">
                 <MultiSelect
                     label="Velg fylker"
@@ -85,16 +84,14 @@ function AddTile() {
                     selectedItem={selectedStopPlace}
                     onChange={setSelectedStopPlace}
                 />
-                {tileType === 'quay' && (
-                    <SearchableDropdown
-                        items={quays}
-                        label="Velg plattform/retning"
-                        clearable
-                        prepend={<SearchIcon />}
-                        selectedItem={selectedQuay}
-                        onChange={setSelectedQuay}
-                    />
-                )}
+                <MultiSelect
+                    items={quays}
+                    label="Velg plattform/retning"
+                    clearable
+                    prepend={<SearchIcon />}
+                    selectedItems={selectedQuays}
+                    onChange={setSelectedQuays}
+                />
                 <Button variant="primary" onClick={handleAddTile}>
                     Legg til
                 </Button>
