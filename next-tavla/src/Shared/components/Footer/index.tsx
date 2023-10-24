@@ -3,8 +3,8 @@ import EnturLogo from 'assets/logos/entur/Enturlogo_White.svg'
 
 function Footer() {
     return (
-        <footer className="flexRow justifyLeft alignCenter">
-            <span style={{ fontSize: '1.25rem' }}>Tjenesten leveres av</span>
+        <footer className="flexRow justifyStart alignCenter text-xl">
+            <span>Tjenesten leveres av</span>
             <Image src={EnturLogo} alt="Entur logo" height={70} />
         </footer>
     )
