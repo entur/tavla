@@ -5,6 +5,9 @@ import { verifyUserSession } from 'Admin/utils/auth'
 import { IncomingNextMessage } from 'types/next'
 import { AdminHeader } from 'Admin/components/AdminHeader'
 import { Organizations } from 'Admin/scenarios/Organizations'
+import { getOrganizationsWithUser } from 'Admin/utils/firebase'
+import { TOrganization, TUserID } from 'types/settings'
+import { UserOrganizationsContext } from 'Admin/scenarios/Organizations/utils/context'
 
 export async function getServerSideProps({
     req,
@@ -24,17 +27,31 @@ export async function getServerSideProps({
     return {
         props: {
             loggedIn: user !== null,
+            organizations: await getOrganizationsWithUser(user.uid),
+            userId: user.uid,
         },
     }
 }
 
-function OrganizationsPage({ loggedIn }: { loggedIn: boolean }) {
+function OrganizationsPage({
+    loggedIn,
+    organizations,
+    userId,
+}: {
+    loggedIn: boolean
+    organizations: TOrganization[]
+    userId: TUserID
+}) {
     return (
         <div className={classes.root}>
             <AdminHeader loggedIn={loggedIn} />
             <Contrast>
                 <ToastProvider>
-                    <Organizations />
+                    <UserOrganizationsContext.Provider
+                        value={{ userId, organizations }}
+                    >
+                        <Organizations />
+                    </UserOrganizationsContext.Provider>
                 </ToastProvider>
             </Contrast>
         </div>
