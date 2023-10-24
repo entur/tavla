@@ -27,19 +27,28 @@ export async function getServerSideProps({
     return {
         props: {
             board: convertedBoard,
-            logo: await getOrganizationLogoWithBoard(id),
+            organizationLogo: await getOrganizationLogoWithBoard(id),
         },
     }
 }
 
-function BoardPage({ board, logo }: { board: TBoard; logo: TLogoUrl }) {
+function BoardPage({
+    board,
+    organizationLogo,
+}: {
+    board: TBoard
+    organizationLogo: TLogoUrl
+}) {
     useUpdateLastActive(board.id)
     return (
         <div className={classes.root} data-theme={board.theme ?? 'dark'}>
             <div className={classes.rootContainer}>
-                <Header theme={board.theme} organizationLogo={logo} />
+                <Header
+                    theme={board.theme}
+                    organizationLogo={organizationLogo}
+                />
                 <Board board={board} />
-                {logo && <Footer />}
+                {organizationLogo && <Footer />}
             </div>
         </div>
     )
