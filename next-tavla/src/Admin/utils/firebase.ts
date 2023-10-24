@@ -149,11 +149,11 @@ export async function deleteBoard(bid: TBoardID, uid: TUserID) {
             message: 'User does not have access to this board.',
         })
     }
-    return firestore()
-        .collection('boards')
-        .doc(bid)
-        .delete()
-        .then(() => removeBoardFromUser(bid, uid))
+
+    return Promise.all([
+        firestore().collection('boards').doc(bid).delete(),
+        removeBoardFromUser(bid, uid),
+    ])
 }
 
 export async function removeBoardFromUser(bid: TBoardID, uid: TUserID) {
