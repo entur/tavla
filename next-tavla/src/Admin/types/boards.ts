@@ -9,6 +9,7 @@ export const BoardsColumns = {
     actions: 'Handlinger',
     lastModified: 'Sist oppdatert',
     tags: 'Merkelapper',
+    organization: 'Organisasjon',
 } as const
 
 export type TBoardsColumn = keyof typeof BoardsColumns

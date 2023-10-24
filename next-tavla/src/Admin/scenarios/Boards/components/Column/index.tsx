@@ -5,6 +5,7 @@ import { Link } from './Link'
 import { Name } from './Name'
 import { TBoardsColumn } from 'Admin/types/boards'
 import { Tags } from './Tags'
+import { Organization } from './Organization'
 
 function Column({ board, column }: { board: TBoard; column: TBoardsColumn }) {
     switch (column) {
@@ -18,6 +19,8 @@ function Column({ board, column }: { board: TBoard; column: TBoardsColumn }) {
             return <LastModified timestamp={board.meta?.dateModified} />
         case 'tags':
             return <Tags board={board} />
+        case 'organization':
+            return <Organization bid={board.id} />
         default:
             return <div>Ukjent kolonne</div>
     }
