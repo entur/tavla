@@ -38,7 +38,7 @@ function AddTile() {
                         type: 'addTile',
                         tile: {
                             type: 'quay',
-                            placeId: selectedStopPlace.value,
+                            placeId: quay.value,
                             name:
                                 selectedStopPlace.label.split(',')[0] +
                                     ' ' +
