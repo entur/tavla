@@ -1,5 +1,7 @@
+import { StyledColumn } from './StyledColumn'
+
 function Name({ name }: { name: string }) {
-    return <div>{name}</div>
+    return <StyledColumn className="min-w-15-rem">{name}</StyledColumn>
 }
 
 export { Name }
