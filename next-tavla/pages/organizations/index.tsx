@@ -25,7 +25,6 @@ export async function getServerSideProps({
 
     return {
         props: {
-            loggedIn: user !== null,
             organizations: await getOrganizationsWithUser(user.uid),
             userId: user.uid,
         },
@@ -33,17 +32,15 @@ export async function getServerSideProps({
 }
 
 function OrganizationsPage({
-    loggedIn,
     organizations,
     userId,
 }: {
-    loggedIn: boolean
     organizations: TOrganization[]
     userId: TUserID
 }) {
     return (
         <div className={classes.root}>
-            <AdminHeader loggedIn={loggedIn} />
+            <AdminHeader loggedIn={true} />
             <Contrast>
                 <ToastProvider>
                     <Organizations {...{ userId, organizations }} />
