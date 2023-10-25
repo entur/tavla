@@ -7,7 +7,6 @@ import { AdminHeader } from 'Admin/components/AdminHeader'
 import { Organizations } from 'Admin/scenarios/Organizations'
 import { getOrganizationsWithUser } from 'Admin/utils/firebase'
 import { TOrganization, TUserID } from 'types/settings'
-import { UserOrganizationsContext } from 'Admin/scenarios/Organizations/utils/context'
 
 export async function getServerSideProps({
     req,
@@ -47,11 +46,7 @@ function OrganizationsPage({
             <AdminHeader loggedIn={loggedIn} />
             <Contrast>
                 <ToastProvider>
-                    <UserOrganizationsContext.Provider
-                        value={{ userId, organizations }}
-                    >
-                        <Organizations />
-                    </UserOrganizationsContext.Provider>
+                    <Organizations {...{ userId, organizations }} />
                 </ToastProvider>
             </Contrast>
         </div>

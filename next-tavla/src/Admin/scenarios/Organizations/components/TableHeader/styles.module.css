@@ -1,0 +1,11 @@
+.header {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    border-bottom: var(--colors-blues-blue20) solid;
+    margin-bottom: 1em;
+    height: 3em;
+    font-weight: 500;
+    color: var(--border-color);
+    padding: 0 0.25rem;
+}

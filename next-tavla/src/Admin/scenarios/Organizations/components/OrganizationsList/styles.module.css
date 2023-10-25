@@ -1,7 +1,0 @@
-.listElement {
-    display: flex;
-    padding: 0.5rem;
-    border-bottom: 2px solid var(--colors-blues-blue20);
-    max-width: 20rem;
-    justify-content: space-between;
-}
