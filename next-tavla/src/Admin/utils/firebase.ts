@@ -215,7 +215,9 @@ export async function getOrganizationsWhereUserIsOwner(uid: TUserID) {
         .collection('organizations')
         .where('owners', 'array-contains', uid)
         .get()
-    return ref.docs.map((doc) => doc.data() as TOrganization)
+    return ref.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id } as TOrganization
+    })
 }
 
 export async function getOrganizationsWhereUserIsEditor(uid: TUserID) {
@@ -223,7 +225,9 @@ export async function getOrganizationsWhereUserIsEditor(uid: TUserID) {
         .collection('organizations')
         .where('editors', 'array-contains', uid)
         .get()
-    return ref.docs.map((doc) => doc.data() as TOrganization)
+    return ref.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id } as TOrganization
+    })
 }
 
 export async function getOrganizationsWithUser(uid: TUserID) {
