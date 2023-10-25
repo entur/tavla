@@ -1,4 +1,5 @@
 import { TFontSize } from 'types/meta'
+import { TBoard } from 'types/settings'
 export function getFontScale(fontSize: TFontSize | undefined) {
     switch (fontSize) {
         case 'small':
@@ -9,5 +10,15 @@ export function getFontScale(fontSize: TFontSize | undefined) {
             return 1.3
         default:
             return 1
+    }
+}
+export function defaultFontSize(board: TBoard) {
+    switch (board.tiles.length) {
+        case 1:
+            return 'large'
+        case 2:
+            return 'medium'
+        default:
+            return 'small'
     }
 }
