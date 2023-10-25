@@ -13,6 +13,8 @@ export function getFontScale(fontSize: TFontSize | undefined) {
     }
 }
 export function defaultFontSize(board: TBoard) {
+    if (!board.tiles) return 'small'
+
     switch (board.tiles.length) {
         case 1:
             return 'large'
