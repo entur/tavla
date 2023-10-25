@@ -6,7 +6,11 @@ function StyledColumn({
     className?: string
 }) {
     return (
-        <div className={`flexRow alignCenter g-1 pr-4 ${className ?? ''}`}>
+        <div
+            className={`flexRow alignCenter g-1 pr-4 h-rem-5 ${
+                className ?? ''
+            }`}
+        >
             {children}
         </div>
     )
