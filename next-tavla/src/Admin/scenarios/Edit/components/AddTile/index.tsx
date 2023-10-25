@@ -1,5 +1,5 @@
 import { Button } from '@entur/button'
-import { MultiSelect, SearchableDropdown } from '@entur/dropdown'
+import { Dropdown, MultiSelect, SearchableDropdown } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
 import { useStopPlaceSearch } from './hooks/useStopPlaceSearch'
@@ -18,7 +18,7 @@ function AddTile() {
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
         useStopPlaceSearch(selectedCounties.map((county) => county.value))
 
-    const { quays, selectedQuays, setSelectedQuays } = useQuaySearch(
+    const { quays, selectedQuay, setSelectedQuay } = useQuaySearch(
         selectedStopPlace?.value ?? '',
     )
 
@@ -31,20 +31,18 @@ function AddTile() {
             })
             return
         }
-        if (selectedQuays.length !== 0) {
+        if (selectedQuay) {
             {
-                selectedQuays.map((quay) => {
-                    dispatch({
-                        type: 'addTile',
-                        tile: {
-                            type: 'quay',
-                            placeId: quay.value,
-                            name:
-                                selectedStopPlace.label.split(',')[0] +
-                                    ' ' +
-                                    quay.label ?? 'Ikke navngitt',
-                        },
-                    })
+                dispatch({
+                    type: 'addTile',
+                    tile: {
+                        type: 'quay',
+                        placeId: selectedQuay.value,
+                        name:
+                            selectedStopPlace.label.split(',')[0] +
+                                ' ' +
+                                selectedQuay.label ?? 'Ikke navngitt',
+                    },
                 })
             }
         } else
@@ -60,7 +58,7 @@ function AddTile() {
             })
 
         setSelectedStopPlace(null)
-        setSelectedQuays([])
+        setSelectedQuay(null)
     }
 
     return (
@@ -84,13 +82,12 @@ function AddTile() {
                     selectedItem={selectedStopPlace}
                     onChange={setSelectedStopPlace}
                 />
-                <MultiSelect
+                <Dropdown
                     items={quays}
                     label="Velg plattform/retning"
                     clearable
-                    prepend={<SearchIcon />}
-                    selectedItems={selectedQuays}
-                    onChange={setSelectedQuays}
+                    selectedItem={selectedQuay}
+                    onChange={setSelectedQuay}
                 />
                 <Button variant="primary" onClick={handleAddTile}>
                     Legg til

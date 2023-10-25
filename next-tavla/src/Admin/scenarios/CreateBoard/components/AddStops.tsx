@@ -1,5 +1,5 @@
 import { Button, PrimaryButton } from '@entur/button'
-import { MultiSelect, SearchableDropdown } from '@entur/dropdown'
+import { Dropdown, MultiSelect, SearchableDropdown } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { Heading3, Paragraph } from '@entur/typography'
 import { useCountiesSearch } from 'Admin/scenarios/Edit/components/AddTile/hooks/useCountiesSearch'
@@ -27,7 +27,7 @@ export function AddStops({
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
         useStopPlaceSearch(selectedCounties.map((county) => county.value))
 
-    const { quays, selectedQuays, setSelectedQuays } = useQuaySearch(
+    const { quays, selectedQuay, setSelectedQuay } = useQuaySearch(
         selectedStopPlace?.value ?? '',
     )
     const dispatch = useCreateBoardDispatch()
@@ -41,22 +41,18 @@ export function AddStops({
             })
             return
         }
-        if (selectedQuays.length !== 0) {
-            {
-                selectedQuays.map((quay) => {
-                    dispatch({
-                        type: 'addTile',
-                        tile: {
-                            type: 'quay',
-                            placeId: quay.value,
-                            name:
-                                selectedStopPlace.label.split(',')[0] +
-                                    ' ' +
-                                    quay.label ?? 'Ikke navngitt',
-                        },
-                    })
-                })
-            }
+        if (selectedQuay) {
+            dispatch({
+                type: 'addTile',
+                tile: {
+                    type: 'quay',
+                    placeId: selectedQuay.value,
+                    name:
+                        selectedStopPlace.label.split(',')[0] +
+                            ' ' +
+                            selectedQuay.label ?? 'Ikke navngitt',
+                },
+            })
         } else {
             dispatch({
                 type: 'addTile',
@@ -70,7 +66,7 @@ export function AddStops({
             })
         }
         setSelectedStopPlace(null)
-        setSelectedQuays([])
+        setSelectedQuay(null)
     }
 
     const handleCreateBoard = async () => {
@@ -115,13 +111,12 @@ export function AddStops({
                     selectedItem={selectedStopPlace}
                     onChange={setSelectedStopPlace}
                 />
-                <MultiSelect
+                <Dropdown
                     items={quays}
                     label="Velg plattform/retning"
                     clearable
-                    prepend={<SearchIcon />}
-                    selectedItems={selectedQuays}
-                    onChange={setSelectedQuays}
+                    selectedItem={selectedQuay}
+                    onChange={setSelectedQuay}
                 />
                 <Button variant="primary" onClick={handleAddTiles}>
                     Legg til
