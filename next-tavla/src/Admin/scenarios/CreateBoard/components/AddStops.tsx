@@ -100,7 +100,7 @@ export function AddStops({
                     selectedItems={selectedCounties}
                     onChange={setSelectedCounties}
                     prepend={<SearchIcon />}
-                    maxChips={2}
+                    maxChips={1}
                     hideSelectAll
                 />
                 <SearchableDropdown
