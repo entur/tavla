@@ -1,6 +1,5 @@
 import { TOrganizationsColumn } from 'Admin/types/organizations'
 import { TOrganization, TUserID } from 'types/settings'
-import { Name } from './Name'
 import { Actions } from './Actions'
 import { Role } from './Role'
 
@@ -15,7 +14,7 @@ function Column({
 }) {
     switch (column) {
         case 'name':
-            return <Name name={organization.name ?? ''} />
+            return <div>{organization.name ?? ''}</div>
         case 'actions':
             return <Actions {...{ organization, userId }} />
         case 'role':

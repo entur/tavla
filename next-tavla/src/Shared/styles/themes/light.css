@@ -4,6 +4,7 @@
     --secondary-background-color: var(--colors-greys-grey80);
     /* --tertiary-background-color not yet defined*/
     --main-text-color: var(--colors-misc-black);
+    --secondary-text-color: var(--colors-greys-grey60);
 
     --primary-button-color: var(--colors-brand-blue);
     --primary-button-hover-color: var(--colors-blues-blue20);

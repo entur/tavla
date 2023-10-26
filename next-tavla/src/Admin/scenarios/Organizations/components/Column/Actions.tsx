@@ -3,7 +3,6 @@ import { EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
 import { TOrganization, TUserID } from 'types/settings'
-import { Cell } from './Cell'
 
 function Edit({ oid }: { oid?: string }) {
     return (
@@ -27,11 +26,11 @@ function Actions({
     userId: TUserID
 }) {
     return (
-        <Cell>
+        <div className="flexRow">
             {organization.owners?.includes(userId) && (
                 <Edit oid={organization.id} />
             )}
-        </Cell>
+        </div>
     )
 }
 

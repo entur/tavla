@@ -2,7 +2,9 @@
     --main-background-color: var(--colors-brand-blue);
     --secondary-background-color: var(--colors-blues-blue10);
     --tertiary-background-color: var(--colors-blues-blue30);
+
     --main-text-color: var(--colors-brand-white);
+    --secondary-text-color: var(--colors-brand-lavender);
 
     --highlight-text-color: var(--colors-brand-coral);
 
