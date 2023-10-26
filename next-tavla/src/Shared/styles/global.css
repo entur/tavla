@@ -21,10 +21,6 @@ h3 {
     font-weight: 500;
 }
 
-.grid {
-    display: grid;
-}
-
 .flexColumn {
     display: flex;
     flex-direction: column;
