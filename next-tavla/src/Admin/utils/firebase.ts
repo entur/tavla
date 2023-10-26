@@ -235,3 +235,8 @@ export async function getOrganizationsWithUser(uid: TUserID) {
     const editor = await getOrganizationsWhereUserIsEditor(uid)
     return concat(owner, editor)
 }
+
+export async function getUserByEmail(email: string) {
+    const user = await auth().getUserByEmail(email)
+    return user
+}
