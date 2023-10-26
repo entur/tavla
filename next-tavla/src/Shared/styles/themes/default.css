@@ -9,6 +9,7 @@
     --border-color: var(--colors-brand-lavender);
 
     --table-border-color: var(--colors-blues-blue30);
+    --table-header-border-color: var(--colors-blues-blue20);
     --table-situation-color: var(--colors-validation-canary-contrast);
 
     --pulse-color: #75daad;

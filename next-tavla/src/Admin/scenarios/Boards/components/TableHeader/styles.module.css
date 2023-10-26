@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     gap: 0.5em;
-    border-bottom: var(--colors-blues-blue20) solid;
+    border-bottom: var(--table-header-border-color) solid;
     margin-bottom: 1em;
     height: 3em;
 }
