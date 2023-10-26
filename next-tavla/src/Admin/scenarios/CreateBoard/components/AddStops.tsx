@@ -2,15 +2,15 @@ import { Button, PrimaryButton } from '@entur/button'
 import { Dropdown, MultiSelect, SearchableDropdown } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { Heading3, Paragraph } from '@entur/typography'
-import { useCountiesSearch } from 'Admin/scenarios/Edit/components/AddTile/hooks/useCountiesSearch'
-import { useStopPlaceSearch } from 'Admin/scenarios/Edit/components/AddTile/hooks/useStopPlaceSearch'
+import { useCountiesSearch } from 'Admin/scenarios/Edit/hooks/useCountiesSearch'
+import { useStopPlaceSearch } from 'Admin/scenarios/Edit/hooks/useStopPlaceSearch'
 import { createBoardRequest } from '../utils/create'
 import { useRouter } from 'next/router'
 import { StopPlaceChip } from './StopPlaceChip'
 import { useToast } from '@entur/alert'
 import { TBoard } from 'types/settings'
 import { useCreateBoardDispatch } from '../utils/context'
-import { useQuaySearch } from 'Admin/scenarios/Edit/components/AddTile/hooks/useQuaySearch'
+import { useQuaySearch } from 'Admin/scenarios/Edit/hooks/useQuaySearch'
 
 export function AddStops({
     board,
