@@ -26,22 +26,15 @@ export async function getServerSideProps({
 
     return {
         props: {
-            loggedIn,
             id,
         },
     }
 }
 
-function EditOrganizationPage({
-    loggedIn,
-    id,
-}: {
-    loggedIn: boolean
-    id: string
-}) {
+function EditOrganizationPage({ id }: { id: string }) {
     return (
         <div className={classes.root}>
-            <AdminHeader loggedIn={loggedIn} />
+            <AdminHeader loggedIn />
             <Contrast>
                 <ToastProvider>
                     <div>{id}</div>

@@ -209,3 +209,29 @@ export async function getOrganizationLogoWithBoard(bid: TBoardID) {
     const organization = await getOrganizationWithBoard(bid)
     return organization?.logo ?? null
 }
+
+export async function getOrganizationsWhereUserIsOwner(uid: TUserID) {
+    const ref = await firestore()
+        .collection('organizations')
+        .where('owners', 'array-contains', uid)
+        .get()
+    return ref.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id } as TOrganization
+    })
+}
+
+export async function getOrganizationsWhereUserIsEditor(uid: TUserID) {
+    const ref = await firestore()
+        .collection('organizations')
+        .where('editors', 'array-contains', uid)
+        .get()
+    return ref.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id } as TOrganization
+    })
+}
+
+export async function getOrganizationsWithUser(uid: TUserID) {
+    const owner = await getOrganizationsWhereUserIsOwner(uid)
+    const editor = await getOrganizationsWhereUserIsEditor(uid)
+    return concat(owner, editor)
+}
