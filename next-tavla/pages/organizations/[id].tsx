@@ -34,7 +34,7 @@ export async function getServerSideProps({
 function EditOrganizationPage({ id }: { id: string }) {
     return (
         <div className={classes.root}>
-            <AdminHeader loggedIn={true} />
+            <AdminHeader loggedIn />
             <Contrast>
                 <ToastProvider>
                     <div>{id}</div>

@@ -31,19 +31,16 @@ export async function getServerSideProps({
     }
 }
 
-function OrganizationsPage({
-    organizations,
-    userId,
-}: {
+function OrganizationsPage(props: {
     organizations: TOrganization[]
     userId: TUserID
 }) {
     return (
         <div className={classes.root}>
-            <AdminHeader loggedIn={true} />
+            <AdminHeader loggedIn />
             <Contrast>
                 <ToastProvider>
-                    <Organizations {...{ userId, organizations }} />
+                    <Organizations {...props} />
                 </ToastProvider>
             </Contrast>
         </div>
