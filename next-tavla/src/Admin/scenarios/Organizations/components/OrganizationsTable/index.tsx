@@ -4,7 +4,7 @@ import {
 } from 'Admin/types/organizations'
 import classes from './styles.module.css'
 import { TOrganization, TUserID } from 'types/settings'
-import { Column } from '../Column'
+import { Cell } from '../Cell'
 import { LeadParagraph } from '@entur/typography'
 
 function OrganizationsTable({
@@ -36,9 +36,11 @@ function OrganizationsTable({
             ))}
             {organizations.map((organization) =>
                 ORGANIZATIONS_COLUMNS.map((column) => (
-                    <Column
+                    <Cell
                         key={column}
-                        {...{ column, organization, userId }}
+                        column={column}
+                        organization={organization}
+                        userId={userId}
                     />
                 )),
             )}
