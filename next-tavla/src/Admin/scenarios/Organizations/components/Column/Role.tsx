@@ -1,6 +1,6 @@
 import { BulletBadge } from '@entur/layout'
 import { TOrganization, TUserID } from 'types/settings'
-import { StyledColumn } from './StyledColumn'
+import { Cell } from './Cell'
 
 function Role({
     organization,
@@ -10,13 +10,13 @@ function Role({
     userId: TUserID
 }) {
     return (
-        <StyledColumn>
+        <Cell>
             {organization.owners?.includes(userId) ? (
                 <BulletBadge variant="success">Eier</BulletBadge>
             ) : (
                 <BulletBadge variant="neutral">Medlem</BulletBadge>
             )}
-        </StyledColumn>
+        </Cell>
     )
 }
 

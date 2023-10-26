@@ -3,15 +3,18 @@ import {
     TOrganizationsColumn,
 } from 'Admin/types/organizations'
 import classes from './styles.module.css'
-import { StyledColumn } from '../Column/StyledColumn'
+import { Cell } from '../Column/Cell'
 
 function TableHeader({ columns }: { columns: TOrganizationsColumn[] }) {
     return (
         <>
             {columns.map((column) => (
-                <StyledColumn key={column} className={classes.header}>
+                <Cell
+                    key={column}
+                    className={`${classes.header} ${classes[column] ?? ''}`}
+                >
                     {OrganizationsColumns[column]}
-                </StyledColumn>
+                </Cell>
             ))}
         </>
     )
