@@ -273,3 +273,8 @@ export async function getBoardsForOrganization(oid: TOrganizationID) {
         )
         .flat()
 }
+
+export async function getUserByEmail(email: string) {
+    const user = await auth().getUserByEmail(email)
+    return user
+}
