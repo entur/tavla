@@ -1,7 +1,14 @@
 import { TavlaError } from 'Admin/types/error'
 import admin, { auth, firestore } from 'firebase-admin'
 import { chunk, concat, isEmpty } from 'lodash'
-import { TBoard, TBoardID, TOrganization, TUser, TUserID } from 'types/settings'
+import {
+    TBoard,
+    TBoardID,
+    TOrganization,
+    TOrganizationID,
+    TUser,
+    TUserID,
+} from 'types/settings'
 
 const FIREBASE_IN_OPERATOR_LIMIT = 30
 
@@ -234,4 +241,29 @@ export async function getOrganizationsWithUser(uid: TUserID) {
     const owner = await getOrganizationsWhereUserIsOwner(uid)
     const editor = await getOrganizationsWhereUserIsEditor(uid)
     return concat(owner, editor)
+}
+
+export async function getBoardsWithOrganization(oid: TOrganizationID) {
+    const boardIDs = (
+        await firestore().collection('organizations').doc(oid).get()
+    ).data()?.boards
+
+    if (isEmpty(boardIDs)) return []
+
+    const batchedBoardIDs = chunk(boardIDs, FIREBASE_IN_OPERATOR_LIMIT)
+
+    const boardQueries = batchedBoardIDs.map((batch) =>
+        firestore()
+            .collection('boards')
+            .where(firestore.FieldPath.documentId(), 'in', batch)
+            .get(),
+    )
+
+    const boardRefs = await Promise.all(boardQueries)
+
+    return boardRefs
+        .map((ref) =>
+            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TBoard)),
+        )
+        .flat()
 }
