@@ -1,90 +1,68 @@
 import { Button } from '@entur/button'
 import { TextField } from '@entur/form'
-import { BulletBadge } from '@entur/layout'
-import { useDebouncedFetch } from 'hooks/useDebouncedFetch'
+import { AddIcon } from '@entur/icons'
 import { useToggle } from 'hooks/useToggle'
+import { SyntheticEvent } from 'react'
+import { TOrganization } from 'types/settings'
 import classes from './styles.module.css'
+import { useFormFeedback } from 'hooks/useFormFeedback'
 
 function InviteUser({ organization }: { organization: TOrganization }) {
-    const [userId, setUserId] = useState<TUserID>()
-
-    const [error, setError] = useState<
-        'alreadyInvited' | 'invalidEmail' | 'notFound' | null
-    >(null)
-
     const [isLoading, enableLoading, disableLoading] = useToggle()
+    const { feedback, setFeedback, clearFeedback } = useFormFeedback()
 
-    const fetchUserByEmail = useDebouncedFetch(1000, (email: string) =>
-        fetch(`/api/user/getUserIdByEmail?email=${email}`),
-    )
+    const fetchUserByEmail = (email: string) =>
+        fetch(`/api/user/getUserIdByEmail?email=${email}`)
 
-    const handleEmailInputChange = (
-        event: React.ChangeEvent<HTMLInputElement>,
-    ) => {
-        setUserId(undefined)
-        setError(null)
+    const submitHandler = (event: SyntheticEvent) => {
+        event.preventDefault()
+        clearFeedback()
 
-        const email = event.target.value
-
-        if (!validEmail(email)) {
-            setError('invalidEmail')
-            return
+        const { email } = event.currentTarget as unknown as {
+            email: HTMLInputElement
         }
 
         enableLoading()
-        fetchUserByEmail(email).then((response) => {
+
+        fetchUserByEmail(email.value).then((response) => {
             disableLoading()
             if (response.status === 200) {
                 response.json().then((data) => {
-                    if (
-                        organization?.owners &&
-                        organization?.owners.includes(data.uid)
-                    ) {
-                        setError('alreadyInvited')
+                    if (organization?.owners?.includes(data.uid)) {
+                        setFeedback('invite/already-invited')
                         return
                     }
-                    setUserId(data.uid)
+                    setFeedback('invite/success')
                 })
             } else {
-                setError('notFound')
+                setFeedback('invite/user-not-found')
             }
         })
     }
 
-    let errorText = null
-
-    switch (error) {
-        case 'invalidEmail':
-            errorText = 'Ugyldig E-post adresse'
-            break
-        case 'notFound':
-            errorText = 'Fant ikke bruker'
-            break
-        case 'alreadyInvited':
-            errorText = 'Brukeren er allerede invitert'
-            break
-    }
-
     return (
         <div className="flexColumn g-1">
-            <div className="flexRow g-1">
-                <TextField
-                    name="email"
-                    label="E-post"
-                    type="email"
-                    onChange={handleEmailInputChange}
-                />
+            <form className="flexRow g-1" onSubmit={submitHandler}>
+                <div className="flexColumn g-1 w-100">
+                    <TextField
+                        name="email"
+                        label="E-post"
+                        type="email"
+                        variant={feedback?.type}
+                        feedback={feedback?.message}
+                    />
+                </div>
                 <Button
                     variant="primary"
                     loading={isLoading}
+                    onClick={clearFeedback}
                     width="fluid"
                     className={classes.addMemberButton}
                 >
                     Legg til medlem
                     <AddIcon />
                 </Button>
-            </div>
-            {error && <BulletBadge variant="danger">{errorText}</BulletBadge>}
+            </form>
         </div>
     )
 }
