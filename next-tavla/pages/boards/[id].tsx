@@ -4,7 +4,7 @@ import { ToastProvider } from '@entur/alert'
 import { Boards } from 'Admin/scenarios/Boards'
 import { TBoard, TOrganization } from 'types/settings'
 import {
-    getBoardsWithOrganization,
+    getBoardsForOrganization,
     getOrganizationsWithUser,
 } from 'Admin/utils/firebase'
 import { verifyUserSession } from 'Admin/utils/auth'
@@ -29,7 +29,7 @@ export async function getServerSideProps({
             },
         }
     }
-    const boards = await getBoardsWithOrganization(id)
+    const boards = await getBoardsForOrganization(id)
     const organizations = await getOrganizationsWithUser(user.uid)
 
     return {

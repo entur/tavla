@@ -2,7 +2,7 @@ import { Heading1 } from '@entur/typography'
 import classes from './styles.module.css'
 import { TBoard, TOrganization } from 'types/settings'
 import dynamic from 'next/dynamic'
-import { useEffect, useReducer } from 'react'
+import { useReducer } from 'react'
 import { settingsReducer } from './utils/reducer'
 import {
     SettingsContext,
@@ -39,7 +39,7 @@ import {
 import { FilterButton } from './components/FilterButton'
 import { Dropdown } from '@entur/dropdown'
 import { useRouter } from 'next/router'
-import { useDropdownItems } from './utils'
+import { useOrganizationsDropdown } from './hooks/useOrganizationsDropdown'
 
 function Boards({
     boards,
@@ -58,17 +58,7 @@ function Boards({
     })
 
     const { dropdownItems, selectedOrganization, setSelectedOrganization } =
-        useDropdownItems(organizations)
-
-    useEffect(() => {
-        console.log('selectedOrganization', selectedOrganization)
-        if (!selectedOrganization) return
-        if (selectedOrganization?.value === 'private') {
-            router.push('/boards')
-        } else {
-            router.push('/boards/' + selectedOrganization?.value)
-        }
-    }, [selectedOrganization, router])
+        useOrganizationsDropdown(organizations)
 
     return (
         <SettingsContext.Provider value={settings}>
@@ -89,7 +79,14 @@ function Boards({
                             label="Vis tavler for organisasjon"
                             items={dropdownItems}
                             selectedItem={selectedOrganization}
-                            onChange={setSelectedOrganization}
+                            onChange={(org) => {
+                                if (org) {
+                                    setSelectedOrganization(org)
+                                    org?.value === 'private'
+                                        ? router.push('/boards')
+                                        : router.push('/boards/' + org?.value)
+                                }
+                            }}
                         />
                     </div>
                     <BoardTable />

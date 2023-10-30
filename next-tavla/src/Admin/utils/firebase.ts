@@ -243,7 +243,7 @@ export async function getOrganizationsWithUser(uid: TUserID) {
     return concat(owner, editor)
 }
 
-export async function getBoardsWithOrganization(oid: TOrganizationID) {
+export async function getBoardsForOrganization(oid: TOrganizationID) {
     const boardIDs = (
         await firestore().collection('organizations').doc(oid).get()
     ).data()?.boards
