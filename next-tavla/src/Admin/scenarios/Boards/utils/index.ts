@@ -1,3 +1,8 @@
+import { NormalizedDropdownItemType } from '@entur/dropdown'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { TOrganization } from 'types/settings'
+
 function hash(seq: string) {
     const first = seq.charCodeAt(0)
     const last = seq.charCodeAt(seq.length - 1)
@@ -29,4 +34,31 @@ export function sortArrayByOverlap<T>(toBeSorted: T[], overlapArray: T[]): T[] {
         }
         return 0
     })
+}
+
+export function useDropdownItems(organizations: TOrganization[]) {
+    const router = useRouter()
+    const dropdownItems = [
+        {
+            label: 'Mine tavler',
+            value: 'private',
+        },
+    ].concat(
+        organizations.map((org) => {
+            return {
+                label: org.name + ' sine tavler',
+                value: org.id,
+            } as NormalizedDropdownItemType
+        }),
+    )
+    const [selectedOrganization, setSelectedOrganization] =
+        useState<NormalizedDropdownItemType | null>(
+            router.pathname === '/boards'
+                ? (dropdownItems[0] as NormalizedDropdownItemType)
+                : (dropdownItems.find(
+                      (org) => org.value === router.query.id,
+                  ) as NormalizedDropdownItemType),
+        )
+
+    return { dropdownItems, selectedOrganization, setSelectedOrganization }
 }
