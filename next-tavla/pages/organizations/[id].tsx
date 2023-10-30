@@ -4,6 +4,9 @@ import { ToastProvider } from '@entur/alert'
 import { IncomingNextMessage } from 'types/next'
 import { verifyUserSession } from 'Admin/utils/auth'
 import { AdminHeader } from 'Admin/components/AdminHeader'
+import { InviteUser } from 'Admin/scenarios/Organizations/components/InviteUser'
+import { TOrganization } from 'types/settings'
+import { getOrganization } from 'Admin/utils/firebase'
 
 export async function getServerSideProps({
     params,
@@ -14,9 +17,9 @@ export async function getServerSideProps({
 }) {
     const { id } = params
 
-    const loggedIn = (await verifyUserSession(req)) !== null
+    const user = await verifyUserSession(req)
 
-    if (!loggedIn)
+    if (!user)
         return {
             redirect: {
                 destination: '/#login',
@@ -24,20 +27,33 @@ export async function getServerSideProps({
             },
         }
 
+    const organization = await getOrganization(id)
+
+    if (!organization || !organization?.owners?.includes(user.uid))
+        return { notFound: true }
+
     return {
         props: {
-            id,
+            loggedIn: user !== null,
+            organization,
         },
     }
 }
 
-function EditOrganizationPage({ id }: { id: string }) {
+function EditOrganizationPage({
+    organization,
+}: {
+    organization: TOrganization
+}) {
+    console.log(organization)
+
     return (
         <div className={classes.root}>
             <AdminHeader loggedIn />
             <Contrast>
                 <ToastProvider>
-                    <div>{id}</div>
+                    <div>{organization.id}</div>
+                    <InviteUser organization={organization} />
                 </ToastProvider>
             </Contrast>
         </div>
