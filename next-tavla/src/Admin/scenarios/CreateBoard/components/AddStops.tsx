@@ -89,7 +89,8 @@ export function AddStops({
         <div>
             <Heading3>Legg til holdeplasser i Tavla </Heading3>
             <Paragraph>
-                Logg inn for å få tilgang til å opprette og administrere tavler.
+                Søk etter stoppesteder og bestem om tavla skal vise alle
+                retninger, eller flere enkelte retninger.
             </Paragraph>
 
             <div className="flexRow g-2 pt-2 pb-2">
