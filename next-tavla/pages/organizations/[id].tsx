@@ -45,8 +45,6 @@ function EditOrganizationPage({
 }: {
     organization: TOrganization
 }) {
-    console.log(organization)
-
     return (
         <div className={classes.root}>
             <AdminHeader loggedIn />
