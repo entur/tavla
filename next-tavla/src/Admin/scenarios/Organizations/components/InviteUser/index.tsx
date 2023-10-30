@@ -3,9 +3,7 @@ import { TextField } from '@entur/form'
 import { BulletBadge } from '@entur/layout'
 import { useDebouncedFetch } from 'hooks/useDebouncedFetch'
 import { useToggle } from 'hooks/useToggle'
-import { useState } from 'react'
-import { TOrganization, TUserID } from 'types/settings'
-import { validEmail } from 'utils/regex'
+import classes from './styles.module.css'
 
 function InviteUser({ organization }: { organization: TOrganization }) {
     const [userId, setUserId] = useState<TUserID>()
@@ -79,9 +77,11 @@ function InviteUser({ organization }: { organization: TOrganization }) {
                 <Button
                     variant="primary"
                     loading={isLoading}
-                    disabled={!userId}
+                    width="fluid"
+                    className={classes.addMemberButton}
                 >
-                    Send invitasjon
+                    Legg til medlem
+                    <AddIcon />
                 </Button>
             </div>
             {error && <BulletBadge variant="danger">{errorText}</BulletBadge>}
