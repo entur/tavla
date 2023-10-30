@@ -76,7 +76,10 @@ function useQuaySearch(stopPlaceId: string) {
         [data],
     )
 
-    const getQuays = useCallback(() => quays, [quays])
+    const getQuays = useCallback(
+        () => [{ value: 'all', label: 'Vis alle' }, ...quays],
+        [quays],
+    )
 
     return { quays: getQuays, selectedQuay, setSelectedQuay }
 }

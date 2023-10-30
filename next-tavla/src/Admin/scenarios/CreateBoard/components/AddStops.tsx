@@ -34,14 +34,13 @@ export function AddStops({
 
     const handleAddTiles = () => {
         if (!selectedStopPlace?.value) {
-            addToast({
+            return addToast({
                 title: 'Ingen holdeplass er valgt',
                 content: 'Vennligst velg en holdeplass å legge til',
                 variant: 'info',
             })
-            return
         }
-        if (selectedQuay) {
+        if (selectedQuay && selectedQuay.value !== 'all') {
             dispatch({
                 type: 'addTile',
                 tile: {
