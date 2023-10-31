@@ -38,7 +38,6 @@ import {
 } from '@dnd-kit/modifiers'
 import { FilterButton } from './components/FilterButton'
 import { Dropdown } from '@entur/dropdown'
-import { useRouter } from 'next/router'
 import { useOrganizationsDropdown } from './hooks/useOrganizationsDropdown'
 
 function Boards({
@@ -48,7 +47,6 @@ function Boards({
     boards: TBoard[]
     organizations: TOrganization[]
 }) {
-    const router = useRouter()
     const [settings, dispatch] = useReducer(settingsReducer, {
         search: '',
         sort: { type: 'descending', column: 'lastModified' },
@@ -57,7 +55,7 @@ function Boards({
         filterTags: [],
     })
 
-    const { dropdownItems, selectedOrganization, setSelectedOrganization } =
+    const { dropdownItems, selectedOrganization, redirectToOrganization } =
         useOrganizationsDropdown(organizations)
 
     return (
@@ -79,14 +77,7 @@ function Boards({
                             label="Vis tavler for organisasjon"
                             items={dropdownItems}
                             selectedItem={selectedOrganization}
-                            onChange={(org) => {
-                                if (org) {
-                                    setSelectedOrganization(org)
-                                    org?.value === 'private'
-                                        ? router.push('/boards')
-                                        : router.push('/boards/' + org?.value)
-                                }
-                            }}
+                            onChange={redirectToOrganization}
                         />
                     </div>
                     <BoardTable />

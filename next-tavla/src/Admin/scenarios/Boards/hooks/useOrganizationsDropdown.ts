@@ -18,14 +18,25 @@ export function useOrganizationsDropdown(organizations: TOrganization[]) {
             } as NormalizedDropdownItemType
         }),
     )
-    const [selectedOrganization, setSelectedOrganization] =
-        useState<NormalizedDropdownItemType | null>(
-            router.pathname === '/boards'
-                ? (dropdownItems[0] as NormalizedDropdownItemType)
-                : (dropdownItems.find(
-                      (org) => org.value === router.query.id,
-                  ) as NormalizedDropdownItemType),
-        )
 
-    return { dropdownItems, selectedOrganization, setSelectedOrganization }
+    const currentOrganization =
+        router.pathname === '/boards'
+            ? (dropdownItems[0] as NormalizedDropdownItemType)
+            : (dropdownItems.find(
+                  (org) => org.value === router.query.id,
+              ) as NormalizedDropdownItemType)
+
+    const [selectedOrganization] = useState<NormalizedDropdownItemType | null>(
+        currentOrganization,
+    )
+
+    const redirectToOrganization = (org: NormalizedDropdownItemType | null) => {
+        if (org) {
+            org?.value === 'private'
+                ? router.push('/boards')
+                : router.push('/boards/' + org?.value)
+        }
+    }
+
+    return { dropdownItems, selectedOrganization, redirectToOrganization }
 }
