@@ -14,6 +14,13 @@ type FormValidationFeedback = {
 export function useFormFeedback() {
     const [feedback, setFeedback] = useState<FormValidationFeedback>(null)
 
+    const getTextFieldProps = () => {
+        return {
+            variant: feedback?.type,
+            feedback: feedback?.message,
+        }
+    }
+
     const setFeedbackMessage = (type: TFormValidationCode) => {
         switch (type) {
             case 'invite/user-not-found':
@@ -43,5 +50,10 @@ export function useFormFeedback() {
         setFeedback(null)
     }
 
-    return { feedback, setFeedback: setFeedbackMessage, clearFeedback }
+    return {
+        feedback,
+        setFeedback: setFeedbackMessage,
+        clearFeedback,
+        getTextFieldProps,
+    }
 }
