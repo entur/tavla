@@ -7,6 +7,7 @@ import { AdminHeader } from 'Admin/components/AdminHeader'
 import { InviteUser } from 'Admin/scenarios/Organizations/components/InviteUser'
 import { TOrganization } from 'types/settings'
 import { getOrganization } from 'Admin/utils/firebase'
+import { Heading1 } from '@entur/typography'
 
 export async function getServerSideProps({
     params,
@@ -50,7 +51,7 @@ function EditOrganizationPage({
             <AdminHeader loggedIn />
             <Contrast>
                 <ToastProvider>
-                    <div>{organization.id}</div>
+                    <Heading1>{organization.name}</Heading1>
                     <InviteUser organization={organization} />
                 </ToastProvider>
             </Contrast>
