@@ -6,10 +6,11 @@ import { SyntheticEvent } from 'react'
 import { TOrganization } from 'types/settings'
 import classes from './styles.module.css'
 import { useFormFeedback } from 'hooks/useFormFeedback'
+import { concat } from 'lodash'
 
 function InviteUser({ organization }: { organization: TOrganization }) {
     const [isLoading, enableLoading, disableLoading] = useToggle()
-    const { feedback, setFeedback, clearFeedback } = useFormFeedback()
+    const { setFeedback, clearFeedback, getTextFieldProps } = useFormFeedback()
 
     const fetchUserByEmail = (email: string) =>
         fetch(`/api/user/getUserIdByEmail?email=${email}`)
@@ -28,7 +29,12 @@ function InviteUser({ organization }: { organization: TOrganization }) {
             disableLoading()
             if (response.status === 200) {
                 response.json().then((data) => {
-                    if (organization?.owners?.includes(data.uid)) {
+                    if (
+                        concat(
+                            organization?.owners,
+                            organization?.editors,
+                        ).includes(data.uid)
+                    ) {
                         setFeedback('invite/already-invited')
                         return
                     }
@@ -48,8 +54,7 @@ function InviteUser({ organization }: { organization: TOrganization }) {
                         name="email"
                         label="E-post"
                         type="email"
-                        variant={feedback?.type}
-                        feedback={feedback?.message}
+                        {...getTextFieldProps()}
                     />
                 </div>
                 <Button
