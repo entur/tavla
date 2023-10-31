@@ -1,0 +1,15 @@
+.cursorPointer {
+    cursor: pointer;
+}
+
+.cursorHelp {
+    cursor: help;
+}
+
+.cursorGrab {
+    cursor: grab;
+}
+
+.cursorMove {
+    cursor: move;
+}
