@@ -5,15 +5,17 @@ import { useToggle } from 'hooks/useToggle'
 import { SyntheticEvent } from 'react'
 import { TOrganization } from 'types/settings'
 import classes from './styles.module.css'
-import { useFormFeedback } from 'hooks/useFormFeedback'
-import { concat } from 'lodash'
+import { FeedbackCode, useFormFeedback } from 'hooks/useFormFeedback'
 
 function InviteUser({ organization }: { organization: TOrganization }) {
     const [isLoading, enableLoading, disableLoading] = useToggle()
     const { setFeedback, clearFeedback, getTextFieldProps } = useFormFeedback()
 
-    const fetchUserByEmail = (email: string) =>
-        fetch(`/api/user/getUserIdByEmail?email=${email}`)
+    const inviteUser = (email: string) =>
+        fetch('/api/organization/invite', {
+            method: 'POST',
+            body: JSON.stringify({ oid: organization.id, email }),
+        })
 
     const submitHandler = (event: SyntheticEvent) => {
         event.preventDefault()
@@ -25,25 +27,17 @@ function InviteUser({ organization }: { organization: TOrganization }) {
 
         enableLoading()
 
-        fetchUserByEmail(email.value).then((response) => {
-            disableLoading()
-            if (response.status === 200) {
-                response.json().then((data) => {
-                    if (
-                        concat(
-                            organization?.owners,
-                            organization?.editors,
-                        ).includes(data.uid)
-                    ) {
-                        setFeedback('invite/already-invited')
-                        return
-                    }
-                    setFeedback('invite/success')
+        inviteUser(email.value)
+            .then((response) => {
+                disableLoading()
+                response.json().then((data: { feedbackCode: FeedbackCode }) => {
+                    setFeedback(data.feedbackCode)
                 })
-            } else {
-                setFeedback('invite/user-not-found')
-            }
-        })
+            })
+            .catch(() => {
+                disableLoading()
+                setFeedback('error')
+            })
     }
 
     return (

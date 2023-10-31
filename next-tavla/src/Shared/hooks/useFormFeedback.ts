@@ -1,10 +1,11 @@
 import { VariantType } from '@entur/form'
 import { useState } from 'react'
 
-type FormValidationError = 'invite/user-not-found' | 'invite/already-invited'
-type FromValidationSuccess = 'invite/success'
+type ErrorCode = 'error' | 'auth/not-allowed'
+type InviteErrorCode = 'invite/user-not-found' | 'invite/already-invited'
+type InviteSuccessCode = 'invite/success'
 
-type TFormValidationCode = FormValidationError | FromValidationSuccess
+export type FeedbackCode = InviteErrorCode | InviteSuccessCode | ErrorCode
 
 type FormValidationFeedback = {
     type: VariantType
@@ -21,7 +22,7 @@ export function useFormFeedback() {
         }
     }
 
-    const setFeedbackMessage = (type: TFormValidationCode) => {
+    const setFeedbackMessage = (type: FeedbackCode) => {
         switch (type) {
             case 'invite/user-not-found':
                 return setFeedback({
@@ -37,6 +38,11 @@ export function useFormFeedback() {
                 return setFeedback({
                     type: 'success',
                     message: 'Bruker lagt til!',
+                })
+            case 'error':
+                return setFeedback({
+                    type: 'error',
+                    message: 'Noe gikk galt.',
                 })
             default:
                 return setFeedback({
