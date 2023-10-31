@@ -13,7 +13,7 @@ export function useOrganizationsDropdown(organizations: TOrganization[]) {
     ].concat(
         organizations.map((org) => {
             return {
-                label: org.name + ' sine tavler',
+                label: org.name + ' tavler',
                 value: org.id,
             } as NormalizedDropdownItemType
         }),

@@ -36,7 +36,6 @@ export async function getServerSideProps({
         props: {
             boards: boards,
             organizations: organizations,
-            loggedIn: user !== null,
         },
     }
 }
@@ -44,16 +43,14 @@ export async function getServerSideProps({
 function OverviewPageForOrganization({
     boards,
     organizations,
-    loggedIn,
 }: {
     boards: TBoard[]
     organizations: TOrganization[]
-    loggedIn: boolean
 }) {
     const router = useRouter()
     return (
         <div className={classes.root}>
-            <AdminHeader loggedIn={loggedIn} />
+            <AdminHeader loggedIn />
             <Contrast>
                 <ToastProvider>
                     <Boards
