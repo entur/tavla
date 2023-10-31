@@ -280,6 +280,46 @@ export async function getBoardsForOrganization(oid: TOrganizationID) {
 }
 
 export async function getUserByEmail(email: string) {
-    const user = await auth().getUserByEmail(email)
+    console.log('email', email)
+
+    const user = await auth()
+        .getUserByEmail(email)
+        .catch(() => null)
+    console.log('user', user)
+
     return user
+}
+
+export async function userCanEditOrganization(uid: TUserID, oid: string) {
+    const organization = await getOrganization(oid)
+    return organization?.owners?.includes(uid) ?? false
+}
+
+export async function inviteUserToOrganization(
+    inviteeId: TUserID,
+    oid: string,
+    pool: 'owners' | 'editors' = 'owners',
+) {
+    const organization = await getOrganization(oid)
+
+    if (!organization)
+        throw new TavlaError({
+            code: 'NOT_FOUND',
+            message: 'Organization does not exist.',
+        })
+
+    const peers = organization[pool]
+
+    if (peers && peers.includes(inviteeId))
+        throw new TavlaError({
+            code: 'ORGANIZATION',
+            message: 'User is already invited to this organization.',
+        })
+
+    return firestore()
+        .collection('organizations')
+        .doc(oid)
+        .update({
+            [pool]: admin.firestore.FieldValue.arrayUnion(inviteeId),
+        })
 }
