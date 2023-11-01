@@ -4,8 +4,7 @@ import { ToastProvider } from '@entur/alert'
 import { IncomingNextMessage } from 'types/next'
 import { verifyUserSession } from 'Admin/utils/auth'
 import { AdminHeader } from 'Admin/components/AdminHeader'
-import { InviteUser } from 'Admin/scenarios/Organizations/components/InviteUser'
-import { TOrganization } from 'types/settings'
+import { TOrganizationID } from 'types/settings'
 import { getOrganizationById } from 'Admin/utils/firebase'
 import { Heading1 } from '@entur/typography'
 import { MemberAdministration } from 'Admin/scenarios/Organizations/components/MemberAdministration'
@@ -30,7 +29,6 @@ export async function getServerSideProps({
         }
 
     const organization = await getOrganizationById(id)
-
     if (
         !organization ||
         !organization.id ||
@@ -41,24 +39,26 @@ export async function getServerSideProps({
     return {
         props: {
             loggedIn: user !== null,
-            organization,
+            oid: organization.id,
+            name: organization.name,
         },
     }
 }
 
 function EditOrganizationPage({
-    organization,
+    oid,
+    name,
 }: {
-    organization: TOrganization
+    oid: TOrganizationID
+    name: string
 }) {
     return (
         <div className={classes.root}>
             <AdminHeader loggedIn />
             <Contrast>
                 <ToastProvider>
-                    <Heading1>{organization.name}</Heading1>
-                    <MemberAdministration oid={organization.id as string} />
-                    <InviteUser organization={organization} />
+                    <Heading1>{name}</Heading1>
+                    <MemberAdministration oid={oid} />
                 </ToastProvider>
             </Contrast>
         </div>

@@ -285,7 +285,7 @@ export async function getUserByEmail(email: string) {
 
 export async function getOrganizationById(oid: TOrganizationID) {
     const doc = await firestore().collection('organizations').doc(oid).get()
-    return doc.data() as TOrganization
+    return { ...doc.data(), id: oid } as TOrganization
 }
 
 export async function userCanEditOrganization(uid: TUserID, oid: string) {

@@ -13,28 +13,23 @@ export default async function handler(
     try {
         const { oid, uid } = request.query as { oid: string; uid: string }
 
-        const requester = await verifyUserSession(request)
-
         const organization = await getOrganizationById(oid)
-
-        const memberUids = concat(
-            organization.owners ?? [],
-            organization.editors ?? [],
-        )
-
-        if (!requester || !memberUids.includes(requester.uid)) {
-            return response.status(401).json({ message: 'Unauthorized' })
-        }
-
         if (!organization) {
             return response
                 .status(404)
                 .json({ message: 'Organization not found' })
         }
 
+        const memberUids = concat(
+            organization.owners ?? [],
+            organization.editors ?? [],
+        )
+        const requester = await verifyUserSession(request)
+        if (!requester || !memberUids.includes(requester.uid)) {
+            return response.status(401).json({ message: 'Unauthorized' })
+        }
+
         switch (request.method) {
-            case 'POST':
-            // Not yet implemented
             case 'DELETE':
                 await removeUserFromOrganization(oid, uid)
                 return response.status(200).json({ message: 'User removed' })

@@ -3,18 +3,18 @@ import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { useToggle } from 'hooks/useToggle'
 import { SyntheticEvent } from 'react'
-import { TOrganization } from 'types/settings'
+import { TOrganizationID } from 'types/settings'
 import classes from './styles.module.css'
 import { FeedbackCode, useFormFeedback } from 'hooks/useFormFeedback'
 
-function InviteUser({ organization }: { organization: TOrganization }) {
+function InviteUser({ oid }: { oid: TOrganizationID }) {
     const [isLoading, enableLoading, disableLoading] = useToggle()
     const { setFeedback, clearFeedback, getTextFieldProps } = useFormFeedback()
 
     const inviteUser = (email: string) =>
         fetch('/api/organization/invite', {
             method: 'POST',
-            body: JSON.stringify({ oid: organization.id, email }),
+            body: JSON.stringify({ oid, email }),
         })
 
     const submitHandler = (event: SyntheticEvent) => {

@@ -2,6 +2,7 @@ import { Heading2 } from '@entur/typography'
 import { MemberList } from './MemberList'
 import { TOrganizationID, TUser } from 'types/settings'
 import { useEffect, useState } from 'react'
+import { InviteUser } from '../InviteUser'
 
 function MemberAdministration({ oid }: { oid: TOrganizationID }) {
     const [members, setMembers] = useState<TUser[]>([])
@@ -17,9 +18,10 @@ function MemberAdministration({ oid }: { oid: TOrganizationID }) {
     }, [oid])
 
     return (
-        <div>
+        <div className="flexColumn g-4">
             <Heading2>Administrer medlemmer</Heading2>
             <MemberList members={members} oid={oid} />
+            <InviteUser oid={oid} />
         </div>
     )
 }
