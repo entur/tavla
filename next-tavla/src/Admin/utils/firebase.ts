@@ -329,3 +329,16 @@ export async function getUsersWithEmailsByUids(uids: TUserID[]) {
 
     return userResults.users.map(({ uid, email }) => ({ uid, email } as TUser))
 }
+
+export async function removeUserFromOrganization(
+    oid: TOrganizationID,
+    uid: TUserID,
+) {
+    return firestore()
+        .collection('organizations')
+        .doc(oid)
+        .update({
+            owners: admin.firestore.FieldValue.arrayRemove(uid),
+            editors: admin.firestore.FieldValue.arrayRemove(uid),
+        })
+}

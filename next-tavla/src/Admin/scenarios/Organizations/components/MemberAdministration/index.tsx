@@ -19,7 +19,7 @@ function MemberAdministration({ oid }: { oid: TOrganizationID }) {
     return (
         <div>
             <Heading2>Administrer medlemmer</Heading2>
-            <MemberList members={members} />
+            <MemberList members={members} oid={oid} />
         </div>
     )
 }

@@ -1,9 +1,15 @@
 import { IconButton } from '@entur/button'
 import { ExpandablePanel } from '@entur/expand'
 import { DeleteIcon } from '@entur/icons'
-import { TUser } from 'types/settings'
+import { TOrganizationID, TUser } from 'types/settings'
 
-function MemberList({ members }: { members: TUser[] }) {
+function MemberList({
+    oid,
+    members,
+}: {
+    oid: TOrganizationID
+    members: TUser[]
+}) {
     return (
         <ExpandablePanel title="Medlemmer">
             <div className="flexColumn g-1">
@@ -13,7 +19,12 @@ function MemberList({ members }: { members: TUser[] }) {
                         <IconButton
                             aria-label="Fjern bruker"
                             onClick={() => {
-                                console.log('delete')
+                                fetch(
+                                    `/api/organization/${oid}/members/${member.uid}`,
+                                    {
+                                        method: 'DELETE',
+                                    },
+                                )
                             }}
                         >
                             <DeleteIcon />
