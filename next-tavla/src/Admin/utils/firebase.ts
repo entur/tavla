@@ -280,12 +280,9 @@ export async function getBoardsForOrganization(oid: TOrganizationID) {
 }
 
 export async function getUserByEmail(email: string) {
-    console.log('email', email)
-
     const user = await auth()
         .getUserByEmail(email)
         .catch(() => null)
-    console.log('user', user)
 
     return user
 }
