@@ -29,6 +29,5 @@ export default async function handler(
     }
 
     const members = await getUsersWithEmailsByUids(memberUids)
-
     return response.status(200).json({ members })
 }
