@@ -41,28 +41,26 @@ function InviteUser({ organization }: { organization: TOrganization }) {
     }
 
     return (
-        <div className="flexColumn g-1">
-            <form className="flexRow g-1" onSubmit={submitHandler}>
-                <div className="flexColumn g-1 w-100">
-                    <TextField
-                        name="email"
-                        label="E-post"
-                        type="email"
-                        {...getTextFieldProps()}
-                    />
-                </div>
-                <Button
-                    variant="primary"
-                    loading={isLoading}
-                    onClick={clearFeedback}
-                    width="fluid"
-                    className={classes.addMemberButton}
-                >
-                    Legg til medlem
-                    <AddIcon />
-                </Button>
-            </form>
-        </div>
+        <form className="flexRow g-1" onSubmit={submitHandler}>
+            <div className="flexColumn g-1 w-100">
+                <TextField
+                    name="email"
+                    label="E-post"
+                    type="email"
+                    {...getTextFieldProps()}
+                />
+            </div>
+            <Button
+                variant="primary"
+                loading={isLoading}
+                onClick={clearFeedback}
+                width="fluid"
+                className={classes.addMemberButton}
+            >
+                Legg til medlem
+                <AddIcon />
+            </Button>
+        </form>
     )
 }
 
