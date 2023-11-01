@@ -6,16 +6,11 @@ import { SyntheticEvent } from 'react'
 import { TOrganizationID } from 'types/settings'
 import classes from './styles.module.css'
 import { FeedbackCode, useFormFeedback } from 'hooks/useFormFeedback'
+import { fetchInviteUserToOrganizationByEmail } from 'Admin/utils/fetch'
 
 function InviteUser({ oid }: { oid: TOrganizationID }) {
     const [isLoading, enableLoading, disableLoading] = useToggle()
     const { setFeedback, clearFeedback, getTextFieldProps } = useFormFeedback()
-
-    const inviteUser = (email: string) =>
-        fetch('/api/organization/invite', {
-            method: 'POST',
-            body: JSON.stringify({ oid, email }),
-        })
 
     const submitHandler = (event: SyntheticEvent) => {
         event.preventDefault()
@@ -27,7 +22,7 @@ function InviteUser({ oid }: { oid: TOrganizationID }) {
 
         enableLoading()
 
-        inviteUser(email.value)
+        fetchInviteUserToOrganizationByEmail(oid, email.value)
             .then((response) => {
                 disableLoading()
                 response.json().then((data: { feedbackCode: FeedbackCode }) => {
