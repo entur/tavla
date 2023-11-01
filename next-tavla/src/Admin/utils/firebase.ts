@@ -1,5 +1,6 @@
 import { TavlaError } from 'Admin/types/error'
 import admin, { auth, firestore } from 'firebase-admin'
+import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
 import { chunk, concat, isEmpty } from 'lodash'
 import {
     TBoard,
@@ -198,11 +199,6 @@ export async function getUser(uid: TUserID) {
     return doc.data() as TUser
 }
 
-export async function getOrganization(oid: string) {
-    const doc = await firestore().collection('organizations').doc(oid).get()
-    return { ...doc.data(), id: oid } as TOrganization
-}
-
 export async function getOrganizationWithBoard(bid: TBoardID) {
     const ref = await firestore()
         .collection('organizations')
@@ -287,8 +283,13 @@ export async function getUserByEmail(email: string) {
     return user
 }
 
+export async function getOrganizationById(oid: TOrganizationID) {
+    const doc = await firestore().collection('organizations').doc(oid).get()
+    return doc.data() as TOrganization
+}
+
 export async function userCanEditOrganization(uid: TUserID, oid: string) {
-    const organization = await getOrganization(oid)
+    const organization = await getOrganizationById(oid)
     return organization?.owners?.includes(uid) ?? false
 }
 
@@ -297,7 +298,7 @@ export async function inviteUserToOrganization(
     oid: string,
     pool: 'owners' | 'editors' = 'owners',
 ) {
-    const organization = await getOrganization(oid)
+    const organization = await getOrganizationById(oid)
 
     if (!organization)
         throw new TavlaError({
@@ -319,4 +320,12 @@ export async function inviteUserToOrganization(
         .update({
             [pool]: admin.firestore.FieldValue.arrayUnion(inviteeId),
         })
+}
+
+export async function getUsersWithEmailsByUids(uids: TUserID[]) {
+    const userResults = await auth().getUsers(
+        uids.map((uid) => ({ uid } as UidIdentifier)),
+    )
+
+    return userResults.users.map(({ uid, email }) => ({ uid, email } as TUser))
 }

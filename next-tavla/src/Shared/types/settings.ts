@@ -11,6 +11,8 @@ export type TBoard = {
 }
 
 export type TUser = {
+    uid?: TUserID
+    email?: string
     owner?: TBoardID[]
     editor?: TBoardID[]
 }
