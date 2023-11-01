@@ -6,8 +6,9 @@ import { verifyUserSession } from 'Admin/utils/auth'
 import { AdminHeader } from 'Admin/components/AdminHeader'
 import { InviteUser } from 'Admin/scenarios/Organizations/components/InviteUser'
 import { TOrganization } from 'types/settings'
-import { getOrganization } from 'Admin/utils/firebase'
+import { getOrganizationById } from 'Admin/utils/firebase'
 import { Heading1 } from '@entur/typography'
+import { MemberAdministration } from 'Admin/scenarios/Organizations/components/MemberAdministration'
 
 export async function getServerSideProps({
     params,
@@ -28,9 +29,13 @@ export async function getServerSideProps({
             },
         }
 
-    const organization = await getOrganization(id)
+    const organization = await getOrganizationById(id)
 
-    if (!organization || !organization?.owners?.includes(user.uid))
+    if (
+        !organization ||
+        !organization.id ||
+        !organization?.owners?.includes(user.uid)
+    )
         return { notFound: true }
 
     return {
@@ -52,6 +57,7 @@ function EditOrganizationPage({
             <Contrast>
                 <ToastProvider>
                     <Heading1>{organization.name}</Heading1>
+                    <MemberAdministration oid={organization.id as string} />
                     <InviteUser organization={organization} />
                 </ToastProvider>
             </Contrast>
