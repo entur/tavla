@@ -1,3 +1,12 @@
 .addMemberButton {
     max-width: 12rem;
 }
+
+.memberListRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid var(--table-border-color);
+}
