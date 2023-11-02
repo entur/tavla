@@ -1,8 +1,8 @@
-import { Heading2 } from '@entur/typography'
+import { Heading2, LeadParagraph } from '@entur/typography'
 import { MemberList } from './MemberList'
 import { TOrganizationID, TUser } from 'types/settings'
 import { useEffect, useState } from 'react'
-import { InviteUser } from '../InviteUser'
+import { InviteUser } from './InviteUser'
 
 function MemberAdministration({ oid }: { oid: TOrganizationID }) {
     const [members, setMembers] = useState<TUser[]>([])
@@ -18,8 +18,12 @@ function MemberAdministration({ oid }: { oid: TOrganizationID }) {
     }, [oid])
 
     return (
-        <div className="flexColumn g-4">
+        <div className="flexColumn">
             <Heading2>Administrer medlemmer</Heading2>
+            <LeadParagraph>
+                Her kan du administrere medlemmer av organisasjonen. Du kan se
+                hvem som er medlem, legge til medlemmer og fjerne medlemmer.
+            </LeadParagraph>
             <MemberList members={members} oid={oid} />
             <InviteUser oid={oid} />
         </div>
