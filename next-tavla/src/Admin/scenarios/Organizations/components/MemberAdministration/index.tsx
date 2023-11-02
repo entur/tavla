@@ -8,7 +8,7 @@ function MemberAdministration({ oid }: { oid: TOrganizationID }) {
     const [members, setMembers] = useState<TUser[]>([])
 
     useEffect(() => {
-        async function fetchMembers() {
+        const fetchMembers = async () => {
             const response = await fetch(`/api/organization/${oid}/members`)
             const { members } = await response.json()
             setMembers(members)
@@ -26,18 +26,21 @@ function MemberAdministration({ oid }: { oid: TOrganizationID }) {
     }
 
     return (
-        <div className="flexColumn">
-            <Heading2>Administrer medlemmer</Heading2>
-            <LeadParagraph>
-                Her kan du administrere medlemmer av organisasjonen. Du kan se
-                hvem som er medlem, legge til medlemmer og fjerne medlemmer.
-            </LeadParagraph>
+        <div className="flexColumn g-4">
+            <div>
+                <Heading2>Administrer medlemmer</Heading2>
+                <LeadParagraph>
+                    Her kan du administrere medlemmer av organisasjonen. Du kan
+                    se hvem som er medlem, legge til medlemmer og fjerne
+                    medlemmer.
+                </LeadParagraph>
+            </div>
+            <InviteUser oid={oid} addMember={addMember} />
             <MemberList
                 members={members}
-                oid={oid}
                 removeMember={removeMember}
+                oid={oid}
             />
-            <InviteUser oid={oid} addMember={addMember} />
         </div>
     )
 }
