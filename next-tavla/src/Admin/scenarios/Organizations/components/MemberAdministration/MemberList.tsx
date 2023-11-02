@@ -7,9 +7,11 @@ import { TOrganizationID, TUser } from 'types/settings'
 function MemberList({
     oid,
     members,
+    removeMember,
 }: {
     oid: TOrganizationID
     members: TUser[]
+    removeMember: (uid: string) => void
 }) {
     return (
         <ExpandablePanel title="Medlemmer" defaultOpen={members.length < 10}>
@@ -23,7 +25,7 @@ function MemberList({
                                 fetchRemoveUserFromOrganization(
                                     oid,
                                     member.uid ?? '',
-                                )
+                                ).then(() => removeMember(member.uid ?? ''))
                             }}
                         >
                             <DeleteIcon />

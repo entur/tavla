@@ -3,12 +3,18 @@ import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { useToggle } from 'hooks/useToggle'
 import { SyntheticEvent } from 'react'
-import { TOrganizationID } from 'types/settings'
+import { TOrganizationID, TUser } from 'types/settings'
 import classes from './styles.module.css'
 import { FeedbackCode, useFormFeedback } from 'hooks/useFormFeedback'
 import { fetchInviteUserToOrganizationByEmail } from 'Admin/utils/fetch'
 
-function InviteUser({ oid }: { oid: TOrganizationID }) {
+function InviteUser({
+    oid,
+    addMember,
+}: {
+    oid: TOrganizationID
+    addMember: (member: TUser) => void
+}) {
     const [isLoading, enableLoading, disableLoading] = useToggle()
     const { setFeedback, clearFeedback, getTextFieldProps } = useFormFeedback()
 
@@ -25,6 +31,7 @@ function InviteUser({ oid }: { oid: TOrganizationID }) {
         fetchInviteUserToOrganizationByEmail(oid, email.value)
             .then((response) => {
                 disableLoading()
+                addMember({ email: email.value })
                 response.json().then((data: { feedbackCode: FeedbackCode }) => {
                     setFeedback(data.feedbackCode)
                 })
