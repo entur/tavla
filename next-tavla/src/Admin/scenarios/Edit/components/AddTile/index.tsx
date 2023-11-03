@@ -22,30 +22,27 @@ function AddTile() {
         selectedStopPlace?.value ?? '',
     )
 
-    const handleAddTile = () => {
+    const handleAddTiles = () => {
         if (!selectedStopPlace?.value) {
-            addToast({
+            return addToast({
                 title: 'Ingen holdeplass er valgt',
                 content: 'Vennligst velg en holdeplass å legge til',
                 variant: 'info',
             })
-            return
         }
-        if (selectedQuay) {
-            {
-                dispatch({
-                    type: 'addTile',
-                    tile: {
-                        type: 'quay',
-                        placeId: selectedQuay.value,
-                        name:
-                            selectedStopPlace.label.split(',')[0] +
-                                ' ' +
-                                selectedQuay.label ?? 'Ikke navngitt',
-                    },
-                })
-            }
-        } else
+        if (selectedQuay && selectedQuay.value !== 'all') {
+            dispatch({
+                type: 'addTile',
+                tile: {
+                    type: 'quay',
+                    placeId: selectedQuay.value,
+                    name:
+                        selectedStopPlace.label.split(',')[0] +
+                            ' ' +
+                            selectedQuay.label ?? 'Ikke navngitt',
+                },
+            })
+        } else {
             dispatch({
                 type: 'addTile',
                 tile: {
@@ -56,7 +53,7 @@ function AddTile() {
                         'Ikke navngitt',
                 },
             })
-
+        }
         setSelectedStopPlace(null)
         setSelectedQuay(null)
     }
@@ -89,7 +86,7 @@ function AddTile() {
                     selectedItem={selectedQuay}
                     onChange={setSelectedQuay}
                 />
-                <Button variant="primary" onClick={handleAddTile}>
+                <Button variant="primary" onClick={handleAddTiles}>
                     Legg til
                 </Button>
             </div>
