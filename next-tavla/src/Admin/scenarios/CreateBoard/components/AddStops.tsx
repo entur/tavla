@@ -76,12 +76,20 @@ export function AddStops({
                 variant: 'info',
             })
         }
-        const response = await createBoardRequest(
-            board?.tiles ?? [],
-            board?.meta?.title ?? '',
-        )
-        router.push(`/edit/${response.bid}`)
-        router.reload()
+        try {
+            const response = await createBoardRequest(
+                board?.tiles ?? [],
+                board?.meta?.title ?? '',
+            )
+            router.push(`/edit/${response.bid}`)
+            router.reload()
+        } catch (error) {
+            addToast({
+                title: 'Noe gikk galt',
+                content: 'Vennligst prøv igjen',
+                variant: 'info',
+            })
+        }
     }
 
     return (
