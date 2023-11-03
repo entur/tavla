@@ -28,12 +28,11 @@ function Name({
         const name = data.name.value
 
         if (!name) {
-            addToast({
+            return addToast({
                 title: 'Ingen navn er satt',
                 content: 'Vennligst sett et navn på tavla',
                 variant: 'info',
             })
-            return
         }
 
         dispatch({

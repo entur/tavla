@@ -70,12 +70,11 @@ export function AddStops({
 
     const handleCreateBoard = async () => {
         if (!board?.tiles?.length) {
-            addToast({
+            return addToast({
                 title: 'Ingen holdeplasser er lagt til',
                 content: 'Vennligst legg til holdeplasser',
                 variant: 'info',
             })
-            return
         }
         const response = await createBoardRequest(
             board?.tiles ?? [],
