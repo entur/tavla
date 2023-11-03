@@ -43,7 +43,7 @@ function InviteUser({
     }
 
     return (
-        <form className="flexRow g-1" onSubmit={submitHandler}>
+        <form className={classes.inviteForm} onSubmit={submitHandler}>
             <div className="flexColumn g-1 w-100">
                 <TextField
                     name="email"

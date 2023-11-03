@@ -10,3 +10,9 @@
     padding: 0.5rem 0;
     border-bottom: 2px solid var(--table-border-color);
 }
+
+.inviteForm {
+    display: flex;
+    gap: 0.5em;
+    height: 4rem;
+}
