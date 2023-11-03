@@ -13,7 +13,7 @@ import { SettingsDispatchContext } from './utils/context'
 import { AddStops } from './components/AddStops'
 import { ToastProvider } from '@entur/alert'
 
-function CreateBoardModal({ loggedIn }: { loggedIn: boolean }) {
+function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
     const [pages, setPages] = useState<TCreatePage[]>([])
     const [showModal, openModal, closeModal] = useToggle()
     const router = useRouter()
@@ -96,4 +96,4 @@ function CreatePage({
     }
 }
 
-export { CreateBoardModal }
+export { CreateBoard }

@@ -7,7 +7,7 @@ import Link from 'next/link'
 import classes from './styles.module.css'
 import { OrganizationIcon, UserIcon } from '@entur/icons'
 import { checkFeatureFlags } from 'utils/featureFlags'
-import { CreateBoardModal } from 'Admin/scenarios/CreateBoard'
+import { CreateBoard } from 'Admin/scenarios/CreateBoard'
 
 function AdminHeader({ loggedIn }: { loggedIn: boolean }) {
     const ORGANIZATIONS_ENABLED = checkFeatureFlags('ORGANIZATIONS')
@@ -25,7 +25,7 @@ function AdminHeader({ loggedIn }: { loggedIn: boolean }) {
             <div className={classes.buttons}>
                 {loggedIn && (
                     <>
-                        <CreateBoardModal loggedIn={loggedIn} />
+                        <CreateBoard loggedIn={loggedIn} />
                         <PrimaryButton as={Link} href="/edit/boards">
                             <UserIcon />
                             Mine Tavler
