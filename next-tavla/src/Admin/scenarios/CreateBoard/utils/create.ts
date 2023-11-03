@@ -6,8 +6,6 @@ export async function createBoardRequest(tiles: TTile[], name: string) {
         tiles,
         meta: {
             title: name,
-            created: Date.now(),
-            dateModified: Date.now(),
         },
     } as TBoard
 

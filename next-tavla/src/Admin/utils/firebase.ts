@@ -109,7 +109,16 @@ export async function setLastActive(bid: TBoardID) {
 }
 
 export async function createBoard(uid: TUserID, board: TBoard) {
-    const createdBoard = await firestore().collection('boards').add(board)
+    const createdBoard = await firestore()
+        .collection('boards')
+        .add({
+            ...board,
+            meta: {
+                ...board.meta,
+                created: Date.now(),
+                dateModified: Date.now(),
+            },
+        })
     firestore()
         .collection('users')
         .doc(uid)
