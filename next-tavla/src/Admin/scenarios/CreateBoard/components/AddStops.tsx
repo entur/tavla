@@ -32,7 +32,7 @@ export function AddStops({
     )
     const dispatch = useCreateBoardDispatch()
 
-    const handleAddTiles = () => {
+    const handleAddTile = () => {
         if (!selectedStopPlace?.value) {
             return addToast({
                 title: 'Ingen holdeplass er valgt',
@@ -125,7 +125,7 @@ export function AddStops({
                     selectedItem={selectedQuay}
                     onChange={setSelectedQuay}
                 />
-                <Button variant="primary" onClick={handleAddTiles}>
+                <Button variant="primary" onClick={handleAddTile}>
                     Legg til
                 </Button>
             </div>
