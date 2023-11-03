@@ -35,6 +35,7 @@ export default async function handler(
             return response.status(200).json({ members })
         case 'DELETE':
             removeUserFromOrganization(oid as string, request.body.uid)
+            return response.status(200).json({ message: 'Member removed' })
         default:
             return response.status(405).json({ message: 'Method not allowed' })
     }

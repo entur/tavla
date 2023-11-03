@@ -38,7 +38,6 @@ export async function getServerSideProps({
 
     return {
         props: {
-            loggedIn: user !== null,
             oid: organization.id,
             name: organization.name,
         },
