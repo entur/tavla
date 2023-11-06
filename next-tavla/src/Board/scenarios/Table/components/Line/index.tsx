@@ -15,15 +15,17 @@ function Line() {
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
     }))
 
+    const longestPublicCode = lines.reduce(
+        (longest, line) =>
+            line.publicCode.length > longest ? line.publicCode.length : longest,
+        0,
+    )
+
     return (
         <TableColumn title="Linje">
             {lines.map((line) => (
                 <TableRow key={line.key}>
                     <div className={classes.row}>
-                        <TransportIcon
-                            key={line.transportMode}
-                            transport={line.transportMode}
-                        />
                         <div
                             aria-label={`${
                                 transportModeNames[line.transportMode]
@@ -35,7 +37,20 @@ function Line() {
                                 }-color)`,
                             }}
                         >
-                            {line.publicCode}
+                            <TransportIcon
+                                key={line.transportMode}
+                                transport={line.transportMode}
+                                inTravelTag
+                            />
+
+                            <div
+                                className="textCenter"
+                                style={{
+                                    width: `${longestPublicCode + 1}ch`,
+                                }}
+                            >
+                                {line.publicCode}
+                            </div>
                         </div>
                     </div>
                 </TableRow>

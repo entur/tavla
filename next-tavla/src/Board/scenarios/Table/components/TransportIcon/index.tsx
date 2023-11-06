@@ -2,9 +2,17 @@ import { TTransportMode } from 'types/graphql-schema'
 import { SVGProps } from 'react'
 import classes from './styles.module.css'
 
-function TransportIcon({ transport }: { transport: TTransportMode | null }) {
+function TransportIcon({
+    transport,
+    inTravelTag,
+}: {
+    transport: TTransportMode | null
+    inTravelTag?: boolean
+}) {
     const mode = transport ? transport : 'unknown'
-    const defaultColor = `var(--table-transport-${mode}-color)`
+    const defaultColor = inTravelTag
+        ? 'var(--main-background-color)'
+        : `var(--table-transport-${mode}-color)`
     const Component = getTransportIcon(mode)
     return <Component className={classes.transportIcon} fill={defaultColor} />
 }
