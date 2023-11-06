@@ -6,7 +6,7 @@ import { TDirectionType } from 'types/graphql-schema'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { countBy } from 'lodash'
-import { getTransportIcon } from 'Board/scenarios/Table/components/TransportIcon'
+import { getTransportIcon } from 'components/TransportIcon'
 
 function getPlatformLabel(
     index: number,
