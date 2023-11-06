@@ -2,7 +2,7 @@
 import { TDepartureFragment } from 'graphql/index'
 import React from 'react'
 import { Destination } from './components/Destination'
-import { Line } from './components/Line'
+import { TravelTag } from './components/TravelTag'
 import classes from './styles.module.css'
 import { DeparturesContext } from './contexts'
 import { TColumn } from 'types/column'
@@ -33,7 +33,7 @@ function Table({
             <DeparturesContext.Provider value={departures}>
                 {columns.includes('aimedTime') && <AimedTime />}
                 {columns.includes('arrivalTime') && <ArrivalTime />}
-                <Line
+                <TravelTag
                     showLine={columns.includes('line')}
                     showTransportMethod={columns.includes('transportMethod')}
                 />

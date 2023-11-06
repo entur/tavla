@@ -6,7 +6,7 @@ import classes from './styles.module.css'
 import { transportModeNames } from 'Admin/utils/transport'
 import { TransportIcon } from '../TransportIcon'
 
-function Line({
+function TravelTag({
     showLine,
     showTransportMethod,
 }: {
@@ -71,4 +71,4 @@ function Line({
     )
 }
 
-export { Line }
+export { TravelTag }
