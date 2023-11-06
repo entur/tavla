@@ -16,7 +16,7 @@ function TravelTag({
     showTransportMode?: boolean
     publicCodeStyle?: React.CSSProperties
 }) {
-    if (!transportMode && !publicCode) return null
+    if (!showTransportMode && !showPublicCode) return null
 
     return (
         <div
