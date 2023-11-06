@@ -37,8 +37,7 @@ import {
     restrictToWindowEdges,
 } from '@dnd-kit/modifiers'
 import { FilterButton } from './components/FilterButton'
-import { Dropdown } from '@entur/dropdown'
-import { useOrganizationsDropdown } from './hooks/useOrganizationsDropdown'
+import { SelectOrganization } from './components/SelectOrganization'
 
 function Boards({
     boards,
@@ -55,9 +54,6 @@ function Boards({
         filterTags: [],
     })
 
-    const { dropdownItems, selectedOrganization, redirectToOrganization } =
-        useOrganizationsDropdown(organizations)
-
     return (
         <SettingsContext.Provider value={settings}>
             <SettingsDispatchContext.Provider value={dispatch}>
@@ -71,14 +67,7 @@ function Boards({
                             <FilterButton />
                             <ToggleBoardsColumns />
                         </div>
-
-                        <Dropdown
-                            className="w-30"
-                            label="Vis tavler for organisasjon"
-                            items={dropdownItems}
-                            selectedItem={selectedOrganization}
-                            onChange={redirectToOrganization}
-                        />
+                        <SelectOrganization organizations={organizations} />
                     </div>
                     <BoardTable />
                 </div>
