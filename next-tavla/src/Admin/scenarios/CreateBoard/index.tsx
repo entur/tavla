@@ -2,7 +2,7 @@ import { PrimaryButton } from '@entur/button'
 import { AddIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { useToggle } from 'hooks/useToggle'
-import { useReducer, useState } from 'react'
+import { Dispatch, SetStateAction, useReducer, useState } from 'react'
 import { Name } from './components/Name'
 import { Stepper } from '@entur/menu'
 import { TBoard } from 'types/settings'
@@ -20,18 +20,6 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
     const [board, dispatch] = useReducer(createBoardReducer, {
         tiles: [],
     } as TBoard)
-    const pushPage = (page: TCreatePage) => {
-        setPages([...pages, page])
-    }
-
-    const popPage = () => {
-        setPages(pages.slice(0, -1))
-    }
-
-    const handleCloseModal = () => {
-        closeModal()
-        setPages([])
-    }
 
     if (!loggedIn) {
         return (
@@ -52,7 +40,7 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
             <Modal
                 open={showModal}
                 size="extraLarge"
-                onDismiss={handleCloseModal}
+                onDismiss={closeModal}
                 closeLabel="Avbryt"
                 className="flexColumn alignCenter textLeft"
             >
@@ -63,8 +51,7 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
                 <ToastProvider>
                     <CreatePage
                         pages={pages}
-                        pushPage={pushPage}
-                        popPage={popPage}
+                        setPages={setPages}
                         board={board}
                     />
                 </ToastProvider>
@@ -75,15 +62,21 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
 
 function CreatePage({
     pages,
-    pushPage,
-    popPage,
+    setPages,
     board,
 }: {
     pages: TCreatePage[]
-    pushPage: (page: TCreatePage) => void
-    popPage: () => void
+    setPages: Dispatch<SetStateAction<TCreatePage[]>>
     board: TBoard
 }) {
+    const pushPage = (page: TCreatePage) => {
+        setPages([...pages, page])
+    }
+
+    const popPage = () => {
+        setPages(pages.slice(0, -1))
+    }
+
     if (!pages) return <Name board={board} pushPage={pushPage} />
 
     const lastPage = pages.slice(-1)[0]
