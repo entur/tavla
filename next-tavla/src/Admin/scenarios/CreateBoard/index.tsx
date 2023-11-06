@@ -33,19 +33,21 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
         setPages([])
     }
 
+    if (!loggedIn) {
+        return (
+            <Login
+                loggedIn={loggedIn}
+                title="Logg inn for å opprette en ny tavle"
+            />
+        )
+    }
+
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
-            {loggedIn ? (
-                <PrimaryButton onClick={openModal}>
-                    <AddIcon />
-                    Opprett tavle
-                </PrimaryButton>
-            ) : (
-                <Login
-                    loggedIn={loggedIn}
-                    title="Logg inn for å opprette en ny tavle"
-                />
-            )}
+            <PrimaryButton onClick={openModal}>
+                <AddIcon />
+                Opprett tavle
+            </PrimaryButton>
 
             <Modal
                 open={showModal}
